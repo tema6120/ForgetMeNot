@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ForgetMeNot</string>
+    <string name="add_new_deck">Add new deck</string>
 </resources>
