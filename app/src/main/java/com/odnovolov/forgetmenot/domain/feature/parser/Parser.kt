@@ -13,13 +13,13 @@ class Parser private constructor() {
             return Parser().parse(inputStream, charset)
         }
 
-        private val CARD_BLOCK_SEPARATOR_REGEX = Regex("""\n(?=\h*Q:\h*\n)""")
+        private val CARD_BLOCK_SEPARATOR_REGEX = Regex("""\n(?=[[:blank:]]*Q:[[:blank:]]*\n)""")
         private val EMPTY_REGEX = Regex("""\s*""")
         private val CARD_REGEX = Regex(
-            """\s*Q:\h*\n(?<question>((?!^\h*[QA]:\h*${'$'})[\s\S])+)\n\h*A:\h*\n(?<answer>((?!^\h*[QA]:\h*${'$'})[\s\S])+)""",
+            """\s*Q:[[:blank:]]*\n(((?!^[[:blank:]]*[QA]:[[:blank:]]*${'$'})[\s\S])+)\n[[:blank:]]*A:[[:blank:]]*\n(((?!^[[:blank:]]*[QA]:[[:blank:]]*${'$'})[\s\S])+)""",
             RegexOption.MULTILINE
         )
-        private val CARD_CONTENT_REGEX = Regex("""\h*[\S]([\s\S]*[\S]|)""")
+        private val CARD_CONTENT_REGEX = Regex("""[[:blank:]]*[\S]([\s\S]*[\S]|)""")
     }
 
     private fun parse(inputStream: InputStream, charset: Charset): Deck {
