@@ -8,15 +8,19 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import com.badoo.mvicore.binder.Binder
 
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.feature.parser.IllegalCardFormatException
-import com.odnovolov.forgetmenot.domain.feature.parser.Parser
+import com.odnovolov.forgetmenot.domain.feature.parser.ParserFeature
+import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
+import io.reactivex.functions.Consumer
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.io.InputStream
 
 class HomeFragment : Fragment() {
+
+    val subject = PublishSubject.create<ParserFeature.Wish>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +32,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+
+        val feature = ParserFeature()
+        val binder = Binder(lifecycle.adaptForBinder())
+        binder.bind(subject to feature)
+        binder.bind(feature to Consumer<ParserFeature.State>(::render))
     }
 
     private fun setupToolbar() {
@@ -58,17 +67,13 @@ class HomeFragment : Fragment() {
         if (requestCode == GET_CONTENT_REQUEST_CODE) {
             val uri = intent?.data ?: return
             val inputStream = context?.contentResolver?.openInputStream(uri) ?: return
-            parse(inputStream)
+            subject.onNext(ParserFeature.Wish.Parse(inputStream))
         }
     }
 
-    fun parse(inputStream: InputStream) {
-        textView.text = try {
-            val deck: Deck = Parser.parse(inputStream)
-            deck.toString()
-        } catch (e: IllegalCardFormatException) {
-            e.message
-        }
+    private fun render(state: ParserFeature.State?) {
+        val deck: Deck = state?.deck ?: return
+        textView.text = deck.toString()
     }
 
     companion object {
