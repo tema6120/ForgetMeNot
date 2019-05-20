@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
 import com.badoo.mvicore.binder.Binder
 
 import com.odnovolov.forgetmenot.R
@@ -16,30 +18,26 @@ import com.odnovolov.forgetmenot.domain.feature.parser.ParserFeature
 import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
+    lateinit var rootView: View
     val subject = PublishSubject.create<ParserFeature.Wish>()
+    val adapter = DecksPreviewAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        rootView = inflater.inflate(R.layout.fragment_home, container, false)
         setupToolbar()
-
-        val feature = ParserFeature()
-        val binder = Binder(lifecycle.adaptForBinder())
-        binder.bind(subject to feature)
-        binder.bind(feature to Consumer<ParserFeature.State>(::render))
+        setupRecycler()
+        bindToFeature()
+        return rootView
     }
 
     private fun setupToolbar() {
+        val toolbar: Toolbar = rootView.findViewById(R.id.toolbar)
         toolbar.inflateMenu(R.menu.home_actions)
         toolbar.setOnMenuItemClickListener { item: MenuItem? ->
             when (item?.itemId) {
@@ -50,6 +48,23 @@ class HomeFragment : Fragment() {
                 else -> false
             }
         }
+    }
+
+    private fun setupRecycler() {
+        val decksPreviewRecycler: RecyclerView = rootView.findViewById(R.id.decksPreviewRecycler)
+        decksPreviewRecycler.adapter = adapter
+    }
+
+    private fun bindToFeature() {
+        val feature = ParserFeature()
+        val binder = Binder(lifecycle.adaptForBinder())
+        binder.bind(subject to feature)
+        binder.bind(feature to Consumer<ParserFeature.State>(::render))
+    }
+
+    private fun render(state: ParserFeature.State?) {
+        val deck: Deck = state?.deck ?: return
+        adapter.submitList(deck.cards)
     }
 
     private fun showFileChooser() {
@@ -69,11 +84,6 @@ class HomeFragment : Fragment() {
             val inputStream = context?.contentResolver?.openInputStream(uri) ?: return
             subject.onNext(ParserFeature.Wish.Parse(inputStream))
         }
-    }
-
-    private fun render(state: ParserFeature.State?) {
-        val deck: Deck = state?.deck ?: return
-        textView.text = deck.toString()
     }
 
     companion object {

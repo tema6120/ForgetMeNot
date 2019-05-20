@@ -16,19 +16,15 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/decksPreviewRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@color/background_decks_preview"
+            app:layoutManager="LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-    </ScrollView>
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

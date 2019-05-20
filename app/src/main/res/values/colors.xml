@@ -3,4 +3,5 @@
     <color name="colorPrimary">#282828</color>
     <color name="colorPrimaryDark">#282828</color>
     <color name="colorAccent">#E7D900</color>
+    <color name="background_decks_preview">#fff</color>
 </resources>
