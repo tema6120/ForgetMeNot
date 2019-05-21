@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.domain.feature.parser
+package com.odnovolov.forgetmenot.domain.feature.addnewdeck
 
 import java.lang.Exception
 

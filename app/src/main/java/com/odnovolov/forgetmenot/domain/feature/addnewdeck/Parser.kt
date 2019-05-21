@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.domain.feature.parser
+package com.odnovolov.forgetmenot.domain.feature.addnewdeck
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
@@ -9,7 +9,7 @@ import java.nio.charset.Charset
 class Parser private constructor() {
 
     companion object {
-        fun parse(inputStream: InputStream, charset: Charset = Charset.defaultCharset()): Deck {
+        fun parse(inputStream: InputStream, charset: Charset): Deck {
             return Parser().parse(inputStream, charset)
         }
 

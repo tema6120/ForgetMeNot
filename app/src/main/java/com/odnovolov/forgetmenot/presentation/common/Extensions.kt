@@ -9,8 +9,8 @@ import io.reactivex.ObservableSource
 import androidx.lifecycle.Lifecycle as AndroidLifecycle
 import com.badoo.mvicore.binder.lifecycle.Lifecycle as BinderLifecycle
 
-fun AndroidLifecycle.adaptForBinder(): BinderLifecycle {
-    val androidState: Observable<Event> = Observable.create { emitter: ObservableEmitter<Event> ->
+fun AndroidLifecycle.adaptForBinder(): BinderLifecycle =
+    Observable.create { emitter: ObservableEmitter<Event> ->
         this.addObserver(object : DefaultLifecycleObserver {
             override fun onCreate(owner: LifecycleOwner) {
                 emitter.onNext(Event.BEGIN)
@@ -21,10 +21,6 @@ fun AndroidLifecycle.adaptForBinder(): BinderLifecycle {
             }
         })
     }
-
-    class FromObservableSource(
-        source: ObservableSource<Event>
-    ) : BinderLifecycle, ObservableSource<Event> by source
-
-    return FromObservableSource(androidState)
-}
+        .to { androidState: Observable<Event> ->
+            BinderLifecycle.wrap(androidState)
+        }
