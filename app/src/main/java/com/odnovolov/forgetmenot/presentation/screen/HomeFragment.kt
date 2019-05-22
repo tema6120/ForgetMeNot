@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen
 
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.badoo.mvicore.binder.Binder
@@ -17,6 +20,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.data.FakeRepository
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
+import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish
 import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
@@ -82,13 +86,31 @@ class HomeFragment : Fragment() {
                 recycler.visibility = View.GONE
                 progressBar.visibility = View.VISIBLE
             }
-            is WaitingForName -> return
-            is WaitingForChangingName -> return
+            is WaitingForName -> showRenameDeckDialog()
+            is WaitingForChangingName -> showRenameDeckDialog()
             is Saving -> {
                 recycler.visibility = View.GONE
                 progressBar.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun showRenameDeckDialog() {
+        val onPositive = { dialogText: String -> subject.onNext(Wish.OfferName(dialogText)) }
+        val onNegative = { subject.onNext(Wish.Cancel) }
+
+        val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
+        val renameDeckEditText: EditText = contentView.findViewById(R.id.renameDeckEditText)
+        AlertDialog.Builder(context!!)
+            .setTitle(R.string.enter_deck_name)
+            .setView(contentView)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                onPositive.invoke(renameDeckEditText.text.toString())
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> onNegative.invoke() }
+            .setOnCancelListener { onNegative.invoke() }
+            .create()
+            .show()
     }
 
     private fun showFileChooser() {
@@ -108,11 +130,11 @@ class HomeFragment : Fragment() {
             val contentResolver: ContentResolver = context?.contentResolver ?: return
             val inputStream = contentResolver.openInputStream(uri) ?: return
             val fileName = getFileName(contentResolver, uri)
-            val wish: AddNewDeckFeature.Wish =
+            val wish =
                 if (fileName == null) {
-                    AddNewDeckFeature.Wish.AddFromInputStream(inputStream)
+                    Wish.AddFromInputStream(inputStream)
                 } else {
-                    AddNewDeckFeature.Wish.AddFromInputStream(inputStream, fileName = fileName)
+                    Wish.AddFromInputStream(inputStream, fileName = fileName)
                 }
             subject.onNext(wish)
         }
