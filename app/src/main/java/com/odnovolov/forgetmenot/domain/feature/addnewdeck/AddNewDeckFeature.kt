@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.domain.feature.addnewdeck
 
 import com.badoo.mvicore.element.*
 import com.badoo.mvicore.feature.BaseFeature
+import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.*
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Effect.*
@@ -25,7 +26,6 @@ class AddNewDeckFeature(
 ) {
     data class State(
         val stage: Stage = Idle,
-        val fileName: String = "",
         val deck: Deck? = null
     ) {
         sealed class Stage {
@@ -56,12 +56,12 @@ class AddNewDeckFeature(
     data class SaveDeck(val deck: Deck) : Action
 
     sealed class Effect {
-        data class ParsingStarted(val supposedDeckName: String) : Effect()
+        object ParsingStarted : Effect()
         data class SuccessfulParsing(val deck: Deck) : Effect()
         data class ErrorParsing(val throwable: Throwable) : Effect()
         object NameIsEmpty : Effect()
         data class NameIsOccupied(val occupiedName: String) : Effect()
-        object NameIsOkay : Effect()
+        data class NameIsOkay(val name: String) : Effect()
         object Cancel : Effect()
         object SavingStarted : Effect()
         object SavingCompleted : Effect()
@@ -74,8 +74,9 @@ class AddNewDeckFeature(
             return when (action) {
                 is AddFromInputStream -> {
                     Observable.fromCallable { Parser.parse(action.inputStream, action.charset) }
+                        .map { cards: List<Card> -> Deck(name = action.fileName, cards = cards) }
                         .map { deck: Deck -> SuccessfulParsing(deck) as Effect }
-                        .startWith(Effect.ParsingStarted(action.fileName))
+                        .startWith(Effect.ParsingStarted)
                         .onErrorReturn { throwable: Throwable -> Effect.ErrorParsing(throwable) }
                 }
                 is OfferName -> Observable.fromCallable { checkName(action.offeredName) }
@@ -93,7 +94,7 @@ class AddNewDeckFeature(
             return when {
                 testedName.isEmpty() -> Effect.NameIsEmpty
                 repository.getAllDeckNames().any { it == testedName } -> Effect.NameIsOccupied(testedName)
-                else -> Effect.NameIsOkay
+                else -> Effect.NameIsOkay(testedName)
             }
         }
 
@@ -107,8 +108,7 @@ class AddNewDeckFeature(
         override fun invoke(state: State, effect: Effect): State {
             return when (effect) {
                 is ParsingStarted -> state.copy(
-                    stage = Processing,
-                    fileName = effect.supposedDeckName
+                    stage = Processing
                 )
                 is SuccessfulParsing -> state.copy(
                     stage = Idle,
@@ -122,7 +122,8 @@ class AddNewDeckFeature(
                     stage = WaitingForChangingName(effect.occupiedName)
                 )
                 is NameIsOkay -> state.copy(
-                    stage = Idle
+                    stage = Idle,
+                    deck = state.deck!!.copy(name = effect.name)
                 )
                 is Effect.Cancel -> State()
                 is SavingStarted -> state.copy(
@@ -136,7 +137,7 @@ class AddNewDeckFeature(
     class PostProcessorImpl : PostProcessor<Action, Effect, State> {
         override fun invoke(action: Action, effect: Effect, state: State): Action? {
             return when (effect) {
-                is SuccessfulParsing -> OfferName(state.fileName)
+                is SuccessfulParsing -> OfferName(state.deck!!.name)
                 is NameIsOkay -> SaveDeck(state.deck!!)
                 else -> null
             }
@@ -152,5 +153,4 @@ class AddNewDeckFeature(
             }
         }
     }
-
 }

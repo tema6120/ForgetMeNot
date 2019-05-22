@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen
 
 import android.app.Activity
 import android.content.ContentResolver
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,7 +16,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.badoo.mvicore.binder.Binder
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.data.FakeRepository
+import com.odnovolov.forgetmenot.data.db.AppDatabase
+import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish
@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindToFeature() {
-        val feature = AddNewDeckFeature(FakeRepository())
+        val feature = AddNewDeckFeature(DeckRepositoryImpl(AppDatabase.getInstance(context!!).deckDao())) // Dagger is coming
         val binder = Binder(lifecycle.adaptForBinder())
         binder.bind(subject to feature)
         binder.bind(feature to Consumer<AddNewDeckFeature.State>(::render))

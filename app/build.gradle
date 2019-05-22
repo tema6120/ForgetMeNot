@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -41,4 +40,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.8"
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0"
+    implementation "androidx.room:room-runtime:2.1.0-beta01"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+    /*implementation "android.arch.persistence.room:rxjava2:1.1.1"*/
 }

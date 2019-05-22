@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.domain.repository
 import com.odnovolov.forgetmenot.domain.entity.Deck
 
 interface Repository {
-    fun insertDeck(deck: Deck): Long
+    fun insertDeck(deck: Deck): Int
     fun getAllDeckNames(): List<String>
-    fun saveDeckIdAsLastInserted(deckId: Long)
+    fun saveDeckIdAsLastInserted(deckId: Int)
 }

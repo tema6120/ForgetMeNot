@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.domain.feature.addnewdeck
 
 import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.entity.Deck
 import java.io.InputStream
 import java.lang.NullPointerException
 import java.nio.charset.Charset
@@ -9,7 +8,7 @@ import java.nio.charset.Charset
 class Parser private constructor() {
 
     companion object {
-        fun parse(inputStream: InputStream, charset: Charset): Deck {
+        fun parse(inputStream: InputStream, charset: Charset): List<Card> {
             return Parser().parse(inputStream, charset)
         }
 
@@ -22,20 +21,20 @@ class Parser private constructor() {
         private val CARD_CONTENT_REGEX = Regex("""[[:blank:]]*[\S]([\s\S]*[\S]|)""")
     }
 
-    private fun parse(inputStream: InputStream, charset: Charset): Deck {
+    private fun parse(inputStream: InputStream, charset: Charset): List<Card> {
         val text = inputStream.bufferedReader().use {
             it.readText()
         }
-        val cardBlocks: List<String> = text.split(CARD_BLOCK_SEPARATOR_REGEX).filter(::notEmpty)
-        val cards: List<Card> = cardBlocks.map(::parseCardBlock)
-        return DeckImpl(-1, cards)
+        return text.split(CARD_BLOCK_SEPARATOR_REGEX)
+            .filter(::notEmpty)
+            .mapIndexed(::parseCardBlock)
     }
 
     private fun notEmpty(testedString: String): Boolean {
         return !testedString.matches(EMPTY_REGEX)
     }
 
-    private fun parseCardBlock(cardBlock: String): Card {
+    private fun parseCardBlock(ordinal: Int, cardBlock: String): Card {
         if (!cardBlock.matches(CARD_REGEX)) {
             throw IllegalCardFormatException("wrong card format: $cardBlock")
         }
@@ -54,22 +53,15 @@ class Parser private constructor() {
             } catch (e: NullPointerException) {
                 throw IllegalCardFormatException("card doesn't have answer: $cardBlock")
             }
-        return CardImpl(-1, question, answer)
+        return Card(
+            ordinal = ordinal,
+            question = question,
+            answer = answer
+        )
     }
 
     private fun trim(raw: String): String {
         val matchResult = CARD_CONTENT_REGEX.find(raw) ?: throw NullPointerException()
         return matchResult.value
     }
-
-    private data class CardImpl(
-        override val id: Long,
-        override val question: String,
-        override val answer: String
-    ) : Card
-
-    private data class DeckImpl(
-        override val id: Long,
-        override val cards: List<Card>
-    ) : Deck
 }
