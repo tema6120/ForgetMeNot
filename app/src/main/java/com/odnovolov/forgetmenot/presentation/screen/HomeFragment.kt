@@ -16,21 +16,24 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.badoo.mvicore.binder.Binder
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.data.db.AppDatabase
-import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish
 import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
+import com.odnovolov.forgetmenot.presentation.di.Injector
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_home.*
+import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
     lateinit var rootView: View
     val subject = PublishSubject.create<AddNewDeckFeature.Wish>()
     val adapter = DecksPreviewAdapter()
+
+    @Inject
+    lateinit var feature: AddNewDeckFeature
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +47,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Injector.inject(this)
         setupToolbar()
         setupRecycler()
         bindToFeature()
@@ -66,7 +70,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindToFeature() {
-        val feature = AddNewDeckFeature(DeckRepositoryImpl(AppDatabase.getInstance(context!!).deckDao())) // Dagger is coming
         val binder = Binder(lifecycle.adaptForBinder())
         binder.bind(subject to feature)
         binder.bind(feature to Consumer<AddNewDeckFeature.State>(::render))

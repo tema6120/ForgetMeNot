@@ -5,7 +5,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.badoo.mvicore.binder.lifecycle.Lifecycle.Event
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableSource
 import androidx.lifecycle.Lifecycle as AndroidLifecycle
 import com.badoo.mvicore.binder.lifecycle.Lifecycle as BinderLifecycle
 
