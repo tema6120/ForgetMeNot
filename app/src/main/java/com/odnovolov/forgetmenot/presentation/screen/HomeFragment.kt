@@ -16,13 +16,25 @@ import androidx.appcompat.widget.Toolbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish
-import com.odnovolov.forgetmenot.presentation.common.ObservableSourceFragment
+import com.odnovolov.forgetmenot.presentation.common.UiEventEmitterFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
+import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.binding.HomeFragmentBinding
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.io.InputStream
 import javax.inject.Inject
 
-class HomeFragment : ObservableSourceFragment<AddNewDeckFeature.Wish>() {
+class HomeFragment : UiEventEmitterFragment<UiEvent>() {
+
+    sealed class UiEvent {
+        data class GotData(
+            val inputStream: InputStream,
+            val fileName: String?
+        ) : UiEvent()
+        data class SubmitRenameDialogText(val dialogText: String) : UiEvent()
+        object CancelRenameDialog : UiEvent()
+    }
 
     @Inject
     lateinit var adapter: DecksPreviewAdapter
@@ -87,8 +99,8 @@ class HomeFragment : ObservableSourceFragment<AddNewDeckFeature.Wish>() {
     }
 
     private fun showRenameDeckDialog() {
-        val onPositive = { dialogText: String -> onNext(Wish.OfferName(dialogText)) }
-        val onNegative = { onNext(Wish.Cancel) }
+        val onPositive = { dialogText: String -> emitEvent(SubmitRenameDialogText(dialogText)) }
+        val onNegative = { emitEvent(CancelRenameDialog) }
 
         val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
         val renameDeckEditText: EditText = contentView.findViewById(R.id.renameDeckEditText)
@@ -121,13 +133,7 @@ class HomeFragment : ObservableSourceFragment<AddNewDeckFeature.Wish>() {
             val contentResolver: ContentResolver = context?.contentResolver ?: return
             val inputStream = contentResolver.openInputStream(uri) ?: return
             val fileName = getFileName(contentResolver, uri)
-            val wish =
-                if (fileName == null) {
-                    Wish.AddFromInputStream(inputStream)
-                } else {
-                    Wish.AddFromInputStream(inputStream, fileName = fileName)
-                }
-            onNext(wish)
+            emitEvent(GotData(inputStream, fileName))
         }
     }
 
@@ -138,8 +144,7 @@ class HomeFragment : ObservableSourceFragment<AddNewDeckFeature.Wish>() {
                 return null
             }
             val nameIndex: Int = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            val fileName: String = cursor.getString(nameIndex)
-            return fileName
+            return cursor.getString(nameIndex)
         }
     }
 

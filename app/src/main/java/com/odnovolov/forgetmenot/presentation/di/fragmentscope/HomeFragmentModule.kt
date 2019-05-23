@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.presentation.di.fragmentscope
 import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.presentation.screen.DecksPreviewAdapter
-import com.odnovolov.forgetmenot.presentation.screen.HomeFragmentBinding
+import com.odnovolov.forgetmenot.presentation.screen.binding.HomeFragmentBinding
 import dagger.Module
 import dagger.Provides
 
