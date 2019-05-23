@@ -4,7 +4,7 @@ import com.odnovolov.forgetmenot.presentation.screen.HomeFragment
 import dagger.Subcomponent
 
 @FragmentScope
-@Subcomponent(modules = [FeatureModule::class])
+@Subcomponent(modules = [HomeFragmentModule::class])
 interface HomeFragmentComponent {
 
     @Subcomponent.Builder

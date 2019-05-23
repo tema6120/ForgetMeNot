@@ -13,33 +13,32 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import com.badoo.mvicore.binder.Binder
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish
-import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
+import com.odnovolov.forgetmenot.presentation.common.ObservableSourceFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
-import io.reactivex.functions.Consumer
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
-class HomeFragment : Fragment() {
-
-    lateinit var rootView: View
-    val subject = PublishSubject.create<AddNewDeckFeature.Wish>()
-    val adapter = DecksPreviewAdapter()
+class HomeFragment : ObservableSourceFragment<AddNewDeckFeature.Wish>() {
 
     @Inject
-    lateinit var feature: AddNewDeckFeature
+    lateinit var adapter: DecksPreviewAdapter
+
+    @Inject
+    lateinit var binding: HomeFragmentBinding
+
+    init {
+        Injector.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
         val toolbar: Toolbar = rootView.findViewById(R.id.toolbar)
         toolbar.inflateMenu(R.menu.home_actions)
         return rootView
@@ -47,10 +46,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Injector.inject(this)
         setupToolbar()
-        setupRecycler()
-        bindToFeature()
+        recycler.adapter = adapter
+        binding.setup(this)
     }
 
     private fun setupToolbar() {
@@ -65,17 +63,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupRecycler() {
-        recycler.adapter = adapter
-    }
-
-    private fun bindToFeature() {
-        val binder = Binder(lifecycle.adaptForBinder())
-        binder.bind(subject to feature)
-        binder.bind(feature to Consumer<AddNewDeckFeature.State>(::render))
-    }
-
-    private fun render(state: AddNewDeckFeature.State?) {
+    fun render(state: AddNewDeckFeature.State?) {
         state ?: return
         state.deck?.let { deck ->
             adapter.submitList(deck.cards)
@@ -99,8 +87,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun showRenameDeckDialog() {
-        val onPositive = { dialogText: String -> subject.onNext(Wish.OfferName(dialogText)) }
-        val onNegative = { subject.onNext(Wish.Cancel) }
+        val onPositive = { dialogText: String -> onNext(Wish.OfferName(dialogText)) }
+        val onNegative = { onNext(Wish.Cancel) }
 
         val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
         val renameDeckEditText: EditText = contentView.findViewById(R.id.renameDeckEditText)
@@ -139,7 +127,7 @@ class HomeFragment : Fragment() {
                 } else {
                     Wish.AddFromInputStream(inputStream, fileName = fileName)
                 }
-            subject.onNext(wish)
+            onNext(wish)
         }
     }
 
@@ -158,5 +146,4 @@ class HomeFragment : Fragment() {
     companion object {
         const val GET_CONTENT_REQUEST_CODE = 39
     }
-
 }
