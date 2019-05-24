@@ -13,14 +13,15 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.presentation.common.UiEventEmitterFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.binding.HomeFragmentBinding
+import com.odnovolov.forgetmenot.presentation.screen.binding.LiveDataProvider
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.InputStream
 import javax.inject.Inject
@@ -32,15 +33,15 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
             val inputStream: InputStream,
             val fileName: String?
         ) : UiEvent()
+
         data class SubmitRenameDialogText(val dialogText: String) : UiEvent()
         object CancelRenameDialog : UiEvent()
     }
 
-    @Inject
-    lateinit var adapter: DecksPreviewAdapter
-
-    @Inject
-    lateinit var binding: HomeFragmentBinding
+    @Inject lateinit var adapter: DecksPreviewAdapter
+    @Inject lateinit var binding: HomeFragmentBinding
+    @Inject lateinit var liveDataProvider: LiveDataProvider
+    private var renameDialog: AlertDialog? = null
 
     init {
         Injector.inject(this)
@@ -59,8 +60,10 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+        initRenameDeckDialog()
         recycler.adapter = adapter
         binding.setup(this)
+        render(liveDataProvider)
     }
 
     private fun setupToolbar() {
@@ -75,45 +78,48 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         }
     }
 
-    fun render(state: AddNewDeckFeature.State?) {
-        state ?: return
-        state.deck?.let { deck ->
-            adapter.submitList(deck.cards)
-        }
-        when (state.stage) {
-            is Idle ->{
-                recycler.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-            }
-            is Processing -> {
-                recycler.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-            }
-            is WaitingForName -> showRenameDeckDialog()
-            is WaitingForChangingName -> showRenameDeckDialog()
-            is Saving -> {
-                recycler.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun showRenameDeckDialog() {
+    private fun initRenameDeckDialog() {
         val onPositive = { dialogText: String -> emitEvent(SubmitRenameDialogText(dialogText)) }
         val onNegative = { emitEvent(CancelRenameDialog) }
 
         val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
         val renameDeckEditText: EditText = contentView.findViewById(R.id.renameDeckEditText)
-        AlertDialog.Builder(context!!)
+        renameDialog = AlertDialog.Builder(context!!)
             .setTitle(R.string.enter_deck_name)
             .setView(contentView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                onPositive.invoke(renameDeckEditText.text.toString())
-            }
-            .setNegativeButton(android.R.string.cancel) { _, _ -> onNegative.invoke() }
-            .setOnCancelListener { onNegative.invoke() }
+            .setCancelable(false)
+            .setPositiveButton(android.R.string.ok, null)
+            .setNegativeButton(android.R.string.cancel, null)
             .create()
-            .show()
+        renameDialog!!.setOnShowListener {
+            renameDialog!!.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener { onPositive.invoke(renameDeckEditText.text.toString()) }
+            renameDialog!!.getButton(AlertDialog.BUTTON_NEGATIVE)
+                .setOnClickListener { onNegative.invoke() }
+        }
+    }
+
+    private fun render(liveDataProvider: LiveDataProvider) {
+        liveDataProvider.deck.observe(this, Observer { deck: Deck? ->
+            adapter.submitList(deck?.cards)
+        })
+        liveDataProvider.isProcessing.observe(this, Observer { isProcessing: Boolean? ->
+            isProcessing ?: return@Observer
+            progressBar.visibility =
+                if (isProcessing) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+        })
+        liveDataProvider.isRenameDialogVisible.observe(this, Observer { isVisible: Boolean? ->
+            isVisible ?: return@Observer
+            if (isVisible) {
+                renameDialog?.show()
+            } else {
+                renameDialog?.dismiss()
+            }
+        })
     }
 
     private fun showFileChooser() {
