@@ -9,6 +9,8 @@ import com.odnovolov.forgetmenot.data.db.toDbDeck
 import com.odnovolov.forgetmenot.data.db.toDeck
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 
 @Dao
 abstract class DeckDao {
@@ -31,17 +33,18 @@ abstract class DeckDao {
     @Query("SELECT name FROM decks")
     abstract fun getAllDeckNames(): List<String>
 
-    fun loadAll(): List<Deck> {
-        val dbDecks: List<DbDeck> = loadAllDeckInternal()
-        val dbCards: List<DbCard> = loadAllCardInternal()
-        return combine(dbDecks, dbCards)
+    fun loadAll(): Observable<List<Deck>> {
+        val decksObservable: Observable<List<DbDeck>> = loadAllDeckInternal()
+        val cardsObservable: Observable<List<DbCard>> = loadAllCardInternal()
+        return Observable.combineLatest(decksObservable,
+            cardsObservable, BiFunction { dbDecks, dbCards -> combine(dbDecks, dbCards) })
     }
 
     @Query("SELECT * FROM decks")
-    abstract fun loadAllDeckInternal(): List<DbDeck>
+    abstract fun loadAllDeckInternal(): Observable<List<DbDeck>>
 
     @Query("SELECT * FROM cards")
-    abstract fun loadAllCardInternal(): List<DbCard>
+    abstract fun loadAllCardInternal(): Observable<List<DbCard>>
 
     private fun combine(dbDecks: List<DbDeck>, dbCards: List<DbCard>): List<Deck> {
         val groupedCards: Map<Int, List<Card>> =

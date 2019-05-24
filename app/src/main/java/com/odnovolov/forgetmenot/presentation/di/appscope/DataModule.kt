@@ -16,7 +16,6 @@ class DataModule {
     fun provideDb(app: App): AppDatabase {
         //app.deleteDatabase(AppDatabase.NAME)
         return Room.databaseBuilder(app, AppDatabase::class.java, AppDatabase.NAME)
-            .allowMainThreadQueries()
             .build()
     }
 

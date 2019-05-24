@@ -1,6 +1,9 @@
 package com.odnovolov.forgetmenot.domain.feature.addnewdeck
 
-import com.badoo.mvicore.element.*
+import com.badoo.mvicore.element.Actor
+import com.badoo.mvicore.element.NewsPublisher
+import com.badoo.mvicore.element.PostProcessor
+import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
@@ -11,15 +14,18 @@ import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wis
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish.Cancel
 import com.odnovolov.forgetmenot.domain.repository.DeckRepository
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 import java.io.InputStream
 import java.nio.charset.Charset
 
 class AddNewDeckFeature(
-    repository: DeckRepository
+    repository: DeckRepository,
+    mainThreadScheduler: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, News>(
     initialState = State(),
     wishToAction = { wish -> wish },
-    actor = ActorImpl(repository),
+    actor = ActorImpl(repository, mainThreadScheduler),
     reducer = ReducerImpl(),
     postProcessor = PostProcessorImpl(),
     newsPublisher = NewsPublisherImpl()
@@ -48,6 +54,7 @@ class AddNewDeckFeature(
             val charset: Charset = Charset.defaultCharset(),
             val fileName: String = ""
         ) : Wish()
+
         data class OfferName(val offeredName: String) : Wish()
         object Cancel : Wish()
     }
@@ -68,7 +75,8 @@ class AddNewDeckFeature(
     }
 
     class ActorImpl(
-        private val repository: DeckRepository
+        private val repository: DeckRepository,
+        private val mainThreadScheduler: Scheduler
     ) : Actor<State, Action, Effect> {
         override fun invoke(state: State, action: Action): Observable<Effect> {
             return when (action) {
@@ -78,13 +86,15 @@ class AddNewDeckFeature(
                         .map { deck: Deck -> SuccessfulParsing(deck) as Effect }
                         .startWith(Effect.ParsingStarted)
                         .onErrorReturn { throwable: Throwable -> Effect.ErrorParsing(throwable) }
+                        .onIo()
                 }
-                is OfferName -> Observable.fromCallable { checkName(action.offeredName) }
+                is OfferName -> Observable.fromCallable { checkName(action.offeredName) }.onIo()
                 is Cancel -> Observable.just(Effect.Cancel)
                 is SaveDeck -> {
                     Observable.fromCallable { saveDeck(state.deck!!) }
                         .map { SavingCompleted as Effect }
                         .startWith(Effect.SavingStarted)
+                        .onIo()
                 }
                 else -> Observable.empty()
             }
@@ -102,6 +112,10 @@ class AddNewDeckFeature(
             val deckId = repository.insertDeck(deck)
             repository.saveDeckIdAsLastInserted(deckId)
         }
+
+        private fun Observable<Effect>.onIo() =
+            this.subscribeOn(Schedulers.io())
+                .observeOn(mainThreadScheduler)
     }
 
     class ReducerImpl : Reducer<State, Effect> {

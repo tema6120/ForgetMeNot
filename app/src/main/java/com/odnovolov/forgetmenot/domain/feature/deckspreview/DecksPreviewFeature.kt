@@ -8,13 +8,16 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.*
 import com.odnovolov.forgetmenot.domain.repository.DeckRepository
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 
 class DecksPreviewFeature(
-    repository: DeckRepository
+    repository: DeckRepository,
+    mainThreadScheduler: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, Nothing>(
     initialState = State(),
     wishToAction = { wish -> wish },
-    bootstrapper = BootstrapperImpl(repository),
+    bootstrapper = BootstrapperImpl(repository, mainThreadScheduler),
     actor = ActorImpl(),
     reducer = ReducerImpl()
 ) {
@@ -29,10 +32,15 @@ class DecksPreviewFeature(
 
     interface Effect
 
-    class BootstrapperImpl(private val repository: DeckRepository) : Bootstrapper<Action> {
+    class BootstrapperImpl(
+        private val repository: DeckRepository,
+        private val mainThreadScheduler: Scheduler
+    ) : Bootstrapper<Action> {
         override fun invoke(): Observable<Action> {
-            return Observable.fromCallable { repository.loadAll() }
-                .map { decks: List<Deck> -> ProcessNewDecks(decks) }
+            return repository.loadAll()
+                .map { decks: List<Deck> -> ProcessNewDecks(decks) as Action }
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThreadScheduler)
         }
     }
 
