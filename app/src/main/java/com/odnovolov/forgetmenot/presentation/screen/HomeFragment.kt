@@ -14,6 +14,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.presentation.common.UiEventEmitterFragment
@@ -21,7 +22,6 @@ import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.binding.HomeFragmentBinding
-import com.odnovolov.forgetmenot.presentation.screen.binding.LiveDataProvider
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.InputStream
 import javax.inject.Inject
@@ -40,12 +40,7 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
 
     @Inject lateinit var adapter: DecksPreviewAdapter
     @Inject lateinit var binding: HomeFragmentBinding
-    @Inject lateinit var liveDataProvider: LiveDataProvider
     private var renameDialog: AlertDialog? = null
-
-    init {
-        Injector.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,11 +54,13 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        Injector.inject(this)
         setupToolbar()
         initRenameDeckDialog()
         recycler.adapter = adapter
         binding.setup(this)
-        render(liveDataProvider)
+        render(viewModel)
     }
 
     private fun setupToolbar() {
@@ -99,11 +96,11 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         }
     }
 
-    private fun render(liveDataProvider: LiveDataProvider) {
-        liveDataProvider.deck.observe(this, Observer { deck: Deck? ->
+    private fun render(viewModel: HomeViewModel) {
+        viewModel.deck.observe(this, Observer { deck: Deck? ->
             adapter.submitList(deck?.cards)
         })
-        liveDataProvider.isProcessing.observe(this, Observer { isProcessing: Boolean? ->
+        viewModel.isProcessing.observe(this, Observer { isProcessing: Boolean? ->
             isProcessing ?: return@Observer
             progressBar.visibility =
                 if (isProcessing) {
@@ -112,7 +109,7 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
                     View.GONE
                 }
         })
-        liveDataProvider.isRenameDialogVisible.observe(this, Observer { isVisible: Boolean? ->
+        viewModel.isRenameDialogVisible.observe(this, Observer { isVisible: Boolean? ->
             isVisible ?: return@Observer
             if (isVisible) {
                 renameDialog?.show()

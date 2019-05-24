@@ -7,13 +7,11 @@ import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
 import com.odnovolov.forgetmenot.presentation.screen.HomeFragment
 
 class HomeFragmentBinding(
-    private val feature: AddNewDeckFeature,
-    private val liveDataProvider: LiveDataProvider
+    private val feature: AddNewDeckFeature
 ) {
     fun setup(fragment: HomeFragment) {
         val lifecycle = fragment.lifecycle.adaptForBinder()
         val binder = Binder(lifecycle)
         binder.bind(fragment to feature using UiEventToWish())
-        binder.bind(feature to liveDataProvider.stateConsumer)
     }
 }

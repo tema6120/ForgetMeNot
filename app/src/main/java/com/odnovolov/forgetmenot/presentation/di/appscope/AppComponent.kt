@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.di.appscope
 
 import com.odnovolov.forgetmenot.presentation.App
-import com.odnovolov.forgetmenot.presentation.di.fragmentscope.HomeFragmentComponent
+import com.odnovolov.forgetmenot.presentation.di.viewmodelscope.HomeViewModelComponent
 import dagger.BindsInstance
 import dagger.Component
 
@@ -17,5 +17,5 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun homeFragmentComponentBuilder(): HomeFragmentComponent.Builder
+    fun homeViewModelComponentBuilder(): HomeViewModelComponent.Builder
 }
