@@ -31,7 +31,7 @@ class DecksPreviewFeature(
 
     class BootstrapperImpl(private val repository: DeckRepository) : Bootstrapper<Action> {
         override fun invoke(): Observable<Action> {
-            return repository.loadAll()
+            return Observable.fromCallable { repository.loadAll() }
                 .map { decks: List<Deck> -> ProcessNewDecks(decks) }
         }
     }

@@ -10,3 +10,9 @@ fun Card.toDbCard(deckId: Int): DbCard =
 
 fun Deck.toDbDeck(): DbDeck =
     DbDeck(id, name)
+
+fun DbCard.toCard(): Card =
+    Card(id, ordinal, question, answer)
+
+fun DbDeck.toDeck(cards: List<Card>): Deck =
+        Deck(id, name, cards)
