@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.binding
 
-import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.presentation.common.DucLiveData
@@ -8,12 +7,12 @@ import io.reactivex.functions.Consumer
 
 class LiveDataProvider {
 
-    val deck = DucLiveData<Deck?>()
+    val deckNames = DucLiveData<List<String>?>()
     val isRenameDialogVisible = DucLiveData<Boolean?>()
     val isProcessing = DucLiveData<Boolean?>()
 
     val stateConsumer = Consumer<AddNewDeckFeature.State> { state: AddNewDeckFeature.State ->
-        deck.value = state.deck
+        deckNames.value = listOf("Phrasal Verbs", "Irregular Verbs", "My Vocabulary 21.05.19")
         when (state.stage) {
             is Idle -> {
                 isRenameDialogVisible.value = false

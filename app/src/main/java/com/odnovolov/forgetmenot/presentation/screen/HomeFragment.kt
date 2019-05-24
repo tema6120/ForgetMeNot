@@ -16,7 +16,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.presentation.common.UiEventEmitterFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent
@@ -97,8 +96,8 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
     }
 
     private fun render(viewModel: HomeViewModel) {
-        viewModel.deck.observe(this, Observer { deck: Deck? ->
-            adapter.submitList(deck?.cards)
+        viewModel.deckNames.observe(this, Observer { deckNames: List<String>? ->
+            adapter.submitList(deckNames)
         })
         viewModel.isProcessing.observe(this, Observer { isProcessing: Boolean? ->
             isProcessing ?: return@Observer

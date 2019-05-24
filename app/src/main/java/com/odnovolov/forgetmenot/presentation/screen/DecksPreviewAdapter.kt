@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.Card
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
-class DecksPreviewAdapter : ListAdapter<Card, DecksPreviewAdapter.ViewHolder>(DiffCallback()) {
+class DecksPreviewAdapter : ListAdapter<String, DecksPreviewAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -19,21 +18,20 @@ class DecksPreviewAdapter : ListAdapter<Card, DecksPreviewAdapter.ViewHolder>(Di
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        getItem(position)?.let { card: Card ->
-            viewHolder.itemView.questionTextView.text = card.question
-            viewHolder.itemView.answerTextView.text = card.answer
+        getItem(position)?.let { deckName: String ->
+            viewHolder.itemView.deckNameTextView.text = deckName
         }
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    class DiffCallback : DiffUtil.ItemCallback<Card>() {
-        override fun areItemsTheSame(oldCard: Card, newCard: Card): Boolean {
-            return oldCard.id == newCard.id
+    class DiffCallback : DiffUtil.ItemCallback<String>() {
+        override fun areItemsTheSame(oldString: String, newString: String): Boolean {
+            return oldString == newString
         }
 
-        override fun areContentsTheSame(oldCard: Card, newCard: Card): Boolean {
-            return oldCard.equals(newCard)
+        override fun areContentsTheSame(oldString: String, newString: String): Boolean {
+            return oldString == newString
         }
 
     }
