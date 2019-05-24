@@ -18,7 +18,7 @@ object Injector {
             .build()
     }
 
-    fun getHomeViewModelComponent(): HomeViewModelComponent {
+    fun createHomeViewModelComponent(): HomeViewModelComponent {
         val component = appComponent.homeViewModelComponentBuilder()
             .build()
         homeViewModelComponent = WeakReference(component)
