@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.di.viewmodelscope
 
 import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
+import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
 import dagger.Module
 import dagger.Provides
 
@@ -10,7 +11,13 @@ class FeatureModule {
 
     @ViewModelScope
     @Provides
-    fun provideFeature(repository: DeckRepositoryImpl): AddNewDeckFeature {
+    fun provideAddNewDeckFeature(repository: DeckRepositoryImpl): AddNewDeckFeature {
         return AddNewDeckFeature(repository)
+    }
+
+    @ViewModelScope
+    @Provides
+    fun provideDecksPreviewFeature(repository: DeckRepositoryImpl): DecksPreviewFeature {
+        return DecksPreviewFeature(repository)
     }
 }
