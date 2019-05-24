@@ -9,13 +9,13 @@ import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Eff
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish.*
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish.Cancel
-import com.odnovolov.forgetmenot.domain.repository.Repository
+import com.odnovolov.forgetmenot.domain.repository.DeckRepository
 import io.reactivex.Observable
 import java.io.InputStream
 import java.nio.charset.Charset
 
 class AddNewDeckFeature(
-    repository: Repository
+    repository: DeckRepository
 ) : BaseFeature<Wish, Action, Effect, State, News>(
     initialState = State(),
     wishToAction = { wish -> wish },
@@ -68,7 +68,7 @@ class AddNewDeckFeature(
     }
 
     class ActorImpl(
-        private val repository: Repository
+        private val repository: DeckRepository
     ) : Actor<State, Action, Effect> {
         override fun invoke(state: State, action: Action): Observable<Effect> {
             return when (action) {
