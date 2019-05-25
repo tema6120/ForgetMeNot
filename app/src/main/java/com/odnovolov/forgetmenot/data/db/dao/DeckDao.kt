@@ -1,16 +1,14 @@
 package com.odnovolov.forgetmenot.data.db.dao
 
 import androidx.room.*
-import com.odnovolov.forgetmenot.data.db.entity.DbCard
+import com.odnovolov.forgetmenot.data.db.entity.CardDbRow
 import com.odnovolov.forgetmenot.data.db.entity.DbDeck
-import com.odnovolov.forgetmenot.data.db.toCard
+import com.odnovolov.forgetmenot.data.db.entity.DeckDbRow
 import com.odnovolov.forgetmenot.data.db.toDbCard
 import com.odnovolov.forgetmenot.data.db.toDbDeck
-import com.odnovolov.forgetmenot.data.db.toDeck
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 
 @Dao
 abstract class DeckDao {
@@ -20,40 +18,29 @@ abstract class DeckDao {
         val deckId = this.insertInternal(deck.toDbDeck()).toInt()
         deck.cards
             .map { card: Card -> card.toDbCard((deckId)) }
-            .forEach { dbCard: DbCard -> insertInternal(dbCard) }
+            .forEach { cardDbRow: CardDbRow -> insertInternal(cardDbRow) }
         return deckId
     }
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    abstract fun insertInternal(dbDeck: DbDeck): Long
+    abstract fun insertInternal(deckDbRow: DeckDbRow): Long
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    abstract fun insertInternal(dbCard: DbCard)
+    abstract fun insertInternal(cardDbRow: CardDbRow)
 
     @Query("SELECT name FROM decks")
     abstract fun getAllDeckNames(): List<String>
 
     fun loadAll(): Observable<List<Deck>> {
-        val decksObservable: Observable<List<DbDeck>> = loadAllDeckInternal()
-        val cardsObservable: Observable<List<DbCard>> = loadAllCardInternal()
-        return Observable.combineLatest(decksObservable,
-            cardsObservable, BiFunction { dbDecks, dbCards -> combine(dbDecks, dbCards) })
+        return loadAllInternal()
+            .map { dbDecks: List<DbDeck> ->
+                dbDecks.map { dbDeck -> dbDeck.asDeck() }
+            }
     }
 
-    @Query("SELECT * FROM decks")
-    abstract fun loadAllDeckInternal(): Observable<List<DbDeck>>
-
-    @Query("SELECT * FROM cards")
-    abstract fun loadAllCardInternal(): Observable<List<DbCard>>
-
-    private fun combine(dbDecks: List<DbDeck>, dbCards: List<DbCard>): List<Deck> {
-        val groupedCards: Map<Int, List<Card>> =
-            dbCards.groupBy({ dbCard: DbCard -> dbCard.deckId }, { dbCard: DbCard -> dbCard.toCard() })
-        return dbDecks.map { dbDeck: DbDeck ->
-            val cards: List<Card> = groupedCards[dbDeck.id] ?: emptyList()
-            dbDeck.toDeck(cards)
-        }
-    }
+    @Transaction
+    @Query("SELECT * from decks")
+    abstract fun loadAllInternal(): Observable<List<DbDeck>>
 
     @Transaction
     open fun delete(deckId: Int) {

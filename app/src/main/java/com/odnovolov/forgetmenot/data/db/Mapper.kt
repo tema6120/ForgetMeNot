@@ -1,18 +1,18 @@
 package com.odnovolov.forgetmenot.data.db
 
-import com.odnovolov.forgetmenot.data.db.entity.DbCard
-import com.odnovolov.forgetmenot.data.db.entity.DbDeck
+import com.odnovolov.forgetmenot.data.db.entity.CardDbRow
+import com.odnovolov.forgetmenot.data.db.entity.DeckDbRow
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 
-fun Card.toDbCard(deckId: Int): DbCard =
-    DbCard(id, deckId, ordinal, question, answer)
+fun Card.toDbCard(deckId: Int): CardDbRow =
+    CardDbRow(id, deckId, ordinal, question, answer)
 
-fun Deck.toDbDeck(): DbDeck =
-    DbDeck(id, name)
+fun Deck.toDbDeck(): DeckDbRow =
+    DeckDbRow(id, name)
 
-fun DbCard.toCard(): Card =
+fun CardDbRow.toCard(): Card =
     Card(id, ordinal, question, answer)
 
-fun DbDeck.toDeck(cards: List<Card>): Deck =
+fun DeckDbRow.toDeck(cards: List<Card>): Deck =
         Deck(id, name, cards)

@@ -6,14 +6,14 @@ import androidx.room.*
     tableName = "cards",
     foreignKeys = [
         ForeignKey(
-            entity = DbDeck::class,
+            entity = DeckDbRow::class,
             parentColumns = ["deck_id"],
             childColumns = ["deck_id"]
         )
     ],
     indices = [Index("deck_id")]
 )
-data class DbCard (
+data class CardDbRow (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "card_id")
     val id: Int,

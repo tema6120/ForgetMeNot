@@ -3,11 +3,11 @@ package com.odnovolov.forgetmenot.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.odnovolov.forgetmenot.data.db.dao.DeckDao
-import com.odnovolov.forgetmenot.data.db.entity.DbCard
-import com.odnovolov.forgetmenot.data.db.entity.DbDeck
+import com.odnovolov.forgetmenot.data.db.entity.CardDbRow
+import com.odnovolov.forgetmenot.data.db.entity.DeckDbRow
 
 @Database(
-    entities = [DbDeck::class, DbCard::class],
+    entities = [DeckDbRow::class, CardDbRow::class],
     version = 1,
     exportSchema = false
 )

@@ -1,15 +1,20 @@
 package com.odnovolov.forgetmenot.data.db.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.Embedded
+import androidx.room.Relation
+import com.odnovolov.forgetmenot.data.db.toCard
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.Deck
 
-@Entity(tableName = "decks")
 data class DbDeck(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "deck_id")
-    val id: Int,
+    @Embedded
+    var deckDbRow: DeckDbRow? = null,
 
-    @ColumnInfo(name = "name")
-    val name: String
-)
+    @Relation(entity = CardDbRow::class, entityColumn = "deck_id", parentColumn = "deck_id")
+    var cardsDbRow: List<CardDbRow>? = null
+) {
+    fun asDeck(): Deck {
+        val cards: List<Card> = cardsDbRow!!.map { it.toCard() }
+        return Deck(deckDbRow!!.id, deckDbRow!!.name, cards)
+    }
+}
