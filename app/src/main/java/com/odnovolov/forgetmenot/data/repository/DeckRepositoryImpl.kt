@@ -22,4 +22,8 @@ class DeckRepositoryImpl(private val deckDao: DeckDao) : DeckRepository {
     override fun loadAll(): Observable<List<Deck>> {
         return deckDao.loadAll()
     }
+
+    override fun delete(deckId: Int) {
+        deckDao.delete(deckId)
+    }
 }

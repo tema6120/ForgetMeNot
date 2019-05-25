@@ -8,4 +8,5 @@ interface DeckRepository {
     fun getAllDeckNames(): List<String>
     fun saveDeckIdAsLastInserted(deckId: Int)
     fun loadAll(): Observable<List<Deck>>
+    fun delete(deckId: Int)
 }

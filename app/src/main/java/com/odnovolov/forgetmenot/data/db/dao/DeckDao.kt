@@ -54,4 +54,16 @@ abstract class DeckDao {
             dbDeck.toDeck(cards)
         }
     }
+
+    @Transaction
+    open fun delete(deckId: Int) {
+        deleteCardsInternal(deckId)
+        deleteDeckInternal(deckId)
+    }
+
+    @Query("DELETE FROM cards WHERE deck_id = :deckId")
+    abstract fun deleteCardsInternal(deckId: Int)
+
+    @Query("DELETE FROM decks WHERE deck_id = :deckId")
+    abstract fun deleteDeckInternal(deckId: Int)
 }
