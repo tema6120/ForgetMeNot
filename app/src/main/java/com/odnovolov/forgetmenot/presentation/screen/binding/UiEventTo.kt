@@ -16,12 +16,16 @@ object UiEventTo {
                     AddNewDeckFeature.Wish.AddFromInputStream(uiEvent.inputStream, fileName = uiEvent.fileName)
                 }
             }
-            is SubmitRenameDialogText -> AddNewDeckFeature.Wish.OfferName(uiEvent.dialogText)
-            is CancelRenameDialog -> AddNewDeckFeature.Wish.Cancel
+            is RenameDialogPositiveButtonClick -> AddNewDeckFeature.Wish.OfferName(uiEvent.dialogText)
+            is RenameDialogNegativeButtonClick -> AddNewDeckFeature.Wish.Cancel
+            else -> null
         }
     }
 
     val decksPreviewFeatureWish: (UiEvent) -> DecksPreviewFeature.Wish? = { uiEvent: UiEvent ->
-        null
+        when (uiEvent) {
+            is DeleteDeckButtonClick -> DecksPreviewFeature.Wish.DeleteDeck(uiEvent.idx)
+            else -> null
+        }
     }
 }

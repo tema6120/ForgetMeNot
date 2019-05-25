@@ -2,4 +2,6 @@
     <string name="app_name">ForgetMeNot</string>
     <string name="add_new_deck">Add new deck</string>
     <string name="enter_deck_name">Enter deck name</string>
+    <string name="deck_option">Deck option</string>
+    <string name="delete_deck">Delete deck</string>
 </resources>

@@ -1,13 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen
 
 import androidx.lifecycle.LiveData
+import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
 import com.odnovolov.forgetmenot.presentation.common.LifecycleAwareViewModel
 import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.di.viewmodelscope.HomeViewModelComponent
 
 class HomeViewModel : LifecycleAwareViewModel() {
 
-    val deckNames: LiveData<List<String>?>
+    val decksPreview: LiveData<List<DeckPreview>?>
     val isRenameDialogVisible: LiveData<Boolean?>
     val isProcessing: LiveData<Boolean?>
 
@@ -15,7 +16,7 @@ class HomeViewModel : LifecycleAwareViewModel() {
 
     init {
         val liveDataProvider = component.provideLiveDataProvider()
-        deckNames = liveDataProvider.deckNames
+        decksPreview = liveDataProvider.decksPreview
         isRenameDialogVisible = liveDataProvider.isRenameDialogVisible
         isProcessing = liveDataProvider.isProcessing
 

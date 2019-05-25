@@ -25,7 +25,9 @@ class DecksPreviewFeature(
         val decksPreview: List<DeckPreview> = emptyList()
     ) : Effect
 
-    sealed class Wish : Action
+    sealed class Wish : Action {
+        data class DeleteDeck(val deckId: Int) : Wish()
+    }
 
     interface Action
     data class ProcessNewDecks(val decks: List<Deck>) : Action

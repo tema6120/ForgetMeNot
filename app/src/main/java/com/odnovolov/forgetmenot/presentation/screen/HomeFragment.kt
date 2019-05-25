@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
 import com.odnovolov.forgetmenot.presentation.common.UiEventEmitterFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent
@@ -33,12 +34,13 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
             val fileName: String?
         ) : UiEvent()
 
-        data class SubmitRenameDialogText(val dialogText: String) : UiEvent()
-        object CancelRenameDialog : UiEvent()
+        data class RenameDialogPositiveButtonClick(val dialogText: String) : UiEvent()
+        object RenameDialogNegativeButtonClick : UiEvent()
+        data class DeleteDeckButtonClick(val idx: Int) : UiEvent()
     }
 
-    @Inject lateinit var adapter: DecksPreviewAdapter
     @Inject lateinit var binding: HomeFragmentBinding
+    private lateinit var adapter: DecksPreviewAdapter
     private var renameDialog: AlertDialog? = null
 
     override fun onCreateView(
@@ -57,7 +59,7 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         Injector.inject(this)
         setupToolbar()
         initRenameDeckDialog()
-        recycler.adapter = adapter
+        initRecyclerAdapter()
         binding.setup(this)
         render(viewModel)
     }
@@ -75,8 +77,8 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
     }
 
     private fun initRenameDeckDialog() {
-        val onPositive = { dialogText: String -> emitEvent(SubmitRenameDialogText(dialogText)) }
-        val onNegative = { emitEvent(CancelRenameDialog) }
+        val onPositive = { dialogText: String -> emitEvent(RenameDialogPositiveButtonClick(dialogText)) }
+        val onNegative = { emitEvent(RenameDialogNegativeButtonClick) }
 
         val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
         val renameDeckEditText: EditText = contentView.findViewById(R.id.renameDeckEditText)
@@ -95,8 +97,14 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         }
     }
 
+    private fun initRecyclerAdapter() {
+        val deleteDeckButtonClickCallback = { idx: Int -> emitEvent(DeleteDeckButtonClick(idx))}
+        adapter = DecksPreviewAdapter(deleteDeckButtonClickCallback)
+        recycler.adapter = adapter
+    }
+
     private fun render(viewModel: HomeViewModel) {
-        viewModel.deckNames.observe(this, Observer { deckNames: List<String>? ->
+        viewModel.decksPreview.observe(this, Observer { deckNames: List<DeckPreview>? ->
             adapter.submitList(deckNames)
         })
         viewModel.isProcessing.observe(this, Observer { isProcessing: Boolean? ->

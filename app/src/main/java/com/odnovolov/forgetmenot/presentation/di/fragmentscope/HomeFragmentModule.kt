@@ -15,10 +15,4 @@ class HomeFragmentModule {
     fun provideBinding(feature1: AddNewDeckFeature, feature2: DecksPreviewFeature): HomeFragmentBinding {
         return HomeFragmentBinding(feature1, feature2)
     }
-
-    @FragmentScope
-    @Provides
-    fun provideAdapter(): DecksPreviewAdapter {
-        return DecksPreviewAdapter()
-    }
 }
