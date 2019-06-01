@@ -24,6 +24,7 @@ object UiEventTo {
 
     val decksPreviewFeatureWish: (UiEvent) -> DecksPreviewFeature.Wish? = { uiEvent: UiEvent ->
         when (uiEvent) {
+            is DeckButtonClick -> DecksPreviewFeature.Wish.PrepareExercise(uiEvent.idx)
             is DeleteDeckButtonClick -> DecksPreviewFeature.Wish.DeleteDeck(uiEvent.idx)
             else -> null
         }

@@ -4,9 +4,15 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import io.reactivex.Observable
 
 interface DeckRepository {
-    fun insertDeck(deck: Deck): Int
+    // Create
+    fun saveDeck(deck: Deck): Int
+    fun saveLastInsertedDeckId(deckId: Int)
+
+    // Read
     fun getAllDeckNames(): List<String>
-    fun saveDeckIdAsLastInserted(deckId: Int)
-    fun loadAll(): Observable<List<Deck>>
+    fun observeDecks(): Observable<List<Deck>>
+    fun getDeck(deckId: Int): Deck
+
+    // Delete
     fun delete(deckId: Int)
 }

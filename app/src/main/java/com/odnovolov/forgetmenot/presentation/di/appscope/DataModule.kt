@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.odnovolov.forgetmenot.data.db.AppDatabase
 import com.odnovolov.forgetmenot.data.db.dao.DeckDao
 import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
+import com.odnovolov.forgetmenot.data.repository.ExerciseRepositoryImpl
 import com.odnovolov.forgetmenot.presentation.App
 import dagger.Module
 import dagger.Provides
@@ -27,7 +28,13 @@ class DataModule {
 
     @AppScope
     @Provides
-    fun provideRepository(deckDao: DeckDao): DeckRepositoryImpl {
+    fun provideDeckRepository(deckDao: DeckDao): DeckRepositoryImpl {
         return DeckRepositoryImpl(deckDao)
+    }
+
+    @AppScope
+    @Provides
+    fun provideExerciseRepository(): ExerciseRepositoryImpl {
+        return ExerciseRepositoryImpl()
     }
 }

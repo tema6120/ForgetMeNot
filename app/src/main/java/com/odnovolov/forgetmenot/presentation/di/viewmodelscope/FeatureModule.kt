@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.di.viewmodelscope
 
 import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
+import com.odnovolov.forgetmenot.data.repository.ExerciseRepositoryImpl
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
 import dagger.Module
@@ -18,7 +19,14 @@ class FeatureModule {
 
     @ViewModelScope
     @Provides
-    fun provideDecksPreviewFeature(repository: DeckRepositoryImpl): DecksPreviewFeature {
-        return DecksPreviewFeature(repository, AndroidSchedulers.mainThread())
+    fun provideDecksPreviewFeature(
+            deckRepositoryImpl: DeckRepositoryImpl,
+            exerciseRepositoryImpl: ExerciseRepositoryImpl
+    ): DecksPreviewFeature {
+        return DecksPreviewFeature(
+                deckRepositoryImpl,
+                exerciseRepositoryImpl,
+                AndroidSchedulers.mainThread()
+        )
     }
 }

@@ -109,8 +109,8 @@ class AddNewDeckFeature(
         }
 
         private fun saveDeck(deck: Deck) {
-            val deckId = repository.insertDeck(deck)
-            repository.saveDeckIdAsLastInserted(deckId)
+            val deckId = repository.saveDeck(deck)
+            repository.saveLastInsertedDeckId(deckId)
         }
 
         private fun Observable<Effect>.onIo() =
