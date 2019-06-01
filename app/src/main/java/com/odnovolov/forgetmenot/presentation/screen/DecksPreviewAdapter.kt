@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DecksPreviewAdapter(
+    private val deckButtonClickCallback: (idx: Int) -> Unit,
     private val deleteDeckButtonClickCallback: (idx: Int) -> Unit
 ) : ListAdapter<DeckPreview, DecksPreviewAdapter.ViewHolder>(DiffCallback()) {
 
@@ -23,9 +24,13 @@ class DecksPreviewAdapter(
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         getItem(position)?.let { deckPreview: DeckPreview ->
-            viewHolder.itemView.deckNameTextView.text = deckPreview.deckName
-            viewHolder.itemView.deckOptionButton.setOnClickListener { view: View ->
-                showOptionMenu(view, deckPreview.deckId) }
+            viewHolder.itemView.apply {
+                setOnClickListener { deckButtonClickCallback.invoke(deckPreview.deckId) }
+                deckNameTextView.text = deckPreview.deckName
+                deckOptionButton.setOnClickListener { view: View ->
+                    showOptionMenu(view, deckPreview.deckId)
+                }
+            }
         }
     }
 

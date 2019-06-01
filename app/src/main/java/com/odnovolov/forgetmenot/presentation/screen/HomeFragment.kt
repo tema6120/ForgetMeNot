@@ -29,13 +29,10 @@ import javax.inject.Inject
 class HomeFragment : UiEventEmitterFragment<UiEvent>() {
 
     sealed class UiEvent {
-        data class GotData(
-            val inputStream: InputStream,
-            val fileName: String?
-        ) : UiEvent()
-
+        data class GotData(val inputStream: InputStream, val fileName: String?) : UiEvent()
         data class RenameDialogPositiveButtonClick(val dialogText: String) : UiEvent()
         object RenameDialogNegativeButtonClick : UiEvent()
+        data class DeckButtonClick(val idx: Int) : UiEvent()
         data class DeleteDeckButtonClick(val idx: Int) : UiEvent()
     }
 
@@ -98,8 +95,9 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
     }
 
     private fun initRecyclerAdapter() {
-        val deleteDeckButtonClickCallback = { idx: Int -> emitEvent(DeleteDeckButtonClick(idx))}
-        adapter = DecksPreviewAdapter(deleteDeckButtonClickCallback)
+        val deckButtonClickCallback = { idx: Int -> emitEvent(DeckButtonClick(idx)) }
+        val deleteDeckButtonClickCallback = { idx: Int -> emitEvent(DeleteDeckButtonClick(idx)) }
+        adapter = DecksPreviewAdapter(deckButtonClickCallback, deleteDeckButtonClickCallback)
         recycler.adapter = adapter
     }
 
