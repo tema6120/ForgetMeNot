@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.domain.feature.deckspreview
 
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.Bootstrapper
+import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.entity.Deck
@@ -20,12 +21,13 @@ class DecksPreviewFeature(
         deckRepository: DeckRepository,
         exerciseRepository: ExerciseRepository,
         mainThreadScheduler: Scheduler
-) : BaseFeature<Wish, Action, Effect, State, Nothing>(
+) : BaseFeature<Wish, Action, Effect, State, News>(
         initialState = State(),
         wishToAction = { wish -> wish },
         bootstrapper = BootstrapperImpl(deckRepository, mainThreadScheduler),
         actor = ActorImpl(deckRepository, exerciseRepository, mainThreadScheduler),
-        reducer = ReducerImpl()
+        reducer = ReducerImpl(),
+        newsPublisher = NewsPublisherImpl()
 ) {
     class BootstrapperImpl(
             private val repository: DeckRepository,
@@ -112,4 +114,17 @@ class DecksPreviewFeature(
             val decksPreview: List<DeckPreview> = emptyList(),
             val isExercisePreparing: Boolean = false
     )
+
+    class NewsPublisherImpl : NewsPublisher<Action, Effect, State, News> {
+        override fun invoke(action: Action, effect: Effect, state: State): News? {
+            return when (effect) {
+                is ExercisePreparingFinished -> News.ExerciseIsPrepared
+                else -> null
+            }
+        }
+    }
+
+    sealed class News {
+        object ExerciseIsPrepared : News()
+    }
 }
