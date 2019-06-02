@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.binding
+package com.odnovolov.forgetmenot.presentation.screen.home.binding
 
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*

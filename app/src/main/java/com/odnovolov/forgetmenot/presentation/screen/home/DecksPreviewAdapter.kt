@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen
+package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
+import com.odnovolov.forgetmenot.presentation.screen.home.DecksPreviewAdapter.ViewHolder
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DecksPreviewAdapter(
     private val deckButtonClickCallback: (idx: Int) -> Unit,
     private val deleteDeckButtonClickCallback: (idx: Int) -> Unit
-) : ListAdapter<DeckPreview, DecksPreviewAdapter.ViewHolder>(DiffCallback()) {
+) : ListAdapter<DeckPreview, ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

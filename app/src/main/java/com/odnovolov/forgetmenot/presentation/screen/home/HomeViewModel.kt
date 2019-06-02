@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen
+package com.odnovolov.forgetmenot.presentation.screen.home
 
 import androidx.lifecycle.LiveData
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview

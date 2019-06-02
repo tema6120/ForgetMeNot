@@ -4,4 +4,7 @@
     <string name="enter_deck_name">Enter deck name</string>
     <string name="deck_option">Deck option</string>
     <string name="delete_deck">Delete deck</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

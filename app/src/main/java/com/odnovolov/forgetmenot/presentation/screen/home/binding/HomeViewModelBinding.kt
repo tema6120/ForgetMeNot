@@ -1,9 +1,9 @@
-package com.odnovolov.forgetmenot.presentation.screen.binding
+package com.odnovolov.forgetmenot.presentation.screen.home.binding
 
 import com.badoo.mvicore.binder.Binder
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
-import com.odnovolov.forgetmenot.presentation.screen.HomeViewModel
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeViewModel
 
 class HomeViewModelBinding(
     private val addNewDeckFeature: AddNewDeckFeature,

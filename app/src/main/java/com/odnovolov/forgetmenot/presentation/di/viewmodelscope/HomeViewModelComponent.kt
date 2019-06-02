@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.di.viewmodelscope
 
 import com.odnovolov.forgetmenot.presentation.di.fragmentscope.HomeFragmentComponent
-import com.odnovolov.forgetmenot.presentation.screen.binding.HomeViewModelBinding
-import com.odnovolov.forgetmenot.presentation.screen.binding.LiveDataProvider
+import com.odnovolov.forgetmenot.presentation.screen.home.binding.HomeViewModelBinding
+import com.odnovolov.forgetmenot.presentation.screen.home.binding.LiveDataProvider
 import dagger.Subcomponent
 
 @ViewModelScope

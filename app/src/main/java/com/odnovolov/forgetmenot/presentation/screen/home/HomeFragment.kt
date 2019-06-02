@@ -1,7 +1,8 @@
-package com.odnovolov.forgetmenot.presentation.screen
+package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,9 +20,9 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
 import com.odnovolov.forgetmenot.presentation.common.UiEventEmitterFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
-import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.binding.HomeFragmentBinding
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.binding.HomeFragmentBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.InputStream
 import javax.inject.Inject
@@ -39,6 +40,14 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
     @Inject lateinit var binding: HomeFragmentBinding
     private lateinit var adapter: DecksPreviewAdapter
     private var renameDialog: AlertDialog? = null
+    private lateinit var viewModel: HomeViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        Injector.inject(this)
+        binding.setup(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,13 +61,10 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        Injector.inject(this)
         setupToolbar()
         initRenameDeckDialog()
         initRecyclerAdapter()
-        binding.setup(this)
-        render(viewModel)
+        render()
     }
 
     private fun setupToolbar() {
@@ -101,7 +107,7 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         recycler.adapter = adapter
     }
 
-    private fun render(viewModel: HomeViewModel) {
+    private fun render() {
         viewModel.decksPreview.observe(this, Observer { deckNames: List<DeckPreview>? ->
             adapter.submitList(deckNames)
         })

@@ -1,9 +1,9 @@
-package com.odnovolov.forgetmenot.presentation.screen.binding
+package com.odnovolov.forgetmenot.presentation.screen.home.binding
 
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
-import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.HomeFragment.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent.*
 
 object UiEventTo {
 

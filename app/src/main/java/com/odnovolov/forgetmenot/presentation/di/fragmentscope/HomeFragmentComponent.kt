@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.di.fragmentscope
 
-import com.odnovolov.forgetmenot.presentation.screen.HomeFragment
+import com.odnovolov.forgetmenot.presentation.navigation.Navigator
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment
+import dagger.BindsInstance
 import dagger.Subcomponent
 
 @FragmentScope
@@ -9,6 +11,9 @@ interface HomeFragmentComponent {
 
     @Subcomponent.Builder
     interface Builder {
+        @BindsInstance
+        fun navigator(navigator: Navigator): Builder
+
         fun build(): HomeFragmentComponent
     }
 
