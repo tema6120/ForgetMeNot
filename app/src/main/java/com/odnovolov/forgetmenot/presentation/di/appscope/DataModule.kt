@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.di.appscope
 import androidx.room.Room
 import com.odnovolov.forgetmenot.data.db.AppDatabase
 import com.odnovolov.forgetmenot.data.db.dao.DeckDao
+import com.odnovolov.forgetmenot.data.db.dao.ExerciseDao
 import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
 import com.odnovolov.forgetmenot.data.repository.ExerciseRepositoryImpl
 import com.odnovolov.forgetmenot.presentation.App
@@ -34,7 +35,13 @@ class DataModule {
 
     @AppScope
     @Provides
-    fun provideExerciseRepository(): ExerciseRepositoryImpl {
-        return ExerciseRepositoryImpl()
+    fun provideExerciseDao(db: AppDatabase): ExerciseDao {
+        return db.exerciseDao()
+    }
+
+    @AppScope
+    @Provides
+    fun provideExerciseRepository(exerciseDao: ExerciseDao): ExerciseRepositoryImpl {
+        return ExerciseRepositoryImpl(exerciseDao)
     }
 }

@@ -77,7 +77,8 @@ class DecksPreviewFeature(
 
         private fun prepareExercise(deckId: Int) {
             val deck = deckRepository.getDeck(deckId)
-            val exerciseCards: List<ExerciseCard> = deck.cards.map { card -> ExerciseCard(card) }
+            val exerciseCards: List<ExerciseCard> = deck.cards
+                    .map { card -> ExerciseCard(card = card) }
             val exercise = Exercise(exerciseCards as MutableList<ExerciseCard>)
             exerciseRepository.deleteAllExercises()
             exerciseRepository.saveExercise(exercise)
