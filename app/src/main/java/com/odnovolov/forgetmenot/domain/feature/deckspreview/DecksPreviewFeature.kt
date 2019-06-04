@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.*
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Effect.*
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Wish.*
-import com.odnovolov.forgetmenot.domain.feature.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseData
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.repository.DeckRepository
 import com.odnovolov.forgetmenot.domain.repository.ExerciseRepository
@@ -81,7 +81,7 @@ class DecksPreviewFeature(
             val deck = deckRepository.getDeck(deckId)
             val exerciseCards: List<ExerciseCard> = deck.cards
                     .map { card -> ExerciseCard(card = card) }
-            val exercise = Exercise(exerciseCards as MutableList<ExerciseCard>)
+            val exercise = ExerciseData(exerciseCards as MutableList<ExerciseCard>)
             exerciseRepository.deleteAllExercises()
             exerciseRepository.saveExercise(exercise)
         }

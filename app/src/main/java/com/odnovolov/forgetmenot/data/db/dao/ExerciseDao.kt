@@ -6,12 +6,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.odnovolov.forgetmenot.data.db.entity.ExerciseCardDbRow
 import com.odnovolov.forgetmenot.data.db.toExerciseDbRow
-import com.odnovolov.forgetmenot.domain.feature.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseData
 
 @Dao
 abstract class ExerciseDao {
-    fun insert(exercise: Exercise) {
-        val exerciseCardDbRows: List<ExerciseCardDbRow> = exercise.exerciseCards
+    fun insert(exerciseData: ExerciseData) {
+        val exerciseCardDbRows: List<ExerciseCardDbRow> = exerciseData.exerciseCards
                 .map { exerciseCard -> exerciseCard.toExerciseDbRow() }
         insertInternal(exerciseCardDbRows)
     }

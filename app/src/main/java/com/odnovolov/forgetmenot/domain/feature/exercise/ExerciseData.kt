@@ -1,5 +1,5 @@
 package com.odnovolov.forgetmenot.domain.feature.exercise
 
-data class Exercise(
+data class ExerciseData(
     var exerciseCards: MutableList<ExerciseCard>
 )
