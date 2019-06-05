@@ -17,7 +17,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
+            android:id="@+id/decksPreviewRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/background_decks_preview"

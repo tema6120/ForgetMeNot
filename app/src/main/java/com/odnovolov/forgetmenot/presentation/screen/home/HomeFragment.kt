@@ -104,7 +104,7 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         val deckButtonClickCallback = { idx: Int -> emitEvent(DeckButtonClick(idx)) }
         val deleteDeckButtonClickCallback = { idx: Int -> emitEvent(DeleteDeckButtonClick(idx)) }
         adapter = DecksPreviewAdapter(deckButtonClickCallback, deleteDeckButtonClickCallback)
-        recycler.adapter = adapter
+        decksPreviewRecycler.adapter = adapter
     }
 
     private fun render() {
