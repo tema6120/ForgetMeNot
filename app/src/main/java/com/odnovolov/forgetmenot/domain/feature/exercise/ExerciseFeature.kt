@@ -62,7 +62,7 @@ class ExerciseFeature(
     }
 
     data class State(
-        val exerciseData: ExerciseData = ExerciseData(emptyList<ExerciseCard>() as MutableList)
+        val exerciseData: ExerciseData = ExerciseData(ArrayList())
     )
 
     class PostProcessorImpl : PostProcessor<Action, Effect, State> {

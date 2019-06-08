@@ -5,15 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.presentation.common.UiEventEmitterFragment
+import com.odnovolov.forgetmenot.presentation.common.BaseFragment
+import com.odnovolov.forgetmenot.presentation.di.Injector
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.ViewState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent
 import kotlinx.android.synthetic.main.fragment_exercise.*
+import javax.inject.Inject
 
-class ExerciseFragment : UiEventEmitterFragment<UiEvent>() {
+class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
+
+    data class ViewState(
+        val exerciseCards: List<ExerciseCard>
+    )
 
     sealed class UiEvent {
+    }
+
+    @Inject lateinit var bindings: ExerciseFragmentBindings
+    private val recyclerAdapter = ExerciseCardsAdapter()
+
+    init {
+        Injector.inject(this)
+        bindings.setup(this)
     }
 
     override fun onCreateView(
@@ -26,12 +40,10 @@ class ExerciseFragment : UiEventEmitterFragment<UiEvent>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ExerciseCardsAdapter()
-        exerciseRecycler.adapter = adapter
-        val exerciseCards = listOf<ExerciseCard>(
-            ExerciseCard(0, Card(0, 1, "question_1", "answer_1"), false),
-            ExerciseCard(1, Card(1, 1, "question_2", "answer_2"), false)
-        )
-        adapter.submitList(exerciseCards)
+        exerciseRecycler.adapter = recyclerAdapter
+    }
+
+    override fun accept(viewState: ViewState) {
+        recyclerAdapter.submitList(viewState.exerciseCards)
     }
 }
