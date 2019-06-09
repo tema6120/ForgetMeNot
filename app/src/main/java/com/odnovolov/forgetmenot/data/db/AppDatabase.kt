@@ -4,12 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.odnovolov.forgetmenot.data.db.dao.DeckDao
 import com.odnovolov.forgetmenot.data.db.dao.ExerciseDao
-import com.odnovolov.forgetmenot.data.db.entity.CardDbRow
-import com.odnovolov.forgetmenot.data.db.entity.DeckDbRow
-import com.odnovolov.forgetmenot.data.db.entity.ExerciseCardDbRow
+import com.odnovolov.forgetmenot.data.db.entity.CardDbEntity
+import com.odnovolov.forgetmenot.data.db.entity.DeckDbEntity
+import com.odnovolov.forgetmenot.data.db.entity.ExerciseCardDbEntity
 
 @Database(
-    entities = [DeckDbRow::class, CardDbRow::class, ExerciseCardDbRow::class],
+    entities = [DeckDbEntity::class, CardDbEntity::class, ExerciseCardDbEntity::class],
     version = 1,
     exportSchema = false
 )
