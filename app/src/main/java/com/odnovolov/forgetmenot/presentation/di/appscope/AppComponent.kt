@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.di.appscope
 
 import com.odnovolov.forgetmenot.presentation.App
-import com.odnovolov.forgetmenot.presentation.di.viewmodelscope.HomeViewModelComponent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.di.ExerciseScreenComponent
+import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
 import dagger.BindsInstance
 import dagger.Component
 
@@ -18,6 +18,6 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun homeViewModelComponentBuilder(): HomeViewModelComponent.Builder
+    fun homeScreenComponentBuilder(): HomeScreenComponent.Builder
     fun exerciseScreenComponentBuilder(): ExerciseScreenComponent.Builder
 }

@@ -1,22 +1,23 @@
-package com.odnovolov.forgetmenot.presentation.di.fragmentscope
+package com.odnovolov.forgetmenot.presentation.screen.home.di
 
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
+import com.odnovolov.forgetmenot.presentation.di.fragmentscope.FragmentScope
 import com.odnovolov.forgetmenot.presentation.navigation.Navigator
-import com.odnovolov.forgetmenot.presentation.screen.home.binding.HomeFragmentBinding
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragmentBindings
 import dagger.Module
 import dagger.Provides
 
 @Module
-class HomeFragmentModule {
+class HomeScreenModule {
 
     @FragmentScope
     @Provides
-    fun provideBinding(
+    fun provideBindings(
         addNewDeckFeature: AddNewDeckFeature,
         decksPreviewFeature: DecksPreviewFeature,
         navigator: Navigator
-    ): HomeFragmentBinding {
-        return HomeFragmentBinding(addNewDeckFeature, decksPreviewFeature, navigator)
+    ): HomeFragmentBindings {
+        return HomeFragmentBindings(addNewDeckFeature, decksPreviewFeature, navigator)
     }
 }

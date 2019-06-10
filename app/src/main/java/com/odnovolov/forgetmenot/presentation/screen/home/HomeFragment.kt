@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.app.Activity
 import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,20 +13,24 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
-import com.odnovolov.forgetmenot.presentation.common.UiEventEmitterFragment
+import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.binding.HomeFragmentBinding
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.ViewState
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.InputStream
 import javax.inject.Inject
 
-class HomeFragment : UiEventEmitterFragment<UiEvent>() {
+class HomeFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
+
+    data class ViewState(
+        val decksPreview: List<DeckPreview>,
+        val isRenameDialogVisible: Boolean,
+        val isProcessing: Boolean
+    )
 
     sealed class UiEvent {
         data class GotData(val inputStream: InputStream, val fileName: String?) : UiEvent()
@@ -37,16 +40,12 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         data class DeleteDeckButtonClick(val idx: Int) : UiEvent()
     }
 
-    @Inject lateinit var binding: HomeFragmentBinding
+    @Inject lateinit var bindings: HomeFragmentBindings
     private lateinit var adapter: DecksPreviewAdapter
-    private var renameDialog: AlertDialog? = null
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var renameDialog: AlertDialog
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+    init {
         Injector.inject(this)
-        binding.setup(this)
     }
 
     override fun onCreateView(
@@ -62,9 +61,9 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
-        initRenameDeckDialog()
+        initRenameDialog()
         initRecyclerAdapter()
-        render()
+        bindings.setup(this)
     }
 
     private fun setupToolbar() {
@@ -79,7 +78,14 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         }
     }
 
-    private fun initRenameDeckDialog() {
+    private fun showFileChooser() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .setType("text/plain")
+        startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
+    }
+
+    private fun initRenameDialog() {
         val onPositive = { dialogText: String -> emitEvent(RenameDialogPositiveButtonClick(dialogText)) }
         val onNegative = { emitEvent(RenameDialogNegativeButtonClick) }
 
@@ -92,10 +98,10 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
             .setPositiveButton(android.R.string.ok, null)
             .setNegativeButton(android.R.string.cancel, null)
             .create()
-        renameDialog!!.setOnShowListener {
-            renameDialog!!.getButton(AlertDialog.BUTTON_POSITIVE)
+        renameDialog.setOnShowListener {
+            renameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener { onPositive.invoke(renameDeckEditText.text.toString()) }
-            renameDialog!!.getButton(AlertDialog.BUTTON_NEGATIVE)
+            renameDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setOnClickListener { onNegative.invoke() }
         }
     }
@@ -107,34 +113,19 @@ class HomeFragment : UiEventEmitterFragment<UiEvent>() {
         decksPreviewRecycler.adapter = adapter
     }
 
-    private fun render() {
-        viewModel.decksPreview.observe(this, Observer { deckNames: List<DeckPreview>? ->
-            adapter.submitList(deckNames)
-        })
-        viewModel.isProcessing.observe(this, Observer { isProcessing: Boolean? ->
-            isProcessing ?: return@Observer
-            progressBar.visibility =
-                if (isProcessing) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
-        })
-        viewModel.isRenameDialogVisible.observe(this, Observer { isVisible: Boolean? ->
-            isVisible ?: return@Observer
-            if (isVisible) {
-                renameDialog?.show()
+    override fun accept(viewState: ViewState) {
+        adapter.submitList(viewState.decksPreview)
+        progressBar.visibility =
+            if (viewState.isProcessing) {
+                View.VISIBLE
             } else {
-                renameDialog?.dismiss()
+                View.GONE
             }
-        })
-    }
-
-    private fun showFileChooser() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/plain")
-        startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
+        if (viewState.isRenameDialogVisible) {
+            renameDialog.show()
+        } else {
+            renameDialog.dismiss()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

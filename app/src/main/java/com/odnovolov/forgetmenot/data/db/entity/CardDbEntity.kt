@@ -35,6 +35,6 @@ data class CardDbEntity(
 
     companion object {
         fun fromCard(card: Card, deckId: Int) =
-            CardDbEntity(card.id, deckId, card.ordinal, card.question, card.question)
+            CardDbEntity(card.id, deckId, card.ordinal, card.question, card.answer)
     }
 }
