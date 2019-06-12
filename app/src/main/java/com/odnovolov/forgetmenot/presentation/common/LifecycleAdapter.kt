@@ -11,11 +11,11 @@ import com.badoo.mvicore.binder.lifecycle.Lifecycle as BinderLifecycle
 fun AndroidLifecycle.adaptForBinder(): BinderLifecycle =
     Observable.create { emitter: ObservableEmitter<Event> ->
         this.addObserver(object : DefaultLifecycleObserver {
-            override fun onCreate(owner: LifecycleOwner) {
+            override fun onStart(owner: LifecycleOwner) {
                 emitter.onNext(Event.BEGIN)
             }
 
-            override fun onDestroy(owner: LifecycleOwner) {
+            override fun onStop(owner: LifecycleOwner) {
                 emitter.onNext(Event.END)
             }
         })

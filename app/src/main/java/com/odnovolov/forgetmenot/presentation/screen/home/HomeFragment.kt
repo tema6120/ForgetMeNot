@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,18 +14,19 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.News.NavigateToExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.ViewState
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.InputStream
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
+class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     data class ViewState(
         val decksPreview: List<DeckPreview>,
@@ -40,12 +42,18 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
         data class DeleteDeckButtonClick(val idx: Int) : UiEvent()
     }
 
+    sealed class News {
+        object NavigateToExercise : News()
+    }
+
     @Inject lateinit var bindings: HomeFragmentBindings
     private lateinit var adapter: DecksPreviewAdapter
     private lateinit var renameDialog: AlertDialog
 
-    init {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         Injector.inject(this)
+        bindings.setup(this)
     }
 
     override fun onCreateView(
@@ -63,7 +71,6 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
         setupToolbar()
         initRenameDialog()
         initRecyclerAdapter()
-        bindings.setup(this)
     }
 
     private fun setupToolbar() {
@@ -125,6 +132,12 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
             renameDialog.show()
         } else {
             renameDialog.dismiss()
+        }
+    }
+
+    override fun acceptNews(news: News) {
+        when (news) {
+            is NavigateToExercise -> findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
         }
     }
 
