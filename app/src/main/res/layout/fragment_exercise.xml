@@ -6,8 +6,8 @@
         android:layout_height="match_parent"
         tools:context="com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment">
 
-    <com.odnovolov.forgetmenot.presentation.screen.exercise.PageRecyclerView
-            android:id="@+id/exerciseRecycler"
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/exerciseViewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"

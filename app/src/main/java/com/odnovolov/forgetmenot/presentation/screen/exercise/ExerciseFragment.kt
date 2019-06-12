@@ -23,7 +23,7 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     }
 
     @Inject lateinit var bindings: ExerciseFragmentBindings
-    private val recyclerAdapter = ExerciseCardsAdapter()
+    private val viewPagerAdapter = ExerciseCardsAdapter()
 
     init {
         Injector.inject(this)
@@ -40,10 +40,10 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        exerciseRecycler.adapter = recyclerAdapter
+        exerciseViewPager.adapter = viewPagerAdapter
     }
 
     override fun accept(viewState: ViewState) {
-        recyclerAdapter.submitList(viewState.exerciseCards)
+        viewPagerAdapter.submitList(viewState.exerciseCards)
     }
 }
