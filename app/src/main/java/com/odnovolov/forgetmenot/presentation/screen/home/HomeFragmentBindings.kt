@@ -9,6 +9,8 @@ import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.News.ExerciseIsPrepared
 import com.odnovolov.forgetmenot.presentation.common.Combo
 import com.odnovolov.forgetmenot.presentation.common.Combo.DoubleState
+import com.odnovolov.forgetmenot.presentation.common.LifecycleScope.CREATE_DESTROY
+import com.odnovolov.forgetmenot.presentation.common.LifecycleScope.START_STOP
 import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent.*
@@ -19,11 +21,12 @@ class HomeFragmentBindings(
     private val decksPreviewFeature: DecksPreviewFeature
 ) {
     fun setup(fragment: HomeFragment) {
-        val lifecycle = fragment.lifecycle.adaptForBinder()
-        Binder(lifecycle).run {
-            bind(Combo.of(addNewDeckFeature, decksPreviewFeature) to fragment using ViewStateAdapter)
+        Binder(fragment.lifecycle.adaptForBinder(CREATE_DESTROY)).run {
             bind(fragment to addNewDeckFeature using UiEventToAddDeckWish)
             bind(fragment to decksPreviewFeature using UiEventToDecksPreviewWish)
+        }
+        Binder(fragment.lifecycle.adaptForBinder(START_STOP)).run {
+            bind(Combo.of(addNewDeckFeature, decksPreviewFeature) to fragment using ViewStateAdapter)
             bind(decksPreviewFeature.news to fragment.newsConsumer using NewsTransformer)
         }
     }
