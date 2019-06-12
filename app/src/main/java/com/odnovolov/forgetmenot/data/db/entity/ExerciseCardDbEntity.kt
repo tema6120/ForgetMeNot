@@ -10,7 +10,8 @@ import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
         ForeignKey(
             entity = CardDbEntity::class,
             parentColumns = ["card_id"],
-            childColumns = ["card_id_fk"]
+            childColumns = ["card_id_fk"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [Index("card_id_fk")]

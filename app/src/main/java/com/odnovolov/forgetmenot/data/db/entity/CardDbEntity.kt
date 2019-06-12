@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.data.db.entity
 
 import androidx.room.*
+import androidx.room.ForeignKey.CASCADE
 import com.odnovolov.forgetmenot.domain.entity.Card
 
 @Entity(
@@ -9,7 +10,8 @@ import com.odnovolov.forgetmenot.domain.entity.Card
         ForeignKey(
             entity = DeckDbEntity::class,
             parentColumns = ["deck_id"],
-            childColumns = ["deck_id_fk"]
+            childColumns = ["deck_id_fk"],
+            onDelete = CASCADE
         )
     ],
     indices = [Index("deck_id_fk")]
