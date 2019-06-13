@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,9 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.ViewState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent.ShowAnswerButtonClick
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.ViewState
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import javax.inject.Inject
 
@@ -20,12 +22,14 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     )
 
     sealed class UiEvent {
+        data class ShowAnswerButtonClick(val idx: Int) : UiEvent()
     }
 
     @Inject lateinit var bindings: ExerciseFragmentBindings
-    private val viewPagerAdapter = ExerciseCardsAdapter()
+    @Inject lateinit var viewPagerAdapter: ExerciseCardsAdapter
 
-    init {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         Injector.inject(this)
         bindings.setup(this)
     }
@@ -40,6 +44,11 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViewPagerAdapter()
+    }
+
+    private fun setupViewPagerAdapter() {
+        viewPagerAdapter.showAnswerButtonClickLister = { idx -> emitEvent(ShowAnswerButtonClick(idx)) }
         exerciseViewPager.adapter = viewPagerAdapter
     }
 
