@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCardsAdapter.ViewHolder
-import kotlinx.android.synthetic.main.exercise_card_content.view.*
+import kotlinx.android.synthetic.main.content_exercise_card.view.*
 
 class ExerciseCardsAdapter : ListAdapter<ExerciseCard, ViewHolder>(DiffCallback()) {
 
-    var showAnswerButtonClickLister: ((idx: Int) -> Unit)? = null
+    var showAnswerButtonClickLister: (() -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,11 +29,12 @@ class ExerciseCardsAdapter : ListAdapter<ExerciseCard, ViewHolder>(DiffCallback(
                 if (exerciseCard.isAnswered) {
                     answerTextView.visibility = View.VISIBLE
                     showAnswerButton.visibility = View.INVISIBLE
+                    showAnswerButton.setOnClickListener(null)
                 } else {
                     answerTextView.visibility = View.INVISIBLE
                     showAnswerButton.visibility = View.VISIBLE
+                    showAnswerButton.setOnClickListener { showAnswerButtonClickLister?.invoke() }
                 }
-                showAnswerButton.setOnClickListener { showAnswerButtonClickLister?.invoke(exerciseCard.id) }
             }
         }
     }

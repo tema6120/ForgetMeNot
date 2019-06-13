@@ -3,8 +3,11 @@ package com.odnovolov.forgetmenot.domain.feature.exercise
 import com.badoo.mvicore.element.*
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.*
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.FulFill
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.ProcessNewExerciseData
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.GotNewExerciseData
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.*
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Wish.SetActiveCardPosition
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Wish.ShowAnswer
 import com.odnovolov.forgetmenot.domain.repository.ExerciseRepository
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -15,9 +18,9 @@ class ExerciseFeature(
     mainThreadScheduler: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, News>(
     initialState = State(),
-    wishToAction = { wishAsAction -> wishAsAction },
+    wishToAction = { wish -> FulFill(wish) },
     bootstrapper = BootstrapperImpl(exerciseRepository, mainThreadScheduler),
-    actor = ActorImpl(),
+    actor = ActorImpl(exerciseRepository, mainThreadScheduler),
     reducer = ReducerImpl(),
     postProcessor = PostProcessorImpl(),
     newsPublisher = NewsPublisherImpl()
@@ -34,35 +37,60 @@ class ExerciseFeature(
         }
     }
 
-    interface Action {
-        data class ProcessNewExerciseData(val exerciseData: ExerciseData) : Action
+    sealed class Action {
+        data class FulFill(val wish: Wish) : Action()
+        data class ProcessNewExerciseData(val exerciseData: ExerciseData) : Action()
     }
 
-    interface Wish : Action
+    sealed class Wish {
+        data class SetActiveCardPosition(val position: Int) : Wish()
+        object ShowAnswer : Wish()
+    }
 
-    class ActorImpl : Actor<State, Action, Effect> {
+    class ActorImpl(
+        private val exerciseRepository: ExerciseRepository,
+        private val mainThreadScheduler: Scheduler
+    ) : Actor<State, Action, Effect> {
         override fun invoke(state: State, action: Action): Observable<Effect> {
             return when (action) {
-                is ProcessNewExerciseData -> Observable.just(GotNewExerciseData(action.exerciseData) as Effect)
-                else -> Observable.empty()
+                is FulFill -> when (action.wish) {
+                    is SetActiveCardPosition -> {
+                        val effect: Effect = ChangeActiveCardPosition(action.wish.position)
+                        Observable.just(effect)
+                    }
+                    is ShowAnswer -> Observable.fromCallable {
+                        val activeExerciseCard = state.exerciseData.exerciseCards[state.activeCardPosition!!]
+                        val exerciseCardToUpdate = activeExerciseCard.copy(isAnswered = true)
+                        exerciseRepository.updateExerciseCard(exerciseCardToUpdate)
+                    }
+                        .map { AnswerShowed as Effect }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(mainThreadScheduler)
+                }
+                is ProcessNewExerciseData -> Observable.just(NewExerciseDataGot(action.exerciseData) as Effect)
             }
         }
     }
 
     sealed class Effect {
-        data class GotNewExerciseData(val exerciseData: ExerciseData) : Effect()
+        data class NewExerciseDataGot(val exerciseData: ExerciseData) : Effect()
+        object AnswerShowed : Effect()
+        data class ChangeActiveCardPosition(val position: Int) : Effect()
     }
 
     class ReducerImpl : Reducer<State, Effect> {
         override fun invoke(state: State, effect: Effect): State {
             return when (effect) {
-                is GotNewExerciseData -> state.copy(exerciseData = effect.exerciseData)
+                is NewExerciseDataGot -> state.copy(exerciseData = effect.exerciseData)
+                is AnswerShowed -> state
+                is ChangeActiveCardPosition -> state.copy(activeCardPosition = effect.position)
             }
         }
     }
 
     data class State(
-        val exerciseData: ExerciseData = ExerciseData(ArrayList())
+        val exerciseData: ExerciseData = ExerciseData(),
+        val activeCardPosition: Int? = null
     )
 
     class PostProcessorImpl : PostProcessor<Action, Effect, State> {

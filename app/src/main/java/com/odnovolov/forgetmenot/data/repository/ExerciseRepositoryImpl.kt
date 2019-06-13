@@ -16,6 +16,9 @@ class ExerciseRepositoryImpl(private val exerciseDao: ExerciseDao) : ExerciseRep
     override fun observeExercise(): Observable<ExerciseData> {
         return exerciseDao.observeExercise()
     }
+    override fun updateExerciseCard(exerciseCard: ExerciseCard) {
+        exerciseDao.updateExerciseCard(exerciseCard)
+    }
 
     override fun deleteAllExercises() {
         exerciseDao.deleteAll()

@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import android.util.Log
 import com.badoo.mvicore.binder.Binder
 import com.badoo.mvicore.binder.using
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature
@@ -9,6 +8,8 @@ import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Wish
 import com.odnovolov.forgetmenot.presentation.common.LifecycleScope.START_STOP
 import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent.NewPageBecomesSelected
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent.ShowAnswerButtonClick
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.ViewState
 
 class ExerciseFragmentBindings(
@@ -31,8 +32,10 @@ class ExerciseFragmentBindings(
 
     object UiEventToWish : (UiEvent) -> Wish? {
         override fun invoke(uiEvent: UiEvent): Wish? {
-            Log.d("odnovolov", "get Event $uiEvent")
-            return null
+            return when (uiEvent) {
+                is NewPageBecomesSelected -> Wish.SetActiveCardPosition(uiEvent.position)
+                is ShowAnswerButtonClick -> Wish.ShowAnswer
+            }
         }
     }
 }

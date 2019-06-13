@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent.NewPageBecomesSelected
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.UiEvent.ShowAnswerButtonClick
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment.ViewState
 import kotlinx.android.synthetic.main.fragment_exercise.*
@@ -22,11 +24,12 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     )
 
     sealed class UiEvent {
-        data class ShowAnswerButtonClick(val idx: Int) : UiEvent()
+        data class NewPageBecomesSelected(val position: Int) : UiEvent()
+        object ShowAnswerButtonClick : UiEvent()
     }
 
     @Inject lateinit var bindings: ExerciseFragmentBindings
-    @Inject lateinit var viewPagerAdapter: ExerciseCardsAdapter
+    @Inject lateinit var adapter: ExerciseCardsAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,11 +51,16 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     }
 
     private fun setupViewPagerAdapter() {
-        viewPagerAdapter.showAnswerButtonClickLister = { idx -> emitEvent(ShowAnswerButtonClick(idx)) }
-        exerciseViewPager.adapter = viewPagerAdapter
+        adapter.showAnswerButtonClickLister = { emitEvent(ShowAnswerButtonClick) }
+        exerciseViewPager.adapter = adapter
+        exerciseViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                emitEvent(NewPageBecomesSelected(position))
+            }
+        })
     }
 
     override fun accept(viewState: ViewState) {
-        viewPagerAdapter.submitList(viewState.exerciseCards)
+        adapter.submitList(viewState.exerciseCards)
     }
 }
