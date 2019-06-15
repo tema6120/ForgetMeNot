@@ -3,10 +3,10 @@ package com.odnovolov.forgetmenot.domain.feature.exercise
 import com.badoo.mvicore.element.*
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.*
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.FulFill
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.FulFillWish
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.ProcessNewExerciseData
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.*
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Wish.SetActiveCardPosition
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.AnswerShowed
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.NewExerciseDataGot
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Wish.ShowAnswer
 import com.odnovolov.forgetmenot.domain.repository.ExerciseRepository
 import io.reactivex.Observable
@@ -18,7 +18,7 @@ class ExerciseFeature(
     mainThreadScheduler: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, News>(
     initialState = State(),
-    wishToAction = { wish -> FulFill(wish) },
+    wishToAction = { wish -> FulFillWish(wish) },
     bootstrapper = BootstrapperImpl(exerciseRepository, mainThreadScheduler),
     actor = ActorImpl(exerciseRepository, mainThreadScheduler),
     reducer = ReducerImpl(),
@@ -38,13 +38,12 @@ class ExerciseFeature(
     }
 
     sealed class Action {
-        data class FulFill(val wish: Wish) : Action()
+        data class FulFillWish(val wish: Wish) : Action()
         data class ProcessNewExerciseData(val exerciseData: ExerciseData) : Action()
     }
 
     sealed class Wish {
-        data class SetActiveCardPosition(val position: Int) : Wish()
-        object ShowAnswer : Wish()
+        data class ShowAnswer(val position: Int) : Wish()
     }
 
     class ActorImpl(
@@ -53,13 +52,9 @@ class ExerciseFeature(
     ) : Actor<State, Action, Effect> {
         override fun invoke(state: State, action: Action): Observable<Effect> {
             return when (action) {
-                is FulFill -> when (action.wish) {
-                    is SetActiveCardPosition -> {
-                        val effect: Effect = ChangeActiveCardPosition(action.wish.position)
-                        Observable.just(effect)
-                    }
+                is FulFillWish -> when (action.wish) {
                     is ShowAnswer -> Observable.fromCallable {
-                        val activeExerciseCard = state.exerciseData.exerciseCards[state.activeCardPosition!!]
+                        val activeExerciseCard = state.exerciseData.exerciseCards[action.wish.position]
                         val exerciseCardToUpdate = activeExerciseCard.copy(isAnswered = true)
                         exerciseRepository.updateExerciseCard(exerciseCardToUpdate)
                     }
@@ -75,7 +70,6 @@ class ExerciseFeature(
     sealed class Effect {
         data class NewExerciseDataGot(val exerciseData: ExerciseData) : Effect()
         object AnswerShowed : Effect()
-        data class ChangeActiveCardPosition(val position: Int) : Effect()
     }
 
     class ReducerImpl : Reducer<State, Effect> {
@@ -83,14 +77,12 @@ class ExerciseFeature(
             return when (effect) {
                 is NewExerciseDataGot -> state.copy(exerciseData = effect.exerciseData)
                 is AnswerShowed -> state
-                is ChangeActiveCardPosition -> state.copy(activeCardPosition = effect.position)
             }
         }
     }
 
     data class State(
-        val exerciseData: ExerciseData = ExerciseData(),
-        val activeCardPosition: Int? = null
+        val exerciseData: ExerciseData = ExerciseData()
     )
 
     class PostProcessorImpl : PostProcessor<Action, Effect, State> {

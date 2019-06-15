@@ -12,7 +12,8 @@ abstract class BaseFragment<ViewState : Any, UiEvent : Any, News : Any>
     val newsConsumer: Consumer<News> = Consumer(::acceptNews)
     private val subject = PublishSubject.create<UiEvent>()
 
-    open fun acceptNews(news: News) {}
+    open fun acceptNews(news: News) {
+    }
 
     fun emitEvent(event: UiEvent) {
         subject.onNext(event)

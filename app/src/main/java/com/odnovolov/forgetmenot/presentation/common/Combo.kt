@@ -50,3 +50,21 @@ class Combo {
         val state3: State3
     )
 }
+
+data class UiEventWitViewState<UiEvent, ViewState>(
+    val uiEvent: UiEvent,
+    val viewState: ViewState
+)
+
+fun <FeatureState, ViewState> ObservableSource<FeatureState>.withLatest(
+    viewState: ObservableSource<ViewState>
+): ObservableSource<FeatureStateWithViewState<FeatureState, ViewState>> {
+    return Observable.wrap(this)
+        .withLatestFrom(viewState, BiFunction { fs: FeatureState, vs: ViewState -> FeatureStateWithViewState(fs, vs) })
+}
+
+
+data class FeatureStateWithViewState<FeatureState, ViewState>(
+    val featureState: FeatureState,
+    val viewState: ViewState
+)
