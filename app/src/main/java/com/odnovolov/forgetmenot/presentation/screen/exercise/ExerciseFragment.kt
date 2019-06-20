@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiE
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.NewPageBecomesSelected
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
 import kotlinx.android.synthetic.main.fragment_exercise.*
+import leakcanary.LeakSentry
 import javax.inject.Inject
 
 class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
@@ -49,6 +50,10 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     }
 
     override fun accept(viewState: ViewState) {
-        adapter.submitList(viewState.exerciseCards)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LeakSentry.refWatcher.watch(this)
     }
 }

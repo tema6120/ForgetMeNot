@@ -21,10 +21,10 @@ class ExerciseFragmentBindings(
     fun setup(fragment: ExerciseFragment) {
         Binder(fragment.lifecycle.adaptForBinder(START_STOP)).run {
             bind(fragment to screen.uiEventConsumer)
-            bind(viewPagerAdapter.uiEventEmitter to screen.uiEventConsumer)
             bind(screen.uiEventWithLatestViewState to feature using UiEventToWish)
             bind(feature.withLatest(screen.viewState) to screen.viewStateConsumer using ViewStateAdapter)
             bind(screen.viewState to fragment)
+            bind(screen.viewState to viewPagerAdapter)
         }
     }
 

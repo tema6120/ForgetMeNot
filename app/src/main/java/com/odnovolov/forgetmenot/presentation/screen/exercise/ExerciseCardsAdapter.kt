@@ -1,62 +1,35 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.odnovolov.forgetmenot.R
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCardsAdapter.ViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.ShowAnswerButtonClick
-import io.reactivex.subjects.PublishSubject
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
+import io.reactivex.functions.Consumer
 
-class ExerciseCardsAdapter : ListAdapter<ExerciseCard, ViewHolder>(DiffCallback()) {
+class ExerciseCardsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment), Consumer<ViewState> {
 
-    val uiEventEmitter = PublishSubject.create<ExerciseScreen.UiEvent>()
+    private var items: List<ExerciseCard> = emptyList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_exercise_card, parent, false)
-        return ViewHolder(view)
+    override fun createFragment(position: Int): Fragment {
+        val exerciseCard = items[position]
+        return ExerciseCardFragment.create(exerciseCard.id)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        getItem(position)?.let { exerciseCard: ExerciseCard ->
-            viewHolder.apply {
-                questionTextView.text = exerciseCard.card.question
-                answerTextView.text = exerciseCard.card.answer
-                if (exerciseCard.isAnswered) {
-                    answerTextView.visibility = View.VISIBLE
-                    showAnswerButton.visibility = View.INVISIBLE
-                    showAnswerButton.setOnClickListener(null)
-                } else {
-                    answerTextView.visibility = View.INVISIBLE
-                    showAnswerButton.visibility = View.VISIBLE
-                    showAnswerButton.setOnClickListener {
-                        uiEventEmitter.onNext(ShowAnswerButtonClick)
-                    }
-                }
-            }
-        }
+    override fun getItemCount(): Int {
+        return items.size
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val questionTextView: TextView = view.findViewById(R.id.questionTextView)
-        val answerTextView: TextView = view.findViewById(R.id.answerTextView)
-        val showAnswerButton: FrameLayout = view.findViewById(R.id.showAnswerButton)
+    override fun getItemId(position: Int): Long {
+        return items[position].id.toLong()
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<ExerciseCard>() {
-        override fun areItemsTheSame(oldItem: ExerciseCard, newItem: ExerciseCard): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: ExerciseCard, newItem: ExerciseCard): Boolean {
-            return oldItem == newItem
-        }
+    override fun containsItem(itemId: Long): Boolean {
+        return items.any { exerciseCard -> exerciseCard.id.toLong() == itemId }
     }
+
+    override fun accept(viewState: ViewState) {
+        items = viewState.exerciseCards
+        notifyDataSetChanged()
+    }
+
 }

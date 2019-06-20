@@ -2,9 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.di
 
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature
 import com.odnovolov.forgetmenot.presentation.di.fragmentscope.FragmentScope
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCardsAdapter
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragmentBindings
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen
+import com.odnovolov.forgetmenot.presentation.screen.exercise.*
 import dagger.Module
 import dagger.Provides
 
@@ -13,7 +11,13 @@ class ExerciseScreenModule {
 
     @FragmentScope
     @Provides
-    fun provideBindings(
+    fun provideExerciseScreen(): ExerciseScreen {
+        return ExerciseScreen()
+    }
+
+    @FragmentScope
+    @Provides
+    fun provideExerciseFragmentBindings(
         feature: ExerciseFeature,
         screen: ExerciseScreen,
         viewPagerAdapter: ExerciseCardsAdapter
@@ -21,15 +25,14 @@ class ExerciseScreenModule {
         return ExerciseFragmentBindings(feature, screen, viewPagerAdapter)
     }
 
-    @FragmentScope
     @Provides
-    fun provideExerciseCardsAdapter(): ExerciseCardsAdapter {
-        return ExerciseCardsAdapter()
+    fun provideExerciseCardFragmentBindings(screen: ExerciseScreen): ExerciseCardFragmentBindings {
+        return ExerciseCardFragmentBindings(screen)
     }
 
     @FragmentScope
     @Provides
-    fun provideExerciseScreen(): ExerciseScreen {
-        return ExerciseScreen()
+    fun provideExerciseCardsAdapter(exerciseFragment: ExerciseFragment): ExerciseCardsAdapter {
+        return ExerciseCardsAdapter(exerciseFragment)
     }
 }
