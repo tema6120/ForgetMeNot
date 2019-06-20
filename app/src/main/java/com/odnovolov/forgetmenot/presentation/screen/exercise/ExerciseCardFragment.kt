@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R.layout
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mvicorediff.modelWatcher
 import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.ShowAnswerButtonClick
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
-import kotlinx.android.synthetic.main.content_exercise_card.*
+import kotlinx.android.synthetic.main.fragment_exercise_card.*
 import javax.inject.Inject
 
 class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
@@ -48,18 +50,25 @@ class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
 
     override fun accept(viewState: ViewState) {
         val exerciseCard = viewState.exerciseCards.find { exerciseCard -> exerciseCard.id == exerciseCardId }
-        if (questionTextView.text.toString() != exerciseCard!!.card.question)
-            questionTextView.text = exerciseCard!!.card.question
-        answerTextView.text = exerciseCard.card.answer
-        if (exerciseCard.isAnswered) {
-            answerTextView.visibility = View.VISIBLE
-            showAnswerButton.visibility = View.INVISIBLE
-            showAnswerButton.setOnClickListener(null)
-        } else {
-            answerTextView.visibility = View.INVISIBLE
-            showAnswerButton.visibility = View.VISIBLE
-            showAnswerButton.setOnClickListener {
-                emitEvent(ShowAnswerButtonClick)
+        watcher.invoke(exerciseCard!!)
+    }
+
+    private val watcher = modelWatcher<ExerciseCard> {
+        watch({ it.card.question }) { question ->
+            questionTextView.text = question
+        }
+        watch({ it.card.answer }) { answer ->
+            answerTextView.text = answer
+        }
+        watch({ it.isAnswered }) { isAnswered ->
+            if (isAnswered) {
+                showAnswerButton.visibility = View.GONE
+                showAnswerButton.setOnClickListener(null)
+            } else {
+                showAnswerButton.visibility = View.VISIBLE
+                showAnswerButton.setOnClickListener {
+                    emitEvent(ShowAnswerButtonClick)
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -10,10 +11,83 @@
             android:layout_weight="1"
             android:layout_margin="24dp">
 
-        <include
-                layout="@layout/content_exercise_card"
+        <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                <ScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fillViewport="true">
+
+                    <TextView
+                            android:id="@+id/questionTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:textIsSelectable="true"
+                            tools:text="Эти люди привычны к тяжелой работе."/>
+
+                </ScrollView>
+
+            </FrameLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider"/>
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                <ScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fillViewport="true">
+
+                    <TextView
+                            android:id="@+id/answerTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:textSize="16sp"
+                            android:textIsSelectable="true"
+                            tools:text="These men are used to hard work."/>
+
+                </ScrollView>
+
+                <FrameLayout
+                        android:id="@+id/showAnswerButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:background="@color/background_show_answer_button">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:layout_gravity="center"
+                            android:textColor="@android:color/secondary_text_dark_nodisable"
+                            android:textSize="14sp"
+                            android:text="@string/text_curtain_textview"/>
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
