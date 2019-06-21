@@ -1,10 +1,10 @@
-package com.odnovolov.forgetmenot.presentation.navigation
+package com.odnovolov.forgetmenot.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.odnovolov.forgetmenot.R
 
-class NavigatorActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
