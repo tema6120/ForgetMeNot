@@ -90,6 +90,7 @@ class DecksPreviewFeature(
             val deck = deckRepository.getDeck(deckId)
             val exerciseCards: List<ExerciseCard> = deck.cards
                 .map { card -> ExerciseCard(card = card) }
+                .sortedBy { it.card.lap }
             val exercise = ExerciseData(exerciseCards as MutableList<ExerciseCard>)
             exerciseRepository.deleteAllExercises()
             exerciseRepository.saveExercise(exercise)
