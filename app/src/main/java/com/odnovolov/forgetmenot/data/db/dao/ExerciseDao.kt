@@ -49,27 +49,36 @@ abstract class ExerciseDao {
             return exerciseCardDbEntity.toExerciseCard(cardDbEntity.toCard())
         }
     }
-    
+
     // Update
-    
+
     @Transaction
     open fun updateExerciseCard(exerciseCard: ExerciseCard) {
         updateCardDbEntityBesidesDeckIdInternal(
             exerciseCard.card.id,
             exerciseCard.card.ordinal,
             exerciseCard.card.question,
-            exerciseCard.card.answer
+            exerciseCard.card.answer,
+            exerciseCard.card.lap
         )
         val exerciseCardDbEntity = ExerciseCardDbEntity.fromExerciseCard(exerciseCard)
         updateExerciseCardDbEntityInternal(exerciseCardDbEntity)
     }
 
-    @Query("UPDATE cards SET ordinal = :ordinal, question = :question, answer = :answer WHERE card_id = :cardId")
+    @Query(
+        """UPDATE cards
+           SET ordinal = :ordinal,
+               question = :question,
+               answer = :answer,
+               lap = :lap
+           WHERE card_id = :cardId"""
+    )
     abstract fun updateCardDbEntityBesidesDeckIdInternal(
         cardId: Int,
         ordinal: Int,
         question: String,
-        answer: String
+        answer: String,
+        lap: Int
     )
 
     @Update

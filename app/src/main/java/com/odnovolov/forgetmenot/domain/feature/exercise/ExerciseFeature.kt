@@ -56,7 +56,12 @@ class ExerciseFeature(
                     is ShowAnswer -> Observable
                         .fromCallable {
                             val activeExerciseCard = state.exerciseData.exerciseCards[action.wish.position]
-                            val exerciseCardToUpdate = activeExerciseCard.copy(isAnswered = true)
+                            val exerciseCardToUpdate = activeExerciseCard.copy(
+                                isAnswered = true,
+                                card = activeExerciseCard.card.copy(
+                                    lap = activeExerciseCard.card.lap + 1
+                                )
+                            )
                             exerciseRepository.updateExerciseCard(exerciseCardToUpdate)
                         }
                         .map { AnswerShowed as Effect }
