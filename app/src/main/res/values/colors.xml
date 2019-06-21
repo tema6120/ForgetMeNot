@@ -6,4 +6,5 @@
     <color name="background_decks_preview">#fff</color>
     <color name="divider">#1e000000</color>
     <color name="background_show_answer_button">#f3f3f3</color>
+    <color name="background_passed_lap">#aa2196f3</color>
 </resources>

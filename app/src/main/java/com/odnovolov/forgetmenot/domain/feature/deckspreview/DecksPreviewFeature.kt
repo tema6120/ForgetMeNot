@@ -7,10 +7,13 @@ import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.*
+import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Action.FulfillWish
+import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Action.ProcessNewDecks
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Effect.*
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Wish.*
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseData
+import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Wish.DeleteDeck
+import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Wish.PrepareExercise
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseData
 import com.odnovolov.forgetmenot.domain.repository.DeckRepository
 import com.odnovolov.forgetmenot.domain.repository.ExerciseRepository
 import io.reactivex.Observable
@@ -18,69 +21,75 @@ import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 
 class DecksPreviewFeature(
-        deckRepository: DeckRepository,
-        exerciseRepository: ExerciseRepository,
-        mainThreadScheduler: Scheduler
+    deckRepository: DeckRepository,
+    exerciseRepository: ExerciseRepository,
+    mainThreadScheduler: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, News>(
-        initialState = State(),
-        wishToAction = { wish -> wish },
-        bootstrapper = BootstrapperImpl(deckRepository, mainThreadScheduler),
-        actor = ActorImpl(deckRepository, exerciseRepository, mainThreadScheduler),
-        reducer = ReducerImpl(),
-        newsPublisher = NewsPublisherImpl()
+    initialState = State(),
+    wishToAction = { wish -> FulfillWish(wish) },
+    bootstrapper = BootstrapperImpl(deckRepository, mainThreadScheduler),
+    actor = ActorImpl(deckRepository, exerciseRepository, mainThreadScheduler),
+    reducer = ReducerImpl(),
+    newsPublisher = NewsPublisherImpl()
 ) {
     class BootstrapperImpl(
-            private val repository: DeckRepository,
-            private val mainThreadScheduler: Scheduler
+        private val repository: DeckRepository,
+        private val mainThreadScheduler: Scheduler
     ) : Bootstrapper<Action> {
         override fun invoke(): Observable<Action> {
             return repository.observeDecks()
-                    .map { decks: List<Deck> -> ProcessNewDecks(decks) as Action }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(mainThreadScheduler)
+                .map { decks: List<Deck> -> ProcessNewDecks(decks) as Action }
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThreadScheduler)
         }
     }
 
-    interface Action
-    data class ProcessNewDecks(val decks: List<Deck>) : Action
-    sealed class Wish : Action {
+    sealed class Action {
+        data class FulfillWish(val wish: Wish) : Action()
+        data class ProcessNewDecks(val decks: List<Deck>) : Action()
+    }
+
+    sealed class Wish {
         data class PrepareExercise(val deckId: Int) : Wish()
         data class DeleteDeck(val deckId: Int) : Wish()
     }
 
     class ActorImpl(
-            private val deckRepository: DeckRepository,
-            private val exerciseRepository: ExerciseRepository,
-            private val mainThreadScheduler: Scheduler
+        private val deckRepository: DeckRepository,
+        private val exerciseRepository: ExerciseRepository,
+        private val mainThreadScheduler: Scheduler
     ) : Actor<State, Action, Effect> {
         override fun invoke(state: State, action: Action): Observable<Effect> {
             return when (action) {
-                is PrepareExercise -> {
-                    Observable.fromCallable { prepareExercise(action.deckId) }
-                            .map { ExercisePreparingFinished as Effect }
-                            .startWith(ExercisePreparingStarted)
-                            .onIo()
+                is FulfillWish -> when (action.wish) {
+                    is PrepareExercise -> Observable
+                        .fromCallable { prepareExercise(action.wish.deckId) }
+                        .map { ExercisePreparingFinished as Effect }
+                        .startWith(ExercisePreparingStarted)
+                        .onIo()
+                    is DeleteDeck -> Observable
+                        .fromCallable { deckRepository.delete(action.wish.deckId) }
+                        .map { DeckDeleted as Effect }
+                        .onIo()
                 }
                 is ProcessNewDecks -> {
                     val decksPreview: List<DeckPreview> = action.decks
-                            .map { deck: Deck -> DeckPreview(deck.id, deck.name) }
-                            .toList()
+                        .map { deck: Deck ->
+                            val passedLaps: Int = deck.cards
+                                .map { it.lap }
+                                .min() ?: 0
+                            DeckPreview(deck.id, deck.name, passedLaps)
+                        }
+                        .toList()
                     Observable.just(DeckPreviewUpdated(decksPreview))
                 }
-                is DeleteDeck -> {
-                    Observable.fromCallable { deckRepository.delete(action.deckId) }
-                            .map { DeckDeleted as Effect }
-                            .onIo()
-
-                }
-                else -> Observable.empty()
             }
         }
 
         private fun prepareExercise(deckId: Int) {
             val deck = deckRepository.getDeck(deckId)
             val exerciseCards: List<ExerciseCard> = deck.cards
-                    .map { card -> ExerciseCard(card = card) }
+                .map { card -> ExerciseCard(card = card) }
             val exercise = ExerciseData(exerciseCards as MutableList<ExerciseCard>)
             exerciseRepository.deleteAllExercises()
             exerciseRepository.saveExercise(exercise)
@@ -88,7 +97,7 @@ class DecksPreviewFeature(
 
         private fun Observable<Effect>.onIo(): Observable<Effect> {
             return this.subscribeOn(Schedulers.io())
-                    .observeOn(mainThreadScheduler)
+                .observeOn(mainThreadScheduler)
         }
     }
 
@@ -111,8 +120,8 @@ class DecksPreviewFeature(
     }
 
     data class State(
-            val decksPreview: List<DeckPreview> = emptyList(),
-            val isExercisePreparing: Boolean = false
+        val decksPreview: List<DeckPreview> = emptyList(),
+        val isExercisePreparing: Boolean = false
     )
 
     class NewsPublisherImpl : NewsPublisher<Action, Effect, State, News> {

@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.domain.feature.exercise
 import com.badoo.mvicore.element.*
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.*
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.FulFillWish
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.FulfillWish
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.ProcessNewExerciseData
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.AnswerShowed
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.NewExerciseDataGot
@@ -18,7 +18,7 @@ class ExerciseFeature(
     mainThreadScheduler: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, News>(
     initialState = State(),
-    wishToAction = { wish -> FulFillWish(wish) },
+    wishToAction = { wish -> FulfillWish(wish) },
     bootstrapper = BootstrapperImpl(exerciseRepository, mainThreadScheduler),
     actor = ActorImpl(exerciseRepository, mainThreadScheduler),
     reducer = ReducerImpl(),
@@ -38,7 +38,7 @@ class ExerciseFeature(
     }
 
     sealed class Action {
-        data class FulFillWish(val wish: Wish) : Action()
+        data class FulfillWish(val wish: Wish) : Action()
         data class ProcessNewExerciseData(val exerciseData: ExerciseData) : Action()
     }
 
@@ -52,12 +52,13 @@ class ExerciseFeature(
     ) : Actor<State, Action, Effect> {
         override fun invoke(state: State, action: Action): Observable<Effect> {
             return when (action) {
-                is FulFillWish -> when (action.wish) {
-                    is ShowAnswer -> Observable.fromCallable {
-                        val activeExerciseCard = state.exerciseData.exerciseCards[action.wish.position]
-                        val exerciseCardToUpdate = activeExerciseCard.copy(isAnswered = true)
-                        exerciseRepository.updateExerciseCard(exerciseCardToUpdate)
-                    }
+                is FulfillWish -> when (action.wish) {
+                    is ShowAnswer -> Observable
+                        .fromCallable {
+                            val activeExerciseCard = state.exerciseData.exerciseCards[action.wish.position]
+                            val exerciseCardToUpdate = activeExerciseCard.copy(isAnswered = true)
+                            exerciseRepository.updateExerciseCard(exerciseCardToUpdate)
+                        }
                         .map { AnswerShowed as Effect }
                         .subscribeOn(Schedulers.io())
                         .observeOn(mainThreadScheduler)

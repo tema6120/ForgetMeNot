@@ -31,12 +31,15 @@ data class CardDbEntity(
     val question: String,
 
     @ColumnInfo(name = "answer")
-    val answer: String
+    val answer: String,
+
+    @ColumnInfo(name = "lap")
+    val lap: Int
 ) {
-    fun toCard() = Card(id, ordinal, question, answer)
+    fun toCard() = Card(id, ordinal, question, answer, lap)
 
     companion object {
         fun fromCard(card: Card, deckId: Int) =
-            CardDbEntity(card.id, deckId, card.ordinal, card.question, card.answer)
+            CardDbEntity(card.id, deckId, card.ordinal, card.question, card.answer, card.lap)
     }
 }
