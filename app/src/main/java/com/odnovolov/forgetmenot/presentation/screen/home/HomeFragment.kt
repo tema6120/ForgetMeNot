@@ -16,38 +16,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.di.Injector
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.News.NavigateToExercise
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.News.NavigateToExercise
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.io.InputStream
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
-    data class ViewState(
-        val decksPreview: List<DeckPreview>,
-        val isRenameDialogVisible: Boolean,
-        val isProcessing: Boolean
-    )
-
-    sealed class UiEvent {
-        data class GotData(val inputStream: InputStream, val fileName: String?) : UiEvent()
-        data class RenameDialogPositiveButtonClick(val dialogText: String) : UiEvent()
-        object RenameDialogNegativeButtonClick : UiEvent()
-        data class DeckButtonClick(val idx: Int) : UiEvent()
-        data class DeleteDeckButtonClick(val idx: Int) : UiEvent()
-    }
-
-    sealed class News {
-        object NavigateToExercise : News()
-    }
-
     @Inject lateinit var bindings: HomeFragmentBindings
-    private lateinit var adapter: DecksPreviewAdapter
+    @Inject lateinit var adapter: DecksPreviewAdapter
     private lateinit var renameDialog: AlertDialog
 
     override fun onAttach(context: Context) {
@@ -114,14 +94,10 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     private fun initRecyclerAdapter() {
-        val deckButtonClickCallback = { idx: Int -> emitEvent(DeckButtonClick(idx)) }
-        val deleteDeckButtonClickCallback = { idx: Int -> emitEvent(DeleteDeckButtonClick(idx)) }
-        adapter = DecksPreviewAdapter(deckButtonClickCallback, deleteDeckButtonClickCallback)
         decksPreviewRecycler.adapter = adapter
     }
 
     override fun accept(viewState: ViewState) {
-        adapter.submitList(viewState.decksPreview)
         progressBar.visibility =
             if (viewState.isProcessing) {
                 View.VISIBLE

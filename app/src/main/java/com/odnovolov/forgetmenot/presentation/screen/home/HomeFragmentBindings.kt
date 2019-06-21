@@ -12,22 +12,29 @@ import com.odnovolov.forgetmenot.presentation.common.Combo.DoubleState
 import com.odnovolov.forgetmenot.presentation.common.LifecycleScope.CREATE_DESTROY
 import com.odnovolov.forgetmenot.presentation.common.LifecycleScope.START_STOP
 import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.UiEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment.ViewState
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.ViewState
 
 class HomeFragmentBindings(
     private val addNewDeckFeature: AddNewDeckFeature,
-    private val decksPreviewFeature: DecksPreviewFeature
+    private val decksPreviewFeature: DecksPreviewFeature,
+    private val screen: HomeScreen,
+    private val recyclerAdapter: DecksPreviewAdapter
 ) {
     fun setup(fragment: HomeFragment) {
         Binder(fragment.lifecycle.adaptForBinder(CREATE_DESTROY)).run {
-            bind(fragment to addNewDeckFeature using UiEventToAddDeckWish)
-            bind(fragment to decksPreviewFeature using UiEventToDecksPreviewWish)
+            bind(fragment to screen.uiEventConsumer)
+            bind(recyclerAdapter to screen.uiEventConsumer)
+            bind(screen.uiEvent to addNewDeckFeature using UiEventToAddDeckWish)
+            bind(screen.uiEvent to decksPreviewFeature using UiEventToDecksPreviewWish)
         }
         Binder(fragment.lifecycle.adaptForBinder(START_STOP)).run {
-            bind(Combo.of(addNewDeckFeature, decksPreviewFeature) to fragment using ViewStateAdapter)
-            bind(decksPreviewFeature.news to fragment.newsConsumer using NewsTransformer)
+            bind(Combo.of(addNewDeckFeature, decksPreviewFeature) to screen.viewStateConsumer using ViewStateAdapter)
+            bind(decksPreviewFeature.news to screen.newsConsumer using NewsTransformer)
+            bind(screen.viewState to fragment)
+            bind(screen.viewState to recyclerAdapter)
+            bind(screen.news to fragment.newsConsumer)
         }
     }
 
@@ -90,10 +97,10 @@ class HomeFragmentBindings(
         }
     }
 
-    private object NewsTransformer : (DecksPreviewFeature.News) -> HomeFragment.News? {
-        override fun invoke(featureNews: DecksPreviewFeature.News): HomeFragment.News? {
+    private object NewsTransformer : (DecksPreviewFeature.News) -> HomeScreen.News? {
+        override fun invoke(featureNews: DecksPreviewFeature.News): HomeScreen.News? {
             return when (featureNews) {
-                is ExerciseIsPrepared -> HomeFragment.News.NavigateToExercise
+                is ExerciseIsPrepared -> HomeScreen.News.NavigateToExercise
             }
         }
     }
