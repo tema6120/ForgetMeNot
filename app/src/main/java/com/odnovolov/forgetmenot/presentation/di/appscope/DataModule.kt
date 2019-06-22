@@ -16,7 +16,7 @@ class DataModule {
     @AppScope
     @Provides
     fun provideDb(app: App): AppDatabase {
-        //app.deleteDatabase(AppDatabase.NAME)
+        app.deleteDatabase(AppDatabase.NAME)
         return Room.databaseBuilder(app, AppDatabase::class.java, AppDatabase.NAME)
             .build()
     }

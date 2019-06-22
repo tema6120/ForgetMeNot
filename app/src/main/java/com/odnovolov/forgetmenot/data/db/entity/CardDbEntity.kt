@@ -34,12 +34,15 @@ data class CardDbEntity(
     val answer: String,
 
     @ColumnInfo(name = "lap")
-    val lap: Int
+    val lap: Int,
+
+    @ColumnInfo(name = "is_learned")
+    val isLearned: Boolean
 ) {
-    fun toCard() = Card(id, ordinal, question, answer, lap)
+    fun toCard() = Card(id, ordinal, question, answer, lap, isLearned)
 
     companion object {
         fun fromCard(card: Card, deckId: Int) =
-            CardDbEntity(card.id, deckId, card.ordinal, card.question, card.answer, card.lap)
+            CardDbEntity(card.id, deckId, card.ordinal, card.question, card.answer, card.lap, card.isLearned)
     }
 }

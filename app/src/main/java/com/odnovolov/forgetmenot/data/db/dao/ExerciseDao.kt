@@ -59,7 +59,8 @@ abstract class ExerciseDao {
             exerciseCard.card.ordinal,
             exerciseCard.card.question,
             exerciseCard.card.answer,
-            exerciseCard.card.lap
+            exerciseCard.card.lap,
+            exerciseCard.card.isLearned
         )
         val exerciseCardDbEntity = ExerciseCardDbEntity.fromExerciseCard(exerciseCard)
         updateExerciseCardDbEntityInternal(exerciseCardDbEntity)
@@ -70,7 +71,8 @@ abstract class ExerciseDao {
            SET ordinal = :ordinal,
                question = :question,
                answer = :answer,
-               lap = :lap
+               lap = :lap,
+               is_learned = :isLearned
            WHERE card_id = :cardId"""
     )
     abstract fun updateCardDbEntityBesidesDeckIdInternal(
@@ -78,7 +80,8 @@ abstract class ExerciseDao {
         ordinal: Int,
         question: String,
         answer: String,
-        lap: Int
+        lap: Int,
+        isLearned: Boolean
     )
 
     @Update

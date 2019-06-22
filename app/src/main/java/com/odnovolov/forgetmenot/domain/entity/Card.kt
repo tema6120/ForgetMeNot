@@ -5,5 +5,6 @@ data class Card(
     val ordinal: Int,
     val question: String,
     val answer: String,
-    val lap: Int = 0
+    val lap: Int = 0,
+    val isLearned: Boolean = false
 )
