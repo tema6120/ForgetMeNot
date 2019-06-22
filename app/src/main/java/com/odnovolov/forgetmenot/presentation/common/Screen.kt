@@ -12,7 +12,20 @@ open class Screen<ViewState : Any, UiEvent : Any, News : Any>(
 
     private val viewStateSubject: BehaviorSubject<ViewState> = BehaviorSubject.createDefault(initialViewState)
     val viewState: ObservableSource<ViewState> = viewStateSubject
-    val viewStateConsumer: Consumer<ViewState> = Consumer { viewStateSubject.onNext(it) }
+    val viewStateConsumer: Consumer<ViewState> = Consumer(::onViewStateUpdate)
+
+    private fun onViewStateUpdate(newViewState: ViewState) {
+        val oldViewState: ViewState = viewStateSubject.value!!
+        viewStateSubject.onNext(newViewState)
+        val generatedNews = generateNewsOnViewStateUpdate(oldViewState, newViewState)
+        if (generatedNews != null) {
+            newsSubject.onNext(generatedNews)
+        }
+    }
+
+    open fun generateNewsOnViewStateUpdate(oldViewState: ViewState, newViewState: ViewState): News? {
+        return null
+    }
 
     // UiEvent region
 
@@ -29,13 +42,13 @@ open class Screen<ViewState : Any, UiEvent : Any, News : Any>(
         val latestViewState = viewStateSubject.value!!
         val uiEventWithViewState = UiEventWitViewState(uiEvent, latestViewState)
         uiEventWithViewStateSubject.onNext(uiEventWithViewState)
-        val newViewState = createNewViewStateBasedOnNewUiEvent(uiEvent, latestViewState)
+        val newViewState = updateViewStateOnUiEvent(uiEvent, latestViewState)
         if (newViewState != null) {
             viewStateSubject.onNext(newViewState)
         }
     }
 
-    open fun createNewViewStateBasedOnNewUiEvent(uiEvent: UiEvent, viewState: ViewState): ViewState? {
+    open fun updateViewStateOnUiEvent(uiEvent: UiEvent, viewState: ViewState): ViewState? {
         return null
     }
 
@@ -48,13 +61,13 @@ open class Screen<ViewState : Any, UiEvent : Any, News : Any>(
     private fun onNews(news: News) {
         newsSubject.onNext(news)
         val latestViewState = viewStateSubject.value!!
-        val newViewState = createNewViewStateBasedOnNews(news, latestViewState)
+        val newViewState = updateViewStateOnNews(news, latestViewState)
         if (newViewState != null) {
             viewStateSubject.onNext(newViewState)
         }
     }
 
-    open fun createNewViewStateBasedOnNews(news: News, viewState: ViewState): ViewState? {
+    open fun updateViewStateOnNews(news: News, viewState: ViewState): ViewState? {
         return null
     }
 }

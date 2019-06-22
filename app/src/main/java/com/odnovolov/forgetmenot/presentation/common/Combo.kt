@@ -56,15 +56,7 @@ data class UiEventWitViewState<UiEvent, ViewState>(
     val viewState: ViewState
 )
 
-fun <FeatureState, ViewState> ObservableSource<FeatureState>.withLatest(
-    viewState: ObservableSource<ViewState>
-): ObservableSource<FeatureStateWithViewState<FeatureState, ViewState>> {
+fun <T1, T2> ObservableSource<T1>.withLatest(o1: ObservableSource<T2>): ObservableSource<Pair<T1, T2>> {
     return Observable.wrap(this)
-        .withLatestFrom(viewState, BiFunction { fs: FeatureState, vs: ViewState -> FeatureStateWithViewState(fs, vs) })
+        .withLatestFrom(o1, BiFunction { t1: T1, t2: T2 -> t1 to t2 })
 }
-
-
-data class FeatureStateWithViewState<FeatureState, ViewState>(
-    val featureState: FeatureState,
-    val viewState: ViewState
-)

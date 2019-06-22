@@ -9,17 +9,16 @@ import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.mvicorediff.ModelWatcher
 import com.odnovolov.forgetmenot.presentation.common.mvicorediff.modelWatcher
 import com.odnovolov.forgetmenot.presentation.di.Injector
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.News.MoveToNextPosition
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import leakcanary.LeakSentry
 import javax.inject.Inject
 
-class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
+class ExerciseFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     @Inject lateinit var bindings: ExerciseFragmentBindings
     @Inject lateinit var adapter: ExerciseCardsAdapter
@@ -59,7 +58,7 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     }
 
     override fun accept(viewState: ViewState) {
-        val currentPosition = viewState.selectedPagePosition ?: return
+        val currentPosition = viewState.currentPosition ?: return
         val currentExerciseCard = viewState.exerciseCards[currentPosition]
         watcher.invoke(currentExerciseCard)
     }
@@ -74,6 +73,17 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
                 undoButton.visibility = View.GONE
             }
         }
+    }
+
+    override fun acceptNews(news: News) {
+        when (news) {
+            is MoveToNextPosition -> scrollViewPagerToNextPosition()
+        }
+    }
+
+    private fun scrollViewPagerToNextPosition() {
+        val nextPosition = exerciseViewPager.currentItem + 1
+        exerciseViewPager.setCurrentItem(nextPosition, true)
     }
 
     override fun onDestroy() {
