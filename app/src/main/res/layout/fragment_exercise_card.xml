@@ -22,14 +22,14 @@
                     android:layout_weight="1">
 
                 <ScrollView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fillViewport="true">
 
                     <TextView
                             android:id="@+id/questionTextView"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="16dp"
                             android:gravity="center"
@@ -52,13 +52,13 @@
                     android:layout_weight="1">
 
                 <ScrollView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fillViewport="true">
 
                     <TextView
                             android:id="@+id/answerTextView"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="16dp"
                             android:textSize="16sp"
