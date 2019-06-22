@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/background_deck_progress_indicator"/>
+    <corners android:radius="4dp" />
+</shape>

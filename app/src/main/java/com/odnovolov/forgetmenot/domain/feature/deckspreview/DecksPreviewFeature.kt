@@ -78,7 +78,11 @@ class DecksPreviewFeature(
                             val passedLaps: Int = deck.cards
                                 .map { it.lap }
                                 .min() ?: 0
-                            DeckPreview(deck.id, deck.name, passedLaps)
+                            val progress = DeckPreview.Progress(
+                                learned = deck.cards.filter { it.isLearned }.size,
+                                total = deck.cards.size
+                            )
+                            DeckPreview(deck.id, deck.name, passedLaps, progress)
                         }
                         .toList()
                     Observable.just(DeckPreviewUpdated(decksPreview))

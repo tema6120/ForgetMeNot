@@ -43,7 +43,8 @@ class DecksPreviewAdapter
                 deckOptionButton.setOnClickListener { view: View ->
                     showOptionMenu(view, deckPreview.deckId)
                 }
-                passedLapsTextView.text = deckPreview.passedLaps.toString()
+                passedLapsIndicatorTextView.text = deckPreview.passedLaps.toString()
+                progressIndicatorTextView.text = deckPreview.progress.toString()
             }
         }
     }
