@@ -5,9 +5,9 @@ import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.*
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.FulfillWish
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.ProcessNewExerciseData
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.AnswerShowed
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.ExerciseCardUpdated
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Effect.NewExerciseDataGot
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Wish.ShowAnswer
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Wish.*
 import com.odnovolov.forgetmenot.domain.repository.ExerciseRepository
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -44,6 +44,8 @@ class ExerciseFeature(
 
     sealed class Wish {
         data class ShowAnswer(val position: Int) : Wish()
+        data class SetCardAsLearned(val position: Int) : Wish()
+        data class SetCardAsUnlearned(val position: Int) : Wish()
     }
 
     class ActorImpl(
@@ -53,36 +55,66 @@ class ExerciseFeature(
         override fun invoke(state: State, action: Action): Observable<Effect> {
             return when (action) {
                 is FulfillWish -> when (action.wish) {
-                    is ShowAnswer -> Observable
-                        .fromCallable {
-                            val activeExerciseCard = state.exerciseData.exerciseCards[action.wish.position]
-                            val exerciseCardToUpdate = activeExerciseCard.copy(
-                                isAnswered = true,
-                                card = activeExerciseCard.card.copy(
-                                    lap = activeExerciseCard.card.lap + 1
-                                )
-                            )
-                            exerciseRepository.updateExerciseCard(exerciseCardToUpdate)
-                        }
-                        .map { AnswerShowed as Effect }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(mainThreadScheduler)
+                    is ShowAnswer -> {
+                        val activeExerciseCard = state.exerciseData.exerciseCards[action.wish.position]
+                        Observable.fromCallable { showAnswer(activeExerciseCard) }
+                            .map { ExerciseCardUpdated as Effect }
+                            .onIo()
+                    }
+                    is SetCardAsLearned -> {
+                        val activeExerciseCard = state.exerciseData.exerciseCards[action.wish.position]
+                        Observable.fromCallable { setIsLearned(activeExerciseCard, true) }
+                            .map { ExerciseCardUpdated as Effect }
+                            .onIo()
+                    }
+                    is SetCardAsUnlearned -> {
+                        val activeExerciseCard = state.exerciseData.exerciseCards[action.wish.position]
+                        Observable.fromCallable { setIsLearned(activeExerciseCard, false) }
+                            .map { ExerciseCardUpdated as Effect }
+                            .onIo()
+                    }
                 }
-                is ProcessNewExerciseData -> Observable.just(NewExerciseDataGot(action.exerciseData) as Effect)
+                is ProcessNewExerciseData -> {
+                    Observable.just(NewExerciseDataGot(action.exerciseData) as Effect)
+                }
             }
+        }
+
+        private fun showAnswer(exerciseCard: ExerciseCard) {
+            val exerciseCardToUpdate = exerciseCard.copy(
+                isAnswered = true,
+                card = exerciseCard.card.copy(
+                    lap = exerciseCard.card.lap + 1
+                )
+            )
+            exerciseRepository.updateExerciseCard(exerciseCardToUpdate)
+        }
+
+        private fun setIsLearned(exerciseCard: ExerciseCard, isLearned: Boolean) {
+            val exerciseCardToUpdate = exerciseCard.copy(
+                card = exerciseCard.card.copy(
+                    isLearned = isLearned
+                )
+            )
+            exerciseRepository.updateExerciseCard(exerciseCardToUpdate)
+        }
+
+        private fun <T> Observable<T>.onIo(): Observable<T> {
+            return this.subscribeOn(Schedulers.io())
+                .observeOn(mainThreadScheduler)
         }
     }
 
     sealed class Effect {
         data class NewExerciseDataGot(val exerciseData: ExerciseData) : Effect()
-        object AnswerShowed : Effect()
+        object ExerciseCardUpdated : Effect()
     }
 
     class ReducerImpl : Reducer<State, Effect> {
         override fun invoke(state: State, effect: Effect): State {
             return when (effect) {
                 is NewExerciseDataGot -> state.copy(exerciseData = effect.exerciseData)
-                is AnswerShowed -> state
+                is ExerciseCardUpdated -> state
             }
         }
     }

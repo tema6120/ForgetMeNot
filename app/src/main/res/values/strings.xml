@@ -7,4 +7,6 @@
     <string name="label_home_screen">Home</string>
     <string name="label_exercise_screen">Exercise</string>
     <string name="text_curtain_textview">Show answer</string>
+    <string name="description_not_ask_button">Not ask anymore</string>
+    <string name="description_undo_button">Undo</string>
 </resources>

@@ -10,7 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.UiEventWitViewState
 import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
 import com.odnovolov.forgetmenot.presentation.common.withLatest
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.ShowAnswerButtonClick
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
 
 class ExerciseFragmentBindings(
@@ -31,8 +31,11 @@ class ExerciseFragmentBindings(
     object UiEventToWish : (UiEventWitViewState<UiEvent, ViewState>) -> Wish? {
         override fun invoke(uewvs: UiEventWitViewState<UiEvent, ViewState>): Wish? {
             val (uiEvent, viewState) = uewvs
+            val currentPosition = viewState.selectedPagePosition ?: return null
             return when (uiEvent) {
-                is ShowAnswerButtonClick -> viewState.selectedPagePosition?.let { Wish.ShowAnswer(it) }
+                is ShowAnswerButtonClick -> Wish.ShowAnswer(currentPosition)
+                is NotAskButtonClick -> Wish.SetCardAsLearned(currentPosition)
+                is UndoButtonClick -> Wish.SetCardAsUnlearned(currentPosition)
                 else -> null
             }
         }

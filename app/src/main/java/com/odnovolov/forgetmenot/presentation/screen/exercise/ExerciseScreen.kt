@@ -17,6 +17,8 @@ class ExerciseScreen : Screen<ViewState, UiEvent, Nothing>(
     sealed class UiEvent {
         data class NewPageBecomesSelected(val position: Int) : UiEvent()
         object ShowAnswerButtonClick : UiEvent()
+        object NotAskButtonClick : UiEvent()
+        object UndoButtonClick : UiEvent()
     }
 
     override fun createNewViewStateBasedOnNewUiEvent(uiEvent: UiEvent, viewState: ViewState): ViewState? {

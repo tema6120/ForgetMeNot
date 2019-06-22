@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.odnovolov.forgetmenot.R.layout
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mvicorediff.modelWatcher
@@ -45,7 +45,7 @@ class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(layout.fragment_exercise_card, container, false)
+        return inflater.inflate(R.layout.fragment_exercise_card, container, false)
     }
 
     override fun accept(viewState: ViewState) {
@@ -69,6 +69,15 @@ class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
                 showAnswerButton.setOnClickListener {
                     emitEvent(ShowAnswerButtonClick)
                 }
+            }
+        }
+        watch({it.card.isLearned}) { isLearned ->
+            if (isLearned) {
+                questionTextView.alpha = 0.26f
+                answerTextView.alpha = 0.26f
+            } else {
+                questionTextView.alpha = 1f
+                answerTextView.alpha = 1f
             }
         }
     }

@@ -93,6 +93,7 @@ class DecksPreviewFeature(
         private fun prepareExercise(deckId: Int) {
             val deck = deckRepository.getDeck(deckId)
             val exerciseCards: List<ExerciseCard> = deck.cards
+                .filter { card -> !card.isLearned }
                 .map { card -> ExerciseCard(card = card) }
                 .sortedBy { it.card.lap }
             val exercise = ExerciseData(exerciseCards as MutableList<ExerciseCard>)

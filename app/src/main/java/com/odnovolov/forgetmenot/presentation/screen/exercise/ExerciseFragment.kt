@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mvicorediff.ModelWatcher
+import com.odnovolov.forgetmenot.presentation.common.mvicorediff.modelWatcher
 import com.odnovolov.forgetmenot.presentation.di.Injector
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.NewPageBecomesSelected
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import leakcanary.LeakSentry
@@ -38,6 +41,12 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewPagerAdapter()
+        setupControlPanel()
+    }
+
+    private fun setupControlPanel() {
+        notAskButton.setOnClickListener { emitEvent(NotAskButtonClick) }
+        undoButton.setOnClickListener { emitEvent(UndoButtonClick) }
     }
 
     private fun setupViewPagerAdapter() {
@@ -50,6 +59,21 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     }
 
     override fun accept(viewState: ViewState) {
+        val currentPosition = viewState.selectedPagePosition ?: return
+        val currentExerciseCard = viewState.exerciseCards[currentPosition]
+        watcher.invoke(currentExerciseCard)
+    }
+
+    private val watcher = modelWatcher<ExerciseCard> {
+        watch({it.card.isLearned}) { isLearned ->
+            if (isLearned) {
+                notAskButton.visibility = View.GONE
+                undoButton.visibility = View.VISIBLE
+            } else {
+                notAskButton.visibility = View.VISIBLE
+                undoButton.visibility = View.GONE
+            }
+        }
     }
 
     override fun onDestroy() {
