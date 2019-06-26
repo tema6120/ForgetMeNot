@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.data.db.entity
 
 import androidx.room.*
 import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
 
 @Entity(
     tableName = "exercise_cards",

@@ -2,6 +2,8 @@ package com.odnovolov.forgetmenot.domain.feature.exercise
 
 import com.badoo.mvicore.element.*
 import com.badoo.mvicore.feature.BaseFeature
+import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
+import com.odnovolov.forgetmenot.domain.entity.ExerciseData
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.*
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.FulfillWish
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature.Action.ProcessNewExerciseData
@@ -120,7 +122,7 @@ class ExerciseFeature(
     }
 
     data class State(
-        val exerciseData: ExerciseData = ExerciseData()
+        val exerciseData: ExerciseData = ExerciseData(emptyList())
     )
 
     class PostProcessorImpl : PostProcessor<Action, Effect, State> {

@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
 import io.reactivex.functions.Consumer
 

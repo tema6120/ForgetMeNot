@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
+import com.odnovolov.forgetmenot.domain.entity.DeckPreview
 import com.odnovolov.forgetmenot.presentation.common.Screen
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.*
 import java.io.InputStream

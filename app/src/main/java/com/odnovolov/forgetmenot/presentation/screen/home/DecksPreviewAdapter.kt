@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
+import com.odnovolov.forgetmenot.domain.entity.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.DecksPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent.DeckButtonClick

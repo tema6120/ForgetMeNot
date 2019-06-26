@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.Screen
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.NewPageBecomesSelected

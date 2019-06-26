@@ -4,7 +4,7 @@ import com.badoo.mvicore.binder.Binder
 import com.badoo.mvicore.binder.using
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DeckPreview
+import com.odnovolov.forgetmenot.domain.entity.DeckPreview
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.News.ExerciseIsPrepared
 import com.odnovolov.forgetmenot.presentation.common.Combo

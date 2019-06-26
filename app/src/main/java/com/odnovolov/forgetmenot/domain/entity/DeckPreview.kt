@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.domain.feature.deckspreview
+package com.odnovolov.forgetmenot.domain.entity
 
 data class DeckPreview(
     val deckId: Int,

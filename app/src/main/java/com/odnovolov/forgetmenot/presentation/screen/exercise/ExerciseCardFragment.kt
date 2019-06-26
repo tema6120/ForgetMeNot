@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mvicorediff.modelWatcher
 import com.odnovolov.forgetmenot.presentation.di.Injector

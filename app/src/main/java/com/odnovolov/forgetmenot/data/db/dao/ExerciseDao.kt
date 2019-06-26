@@ -3,8 +3,8 @@ package com.odnovolov.forgetmenot.data.db.dao
 import androidx.room.*
 import com.odnovolov.forgetmenot.data.db.entity.ExerciseCardDbEntity
 import com.odnovolov.forgetmenot.data.db.entity.CardDbEntity
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseData
+import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
+import com.odnovolov.forgetmenot.domain.entity.ExerciseData
 import io.reactivex.Observable
 
 @Dao

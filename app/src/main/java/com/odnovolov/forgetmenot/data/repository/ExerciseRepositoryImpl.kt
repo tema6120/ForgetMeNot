@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.data.repository
 
 import com.odnovolov.forgetmenot.data.db.dao.ExerciseDao
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseData
+import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
+import com.odnovolov.forgetmenot.domain.entity.ExerciseData
 import com.odnovolov.forgetmenot.domain.repository.ExerciseRepository
 import io.reactivex.Observable
 

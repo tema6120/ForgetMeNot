@@ -6,14 +6,15 @@ import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.DeckPreview
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.*
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Action.FulfillWish
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Action.ProcessNewDecks
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Effect.*
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Wish.DeleteDeck
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Wish.PrepareExercise
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseData
+import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
+import com.odnovolov.forgetmenot.domain.entity.ExerciseData
 import com.odnovolov.forgetmenot.domain.repository.DeckRepository
 import com.odnovolov.forgetmenot.domain.repository.ExerciseRepository
 import io.reactivex.Observable
@@ -82,7 +83,12 @@ class DecksPreviewFeature(
                                 learned = deck.cards.filter { it.isLearned }.size,
                                 total = deck.cards.size
                             )
-                            DeckPreview(deck.id, deck.name, passedLaps, progress)
+                            DeckPreview(
+                                deck.id,
+                                deck.name,
+                                passedLaps,
+                                progress
+                            )
                         }
                         .toList()
                     Observable.just(DeckPreviewUpdated(decksPreview))
@@ -96,7 +102,7 @@ class DecksPreviewFeature(
                 .filter { card -> !card.isLearned }
                 .map { card -> ExerciseCard(card = card) }
                 .sortedBy { it.card.lap }
-            val exercise = ExerciseData(exerciseCards as MutableList<ExerciseCard>)
+            val exercise = ExerciseData(exerciseCards)
             exerciseRepository.deleteAllExercises()
             exerciseRepository.saveExercise(exercise)
         }
