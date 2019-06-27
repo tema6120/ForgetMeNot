@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,23 +9,35 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mvicorediff.modelWatcher
-import com.odnovolov.forgetmenot.presentation.di.Injector
+import com.odnovolov.forgetmenot.presentation.di.ComponentStore
+import com.odnovolov.forgetmenot.presentation.di.appscope.AppComponent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.News.MoveToNextPosition
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.di.ExerciseScreenComponent
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import leakcanary.LeakSentry
 import javax.inject.Inject
 
 class ExerciseFragment : BaseFragment<ViewState, UiEvent, News>() {
 
+    private lateinit var component: ExerciseScreenComponent
     @Inject lateinit var bindings: ExerciseFragmentBindings
     @Inject lateinit var adapter: ExerciseCardsAdapter
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Injector.inject(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupDI()
         bindings.setup(this)
+    }
+
+    private fun setupDI() {
+        component = ComponentStore.find<AppComponent>()
+            .exerciseScreenComponentBuilder()
+            .exerciseFragment(this)
+            .build()
+        ComponentStore.keep(component)
+        component.inject(this)
     }
 
     override fun onCreateView(
@@ -64,7 +75,7 @@ class ExerciseFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     private val watcher = modelWatcher<ExerciseCard> {
-        watch({it.card.isLearned}) { isLearned ->
+        watch({ it.card.isLearned }) { isLearned ->
             if (isLearned) {
                 notAskButton.visibility = View.GONE
                 undoButton.visibility = View.VISIBLE

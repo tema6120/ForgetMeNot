@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,11 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mvicorediff.modelWatcher
-import com.odnovolov.forgetmenot.presentation.di.Injector
+import com.odnovolov.forgetmenot.presentation.di.ComponentStore
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.ShowAnswerButtonClick
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
+import com.odnovolov.forgetmenot.presentation.screen.exercise.di.ExerciseScreenComponent
 import kotlinx.android.synthetic.main.fragment_exercise_card.*
 import javax.inject.Inject
 
@@ -33,11 +33,16 @@ class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     @Inject lateinit var bindings: ExerciseCardFragmentBindings
     private var exerciseCardId: Int = -1
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Injector.inject(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupDI()
         bindings.setup(this)
         exerciseCardId = arguments?.getInt(KEY_EXERCISE_CARD_ID) ?: throw IllegalStateException()
+    }
+
+    private fun setupDI() {
+        val component = ComponentStore.find<ExerciseScreenComponent>()
+        component.inject(this)
     }
 
     override fun onCreateView(

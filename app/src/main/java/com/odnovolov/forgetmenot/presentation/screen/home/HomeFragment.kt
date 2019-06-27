@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.app.Activity
 import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,7 +16,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
-import com.odnovolov.forgetmenot.presentation.di.Injector
+import com.odnovolov.forgetmenot.presentation.di.ComponentStore
+import com.odnovolov.forgetmenot.presentation.di.appscope.AppComponent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.News.NavigateToExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent.*
@@ -30,10 +30,17 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     @Inject lateinit var adapter: DecksPreviewAdapter
     private lateinit var renameDialog: AlertDialog
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Injector.inject(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupDI()
         bindings.setup(this)
+    }
+
+    private fun setupDI() {
+        val component = ComponentStore.find<AppComponent>()
+            .homeScreenComponentBuilder()
+            .build()
+        component.inject(this)
     }
 
     override fun onCreateView(
