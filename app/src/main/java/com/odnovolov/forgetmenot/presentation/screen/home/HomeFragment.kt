@@ -16,11 +16,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
-import com.odnovolov.forgetmenot.presentation.di.ComponentStore
-import com.odnovolov.forgetmenot.presentation.di.appscope.AppComponent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.News.NavigateToExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -31,16 +30,9 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     private lateinit var renameDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        HomeScreenComponent.get().inject(this)
         super.onCreate(savedInstanceState)
-        setupDI()
         bindings.setup(this)
-    }
-
-    private fun setupDI() {
-        val component = ComponentStore.find<AppComponent>()
-            .homeScreenComponentBuilder()
-            .build()
-        component.inject(this)
     }
 
     override fun onCreateView(

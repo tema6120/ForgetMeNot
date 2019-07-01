@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.di
 
+import com.badoo.mvicore.android.AndroidTimeCapsule
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature
 import com.odnovolov.forgetmenot.presentation.di.fragmentscope.FragmentScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.*
@@ -11,28 +12,30 @@ class ExerciseScreenModule {
 
     @FragmentScope
     @Provides
-    fun provideExerciseScreen(): ExerciseScreen {
-        return ExerciseScreen()
+    fun exerciseCardsAdapter(exerciseFragment: ExerciseFragment): ExerciseCardsAdapter {
+        return ExerciseCardsAdapter(exerciseFragment)
     }
 
     @FragmentScope
     @Provides
-    fun provideExerciseFragmentBindings(
-        feature: ExerciseFeature,
-        screen: ExerciseScreen,
+    fun exerciseScreenFeature(
+        timeCapsule: AndroidTimeCapsule,
+        exerciseFeature: ExerciseFeature
+    ): ExerciseScreenFeature {
+        return ExerciseScreenFeature(timeCapsule, exerciseFeature)
+    }
+
+    @Provides
+    fun exerciseFragmentBindings(
+        feature: ExerciseScreenFeature,
+        fragment: ExerciseFragment,
         viewPagerAdapter: ExerciseCardsAdapter
     ): ExerciseFragmentBindings {
-        return ExerciseFragmentBindings(feature, screen, viewPagerAdapter)
+        return ExerciseFragmentBindings(feature, fragment, viewPagerAdapter)
     }
 
     @Provides
-    fun provideExerciseCardFragmentBindings(screen: ExerciseScreen): ExerciseCardFragmentBindings {
-        return ExerciseCardFragmentBindings(screen)
-    }
-
-    @FragmentScope
-    @Provides
-    fun provideExerciseCardsAdapter(exerciseFragment: ExerciseFragment): ExerciseCardsAdapter {
-        return ExerciseCardsAdapter(exerciseFragment)
+    fun exerciseCardFragmentBindings(exerciseScreenFeature: ExerciseScreenFeature): ExerciseCardFragmentBindings {
+        return ExerciseCardFragmentBindings(exerciseScreenFeature)
     }
 }

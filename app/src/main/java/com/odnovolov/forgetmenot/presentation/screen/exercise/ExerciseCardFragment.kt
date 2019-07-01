@@ -5,44 +5,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mvicorediff.modelWatcher
-import com.odnovolov.forgetmenot.presentation.di.ComponentStore
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.UiEvent.ShowAnswerButtonClick
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreen.ViewState
+import com.odnovolov.forgetmenot.presentation.entity.ExerciseCardViewEntity
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreenFeature.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreenFeature.UiEvent.ShowAnswerButtonClick
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseScreenFeature.ViewState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.di.ExerciseScreenComponent
 import kotlinx.android.synthetic.main.fragment_exercise_card.*
+import leakcanary.LeakSentry
 import javax.inject.Inject
 
 class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
 
     companion object {
-        private const val KEY_EXERCISE_CARD_ID =
-            "com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCardFragment.KEY_EXERCISE_CARD_ID"
+        private const val KEY_POSITION =
+            "com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCardFragment.KEY_POSITION"
 
-        fun create(exerciseCardId: Int) =
+        fun create(position: Int) =
             ExerciseCardFragment().apply {
                 arguments = Bundle(1).apply {
-                    putInt(KEY_EXERCISE_CARD_ID, exerciseCardId)
+                    putInt(KEY_POSITION, position)
                 }
             }
     }
 
     @Inject lateinit var bindings: ExerciseCardFragmentBindings
-    private var exerciseCardId: Int = -1
+    private var position: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ExerciseScreenComponent.get()!!.inject(this)
         super.onCreate(savedInstanceState)
-        setupDI()
+        position = arguments?.getInt(KEY_POSITION) ?: throw IllegalStateException()
         bindings.setup(this)
-        exerciseCardId = arguments?.getInt(KEY_EXERCISE_CARD_ID) ?: throw IllegalStateException()
-    }
-
-    private fun setupDI() {
-        val component = ComponentStore.find<ExerciseScreenComponent>()
-        component.inject(this)
     }
 
     override fun onCreateView(
@@ -54,36 +49,49 @@ class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     }
 
     override fun accept(viewState: ViewState) {
-        val exerciseCard = viewState.exerciseCards.find { exerciseCard -> exerciseCard.id == exerciseCardId }
-        watcher.invoke(exerciseCard!!)
+        val exerciseCardViewEntity = viewState.exerciseCards[position]
+        watcher.invoke(exerciseCardViewEntity)
     }
 
-    private val watcher = modelWatcher<ExerciseCard> {
-        watch({ it.card.question }) { question ->
-            questionTextView.text = question
-        }
-        watch({ it.card.answer }) { answer ->
-            answerTextView.text = answer
-        }
-        watch({ it.isAnswered }) { isAnswered ->
-            if (isAnswered) {
-                showAnswerButton.visibility = View.GONE
-                showAnswerButton.setOnClickListener(null)
-            } else {
-                showAnswerButton.visibility = View.VISIBLE
-                showAnswerButton.setOnClickListener {
-                    emitEvent(ShowAnswerButtonClick)
+    private val watcher = modelWatcher<ExerciseCardViewEntity> {
+        watch(
+            accessor = { exerciseCardViewEntity -> exerciseCardViewEntity.cardViewEntity.question },
+            callback = { question -> questionTextView.text = question }
+        )
+        watch(
+            accessor = { exerciseCardViewEntity -> exerciseCardViewEntity.cardViewEntity.answer },
+            callback = { answer -> answerTextView.text = answer }
+        )
+        watch(
+            accessor = ExerciseCardViewEntity::isAnswered,
+            callback = { isAnswered ->
+                if (isAnswered) {
+                    showAnswerButton.visibility = View.GONE
+                    showAnswerButton.setOnClickListener(null)
+                } else {
+                    showAnswerButton.visibility = View.VISIBLE
+                    showAnswerButton.setOnClickListener {
+                        emitEvent(ShowAnswerButtonClick)
+                    }
                 }
             }
-        }
-        watch({it.card.isLearned}) { isLearned ->
-            if (isLearned) {
-                questionTextView.alpha = 0.26f
-                answerTextView.alpha = 0.26f
-            } else {
-                questionTextView.alpha = 1f
-                answerTextView.alpha = 1f
+        )
+        watch(
+            accessor = { exerciseCardViewEntity -> exerciseCardViewEntity.cardViewEntity.isLearned },
+            callback = { isLearned ->
+                if (isLearned) {
+                    questionTextView.alpha = 0.26f
+                    answerTextView.alpha = 0.26f
+                } else {
+                    questionTextView.alpha = 1f
+                    answerTextView.alpha = 1f
+                }
             }
-        }
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LeakSentry.refWatcher.watch(this)
     }
 }

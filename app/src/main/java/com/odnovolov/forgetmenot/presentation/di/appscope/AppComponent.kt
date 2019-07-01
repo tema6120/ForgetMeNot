@@ -13,11 +13,23 @@ interface AppComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun app(app: App): Builder
+        fun with(app: App): Builder
 
         fun build(): AppComponent
     }
 
     fun homeScreenComponentBuilder(): HomeScreenComponent.Builder
     fun exerciseScreenComponentBuilder(): ExerciseScreenComponent.Builder
+
+    companion object {
+        private lateinit var INSTANCE: AppComponent
+
+        fun createWith(app: App) {
+            INSTANCE = DaggerAppComponent.builder()
+                .with(app)
+                .build()
+        }
+
+        fun get() = INSTANCE
+    }
 }

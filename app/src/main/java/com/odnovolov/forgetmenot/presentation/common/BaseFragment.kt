@@ -1,6 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.common
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
+import com.badoo.mvicore.binder.lifecycle.ManualLifecycle
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.functions.Consumer
@@ -21,5 +24,19 @@ abstract class BaseFragment<ViewState : Any, UiEvent : Any, News : Any>
 
     override fun subscribe(observer: Observer<in UiEvent>) {
         subject.subscribe(observer)
+    }
+
+    // binder lifecycle
+
+    val binderLifecycle = ManualLifecycle()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binderLifecycle.begin()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binderLifecycle.end()
     }
 }

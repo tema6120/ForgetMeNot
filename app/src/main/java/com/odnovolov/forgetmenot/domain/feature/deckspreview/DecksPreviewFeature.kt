@@ -77,6 +77,7 @@ class DecksPreviewFeature(
                     val decksPreview: List<DeckPreview> = action.decks
                         .map { deck: Deck ->
                             val passedLaps: Int = deck.cards
+                                .filter { !it.isLearned }
                                 .map { it.lap }
                                 .min() ?: 0
                             val progress = DeckPreview.Progress(
