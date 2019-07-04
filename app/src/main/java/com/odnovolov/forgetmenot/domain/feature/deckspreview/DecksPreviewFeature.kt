@@ -11,7 +11,6 @@ import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Action.FulfillWish
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Action.ProcessNewDecks
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Effect.*
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Wish.DeleteDeck
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.Wish.PrepareExercise
 import com.odnovolov.forgetmenot.domain.entity.ExerciseCard
 import com.odnovolov.forgetmenot.domain.entity.ExerciseData
@@ -52,7 +51,6 @@ class DecksPreviewFeature(
 
     sealed class Wish {
         data class PrepareExercise(val deckId: Int) : Wish()
-        data class DeleteDeck(val deckId: Int) : Wish()
     }
 
     class ActorImpl(
@@ -67,10 +65,6 @@ class DecksPreviewFeature(
                         .fromCallable { prepareExercise(action.wish.deckId) }
                         .map { ExercisePreparingFinished as Effect }
                         .startWith(ExercisePreparingStarted)
-                        .onIo()
-                    is DeleteDeck -> Observable
-                        .fromCallable { deckRepository.delete(action.wish.deckId) }
-                        .map { DeckDeleted as Effect }
                         .onIo()
                 }
                 is ProcessNewDecks -> {
@@ -116,7 +110,6 @@ class DecksPreviewFeature(
 
     sealed class Effect {
         data class DeckPreviewUpdated(val decksPreview: List<DeckPreview>) : Effect()
-        object DeckDeleted : Effect()
         object ExercisePreparingStarted : Effect()
         object ExercisePreparingFinished : Effect()
     }
@@ -125,7 +118,6 @@ class DecksPreviewFeature(
         override fun invoke(state: State, effect: Effect): State {
             return when (effect) {
                 is DeckPreviewUpdated -> state.copy(decksPreview = effect.decksPreview)
-                is DeckDeleted -> state
                 is ExercisePreparingStarted -> state.copy(isExercisePreparing = true)
                 is ExercisePreparingFinished -> state.copy(isExercisePreparing = false)
             }

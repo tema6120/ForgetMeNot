@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.News.ExerciseIsPrepared
+import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature
 import com.odnovolov.forgetmenot.presentation.entity.DeckPreviewViewEntity
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Action.*
@@ -27,12 +28,13 @@ import kotlinx.android.parcel.Parcelize
 class HomeScreenFeature(
     timeCapsule: AndroidTimeCapsule,
     addDeckFeature: AddDeckFeature,
-    decksPreviewFeature: DecksPreviewFeature
+    decksPreviewFeature: DecksPreviewFeature,
+    deleteDeckFeature: DeleteDeckFeature
 ) : BaseFeature<UiEvent, Action, Effect, ViewState, News>(
     initialState = timeCapsule.get(HomeScreenFeature::class.java) ?: ViewState(),
     wishToAction = { HandleUiEvent(it) },
     bootstrapper = BootstrapperImpl(addDeckFeature, decksPreviewFeature),
-    actor = ActorImpl(addDeckFeature, decksPreviewFeature),
+    actor = ActorImpl(addDeckFeature, decksPreviewFeature, deleteDeckFeature),
     reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {
@@ -77,13 +79,16 @@ class HomeScreenFeature(
 
     class ActorImpl(
         addDeckFeature: AddDeckFeature,
-        decksPreviewFeature: DecksPreviewFeature
+        decksPreviewFeature: DecksPreviewFeature,
+        deleteDeckFeature: DeleteDeckFeature
     ) : Actor<ViewState, Action, Effect> {
 
         private val addDeckWishSender = PublishSubject.create<AddDeckFeature.Wish>()
             .apply { subscribe(addDeckFeature) }
         private val decksPreviewWishSender = PublishSubject.create<DecksPreviewFeature.Wish>()
             .apply { subscribe(decksPreviewFeature) }
+        private val deleteDeckWishSender = PublishSubject.create<DeleteDeckFeature.Wish>()
+            .apply { subscribe(deleteDeckFeature) }
 
         override fun invoke(state: ViewState, action: Action): Observable<Effect> {
             return when (action) {
@@ -116,7 +121,7 @@ class HomeScreenFeature(
                     send(DecksPreviewFeature.Wish.PrepareExercise(uiEvent.idx))
                 }
                 is DeleteDeckButtonClicked -> {
-                    send(DecksPreviewFeature.Wish.DeleteDeck(uiEvent.idx))
+                    send(DeleteDeckFeature.Wish.DeleteDeck(uiEvent.idx))
                 }
             }
             return Observable.empty()
@@ -128,6 +133,10 @@ class HomeScreenFeature(
 
         private fun send(wish: DecksPreviewFeature.Wish) {
             decksPreviewWishSender.onNext(wish)
+        }
+
+        private fun send(wish: DeleteDeckFeature.Wish) {
+            deleteDeckWishSender.onNext(wish)
         }
 
         private fun accept(state: AddDeckFeature.State): Observable<Effect> {
