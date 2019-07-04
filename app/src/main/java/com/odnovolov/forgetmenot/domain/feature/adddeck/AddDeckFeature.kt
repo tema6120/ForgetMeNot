@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.domain.feature.addnewdeck
+package com.odnovolov.forgetmenot.domain.feature.adddeck
 
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.NewsPublisher
@@ -7,11 +7,11 @@ import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.*
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Effect.*
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.State.Stage.*
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish.*
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature.Wish.Cancel
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.*
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Effect.*
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.State.Stage.*
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.*
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.Cancel
 import com.odnovolov.forgetmenot.domain.repository.DeckRepository
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
 import java.io.InputStream
 import java.nio.charset.Charset
 
-class AddNewDeckFeature(
+class AddDeckFeature(
     repository: DeckRepository,
     mainThreadScheduler: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, News>(

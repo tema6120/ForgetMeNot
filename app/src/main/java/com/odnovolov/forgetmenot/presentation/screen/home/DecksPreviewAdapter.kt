@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.DeckPreview
+import com.odnovolov.forgetmenot.presentation.entity.DeckPreviewViewEntity
 import com.odnovolov.forgetmenot.presentation.screen.home.DecksPreviewAdapter.ViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent.DeckButtonClick
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent.DeleteDeckButtonClick
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.ViewState
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.DeckButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.DeleteDeckButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.functions.Consumer
@@ -21,7 +21,7 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DecksPreviewAdapter
-    : ListAdapter<DeckPreview, ViewHolder>(DiffCallback()),
+    : ListAdapter<DeckPreviewViewEntity, ViewHolder>(DiffCallback()),
     ObservableSource<UiEvent>,
     Consumer<ViewState> {
 
@@ -34,17 +34,17 @@ class DecksPreviewAdapter
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        getItem(position)?.let { deckPreview: DeckPreview ->
+        getItem(position)?.let { deckPreview: DeckPreviewViewEntity ->
             viewHolder.itemView.apply {
                 setOnClickListener {
-                    uiEventEmitter.onNext(DeckButtonClick(deckPreview.deckId))
+                    uiEventEmitter.onNext(DeckButtonClicked(deckPreview.deckId))
                 }
                 deckNameTextView.text = deckPreview.deckName
                 deckOptionButton.setOnClickListener { view: View ->
                     showOptionMenu(view, deckPreview.deckId)
                 }
                 passedLapsIndicatorTextView.text = deckPreview.passedLaps.toString()
-                progressIndicatorTextView.text = deckPreview.progress.toString()
+                progressIndicatorTextView.text = deckPreview.progressViewEntity.toString()
             }
         }
     }
@@ -55,7 +55,7 @@ class DecksPreviewAdapter
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.deleteDeckMenuItem -> {
-                        uiEventEmitter.onNext(DeleteDeckButtonClick(deckId))
+                        uiEventEmitter.onNext(DeleteDeckButtonClicked(deckId))
                         true
                     }
                     else -> false
@@ -75,12 +75,12 @@ class DecksPreviewAdapter
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    class DiffCallback : DiffUtil.ItemCallback<DeckPreview>() {
-        override fun areItemsTheSame(oldDeckPreview: DeckPreview, newDeckPreview: DeckPreview): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<DeckPreviewViewEntity>() {
+        override fun areItemsTheSame(oldDeckPreview: DeckPreviewViewEntity, newDeckPreview: DeckPreviewViewEntity): Boolean {
             return oldDeckPreview.deckId == newDeckPreview.deckId
         }
 
-        override fun areContentsTheSame(oldDeckPreview: DeckPreview, newDeckPreview: DeckPreview): Boolean {
+        override fun areContentsTheSame(oldDeckPreview: DeckPreviewViewEntity, newDeckPreview: DeckPreviewViewEntity): Boolean {
             return oldDeckPreview == newDeckPreview
         }
 

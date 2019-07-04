@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.di.appscope
 
 import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
 import com.odnovolov.forgetmenot.data.repository.ExerciseRepositoryImpl
-import com.odnovolov.forgetmenot.domain.feature.addnewdeck.AddNewDeckFeature
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature
 import dagger.Module
@@ -14,8 +14,8 @@ class DomainModule {
 
     @AppScope
     @Provides
-    fun provideAddNewDeckFeature(repository: DeckRepositoryImpl): AddNewDeckFeature {
-        return AddNewDeckFeature(repository, AndroidSchedulers.mainThread())
+    fun provideAddDeckFeature(repository: DeckRepositoryImpl): AddDeckFeature {
+        return AddDeckFeature(repository, AndroidSchedulers.mainThread())
     }
 
     @AppScope

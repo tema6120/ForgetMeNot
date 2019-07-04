@@ -14,23 +14,29 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
+import com.badoo.mvicore.android.AndroidTimeCapsule
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.News.NavigateToExercise
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreen.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
+import leakcanary.LeakSentry
 
 class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     @Inject lateinit var bindings: HomeFragmentBindings
     @Inject lateinit var adapter: DecksPreviewAdapter
     private lateinit var renameDialog: AlertDialog
+    private lateinit var timeCapsule: AndroidTimeCapsule
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        HomeScreenComponent.get().inject(this)
+        timeCapsule = AndroidTimeCapsule(savedInstanceState)
+        HomeScreenComponent.createWith(timeCapsule).inject(this)
         super.onCreate(savedInstanceState)
         bindings.setup(this)
     }
@@ -46,10 +52,10 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         initRenameDialog()
         initRecyclerAdapter()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setupToolbar() {
@@ -72,8 +78,8 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     private fun initRenameDialog() {
-        val onPositive = { dialogText: String -> emitEvent(RenameDialogPositiveButtonClick(dialogText)) }
-        val onNegative = { emitEvent(RenameDialogNegativeButtonClick) }
+        val onPositive = { dialogText: String -> emitEvent(RenameDialogPositiveButtonClicked(dialogText)) }
+        val onNegative = { emitEvent(RenameDialogNegativeButtonClicked) }
 
         val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
         val renameDeckEditText: EditText = contentView.findViewById(R.id.renameDeckEditText)
@@ -126,7 +132,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
             val contentResolver: ContentResolver = context?.contentResolver ?: return
             val inputStream = contentResolver.openInputStream(uri) ?: return
             val fileName = getFileName(contentResolver, uri)
-            emitEvent(GotData(inputStream, fileName))
+            emitEvent(ContentReceived(inputStream, fileName))
         }
     }
 
@@ -139,6 +145,16 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
             val nameIndex: Int = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             return cursor.getString(nameIndex)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        timeCapsule.saveState(outState)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LeakSentry.refWatcher.watch(this)
     }
 
     companion object {

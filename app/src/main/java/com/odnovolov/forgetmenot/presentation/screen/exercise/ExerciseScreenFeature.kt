@@ -59,7 +59,7 @@ class ExerciseScreenFeature(
     }
 
     class ActorImpl(
-        private val exerciseFeature: ExerciseFeature
+        exerciseFeature: ExerciseFeature
     ) : Actor<ViewState, Action, Effect> {
 
         private val wishSender = PublishSubject.create<ExerciseFeature.Wish>()

@@ -6,7 +6,7 @@ class ExerciseCardFragmentBindings(
     private val feature: ExerciseScreenFeature
 ) {
     fun setup(fragment: ExerciseCardFragment) {
-        Binder(fragment.binderLifecycle).run {
+        Binder(fragment.viewLifecycle).run {
             bind(fragment to feature)
             bind(feature to fragment)
         }

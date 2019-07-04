@@ -28,15 +28,15 @@ abstract class BaseFragment<ViewState : Any, UiEvent : Any, News : Any>
 
     // binder lifecycle
 
-    val binderLifecycle = ManualLifecycle()
+    val viewLifecycle = ManualLifecycle()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binderLifecycle.begin()
+        viewLifecycle.begin()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binderLifecycle.end()
+        viewLifecycle.end()
     }
 }

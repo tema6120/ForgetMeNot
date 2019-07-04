@@ -7,7 +7,7 @@ class ExerciseFragmentBindings(
     fragment: ExerciseFragment,
     viewPagerAdapter: ExerciseCardsAdapter
 ) {
-    private val binder = Binder(fragment.binderLifecycle).apply {
+    private val binder = Binder(fragment.viewLifecycle).apply {
         bind(fragment to feature)
         bind(feature to fragment)
         bind(feature to viewPagerAdapter)
