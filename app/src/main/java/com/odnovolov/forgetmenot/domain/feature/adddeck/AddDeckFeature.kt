@@ -8,6 +8,7 @@ import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.*
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Action.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Effect.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.*
@@ -24,31 +25,19 @@ class AddDeckFeature(
     mainThreadScheduler: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, News>(
     initialState = State(),
-    wishToAction = { wish -> wish },
+    wishToAction = { wish -> FulfillWish(wish) },
     actor = ActorImpl(repository, mainThreadScheduler),
     reducer = ReducerImpl(),
     postProcessor = PostProcessorImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {
-    data class State(
-        val stage: Stage = Idle,
-        val deck: Deck? = null
-    ) {
-        sealed class Stage {
-            object Idle : Stage()
-            object Processing : Stage()
-            object WaitingForName : Stage()
-            data class WaitingForChangingName(val occupiedName: String) : Stage()
-            object Saving : Stage()
-        }
+    sealed class Action {
+        data class FulfillWish(val wish: Wish) : Action()
+        object CheckName : Action()
+        object Save : Action()
     }
 
-    sealed class News {
-        data class ErrorHappened(val message: String) : News()
-        object DeckAdded : News()
-    }
-
-    sealed class Wish : Action {
+    sealed class Wish {
         data class AddFromInputStream(
             val inputStream: InputStream,
             val charset: Charset = Charset.defaultCharset(),
@@ -59,76 +48,88 @@ class AddDeckFeature(
         object Cancel : Wish()
     }
 
-    interface Action
-    data class SaveDeck(val deck: Deck) : Action
-
-    sealed class Effect {
-        object ParsingStarted : Effect()
-        data class SuccessfulParsing(val deck: Deck) : Effect()
-        data class ErrorParsing(val throwable: Throwable) : Effect()
-        object NameIsEmpty : Effect()
-        data class NameIsOccupied(val occupiedName: String) : Effect()
-        data class NameIsOkay(val name: String) : Effect()
-        object Cancel : Effect()
-        object SavingStarted : Effect()
-        object SavingCompleted : Effect()
-    }
-
     class ActorImpl(
         private val repository: DeckRepository,
         private val mainThreadScheduler: Scheduler
     ) : Actor<State, Action, Effect> {
-        override fun invoke(state: State, action: Action): Observable<Effect> {
-            return when (action) {
-                is AddFromInputStream -> {
-                    Observable.fromCallable { Parser.parse(action.inputStream, action.charset) }
-                        .map { cards: List<Card> -> Deck(name = action.fileName, cards = cards) }
-                        .map { deck: Deck -> SuccessfulParsing(deck) as Effect }
-                        .startWith(Effect.ParsingStarted)
-                        .onErrorReturn { throwable: Throwable -> Effect.ErrorParsing(throwable) }
-                        .onIo()
-                }
-                is OfferName -> Observable.fromCallable { checkName(action.offeredName) }.onIo()
-                is Cancel -> Observable.just(Effect.Cancel)
-                is SaveDeck -> {
-                    Observable.fromCallable { saveDeck(state.deck!!) }
-                        .map { SavingCompleted as Effect }
-                        .startWith(Effect.SavingStarted)
-                        .onIo()
-                }
-                else -> Observable.empty()
+        override fun invoke(state: State, action: Action): Observable<Effect> = when (action) {
+            is FulfillWish -> when (action.wish) {
+                is AddFromInputStream -> addFromInputStream(
+                    action.wish.inputStream,
+                    action.wish.charset,
+                    action.wish.fileName
+                )
+                is OfferName -> checkName(action.wish.offeredName)
+                Cancel -> Observable.just(Cancelled as Effect)
             }
+            CheckName -> checkName(state.deck!!.name)
+            Save -> save(state.deck!!)
         }
 
-        private fun checkName(testedName: String): Effect {
-            return when {
-                testedName.isEmpty() -> Effect.NameIsEmpty
-                repository.getAllDeckNames().any { it == testedName } -> Effect.NameIsOccupied(testedName)
-                else -> Effect.NameIsOkay(testedName)
+        private fun addFromInputStream(
+            inputStream: InputStream,
+            charset: Charset,
+            fileName: String
+        ): Observable<Effect> {
+            return Observable.fromCallable { Parser.parse(inputStream, charset) }
+                .map { cards: List<Card> -> Deck(name = fileName, cards = cards) }
+                .map { deck: Deck -> ParsingFinishedWithSuccess(deck) as Effect }
+                .startWith(ParsingStarted)
+                .onErrorReturn { throwable: Throwable -> ParsingFinishedWishError(throwable) }
+                .schedule()
+        }
+
+        private fun checkName(offeredName: String): Observable<Effect> {
+            return Observable.fromCallable {
+                when {
+                    offeredName.isEmpty() -> NameIsEmpty
+                    repository.getAllDeckNames().any { it == offeredName } -> NameIsOccupied(offeredName)
+                    else -> NameIsOkay(offeredName)
+                }
             }
+                .schedule()
         }
 
-        private fun saveDeck(deck: Deck) {
-            val deckId = repository.saveDeck(deck)
-            repository.saveLastInsertedDeckId(deckId)
+        private fun save(deck: Deck): Observable<Effect> {
+            return Observable.fromCallable {
+                val deckId = repository.saveDeck(deck)
+                repository.saveLastInsertedDeckId(deckId)
+            }
+                .map { SavingCompleted as Effect }
+                .startWith(SavingStarted)
+                .schedule()
         }
 
-        private fun Observable<Effect>.onIo() =
-            this.subscribeOn(Schedulers.io())
+        private fun <T> Observable<T>.schedule(): Observable<T> {
+            return this
+                .subscribeOn(Schedulers.io())
                 .observeOn(mainThreadScheduler)
+        }
+    }
+
+    sealed class Effect {
+        object ParsingStarted : Effect()
+        data class ParsingFinishedWithSuccess(val deck: Deck) : Effect()
+        data class ParsingFinishedWishError(val throwable: Throwable) : Effect()
+        object NameIsEmpty : Effect()
+        data class NameIsOccupied(val occupiedName: String) : Effect()
+        data class NameIsOkay(val name: String) : Effect()
+        object Cancelled : Effect()
+        object SavingStarted : Effect()
+        object SavingCompleted : Effect()
     }
 
     class ReducerImpl : Reducer<State, Effect> {
         override fun invoke(state: State, effect: Effect): State {
             return when (effect) {
                 is ParsingStarted -> state.copy(
-                    stage = Processing
+                    stage = Parsing
                 )
-                is SuccessfulParsing -> state.copy(
+                is ParsingFinishedWithSuccess -> state.copy(
                     stage = Idle,
                     deck = effect.deck
                 )
-                is ErrorParsing -> State()
+                is ParsingFinishedWishError -> State()
                 is NameIsEmpty -> state.copy(
                     stage = WaitingForName
                 )
@@ -139,7 +140,7 @@ class AddDeckFeature(
                     stage = Idle,
                     deck = state.deck!!.copy(name = effect.name)
                 )
-                is Effect.Cancel -> State()
+                is Cancelled -> State()
                 is SavingStarted -> state.copy(
                     stage = Saving
                 )
@@ -148,11 +149,24 @@ class AddDeckFeature(
         }
     }
 
+    data class State(
+        val stage: Stage = Idle,
+        val deck: Deck? = null
+    ) {
+        sealed class Stage {
+            object Idle : Stage()
+            object Parsing : Stage()
+            object WaitingForName : Stage()
+            data class WaitingForChangingName(val occupiedName: String) : Stage()
+            object Saving : Stage()
+        }
+    }
+
     class PostProcessorImpl : PostProcessor<Action, Effect, State> {
         override fun invoke(action: Action, effect: Effect, state: State): Action? {
             return when (effect) {
-                is SuccessfulParsing -> OfferName(state.deck!!.name)
-                is NameIsOkay -> SaveDeck(state.deck!!)
+                is ParsingFinishedWithSuccess -> CheckName
+                is NameIsOkay -> Save
                 else -> null
             }
         }
@@ -161,10 +175,15 @@ class AddDeckFeature(
     class NewsPublisherImpl : NewsPublisher<Action, Effect, State, News?> {
         override fun invoke(action: Action, effect: Effect, state: State): News? {
             return when (effect) {
-                is ErrorParsing -> News.ErrorHappened(effect.throwable.message ?: "")
+                is ParsingFinishedWishError -> News.ErrorHappened(effect.throwable.message ?: "")
                 is SavingCompleted -> News.DeckAdded
                 else -> null
             }
         }
+    }
+
+    sealed class News {
+        data class ErrorHappened(val message: String) : News()
+        object DeckAdded : News()
     }
 }

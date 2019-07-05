@@ -151,7 +151,7 @@ class HomeScreenFeature(
         private fun accept(state: AddDeckFeature.State): Observable<Effect> {
             return when (state.stage) {
                 Idle -> Observable.just(AddDeckIsInIdle as Effect)
-                Processing -> Observable.just(AddDeckIsInProcessing as Effect)
+                Parsing -> Observable.just(AddDeckIsInParsing as Effect)
                 WaitingForName -> Observable.just(AddDeckIsInWaitingForName as Effect)
                 is WaitingForChangingName -> Observable.just(AddDeckIsInWaitingForChangingName as Effect)
                 Saving -> Observable.just(AddDeckIsInSaving as Effect)
@@ -203,7 +203,7 @@ class HomeScreenFeature(
 
     sealed class Effect {
         object AddDeckIsInIdle : Effect()
-        object AddDeckIsInProcessing : Effect()
+        object AddDeckIsInParsing : Effect()
         object AddDeckIsInWaitingForName : Effect()
         object AddDeckIsInWaitingForChangingName : Effect()
         object AddDeckIsInSaving : Effect()
@@ -220,7 +220,7 @@ class HomeScreenFeature(
                 isRenameDialogVisible = false,
                 isProcessing = false
             )
-            AddDeckIsInProcessing, AddDeckIsInSaving -> viewState.copy(
+            AddDeckIsInParsing, AddDeckIsInSaving -> viewState.copy(
                 isRenameDialogVisible = false,
                 isProcessing = true
             )
