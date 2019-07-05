@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.entity.DeckPreviewViewEntity
+import com.odnovolov.forgetmenot.presentation.entity.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.DecksPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.DeckButtonClicked
@@ -21,7 +21,7 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DecksPreviewAdapter
-    : ListAdapter<DeckPreviewViewEntity, ViewHolder>(DiffCallback()),
+    : ListAdapter<DeckPreview, ViewHolder>(DiffCallback()),
     ObservableSource<UiEvent>,
     Consumer<ViewState> {
 
@@ -34,7 +34,7 @@ class DecksPreviewAdapter
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        getItem(position)?.let { deckPreview: DeckPreviewViewEntity ->
+        getItem(position)?.let { deckPreview: DeckPreview ->
             viewHolder.itemView.apply {
                 setOnClickListener {
                     uiEventEmitter.onNext(DeckButtonClicked(deckPreview.deckId))
@@ -44,7 +44,7 @@ class DecksPreviewAdapter
                     showOptionMenu(view, deckPreview.deckId)
                 }
                 passedLapsIndicatorTextView.text = deckPreview.passedLaps.toString()
-                progressIndicatorTextView.text = deckPreview.progressViewEntity.toString()
+                progressIndicatorTextView.text = deckPreview.progress.toString()
             }
         }
     }
@@ -75,13 +75,13 @@ class DecksPreviewAdapter
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    class DiffCallback : DiffUtil.ItemCallback<DeckPreviewViewEntity>() {
-        override fun areItemsTheSame(oldDeckPreview: DeckPreviewViewEntity, newDeckPreview: DeckPreviewViewEntity): Boolean {
-            return oldDeckPreview.deckId == newDeckPreview.deckId
+    class DiffCallback : DiffUtil.ItemCallback<DeckPreview>() {
+        override fun areItemsTheSame(oldItem: DeckPreview, newItem: DeckPreview): Boolean {
+            return oldItem.deckId == newItem.deckId
         }
 
-        override fun areContentsTheSame(oldDeckPreview: DeckPreviewViewEntity, newDeckPreview: DeckPreviewViewEntity): Boolean {
-            return oldDeckPreview == newDeckPreview
+        override fun areContentsTheSame(oldItem: DeckPreview, newItem: DeckPreview): Boolean {
+            return oldItem == newItem
         }
 
     }

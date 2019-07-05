@@ -7,16 +7,17 @@ import com.badoo.mvicore.element.Bootstrapper
 import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.*
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
+import com.odnovolov.forgetmenot.domain.feature.decksexplorer.DecksExplorerFeature
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature.Wish.DeleteDeck
 import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature
 import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature.News.ExerciseCreated
 import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature.Wish.CreateExercise
-import com.odnovolov.forgetmenot.presentation.entity.DeckPreviewViewEntity
+import com.odnovolov.forgetmenot.presentation.entity.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Action.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Effect.*
@@ -32,7 +33,7 @@ import kotlinx.android.parcel.Parcelize
 class HomeScreenFeature(
     timeCapsule: AndroidTimeCapsule,
     addDeckFeature: AddDeckFeature,
-    decksPreviewFeature: DecksPreviewFeature,
+    decksPreviewFeature: DecksExplorerFeature,
     deleteDeckFeature: DeleteDeckFeature,
     exerciseCreatorFeature: ExerciseCreatorFeature
 ) : BaseFeature<UiEvent, Action, Effect, ViewState, News>(
@@ -52,7 +53,7 @@ class HomeScreenFeature(
 
     class BootstrapperImpl(
         private val addDeckFeature: AddDeckFeature,
-        private val decksPreviewFeature: DecksPreviewFeature,
+        private val decksPreviewFeature: DecksExplorerFeature,
         private val exerciseCreatorFeature: ExerciseCreatorFeature
     ) : Bootstrapper<Action> {
         override fun invoke(): Observable<Action> {
@@ -60,7 +61,7 @@ class HomeScreenFeature(
                 listOf(
                     Observable.wrap(addDeckFeature).map { AcceptAddDeckFeatureState(it) },
                     Observable.wrap(addDeckFeature.news).map { AcceptAddDeckFeatureNews(it) },
-                    Observable.wrap(decksPreviewFeature).map { AcceptDecksPreviewFeatureState(it) },
+                    Observable.wrap(decksPreviewFeature).map { AcceptDecksExplorerFeatureState(it) },
                     Observable.wrap(exerciseCreatorFeature).map { AcceptExerciseCreatorFeatureState(it) },
                     Observable.wrap(exerciseCreatorFeature.news).map { AcceptExerciseCreatorFeatureNews(it) }
                 )
@@ -72,7 +73,7 @@ class HomeScreenFeature(
         data class HandleUiEvent(val uiEvent: UiEvent) : Action()
         data class AcceptAddDeckFeatureState(val state: AddDeckFeature.State) : Action()
         data class AcceptAddDeckFeatureNews(val news: AddDeckFeature.News) : Action()
-        data class AcceptDecksPreviewFeatureState(val state: DecksPreviewFeature.State) : Action()
+        data class AcceptDecksExplorerFeatureState(val state: DecksExplorerFeature.State) : Action()
         data class AcceptExerciseCreatorFeatureState(val state: ExerciseCreatorFeature.State) : Action()
         data class AcceptExerciseCreatorFeatureNews(val news: ExerciseCreatorFeature.News) : Action()
     }
@@ -103,7 +104,7 @@ class HomeScreenFeature(
                 is HandleUiEvent -> handle(action.uiEvent)
                 is AcceptAddDeckFeatureState -> accept(action.state)
                 is AcceptAddDeckFeatureNews -> Observable.empty()
-                is AcceptDecksPreviewFeatureState -> accept(action.state)
+                is AcceptDecksExplorerFeatureState -> accept(action.state)
                 is AcceptExerciseCreatorFeatureState -> accept(action.state)
                 is AcceptExerciseCreatorFeatureNews -> accept(action.news)
             }
@@ -146,10 +147,25 @@ class HomeScreenFeature(
             }
         }
 
-        private fun accept(state: DecksPreviewFeature.State): Observable<Effect> {
-            val decksPreview: List<DeckPreviewViewEntity> = state.decksPreview
-                .map { deckPreview -> DeckPreviewViewEntity.fromDeckPreview(deckPreview) }
-            return Observable.just(DecksPreviewWasReceived(decksPreview) as Effect)
+        private fun accept(state: DecksExplorerFeature.State): Observable<Effect> {
+            val decksPreview: List<DeckPreview> = state.decks
+                .map { deck: Deck ->
+                    val passedLaps: Int = deck.cards
+                        .filter { card -> !card.isLearned }
+                        .map { card -> card.lap }
+                        .min() ?: 0
+                    val progress = DeckPreview.Progress(
+                        learned = deck.cards.filter { it.isLearned }.size,
+                        total = deck.cards.size
+                    )
+                    DeckPreview(
+                        deck.id,
+                        deck.name,
+                        passedLaps,
+                        progress
+                    )
+                }
+            return Observable.just(DecksPreviewUpdated(decksPreview))
         }
 
         private fun accept(state: ExerciseCreatorFeature.State): Observable<Effect> {
@@ -172,7 +188,7 @@ class HomeScreenFeature(
         object AddDeckIsInWaitingForName : Effect()
         object AddDeckIsInWaitingForChangingName : Effect()
         object AddDeckIsInSaving : Effect()
-        data class DecksPreviewWasReceived(val decksPreview: List<DeckPreviewViewEntity>) : Effect()
+        data class DecksPreviewUpdated(val decksPreview: List<DeckPreview>) : Effect()
         object ExerciseCreatorIsInIdle : Effect()
         object ExerciseIsInProcessing : Effect()
         object ExerciseIsReady : Effect()
@@ -192,7 +208,7 @@ class HomeScreenFeature(
                 isRenameDialogVisible = true,
                 isProcessing = false
             )
-            is DecksPreviewWasReceived -> viewState.copy(
+            is DecksPreviewUpdated -> viewState.copy(
                 decksPreview = effect.decksPreview
             )
             ExerciseCreatorIsInIdle -> viewState.copy(
@@ -207,7 +223,7 @@ class HomeScreenFeature(
 
     @Parcelize
     data class ViewState(
-        val decksPreview: List<DeckPreviewViewEntity> = emptyList(),
+        val decksPreview: List<DeckPreview> = emptyList(),
         val isRenameDialogVisible: Boolean = false,
         val isProcessing: Boolean = false
     ) : Parcelable

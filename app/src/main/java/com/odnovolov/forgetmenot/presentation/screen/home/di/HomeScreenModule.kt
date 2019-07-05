@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home.di
 
 import com.badoo.mvicore.android.AndroidTimeCapsule
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
+import com.odnovolov.forgetmenot.domain.feature.decksexplorer.DecksExplorerFeature
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature
 import com.odnovolov.forgetmenot.presentation.di.fragmentscope.FragmentScope
@@ -20,14 +20,14 @@ class HomeScreenModule {
     fun homeScreenFeature(
         timeCapsule: AndroidTimeCapsule,
         addDeckFeature: AddDeckFeature,
-        decksPreviewFeature: DecksPreviewFeature,
+        decksExplorerFeature: DecksExplorerFeature,
         deleteDeckFeature: DeleteDeckFeature,
         exerciseCreatorFeature: ExerciseCreatorFeature
     ): HomeScreenFeature {
         return HomeScreenFeature(
             timeCapsule,
             addDeckFeature,
-            decksPreviewFeature,
+            decksExplorerFeature,
             deleteDeckFeature,
             exerciseCreatorFeature
         )

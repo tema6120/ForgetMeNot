@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.presentation.di.appscope
 import com.odnovolov.forgetmenot.data.repository.DeckRepositoryImpl
 import com.odnovolov.forgetmenot.data.repository.ExerciseRepositoryImpl
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
+import com.odnovolov.forgetmenot.domain.feature.decksexplorer.DecksExplorerFeature
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature
 import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature
@@ -26,7 +26,7 @@ class DomainModule {
     @Provides
     fun decksPreviewFeature(
         deckRepositoryImpl: DeckRepositoryImpl
-    ) = DecksPreviewFeature(
+    ) = DecksExplorerFeature(
         deckRepositoryImpl,
         AndroidSchedulers.mainThread()
     )
