@@ -6,10 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.WindowManager.LayoutParams
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -92,11 +90,13 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
             .setPositiveButton(android.R.string.ok, null)
             .setNegativeButton(android.R.string.cancel, null)
             .create()
+        renameDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         renameDialog.setOnShowListener {
             renameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener { onPositive.invoke(renameDeckEditText.text.toString()) }
             renameDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setOnClickListener { onNegative.invoke() }
+            renameDeckEditText.requestFocus()
         }
     }
 
