@@ -68,5 +68,5 @@ abstract class DeckDao {
     // Delete
 
     @Query("DELETE FROM decks WHERE deck_id = :deckId")
-    abstract fun delete(deckId: Int)
+    abstract fun delete(deckId: Int): Int
 }

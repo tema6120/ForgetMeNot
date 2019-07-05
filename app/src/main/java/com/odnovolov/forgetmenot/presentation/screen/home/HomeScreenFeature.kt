@@ -13,7 +13,9 @@ import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.State.Sta
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.*
 import com.odnovolov.forgetmenot.domain.feature.decksexplorer.DecksExplorerFeature
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature
+import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature.News.*
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature.Wish.DeleteDeck
+import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature.Wish.RestoreDeck
 import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature
 import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature.News.ExerciseCreated
 import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature.Wish.CreateExercise
@@ -22,6 +24,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Action.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Effect.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.ShowDeckIsDeletedSnackbar
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
 import io.reactivex.Observable
@@ -33,13 +36,13 @@ import kotlinx.android.parcel.Parcelize
 class HomeScreenFeature(
     timeCapsule: AndroidTimeCapsule,
     addDeckFeature: AddDeckFeature,
-    decksPreviewFeature: DecksExplorerFeature,
+    decksExplorerFeature: DecksExplorerFeature,
     deleteDeckFeature: DeleteDeckFeature,
     exerciseCreatorFeature: ExerciseCreatorFeature
 ) : BaseFeature<UiEvent, Action, Effect, ViewState, News>(
     initialState = timeCapsule.get(HomeScreenFeature::class.java) ?: ViewState(),
     wishToAction = { HandleUiEvent(it) },
-    bootstrapper = BootstrapperImpl(addDeckFeature, decksPreviewFeature, exerciseCreatorFeature),
+    bootstrapper = BootstrapperImpl(addDeckFeature, decksExplorerFeature, deleteDeckFeature, exerciseCreatorFeature),
     actor = ActorImpl(addDeckFeature, deleteDeckFeature, exerciseCreatorFeature),
     reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
@@ -53,7 +56,8 @@ class HomeScreenFeature(
 
     class BootstrapperImpl(
         private val addDeckFeature: AddDeckFeature,
-        private val decksPreviewFeature: DecksExplorerFeature,
+        private val decksExplorerFeature: DecksExplorerFeature,
+        private val deleteDeckFeature: DeleteDeckFeature,
         private val exerciseCreatorFeature: ExerciseCreatorFeature
     ) : Bootstrapper<Action> {
         override fun invoke(): Observable<Action> {
@@ -61,7 +65,8 @@ class HomeScreenFeature(
                 listOf(
                     Observable.wrap(addDeckFeature).map { AcceptAddDeckFeatureState(it) },
                     Observable.wrap(addDeckFeature.news).map { AcceptAddDeckFeatureNews(it) },
-                    Observable.wrap(decksPreviewFeature).map { AcceptDecksExplorerFeatureState(it) },
+                    Observable.wrap(decksExplorerFeature).map { AcceptDecksExplorerFeatureState(it) },
+                    Observable.wrap(deleteDeckFeature.news).map { AcceptDeleteDeckFeatureNews(it) },
                     Observable.wrap(exerciseCreatorFeature).map { AcceptExerciseCreatorFeatureState(it) },
                     Observable.wrap(exerciseCreatorFeature.news).map { AcceptExerciseCreatorFeatureNews(it) }
                 )
@@ -74,6 +79,7 @@ class HomeScreenFeature(
         data class AcceptAddDeckFeatureState(val state: AddDeckFeature.State) : Action()
         data class AcceptAddDeckFeatureNews(val news: AddDeckFeature.News) : Action()
         data class AcceptDecksExplorerFeatureState(val state: DecksExplorerFeature.State) : Action()
+        data class AcceptDeleteDeckFeatureNews(val news: DeleteDeckFeature.News) : Action()
         data class AcceptExerciseCreatorFeatureState(val state: ExerciseCreatorFeature.State) : Action()
         data class AcceptExerciseCreatorFeatureNews(val news: ExerciseCreatorFeature.News) : Action()
     }
@@ -84,6 +90,7 @@ class HomeScreenFeature(
         object RenameDialogNegativeButtonClicked : UiEvent()
         data class DeckButtonClicked(val idx: Int) : UiEvent()
         data class DeleteDeckButtonClicked(val idx: Int) : UiEvent()
+        object DeckIsDeletedSnackbarCancelActionClicked : UiEvent()
     }
 
     class ActorImpl(
@@ -105,6 +112,7 @@ class HomeScreenFeature(
                 is AcceptAddDeckFeatureState -> accept(action.state)
                 is AcceptAddDeckFeatureNews -> Observable.empty()
                 is AcceptDecksExplorerFeatureState -> accept(action.state)
+                is AcceptDeleteDeckFeatureNews -> accept(action.news)
                 is AcceptExerciseCreatorFeatureState -> accept(action.state)
                 is AcceptExerciseCreatorFeatureNews -> accept(action.news)
             }
@@ -132,6 +140,9 @@ class HomeScreenFeature(
                 }
                 is DeleteDeckButtonClicked -> {
                     deleteDeckWishSender.onNext(DeleteDeck(uiEvent.idx))
+                }
+                DeckIsDeletedSnackbarCancelActionClicked -> {
+                    deleteDeckWishSender.onNext(RestoreDeck)
                 }
             }
             return Observable.empty()
@@ -168,6 +179,14 @@ class HomeScreenFeature(
             return Observable.just(DecksPreviewUpdated(decksPreview))
         }
 
+        private fun accept(news: DeleteDeckFeature.News): Observable<Effect> {
+            return when (news) {
+                DeckDeleted -> Observable.just(DeckIsDeleted)
+                DeckIsNotDeleted -> Observable.empty()
+                DeckRestored -> Observable.empty()
+            }
+        }
+
         private fun accept(state: ExerciseCreatorFeature.State): Observable<Effect> {
             return Observable.just(
                 if (state.isProcessing) ExerciseIsInProcessing
@@ -189,6 +208,7 @@ class HomeScreenFeature(
         object AddDeckIsInWaitingForChangingName : Effect()
         object AddDeckIsInSaving : Effect()
         data class DecksPreviewUpdated(val decksPreview: List<DeckPreview>) : Effect()
+        object DeckIsDeleted : Effect()
         object ExerciseCreatorIsInIdle : Effect()
         object ExerciseIsInProcessing : Effect()
         object ExerciseIsReady : Effect()
@@ -217,7 +237,7 @@ class HomeScreenFeature(
             ExerciseIsInProcessing -> viewState.copy(
                 isProcessing = true
             )
-            ExerciseIsReady -> viewState
+            ExerciseIsReady, DeckIsDeleted -> viewState
         }
     }
 
@@ -232,6 +252,7 @@ class HomeScreenFeature(
         override fun invoke(action: Action, effect: Effect, state: ViewState): News? {
             return when (effect) {
                 ExerciseIsReady -> NavigateToExercise
+                DeckIsDeleted -> ShowDeckIsDeletedSnackbar
                 else -> null
             }
         }
@@ -239,6 +260,7 @@ class HomeScreenFeature(
 
     sealed class News {
         object NavigateToExercise : News()
+        object ShowDeckIsDeletedSnackbar : News()
     }
 
     override fun dispose() {

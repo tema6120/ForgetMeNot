@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.badoo.mvicore.android.AndroidTimeCapsule
+import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
@@ -24,6 +25,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.View
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.ShowDeckIsDeletedSnackbar
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
 import leakcanary.LeakSentry
 
@@ -118,8 +120,27 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     override fun acceptNews(news: News) {
         when (news) {
-            is NavigateToExercise -> findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
+            NavigateToExercise -> navigateToExercise()
+            ShowDeckIsDeletedSnackbar -> showDeckIsDeletedSnackbar()
         }
+    }
+
+    private fun navigateToExercise() {
+        findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
+    }
+
+    private fun showDeckIsDeletedSnackbar() {
+        Snackbar
+            .make(
+                homeFragmentRootView,
+                getString(R.string.snackbar_message_deck_is_deleted),
+                resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+            )
+            .setAction(
+                R.string.snackbar_action_cancel,
+                { emitEvent(DeckIsDeletedSnackbarCancelActionClicked) }
+            )
+            .show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

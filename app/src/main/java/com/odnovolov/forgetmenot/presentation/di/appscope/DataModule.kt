@@ -29,8 +29,8 @@ class DataModule {
 
     @AppScope
     @Provides
-    fun provideDeckRepository(deckDao: DeckDao): DeckRepositoryImpl {
-        return DeckRepositoryImpl(deckDao)
+    fun provideDeckRepository(db: AppDatabase): DeckRepositoryImpl {
+        return DeckRepositoryImpl(db)
     }
 
     @AppScope

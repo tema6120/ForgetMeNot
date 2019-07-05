@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.odnovolov.forgetmenot.data.db.dao.Backuper
 import com.odnovolov.forgetmenot.data.db.dao.DeckDao
 import com.odnovolov.forgetmenot.data.db.dao.ExerciseDao
 import com.odnovolov.forgetmenot.data.db.entity.CardDbEntity
@@ -21,4 +22,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun deckDao(): DeckDao
     abstract fun exerciseDao(): ExerciseDao
+
+    fun getBackuper(): Backuper {
+        return Backuper(supportDb = openHelper.writableDatabase)
+    }
 }

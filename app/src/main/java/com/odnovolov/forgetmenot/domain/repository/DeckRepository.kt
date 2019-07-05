@@ -14,5 +14,6 @@ interface DeckRepository {
     fun getDeck(deckId: Int): Deck
 
     // Delete
-    fun delete(deckId: Int)
+    fun createBackupAndDeleteDeckInTransaction(deckId: Int) : Int
+    fun restoreLastDeletedDeckFromBackup()
 }

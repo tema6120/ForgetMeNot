@@ -9,4 +9,6 @@
     <string name="text_curtain_textview">Show answer</string>
     <string name="description_not_ask_button">Not ask anymore</string>
     <string name="description_undo_button">Undo</string>
+    <string name="snackbar_message_deck_is_deleted">Deck is deleted</string>
+    <string name="snackbar_action_cancel">cancel</string>
 </resources>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="duration_deck_is_deleted_snackbar">6000</integer>
+</resources>
