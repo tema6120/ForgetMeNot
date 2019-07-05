@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.exercise.ExerciseFeature
+import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature
 import dagger.Module
 import dagger.Provides
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,11 +25,9 @@ class DomainModule {
     @AppScope
     @Provides
     fun decksPreviewFeature(
-        deckRepositoryImpl: DeckRepositoryImpl,
-        exerciseRepositoryImpl: ExerciseRepositoryImpl
+        deckRepositoryImpl: DeckRepositoryImpl
     ) = DecksPreviewFeature(
         deckRepositoryImpl,
-        exerciseRepositoryImpl,
         AndroidSchedulers.mainThread()
     )
 
@@ -38,6 +37,17 @@ class DomainModule {
         deckRepositoryImpl: DeckRepositoryImpl
     ) = DeleteDeckFeature(
         deckRepositoryImpl, AndroidSchedulers.mainThread()
+    )
+
+    @AppScope
+    @Provides
+    fun exerciseCreatorFeature(
+        deckRepositoryImpl: DeckRepositoryImpl,
+        exerciseRepository: ExerciseRepositoryImpl
+    ) = ExerciseCreatorFeature(
+        deckRepositoryImpl,
+        exerciseRepository,
+        AndroidSchedulers.mainThread()
     )
 
     @AppScope

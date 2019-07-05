@@ -9,9 +9,13 @@ import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.State.Stage.*
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.*
 import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature
-import com.odnovolov.forgetmenot.domain.feature.deckspreview.DecksPreviewFeature.News.ExerciseIsPrepared
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature
+import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature.Wish.DeleteDeck
+import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature
+import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature.News.ExerciseCreated
+import com.odnovolov.forgetmenot.domain.feature.exercisecreator.ExerciseCreatorFeature.Wish.CreateExercise
 import com.odnovolov.forgetmenot.presentation.entity.DeckPreviewViewEntity
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Action.*
@@ -29,12 +33,13 @@ class HomeScreenFeature(
     timeCapsule: AndroidTimeCapsule,
     addDeckFeature: AddDeckFeature,
     decksPreviewFeature: DecksPreviewFeature,
-    deleteDeckFeature: DeleteDeckFeature
+    deleteDeckFeature: DeleteDeckFeature,
+    exerciseCreatorFeature: ExerciseCreatorFeature
 ) : BaseFeature<UiEvent, Action, Effect, ViewState, News>(
     initialState = timeCapsule.get(HomeScreenFeature::class.java) ?: ViewState(),
     wishToAction = { HandleUiEvent(it) },
-    bootstrapper = BootstrapperImpl(addDeckFeature, decksPreviewFeature),
-    actor = ActorImpl(addDeckFeature, decksPreviewFeature, deleteDeckFeature),
+    bootstrapper = BootstrapperImpl(addDeckFeature, decksPreviewFeature, exerciseCreatorFeature),
+    actor = ActorImpl(addDeckFeature, deleteDeckFeature, exerciseCreatorFeature),
     reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {
@@ -47,7 +52,8 @@ class HomeScreenFeature(
 
     class BootstrapperImpl(
         private val addDeckFeature: AddDeckFeature,
-        private val decksPreviewFeature: DecksPreviewFeature
+        private val decksPreviewFeature: DecksPreviewFeature,
+        private val exerciseCreatorFeature: ExerciseCreatorFeature
     ) : Bootstrapper<Action> {
         override fun invoke(): Observable<Action> {
             return Observable.merge(
@@ -55,7 +61,8 @@ class HomeScreenFeature(
                     Observable.wrap(addDeckFeature).map { AcceptAddDeckFeatureState(it) },
                     Observable.wrap(addDeckFeature.news).map { AcceptAddDeckFeatureNews(it) },
                     Observable.wrap(decksPreviewFeature).map { AcceptDecksPreviewFeatureState(it) },
-                    Observable.wrap(decksPreviewFeature.news).map { AcceptDecksPreviewFeatureNews(it) }
+                    Observable.wrap(exerciseCreatorFeature).map { AcceptExerciseCreatorFeatureState(it) },
+                    Observable.wrap(exerciseCreatorFeature.news).map { AcceptExerciseCreatorFeatureNews(it) }
                 )
             )
         }
@@ -66,7 +73,8 @@ class HomeScreenFeature(
         data class AcceptAddDeckFeatureState(val state: AddDeckFeature.State) : Action()
         data class AcceptAddDeckFeatureNews(val news: AddDeckFeature.News) : Action()
         data class AcceptDecksPreviewFeatureState(val state: DecksPreviewFeature.State) : Action()
-        data class AcceptDecksPreviewFeatureNews(val news: DecksPreviewFeature.News) : Action()
+        data class AcceptExerciseCreatorFeatureState(val state: ExerciseCreatorFeature.State) : Action()
+        data class AcceptExerciseCreatorFeatureNews(val news: ExerciseCreatorFeature.News) : Action()
     }
 
     sealed class UiEvent {
@@ -79,16 +87,16 @@ class HomeScreenFeature(
 
     class ActorImpl(
         addDeckFeature: AddDeckFeature,
-        decksPreviewFeature: DecksPreviewFeature,
-        deleteDeckFeature: DeleteDeckFeature
+        deleteDeckFeature: DeleteDeckFeature,
+        exerciseCreatorFeature: ExerciseCreatorFeature
     ) : Actor<ViewState, Action, Effect> {
 
         private val addDeckWishSender = PublishSubject.create<AddDeckFeature.Wish>()
             .apply { subscribe(addDeckFeature) }
-        private val decksPreviewWishSender = PublishSubject.create<DecksPreviewFeature.Wish>()
-            .apply { subscribe(decksPreviewFeature) }
         private val deleteDeckWishSender = PublishSubject.create<DeleteDeckFeature.Wish>()
             .apply { subscribe(deleteDeckFeature) }
+        private val exerciseCreatorWishSender = PublishSubject.create<ExerciseCreatorFeature.Wish>()
+            .apply { subscribe(exerciseCreatorFeature) }
 
         override fun invoke(state: ViewState, action: Action): Observable<Effect> {
             return when (action) {
@@ -96,7 +104,8 @@ class HomeScreenFeature(
                 is AcceptAddDeckFeatureState -> accept(action.state)
                 is AcceptAddDeckFeatureNews -> Observable.empty()
                 is AcceptDecksPreviewFeatureState -> accept(action.state)
-                is AcceptDecksPreviewFeatureNews -> accept(action.news)
+                is AcceptExerciseCreatorFeatureState -> accept(action.state)
+                is AcceptExerciseCreatorFeatureNews -> accept(action.news)
             }
         }
 
@@ -105,38 +114,26 @@ class HomeScreenFeature(
                 is ContentReceived -> {
                     val wish: AddDeckFeature.Wish =
                         if (uiEvent.fileName == null) {
-                            AddDeckFeature.Wish.AddFromInputStream(uiEvent.inputStream)
+                            AddFromInputStream(uiEvent.inputStream)
                         } else {
-                            AddDeckFeature.Wish.AddFromInputStream(uiEvent.inputStream, fileName = uiEvent.fileName)
+                            AddFromInputStream(uiEvent.inputStream, fileName = uiEvent.fileName)
                         }
-                    send(wish)
+                    addDeckWishSender.onNext(wish)
                 }
                 is RenameDialogPositiveButtonClicked -> {
-                    send(AddDeckFeature.Wish.OfferName(uiEvent.dialogText))
+                    addDeckWishSender.onNext(OfferName(uiEvent.dialogText))
                 }
                 RenameDialogNegativeButtonClicked -> {
-                    send(AddDeckFeature.Wish.Cancel)
+                    addDeckWishSender.onNext(Cancel)
                 }
                 is DeckButtonClicked -> {
-                    send(DecksPreviewFeature.Wish.PrepareExercise(uiEvent.idx))
+                    exerciseCreatorWishSender.onNext(CreateExercise(uiEvent.idx))
                 }
                 is DeleteDeckButtonClicked -> {
-                    send(DeleteDeckFeature.Wish.DeleteDeck(uiEvent.idx))
+                    deleteDeckWishSender.onNext(DeleteDeck(uiEvent.idx))
                 }
             }
             return Observable.empty()
-        }
-
-        private fun send(wish: AddDeckFeature.Wish) {
-            addDeckWishSender.onNext(wish)
-        }
-
-        private fun send(wish: DecksPreviewFeature.Wish) {
-            decksPreviewWishSender.onNext(wish)
-        }
-
-        private fun send(wish: DeleteDeckFeature.Wish) {
-            deleteDeckWishSender.onNext(wish)
         }
 
         private fun accept(state: AddDeckFeature.State): Observable<Effect> {
@@ -155,9 +152,16 @@ class HomeScreenFeature(
             return Observable.just(DecksPreviewWasReceived(decksPreview) as Effect)
         }
 
-        private fun accept(news: DecksPreviewFeature.News): Observable<Effect> {
+        private fun accept(state: ExerciseCreatorFeature.State): Observable<Effect> {
+            return Observable.just(
+                if (state.isProcessing) ExerciseIsInProcessing
+                else ExerciseCreatorIsInIdle
+            )
+        }
+
+        private fun accept(news: ExerciseCreatorFeature.News): Observable<Effect> {
             return when (news) {
-                ExerciseIsPrepared -> Observable.just(ExerciseIsPreparedNewsWasReceived as Effect)
+                ExerciseCreated -> Observable.just(ExerciseIsReady as Effect)
             }
         }
     }
@@ -169,7 +173,9 @@ class HomeScreenFeature(
         object AddDeckIsInWaitingForChangingName : Effect()
         object AddDeckIsInSaving : Effect()
         data class DecksPreviewWasReceived(val decksPreview: List<DeckPreviewViewEntity>) : Effect()
-        object ExerciseIsPreparedNewsWasReceived : Effect()
+        object ExerciseCreatorIsInIdle : Effect()
+        object ExerciseIsInProcessing : Effect()
+        object ExerciseIsReady : Effect()
     }
 
     class ReducerImpl : Reducer<ViewState, Effect> {
@@ -189,7 +195,13 @@ class HomeScreenFeature(
             is DecksPreviewWasReceived -> viewState.copy(
                 decksPreview = effect.decksPreview
             )
-            ExerciseIsPreparedNewsWasReceived -> viewState
+            ExerciseCreatorIsInIdle -> viewState.copy(
+                isProcessing = false
+            )
+            ExerciseIsInProcessing -> viewState.copy(
+                isProcessing = true
+            )
+            ExerciseIsReady -> viewState
         }
     }
 
@@ -203,7 +215,7 @@ class HomeScreenFeature(
     class NewsPublisherImpl : NewsPublisher<Action, Effect, ViewState, News> {
         override fun invoke(action: Action, effect: Effect, state: ViewState): News? {
             return when (effect) {
-                ExerciseIsPreparedNewsWasReceived -> NavigateToExercise
+                ExerciseIsReady -> NavigateToExercise
                 else -> null
             }
         }
