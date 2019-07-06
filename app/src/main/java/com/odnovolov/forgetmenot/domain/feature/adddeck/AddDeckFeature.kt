@@ -10,6 +10,8 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Action.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Effect.*
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.News.*
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.News.IncorrectDeckName.Cause
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.Cancel
@@ -175,8 +177,10 @@ class AddDeckFeature(
     class NewsPublisherImpl : NewsPublisher<Action, Effect, State, News?> {
         override fun invoke(action: Action, effect: Effect, state: State): News? {
             return when (effect) {
-                is ParsingFinishedWishError -> News.ErrorHappened(effect.throwable.message ?: "")
-                is SavingCompleted -> News.DeckAdded
+                is ParsingFinishedWishError -> ErrorHappened(effect.throwable.message ?: "")
+                NameIsEmpty -> IncorrectDeckName(Cause.NameIsEmpty)
+                is NameIsOccupied -> IncorrectDeckName(Cause.NameIsOccupied(effect.occupiedName))
+                is SavingCompleted -> DeckAdded
                 else -> null
             }
         }
@@ -184,6 +188,12 @@ class AddDeckFeature(
 
     sealed class News {
         data class ErrorHappened(val message: String) : News()
+        data class IncorrectDeckName(val cause: Cause) : News() {
+            sealed class Cause {
+                object NameIsEmpty : Cause()
+                data class NameIsOccupied(val occupiedName: String) : Cause()
+            }
+        }
         object DeckAdded : News()
     }
 }

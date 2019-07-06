@@ -22,8 +22,7 @@ import javax.inject.Inject
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.ShowDeckIsDeletedSnackbar
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
 import leakcanary.LeakSentry
 
@@ -90,7 +89,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
             .setPositiveButton(android.R.string.ok, null)
             .setNegativeButton(android.R.string.cancel, null)
             .create()
-        renameDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        renameDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         renameDialog.setOnShowListener {
             renameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener { onPositive.invoke(renameDeckEditText.text.toString()) }
@@ -122,6 +121,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         when (news) {
             NavigateToExercise -> navigateToExercise()
             ShowDeckIsDeletedSnackbar -> showDeckIsDeletedSnackbar()
+            is SetInitialRenameDialogText -> setInitialRenameDialogText(news.renameDialogText)
         }
     }
 
@@ -141,6 +141,12 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
                 { emitEvent(DeckIsDeletedSnackbarCancelActionClicked) }
             )
             .show()
+    }
+
+    private fun setInitialRenameDialogText(renameDialogText: String) {
+        val renameDeckEditText: EditText? = renameDialog.findViewById(R.id.renameDeckEditText)
+        renameDeckEditText?.setText(renameDialogText)
+        renameDeckEditText?.selectAll()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

@@ -9,6 +9,7 @@ import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature
+import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.News.IncorrectDeckName
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.State.Stage.*
 import com.odnovolov.forgetmenot.domain.feature.adddeck.AddDeckFeature.Wish.*
 import com.odnovolov.forgetmenot.domain.feature.decksexplorer.DecksExplorerFeature
@@ -23,8 +24,7 @@ import com.odnovolov.forgetmenot.presentation.entity.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Action.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Effect.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.ShowDeckIsDeletedSnackbar
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
 import io.reactivex.Observable
@@ -110,7 +110,7 @@ class HomeScreenFeature(
             return when (action) {
                 is HandleUiEvent -> handle(action.uiEvent)
                 is AcceptAddDeckFeatureState -> accept(action.state)
-                is AcceptAddDeckFeatureNews -> Observable.empty()
+                is AcceptAddDeckFeatureNews -> accept(action.news)
                 is AcceptDecksExplorerFeatureState -> accept(action.state)
                 is AcceptDeleteDeckFeatureNews -> accept(action.news)
                 is AcceptExerciseCreatorFeatureState -> accept(action.state)
@@ -158,6 +158,13 @@ class HomeScreenFeature(
             }
         }
 
+        private fun accept(news: AddDeckFeature.News): Observable<Effect> {
+            return when (news) {
+                is IncorrectDeckName -> Observable.just(IncorrectDeckNameNewsReceived(news.cause))
+                else -> Observable.empty()
+            }
+        }
+
         private fun accept(state: DecksExplorerFeature.State): Observable<Effect> {
             val decksPreview: List<DeckPreview> = state.decks
                 .map { deck: Deck ->
@@ -189,7 +196,7 @@ class HomeScreenFeature(
 
         private fun accept(state: ExerciseCreatorFeature.State): Observable<Effect> {
             return Observable.just(
-                if (state.isProcessing) ExerciseIsInProcessing
+                if (state.isProcessing) ExerciseCreatorIsInProcessing
                 else ExerciseCreatorIsInIdle
             )
         }
@@ -207,10 +214,11 @@ class HomeScreenFeature(
         object AddDeckIsInWaitingForName : Effect()
         object AddDeckIsInWaitingForChangingName : Effect()
         object AddDeckIsInSaving : Effect()
+        data class IncorrectDeckNameNewsReceived(val cause: IncorrectDeckName.Cause) : Effect()
         data class DecksPreviewUpdated(val decksPreview: List<DeckPreview>) : Effect()
         object DeckIsDeleted : Effect()
         object ExerciseCreatorIsInIdle : Effect()
-        object ExerciseIsInProcessing : Effect()
+        object ExerciseCreatorIsInProcessing : Effect()
         object ExerciseIsReady : Effect()
     }
 
@@ -234,10 +242,10 @@ class HomeScreenFeature(
             ExerciseCreatorIsInIdle -> viewState.copy(
                 isProcessing = false
             )
-            ExerciseIsInProcessing -> viewState.copy(
+            ExerciseCreatorIsInProcessing -> viewState.copy(
                 isProcessing = true
             )
-            ExerciseIsReady, DeckIsDeleted -> viewState
+            ExerciseIsReady, DeckIsDeleted, is IncorrectDeckNameNewsReceived -> viewState
         }
     }
 
@@ -253,6 +261,14 @@ class HomeScreenFeature(
             return when (effect) {
                 ExerciseIsReady -> NavigateToExercise
                 DeckIsDeleted -> ShowDeckIsDeletedSnackbar
+                is IncorrectDeckNameNewsReceived -> {
+                    when (effect.cause) {
+                        IncorrectDeckName.Cause.NameIsEmpty ->
+                            SetInitialRenameDialogText("")
+                        is IncorrectDeckName.Cause.NameIsOccupied ->
+                            SetInitialRenameDialogText(effect.cause.occupiedName)
+                    }
+                }
                 else -> null
             }
         }
@@ -261,6 +277,7 @@ class HomeScreenFeature(
     sealed class News {
         object NavigateToExercise : News()
         object ShowDeckIsDeletedSnackbar : News()
+        data class SetInitialRenameDialogText(val renameDialogText: String) : News()
     }
 
     override fun dispose() {
