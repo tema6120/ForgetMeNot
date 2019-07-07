@@ -29,9 +29,9 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEv
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.parcel.Parcelize
 import leakcanary.LeakSentry
 import java.io.InputStream
-import kotlinx.android.parcel.Parcelize
 
 class HomeScreenFeature(
     timeCapsule: AndroidTimeCapsule,
@@ -85,6 +85,7 @@ class HomeScreenFeature(
     }
 
     sealed class UiEvent {
+        object AddButtonClicked : UiEvent()
         data class ContentReceived(val inputStream: InputStream, val fileName: String?) : UiEvent()
         data class RenameDialogPositiveButtonClicked(val dialogText: String) : UiEvent()
         object RenameDialogNegativeButtonClicked : UiEvent()
@@ -120,6 +121,7 @@ class HomeScreenFeature(
 
         private fun handle(uiEvent: UiEvent): Observable<Effect> {
             when (uiEvent) {
+                AddButtonClicked -> return Observable.just(AddButtonWasClicked)
                 is ContentReceived -> {
                     val wish: AddDeckFeature.Wish =
                         if (uiEvent.fileName == null) {
@@ -209,6 +211,7 @@ class HomeScreenFeature(
     }
 
     sealed class Effect {
+        object AddButtonWasClicked : Effect()
         object AddDeckIsInIdle : Effect()
         object AddDeckIsInParsing : Effect()
         object AddDeckIsInWaitingForName : Effect()
@@ -245,7 +248,7 @@ class HomeScreenFeature(
             ExerciseCreatorIsInProcessing -> viewState.copy(
                 isProcessing = true
             )
-            ExerciseIsReady, DeckIsDeleted, is IncorrectDeckNameNewsReceived -> viewState
+            AddButtonWasClicked, ExerciseIsReady, DeckIsDeleted, is IncorrectDeckNameNewsReceived -> viewState
         }
     }
 
@@ -259,14 +262,15 @@ class HomeScreenFeature(
     class NewsPublisherImpl : NewsPublisher<Action, Effect, ViewState, News> {
         override fun invoke(action: Action, effect: Effect, state: ViewState): News? {
             return when (effect) {
+                AddButtonWasClicked -> ShowFileChooser
                 ExerciseIsReady -> NavigateToExercise
                 DeckIsDeleted -> ShowDeckIsDeletedSnackbar
                 is IncorrectDeckNameNewsReceived -> {
                     when (effect.cause) {
                         IncorrectDeckName.Cause.NameIsEmpty ->
-                            SetInitialRenameDialogText("")
+                            SetDeckNameInputDialogText("")
                         is IncorrectDeckName.Cause.NameIsOccupied ->
-                            SetInitialRenameDialogText(effect.cause.occupiedName)
+                            SetDeckNameInputDialogText(effect.cause.occupiedName)
                     }
                 }
                 else -> null
@@ -275,9 +279,10 @@ class HomeScreenFeature(
     }
 
     sealed class News {
+        object ShowFileChooser : News()
         object NavigateToExercise : News()
         object ShowDeckIsDeletedSnackbar : News()
-        data class SetInitialRenameDialogText(val renameDialogText: String) : News()
+        data class SetDeckNameInputDialogText(val text: String) : News()
     }
 
     override fun dispose() {

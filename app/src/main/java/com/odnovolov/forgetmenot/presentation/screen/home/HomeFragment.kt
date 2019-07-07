@@ -62,19 +62,12 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         toolbar.setOnMenuItemClickListener { item: MenuItem? ->
             when (item?.itemId) {
                 R.id.action_add -> {
-                    showFileChooser()
+                    emitEvent(AddButtonClicked)
                     true
                 }
                 else -> false
             }
         }
-    }
-
-    private fun showFileChooser() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/plain")
-        startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
     }
 
     private fun initRenameDialog() {
@@ -128,10 +121,18 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     override fun acceptNews(news: News) {
         when (news) {
+            ShowFileChooser -> showFileChooser()
             NavigateToExercise -> navigateToExercise()
             ShowDeckIsDeletedSnackbar -> showDeckIsDeletedSnackbar()
-            is SetInitialRenameDialogText -> setInitialRenameDialogText(news.renameDialogText)
+            is SetDeckNameInputDialogText -> setDeckNameInputDialogText(news.text)
         }
+    }
+
+    private fun showFileChooser() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .setType("text/plain")
+        startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
     }
 
     private fun navigateToExercise() {
@@ -152,7 +153,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
             .show()
     }
 
-    private fun setInitialRenameDialogText(renameDialogText: String) {
+    private fun setDeckNameInputDialogText(renameDialogText: String) {
         val renameDeckEditText: EditText? = deckNameInputDialog.findViewById(R.id.renameDeckEditText)
         renameDeckEditText?.setText(renameDialogText)
         renameDeckEditText?.selectAll()
