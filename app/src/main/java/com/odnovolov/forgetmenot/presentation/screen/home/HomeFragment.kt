@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -32,6 +34,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     @Inject lateinit var bindings: HomeFragmentBindings
     @Inject lateinit var adapter: DecksPreviewAdapter
     private lateinit var deckNameInputDialog: AlertDialog
+    private lateinit var deckNameEditText: EditText
     private lateinit var timeCapsule: AndroidTimeCapsule
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,11 +74,25 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     private fun initRenameDialog() {
-        val onPositive = { dialogText: String -> emitEvent(RenameDialogPositiveButtonClicked(dialogText)) }
-        val onNegative = { emitEvent(RenameDialogNegativeButtonClicked) }
+        val onPositive = { dialogText: String -> emitEvent(PositiveDeckNameInputDialogButtonClicked) }
+        val onNegative = { emitEvent(NegativeDeckNameInputDialogButtonClicked) }
 
         val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
-        val renameDeckEditText: EditText = contentView.findViewById(R.id.renameDeckEditText)
+        deckNameEditText = contentView.findViewById(R.id.deckNameEditText)
+        deckNameEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                if (text != null) {
+                    emitEvent(DeckNameInputTextChanged(text.toString()))
+                }
+            }
+
+        })
         deckNameInputDialog = AlertDialog.Builder(context!!)
             .setTitle(R.string.enter_deck_name)
             .setView(contentView)
@@ -86,10 +103,10 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         deckNameInputDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         deckNameInputDialog.setOnShowListener {
             deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setOnClickListener { onPositive.invoke(renameDeckEditText.text.toString()) }
+                .setOnClickListener { onPositive.invoke(deckNameEditText.text.toString()) }
             deckNameInputDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setOnClickListener { onNegative.invoke() }
-            renameDeckEditText.requestFocus()
+            deckNameEditText.requestFocus()
         }
     }
 
@@ -112,10 +129,15 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
             } else {
                 View.GONE
             }
-        if (viewState.isRenameDialogVisible) {
+        val dialogState = viewState.deckNameInputDialogState
+        if (dialogState.isVisible) {
             deckNameInputDialog.show()
         } else {
             deckNameInputDialog.dismiss()
+        }
+        deckNameEditText.error = dialogState.errorText
+        deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let{
+            it.isEnabled = dialogState.isPositiveButtonEnabled
         }
     }
 
@@ -154,9 +176,8 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     private fun setDeckNameInputDialogText(renameDialogText: String) {
-        val renameDeckEditText: EditText? = deckNameInputDialog.findViewById(R.id.renameDeckEditText)
-        renameDeckEditText?.setText(renameDialogText)
-        renameDeckEditText?.selectAll()
+        deckNameEditText.setText(renameDialogText)
+        deckNameEditText.selectAll()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

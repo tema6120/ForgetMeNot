@@ -27,6 +27,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Effe
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState.DeckNameInputDialogState
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.parcel.Parcelize
@@ -87,8 +88,9 @@ class HomeScreenFeature(
     sealed class UiEvent {
         object AddButtonClicked : UiEvent()
         data class ContentReceived(val inputStream: InputStream, val fileName: String?) : UiEvent()
-        data class RenameDialogPositiveButtonClicked(val dialogText: String) : UiEvent()
-        object RenameDialogNegativeButtonClicked : UiEvent()
+        data class DeckNameInputTextChanged(val text: String) : UiEvent()
+        object PositiveDeckNameInputDialogButtonClicked : UiEvent()
+        object NegativeDeckNameInputDialogButtonClicked : UiEvent()
         data class DeckButtonClicked(val idx: Int) : UiEvent()
         data class DeleteDeckButtonClicked(val idx: Int) : UiEvent()
         object DeckIsDeletedSnackbarCancelActionClicked : UiEvent()
@@ -107,9 +109,9 @@ class HomeScreenFeature(
         private val exerciseCreatorWishSender = PublishSubject.create<ExerciseCreatorFeature.Wish>()
             .apply { subscribe(exerciseCreatorFeature) }
 
-        override fun invoke(state: ViewState, action: Action): Observable<Effect> {
+        override fun invoke(viewState: ViewState, action: Action): Observable<Effect> {
             return when (action) {
-                is HandleUiEvent -> handle(action.uiEvent)
+                is HandleUiEvent -> handle(action.uiEvent, viewState)
                 is AcceptAddDeckFeatureState -> accept(action.state)
                 is AcceptAddDeckFeatureNews -> accept(action.news)
                 is AcceptDecksExplorerFeatureState -> accept(action.state)
@@ -119,7 +121,7 @@ class HomeScreenFeature(
             }
         }
 
-        private fun handle(uiEvent: UiEvent): Observable<Effect> {
+        private fun handle(uiEvent: UiEvent, viewState: ViewState): Observable<Effect> {
             when (uiEvent) {
                 AddButtonClicked -> return Observable.just(AddButtonWasClicked)
                 is ContentReceived -> {
@@ -131,10 +133,40 @@ class HomeScreenFeature(
                         }
                     addDeckWishSender.onNext(wish)
                 }
-                is RenameDialogPositiveButtonClicked -> {
-                    addDeckWishSender.onNext(OfferName(uiEvent.dialogText))
+                is DeckNameInputTextChanged -> {
+                    val userText = uiEvent.text
+                    val deckNameInputDialogState = when {
+                        userText.isEmpty() -> {
+                            DeckNameInputDialogState(
+                                isVisible = true,
+                                inputText = userText,
+                                errorText = "Name cannot be empty",
+                                isPositiveButtonEnabled = false
+                            )
+                        }
+                        viewState.decksPreview.any { it.deckName == userText } -> {
+                            DeckNameInputDialogState(
+                                isVisible = true,
+                                inputText = userText,
+                                errorText = "This name is occupied",
+                                isPositiveButtonEnabled = false
+                            )
+                        }
+                        else -> {
+                            DeckNameInputDialogState(
+                                isVisible = true,
+                                inputText = userText,
+                                errorText = null,
+                                isPositiveButtonEnabled = true
+                            )
+                        }
+                    }
+                    return Observable.just(DeckNameInputDialogStateChanged(deckNameInputDialogState))
                 }
-                RenameDialogNegativeButtonClicked -> {
+                PositiveDeckNameInputDialogButtonClicked -> {
+                    addDeckWishSender.onNext(OfferName(viewState.deckNameInputDialogState.inputText))
+                }
+                NegativeDeckNameInputDialogButtonClicked -> {
                     addDeckWishSender.onNext(Cancel)
                 }
                 is DeckButtonClicked -> {
@@ -218,6 +250,7 @@ class HomeScreenFeature(
         object AddDeckIsInWaitingForChangingName : Effect()
         object AddDeckIsInSaving : Effect()
         data class IncorrectDeckNameNewsReceived(val cause: IncorrectDeckName.Cause) : Effect()
+        data class DeckNameInputDialogStateChanged(val deckNameInputDialogState: DeckNameInputDialogState) : Effect()
         data class DecksPreviewUpdated(val decksPreview: List<DeckPreview>) : Effect()
         object DeckIsDeleted : Effect()
         object ExerciseCreatorIsInIdle : Effect()
@@ -228,16 +261,19 @@ class HomeScreenFeature(
     class ReducerImpl : Reducer<ViewState, Effect> {
         override fun invoke(viewState: ViewState, effect: Effect): ViewState = when (effect) {
             AddDeckIsInIdle -> viewState.copy(
-                isRenameDialogVisible = false,
+                deckNameInputDialogState = viewState.deckNameInputDialogState.copy(isVisible = false),
                 isProcessing = false
             )
             AddDeckIsInParsing, AddDeckIsInSaving -> viewState.copy(
-                isRenameDialogVisible = false,
+                deckNameInputDialogState = viewState.deckNameInputDialogState.copy(isVisible = false),
                 isProcessing = true
             )
             AddDeckIsInWaitingForName, AddDeckIsInWaitingForChangingName -> viewState.copy(
-                isRenameDialogVisible = true,
+                deckNameInputDialogState = viewState.deckNameInputDialogState.copy(isVisible = true),
                 isProcessing = false
+            )
+            is DeckNameInputDialogStateChanged -> viewState.copy(
+                deckNameInputDialogState = effect.deckNameInputDialogState
             )
             is DecksPreviewUpdated -> viewState.copy(
                 decksPreview = effect.decksPreview
@@ -255,9 +291,18 @@ class HomeScreenFeature(
     @Parcelize
     data class ViewState(
         val decksPreview: List<DeckPreview> = emptyList(),
-        val isRenameDialogVisible: Boolean = false,
+        val deckNameInputDialogState: DeckNameInputDialogState = DeckNameInputDialogState(),
         val isProcessing: Boolean = false
-    ) : Parcelable
+    ) : Parcelable {
+
+        @Parcelize
+        data class DeckNameInputDialogState(
+            val isVisible: Boolean = false,
+            val inputText: String = "",
+            val errorText: String? = null,
+            val isPositiveButtonEnabled: Boolean = false
+        ) : Parcelable
+    }
 
     class NewsPublisherImpl : NewsPublisher<Action, Effect, ViewState, News> {
         override fun invoke(action: Action, effect: Effect, state: ViewState): News? {
