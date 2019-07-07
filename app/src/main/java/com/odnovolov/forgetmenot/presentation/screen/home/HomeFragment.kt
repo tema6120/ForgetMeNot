@@ -6,7 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager.LayoutParams
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -16,21 +19,19 @@ import com.badoo.mvicore.android.AndroidTimeCapsule
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
-import kotlinx.android.synthetic.main.fragment_home.*
-import javax.inject.Inject
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
+import kotlinx.android.synthetic.main.fragment_home.*
 import leakcanary.LeakSentry
+import javax.inject.Inject
 
 class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     @Inject lateinit var bindings: HomeFragmentBindings
     @Inject lateinit var adapter: DecksPreviewAdapter
-    private lateinit var renameDialog: AlertDialog
+    private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var timeCapsule: AndroidTimeCapsule
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,18 +83,18 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
         val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
         val renameDeckEditText: EditText = contentView.findViewById(R.id.renameDeckEditText)
-        renameDialog = AlertDialog.Builder(context!!)
+        deckNameInputDialog = AlertDialog.Builder(context!!)
             .setTitle(R.string.enter_deck_name)
             .setView(contentView)
             .setCancelable(false)
             .setPositiveButton(android.R.string.ok, null)
             .setNegativeButton(android.R.string.cancel, null)
             .create()
-        renameDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        renameDialog.setOnShowListener {
-            renameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        deckNameInputDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        deckNameInputDialog.setOnShowListener {
+            deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener { onPositive.invoke(renameDeckEditText.text.toString()) }
-            renameDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            deckNameInputDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setOnClickListener { onNegative.invoke() }
             renameDeckEditText.requestFocus()
         }
@@ -101,6 +102,14 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     private fun initRecyclerAdapter() {
         decksPreviewRecycler.adapter = adapter
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val renameDialogState = savedInstanceState?.getBundle(RENAME_DIALOG_STATE_KEY)
+        if (renameDialogState != null) {
+            deckNameInputDialog.onRestoreInstanceState(renameDialogState)
+        }
     }
 
     override fun accept(viewState: ViewState) {
@@ -111,9 +120,9 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
                 View.GONE
             }
         if (viewState.isRenameDialogVisible) {
-            renameDialog.show()
+            deckNameInputDialog.show()
         } else {
-            renameDialog.dismiss()
+            deckNameInputDialog.dismiss()
         }
     }
 
@@ -144,7 +153,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     private fun setInitialRenameDialogText(renameDialogText: String) {
-        val renameDeckEditText: EditText? = renameDialog.findViewById(R.id.renameDeckEditText)
+        val renameDeckEditText: EditText? = deckNameInputDialog.findViewById(R.id.renameDeckEditText)
         renameDeckEditText?.setText(renameDialogText)
         renameDeckEditText?.selectAll()
     }
@@ -177,6 +186,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         timeCapsule.saveState(outState)
+        outState.putBundle(RENAME_DIALOG_STATE_KEY, deckNameInputDialog.onSaveInstanceState())
     }
 
     override fun onDestroy() {
@@ -186,5 +196,6 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     companion object {
         const val GET_CONTENT_REQUEST_CODE = 39
+        const val RENAME_DIALOG_STATE_KEY = "deckNameInputDialog"
     }
 }
