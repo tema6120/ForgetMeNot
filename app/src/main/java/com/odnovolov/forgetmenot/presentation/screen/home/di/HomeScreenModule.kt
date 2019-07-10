@@ -19,14 +19,12 @@ class HomeScreenModule {
     @Provides
     fun homeScreenFeature(
         timeCapsule: AndroidTimeCapsule,
-        addDeckFeature: AddDeckFeature,
         decksExplorerFeature: DecksExplorerFeature,
         deleteDeckFeature: DeleteDeckFeature,
         exerciseCreatorFeature: ExerciseCreatorFeature
     ): HomeScreenFeature {
         return HomeScreenFeature(
             timeCapsule,
-            addDeckFeature,
             decksExplorerFeature,
             deleteDeckFeature,
             exerciseCreatorFeature

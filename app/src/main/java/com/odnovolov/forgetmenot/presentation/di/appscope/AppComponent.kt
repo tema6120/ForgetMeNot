@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.di.appscope
 
 import com.odnovolov.forgetmenot.presentation.App
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.di.AddDeckScreenComponent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.di.ExerciseScreenComponent
 import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
 import dagger.BindsInstance
@@ -20,6 +21,7 @@ interface AppComponent {
 
     fun homeScreenComponentBuilder(): HomeScreenComponent.Builder
     fun exerciseScreenComponentBuilder(): ExerciseScreenComponent.Builder
+    fun addDeckScreenComponentBuilder(): AddDeckScreenComponent.Builder
 
     companion object {
         private lateinit var INSTANCE: AppComponent

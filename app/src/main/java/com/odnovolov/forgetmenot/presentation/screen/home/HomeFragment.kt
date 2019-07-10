@@ -1,29 +1,21 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import android.app.Activity
-import android.content.ContentResolver
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager.LayoutParams
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.badoo.mvicore.android.AndroidTimeCapsule
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.ShowDeckIsDeletedSnackbar
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.DeckIsDeletedSnackbarCancelActionClicked
 import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
 import kotlinx.android.synthetic.main.fragment_home.*
 import leakcanary.LeakSentry
@@ -33,9 +25,8 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     @Inject lateinit var bindings: HomeFragmentBindings
     @Inject lateinit var adapter: DecksPreviewAdapter
-    private lateinit var deckNameInputDialog: AlertDialog
-    private lateinit var deckNameEditText: EditText
     private lateinit var timeCapsule: AndroidTimeCapsule
+    private lateinit var addButtonClickListener: AddButtonClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         timeCapsule = AndroidTimeCapsule(savedInstanceState)
@@ -45,7 +36,8 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
@@ -54,9 +46,14 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         return rootView
     }
 
+    override fun onAttachFragment(childFragment: Fragment) {
+        if (childFragment is AddButtonClickListener) {
+            addButtonClickListener = childFragment
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupToolbar()
-        initRenameDialog()
         initRecyclerAdapter()
         super.onViewCreated(view, savedInstanceState)
     }
@@ -65,7 +62,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         toolbar.setOnMenuItemClickListener { item: MenuItem? ->
             when (item?.itemId) {
                 R.id.action_add -> {
-                    emitEvent(AddButtonClicked)
+                    addButtonClickListener.onAddButtonClicked()
                     true
                 }
                 else -> false
@@ -73,53 +70,8 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         }
     }
 
-    private fun initRenameDialog() {
-        val onPositive = { dialogText: String -> emitEvent(PositiveDeckNameInputDialogButtonClicked) }
-        val onNegative = { emitEvent(NegativeDeckNameInputDialogButtonClicked) }
-
-        val contentView = activity!!.layoutInflater.inflate(R.layout.dialog_rename_deck, null)
-        deckNameEditText = contentView.findViewById(R.id.deckNameEditText)
-        deckNameEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                if (text != null) {
-                    emitEvent(DeckNameInputTextChanged(text.toString()))
-                }
-            }
-
-        })
-        deckNameInputDialog = AlertDialog.Builder(context!!)
-            .setTitle(R.string.enter_deck_name)
-            .setView(contentView)
-            .setCancelable(false)
-            .setPositiveButton(android.R.string.ok, null)
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
-        deckNameInputDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        deckNameInputDialog.setOnShowListener {
-            deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setOnClickListener { onPositive.invoke(deckNameEditText.text.toString()) }
-            deckNameInputDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setOnClickListener { onNegative.invoke() }
-            deckNameEditText.requestFocus()
-        }
-    }
-
     private fun initRecyclerAdapter() {
         decksPreviewRecycler.adapter = adapter
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        val renameDialogState = savedInstanceState?.getBundle(RENAME_DIALOG_STATE_KEY)
-        if (renameDialogState != null) {
-            deckNameInputDialog.onRestoreInstanceState(renameDialogState)
-        }
     }
 
     override fun accept(viewState: ViewState) {
@@ -129,36 +81,13 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
             } else {
                 View.GONE
             }
-        val dialogState = viewState.deckNameInputDialogState
-        if (dialogState.isVisible) {
-            deckNameInputDialog.show()
-        } else {
-            deckNameInputDialog.dismiss()
-        }
-        deckNameEditText.error = dialogState.errorText
-        deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let{
-            it.isEnabled = dialogState.isPositiveButtonEnabled
-        }
     }
 
     override fun acceptNews(news: News) {
         when (news) {
-            ShowFileChooser -> showFileChooser()
-            NavigateToExercise -> navigateToExercise()
             ShowDeckIsDeletedSnackbar -> showDeckIsDeletedSnackbar()
-            is SetDeckNameInputDialogText -> setDeckNameInputDialogText(news.text)
+            NavigateToExercise -> navigateToExercise()
         }
-    }
-
-    private fun showFileChooser() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/plain")
-        startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
-    }
-
-    private fun navigateToExercise() {
-        findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
     }
 
     private fun showDeckIsDeletedSnackbar() {
@@ -175,40 +104,13 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
             .show()
     }
 
-    private fun setDeckNameInputDialogText(renameDialogText: String) {
-        deckNameEditText.setText(renameDialogText)
-        deckNameEditText.selectAll()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-        if (requestCode == GET_CONTENT_REQUEST_CODE) {
-            val uri = intent?.data ?: return
-            val contentResolver: ContentResolver = context?.contentResolver ?: return
-            val inputStream = contentResolver.openInputStream(uri) ?: return
-            val fileName = getFileName(contentResolver, uri)
-            emitEvent(ContentReceived(inputStream, fileName))
-        }
-    }
-
-    private fun getFileName(contentResolver: ContentResolver, uri: Uri): String? {
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        cursor.use {
-            if (cursor == null || !cursor.moveToFirst()) {
-                return null
-            }
-            val nameIndex: Int = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            return cursor.getString(nameIndex)
-        }
+    private fun navigateToExercise() {
+        findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         timeCapsule.saveState(outState)
-        outState.putBundle(RENAME_DIALOG_STATE_KEY, deckNameInputDialog.onSaveInstanceState())
     }
 
     override fun onDestroy() {
@@ -216,8 +118,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         LeakSentry.refWatcher.watch(this)
     }
 
-    companion object {
-        const val GET_CONTENT_REQUEST_CODE = 39
-        const val RENAME_DIALOG_STATE_KEY = "deckNameInputDialog"
+    interface AddButtonClickListener {
+        fun onAddButtonClicked()
     }
 }

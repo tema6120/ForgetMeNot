@@ -19,13 +19,12 @@ import javax.inject.Inject
 class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
 
     companion object {
-        private const val KEY_POSITION =
-            "com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCardFragment.KEY_POSITION"
+        private const val ARG_POSITION = "position"
 
         fun create(position: Int) =
             ExerciseCardFragment().apply {
                 arguments = Bundle(1).apply {
-                    putInt(KEY_POSITION, position)
+                    putInt(ARG_POSITION, position)
                 }
             }
     }
@@ -36,7 +35,7 @@ class ExerciseCardFragment : BaseFragment<ViewState, UiEvent, Nothing>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         ExerciseScreenComponent.get()!!.inject(this)
         super.onCreate(savedInstanceState)
-        position = arguments?.getInt(KEY_POSITION) ?: throw IllegalStateException()
+        position = arguments?.getInt(ARG_POSITION) ?: throw IllegalStateException()
         bindings.setup(this)
     }
 

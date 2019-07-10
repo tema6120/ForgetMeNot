@@ -8,7 +8,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:maxLines="1"
-            android:inputType="text"
-            android:selectAllOnFocus="true"/>
+            android:inputType="text"/>
 
 </FrameLayout>

@@ -11,4 +11,5 @@
     <string name="description_undo_button">Undo</string>
     <string name="snackbar_message_deck_is_deleted">Deck is deleted</string>
     <string name="snackbar_action_cancel">cancel</string>
+    <string name="label_add_deck_screen">Add Deck</string>
 </resources>
