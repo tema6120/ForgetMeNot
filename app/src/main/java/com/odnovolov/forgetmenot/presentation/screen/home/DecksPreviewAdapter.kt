@@ -70,7 +70,8 @@ class DecksPreviewAdapter
     }
 
     override fun accept(viewState: ViewState) {
-        submitList(viewState.decksPreview)
+        val displayedDecksPreview = viewState.decksPreview.filter { it.isVisible }
+        submitList(displayedDecksPreview)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)

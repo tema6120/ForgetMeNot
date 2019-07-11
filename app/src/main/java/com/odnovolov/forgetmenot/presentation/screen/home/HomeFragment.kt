@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.ShowDeckIsDeletedSnackbar
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.DeckIsDeletedSnackbarCancelActionClicked
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.SearchTextChanged
 import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
 import kotlinx.android.synthetic.main.fragment_home.*
 import leakcanary.LeakSentry
@@ -68,6 +70,22 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
                 else -> false
             }
         }
+        configureSearchView()
+    }
+
+    private fun configureSearchView() {
+        val searchItem = toolbar.menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                emitEvent(SearchTextChanged(newText))
+                return true
+            }
+        })
     }
 
     private fun initRecyclerAdapter() {

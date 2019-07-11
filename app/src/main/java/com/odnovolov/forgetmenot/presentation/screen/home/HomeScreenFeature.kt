@@ -78,6 +78,7 @@ class HomeScreenFeature(
         data class DeckButtonClicked(val idx: Int) : UiEvent()
         data class DeleteDeckButtonClicked(val idx: Int) : UiEvent()
         object DeckIsDeletedSnackbarCancelActionClicked : UiEvent()
+        data class SearchTextChanged(val searchText: String) : UiEvent()
     }
 
     class ActorImpl(
@@ -92,15 +93,15 @@ class HomeScreenFeature(
 
         override fun invoke(viewState: ViewState, action: Action): Observable<Effect> {
             return when (action) {
-                is HandleUiEvent -> handle(action.uiEvent)
-                is AcceptDecksExplorerFeatureState -> accept(action.state)
+                is HandleUiEvent -> handle(action.uiEvent, viewState)
+                is AcceptDecksExplorerFeatureState -> accept(action.state, viewState)
                 is AcceptDeleteDeckFeatureNews -> accept(action.news)
                 is AcceptExerciseCreatorFeatureState -> accept(action.state)
                 is AcceptExerciseCreatorFeatureNews -> accept(action.news)
             }
         }
 
-        private fun handle(uiEvent: UiEvent): Observable<Effect> {
+        private fun handle(uiEvent: UiEvent, viewState: ViewState): Observable<Effect> {
             when (uiEvent) {
                 is DeckButtonClicked -> {
                     exerciseCreatorWishSender.onNext(CreateExercise(uiEvent.idx))
@@ -111,11 +112,27 @@ class HomeScreenFeature(
                 DeckIsDeletedSnackbarCancelActionClicked -> {
                     deleteDeckWishSender.onNext(RestoreDeck)
                 }
+                is SearchTextChanged -> {
+                    val updatedDecksPreview = viewState.decksPreview
+                        .map { oldDeckPreview ->
+                            val isVisible =
+                                if (uiEvent.searchText.isEmpty()) {
+                                    true
+                                } else {
+                                    oldDeckPreview.deckName.contains(uiEvent.searchText, ignoreCase = true)
+                                }
+                            oldDeckPreview.copy(isVisible = isVisible)
+                        }
+                    return Observable.just(
+                        DecksPreviewUpdated(updatedDecksPreview),
+                        SearchTextUpdated(uiEvent.searchText)
+                    )
+                }
             }
             return Observable.empty()
         }
 
-        private fun accept(state: DecksExplorerFeature.State): Observable<Effect> {
+        private fun accept(state: DecksExplorerFeature.State, viewState: ViewState): Observable<Effect> {
             val decksPreview: List<DeckPreview> = state.decks
                 .map { deck: Deck ->
                     val passedLaps: Int = deck.cards
@@ -126,11 +143,18 @@ class HomeScreenFeature(
                         learned = deck.cards.filter { it.isLearned }.size,
                         total = deck.cards.size
                     )
+                    val isVisible =
+                        if (viewState.searchText.isEmpty()) {
+                            true
+                        } else {
+                            deck.name.contains(viewState.searchText, ignoreCase = true)
+                        }
                     DeckPreview(
                         deck.id,
                         deck.name,
                         passedLaps,
-                        progress
+                        progress,
+                        isVisible
                     )
                 }
             return Observable.just(DecksPreviewUpdated(decksPreview))
@@ -160,6 +184,7 @@ class HomeScreenFeature(
 
     sealed class Effect {
         data class DecksPreviewUpdated(val decksPreview: List<DeckPreview>) : Effect()
+        data class SearchTextUpdated(val searchText: String) : Effect()
         object DeckIsDeleted : Effect()
         object ExerciseCreatorIsInIdle : Effect()
         object ExerciseCreatorIsInProcessing : Effect()
@@ -170,6 +195,9 @@ class HomeScreenFeature(
         override fun invoke(viewState: ViewState, effect: Effect): ViewState = when (effect) {
             is DecksPreviewUpdated -> viewState.copy(
                 decksPreview = effect.decksPreview
+            )
+            is SearchTextUpdated -> viewState.copy(
+                searchText = effect.searchText
             )
             ExerciseCreatorIsInIdle -> viewState.copy(
                 isProcessing = false
@@ -184,6 +212,7 @@ class HomeScreenFeature(
     @Parcelize
     data class ViewState(
         val decksPreview: List<DeckPreview> = emptyList(),
+        val searchText: String = "",
         val isProcessing: Boolean = false
     ) : Parcelable
 

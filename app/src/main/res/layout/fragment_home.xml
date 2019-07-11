@@ -9,6 +9,7 @@
 
     <androidx.appcompat.widget.Toolbar
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:theme="@style/SearchViewStyle"
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

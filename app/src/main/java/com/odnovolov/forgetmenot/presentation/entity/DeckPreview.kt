@@ -8,7 +8,8 @@ data class DeckPreview(
     val deckId: Int,
     val deckName: String,
     val passedLaps: Int,
-    val progress: Progress
+    val progress: Progress,
+    val isVisible: Boolean
 ) : Parcelable {
 
     @Parcelize

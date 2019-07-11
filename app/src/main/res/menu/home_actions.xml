@@ -6,4 +6,11 @@
           android:title="@string/add_new_deck"
           android:icon="@drawable/ic_add_white_24dp"
           app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_search"
+          android:title="@string/action_search"
+          android:icon="@drawable/ic_search_white_24dp"
+          app:showAsAction="ifRoom|collapseActionView"
+          app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
 </menu>
