@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import java.util.*
 
 @Entity(tableName = "decks")
 data class DeckDbEntity(
@@ -13,11 +14,17 @@ data class DeckDbEntity(
     val id: Int,
 
     @ColumnInfo(name = "name")
-    val name: String
+    val name: String,
+
+    @ColumnInfo(name = "createdAt")
+    val createdAt: Calendar,
+
+    @ColumnInfo(name = "lastOpenedAt")
+    val lastOpenedAt: Calendar?
 ) {
-    fun toDeck(cards: List<Card>) = Deck(id, name, cards)
+    fun toDeck(cards: List<Card>) = Deck(id, name, cards, createdAt, lastOpenedAt)
 
     companion object {
-        fun fromDeck(deck: Deck) = DeckDbEntity(deck.id, deck.name)
+        fun fromDeck(deck: Deck) = DeckDbEntity(deck.id, deck.name, deck.createdAt, deck.lastOpenedAt)
     }
 }

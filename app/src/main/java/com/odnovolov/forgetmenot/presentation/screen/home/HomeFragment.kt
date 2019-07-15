@@ -14,10 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.ShowDeckIsDeletedSnackbar
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.DeckIsDeletedSnackbarCancelActionClicked
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.SearchTextChanged
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.di.HomeScreenComponent
 import kotlinx.android.synthetic.main.fragment_home.*
 import leakcanary.LeakSentry
@@ -26,7 +24,7 @@ import javax.inject.Inject
 class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
 
     @Inject lateinit var bindings: HomeFragmentBindings
-    @Inject lateinit var adapter: DecksPreviewAdapter
+    @Inject lateinit var recyclerAdapter: DecksPreviewAdapter
     private lateinit var timeCapsule: AndroidTimeCapsule
     private lateinit var addButtonClickListener: AddButtonClickListener
 
@@ -67,6 +65,10 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
                     addButtonClickListener.onAddButtonClicked()
                     true
                 }
+                R.id.action_sort_by -> {
+                    emitEvent(SortByMenuItemClicked)
+                    true
+                }
                 else -> false
             }
         }
@@ -89,7 +91,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
     }
 
     private fun initRecyclerAdapter() {
-        decksPreviewRecycler.adapter = adapter
+        decksPreviewRecycler.adapter = recyclerAdapter
     }
 
     override fun accept(viewState: ViewState) {
@@ -105,6 +107,7 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         when (news) {
             ShowDeckIsDeletedSnackbar -> showDeckIsDeletedSnackbar()
             NavigateToExercise -> navigateToExercise()
+            ShowDeckSortingBottomSheet -> showDeckSortingBottomSheet()
         }
     }
 
@@ -126,13 +129,23 @@ class HomeFragment : BaseFragment<ViewState, UiEvent, News>() {
         findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
     }
 
+    private fun showDeckSortingBottomSheet() {
+        DeckSortingBottomSheet().show(childFragmentManager, "DeckSortingBottomSheet Tag")
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         timeCapsule.saveState(outState)
     }
 
+    override fun onDestroyView() {
+        decksPreviewRecycler.adapter = null
+        super.onDestroyView()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        HomeScreenComponent.destroy()
         LeakSentry.refWatcher.watch(this)
     }
 

@@ -13,4 +13,9 @@
           app:showAsAction="ifRoom|collapseActionView"
           app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
+    <item android:id="@+id/action_sort_by"
+          android:title="@string/action_sort_by"
+          android:icon="@drawable/ic_sort_white_24dp"
+          app:showAsAction="ifRoom"/>
+
 </menu>

@@ -1,8 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.badoo.mvicore.binder.Binder
-import com.odnovolov.forgetmenot.presentation.common.LifecycleScope.CREATE_DESTROY
-import com.odnovolov.forgetmenot.presentation.common.adaptForBinder
 
 class HomeFragmentBindings(
     private val feature: HomeScreenFeature,

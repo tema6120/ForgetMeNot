@@ -8,7 +8,10 @@ import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.BaseFeature
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.DeckSorting
+import com.odnovolov.forgetmenot.domain.entity.DeckSorting.*
 import com.odnovolov.forgetmenot.domain.feature.decksexplorer.DecksExplorerFeature
+import com.odnovolov.forgetmenot.domain.feature.decksexplorer.DecksExplorerFeature.Wish.ChangeSorting
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature.News.*
 import com.odnovolov.forgetmenot.domain.feature.deletedeck.DeleteDeckFeature.Wish.DeleteDeck
@@ -20,8 +23,7 @@ import com.odnovolov.forgetmenot.presentation.entity.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Action.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.Effect.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.NavigateToExercise
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.ShowDeckIsDeletedSnackbar
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.News.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.UiEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenFeature.ViewState
 import io.reactivex.Observable
@@ -38,7 +40,7 @@ class HomeScreenFeature(
     initialState = timeCapsule.get(HomeScreenFeature::class.java) ?: ViewState(),
     wishToAction = { HandleUiEvent(it) },
     bootstrapper = BootstrapperImpl(decksExplorerFeature, deleteDeckFeature, exerciseCreatorFeature),
-    actor = ActorImpl(deleteDeckFeature, exerciseCreatorFeature),
+    actor = ActorImpl(decksExplorerFeature, deleteDeckFeature, exerciseCreatorFeature),
     reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {
@@ -79,13 +81,20 @@ class HomeScreenFeature(
         data class DeleteDeckButtonClicked(val idx: Int) : UiEvent()
         object DeckIsDeletedSnackbarCancelActionClicked : UiEvent()
         data class SearchTextChanged(val searchText: String) : UiEvent()
+        object SortByMenuItemClicked : UiEvent()
+        object SortByNameTextViewClicked : UiEvent()
+        object SortByTimeCreatedTextViewClicked : UiEvent()
+        object SortByLastOpenedTextViewClicked : UiEvent()
     }
 
     class ActorImpl(
+        decksExplorerFeature: DecksExplorerFeature,
         deleteDeckFeature: DeleteDeckFeature,
         exerciseCreatorFeature: ExerciseCreatorFeature
     ) : Actor<ViewState, Action, Effect> {
 
+        private val decksExplorerWishSender = PublishSubject.create<DecksExplorerFeature.Wish>()
+            .apply { subscribe(decksExplorerFeature) }
         private val deleteDeckWishSender = PublishSubject.create<DeleteDeckFeature.Wish>()
             .apply { subscribe(deleteDeckFeature) }
         private val exerciseCreatorWishSender = PublishSubject.create<ExerciseCreatorFeature.Wish>()
@@ -102,15 +111,18 @@ class HomeScreenFeature(
         }
 
         private fun handle(uiEvent: UiEvent, viewState: ViewState): Observable<Effect> {
-            when (uiEvent) {
+            return when (uiEvent) {
                 is DeckButtonClicked -> {
                     exerciseCreatorWishSender.onNext(CreateExercise(uiEvent.idx))
+                    Observable.empty()
                 }
                 is DeleteDeckButtonClicked -> {
                     deleteDeckWishSender.onNext(DeleteDeck(uiEvent.idx))
+                    Observable.empty()
                 }
                 DeckIsDeletedSnackbarCancelActionClicked -> {
                     deleteDeckWishSender.onNext(RestoreDeck)
+                    Observable.empty()
                 }
                 is SearchTextChanged -> {
                     val updatedDecksPreview = viewState.decksPreview
@@ -128,8 +140,22 @@ class HomeScreenFeature(
                         SearchTextUpdated(uiEvent.searchText)
                     )
                 }
+                SortByMenuItemClicked -> {
+                    Observable.just(SortByMenuItemWasClicked)
+                }
+                SortByNameTextViewClicked -> {
+                    decksExplorerWishSender.onNext(ChangeSorting(BY_NAME))
+                    return Observable.just(SortingWasSelected)
+                }
+                SortByTimeCreatedTextViewClicked -> {
+                    decksExplorerWishSender.onNext(ChangeSorting(BY_TIME_CREATED))
+                    return Observable.just(SortingWasSelected)
+                }
+                SortByLastOpenedTextViewClicked -> {
+                    decksExplorerWishSender.onNext(ChangeSorting(BY_LAST_OPENED))
+                    return Observable.just(SortingWasSelected)
+                }
             }
-            return Observable.empty()
         }
 
         private fun accept(state: DecksExplorerFeature.State, viewState: ViewState): Observable<Effect> {
@@ -157,7 +183,10 @@ class HomeScreenFeature(
                         isVisible
                     )
                 }
-            return Observable.just(DecksPreviewUpdated(decksPreview))
+            return Observable.just(
+                DecksPreviewUpdated(decksPreview),
+                DeckSortingUpdated(state.deckSorting)
+            )
         }
 
         private fun accept(news: DeleteDeckFeature.News): Observable<Effect> {
@@ -184,17 +213,23 @@ class HomeScreenFeature(
 
     sealed class Effect {
         data class DecksPreviewUpdated(val decksPreview: List<DeckPreview>) : Effect()
+        data class DeckSortingUpdated(val deckSorting: DeckSorting?) : Effect()
         data class SearchTextUpdated(val searchText: String) : Effect()
         object DeckIsDeleted : Effect()
         object ExerciseCreatorIsInIdle : Effect()
         object ExerciseCreatorIsInProcessing : Effect()
         object ExerciseIsReady : Effect()
+        object SortByMenuItemWasClicked : Effect()
+        object SortingWasSelected : Effect()
     }
 
     class ReducerImpl : Reducer<ViewState, Effect> {
         override fun invoke(viewState: ViewState, effect: Effect): ViewState = when (effect) {
             is DecksPreviewUpdated -> viewState.copy(
                 decksPreview = effect.decksPreview
+            )
+            is DeckSortingUpdated -> viewState.copy(
+                deckSorting = effect.deckSorting
             )
             is SearchTextUpdated -> viewState.copy(
                 searchText = effect.searchText
@@ -205,13 +240,14 @@ class HomeScreenFeature(
             ExerciseCreatorIsInProcessing -> viewState.copy(
                 isProcessing = true
             )
-            ExerciseIsReady, DeckIsDeleted -> viewState
+            ExerciseIsReady, DeckIsDeleted, SortByMenuItemWasClicked, SortingWasSelected -> viewState
         }
     }
 
     @Parcelize
     data class ViewState(
         val decksPreview: List<DeckPreview> = emptyList(),
+        val deckSorting: DeckSorting? = null,
         val searchText: String = "",
         val isProcessing: Boolean = false
     ) : Parcelable
@@ -221,6 +257,8 @@ class HomeScreenFeature(
             return when (effect) {
                 ExerciseIsReady -> NavigateToExercise
                 DeckIsDeleted -> ShowDeckIsDeletedSnackbar
+                SortByMenuItemWasClicked -> ShowDeckSortingBottomSheet
+                SortingWasSelected -> DismissDeckSortingBottomSheet
                 else -> null
             }
         }
@@ -229,6 +267,8 @@ class HomeScreenFeature(
     sealed class News {
         object NavigateToExercise : News()
         object ShowDeckIsDeletedSnackbar : News()
+        object ShowDeckSortingBottomSheet : News()
+        object DismissDeckSortingBottomSheet : News()
     }
 
     override fun dispose() {

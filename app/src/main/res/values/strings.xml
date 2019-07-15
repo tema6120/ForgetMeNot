@@ -13,4 +13,9 @@
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
+    <string name="action_sort_by">Sort by</string>
+    <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
+    <string name="text_sort_by_name_textview">Name</string>
+    <string name="text_sort_by_time_created_textview">Time created</string>
+    <string name="text_sort_by_last_opened_textview">Last opened</string>
 </resources>

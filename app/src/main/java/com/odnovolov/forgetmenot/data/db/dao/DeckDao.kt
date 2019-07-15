@@ -23,10 +23,10 @@ abstract class DeckDao {
     }
 
     @Insert
-    abstract fun insertInternal(deckDbRow: DeckDbEntity): Long
+    abstract fun insertInternal(deckDbEntity: DeckDbEntity): Long
 
     @Insert
-    abstract fun insertInternal(cardDbRow: CardDbEntity)
+    abstract fun insertInternal(cardDbEntity: CardDbEntity)
 
     // Read
 
@@ -64,6 +64,24 @@ abstract class DeckDao {
             return deckDbEntity.toDeck(cards)
         }
     }
+
+    // Update
+
+    @Transaction
+    open fun updateDeck(deck: Deck) {
+        val deckDbEntity = DeckDbEntity.fromDeck(deck)
+        updateInternal(deckDbEntity)
+
+        deck.cards
+            .map { card: Card -> CardDbEntity.fromCard(card, deck.id) }
+            .forEach { cardDbEntity: CardDbEntity -> updateInternal(cardDbEntity) }
+    }
+
+    @Update
+    abstract fun updateInternal(deckDbEntity: DeckDbEntity)
+
+    @Update
+    abstract fun updateInternal(cardDbEntity: CardDbEntity)
 
     // Delete
 

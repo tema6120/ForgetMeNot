@@ -16,6 +16,7 @@ import com.odnovolov.forgetmenot.domain.repository.ExerciseRepository
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class ExerciseCreatorFeature(
     deckRepository: DeckRepository,
@@ -50,6 +51,8 @@ class ExerciseCreatorFeature(
                 val exercise = ExerciseData(exerciseCards)
                 exerciseRepository.deleteAllExercises()
                 exerciseRepository.saveExercise(exercise)
+                val updatedDeck = deck.copy(lastOpenedAt = Calendar.getInstance())
+                deckRepository.updateDeck(updatedDeck)
             }
                 .map { CreationFinished as Effect }
                 .startWith(CreationStarted)
