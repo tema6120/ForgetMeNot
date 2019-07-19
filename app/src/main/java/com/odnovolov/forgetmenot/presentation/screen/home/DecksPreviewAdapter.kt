@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -56,6 +57,11 @@ class DecksPreviewAdapter
                 when (item.itemId) {
                     R.id.deleteDeckMenuItem -> {
                         uiEventEmitter.onNext(DeleteDeckButtonClicked(deckId))
+                        true
+                    }
+                    R.id.setupDeckMenuItem -> {
+                        val direction = HomeFragmentDirections.actionHomeScreenToDeckSettingsScreen(deckId)
+                        anchor.findNavController().navigate(direction)
                         true
                     }
                     else -> false
