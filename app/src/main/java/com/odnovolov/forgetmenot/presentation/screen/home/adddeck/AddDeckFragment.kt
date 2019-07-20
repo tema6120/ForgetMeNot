@@ -15,33 +15,24 @@ import android.view.WindowManager.LayoutParams
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.badoo.mvicore.android.AndroidTimeCapsule
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenFeature.UiEvent
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenFeature.News
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenFeature.News.*
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenFeature.UiEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenFeature.ViewState
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.di.AddDeckScreenComponent
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckViewModel.Action.*
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckViewModel.Event.*
 import kotlinx.android.synthetic.main.fragment_add_deck.*
 import leakcanary.LeakSentry
-import java.lang.Exception
-import javax.inject.Inject
 
-class AddDeckFragment : BaseFragment<ViewState, UiEvent, News>(), HomeFragment.AddButtonClickListener {
+class AddDeckFragment : Fragment(), HomeFragment.AddButtonClickListener {
 
-    @Inject lateinit var bindings: AddDeckFragmentBindings
+    private lateinit var viewModel: AddDeckViewModel
     private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var deckNameEditText: EditText
-    private lateinit var timeCapsule: AndroidTimeCapsule
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        timeCapsule = AndroidTimeCapsule(savedInstanceState)
-        AddDeckScreenComponent.createWith(timeCapsule).inject(this)
         super.onCreate(savedInstanceState)
-        bindings.setup(this)
+        viewModel = AddDeckInjector.viewModel(this)
     }
 
     override fun onCreateView(
@@ -49,12 +40,16 @@ class AddDeckFragment : BaseFragment<ViewState, UiEvent, News>(), HomeFragment.A
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_add_deck, container, false)
-        initRenameDialog()
-        return rootView
+        return inflater.inflate(R.layout.fragment_add_deck, container, false)
     }
 
-    private fun initRenameDialog() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
+        subscribeToViewModel()
+    }
+
+    private fun setupView() {
         val contentView = View.inflate(context, R.layout.dialog_deck_name_input, null)
         deckNameEditText = contentView.findViewById(R.id.deckNameEditText)
         deckNameEditText.addTextChangedListener(object : TextWatcher {
@@ -66,7 +61,7 @@ class AddDeckFragment : BaseFragment<ViewState, UiEvent, News>(), HomeFragment.A
 
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
                 if (text != null) {
-                    emitEvent(DialogTextChanged(text.toString()))
+                    viewModel.onEvent(DialogTextChanged(text.toString()))
                 }
             }
 
@@ -81,11 +76,52 @@ class AddDeckFragment : BaseFragment<ViewState, UiEvent, News>(), HomeFragment.A
         deckNameInputDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         deckNameInputDialog.setOnShowListener {
             deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setOnClickListener { emitEvent(PositiveDialogButtonClicked) }
+                .setOnClickListener { viewModel.onEvent(PositiveDialogButtonClicked) }
             deckNameInputDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setOnClickListener { emitEvent(NegativeDialogButtonClicked) }
+                .setOnClickListener { viewModel.onEvent(NegativeDialogButtonClicked) }
             deckNameEditText.requestFocus()
         }
+    }
+
+    private fun subscribeToViewModel() {
+        with(viewModel.state) {
+            isProcessing.observe(this@AddDeckFragment, Observer { isProcessing ->
+                addDeckProgressBar.visibility = if (isProcessing) View.VISIBLE else View.GONE
+            })
+            isDialogVisible.observe(this@AddDeckFragment, Observer { isDialogVisible ->
+                if (isDialogVisible) {
+                    deckNameInputDialog.show()
+                } else {
+                    deckNameInputDialog.dismiss()
+                }
+            })
+            errorText.observe(this@AddDeckFragment, Observer { errorText ->
+                deckNameEditText.error = errorText
+            })
+            isPositiveButtonEnabled.observe(this@AddDeckFragment, Observer { isPositiveButtonEnabled ->
+                deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let {
+                    it.isEnabled = isPositiveButtonEnabled
+                }
+            })
+        }
+
+        viewModel.action!!.observe(this, Observer { action ->
+            when (action) {
+                ShowFileChooser -> {
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                        .addCategory(Intent.CATEGORY_OPENABLE)
+                        .setType("text/plain")
+                    startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
+                }
+                is ShowToast -> {
+                    Toast.makeText(context, action.text, Toast.LENGTH_SHORT).show()
+                }
+                is SetDialogText -> {
+                    deckNameEditText.setText(action.text)
+                    deckNameEditText.selectAll()
+                }
+            }
+        })
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -97,45 +133,7 @@ class AddDeckFragment : BaseFragment<ViewState, UiEvent, News>(), HomeFragment.A
     }
 
     override fun onAddButtonClicked() {
-        emitEvent(AddButtonClicked)
-    }
-
-    override fun accept(viewState: ViewState) {
-        addDeckProgressBar.visibility = if (viewState.isProcessing) View.VISIBLE else View.GONE
-        if (viewState.isDialogVisible) {
-            deckNameInputDialog.show()
-        } else {
-            deckNameInputDialog.dismiss()
-        }
-        deckNameEditText.error = viewState.errorText
-        deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let {
-            it.isEnabled = viewState.isPositiveButtonEnabled
-        }
-    }
-
-    override fun acceptNews(news: News) {
-        when (news) {
-            ShowFileChooser -> showFileChooser()
-            is ShowToast -> showToast(news.text)
-            is SetDialogText -> setDialogText(news.text)
-        }
-    }
-
-    private fun showFileChooser() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/plain")
-        startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
-    }
-
-    private fun showToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT)
-            .show()
-    }
-
-    private fun setDialogText(dialogText: String) {
-        deckNameEditText.setText(dialogText)
-        deckNameEditText.selectAll()
+        viewModel.onEvent(AddButtonClicked)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -156,7 +154,7 @@ class AddDeckFragment : BaseFragment<ViewState, UiEvent, News>(), HomeFragment.A
             return
         }
         val fileName = getFileNameFromUri(uri, contentResolver)
-        emitEvent(ContentReceived(inputStream, fileName))
+        viewModel.onEvent(ContentReceived(inputStream, fileName))
     }
 
     private fun getFileNameFromUri(uri: Uri, contentResolver: ContentResolver): String? {
@@ -176,7 +174,6 @@ class AddDeckFragment : BaseFragment<ViewState, UiEvent, News>(), HomeFragment.A
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        timeCapsule.saveState(outState)
         outState.putBundle(STATE_KEY_DECK_NAME_INPUT_DIALOG, deckNameInputDialog.onSaveInstanceState())
     }
 

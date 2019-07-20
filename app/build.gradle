@@ -57,4 +57,5 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.1.0-alpha05"
     implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha05'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha02'
 }

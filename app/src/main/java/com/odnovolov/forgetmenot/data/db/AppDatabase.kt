@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.data.db.entity.CardDbEntity
 import com.odnovolov.forgetmenot.data.db.entity.DeckDbEntity
 import com.odnovolov.forgetmenot.data.db.entity.ExerciseCardDbEntity
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDao
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckDao
 
 @Database(
     entities = [DeckDbEntity::class, CardDbEntity::class, ExerciseCardDbEntity::class],
@@ -24,6 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun deckDao(): DeckDao
     abstract fun exerciseDao(): ExerciseDao
     abstract fun deckSettingsDao(): DeckSettingsDao
+    abstract fun addDeckDao(): AddDeckDao
 
     fun getBackuper(): Backuper {
         return Backuper(supportDb = openHelper.writableDatabase)

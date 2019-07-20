@@ -47,16 +47,16 @@ class DeckSettingsFragment : Fragment() {
 
     private fun subscribeToViewModel() {
         with(viewModel.state) {
-            deckName.observe(this@DeckSettingsFragment, Observer {
-                deckNameTextView.text = it
+            deckName.observe(this@DeckSettingsFragment, Observer { deckName ->
+                deckNameTextView.text = deckName
             })
-            randomOrder.observe(this@DeckSettingsFragment, Observer {
-                randomOrderSwitcher.isChecked = it
+            randomOrder.observe(this@DeckSettingsFragment, Observer { randomOrder ->
+                randomOrderSwitcher.isChecked = randomOrder
             })
         }
 
-        viewModel.action!!.observe(this, Observer {
-            when (it) {
+        viewModel.action!!.observe(this, Observer { action ->
+            when (action) {
                 is ShowRenameDeckDialog -> Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
                     .show()
             }

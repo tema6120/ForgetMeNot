@@ -1,5 +1,9 @@
 package com.odnovolov.forgetmenot.domain.entity
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Card(
     val id: Int = 0,
     val ordinal: Int,
@@ -7,4 +11,4 @@ data class Card(
     val answer: String,
     val lap: Int = 0,
     val isLearned: Boolean = false
-)
+) : Parcelable
