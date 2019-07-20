@@ -10,6 +10,6 @@ class ActionSender<Action> {
         singleLiveEvent.value = action
     }
 
-    fun asLiveData(): LiveData<Action> = singleLiveEvent
+    fun getAction(): LiveData<Action> = singleLiveEvent
 
 }

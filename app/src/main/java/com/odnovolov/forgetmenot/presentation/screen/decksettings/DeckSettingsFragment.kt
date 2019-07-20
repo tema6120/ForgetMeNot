@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +17,8 @@ class DeckSettingsFragment : Fragment() {
 
     private lateinit var viewModel: DeckSettingsViewModel
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel = DeckSettingsInjector.viewModel(this)
     }
 
@@ -56,7 +55,7 @@ class DeckSettingsFragment : Fragment() {
             })
         }
 
-        viewModel.action()!!.observe(this, Observer {
+        viewModel.action!!.observe(this, Observer {
             when (it) {
                 is ShowRenameDeckDialog -> Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
                     .show()
