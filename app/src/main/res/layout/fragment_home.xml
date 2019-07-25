@@ -5,7 +5,7 @@
         android:id="@+id/homeFragmentRootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.screen.home.HomeFragment">
+        tools:context=".ui.home.HomeFragment">
 
     <androidx.appcompat.widget.Toolbar
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
@@ -29,22 +29,11 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
-    <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
-
     <fragment
             android:id="@+id/addDeckFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment"
+            android:name="com.odnovolov.forgetmenot.ui.adddeck.AddDeckFragment"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -8,7 +8,7 @@
 
     <fragment
             android:id="@+id/home_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment"
+            android:name="com.odnovolov.forgetmenot.ui.home.HomeFragment"
             android:label="@string/label_home_screen"
             tools:layout="@layout/fragment_home">
 
@@ -24,13 +24,13 @@
 
     <fragment
             android:id="@+id/exercise_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment"
+            android:name="com.odnovolov.forgetmenot.ui.exercise.ExerciseFragment"
             android:label="@string/label_exercise_screen"
             tools:layout="@layout/fragment_exercise"/>
 
     <fragment
             android:id="@+id/deck_settings_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsFragment"
+            android:name="com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsFragment"
             android:label="@string/label_deck_settings_screen"
             tools:layout="@layout/fragment_deck_settings">
 
