@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.ui.home
 
 import androidx.lifecycle.ViewModelProviders
 import com.odnovolov.forgetmenot.common.GlobalInjector
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModelImpl
 
 object HomeInjector {
 
@@ -9,9 +10,14 @@ object HomeInjector {
         val context = fragment.requireContext()
         val db = GlobalInjector.db(context)
         val sharedPrefs = GlobalInjector.sharedPreferences(context)
-        val addDeckDao = db.addDeckDao()
         val repository = HomeRepository(db, sharedPrefs)
-        val factory = HomeViewModelImpl.Factory(fragment, addDeckDao, repository)
+        val exerciseViewModel = ExerciseCreatorViewModelImpl(db.exerciseCreatorDao())
+        val factory = HomeViewModelImpl.Factory(
+            fragment,
+            repository,
+            db.addDeckDao(),
+            exerciseViewModel
+        )
         return ViewModelProviders.of(fragment, factory).get(HomeViewModelImpl::class.java)
     }
 

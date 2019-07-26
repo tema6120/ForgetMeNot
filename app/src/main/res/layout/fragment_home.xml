@@ -39,4 +39,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <fragment
+            android:id="@+id/exerciseCreatorFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:name="com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorFragment"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

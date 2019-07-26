@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.db.entity.ExerciseCardDbEntity
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsDao
 import com.odnovolov.forgetmenot.ui.home.HomeDao
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckDao
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorDao
 
 @Database(
     entities = [DeckDbEntity::class, CardDbEntity::class, ExerciseCardDbEntity::class],
@@ -27,6 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun deckSettingsDao(): DeckSettingsDao
     abstract fun addDeckDao(): AddDeckDao
     abstract fun homeDao(): HomeDao
+    abstract fun exerciseCreatorDao(): ExerciseCreatorDao
 
     companion object {
         private const val NAME = "ForgetMeNot.db"

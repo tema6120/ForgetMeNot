@@ -6,7 +6,10 @@ import com.odnovolov.forgetmenot.entity.Deck
 import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckDao
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.AddDeckRequested
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModelImpl
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Event.CreateExercise
 import com.odnovolov.forgetmenot.ui.home.DeckSorting.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Action.*
@@ -14,13 +17,15 @@ import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.*
 
 class HomeViewModelImpl(
     private val repository: HomeRepository,
-    override val addDeckViewModel: AddDeckViewModel
+    override val addDeckViewModel: AddDeckViewModel,
+    override val exerciseCreatorViewModel: ExerciseCreatorViewModel
 ) : ViewModel(), HomeViewModel {
 
     class Factory(
         owner: SavedStateRegistryOwner,
+        private val homeRepository: HomeRepository,
         private val addDeckDao: AddDeckDao,
-        private val repository: HomeRepository
+        private val exerciseCreatorViewModel: ExerciseCreatorViewModel
     ) : AbstractSavedStateViewModelFactory(owner, null) {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(
@@ -29,7 +34,7 @@ class HomeViewModelImpl(
             handle: SavedStateHandle
         ): T {
             val addDeckViewModel = AddDeckViewModelImpl(addDeckDao, handle)
-            return HomeViewModelImpl(repository, addDeckViewModel) as T
+            return HomeViewModelImpl(homeRepository, addDeckViewModel, exerciseCreatorViewModel) as T
         }
     }
 
@@ -86,10 +91,11 @@ class HomeViewModelImpl(
     override fun onEvent(event: Event) {
         when (event) {
             AddDeckButtonClicked -> {
-                addDeckViewModel.onEvent(AddDeckViewModel.Event.AddDeckRequested)
+                addDeckViewModel.onEvent(AddDeckRequested)
             }
             is DeckButtonClicked -> {
-                actionSender.send(NavigateToExerciseCreator(event.deckId))
+                val deck = decks.value!!.find { it.id == event.deckId }!!
+                exerciseCreatorViewModel.onEvent(CreateExercise(deck))
             }
             is SetupDeckMenuItemClicked -> {
                 actionSender.send(NavigateToDeckSettings(event.deckId))

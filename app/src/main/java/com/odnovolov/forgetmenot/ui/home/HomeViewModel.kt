@@ -3,11 +3,13 @@ package com.odnovolov.forgetmenot.ui.home
 import androidx.lifecycle.LiveData
 import com.odnovolov.forgetmenot.common.ViewModel
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.*
 
 interface HomeViewModel : ViewModel<State, Action, Event> {
 
     val addDeckViewModel: AddDeckViewModel
+    val exerciseCreatorViewModel: ExerciseCreatorViewModel
 
     data class State(
         val decksPreview: LiveData<List<DeckPreview>>,
@@ -15,7 +17,6 @@ interface HomeViewModel : ViewModel<State, Action, Event> {
     )
 
     sealed class Action {
-        data class NavigateToExerciseCreator(val deckId: Int) : Action()
         data class NavigateToDeckSettings(val deckId: Int) : Action()
         object ShowDeckIsDeletedSnackbar : Action()
         object ShowDeckSortingBottomSheet : Action()

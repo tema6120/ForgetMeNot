@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckFragment
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorFragment
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -94,9 +95,6 @@ class HomeFragment : Fragment() {
 
         viewModel.action?.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
-                is NavigateToExerciseCreator -> {
-                    // not implemented yet
-                }
                 is NavigateToDeckSettings -> {
                     val direction = HomeFragmentDirections.actionHomeScreenToDeckSettingsScreen(action.deckId)
                     findNavController().navigate(direction)
@@ -129,6 +127,9 @@ class HomeFragment : Fragment() {
             }
             is DeckSortingBottomSheet -> {
                 childFragment.viewModel = viewModel
+            }
+            is ExerciseCreatorFragment -> {
+                childFragment.viewModel = viewModel.exerciseCreatorViewModel
             }
         }
     }
