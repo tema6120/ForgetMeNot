@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.ui.decksettings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.odnovolov.forgetmenot.common.SingleLiveEvent
+import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.*
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.ShowRenameDeckDialog
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RandomOrderSwitcherClicked
@@ -25,7 +25,7 @@ class DeckSettingsViewModelImpl(
         randomOrder = dao.getRandomOrder(deckId)
     )
 
-    private val actionSender = SingleLiveEvent<Action>()
+    private val actionSender = LiveEvent<Action>()
     override val action = actionSender
 
     override fun onEvent(event: Event) {

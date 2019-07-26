@@ -1,10 +1,9 @@
 package com.odnovolov.forgetmenot.ui.adddeck
 
 import androidx.lifecycle.*
-import androidx.savedstate.SavedStateRegistryOwner
 import com.odnovolov.forgetmenot.entity.Card
 import com.odnovolov.forgetmenot.entity.Deck
-import com.odnovolov.forgetmenot.common.SingleLiveEvent
+import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.*
@@ -14,21 +13,7 @@ import java.nio.charset.Charset
 class AddDeckViewModelImpl(
     private val dao: AddDeckDao,
     handle: SavedStateHandle
-) : ViewModel(), AddDeckViewModel {
-
-    class Factory(
-        owner: SavedStateRegistryOwner,
-        val dao: AddDeckDao
-    ) : AbstractSavedStateViewModelFactory(owner, null) {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(
-            key: String,
-            modelClass: Class<T>,
-            handle: SavedStateHandle
-        ): T {
-            return AddDeckViewModelImpl(dao, handle) as T
-        }
-    }
+) : AddDeckViewModel {
 
     private enum class Stage {
         Idle,
@@ -70,7 +55,7 @@ class AddDeckViewModelImpl(
         isPositiveButtonEnabled
     )
 
-    private val actionSender = SingleLiveEvent<Action>()
+    private val actionSender = LiveEvent<Action>()
     override val action = actionSender
 
     override fun onEvent(event: Event) {

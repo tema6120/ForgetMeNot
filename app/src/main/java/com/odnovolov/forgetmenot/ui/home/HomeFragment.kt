@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -23,8 +24,8 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: DecksPreviewRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         viewModel = HomeInjector.viewModel(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -114,8 +115,7 @@ class HomeFragment : Fragment() {
                         .show()
                 }
                 ShowDeckSortingBottomSheet -> {
-                    DeckSortingBottomSheet()
-                        .show(childFragmentManager, "DeckSortingBottomSheet Tag")
+                    DeckSortingBottomSheet().show(childFragmentManager, "DeckSortingBottomSheet Tag")
                 }
             }
         })
@@ -124,6 +124,9 @@ class HomeFragment : Fragment() {
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         when (childFragment) {
+            is AddDeckFragment -> {
+                childFragment.viewModel = viewModel.addDeckViewModel
+            }
             is DeckSortingBottomSheet -> {
                 childFragment.viewModel = viewModel
             }

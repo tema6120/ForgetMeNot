@@ -2,9 +2,12 @@ package com.odnovolov.forgetmenot.ui.home
 
 import androidx.lifecycle.LiveData
 import com.odnovolov.forgetmenot.common.ViewModel
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.*
 
 interface HomeViewModel : ViewModel<State, Action, Event> {
+
+    val addDeckViewModel: AddDeckViewModel
 
     data class State(
         val decksPreview: LiveData<List<DeckPreview>>,

@@ -1,23 +1,35 @@
 package com.odnovolov.forgetmenot.ui.home
 
 import androidx.lifecycle.*
+import androidx.savedstate.SavedStateRegistryOwner
 import com.odnovolov.forgetmenot.entity.Deck
-import com.odnovolov.forgetmenot.common.SingleLiveEvent
+import com.odnovolov.forgetmenot.common.LiveEvent
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckDao
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModelImpl
 import com.odnovolov.forgetmenot.ui.home.DeckSorting.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.*
 
 class HomeViewModelImpl(
-    private val repository: HomeRepository
+    private val repository: HomeRepository,
+    override val addDeckViewModel: AddDeckViewModel
 ) : ViewModel(), HomeViewModel {
 
     class Factory(
+        owner: SavedStateRegistryOwner,
+        private val addDeckDao: AddDeckDao,
         private val repository: HomeRepository
-    ) : ViewModelProvider.Factory {
+    ) : AbstractSavedStateViewModelFactory(owner, null) {
         @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return HomeViewModelImpl(repository) as T
+        override fun <T : ViewModel?> create(
+            key: String,
+            modelClass: Class<T>,
+            handle: SavedStateHandle
+        ): T {
+            val addDeckViewModel = AddDeckViewModelImpl(addDeckDao, handle)
+            return HomeViewModelImpl(repository, addDeckViewModel) as T
         }
     }
 
@@ -68,13 +80,13 @@ class HomeViewModelImpl(
         deckSorting
     )
 
-    private val actionSender = SingleLiveEvent<Action>()
+    private val actionSender = LiveEvent<Action>()
     override val action: LiveData<Action> = actionSender
 
     override fun onEvent(event: Event) {
         when (event) {
             AddDeckButtonClicked -> {
-                // not implemented yet
+                addDeckViewModel.onEvent(AddDeckViewModel.Event.AddDeckRequested)
             }
             is DeckButtonClicked -> {
                 actionSender.send(NavigateToExerciseCreator(event.deckId))
