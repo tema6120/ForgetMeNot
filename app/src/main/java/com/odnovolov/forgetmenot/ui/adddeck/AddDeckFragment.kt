@@ -20,7 +20,7 @@ import androidx.lifecycle.Observer
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.*
-import kotlinx.android.synthetic.main.fragment_add_deck.*
+import kotlinx.android.synthetic.main.progress_bar.*
 import leakcanary.LeakSentry
 
 class AddDeckFragment : Fragment() {
@@ -34,7 +34,7 @@ class AddDeckFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_deck, container, false)
+        return inflater.inflate(R.layout.progress_bar, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,7 +80,7 @@ class AddDeckFragment : Fragment() {
     private fun subscribeToViewModel() {
         with(viewModel.state) {
             isProcessing.observe(viewLifecycleOwner, Observer { isProcessing ->
-                addDeckProgressBar.visibility = if (isProcessing) View.VISIBLE else View.GONE
+                progressBar.visibility = if (isProcessing) View.VISIBLE else View.GONE
             })
             isDialogVisible.observe(viewLifecycleOwner, Observer { isDialogVisible ->
                 if (isDialogVisible) {
