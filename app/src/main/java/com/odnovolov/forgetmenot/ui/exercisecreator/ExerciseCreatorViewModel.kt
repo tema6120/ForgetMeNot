@@ -12,11 +12,11 @@ interface ExerciseCreatorViewModel : ViewModel<State, Action, Event> {
     )
 
     sealed class Action {
-        object ExerciseCreated : Action()
+        object NavigateToExercise : Action()
     }
 
     sealed class Event {
-        data class CreateExercise(val deck: Deck) : Event()
+        data class DeckButtonClicked(val deckId: Int) : Event()
     }
 
 }

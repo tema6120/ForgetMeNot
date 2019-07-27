@@ -22,7 +22,7 @@ abstract class HomeDao {
     }
 
     @Transaction
-    @Query("SELECT * from decks")
+    @Query("SELECT * FROM decks")
     abstract fun getDecksInternal(): LiveData<List<RoughDeck>>
 
     class RoughDeck {
@@ -34,6 +34,6 @@ abstract class HomeDao {
     }
 
     @Query("DELETE FROM decks WHERE deck_id = :deckId")
-    abstract fun deleteDeck(deckId: Int) : Int
+    abstract fun deleteDeck(deckId: Int): Int
 
 }

@@ -1,9 +1,10 @@
 package com.odnovolov.forgetmenot.ui.adddeck
 
 import androidx.lifecycle.*
+import androidx.savedstate.SavedStateRegistryOwner
+import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.entity.Card
 import com.odnovolov.forgetmenot.entity.Deck
-import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.*
@@ -13,7 +14,21 @@ import java.nio.charset.Charset
 class AddDeckViewModelImpl(
     private val dao: AddDeckDao,
     handle: SavedStateHandle
-) : AddDeckViewModel {
+) : ViewModel(), AddDeckViewModel {
+
+    class Factory(
+        owner: SavedStateRegistryOwner,
+        private val dao: AddDeckDao
+    ) : AbstractSavedStateViewModelFactory(owner, null) {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel?> create(
+            key: String,
+            modelClass: Class<T>,
+            handle: SavedStateHandle
+        ): T {
+            return AddDeckViewModelImpl(dao, handle) as T
+        }
+    }
 
     private enum class Stage {
         Idle,
@@ -35,18 +50,18 @@ class AddDeckViewModelImpl(
     private val isProcessing: LiveData<Boolean> = Transformations.map(stage) { it == Stage.Parsing }
     private val isDialogVisible: LiveData<Boolean> = Transformations.map(stage) { it == Stage.WaitingForName }
     private val errorText = MediatorLiveData<String>().apply {
-        addSource(enteredText) { updateErrorText() }
-        addSource(occupiedDeckNames) { updateErrorText() }
+        fun updateValue() {
+            value = when {
+                enteredText.value!!.isEmpty() -> "Name cannot be empty"
+                occupiedDeckNames.value!!.any { it == enteredText.value } -> "This name is occupied"
+                else -> null
+            }
+        }
+
+        addSource(enteredText) { updateValue() }
+        addSource(occupiedDeckNames) { updateValue() }
     }
     private val isPositiveButtonEnabled: LiveData<Boolean> = Transformations.map(errorText) { it == null }
-
-    private fun updateErrorText() {
-        errorText.value = when {
-            enteredText.value!!.isEmpty() -> "Name cannot be empty"
-            occupiedDeckNames.value!!.any { it == enteredText.value } -> "This name is occupied"
-            else -> null
-        }
-    }
 
     override val state = State(
         isProcessing,
@@ -60,7 +75,7 @@ class AddDeckViewModelImpl(
 
     override fun onEvent(event: Event) {
         when (event) {
-            AddDeckRequested -> {
+            AddDeckButtonClicked -> {
                 actionSender.send(ShowFileChooser)
             }
             is ContentReceived -> {
@@ -106,7 +121,7 @@ class AddDeckViewModelImpl(
     }
 
     private fun insertDeck(deck: Deck) {
-        Thread { dao.insertDeck(deck) }.start()
+        dao.insertDeck(deck)
         stage.value = Stage.Idle
     }
 

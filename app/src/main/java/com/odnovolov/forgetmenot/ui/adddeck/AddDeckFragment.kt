@@ -29,6 +29,11 @@ class AddDeckFragment : Fragment() {
     private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var deckNameEditText: EditText
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel = AddDeckInjector.viewModel(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

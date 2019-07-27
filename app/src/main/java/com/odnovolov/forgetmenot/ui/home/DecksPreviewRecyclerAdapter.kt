@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Event.DeckButtonClicked
 import com.odnovolov.forgetmenot.ui.home.DecksPreviewRecyclerAdapter.ViewHolder
-import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.DeleteDeckMenuItemClicked
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.SetupDeckMenuItemClicked
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DecksPreviewRecyclerAdapter(
-    private val viewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel,
+    private val exerciseCreatorViewModel: ExerciseCreatorViewModel
 ) : ListAdapter<DeckPreview, ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,7 +30,7 @@ class DecksPreviewRecyclerAdapter(
         getItem(position)?.let { deckPreview: DeckPreview ->
             viewHolder.itemView.apply {
                 setOnClickListener {
-                    viewModel.onEvent(Event.DeckButtonClicked(deckPreview.deckId))
+                    exerciseCreatorViewModel.onEvent(DeckButtonClicked(deckPreview.deckId))
                 }
                 deckNameTextView.text = deckPreview.deckName
                 deckOptionButton.setOnClickListener { view: View ->
@@ -46,11 +48,11 @@ class DecksPreviewRecyclerAdapter(
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.setupDeckMenuItem -> {
-                        viewModel.onEvent(SetupDeckMenuItemClicked(deckId))
+                        homeViewModel.onEvent(SetupDeckMenuItemClicked(deckId))
                         true
                     }
                     R.id.deleteDeckMenuItem -> {
-                        viewModel.onEvent(DeleteDeckMenuItemClicked(deckId))
+                        homeViewModel.onEvent(DeleteDeckMenuItemClicked(deckId))
                         true
                     }
                     else -> false

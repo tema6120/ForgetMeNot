@@ -13,7 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckFragment
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.AddDeckButtonClicked
 import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorFragment
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Action.NavigateToExercise
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -22,6 +26,8 @@ import leakcanary.LeakSentry
 class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
+    private lateinit var addDeckViewModel: AddDeckViewModel
+    private lateinit var exerciseCreatorViewModel: ExerciseCreatorViewModel
     private lateinit var adapter: DecksPreviewRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +48,17 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        connectToChildrenViewModels()
         setupView()
         subscribeToViewModel()
+    }
+
+    private fun connectToChildrenViewModels() {
+        val addDeckFragment = childFragmentManager.findFragmentById(R.id.addDeckFragment) as AddDeckFragment
+        addDeckViewModel = addDeckFragment.viewModel
+        val exerciseCreatorFragment = childFragmentManager
+            .findFragmentById(R.id.exerciseCreatorFragment) as ExerciseCreatorFragment
+        exerciseCreatorViewModel = exerciseCreatorFragment.viewModel
     }
 
     private fun setupView() {
@@ -55,7 +70,7 @@ class HomeFragment : Fragment() {
         toolbar.setOnMenuItemClickListener { item: MenuItem? ->
             when (item?.itemId) {
                 R.id.action_add -> {
-                    viewModel.onEvent(AddDeckButtonClicked)
+                    addDeckViewModel.onEvent(AddDeckButtonClicked)
                     true
                 }
                 R.id.action_sort_by -> {
@@ -84,7 +99,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerAdapter() {
-        adapter = DecksPreviewRecyclerAdapter(viewModel)
+        adapter = DecksPreviewRecyclerAdapter(viewModel, exerciseCreatorViewModel)
         decksPreviewRecycler.adapter = adapter
     }
 
@@ -93,11 +108,8 @@ class HomeFragment : Fragment() {
             decksPreview.observe(viewLifecycleOwner, Observer(adapter::submitList))
         }
 
-        viewModel.action?.observe(viewLifecycleOwner, Observer { action ->
+        viewModel.action!!.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
-                NavigateToExercise -> {
-                    findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
-                }
                 is NavigateToDeckSettings -> {
                     val direction = HomeFragmentDirections.actionHomeScreenToDeckSettingsScreen(action.deckId)
                     findNavController().navigate(direction)
@@ -120,19 +132,21 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+
+        exerciseCreatorViewModel.action!!.observe(viewLifecycleOwner, Observer { action ->
+            when (action) {
+                NavigateToExercise -> {
+                    findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
+                }
+            }
+        })
     }
 
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         when (childFragment) {
-            is AddDeckFragment -> {
-                childFragment.viewModel = viewModel.addDeckViewModel
-            }
             is DeckSortingBottomSheet -> {
                 childFragment.viewModel = viewModel
-            }
-            is ExerciseCreatorFragment -> {
-                childFragment.viewModel = viewModel.exerciseCreatorViewModel
             }
         }
     }

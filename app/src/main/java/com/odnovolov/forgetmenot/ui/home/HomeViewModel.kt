@@ -2,14 +2,9 @@ package com.odnovolov.forgetmenot.ui.home
 
 import androidx.lifecycle.LiveData
 import com.odnovolov.forgetmenot.common.ViewModel
-import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.*
 
 interface HomeViewModel : ViewModel<State, Action, Event> {
-
-    val addDeckViewModel: AddDeckViewModel
-    val exerciseCreatorViewModel: ExerciseCreatorViewModel
 
     data class State(
         val decksPreview: LiveData<List<DeckPreview>>,
@@ -17,7 +12,6 @@ interface HomeViewModel : ViewModel<State, Action, Event> {
     )
 
     sealed class Action {
-        object NavigateToExercise : Action()
         data class NavigateToDeckSettings(val deckId: Int) : Action()
         object ShowDeckIsDeletedSnackbar : Action()
         object ShowDeckSortingBottomSheet : Action()
@@ -25,8 +19,6 @@ interface HomeViewModel : ViewModel<State, Action, Event> {
     }
 
     sealed class Event {
-        object AddDeckButtonClicked : Event()
-        data class DeckButtonClicked(val deckId: Int) : Event()
         data class SetupDeckMenuItemClicked(val deckId: Int) : Event()
         data class DeleteDeckMenuItemClicked(val deckId: Int) : Event()
         object DeckIsDeletedSnackbarCancelActionClicked : Event()

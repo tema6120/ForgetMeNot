@@ -13,6 +13,11 @@ class ExerciseCreatorFragment : Fragment() {
 
     lateinit var viewModel: ExerciseCreatorViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel = ExerciseCreatorInjector.viewModel(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

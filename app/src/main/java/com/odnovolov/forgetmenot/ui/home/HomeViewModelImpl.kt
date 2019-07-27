@@ -1,41 +1,23 @@
 package com.odnovolov.forgetmenot.ui.home
 
 import androidx.lifecycle.*
-import androidx.savedstate.SavedStateRegistryOwner
 import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.entity.Deck
-import com.odnovolov.forgetmenot.ui.adddeck.AddDeckDao
-import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
-import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.AddDeckRequested
-import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModelImpl
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Action.ExerciseCreated
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Event.CreateExercise
 import com.odnovolov.forgetmenot.ui.home.DeckSorting.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.*
 
 class HomeViewModelImpl(
-    private val repository: HomeRepository,
-    override val addDeckViewModel: AddDeckViewModel,
-    override val exerciseCreatorViewModel: ExerciseCreatorViewModel
+    private val repository: HomeRepository
 ) : ViewModel(), HomeViewModel {
 
     class Factory(
-        owner: SavedStateRegistryOwner,
-        private val homeRepository: HomeRepository,
-        private val addDeckDao: AddDeckDao,
-        private val exerciseCreatorViewModel: ExerciseCreatorViewModel
-    ) : AbstractSavedStateViewModelFactory(owner, null) {
+        private val repository: HomeRepository
+    ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(
-            key: String,
-            modelClass: Class<T>,
-            handle: SavedStateHandle
-        ): T {
-            val addDeckViewModel = AddDeckViewModelImpl(addDeckDao, handle)
-            return HomeViewModelImpl(homeRepository, addDeckViewModel, exerciseCreatorViewModel) as T
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return HomeViewModelImpl(repository) as T
         }
     }
 
@@ -89,23 +71,8 @@ class HomeViewModelImpl(
     private val actionSender = LiveEvent<Action>()
     override val action: LiveData<Action> = actionSender
 
-    init {
-        exerciseCreatorViewModel.action!!.observeForever { action ->
-            when (action) {
-                ExerciseCreated -> actionSender.send(NavigateToExercise)
-            }
-        }
-    }
-
     override fun onEvent(event: Event) {
         when (event) {
-            AddDeckButtonClicked -> {
-                addDeckViewModel.onEvent(AddDeckRequested)
-            }
-            is DeckButtonClicked -> {
-                val deck = decks.value!!.find { it.id == event.deckId }!!
-                exerciseCreatorViewModel.onEvent(CreateExercise(deck))
-            }
             is SetupDeckMenuItemClicked -> {
                 actionSender.send(NavigateToDeckSettings(event.deckId))
             }
