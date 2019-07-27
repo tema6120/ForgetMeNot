@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.Sh
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RandomOrderSwitcherClicked
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RenameDeckButtonClicked
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
+import leakcanary.LeakSentry
 
 class DeckSettingsFragment : Fragment() {
 
@@ -61,6 +62,11 @@ class DeckSettingsFragment : Fragment() {
                     .show()
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LeakSentry.refWatcher.watch(this)
     }
 
 }

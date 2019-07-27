@@ -10,7 +10,7 @@ interface AddDeckViewModel : ViewModel<State, Action, Event> {
     data class State(
         val isProcessing: LiveData<Boolean>,
         val isDialogVisible: LiveData<Boolean>,
-        val errorText: LiveData<String?>,
+        val errorText: LiveData<String>,
         val isPositiveButtonEnabled: LiveData<Boolean>
     )
 

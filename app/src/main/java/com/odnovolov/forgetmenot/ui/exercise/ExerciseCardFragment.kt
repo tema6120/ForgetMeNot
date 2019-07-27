@@ -53,7 +53,6 @@ class ExerciseCardFragment : Fragment() {
     private fun subscribeToViewModel() {
         with(viewModel.state) {
             exerciseCards.observe(viewLifecycleOwner, Observer { exerciseCards ->
-                exerciseCards ?: return@Observer
                 val exerciseCard = exerciseCards[position]
 
                 val question = exerciseCard.card.question
