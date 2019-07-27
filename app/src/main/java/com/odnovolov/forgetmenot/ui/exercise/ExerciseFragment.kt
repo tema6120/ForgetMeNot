@@ -17,6 +17,11 @@ class ExerciseFragment : Fragment() {
 
     private lateinit var viewModel: ExerciseViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel = ExerciseInjector.viewModel(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,11 +57,10 @@ class ExerciseFragment : Fragment() {
 
     private fun subscribeToViewModel() {
         with(viewModel.state) {
-            isNotAskButtonVisible.observe(viewLifecycleOwner, Observer { isVisible ->
-                notAskButton.visibility = if (isVisible) View.VISIBLE else View.GONE
-            })
-            isUndoButtonVisible.observe(viewLifecycleOwner, Observer { isVisible ->
-                undoButton.visibility = if (isVisible) View.VISIBLE else View.GONE
+            isCurrentCardLearned.observe(viewLifecycleOwner, Observer { isCurrentCardLearned ->
+                isCurrentCardLearned ?: return@Observer
+                notAskButton.visibility = if (isCurrentCardLearned) View.GONE else View.VISIBLE
+                undoButton.visibility = if (isCurrentCardLearned) View.VISIBLE else View.GONE
             })
         }
 
@@ -68,6 +72,13 @@ class ExerciseFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+        if (childFragment is ExerciseCardFragment) {
+            childFragment.viewModel = viewModel
+        }
     }
 
     override fun onDestroy() {

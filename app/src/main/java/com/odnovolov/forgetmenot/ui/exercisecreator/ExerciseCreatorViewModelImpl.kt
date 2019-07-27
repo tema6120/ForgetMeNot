@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.entity.ExerciseCard
 import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.*
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Action.NavigateToExercise
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Action.ExerciseCreated
 import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Event.CreateExercise
 import java.util.*
 
@@ -38,7 +38,7 @@ class ExerciseCreatorViewModelImpl(
                         dao.deleteAllExerciseCards()
                         dao.insertExerciseCards(exerciseCards)
                         dao.updateLastOpenedAt(Calendar.getInstance(), deck.id)
-                        actionSender.send(NavigateToExercise)
+                        actionSender.send(ExerciseCreated)
                     }
                 } finally {
                     isProcessing.value = false

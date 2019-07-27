@@ -2,13 +2,14 @@ package com.odnovolov.forgetmenot.ui.home
 
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.odnovolov.forgetmenot.entity.Deck
 import com.odnovolov.forgetmenot.common.LiveEvent
+import com.odnovolov.forgetmenot.entity.Deck
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckDao
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.AddDeckRequested
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModelImpl
 import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Action.ExerciseCreated
 import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Event.CreateExercise
 import com.odnovolov.forgetmenot.ui.home.DeckSorting.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.*
@@ -87,6 +88,14 @@ class HomeViewModelImpl(
 
     private val actionSender = LiveEvent<Action>()
     override val action: LiveData<Action> = actionSender
+
+    init {
+        exerciseCreatorViewModel.action!!.observeForever { action ->
+            when (action) {
+                ExerciseCreated -> actionSender.send(NavigateToExercise)
+            }
+        }
+    }
 
     override fun onEvent(event: Event) {
         when (event) {

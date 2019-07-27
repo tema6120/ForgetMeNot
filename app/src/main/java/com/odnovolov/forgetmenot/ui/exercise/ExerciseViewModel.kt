@@ -9,8 +9,7 @@ interface ExerciseViewModel : ViewModel<State, Action, Event> {
 
     data class State(
         val exerciseCards: LiveData<List<ExerciseCard>>,
-        val isNotAskButtonVisible: LiveData<Boolean>,
-        val isUndoButtonVisible: LiveData<Boolean>
+        val isCurrentCardLearned: LiveData<Boolean>
     )
 
     sealed class Action {

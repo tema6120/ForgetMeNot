@@ -17,6 +17,7 @@ interface HomeViewModel : ViewModel<State, Action, Event> {
     )
 
     sealed class Action {
+        object NavigateToExercise : Action()
         data class NavigateToDeckSettings(val deckId: Int) : Action()
         object ShowDeckIsDeletedSnackbar : Action()
         object ShowDeckSortingBottomSheet : Action()

@@ -95,6 +95,9 @@ class HomeFragment : Fragment() {
 
         viewModel.action?.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
+                NavigateToExercise -> {
+                    findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
+                }
                 is NavigateToDeckSettings -> {
                     val direction = HomeFragmentDirections.actionHomeScreenToDeckSettingsScreen(action.deckId)
                     findNavController().navigate(direction)

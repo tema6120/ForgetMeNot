@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.odnovolov.forgetmenot.db.dao.DeckDao
-import com.odnovolov.forgetmenot.db.dao.ExerciseDao
+import com.odnovolov.forgetmenot.ui.exercise.ExerciseDao
 import com.odnovolov.forgetmenot.db.entity.CardDbEntity
 import com.odnovolov.forgetmenot.db.entity.DeckDbEntity
 import com.odnovolov.forgetmenot.db.entity.ExerciseCardDbEntity

@@ -12,7 +12,7 @@ interface ExerciseCreatorViewModel : ViewModel<State, Action, Event> {
     )
 
     sealed class Action {
-        object NavigateToExercise : Action()
+        object ExerciseCreated : Action()
     }
 
     sealed class Event {
