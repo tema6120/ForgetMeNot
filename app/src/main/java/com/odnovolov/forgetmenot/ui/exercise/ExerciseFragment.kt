@@ -16,10 +16,12 @@ import leakcanary.LeakSentry
 class ExerciseFragment : Fragment() {
 
     private lateinit var viewModel: ExerciseViewModel
+    private var savedViewPagerPosition: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ExerciseInjector.viewModel(this)
         super.onCreate(savedInstanceState)
+        savedViewPagerPosition = savedInstanceState?.getInt(STATE_VIEW_PAGER_POSITION)
     }
 
     override fun onCreateView(
@@ -57,6 +59,12 @@ class ExerciseFragment : Fragment() {
 
     private fun subscribeToViewModel() {
         with(viewModel.state) {
+            exerciseCards.observe(viewLifecycleOwner, Observer {
+                if (savedViewPagerPosition != null) {
+                    exerciseViewPager.setCurrentItem(savedViewPagerPosition!!, false)
+                    savedViewPagerPosition = null
+                }
+            })
             isCurrentCardLearned.observe(viewLifecycleOwner, Observer { isCurrentCardLearned ->
                 isCurrentCardLearned ?: return@Observer
                 notAskButton.visibility = if (isCurrentCardLearned) View.GONE else View.VISIBLE
@@ -81,8 +89,17 @@ class ExerciseFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(STATE_VIEW_PAGER_POSITION, exerciseViewPager.currentItem)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         LeakSentry.refWatcher.watch(this)
+    }
+
+    companion object {
+        const val STATE_VIEW_PAGER_POSITION = "viewPagerPosition"
     }
 }
