@@ -9,6 +9,9 @@ import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.*
 import com.odnovolov.forgetmenot.ui.adddeck.Parser.IllegalCardFormatException
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.nio.charset.Charset
 
 class AddDeckViewModelImpl(
@@ -37,7 +40,6 @@ class AddDeckViewModelImpl(
     }
 
     private val stage = handle.getLiveData("stage", Stage.Idle)
-    private val occupiedDeckNames: LiveData<List<String>> = dao.getAllDeckNames()
     private val heldCards = handle.getLiveData<List<Card>>("heldCards").apply {
         stage.observeForever { stage ->
             if (stage == Stage.Idle) {
@@ -50,16 +52,15 @@ class AddDeckViewModelImpl(
     private val isProcessing: LiveData<Boolean> = Transformations.map(stage) { it == Stage.Parsing }
     private val isDialogVisible: LiveData<Boolean> = Transformations.map(stage) { it == Stage.WaitingForName }
     private val errorText = MediatorLiveData<String>().apply {
-        fun updateValue() {
-            value = when {
-                enteredText.value!!.isEmpty() -> "Name cannot be empty"
-                occupiedDeckNames.value!!.any { it == enteredText.value } -> "This name is occupied"
-                else -> null
+        addSource(enteredText) { enteredText ->
+            viewModelScope.launch {
+                value = when {
+                    enteredText.isEmpty() -> "Name cannot be empty"
+                    isDeckNameOccupied(enteredText) -> "This name is occupied"
+                    else -> null
+                }
             }
         }
-
-        addSource(enteredText) { updateValue() }
-        addSource(occupiedDeckNames) { updateValue() }
     }
     private val isPositiveButtonEnabled: LiveData<Boolean> = Transformations.map(errorText) { it == null }
 
@@ -88,19 +89,21 @@ class AddDeckViewModelImpl(
                     return
                 }
                 val fileName = event.fileName
-                when {
-                    fileName.isNullOrEmpty() -> {
-                        stage.value = Stage.WaitingForName
-                        heldCards.value = cards
-                    }
-                    occupiedDeckNames.value!!.any { it == fileName } -> {
-                        stage.value = Stage.WaitingForName
-                        heldCards.value = cards
-                        actionSender.send(SetDialogText(fileName))
-                    }
-                    else -> {
-                        val deck = Deck(name = fileName, cards = cards)
-                        insertDeck(deck)
+                viewModelScope.launch {
+                    when {
+                        fileName.isNullOrEmpty() -> {
+                            stage.value = Stage.WaitingForName
+                            heldCards.value = cards
+                        }
+                        isDeckNameOccupied(fileName) -> {
+                            stage.value = Stage.WaitingForName
+                            heldCards.value = cards
+                            actionSender.send(SetDialogText(fileName))
+                        }
+                        else -> {
+                            val deck = Deck(name = fileName, cards = cards)
+                            insertDeck(deck)
+                        }
                     }
                 }
             }
@@ -112,7 +115,9 @@ class AddDeckViewModelImpl(
                     name = enteredText.value!!,
                     cards = heldCards.value!!
                 )
-                insertDeck(deck)
+                viewModelScope.launch {
+                    insertDeck(deck)
+                }
             }
             NegativeDialogButtonClicked -> {
                 stage.value = Stage.Idle
@@ -120,8 +125,16 @@ class AddDeckViewModelImpl(
         }
     }
 
-    private fun insertDeck(deck: Deck) {
-        dao.insertDeck(deck)
+    private suspend fun isDeckNameOccupied(deckName: String): Boolean {
+        return withContext(IO) {
+            dao.isDeckNameOccupied(deckName)
+        }
+    }
+
+    private suspend fun insertDeck(deck: Deck) {
+        withContext(IO) {
+            dao.insertDeck(deck)
+        }
         stage.value = Stage.Idle
     }
 

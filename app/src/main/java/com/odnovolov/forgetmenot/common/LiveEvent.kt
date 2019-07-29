@@ -40,6 +40,7 @@ class LiveEvent<T> : MediatorLiveData<T>() {
         super.setValue(t)
     }
 
+    @MainThread
     fun send(event: T? = null) {
         value = event
     }

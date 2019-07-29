@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.ui.adddeck
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -13,22 +12,22 @@ import com.odnovolov.forgetmenot.entity.Deck
 @Dao
 abstract class AddDeckDao {
 
-    @Query("SELECT name FROM decks")
-    abstract fun getAllDeckNames(): LiveData<List<String>>
+    @Query("SELECT CASE WHEN EXISTS(SELECT * FROM decks WHERE name = :deckName) THEN 1 ELSE 0 END")
+    abstract fun isDeckNameOccupied(deckName: String): Boolean
 
     @Transaction
-    open fun insertDeck(deck: Deck): Int {
+    open suspend fun insertDeck(deck: Deck): Int {
         val deckDbEntity = DeckDbEntity.fromDeck(deck)
-        val deckId = this.insertInternal(deckDbEntity).toInt()
-        deck.cards
+        val deckId = this.insertDeckInternal(deckDbEntity).toInt()
+        val cardDbEntities = deck.cards
             .map { card: Card -> CardDbEntity.fromCard(card, deckId) }
-            .forEach { cardDbEntity: CardDbEntity -> insertInternal(cardDbEntity) }
+        insertCardInternal(cardDbEntities)
         return deckId
     }
 
     @Insert
-    abstract fun insertInternal(deckDbEntity: DeckDbEntity): Long
+    abstract fun insertDeckInternal(deckDbEntity: DeckDbEntity): Long
 
     @Insert
-    abstract fun insertInternal(cardDbEntity: CardDbEntity)
+    abstract fun insertCardInternal(cardDbEntities: List<CardDbEntity>)
 }
