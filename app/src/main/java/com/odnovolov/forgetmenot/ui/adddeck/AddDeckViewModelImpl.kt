@@ -10,6 +10,8 @@ import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.*
 import com.odnovolov.forgetmenot.ui.adddeck.Parser.IllegalCardFormatException
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.nio.charset.Charset
@@ -48,21 +50,21 @@ class AddDeckViewModelImpl(
         }
     }
     private val enteredText = MutableLiveData("")
+    private var checkDeckNameJob: Job? = null
 
     private val isProcessing: LiveData<Boolean> = Transformations.map(stage) { it == Stage.Parsing }
     private val isDialogVisible: LiveData<Boolean> = Transformations.map(stage) { it == Stage.WaitingForName }
     private val errorText = MediatorLiveData<String>().apply {
         addSource(enteredText) { enteredText ->
-            viewModelScope.launch {
-                value = when {
-                    enteredText.isEmpty() -> "Name cannot be empty"
-                    isDeckNameOccupied(enteredText) -> "This name is occupied"
-                    else -> null
-                }
+            isPositiveButtonEnabled.value = false
+            val oldCheckDeckNameJob = checkDeckNameJob
+            if (oldCheckDeckNameJob != null && !oldCheckDeckNameJob.isCompleted) {
+                oldCheckDeckNameJob.cancel()
             }
+            checkDeckNameJob = checkDeckName(enteredText)
         }
     }
-    private val isPositiveButtonEnabled: LiveData<Boolean> = Transformations.map(errorText) { it == null }
+    private val isPositiveButtonEnabled = MutableLiveData(false)
 
     override val state = State(
         isProcessing,
@@ -122,6 +124,18 @@ class AddDeckViewModelImpl(
             NegativeDialogButtonClicked -> {
                 stage.value = Stage.Idle
             }
+        }
+    }
+
+    private fun checkDeckName(deckName: String): Job = viewModelScope.launch {
+        val errorTextValue = when {
+            deckName.isEmpty() -> "Name cannot be empty"
+            isDeckNameOccupied(deckName) -> "This name is occupied"
+            else -> null
+        }
+        if (isActive) {
+            isPositiveButtonEnabled.value = errorTextValue == null
+            errorText.value = errorTextValue
         }
     }
 
