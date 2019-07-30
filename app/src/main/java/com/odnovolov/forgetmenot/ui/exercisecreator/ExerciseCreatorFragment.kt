@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.odnovolov.forgetmenot.R
 import kotlinx.android.synthetic.main.progress_bar.*
+import leakcanary.LeakSentry
 
 class ExerciseCreatorFragment : Fragment() {
 
@@ -37,6 +38,11 @@ class ExerciseCreatorFragment : Fragment() {
                 progressBar.visibility = if (isProcessing) View.VISIBLE else View.GONE
             })
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LeakSentry.refWatcher.watch(this)
     }
 
 }
