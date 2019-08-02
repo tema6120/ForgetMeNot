@@ -35,7 +35,9 @@ class HomeRepository(
     }
 
     fun restoreLastDeletedDeck() {
-        backupHelper.restoreDeck()
+        db.runInTransaction {
+            backupHelper.restoreDeck()
+        }
     }
 
 }

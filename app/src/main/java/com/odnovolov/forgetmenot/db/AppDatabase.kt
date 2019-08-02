@@ -39,8 +39,8 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
+            //context.deleteDatabase(NAME)
             return Room.databaseBuilder(context, AppDatabase::class.java, NAME)
-                .allowMainThreadQueries()
                 .build()
         }
     }

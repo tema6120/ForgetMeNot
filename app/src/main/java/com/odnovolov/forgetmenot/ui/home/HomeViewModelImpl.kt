@@ -7,6 +7,10 @@ import com.odnovolov.forgetmenot.ui.home.DeckSorting.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.*
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeViewModelImpl(
     private val repository: HomeRepository
@@ -31,31 +35,35 @@ class HomeViewModelImpl(
             val searchText = searchText.value!!
             val deckSorting = deckSorting.value ?: return
 
-            if (searchText.isNotEmpty()) {
-                decks = decks.filter { it.name.contains(searchText) }
-            }
-            decks = when (deckSorting) {
-                BY_TIME_CREATED -> decks.sortedBy { it.createdAt }
-                BY_NAME -> decks.sortedBy { it.name }
-                BY_LAST_OPENED -> decks.sortedByDescending { it.lastOpenedAt }
-            }
-            this.value = decks
-                .map { deck: Deck ->
-                    val passedLaps: Int = deck.cards
-                        .filter { card -> !card.isLearned }
-                        .map { card -> card.lap }
-                        .min() ?: 0
-                    val progress = DeckPreview.Progress(
-                        learned = deck.cards.filter { it.isLearned }.size,
-                        total = deck.cards.size
-                    )
-                    DeckPreview(
-                        deck.id,
-                        deck.name,
-                        passedLaps,
-                        progress
-                    )
+            viewModelScope.launch {
+                val updatedValue = withContext(Default) {
+                    if (searchText.isNotEmpty()) {
+                        decks = decks.filter { it.name.contains(searchText) }
+                    }
+                    decks = when (deckSorting) {
+                        BY_TIME_CREATED -> decks.sortedBy { it.createdAt }
+                        BY_NAME -> decks.sortedBy { it.name }
+                        BY_LAST_OPENED -> decks.sortedByDescending { it.lastOpenedAt }
+                    }
+                    decks.map { deck: Deck ->
+                        val passedLaps: Int = deck.cards
+                            .filter { card -> !card.isLearned }
+                            .map { card -> card.lap }
+                            .min() ?: 0
+                        val progress = DeckPreview.Progress(
+                            learned = deck.cards.filter { it.isLearned }.size,
+                            total = deck.cards.size
+                        )
+                        DeckPreview(
+                            deck.id,
+                            deck.name,
+                            passedLaps,
+                            progress
+                        )
+                    }
                 }
+                value = updatedValue
+            }
         }
 
         addSource(decks) { updateValue() }
@@ -104,13 +112,19 @@ class HomeViewModelImpl(
                 actionSender.send(NavigateToDeckSettings(event.deckId))
             }
             is DeleteDeckMenuItemClicked -> {
-                val numberOfDeletedDecks = repository.deleteDeckCreatingBackup(event.deckId)
-                if (numberOfDeletedDecks == 1) {
-                    actionSender.send(ShowDeckIsDeletedSnackbar)
+                viewModelScope.launch {
+                    val numberOfDeletedDecks = withContext(IO) {
+                        repository.deleteDeckCreatingBackup(event.deckId)
+                    }
+                    if (numberOfDeletedDecks == 1) {
+                        actionSender.send(ShowDeckIsDeletedSnackbar)
+                    }
                 }
             }
             DeckIsDeletedSnackbarCancelActionClicked -> {
-                repository.restoreLastDeletedDeck()
+                viewModelScope.launch(IO) {
+                    repository.restoreLastDeletedDeck()
+                }
             }
         }
     }

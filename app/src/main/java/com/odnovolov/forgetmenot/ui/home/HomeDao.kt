@@ -11,7 +11,6 @@ import com.odnovolov.forgetmenot.entity.Deck
 @Dao
 abstract class HomeDao {
 
-    @Transaction
     open fun getDecks(): LiveData<List<Deck>> {
         return Transformations.map(getDecksInternal()) { roughDecks: List<RoughDeck> ->
             roughDecks.map { roughDeck: RoughDeck ->
