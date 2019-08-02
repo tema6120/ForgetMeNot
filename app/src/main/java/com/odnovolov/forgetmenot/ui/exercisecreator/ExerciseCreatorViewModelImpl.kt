@@ -48,16 +48,21 @@ class ExerciseCreatorViewModelImpl(
                             dao.getDeck(event.deckId)
                         }
                         val exerciseCards: List<ExerciseCard> = withContext(Default) {
-                            deck.cards
+                            val exerciseCards: MutableList<ExerciseCard> = deck.cards
                                 .filter { card -> !card.isLearned }
                                 .map { card -> ExerciseCard(card = card) }
+                                .toMutableList()
+                            if (deck.exercisePreference.randomOrder) {
+                                exerciseCards.shuffle()
+                            }
+                            exerciseCards
                                 .sortedBy { exerciseCard -> exerciseCard.card.lap }
                         }
                         if (exerciseCards.isNotEmpty()) {
                             withContext(IO) {
                                 dao.deleteAllExerciseCards()
                                 dao.insertExerciseCards(exerciseCards)
-                                dao.updateLastOpenedAt(Calendar.getInstance(), deck.id)
+                                dao.setLastOpenedAt(Calendar.getInstance(), deck.id)
                             }
                             actionSender.send(NotifyParentViewThatExerciseIsCreated)
                         }

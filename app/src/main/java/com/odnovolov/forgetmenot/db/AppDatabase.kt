@@ -22,11 +22,11 @@ import com.odnovolov.forgetmenot.ui.home.HomeDao
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
+    abstract fun homeDao(): HomeDao
+    abstract fun addDeckDao(): AddDeckDao
+    abstract fun exerciseCreatorDao(): ExerciseCreatorDao
     abstract fun exerciseDao(): ExerciseDao
     abstract fun deckSettingsDao(): DeckSettingsDao
-    abstract fun addDeckDao(): AddDeckDao
-    abstract fun homeDao(): HomeDao
-    abstract fun exerciseCreatorDao(): ExerciseCreatorDao
 
     companion object {
         private const val NAME = "ForgetMeNot.db"

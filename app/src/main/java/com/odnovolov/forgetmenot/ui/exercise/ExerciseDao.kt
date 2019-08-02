@@ -38,6 +38,9 @@ abstract class ExerciseDao {
     @Query("UPDATE exercise_cards SET is_answered = 1 WHERE exercise_card_id = :exerciseCardId")
     abstract fun setAnswered(exerciseCardId: Int)
 
+    @Query("UPDATE cards SET lap = :lap WHERE card_id = :cardId")
+    abstract fun setLap(lap: Int, cardId: Int)
+
     @Query("UPDATE cards SET is_learned = :isCardLearned WHERE card_id = :cardId")
     abstract fun setIsCardLearned(isCardLearned: Boolean, cardId: Int)
 

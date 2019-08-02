@@ -7,5 +7,6 @@ data class Deck(
     val name: String,
     val cards: List<Card>,
     val createdAt: Calendar = Calendar.getInstance(),
-    val lastOpenedAt: Calendar? = null
+    val lastOpenedAt: Calendar? = null,
+    val exercisePreference: ExercisePreference = ExercisePreference()
 )

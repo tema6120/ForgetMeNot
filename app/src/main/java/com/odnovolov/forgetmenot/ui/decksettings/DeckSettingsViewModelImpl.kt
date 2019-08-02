@@ -2,11 +2,14 @@ package com.odnovolov.forgetmenot.ui.decksettings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.*
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.ShowRenameDeckDialog
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RandomOrderSwitcherClicked
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RenameDeckButtonClicked
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class DeckSettingsViewModelImpl(
     private val dao: DeckSettingsDao,
@@ -35,7 +38,9 @@ class DeckSettingsViewModelImpl(
             }
             RandomOrderSwitcherClicked -> {
                 val updatedRandomOrder = state.randomOrder.value?.not() ?: return
-                dao.updateRandomOrder(updatedRandomOrder, deckId)
+                viewModelScope.launch(IO) {
+                    dao.setRandomOrder(updatedRandomOrder, deckId)
+                }
             }
         }
     }

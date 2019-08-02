@@ -52,8 +52,12 @@ class ExerciseViewModelImpl(
                 currentPosition.value = event.position
             }
             ShowAnswerButtonClick -> {
+                val answeredExerciseCardId = currentExerciseCard!!.id
+                val updatedLap = currentExerciseCard!!.card.lap + 1
+                val answeredCardId = currentExerciseCard!!.card.id
                 viewModelScope.launch(Dispatchers.IO) {
-                    dao.setAnswered(currentExerciseCard!!.id)
+                    dao.setAnswered(answeredExerciseCardId)
+                    dao.setLap(updatedLap, answeredCardId)
                 }
             }
             NotAskButtonClick -> {

@@ -41,7 +41,7 @@ abstract class ExerciseCreatorDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertInternal(exerciseCards: List<ExerciseCardDbEntity>)
 
-    @Query("UPDATE decks SET lastOpenedAt = :lastOpenedAt WHERE deck_id = :deckId")
-    abstract fun updateLastOpenedAt(lastOpenedAt: Calendar, deckId: Int)
+    @Query("UPDATE decks SET last_opened_at = :lastOpenedAt WHERE deck_id = :deckId")
+    abstract fun setLastOpenedAt(lastOpenedAt: Calendar, deckId: Int)
 
 }
