@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.ui.exercisecreator
 
 import androidx.lifecycle.LiveData
 import com.odnovolov.forgetmenot.common.ViewModel
-import com.odnovolov.forgetmenot.entity.Deck
 import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.*
 
 interface ExerciseCreatorViewModel : ViewModel<State, Action, Event> {
@@ -12,11 +11,11 @@ interface ExerciseCreatorViewModel : ViewModel<State, Action, Event> {
     )
 
     sealed class Action {
-        object NavigateToExercise : Action()
+        object NotifyParentViewThatExerciseIsCreated : Action()
     }
 
     sealed class Event {
-        data class DeckButtonClicked(val deckId: Int) : Event()
+        data class CreateExerciseWasRequested(val deckId: Int) : Event()
     }
 
 }

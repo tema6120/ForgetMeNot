@@ -78,7 +78,7 @@ class AddDeckViewModelImpl(
 
     override fun onEvent(event: Event) {
         when (event) {
-            AddDeckButtonClicked -> {
+            AddDeckWasRequested -> {
                 actionSender.send(ShowFileChooser)
             }
             is ContentReceived -> {

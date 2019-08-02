@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_add"
+    <item android:id="@+id/action_add_deck"
           android:title="@string/add_new_deck"
           android:icon="@drawable/ic_add_white_24dp"
           app:showAsAction="ifRoom"/>

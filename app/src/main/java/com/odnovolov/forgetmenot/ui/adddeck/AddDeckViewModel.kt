@@ -21,7 +21,7 @@ interface AddDeckViewModel : ViewModel<State, Action, Event> {
     }
 
     sealed class Event {
-        object AddDeckButtonClicked : Event()
+        object AddDeckWasRequested : Event()
         data class ContentReceived(val inputStream: InputStream, val fileName: String?) : Event()
         data class DialogTextChanged(val text: String) : Event()
         object PositiveDialogButtonClicked : Event()

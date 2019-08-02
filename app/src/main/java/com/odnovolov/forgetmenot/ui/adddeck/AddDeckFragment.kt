@@ -15,15 +15,21 @@ import android.view.WindowManager.LayoutParams
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.common.InteractableFragment
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckFragment.Request
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckFragment.Request.AddDeck
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.*
 import kotlinx.android.synthetic.main.progress_bar.*
 import leakcanary.LeakSentry
 
-class AddDeckFragment : Fragment() {
+class AddDeckFragment : InteractableFragment<Request, Nothing>() {
+
+    sealed class Request {
+        object AddDeck : Request()
+    }
 
     lateinit var viewModel: AddDeckViewModel
     private lateinit var deckNameInputDialog: AlertDialog
@@ -104,7 +110,7 @@ class AddDeckFragment : Fragment() {
             })
         }
 
-        viewModel.action!!.observe(this, Observer { action ->
+        viewModel.action!!.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
                 ShowFileChooser -> {
                     val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -128,6 +134,12 @@ class AddDeckFragment : Fragment() {
         val dialogState = savedInstanceState?.getBundle(STATE_KEY_DECK_NAME_INPUT_DIALOG)
         if (dialogState != null) {
             deckNameInputDialog.onRestoreInstanceState(dialogState)
+        }
+    }
+
+    override fun request(request: Request) {
+        when (request) {
+            AddDeck -> viewModel.onEvent(AddDeckWasRequested)
         }
     }
 

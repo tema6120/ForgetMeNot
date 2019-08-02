@@ -73,17 +73,11 @@ class HomeViewModelImpl(
 
     override fun onEvent(event: Event) {
         when (event) {
-            is SetupDeckMenuItemClicked -> {
-                actionSender.send(NavigateToDeckSettings(event.deckId))
+            AddDeckMenuItemClicked -> {
+                actionSender.send(SendAddDeckRequest)
             }
-            is DeleteDeckMenuItemClicked -> {
-                val numberOfDeletedDecks = repository.deleteDeckCreatingBackup(event.deckId)
-                if (numberOfDeletedDecks == 1) {
-                    actionSender.send(ShowDeckIsDeletedSnackbar)
-                }
-            }
-            DeckIsDeletedSnackbarCancelActionClicked -> {
-                repository.restoreLastDeletedDeck()
+            ExerciseWasCreated -> {
+                actionSender.send(NavigateToExercise)
             }
             is SearchTextChanged -> {
                 searchText.value = event.searchText
@@ -102,6 +96,21 @@ class HomeViewModelImpl(
             SortByLastOpenedTextViewClicked -> {
                 deckSorting.value = BY_LAST_OPENED
                 actionSender.send(DismissDeckSortingBottomSheet)
+            }
+            is DeckButtonClicked -> {
+                actionSender.send(SendCreateExerciseRequest(event.deckId))
+            }
+            is SetupDeckMenuItemClicked -> {
+                actionSender.send(NavigateToDeckSettings(event.deckId))
+            }
+            is DeleteDeckMenuItemClicked -> {
+                val numberOfDeletedDecks = repository.deleteDeckCreatingBackup(event.deckId)
+                if (numberOfDeletedDecks == 1) {
+                    actionSender.send(ShowDeckIsDeletedSnackbar)
+                }
+            }
+            DeckIsDeletedSnackbarCancelActionClicked -> {
+                repository.restoreLastDeletedDeck()
             }
         }
     }

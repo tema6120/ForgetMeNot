@@ -72,7 +72,7 @@ class ExerciseFragment : Fragment() {
             })
         }
 
-        viewModel.action!!.observe(this, Observer { action ->
+        viewModel.action!!.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
                 MoveToNextPosition -> {
                     val nextPosition = exerciseViewPager.currentItem + 1

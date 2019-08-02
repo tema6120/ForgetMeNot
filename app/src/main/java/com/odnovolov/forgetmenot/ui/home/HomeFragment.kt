@@ -13,11 +13,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.ui.adddeck.AddDeckFragment
-import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel
-import com.odnovolov.forgetmenot.ui.adddeck.AddDeckViewModel.Event.AddDeckButtonClicked
+import com.odnovolov.forgetmenot.ui.adddeck.AddDeckFragment.Request.AddDeck
 import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorFragment
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Action.NavigateToExercise
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorFragment.Request.CreateExercise
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorFragment.Result.ExerciseIsCreated
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.home.HomeViewModel.Event.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -26,8 +25,8 @@ import leakcanary.LeakSentry
 class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
-    private lateinit var addDeckViewModel: AddDeckViewModel
-    private lateinit var exerciseCreatorViewModel: ExerciseCreatorViewModel
+    private lateinit var addDeckFragment: AddDeckFragment
+    private lateinit var exerciseCreatorFragment: ExerciseCreatorFragment
     private lateinit var adapter: DecksPreviewRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,17 +47,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        connectToChildrenViewModels()
         setupView()
         subscribeToViewModel()
-    }
-
-    private fun connectToChildrenViewModels() {
-        val addDeckFragment = childFragmentManager.findFragmentById(R.id.addDeckFragment) as AddDeckFragment
-        addDeckViewModel = addDeckFragment.viewModel
-        val exerciseCreatorFragment = childFragmentManager
-            .findFragmentById(R.id.exerciseCreatorFragment) as ExerciseCreatorFragment
-        exerciseCreatorViewModel = exerciseCreatorFragment.viewModel
     }
 
     private fun setupView() {
@@ -69,8 +59,8 @@ class HomeFragment : Fragment() {
     private fun setupToolbar() {
         toolbar.setOnMenuItemClickListener { item: MenuItem? ->
             when (item?.itemId) {
-                R.id.action_add -> {
-                    addDeckViewModel.onEvent(AddDeckButtonClicked)
+                R.id.action_add_deck -> {
+                    viewModel.onEvent(AddDeckMenuItemClicked)
                     true
                 }
                 R.id.action_sort_by -> {
@@ -99,7 +89,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerAdapter() {
-        adapter = DecksPreviewRecyclerAdapter(viewModel, exerciseCreatorViewModel)
+        adapter = DecksPreviewRecyclerAdapter(viewModel)
         decksPreviewRecycler.adapter = adapter
     }
 
@@ -110,6 +100,18 @@ class HomeFragment : Fragment() {
 
         viewModel.action!!.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
+                SendAddDeckRequest -> {
+                    addDeckFragment.request(AddDeck)
+                }
+                ShowDeckSortingBottomSheet -> {
+                    DeckSortingBottomSheet().show(childFragmentManager, "DeckSortingBottomSheet Tag")
+                }
+                is SendCreateExerciseRequest -> {
+                    exerciseCreatorFragment.request(CreateExercise(action.deckId))
+                }
+                NavigateToExercise -> {
+                    findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
+                }
                 is NavigateToDeckSettings -> {
                     val direction = HomeFragmentDirections.actionHomeScreenToDeckSettingsScreen(action.deckId)
                     findNavController().navigate(direction)
@@ -127,17 +129,6 @@ class HomeFragment : Fragment() {
                         )
                         .show()
                 }
-                ShowDeckSortingBottomSheet -> {
-                    DeckSortingBottomSheet().show(childFragmentManager, "DeckSortingBottomSheet Tag")
-                }
-            }
-        })
-
-        exerciseCreatorViewModel.action!!.observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                NavigateToExercise -> {
-                    findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
-                }
             }
         })
     }
@@ -147,6 +138,17 @@ class HomeFragment : Fragment() {
         when (childFragment) {
             is DeckSortingBottomSheet -> {
                 childFragment.viewModel = viewModel
+            }
+            is AddDeckFragment -> {
+                addDeckFragment = childFragment
+            }
+            is ExerciseCreatorFragment -> {
+                exerciseCreatorFragment = childFragment
+                exerciseCreatorFragment.result.observe(this, Observer { result ->
+                    when (result) {
+                        ExerciseIsCreated -> viewModel.onEvent(ExerciseWasCreated)
+                    }
+                })
             }
         }
     }

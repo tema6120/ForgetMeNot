@@ -56,7 +56,7 @@ class DeckSettingsFragment : Fragment() {
             })
         }
 
-        viewModel.action!!.observe(this, Observer { action ->
+        viewModel.action!!.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
                 is ShowRenameDeckDialog -> Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
                     .show()

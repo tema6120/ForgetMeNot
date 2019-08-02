@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.entity.ExerciseCard
 import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.*
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Action.NavigateToExercise
-import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Event.DeckButtonClicked
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Action.NotifyParentViewThatExerciseIsCreated
+import com.odnovolov.forgetmenot.ui.exercisecreator.ExerciseCreatorViewModel.Event.CreateExerciseWasRequested
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -37,7 +37,7 @@ class ExerciseCreatorViewModelImpl(
 
     override fun onEvent(event: Event) {
         when (event) {
-            is DeckButtonClicked -> {
+            is CreateExerciseWasRequested -> {
                 if (isProcessing.value == true) {
                     return
                 }
@@ -59,7 +59,7 @@ class ExerciseCreatorViewModelImpl(
                                 dao.insertExerciseCards(exerciseCards)
                                 dao.updateLastOpenedAt(Calendar.getInstance(), deck.id)
                             }
-                            actionSender.send(NavigateToExercise)
+                            actionSender.send(NotifyParentViewThatExerciseIsCreated)
                         }
                     } finally {
                         isProcessing.value = false
