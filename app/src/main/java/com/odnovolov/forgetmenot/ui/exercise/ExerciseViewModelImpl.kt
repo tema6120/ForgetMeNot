@@ -6,6 +6,8 @@ import com.odnovolov.forgetmenot.entity.ExerciseCard
 import com.odnovolov.forgetmenot.ui.exercise.ExerciseViewModel.*
 import com.odnovolov.forgetmenot.ui.exercise.ExerciseViewModel.Action.MoveToNextPosition
 import com.odnovolov.forgetmenot.ui.exercise.ExerciseViewModel.Event.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ExerciseViewModelImpl(
     private val dao: ExerciseDao
@@ -50,16 +52,24 @@ class ExerciseViewModelImpl(
                 currentPosition.value = event.position
             }
             ShowAnswerButtonClick -> {
-                dao.setAnswered(currentExerciseCard!!.id)
+                viewModelScope.launch(Dispatchers.IO) {
+                    dao.setAnswered(currentExerciseCard!!.id)
+                }
             }
             NotAskButtonClick -> {
-                dao.setIsCardLearned(true, currentExerciseCard!!.card.id)
+                val learnedCardId = currentExerciseCard!!.card.id
                 if (!isLastPosition()) {
                     actionSender.send(MoveToNextPosition)
                 }
+                viewModelScope.launch(Dispatchers.IO) {
+                    dao.setIsCardLearned(true, learnedCardId)
+                }
             }
             UndoButtonClick -> {
-                dao.setIsCardLearned(true, currentExerciseCard!!.card.id)
+                val unlearnedCardId = currentExerciseCard!!.card.id
+                viewModelScope.launch(Dispatchers.IO) {
+                    dao.setIsCardLearned(false, unlearnedCardId)
+                }
             }
         }
     }
