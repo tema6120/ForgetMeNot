@@ -25,4 +25,6 @@
     <string name="text_random_order">Random order</string>
     <string name="description_random_order">Shuffle cards in a purposeless fashion</string>
     <string name="label_deck_settings_screen">Deck Settings</string>
+    <string name="text_pronunciation">Pronunciation</string>
+    <string name="label_pronunciation_screen">Pronunciation</string>
 </resources>

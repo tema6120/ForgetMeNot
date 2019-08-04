@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.entity.Pronunciation
+import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.NavigateToPronunciation
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.ShowRenameDeckDialog
-import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RandomOrderSwitcherClicked
-import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RenameDeckButtonClicked
+import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.*
+import com.odnovolov.forgetmenot.ui.pronunciation.ResultCallback
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import leakcanary.LeakSentry
 
@@ -44,6 +47,9 @@ class DeckSettingsFragment : Fragment() {
         randomOrderLinearLayout.setOnClickListener {
             viewModel.onEvent(RandomOrderSwitcherClicked)
         }
+        pronunciationButton.setOnClickListener {
+            viewModel.onEvent(PronunciationButtonClicked)
+        }
     }
 
     private fun subscribeToViewModel() {
@@ -58,8 +64,20 @@ class DeckSettingsFragment : Fragment() {
 
         viewModel.action!!.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
-                is ShowRenameDeckDialog -> Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
-                    .show()
+                is ShowRenameDeckDialog -> {
+                    Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                NavigateToPronunciation -> {
+                    val callback = object : ResultCallback {
+                        override fun setResult(result: Pronunciation) {
+                            viewModel.onEvent(GotPronunciation(result))
+                        }
+                    }
+                    val direction = DeckSettingsFragmentDirections
+                        .actionDeckSettingsScreenToPronunciationScreen(callback)
+                    findNavController().navigate(direction)
+                }
             }
         })
     }

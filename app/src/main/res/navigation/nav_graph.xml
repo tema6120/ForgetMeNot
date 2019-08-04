@@ -38,6 +38,22 @@
                 android:name="deckId"
                 app:argType="integer"/>
 
+        <action
+                android:id="@+id/action_deck_settings_screen_to_pronunciation_screen"
+                app:destination="@id/pronunciation_screen"/>
+
+    </fragment>
+
+    <fragment
+            android:id="@+id/pronunciation_screen"
+            android:name="com.odnovolov.forgetmenot.ui.pronunciation.PronunciationFragment"
+            android:label="@string/label_pronunciation_screen"
+            tools:layout="@layout/fragment_pronunciation">
+
+        <argument
+                android:name="resultCallback"
+                app:argType="com.odnovolov.forgetmenot.ui.pronunciation.ResultCallback"/>
+
     </fragment>
 
 </navigation>

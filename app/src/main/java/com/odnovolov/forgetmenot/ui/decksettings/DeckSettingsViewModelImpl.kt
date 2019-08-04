@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.odnovolov.forgetmenot.common.LiveEvent
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.*
+import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.NavigateToPronunciation
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.ShowRenameDeckDialog
-import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RandomOrderSwitcherClicked
-import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.RenameDeckButtonClicked
+import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Event.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
@@ -41,6 +41,9 @@ class DeckSettingsViewModelImpl(
                 viewModelScope.launch(IO) {
                     dao.setRandomOrder(updatedRandomOrder, deckId)
                 }
+            }
+            PronunciationButtonClicked -> {
+                actionSender.send(NavigateToPronunciation)
             }
         }
     }
