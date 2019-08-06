@@ -1,12 +1,8 @@
 package com.odnovolov.forgetmenot.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -32,6 +28,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = HomeInjector.viewModel(this)
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -39,10 +36,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
-        val toolbar: Toolbar = rootView.findViewById(R.id.toolbar)
-        toolbar.inflateMenu(R.menu.home_actions)
-        return rootView
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,43 +46,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupView() {
-        setupToolbar()
-        initRecyclerAdapter()
-    }
-
-    private fun setupToolbar() {
-        toolbar.setOnMenuItemClickListener { item: MenuItem? ->
-            when (item?.itemId) {
-                R.id.action_add_deck -> {
-                    viewModel.onEvent(AddDeckMenuItemClicked)
-                    true
-                }
-                R.id.action_sort_by -> {
-                    viewModel.onEvent(SortByMenuItemClicked)
-                    true
-                }
-                else -> false
-            }
-        }
-        configureSearchView()
-    }
-
-    private fun configureSearchView() {
-        val searchItem = toolbar.menu.findItem(R.id.action_search)
-        val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                viewModel.onEvent(SearchTextChanged(newText))
-                return true
-            }
-        })
-    }
-
-    private fun initRecyclerAdapter() {
         adapter = DecksPreviewRecyclerAdapter(viewModel)
         decksPreviewRecycler.adapter = adapter
     }
@@ -150,6 +107,37 @@ class HomeFragment : Fragment() {
                     }
                 })
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_actions, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                viewModel.onEvent(SearchTextChanged(newText))
+                return true
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_add_deck -> {
+                viewModel.onEvent(AddDeckMenuItemClicked)
+                true
+            }
+            R.id.action_sort_by -> {
+                viewModel.onEvent(SortByMenuItemClicked)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

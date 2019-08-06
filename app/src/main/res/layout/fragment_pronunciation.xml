@@ -6,17 +6,6 @@
         android:layout_height="match_parent"
 >
 
-    <androidx.appcompat.widget.Toolbar
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:title="@string/label_pronunciation_screen"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-    />
-
     <EditText
             android:id="@+id/pronunciationNameEditText"
             android:layout_width="match_parent"
@@ -26,7 +15,7 @@
             android:inputType="textPersonName"
             android:text="Name"
             android:ems="10"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/questionTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

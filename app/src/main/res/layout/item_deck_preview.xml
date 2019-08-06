@@ -13,7 +13,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@color/mtrl_on_surface_emphasis_high_type"
+            android:textColor="@color/colorPrimaryDark"
             tools:text="bring up (point)"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
