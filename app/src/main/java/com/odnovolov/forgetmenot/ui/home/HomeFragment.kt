@@ -113,6 +113,26 @@ class HomeFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_actions, menu)
         val searchItem = menu.findItem(R.id.action_search)
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
+                setMenuItemsVisibility(false)
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
+                setMenuItemsVisibility(true)
+                requireActivity().invalidateOptionsMenu()
+                return true
+            }
+
+            fun setMenuItemsVisibility(visible: Boolean) {
+                for (i in 0 until menu.size()) {
+                    val item = menu.getItem(i)
+                    if (item !== searchItem)
+                        item.isVisible = visible
+                }
+            }
+        })
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {

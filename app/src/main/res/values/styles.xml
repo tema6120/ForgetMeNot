@@ -7,9 +7,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style
-            name="SearchViewStyle"
-            parent="ThemeOverlay.AppCompat.Dark.ActionBar"
-    />
-
 </resources>
