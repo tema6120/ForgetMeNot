@@ -62,6 +62,8 @@
         <argument
                 android:name="initPronunciation"
                 app:argType="com.odnovolov.forgetmenot.entity.Pronunciation"
+                app:nullable="true"
+                android:defaultValue="@null"
         />
 
         <argument

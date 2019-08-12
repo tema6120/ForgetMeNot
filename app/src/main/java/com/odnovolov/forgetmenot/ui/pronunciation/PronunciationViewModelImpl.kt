@@ -18,7 +18,7 @@ class PronunciationViewModelImpl(
     handle: SavedStateHandle,
     private val dao: PronunciationDao,
     private val speaker: Speaker,
-    initPronunciation: Pronunciation,
+    initPronunciation: Pronunciation?,
     private val resultCallback: ResultCallback
 ) : ViewModel(), PronunciationViewModel {
 
@@ -26,7 +26,7 @@ class PronunciationViewModelImpl(
         owner: SavedStateRegistryOwner,
         private val dao: PronunciationDao,
         private val speaker: Speaker,
-        private val initPronunciation: Pronunciation,
+        private val initPronunciation: Pronunciation?,
         private val resultCallback: ResultCallback
     ) : AbstractSavedStateViewModelFactory(owner, null) {
         override fun <T : ViewModel?> create(
@@ -39,7 +39,11 @@ class PronunciationViewModelImpl(
         }
     }
 
-    private val pronunciation: MutableLiveData<Pronunciation> = handle.getLiveData("pronunciation", initPronunciation)
+    private val isNew: Boolean = initPronunciation == null
+    private val pronunciation: MutableLiveData<Pronunciation> = handle.getLiveData(
+        "pronunciation",
+        initPronunciation ?: Pronunciation(name = "")
+    )
 
     private val name: LiveData<String> = Transformations.map(pronunciation) { it.name }
     private val selectedQuestionLanguage: LiveData<Locale?> = Transformations.map(pronunciation) { it.questionLanguage }
@@ -122,11 +126,17 @@ class PronunciationViewModelImpl(
                     actionSender.send(SetNameErrorText("Name is empty"))
                 } else {
                     viewModelScope.launch {
-                        var pronunciation = pronunciation.value!!
-                        val pronunciationId = withContext(IO) {
-                            dao.savePronunciation(pronunciation)
+                        val pronunciation = withContext(IO) {
+                            if (isNew) {
+                                val nonIdentifiedPronunciation = pronunciation.value!!
+                                val freshId = dao.insertPronunciation(nonIdentifiedPronunciation)
+                                nonIdentifiedPronunciation.copy(id = freshId.toInt())
+                            } else {
+                                val identifiedPronunciation = pronunciation.value!!
+                                dao.updatePronunciation(identifiedPronunciation)
+                                identifiedPronunciation
+                            }
                         }
-                        pronunciation = pronunciation.copy(id = pronunciationId.toInt())
                         resultCallback.setResult(pronunciation)
                         actionSender.send(NavigateUp)
                     }

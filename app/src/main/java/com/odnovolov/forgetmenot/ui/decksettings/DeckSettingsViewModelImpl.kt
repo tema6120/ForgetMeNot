@@ -49,7 +49,7 @@ class DeckSettingsViewModelImpl(
                 }
             }
             PronunciationButtonClicked -> {
-                val initPronunciation = pronunciation.value ?: Pronunciation(name = "")
+                val initPronunciation = pronunciation.value
                 actionSender.send(NavigateToPronunciation(initPronunciation))
             }
             is GotPronunciation -> {

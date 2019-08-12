@@ -15,7 +15,7 @@ interface DeckSettingsViewModel : ViewModel<State, Action, Event> {
 
     sealed class Action {
         data class ShowRenameDeckDialog(val deckId: Int) : Action()
-        data class NavigateToPronunciation(val initPronunciation: Pronunciation) : Action()
+        data class NavigateToPronunciation(val initPronunciation: Pronunciation?) : Action()
     }
 
     sealed class Event {
