@@ -68,14 +68,14 @@ class DeckSettingsFragment : Fragment() {
                     Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
                         .show()
                 }
-                NavigateToPronunciation -> {
+                is NavigateToPronunciation -> {
                     val callback = object : ResultCallback {
                         override fun setResult(result: Pronunciation) {
                             viewModel.onEvent(GotPronunciation(result))
                         }
                     }
                     val direction = DeckSettingsFragmentDirections
-                        .actionDeckSettingsScreenToPronunciationScreen(callback)
+                        .actionDeckSettingsScreenToPronunciationScreen(action.initPronunciation, callback)
                     findNavController().navigate(direction)
                 }
             }

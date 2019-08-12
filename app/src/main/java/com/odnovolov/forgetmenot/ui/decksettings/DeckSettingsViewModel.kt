@@ -14,14 +14,14 @@ interface DeckSettingsViewModel : ViewModel<State, Action, Event> {
 
     sealed class Action {
         data class ShowRenameDeckDialog(val deckId: Int) : Action()
-        object NavigateToPronunciation : Action()
+        data class NavigateToPronunciation(val initPronunciation: Pronunciation) : Action()
     }
 
     sealed class Event {
         object RenameDeckButtonClicked : Event()
         object RandomOrderSwitcherClicked : Event()
         object PronunciationButtonClicked : Event()
-        data class GotPronunciation(val pronunciation: Pronunciation) : Event()
+        data class GotPronunciation(val resultPronunciation: Pronunciation) : Event()
     }
 
 }

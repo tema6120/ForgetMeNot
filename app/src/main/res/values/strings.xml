@@ -26,4 +26,8 @@
     <string name="label_deck_settings_screen">Deck Settings</string>
     <string name="text_pronunciation">Pronunciation</string>
     <string name="label_pronunciation_screen">Pronunciation</string>
+    <string name="hint_pronunciation_name_edittext">Enter name</string>
+    <string name="text_question_title_textview">Question</string>
+    <string name="text_auto_speak_switch">Auto speak</string>
+    <string name="text_answer_title_textview">Answer</string>
 </resources>
