@@ -1,11 +1,12 @@
 package com.odnovolov.forgetmenot.db.entity
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.odnovolov.forgetmenot.entity.Card
 import com.odnovolov.forgetmenot.entity.Deck
-import com.odnovolov.forgetmenot.entity.ExercisePreference
+import com.odnovolov.forgetmenot.entity.Pronunciation
 import java.util.*
 
 @Entity(tableName = "decks")
@@ -23,17 +24,19 @@ data class DeckDbEntity(
     @ColumnInfo(name = "last_opened_at")
     val lastOpenedAt: Calendar?,
 
-    @ColumnInfo(name = "random_order")
-    val randomOrder: Boolean
-
+    @Embedded
+    val exercisePreferenceDbEntity: ExercisePreferenceDbEntity
 ) {
-    fun toDeck(cards: List<Card>) = Deck(
+    fun toDeck(
+        cards: List<Card>,
+        pronunciation: Pronunciation?
+    ) = Deck(
         id,
         name,
         cards,
         createdAt,
         lastOpenedAt,
-        ExercisePreference(randomOrder)
+        exercisePreferenceDbEntity.toExercisePreference(pronunciation)
     )
 
     companion object {
@@ -42,7 +45,7 @@ data class DeckDbEntity(
             deck.name,
             deck.createdAt,
             deck.lastOpenedAt,
-            deck.exercisePreference.randomOrder
+            ExercisePreferenceDbEntity.fromExercisePreference(deck.exercisePreference)
         )
     }
 }

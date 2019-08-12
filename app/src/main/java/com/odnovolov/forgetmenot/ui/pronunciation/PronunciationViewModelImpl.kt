@@ -9,17 +9,22 @@ import com.odnovolov.forgetmenot.ui.pronunciation.PronunciationViewModel.*
 import com.odnovolov.forgetmenot.ui.pronunciation.PronunciationViewModel.Action.*
 import com.odnovolov.forgetmenot.ui.pronunciation.PronunciationViewModel.Event.*
 import com.odnovolov.forgetmenot.ui.pronunciation.PronunciationViewModel.State.DropdownLanguage
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class PronunciationViewModelImpl(
     handle: SavedStateHandle,
+    private val dao: PronunciationDao,
     private val speaker: Speaker,
     initPronunciation: Pronunciation,
-    val resultCallback: ResultCallback
+    private val resultCallback: ResultCallback
 ) : ViewModel(), PronunciationViewModel {
 
     class Factory(
         owner: SavedStateRegistryOwner,
+        private val dao: PronunciationDao,
         private val speaker: Speaker,
         private val initPronunciation: Pronunciation,
         private val resultCallback: ResultCallback
@@ -30,7 +35,7 @@ class PronunciationViewModelImpl(
             handle: SavedStateHandle
         ): T {
             @Suppress("UNCHECKED_CAST")
-            return PronunciationViewModelImpl(handle, speaker, initPronunciation, resultCallback) as T
+            return PronunciationViewModelImpl(handle, dao, speaker, initPronunciation, resultCallback) as T
         }
     }
 
@@ -116,8 +121,15 @@ class PronunciationViewModelImpl(
                 if (pronunciation.value!!.name.isEmpty()) {
                     actionSender.send(SetNameErrorText("Name is empty"))
                 } else {
-                    resultCallback.setResult(pronunciation.value!!)
-                    actionSender.send(NavigateUp)
+                    viewModelScope.launch {
+                        var pronunciation = pronunciation.value!!
+                        val pronunciationId = withContext(IO) {
+                            dao.savePronunciation(pronunciation)
+                        }
+                        pronunciation = pronunciation.copy(id = pronunciationId.toInt())
+                        resultCallback.setResult(pronunciation)
+                        actionSender.send(NavigateUp)
+                    }
                 }
             }
         }

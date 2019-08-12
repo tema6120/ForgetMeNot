@@ -24,9 +24,14 @@ class DeckSettingsViewModelImpl(
         }
     }
 
+    private val deckName = dao.getDeckName(deckId)
+    private val randomOrder = dao.getRandomOrder(deckId)
+    private val pronunciation = dao.getPronunciation(deckId)
+
     override val state = State(
-        deckName = dao.getDeckName(deckId),
-        randomOrder = dao.getRandomOrder(deckId)
+        deckName,
+        randomOrder,
+        pronunciation
     )
 
     private val actionSender = LiveEvent<Action>()
@@ -44,8 +49,13 @@ class DeckSettingsViewModelImpl(
                 }
             }
             PronunciationButtonClicked -> {
-                val initPronunciation = Pronunciation(name = "")
+                val initPronunciation = pronunciation.value ?: Pronunciation(name = "")
                 actionSender.send(NavigateToPronunciation(initPronunciation))
+            }
+            is GotPronunciation -> {
+                viewModelScope.launch(IO) {
+                    dao.setPronunciation(event.resultPronunciation, deckId)
+                }
             }
         }
     }

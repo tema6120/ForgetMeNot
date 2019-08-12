@@ -18,4 +18,19 @@ class Converters {
                 .apply { timeInMillis = timeStamp }
         }
     }
+
+    @TypeConverter
+    fun localeToString(locale: Locale?): String? {
+        return locale?.toLanguageTag()
+    }
+
+    @TypeConverter
+    fun stringToLocale(languageTag: String?): Locale? {
+        return if (languageTag == null) {
+            null
+        } else {
+            Locale.forLanguageTag(languageTag)
+        }
+    }
+
 }

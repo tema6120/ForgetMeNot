@@ -60,6 +60,9 @@ class DeckSettingsFragment : Fragment() {
             randomOrder.observe(viewLifecycleOwner, Observer { randomOrder ->
                 randomOrderSwitcher.isChecked = randomOrder
             })
+            pronunciation.observe(viewLifecycleOwner, Observer { pronunciation ->
+                pronunciationTextView.text = pronunciation?.name ?: "Off"
+            })
         }
 
         viewModel.action!!.observe(viewLifecycleOwner, Observer { action ->

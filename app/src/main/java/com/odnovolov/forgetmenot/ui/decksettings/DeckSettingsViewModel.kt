@@ -9,7 +9,8 @@ interface DeckSettingsViewModel : ViewModel<State, Action, Event> {
 
     data class State(
         val deckName: LiveData<String>,
-        val randomOrder: LiveData<Boolean>
+        val randomOrder: LiveData<Boolean>,
+        val pronunciation: LiveData<Pronunciation>
     )
 
     sealed class Action {

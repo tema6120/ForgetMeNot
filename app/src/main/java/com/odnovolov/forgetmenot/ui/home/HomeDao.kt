@@ -5,6 +5,7 @@ import androidx.lifecycle.Transformations
 import androidx.room.*
 import com.odnovolov.forgetmenot.db.entity.CardDbEntity
 import com.odnovolov.forgetmenot.db.entity.DeckDbEntity
+import com.odnovolov.forgetmenot.db.entity.PronunciationDbEntity
 import com.odnovolov.forgetmenot.entity.Card
 import com.odnovolov.forgetmenot.entity.Deck
 
@@ -15,13 +16,14 @@ abstract class HomeDao {
         return Transformations.map(getDecksInternal()) { roughDecks: List<RoughDeck> ->
             roughDecks.map { roughDeck: RoughDeck ->
                 val cards: List<Card> = roughDeck.cardDbEntities.map { it.toCard() }
-                roughDeck.deckDbEntity.toDeck(cards)
+                val pronunciation = roughDeck.pronunciationDbEntity?.toPronunciation()
+                roughDeck.deckDbEntity.toDeck(cards, pronunciation)
             }
         }
     }
 
     @Transaction
-    @Query("SELECT * FROM decks")
+    @Query("SELECT * FROM decks LEFT JOIN pronunciations ON pronunciation_id_key = pronunciation_id")
     abstract fun getDecksInternal(): LiveData<List<RoughDeck>>
 
     class RoughDeck {
@@ -30,6 +32,9 @@ abstract class HomeDao {
 
         @Relation(entity = CardDbEntity::class, entityColumn = "deck_id_fk", parentColumn = "deck_id")
         lateinit var cardDbEntities: List<CardDbEntity>
+
+        @Embedded
+        var pronunciationDbEntity: PronunciationDbEntity? = null
     }
 
     @Query("DELETE FROM decks WHERE deck_id = :deckId")
