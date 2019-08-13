@@ -8,22 +8,22 @@ import java.util.*
 data class PronunciationDbEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "pronunciation_id")
-    val id: Int = 0,
+    val id: Int?,
 
     @ColumnInfo(name = "pronunciation_name")
     val name: String,
 
     @ColumnInfo(name = "question_language")
-    val questionLanguage: Locale? = null,
+    val questionLanguage: Locale?,
 
     @ColumnInfo(name = "question_auto_speak")
-    val questionAutoSpeak: Boolean = false,
+    val questionAutoSpeak: Boolean,
 
     @ColumnInfo(name = "answer_language")
-    val answerLanguage: Locale? = null,
+    val answerLanguage: Locale?,
 
     @ColumnInfo(name = "answer_auto_speak")
-    val answerAutoSpeak: Boolean = false
+    val answerAutoSpeak: Boolean
 ) {
     fun toPronunciation() = Pronunciation(
         id,

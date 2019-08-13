@@ -33,6 +33,6 @@ abstract class DeckSettingsDao {
     }
 
     @Query("UPDATE decks SET pronunciation_id_key = :pronunciationId WHERE deck_id = :deckId")
-    abstract fun setPronunciationInternal(pronunciationId: Int, deckId: Int)
+    abstract fun setPronunciationInternal(pronunciationId: Int?, deckId: Int)
 
 }

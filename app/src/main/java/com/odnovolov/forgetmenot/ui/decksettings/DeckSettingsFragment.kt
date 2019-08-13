@@ -61,7 +61,7 @@ class DeckSettingsFragment : Fragment() {
                 randomOrderSwitcher.isChecked = randomOrder
             })
             pronunciation.observe(viewLifecycleOwner, Observer { pronunciation ->
-                pronunciationTextView.text = pronunciation?.name ?: "Off"
+                pronunciationTextView.text = pronunciation?.name ?: "Default"
             })
         }
 

@@ -25,7 +25,7 @@ data class ExerciseCardDbEntity(
     val cardId: Int,
 
     @ColumnInfo(name = "is_answered")
-    val isAnswered: Boolean = false
+    val isAnswered: Boolean
 ) {
     fun toExerciseCard(card: Card) =
         ExerciseCard(id, card, isAnswered)

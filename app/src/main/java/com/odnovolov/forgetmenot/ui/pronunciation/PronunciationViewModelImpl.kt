@@ -42,7 +42,7 @@ class PronunciationViewModelImpl(
     private val isNew: Boolean = initPronunciation == null
     private val pronunciation: MutableLiveData<Pronunciation> = handle.getLiveData(
         "pronunciation",
-        initPronunciation ?: Pronunciation(name = "")
+        initPronunciation ?: Pronunciation()
     )
 
     private val name: LiveData<String> = Transformations.map(pronunciation) { it.name }

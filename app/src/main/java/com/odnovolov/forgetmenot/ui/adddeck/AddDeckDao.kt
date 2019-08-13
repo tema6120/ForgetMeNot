@@ -18,7 +18,7 @@ abstract class AddDeckDao {
     @Transaction
     open suspend fun insertDeck(deck: Deck): Int {
         val deckDbEntity = DeckDbEntity.fromDeck(deck)
-        val deckId = this.insertDeckInternal(deckDbEntity).toInt()
+        val deckId = insertDeckInternal(deckDbEntity).toInt()
         val cardDbEntities = deck.cards
             .map { card: Card -> CardDbEntity.fromCard(card, deckId) }
         insertCardInternal(cardDbEntities)

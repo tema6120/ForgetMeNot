@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.odnovolov.forgetmenot.common.LiveEvent
-import com.odnovolov.forgetmenot.entity.Pronunciation
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.*
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.NavigateToPronunciation
 import com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsViewModel.Action.ShowRenameDeckDialog

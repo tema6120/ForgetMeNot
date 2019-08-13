@@ -6,19 +6,20 @@ import com.odnovolov.forgetmenot.entity.Pronunciation
 
 data class ExercisePreferenceDbEntity(
     @ColumnInfo(name = "random_order")
-    val randomOrder: Boolean = true,
+    val randomOrder: Boolean,
 
     @ColumnInfo(name = "pronunciation_id_key")
-    val pronunciationId: Int? = null
+    val pronunciationId: Int?
 ) {
     fun toExercisePreference(pronunciation: Pronunciation?) = ExercisePreference(
         randomOrder,
-        pronunciation
+        pronunciation ?: Pronunciation()
     )
 
     companion object {
         fun fromExercisePreference(exercisePreference: ExercisePreference) = ExercisePreferenceDbEntity(
-            exercisePreference.randomOrder
+            exercisePreference.randomOrder,
+            exercisePreference.pronunciation.id
         )
     }
 }
