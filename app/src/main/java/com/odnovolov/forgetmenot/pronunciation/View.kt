@@ -30,10 +30,10 @@ class PronunciationFragment : BaseFragment() {
 
     private val controller = PronunciationController()
     private val viewModel = PronunciationViewModel()
-    private lateinit var questionLanguagesPopup: PopupWindow
-    private lateinit var questionLanguagesRecyclerAdapter: LanguageRecyclerAdapter
-    private lateinit var answerLanguagesPopup: PopupWindow
-    private lateinit var answerLanguagesRecyclerAdapter: LanguageRecyclerAdapter
+    private lateinit var questionLanguagePopup: PopupWindow
+    private lateinit var questionLanguageRecyclerAdapter: LanguageRecyclerAdapter
+    private lateinit var answerLanguagePopup: PopupWindow
+    private lateinit var answerLanguageRecyclerAdapter: LanguageRecyclerAdapter
     private lateinit var speaker: Speaker
 
     override fun onAttach(context: Context) {
@@ -49,7 +49,17 @@ class PronunciationFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        questionLanguagePopup = createLanguagePopup()
+        answerLanguagePopup = createLanguagePopup()
         return inflater.inflate(R.layout.fragment_pronunciation, container, false)
+    }
+
+    private fun createLanguagePopup() = PopupWindow(requireContext()).apply {
+        contentView = View.inflate(requireContext(), R.layout.popup_available_languages, null)
+        setBackgroundDrawable(ColorDrawable(Color.LTGRAY))
+        elevation = 20f
+        isOutsideTouchable = true
+        isFocusable = true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,79 +70,53 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        questionLanguagesPopup = createPopup()
-        questionLanguagesRecyclerAdapter = LanguageRecyclerAdapter(
+        initAdapters()
+        setOnClickListeners()
+    }
+
+    private fun initAdapters() {
+        questionLanguageRecyclerAdapter = LanguageRecyclerAdapter(
             onItemClick = { language: Locale? ->
                 controller.dispatch(QuestionLanguageSelected(language))
             }
         )
-        (questionLanguagesPopup.contentView as RecyclerView).adapter =
-            questionLanguagesRecyclerAdapter
+        (questionLanguagePopup.contentView as RecyclerView).adapter =
+            questionLanguageRecyclerAdapter
 
-        answerLanguagesPopup = createPopup()
-        answerLanguagesRecyclerAdapter = LanguageRecyclerAdapter(
+        answerLanguageRecyclerAdapter = LanguageRecyclerAdapter(
             onItemClick = { language: Locale? ->
                 controller.dispatch(AnswerLanguageSelected(language))
             }
         )
-        (answerLanguagesPopup.contentView as RecyclerView).adapter = answerLanguagesRecyclerAdapter
+        (answerLanguagePopup.contentView as RecyclerView).adapter = answerLanguageRecyclerAdapter
+    }
+
+    private fun setOnClickListeners() {
+        pronunciationTitleTextView.setOnClickListener {
+            showChoosePronunciationPopup()
+        }
+        savePronunciationButton.setOnClickListener {
+            controller.dispatch(SavePronunciationButtonClicked)
+        }
         questionLanguageTextView.setOnClickListener {
-            showPopup(questionLanguagesPopup, anchor = questionLanguageTextView)
+            showLanguagePopup(questionLanguagePopup, anchor = questionLanguageTextView)
         }
         questionAutoSpeakButton.setOnClickListener {
             controller.dispatch(QuestionAutoSpeakSwitchClicked)
         }
         answerLanguageTextView.setOnClickListener {
-            showPopup(answerLanguagesPopup, anchor = answerLanguageTextView)
+            showLanguagePopup(answerLanguagePopup, anchor = answerLanguageTextView)
         }
         answerAutoSpeakButton.setOnClickListener {
             controller.dispatch(AnswerAutoSpeakSwitchClicked)
         }
     }
 
-    private fun createPopup() = PopupWindow(requireContext()).apply {
-        contentView = View.inflate(requireContext(), R.layout.popup_available_languages, null)
-        setBackgroundDrawable(ColorDrawable(Color.LTGRAY))
-        elevation = 20f
-        isOutsideTouchable = true
-        isFocusable = true
+    private fun showChoosePronunciationPopup() {
+        // TODO
     }
 
-    private fun observeViewModel() {
-        with(viewModel) {
-            selectedQuestionLanguage.observe { selectedQuestionLanguage ->
-                questionLanguageTextView.text =
-                    selectedQuestionLanguage?.displayLanguage ?: "Default"
-            }
-            dropdownQuestionLanguages
-                .observe(onChange = questionLanguagesRecyclerAdapter::submitList)
-            questionAutoSpeak.observe(onChange = questionAutoSpeakSwitch::setChecked)
-            selectedAnswerLanguage.observe { selectedAnswerLanguage ->
-                answerLanguageTextView.text =
-                    selectedAnswerLanguage?.displayLanguage ?: "Default"
-            }
-            dropdownAnswerLanguages
-                .observe(onChange = answerLanguagesRecyclerAdapter::submitList)
-            answerAutoSpeak.observe(onChange = answerAutoSpeakSwitch::setChecked)
-        }
-    }
-
-    private fun takeOrders() {
-        viewScope!!.launch {
-            for (order in controller.orders) {
-                when (order) {
-                    DismissQuestionDropdownList -> {
-                        questionLanguagesPopup.dismiss()
-                    }
-                    DismissAnswerDropdownList -> {
-                        answerLanguagesPopup.dismiss()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun showPopup(popupWindow: PopupWindow, anchor: View) {
+    private fun showLanguagePopup(popupWindow: PopupWindow, anchor: View) {
         val size: Int = anchor.width
         popupWindow.width = size
         popupWindow.height = size
@@ -142,6 +126,40 @@ class PronunciationFragment : BaseFragment() {
         val x = location[0]
         val y = location[1]
         popupWindow.showAtLocation(rootView, Gravity.NO_GRAVITY, x, y)
+    }
+
+    private fun observeViewModel() {
+        with(viewModel) {
+            selectedQuestionLanguage.observe { selectedQuestionLanguage ->
+                questionLanguageTextView.text =
+                    selectedQuestionLanguage?.displayLanguage ?: "Default"
+            }
+            dropdownQuestionLanguages
+                .observe(onChange = questionLanguageRecyclerAdapter::submitList)
+            questionAutoSpeak.observe(onChange = questionAutoSpeakSwitch::setChecked)
+            selectedAnswerLanguage.observe { selectedAnswerLanguage ->
+                answerLanguageTextView.text =
+                    selectedAnswerLanguage?.displayLanguage ?: "Default"
+            }
+            dropdownAnswerLanguages
+                .observe(onChange = answerLanguageRecyclerAdapter::submitList)
+            answerAutoSpeak.observe(onChange = answerAutoSpeakSwitch::setChecked)
+        }
+    }
+
+    private fun takeOrders() {
+        viewScope!!.launch {
+            for (order in controller.orders) {
+                when (order) {
+                    DismissQuestionDropdownList -> {
+                        questionLanguagePopup.dismiss()
+                    }
+                    DismissAnswerDropdownList -> {
+                        answerLanguagePopup.dismiss()
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

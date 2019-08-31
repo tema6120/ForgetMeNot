@@ -10,19 +10,27 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
 
     override fun handleEvent(event: PronunciationEvent) {
         return when (event) {
+            SavePronunciationButtonClicked -> {
+                // TODO
+            }
+
             is AvailableLanguagesUpdated -> {
                 val availableLanguages = listOfLocalesAdapter.encode(event.languages.toList())
                 queries.setAvailableLanguages(availableLanguages)
             }
+
             is QuestionLanguageSelected -> {
                 // TODO
             }
+
             QuestionAutoSpeakSwitchClicked -> {
                 // TODO
             }
+
             is AnswerLanguageSelected -> {
                 // TODO
             }
+
             AnswerAutoSpeakSwitchClicked -> {
                 // TODO
             }
