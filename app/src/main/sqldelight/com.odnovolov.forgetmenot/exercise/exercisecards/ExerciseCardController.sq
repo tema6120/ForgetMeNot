@@ -1,0 +1,5 @@
+setAnswered:
+UPDATE ExerciseCardStates SET isAnswered = 1 WHERE cardId = ?;
+
+incrementLap:
+UPDATE Card SET lap = lap + 1 WHERE id = ?;

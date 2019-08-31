@@ -1,0 +1,20 @@
+getDeckName:
+SELECT name FROM Deck WHERE id = (
+    SELECT deckId FROM DeckSettingsState
+);
+
+getRandomOrder:
+SELECT randomOrder FROM ExercisePreference WHERE ExercisePreference.id = (
+    SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
+        SELECT deckId FROM DeckSettingsState
+    )
+);
+
+getPronunciationName:
+SELECT name FROM Pronunciation WHERE Pronunciation.id = (
+    SELECT pronunciationId FROM ExercisePreference WHERE ExercisePreference.id = (
+        SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
+            SELECT deckId FROM DeckSettingsState
+        )
+    )
+);

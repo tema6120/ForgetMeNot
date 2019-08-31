@@ -1,0 +1,9 @@
+getPronunciation:
+SELECT * FROM Pronunciation WHERE Pronunciation.id = (
+    SELECT pronunciationId FROM ExercisePreference WHERE ExercisePreference.id = (
+        SELECT exercisePreferenceId FROM PronunciationState
+    )
+);
+
+getAvailableLanguages:
+SELECT availableLanguages FROM PronunciationState;

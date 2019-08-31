@@ -1,75 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
-<navigation
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@+id/home_screen"
->
+        app:startDestination="@+id/home_screen">
 
     <fragment
             android:id="@+id/home_screen"
-            android:name="com.odnovolov.forgetmenot.ui.home.HomeFragment"
+            android:name="com.odnovolov.forgetmenot.home.HomeFragment"
             android:label="@string/app_name"
-            tools:layout="@layout/fragment_home"
-    >
+            tools:layout="@layout/fragment_home">
 
         <action
                 android:id="@+id/action_home_screen_to_exercise_screen"
-                app:destination="@id/exercise_screen"
-        />
+                app:destination="@id/exercise_screen" />
 
         <action
                 android:id="@+id/action_home_screen_to_deck_settings_screen"
-                app:destination="@id/deck_settings_screen"
-        />
+                app:destination="@id/deck_settings_screen" />
 
     </fragment>
 
     <fragment
             android:id="@+id/exercise_screen"
-            android:name="com.odnovolov.forgetmenot.ui.exercise.ExerciseFragment"
+            android:name="com.odnovolov.forgetmenot.exercise.ExerciseFragment"
             android:label="@string/label_exercise_screen"
-            tools:layout="@layout/fragment_exercise"
-    />
+            tools:layout="@layout/fragment_exercise" />
 
     <fragment
             android:id="@+id/deck_settings_screen"
-            android:name="com.odnovolov.forgetmenot.ui.decksettings.DeckSettingsFragment"
+            android:name="com.odnovolov.forgetmenot.decksettings.DeckSettingsFragment"
             android:label="@string/label_deck_settings_screen"
-            tools:layout="@layout/fragment_deck_settings"
-    >
-
-        <argument
-                android:name="deckId"
-                app:argType="integer"
-        />
+            tools:layout="@layout/fragment_deck_settings">
 
         <action
                 android:id="@+id/action_deck_settings_screen_to_pronunciation_screen"
-                app:destination="@id/pronunciation_screen"
-        />
+                app:destination="@id/pronunciation_screen" />
 
     </fragment>
 
     <fragment
             android:id="@+id/pronunciation_screen"
-            android:name="com.odnovolov.forgetmenot.ui.pronunciation.PronunciationFragment"
+            android:name="com.odnovolov.forgetmenot.pronunciation.PronunciationFragment"
             android:label="@string/label_pronunciation_screen"
-            tools:layout="@layout/fragment_pronunciation"
-    >
-
-        <argument
-                android:name="initPronunciation"
-                app:argType="com.odnovolov.forgetmenot.entity.Pronunciation"
-                app:nullable="true"
-                android:defaultValue="@null"
-        />
-
-        <argument
-                android:name="resultCallback"
-                app:argType="com.odnovolov.forgetmenot.ui.pronunciation.ResultCallback"
-        />
+            tools:layout="@layout/fragment_pronunciation">
 
     </fragment>
 

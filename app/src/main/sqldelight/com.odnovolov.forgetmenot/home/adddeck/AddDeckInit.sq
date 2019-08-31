@@ -1,0 +1,10 @@
+createTableAddDeckState:
+CREATE TEMPORARY TABLE AddDeckState (
+    stage TEXT NOT NULL DEFAULT 'Idle', -- we cannot currently write 'AS Stage' due to the bug https://github.com/square/sqldelight/issues/1396
+    fileName TEXT,
+    typedText TEXT NOT NULL DEFAULT '',
+    errorText TEXT
+);
+
+initAddDeckState:
+INSERT INTO AddDeckState DEFAULT VALUES;

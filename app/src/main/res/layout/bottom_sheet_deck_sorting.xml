@@ -1,52 +1,51 @@
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:orientation="vertical">
+        android:paddingBottom="8dp">
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/heading_deck_sorting_bottom_sheet"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
+
+    <TextView
+            android:id="@+id/sortByLastCreatedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/text_sort_by_last_created_textview"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
     <TextView
             android:id="@+id/sortByNameTextView"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:gravity="center_vertical"
-            android:background="?attr/selectableItemBackground"
             android:text="@string/text_sort_by_name_textview"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"/>
-
-    <TextView
-            android:id="@+id/sortByTimeCreatedTextView"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:gravity="center_vertical"
-            android:background="?attr/selectableItemBackground"
-            android:text="@string/text_sort_by_time_created_textview"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
     <TextView
             android:id="@+id/sortByLastOpenedTextView"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:gravity="center_vertical"
-            android:background="?attr/selectableItemBackground"
             android:text="@string/text_sort_by_last_opened_textview"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
 </LinearLayout>

@@ -1,0 +1,8 @@
+getCardIdsInExercise:
+SELECT cardId FROM ExerciseCardStates ORDER BY rowid;
+
+setCurrentCardId:
+UPDATE ExerciseState SET currentCardId = ?;
+
+setLearnedForCurrentCard:
+UPDATE Card SET isLearned = ? WHERE id = (SELECT currentCardId FROM ExerciseState);

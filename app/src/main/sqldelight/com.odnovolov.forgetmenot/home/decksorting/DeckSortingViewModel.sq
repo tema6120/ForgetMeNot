@@ -1,0 +1,2 @@
+getDeckSorting:
+SELECT deckSorting FROM DeckSorting;

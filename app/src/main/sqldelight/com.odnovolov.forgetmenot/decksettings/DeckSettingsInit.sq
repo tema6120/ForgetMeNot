@@ -1,0 +1,10 @@
+dropTableDeckSettingsState:
+DROP TABLE IF EXISTS DeckSettingsState;
+
+createTableDeckSettingsState:
+CREATE TEMPORARY TABLE DeckSettingsState (
+    deckId INTEGER NOT NULL
+);
+
+initDeckSettingsState:
+INSERT INTO DeckSettingsState VALUES (?);

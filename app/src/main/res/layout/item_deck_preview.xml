@@ -1,38 +1,37 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        tools:context=".ui.home.HomeFragment">
+        android:orientation="vertical"
+        tools:context=".home.HomeFragment">
 
     <TextView
             android:id="@+id/deckNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimaryDark"
-            tools:text="bring up (point)"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/deckOptionButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/deckOptionButton"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="bring up (point)" />
 
     <ImageButton
             android:id="@+id/deckOptionButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_more_vert_black_24dp"
-            android:contentDescription="@string/deck_option"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/deck_option"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
     <TextView
             android:id="@+id/passedLapsIndicatorTextView"
@@ -43,32 +42,32 @@
             android:paddingRight="4dp"
             android:singleLine="true"
             android:textColor="@android:color/white"
-            tools:text="1"
+            app:layout_constraintStart_toStartOf="@+id/deckNameTextView"
             app:layout_constraintTop_toBottomOf="@+id/deckNameTextView"
-            app:layout_constraintStart_toStartOf="@+id/deckNameTextView"/>
+            tools:text="1" />
 
     <TextView
             android:id="@+id/progressIndicatorTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:background="@drawable/background_deck_progress_indicator"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:layout_marginStart="4dp"
             android:singleLine="true"
             android:textColor="@android:color/white"
-            tools:text="2/9"
+            app:layout_constraintStart_toEndOf="@+id/passedLapsIndicatorTextView"
             app:layout_constraintTop_toBottomOf="@+id/deckNameTextView"
-            app:layout_constraintStart_toEndOf="@+id/passedLapsIndicatorTextView"/>
+            tools:text="2/9" />
 
     <View
             android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/passedLapsIndicatorTextView"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/passedLapsIndicatorTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

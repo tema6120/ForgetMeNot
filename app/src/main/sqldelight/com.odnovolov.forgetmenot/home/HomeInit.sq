@@ -1,0 +1,7 @@
+createTableHomeState:
+CREATE TEMPORARY TABLE HomeState (
+    searchText TEXT NOT NULL DEFAULT ''
+);
+
+initHomeState:
+INSERT INTO HomeState DEFAULT VALUES;

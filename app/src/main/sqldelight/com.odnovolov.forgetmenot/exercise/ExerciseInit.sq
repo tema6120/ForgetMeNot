@@ -1,0 +1,10 @@
+dropTableExerciseState:
+DROP TABLE IF EXISTS ExerciseState;
+
+createTableExerciseState:
+CREATE TEMPORARY TABLE ExerciseState (
+    currentCardId INTEGER DEFAULT NULL
+);
+
+initExerciseState:
+INSERT INTO ExerciseState DEFAULT VALUES;

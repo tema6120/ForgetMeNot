@@ -1,0 +1,11 @@
+getQuestion:
+SELECT question FROM Card WHERE id = ?;
+
+getAnswer:
+SELECT answer FROM Card WHERE id = ?;
+
+isAnswered:
+SELECT isAnswered FROM ExerciseCardStates WHERE cardId = ?;
+
+isLearned:
+SELECT isLearned FROM Card WHERE id = ?;

@@ -1,0 +1,24 @@
+deckPreview:
+SELECT
+    deckId,
+    Deck.name AS deckName,
+    min(lap) AS passedLaps,
+    count(CASE WHEN isLearned = 1 THEN 1 ELSE NULL END) AS learnedCount,
+    count(*) AS totalCount
+FROM
+    Deck INNER JOIN Card ON Deck.id = Card.deckId
+WHERE
+    CASE
+        WHEN length((SELECT searchText FROM HomeState)) > 0
+            THEN Deck.name LIKE '%'||(SELECT searchText FROM HomeState)||'%'
+        ELSE 1
+    END
+GROUP BY
+    Deck.id
+ORDER BY
+    CASE (SELECT deckSorting FROM DeckSorting)
+        WHEN 'BY_LAST_CREATED' THEN Deck.createdAt
+        WHEN 'BY_LAST_OPENED' THEN Deck.lastOpenedAt
+    END DESC,
+    Deck.name ASC;
+

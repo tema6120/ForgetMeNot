@@ -16,7 +16,7 @@
     <string name="action_sort_by">Sort by</string>
     <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
     <string name="text_sort_by_name_textview">Name</string>
-    <string name="text_sort_by_time_created_textview">Time created</string>
+    <string name="text_sort_by_last_created_textview">Last created</string>
     <string name="text_sort_by_last_opened_textview">Last opened</string>
     <string name="title_deck_settings_toolbar">Deck Settings</string>
     <string name="title_name_section">Name</string>

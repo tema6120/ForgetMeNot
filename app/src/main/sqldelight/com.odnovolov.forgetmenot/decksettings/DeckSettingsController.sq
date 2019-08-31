@@ -1,0 +1,26 @@
+getExercisePreference:
+SELECT * FROM ExercisePreference WHERE ExercisePreference.id = (
+        SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
+                SELECT deckId FROM DeckSettingsState
+        )
+);
+
+addExercisePreference:
+INSERT INTO ExercisePreference(randomOrder) VALUES (?);
+
+bindExerciseIdToDeck:
+UPDATE Deck
+SET exercisePreferenceId = (
+    SELECT last_insert_rowid()
+)
+WHERE Deck.id =  (
+    SELECT deckId FROM DeckSettingsState
+);
+
+deleteExercisePreference:
+DELETE FROM ExercisePreference WHERE id = ?;
+
+setRandomOrder:
+UPDATE ExercisePreference
+SET randomOrder = ?
+WHERE id = ?;

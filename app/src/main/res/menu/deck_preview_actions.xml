@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/setupDeckMenuItem"
-          android:title="@string/title_setup_deck_menu_item"/>
+    <item
+            android:id="@+id/setupDeckMenuItem"
+            android:title="@string/title_setup_deck_menu_item" />
 
-    <item android:id="@+id/deleteDeckMenuItem"
-          android:title="@string/title_delete_deck_menu_item"/>
+    <item
+            android:id="@+id/deleteDeckMenuItem"
+            android:title="@string/title_delete_deck_menu_item" />
 
 </menu>

@@ -1,0 +1,16 @@
+dropTablePronunciationState:
+DROP TABLE IF EXISTS PronunciationState;
+
+createTablePronunciationState:
+CREATE TEMPORARY TABLE PronunciationState (
+    exercisePreferenceId INTEGER NOT NULL,
+    availableLanguages TEXT -- AS List<Locale>
+);
+
+initPronunciationState:
+INSERT INTO PronunciationState(exercisePreferenceId)
+    SELECT pronunciationId FROM ExercisePreference WHERE ExercisePreference.id = (
+        SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
+            SELECT deckId FROM DeckSettingsState
+        )
+    );

@@ -1,0 +1,5 @@
+getCardIdsInExercise:
+SELECT cardId FROM ExerciseCardStates ORDER BY rowid;
+
+isCurrentCardLearned: -- nullable
+SELECT isLearned FROM Card WHERE id = (SELECT currentCardId FROM ExerciseState);

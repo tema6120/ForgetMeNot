@@ -1,12 +1,10 @@
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/languageItemButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
->
+        android:padding="16dp">
 
     <TextView
             android:id="@+id/languageNameTextView"
@@ -14,15 +12,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-    />
+            android:textSize="20sp" />
 
     <TextView
             android:id="@+id/flagTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="20sp"
-    />
+            android:textSize="20sp" />
 
 </LinearLayout>
