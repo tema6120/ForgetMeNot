@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.common
 
+import android.content.res.Resources
 import java.util.*
 
 fun Locale.toFlagEmoji(): String? {
@@ -17,3 +18,6 @@ fun Locale.toFlagEmoji(): String? {
 
     return String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
 }
+
+val Int.dp: Int
+    get() = (this * Resources.getSystem().displayMetrics.density).toInt()

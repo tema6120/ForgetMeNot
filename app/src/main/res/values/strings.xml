@@ -30,4 +30,7 @@
     <string name="text_question_title_textview">Question</string>
     <string name="text_auto_speak_switch">Auto speak</string>
     <string name="text_answer_title_textview">Answer</string>
+    <string name="default_pronunciation_name">Default</string>
+    <string name="individual_pronunciation_name">Individual</string>
+    <string name="description_add_new_pronunciation">Add new pronunciation</string>
 </resources>

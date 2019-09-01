@@ -9,11 +9,6 @@ import java.util.*
 class PronunciationViewModel {
     private val queries: PronunciationViewModelQueries = database.pronunciationViewModelQueries
 
-    private val pronunciation: Flow<Pronunciation> = queries
-        .getPronunciation()
-        .asFlow()
-        .mapToOne()
-
     private val availableLanguages: Flow<List<Locale>> = queries
         .getAvailableLanguages(mapper = { databaseValue: String? ->
             if (databaseValue == null) {
@@ -25,7 +20,20 @@ class PronunciationViewModel {
         .asFlow()
         .mapToOne()
 
-    val selectedQuestionLanguage: Flow<Locale?> = pronunciation.map { it.questionLanguage }
+    val currentPronunciation: Flow<Pronunciation> = queries
+        .getCurrentPronunciation()
+        .asFlow()
+        .mapToOne()
+
+    val isSavePronunciationButtonEnabled: Flow<Boolean> = currentPronunciation
+        .map { it.id != 0L && it.name.isEmpty() }
+
+    val sharedPronunciations: Flow<List<Pronunciation>> = queries
+        .getSharedPronunciations()
+        .asFlow()
+        .mapToList()
+
+    val selectedQuestionLanguage: Flow<Locale?> = currentPronunciation.map { it.questionLanguage }
 
     val dropdownQuestionLanguages: Flow<List<DropdownLanguage>> =
         availableLanguages.combine(selectedQuestionLanguage)
@@ -44,9 +52,9 @@ class PronunciationViewModel {
             listOf(defaultLanguage) + concreteLanguages
         }
 
-    val questionAutoSpeak: Flow<Boolean> = pronunciation.map { it.questionAutoSpeak }
+    val questionAutoSpeak: Flow<Boolean> = currentPronunciation.map { it.questionAutoSpeak }
 
-    val selectedAnswerLanguage: Flow<Locale?> = pronunciation.map { it.answerLanguage }
+    val selectedAnswerLanguage: Flow<Locale?> = currentPronunciation.map { it.answerLanguage }
 
     val dropdownAnswerLanguages: Flow<List<DropdownLanguage>> =
         availableLanguages.combine(selectedAnswerLanguage)
@@ -65,5 +73,5 @@ class PronunciationViewModel {
             listOf(defaultLanguage) + concreteLanguages
         }
 
-    val answerAutoSpeak: Flow<Boolean> = pronunciation.map { it.answerAutoSpeak }
+    val answerAutoSpeak: Flow<Boolean> = currentPronunciation.map { it.answerAutoSpeak }
 }

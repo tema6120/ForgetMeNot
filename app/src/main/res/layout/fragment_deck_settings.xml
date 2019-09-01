@@ -139,7 +139,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
                     android:padding="12dp"
-                    app:srcCompat="@drawable/ic_add_darkgray_24dp" />
+                    app:srcCompat="@drawable/ic_add_24dp" />
 
         </LinearLayout>
 
