@@ -9,8 +9,6 @@ CREATE TEMPORARY TABLE PronunciationState (
 
 initPronunciationState:
 INSERT INTO PronunciationState(exercisePreferenceId)
-    SELECT pronunciationId FROM ExercisePreference WHERE ExercisePreference.id = (
-        SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
-            SELECT deckId FROM DeckSettingsState
-        )
-    );
+SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
+    SELECT deckId FROM DeckSettingsState
+);
