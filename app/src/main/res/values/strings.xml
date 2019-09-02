@@ -33,4 +33,5 @@
     <string name="default_pronunciation_name">Default</string>
     <string name="individual_pronunciation_name">Individual</string>
     <string name="description_add_new_pronunciation">Add new pronunciation</string>
+    <string name="description_save_pronunciation">Save pronunciation</string>
 </resources>

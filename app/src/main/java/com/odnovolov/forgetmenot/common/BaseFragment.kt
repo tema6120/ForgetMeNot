@@ -29,6 +29,21 @@ open class BaseFragment : Fragment() {
         }
     }
 
+    fun <T> Flow<T>.observe(coroutineScope: CoroutineScope = viewScope!!,
+                            onChange: (value: T) -> Unit,
+                            afterFirst: (value: T) -> Unit) {
+        coroutineScope.launch {
+            var isFirst = true
+            collect {
+                onChange(it)
+                if (isFirst) {
+                    afterFirst(it)
+                    isFirst = false
+                }
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         viewScope!!.cancel()

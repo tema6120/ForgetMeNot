@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.pronunciation
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
@@ -24,11 +25,8 @@ import com.odnovolov.forgetmenot.common.*
 import com.odnovolov.forgetmenot.common.database.Pronunciation
 import com.odnovolov.forgetmenot.pronunciation.LanguageRecyclerAdapter.ViewHolder
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
-import com.odnovolov.forgetmenot.pronunciation.PronunciationOrder.DismissAnswerDropdownList
-import com.odnovolov.forgetmenot.pronunciation.PronunciationOrder.DismissQuestionDropdownList
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
 import kotlinx.android.synthetic.main.item_language.view.*
-import kotlinx.coroutines.launch
 import leakcanary.LeakSentry
 import java.util.*
 
@@ -84,7 +82,6 @@ class PronunciationFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        takeOrders()
     }
 
     private fun setupView() {
@@ -101,6 +98,7 @@ class PronunciationFragment : BaseFragment() {
         questionLanguageRecyclerAdapter = LanguageRecyclerAdapter(
             onItemClick = { language: Locale? ->
                 controller.dispatch(QuestionLanguageSelected(language))
+                questionLanguagePopup.dismiss()
             }
         )
         (questionLanguagePopup.contentView as RecyclerView).adapter =
@@ -109,6 +107,7 @@ class PronunciationFragment : BaseFragment() {
         answerLanguageRecyclerAdapter = LanguageRecyclerAdapter(
             onItemClick = { language: Locale? ->
                 controller.dispatch(AnswerLanguageSelected(language))
+                answerLanguagePopup.dismiss()
             }
         )
         (answerLanguagePopup.contentView as RecyclerView).adapter = answerLanguageRecyclerAdapter
@@ -167,11 +166,16 @@ class PronunciationFragment : BaseFragment() {
                 }
                 pronunciationTitleTextView.text = pronunciationName
             }
-            isSavePronunciationButtonEnabled.observe { isSavePronunciationButtonEnabled ->
-                savePronunciationButton.visibility =
-                    if (isSavePronunciationButtonEnabled) View.VISIBLE
-                    else View.GONE
-            }
+            isSavePronunciationButtonEnabled.observe(
+                onChange = { isSavePronunciationButtonEnabled ->
+                    savePronunciationButton.visibility =
+                        if (isSavePronunciationButtonEnabled) View.VISIBLE
+                        else View.GONE
+                },
+                afterFirst = {
+                    header.layoutTransition = LayoutTransition()
+                })
+
             sharedPronunciations.observe(onChange = pronunciationRecyclerAdapter::submitList)
             selectedQuestionLanguage.observe { selectedQuestionLanguage ->
                 questionLanguageTextView.text =
@@ -179,29 +183,27 @@ class PronunciationFragment : BaseFragment() {
             }
             dropdownQuestionLanguages
                 .observe(onChange = questionLanguageRecyclerAdapter::submitList)
-            questionAutoSpeak.observe(onChange = questionAutoSpeakSwitch::setChecked)
+            questionAutoSpeak.observe(
+                onChange = questionAutoSpeakSwitch::setChecked,
+                afterFirst = {
+                    questionAutoSpeakSwitch.jumpDrawablesToCurrentState()
+                    questionAutoSpeakSwitch.visibility = View.VISIBLE
+                }
+            )
             selectedAnswerLanguage.observe { selectedAnswerLanguage ->
                 answerLanguageTextView.text =
                     selectedAnswerLanguage?.displayLanguage ?: "Default"
             }
             dropdownAnswerLanguages
                 .observe(onChange = answerLanguageRecyclerAdapter::submitList)
-            answerAutoSpeak.observe(onChange = answerAutoSpeakSwitch::setChecked)
-        }
-    }
 
-    private fun takeOrders() {
-        viewScope!!.launch {
-            for (order in controller.orders) {
-                when (order) {
-                    DismissQuestionDropdownList -> {
-                        questionLanguagePopup.dismiss()
-                    }
-                    DismissAnswerDropdownList -> {
-                        answerLanguagePopup.dismiss()
-                    }
+            answerAutoSpeak.observe(
+                onChange = answerAutoSpeakSwitch::setChecked,
+                afterFirst = {
+                    answerAutoSpeakSwitch.jumpDrawablesToCurrentState()
+                    answerAutoSpeakSwitch.visibility = View.VISIBLE
                 }
-            }
+            )
         }
     }
 
@@ -273,9 +275,9 @@ class LanguageRecyclerAdapter(
                 val translucentColor = with(backgroundColor) {
                     Color.argb(alpha / 2, red, green, blue)
                 }
-                languageItemButton.setBackgroundColor(translucentColor)
+                languageFrame.setBackgroundColor(translucentColor)
             } else {
-                languageItemButton.background = null
+                languageFrame.background = null
             }
             languageItemButton.setOnClickListener {
                 onItemClick(dropdownLanguage.language)
