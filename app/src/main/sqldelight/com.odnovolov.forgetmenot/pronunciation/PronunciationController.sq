@@ -1,3 +1,43 @@
+isWaitingForNameToSavePronunciation:
+SELECT isWaitingForNameToSavePronunciation FROM PronunciationState;
+
+setWaitingForNameToSavePronunciation:
+UPDATE PronunciationState SET isWaitingForNameToSavePronunciation = ?;
+
+isWaitingForNameToCreateNewPronunciation:
+SELECT isWaitingForNameToCreateNewPronunciation FROM PronunciationState;
+
+setWaitingForNameToCreateNewPronunciation:
+UPDATE PronunciationState SET isWaitingForNameToCreateNewPronunciation = ?;
+
+getTypedPronunciationName:
+SELECT typedPronunciationName FROM PronunciationState;
+
+setTypedPronunciationName:
+UPDATE PronunciationState SET typedPronunciationName = ?;
+
+setNameCheckResult:
+UPDATE PronunciationState SET nameCheckResult = ?;
+
+isTypedPronunciationNameEmpty:
+SELECT
+    CASE
+        WHEN typedPronunciationName = '' THEN 1
+        ELSE 0
+    END
+FROM PronunciationState;
+
+isTypedPronunciationNameOccupied:
+SELECT
+    CASE
+        WHEN typedPronunciationName IN (SELECT name FROM Pronunciation) THEN 1
+        ELSE 0
+    END
+FROM PronunciationState;
+
+rename:
+UPDATE Pronunciation SET name = ? WHERE id = ?;
+
 setAvailableLanguages:
 UPDATE PronunciationState SET availableLanguages = ?;
 
@@ -8,9 +48,18 @@ SELECT * FROM Pronunciation WHERE Pronunciation.id = (
     )
 );
 
-addNewPronunciation:
+getCurrentPronunciationId:
+SELECT pronunciationId FROM ExercisePreference WHERE id = (
+    SELECT exercisePreferenceId FROM PronunciationState
+);
+
+addNewIndividualPronunciation:
 INSERT INTO Pronunciation(questionLanguage, questionAutoSpeak, answerLanguage, answerAutoSpeak)
 VALUES (?, ?, ?, ?);
+
+addNewSharedPronunciation:
+INSERT INTO Pronunciation(name)
+SELECT typedPronunciationName FROM PronunciationState;
 
 bindNewPronunciationToExercisePreference:
 UPDATE ExercisePreference

@@ -4,7 +4,11 @@ DROP TABLE IF EXISTS PronunciationState;
 createTablePronunciationState:
 CREATE TEMPORARY TABLE PronunciationState (
     exercisePreferenceId INTEGER NOT NULL,
-    availableLanguages TEXT -- AS List<Locale>
+    availableLanguages TEXT, -- AS List<Locale>
+    isWaitingForNameToSavePronunciation INTEGER AS Boolean NOT NULL DEFAULT 0,
+    isWaitingForNameToCreateNewPronunciation INTEGER AS Boolean NOT NULL DEFAULT 0,
+    typedPronunciationName TEXT NOT NULL DEFAULT '',
+    nameCheckResult TEXT -- AS NameCheckStatus
 );
 
 initPronunciationState:

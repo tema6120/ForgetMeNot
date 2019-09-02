@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.pronunciation
 
+import com.odnovolov.forgetmenot.common.NameCheckResult
 import com.odnovolov.forgetmenot.common.database.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -32,6 +33,20 @@ class PronunciationViewModel {
         .getSharedPronunciations()
         .asFlow()
         .mapToList()
+
+    val isDialogVisible: Flow<Boolean> = queries
+        .isDialogVisible()
+        .asFlow()
+        .mapToOne()
+        .map { it.asBoolean() }
+
+    val dialogInputCheckResult: Flow<NameCheckResult> = queries
+        .getDialogInputCheckResult(mapper = { databaseValue: String? ->
+            if (databaseValue == null) NameCheckResult.OK
+            else nameCheckStatusAdapter.decode(databaseValue)
+        })
+        .asFlow()
+        .mapToOne()
 
     val selectedQuestionLanguage: Flow<Locale?> = currentPronunciation.map { it.questionLanguage }
 

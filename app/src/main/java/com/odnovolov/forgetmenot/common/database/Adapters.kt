@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.common.database
 
+import com.odnovolov.forgetmenot.common.NameCheckResult
 import com.odnovolov.forgetmenot.home.adddeck.Stage
 import com.squareup.sqldelight.ColumnAdapter
 import java.util.*
@@ -54,6 +55,13 @@ val listOfLocalesAdapter = object : ColumnAdapter<List<Locale>, String> {
         return databaseValue.split(",")
             .map(localeAdapter::decode)
     }
+}
+
+val nameCheckStatusAdapter = object : ColumnAdapter<NameCheckResult, String> {
+    override fun encode(value: NameCheckResult): String = value.name
+
+    override fun decode(databaseValue: String): NameCheckResult =
+        NameCheckResult.valueOf(databaseValue)
 }
 
 fun Long.asBoolean() = this == 1L

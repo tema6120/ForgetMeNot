@@ -10,8 +10,10 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.alpha
 import androidx.core.graphics.blue
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.*
+import com.odnovolov.forgetmenot.common.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.database.Pronunciation
 import com.odnovolov.forgetmenot.pronunciation.LanguageRecyclerAdapter.ViewHolder
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
@@ -42,6 +45,8 @@ class PronunciationFragment : BaseFragment() {
     private lateinit var answerLanguagePopup: PopupWindow
     private lateinit var answerLanguageRecyclerAdapter: LanguageRecyclerAdapter
     private lateinit var speaker: Speaker
+    private lateinit var nameInputDialog: AlertDialog
+    private lateinit var nameInput: EditText
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -59,6 +64,7 @@ class PronunciationFragment : BaseFragment() {
         pronunciationPopup = createPronunciationPopup()
         questionLanguagePopup = createLanguagePopup()
         answerLanguagePopup = createLanguagePopup()
+        initDialog()
         return inflater.inflate(R.layout.fragment_pronunciation, container, false)
     }
 
@@ -76,6 +82,16 @@ class PronunciationFragment : BaseFragment() {
         elevation = 20f
         isOutsideTouchable = true
         isFocusable = true
+    }
+
+    private fun initDialog() {
+        nameInputDialog = createInputDialog(
+            title = getString(R.string.title_pronunciation_name_input_dialog),
+            takeEditText = { nameInput = it },
+            onTextChanged = { controller.dispatch(DialogTextChanged(it.toString())) },
+            onPositiveClick = { controller.dispatch(PositiveDialogButtonClicked) },
+            onNegativeClick = { controller.dispatch(NegativeDialogButtonClicked) }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,11 +130,11 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun setOnClickListeners() {
-        pronunciationTitleTextView.setOnClickListener {
-            showChoosePronunciationPopup()
-        }
         savePronunciationButton.setOnClickListener {
             controller.dispatch(SavePronunciationButtonClicked)
+        }
+        pronunciationTitleTextView.setOnClickListener {
+            showChoosePronunciationPopup()
         }
         questionLanguageTextView.setOnClickListener {
             showLanguagePopup(questionLanguagePopup, anchor = questionLanguageTextView)
@@ -137,7 +153,7 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun showChoosePronunciationPopup() {
-        pronunciationPopup.width = 200.dp
+        pronunciationPopup.width = 196.dp
 
         val location = IntArray(2)
         pronunciationTitleTextView.getLocationOnScreen(location)
@@ -177,6 +193,20 @@ class PronunciationFragment : BaseFragment() {
                 })
 
             sharedPronunciations.observe(onChange = pronunciationRecyclerAdapter::submitList)
+            isDialogVisible.observe { isDialogVisible ->
+                if (isDialogVisible) {
+                    nameInputDialog.show()
+                } else {
+                    nameInputDialog.dismiss()
+                }
+            }
+            dialogInputCheckResult.observe {
+                nameInput.error = when (it) {
+                    OK -> null
+                    EMPTY -> getString(R.string.error_message_empty_name)
+                    OCCUPIED -> getString(R.string.error_message_occupied_name)
+                }
+            }
             selectedQuestionLanguage.observe { selectedQuestionLanguage ->
                 questionLanguageTextView.text =
                     selectedQuestionLanguage?.displayLanguage ?: "Default"
@@ -207,11 +237,28 @@ class PronunciationFragment : BaseFragment() {
         }
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val dialogState = savedInstanceState?.getBundle(STATE_KEY_DIALOG)
+        if (dialogState != null) {
+            nameInputDialog.onRestoreInstanceState(dialogState)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle(STATE_KEY_DIALOG, nameInputDialog.onSaveInstanceState())
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
         speaker.shutdown()
         LeakSentry.refWatcher.watch(this)
+    }
+
+    companion object {
+        const val STATE_KEY_DIALOG = "pronunciationNameInputDialog"
     }
 }
 

@@ -1,9 +1,9 @@
 package com.odnovolov.forgetmenot.pronunciation
 
 import com.odnovolov.forgetmenot.common.BaseController
-import com.odnovolov.forgetmenot.common.database.Pronunciation
-import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.database.listOfLocalesAdapter
+import com.odnovolov.forgetmenot.common.NameCheckResult
+import com.odnovolov.forgetmenot.common.NameCheckResult.*
+import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationController.ChangeType.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
 
@@ -13,7 +13,41 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
     override fun handleEvent(event: PronunciationEvent) {
         when (event) {
             SavePronunciationButtonClicked -> {
-                // TODO
+                queries.setWaitingForNameToSavePronunciation(true)
+            }
+
+            AddNewPronunciationButtonClicked -> {
+                queries.setWaitingForNameToCreateNewPronunciation(true)
+            }
+
+            is DialogTextChanged -> {
+                queries.setTypedPronunciationName(event.text)
+                checkName()
+            }
+
+            PositiveDialogButtonClicked -> {
+                val nameCheckResult = checkName()
+                if (nameCheckResult === OK) {
+                    val newName = queries.getTypedPronunciationName().executeAsOne()
+                    when {
+                        queries.isWaitingForNameToSavePronunciation().executeAsOne() -> {
+                            val currentPronunciationId =
+                                queries.getCurrentPronunciationId().executeAsOne()
+                            queries.rename(newName, currentPronunciationId)
+                            queries.setWaitingForNameToSavePronunciation(false)
+                        }
+                        queries.isWaitingForNameToCreateNewPronunciation().executeAsOne() -> {
+                            queries.addNewSharedPronunciation()
+                            queries.bindNewPronunciationToExercisePreference()
+                            queries.setWaitingForNameToCreateNewPronunciation(false)
+                        }
+                    }
+                }
+            }
+
+            NegativeDialogButtonClicked -> {
+                queries.setWaitingForNameToSavePronunciation(false)
+                queries.setWaitingForNameToCreateNewPronunciation(false)
             }
 
             is AvailableLanguagesUpdated -> {
@@ -39,6 +73,24 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
         }
     }
 
+    private fun checkName(): NameCheckResult {
+        val nameCheckResult = when {
+            isTypedPronunciationNameEmpty() -> EMPTY
+            isTypedPronunciationNameOccupied() -> OCCUPIED
+            else -> OK
+        }
+        queries.setNameCheckResult(nameCheckStatusAdapter.encode(nameCheckResult))
+        return nameCheckResult
+    }
+
+    private fun isTypedPronunciationNameEmpty(): Boolean {
+        return queries.isTypedPronunciationNameEmpty().executeAsOne().asBoolean()
+    }
+
+    private fun isTypedPronunciationNameOccupied(): Boolean {
+        return queries.isTypedPronunciationNameOccupied().executeAsOne().asBoolean()
+    }
+
     private fun updatePronunciation(
         makeNewPronunciation: (oldPronunciation: Pronunciation.Impl) -> Pronunciation
     ) {
@@ -47,7 +99,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
         val newPronunciation = makeNewPronunciation(oldPronunciation)
         when (determinateChangeType(newPronunciation)) {
             DEFAULT_BECAME_INDIVIDUAL -> {
-                queries.addNewPronunciation(
+                queries.addNewIndividualPronunciation(
                     newPronunciation.questionLanguage,
                     newPronunciation.questionAutoSpeak,
                     newPronunciation.answerLanguage,

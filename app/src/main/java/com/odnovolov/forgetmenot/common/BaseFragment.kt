@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -40,6 +41,17 @@ open class BaseFragment : Fragment() {
                     afterFirst(it)
                     isFirst = false
                 }
+            }
+        }
+    }
+
+    fun <Order> ReceiveChannel<Order>.forEach(
+        coroutineScope: CoroutineScope = fragmentScope,
+        execute: (order: Order) -> Unit
+    ) {
+        coroutineScope.launch {
+            for (order in this@forEach) {
+                execute(order)
             }
         }
     }

@@ -8,5 +8,18 @@ SELECT * FROM Pronunciation WHERE Pronunciation.id = (
 getSharedPronunciations:
 SELECT * FROM Pronunciation WHERE name <> '';
 
+isDialogVisible:
+SELECT
+    CASE
+        WHEN isWaitingForNameToSavePronunciation = 1
+            OR isWaitingForNameToCreateNewPronunciation = 1
+        THEN 1
+        ELSE 0
+    END
+FROM PronunciationState;
+
+getDialogInputCheckResult:
+SELECT nameCheckResult FROM PronunciationState;
+
 getAvailableLanguages:
 SELECT availableLanguages FROM PronunciationState;
