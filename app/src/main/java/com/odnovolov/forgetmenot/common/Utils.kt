@@ -21,3 +21,5 @@ fun Locale.toFlagEmoji(): String? {
 
 val Int.dp: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+fun Boolean.toggle(): Boolean = this.not()

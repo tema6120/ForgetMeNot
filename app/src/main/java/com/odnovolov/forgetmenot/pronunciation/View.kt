@@ -125,13 +125,15 @@ class PronunciationFragment : BaseFragment() {
             showLanguagePopup(questionLanguagePopup, anchor = questionLanguageTextView)
         }
         questionAutoSpeakButton.setOnClickListener {
-            controller.dispatch(QuestionAutoSpeakSwitchClicked)
+            val isOn = questionAutoSpeakSwitch.isChecked.toggle()
+            controller.dispatch(QuestionAutoSpeakSwitchToggled(isOn))
         }
         answerLanguageTextView.setOnClickListener {
             showLanguagePopup(answerLanguagePopup, anchor = answerLanguageTextView)
         }
         answerAutoSpeakButton.setOnClickListener {
-            controller.dispatch(AnswerAutoSpeakSwitchClicked)
+            val isOn = answerAutoSpeakSwitch.isChecked.toggle()
+            controller.dispatch(AnswerAutoSpeakSwitchToggled(isOn))
         }
     }
 

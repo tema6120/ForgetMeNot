@@ -1,2 +1,26 @@
 setAvailableLanguages:
 UPDATE PronunciationState SET availableLanguages = ?;
+
+getCurrentPronunciation:
+SELECT * FROM Pronunciation WHERE Pronunciation.id = (
+    SELECT pronunciationId FROM ExercisePreference WHERE ExercisePreference.id = (
+        SELECT exercisePreferenceId FROM PronunciationState
+    )
+);
+
+addNewPronunciation:
+INSERT INTO Pronunciation(questionLanguage, questionAutoSpeak, answerLanguage, answerAutoSpeak)
+VALUES (?, ?, ?, ?);
+
+bindNewPronunciationToExercisePreference:
+UPDATE ExercisePreference
+SET pronunciationId = (SELECT last_insert_rowid())
+WHERE id = (SELECT exercisePreferenceId FROM PronunciationState);
+
+changePronunciation:
+UPDATE Pronunciation
+SET questionLanguage = ?, questionAutoSpeak = ?, answerLanguage = ?, answerAutoSpeak = ?
+WHERE id = ?;
+
+deletePronunciation:
+DELETE FROM Pronunciation WHERE id = ?;
