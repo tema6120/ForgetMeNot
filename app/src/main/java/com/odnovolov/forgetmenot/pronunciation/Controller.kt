@@ -16,6 +16,10 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
                 queries.setWaitingForNameToSavePronunciation(true)
             }
 
+            is PronunciationButtonClicked -> {
+                // TODO
+            }
+
             AddNewPronunciationButtonClicked -> {
                 queries.setWaitingForNameToCreateNewPronunciation(true)
             }

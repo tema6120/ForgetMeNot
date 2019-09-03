@@ -8,4 +8,5 @@
     <color name="background_show_answer_button">#f3f3f3</color>
     <color name="background_passed_lap_indicator">#aa2196f3</color>
     <color name="background_deck_progress_indicator">#aa4cb150</color>
+    <color name="selected_item_background">#60E7D900</color>
 </resources>

@@ -3,29 +3,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
-
-    <TextView
-            android:id="@+id/defaultPronunciationTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:text="@string/default_pronunciation_name"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
-
-    <TextView
-            android:id="@+id/individualPronunciationTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:text="@string/individual_pronunciation_name"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:visibility="gone" />
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sharedPronunciationRecyclerView"
+            android:id="@+id/availablePronunciationsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="LinearLayoutManager" />

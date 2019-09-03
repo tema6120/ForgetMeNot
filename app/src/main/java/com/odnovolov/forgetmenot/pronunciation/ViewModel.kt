@@ -29,8 +29,8 @@ class PronunciationViewModel {
     val isSavePronunciationButtonEnabled: Flow<Boolean> = currentPronunciation
         .map { it.id != 0L && it.name.isEmpty() }
 
-    val sharedPronunciations: Flow<List<Pronunciation>> = queries
-        .getSharedPronunciations()
+    val availablePronunciations: Flow<List<AvailablePronunciation>> = queries
+        .availablePronunciation()
         .asFlow()
         .mapToList()
 

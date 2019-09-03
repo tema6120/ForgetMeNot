@@ -1,8 +1,19 @@
 getCurrentPronunciation:
 SELECT * FROM CurrentPronunciation;
 
-getSharedPronunciations:
-SELECT * FROM Pronunciation WHERE name <> '';
+availablePronunciation:
+SELECT id, name, CASE
+                     WHEN id = (SELECT id FROM CurrentPronunciation)
+                         THEN 1
+                     ELSE 0
+                 END AS isSelected
+FROM Pronunciation
+WHERE id = 0
+   OR id = (SELECT id FROM CurrentPronunciation)
+   OR name != ''
+ORDER BY
+    id = 0 DESC,
+    name = '' DESC;
 
 isDialogVisible:
 SELECT
