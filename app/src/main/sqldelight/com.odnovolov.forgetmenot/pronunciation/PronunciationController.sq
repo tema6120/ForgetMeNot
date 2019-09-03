@@ -35,27 +35,11 @@ SELECT
     END
 FROM PronunciationState;
 
+getCurrentPronunciationId:
+SELECT id FROM CurrentPronunciation;
+
 rename:
 UPDATE Pronunciation SET name = ? WHERE id = ?;
-
-setAvailableLanguages:
-UPDATE PronunciationState SET availableLanguages = ?;
-
-getCurrentPronunciation:
-SELECT * FROM Pronunciation WHERE Pronunciation.id = (
-    SELECT pronunciationId FROM ExercisePreference WHERE ExercisePreference.id = (
-        SELECT exercisePreferenceId FROM PronunciationState
-    )
-);
-
-getCurrentPronunciationId:
-SELECT pronunciationId FROM ExercisePreference WHERE id = (
-    SELECT exercisePreferenceId FROM PronunciationState
-);
-
-addNewIndividualPronunciation:
-INSERT INTO Pronunciation(questionLanguage, questionAutoSpeak, answerLanguage, answerAutoSpeak)
-VALUES (?, ?, ?, ?);
 
 addNewSharedPronunciation:
 INSERT INTO Pronunciation(name)
@@ -64,12 +48,42 @@ SELECT typedPronunciationName FROM PronunciationState;
 bindNewPronunciationToExercisePreference:
 UPDATE ExercisePreference
 SET pronunciationId = (SELECT last_insert_rowid())
-WHERE id = (SELECT exercisePreferenceId FROM PronunciationState);
+WHERE id = (SELECT id FROM CurrentExercisePreference);
 
-changePronunciation:
+setAvailableLanguages:
+UPDATE PronunciationState SET availableLanguages = ?;
+
+getCurrentPronunciation:
+SELECT * FROM CurrentPronunciation;
+
+getCurrentExercisePreference:
+SELECT * FROM CurrentExercisePreference;
+
+getDefaultPronunciation:
+SELECT * FROM Pronunciation WHERE id = 0;
+
+getDefaultExercisePreference:
+SELECT * FROM ExercisePreference WHERE id = 0;
+
+addNewIndividualPronunciation:
+INSERT INTO Pronunciation(questionLanguage, questionAutoSpeak, answerLanguage, answerAutoSpeak)
+VALUES (?, ?, ?, ?);
+
+addNewIndividualExercisePreference:
+INSERT INTO ExercisePreference DEFAULT VALUES;
+
+bindNewExercisePreferenceToDeck:
+UPDATE Deck
+SET exercisePreferenceId = (SELECT last_insert_rowid())
+WHERE id = (SELECT deckId FROM DeckSettingsState);
+
+deleteCurrentPronunciation:
+DELETE FROM Pronunciation WHERE id = (SELECT id FROM CurrentPronunciation);
+
+deleteCurrentExercisePreference:
+DELETE FROM ExercisePreference WHERE id = (SELECT id FROM CurrentExercisePreference);
+
+changeCurrentPronunciation:
 UPDATE Pronunciation
 SET questionLanguage = ?, questionAutoSpeak = ?, answerLanguage = ?, answerAutoSpeak = ?
-WHERE id = ?;
-
-deletePronunciation:
-DELETE FROM Pronunciation WHERE id = ?;
+WHERE id = (SELECT id FROM CurrentPronunciation);

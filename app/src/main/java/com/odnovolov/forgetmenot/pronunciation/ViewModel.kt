@@ -43,7 +43,7 @@ class PronunciationViewModel {
     val dialogInputCheckResult: Flow<NameCheckResult> = queries
         .getDialogInputCheckResult(mapper = { databaseValue: String? ->
             if (databaseValue == null) NameCheckResult.OK
-            else nameCheckStatusAdapter.decode(databaseValue)
+            else nameCheckResultAdapter.decode(databaseValue)
         })
         .asFlow()
         .mapToOne()

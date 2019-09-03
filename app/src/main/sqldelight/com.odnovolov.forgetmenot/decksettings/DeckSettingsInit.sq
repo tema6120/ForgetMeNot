@@ -8,3 +8,11 @@ CREATE TEMPORARY TABLE DeckSettingsState (
 
 initDeckSettingsState:
 INSERT INTO DeckSettingsState VALUES (?);
+
+createViewCurrentExercisePreference:
+CREATE TEMPORARY VIEW IF NOT EXISTS CurrentExercisePreference
+AS SELECT * FROM ExercisePreference WHERE ExercisePreference.id = (
+    SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
+        SELECT deckId FROM DeckSettingsState
+    )
+);

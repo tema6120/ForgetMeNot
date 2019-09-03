@@ -38,6 +38,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                     dropTablePronunciationState()
                     createTablePronunciationState()
                     initPronunciationState()
+                    createViewCurrentPronunciation()
                 }
                 issueOrder(NavigateToPronunciation)
             }

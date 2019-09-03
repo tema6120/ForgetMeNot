@@ -75,71 +75,111 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
 
     private fun checkName(): NameCheckResult {
         val nameCheckResult = when {
-            isTypedPronunciationNameEmpty() -> EMPTY
-            isTypedPronunciationNameOccupied() -> OCCUPIED
+            queries.isTypedPronunciationNameEmpty().executeAsOne().asBoolean() -> EMPTY
+            queries.isTypedPronunciationNameOccupied().executeAsOne().asBoolean() -> OCCUPIED
             else -> OK
         }
-        queries.setNameCheckResult(nameCheckStatusAdapter.encode(nameCheckResult))
+        queries.setNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
         return nameCheckResult
     }
 
-    private fun isTypedPronunciationNameEmpty(): Boolean {
-        return queries.isTypedPronunciationNameEmpty().executeAsOne().asBoolean()
-    }
-
-    private fun isTypedPronunciationNameOccupied(): Boolean {
-        return queries.isTypedPronunciationNameOccupied().executeAsOne().asBoolean()
-    }
-
     private fun updatePronunciation(
-        makeNewPronunciation: (oldPronunciation: Pronunciation.Impl) -> Pronunciation
+        makeNewPronunciation: (oldPronunciation: Pronunciation.Impl) -> Pronunciation.Impl
     ) {
         val oldPronunciation = queries.getCurrentPronunciation().executeAsOne()
                 as Pronunciation.Impl
         val newPronunciation = makeNewPronunciation(oldPronunciation)
-        when (determinateChangeType(newPronunciation)) {
-            DEFAULT_BECAME_INDIVIDUAL -> {
-                queries.addNewIndividualPronunciation(
+        val currentExercisePreference = queries.getCurrentExercisePreference().executeAsOne()
+                as ExercisePreference.Impl
+        when (determinateChangeType(newPronunciation, currentExercisePreference)) {
+            DEFAULT_PRONUNCIATION_BECOMES_INDIVIDUAL -> {
+                addNewIndividualPronunciation(newPronunciation)
+            }
+            DEFAULT_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_INDIVIDUAL -> {
+                addNewIndividualExercisePreference()
+                addNewIndividualPronunciation(newPronunciation)
+            }
+            INDIVIDUAL_PRONUNCIATION_BECOMES_DEFAULT -> {
+                // Trigger will set default pronunciationId for ExercisePreference automatically
+                queries.deleteCurrentPronunciation()
+            }
+            INDIVIDUAL_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_DEFAULT -> {
+                queries.deleteCurrentPronunciation()
+                queries.deleteCurrentExercisePreference()
+            }
+            SHARED_PRONUNCIATION_CHANGES, INDIVIDUAL_PRONUNCIATION_CHANGES -> {
+                queries.changeCurrentPronunciation(
                     newPronunciation.questionLanguage,
                     newPronunciation.questionAutoSpeak,
                     newPronunciation.answerLanguage,
                     newPronunciation.answerAutoSpeak
                 )
-                queries.bindNewPronunciationToExercisePreference()
-            }
-            INDIVIDUAL_BECAME_DEFAULT -> {
-                // Trigger will set default pronunciationId for ExercisePreference automatically
-                queries.deletePronunciation(newPronunciation.id)
-            }
-            SHARED_CHANGED, INDIVIDUAL_CHANGED -> {
-                queries.changePronunciation(
-                    newPronunciation.questionLanguage,
-                    newPronunciation.questionAutoSpeak,
-                    newPronunciation.answerLanguage,
-                    newPronunciation.answerAutoSpeak,
-                    newPronunciation.id
-                )
             }
         }
     }
 
-    private fun determinateChangeType(newPronunciation: Pronunciation): ChangeType {
+    private fun addNewIndividualPronunciation(newPronunciation: Pronunciation) {
+        queries.addNewIndividualPronunciation(
+            newPronunciation.questionLanguage,
+            newPronunciation.questionAutoSpeak,
+            newPronunciation.answerLanguage,
+            newPronunciation.answerAutoSpeak
+        )
+        queries.bindNewPronunciationToExercisePreference()
+    }
+
+    private fun addNewIndividualExercisePreference() {
+        queries.addNewIndividualExercisePreference()
+        queries.bindNewExercisePreferenceToDeck()
+    }
+
+    private fun determinateChangeType(
+        newPronunciation: Pronunciation.Impl,
+        currentExercisePreference: ExercisePreference.Impl
+    ): ChangeType {
         return when {
-            (newPronunciation.id == 0L) -> DEFAULT_BECAME_INDIVIDUAL
-            (newPronunciation.name.isNotEmpty()) -> SHARED_CHANGED
-            (newPronunciation.questionLanguage == null
-                    && !newPronunciation.questionAutoSpeak
-                    && newPronunciation.answerLanguage == null
-                    && !newPronunciation.answerAutoSpeak) -> INDIVIDUAL_BECAME_DEFAULT
-            else -> INDIVIDUAL_CHANGED
+            (newPronunciation.id == 0L && currentExercisePreference.id == 0L) -> {
+                DEFAULT_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_INDIVIDUAL
+            }
+            (newPronunciation.id == 0L) -> {
+                DEFAULT_PRONUNCIATION_BECOMES_INDIVIDUAL
+            }
+            (newPronunciation.name.isNotEmpty()) -> {
+                SHARED_PRONUNCIATION_CHANGES
+            }
+            (shouldBeDefault(newPronunciation)) -> {
+                if (shouldBeDefault(currentExercisePreference)) {
+                    INDIVIDUAL_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_DEFAULT
+                } else {
+                    INDIVIDUAL_PRONUNCIATION_BECOMES_DEFAULT
+                }
+            }
+            else -> INDIVIDUAL_PRONUNCIATION_CHANGES
         }
+    }
+
+    private fun shouldBeDefault(pronunciation: Pronunciation.Impl): Boolean {
+        val defaultPronunciation = queries.getDefaultPronunciation().executeAsOne()
+                as Pronunciation.Impl
+        return defaultPronunciation == pronunciation.copy(id = defaultPronunciation.id)
+    }
+
+    private fun shouldBeDefault(exercisePreference: ExercisePreference.Impl): Boolean {
+        val defaultExercisePreference = queries.getDefaultExercisePreference().executeAsOne()
+                as ExercisePreference.Impl
+        return defaultExercisePreference == exercisePreference.copy(
+            id = defaultExercisePreference.id,
+            pronunciationId = defaultExercisePreference.pronunciationId
+        )
     }
 
     private enum class ChangeType {
-        DEFAULT_BECAME_INDIVIDUAL,
-        INDIVIDUAL_BECAME_DEFAULT,
-        SHARED_CHANGED,
-        INDIVIDUAL_CHANGED
+        DEFAULT_PRONUNCIATION_BECOMES_INDIVIDUAL,
+        DEFAULT_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_INDIVIDUAL,
+        INDIVIDUAL_PRONUNCIATION_BECOMES_DEFAULT,
+        INDIVIDUAL_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_DEFAULT,
+        SHARED_PRONUNCIATION_CHANGES,
+        INDIVIDUAL_PRONUNCIATION_CHANGES
     }
 
 }

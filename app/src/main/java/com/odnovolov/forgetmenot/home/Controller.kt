@@ -36,6 +36,7 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                     dropTableDeckSettingsState()
                     createTableDeckSettingsState()
                     initDeckSettingsState(event.deckId)
+                    createViewCurrentExercisePreference()
                 }
                 issueOrder(NavigateToDeckSettings)
             }

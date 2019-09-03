@@ -1,9 +1,5 @@
 getCurrentPronunciation:
-SELECT * FROM Pronunciation WHERE Pronunciation.id = (
-    SELECT pronunciationId FROM ExercisePreference WHERE ExercisePreference.id = (
-        SELECT exercisePreferenceId FROM PronunciationState
-    )
-);
+SELECT * FROM CurrentPronunciation;
 
 getSharedPronunciations:
 SELECT * FROM Pronunciation WHERE name <> '';

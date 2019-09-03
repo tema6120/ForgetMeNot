@@ -57,7 +57,7 @@ val listOfLocalesAdapter = object : ColumnAdapter<List<Locale>, String> {
     }
 }
 
-val nameCheckStatusAdapter = object : ColumnAdapter<NameCheckResult, String> {
+val nameCheckResultAdapter = object : ColumnAdapter<NameCheckResult, String> {
     override fun encode(value: NameCheckResult): String = value.name
 
     override fun decode(databaseValue: String): NameCheckResult =

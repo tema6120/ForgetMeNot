@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS PronunciationState;
 
 createTablePronunciationState:
 CREATE TEMPORARY TABLE PronunciationState (
-    exercisePreferenceId INTEGER NOT NULL,
     availableLanguages TEXT, -- AS List<Locale>
     isWaitingForNameToSavePronunciation INTEGER AS Boolean NOT NULL DEFAULT 0,
     isWaitingForNameToCreateNewPronunciation INTEGER AS Boolean NOT NULL DEFAULT 0,
@@ -12,7 +11,10 @@ CREATE TEMPORARY TABLE PronunciationState (
 );
 
 initPronunciationState:
-INSERT INTO PronunciationState(exercisePreferenceId)
-SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
-    SELECT deckId FROM DeckSettingsState
+INSERT INTO PronunciationState DEFAULT VALUES;
+
+createViewCurrentPronunciation:
+CREATE TEMPORARY VIEW IF NOT EXISTS CurrentPronunciation
+AS SELECT * FROM Pronunciation WHERE Pronunciation.id = (
+    SELECT pronunciationId FROM CurrentExercisePreference
 );
