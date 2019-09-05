@@ -1,24 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/availablePronunciationsRecyclerView"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="LinearLayoutManager" />
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
-    <ImageButton
-            android:id="@+id/addNewPronunciationButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_horizontal"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/description_add_new_pronunciation"
-            app:srcCompat="@drawable/ic_add_24dp" />
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/availablePronunciationsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="LinearLayoutManager" />
 
-</LinearLayout>
+        <ImageButton
+                android:id="@+id/addNewPronunciationButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:layout_gravity="center_horizontal"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_add_new_pronunciation"
+                app:srcCompat="@drawable/ic_add_darkgray_24dp" />
+
+    </LinearLayout>
+
+</ScrollView>

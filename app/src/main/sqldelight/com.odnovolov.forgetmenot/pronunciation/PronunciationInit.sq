@@ -6,7 +6,8 @@ CREATE TEMPORARY TABLE PronunciationState (
     availableLanguages TEXT, -- AS List<Locale>
     nameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible',
     typedPronunciationName TEXT NOT NULL DEFAULT '',
-    nameCheckResult TEXT -- AS NameCheckStatus
+    nameCheckResult TEXT, -- AS NameCheckStatus
+    renamePronunciationId INTEGER
 );
 
 initPronunciationState:

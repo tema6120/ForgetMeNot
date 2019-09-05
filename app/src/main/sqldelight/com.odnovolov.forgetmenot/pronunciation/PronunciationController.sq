@@ -16,8 +16,17 @@ UPDATE PronunciationState SET typedPronunciationName = ?;
 setNameCheckResult:
 UPDATE PronunciationState SET nameCheckResult = ?;
 
+getRenamePronunciationId:
+SELECT renamePronunciationId FROM PronunciationState;
+
+setRenamePronunciationId:
+UPDATE PronunciationState SET renamePronunciationId = ?;
+
 getPronunciationById:
 SELECT * FROM Pronunciation WHERE id = ?;
+
+getPronunciationNameById:
+SELECT name FROM Pronunciation WHERE id = ?;
 
 getDefaultPronunciation:
 SELECT * FROM Pronunciation WHERE id = 0;

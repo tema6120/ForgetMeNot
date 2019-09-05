@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.common.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
 import com.odnovolov.forgetmenot.pronunciation.NameInputDialogStatus.*
+import com.odnovolov.forgetmenot.pronunciation.PronunciationOrder.SetDialogText
 
 class PronunciationController : BaseController<PronunciationEvent, PronunciationOrder>() {
     val queries: PronunciationControllerQueries = database.pronunciationControllerQueries
@@ -23,7 +24,13 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is RenamePronunciationButtonClicked -> {
-                setNameInputDialogStatus(VisibleToRenameSharedPronunciation)
+                val name = queries.getPronunciationNameById(event.pronunciationId)
+                    .executeAsOneOrNull()
+                if (!name.isNullOrEmpty()) {
+                    queries.setRenamePronunciationId(event.pronunciationId)
+                    setNameInputDialogStatus(VisibleToRenameSharedPronunciation)
+                    issueOrder(SetDialogText(name))
+                }
             }
 
             is DeletePronunciationButtonClicked -> {
@@ -55,7 +62,11 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
                             PronunciationUpdater.updateCurrentPronunciation(newSharedPronunciation)
                         }
                         VisibleToRenameSharedPronunciation -> {
-                            // TODO
+                            val id = queries.getRenamePronunciationId()
+                                .executeAsOneOrNull()?.renamePronunciationId
+                            if (id != null) {
+                                PronunciationUpdater.renameSharedPronunciation(newName, id)
+                            }
                         }
                         else -> {
                         }

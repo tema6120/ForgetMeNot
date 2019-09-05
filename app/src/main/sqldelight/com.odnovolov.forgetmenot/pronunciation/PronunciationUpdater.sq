@@ -30,3 +30,8 @@ DELETE FROM Pronunciation
 WHERE id != 0
   AND name = ''
   AND id NOT IN (SELECT pronunciationId FROM ExercisePreference);
+
+renameSharedPronunciation:
+UPDATE Pronunciation
+SET name = ?
+WHERE id = ? AND name != '';

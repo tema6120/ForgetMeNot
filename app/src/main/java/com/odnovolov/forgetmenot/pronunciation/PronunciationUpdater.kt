@@ -71,4 +71,8 @@ object PronunciationUpdater {
             queries.getCurrentPronunciationIdIfItIsIndividual().executeAsOneOrNull()
         }
     }
+
+    fun renameSharedPronunciation(newName: String, pronunciationId: Long) {
+        queries.renameSharedPronunciation(newName, pronunciationId)
+    }
 }
