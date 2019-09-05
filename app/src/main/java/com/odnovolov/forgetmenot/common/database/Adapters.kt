@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.common.database
 
 import com.odnovolov.forgetmenot.common.NameCheckResult
 import com.odnovolov.forgetmenot.home.adddeck.Stage
+import com.odnovolov.forgetmenot.pronunciation.NameInputDialogStatus
 import com.squareup.sqldelight.ColumnAdapter
 import java.util.*
 
@@ -63,5 +64,13 @@ val nameCheckResultAdapter = object : ColumnAdapter<NameCheckResult, String> {
     override fun decode(databaseValue: String): NameCheckResult =
         NameCheckResult.valueOf(databaseValue)
 }
+
+val nameInputDialogStatusAdapter =
+    object : ColumnAdapter<NameInputDialogStatus, String> {
+        override fun encode(value: NameInputDialogStatus): String = value.name
+
+        override fun decode(databaseValue: String): NameInputDialogStatus =
+            NameInputDialogStatus.valueOf(databaseValue)
+    }
 
 fun Long.asBoolean() = this == 1L

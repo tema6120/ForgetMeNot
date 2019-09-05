@@ -18,10 +18,8 @@ ORDER BY
 isDialogVisible:
 SELECT
     CASE
-        WHEN isWaitingForNameToSavePronunciation = 1
-            OR isWaitingForNameToCreateNewPronunciation = 1
-        THEN 1
-        ELSE 0
+        WHEN nameInputDialogStatus = 'Invisible' THEN 0
+        ELSE 1
     END
 FROM PronunciationState;
 

@@ -4,8 +4,7 @@ DROP TABLE IF EXISTS PronunciationState;
 createTablePronunciationState:
 CREATE TEMPORARY TABLE PronunciationState (
     availableLanguages TEXT, -- AS List<Locale>
-    isWaitingForNameToSavePronunciation INTEGER AS Boolean NOT NULL DEFAULT 0,
-    isWaitingForNameToCreateNewPronunciation INTEGER AS Boolean NOT NULL DEFAULT 0,
+    nameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible',
     typedPronunciationName TEXT NOT NULL DEFAULT '',
     nameCheckResult TEXT -- AS NameCheckStatus
 );

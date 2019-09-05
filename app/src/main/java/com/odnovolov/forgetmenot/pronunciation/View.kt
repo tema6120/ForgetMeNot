@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -70,6 +71,11 @@ class PronunciationFragment : BaseFragment() {
 
     private fun createChoosePronunciationPopup() = PopupWindow(requireContext()).apply {
         contentView = View.inflate(requireContext(), R.layout.popup_choose_pronunciation, null)
+        val addNewPronunciationButton: ImageButton =
+            contentView.findViewById(R.id.addNewPronunciationButton)
+        addNewPronunciationButton.setOnClickListener {
+            controller.dispatch(AddNewPronunciationButtonClicked)
+        }
         setBackgroundDrawable(ColorDrawable(Color.WHITE))
         elevation = 20f
         isOutsideTouchable = true
@@ -106,7 +112,12 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun initAdapters() {
-        pronunciationRecyclerAdapter = PronunciationRecyclerAdapter(controller)
+        pronunciationRecyclerAdapter = PronunciationRecyclerAdapter(
+            onItemClick = { pronunciationId ->
+                controller.dispatch(PronunciationButtonClicked(pronunciationId))
+                choosePronunciationPopup.dismiss()
+            }
+        )
         val availablePronunciationsRecyclerView = choosePronunciationPopup.contentView
             .findViewById<RecyclerView>(R.id.availablePronunciationsRecyclerView)
         availablePronunciationsRecyclerView.adapter = pronunciationRecyclerAdapter
@@ -261,7 +272,9 @@ class PronunciationFragment : BaseFragment() {
     }
 }
 
-class PronunciationRecyclerAdapter(val controller: PronunciationController) :
+class PronunciationRecyclerAdapter(
+    private val onItemClick: (pronunciationId: Long) -> Unit
+) :
     ListAdapter<AvailablePronunciation, PronunciationRecyclerAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -289,7 +302,7 @@ class PronunciationRecyclerAdapter(val controller: PronunciationController) :
             textView.background = null
         }
         textView.setOnClickListener {
-            controller.dispatch(PronunciationButtonClicked(availablePronunciation.id))
+            onItemClick(availablePronunciation.id)
         }
     }
 

@@ -1,0 +1,36 @@
+getCurrentExercisePreference:
+SELECT * FROM CurrentExercisePreference;
+
+getDefaultExercisePreference:
+SELECT * FROM ExercisePreference WHERE id = 0;
+
+getExercisePreferenceIdByName:
+SELECT id FROM ExercisePreference WHERE name = ?;
+
+getCurrentExercisePreferenceIdIfItIsIndividual:
+SELECT id FROM CurrentExercisePreference WHERE id != 0 AND name == '';
+
+changeExercisePreference:
+UPDATE ExercisePreference
+SET name = ?, randomOrder = ?, pronunciationId = ?
+WHERE id = :where;
+
+addNewExercisePreference:
+INSERT INTO ExercisePreference(name, randomOrder, pronunciationId) VALUES (?, ?, ?);
+
+getLastInsertId:
+SELECT last_insert_rowid();
+
+getCurrentExercisePreferenceId:
+SELECT id FROM CurrentExercisePreference;
+
+bindExercisePreferenceToDeck:
+UPDATE Deck
+SET exercisePreferenceId = ?
+WHERE id = (SELECT deckId FROM DeckSettingsState);
+
+deleteUnusedIndividualExercisePreference:
+DELETE FROM ExercisePreference
+WHERE id != 0
+  AND name = ''
+  AND id NOT IN (SELECT exercisePreferenceId FROM Deck);

@@ -4,8 +4,8 @@ import com.odnovolov.forgetmenot.common.BaseController
 import com.odnovolov.forgetmenot.common.NameCheckResult
 import com.odnovolov.forgetmenot.common.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.database.*
-import com.odnovolov.forgetmenot.pronunciation.PronunciationController.ChangeType.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
+import com.odnovolov.forgetmenot.pronunciation.NameInputDialogStatus.*
 
 class PronunciationController : BaseController<PronunciationEvent, PronunciationOrder>() {
     val queries: PronunciationControllerQueries = database.pronunciationControllerQueries
@@ -13,15 +13,25 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
     override fun handleEvent(event: PronunciationEvent) {
         when (event) {
             SavePronunciationButtonClicked -> {
-                queries.setWaitingForNameToSavePronunciation(true)
+                setNameInputDialogStatus(VisibleToMakeIndividualPronunciationShared)
             }
 
             is PronunciationButtonClicked -> {
+                val selectedPronunciation = queries.getPronunciationById(event.pronunciationId)
+                    .executeAsOne() as Pronunciation.Impl
+                PronunciationUpdater.updateCurrentPronunciation(selectedPronunciation)
+            }
+
+            is RenamePronunciationButtonClicked -> {
+                setNameInputDialogStatus(VisibleToRenameSharedPronunciation)
+            }
+
+            is DeletePronunciationButtonClicked -> {
                 // TODO
             }
 
             AddNewPronunciationButtonClicked -> {
-                queries.setWaitingForNameToCreateNewPronunciation(true)
+                setNameInputDialogStatus(VisibleToCreateNewSharedPronunciation)
             }
 
             is DialogTextChanged -> {
@@ -30,28 +40,32 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             PositiveDialogButtonClicked -> {
-                val nameCheckResult = checkName()
-                if (nameCheckResult === OK) {
+                if (checkName() === OK) {
                     val newName = queries.getTypedPronunciationName().executeAsOne()
-                    when {
-                        queries.isWaitingForNameToSavePronunciation().executeAsOne() -> {
-                            val currentPronunciationId =
-                                queries.getCurrentPronunciationId().executeAsOne()
-                            queries.rename(newName, currentPronunciationId)
-                            queries.setWaitingForNameToSavePronunciation(false)
+                    when (getNameInputDialogStatus()) {
+                        VisibleToMakeIndividualPronunciationShared -> {
+                            PronunciationUpdater.updateCurrentPronunciation {
+                                it.copy(name = newName)
+                            }
                         }
-                        queries.isWaitingForNameToCreateNewPronunciation().executeAsOne() -> {
-                            queries.addNewSharedPronunciation()
-                            queries.bindNewPronunciationToExercisePreference()
-                            queries.setWaitingForNameToCreateNewPronunciation(false)
+                        VisibleToCreateNewSharedPronunciation -> {
+                            val defaultPronunciation = queries.getDefaultPronunciation()
+                                .executeAsOne() as Pronunciation.Impl
+                            val newSharedPronunciation = defaultPronunciation.copy(name = newName)
+                            PronunciationUpdater.updateCurrentPronunciation(newSharedPronunciation)
+                        }
+                        VisibleToRenameSharedPronunciation -> {
+                            // TODO
+                        }
+                        else -> {
                         }
                     }
+                    setNameInputDialogStatus(Invisible)
                 }
             }
 
             NegativeDialogButtonClicked -> {
-                queries.setWaitingForNameToSavePronunciation(false)
-                queries.setWaitingForNameToCreateNewPronunciation(false)
+                setNameInputDialogStatus(Invisible)
             }
 
             is AvailableLanguagesUpdated -> {
@@ -60,21 +74,39 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is QuestionLanguageSelected -> {
-                updatePronunciation { it.copy(questionLanguage = event.language) }
+                PronunciationUpdater.updateCurrentPronunciation {
+                    it.copy(questionLanguage = event.language)
+                }
             }
 
             is QuestionAutoSpeakSwitchToggled -> {
-                updatePronunciation { it.copy(questionAutoSpeak = event.isOn) }
+                PronunciationUpdater.updateCurrentPronunciation {
+                    it.copy(questionAutoSpeak = event.isOn)
+                }
             }
 
             is AnswerLanguageSelected -> {
-                updatePronunciation { it.copy(answerLanguage = event.language) }
+                PronunciationUpdater.updateCurrentPronunciation {
+                    it.copy(answerLanguage = event.language)
+                }
             }
 
             is AnswerAutoSpeakSwitchToggled -> {
-                updatePronunciation { it.copy(answerAutoSpeak = event.isOn) }
+                PronunciationUpdater.updateCurrentPronunciation {
+                    it.copy(answerAutoSpeak = event.isOn)
+                }
             }
         }
+    }
+
+    private fun setNameInputDialogStatus(status: NameInputDialogStatus) {
+        val databaseValue = nameInputDialogStatusAdapter.encode(status)
+        queries.setNameInputDialogStatus(databaseValue)
+    }
+
+    private fun getNameInputDialogStatus(): NameInputDialogStatus {
+        val databaseValue = queries.getNameInputDialogStatus().executeAsOne()
+        return nameInputDialogStatusAdapter.decode(databaseValue)
     }
 
     private fun checkName(): NameCheckResult {
@@ -85,105 +117,6 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
         }
         queries.setNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
         return nameCheckResult
-    }
-
-    private fun updatePronunciation(
-        makeNewPronunciation: (oldPronunciation: Pronunciation.Impl) -> Pronunciation.Impl
-    ) {
-        val oldPronunciation = queries.getCurrentPronunciation().executeAsOne()
-                as Pronunciation.Impl
-        val newPronunciation = makeNewPronunciation(oldPronunciation)
-        val currentExercisePreference = queries.getCurrentExercisePreference().executeAsOne()
-                as ExercisePreference.Impl
-        when (determinateChangeType(newPronunciation, currentExercisePreference)) {
-            DEFAULT_PRONUNCIATION_BECOMES_INDIVIDUAL -> {
-                addNewIndividualPronunciation(newPronunciation)
-            }
-            DEFAULT_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_INDIVIDUAL -> {
-                addNewIndividualExercisePreference()
-                addNewIndividualPronunciation(newPronunciation)
-            }
-            INDIVIDUAL_PRONUNCIATION_BECOMES_DEFAULT -> {
-                // Trigger will set default pronunciationId for ExercisePreference automatically
-                queries.deleteCurrentPronunciation()
-            }
-            INDIVIDUAL_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_DEFAULT -> {
-                queries.deleteCurrentPronunciation()
-                queries.deleteCurrentExercisePreference()
-            }
-            SHARED_PRONUNCIATION_CHANGES, INDIVIDUAL_PRONUNCIATION_CHANGES -> {
-                queries.changeCurrentPronunciation(
-                    newPronunciation.questionLanguage,
-                    newPronunciation.questionAutoSpeak,
-                    newPronunciation.answerLanguage,
-                    newPronunciation.answerAutoSpeak
-                )
-            }
-        }
-    }
-
-    private fun addNewIndividualPronunciation(newPronunciation: Pronunciation) {
-        queries.addNewIndividualPronunciation(
-            newPronunciation.questionLanguage,
-            newPronunciation.questionAutoSpeak,
-            newPronunciation.answerLanguage,
-            newPronunciation.answerAutoSpeak
-        )
-        queries.bindNewPronunciationToExercisePreference()
-    }
-
-    private fun addNewIndividualExercisePreference() {
-        queries.addNewIndividualExercisePreference()
-        queries.bindNewExercisePreferenceToDeck()
-    }
-
-    private fun determinateChangeType(
-        newPronunciation: Pronunciation.Impl,
-        currentExercisePreference: ExercisePreference.Impl
-    ): ChangeType {
-        return when {
-            (newPronunciation.id == 0L && currentExercisePreference.id == 0L) -> {
-                DEFAULT_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_INDIVIDUAL
-            }
-            (newPronunciation.id == 0L) -> {
-                DEFAULT_PRONUNCIATION_BECOMES_INDIVIDUAL
-            }
-            (newPronunciation.name.isNotEmpty()) -> {
-                SHARED_PRONUNCIATION_CHANGES
-            }
-            (shouldBeDefault(newPronunciation)) -> {
-                if (shouldBeDefault(currentExercisePreference)) {
-                    INDIVIDUAL_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_DEFAULT
-                } else {
-                    INDIVIDUAL_PRONUNCIATION_BECOMES_DEFAULT
-                }
-            }
-            else -> INDIVIDUAL_PRONUNCIATION_CHANGES
-        }
-    }
-
-    private fun shouldBeDefault(pronunciation: Pronunciation.Impl): Boolean {
-        val defaultPronunciation = queries.getDefaultPronunciation().executeAsOne()
-                as Pronunciation.Impl
-        return defaultPronunciation == pronunciation.copy(id = defaultPronunciation.id)
-    }
-
-    private fun shouldBeDefault(exercisePreference: ExercisePreference.Impl): Boolean {
-        val defaultExercisePreference = queries.getDefaultExercisePreference().executeAsOne()
-                as ExercisePreference.Impl
-        return defaultExercisePreference == exercisePreference.copy(
-            id = defaultExercisePreference.id,
-            pronunciationId = defaultExercisePreference.pronunciationId
-        )
-    }
-
-    private enum class ChangeType {
-        DEFAULT_PRONUNCIATION_BECOMES_INDIVIDUAL,
-        DEFAULT_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_INDIVIDUAL,
-        INDIVIDUAL_PRONUNCIATION_BECOMES_DEFAULT,
-        INDIVIDUAL_PRONUNCIATION_AND_EXERCISE_PREFERENCE_BECOME_DEFAULT,
-        SHARED_PRONUNCIATION_CHANGES,
-        INDIVIDUAL_PRONUNCIATION_CHANGES
     }
 
 }
