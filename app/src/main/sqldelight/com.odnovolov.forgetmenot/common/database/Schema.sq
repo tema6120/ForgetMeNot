@@ -46,19 +46,3 @@ CREATE TABLE Pronunciation (
 );
 
 INSERT INTO Pronunciation(id) VALUES (0);
-
-CREATE TRIGGER SetDefaultExercisePreferenceIdOnDeleteExercisePreference
-AFTER DELETE ON ExercisePreference
-BEGIN
-    UPDATE Deck
-    SET exercisePreferenceId = 0
-    WHERE exercisePreferenceId = old.id;
-END;
-
-CREATE TRIGGER SetDefaultPronunciationIdOnDeletePronunciation
-AFTER DELETE ON Pronunciation
-BEGIN
-    UPDATE ExercisePreference
-    SET pronunciationId = 0
-    WHERE pronunciationId = old.id;
-END;

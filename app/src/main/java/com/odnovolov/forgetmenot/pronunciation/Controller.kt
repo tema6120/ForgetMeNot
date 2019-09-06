@@ -18,9 +18,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is PronunciationButtonClicked -> {
-                val selectedPronunciation = queries.getPronunciationById(event.pronunciationId)
-                    .executeAsOne() as Pronunciation.Impl
-                PronunciationUpdater.updateCurrentPronunciation(selectedPronunciation)
+                queries.setPronunciationId(event.pronunciationId)
             }
 
             is RenamePronunciationButtonClicked -> {
@@ -34,7 +32,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is DeletePronunciationButtonClicked -> {
-                // TODO
+                queries.delete(event.pronunciationId)
             }
 
             AddNewPronunciationButtonClicked -> {
@@ -48,25 +46,16 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
 
             PositiveDialogButtonClicked -> {
                 if (checkName() === OK) {
-                    val newName = queries.getTypedPronunciationName().executeAsOne()
                     when (getNameInputDialogStatus()) {
                         VisibleToMakeIndividualPronunciationShared -> {
-                            PronunciationUpdater.updateCurrentPronunciation {
-                                it.copy(name = newName)
-                            }
+                            queries.renameCurrent()
                         }
                         VisibleToCreateNewSharedPronunciation -> {
-                            val defaultPronunciation = queries.getDefaultPronunciation()
-                                .executeAsOne() as Pronunciation.Impl
-                            val newSharedPronunciation = defaultPronunciation.copy(name = newName)
-                            PronunciationUpdater.updateCurrentPronunciation(newSharedPronunciation)
+                            queries.createNewShared()
+                            queries.bindNewPronunciationToCurrentExercisePreference()
                         }
                         VisibleToRenameSharedPronunciation -> {
-                            val id = queries.getRenamePronunciationId()
-                                .executeAsOneOrNull()?.renamePronunciationId
-                            if (id != null) {
-                                PronunciationUpdater.renameSharedPronunciation(newName, id)
-                            }
+                            queries.renameShared()
                         }
                         else -> {
                         }
@@ -85,27 +74,19 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is QuestionLanguageSelected -> {
-                PronunciationUpdater.updateCurrentPronunciation {
-                    it.copy(questionLanguage = event.language)
-                }
+                queries.setQuestionLanguage(event.language)
             }
 
             is QuestionAutoSpeakSwitchToggled -> {
-                PronunciationUpdater.updateCurrentPronunciation {
-                    it.copy(questionAutoSpeak = event.isOn)
-                }
+                queries.setQuestionAutoSpeak(event.isOn)
             }
 
             is AnswerLanguageSelected -> {
-                PronunciationUpdater.updateCurrentPronunciation {
-                    it.copy(answerLanguage = event.language)
-                }
+                queries.setAnswerLanguage(event.language)
             }
 
             is AnswerAutoSpeakSwitchToggled -> {
-                PronunciationUpdater.updateCurrentPronunciation {
-                    it.copy(answerAutoSpeak = event.isOn)
-                }
+                queries.setAnswerAutoSpeak(event.isOn)
             }
         }
     }

@@ -7,34 +7,22 @@ SELECT nameInputDialogStatus FROM PronunciationState;
 setNameInputDialogStatus:
 UPDATE PronunciationState SET nameInputDialogStatus = ?;
 
-getTypedPronunciationName:
-SELECT typedPronunciationName FROM PronunciationState;
-
 setTypedPronunciationName:
 UPDATE PronunciationState SET typedPronunciationName = ?;
 
 setNameCheckResult:
 UPDATE PronunciationState SET nameCheckResult = ?;
 
-getRenamePronunciationId:
-SELECT renamePronunciationId FROM PronunciationState;
-
 setRenamePronunciationId:
 UPDATE PronunciationState SET renamePronunciationId = ?;
 
-getPronunciationById:
-SELECT * FROM Pronunciation WHERE id = ?;
-
 getPronunciationNameById:
-SELECT name FROM Pronunciation WHERE id = ?;
-
-getDefaultPronunciation:
-SELECT * FROM Pronunciation WHERE id = 0;
+SELECT name FROM Pronunciation WHERE id == ?;
 
 isTypedPronunciationNameEmpty:
 SELECT
     CASE
-        WHEN typedPronunciationName = '' THEN 1
+        WHEN typedPronunciationName == '' THEN 1
         ELSE 0
     END
 FROM PronunciationState;
@@ -46,3 +34,50 @@ SELECT
         ELSE 0
     END
 FROM PronunciationState;
+
+setQuestionLanguage:
+UPDATE Pronunciation SET questionLanguage = ? WHERE id == (
+    SELECT id FROM CurrentPronunciation
+);
+
+setQuestionAutoSpeak:
+UPDATE Pronunciation SET questionAutoSpeak = ? WHERE id == (
+    SELECT id FROM CurrentPronunciation
+);
+
+setAnswerLanguage:
+UPDATE Pronunciation SET answerLanguage = ? WHERE id == (
+    SELECT id FROM CurrentPronunciation
+);
+
+setAnswerAutoSpeak:
+UPDATE Pronunciation SET answerAutoSpeak = ? WHERE id == (
+    SELECT id FROM CurrentPronunciation
+);
+
+setPronunciationId:
+UPDATE ExercisePreference SET pronunciationId = ? WHERE id == (
+    SELECT id FROM CurrentExercisePreference
+);
+
+renameShared:
+UPDATE Pronunciation
+SET name = (SELECT typedPronunciationName FROM PronunciationState)
+WHERE id == (SELECT renamePronunciationId FROM PronunciationState) AND name != '';
+
+renameCurrent:
+UPDATE Pronunciation
+SET name = (SELECT typedPronunciationName FROM PronunciationState)
+WHERE id == (SELECT id FROM CurrentPronunciation);
+
+delete:
+DELETE FROM Pronunciation WHERE id == ?;
+
+createNewShared:
+INSERT INTO Pronunciation(name)
+SELECT typedPronunciationName FROM PronunciationState;
+
+bindNewPronunciationToCurrentExercisePreference:
+UPDATE ExercisePreference
+SET pronunciationId = (SELECT last_insert_rowid())
+WHERE id == (SELECT id FROM CurrentExercisePreference);

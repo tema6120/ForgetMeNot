@@ -18,7 +18,8 @@ fun initDatabase(applicationContext: Context) {
         callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
             override fun onConfigure(db: SupportSQLiteDatabase) {
                 super.onConfigure(db)
-                db.setForeignKeyConstraintsEnabled(true)
+                db.execSQL("PRAGMA foreign_keys = true")
+                db.execSQL("PRAGMA recursive_triggers = true")
                 DbUtils.supportDb = db
             }
         }

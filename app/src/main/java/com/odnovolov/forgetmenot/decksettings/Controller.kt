@@ -39,6 +39,11 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                     createTablePronunciationState()
                     initPronunciationState()
                     createViewCurrentPronunciation()
+                    createTriggerPreventRemovalOfDefaultPronunciation()
+                    createTriggerOnTryToModifyDefaultPronunciation()
+                    createTriggerSetDefaultPronunciationIfNeed()
+                    createTriggerOnDeletePronunciation()
+                    createTriggerDeleteUnusedIndividualPronunciation()
                 }
                 issueOrder(NavigateToPronunciation)
             }
