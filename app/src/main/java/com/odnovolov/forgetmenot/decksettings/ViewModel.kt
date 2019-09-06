@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.decksettings
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
-import com.odnovolov.forgetmenot.common.database.mapToOneOrDefault
 import kotlinx.coroutines.flow.Flow
 
 class DeckSettingsViewModel {
@@ -17,13 +16,10 @@ class DeckSettingsViewModel {
     val randomOrder: Flow<Boolean> = queries
         .getRandomOrder()
         .asFlow()
-        .mapToOneOrDefault(DEFAULT_RANDOM_ORDER)
+        .mapToOne()
 
-    val pronunciationName: Flow<String> = queries
-        .getPronunciationName()
+    val pronunciationIdAndName: Flow<PronunciationIdAndName> = queries
+        .pronunciationIdAndName()
         .asFlow()
-        .mapToOneOrDefault(DEFAULT_PRONUNCIATION_NAME)
+        .mapToOne()
 }
-
-const val DEFAULT_RANDOM_ORDER = true
-const val DEFAULT_PRONUNCIATION_NAME = "Default"

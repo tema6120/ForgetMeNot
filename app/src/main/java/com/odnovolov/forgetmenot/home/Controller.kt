@@ -37,6 +37,7 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                     createTableDeckSettingsState()
                     initDeckSettingsState(event.deckId)
                     createViewCurrentExercisePreference()
+                    createViewCurrentPronunciation()
                     createTriggerPreventRemovalOfDefaultExercisePreference()
                     createTriggerOnTryToModifyDefaultExercisePreference()
                     createTriggerSetDefaultExercisePreferenceIfNeed()

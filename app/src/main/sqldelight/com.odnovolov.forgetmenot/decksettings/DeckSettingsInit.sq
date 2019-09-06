@@ -17,6 +17,12 @@ AS SELECT * FROM ExercisePreference WHERE ExercisePreference.id == (
     )
 );
 
+createViewCurrentPronunciation:
+CREATE TEMPORARY VIEW IF NOT EXISTS CurrentPronunciation
+AS SELECT * FROM Pronunciation WHERE Pronunciation.id == (
+    SELECT pronunciationId FROM CurrentExercisePreference
+);
+
 createTriggerPreventRemovalOfDefaultExercisePreference:
 CREATE TEMPORARY TRIGGER IF NOT EXISTS preventRemovalOfDefaultExercisePreference
 BEFORE DELETE ON ExercisePreference WHEN old.id == 0

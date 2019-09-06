@@ -15,22 +15,8 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                 issueOrder(ShowRenameDeckDialog)
             }
 
-            RandomOrderSwitcherClicked -> {
-                val exercisePreference = queries.getExercisePreference().executeAsOne()
-                val newRandomOrder = exercisePreference.randomOrder.not()
-                val isDefault = exercisePreference.id == 0L
-                if (isDefault) {
-                    queries.addExercisePreference(randomOrder = newRandomOrder)
-                    queries.bindExerciseIdToDeck()
-                } else {
-                    val willItBeDefault = newRandomOrder && exercisePreference.pronunciationId == 0L
-                    if (willItBeDefault) {
-                        // Trigger will set default exercisePreferenceId for Deck automatically
-                        queries.deleteExercisePreference(exercisePreference.id)
-                    } else {
-                        queries.setRandomOrder(newRandomOrder, exercisePreference.id)
-                    }
-                }
+            RandomOrderSwitchToggled -> {
+                queries.toggleRandomOrder()
             }
 
             PronunciationButtonClicked -> {
@@ -38,7 +24,6 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                     dropTablePronunciationState()
                     createTablePronunciationState()
                     initPronunciationState()
-                    createViewCurrentPronunciation()
                     createTriggerPreventRemovalOfDefaultPronunciation()
                     createTriggerOnTryToModifyDefaultPronunciation()
                     createTriggerSetDefaultPronunciationIfNeed()
@@ -46,10 +31,6 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                     createTriggerDeleteUnusedIndividualPronunciation()
                 }
                 issueOrder(NavigateToPronunciation)
-            }
-
-            is GotPronunciation -> {
-                // TODO
             }
         }
     }

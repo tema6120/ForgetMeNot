@@ -88,15 +88,15 @@
             </LinearLayout>
 
             <Switch
-                    android:id="@+id/randomOrderSwitcher"
+                    android:id="@+id/randomOrderSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
                     android:background="@null"
-                    android:checked="true"
                     android:clickable="false"
-                    android:focusable="false" />
+                    android:focusable="false"
+                    android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -139,7 +139,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
                     android:padding="12dp"
-                    app:srcCompat="@drawable/ic_add_darkgray_24dp" />
+                    app:srcCompat="@drawable/ic_navigate_next_darkgray_24dp" />
 
         </LinearLayout>
 

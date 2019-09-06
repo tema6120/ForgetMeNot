@@ -12,7 +12,6 @@ import com.odnovolov.forgetmenot.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.NavigateToPronunciation
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.ShowRenameDeckDialog
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
-import kotlinx.coroutines.launch
 import leakcanary.LeakSentry
 
 class DeckSettingsFragment : BaseFragment() {
@@ -32,7 +31,7 @@ class DeckSettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        takeOrders()
+        controller.orders.forEach(execute = ::executeOrder)
     }
 
     private fun setupView() {
@@ -40,7 +39,7 @@ class DeckSettingsFragment : BaseFragment() {
             controller.dispatch(RenameDeckButtonClicked)
         }
         randomOrderLinearLayout.setOnClickListener {
-            controller.dispatch(RandomOrderSwitcherClicked)
+            controller.dispatch(RandomOrderSwitchToggled)
         }
         pronunciationButton.setOnClickListener {
             controller.dispatch(PronunciationButtonClicked)
@@ -50,24 +49,31 @@ class DeckSettingsFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             deckName.observe(onChange = deckNameTextView::setText)
-            randomOrder.observe(onChange = randomOrderSwitcher::setChecked)
-            pronunciationName.observe(onChange = pronunciationTextView::setText)
+            randomOrder.observe(
+                onChange = randomOrderSwitch::setChecked,
+                afterFirst = {
+                    randomOrderSwitch.jumpDrawablesToCurrentState()
+                    randomOrderSwitch.visibility = View.VISIBLE
+                })
+            pronunciationIdAndName.observe {
+                pronunciationTextView.text = when {
+                    it.id == 0L -> getString(R.string.default_pronunciation_name)
+                    it.name.isEmpty() -> getString(R.string.individual_pronunciation_name)
+                    else -> "'${it.name}'"
+                }
+            }
         }
     }
 
-    private fun takeOrders() {
-        fragmentScope.launch {
-            for (order in controller.orders) {
-                when (order) {
-                    ShowRenameDeckDialog -> {
-                        Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    is NavigateToPronunciation -> {
-                        findNavController()
-                            .navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
-                    }
-                }
+    private fun executeOrder(order: DeckSettingsOrder) {
+        when (order) {
+            ShowRenameDeckDialog -> {
+                Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            is NavigateToPronunciation -> {
+                findNavController()
+                    .navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
             }
         }
     }

@@ -1,20 +1,10 @@
 getDeckName:
-SELECT name FROM Deck WHERE id = (
+SELECT name FROM Deck WHERE id == (
     SELECT deckId FROM DeckSettingsState
 );
 
 getRandomOrder:
-SELECT randomOrder FROM ExercisePreference WHERE ExercisePreference.id = (
-    SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
-        SELECT deckId FROM DeckSettingsState
-    )
-);
+SELECT randomOrder FROM CurrentExercisePreference;
 
-getPronunciationName:
-SELECT name FROM Pronunciation WHERE Pronunciation.id = (
-    SELECT pronunciationId FROM ExercisePreference WHERE ExercisePreference.id = (
-        SELECT exercisePreferenceId FROM Deck WHERE Deck.id = (
-            SELECT deckId FROM DeckSettingsState
-        )
-    )
-);
+pronunciationIdAndName:
+SELECT id, name FROM CurrentPronunciation;
