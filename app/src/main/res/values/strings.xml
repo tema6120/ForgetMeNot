@@ -32,12 +32,12 @@
     <string name="text_answer_title_textview">Answer</string>
     <string name="default_name">Default</string>
     <string name="individual_name">Individual</string>
-    <string name="description_add_new_pronunciation">Add new pronunciation</string>
     <string name="description_save_pronunciation">Save pronunciation</string>
     <string name="title_pronunciation_name_input_dialog">Enter pronunciation name</string>
     <string name="error_message_empty_name">Name cannot be empty</string>
     <string name="error_message_occupied_name">This name is occupied</string>
-    <string name="description_rename_pronunciation_button">Rename Pronunciation</string>
-    <string name="description_delete_pronunciation_button">Delete Pronunciation</string>
+    <string name="description_rename_preset_button">Rename preset</string>
+    <string name="description_delete_preset_button">Delete preset</string>
+    <string name="description_add_new_preset">Add new preset</string>
     <string name="description_save_exercise_preferences">Save exercise preferences</string>
 </resources>

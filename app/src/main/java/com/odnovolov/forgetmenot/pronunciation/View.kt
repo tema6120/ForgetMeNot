@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.pronunciation
 
 import android.animation.LayoutTransition
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,7 +12,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -23,12 +21,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.*
 import com.odnovolov.forgetmenot.common.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.database.asBoolean
+import com.odnovolov.forgetmenot.common.PresetPopupCreator.PresetRecyclerAdapter
 import com.odnovolov.forgetmenot.pronunciation.LanguageRecyclerAdapter.ViewHolder
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationOrder.SetDialogText
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
-import kotlinx.android.synthetic.main.item_available_pronunciation.view.*
 import kotlinx.android.synthetic.main.item_language.view.*
 import leakcanary.LeakSentry
 import java.util.*
@@ -38,7 +35,7 @@ class PronunciationFragment : BaseFragment() {
     private val controller = PronunciationController()
     private val viewModel = PronunciationViewModel()
     private lateinit var choosePronunciationPopup: PopupWindow
-    private lateinit var pronunciationRecyclerAdapter: PronunciationRecyclerAdapter
+    private lateinit var pronunciationRecyclerAdapter: PresetRecyclerAdapter
     private lateinit var questionLanguagePopup: PopupWindow
     private lateinit var questionLanguageRecyclerAdapter: LanguageRecyclerAdapter
     private lateinit var answerLanguagePopup: PopupWindow
@@ -60,25 +57,30 @@ class PronunciationFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        choosePronunciationPopup = createChoosePronunciationPopup()
+        initChoosePronunciationPopup()
         questionLanguagePopup = createLanguagePopup()
         answerLanguagePopup = createLanguagePopup()
         initDialog()
         return inflater.inflate(R.layout.fragment_pronunciation, container, false)
     }
 
-    private fun createChoosePronunciationPopup() = PopupWindow(requireContext()).apply {
-        width = 256.dp
-        contentView = View.inflate(requireContext(), R.layout.popup_choose_pronunciation, null)
-        val addNewPronunciationButton: ImageButton =
-            contentView.findViewById(R.id.addNewPronunciationButton)
-        addNewPronunciationButton.setOnClickListener {
-            controller.dispatch(AddNewPronunciationButtonClicked)
-        }
-        setBackgroundDrawable(ColorDrawable(Color.WHITE))
-        elevation = 20f
-        isOutsideTouchable = true
-        isFocusable = true
+    private fun initChoosePronunciationPopup() {
+        choosePronunciationPopup = PresetPopupCreator.create(
+            context = requireContext(),
+            setPresetButtonClickListener = { id: Long ->
+                controller.dispatch(SetPronunciationButtonClicked(id))
+            },
+            renamePresetButtonClickListener = { id: Long ->
+                controller.dispatch(RenamePronunciationButtonClicked(id))
+            },
+            deletePresetButtonClickListener = { id: Long ->
+                controller.dispatch(DeletePronunciationButtonClicked(id))
+            },
+            addButtonClickListener = {
+                controller.dispatch(AddNewPronunciationButtonClicked)
+            },
+            getAdapter = { pronunciationRecyclerAdapter = it }
+        )
     }
 
     private fun createLanguagePopup() = PopupWindow(requireContext()).apply {
@@ -112,14 +114,6 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun initAdapters() {
-        pronunciationRecyclerAdapter = PronunciationRecyclerAdapter(
-            controller = controller,
-            dismissChoosePronunciationPopup = { choosePronunciationPopup.dismiss() }
-        )
-        val availablePronunciationsRecyclerView = choosePronunciationPopup.contentView
-            .findViewById<RecyclerView>(R.id.availablePronunciationsRecyclerView)
-        availablePronunciationsRecyclerView.adapter = pronunciationRecyclerAdapter
-
         questionLanguageRecyclerAdapter = LanguageRecyclerAdapter(
             onItemClick = { language: Locale? ->
                 controller.dispatch(QuestionLanguageSelected(language))
@@ -275,79 +269,6 @@ class PronunciationFragment : BaseFragment() {
 
     companion object {
         const val STATE_KEY_DIALOG = "pronunciationNameInputDialog"
-    }
-}
-
-class PronunciationRecyclerAdapter(
-    private val controller: PronunciationController,
-    private val dismissChoosePronunciationPopup: () -> Unit
-) :
-    ListAdapter<AvailablePronunciation, PronunciationRecyclerAdapter.ViewHolder>(DiffCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_available_pronunciation, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        with(viewHolder.itemView) {
-            val availablePronunciation = getItem(position)
-            pronunciationNameTextView.text = when {
-                availablePronunciation.id == 0L ->
-                    context.getString(R.string.default_name)
-                availablePronunciation.name.isEmpty() ->
-                    context.getString(R.string.individual_name)
-                else ->
-                    "'${availablePronunciation.name}'"
-            }
-            if (availablePronunciation.isSelected.asBoolean()) {
-                val backgroundColor =
-                    ContextCompat.getColor(context, R.color.selected_item_background)
-                pronunciationButton.setBackgroundColor(backgroundColor)
-            } else {
-                pronunciationButton.background = null
-            }
-            pronunciationButton.setOnClickListener {
-                controller.dispatch(PronunciationButtonClicked(availablePronunciation.id))
-                dismissChoosePronunciationPopup()
-            }
-            if (availablePronunciation.name.isNotEmpty()) {
-                renamePronunciationButton.visibility = VISIBLE
-                renamePronunciationButton.setOnClickListener {
-                    controller.dispatch(RenamePronunciationButtonClicked(availablePronunciation.id))
-                }
-                deletePronunciationButton.visibility = VISIBLE
-                deletePronunciationButton.setOnClickListener {
-                    controller.dispatch(DeletePronunciationButtonClicked(availablePronunciation.id))
-                }
-            } else {
-                renamePronunciationButton.visibility = GONE
-                renamePronunciationButton.setOnClickListener(null)
-                deletePronunciationButton.visibility = GONE
-                deletePronunciationButton.setOnClickListener(null)
-
-            }
-        }
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
-
-    class DiffCallback : DiffUtil.ItemCallback<AvailablePronunciation>() {
-        override fun areItemsTheSame(
-            oldItem: AvailablePronunciation,
-            newItem: AvailablePronunciation
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(
-            oldItem: AvailablePronunciation,
-            newItem: AvailablePronunciation
-        ): Boolean {
-            return oldItem == newItem
-        }
     }
 }
 

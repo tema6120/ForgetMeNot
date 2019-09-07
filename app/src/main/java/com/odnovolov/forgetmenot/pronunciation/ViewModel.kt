@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.pronunciation
 
 import com.odnovolov.forgetmenot.common.NameCheckResult
+import com.odnovolov.forgetmenot.common.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -29,8 +30,10 @@ class PronunciationViewModel {
     val isSavePronunciationButtonEnabled: Flow<Boolean> = currentPronunciation
         .map { it.id != 0L && it.name.isEmpty() }
 
-    val availablePronunciations: Flow<List<AvailablePronunciation>> = queries
-        .availablePronunciation()
+    val availablePronunciations: Flow<List<Preset>> = queries
+        .availablePronunciation(mapper = { id: Long, name: String, isSelected: Long ->
+            Preset(id, name, isSelected.asBoolean())
+        })
         .asFlow()
         .mapToList()
 

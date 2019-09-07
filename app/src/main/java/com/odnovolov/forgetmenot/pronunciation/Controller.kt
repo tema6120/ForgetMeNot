@@ -17,7 +17,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
                 setNameInputDialogStatus(VisibleToMakeIndividualPronunciationShared)
             }
 
-            is PronunciationButtonClicked -> {
+            is SetPronunciationButtonClicked -> {
                 queries.setPronunciationId(event.pronunciationId)
             }
 

@@ -11,19 +11,19 @@
             android:paddingBottom="8dp">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/availablePronunciationsRecyclerView"
+                android:id="@+id/presetRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="LinearLayoutManager" />
 
         <ImageButton
-                android:id="@+id/addNewPronunciationButton"
+                android:id="@+id/addPresetButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="8dp"
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_add_new_pronunciation"
+                android:contentDescription="@string/description_add_new_preset"
                 app:srcCompat="@drawable/ic_add_darkgray_24dp" />
 
     </LinearLayout>

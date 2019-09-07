@@ -4,7 +4,7 @@ import java.util.*
 
 sealed class PronunciationEvent {
     object SavePronunciationButtonClicked : PronunciationEvent()
-    class PronunciationButtonClicked(val pronunciationId: Long) : PronunciationEvent()
+    class SetPronunciationButtonClicked(val pronunciationId: Long) : PronunciationEvent()
     class RenamePronunciationButtonClicked(val pronunciationId: Long) : PronunciationEvent()
     class DeletePronunciationButtonClicked(val pronunciationId: Long) : PronunciationEvent()
     object AddNewPronunciationButtonClicked : PronunciationEvent()
