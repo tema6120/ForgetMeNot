@@ -78,7 +78,7 @@
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_save_exercise_preferences"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/presetNameTextView"
                 app:layout_constraintEnd_toStartOf="@+id/presetNameTextView"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -99,14 +99,14 @@
                 android:focusable="true"
                 android:maxLines="1"
                 android:padding="16dp"
-                android:text="My loooooooooooooong name"
                 android:textColor="@color/colorPrimary"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/saveExercisePreferencesButton"
-                app:layout_constraintTop_toTopOf="@+id/barrier" />
+                app:layout_constraintTop_toTopOf="@+id/barrier"
+                tools:text="Default" />
 
         <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier2"

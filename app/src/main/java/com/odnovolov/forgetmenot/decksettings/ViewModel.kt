@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class DeckSettingsViewModel {
     private val queries: DeckSettingsViewModelQueries = database.deckSettingsViewModelQueries
@@ -12,6 +13,14 @@ class DeckSettingsViewModel {
         .getDeckName()
         .asFlow()
         .mapToOne()
+
+    val exercisePreferenceIdAndName: Flow<ExercisePreferenceIdAndName> = queries
+        .exercisePreferenceIdAndName()
+        .asFlow()
+        .mapToOne()
+
+    val isSaveExercisePreferenceButtonEnabled: Flow<Boolean> = exercisePreferenceIdAndName
+        .map { it.id != 0L && it.name.isEmpty() }
 
     val randomOrder: Flow<Boolean> = queries
         .getRandomOrder()

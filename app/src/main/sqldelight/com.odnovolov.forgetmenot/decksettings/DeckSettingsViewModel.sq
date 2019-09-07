@@ -3,6 +3,9 @@ SELECT name FROM Deck WHERE id == (
     SELECT deckId FROM DeckSettingsState
 );
 
+exercisePreferenceIdAndName:
+SELECT id, name FROM CurrentExercisePreference;
+
 getRandomOrder:
 SELECT randomOrder FROM CurrentExercisePreference;
 

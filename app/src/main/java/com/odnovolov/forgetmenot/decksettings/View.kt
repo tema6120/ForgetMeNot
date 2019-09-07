@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.decksettings
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
@@ -49,16 +51,27 @@ class DeckSettingsFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             deckName.observe(onChange = deckNameTextView::setText)
+            exercisePreferenceIdAndName.observe {
+                val exercisePreferenceName = when {
+                    it.id == 0L -> getString(R.string.default_name)
+                    it.name.isEmpty() -> getString(R.string.individual_name)
+                    else -> "'${it.name}'"
+                }
+                presetNameTextView.text = exercisePreferenceName
+            }
+            isSaveExercisePreferenceButtonEnabled.observe { isEnabled ->
+                saveExercisePreferencesButton.visibility = if (isEnabled) VISIBLE else GONE
+            }
             randomOrder.observe(
                 onChange = randomOrderSwitch::setChecked,
                 afterFirst = {
                     randomOrderSwitch.jumpDrawablesToCurrentState()
-                    randomOrderSwitch.visibility = View.VISIBLE
+                    randomOrderSwitch.visibility = VISIBLE
                 })
             pronunciationIdAndName.observe {
                 selectedPronunciationTextView.text = when {
-                    it.id == 0L -> getString(R.string.default_pronunciation_name)
-                    it.name.isEmpty() -> getString(R.string.individual_pronunciation_name)
+                    it.id == 0L -> getString(R.string.default_name)
+                    it.name.isEmpty() -> getString(R.string.individual_name)
                     else -> "'${it.name}'"
                 }
             }

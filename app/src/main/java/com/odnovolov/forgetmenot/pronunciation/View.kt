@@ -9,16 +9,14 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.alpha
-import androidx.core.graphics.blue
-import androidx.core.graphics.green
-import androidx.core.graphics.red
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +32,6 @@ import kotlinx.android.synthetic.main.item_available_pronunciation.view.*
 import kotlinx.android.synthetic.main.item_language.view.*
 import leakcanary.LeakSentry
 import java.util.*
-
 
 class PronunciationFragment : BaseFragment() {
 
@@ -186,8 +183,8 @@ class PronunciationFragment : BaseFragment() {
         with(viewModel) {
             currentPronunciation.observe {
                 val pronunciationName = when {
-                    it.id == 0L -> getString(R.string.default_pronunciation_name)
-                    it.name.isEmpty() -> getString(R.string.individual_pronunciation_name)
+                    it.id == 0L -> getString(R.string.default_name)
+                    it.name.isEmpty() -> getString(R.string.individual_name)
                     else -> "'${it.name}'"
                 }
                 pronunciationTitleTextView.text = pronunciationName
@@ -195,8 +192,8 @@ class PronunciationFragment : BaseFragment() {
             isSavePronunciationButtonEnabled.observe(
                 onChange = { isSavePronunciationButtonEnabled ->
                     savePronunciationButton.visibility =
-                        if (isSavePronunciationButtonEnabled) View.VISIBLE
-                        else View.GONE
+                        if (isSavePronunciationButtonEnabled) VISIBLE
+                        else GONE
                 },
                 afterFirst = {
                     header.layoutTransition = LayoutTransition()
@@ -218,7 +215,8 @@ class PronunciationFragment : BaseFragment() {
             }
             selectedQuestionLanguage.observe { selectedQuestionLanguage ->
                 questionLanguageTextView.text =
-                    selectedQuestionLanguage?.displayLanguage ?: "Default"
+                    selectedQuestionLanguage?.displayLanguage
+                        ?: getString(R.string.default_name)
             }
             dropdownQuestionLanguages
                 .observe(onChange = questionLanguageRecyclerAdapter::submitList)
@@ -226,21 +224,21 @@ class PronunciationFragment : BaseFragment() {
                 onChange = questionAutoSpeakSwitch::setChecked,
                 afterFirst = {
                     questionAutoSpeakSwitch.jumpDrawablesToCurrentState()
-                    questionAutoSpeakSwitch.visibility = View.VISIBLE
+                    questionAutoSpeakSwitch.visibility = VISIBLE
                 }
             )
             selectedAnswerLanguage.observe { selectedAnswerLanguage ->
                 answerLanguageTextView.text =
-                    selectedAnswerLanguage?.displayLanguage ?: "Default"
+                    selectedAnswerLanguage?.displayLanguage
+                        ?: getString(R.string.default_name)
             }
             dropdownAnswerLanguages
                 .observe(onChange = answerLanguageRecyclerAdapter::submitList)
-
             answerAutoSpeak.observe(
                 onChange = answerAutoSpeakSwitch::setChecked,
                 afterFirst = {
                     answerAutoSpeakSwitch.jumpDrawablesToCurrentState()
-                    answerAutoSpeakSwitch.visibility = View.VISIBLE
+                    answerAutoSpeakSwitch.visibility = VISIBLE
                 }
             )
         }
@@ -297,9 +295,9 @@ class PronunciationRecyclerAdapter(
             val availablePronunciation = getItem(position)
             pronunciationNameTextView.text = when {
                 availablePronunciation.id == 0L ->
-                    context.getString(R.string.default_pronunciation_name)
+                    context.getString(R.string.default_name)
                 availablePronunciation.name.isEmpty() ->
-                    context.getString(R.string.individual_pronunciation_name)
+                    context.getString(R.string.individual_name)
                 else ->
                     "'${availablePronunciation.name}'"
             }
@@ -315,18 +313,18 @@ class PronunciationRecyclerAdapter(
                 dismissChoosePronunciationPopup()
             }
             if (availablePronunciation.name.isNotEmpty()) {
-                renamePronunciationButton.visibility = View.VISIBLE
+                renamePronunciationButton.visibility = VISIBLE
                 renamePronunciationButton.setOnClickListener {
                     controller.dispatch(RenamePronunciationButtonClicked(availablePronunciation.id))
                 }
-                deletePronunciationButton.visibility = View.VISIBLE
+                deletePronunciationButton.visibility = VISIBLE
                 deletePronunciationButton.setOnClickListener {
                     controller.dispatch(DeletePronunciationButtonClicked(availablePronunciation.id))
                 }
             } else {
-                renamePronunciationButton.visibility = View.GONE
+                renamePronunciationButton.visibility = GONE
                 renamePronunciationButton.setOnClickListener(null)
-                deletePronunciationButton.visibility = View.GONE
+                deletePronunciationButton.visibility = GONE
                 deletePronunciationButton.setOnClickListener(null)
 
             }
@@ -367,18 +365,16 @@ class LanguageRecyclerAdapter(
         viewHolder.itemView.apply {
             val dropdownLanguage: DropdownLanguage = getItem(position)
             if (dropdownLanguage.language == null) {
-                languageNameTextView.text = "Default"
+                languageNameTextView.text = context.getString(R.string.default_name)
                 flagTextView.text = null
             } else {
                 languageNameTextView.text = dropdownLanguage.language.displayLanguage
                 flagTextView.text = dropdownLanguage.language.toFlagEmoji()
             }
             if (dropdownLanguage.isSelected) {
-                val backgroundColor = ContextCompat.getColor(context, R.color.colorAccent)
-                val translucentColor = with(backgroundColor) {
-                    Color.argb(alpha / 2, red, green, blue)
-                }
-                languageFrame.setBackgroundColor(translucentColor)
+                val backgroundColor =
+                    ContextCompat.getColor(context, R.color.selected_item_background)
+                languageFrame.setBackgroundColor(backgroundColor)
             } else {
                 languageFrame.background = null
             }
