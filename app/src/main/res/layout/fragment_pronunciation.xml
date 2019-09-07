@@ -25,7 +25,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_save_pronunciation"
                 android:visibility="gone"
-                app:srcCompat="@drawable/ic_save_24dp"
+                app:srcCompat="@drawable/ic_save_darkgray_24dp"
                 tools:visibilisty="visible" />
 
         <TextView

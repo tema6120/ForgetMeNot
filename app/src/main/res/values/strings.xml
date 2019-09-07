@@ -39,4 +39,5 @@
     <string name="error_message_occupied_name">This name is occupied</string>
     <string name="description_rename_pronunciation_button">Rename Pronunciation</string>
     <string name="description_delete_pronunciation_button">Delete Pronunciation</string>
+    <string name="description_save_exercise_preferences">Save exercise preferences</string>
 </resources>

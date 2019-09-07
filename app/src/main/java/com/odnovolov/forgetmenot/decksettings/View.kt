@@ -35,10 +35,10 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        renameDeckLinearLayout.setOnClickListener {
+        renameDeckButton.setOnClickListener {
             controller.dispatch(RenameDeckButtonClicked)
         }
-        randomOrderLinearLayout.setOnClickListener {
+        randomButton.setOnClickListener {
             controller.dispatch(RandomOrderSwitchToggled)
         }
         pronunciationButton.setOnClickListener {
@@ -56,7 +56,7 @@ class DeckSettingsFragment : BaseFragment() {
                     randomOrderSwitch.visibility = View.VISIBLE
                 })
             pronunciationIdAndName.observe {
-                pronunciationTextView.text = when {
+                selectedPronunciationTextView.text = when {
                     it.id == 0L -> getString(R.string.default_pronunciation_name)
                     it.name.isEmpty() -> getString(R.string.individual_pronunciation_name)
                     else -> "'${it.name}'"
