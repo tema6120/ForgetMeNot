@@ -39,7 +39,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             }
 
             is DeleteExercisePreferenceButtonClicked -> {
-                //TODO
+                queries.deleteSharedExercisePreference(event.id)
             }
 
             AddNewExercisePreferenceButtonClicked -> {

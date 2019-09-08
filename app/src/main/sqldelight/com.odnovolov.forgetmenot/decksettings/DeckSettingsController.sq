@@ -32,6 +32,11 @@ SELECT
     END
 FROM DeckSettingsState;
 
+setCurrentExercisePreference:
+UPDATE Deck SET exercisePreferenceId = ? WHERE id == (
+    SELECT deckId FROM DeckSettingsState
+);
+
 renameCurrentPreset:
 UPDATE ExercisePreference
 SET name = (SELECT typedPresetName FROM DeckSettingsState)
@@ -42,10 +47,8 @@ UPDATE ExercisePreference
 SET name = (SELECT typedPresetName FROM DeckSettingsState)
 WHERE id == (SELECT renamePresetId FROM DeckSettingsState) AND name != '';
 
-setCurrentExercisePreference:
-UPDATE Deck SET exercisePreferenceId = ? WHERE id == (
-    SELECT deckId FROM DeckSettingsState
-);
+deleteSharedExercisePreference:
+DELETE FROM ExercisePreference WHERE id == ? AND name != '';
 
 toggleRandomOrder:
 UPDATE ExercisePreference

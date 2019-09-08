@@ -33,7 +33,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is DeletePronunciationButtonClicked -> {
-                queries.delete(event.pronunciationId)
+                queries.deleteSharedPronunciation(event.pronunciationId)
             }
 
             AddNewPronunciationButtonClicked -> {

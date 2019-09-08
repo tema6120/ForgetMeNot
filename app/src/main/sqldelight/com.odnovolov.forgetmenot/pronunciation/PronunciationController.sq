@@ -70,8 +70,8 @@ UPDATE Pronunciation
 SET name = (SELECT typedPronunciationName FROM PronunciationState)
 WHERE id == (SELECT id FROM CurrentPronunciation);
 
-delete:
-DELETE FROM Pronunciation WHERE id == ?;
+deleteSharedPronunciation:
+DELETE FROM Pronunciation WHERE id == ? AND name != '';
 
 createNewShared:
 INSERT INTO Pronunciation(name)
