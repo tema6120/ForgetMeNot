@@ -55,7 +55,7 @@ UPDATE Pronunciation SET answerAutoSpeak = ? WHERE id == (
     SELECT id FROM CurrentPronunciation
 );
 
-setPronunciationId:
+setCurrentPronunciation:
 UPDATE ExercisePreference SET pronunciationId = ? WHERE id == (
     SELECT id FROM CurrentExercisePreference
 );

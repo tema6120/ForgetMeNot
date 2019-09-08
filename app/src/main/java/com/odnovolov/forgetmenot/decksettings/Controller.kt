@@ -27,7 +27,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             }
 
             is SetExercisePreferenceButtonClicked -> {
-                //TODO
+                queries.setCurrentExercisePreference(event.id)
             }
 
             is RenameExercisePreferenceButtonClicked -> {

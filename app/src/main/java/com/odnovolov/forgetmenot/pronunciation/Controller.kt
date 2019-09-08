@@ -19,7 +19,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is SetPronunciationButtonClicked -> {
-                queries.setPronunciationId(event.pronunciationId)
+                queries.setCurrentPronunciation(event.pronunciationId)
             }
 
             is RenamePronunciationButtonClicked -> {
