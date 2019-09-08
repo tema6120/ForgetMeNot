@@ -31,7 +31,7 @@ class PronunciationViewModel {
         .map { it.id != 0L && it.name.isEmpty() }
 
     val availablePronunciations: Flow<List<Preset>> = queries
-        .availablePronunciation(mapper = { id: Long, name: String, isSelected: Long ->
+        .getAvailablePronunciations(mapper = { id: Long, name: String, isSelected: Long ->
             Preset(id, name, isSelected.asBoolean())
         })
         .asFlow()

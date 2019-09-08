@@ -6,6 +6,20 @@ SELECT name FROM Deck WHERE id == (
 exercisePreferenceIdAndName:
 SELECT id, name FROM CurrentExercisePreference;
 
+getAvailableExercisePreferences:
+SELECT id, name, CASE
+                     WHEN id == (SELECT id FROM CurrentExercisePreference)
+                         THEN 1
+                     ELSE 0
+                 END AS isSelected
+FROM ExercisePreference
+WHERE id == 0
+   OR id == (SELECT id FROM CurrentExercisePreference)
+   OR name != ''
+ORDER BY
+    id = 0 DESC,
+    name = '' DESC;
+
 getRandomOrder:
 SELECT randomOrder FROM CurrentExercisePreference;
 

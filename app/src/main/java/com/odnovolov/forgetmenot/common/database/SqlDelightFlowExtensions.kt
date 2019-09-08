@@ -1,15 +1,10 @@
 package com.odnovolov.forgetmenot.common.database
 
 import com.squareup.sqldelight.Query
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.CONFLATED
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
-import kotlin.jvm.JvmName
-import kotlin.jvm.JvmOverloads
 
 fun <T : Any> Query<T>.asFlow(): Flow<Query<T>> = flow {
     emit(this@asFlow)

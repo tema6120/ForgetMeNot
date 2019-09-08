@@ -1,7 +1,7 @@
 getCurrentPronunciation:
 SELECT * FROM CurrentPronunciation;
 
-availablePronunciation:
+getAvailablePronunciations:
 SELECT id, name, CASE
                      WHEN id = (SELECT id FROM CurrentPronunciation)
                          THEN 1

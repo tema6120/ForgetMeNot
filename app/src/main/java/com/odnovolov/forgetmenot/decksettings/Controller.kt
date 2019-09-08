@@ -10,7 +10,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
     private val queries: DeckSettingsControllerQueries = database.deckSettingsControllerQueries
 
     override fun handleEvent(event: DeckSettingsEvent) {
-        return when (event) {
+        when (event) {
             RenameDeckButtonClicked -> {
                 issueOrder(ShowRenameDeckDialog)
             }

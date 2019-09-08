@@ -1,8 +1,7 @@
 package com.odnovolov.forgetmenot.decksettings
 
-import com.odnovolov.forgetmenot.common.database.asFlow
-import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.database.mapToOne
+import com.odnovolov.forgetmenot.common.PresetPopupCreator.Preset
+import com.odnovolov.forgetmenot.common.database.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -21,6 +20,13 @@ class DeckSettingsViewModel {
 
     val isSaveExercisePreferenceButtonEnabled: Flow<Boolean> = exercisePreferenceIdAndName
         .map { it.id != 0L && it.name.isEmpty() }
+
+    val availableExercisePreferences: Flow<List<Preset>> = queries
+        .getAvailableExercisePreferences(mapper = { id: Long, name: String, isSelected: Long ->
+            Preset(id, name, isSelected.asBoolean())
+        })
+        .asFlow()
+        .mapToList()
 
     val randomOrder: Flow<Boolean> = queries
         .getRandomOrder()
