@@ -6,7 +6,8 @@ CREATE TEMPORARY TABLE DeckSettingsState (
     deckId INTEGER NOT NULL,
     presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
     typedPresetName TEXT NOT NULL DEFAULT '',
-    nameCheckResult TEXT -- AS NameCheckStatus
+    nameCheckResult TEXT, -- AS NameCheckStatus
+    renamePresetId INTEGER
 );
 
 initDeckSettingsState:

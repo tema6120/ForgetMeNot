@@ -10,8 +10,7 @@ import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.nameCheckResultAdapter
 import com.odnovolov.forgetmenot.common.database.presetNameInputDialogStatusAdapter
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsEvent.*
-import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.NavigateToPronunciation
-import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.ShowRenameDeckDialog
+import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.*
 
 class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrder>() {
     private val queries: DeckSettingsControllerQueries = database.deckSettingsControllerQueries
@@ -31,7 +30,12 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             }
 
             is RenameExercisePreferenceButtonClicked -> {
-                //TODO
+                val name = queries.getExercisePreferenceNameById(event.id).executeAsOneOrNull()
+                if (!name.isNullOrEmpty()) {
+                    queries.setRenamePresetId(event.id)
+                    setPresetNameInputDialogStatus(VisibleToRenameSharedPreset)
+                    issueOrder(SetDialogText(name))
+                }
             }
 
             is DeleteExercisePreferenceButtonClicked -> {
@@ -57,7 +61,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
 
                         }
                         VisibleToRenameSharedPreset -> {
-
+                            queries.renameSharedPreset()
                         }
                         else -> {
                         }

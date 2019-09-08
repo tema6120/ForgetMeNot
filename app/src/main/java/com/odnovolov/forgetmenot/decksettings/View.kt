@@ -19,8 +19,7 @@ import com.odnovolov.forgetmenot.common.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.PresetPopupCreator.PresetRecyclerAdapter
 import com.odnovolov.forgetmenot.common.createInputDialog
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsEvent.*
-import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.NavigateToPronunciation
-import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.ShowRenameDeckDialog
+import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import leakcanary.LeakSentry
 
@@ -159,7 +158,11 @@ class DeckSettingsFragment : BaseFragment() {
                 Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT)
                     .show()
             }
-            is NavigateToPronunciation -> {
+            is SetDialogText -> {
+                presetNameInput.setText(order.text)
+                presetNameInput.selectAll()
+            }
+            NavigateToPronunciation -> {
                 findNavController()
                     .navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
             }

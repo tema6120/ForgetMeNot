@@ -10,6 +10,12 @@ UPDATE DeckSettingsState SET typedPresetName = ?;
 setNameCheckResult:
 UPDATE DeckSettingsState SET nameCheckResult = ?;
 
+setRenamePresetId:
+UPDATE DeckSettingsState SET renamePresetId = ?;
+
+getExercisePreferenceNameById:
+SELECT name FROM ExercisePreference WHERE id == ?;
+
 isTypedPresetNameEmpty:
 SELECT
     CASE
@@ -30,6 +36,11 @@ renameCurrentPreset:
 UPDATE ExercisePreference
 SET name = (SELECT typedPresetName FROM DeckSettingsState)
 WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+renameSharedPreset:
+UPDATE ExercisePreference
+SET name = (SELECT typedPresetName FROM DeckSettingsState)
+WHERE id == (SELECT renamePresetId FROM DeckSettingsState) AND name != '';
 
 setCurrentExercisePreference:
 UPDATE Deck SET exercisePreferenceId = ? WHERE id == (
