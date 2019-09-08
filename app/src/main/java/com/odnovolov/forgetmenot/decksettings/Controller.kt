@@ -43,7 +43,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             }
 
             AddNewExercisePreferenceButtonClicked -> {
-                //TODO
+                setPresetNameInputDialogStatus(VisibleToCreateNewSharedPreset)
             }
 
             is DialogTextChanged -> {
@@ -58,7 +58,8 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                             queries.renameCurrentPreset()
                         }
                         VisibleToCreateNewSharedPreset -> {
-
+                            queries.createNewSharedExercisePreference()
+                            queries.bindNewExercisePreferenceToDeck()
                         }
                         VisibleToRenameSharedPreset -> {
                             queries.renameSharedPreset()
