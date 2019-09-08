@@ -41,8 +41,8 @@ class PronunciationFragment : BaseFragment() {
     private lateinit var answerLanguagePopup: PopupWindow
     private lateinit var answerLanguageRecyclerAdapter: LanguageRecyclerAdapter
     private lateinit var speaker: Speaker
-    private lateinit var nameInputDialog: AlertDialog
-    private lateinit var nameInput: EditText
+    private lateinit var presetNameInputDialog: AlertDialog
+    private lateinit var presetNameInput: EditText
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -92,9 +92,9 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun initDialog() {
-        nameInputDialog = createInputDialog(
+        presetNameInputDialog = createInputDialog(
             title = getString(R.string.title_pronunciation_name_input_dialog),
-            takeEditText = { nameInput = it },
+            takeEditText = { presetNameInput = it },
             onTextChanged = { controller.dispatch(DialogTextChanged(it.toString())) },
             onPositiveClick = { controller.dispatch(PositiveDialogButtonClicked) },
             onNegativeClick = { controller.dispatch(NegativeDialogButtonClicked) }
@@ -195,13 +195,13 @@ class PronunciationFragment : BaseFragment() {
             availablePronunciations.observe(onChange = pronunciationRecyclerAdapter::submitList)
             isDialogVisible.observe { isDialogVisible ->
                 if (isDialogVisible) {
-                    nameInputDialog.show()
+                    presetNameInputDialog.show()
                 } else {
-                    nameInputDialog.dismiss()
+                    presetNameInputDialog.dismiss()
                 }
             }
             dialogInputCheckResult.observe {
-                nameInput.error = when (it) {
+                presetNameInput.error = when (it) {
                     OK -> null
                     EMPTY -> getString(R.string.error_message_empty_name)
                     OCCUPIED -> getString(R.string.error_message_occupied_name)
@@ -241,8 +241,8 @@ class PronunciationFragment : BaseFragment() {
     private fun executeOrder(order: PronunciationOrder) {
         when (order) {
             is SetDialogText -> {
-                nameInput.setText(order.text)
-                nameInput.selectAll()
+                presetNameInput.setText(order.text)
+                presetNameInput.selectAll()
             }
         }
     }
@@ -251,13 +251,13 @@ class PronunciationFragment : BaseFragment() {
         super.onViewStateRestored(savedInstanceState)
         val dialogState = savedInstanceState?.getBundle(STATE_KEY_DIALOG)
         if (dialogState != null) {
-            nameInputDialog.onRestoreInstanceState(dialogState)
+            presetNameInputDialog.onRestoreInstanceState(dialogState)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(STATE_KEY_DIALOG, nameInputDialog.onSaveInstanceState())
+        outState.putBundle(STATE_KEY_DIALOG, presetNameInputDialog.onSaveInstanceState())
     }
 
     override fun onDestroy() {

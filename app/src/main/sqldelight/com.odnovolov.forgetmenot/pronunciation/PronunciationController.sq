@@ -1,11 +1,11 @@
 setAvailableLanguages:
 UPDATE PronunciationState SET availableLanguages = ?;
 
-getNameInputDialogStatus:
-SELECT nameInputDialogStatus FROM PronunciationState;
+getPresetNameInputDialogStatus:
+SELECT presetNameInputDialogStatus FROM PronunciationState;
 
-setNameInputDialogStatus:
-UPDATE PronunciationState SET nameInputDialogStatus = ?;
+setPresetNameInputDialogStatus:
+UPDATE PronunciationState SET presetNameInputDialogStatus = ?;
 
 setTypedPronunciationName:
 UPDATE PronunciationState SET typedPronunciationName = ?;

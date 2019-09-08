@@ -18,7 +18,7 @@ ORDER BY
 isDialogVisible:
 SELECT
     CASE
-        WHEN nameInputDialogStatus = 'Invisible' THEN 0
+        WHEN presetNameInputDialogStatus = 'Invisible' THEN 0
         ELSE 1
     END
 FROM PronunciationState;

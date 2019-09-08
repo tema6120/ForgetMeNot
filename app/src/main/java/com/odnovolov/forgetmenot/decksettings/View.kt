@@ -7,13 +7,17 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.BaseFragment
+import com.odnovolov.forgetmenot.common.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.createInputDialog
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.NavigateToPronunciation
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.ShowRenameDeckDialog
@@ -26,6 +30,8 @@ class DeckSettingsFragment : BaseFragment() {
     private val controller = DeckSettingsController()
     private lateinit var chooseExercisePreferencePopup: PopupWindow
     private lateinit var exercisePreferenceAdapter: PresetRecyclerAdapter
+    private lateinit var presetNameInputDialog: AlertDialog
+    private lateinit var presetNameInput: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +39,7 @@ class DeckSettingsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         initChooseExercisePreferencePopup()
+        initDialog()
         return inflater.inflate(R.layout.fragment_deck_settings, container, false)
     }
 
@@ -55,6 +62,16 @@ class DeckSettingsFragment : BaseFragment() {
         )
     }
 
+    private fun initDialog() {
+        presetNameInputDialog = createInputDialog(
+            title = getString(R.string.title_exercise_preference_name_input_dialog),
+            takeEditText = { presetNameInput = it },
+            onTextChanged = { controller.dispatch(DialogTextChanged(it.toString())) },
+            onPositiveClick = { controller.dispatch(PositiveDialogButtonClicked) },
+            onNegativeClick = { controller.dispatch(NegativeDialogButtonClicked) }
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
@@ -65,6 +82,9 @@ class DeckSettingsFragment : BaseFragment() {
     private fun setupView() {
         renameDeckButton.setOnClickListener {
             controller.dispatch(RenameDeckButtonClicked)
+        }
+        saveExercisePreferencesButton.setOnClickListener {
+            controller.dispatch(SaveExercisePreferenceButtonClicked)
         }
         presetNameTextView.setOnClickListener {
             showChooseExercisePreferencePopup()
@@ -103,6 +123,20 @@ class DeckSettingsFragment : BaseFragment() {
                 saveExercisePreferencesButton.visibility = if (isEnabled) VISIBLE else GONE
             }
             availableExercisePreferences.observe(onChange = exercisePreferenceAdapter::submitList)
+            isDialogVisible.observe { isDialogVisible ->
+                if (isDialogVisible) {
+                    presetNameInputDialog.show()
+                } else {
+                    presetNameInputDialog.dismiss()
+                }
+            }
+            dialogInputCheckResult.observe {
+                presetNameInput.error = when (it) {
+                    OK -> null
+                    EMPTY -> getString(R.string.error_message_empty_name)
+                    OCCUPIED -> getString(R.string.error_message_occupied_name)
+                }
+            }
             randomOrder.observe(
                 onChange = randomOrderSwitch::setChecked,
                 afterFirst = {
@@ -132,9 +166,26 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val dialogState = savedInstanceState?.getBundle(STATE_KEY_DIALOG)
+        if (dialogState != null) {
+            presetNameInputDialog.onRestoreInstanceState(dialogState)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle(STATE_KEY_DIALOG, presetNameInputDialog.onSaveInstanceState())
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
         LeakSentry.refWatcher.watch(this)
+    }
+
+    companion object {
+        const val STATE_KEY_DIALOG = "presetNameInputDialog"
     }
 }

@@ -20,6 +20,17 @@ ORDER BY
     id = 0 DESC,
     name = '' DESC;
 
+isDialogVisible:
+SELECT
+    CASE
+        WHEN presetNameInputDialogStatus = 'Invisible' THEN 0
+        ELSE 1
+    END
+FROM DeckSettingsState;
+
+getDialogInputCheckResult:
+SELECT nameCheckResult FROM DeckSettingsState;
+
 getRandomOrder:
 SELECT randomOrder FROM CurrentExercisePreference;
 

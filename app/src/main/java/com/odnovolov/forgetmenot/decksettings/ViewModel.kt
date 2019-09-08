@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.decksettings
 
+import com.odnovolov.forgetmenot.common.NameCheckResult
 import com.odnovolov.forgetmenot.common.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +28,20 @@ class DeckSettingsViewModel {
         })
         .asFlow()
         .mapToList()
+
+    val isDialogVisible: Flow<Boolean> = queries
+        .isDialogVisible()
+        .asFlow()
+        .mapToOne()
+        .map { it.asBoolean() }
+
+    val dialogInputCheckResult: Flow<NameCheckResult> = queries
+        .getDialogInputCheckResult(mapper = { databaseValue: String? ->
+            if (databaseValue == null) NameCheckResult.OK
+            else nameCheckResultAdapter.decode(databaseValue)
+        })
+        .asFlow()
+        .mapToOne()
 
     val randomOrder: Flow<Boolean> = queries
         .getRandomOrder()

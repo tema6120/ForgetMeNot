@@ -1,3 +1,36 @@
+getPresetNameInputDialogStatus:
+SELECT presetNameInputDialogStatus FROM DeckSettingsState;
+
+setPresetNameInputDialogStatus:
+UPDATE DeckSettingsState SET presetNameInputDialogStatus = ?;
+
+setTypedPresetName:
+UPDATE DeckSettingsState SET typedPresetName = ?;
+
+setNameCheckResult:
+UPDATE DeckSettingsState SET nameCheckResult = ?;
+
+isTypedPresetNameEmpty:
+SELECT
+    CASE
+        WHEN typedPresetName == '' THEN 1
+        ELSE 0
+    END
+FROM DeckSettingsState;
+
+isTypedPresetNameOccupied:
+SELECT
+    CASE
+        WHEN typedPresetName IN (SELECT name FROM Pronunciation) THEN 1
+        ELSE 0
+    END
+FROM DeckSettingsState;
+
+renameCurrentPreset:
+UPDATE ExercisePreference
+SET name = (SELECT typedPresetName FROM DeckSettingsState)
+WHERE id == (SELECT id FROM CurrentExercisePreference);
+
 toggleRandomOrder:
 UPDATE ExercisePreference
 SET randomOrder = (CASE WHEN randomOrder == 1 THEN 0 ELSE 1 END)

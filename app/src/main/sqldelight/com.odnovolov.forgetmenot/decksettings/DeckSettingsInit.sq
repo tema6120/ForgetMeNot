@@ -3,11 +3,14 @@ DROP TABLE IF EXISTS DeckSettingsState;
 
 createTableDeckSettingsState:
 CREATE TEMPORARY TABLE DeckSettingsState (
-    deckId INTEGER NOT NULL
+    deckId INTEGER NOT NULL,
+    presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
+    typedPresetName TEXT NOT NULL DEFAULT '',
+    nameCheckResult TEXT -- AS NameCheckStatus
 );
 
 initDeckSettingsState:
-INSERT INTO DeckSettingsState VALUES (?);
+INSERT INTO DeckSettingsState(deckId) VALUES (?);
 
 createViewCurrentExercisePreference:
 CREATE TEMPORARY VIEW IF NOT EXISTS CurrentExercisePreference

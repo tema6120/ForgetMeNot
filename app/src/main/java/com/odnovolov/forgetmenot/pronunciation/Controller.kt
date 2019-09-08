@@ -3,9 +3,10 @@ package com.odnovolov.forgetmenot.pronunciation
 import com.odnovolov.forgetmenot.common.BaseController
 import com.odnovolov.forgetmenot.common.NameCheckResult
 import com.odnovolov.forgetmenot.common.NameCheckResult.*
+import com.odnovolov.forgetmenot.common.PresetNameInputDialogStatus
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
-import com.odnovolov.forgetmenot.pronunciation.NameInputDialogStatus.*
+import com.odnovolov.forgetmenot.common.PresetNameInputDialogStatus.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationOrder.SetDialogText
 
 class PronunciationController : BaseController<PronunciationEvent, PronunciationOrder>() {
@@ -14,7 +15,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
     override fun handleEvent(event: PronunciationEvent) {
         when (event) {
             SavePronunciationButtonClicked -> {
-                setNameInputDialogStatus(VisibleToMakeIndividualPronunciationShared)
+                setPresetNameInputDialogStatus(VisibleToMakeIndividualPresetAsShared)
             }
 
             is SetPronunciationButtonClicked -> {
@@ -26,7 +27,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
                     .executeAsOneOrNull()
                 if (!name.isNullOrEmpty()) {
                     queries.setRenamePronunciationId(event.pronunciationId)
-                    setNameInputDialogStatus(VisibleToRenameSharedPronunciation)
+                    setPresetNameInputDialogStatus(VisibleToRenameSharedPreset)
                     issueOrder(SetDialogText(name))
                 }
             }
@@ -36,7 +37,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             AddNewPronunciationButtonClicked -> {
-                setNameInputDialogStatus(VisibleToCreateNewSharedPronunciation)
+                setPresetNameInputDialogStatus(VisibleToCreateNewSharedPreset)
             }
 
             is DialogTextChanged -> {
@@ -47,25 +48,25 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             PositiveDialogButtonClicked -> {
                 if (checkName() === OK) {
                     when (getNameInputDialogStatus()) {
-                        VisibleToMakeIndividualPronunciationShared -> {
+                        VisibleToMakeIndividualPresetAsShared -> {
                             queries.renameCurrent()
                         }
-                        VisibleToCreateNewSharedPronunciation -> {
+                        VisibleToCreateNewSharedPreset -> {
                             queries.createNewShared()
                             queries.bindNewPronunciationToCurrentExercisePreference()
                         }
-                        VisibleToRenameSharedPronunciation -> {
+                        VisibleToRenameSharedPreset -> {
                             queries.renameShared()
                         }
                         else -> {
                         }
                     }
-                    setNameInputDialogStatus(Invisible)
+                    setPresetNameInputDialogStatus(Invisible)
                 }
             }
 
             NegativeDialogButtonClicked -> {
-                setNameInputDialogStatus(Invisible)
+                setPresetNameInputDialogStatus(Invisible)
             }
 
             is AvailableLanguagesUpdated -> {
@@ -91,14 +92,14 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
         }
     }
 
-    private fun setNameInputDialogStatus(status: NameInputDialogStatus) {
-        val databaseValue = nameInputDialogStatusAdapter.encode(status)
-        queries.setNameInputDialogStatus(databaseValue)
+    private fun setPresetNameInputDialogStatus(status: PresetNameInputDialogStatus) {
+        val databaseValue = presetNameInputDialogStatusAdapter.encode(status)
+        queries.setPresetNameInputDialogStatus(databaseValue)
     }
 
-    private fun getNameInputDialogStatus(): NameInputDialogStatus {
-        val databaseValue = queries.getNameInputDialogStatus().executeAsOne()
-        return nameInputDialogStatusAdapter.decode(databaseValue)
+    private fun getNameInputDialogStatus(): PresetNameInputDialogStatus {
+        val databaseValue = queries.getPresetNameInputDialogStatus().executeAsOne()
+        return presetNameInputDialogStatusAdapter.decode(databaseValue)
     }
 
     private fun checkName(): NameCheckResult {
