@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.exercise
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,20 +11,25 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.BaseFragment
-import com.odnovolov.forgetmenot.common.database.database
+import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.MoveToNextPosition
+import com.odnovolov.forgetmenot.exercise.ExerciseOrder.Speak
 import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import leakcanary.LeakSentry
 
 class ExerciseFragment : BaseFragment() {
 
     private val controller = ExerciseController()
     private val viewModel = ExerciseViewModel()
+    private lateinit var speaker: Speaker
     private lateinit var adapter: ExerciseCardsAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        speaker = Speaker(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +43,7 @@ class ExerciseFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        takeOrders()
+        controller.orders.forEach(viewScope!!, ::executeOrder)
     }
 
     private fun setupView() {
@@ -58,6 +64,7 @@ class ExerciseFragment : BaseFragment() {
     private fun setupControlPanel() {
         notAskButton.setOnClickListener { controller.dispatch(NotAskButtonClicked) }
         undoButton.setOnClickListener { controller.dispatch(UndoButtonClicked) }
+        speakButton.setOnClickListener { controller.dispatch(SpeakButtonClicked) }
     }
 
     private fun observeViewModel() {
@@ -72,15 +79,14 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun takeOrders() {
-        viewScope!!.launch {
-            for (order in controller.orders) {
-                when (order) {
-                    MoveToNextPosition -> {
-                        val nextPosition = exerciseViewPager.currentItem + 1
-                        exerciseViewPager.setCurrentItem(nextPosition, true)
-                    }
-                }
+    private fun executeOrder(order: ExerciseOrder) {
+        when (order) {
+            MoveToNextPosition -> {
+                val nextPosition = exerciseViewPager.currentItem + 1
+                exerciseViewPager.setCurrentItem(nextPosition, true)
+            }
+            is Speak -> {
+                speaker.speak(order.text, order.language)
             }
         }
     }
@@ -98,6 +104,7 @@ class ExerciseFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
+        speaker.shutdown()
         LeakSentry.refWatcher.watch(this)
     }
 }

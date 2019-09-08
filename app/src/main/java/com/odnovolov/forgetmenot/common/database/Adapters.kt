@@ -74,3 +74,5 @@ val presetNameInputDialogStatusAdapter =
     }
 
 fun Long.asBoolean() = this == 1L
+
+fun Boolean.toDatabaseValue() = if (this) 1L else 0L

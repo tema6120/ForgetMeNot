@@ -46,4 +46,23 @@
             app:layout_constraintTop_toTopOf="@+id/controlPanel"
             app:srcCompat="@drawable/ic_undo_white_24dp" />
 
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="notAskButton,undoButton" />
+
+    <ImageButton
+            android:id="@+id/speakButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_speak_button"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
+            app:layout_constraintTop_toTopOf="@+id/controlPanel"
+            app:layout_constraintStart_toEndOf="@id/barrier5"
+            app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

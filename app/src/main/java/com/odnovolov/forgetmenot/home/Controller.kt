@@ -19,7 +19,9 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 with(database.exerciseInitQueries) {
                     dropTableExerciseState()
                     createTableExerciseState()
-                    initExerciseState()
+                    initExerciseState(event.deckId)
+                    createViewCurrentExerciseCard()
+                    createViewExercisePronunciation()
                 }
                 with(database.exerciseCardsInitQueries) {
                     dropTableExerciseCardStates()

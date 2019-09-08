@@ -5,4 +5,18 @@ setCurrentCardId:
 UPDATE ExerciseState SET currentCardId = ?;
 
 setLearnedForCurrentCard:
-UPDATE Card SET isLearned = ? WHERE id = (SELECT currentCardId FROM ExerciseState);
+UPDATE Card SET isLearned = ? WHERE id == (SELECT currentCardId FROM ExerciseState);
+
+isCurrentExerciseCardAnswered:
+SELECT isAnswered FROM CurrentExerciseCard;
+
+getTextToSpeakAndLanguage:
+SELECT
+    CASE
+        WHEN :isAnswered == 1 THEN (SELECT answer FROM CurrentExerciseCard)
+        ELSE (SELECT question FROM CurrentExerciseCard)
+    END AS textToSpeak,
+    CASE
+        WHEN :isAnswered == 1 THEN (SELECT answerLanguage FROM ExercisePronunciation)
+        ELSE (SELECT questionLanguage FROM ExercisePronunciation)
+    END AS language;

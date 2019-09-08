@@ -3,8 +3,21 @@ DROP TABLE IF EXISTS ExerciseState;
 
 createTableExerciseState:
 CREATE TEMPORARY TABLE ExerciseState (
-    currentCardId INTEGER DEFAULT NULL
+    currentCardId INTEGER DEFAULT NULL,
+    pronunciationId INTEGER NOT NULL
 );
 
 initExerciseState:
-INSERT INTO ExerciseState DEFAULT VALUES;
+INSERT INTO ExerciseState(pronunciationId)
+SELECT pronunciationId FROM ExercisePreference WHERE id == (
+    SELECT exercisePreferenceId FROM Deck WHERE id == ?
+);
+
+createViewCurrentExerciseCard:
+CREATE TEMPORARY VIEW IF NOT EXISTS CurrentExerciseCard
+AS SELECT * FROM ExerciseCardStates LEFT JOIN Card ON ExerciseCardStates.cardId == Card.id
+WHERE Card.id == (SELECT currentCardId FROM ExerciseState);
+
+createViewExercisePronunciation:
+CREATE TEMPORARY VIEW IF NOT EXISTS ExercisePronunciation
+AS SELECT * FROM Pronunciation WHERE id == (SELECT pronunciationId FROM ExerciseState);
