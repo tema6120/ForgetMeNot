@@ -33,6 +33,9 @@ fun initDatabase(applicationContext: Context) {
         DeckSorting.Adapter(
             deckSortingAdapter = EnumColumnAdapter()
         ),
+        ExercisePreference.Adapter(
+            testMethodAdapter = testMethodAdapter
+        ),
         Pronunciation.Adapter(
             questionLanguageAdapter = localeAdapter,
             answerLanguageAdapter = localeAdapter

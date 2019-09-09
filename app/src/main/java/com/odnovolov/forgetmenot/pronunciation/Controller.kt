@@ -1,12 +1,12 @@
 package com.odnovolov.forgetmenot.pronunciation
 
-import com.odnovolov.forgetmenot.common.BaseController
-import com.odnovolov.forgetmenot.common.NameCheckResult
-import com.odnovolov.forgetmenot.common.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.PresetNameInputDialogStatus
+import com.odnovolov.forgetmenot.common.base.BaseController
+import com.odnovolov.forgetmenot.common.entity.NameCheckResult
+import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
-import com.odnovolov.forgetmenot.common.PresetNameInputDialogStatus.*
+import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationOrder.SetDialogText
 
 class PronunciationController : BaseController<PronunciationEvent, PronunciationOrder>() {

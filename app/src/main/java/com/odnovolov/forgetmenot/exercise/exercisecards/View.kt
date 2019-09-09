@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.BaseFragment
+import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardEvent.ShowAnswerButtonClicked
 import kotlinx.android.synthetic.main.fragment_exercise_card.*
 import leakcanary.LeakSentry

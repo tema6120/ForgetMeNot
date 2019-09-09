@@ -40,15 +40,18 @@ BEFORE UPDATE ON ExercisePreference
 WHEN old.id == 0 AND (new.id != 0
                      OR new.name != ''
                      OR new.randomOrder != 1
+                     OR new.testMethod != 1
                      OR new.pronunciationId != 0)
 BEGIN
     INSERT INTO ExercisePreference(
         name,
         randomOrder,
+        testMethod,
         pronunciationId
     ) VALUES (
         new.name,
         new.randomOrder,
+        new.testMethod,
         new.pronunciationId
     );
 
@@ -64,6 +67,7 @@ CREATE TEMPORARY TRIGGER IF NOT EXISTS setDefaultExercisePreferenceIfNeed
 BEFORE UPDATE ON ExercisePreference
 WHEN new.name == ''
  AND new.randomOrder == 1
+ AND new.testMethod == 1
  AND new.pronunciationId == 0
 BEGIN
     UPDATE Deck

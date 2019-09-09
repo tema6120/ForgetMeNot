@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.exercise.exercisecards
 
-import com.odnovolov.forgetmenot.common.BaseController
+import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardEvent.ShowAnswerButtonClicked
 

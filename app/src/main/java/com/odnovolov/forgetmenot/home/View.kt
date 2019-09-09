@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.BaseFragment
+import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.home.DeckPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.home.HomeEvent.*
 import com.odnovolov.forgetmenot.home.HomeOrder.*

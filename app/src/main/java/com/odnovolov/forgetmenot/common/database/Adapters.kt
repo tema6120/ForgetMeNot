@@ -1,8 +1,9 @@
 package com.odnovolov.forgetmenot.common.database
 
-import com.odnovolov.forgetmenot.common.NameCheckResult
+import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.home.adddeck.Stage
-import com.odnovolov.forgetmenot.common.PresetNameInputDialogStatus
+import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
+import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.squareup.sqldelight.ColumnAdapter
 import java.util.*
 
@@ -72,6 +73,16 @@ val presetNameInputDialogStatusAdapter =
         override fun decode(databaseValue: String): PresetNameInputDialogStatus =
             PresetNameInputDialogStatus.valueOf(databaseValue)
     }
+
+val testMethodAdapter = object : ColumnAdapter<TestMethod, Long> {
+    override fun encode(value: TestMethod): Long {
+        return value.ordinal.toLong()
+    }
+
+    override fun decode(databaseValue: Long): TestMethod {
+        return TestMethod.values()[databaseValue.toInt()]
+    }
+}
 
 fun Long.asBoolean() = this == 1L
 

@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.BaseBottomSheetDialogFragment
+import com.odnovolov.forgetmenot.common.base.BaseBottomSheetDialogFragment
 import com.odnovolov.forgetmenot.home.decksorting.DeckSorting.*
 import com.odnovolov.forgetmenot.home.decksorting.DeckSortingEvent.SortByButtonClicked
 import com.odnovolov.forgetmenot.home.decksorting.DeckSortingOrder.DismissBottomSheet

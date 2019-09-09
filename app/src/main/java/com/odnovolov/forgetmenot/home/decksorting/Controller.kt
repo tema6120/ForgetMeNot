@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.home.decksorting
 
-import com.odnovolov.forgetmenot.common.BaseController
+import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.home.decksorting.DeckSortingEvent.SortByButtonClicked
 import com.odnovolov.forgetmenot.home.decksorting.DeckSortingOrder.DismissBottomSheet

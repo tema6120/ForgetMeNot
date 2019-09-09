@@ -63,3 +63,8 @@ toggleRandomOrder:
 UPDATE ExercisePreference
 SET randomOrder = (CASE WHEN randomOrder == 1 THEN 0 ELSE 1 END)
 WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+setTestMethod:
+UPDATE ExercisePreference
+SET testMethod = ?
+WHERE id == (SELECT id FROM CurrentExercisePreference);

@@ -42,4 +42,8 @@
     <string name="description_delete_preset_button">Delete preset</string>
     <string name="description_add_new_preset">Add new preset</string>
     <string name="description_save_exercise_preferences">Save exercise preferences</string>
+    <string name="title_test_method">Test method</string>
+    <string name="title_choose_test_method_dialog">Choose test method</string>
+    <string name="test_method_label_off">Off</string>
+    <string name="test_method_label_manual">Manual</string>
 </resources>

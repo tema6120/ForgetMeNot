@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.decksettings
 
-import com.odnovolov.forgetmenot.common.BaseController
-import com.odnovolov.forgetmenot.common.NameCheckResult
-import com.odnovolov.forgetmenot.common.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.PresetNameInputDialogStatus
-import com.odnovolov.forgetmenot.common.PresetNameInputDialogStatus.*
+import com.odnovolov.forgetmenot.common.base.BaseController
+import com.odnovolov.forgetmenot.common.entity.NameCheckResult
+import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
+import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus.*
 import com.odnovolov.forgetmenot.common.database.asBoolean
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.nameCheckResultAdapter
@@ -77,6 +77,10 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
 
             RandomOrderSwitchToggled -> {
                 queries.toggleRandomOrder()
+            }
+
+            is TestMethodWasChosen -> {
+                queries.setTestMethod(event.testMethod)
             }
 
             PronunciationButtonClicked -> {

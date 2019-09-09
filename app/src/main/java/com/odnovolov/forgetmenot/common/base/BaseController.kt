@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.common
+package com.odnovolov.forgetmenot.common.base
 
 import com.odnovolov.forgetmenot.common.database.database
 import kotlinx.coroutines.*

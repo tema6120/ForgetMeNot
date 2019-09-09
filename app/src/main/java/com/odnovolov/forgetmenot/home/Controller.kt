@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.home
 
-import com.odnovolov.forgetmenot.common.BaseController
+import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.home.HomeEvent.*
 import com.odnovolov.forgetmenot.home.HomeOrder.*

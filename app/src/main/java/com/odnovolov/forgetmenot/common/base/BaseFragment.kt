@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.common
+package com.odnovolov.forgetmenot.common.base
 
 import android.os.Bundle
 import android.view.View

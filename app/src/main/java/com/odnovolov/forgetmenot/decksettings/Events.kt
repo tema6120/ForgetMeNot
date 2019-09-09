@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.decksettings
 
+import com.odnovolov.forgetmenot.common.entity.TestMethod
+
 sealed class DeckSettingsEvent {
     object RenameDeckButtonClicked : DeckSettingsEvent()
     object SaveExercisePreferenceButtonClicked : DeckSettingsEvent()
@@ -11,5 +13,6 @@ sealed class DeckSettingsEvent {
     object PositiveDialogButtonClicked : DeckSettingsEvent()
     object NegativeDialogButtonClicked : DeckSettingsEvent()
     object RandomOrderSwitchToggled : DeckSettingsEvent()
+    class TestMethodWasChosen(val testMethod: TestMethod) : DeckSettingsEvent()
     object PronunciationButtonClicked : DeckSettingsEvent()
 }

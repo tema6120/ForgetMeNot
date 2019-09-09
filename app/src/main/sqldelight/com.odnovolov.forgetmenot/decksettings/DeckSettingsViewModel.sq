@@ -31,6 +31,9 @@ FROM DeckSettingsState;
 getDialogInputCheckResult:
 SELECT nameCheckResult FROM DeckSettingsState;
 
+getSelectedTestMethod:
+SELECT testMethod FROM CurrentExercisePreference;
+
 getRandomOrder:
 SELECT randomOrder FROM CurrentExercisePreference;
 

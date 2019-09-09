@@ -184,6 +184,51 @@
                 app:layout_constraintTop_toBottomOf="@+id/barrier3" />
 
         <TextView
+                android:id="@+id/testMethodTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/title_test_method"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <TextView
+                android:id="@+id/selectedTestMethodTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/testMethodTitle"
+                tools:text="Remember/not remember" />
+
+        <View
+                android:id="@+id/testMethodButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/selectedTestMethodTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/testMethodTitle" />
+
+        <View
+                android:id="@+id/divider2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/selectedTestMethodTextView" />
+
+        <TextView
                 android:id="@+id/pronunciationTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -195,7 +240,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/navigateToPronunciationScreenIcon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
         <TextView
                 android:id="@+id/selectedPronunciationTextView"
@@ -219,16 +264,6 @@
                 app:layout_constraintTop_toTopOf="@+id/pronunciationTitle"
                 app:srcCompat="@drawable/ic_navigate_next_darkgray_24dp" />
 
-        <View
-                android:id="@+id/pronunciationButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toTopOf="@+id/barrier4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier3" />
-
         <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier4"
                 android:layout_width="wrap_content"
@@ -237,7 +272,17 @@
                 app:constraint_referenced_ids="selectedPronunciationTextView,navigateToPronunciationScreenIcon" />
 
         <View
-                android:id="@+id/divider2"
+                android:id="@+id/pronunciationButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toTopOf="@+id/barrier4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <View
+                android:id="@+id/divider3"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"

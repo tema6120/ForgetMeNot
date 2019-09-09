@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.pronunciation
 
 import android.animation.LayoutTransition
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,15 +14,17 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.*
-import com.odnovolov.forgetmenot.common.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.base.BaseFragment
+import com.odnovolov.forgetmenot.common.viewcreator.InputDialogCreator
+import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator
 import com.odnovolov.forgetmenot.pronunciation.LanguageRecyclerAdapter.ViewHolder
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationOrder.SetDialogText
@@ -41,7 +44,7 @@ class PronunciationFragment : BaseFragment() {
     private lateinit var answerLanguagePopup: PopupWindow
     private lateinit var answerLanguageRecyclerAdapter: LanguageRecyclerAdapter
     private lateinit var speaker: Speaker
-    private lateinit var presetNameInputDialog: AlertDialog
+    private lateinit var presetNameInputDialog: Dialog
     private lateinit var presetNameInput: EditText
 
     override fun onAttach(context: Context) {
@@ -79,7 +82,7 @@ class PronunciationFragment : BaseFragment() {
             addButtonClickListener = {
                 controller.dispatch(AddNewPronunciationButtonClicked)
             },
-            getAdapter = { pronunciationRecyclerAdapter = it }
+            takeAdapter = { pronunciationRecyclerAdapter = it }
         )
     }
 
@@ -92,7 +95,8 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun initDialog() {
-        presetNameInputDialog = createInputDialog(
+        presetNameInputDialog = InputDialogCreator.create(
+            context = requireContext(),
             title = getString(R.string.title_pronunciation_name_input_dialog),
             takeEditText = { presetNameInput = it },
             onTextChanged = { controller.dispatch(DialogTextChanged(it.toString())) },

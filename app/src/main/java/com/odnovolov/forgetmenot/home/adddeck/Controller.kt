@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.home.adddeck
 
-import com.odnovolov.forgetmenot.common.BaseController
+import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.asBoolean
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.stageAdapter

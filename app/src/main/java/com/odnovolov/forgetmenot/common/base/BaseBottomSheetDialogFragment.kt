@@ -1,8 +1,7 @@
-package com.odnovolov.forgetmenot.common
+package com.odnovolov.forgetmenot.common.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

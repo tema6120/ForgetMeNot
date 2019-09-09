@@ -1,8 +1,9 @@
 package com.odnovolov.forgetmenot.decksettings
 
-import com.odnovolov.forgetmenot.common.NameCheckResult
-import com.odnovolov.forgetmenot.common.PresetPopupCreator.Preset
+import com.odnovolov.forgetmenot.common.entity.NameCheckResult
+import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*
+import com.odnovolov.forgetmenot.common.entity.TestMethod
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -45,6 +46,11 @@ class DeckSettingsViewModel {
 
     val randomOrder: Flow<Boolean> = queries
         .getRandomOrder()
+        .asFlow()
+        .mapToOne()
+
+    val selectedTestMethod: Flow<TestMethod> = queries
+        .getSelectedTestMethod()
         .asFlow()
         .mapToOne()
 

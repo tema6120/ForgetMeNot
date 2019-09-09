@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.BaseFragment
+import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.MoveToNextPosition

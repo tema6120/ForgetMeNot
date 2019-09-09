@@ -16,7 +16,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.BaseFragment
+import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.home.adddeck.AddDeckEvent.*
 import com.odnovolov.forgetmenot.home.adddeck.AddDeckOrder.SetDialogText
 import com.odnovolov.forgetmenot.home.adddeck.AddDeckOrder.ShowErrorMessage
