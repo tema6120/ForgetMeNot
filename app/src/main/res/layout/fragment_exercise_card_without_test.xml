@@ -1,0 +1,98 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="24dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <ScrollView
+                    android:id="@+id/questionScrollView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fillViewport="true"
+                    app:layout_constraintBottom_toTopOf="@+id/divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed">
+
+                <TextView
+                        android:id="@+id/questionTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:textIsSelectable="true"
+                        android:textSize="20sp"
+                        tools:text="Эти люди привычны к тяжелой работе." />
+
+            </ScrollView>
+
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toTopOf="@+id/answerScrollView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/questionScrollView" />
+
+
+            <ScrollView
+                    android:id="@+id/answerScrollView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fillViewport="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider">
+
+                <TextView
+                        android:id="@+id/answerTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textIsSelectable="true"
+                        android:textSize="16sp"
+                        tools:text="These men are used to hard work." />
+
+            </ScrollView>
+
+            <FrameLayout
+                    android:id="@+id/showAnswerButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/background_show_answer_button"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/answerScrollView"
+                    app:layout_constraintEnd_toEndOf="@id/answerScrollView"
+                    app:layout_constraintStart_toStartOf="@id/answerScrollView"
+                    app:layout_constraintTop_toTopOf="@id/answerScrollView">
+
+                <TextView
+                        android:id="@+id/showAnswerTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:text="@string/text_show_answer_textview"
+                        android:textColor="@android:color/secondary_text_dark_nodisable"
+                        android:textSize="14sp" />
+
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

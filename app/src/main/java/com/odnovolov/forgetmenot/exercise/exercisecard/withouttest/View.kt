@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.exercise.exercisecards
+package com.odnovolov.forgetmenot.exercise.exercisecard.withouttest
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,29 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardEvent.ShowAnswerButtonClicked
-import kotlinx.android.synthetic.main.fragment_exercise_card.*
+import com.odnovolov.forgetmenot.exercise.exercisecard.withouttest.ExerciseCardEvent.ShowAnswerButtonClicked
+import kotlinx.android.synthetic.main.fragment_exercise_card_without_test.*
 import leakcanary.LeakSentry
 
-class ExerciseCardFragment : BaseFragment() {
+class ExerciseCardWithoutTestFragment : BaseFragment() {
     companion object {
         private const val ARG_CARD_ID = "ARG_CARD_ID"
 
-        fun create(cardId: Long) = ExerciseCardFragment().apply {
+        fun create(cardId: Long) = ExerciseCardWithoutTestFragment().apply {
             arguments = Bundle(1).apply {
                 putLong(ARG_CARD_ID, cardId)
             }
         }
     }
 
-    private lateinit var controller: ExerciseCardController
-    private lateinit var viewModel: ExerciseCardViewModel
+    private lateinit var controller: ExerciseCardWithoutTestController
+    private lateinit var viewModel: ExerciseCardWithoutTextViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val cardId = arguments!!.getLong(ARG_CARD_ID)
-        controller = ExerciseCardController(cardId)
-        viewModel = ExerciseCardViewModel(cardId)
+        controller = ExerciseCardWithoutTestController(cardId)
+        viewModel = ExerciseCardWithoutTextViewModel(cardId)
     }
 
     override fun onCreateView(
@@ -36,7 +36,7 @@ class ExerciseCardFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_exercise_card, container, false)
+        return inflater.inflate(R.layout.fragment_exercise_card_without_test, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

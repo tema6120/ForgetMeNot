@@ -1,11 +1,11 @@
-package com.odnovolov.forgetmenot.exercise.exercisecards
+package com.odnovolov.forgetmenot.exercise.exercisecard.withouttest
 
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
 import kotlinx.coroutines.flow.Flow
 
-class ExerciseCardViewModel(cardId: Long) {
+class ExerciseCardWithoutTextViewModel(cardId: Long) {
     private val queries = database.exerciseCardViewModelQueries
 
     val question: Flow<String> = queries.getQuestion(cardId).asFlow().mapToOne()

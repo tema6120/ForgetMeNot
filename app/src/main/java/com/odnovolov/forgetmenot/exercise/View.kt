@@ -15,7 +15,7 @@ import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.MoveToNextPosition
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.Speak
-import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardFragment
+import com.odnovolov.forgetmenot.exercise.exercisecard.withouttest.ExerciseCardWithoutTestFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import leakcanary.LeakSentry
 
@@ -120,7 +120,7 @@ class ExerciseCardsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) 
         }
 
     override fun createFragment(position: Int): Fragment {
-        return ExerciseCardFragment.create(cardIds[position])
+        return ExerciseCardWithoutTestFragment.create(cardIds[position])
     }
 
     // this causes 'java.lang.IllegalStateException: Design assumption violated'
