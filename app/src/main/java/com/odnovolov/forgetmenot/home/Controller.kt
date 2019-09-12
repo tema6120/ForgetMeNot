@@ -18,15 +18,15 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             is DeckButtonClicked -> {
                 with(database.exerciseInitQueries) {
                     dropTableExerciseState()
-                    createTableExerciseState()
-                    initExerciseState(event.deckId)
+                    createTableExercise()
+                    initExercise(event.deckId)
                     createViewCurrentExerciseCard()
                     createViewExercisePronunciation()
                 }
                 with(database.exerciseCardsInitQueries) {
-                    dropTableExerciseCardStates()
-                    createTableExerciseCardStates()
-                    initExerciseCardStates(event.deckId)
+                    dropTableExerciseCard()
+                    createTableExerciseCard()
+                    initExerciseCard(event.deckId)
                 }
                 // TODO move 'setLastOpenedAt()' to Exercise screen
                 queries.setLastOpenedAt(lastOpenedAt = Calendar.getInstance(), id = event.deckId)

@@ -47,7 +47,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:2.2.0-alpha01"
     implementation "androidx.navigation:navigation-ui-ktx:2.0.0"
     implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-alpha01"
-    implementation 'androidx.viewpager2:viewpager2:1.0.0-beta03'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-beta04'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
     implementation "com.squareup.sqldelight:android-driver:1.2.0"
 }

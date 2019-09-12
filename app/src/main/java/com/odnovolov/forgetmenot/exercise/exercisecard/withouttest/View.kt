@@ -12,11 +12,11 @@ import leakcanary.LeakSentry
 
 class ExerciseCardWithoutTestFragment : BaseFragment() {
     companion object {
-        private const val ARG_CARD_ID = "ARG_CARD_ID"
+        private const val ARG_ID = "ARG_ID"
 
-        fun create(cardId: Long) = ExerciseCardWithoutTestFragment().apply {
+        fun create(id: Long) = ExerciseCardWithoutTestFragment().apply {
             arguments = Bundle(1).apply {
-                putLong(ARG_CARD_ID, cardId)
+                putLong(ARG_ID, id)
             }
         }
     }
@@ -26,9 +26,9 @@ class ExerciseCardWithoutTestFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val cardId = arguments!!.getLong(ARG_CARD_ID)
-        controller = ExerciseCardWithoutTestController(cardId)
-        viewModel = ExerciseCardWithoutTextViewModel(cardId)
+        val id = arguments!!.getLong(ARG_ID)
+        controller = ExerciseCardWithoutTestController(id)
+        viewModel = ExerciseCardWithoutTextViewModel(id)
     }
 
     override fun onCreateView(
@@ -65,6 +65,7 @@ class ExerciseCardWithoutTestFragment : BaseFragment() {
                 }
             }
             isLearned.observe { isLearned ->
+                isLearned ?: return@observe
                 showAnswerButton.isClickable = !isLearned
                 val alpha = if (isLearned) 0.26f else 1f
                 questionTextView.alpha = alpha

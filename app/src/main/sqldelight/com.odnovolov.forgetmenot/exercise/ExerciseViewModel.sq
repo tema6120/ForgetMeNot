@@ -1,8 +1,8 @@
 getTestMethod:
-SELECT testMethod FROM ExerciseState;
+SELECT testMethod FROM Exercise;
 
-getCardIdsInExercise:
-SELECT cardId FROM ExerciseCardStates ORDER BY rowid;
+getAllExerciseCardIds:
+SELECT id FROM ExerciseCard ORDER BY id;
 
-isCurrentCardLearned: -- nullable
-SELECT isLearned FROM Card WHERE id = (SELECT currentCardId FROM ExerciseState);
+isCurrentExerciseCardLearned: -- nullable
+SELECT isLearned FROM CurrentExerciseCard;

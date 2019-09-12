@@ -1,14 +1,20 @@
 getQuestion:
-SELECT question FROM Card WHERE id = ?;
+SELECT question FROM Card WHERE Card.id == (
+    SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == ?
+);
 
 getAnswer:
-SELECT answer FROM Card WHERE id = ?;
+SELECT answer FROM Card WHERE Card.id == (
+    SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == ?
+);
 
 isAnswered:
-SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END FROM ExerciseCardStates WHERE cardId = ?;
+SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END FROM ExerciseCard WHERE id = ?;
 
 isAnswerCorrect:
-SELECT isAnswerCorrect FROM ExerciseCardStates WHERE cardId = ?;
+SELECT isAnswerCorrect FROM ExerciseCard WHERE id == ?;
 
 isLearned:
-SELECT isLearned FROM Card WHERE id = ?;
+SELECT isLearned FROM Card WHERE Card.id == (
+    SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == ?
+);

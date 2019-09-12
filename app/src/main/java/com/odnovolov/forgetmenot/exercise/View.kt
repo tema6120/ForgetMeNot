@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -76,12 +78,13 @@ class ExerciseFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            adapter.cardIds = cardsIdsAtStart // we help ViewPager to restore its state
-            cardIds.observe { adapter.cardIds = it }
-            isCurrentCardLearned.observe { isCurrentCardLearned ->
+            // we help ViewPager to restore its state
+            adapter.exerciseCardIds = exerciseCardsIdsAtStart
+            exerciseCardIds.observe { adapter.exerciseCardIds = it }
+            isCurrentExerciseCardLearned.observe { isCurrentCardLearned ->
                 isCurrentCardLearned ?: return@observe
-                notAskButton.visibility = if (isCurrentCardLearned) View.GONE else View.VISIBLE
-                undoButton.visibility = if (isCurrentCardLearned) View.VISIBLE else View.GONE
+                notAskButton.visibility = if (isCurrentCardLearned) GONE else VISIBLE
+                undoButton.visibility = if (isCurrentCardLearned) VISIBLE else GONE
             }
         }
     }
@@ -121,7 +124,7 @@ class ExerciseCardsAdapter(
     private val testMethod: TestMethod,
     fragment: Fragment
 ) : FragmentStateAdapter(fragment) {
-    var cardIds: List<Long> = emptyList()
+    var exerciseCardIds: List<Long> = emptyList()
         set(value) {
             if (value != field) {
                 field = value
@@ -130,15 +133,16 @@ class ExerciseCardsAdapter(
         }
 
     override fun createFragment(position: Int): Fragment {
-        val cardId = cardIds[position]
+        val exerciseCardId = exerciseCardIds[position]
         return when (testMethod) {
-            Off -> ExerciseCardWithoutTestFragment.create(cardId)
-            Manual -> ExerciseCardManualTestMethodFragment.create(cardId)
+            Off -> ExerciseCardWithoutTestFragment.create(exerciseCardId)
+            Manual -> ExerciseCardManualTestMethodFragment.create(exerciseCardId)
         }
     }
 
-    // this causes 'java.lang.IllegalStateException: Design assumption violated'
-    //override fun getItemId(position: Int): Long = cardIds[position]
+    override fun getItemId(position: Int): Long = exerciseCardIds[position]
 
-    override fun getItemCount(): Int = cardIds.size
+    override fun containsItem(itemId: Long): Boolean = exerciseCardIds.contains(itemId)
+
+    override fun getItemCount(): Int = exerciseCardIds.size
 }

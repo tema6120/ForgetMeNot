@@ -7,9 +7,9 @@ import com.odnovolov.forgetmenot.exercise.exercisecard.ExerciseCardViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class ExerciseCardWithoutTextViewModel(cardId: Long) : ExerciseCardViewModel(cardId) {
+class ExerciseCardWithoutTextViewModel(id: Long) : ExerciseCardViewModel(id) {
     val isAnswered: Flow<Boolean> = queries
-        .isAnswered(cardId)
+        .isAnswered(id)
         .asFlow()
         .mapToOne()
         .map { databaseValue: Long -> databaseValue.asBoolean() }

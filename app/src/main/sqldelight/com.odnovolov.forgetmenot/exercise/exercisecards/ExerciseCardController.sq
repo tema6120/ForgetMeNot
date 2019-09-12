@@ -1,12 +1,40 @@
-setAnswerCorrect:
-UPDATE ExerciseCardStates SET isAnswerCorrect = ? WHERE cardId = ?;
+isAnswerCorrect:
+SELECT isAnswerCorrect FROM ExerciseCard WHERE id = ?;
 
-incrementLapIfNeed:
+setAnswerCorrect:
+UPDATE ExerciseCard SET isAnswerCorrect = ? WHERE id = ?;
+
+incrementLapIfCardIsAnsweredForTheFirstTime:
 UPDATE Card
 SET lap = lap + 1
-WHERE id = :cardId
-  AND (SELECT CASE
-                  WHEN isAnswerCorrect IS NULL THEN 1
-                  ELSE 0
-              END
-       FROM ExerciseCardStates WHERE cardId = :cardId);
+WHERE Card.id == (SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == :exerciseCardId)
+  AND CASE
+          WHEN EXISTS (
+                       SELECT * FROM ExerciseCard
+                       WHERE cardId == (SELECT cardId FROM ExerciseCard WHERE id = :exerciseCardId)
+                         AND isAnswerCorrect IS NOT NULL
+                      )
+              THEN 0
+          ELSE 1
+      END;
+
+isThereRepeatedCard:
+SELECT
+    CASE
+        WHEN EXISTS (
+                     SELECT * FROM ExerciseCard
+                     WHERE cardId == (SELECT cardId FROM ExerciseCard WHERE id = :exerciseCardId)
+                       AND id > :exerciseCardId
+                    )
+            THEN 1
+        ELSE 0
+    END;
+
+addRepeatedCard:
+INSERT INTO ExerciseCard(cardId)
+SELECT cardId FROM ExerciseCard WHERE id = ?;
+
+deleteRepeatedCards:
+DELETE FROM ExerciseCard
+WHERE cardId  == (SELECT cardId FROM ExerciseCard WHERE id = :exerciseCardId)
+  AND id > :exerciseCardId;

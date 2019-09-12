@@ -1,11 +1,11 @@
-getCardIdsInExercise:
-SELECT cardId FROM ExerciseCardStates ORDER BY rowid;
+getAllExerciseCardIds:
+SELECT id FROM ExerciseCard ORDER BY id;
 
-setCurrentCardId:
-UPDATE ExerciseState SET currentCardId = ?;
+setCurrentExerciseCardId:
+UPDATE Exercise SET currentExerciseCardId = ?;
 
 setLearnedForCurrentCard:
-UPDATE Card SET isLearned = ? WHERE id == (SELECT currentCardId FROM ExerciseState);
+UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM CurrentExerciseCard);
 
 isCurrentExerciseCardAnswered:
 SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END FROM CurrentExerciseCard;

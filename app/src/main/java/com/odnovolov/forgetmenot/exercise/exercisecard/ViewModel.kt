@@ -2,13 +2,13 @@ package com.odnovolov.forgetmenot.exercise.exercisecard
 
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.database.mapToOne
+import com.odnovolov.forgetmenot.common.database.mapToOneOrNull
 import kotlinx.coroutines.flow.Flow
 
-open class ExerciseCardViewModel(cardId: Long) {
+open class ExerciseCardViewModel(id: Long) {
     protected val queries = database.exerciseCardViewModelQueries
 
-    val question: Flow<String> = queries.getQuestion(cardId).asFlow().mapToOne()
-    val answer: Flow<String> = queries.getAnswer(cardId).asFlow().mapToOne()
-    val isLearned: Flow<Boolean> = queries.isLearned(cardId).asFlow().mapToOne()
+    val question: Flow<String?> = queries.getQuestion(id).asFlow().mapToOneOrNull()
+    val answer: Flow<String?> = queries.getAnswer(id).asFlow().mapToOneOrNull()
+    val isLearned: Flow<Boolean?> = queries.isLearned(id).asFlow().mapToOneOrNull()
 }

@@ -1,24 +1,31 @@
 dropTableExerciseState:
-DROP TABLE IF EXISTS ExerciseState;
+DROP TABLE IF EXISTS Exercise;
 
-createTableExerciseState:
-CREATE TEMPORARY TABLE ExerciseState (
-    currentCardId INTEGER DEFAULT NULL,
+createTableExercise:
+CREATE TEMPORARY TABLE Exercise (
+    currentExerciseCardId INTEGER,
     testMethod INTEGER NOT NULL, -- AS TestMethod
     pronunciationId INTEGER NOT NULL
 );
 
-initExerciseState:
-INSERT INTO ExerciseState(testMethod, pronunciationId)
+initExercise:
+INSERT INTO Exercise(testMethod, pronunciationId)
 SELECT testMethod, pronunciationId FROM ExercisePreference WHERE id == (
     SELECT exercisePreferenceId FROM Deck WHERE id == ?
 );
 
 createViewCurrentExerciseCard:
 CREATE TEMPORARY VIEW IF NOT EXISTS CurrentExerciseCard
-AS SELECT * FROM ExerciseCardStates LEFT JOIN Card ON ExerciseCardStates.cardId == Card.id
-WHERE Card.id == (SELECT currentCardId FROM ExerciseState);
+AS SELECT ExerciseCard.*,
+          Card.deckId,
+          Card.ordinal,
+          Card.question,
+          Card.answer,
+          Card.lap,
+          Card.isLearned
+FROM ExerciseCard LEFT JOIN Card ON ExerciseCard.cardId == Card.id
+WHERE ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise);
 
 createViewExercisePronunciation:
 CREATE TEMPORARY VIEW IF NOT EXISTS ExercisePronunciation
-AS SELECT * FROM Pronunciation WHERE id == (SELECT pronunciationId FROM ExerciseState);
+AS SELECT * FROM Pronunciation WHERE id == (SELECT pronunciationId FROM Exercise);

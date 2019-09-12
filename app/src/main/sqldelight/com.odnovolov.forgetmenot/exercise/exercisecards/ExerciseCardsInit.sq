@@ -1,14 +1,15 @@
-dropTableExerciseCardStates:
-DROP TABLE IF EXISTS ExerciseCardStates;
+dropTableExerciseCard:
+DROP TABLE IF EXISTS ExerciseCard;
 
-createTableExerciseCardStates:
-CREATE TEMPORARY TABLE ExerciseCardStates (
+createTableExerciseCard:
+CREATE TEMPORARY TABLE ExerciseCard (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     cardId INTEGER NOT NULL,
     isAnswerCorrect INTEGER AS Boolean
 );
 
-initExerciseCardStates:
-INSERT INTO ExerciseCardStates (cardId)
+initExerciseCard:
+INSERT INTO ExerciseCard (cardId)
     SELECT id FROM Card
-    WHERE deckId = ? AND isLearned = 0
+    WHERE deckId == ? AND isLearned == 0
     ORDER BY lap, random(); -- TODO check whether random mode is on

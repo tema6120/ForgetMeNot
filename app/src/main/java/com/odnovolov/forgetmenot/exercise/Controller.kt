@@ -12,9 +12,9 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
     override fun handleEvent(event: ExerciseEvent) {
         when (event) {
             is NewPageBecameSelected -> {
-                val cardIds = queries.getCardIdsInExercise().executeAsList()
-                val currentCardId = cardIds[event.position]
-                queries.setCurrentCardId(currentCardId)
+                val exerciseCardIds = queries.getAllExerciseCardIds().executeAsList()
+                val currentExerciseCardId = exerciseCardIds[event.position]
+                queries.setCurrentExerciseCardId(currentExerciseCardId)
             }
 
             NotAskButtonClicked -> {
