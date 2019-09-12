@@ -8,7 +8,7 @@ setLearnedForCurrentCard:
 UPDATE Card SET isLearned = ? WHERE id == (SELECT currentCardId FROM ExerciseState);
 
 isCurrentExerciseCardAnswered:
-SELECT isAnswered FROM CurrentExerciseCard;
+SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END FROM CurrentExerciseCard;
 
 getTextToSpeakAndLanguage:
 SELECT

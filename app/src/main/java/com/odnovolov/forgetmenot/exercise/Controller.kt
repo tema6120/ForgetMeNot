@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.exercise
 
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.database.toDatabaseValue
 import com.odnovolov.forgetmenot.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.MoveToNextPosition
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.Speak
@@ -28,9 +27,9 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             }
 
             SpeakButtonClicked -> {
-                val isAnswered = queries.isCurrentExerciseCardAnswered().executeAsOne()
+                val isAnswered: Long = queries.isCurrentExerciseCardAnswered().executeAsOne()
                 val textToSpeakAndLanguage = queries
-                    .getTextToSpeakAndLanguage(isAnswered.toDatabaseValue())
+                    .getTextToSpeakAndLanguage(isAnswered)
                     .executeAsOne()
                 issueOrder(
                     Speak(

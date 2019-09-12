@@ -1,5 +1,12 @@
-setAnswered:
-UPDATE ExerciseCardStates SET isAnswered = 1 WHERE cardId = ?;
+setAnswerCorrect:
+UPDATE ExerciseCardStates SET isAnswerCorrect = ? WHERE cardId = ?;
 
-incrementLap:
-UPDATE Card SET lap = lap + 1 WHERE id = ?;
+incrementLapIfNeed:
+UPDATE Card
+SET lap = lap + 1
+WHERE id = :cardId
+  AND (SELECT CASE
+                  WHEN isAnswerCorrect IS NULL THEN 1
+                  ELSE 0
+              END
+       FROM ExerciseCardStates WHERE cardId = :cardId);

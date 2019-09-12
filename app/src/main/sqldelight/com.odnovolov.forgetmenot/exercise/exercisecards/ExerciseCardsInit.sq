@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS ExerciseCardStates;
 createTableExerciseCardStates:
 CREATE TEMPORARY TABLE ExerciseCardStates (
     cardId INTEGER NOT NULL,
-    isAnswered INTEGER AS Boolean NOT NULL DEFAULT 0
+    isAnswerCorrect INTEGER AS Boolean
 );
 
 initExerciseCardStates:

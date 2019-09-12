@@ -5,7 +5,10 @@ getAnswer:
 SELECT answer FROM Card WHERE id = ?;
 
 isAnswered:
-SELECT isAnswered FROM ExerciseCardStates WHERE cardId = ?;
+SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END FROM ExerciseCardStates WHERE cardId = ?;
+
+isAnswerCorrect:
+SELECT isAnswerCorrect FROM ExerciseCardStates WHERE cardId = ?;
 
 isLearned:
 SELECT isLearned FROM Card WHERE id = ?;

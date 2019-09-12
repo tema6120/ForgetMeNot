@@ -4,12 +4,13 @@ DROP TABLE IF EXISTS ExerciseState;
 createTableExerciseState:
 CREATE TEMPORARY TABLE ExerciseState (
     currentCardId INTEGER DEFAULT NULL,
+    testMethod INTEGER NOT NULL, -- AS TestMethod
     pronunciationId INTEGER NOT NULL
 );
 
 initExerciseState:
-INSERT INTO ExerciseState(pronunciationId)
-SELECT pronunciationId FROM ExercisePreference WHERE id == (
+INSERT INTO ExerciseState(testMethod, pronunciationId)
+SELECT testMethod, pronunciationId FROM ExercisePreference WHERE id == (
     SELECT exercisePreferenceId FROM Deck WHERE id == ?
 );
 

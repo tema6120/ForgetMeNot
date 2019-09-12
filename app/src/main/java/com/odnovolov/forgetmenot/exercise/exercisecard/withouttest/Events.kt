@@ -1,5 +1,5 @@
 package com.odnovolov.forgetmenot.exercise.exercisecard.withouttest
 
-sealed class ExerciseCardEvent {
-    object ShowAnswerButtonClicked : ExerciseCardEvent()
+sealed class ExerciseCardWithoutTestEvent {
+    object ShowAnswerButtonClicked : ExerciseCardWithoutTestEvent()
 }

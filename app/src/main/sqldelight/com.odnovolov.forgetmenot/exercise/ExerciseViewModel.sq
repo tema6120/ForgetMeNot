@@ -1,3 +1,6 @@
+getTestMethod:
+SELECT testMethod FROM ExerciseState;
+
 getCardIdsInExercise:
 SELECT cardId FROM ExerciseCardStates ORDER BY rowid;
 

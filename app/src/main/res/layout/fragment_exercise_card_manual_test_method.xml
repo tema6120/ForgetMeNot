@@ -52,7 +52,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:fillViewport="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/divider2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/divider">
@@ -63,33 +63,67 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:textIsSelectable="true"
-                        android:textSize="16sp"
-                        tools:text="These men are used to hard work." />
+                        android:textSize="16sp" />
 
             </ScrollView>
 
-            <FrameLayout
-                    android:id="@+id/showAnswerButton"
+            <View
+                    android:id="@+id/curtainView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@color/answer_curtain"
-                    android:foreground="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="@id/answerScrollView"
                     app:layout_constraintEnd_toEndOf="@id/answerScrollView"
                     app:layout_constraintStart_toStartOf="@id/answerScrollView"
-                    app:layout_constraintTop_toTopOf="@id/answerScrollView">
+                    app:layout_constraintTop_toTopOf="@id/answerScrollView" />
 
-                <TextView
-                        android:id="@+id/showAnswerTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        android:text="@string/text_show_answer_textview"
-                        android:textColor="@android:color/secondary_text_dark_nodisable"
-                        android:textSize="14sp" />
+            <View
+                    android:id="@+id/divider2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toTopOf="@+id/rememberButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/answerScrollView" />
 
-            </FrameLayout>
+            <TextView
+                    android:id="@+id/rememberButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="@string/text_remember_button"
+                    android:textSize="18sp"
+                    android:background="?attr/selectableItemBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/divider3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2" />
+
+            <View
+                    android:id="@+id/divider3"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/notRememberButton"
+                    app:layout_constraintStart_toEndOf="@+id/rememberButton"
+                    app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+            <TextView
+                    android:id="@+id/notRememberButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="@string/text_not_remember_button"
+                    android:textSize="18sp"
+                    android:background="?attr/selectableItemBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/divider3"
+                    app:layout_constraintTop_toBottomOf="@id/divider2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

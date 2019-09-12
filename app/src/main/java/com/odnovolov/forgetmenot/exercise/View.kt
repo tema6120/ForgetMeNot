@@ -12,9 +12,13 @@ import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.Speaker
+import com.odnovolov.forgetmenot.common.entity.TestMethod
+import com.odnovolov.forgetmenot.common.entity.TestMethod.Manual
+import com.odnovolov.forgetmenot.common.entity.TestMethod.Off
 import com.odnovolov.forgetmenot.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.MoveToNextPosition
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.Speak
+import com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodFragment
 import com.odnovolov.forgetmenot.exercise.exercisecard.withouttest.ExerciseCardWithoutTestFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import leakcanary.LeakSentry
@@ -52,7 +56,10 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupViewPagerAdapter() {
-        adapter = ExerciseCardsAdapter(this)
+        adapter = ExerciseCardsAdapter(
+            testMethod = viewModel.testMethod,
+            fragment = this
+        )
         exerciseViewPager.adapter = adapter
         exerciseViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -110,7 +117,10 @@ class ExerciseFragment : BaseFragment() {
 }
 
 
-class ExerciseCardsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class ExerciseCardsAdapter(
+    private val testMethod: TestMethod,
+    fragment: Fragment
+) : FragmentStateAdapter(fragment) {
     var cardIds: List<Long> = emptyList()
         set(value) {
             if (value != field) {
@@ -120,7 +130,11 @@ class ExerciseCardsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) 
         }
 
     override fun createFragment(position: Int): Fragment {
-        return ExerciseCardWithoutTestFragment.create(cardIds[position])
+        val cardId = cardIds[position]
+        return when (testMethod) {
+            Off -> ExerciseCardWithoutTestFragment.create(cardId)
+            Manual -> ExerciseCardManualTestMethodFragment.create(cardId)
+        }
     }
 
     // this causes 'java.lang.IllegalStateException: Design assumption violated'
