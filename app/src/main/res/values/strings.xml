@@ -32,6 +32,7 @@
     <string name="text_question_title_textview">Question</string>
     <string name="text_auto_speak_switch">Auto speak</string>
     <string name="text_answer_title_textview">Answer</string>
+    <string name="off">Off</string>
     <string name="default_name">Default</string>
     <string name="individual_name">Individual</string>
     <string name="description_save_pronunciation">Save pronunciation</string>
@@ -51,10 +52,11 @@
     <string name="text_remember_button">Remember</string>
     <string name="text_not_remember_button">Not remember</string>
     <string name="text_intervals_title">Intervals</string>
-    <string name="text_indicator_level_of_knowledge_fail">0</string>
-    <string name="text_indicator_level_of_knowledge_acceptable">1</string>
-    <string name="text_indicator_level_of_knowledge_satisfactory">2</string>
-    <string name="text_indicator_level_of_knowledge_good">3</string>
-    <string name="text_indicator_level_of_knowledge_very_good">4</string>
-    <string name="text_indicator_level_of_knowledge_excellent">5</string>
+    <string name="text_indicator_level_of_knowledge_unsatisfactory">0</string>
+    <string name="text_indicator_level_of_knowledge_poor">1</string>
+    <string name="text_indicator_level_of_knowledge_acceptable">2</string>
+    <string name="text_indicator_level_of_knowledge_satisfactory">3</string>
+    <string name="text_indicator_level_of_knowledge_good">4</string>
+    <string name="text_indicator_level_of_knowledge_very_good">5</string>
+    <string name="text_indicator_level_of_knowledge_excellent">6</string>
 </resources>

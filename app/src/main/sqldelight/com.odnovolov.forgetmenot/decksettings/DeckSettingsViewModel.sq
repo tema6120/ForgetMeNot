@@ -31,11 +31,16 @@ FROM DeckSettingsState;
 getDialogInputCheckResult:
 SELECT nameCheckResult FROM DeckSettingsState;
 
+getRandomOrder:
+SELECT randomOrder FROM CurrentExercisePreference;
+
 getSelectedTestMethod:
 SELECT testMethod FROM CurrentExercisePreference;
 
-getRandomOrder:
-SELECT randomOrder FROM CurrentExercisePreference;
+getIntervalScheme:
+SELECT * FROM IntervalScheme WHERE id == (
+    SELECT intervalSchemeId FROM CurrentExercisePreference
+);
 
 pronunciationIdAndName:
 SELECT id, name FROM CurrentPronunciation;

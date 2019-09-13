@@ -193,6 +193,14 @@ class DeckSettingsFragment : BaseFragment() {
                 }
                 testMethodAdapter.submitList(testMethods)
             }
+            intervalScheme.observe {
+                selectedIntervalsTextView.text = when {
+                    it == null -> getString(R.string.off)
+                    it.id == 0L -> getString(R.string.default_name)
+                    it.name.isEmpty() -> getString(R.string.individual_name)
+                    else -> "'${it.name}'"
+                }
+            }
             pronunciationIdAndName.observe {
                 selectedPronunciationTextView.text = when {
                     it.id == 0L -> getString(R.string.default_name)
@@ -240,14 +248,18 @@ class DeckSettingsFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(
-            STATE_KEY_PRESET_NAME_INPUT_DIALOG,
-            presetNameInputDialog.onSaveInstanceState()
-        )
-        outState.putBundle(
-            STATE_KEY_CHOOSE_TEST_METHOD_DIALOG,
-            chooseTestMethodDialog.onSaveInstanceState()
-        )
+        if (::presetNameInputDialog.isInitialized) {
+            outState.putBundle(
+                STATE_KEY_PRESET_NAME_INPUT_DIALOG,
+                presetNameInputDialog.onSaveInstanceState()
+            )
+        }
+        if (::chooseTestMethodDialog.isInitialized) {
+            outState.putBundle(
+                STATE_KEY_CHOOSE_TEST_METHOD_DIALOG,
+                chooseTestMethodDialog.onSaveInstanceState()
+            )
+        }
     }
 
     override fun onDestroy() {
