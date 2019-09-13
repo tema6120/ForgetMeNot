@@ -1,0 +1,72 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <View
+            android:id="@+id/indicatorLine"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toTopOf="@+id/indicatorLevelOfKnowledgeFail"
+            app:layout_constraintEnd_toEndOf="@+id/indicatorLevelOfKnowledgeFail"
+            app:layout_constraintStart_toStartOf="@+id/indicatorLevelOfKnowledgeFail"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+            android:id="@+id/indicatorLevelOfKnowledgeFail"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:gravity="center"
+            android:textColor="@color/text_level_of_knowledge"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:background="@drawable/background_level_of_knowledge_acceptable"
+            tools:text="@string/text_indicator_level_of_knowledge_acceptable" />
+
+    <EditText
+            android:id="@+id/timeValueEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rectangle_darker_gray_1dp_stroke"
+            android:ems="3"
+            android:gravity="end"
+            android:inputType="number"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/indicatorLevelOfKnowledgeFail"
+            app:layout_constraintEnd_toStartOf="@+id/timeUnitButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/indicatorLevelOfKnowledgeFail"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="7" />
+
+    <TextView
+            android:id="@+id/timeUnitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rectangle_darker_gray_1dp_stroke"
+            android:drawableEnd="@drawable/ic_more_expand_more_with_inset"
+            android:padding="8dp"
+            android:textSize="18sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/indicatorLevelOfKnowledgeFail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/timeValueEditText"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="days" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

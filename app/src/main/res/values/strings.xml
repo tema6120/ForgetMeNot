@@ -35,6 +35,7 @@
     <string name="default_name">Default</string>
     <string name="individual_name">Individual</string>
     <string name="description_save_pronunciation">Save pronunciation</string>
+    <string name="description_save_intervals">Save intervals</string>
     <string name="title_pronunciation_name_input_dialog">Enter pronunciation name</string>
     <string name="title_exercise_preference_name_input_dialog">Enter exercise preference name</string>
     <string name="error_message_empty_name">Name cannot be empty</string>
@@ -50,4 +51,10 @@
     <string name="text_remember_button">Remember</string>
     <string name="text_not_remember_button">Not remember</string>
     <string name="text_intervals_title">Intervals</string>
+    <string name="text_indicator_level_of_knowledge_fail">0</string>
+    <string name="text_indicator_level_of_knowledge_acceptable">1</string>
+    <string name="text_indicator_level_of_knowledge_satisfactory">2</string>
+    <string name="text_indicator_level_of_knowledge_good">3</string>
+    <string name="text_indicator_level_of_knowledge_very_good">4</string>
+    <string name="text_indicator_level_of_knowledge_excellent">5</string>
 </resources>

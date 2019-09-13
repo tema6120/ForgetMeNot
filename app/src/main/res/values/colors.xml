@@ -11,4 +11,5 @@
     <color name="selected_item_background">#60E7D900</color>
     <color name="background_correct_answer">#78e876</color>
     <color name="background_wrong_answer">#e87678</color>
+    <color name="text_level_of_knowledge">#FFF</color>
 </resources>
