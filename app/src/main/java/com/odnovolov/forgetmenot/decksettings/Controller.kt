@@ -83,6 +83,11 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                 queries.setTestMethod(event.testMethod)
             }
 
+            IntervalsButtonClicked -> {
+                // Todo prepare intervals screen
+                issueOrder(NavigateToIntervals)
+            }
+
             PronunciationButtonClicked -> {
                 with(database.pronunciationInitQueries) {
                     dropTablePronunciationState()

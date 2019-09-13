@@ -36,14 +36,22 @@
                 android:id="@+id/action_deck_settings_screen_to_pronunciation_screen"
                 app:destination="@id/pronunciation_screen" />
 
+        <action
+                android:id="@+id/action_deck_settings_screen_to_intervals_screen"
+                app:destination="@id/intervals_screen" />
+
     </fragment>
 
     <fragment
             android:id="@+id/pronunciation_screen"
             android:name="com.odnovolov.forgetmenot.pronunciation.PronunciationFragment"
             android:label="@string/label_pronunciation_screen"
-            tools:layout="@layout/fragment_pronunciation">
+            tools:layout="@layout/fragment_pronunciation" />
 
-    </fragment>
+    <fragment
+            android:id="@+id/intervals_screen"
+            android:name="com.odnovolov.forgetmenot.intervals.IntervalsFragment"
+            android:label="@string/label_intervals_screen"
+            tools:layout="@layout/fragment_intervals" />
 
 </navigation>

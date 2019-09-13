@@ -27,6 +27,7 @@
     <string name="label_deck_settings_screen">Deck Settings</string>
     <string name="text_pronunciation">Pronunciation</string>
     <string name="label_pronunciation_screen">Pronunciation</string>
+    <string name="label_intervals_screen">Intervals</string>
     <string name="hint_pronunciation_name_edittext">Enter name</string>
     <string name="text_question_title_textview">Question</string>
     <string name="text_auto_speak_switch">Auto speak</string>
@@ -48,4 +49,5 @@
     <string name="test_method_label_manual">Manual</string>
     <string name="text_remember_button">Remember</string>
     <string name="text_not_remember_button">Not remember</string>
+    <string name="text_intervals_title">Intervals</string>
 </resources>

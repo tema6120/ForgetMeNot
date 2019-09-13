@@ -117,6 +117,9 @@ class DeckSettingsFragment : BaseFragment() {
         testMethodButton.setOnClickListener {
             showChooseTestMethodDialog()
         }
+        intervalsButton.setOnClickListener {
+            controller.dispatch(IntervalsButtonClicked)
+        }
         pronunciationButton.setOnClickListener {
             controller.dispatch(PronunciationButtonClicked)
         }
@@ -209,6 +212,9 @@ class DeckSettingsFragment : BaseFragment() {
             is SetDialogText -> {
                 presetNameInput.setText(order.text)
                 presetNameInput.selectAll()
+            }
+            NavigateToIntervals -> {
+                findNavController().navigate(R.id.action_deck_settings_screen_to_intervals_screen)
             }
             NavigateToPronunciation -> {
                 findNavController()

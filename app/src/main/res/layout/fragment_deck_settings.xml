@@ -229,6 +229,68 @@
                 app:layout_constraintTop_toBottomOf="@+id/selectedTestMethodTextView" />
 
         <TextView
+                android:id="@+id/intervalsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/text_intervals_title"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/navigateToIntervalsScreenIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <TextView
+                android:id="@+id/selectedIntervalsTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/navigateToIntervalsScreenIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/intervalsTitle"
+                tools:text="Default" />
+
+        <ImageView
+                android:id="@+id/navigateToIntervalsScreenIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/selectedIntervalsTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/intervalsTitle"
+                app:srcCompat="@drawable/ic_navigate_next_darkgray_24dp" />
+
+        <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="selectedIntervalsTextView,navigateToIntervalsScreenIcon" />
+
+        <View
+                android:id="@+id/intervalsButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toTopOf="@+id/barrier4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <View
+                android:id="@+id/divider3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier4" />
+
+        <TextView
                 android:id="@+id/pronunciationTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -240,7 +302,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/navigateToPronunciationScreenIcon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+                app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
         <TextView
                 android:id="@+id/selectedPronunciationTextView"
@@ -265,7 +327,7 @@
                 app:srcCompat="@drawable/ic_navigate_next_darkgray_24dp" />
 
         <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier4"
+                android:id="@+id/barrier5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
@@ -276,19 +338,19 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toTopOf="@+id/barrier4"
+                app:layout_constraintBottom_toTopOf="@+id/barrier5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+                app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
         <View
-                android:id="@+id/divider3"
+                android:id="@+id/divider4"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier4" />
+                app:layout_constraintTop_toBottomOf="@+id/barrier5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
