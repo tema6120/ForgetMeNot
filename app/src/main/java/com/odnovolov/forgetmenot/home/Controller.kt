@@ -16,7 +16,7 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
 
             is DeckButtonClicked -> {
                 with(database.exerciseInitQueries) {
-                    dropTableExerciseState()
+                    dropTableExercise()
                     createTableExercise()
                     initExercise(event.deckId)
                     createViewCurrentExerciseCard()

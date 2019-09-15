@@ -1,4 +1,4 @@
-dropTableExerciseState:
+dropTableExercise:
 DROP TABLE IF EXISTS Exercise;
 
 createTableExercise:
