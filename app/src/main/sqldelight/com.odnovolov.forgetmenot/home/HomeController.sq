@@ -13,13 +13,15 @@ DROP TABLE IF EXISTS DeckBackup;
 createTableCardBackup:
 --CREATE TEMPORARY TABLE CardBackup AS SELECT * FROM Card WHERE deckId = ?;
 CREATE TEMPORARY TABLE CardBackup (
-    id INTEGER NOT NULL PRIMARY KEY,
-    deckId INTEGER NOT NULL,
-    ordinal INTEGER AS Int NOT NULL,
-    question TEXT NOT NULL,
-    answer TEXT NOT NULL,
-    lap INTEGER AS Int NOT NULL DEFAULT 0,
-    isLearned INTEGER AS Boolean NOT NULL DEFAULT 0
+    id INTEGER,
+    deckId INTEGER,
+    ordinal INTEGER,
+    question TEXT,
+    answer TEXT,
+    lap INTEGER,
+    isLearned INTEGER,
+    levelOfKnowledge INTEGER,
+    lastAnsweredAt TEXT
 );
 
 addCardBackup:
@@ -28,9 +30,9 @@ INSERT INTO CardBackup SELECT * FROM Card WHERE deckId = ?;
 createTableDeckBackup:
 --CREATE TEMPORARY TABLE DeckBackup AS SELECT * FROM Deck WHERE id = ?;
 CREATE TEMPORARY TABLE DeckBackup (
-    id INTEGER NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
-    createdAt INTEGER NOT NULL,
+    id INTEGER,
+    name TEXT,
+    createdAt INTEGER,
     lastOpenedAt INTEGER,
     exercisePreferenceId INTEGER
 );

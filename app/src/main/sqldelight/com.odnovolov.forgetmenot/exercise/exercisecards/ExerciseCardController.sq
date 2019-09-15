@@ -1,3 +1,8 @@
+updateLastAnsweredAt:
+UPDATE Card SET lastAnsweredAt = datetime('now') WHERE Card.id == (
+    SELECT cardId FROM ExerciseCard WHERE id = ?
+);
+
 isAnswerCorrect:
 SELECT isAnswerCorrect FROM ExerciseCard WHERE id = ?;
 

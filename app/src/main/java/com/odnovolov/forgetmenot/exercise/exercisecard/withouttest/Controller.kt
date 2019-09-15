@@ -12,6 +12,7 @@ class ExerciseCardWithoutTestController(private val id: Long) :
     override fun handleEvent(event: ExerciseCardWithoutTestEvent) {
         return when (event) {
             ShowAnswerButtonClicked -> {
+                queries.updateLastAnsweredAt(id)
                 queries.incrementLapIfCardIsAnsweredForTheFirstTime(id)
                 queries.setAnswerCorrect(true, id)
             }

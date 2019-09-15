@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.home
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
@@ -156,18 +158,23 @@ private class DeckPreviewAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        getItem(position)?.let { deckPreview: DeckPreview ->
-            viewHolder.itemView.apply {
-                setOnClickListener {
-                    controller.dispatch(DeckButtonClicked(deckPreview.deckId))
-                }
-                deckNameTextView.text = deckPreview.deckName
-                deckOptionButton.setOnClickListener { view: View ->
-                    showOptionMenu(view, deckPreview.deckId)
-                }
-                passedLapsIndicatorTextView.text = deckPreview.passedLaps.toString()
-                val progress = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
-                progressIndicatorTextView.text = progress
+        with(viewHolder.itemView) {
+            val deckPreview: DeckPreview = getItem(position)
+            setOnClickListener {
+                controller.dispatch(DeckButtonClicked(deckPreview.deckId))
+            }
+            deckNameTextView.text = deckPreview.deckName
+            deckOptionButton.setOnClickListener { view: View ->
+                showOptionMenu(view, deckPreview.deckId)
+            }
+            passedLapsIndicatorTextView.text = deckPreview.passedLaps.toString()
+            val progress = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
+            progressIndicatorTextView.text = progress
+            if (deckPreview.numberOfCardsReadyForExercise == null) {
+                taskIndicatorTextView.visibility = GONE
+            } else {
+                taskIndicatorTextView.text = deckPreview.numberOfCardsReadyForExercise.toString()
+                taskIndicatorTextView.visibility = VISIBLE
             }
         }
     }

@@ -11,6 +11,8 @@ CREATE TABLE Card (
     answer TEXT NOT NULL,
     lap INTEGER AS Int NOT NULL DEFAULT 0,
     isLearned INTEGER AS Boolean NOT NULL DEFAULT 0,
+    levelOfKnowledge INTEGER AS Int NOT NULL DEFAULT 0,
+    lastAnsweredAt TEXT,
     FOREIGN KEY (deckId) REFERENCES Deck(id) ON DELETE CASCADE
 );
 
