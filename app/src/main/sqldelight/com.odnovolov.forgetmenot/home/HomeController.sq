@@ -11,6 +11,7 @@ dropTableDeckBackup:
 DROP TABLE IF EXISTS DeckBackup;
 
 createTableCardBackup:
+-- SqlDelight cannot generate not-empty data class from query like "CREATE TABLE ... AS SELECT * ..." yet
 --CREATE TEMPORARY TABLE CardBackup AS SELECT * FROM Card WHERE deckId = ?;
 CREATE TEMPORARY TABLE CardBackup (
     id INTEGER,
@@ -28,6 +29,7 @@ addCardBackup:
 INSERT INTO CardBackup SELECT * FROM Card WHERE deckId = ?;
 
 createTableDeckBackup:
+-- SqlDelight cannot generate not-empty data class from query like "CREATE TABLE ... AS SELECT * ..." yet
 --CREATE TEMPORARY TABLE DeckBackup AS SELECT * FROM Deck WHERE id = ?;
 CREATE TEMPORARY TABLE DeckBackup (
     id INTEGER,

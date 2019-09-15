@@ -18,7 +18,8 @@ class ExerciseCardManualTestMethodController(private val id: Long) :
                 queries.updateLastAnsweredAt(id)
                 queries.incrementLapIfCardIsAnsweredForTheFirstTime(id)
                 queries.setAnswerCorrect(true, id)
-                queries.deleteRepeatedCards(id)
+                queries.deleteAllRepeatedCardsOnTheRight(id)
+                queries.updateLevelOfKnowledge(id)
             }
 
             NotRememberButtonClicked -> {
@@ -26,9 +27,10 @@ class ExerciseCardManualTestMethodController(private val id: Long) :
                 queries.updateLastAnsweredAt(id)
                 queries.incrementLapIfCardIsAnsweredForTheFirstTime(id)
                 queries.setAnswerCorrect(false, id)
-                if (queries.isThereRepeatedCard(id).executeAsOne().asBoolean().not()) {
+                if (queries.isThereAnyRepeatedCardOnTheRight(id).executeAsOne().asBoolean().not()) {
                     queries.addRepeatedCard(id)
                 }
+                queries.updateLevelOfKnowledge(id)
             }
         }
     }

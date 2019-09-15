@@ -4,7 +4,6 @@ import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.home.HomeEvent.*
 import com.odnovolov.forgetmenot.home.HomeOrder.*
-import java.util.*
 
 class HomeController : BaseController<HomeEvent, HomeOrder>() {
     private val queries: HomeControllerQueries = database.homeControllerQueries

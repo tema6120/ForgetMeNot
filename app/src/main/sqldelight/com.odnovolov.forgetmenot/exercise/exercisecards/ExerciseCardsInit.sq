@@ -5,11 +5,13 @@ createTableExerciseCard:
 CREATE TEMPORARY TABLE ExerciseCard (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     cardId INTEGER NOT NULL,
+    initialLevelOfKnowledge INTEGER AS Int NOT NULL,
     isAnswerCorrect INTEGER AS Boolean
 );
 
 initExerciseCard:
-INSERT INTO ExerciseCard (cardId)
-    SELECT id FROM Card
+INSERT INTO ExerciseCard (cardId, initialLevelOfKnowledge)
+    SELECT id, levelOfKnowledge
+    FROM Card
     WHERE deckId == ? AND isLearned == 0
     ORDER BY lap, random(); -- TODO check whether random mode is on
