@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.Speaker
+import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.odnovolov.forgetmenot.common.entity.TestMethod.Manual
 import com.odnovolov.forgetmenot.common.entity.TestMethod.Off
@@ -85,6 +85,24 @@ class ExerciseFragment : BaseFragment() {
                 isCurrentCardLearned ?: return@observe
                 notAskButton.visibility = if (isCurrentCardLearned) GONE else VISIBLE
                 undoButton.visibility = if (isCurrentCardLearned) VISIBLE else GONE
+            }
+            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
+                if (levelOfKnowledge == -1) {
+                    levelOfKnowledgeTextView.visibility = GONE
+                } else {
+                    val backgroundRes = when (levelOfKnowledge) {
+                        0 -> R.drawable.background_level_of_knowledge_unsatisfactory
+                        1 -> R.drawable.background_level_of_knowledge_poor
+                        2 -> R.drawable.background_level_of_knowledge_acceptable
+                        3 -> R.drawable.background_level_of_knowledge_satisfactory
+                        4 -> R.drawable.background_level_of_knowledge_good
+                        5 -> R.drawable.background_level_of_knowledge_very_good
+                        else -> R.drawable.background_level_of_knowledge_excellent
+                    }
+                    levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
+                    levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
+                    levelOfKnowledgeTextView.visibility = VISIBLE
+                }
             }
         }
     }

@@ -22,7 +22,9 @@ AS SELECT ExerciseCard.*,
           Card.question,
           Card.answer,
           Card.lap,
-          Card.isLearned
+          Card.isLearned,
+          Card.levelOfKnowledge,
+          Card.lastAnsweredAt
 FROM ExerciseCard LEFT JOIN Card ON ExerciseCard.cardId == Card.id
 WHERE ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise);
 

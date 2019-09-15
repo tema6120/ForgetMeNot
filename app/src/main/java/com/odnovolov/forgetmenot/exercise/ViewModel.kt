@@ -27,4 +27,9 @@ class ExerciseViewModel {
         .asFlow()
         .mapToOneOrNull()
         .map { it?.isLearned }
+
+    val levelOfKnowledgeForCurrentCard: Flow<Int> = queries
+        .getLevelOfKnowledgeForCurrentCard()
+        .asFlow()
+        .mapToOne()
 }

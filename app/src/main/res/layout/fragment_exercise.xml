@@ -61,8 +61,24 @@
             android:contentDescription="@string/description_speak_button"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-            app:layout_constraintTop_toTopOf="@+id/controlPanel"
             app:layout_constraintStart_toEndOf="@id/barrier5"
+            app:layout_constraintTop_toTopOf="@+id/controlPanel"
             app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+
+    <TextView
+            android:id="@+id/levelOfKnowledgeTextView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="9dp"
+            android:gravity="center"
+            android:textColor="@color/text_level_of_knowledge"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
+            app:layout_constraintEnd_toEndOf="@+id/controlPanel"
+            app:layout_constraintTop_toTopOf="@+id/controlPanel"
+            tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
+            tools:text="@string/text_indicator_level_of_knowledge_unsatisfactory"
+            tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

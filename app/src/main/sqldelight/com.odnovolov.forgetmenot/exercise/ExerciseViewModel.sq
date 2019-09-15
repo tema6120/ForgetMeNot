@@ -6,3 +6,10 @@ SELECT id FROM ExerciseCard ORDER BY id;
 
 isCurrentExerciseCardLearned: -- nullable
 SELECT isLearned FROM CurrentExerciseCard;
+
+getLevelOfKnowledgeForCurrentCard:
+SELECT CASE
+           WHEN (SELECT testMethod FROM Exercise) != 0 THEN levelOfKnowledge
+           ELSE -1
+       END
+FROM CurrentExerciseCard;
