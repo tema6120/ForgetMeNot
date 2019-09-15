@@ -1,8 +1,8 @@
 setSearchText:
 UPDATE HomeState SET searchText = ?;
 
-setLastOpenedAt:
-UPDATE Deck SET lastOpenedAt = ? WHERE id = ?;
+updateLastOpenedAt:
+UPDATE Deck SET lastOpenedAt = datetime('now') WHERE id == ?;
 
 dropTableCardBackup:
 DROP TABLE IF EXISTS CardBackup;

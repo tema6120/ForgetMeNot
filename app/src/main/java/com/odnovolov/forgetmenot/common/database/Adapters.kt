@@ -7,17 +7,6 @@ import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.squareup.sqldelight.ColumnAdapter
 import java.util.*
 
-val calendarAdapter = object : ColumnAdapter<Calendar, Long> {
-    override fun encode(value: Calendar): Long {
-        return value.timeInMillis
-    }
-
-    override fun decode(databaseValue: Long): Calendar {
-        return Calendar.getInstance()
-            .apply { timeInMillis = databaseValue }
-    }
-}
-
 val localeAdapter = object : ColumnAdapter<Locale, String> {
     override fun encode(value: Locale): String {
         return value.toLanguageTag()

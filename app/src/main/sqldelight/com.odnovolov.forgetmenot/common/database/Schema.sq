@@ -19,8 +19,8 @@ CREATE TABLE Card (
 CREATE TABLE Deck (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    createdAt INTEGER AS Calendar NOT NULL,
-    lastOpenedAt INTEGER AS Calendar,
+    createdAt TEXT NOT NULL,
+    lastOpenedAt TEXT,
     exercisePreferenceId INTEGER NOT NULL DEFAULT 0
 );
 

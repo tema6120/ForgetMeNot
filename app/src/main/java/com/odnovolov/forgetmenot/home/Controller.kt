@@ -29,7 +29,7 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                     initExerciseCard(event.deckId)
                 }
                 // TODO move 'setLastOpenedAt()' to Exercise screen
-                queries.setLastOpenedAt(lastOpenedAt = Calendar.getInstance(), id = event.deckId)
+                queries.updateLastOpenedAt(event.deckId)
                 issueOrder(NavigateToExercise)
             }
 

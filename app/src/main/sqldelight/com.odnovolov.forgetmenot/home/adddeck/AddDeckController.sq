@@ -37,7 +37,7 @@ setErrorText:
 UPDATE AddDeckState SET errorText = ?;
 
 addDeck:
-INSERT INTO Deck(name, createdAt) VALUES (?, ?);
+INSERT INTO Deck(name, createdAt) VALUES (?, datetime('now'));
 
 getLastInsertId:
 SELECT last_insert_rowid();

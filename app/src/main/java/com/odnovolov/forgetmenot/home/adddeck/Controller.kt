@@ -35,7 +35,7 @@ class AddDeckController : BaseController<AddDeckEvent, AddDeckOrder>() {
                         issueOrder(SetDialogText(fileName))
                     }
                     else -> {
-                        queries.addDeck(name = fileName, createdAt = Calendar.getInstance())
+                        queries.addDeck(name = fileName)
                         val deckId = queries.getLastInsertId().executeAsOne()
                         cardPrototypes.forEach {
                             queries.addCard(deckId, it.ordinal, it.question, it.answer)
@@ -63,7 +63,7 @@ class AddDeckController : BaseController<AddDeckEvent, AddDeckOrder>() {
 
             PositiveDialogButtonClicked -> {
                 val typedText = queries.getTypedText().executeAsOne()
-                queries.addDeck(name = typedText, createdAt = Calendar.getInstance())
+                queries.addDeck(name = typedText)
                 val deckId = queries.getLastInsertId().executeAsOne()
                 queries.addCardsFromCardPrototypeTable(deckId)
                 finish()

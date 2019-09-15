@@ -26,10 +26,6 @@ fun initDatabase(applicationContext: Context) {
     )
     database = Database(
         driver,
-        Deck.Adapter(
-            createdAtAdapter = calendarAdapter,
-            lastOpenedAtAdapter = calendarAdapter
-        ),
         DeckSorting.Adapter(
             deckSortingAdapter = EnumColumnAdapter()
         ),
