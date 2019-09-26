@@ -3,13 +3,10 @@ package com.odnovolov.forgetmenot.common.base
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 open class BaseFragment : Fragment() {
 
@@ -21,25 +18,33 @@ open class BaseFragment : Fragment() {
         viewScope = MainScope()
     }
 
-    fun <T> Flow<T>.observe(coroutineScope: CoroutineScope = viewScope!!,
-                            onChange: (value: T) -> Unit) {
+    fun <T> Flow<T>.observe(
+        coroutineScope: CoroutineScope = viewScope!!,
+        onChange: (value: T) -> Unit
+    ) {
         coroutineScope.launch {
             collect {
-                onChange(it)
+                if (isActive) {
+                    onChange(it)
+                }
             }
         }
     }
 
-    fun <T> Flow<T>.observe(coroutineScope: CoroutineScope = viewScope!!,
-                            onChange: (value: T) -> Unit,
-                            afterFirst: (value: T) -> Unit) {
+    fun <T> Flow<T>.observe(
+        coroutineScope: CoroutineScope = viewScope!!,
+        onChange: (value: T) -> Unit,
+        afterFirst: (value: T) -> Unit
+    ) {
         coroutineScope.launch {
             var isFirst = true
             collect {
-                onChange(it)
-                if (isFirst) {
-                    afterFirst(it)
-                    isFirst = false
+                if (isActive) {
+                    onChange(it)
+                    if (isFirst) {
+                        afterFirst(it)
+                        isFirst = false
+                    }
                 }
             }
         }
@@ -57,13 +62,13 @@ open class BaseFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         viewScope!!.cancel()
+        super.onDestroyView()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         fragmentScope.cancel()
+        super.onDestroy()
     }
 
 }

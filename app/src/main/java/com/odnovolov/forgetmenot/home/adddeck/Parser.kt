@@ -25,7 +25,9 @@ class Parser private constructor() {
         val text = inputStream.bufferedReader().use {
             it.readText()
         }
-        return text.split(CARD_BLOCK_SEPARATOR_REGEX)
+        return text
+            .replace("\r", "")
+            .split(CARD_BLOCK_SEPARATOR_REGEX)
             .filter(::notEmpty)
             .mapIndexed(::parseCardBlock)
     }

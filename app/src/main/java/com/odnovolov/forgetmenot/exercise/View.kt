@@ -86,7 +86,8 @@ class ExerciseFragment : BaseFragment() {
                 notAskButton.visibility = if (isCurrentCardLearned) GONE else VISIBLE
                 undoButton.visibility = if (isCurrentCardLearned) VISIBLE else GONE
             }
-            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
+            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int? ->
+                levelOfKnowledge ?: return@observe
                 if (levelOfKnowledge == -1) {
                     levelOfKnowledgeTextView.visibility = GONE
                 } else {
