@@ -11,7 +11,7 @@ import kotlin.coroutines.CoroutineContext
 abstract class BaseController<Event, Order> : CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.IO
+        get() = job
     private val unhandledEventChannel = Channel<Event>()
     private val eventToHandleChannel = Channel<Event>()
     private val nextEventRequestChannel = Channel<Unit>()
@@ -58,7 +58,7 @@ abstract class BaseController<Event, Order> : CoroutineScope {
         unhandledEventQueue.addLast(newEvent)
     }
 
-    private fun launchEventHandler() = launch(databaseWriterThread) {
+    private fun launchEventHandler() = launch {
         for (event in eventToHandleChannel) {
             database.transaction {
                 handleEvent(event)
@@ -101,5 +101,3 @@ abstract class BaseController<Event, Order> : CoroutineScope {
         job.cancel()
     }
 }
-
-val databaseWriterThread = newSingleThreadContext("Database writer")
