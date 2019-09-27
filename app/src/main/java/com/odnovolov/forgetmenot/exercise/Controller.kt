@@ -3,8 +3,7 @@ package com.odnovolov.forgetmenot.exercise
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.exercise.ExerciseEvent.*
-import com.odnovolov.forgetmenot.exercise.ExerciseOrder.MoveToNextPosition
-import com.odnovolov.forgetmenot.exercise.ExerciseOrder.Speak
+import com.odnovolov.forgetmenot.exercise.ExerciseOrder.*
 
 class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
     private val queries: ExerciseControllerQueries = database.exerciseControllerQueries
@@ -37,6 +36,15 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
                         language = textToSpeakAndLanguage.language
                     )
                 )
+            }
+
+            EditCardButtonClicked -> {
+                with(database.editCardStateQueries) {
+                    dropTableEditCardState()
+                    createTableEditCardState()
+                    initTableEditCardState()
+                }
+                issueOrder(NavigateToEditCard)
             }
         }
     }

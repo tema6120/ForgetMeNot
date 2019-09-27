@@ -10,6 +10,10 @@
     <string name="description_not_ask_button">Not ask anymore</string>
     <string name="description_undo_button">Undo</string>
     <string name="description_speak_button">Speak</string>
+    <string name="description_edit_card_button">Edit card</string>
+    <string name="description_done_button">Done</string>
+    <string name="description_cancel_button">Cancel</string>
+    <string name="description_reverse_card_button">Reverse card</string>
     <string name="snackbar_message_deck_is_deleted">Deck is deleted</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
@@ -29,6 +33,7 @@
     <string name="text_pronunciation">Pronunciation</string>
     <string name="label_pronunciation_screen">Pronunciation</string>
     <string name="label_intervals_screen">Intervals</string>
+    <string name="label_edit_card_screen">Edit card</string>
     <string name="hint_pronunciation_name_edittext">Enter name</string>
     <string name="text_question_title_textview">Question</string>
     <string name="text_auto_speak_switch">Auto speak</string>
@@ -63,4 +68,6 @@
     <string name="close">close</string>
     <string name="title_deckpreview_filter_dialog">Filter</string>
     <string name="filter_display_only_with_tasks">Display only with tasks</string>
+    <string name="hint_question_edittext">Enter a question</string>
+    <string name="hint_answer_edittext">Enter an answer</string>
 </resources>

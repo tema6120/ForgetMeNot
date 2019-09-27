@@ -1,0 +1,5 @@
+getQuestion:
+SELECT question FROM EditCardState;
+
+getAnswer:
+SELECT answer FROM EditCardState;

@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
@@ -18,8 +19,7 @@ import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.odnovolov.forgetmenot.common.entity.TestMethod.Manual
 import com.odnovolov.forgetmenot.common.entity.TestMethod.Off
 import com.odnovolov.forgetmenot.exercise.ExerciseEvent.*
-import com.odnovolov.forgetmenot.exercise.ExerciseOrder.MoveToNextPosition
-import com.odnovolov.forgetmenot.exercise.ExerciseOrder.Speak
+import com.odnovolov.forgetmenot.exercise.ExerciseOrder.*
 import com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodFragment
 import com.odnovolov.forgetmenot.exercise.exercisecard.withouttest.ExerciseCardWithoutTestFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
@@ -35,6 +35,11 @@ class ExerciseFragment : BaseFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         speaker = Speaker(requireContext())
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
     override fun onCreateView(
@@ -74,6 +79,7 @@ class ExerciseFragment : BaseFragment() {
         notAskButton.setOnClickListener { controller.dispatch(NotAskButtonClicked) }
         undoButton.setOnClickListener { controller.dispatch(UndoButtonClicked) }
         speakButton.setOnClickListener { controller.dispatch(SpeakButtonClicked) }
+        editCardButton.setOnClickListener { controller.dispatch(EditCardButtonClicked) }
     }
 
     private fun observeViewModel() {
@@ -117,21 +123,20 @@ class ExerciseFragment : BaseFragment() {
             is Speak -> {
                 speaker.speak(order.text, order.language)
             }
+            NavigateToEditCard -> {
+                findNavController().navigate(R.id.action_exercise_screen_to_edit_card_screen)
+            }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        (activity as AppCompatActivity).supportActionBar?.hide()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        (activity as AppCompatActivity).supportActionBar?.show()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        exerciseViewPager.adapter = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        (activity as AppCompatActivity).supportActionBar?.show()
         controller.dispose()
         speaker.shutdown()
         LeakSentry.refWatcher.watch(this)

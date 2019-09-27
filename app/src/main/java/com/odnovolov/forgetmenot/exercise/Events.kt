@@ -5,4 +5,5 @@ sealed class ExerciseEvent {
     object NotAskButtonClicked : ExerciseEvent()
     object UndoButtonClicked : ExerciseEvent()
     object SpeakButtonClicked : ExerciseEvent()
+    object EditCardButtonClicked : ExerciseEvent()
 }

@@ -24,7 +24,19 @@
             android:id="@+id/exercise_screen"
             android:name="com.odnovolov.forgetmenot.exercise.ExerciseFragment"
             android:label="@string/label_exercise_screen"
-            tools:layout="@layout/fragment_exercise" />
+            tools:layout="@layout/fragment_exercise" >
+
+        <action
+                android:id="@+id/action_exercise_screen_to_edit_card_screen"
+                app:destination="@id/edit_card_screen" />
+
+    </fragment>
+
+    <fragment
+            android:id="@+id/edit_card_screen"
+            android:name="com.odnovolov.forgetmenot.editcard.EditCardFragment"
+            android:label="@string/label_edit_card_screen"
+            tools:layout="@layout/fragment_edit_card" />
 
     <fragment
             android:id="@+id/deck_settings_screen"

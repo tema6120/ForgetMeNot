@@ -2,13 +2,12 @@ package com.odnovolov.forgetmenot.common.viewcreator
 
 import android.app.Dialog
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager.LayoutParams
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.common.observeText
 
 object InputDialogCreator {
     fun create(
@@ -22,15 +21,7 @@ object InputDialogCreator {
         val contentView = View.inflate(context, R.layout.dialog_input, null)
         val dialogInput: EditText = contentView.findViewById(R.id.dialogInput)
         takeEditText(dialogInput)
-        dialogInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                onTextChanged(text)
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        dialogInput.observeText(onTextChanged)
         val dialog: AlertDialog = AlertDialog.Builder(context)
             .setTitle(title)
             .setView(contentView)

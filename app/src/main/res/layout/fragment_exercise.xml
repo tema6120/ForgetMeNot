@@ -59,11 +59,21 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/description_speak_button"
-            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
             app:layout_constraintStart_toEndOf="@id/barrier5"
             app:layout_constraintTop_toTopOf="@+id/controlPanel"
             app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+
+    <ImageButton
+            android:id="@+id/editCardButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_edit_card_button"
+            app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
+            app:layout_constraintStart_toEndOf="@id/speakButton"
+            app:layout_constraintTop_toTopOf="@+id/controlPanel"
+            app:srcCompat="@drawable/ic_edit_white_24dp" />
 
     <TextView
             android:id="@+id/levelOfKnowledgeTextView"
