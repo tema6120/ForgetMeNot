@@ -1,5 +1,6 @@
 import com.odnovolov.forgetmenot.common.entity.TestMethod;
 import com.odnovolov.forgetmenot.home.decksorting.DeckSorting;
+import java.lang.Boolean;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -24,11 +25,12 @@ CREATE TABLE Deck (
     exercisePreferenceId INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE TABLE DeckSorting (
-    deckSorting TEXT AS DeckSorting NOT NULL DEFAULT 'BY_LAST_CREATED'
+CREATE TABLE DeckReviewPreferences (
+    deckSorting TEXT AS DeckSorting NOT NULL DEFAULT 'BY_LAST_CREATED',
+    displayOnlyWithTasks INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
-INSERT INTO DeckSorting DEFAULT VALUES;
+INSERT INTO DeckReviewPreferences DEFAULT VALUES;
 
 CREATE TABLE ExercisePreference (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,

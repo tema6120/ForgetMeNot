@@ -14,6 +14,10 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 queries.setSearchText(event.searchText)
             }
 
+            DisplayOnlyWithTasksCheckboxClicked -> {
+                queries.toogleDisplayOnlyWithTasks()
+            }
+
             is DeckButtonClicked -> {
                 with(database.exerciseInitQueries) {
                     dropTableExercise()

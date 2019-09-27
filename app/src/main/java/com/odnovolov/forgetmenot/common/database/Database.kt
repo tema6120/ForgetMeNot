@@ -26,7 +26,7 @@ fun initDatabase(applicationContext: Context) {
     )
     database = Database(
         driver,
-        DeckSorting.Adapter(
+        DeckReviewPreferences.Adapter(
             deckSortingAdapter = EnumColumnAdapter()
         ),
         ExercisePreference.Adapter(

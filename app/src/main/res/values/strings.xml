@@ -15,6 +15,7 @@
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
     <string name="action_sort_by">Sort by</string>
+    <string name="action_filter">Filter</string>
     <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
     <string name="text_sort_by_name_textview">Name</string>
     <string name="text_sort_by_last_created_textview">Last created</string>
@@ -59,4 +60,7 @@
     <string name="text_indicator_level_of_knowledge_good">4</string>
     <string name="text_indicator_level_of_knowledge_very_good">5</string>
     <string name="text_indicator_level_of_knowledge_excellent">6</string>
+    <string name="close">close</string>
+    <string name="title_deckpreview_filter_dialog">Filter</string>
+    <string name="filter_display_only_with_tasks">Display only with tasks</string>
 </resources>

@@ -1,2 +1,2 @@
 getDeckSorting:
-SELECT deckSorting FROM DeckSorting;
+SELECT deckSorting FROM DeckReviewPreferences;

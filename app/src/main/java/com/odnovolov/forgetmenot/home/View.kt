@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.home
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
@@ -14,6 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
+import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator
+import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.Item
+import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemAdapter
+import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.home.DeckPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.home.HomeEvent.*
 import com.odnovolov.forgetmenot.home.HomeOrder.*
@@ -29,6 +34,8 @@ class HomeFragment : BaseFragment() {
     private val controller = HomeController()
     private val viewModel = HomeViewModel()
     private val adapter = DeckPreviewAdapter(controller)
+    private lateinit var filterDialog: Dialog
+    private lateinit var filterAdapter: ItemAdapter<Item>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +43,18 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+        initFilterDialog()
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    private fun initFilterDialog() {
+        filterDialog = ChoiceDialogCreator.create<Item>(
+            context = requireContext(),
+            title = getString(R.string.title_deckpreview_filter_dialog),
+            itemForm = AsCheckBox,
+            onItemClick = { controller.dispatch(DisplayOnlyWithTasksCheckboxClicked) },
+            takeAdapter = { filterAdapter = it }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +69,16 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.decksPreview.observe(onChange = adapter::submitList)
+        with(viewModel) {
+            decksPreview.observe(onChange = adapter::submitList)
+            displayOnlyWithTasks.observe { displayOnlyWithTasks: Boolean ->
+                val item = object : Item {
+                    override val text = getString(R.string.filter_display_only_with_tasks)
+                    override val isSelected = displayOnlyWithTasks
+                }
+                filterAdapter.submitList(listOf(item))
+            }
+        }
     }
 
     private fun takeOrders() {
@@ -130,7 +157,25 @@ class HomeFragment : BaseFragment() {
                 DeckSortingBottomSheet().show(childFragmentManager, "DeckSortingBottomSheet Tag")
                 true
             }
+            R.id.action_filter -> {
+                filterDialog.show()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState
+            ?.getBundle(STATE_KEY_FILTER_DIALOG)
+            ?.let(filterDialog::onRestoreInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (::filterDialog.isInitialized) {
+            outState.putBundle(STATE_KEY_FILTER_DIALOG, filterDialog.onSaveInstanceState())
         }
     }
 
@@ -143,6 +188,10 @@ class HomeFragment : BaseFragment() {
         super.onDestroy()
         controller.dispose()
         LeakSentry.refWatcher.watch(this)
+    }
+
+    companion object {
+        const val STATE_KEY_FILTER_DIALOG = "filterDialog"
     }
 }
 
@@ -211,5 +260,4 @@ private class DeckPreviewAdapter(
             return oldItem == newItem
         }
     }
-
 }

@@ -21,9 +21,10 @@ import com.odnovolov.forgetmenot.common.entity.TestMethod.Off
 import com.odnovolov.forgetmenot.common.viewcreator.InputDialogCreator
 import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator.PresetRecyclerAdapter
-import com.odnovolov.forgetmenot.common.viewcreator.SingleChoiceDialogCreator
-import com.odnovolov.forgetmenot.common.viewcreator.SingleChoiceDialogCreator.Item
-import com.odnovolov.forgetmenot.common.viewcreator.SingleChoiceDialogCreator.ItemAdapter
+import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator
+import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.Item
+import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemAdapter
+import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsOrder.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
@@ -82,9 +83,10 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun initChooseTestMethodDialog() {
-        chooseTestMethodDialog = SingleChoiceDialogCreator.create<TestMethodItem>(
+        chooseTestMethodDialog = ChoiceDialogCreator.create<TestMethodItem>(
             context = requireContext(),
             title = getString(R.string.title_choose_test_method_dialog),
+            itemForm = AsRadioButton,
             onItemClick = {
                 val chosenTestMethod = it.testMethod
                 controller.dispatch(TestMethodWasChosen(chosenTestMethod))

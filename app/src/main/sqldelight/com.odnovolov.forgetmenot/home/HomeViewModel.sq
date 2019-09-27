@@ -44,8 +44,11 @@ WHERE
 GROUP BY
     Deck.id
 ORDER BY
-    CASE (SELECT deckSorting FROM DeckSorting)
+    CASE (SELECT deckSorting FROM DeckReviewPreferences)
         WHEN 'BY_LAST_CREATED' THEN Deck.createdAt
         WHEN 'BY_LAST_OPENED' THEN Deck.lastOpenedAt
     END DESC,
     Deck.name ASC;
+
+displayOnlyWithTasks:
+SELECT displayOnlyWithTasks FROM DeckReviewPreferences;

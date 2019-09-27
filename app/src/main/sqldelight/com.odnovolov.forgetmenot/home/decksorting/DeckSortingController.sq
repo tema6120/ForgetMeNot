@@ -1,2 +1,2 @@
 setDeckSorting:
-UPDATE DeckSorting SET deckSorting = ?;
+UPDATE DeckReviewPreferences SET deckSorting = ?;
