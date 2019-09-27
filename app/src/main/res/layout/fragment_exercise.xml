@@ -1,94 +1,106 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".exercise.ExerciseFragment">
 
     <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/exerciseViewPager"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="1"
             app:layout_constraintBottom_toTopOf="@+id/controlPanel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-            android:id="@+id/controlPanel"
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-            android:id="@+id/notAskButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/description_not_ask_button"
-            app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-            app:layout_constraintStart_toStartOf="@+id/controlPanel"
-            app:layout_constraintTop_toTopOf="@+id/controlPanel"
-            app:srcCompat="@drawable/ic_delete_white_24dp" />
-
-    <ImageButton
-            android:id="@+id/undoButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/description_undo_button"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-            app:layout_constraintStart_toStartOf="@+id/controlPanel"
-            app:layout_constraintTop_toTopOf="@+id/controlPanel"
-            app:srcCompat="@drawable/ic_undo_white_24dp" />
-
-    <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier5"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="notAskButton,undoButton" />
+            app:cardCornerRadius="0dp">
 
-    <ImageButton
-            android:id="@+id/speakButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/description_speak_button"
-            app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-            app:layout_constraintStart_toEndOf="@id/barrier5"
-            app:layout_constraintTop_toTopOf="@+id/controlPanel"
-            app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/controlPanel"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-    <ImageButton
-            android:id="@+id/editCardButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/description_edit_card_button"
-            app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-            app:layout_constraintStart_toEndOf="@id/speakButton"
-            app:layout_constraintTop_toTopOf="@+id/controlPanel"
-            app:srcCompat="@drawable/ic_edit_white_24dp" />
+            <ImageButton
+                    android:id="@+id/notAskButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_not_ask_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_delete_white_24dp" />
 
-    <TextView
-            android:id="@+id/levelOfKnowledgeTextView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="9dp"
-            android:gravity="center"
-            android:textColor="@color/text_level_of_knowledge"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-            app:layout_constraintEnd_toEndOf="@+id/controlPanel"
-            app:layout_constraintTop_toTopOf="@+id/controlPanel"
-            tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
-            tools:text="@string/text_indicator_level_of_knowledge_unsatisfactory"
-            tools:visibility="visible" />
+            <ImageButton
+                    android:id="@+id/undoButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_undo_button"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_undo_white_24dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="notAskButton,undoButton" />
+
+            <ImageButton
+                    android:id="@+id/speakButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_speak_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrier5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+
+            <ImageButton
+                    android:id="@+id/editCardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_edit_card_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/speakButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_edit_white_24dp" />
+
+            <TextView
+                    android:id="@+id/levelOfKnowledgeTextView"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="9dp"
+                    android:gravity="center"
+                    android:textColor="@color/text_level_of_knowledge"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
+                    tools:text="@string/text_indicator_level_of_knowledge_unsatisfactory"
+                    tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
