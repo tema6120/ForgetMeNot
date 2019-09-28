@@ -13,10 +13,22 @@ SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END FROM CurrentExerciseC
 getTextToSpeakAndLanguage:
 SELECT
     CASE
-        WHEN :isAnswered == 1 THEN (SELECT answer FROM CurrentExerciseCard)
-        ELSE (SELECT question FROM CurrentExerciseCard)
+        WHEN '' != (SELECT questionTextSelection FROM Exercise)
+            THEN (SELECT questionTextSelection FROM Exercise)
+        WHEN '' != (SELECT answerTextSelection FROM Exercise)
+            THEN (SELECT answerTextSelection FROM Exercise)
+        WHEN :isAnswered == 1
+            THEN (SELECT answer FROM CurrentExerciseCard)
+        ELSE
+            (SELECT question FROM CurrentExerciseCard)
     END AS textToSpeak,
     CASE
-        WHEN :isAnswered == 1 THEN (SELECT answerLanguage FROM ExercisePronunciation)
-        ELSE (SELECT questionLanguage FROM ExercisePronunciation)
+        WHEN '' != (SELECT questionTextSelection FROM Exercise)
+            THEN (SELECT questionLanguage FROM ExercisePronunciation)
+        WHEN '' != (SELECT answerTextSelection FROM Exercise)
+            THEN (SELECT answerLanguage FROM ExercisePronunciation)
+        WHEN :isAnswered == 1
+            THEN (SELECT answerLanguage FROM ExercisePronunciation)
+        ELSE
+            (SELECT questionLanguage FROM ExercisePronunciation)
     END AS language;

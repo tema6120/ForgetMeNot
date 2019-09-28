@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.common.viewcreator
+package com.odnovolov.forgetmenot.common.customview
 
 import android.app.Dialog
 import android.content.Context

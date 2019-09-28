@@ -21,10 +21,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.*
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.viewcreator.InputDialogCreator
-import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator
+import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
 import com.odnovolov.forgetmenot.pronunciation.LanguageRecyclerAdapter.ViewHolder
 import com.odnovolov.forgetmenot.pronunciation.PronunciationEvent.*
 import com.odnovolov.forgetmenot.pronunciation.PronunciationOrder.SetDialogText

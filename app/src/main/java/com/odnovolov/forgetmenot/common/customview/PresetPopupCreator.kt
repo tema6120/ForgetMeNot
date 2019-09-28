@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.common.viewcreator
+package com.odnovolov.forgetmenot.common.customview
 
 import android.content.Context
 import android.graphics.Color
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.dp
-import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator.PresetRecyclerAdapter.ViewHolder
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_deck_settings.view.presetNameTextView
 import kotlinx.android.synthetic.main.item_preset.view.*
 

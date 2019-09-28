@@ -3,8 +3,7 @@ package com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.asBoolean
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodEvent.NotRememberButtonClicked
-import com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodEvent.RememberButtonClicked
+import com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodEvent.*
 import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardControllerQueries
 
 class ExerciseCardManualTestMethodController(private val id: Long) :
@@ -13,6 +12,14 @@ class ExerciseCardManualTestMethodController(private val id: Long) :
 
     override fun handleEvent(event: ExerciseCardManualTestMethodEvent) {
         when (event) {
+            is QuestionTextSelectionChanged -> {
+                queries.setQuestionTextSelection(event.selection)
+            }
+
+            is AnswerTextSelectionChanged -> {
+                queries.setAnswerTextSelection(event.selection)
+            }
+
             RememberButtonClicked -> {
                 if (queries.isAnswerCorrect(id).executeAsOne().isAnswerCorrect == true) return
                 queries.updateLastAnsweredAt(id)

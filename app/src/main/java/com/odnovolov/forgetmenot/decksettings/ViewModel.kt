@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.decksettings
 
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
-import com.odnovolov.forgetmenot.common.viewcreator.PresetPopupCreator.Preset
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.common.entity.TestMethod
 import kotlinx.coroutines.flow.Flow

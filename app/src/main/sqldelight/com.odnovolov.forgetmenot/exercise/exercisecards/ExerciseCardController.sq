@@ -1,3 +1,9 @@
+setQuestionTextSelection:
+UPDATE Exercise SET questionTextSelection = ?;
+
+setAnswerTextSelection:
+UPDATE Exercise SET answerTextSelection = ?;
+
 isAnswerCorrect:
 SELECT isAnswerCorrect FROM ExerciseCard WHERE id == ?;
 

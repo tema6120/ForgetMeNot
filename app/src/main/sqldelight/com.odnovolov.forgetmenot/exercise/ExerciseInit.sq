@@ -5,7 +5,9 @@ createTableExercise:
 CREATE TEMPORARY TABLE Exercise (
     currentExerciseCardId INTEGER,
     testMethod INTEGER NOT NULL, -- AS TestMethod
-    pronunciationId INTEGER NOT NULL
+    pronunciationId INTEGER NOT NULL,
+    questionTextSelection TEXT NOT NULL DEFAULT '',
+    answerTextSelection TEXT NOT NULL DEFAULT ''
 );
 
 initExercise:

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.common.viewcreator
+package com.odnovolov.forgetmenot.common.customview
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemAdapter.ViewHolder
-import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemForm.AsCheckBox
-import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter.ViewHolder
+import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
+import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 
 object ChoiceDialogCreator {
     fun <T : Item> create(

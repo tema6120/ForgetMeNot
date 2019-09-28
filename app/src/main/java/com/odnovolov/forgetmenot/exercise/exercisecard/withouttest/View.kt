@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.exercise.exercisecard.withouttest.ExerciseCardWithoutTestEvent.ShowAnswerButtonClicked
+import com.odnovolov.forgetmenot.exercise.exercisecard.withouttest.ExerciseCardWithoutTestEvent.*
 import kotlinx.android.synthetic.main.fragment_exercise_card_without_test.*
 import leakcanary.LeakSentry
 
@@ -46,6 +46,10 @@ class ExerciseCardWithoutTestFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        questionTextView.observeSelectedText {
+            controller.dispatch(QuestionTextSelectionChanged(it))
+        }
+        answerTextView.observeSelectedText { controller.dispatch(AnswerTextSelectionChanged(it)) }
         showAnswerButton.setOnClickListener { controller.dispatch(ShowAnswerButtonClicked) }
     }
 

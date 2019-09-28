@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator
-import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.Item
-import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemAdapter
-import com.odnovolov.forgetmenot.common.viewcreator.ChoiceDialogCreator.ItemForm.AsCheckBox
+import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
+import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
+import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
+import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.home.DeckPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.home.HomeEvent.*
 import com.odnovolov.forgetmenot.home.HomeOrder.*

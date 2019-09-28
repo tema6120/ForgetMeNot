@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodEvent.NotRememberButtonClicked
-import com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodEvent.RememberButtonClicked
+import com.odnovolov.forgetmenot.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodEvent.*
 import kotlinx.android.synthetic.main.fragment_exercise_card_manual_test_method.*
 import leakcanary.LeakSentry
 
@@ -50,6 +49,10 @@ class ExerciseCardManualTestMethodFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        questionTextView.observeSelectedText {
+            controller.dispatch(QuestionTextSelectionChanged(it))
+        }
+        answerTextView.observeSelectedText { controller.dispatch(AnswerTextSelectionChanged(it)) }
         rememberButton.setOnClickListener { controller.dispatch(RememberButtonClicked) }
         notRememberButton.setOnClickListener { controller.dispatch(NotRememberButtonClicked) }
     }
