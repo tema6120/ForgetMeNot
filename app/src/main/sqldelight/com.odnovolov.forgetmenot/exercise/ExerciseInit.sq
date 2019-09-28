@@ -7,7 +7,8 @@ CREATE TEMPORARY TABLE Exercise (
     testMethod INTEGER NOT NULL, -- AS TestMethod
     pronunciationId INTEGER NOT NULL,
     questionTextSelection TEXT NOT NULL DEFAULT '',
-    answerTextSelection TEXT NOT NULL DEFAULT ''
+    answerTextSelection TEXT NOT NULL DEFAULT '',
+    answerAutoSpeakTriggered INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
 initExercise:
@@ -33,3 +34,11 @@ WHERE ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise);
 createViewExercisePronunciation:
 CREATE TEMPORARY VIEW IF NOT EXISTS ExercisePronunciation
 AS SELECT * FROM Pronunciation WHERE id == (SELECT pronunciationId FROM Exercise);
+
+createTriggerObserveAnswerAutoSpeakEvent:
+CREATE TEMPORARY TRIGGER IF NOT EXISTS observeAnswerAutoSpeakEvent
+AFTER UPDATE OF isAnswerCorrect ON ExerciseCard
+WHEN old.isAnswerCorrect IS NULL AND (SELECT answerAutoSpeak FROM ExercisePronunciation) == 1
+BEGIN
+    UPDATE Exercise SET answerAutoSpeakTriggered = 1;
+END;

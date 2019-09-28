@@ -7,17 +7,27 @@ UPDATE Exercise SET currentExerciseCardId = ?;
 setLearnedForCurrentCard:
 UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM CurrentExerciseCard);
 
-isCurrentExerciseCardAnswered:
-SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END FROM CurrentExerciseCard;
+isQuestionAutoSpeakEnabled:
+SELECT questionAutoSpeak FROM ExercisePronunciation;
+
+getQuestionAndLanguageToSpeak:
+SELECT
+    (SELECT question FROM CurrentExerciseCard) AS textToSpeak,
+    (SELECT questionLanguage FROM ExercisePronunciation) AS language;
 
 getTextToSpeakAndLanguage:
+WITH
+    Extra AS (
+        SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END AS isAnswered
+        FROM CurrentExerciseCard
+    )
 SELECT
     CASE
         WHEN '' != (SELECT questionTextSelection FROM Exercise)
             THEN (SELECT questionTextSelection FROM Exercise)
         WHEN '' != (SELECT answerTextSelection FROM Exercise)
             THEN (SELECT answerTextSelection FROM Exercise)
-        WHEN :isAnswered == 1
+        WHEN (SELECT isAnswered FROM Extra) == 1
             THEN (SELECT answer FROM CurrentExerciseCard)
         ELSE
             (SELECT question FROM CurrentExerciseCard)
@@ -27,8 +37,19 @@ SELECT
             THEN (SELECT questionLanguage FROM ExercisePronunciation)
         WHEN '' != (SELECT answerTextSelection FROM Exercise)
             THEN (SELECT answerLanguage FROM ExercisePronunciation)
-        WHEN :isAnswered == 1
+        WHEN (SELECT isAnswered FROM Extra) == 1
             THEN (SELECT answerLanguage FROM ExercisePronunciation)
         ELSE
             (SELECT questionLanguage FROM ExercisePronunciation)
     END AS language;
+
+answerAutoSpeakTriggered:
+SELECT answerAutoSpeakTriggered FROM Exercise;
+
+flushAnswerAutoSpeakTriggered:
+UPDATE Exercise SET answerAutoSpeakTriggered = 0;
+
+getAnswerAndLanguageToSpeak:
+SELECT
+    (SELECT answer FROM CurrentExerciseCard) AS textToSpeak,
+    (SELECT answerLanguage FROM ExercisePronunciation) AS language;

@@ -1,12 +1,29 @@
 package com.odnovolov.forgetmenot.exercise
 
 import com.odnovolov.forgetmenot.common.base.BaseController
+import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
+import com.odnovolov.forgetmenot.common.database.mapToOne
 import com.odnovolov.forgetmenot.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.exercise.ExerciseOrder.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
     private val queries: ExerciseControllerQueries = database.exerciseControllerQueries
+
+    init {
+        launch {
+            queries.answerAutoSpeakTriggered()
+                .asFlow()
+                .mapToOne()
+                .filter { it }
+                .collect {
+                    dispatchSafely(AnswerAutoSpeakTriggered)
+                }
+        }
+    }
 
     override fun handleEvent(event: ExerciseEvent) {
         when (event) {
@@ -14,6 +31,16 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
                 val exerciseCardIds = queries.getAllExerciseCardIds().executeAsList()
                 val currentExerciseCardId = exerciseCardIds[event.position]
                 queries.setCurrentExerciseCardId(currentExerciseCardId)
+                if (queries.isQuestionAutoSpeakEnabled().executeAsOne()) {
+                    val textToSpeakAndLanguage = queries.getQuestionAndLanguageToSpeak()
+                        .executeAsOne()
+                    issueOrder(
+                        Speak(
+                            text = textToSpeakAndLanguage.textToSpeak,
+                            language = textToSpeakAndLanguage.language
+                        )
+                    )
+                }
             }
 
             NotAskButtonClicked -> {
@@ -26,10 +53,7 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             }
 
             SpeakButtonClicked -> {
-                val isAnswered: Long = queries.isCurrentExerciseCardAnswered().executeAsOne()
-                val textToSpeakAndLanguage = queries
-                    .getTextToSpeakAndLanguage(isAnswered)
-                    .executeAsOne()
+                val textToSpeakAndLanguage = queries.getTextToSpeakAndLanguage().executeAsOne()
                 issueOrder(
                     Speak(
                         text = textToSpeakAndLanguage.textToSpeak,
@@ -45,6 +69,17 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
                     initTableEditCardState()
                 }
                 issueOrder(NavigateToEditCard)
+            }
+
+            AnswerAutoSpeakTriggered -> {
+                queries.flushAnswerAutoSpeakTriggered()
+                val textToSpeakAndLanguage = queries.getAnswerAndLanguageToSpeak().executeAsOne()
+                issueOrder(
+                    Speak(
+                        text = textToSpeakAndLanguage.textToSpeak,
+                        language = textToSpeakAndLanguage.language
+                    )
+                )
             }
         }
     }

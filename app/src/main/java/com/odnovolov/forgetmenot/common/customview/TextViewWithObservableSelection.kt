@@ -15,7 +15,6 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
     defStyleAttr,
     defStyleRes
 ) {
-
     private var selectedText: String = ""
         set(value) {
             if (field != value) {
@@ -37,6 +36,5 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
 
     fun observeSelectedText(observer: ((String) -> Unit)?) {
         this.observer = observer
-        observer?.invoke(selectedText)
     }
 }

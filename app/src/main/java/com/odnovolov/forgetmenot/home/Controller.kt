@@ -19,17 +19,18 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             }
 
             is DeckButtonClicked -> {
+                with(database.exerciseCardsInitQueries) {
+                    dropTableExerciseCard()
+                    createTableExerciseCard()
+                    initExerciseCard(event.deckId)
+                }
                 with(database.exerciseInitQueries) {
                     dropTableExercise()
                     createTableExercise()
                     initExercise(event.deckId)
                     createViewCurrentExerciseCard()
                     createViewExercisePronunciation()
-                }
-                with(database.exerciseCardsInitQueries) {
-                    dropTableExerciseCard()
-                    createTableExerciseCard()
-                    initExerciseCard(event.deckId)
+                    createTriggerObserveAnswerAutoSpeakEvent()
                 }
                 // TODO move 'setLastOpenedAt()' to Exercise screen
                 queries.updateLastOpenedAt(event.deckId)

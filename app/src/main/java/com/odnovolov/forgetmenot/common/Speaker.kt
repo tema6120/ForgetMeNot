@@ -11,6 +11,11 @@ class Speaker(context: Context, onInit: () -> Unit = {}) {
         if (status == TextToSpeech.SUCCESS) {
             defaultLanguage = tts.defaultVoice.locale
             onInit()
+            if (delayedSpokenText != null) {
+                speak(delayedSpokenText!!, delayedLanguage)
+                delayedSpokenText = null
+                delayedLanguage = null
+            }
         } else {
             Toast.makeText(context, "TTS initialization failed", Toast.LENGTH_LONG)
                 .show()
@@ -31,7 +36,15 @@ class Speaker(context: Context, onInit: () -> Unit = {}) {
     val availableLanguages: Set<Locale>
         get() = tts.availableLanguages
 
+    private var delayedSpokenText: String? = null
+    private var delayedLanguage: Locale? = null
+
     fun speak(text: String, language: Locale?) {
+        if (!::defaultLanguage.isInitialized) {
+            delayedSpokenText = text
+            delayedLanguage = language
+            return
+        }
         currentLanguage = language
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
     }
