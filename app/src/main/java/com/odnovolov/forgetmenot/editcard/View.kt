@@ -1,9 +1,11 @@
 package com.odnovolov.forgetmenot.editcard
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
@@ -55,9 +57,18 @@ class EditCardFragment : BaseFragment() {
                 updateText()
             }
             NavigateUp -> {
-                activity?.currentFocus?.clearFocus()
+                hideSoftKeyboard()
                 findNavController().navigateUp()
             }
+        }
+    }
+
+    private fun hideSoftKeyboard() {
+        with(requireActivity()) {
+            val focusedView = currentFocus ?: return
+            focusedView.clearFocus()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(focusedView.windowToken, 0)
         }
     }
 

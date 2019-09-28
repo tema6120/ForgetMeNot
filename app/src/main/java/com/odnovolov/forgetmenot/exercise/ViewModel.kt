@@ -13,9 +13,8 @@ class ExerciseViewModel {
         testMethodAdapter.decode(databaseValue)
     }
 
-    val exerciseCardsIdsAtStart: List<Long> by lazy {
-        queries.getAllExerciseCardIds().executeAsList()
-    }
+    val exerciseCardsIdsAtStart: List<Long>
+        get() = queries.getAllExerciseCardIds().executeAsList()
 
     val exerciseCardIds: Flow<List<Long>> = queries
         .getAllExerciseCardIds()
