@@ -21,7 +21,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/intervalSchemeNameTextView"
-                app:srcCompat="@drawable/ic_save_darkgray_24dp"
+                app:srcCompat="@drawable/ic_save_dark_24dp"
                 tools:visibilisty="visible" />
 
         <TextView
@@ -35,7 +35,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="16dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/textPrimary"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constrainedWidth="true"

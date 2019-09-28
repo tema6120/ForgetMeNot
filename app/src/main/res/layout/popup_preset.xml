@@ -24,7 +24,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_add_new_preset"
-                app:srcCompat="@drawable/ic_add_darkgray_24dp" />
+                app:srcCompat="@drawable/ic_add_dark_24dp" />
 
     </LinearLayout>
 

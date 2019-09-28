@@ -35,6 +35,7 @@
                         android:importantForAutofill="no"
                         android:inputType="textMultiLine"
                         android:padding="16dp"
+                        android:textColor="@color/textPrimary"
                         android:textSize="20sp"
                         tools:text="Эти люди привычны к тяжелой работе." />
 
@@ -69,6 +70,7 @@
                         android:importantForAutofill="no"
                         android:inputType="textMultiLine"
                         android:padding="16dp"
+                        android:textColor="@color/textPrimary"
                         android:textSize="16sp"
                         tools:text="Эти люди привычны к тяжелой работе." />
 

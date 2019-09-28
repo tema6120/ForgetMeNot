@@ -30,6 +30,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="16dp"
+                        android:textColor="@color/textPrimary"
                         android:textIsSelectable="true"
                         android:textSize="20sp"
                         tools:text="Эти люди привычны к тяжелой работе." />
@@ -62,6 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
+                        android:textColor="@color/textPrimary"
                         android:textIsSelectable="true"
                         android:textSize="16sp"
                         tools:text="These men are used to hard work." />

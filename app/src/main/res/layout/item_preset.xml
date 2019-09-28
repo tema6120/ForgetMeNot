@@ -11,7 +11,7 @@
             android:layout_marginStart="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/textPrimary"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/deletePresetButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_edit_darkgray_24dp" />
+            app:srcCompat="@drawable/ic_edit_dark_24dp" />
 
     <ImageView
             android:id="@+id/deletePresetButton"
@@ -53,6 +53,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete_darkgray_24dp" />
+            app:srcCompat="@drawable/ic_delete_dark_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

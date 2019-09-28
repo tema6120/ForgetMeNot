@@ -10,4 +10,7 @@
     <color name="background_correct_answer">#78e876</color>
     <color name="background_wrong_answer">#e87678</color>
     <color name="text_level_of_knowledge">#FFF</color>
+    <color name="textPrimary">#DE000000</color>
+    <color name="textSecondary">#99000000</color>
+    <color name="iconDark">#DE000000</color>
 </resources>

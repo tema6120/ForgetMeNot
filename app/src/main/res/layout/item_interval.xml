@@ -14,7 +14,6 @@
             app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
             app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
             android:id="@+id/levelOfKnowledgeTextView"
             android:layout_width="32dp"
@@ -37,11 +36,12 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/rectangle_darker_gray_1dp_stroke"
             android:gravity="end"
-            android:inputType="number"
             android:hint="000"
-            android:textColorHint="#00FFFFFF"
+            android:inputType="number"
             android:maxLength="3"
             android:padding="8dp"
+            android:textColor="@color/textPrimary"
+            android:textColorHint="#00FFFFFF"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/levelOfKnowledgeTextView"
             app:layout_constraintEnd_toStartOf="@+id/timeUnitButton"
@@ -62,6 +62,7 @@
             android:background="@drawable/rectangle_darker_gray_1dp_stroke"
             android:drawableEnd="@drawable/ic_more_expand_more_with_inset"
             android:padding="8dp"
+            android:textColor="@color/textPrimary"
             android:textSize="18sp"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@+id/levelOfKnowledgeTextView"

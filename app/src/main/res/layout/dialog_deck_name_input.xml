@@ -8,6 +8,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:inputType="text"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textColor="@color/textPrimary" />
 
 </FrameLayout>

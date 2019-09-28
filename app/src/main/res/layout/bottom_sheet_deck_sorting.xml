@@ -21,7 +21,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:text="@string/text_sort_by_last_created_textview"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textPrimary"
             android:textSize="16sp" />
 
     <TextView
@@ -33,7 +33,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:text="@string/text_sort_by_name_textview"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textPrimary"
             android:textSize="16sp" />
 
     <TextView
@@ -45,7 +45,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:text="@string/text_sort_by_last_opened_textview"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textPrimary"
             android:textSize="16sp" />
 
 </LinearLayout>

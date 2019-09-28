@@ -26,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/textPrimary"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toStartOf="@+id/renameIcon"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/deckNameTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/deckNameTextView"
-                app:srcCompat="@drawable/ic_edit_darkgray_24dp" />
+                app:srcCompat="@drawable/ic_edit_dark_24dp" />
 
         <View
                 android:id="@+id/renameDeckButton"
@@ -85,7 +85,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@+id/exercisePreferencesSectionTitle"
                 app:layout_constraintTop_toTopOf="@+id/presetNameTextView"
-                app:srcCompat="@drawable/ic_save_darkgray_24dp"
+                app:srcCompat="@drawable/ic_save_dark_24dp"
                 tools:visibilisty="visible" />
 
         <TextView
@@ -97,7 +97,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="16dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/textPrimary"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constrainedWidth="true"
@@ -121,7 +121,7 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/text_random_order"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/randomOrderSwitch"
                 app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +135,7 @@
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp"
                 android:text="@string/description_random_order"
+                android:textColor="@color/textSecondary"
                 app:layout_constraintEnd_toStartOf="@+id/randomOrderSwitch"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/randomOrderTitle" />
@@ -189,7 +190,7 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/title_test_method"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -202,6 +203,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp"
+                android:textColor="@color/textSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/testMethodTitle"
@@ -234,7 +236,7 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/text_intervals_title"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/navigateToIntervalsScreenIcon"
                 app:layout_constraintStart_toStartOf="parent"
@@ -247,6 +249,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp"
+                android:textColor="@color/textSecondary"
                 app:layout_constraintEnd_toStartOf="@+id/navigateToIntervalsScreenIcon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/intervalsTitle"
@@ -260,7 +263,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/selectedIntervalsTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/intervalsTitle"
-                app:srcCompat="@drawable/ic_navigate_next_darkgray_24dp" />
+                app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
 
         <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier4"
@@ -296,7 +299,7 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/text_pronunciation"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/navigateToPronunciationScreenIcon"
                 app:layout_constraintStart_toStartOf="parent"
@@ -309,6 +312,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp"
+                android:textColor="@color/textSecondary"
                 app:layout_constraintEnd_toStartOf="@+id/navigateToPronunciationScreenIcon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pronunciationTitle"
@@ -322,7 +326,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/selectedPronunciationTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/pronunciationTitle"
-                app:srcCompat="@drawable/ic_navigate_next_darkgray_24dp" />
+                app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
 
         <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier5"
