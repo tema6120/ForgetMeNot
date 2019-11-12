@@ -30,7 +30,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="16dp"
-                        android:textColor="@color/textPrimary"
+                        android:textColor="@color/textSecondary"
                         android:textIsSelectable="true"
                         android:textSize="20sp"
                         tools:text="Эти люди привычны к тяжелой работе." />
@@ -63,9 +63,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:textColor="@color/textPrimary"
+                        android:textColor="@color/textSecondary"
                         android:textIsSelectable="true"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
             </ScrollView>
 
@@ -98,7 +98,7 @@
                     android:background="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:text="@string/text_remember_button"
-                    android:textColor="@color/textPrimary"
+                    android:textColor="@color/textSecondary"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/divider3"
@@ -122,7 +122,7 @@
                     android:background="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:text="@string/text_not_remember_button"
-                    android:textColor="@color/textPrimary"
+                    android:textColor="@color/textSecondary"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
