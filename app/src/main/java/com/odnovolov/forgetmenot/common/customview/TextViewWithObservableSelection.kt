@@ -31,7 +31,9 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
 
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
         super.onSelectionChanged(selStart, selEnd)
-        selectedText = text.toString().substring(selStart, selEnd)
+        val startIndex = minOf(selStart, selEnd)
+        val endIndex = maxOf(selStart, selEnd)
+        selectedText = text.toString().substring(startIndex, endIndex)
     }
 
     fun observeSelectedText(observer: ((String) -> Unit)?) {
