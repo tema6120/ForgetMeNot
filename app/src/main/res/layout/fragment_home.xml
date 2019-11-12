@@ -4,7 +4,7 @@
         android:id="@+id/homeFragmentRootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".home.HomeFragment">
+        tools:context=".screen.home.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/decksPreviewRecycler"
@@ -15,7 +15,7 @@
 
     <fragment
             android:id="@+id/addDeckFragment"
-            android:name="com.odnovolov.forgetmenot.home.adddeck.AddDeckFragment"
+            android:name="com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -1,5 +1,5 @@
 import com.odnovolov.forgetmenot.common.entity.TestMethod;
-import com.odnovolov.forgetmenot.home.decksorting.DeckSorting;
+import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting;
 import java.lang.Boolean;
 import java.util.Calendar;
 import java.util.Locale;
