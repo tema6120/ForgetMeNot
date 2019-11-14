@@ -1,7 +1,10 @@
+queryForSupportDbInitialization:
+CREATE TABLE IF NOT EXISTS Temp(nothing TEXT);
+
 createTableHomeState:
-CREATE TEMPORARY TABLE HomeState (
+CREATE TABLE TempHomeState (
     searchText TEXT NOT NULL DEFAULT ''
 );
 
 initHomeState:
-INSERT INTO HomeState DEFAULT VALUES;
+INSERT INTO TempHomeState DEFAULT VALUES;

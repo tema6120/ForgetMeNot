@@ -1,27 +1,27 @@
 setQuestionTextSelection:
-UPDATE Exercise SET questionTextSelection = ?;
+UPDATE TempExercise SET questionTextSelection = ?;
 
 setAnswerTextSelection:
-UPDATE Exercise SET answerTextSelection = ?;
+UPDATE TempExercise SET answerTextSelection = ?;
 
 isAnswerCorrect:
-SELECT isAnswerCorrect FROM ExerciseCard WHERE id == ?;
+SELECT isAnswerCorrect FROM TempExerciseCard WHERE id == ?;
 
 updateLastAnsweredAt:
 UPDATE Card SET lastAnsweredAt = datetime('now') WHERE Card.id == (
-    SELECT cardId FROM ExerciseCard WHERE id == ?
+    SELECT cardId FROM TempExerciseCard WHERE id == ?
 );
 
 incrementLapIfCardIsAnsweredForTheFirstTime:
 UPDATE Card
 SET lap = lap + 1
-WHERE Card.id == (SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == :exerciseCardId)
+WHERE Card.id == (SELECT cardId FROM TempExerciseCard WHERE TempExerciseCard.id == :exerciseCardId)
   AND CASE
           WHEN EXISTS (
-                       SELECT * FROM ExerciseCard
+                       SELECT * FROM TempExerciseCard
                        WHERE cardId == (
-                                        SELECT cardId FROM ExerciseCard
-                                        WHERE ExerciseCard.id == :exerciseCardId
+                                        SELECT cardId FROM TempExerciseCard
+                                        WHERE TempExerciseCard.id == :exerciseCardId
                                        )
                              AND isAnswerCorrect IS NOT NULL
                       )
@@ -30,19 +30,19 @@ WHERE Card.id == (SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == :exer
       END;
 
 setAnswerCorrect:
-UPDATE ExerciseCard SET isAnswerCorrect = ? WHERE id = ?;
+UPDATE TempExerciseCard SET isAnswerCorrect = ? WHERE id = ?;
 
 deleteAllRepeatedCardsOnTheRight:
-DELETE FROM ExerciseCard
-WHERE cardId == (SELECT cardId FROM ExerciseCard WHERE id = :exerciseCardId)
+DELETE FROM TempExerciseCard
+WHERE cardId == (SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId)
       AND id > :exerciseCardId;
 
 isThereAnyRepeatedCardOnTheRight:
 SELECT
     CASE
         WHEN EXISTS (
-                     SELECT * FROM ExerciseCard
-                     WHERE cardId == (SELECT cardId FROM ExerciseCard WHERE id = :exerciseCardId)
+                     SELECT * FROM TempExerciseCard
+                     WHERE cardId == (SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId)
                        AND id > :exerciseCardId
                     )
             THEN 1
@@ -50,8 +50,8 @@ SELECT
     END;
 
 addRepeatedCard:
-INSERT INTO ExerciseCard(cardId, initialLevelOfKnowledge)
-SELECT cardId, initialLevelOfKnowledge FROM ExerciseCard WHERE id == ?;
+INSERT INTO TempExerciseCard(cardId, initialLevelOfKnowledge)
+SELECT cardId, initialLevelOfKnowledge FROM TempExerciseCard WHERE id == ?;
 
 updateLevelOfKnowledge:
 WITH
@@ -60,8 +60,8 @@ WITH
                count(CASE WHEN isAnswerCorrect = 1 THEN 1 ELSE NULL END) AS numberOfCorrect,
                initialLevelOfKnowledge,
                cardId
-        FROM ExerciseCard
-        WHERE cardId == (SELECT cardId FROM ExerciseCard WHERE id = :exerciseCardId)
+        FROM TempExerciseCard
+        WHERE cardId == (SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId)
     )
 UPDATE Card
 SET levelOfKnowledge = CASE

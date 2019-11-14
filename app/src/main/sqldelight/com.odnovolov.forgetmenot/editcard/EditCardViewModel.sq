@@ -1,5 +1,5 @@
 getQuestion:
-SELECT question FROM EditCardState;
+SELECT question FROM TempEditCardState;
 
 getAnswer:
-SELECT answer FROM EditCardState;
+SELECT answer FROM TempEditCardState;

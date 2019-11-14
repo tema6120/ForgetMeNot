@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.screen.home.adddeck
 
-import com.odnovolov.forgetmenot.home.adddeck.CardPrototype
+import com.odnovolov.forgetmenot.home.adddeck.TempCardPrototype
 import java.io.InputStream
 import java.lang.Exception
 import java.lang.NullPointerException
@@ -9,7 +9,7 @@ import java.nio.charset.Charset
 class Parser private constructor() {
 
     companion object {
-        fun parse(inputStream: InputStream, charset: Charset): List<CardPrototype> {
+        fun parse(inputStream: InputStream, charset: Charset): List<TempCardPrototype> {
             return Parser().parse(inputStream, charset)
         }
 
@@ -22,7 +22,7 @@ class Parser private constructor() {
         private val CARD_CONTENT_REGEX = Regex("""[[:blank:]]*[\S]([\s\S]*[\S]|)""")
     }
 
-    private fun parse(inputStream: InputStream, charset: Charset): List<CardPrototype> {
+    private fun parse(inputStream: InputStream, charset: Charset): List<TempCardPrototype> {
         val text = inputStream.bufferedReader().use {
             it.readText()
         }
@@ -37,7 +37,7 @@ class Parser private constructor() {
         return !testedString.matches(EMPTY_REGEX)
     }
 
-    private fun parseCardBlock(ordinal: Int, cardBlock: String): CardPrototype {
+    private fun parseCardBlock(ordinal: Int, cardBlock: String): TempCardPrototype {
         if (!cardBlock.matches(CARD_REGEX)) {
             throw IllegalCardFormatException("wrong card format: $cardBlock")
         }
@@ -56,7 +56,7 @@ class Parser private constructor() {
             } catch (e: NullPointerException) {
                 throw IllegalCardFormatException("card doesn't have answer: $cardBlock")
             }
-        return CardPrototype.Impl(ordinal, question, answer)
+        return TempCardPrototype.Impl(ordinal, question, answer)
     }
 
     private fun trim(raw: String): String {

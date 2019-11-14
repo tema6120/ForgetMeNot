@@ -1,14 +1,14 @@
 setQuestion:
-UPDATE EditCardState SET question = ?;
+UPDATE TempEditCardState SET question = ?;
 
 setAnswer:
-UPDATE EditCardState SET answer = ?;
+UPDATE TempEditCardState SET answer = ?;
 
 reverseQuestionAndAnswer:
-UPDATE EditCardState SET question = answer, answer = question;
+UPDATE TempEditCardState SET question = answer, answer = question;
 
 updateCard:
 UPDATE Card
-SET question = (SELECT question FROM EditCardState),
-    answer = (SELECT answer FROM EditCardState)
-WHERE id == (SELECT cardId FROM CurrentExerciseCard);
+SET question = (SELECT question FROM TempEditCardState),
+    answer = (SELECT answer FROM TempEditCardState)
+WHERE id == (SELECT cardId FROM TempCurrentExerciseCard);

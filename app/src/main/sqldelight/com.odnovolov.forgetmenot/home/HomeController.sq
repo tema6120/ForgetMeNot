@@ -1,5 +1,5 @@
 setSearchText:
-UPDATE HomeState SET searchText = ?;
+UPDATE TempHomeState SET searchText = ?;
 
 toogleDisplayOnlyWithTasks:
 UPDATE DeckReviewPreferences

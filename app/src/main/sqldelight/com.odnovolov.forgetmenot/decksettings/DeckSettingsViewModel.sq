@@ -1,20 +1,20 @@
 getDeckName:
 SELECT name FROM Deck WHERE id == (
-    SELECT deckId FROM DeckSettingsState
+    SELECT deckId FROM TempDeckSettingsState
 );
 
 exercisePreferenceIdAndName:
-SELECT id, name FROM CurrentExercisePreference;
+SELECT id, name FROM TempCurrentExercisePreference;
 
 getAvailableExercisePreferences:
 SELECT id, name, CASE
-                     WHEN id == (SELECT id FROM CurrentExercisePreference)
+                     WHEN id == (SELECT id FROM TempCurrentExercisePreference)
                          THEN 1
                      ELSE 0
                  END AS isSelected
 FROM ExercisePreference
 WHERE id == 0
-   OR id == (SELECT id FROM CurrentExercisePreference)
+   OR id == (SELECT id FROM TempCurrentExercisePreference)
    OR name != ''
 ORDER BY
     id = 0 DESC,
@@ -26,21 +26,21 @@ SELECT
         WHEN presetNameInputDialogStatus = 'Invisible' THEN 0
         ELSE 1
     END
-FROM DeckSettingsState;
+FROM TempDeckSettingsState;
 
 getDialogInputCheckResult:
-SELECT nameCheckResult FROM DeckSettingsState;
+SELECT nameCheckResult FROM TempDeckSettingsState;
 
 getRandomOrder:
-SELECT randomOrder FROM CurrentExercisePreference;
+SELECT randomOrder FROM TempCurrentExercisePreference;
 
 getSelectedTestMethod:
-SELECT testMethod FROM CurrentExercisePreference;
+SELECT testMethod FROM TempCurrentExercisePreference;
 
 getIntervalScheme:
 SELECT * FROM IntervalScheme WHERE id == (
-    SELECT intervalSchemeId FROM CurrentExercisePreference
+    SELECT intervalSchemeId FROM TempCurrentExercisePreference
 );
 
 pronunciationIdAndName:
-SELECT id, name FROM CurrentPronunciation;
+SELECT id, name FROM TempCurrentPronunciation;

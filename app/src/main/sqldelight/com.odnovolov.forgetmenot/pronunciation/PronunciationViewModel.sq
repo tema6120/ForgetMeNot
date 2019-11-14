@@ -1,15 +1,15 @@
 getCurrentPronunciation:
-SELECT * FROM CurrentPronunciation;
+SELECT * FROM TempCurrentPronunciation;
 
 getAvailablePronunciations:
 SELECT id, name, CASE
-                     WHEN id = (SELECT id FROM CurrentPronunciation)
+                     WHEN id = (SELECT id FROM TempCurrentPronunciation)
                          THEN 1
                      ELSE 0
                  END AS isSelected
 FROM Pronunciation
 WHERE id = 0
-   OR id = (SELECT id FROM CurrentPronunciation)
+   OR id = (SELECT id FROM TempCurrentPronunciation)
    OR name != ''
 ORDER BY
     id = 0 DESC,
@@ -21,10 +21,10 @@ SELECT
         WHEN presetNameInputDialogStatus = 'Invisible' THEN 0
         ELSE 1
     END
-FROM PronunciationState;
+FROM TempPronunciationState;
 
 getDialogInputCheckResult:
-SELECT nameCheckResult FROM PronunciationState;
+SELECT nameCheckResult FROM TempPronunciationState;
 
 getAvailableLanguages:
-SELECT availableLanguages FROM PronunciationState;
+SELECT availableLanguages FROM TempPronunciationState;

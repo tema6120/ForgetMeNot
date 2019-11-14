@@ -1,15 +1,15 @@
 getTestMethod:
-SELECT testMethod FROM Exercise;
+SELECT testMethod FROM TempExercise;
 
 getAllExerciseCardIds:
-SELECT id FROM ExerciseCard ORDER BY id;
+SELECT id FROM TempExerciseCard ORDER BY id;
 
 isCurrentExerciseCardLearned: -- nullable
-SELECT isLearned FROM CurrentExerciseCard;
+SELECT isLearned FROM TempCurrentExerciseCard;
 
 getLevelOfKnowledgeForCurrentCard:
 SELECT CASE
-           WHEN (SELECT testMethod FROM Exercise) != 0 THEN levelOfKnowledge
+           WHEN (SELECT testMethod FROM TempExercise) != 0 THEN levelOfKnowledge
            ELSE -1
        END
-FROM CurrentExerciseCard;
+FROM TempCurrentExerciseCard;

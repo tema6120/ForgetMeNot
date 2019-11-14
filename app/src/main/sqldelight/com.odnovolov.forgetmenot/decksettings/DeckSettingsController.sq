@@ -1,17 +1,17 @@
 getPresetNameInputDialogStatus:
-SELECT presetNameInputDialogStatus FROM DeckSettingsState;
+SELECT presetNameInputDialogStatus FROM TempDeckSettingsState;
 
 setPresetNameInputDialogStatus:
-UPDATE DeckSettingsState SET presetNameInputDialogStatus = ?;
+UPDATE TempDeckSettingsState SET presetNameInputDialogStatus = ?;
 
 setTypedPresetName:
-UPDATE DeckSettingsState SET typedPresetName = ?;
+UPDATE TempDeckSettingsState SET typedPresetName = ?;
 
 setNameCheckResult:
-UPDATE DeckSettingsState SET nameCheckResult = ?;
+UPDATE TempDeckSettingsState SET nameCheckResult = ?;
 
 setRenamePresetId:
-UPDATE DeckSettingsState SET renamePresetId = ?;
+UPDATE TempDeckSettingsState SET renamePresetId = ?;
 
 getExercisePreferenceNameById:
 SELECT name FROM ExercisePreference WHERE id == ?;
@@ -22,7 +22,7 @@ SELECT
         WHEN typedPresetName == '' THEN 1
         ELSE 0
     END
-FROM DeckSettingsState;
+FROM TempDeckSettingsState;
 
 isTypedPresetNameOccupied:
 SELECT
@@ -30,41 +30,41 @@ SELECT
         WHEN typedPresetName IN (SELECT name FROM Pronunciation) THEN 1
         ELSE 0
     END
-FROM DeckSettingsState;
+FROM TempDeckSettingsState;
 
 setCurrentExercisePreference:
 UPDATE Deck SET exercisePreferenceId = ? WHERE id == (
-    SELECT deckId FROM DeckSettingsState
+    SELECT deckId FROM TempDeckSettingsState
 );
 
 renameCurrentPreset:
 UPDATE ExercisePreference
-SET name = (SELECT typedPresetName FROM DeckSettingsState)
-WHERE id == (SELECT id FROM CurrentExercisePreference);
+SET name = (SELECT typedPresetName FROM TempDeckSettingsState)
+WHERE id == (SELECT id FROM TempCurrentExercisePreference);
 
 renameSharedPreset:
 UPDATE ExercisePreference
-SET name = (SELECT typedPresetName FROM DeckSettingsState)
-WHERE id == (SELECT renamePresetId FROM DeckSettingsState) AND name != '';
+SET name = (SELECT typedPresetName FROM TempDeckSettingsState)
+WHERE id == (SELECT renamePresetId FROM TempDeckSettingsState) AND name != '';
 
 deleteSharedExercisePreference:
 DELETE FROM ExercisePreference WHERE id == ? AND name != '';
 
 createNewSharedExercisePreference:
 INSERT INTO ExercisePreference(name)
-SELECT typedPresetName FROM DeckSettingsState;
+SELECT typedPresetName FROM TempDeckSettingsState;
 
 bindNewExercisePreferenceToDeck:
 UPDATE Deck
 SET exercisePreferenceId = (SELECT last_insert_rowid())
-WHERE id == (SELECT deckId FROM DeckSettingsState);
+WHERE id == (SELECT deckId FROM TempDeckSettingsState);
 
 toggleRandomOrder:
 UPDATE ExercisePreference
 SET randomOrder = (CASE WHEN randomOrder == 1 THEN 0 ELSE 1 END)
-WHERE id == (SELECT id FROM CurrentExercisePreference);
+WHERE id == (SELECT id FROM TempCurrentExercisePreference);
 
 setTestMethod:
 UPDATE ExercisePreference
 SET testMethod = ?
-WHERE id == (SELECT id FROM CurrentExercisePreference);
+WHERE id == (SELECT id FROM TempCurrentExercisePreference);

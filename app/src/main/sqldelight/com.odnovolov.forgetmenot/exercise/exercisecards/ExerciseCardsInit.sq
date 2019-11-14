@@ -1,8 +1,8 @@
 dropTableExerciseCard:
-DROP TABLE IF EXISTS ExerciseCard;
+DROP TABLE IF EXISTS TempExerciseCard;
 
 createTableExerciseCard:
-CREATE TEMPORARY TABLE ExerciseCard (
+CREATE TABLE TempExerciseCard (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     cardId INTEGER NOT NULL,
     initialLevelOfKnowledge INTEGER AS Int NOT NULL,
@@ -10,7 +10,7 @@ CREATE TEMPORARY TABLE ExerciseCard (
 );
 
 initExerciseCard:
-INSERT INTO ExerciseCard (cardId, initialLevelOfKnowledge)
+INSERT INTO TempExerciseCard (cardId, initialLevelOfKnowledge)
     SELECT
         Card.id,
         Card.levelOfKnowledge

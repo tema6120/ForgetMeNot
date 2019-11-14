@@ -1,55 +1,55 @@
 getAllExerciseCardIds:
-SELECT id FROM ExerciseCard ORDER BY id;
+SELECT id FROM TempExerciseCard ORDER BY id;
 
 setCurrentExerciseCardId:
-UPDATE Exercise SET currentExerciseCardId = ?;
+UPDATE TempExercise SET currentExerciseCardId = ?;
 
 setLearnedForCurrentCard:
-UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM CurrentExerciseCard);
+UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM TempCurrentExerciseCard);
 
 isQuestionAutoSpeakEnabled:
-SELECT questionAutoSpeak FROM ExercisePronunciation;
+SELECT questionAutoSpeak FROM TempExercisePronunciation;
 
 getQuestionAndLanguageToSpeak:
 SELECT
-    (SELECT question FROM CurrentExerciseCard) AS textToSpeak,
-    (SELECT questionLanguage FROM ExercisePronunciation) AS language;
+    (SELECT question FROM TempCurrentExerciseCard) AS textToSpeak,
+    (SELECT questionLanguage FROM TempExercisePronunciation) AS language;
 
 getTextToSpeakAndLanguage:
 WITH
     Extra AS (
         SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END AS isAnswered
-        FROM CurrentExerciseCard
+        FROM TempCurrentExerciseCard
     )
 SELECT
     CASE
-        WHEN '' != (SELECT questionTextSelection FROM Exercise)
-            THEN (SELECT questionTextSelection FROM Exercise)
-        WHEN '' != (SELECT answerTextSelection FROM Exercise)
-            THEN (SELECT answerTextSelection FROM Exercise)
+        WHEN '' != (SELECT questionTextSelection FROM TempExercise)
+            THEN (SELECT questionTextSelection FROM TempExercise)
+        WHEN '' != (SELECT answerTextSelection FROM TempExercise)
+            THEN (SELECT answerTextSelection FROM TempExercise)
         WHEN (SELECT isAnswered FROM Extra) == 1
-            THEN (SELECT answer FROM CurrentExerciseCard)
+            THEN (SELECT answer FROM TempCurrentExerciseCard)
         ELSE
-            (SELECT question FROM CurrentExerciseCard)
+            (SELECT question FROM TempCurrentExerciseCard)
     END AS textToSpeak,
     CASE
-        WHEN '' != (SELECT questionTextSelection FROM Exercise)
-            THEN (SELECT questionLanguage FROM ExercisePronunciation)
-        WHEN '' != (SELECT answerTextSelection FROM Exercise)
-            THEN (SELECT answerLanguage FROM ExercisePronunciation)
+        WHEN '' != (SELECT questionTextSelection FROM TempExercise)
+            THEN (SELECT questionLanguage FROM TempExercisePronunciation)
+        WHEN '' != (SELECT answerTextSelection FROM TempExercise)
+            THEN (SELECT answerLanguage FROM TempExercisePronunciation)
         WHEN (SELECT isAnswered FROM Extra) == 1
-            THEN (SELECT answerLanguage FROM ExercisePronunciation)
+            THEN (SELECT answerLanguage FROM TempExercisePronunciation)
         ELSE
-            (SELECT questionLanguage FROM ExercisePronunciation)
+            (SELECT questionLanguage FROM TempExercisePronunciation)
     END AS language;
 
 answerAutoSpeakTriggered:
-SELECT answerAutoSpeakTriggered FROM Exercise;
+SELECT answerAutoSpeakTriggered FROM TempExercise;
 
 flushAnswerAutoSpeakTriggered:
-UPDATE Exercise SET answerAutoSpeakTriggered = 0;
+UPDATE TempExercise SET answerAutoSpeakTriggered = 0;
 
 getAnswerAndLanguageToSpeak:
 SELECT
-    (SELECT answer FROM CurrentExerciseCard) AS textToSpeak,
-    (SELECT answerLanguage FROM ExercisePronunciation) AS language;
+    (SELECT answer FROM TempCurrentExerciseCard) AS textToSpeak,
+    (SELECT answerLanguage FROM TempExercisePronunciation) AS language;

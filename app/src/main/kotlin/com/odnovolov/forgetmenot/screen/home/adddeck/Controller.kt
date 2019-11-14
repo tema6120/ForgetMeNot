@@ -4,7 +4,7 @@ import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.asBoolean
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.stageAdapter
-import com.odnovolov.forgetmenot.home.adddeck.CardPrototype
+import com.odnovolov.forgetmenot.home.adddeck.TempCardPrototype
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckEvent.*
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.SetDialogText
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.ShowErrorMessage
@@ -79,7 +79,7 @@ class AddDeckController : BaseController<AddDeckEvent, AddDeckOrder>() {
         queries.setStage(stageAdapter.encode(stage))
     }
 
-    private fun saveCardPrototypes(cardPrototypes: List<CardPrototype>) {
+    private fun saveCardPrototypes(cardPrototypes: List<TempCardPrototype>) {
         queries.dropTableCardPrototype()
         queries.createTableCardPrototype()
         cardPrototypes.forEach {

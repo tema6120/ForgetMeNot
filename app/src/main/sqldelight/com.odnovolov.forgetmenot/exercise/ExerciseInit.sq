@@ -1,8 +1,8 @@
 dropTableExercise:
-DROP TABLE IF EXISTS Exercise;
+DROP TABLE IF EXISTS TempExercise;
 
 createTableExercise:
-CREATE TEMPORARY TABLE Exercise (
+CREATE TABLE TempExercise (
     currentExerciseCardId INTEGER,
     testMethod INTEGER NOT NULL, -- AS TestMethod
     pronunciationId INTEGER NOT NULL,
@@ -12,14 +12,14 @@ CREATE TEMPORARY TABLE Exercise (
 );
 
 initExercise:
-INSERT INTO Exercise(testMethod, pronunciationId)
+INSERT INTO TempExercise(testMethod, pronunciationId)
 SELECT testMethod, pronunciationId FROM ExercisePreference WHERE id == (
     SELECT exercisePreferenceId FROM Deck WHERE id == ?
 );
 
 createViewCurrentExerciseCard:
-CREATE TEMPORARY VIEW IF NOT EXISTS CurrentExerciseCard
-AS SELECT ExerciseCard.*,
+CREATE VIEW IF NOT EXISTS TempCurrentExerciseCard
+AS SELECT TempExerciseCard.*,
           Card.deckId,
           Card.ordinal,
           Card.question,
@@ -28,17 +28,17 @@ AS SELECT ExerciseCard.*,
           Card.isLearned,
           Card.levelOfKnowledge,
           Card.lastAnsweredAt
-FROM ExerciseCard LEFT JOIN Card ON ExerciseCard.cardId == Card.id
-WHERE ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise);
+FROM TempExerciseCard LEFT JOIN Card ON TempExerciseCard.cardId == Card.id
+WHERE TempExerciseCard.id == (SELECT currentExerciseCardId FROM TempExercise);
 
 createViewExercisePronunciation:
-CREATE TEMPORARY VIEW IF NOT EXISTS ExercisePronunciation
-AS SELECT * FROM Pronunciation WHERE id == (SELECT pronunciationId FROM Exercise);
+CREATE VIEW IF NOT EXISTS TempExercisePronunciation
+AS SELECT * FROM Pronunciation WHERE id == (SELECT pronunciationId FROM TempExercise);
 
 createTriggerObserveAnswerAutoSpeakEvent:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS observeAnswerAutoSpeakEvent
-AFTER UPDATE OF isAnswerCorrect ON ExerciseCard
-WHEN old.isAnswerCorrect IS NULL AND (SELECT answerAutoSpeak FROM ExercisePronunciation) == 1
+CREATE TRIGGER IF NOT EXISTS TempObserveAnswerAutoSpeakEvent
+AFTER UPDATE OF isAnswerCorrect ON TempExerciseCard
+WHEN old.isAnswerCorrect IS NULL AND (SELECT answerAutoSpeak FROM TempExercisePronunciation) == 1
 BEGIN
-    UPDATE Exercise SET answerAutoSpeakTriggered = 1;
+    UPDATE TempExercise SET answerAutoSpeakTriggered = 1;
 END;

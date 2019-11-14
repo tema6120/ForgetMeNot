@@ -1,0 +1,11 @@
+dropTableEditCardState:
+DROP TABLE IF EXISTS TempEditCardState;
+
+createTableEditCardState:
+CREATE TABLE TempEditCardState (
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL
+);
+
+initTableEditCardState:
+INSERT INTO TempEditCardState SELECT question, answer FROM TempCurrentExerciseCard;

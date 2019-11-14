@@ -1,8 +1,8 @@
 dropTablePronunciationState:
-DROP TABLE IF EXISTS PronunciationState;
+DROP TABLE IF EXISTS TempPronunciationState;
 
 createTablePronunciationState:
-CREATE TEMPORARY TABLE PronunciationState (
+CREATE TABLE TempPronunciationState (
     availableLanguages TEXT, -- AS List<Locale>
     presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
     typedPronunciationName TEXT NOT NULL DEFAULT '',
@@ -11,17 +11,17 @@ CREATE TEMPORARY TABLE PronunciationState (
 );
 
 initPronunciationState:
-INSERT INTO PronunciationState DEFAULT VALUES;
+INSERT INTO TempPronunciationState DEFAULT VALUES;
 
 createTriggerPreventRemovalOfDefaultPronunciation:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS preventRemovalOfDefaultPronunciation
+CREATE TRIGGER IF NOT EXISTS TempPreventRemovalOfDefaultPronunciation
 BEFORE DELETE ON Pronunciation WHEN old.id == 0
 BEGIN
     SELECT RAISE(ROLLBACK, 'cannot delete default Pronunciation');
 END;
 
 createTriggerOnTryToModifyDefaultPronunciation:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS onTryToModifyDefaultPronunciation
+CREATE TRIGGER IF NOT EXISTS TempOnTryToModifyDefaultPronunciation
 BEFORE UPDATE ON Pronunciation
 WHEN old.id == 0 AND (new.id != 0
                       OR new.name != ''
@@ -46,13 +46,13 @@ BEGIN
 
     UPDATE ExercisePreference
     SET pronunciationId = (SELECT last_insert_rowid())
-    WHERE id == (SELECT id FROM CurrentExercisePreference);
+    WHERE id == (SELECT id FROM TempCurrentExercisePreference);
 
     SELECT RAISE(IGNORE);
 END;
 
 createTriggerSetDefaultPronunciationIfNeed:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS setDefaultPronunciationIfNeed
+CREATE TRIGGER IF NOT EXISTS TempSetDefaultPronunciationIfNeed
 BEFORE UPDATE ON Pronunciation
 WHEN new.name == ''
  AND new.questionLanguage IS NULL
@@ -62,13 +62,13 @@ WHEN new.name == ''
 BEGIN
     UPDATE ExercisePreference
     SET pronunciationId = 0
-    WHERE id == (SELECT id FROM CurrentExercisePreference);
+    WHERE id == (SELECT id FROM TempCurrentExercisePreference);
 
     SELECT RAISE(IGNORE);
 END;
 
 createTriggerOnDeletePronunciation:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS onDeletePronunciation
+CREATE TRIGGER IF NOT EXISTS TempOnDeletePronunciation
 AFTER DELETE ON Pronunciation
 BEGIN
     UPDATE ExercisePreference
@@ -77,7 +77,7 @@ BEGIN
 END;
 
 createTriggerDeleteUnusedIndividualPronunciation:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS deleteUnusedIndividualPronunciation
+CREATE TRIGGER IF NOT EXISTS TempDeleteUnusedIndividualPronunciation
 AFTER UPDATE OF pronunciationId ON ExercisePreference
 WHEN old.pronunciationId NOT IN (0, new.pronunciationId)
 BEGIN

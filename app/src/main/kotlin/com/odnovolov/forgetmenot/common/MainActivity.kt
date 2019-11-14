@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.odnovolov.forgetmenot.R.id
 import com.odnovolov.forgetmenot.R.layout
+import com.odnovolov.forgetmenot.common.database.initDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initDatabase(applicationContext, isRestoring = savedInstanceState != null)
+
         setContentView(layout.activity_main)
 
         navController = findNavController(id.nav_host_fragment)

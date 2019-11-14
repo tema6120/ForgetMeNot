@@ -64,7 +64,7 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             }
 
             EditCardButtonClicked -> {
-                with(database.editCardStateQueries) {
+                with(database.editCardInitQueries) {
                     dropTableEditCardState()
                     createTableEditCardState()
                     initTableEditCardState()

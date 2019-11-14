@@ -1,8 +1,8 @@
 dropTableDeckSettingsState:
-DROP TABLE IF EXISTS DeckSettingsState;
+DROP TABLE IF EXISTS TempDeckSettingsState;
 
 createTableDeckSettingsState:
-CREATE TEMPORARY TABLE DeckSettingsState (
+CREATE TABLE TempDeckSettingsState (
     deckId INTEGER NOT NULL,
     presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
     typedPresetName TEXT NOT NULL DEFAULT '',
@@ -11,31 +11,31 @@ CREATE TEMPORARY TABLE DeckSettingsState (
 );
 
 initDeckSettingsState:
-INSERT INTO DeckSettingsState(deckId) VALUES (?);
+INSERT INTO TempDeckSettingsState(deckId) VALUES (?);
 
 createViewCurrentExercisePreference:
-CREATE TEMPORARY VIEW IF NOT EXISTS CurrentExercisePreference
+CREATE VIEW IF NOT EXISTS TempCurrentExercisePreference
 AS SELECT * FROM ExercisePreference WHERE ExercisePreference.id == (
     SELECT exercisePreferenceId FROM Deck WHERE Deck.id == (
-        SELECT deckId FROM DeckSettingsState
+        SELECT deckId FROM TempDeckSettingsState
     )
 );
 
 createViewCurrentPronunciation:
-CREATE TEMPORARY VIEW IF NOT EXISTS CurrentPronunciation
+CREATE VIEW IF NOT EXISTS TempCurrentPronunciation
 AS SELECT * FROM Pronunciation WHERE Pronunciation.id == (
-    SELECT pronunciationId FROM CurrentExercisePreference
+    SELECT pronunciationId FROM TempCurrentExercisePreference
 );
 
 createTriggerPreventRemovalOfDefaultExercisePreference:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS preventRemovalOfDefaultExercisePreference
+CREATE TRIGGER IF NOT EXISTS TempPreventRemovalOfDefaultExercisePreference
 BEFORE DELETE ON ExercisePreference WHEN old.id == 0
 BEGIN
     SELECT RAISE(ROLLBACK, 'cannot delete default ExercisePreference');
 END;
 
 createTriggerOnTryToModifyDefaultExercisePreference:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS OnTryToModifyDefaultExercisePreference
+CREATE TRIGGER IF NOT EXISTS TempOnTryToModifyDefaultExercisePreference
 BEFORE UPDATE ON ExercisePreference
 WHEN old.id == 0 AND (new.id != 0
                      OR new.name != ''
@@ -57,13 +57,13 @@ BEGIN
 
     UPDATE Deck
     SET exercisePreferenceId = (SELECT last_insert_rowid())
-    WHERE id == (SELECT deckId FROM DeckSettingsState);
+    WHERE id == (SELECT deckId FROM TempDeckSettingsState);
 
     SELECT RAISE(IGNORE);
 END;
 
 createTriggerSetDefaultExercisePreferenceIfNeed:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS setDefaultExercisePreferenceIfNeed
+CREATE TRIGGER IF NOT EXISTS TempSetDefaultExercisePreferenceIfNeed
 BEFORE UPDATE ON ExercisePreference
 WHEN new.name == ''
  AND new.randomOrder == 1
@@ -72,13 +72,13 @@ WHEN new.name == ''
 BEGIN
     UPDATE Deck
     SET exercisePreferenceId = 0
-    WHERE id == (SELECT deckId FROM DeckSettingsState);
+    WHERE id == (SELECT deckId FROM TempDeckSettingsState);
 
     SELECT RAISE(IGNORE);
 END;
 
 createTriggerOnDeleteExercisePreference:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS onDeleteExercisePreference
+CREATE TRIGGER IF NOT EXISTS TempOnDeleteExercisePreference
 AFTER DELETE ON ExercisePreference
 BEGIN
     UPDATE Deck
@@ -87,7 +87,7 @@ BEGIN
 END;
 
 createTriggerDeleteUnusedIndividualExercisePreference:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS deleteUnusedIndividualExercisePreference
+CREATE TRIGGER IF NOT EXISTS TempDeleteUnusedIndividualExercisePreference
 AFTER UPDATE OF exercisePreferenceId ON Deck
 WHEN old.exercisePreferenceId NOT IN (0, new.exercisePreferenceId)
 BEGIN
@@ -98,7 +98,7 @@ BEGIN
 END;
 
 createTriggerClenupAfterDeleteOfExercisePreference:
-CREATE TEMPORARY TRIGGER IF NOT EXISTS clenupAfterDeleteOfExercisePreference
+CREATE TRIGGER IF NOT EXISTS TempClenupAfterDeleteOfExercisePreference
 AFTER DELETE ON ExercisePreference
 BEGIN
     DELETE FROM Pronunciation

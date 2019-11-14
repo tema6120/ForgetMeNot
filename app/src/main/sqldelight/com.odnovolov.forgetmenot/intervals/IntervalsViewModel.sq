@@ -1,9 +1,9 @@
 getIntervalScheme:
 SELECT * FROM IntervalScheme WHERE id == (
-    SELECT intervalSchemeId FROM CurrentExercisePreference
+    SELECT intervalSchemeId FROM TempCurrentExercisePreference
 );
 
 getIntervals:
 SELECT * FROM Interval
-WHERE intervalSchemeId == (SELECT intervalSchemeId FROM CurrentExercisePreference)
+WHERE intervalSchemeId == (SELECT intervalSchemeId FROM TempCurrentExercisePreference)
 ORDER BY targetLevelOfKnowledge;

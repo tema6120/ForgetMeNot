@@ -37,8 +37,8 @@ FROM
                           AND Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1
 WHERE
     CASE
-        WHEN length((SELECT searchText FROM HomeState)) > 0
-            THEN Deck.name LIKE '%'||(SELECT searchText FROM HomeState)||'%'
+        WHEN length((SELECT searchText FROM TempHomeState)) > 0
+            THEN Deck.name LIKE '%'||(SELECT searchText FROM TempHomeState)||'%'
         ELSE 1
     END
 GROUP BY

@@ -1,24 +1,24 @@
 setStage:
-UPDATE AddDeckState SET stage = ?;
+UPDATE TempAddDeckState SET stage = ?;
 
 setFileName:
-UPDATE AddDeckState SET fileName = ?;
+UPDATE TempAddDeckState SET fileName = ?;
 
 getFileName:
-SELECT fileName FROM AddDeckState;
+SELECT fileName FROM TempAddDeckState;
 
 dropTableCardPrototype:
-DROP TABLE IF EXISTS CardPrototype;
+DROP TABLE IF EXISTS TempCardPrototype;
 
 createTableCardPrototype:
-CREATE TEMPORARY TABLE CardPrototype (
+CREATE TABLE TempCardPrototype (
     ordinal INTEGER AS Int NOT NULL,
     question TEXT NOT NULL,
     answer TEXT NOT NULL
 );
 
 addCardPrototype:
-INSERT INTO CardPrototype VALUES ?;
+INSERT INTO TempCardPrototype VALUES ?;
 
 isDeckNameOccupied:
 SELECT
@@ -28,13 +28,13 @@ SELECT
     END;
 
 setTypedText:
-UPDATE AddDeckState SET typedText = ?;
+UPDATE TempAddDeckState SET typedText = ?;
 
 getTypedText:
-SELECT typedText FROM AddDeckState;
+SELECT typedText FROM TempAddDeckState;
 
 setErrorText:
-UPDATE AddDeckState SET errorText = ?;
+UPDATE TempAddDeckState SET errorText = ?;
 
 addDeck:
 INSERT INTO Deck(name, createdAt) VALUES (?, datetime('now'));
@@ -47,4 +47,4 @@ INSERT INTO Card(deckId, ordinal, question, answer) VALUES (?, ?, ?, ?);
 
 addCardsFromCardPrototypeTable:
 INSERT INTO Card(deckId, ordinal, question, answer)
-    SELECT :deckId, ordinal, question, answer FROM CardPrototype;
+    SELECT :deckId, ordinal, question, answer FROM TempCardPrototype;
