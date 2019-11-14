@@ -2,7 +2,7 @@ deckPreview:
 SELECT
     deckId,
     Deck.name AS deckName,
-    min(Card.lap) AS passedLaps,
+    min(CASE WHEN Card.isLearned = 0 THEN Card.lap ELSE NULL END) AS passedLaps,
     count(CASE WHEN Card.isLearned == 1 THEN 1 ELSE NULL END) AS learnedCount,
     count(*) AS totalCount,
     CASE
