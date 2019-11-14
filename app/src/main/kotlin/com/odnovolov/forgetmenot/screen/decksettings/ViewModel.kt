@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.screen.decksettings
 
+import com.odnovolov.forgetmenot.common.IntervalScheme
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*

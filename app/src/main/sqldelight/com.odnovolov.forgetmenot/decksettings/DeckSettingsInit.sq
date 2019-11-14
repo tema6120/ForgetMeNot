@@ -1,14 +1,14 @@
-dropTableDeckSettingsState:
-DROP TABLE IF EXISTS TempDeckSettingsState;
-
 createTableDeckSettingsState:
-CREATE TABLE TempDeckSettingsState (
+CREATE TABLE IF NOT EXISTS TempDeckSettingsState (
     deckId INTEGER NOT NULL,
     presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
     typedPresetName TEXT NOT NULL DEFAULT '',
     nameCheckResult TEXT, -- AS NameCheckStatus
     renamePresetId INTEGER
 );
+
+cleanTableDeckSettingsState:
+DELETE FROM TempDeckSettingsState;
 
 initDeckSettingsState:
 INSERT INTO TempDeckSettingsState(deckId) VALUES (?);

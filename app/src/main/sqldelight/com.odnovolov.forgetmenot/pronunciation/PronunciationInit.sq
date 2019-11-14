@@ -1,14 +1,14 @@
-dropTablePronunciationState:
-DROP TABLE IF EXISTS TempPronunciationState;
-
 createTablePronunciationState:
-CREATE TABLE TempPronunciationState (
+CREATE TABLE IF NOT EXISTS TempPronunciationState (
     availableLanguages TEXT, -- AS List<Locale>
     presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
     typedPronunciationName TEXT NOT NULL DEFAULT '',
     nameCheckResult TEXT, -- AS NameCheckStatus
     renamePronunciationId INTEGER
 );
+
+cleanTablePronunciationState:
+DELETE FROM TempPronunciationState;
 
 initPronunciationState:
 INSERT INTO TempPronunciationState DEFAULT VALUES;

@@ -21,13 +21,13 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
 
             is DeckButtonClicked -> {
                 with(database.exerciseCardsInitQueries) {
-                    dropTableExerciseCard()
                     createTableExerciseCard()
+                    cleanTableExerciseCard()
                     initExerciseCard(event.deckId)
                 }
                 with(database.exerciseInitQueries) {
-                    dropTableExercise()
                     createTableExercise()
+                    cleanTableExercise()
                     initExercise(event.deckId)
                     createViewCurrentExerciseCard()
                     createViewExercisePronunciation()
@@ -40,8 +40,8 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
 
             is SetupDeckMenuItemClicked -> {
                 with(database.deckSettingsInitQueries) {
-                    dropTableDeckSettingsState()
                     createTableDeckSettingsState()
+                    cleanTableDeckSettingsState()
                     initDeckSettingsState(event.deckId)
                     createViewCurrentExercisePreference()
                     createViewCurrentPronunciation()

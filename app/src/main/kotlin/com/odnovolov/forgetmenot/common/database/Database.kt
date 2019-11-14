@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
+import com.odnovolov.forgetmenot.common.DeckReviewPreferences
+import com.odnovolov.forgetmenot.common.ExercisePreference
+import com.odnovolov.forgetmenot.common.Pronunciation
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlCursor

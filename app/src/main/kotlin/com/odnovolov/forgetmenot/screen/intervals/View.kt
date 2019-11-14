@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.common.Interval
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.database.Interval
 import com.odnovolov.forgetmenot.screen.intervals.IntervalAdapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_intervals.*
 import kotlinx.android.synthetic.main.item_interval.view.*

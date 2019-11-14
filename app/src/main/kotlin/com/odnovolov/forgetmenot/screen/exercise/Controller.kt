@@ -65,8 +65,8 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
 
             EditCardButtonClicked -> {
                 with(database.editCardInitQueries) {
-                    dropTableEditCardState()
                     createTableEditCardState()
+                    cleanTableEditCardState()
                     initTableEditCardState()
                 }
                 issueOrder(NavigateToEditCard)

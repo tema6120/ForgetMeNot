@@ -91,8 +91,8 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
 
             PronunciationButtonClicked -> {
                 with(database.pronunciationInitQueries) {
-                    dropTablePronunciationState()
                     createTablePronunciationState()
+                    cleanTablePronunciationState()
                     initPronunciationState()
                     createTriggerPreventRemovalOfDefaultPronunciation()
                     createTriggerOnTryToModifyDefaultPronunciation()

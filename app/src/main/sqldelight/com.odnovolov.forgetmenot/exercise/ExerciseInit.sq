@@ -1,8 +1,5 @@
-dropTableExercise:
-DROP TABLE IF EXISTS TempExercise;
-
 createTableExercise:
-CREATE TABLE TempExercise (
+CREATE TABLE IF NOT EXISTS TempExercise (
     currentExerciseCardId INTEGER,
     testMethod INTEGER NOT NULL, -- AS TestMethod
     pronunciationId INTEGER NOT NULL,
@@ -10,6 +7,9 @@ CREATE TABLE TempExercise (
     answerTextSelection TEXT NOT NULL DEFAULT '',
     answerAutoSpeakTriggered INTEGER AS Boolean NOT NULL DEFAULT 0
 );
+
+cleanTableExercise:
+DELETE FROM TempExercise;
 
 initExercise:
 INSERT INTO TempExercise(testMethod, pronunciationId)
