@@ -1,0 +1,4 @@
+getIntervalByTargetLevelOfKnowledge:
+SELECT * FROM Interval
+WHERE intervalSchemeId == (SELECT intervalSchemeId FROM TempCurrentExercisePreference)
+      AND targetLevelOfKnowledge == ?;

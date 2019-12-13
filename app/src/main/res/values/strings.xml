@@ -70,4 +70,5 @@
     <string name="filter_display_only_with_tasks">Display only with tasks</string>
     <string name="hint_question_edittext">Enter a question</string>
     <string name="hint_answer_edittext">Enter an answer</string>
+    <string name="dialog_title_modify_interval">Interval</string>
 </resources>

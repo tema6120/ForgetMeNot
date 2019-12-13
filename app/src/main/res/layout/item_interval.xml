@@ -27,48 +27,36 @@
             tools:background="@drawable/background_level_of_knowledge_acceptable"
             tools:text="@string/text_indicator_level_of_knowledge_acceptable" />
 
-    <EditText
-            android:id="@+id/timeValueEditText"
+    <TextView
+            android:id="@+id/intervalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rectangle_darker_gray_1dp_stroke"
-            android:gravity="end"
-            android:hint="000"
-            android:inputType="number"
-            android:maxLength="3"
-            android:padding="8dp"
-            android:textColor="@color/textPrimary"
-            android:textColorHint="#00FFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintEnd_toStartOf="@+id/timeUnitButton"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="7" />
-
-    <TextView
-            android:id="@+id/timeUnitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/rectangle_darker_gray_1dp_stroke"
-            android:drawableEnd="@drawable/ic_more_expand_more_with_inset"
             android:padding="8dp"
             android:textColor="@color/textPrimary"
             android:textSize="18sp"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/timeValueEditText"
+            app:layout_constraintEnd_toStartOf="@+id/modifyIntervalButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/levelOfKnowledgeTextView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="days" />
+            tools:text="7 days" />
+
+    <ImageView
+            android:id="@+id/modifyIntervalButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="@+id/intervalTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/intervalTextView"
+            app:layout_constraintTop_toTopOf="@+id/intervalTextView"
+            app:srcCompat="@drawable/ic_edit_dark_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

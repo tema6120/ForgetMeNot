@@ -85,7 +85,16 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             }
 
             IntervalsButtonClicked -> {
-                // Todo prepare intervals screen
+                database.intervalsInitQueries.run {
+                    createTriggerPreventRemovalOfDefaultIntervalScheme()
+                    createTriggerCreateNewIntervalSchemeOnTryToDeleteDefaultInterval()
+                    createTriggerCreateNewIntervalSchemeOnTryToModifyDefaultIntervalScheme()
+                    createTriggerCreateNewIntervalOnTryToModifyDefaultInterval()
+                    createTriggerCreateNewIntervalSchemeOnTryToAddNewIntervalToDefaultIntervalScheme()
+                    createTriggerSetDefaultIntervalSchemeIfNeed()
+                    createTriggerSetDefaultIntervalSchemeOnDeleteIntervalScheme()
+                    createTriggerDeleteUnusedIndividualIntervalScheme()
+                }
                 issueOrder(NavigateToIntervals)
             }
 
