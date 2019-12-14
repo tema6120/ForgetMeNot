@@ -33,11 +33,11 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
             }
 
             AddIntervalButtonClicked -> {
-
+                queries.addInterval()
             }
 
             RemoveIntervalButtonClicked -> {
-
+                queries.deleteLastInterval()
             }
         }
     }

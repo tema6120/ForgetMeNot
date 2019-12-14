@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.common.IntervalScheme
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.intervals.IntervalsViewModelQueries
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class IntervalsViewModel {
     private val queries: IntervalsViewModelQueries = database.intervalsViewModelQueries
@@ -18,4 +19,6 @@ class IntervalsViewModel {
         .getIntervals()
         .asFlow()
         .mapToList()
+
+    val isRemoveIntervalButtonEnabled: Flow<Boolean> = intervals.map { it.size > 1 }
 }

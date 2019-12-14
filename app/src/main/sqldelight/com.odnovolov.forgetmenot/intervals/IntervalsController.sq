@@ -2,3 +2,23 @@ getIntervalByTargetLevelOfKnowledge:
 SELECT * FROM Interval
 WHERE intervalSchemeId == (SELECT intervalSchemeId FROM TempCurrentExercisePreference)
       AND targetLevelOfKnowledge == ?;
+
+addInterval:
+INSERT INTO Interval(intervalSchemeId, targetLevelOfKnowledge, value)
+SELECT intervalSchemeId, targetLevelOfKnowledge + 1, value FROM Interval
+WHERE intervalSchemeId == (SELECT intervalSchemeId FROM TempCurrentExercisePreference)
+      AND targetLevelOfKnowledge == (
+          SELECT max(targetLevelOfKnowledge) FROM Interval WHERE intervalSchemeId == (
+              SELECT intervalSchemeId FROM TempCurrentExercisePreference
+          )
+      );
+
+deleteLastInterval:
+DELETE FROM Interval
+WHERE intervalSchemeId == (SELECT intervalSchemeId FROM TempCurrentExercisePreference)
+      AND targetLevelOfKnowledge == (
+          SELECT max(targetLevelOfKnowledge) FROM Interval WHERE intervalSchemeId == (
+              SELECT intervalSchemeId FROM TempCurrentExercisePreference
+          )
+      )
+      AND targetLevelOfKnowledge != 1;

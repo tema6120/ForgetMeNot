@@ -55,6 +55,9 @@ class IntervalsFragment : BaseFragment() {
                 }
             }
             intervals.observe(onChange = adapter::submitList)
+            isRemoveIntervalButtonEnabled.observe { isEnabled: Boolean ->
+                removeIntervalButton.run { if (isEnabled) show() else hide() }
+            }
         }
     }
 
@@ -113,11 +116,12 @@ class IntervalAdapter(private val controller: IntervalsController) :
 
     class DiffCallback : DiffUtil.ItemCallback<Interval>() {
         override fun areItemsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.targetLevelOfKnowledge == newItem.targetLevelOfKnowledge
         }
 
         override fun areContentsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-            return (oldItem as Interval.Impl) == (newItem as Interval.Impl)
+            return oldItem.targetLevelOfKnowledge == newItem.targetLevelOfKnowledge
+                    && oldItem.value == newItem.value
         }
     }
 }
