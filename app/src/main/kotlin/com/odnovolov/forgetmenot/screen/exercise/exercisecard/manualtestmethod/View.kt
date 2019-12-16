@@ -78,13 +78,28 @@ class ExerciseCardManualTestMethodFragment : BaseFragment() {
             }
             isLearned.observe { isLearned ->
                 isLearned ?: return@observe
+                questionTextView.setTextIsSelectable(!isLearned)
+                answerTextView.setTextIsSelectable(!isLearned)
+                showQuestionButton.isClickable = !isLearned
                 rememberButton.isClickable = !isLearned
                 notRememberButton.isClickable = !isLearned
                 val alpha = if (isLearned) 0.26f else 1f
+                showQuestionTextView.alpha = alpha
                 questionTextView.alpha = alpha
                 answerTextView.alpha = alpha
                 rememberButton.alpha = alpha
                 notRememberButton.alpha = alpha
+            }
+            isQuestionDisplayed.observe { isDisplayed ->
+                showQuestionButton.run {
+                    if (isDisplayed) {
+                        visibility = GONE
+                        setOnClickListener(null)
+                    } else {
+                        visibility = View.VISIBLE
+                        setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
+                    }
+                }
             }
         }
     }

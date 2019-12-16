@@ -37,6 +37,29 @@
 
             </ScrollView>
 
+            <FrameLayout
+                    android:id="@+id/showQuestionButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/curtain"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/questionScrollView"
+                    app:layout_constraintEnd_toEndOf="@id/questionScrollView"
+                    app:layout_constraintStart_toStartOf="@id/questionScrollView"
+                    app:layout_constraintTop_toTopOf="@id/questionScrollView">
+
+                <TextView
+                        android:id="@+id/showQuestionTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:text="@string/text_show_question_textview"
+                        android:textColor="@android:color/secondary_text_dark_nodisable"
+                        android:textSize="18sp" />
+
+            </FrameLayout>
+
             <View
                     android:id="@+id/divider"
                     android:layout_width="0dp"
@@ -73,7 +96,7 @@
                     android:id="@+id/showAnswerButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@color/answer_curtain"
+                    android:background="@color/curtain"
                     android:foreground="?attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="@id/answerScrollView"
                     app:layout_constraintEnd_toEndOf="@id/answerScrollView"

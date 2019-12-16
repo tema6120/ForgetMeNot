@@ -5,4 +5,5 @@ sealed class ExerciseCardManualTestMethodEvent {
     class AnswerTextSelectionChanged(val selection: String) : ExerciseCardManualTestMethodEvent()
     object RememberButtonClicked : ExerciseCardManualTestMethodEvent()
     object NotRememberButtonClicked : ExerciseCardManualTestMethodEvent()
+    object ShowQuestionButtonClicked : ExerciseCardManualTestMethodEvent()
 }

@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.screen.exercise.exercisecard.withouttest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
@@ -58,22 +60,38 @@ class ExerciseCardWithoutTestFragment : BaseFragment() {
             question.observe(onChange = questionTextView::setText)
             answer.observe(onChange = answerTextView::setText)
             isAnswered.observe { isAnswered ->
-                if (isAnswered) {
-                    showAnswerButton.visibility = View.GONE
-                    showAnswerButton.setOnClickListener(null)
-                } else {
-                    showAnswerButton.visibility = View.VISIBLE
-                    showAnswerButton.setOnClickListener {
-                        controller.dispatch(ShowAnswerButtonClicked)
+                showAnswerButton.run {
+                    if (isAnswered) {
+                        visibility = GONE
+                        setOnClickListener(null)
+                    } else {
+                        visibility = VISIBLE
+                        setOnClickListener { controller.dispatch(ShowAnswerButtonClicked) }
                     }
                 }
             }
             isLearned.observe { isLearned ->
                 isLearned ?: return@observe
+                questionTextView.setTextIsSelectable(!isLearned)
+                answerTextView.setTextIsSelectable(!isLearned)
+                showQuestionButton.isClickable = !isLearned
                 showAnswerButton.isClickable = !isLearned
                 val alpha = if (isLearned) 0.26f else 1f
+                showQuestionTextView.alpha = alpha
+                showAnswerTextView.alpha = alpha
                 questionTextView.alpha = alpha
                 answerTextView.alpha = alpha
+            }
+            isQuestionDisplayed.observe { isDisplayed ->
+                showQuestionButton.run {
+                    if (isDisplayed) {
+                        visibility = GONE
+                        setOnClickListener(null)
+                    } else {
+                        visibility = VISIBLE
+                        setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
+                    }
+                }
             }
         }
     }

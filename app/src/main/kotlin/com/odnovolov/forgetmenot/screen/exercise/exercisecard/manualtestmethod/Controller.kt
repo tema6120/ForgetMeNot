@@ -20,10 +20,15 @@ class ExerciseCardManualTestMethodController(private val id: Long) :
                 queries.setAnswerTextSelection(event.selection)
             }
 
+            ShowQuestionButtonClicked -> {
+                queries.setIsQuestionDisplayedTrue(id)
+            }
+
             RememberButtonClicked -> {
                 if (queries.isAnswerCorrect(id).executeAsOne().isAnswerCorrect == true) return
                 queries.updateLastAnsweredAt(id)
                 queries.incrementLapIfCardIsAnsweredForTheFirstTime(id)
+                queries.setIsQuestionDisplayedTrue(id)
                 queries.setAnswerCorrect(true, id)
                 queries.deleteAllRepeatedCardsOnTheRight(id)
                 queries.updateLevelOfKnowledge(id)
@@ -33,6 +38,7 @@ class ExerciseCardManualTestMethodController(private val id: Long) :
                 if (queries.isAnswerCorrect(id).executeAsOne().isAnswerCorrect == false) return
                 queries.updateLastAnsweredAt(id)
                 queries.incrementLapIfCardIsAnsweredForTheFirstTime(id)
+                queries.setIsQuestionDisplayedTrue(id)
                 queries.setAnswerCorrect(false, id)
                 if (queries.isThereAnyRepeatedCardOnTheRight(id).executeAsOne().asBoolean().not()) {
                     queries.addRepeatedCard(id)

@@ -3,17 +3,19 @@ CREATE TABLE IF NOT EXISTS TempExerciseCard (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     cardId INTEGER NOT NULL,
     initialLevelOfKnowledge INTEGER AS Int NOT NULL,
-    isAnswerCorrect INTEGER AS Boolean
+    isAnswerCorrect INTEGER AS Boolean,
+    isQuestionDisplayed INTEGER AS Boolean NOT NULL
 );
 
 cleanTableExerciseCard:
 DELETE FROM TempExerciseCard;
 
 initExerciseCard:
-INSERT INTO TempExerciseCard (cardId, initialLevelOfKnowledge)
+INSERT INTO TempExerciseCard (cardId, initialLevelOfKnowledge, isQuestionDisplayed)
     SELECT
         Card.id,
-        Card.levelOfKnowledge
+        Card.levelOfKnowledge,
+        ExercisePreference.isQuestionDisplayed
     FROM
         Card
         LEFT JOIN Deck ON Card.deckId == Deck.id

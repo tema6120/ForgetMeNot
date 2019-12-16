@@ -50,8 +50,17 @@ SELECT
     END;
 
 addRepeatedCard:
-INSERT INTO TempExerciseCard(cardId, initialLevelOfKnowledge)
-SELECT cardId, initialLevelOfKnowledge FROM TempExerciseCard WHERE id == ?;
+INSERT INTO TempExerciseCard(cardId, initialLevelOfKnowledge, isQuestionDisplayed)
+SELECT cardId,
+       initialLevelOfKnowledge,
+       (SELECT isQuestionDisplayed FROM ExercisePreference WHERE id == (
+           SELECT exercisePreferenceId FROM Deck WHERE id == (
+               SELECT deckId FROM Card WHERE id == (
+                   SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId
+               )
+           )
+       ))
+FROM TempExerciseCard WHERE id == :exerciseCardId;
 
 updateLevelOfKnowledge:
 WITH
@@ -72,3 +81,6 @@ SET levelOfKnowledge = CASE
                            ELSE levelOfKnowledge
                        END
 WHERE id == (SELECT cardId FROM Extra);
+
+setIsQuestionDisplayedTrue:
+UPDATE TempExerciseCard SET isQuestionDisplayed = 1 WHERE id == ?;

@@ -19,9 +19,14 @@ class ExerciseCardWithoutTestController(private val id: Long) :
                 queries.setAnswerTextSelection(event.selection)
             }
 
+            ShowQuestionButtonClicked -> {
+                queries.setIsQuestionDisplayedTrue(id)
+            }
+
             ShowAnswerButtonClicked -> {
                 queries.updateLastAnsweredAt(id)
                 queries.incrementLapIfCardIsAnsweredForTheFirstTime(id)
+                queries.setIsQuestionDisplayedTrue(id)
                 queries.setAnswerCorrect(true, id)
             }
         }

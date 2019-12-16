@@ -18,3 +18,6 @@ isLearned:
 SELECT isLearned FROM Card WHERE Card.id == (
     SELECT cardId FROM TempExerciseCard WHERE TempExerciseCard.id == ?
 );
+
+isQuestionDisplayed:
+SELECT isQuestionDisplayed FROM TempExerciseCard WHERE TempExerciseCard.id == ?;
