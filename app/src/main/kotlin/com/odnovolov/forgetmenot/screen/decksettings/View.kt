@@ -125,6 +125,9 @@ class DeckSettingsFragment : BaseFragment() {
         pronunciationButton.setOnClickListener {
             controller.dispatch(PronunciationButtonClicked)
         }
+        displayQuestionButton.setOnClickListener {
+            controller.dispatch(DisplayQuestionSwitchToggled)
+        }
     }
 
     private fun showChooseTestMethodDialog() {
@@ -210,6 +213,12 @@ class DeckSettingsFragment : BaseFragment() {
                     else -> "'${it.name}'"
                 }
             }
+            isQuestionDisplayed.observe(
+                onChange = displayQuestionSwitch::setChecked,
+                afterFirst = {
+                    displayQuestionSwitch.jumpDrawablesToCurrentState()
+                    displayQuestionSwitch.visibility = VISIBLE
+                })
         }
     }
 

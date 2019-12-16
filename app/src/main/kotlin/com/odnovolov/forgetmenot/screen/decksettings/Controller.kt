@@ -116,6 +116,10 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                 }
                 issueOrder(NavigateToPronunciation)
             }
+
+            DisplayQuestionSwitchToggled -> {
+                queries.toggleIsQuestionDisplayed()
+            }
         }
     }
 

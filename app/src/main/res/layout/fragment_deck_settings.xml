@@ -354,6 +354,75 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/barrier5" />
 
+        <TextView
+                android:id="@+id/displayQuestionTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/title_display_question"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/displayQuestionSwitch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+        <TextView
+                android:id="@+id/displayQuestionDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/description_display_question"
+                android:textColor="@color/textSecondary"
+                app:layout_constraintEnd_toStartOf="@+id/displayQuestionSwitch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/displayQuestionTitle" />
+
+        <Switch
+                android:id="@+id/displayQuestionSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="16dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/displayQuestionDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/displayQuestionTitle"
+                tools:checked="true"
+                tools:visibility="visible" />
+
+        <View
+                android:id="@+id/displayQuestionButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toTopOf="@+id/divider5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+        <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="displayQuestionDescription,displayQuestionSwitch" />
+
+        <View
+                android:id="@+id/divider5"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier6" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

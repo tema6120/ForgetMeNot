@@ -41,12 +41,10 @@ class DeckSettingsViewModel {
         .map { it.asBoolean() }
 
     val dialogInputCheckResult: Flow<NameCheckResult> = queries
-        .getDialogInputCheckResult(mapper = { databaseValue: String? ->
-            if (databaseValue == null) NameCheckResult.OK
-            else nameCheckResultAdapter.decode(databaseValue)
-        })
+        .getDialogInputCheckResult()
         .asFlow()
         .mapToOne()
+        .map { databaseValue: String -> nameCheckResultAdapter.decode(databaseValue) }
 
     val randomOrder: Flow<Boolean> = queries
         .getRandomOrder()
@@ -65,6 +63,11 @@ class DeckSettingsViewModel {
 
     val pronunciationIdAndName: Flow<PronunciationIdAndName> = queries
         .pronunciationIdAndName()
+        .asFlow()
+        .mapToOne()
+
+    val isQuestionDisplayed: Flow<Boolean> = queries
+        .isQuestionDisplayed()
         .asFlow()
         .mapToOne()
 }

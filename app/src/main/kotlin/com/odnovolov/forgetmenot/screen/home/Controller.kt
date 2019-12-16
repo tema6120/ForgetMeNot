@@ -40,15 +40,15 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
 
             is SetupDeckMenuItemClicked -> {
                 with(database.deckSettingsInitQueries) {
-                    createTableDeckSettingsState()
-                    cleanTableDeckSettingsState()
-                    initDeckSettingsState(event.deckId)
+                    createStateIfNotExists()
+                    cleanState()
+                    initState(event.deckId)
                     createViewCurrentExercisePreference()
                     createViewCurrentPronunciation()
                     createTriggerPreventRemovalOfDefaultExercisePreference()
-                    createTriggerOnTryToModifyDefaultExercisePreference()
-                    createTriggerSetDefaultExercisePreferenceIfNeed()
-                    createTriggerOnDeleteExercisePreference()
+                    createTriggerTransitionFromDefaultToIndividualBeforeUpdateOnExercisePreference()
+                    createTriggerTranstionFromIndividualToDefaultBeforeUpdateOnExercisePreference()
+                    createTriggerTransitionToDefaultAfterDeleteOnExercisePreference()
                     createTriggerDeleteUnusedIndividualExercisePreference()
                     createTriggerClenupAfterDeleteOfExercisePreference()
                 }

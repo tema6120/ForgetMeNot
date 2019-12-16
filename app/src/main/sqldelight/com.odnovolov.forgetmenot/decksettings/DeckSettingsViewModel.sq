@@ -44,3 +44,6 @@ SELECT * FROM IntervalScheme WHERE id == (
 
 pronunciationIdAndName:
 SELECT id, name FROM TempCurrentPronunciation;
+
+isQuestionDisplayed:
+SELECT isQuestionDisplayed FROM TempCurrentExercisePreference;

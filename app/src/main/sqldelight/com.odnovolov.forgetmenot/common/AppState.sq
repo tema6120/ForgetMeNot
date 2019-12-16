@@ -38,7 +38,8 @@ CREATE TABLE ExercisePreference (
     randomOrder INTEGER AS Boolean NOT NULL DEFAULT 1,
     testMethod INTEGER AS TestMethod NOT NULL DEFAULT 1,
     intervalSchemeId INTEGER DEFAULT 0,
-    pronunciationId INTEGER NOT NULL DEFAULT 0
+    pronunciationId INTEGER NOT NULL DEFAULT 0,
+    isQuestionDisplayed INTEGER AS Boolean NOT NULL DEFAULT 1
 );
 
 INSERT INTO ExercisePreference(id) VALUES (0);

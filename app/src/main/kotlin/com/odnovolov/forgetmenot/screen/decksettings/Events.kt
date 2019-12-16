@@ -16,4 +16,5 @@ sealed class DeckSettingsEvent {
     class TestMethodWasChosen(val testMethod: TestMethod) : DeckSettingsEvent()
     object IntervalsButtonClicked : DeckSettingsEvent()
     object PronunciationButtonClicked : DeckSettingsEvent()
+    object DisplayQuestionSwitchToggled : DeckSettingsEvent()
 }

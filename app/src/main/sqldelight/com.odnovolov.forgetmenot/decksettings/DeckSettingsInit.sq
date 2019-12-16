@@ -1,16 +1,16 @@
-createTableDeckSettingsState:
+createStateIfNotExists:
 CREATE TABLE IF NOT EXISTS TempDeckSettingsState (
     deckId INTEGER NOT NULL,
     presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
     typedPresetName TEXT NOT NULL DEFAULT '',
-    nameCheckResult TEXT, -- AS NameCheckStatus
+    nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
     renamePresetId INTEGER
 );
 
-cleanTableDeckSettingsState:
+cleanState:
 DELETE FROM TempDeckSettingsState;
 
-initDeckSettingsState:
+initState:
 INSERT INTO TempDeckSettingsState(deckId) VALUES (?);
 
 createViewCurrentExercisePreference:
@@ -34,28 +34,32 @@ BEGIN
     SELECT RAISE(ROLLBACK, 'cannot delete default ExercisePreference');
 END;
 
-createTriggerOnTryToModifyDefaultExercisePreference:
-CREATE TRIGGER IF NOT EXISTS TempOnTryToModifyDefaultExercisePreference
+createTriggerTransitionFromDefaultToIndividualBeforeUpdateOnExercisePreference:
+CREATE TRIGGER IF NOT EXISTS TempTransitionFromDefaultToIndividualBeforeUpdateOnExercisePreference
 BEFORE UPDATE ON ExercisePreference
 WHEN old.id == 0 AND (new.id != 0
-                     OR new.name != ''
-                     OR new.randomOrder != 1
-                     OR new.testMethod != 1
-                     OR new.intervalSchemeId != 0
-                     OR new.pronunciationId != 0)
+                      OR new.name != ''
+                      OR new.randomOrder != 1
+                      OR new.testMethod != 1
+                      OR new.intervalSchemeId != 0
+                      OR new.pronunciationId != 0
+                      OR new.isQuestionDisplayed != 1
+                     )
 BEGIN
     INSERT INTO ExercisePreference(
         name,
         randomOrder,
         testMethod,
         intervalSchemeId,
-        pronunciationId
+        pronunciationId,
+        isQuestionDisplayed
     ) VALUES (
         new.name,
         new.randomOrder,
         new.testMethod,
         new.intervalSchemeId,
-        new.pronunciationId
+        new.pronunciationId,
+        new.isQuestionDisplayed
     );
 
     UPDATE Deck
@@ -65,14 +69,15 @@ BEGIN
     SELECT RAISE(IGNORE);
 END;
 
-createTriggerSetDefaultExercisePreferenceIfNeed:
-CREATE TRIGGER IF NOT EXISTS TempSetDefaultExercisePreferenceIfNeed
+createTriggerTranstionFromIndividualToDefaultBeforeUpdateOnExercisePreference:
+CREATE TRIGGER IF NOT EXISTS TempTranstionFromIndividualToDefaultBeforeUpdateOnExercisePreference
 BEFORE UPDATE ON ExercisePreference
 WHEN new.name == ''
- AND new.randomOrder == 1
- AND new.testMethod == 1
- AND new.intervalSchemeId == 0
- AND new.pronunciationId == 0
+     AND new.randomOrder == 1
+     AND new.testMethod == 1
+     AND new.intervalSchemeId == 0
+     AND new.pronunciationId == 0
+     AND new.isQuestionDisplayed == 1
 BEGIN
     UPDATE Deck
     SET exercisePreferenceId = 0
@@ -81,8 +86,8 @@ BEGIN
     SELECT RAISE(IGNORE);
 END;
 
-createTriggerOnDeleteExercisePreference:
-CREATE TRIGGER IF NOT EXISTS TempOnDeleteExercisePreference
+createTriggerTransitionToDefaultAfterDeleteOnExercisePreference:
+CREATE TRIGGER IF NOT EXISTS TempTransitionToDefaultAfterDeleteOnExercisePreference
 AFTER DELETE ON ExercisePreference
 BEGIN
     UPDATE Deck

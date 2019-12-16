@@ -68,3 +68,8 @@ setTestMethod:
 UPDATE ExercisePreference
 SET testMethod = ?
 WHERE id == (SELECT id FROM TempCurrentExercisePreference);
+
+toggleIsQuestionDisplayed:
+UPDATE ExercisePreference
+SET isQuestionDisplayed = (CASE WHEN isQuestionDisplayed == 1 THEN 0 ELSE 1 END)
+WHERE id == (SELECT id FROM TempCurrentExercisePreference);
