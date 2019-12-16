@@ -45,7 +45,7 @@ class PronunciationFragment : BaseFragment() {
     private lateinit var answerLanguageRecyclerAdapter: LanguageRecyclerAdapter
     private lateinit var speaker: Speaker
     private lateinit var presetNameInputDialog: Dialog
-    private lateinit var presetNameInput: EditText
+    private lateinit var presetNameEditText: EditText
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -63,7 +63,7 @@ class PronunciationFragment : BaseFragment() {
         initChoosePronunciationPopup()
         questionLanguagePopup = createLanguagePopup()
         answerLanguagePopup = createLanguagePopup()
-        initDialog()
+        initPresetNameInputDialog()
         return inflater.inflate(R.layout.fragment_pronunciation, container, false)
     }
 
@@ -94,11 +94,11 @@ class PronunciationFragment : BaseFragment() {
         isFocusable = true
     }
 
-    private fun initDialog() {
+    private fun initPresetNameInputDialog() {
         presetNameInputDialog = InputDialogCreator.create(
             context = requireContext(),
             title = getString(R.string.title_pronunciation_name_input_dialog),
-            takeEditText = { presetNameInput = it },
+            takeEditText = { presetNameEditText = it },
             onTextChanged = { controller.dispatch(DialogTextChanged(it.toString())) },
             onPositiveClick = { controller.dispatch(PositiveDialogButtonClicked) },
             onNegativeClick = { controller.dispatch(NegativeDialogButtonClicked) }
@@ -140,7 +140,7 @@ class PronunciationFragment : BaseFragment() {
         savePronunciationButton.setOnClickListener {
             controller.dispatch(SavePronunciationButtonClicked)
         }
-        pronunciationTitleTextView.setOnClickListener {
+        pronunciationNameTextView.setOnClickListener {
             showChoosePronunciationPopup()
         }
         questionLanguageTextView.setOnClickListener {
@@ -161,8 +161,8 @@ class PronunciationFragment : BaseFragment() {
 
     private fun showChoosePronunciationPopup() {
         val location = IntArray(2)
-        pronunciationTitleTextView.getLocationOnScreen(location)
-        val x = location[0] + pronunciationTitleTextView.width - choosePronunciationPopup.width
+        pronunciationNameTextView.getLocationOnScreen(location)
+        val x = location[0] + pronunciationNameTextView.width - choosePronunciationPopup.width
         val y = location[1]
         choosePronunciationPopup.showAtLocation(rootView, Gravity.NO_GRAVITY, x, y)
     }
@@ -185,7 +185,7 @@ class PronunciationFragment : BaseFragment() {
                     it.name.isEmpty() -> getString(R.string.individual_name)
                     else -> "'${it.name}'"
                 }
-                pronunciationTitleTextView.text = pronunciationName
+                pronunciationNameTextView.text = pronunciationName
             }
             isSavePronunciationButtonEnabled.observe(
                 onChange = { isSavePronunciationButtonEnabled ->
@@ -197,15 +197,11 @@ class PronunciationFragment : BaseFragment() {
                     header.layoutTransition = LayoutTransition()
                 })
             availablePronunciations.observe(onChange = pronunciationRecyclerAdapter::submitList)
-            isDialogVisible.observe { isDialogVisible ->
-                if (isDialogVisible) {
-                    presetNameInputDialog.show()
-                } else {
-                    presetNameInputDialog.dismiss()
-                }
+            isPresetNameInputDialogVisible.observe { isVisible ->
+                presetNameInputDialog.run { if (isVisible) show() else dismiss() }
             }
             dialogInputCheckResult.observe {
-                presetNameInput.error = when (it) {
+                presetNameEditText.error = when (it) {
                     OK -> null
                     EMPTY -> getString(R.string.error_message_empty_name)
                     OCCUPIED -> getString(R.string.error_message_occupied_name)
@@ -245,8 +241,8 @@ class PronunciationFragment : BaseFragment() {
     private fun executeOrder(order: PronunciationOrder) {
         when (order) {
             is SetDialogText -> {
-                presetNameInput.setText(order.text)
-                presetNameInput.selectAll()
+                presetNameEditText.setText(order.text)
+                presetNameEditText.selectAll()
             }
         }
     }

@@ -24,7 +24,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is RenamePronunciationButtonClicked -> {
-                val name = queries.getPronunciationNameById(event.pronunciationId)
+                val name: String? = queries.getPronunciationNameById(event.pronunciationId)
                     .executeAsOneOrNull()
                 if (!name.isNullOrEmpty()) {
                     queries.setRenamePronunciationId(event.pronunciationId)

@@ -1,7 +1,32 @@
-getIntervalScheme:
+getCurrentIntervalScheme:
 SELECT * FROM IntervalScheme WHERE id == (
     SELECT intervalSchemeId FROM TempCurrentExercisePreference
 );
+
+getAvailableIntervalSchemes:
+SELECT id, name, CASE
+                     WHEN id == (SELECT intervalSchemeId FROM TempCurrentExercisePreference)
+                         THEN 1
+                     ELSE 0
+                 END AS isSelected
+FROM IntervalScheme
+WHERE id == 0
+      OR id == (SELECT intervalSchemeId FROM TempCurrentExercisePreference)
+      OR name != ''
+ORDER BY
+    id = 0 DESC,
+    name = '' DESC;
+
+isPresetNameInputDialogVisible:
+SELECT
+    CASE
+        WHEN presetNameInputDialogStatus == 'Invisible' THEN 0
+        ELSE 1
+    END
+FROM TempIntervalsState;
+
+getDialogInputCheckResult:
+SELECT nameCheckResult FROM TempIntervalsState;
 
 getIntervals:
 SELECT * FROM Interval

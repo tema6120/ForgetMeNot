@@ -39,19 +39,17 @@ class PronunciationViewModel {
         .asFlow()
         .mapToList()
 
-    val isDialogVisible: Flow<Boolean> = queries
-        .isDialogVisible()
+    val isPresetNameInputDialogVisible: Flow<Boolean> = queries
+        .isPresetNameInputDialogVisible()
         .asFlow()
         .mapToOne()
         .map { it.asBoolean() }
 
     val dialogInputCheckResult: Flow<NameCheckResult> = queries
-        .getDialogInputCheckResult(mapper = { databaseValue: String? ->
-            if (databaseValue == null) NameCheckResult.OK
-            else nameCheckResultAdapter.decode(databaseValue)
-        })
+        .getDialogInputCheckResult()
         .asFlow()
         .mapToOne()
+        .map { databaseValue: String -> nameCheckResultAdapter.decode(databaseValue) }
 
     val selectedQuestionLanguage: Flow<Locale?> = currentPronunciation.map { it.questionLanguage }
 

@@ -1,6 +1,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -9,7 +10,7 @@
             android:layout_height="wrap_content">
 
         <ImageButton
-                android:id="@+id/saveIntervalsButton"
+                android:id="@+id/saveIntervalSchemeButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -41,7 +42,7 @@
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/saveIntervalsButton"
+                app:layout_constraintStart_toEndOf="@+id/saveIntervalSchemeButton"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Default" />
 
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="saveIntervalsButton,intervalSchemeNameTextView" />
+                app:constraint_referenced_ids="saveIntervalSchemeButton,intervalSchemeNameTextView" />
 
         <TextView
                 android:id="@+id/unsatisfactoryLevelOfKnowledgeTextView"

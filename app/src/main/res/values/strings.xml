@@ -71,4 +71,5 @@
     <string name="hint_question_edittext">Enter a question</string>
     <string name="hint_answer_edittext">Enter an answer</string>
     <string name="dialog_title_modify_interval">Interval</string>
+    <string name="title_interval_scheme_name_input_dialog">Enter pronunciation name</string>
 </resources>

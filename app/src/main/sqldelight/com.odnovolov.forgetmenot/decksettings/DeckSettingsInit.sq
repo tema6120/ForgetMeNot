@@ -97,8 +97,8 @@ WHEN old.exercisePreferenceId NOT IN (0, new.exercisePreferenceId)
 BEGIN
     DELETE FROM ExercisePreference
     WHERE id != 0
-      AND name == ''
-      AND id NOT IN (SELECT exercisePreferenceId FROM Deck);
+          AND name == ''
+          AND id NOT IN (SELECT exercisePreferenceId FROM Deck);
 END;
 
 createTriggerClenupAfterDeleteOfExercisePreference:
@@ -107,6 +107,11 @@ AFTER DELETE ON ExercisePreference
 BEGIN
     DELETE FROM Pronunciation
     WHERE id != 0
-      AND name == ''
-      AND id NOT IN (SELECT pronunciationId FROM ExercisePreference);
+          AND name == ''
+          AND id NOT IN (SELECT pronunciationId FROM ExercisePreference);
+
+    DELETE FROM IntervalScheme
+    WHERE id != 0
+          AND name == ''
+          AND id NOT IN (SELECT intervalSchemeId FROM ExercisePreference);
 END;

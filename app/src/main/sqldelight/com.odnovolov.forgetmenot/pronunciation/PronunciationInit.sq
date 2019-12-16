@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS TempPronunciationState (
     availableLanguages TEXT, -- AS List<Locale>
     presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
     typedPronunciationName TEXT NOT NULL DEFAULT '',
-    nameCheckResult TEXT, -- AS NameCheckStatus
+    nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
     renamePronunciationId INTEGER
 );
 

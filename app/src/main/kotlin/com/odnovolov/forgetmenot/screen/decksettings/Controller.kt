@@ -86,6 +86,9 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
 
             IntervalsButtonClicked -> {
                 database.intervalsInitQueries.run {
+                    createStateIfNotExists()
+                    cleanState()
+                    initState()
                     createTriggerPreventRemovalOfDefaultIntervalScheme()
                     createTriggerTransitionToDefaultAfterDeleteOnIntervalScheme()
                     createTriggerTransitionFromDefaultToIndividualBeforeDeleteOnInterval()

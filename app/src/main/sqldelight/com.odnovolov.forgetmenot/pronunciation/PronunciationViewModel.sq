@@ -15,7 +15,7 @@ ORDER BY
     id = 0 DESC,
     name = '' DESC;
 
-isDialogVisible:
+isPresetNameInputDialogVisible:
 SELECT
     CASE
         WHEN presetNameInputDialogStatus = 'Invisible' THEN 0

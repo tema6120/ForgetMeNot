@@ -1,3 +1,17 @@
+createStateIfNotExists:
+CREATE TABLE IF NOT EXISTS TempIntervalsState (
+    presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
+    typedIntervalSchemeName TEXT NOT NULL DEFAULT '',
+    nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
+    renameIntervalSchemeId INTEGER
+);
+
+cleanState:
+DELETE FROM TempIntervalsState;
+
+initState:
+INSERT INTO TempIntervalsState DEFAULT VALUES;
+
 createTriggerPreventRemovalOfDefaultIntervalScheme:
 CREATE TRIGGER IF NOT EXISTS TempPreventRemovalOfDefaultIntervalScheme
 BEFORE DELETE ON IntervalScheme WHEN old.id == 0
@@ -99,13 +113,8 @@ BEGIN
         (SELECT intervalSchemeId FROM TempCurrentExercisePreference),
         targetLevelOfKnowledge,
         value
-    FROM Interval WHERE intervalSchemeId == 0 AND targetLevelOfKnowledge != new.targetLevelOfKnowledge;
-
-    INSERT INTO Interval(
-        intervalSchemeId,
-        targetLevelOfKnowledge,
-        value
-    ) VALUES (
+    FROM Interval WHERE intervalSchemeId == 0 AND targetLevelOfKnowledge != new.targetLevelOfKnowledge
+    UNION VALUES (
         (SELECT intervalSchemeId FROM TempCurrentExercisePreference),
         new.targetLevelOfKnowledge,
         new.value
@@ -148,21 +157,21 @@ BEGIN
         intervalSchemeId,
         targetLevelOfKnowledge,
         value
-    ) SELECT
-        (SELECT intervalSchemeId FROM TempCurrentExercisePreference),
-        targetLevelOfKnowledge,
-        value
-    FROM Interval WHERE intervalSchemeId == 0;
-
-    INSERT INTO Interval(
-        intervalSchemeId,
-        targetLevelOfKnowledge,
-        value
     ) VALUES (
         (SELECT intervalSchemeId FROM TempCurrentExercisePreference),
         new.targetLevelOfKnowledge,
         new.value
     );
+
+    INSERT INTO Interval(
+        intervalSchemeId,
+        targetLevelOfKnowledge,
+        value
+    ) SELECT
+        (SELECT intervalSchemeId FROM TempCurrentExercisePreference),
+        targetLevelOfKnowledge,
+        value
+    FROM Interval WHERE intervalSchemeId == 0;
 
     SELECT RAISE(IGNORE);
 END;
