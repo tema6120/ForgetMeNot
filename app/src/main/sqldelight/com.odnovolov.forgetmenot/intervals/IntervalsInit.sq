@@ -5,8 +5,17 @@ BEGIN
     SELECT RAISE(ROLLBACK, 'cannot delete default IntervalScheme');
 END;
 
-createTriggerCreateNewIntervalSchemeOnTryToDeleteDefaultInterval:
-CREATE TRIGGER IF NOT EXISTS TempCreateNewIntervalSchemeOnTryToDeleteDefaultInterval
+createTriggerTransitionToDefaultAfterDeleteOnIntervalScheme:
+CREATE TRIGGER IF NOT EXISTS TempTransitionToDefaultAfterDeleteOnIntervalScheme
+AFTER DELETE ON IntervalScheme
+BEGIN
+    UPDATE ExercisePreference
+    SET intervalSchemeId = 0
+    WHERE intervalSchemeId == old.id;
+END;
+
+createTriggerTransitionFromDefaultToIndividualBeforeDeleteOnInterval:
+CREATE TRIGGER IF NOT EXISTS TempTransitionFromDefaultToIndividualBeforeDeleteOnInterval
 BEFORE DELETE ON Interval WHEN old.intervalSchemeId == 0
 BEGIN
     INSERT INTO IntervalScheme(name) VALUES ('');
@@ -28,8 +37,27 @@ BEGIN
     SELECT RAISE(IGNORE);
 END;
 
-createTriggerCreateNewIntervalSchemeOnTryToModifyDefaultIntervalScheme:
-CREATE TRIGGER IF NOT EXISTS TempCreateNewIntervalSchemeInsteadOfModifyingDefaultIntervalScheme
+createTriggerTransitionFromIndividualToDefaultAfterDeleteOnInterval:
+CREATE TRIGGER IF NOT EXISTS TempTransitionFromIndividualToDefaultAfterDeleteOnInterval
+AFTER DELETE ON Interval
+WHEN (SELECT count(*) FROM IntervalScheme WHERE id == old.intervalSchemeId AND id != 0 AND name == '') == 1
+      AND (SELECT count(*)
+           FROM (SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == old.intervalSchemeId
+                 UNION SELECT * FROM (
+                     SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == old.intervalSchemeId
+                     EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 )
+                )
+          ) == 0
+BEGIN
+    UPDATE ExercisePreference
+    SET intervalSchemeId = 0
+    WHERE id == (SELECT id FROM TempCurrentExercisePreference);
+END;
+
+createTriggerTransitionFromDefaultToSharedBeforeUpdateOnIntervalScheme:
+CREATE TRIGGER IF NOT EXISTS TempTransitionFromDefaultToSharedBeforeUpdateOnIntervalScheme
 BEFORE UPDATE ON IntervalScheme
 WHEN old.id == 0 AND new.name != ''
 BEGIN
@@ -52,10 +80,10 @@ BEGIN
     SELECT RAISE(IGNORE);
 END;
 
-createTriggerCreateNewIntervalOnTryToModifyDefaultInterval:
-CREATE TRIGGER IF NOT EXISTS TempCreateNewIntervalOnTryToModifyDefaultInterval
+createTriggerTransitionFromDefaultToIndividualBeforeUpdateOnInterval:
+CREATE TRIGGER IF NOT EXISTS TempTransitionFromDefaultToIndividualBeforeUpdateOnInterval
 BEFORE UPDATE ON Interval
-WHEN old.intervalSchemeId == 0
+WHEN old.intervalSchemeId == 0 AND old.value != new.value
 BEGIN
     INSERT INTO IntervalScheme(name) VALUES ('');
 
@@ -71,18 +99,42 @@ BEGIN
         (SELECT intervalSchemeId FROM TempCurrentExercisePreference),
         targetLevelOfKnowledge,
         value
-    FROM Interval WHERE intervalSchemeId == 0;
+    FROM Interval WHERE intervalSchemeId == 0 AND targetLevelOfKnowledge != new.targetLevelOfKnowledge;
 
-    UPDATE Interval
-    SET value = new.value
-    WHERE intervalSchemeId == (SELECT intervalSchemeId FROM TempCurrentExercisePreference)
-          AND targetLevelOfKnowledge == new.targetLevelOfKnowledge;
+    INSERT INTO Interval(
+        intervalSchemeId,
+        targetLevelOfKnowledge,
+        value
+    ) VALUES (
+        (SELECT intervalSchemeId FROM TempCurrentExercisePreference),
+        new.targetLevelOfKnowledge,
+        new.value
+    );
 
     SELECT RAISE(IGNORE);
 END;
 
-createTriggerCreateNewIntervalSchemeOnTryToAddNewIntervalToDefaultIntervalScheme:
-CREATE TRIGGER IF NOT EXISTS TempCreateNewIntervalSchemeOnTryToAddNewIntervalToDefaultIntervalScheme
+createTriggerTransitionFromIndividualToDefaultAfterUpdateOnInterval:
+CREATE TRIGGER IF NOT EXISTS TempTransitionFromIndividualToDefaultAfterUpdateOnInterval
+AFTER UPDATE ON Interval
+WHEN (SELECT count(*) FROM IntervalScheme WHERE id == new.intervalSchemeId AND id != 0 AND name == '') == 1
+      AND (SELECT count(*)
+           FROM (SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
+                 UNION SELECT * FROM (
+                     SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
+                     EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 )
+                )
+          ) == 0
+BEGIN
+    UPDATE ExercisePreference
+    SET intervalSchemeId = 0
+    WHERE id == (SELECT id FROM TempCurrentExercisePreference);
+END;
+
+createTriggerTransitionFromDefaultToIndividualBeforeInsertOnInterval:
+CREATE TRIGGER IF NOT EXISTS TempTransitionFromDefaultToIndividualBeforeInsertOnInterval
 BEFORE INSERT ON Interval
 WHEN new.intervalSchemeId == 0
 BEGIN
@@ -115,31 +167,23 @@ BEGIN
     SELECT RAISE(IGNORE);
 END;
 
-createTriggerSetDefaultIntervalSchemeIfNeed:
-CREATE TRIGGER IF NOT EXISTS TempSetDefaultIntervalSchemeIfNeed
-AFTER UPDATE ON Interval
-WHEN (SELECT name FROM IntervalScheme WHERE id == new.intervalSchemeId) == ''
+createTriggerTransitionFromIndividualToDefaultWhenInsertOnInterval:
+CREATE TRIGGER IF NOT EXISTS TempTransitionFromIndividualToDefaultWhenInsertOnInterval
+AFTER INSERT ON Interval
+WHEN (SELECT count(*) FROM IntervalScheme WHERE id == new.intervalSchemeId AND id != 0 AND name == '') == 1
       AND (SELECT count(*)
            FROM (SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
                  EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
-                 UNION
-                 SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
-                 EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 UNION SELECT * FROM (
+                     SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
+                     EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 )
                 )
           ) == 0
 BEGIN
     UPDATE ExercisePreference
     SET intervalSchemeId = 0
     WHERE id == (SELECT id FROM TempCurrentExercisePreference);
-END;
-
-createTriggerSetDefaultIntervalSchemeOnDeleteIntervalScheme:
-CREATE TRIGGER IF NOT EXISTS TempSetDefaultIntervalSchemeOnDeleteIntervalScheme
-AFTER DELETE ON IntervalScheme
-BEGIN
-    UPDATE ExercisePreference
-    SET intervalSchemeId = 0
-    WHERE intervalSchemeId == old.id;
 END;
 
 createTriggerDeleteUnusedIndividualIntervalScheme:

@@ -87,12 +87,14 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             IntervalsButtonClicked -> {
                 database.intervalsInitQueries.run {
                     createTriggerPreventRemovalOfDefaultIntervalScheme()
-                    createTriggerCreateNewIntervalSchemeOnTryToDeleteDefaultInterval()
-                    createTriggerCreateNewIntervalSchemeOnTryToModifyDefaultIntervalScheme()
-                    createTriggerCreateNewIntervalOnTryToModifyDefaultInterval()
-                    createTriggerCreateNewIntervalSchemeOnTryToAddNewIntervalToDefaultIntervalScheme()
-                    createTriggerSetDefaultIntervalSchemeIfNeed()
-                    createTriggerSetDefaultIntervalSchemeOnDeleteIntervalScheme()
+                    createTriggerTransitionToDefaultAfterDeleteOnIntervalScheme()
+                    createTriggerTransitionFromDefaultToIndividualBeforeDeleteOnInterval()
+                    createTriggerTransitionFromIndividualToDefaultAfterDeleteOnInterval()
+                    createTriggerTransitionFromDefaultToSharedBeforeUpdateOnIntervalScheme()
+                    createTriggerTransitionFromDefaultToIndividualBeforeUpdateOnInterval()
+                    createTriggerTransitionFromIndividualToDefaultAfterUpdateOnInterval()
+                    createTriggerTransitionFromDefaultToIndividualBeforeInsertOnInterval()
+                    createTriggerTransitionFromIndividualToDefaultWhenInsertOnInterval()
                     createTriggerDeleteUnusedIndividualIntervalScheme()
                 }
                 issueOrder(NavigateToIntervals)

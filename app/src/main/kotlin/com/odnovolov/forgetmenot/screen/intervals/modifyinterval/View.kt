@@ -66,7 +66,10 @@ class ModifyIntervalFragment : BaseDialogFragment() {
     private fun observeViewModel(isRestoring: Boolean) {
         val viewModel = ModifyIntervalViewModel()
         if (!isRestoring) {
-            rootView.numberEditText.setText(viewModel.intervalNumberText)
+            rootView.numberEditText.run {
+                setText(viewModel.intervalNumberText)
+                selectAll()
+            }
         }
         rootView.unitPicker.value = IntervalUnit.values().indexOf(viewModel.intervalUnit)
         viewModel.isOkButtonEnabled.observe { isEnabled ->
