@@ -26,11 +26,11 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                     initExerciseCard(event.deckId)
                 }
                 with(database.exerciseInitQueries) {
-                    createTableExercise()
-                    cleanTableExercise()
-                    initExercise(event.deckId)
+                    createStateIfNotExists()
+                    cleanState()
+                    initState()
                     createViewCurrentExerciseCard()
-                    createViewExercisePronunciation()
+                    createViewCurrentExercisePronunciation()
                     createTriggerObserveAnswerAutoSpeakEvent()
                 }
                 // TODO move 'setLastOpenedAt()' to Exercise screen

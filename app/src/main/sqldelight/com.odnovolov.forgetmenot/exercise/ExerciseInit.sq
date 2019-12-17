@@ -1,21 +1,16 @@
-createTableExercise:
+createStateIfNotExists:
 CREATE TABLE IF NOT EXISTS TempExercise (
     currentExerciseCardId INTEGER,
-    testMethod INTEGER NOT NULL, -- AS TestMethod
-    pronunciationId INTEGER NOT NULL,
     questionTextSelection TEXT NOT NULL DEFAULT '',
     answerTextSelection TEXT NOT NULL DEFAULT '',
     answerAutoSpeakTriggered INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
-cleanTableExercise:
+cleanState:
 DELETE FROM TempExercise;
 
-initExercise:
-INSERT INTO TempExercise(testMethod, pronunciationId)
-SELECT testMethod, pronunciationId FROM ExercisePreference WHERE id == (
-    SELECT exercisePreferenceId FROM Deck WHERE id == ?
-);
+initState:
+INSERT INTO TempExercise DEFAULT VALUES;
 
 createViewCurrentExerciseCard:
 CREATE VIEW IF NOT EXISTS TempCurrentExerciseCard
@@ -31,14 +26,23 @@ AS SELECT TempExerciseCard.*,
 FROM TempExerciseCard LEFT JOIN Card ON TempExerciseCard.cardId == Card.id
 WHERE TempExerciseCard.id == (SELECT currentExerciseCardId FROM TempExercise);
 
-createViewExercisePronunciation:
-CREATE VIEW IF NOT EXISTS TempExercisePronunciation
-AS SELECT * FROM Pronunciation WHERE id == (SELECT pronunciationId FROM TempExercise);
+createViewCurrentExercisePronunciation:
+CREATE VIEW IF NOT EXISTS TempCurrentExercisePronunciation
+AS SELECT * FROM Pronunciation WHERE id == (
+    SELECT pronunciationId FROM ExercisePreference WHERE id == (
+        SELECT exercisePreferenceId FROM Deck WHERE id == (
+            SELECT deckId FROM Card WHERE id == (
+                SELECT cardId FROM TempCurrentExerciseCard
+            )
+        )
+    )
+);
 
 createTriggerObserveAnswerAutoSpeakEvent:
 CREATE TRIGGER IF NOT EXISTS TempObserveAnswerAutoSpeakEvent
 AFTER UPDATE OF isAnswerCorrect ON TempExerciseCard
-WHEN old.isAnswerCorrect IS NULL AND (SELECT answerAutoSpeak FROM TempExercisePronunciation) == 1
+WHEN old.isAnswerCorrect IS NULL
+     AND (SELECT answerAutoSpeak FROM TempCurrentExercisePronunciation) == 1
 BEGIN
     UPDATE TempExercise SET answerAutoSpeakTriggered = 1;
 END;

@@ -61,6 +61,7 @@ class ExerciseFragment : BaseFragment() {
     private fun setupViewPagerAdapter() {
         adapter = ExerciseCardsAdapter(fragment = this)
         exerciseViewPager.adapter = adapter
+        exerciseViewPager.offscreenPageLimit = 1
         exerciseViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 controller.dispatch(NewPageBecameSelected(position))

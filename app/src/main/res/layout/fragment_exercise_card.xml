@@ -43,6 +43,7 @@
                     android:layout_height="0dp"
                     android:background="@color/curtain"
                     android:foreground="?attr/selectableItemBackground"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/questionScrollView"
                     app:layout_constraintEnd_toEndOf="@id/questionScrollView"
                     app:layout_constraintStart_toStartOf="@id/questionScrollView"
