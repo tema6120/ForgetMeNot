@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="24dp">
+            android:layout_margin="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -65,55 +65,19 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:background="?android:attr/listDivider"
-                    app:layout_constraintBottom_toTopOf="@+id/answerScrollView"
+                    app:layout_constraintBottom_toTopOf="@+id/answerFrame"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/questionScrollView" />
 
-            <ScrollView
-                    android:id="@+id/answerScrollView"
+            <FrameLayout
+                    android:id="@+id/answerFrame"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:fillViewport="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider">
-
-                <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
-                        android:id="@+id/answerTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:textColor="@color/textSecondary"
-                        android:textIsSelectable="true"
-                        android:textSize="18sp"
-                        tools:text="These men are used to hard work." />
-
-            </ScrollView>
-
-            <FrameLayout
-                    android:id="@+id/showAnswerButton"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@color/curtain"
-                    android:foreground="?attr/selectableItemBackground"
-                    app:layout_constraintBottom_toBottomOf="@id/answerScrollView"
-                    app:layout_constraintEnd_toEndOf="@id/answerScrollView"
-                    app:layout_constraintStart_toStartOf="@id/answerScrollView"
-                    app:layout_constraintTop_toTopOf="@id/answerScrollView">
-
-                <TextView
-                        android:id="@+id/showAnswerTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        android:text="@string/text_show_answer_textview"
-                        android:textColor="@android:color/secondary_text_dark_nodisable"
-                        android:textSize="18sp" />
-
-            </FrameLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

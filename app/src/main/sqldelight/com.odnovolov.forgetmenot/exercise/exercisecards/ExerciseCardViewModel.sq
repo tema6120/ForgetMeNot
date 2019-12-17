@@ -1,3 +1,12 @@
+getTestMethod:
+SELECT testMethod FROM ExercisePreference WHERE id == (
+    SELECT exercisePreferenceId FROM Deck WHERE id == (
+        SELECT deckId FROM Card WHERE id == (
+            SELECT cardId FROM TempExerciseCard WHERE id == ?
+        )
+    )
+);
+
 getQuestion:
 SELECT question FROM Card WHERE Card.id == (
     SELECT cardId FROM TempExerciseCard WHERE TempExerciseCard.id == ?

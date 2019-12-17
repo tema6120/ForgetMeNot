@@ -9,13 +9,9 @@ import kotlinx.coroutines.flow.map
 class ExerciseViewModel {
     private val queries: ExerciseViewModelQueries = database.exerciseViewModelQueries
 
-    val testMethod: TestMethod by lazy {
-        val databaseValue = queries.getTestMethod().executeAsOne()
-        testMethodAdapter.decode(databaseValue)
-    }
-
-    val exerciseCardsIdsAtStart: List<Long>
-        get() = queries.getAllExerciseCardIds().executeAsList()
+    val exerciseCardsIdsAtStart: List<Long> = queries
+        .getAllExerciseCardIds()
+        .executeAsList()
 
     val exerciseCardIds: Flow<List<Long>> = queries
         .getAllExerciseCardIds()

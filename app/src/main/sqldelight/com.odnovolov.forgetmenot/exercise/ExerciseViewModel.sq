@@ -1,6 +1,3 @@
-getTestMethod:
-SELECT testMethod FROM TempExercise;
-
 getAllExerciseCardIds:
 SELECT id FROM TempExerciseCard ORDER BY id;
 

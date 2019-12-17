@@ -1,27 +1,19 @@
-package com.odnovolov.forgetmenot.screen.exercise.exercisecard.manualtestmethod
+package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.manual
 
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.asBoolean
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardControllerQueries
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodEvent.*
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.manual.AnswerManualTestEvent.*
 
-class ExerciseCardManualTestMethodController(private val id: Long) :
-    BaseController<ExerciseCardManualTestMethodEvent, Nothing>() {
+class AnswerManualTestController(private val id: Long) :
+    BaseController<AnswerManualTestEvent, Nothing>() {
     private val queries: ExerciseCardControllerQueries = database.exerciseCardControllerQueries
 
-    override fun handleEvent(event: ExerciseCardManualTestMethodEvent) {
+    override fun handleEvent(event: AnswerManualTestEvent) {
         when (event) {
-            is QuestionTextSelectionChanged -> {
-                queries.setQuestionTextSelection(event.selection)
-            }
-
             is AnswerTextSelectionChanged -> {
                 queries.setAnswerTextSelection(event.selection)
-            }
-
-            ShowQuestionButtonClicked -> {
-                queries.setIsQuestionDisplayedTrue(id)
             }
 
             RememberButtonClicked -> {

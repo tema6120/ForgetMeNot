@@ -15,13 +15,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.entity.TestMethod
-import com.odnovolov.forgetmenot.common.entity.TestMethod.Manual
-import com.odnovolov.forgetmenot.common.entity.TestMethod.Off
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.manualtestmethod.ExerciseCardManualTestMethodFragment
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.withouttest.ExerciseCardWithoutTestFragment
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import leakcanary.LeakSentry
 
@@ -63,10 +59,7 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupViewPagerAdapter() {
-        adapter = ExerciseCardsAdapter(
-            testMethod = viewModel.testMethod,
-            fragment = this
-        )
+        adapter = ExerciseCardsAdapter(fragment = this)
         exerciseViewPager.adapter = adapter
         exerciseViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -144,10 +137,7 @@ class ExerciseFragment : BaseFragment() {
 }
 
 
-class ExerciseCardsAdapter(
-    private val testMethod: TestMethod,
-    fragment: Fragment
-) : FragmentStateAdapter(fragment) {
+class ExerciseCardsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     var exerciseCardIds: List<Long> = emptyList()
         set(value) {
             if (value != field) {
@@ -157,11 +147,8 @@ class ExerciseCardsAdapter(
         }
 
     override fun createFragment(position: Int): Fragment {
-        val exerciseCardId = exerciseCardIds[position]
-        return when (testMethod) {
-            Off -> ExerciseCardWithoutTestFragment.create(exerciseCardId)
-            Manual -> ExerciseCardManualTestMethodFragment.create(exerciseCardId)
-        }
+        val id = exerciseCardIds[position]
+        return ExerciseCardFragment.create(id)
     }
 
     override fun getItemId(position: Int): Long = exerciseCardIds[position]
