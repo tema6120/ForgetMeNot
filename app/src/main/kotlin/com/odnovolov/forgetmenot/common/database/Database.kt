@@ -94,6 +94,7 @@ fun initFirstScreenState() {
         transaction {
             homeInitQueries.createTableHomeState()
             homeInitQueries.initHomeState()
+            homeInitQueries.createDeckSelection()
             addDeckInitQueries.createTableAddDeckState()
             addDeckInitQueries.initAddDeckState()
         }

@@ -20,22 +20,15 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             }
 
             is DeckButtonClicked -> {
-                with(database.exerciseCardsInitQueries) {
-                    createTableExerciseCard()
-                    cleanTableExerciseCard()
-                    initExerciseCard(event.deckId)
+                if (queries.hasAnySelectedDeckId().executeAsOne()) {
+                    toggleDeckSelection(event.deckId)
+                } else {
+                    startExercise(event.deckId)
                 }
-                with(database.exerciseInitQueries) {
-                    createStateIfNotExists()
-                    cleanState()
-                    initState()
-                    createViewCurrentExerciseCard()
-                    createViewCurrentExercisePronunciation()
-                    createTriggerObserveAnswerAutoSpeakEvent()
-                }
-                // TODO move 'setLastOpenedAt()' to Exercise screen
-                queries.updateLastOpenedAt(event.deckId)
-                issueOrder(NavigateToExercise)
+            }
+
+            is DeckButtonLongClicked -> {
+                toggleDeckSelection(event.deckId)
             }
 
             is SetupDeckMenuItemClicked -> {
@@ -74,6 +67,42 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 queries.restoreDeck()
                 queries.restoreCard()
             }
+
+            StartExerciseMenuItemClicked -> {
+                startExercise(deckId = -1)
+            }
+
+            ActionModeFinished -> {
+                queries.clearDeckSelection()
+            }
+        }
+    }
+
+    private fun startExercise(deckId: Long) {
+        with(database.exerciseCardsInitQueries) {
+            createTableExerciseCard()
+            cleanTableExerciseCard()
+            initExerciseCard(deckId)
+        }
+        with(database.exerciseInitQueries) {
+            createStateIfNotExists()
+            cleanState()
+            initState()
+            createViewCurrentExerciseCard()
+            createViewCurrentExercisePronunciation()
+            createTriggerObserveAnswerAutoSpeakEvent()
+        }
+        queries.clearDeckSelection()
+        // TODO move 'setLastOpenedAt()' to Exercise screen
+        queries.updateLastOpenedAt(deckId)
+        issueOrder(NavigateToExercise)
+    }
+
+    private fun toggleDeckSelection(deckId: Long) {
+        if (queries.hasDeckInDeckSelection(deckId).executeAsOne()) {
+            queries.deleteDeckFromDeckSelection(deckId)
+        } else {
+            queries.addDeckToDeckSelection(deckId)
         }
     }
 }

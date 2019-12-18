@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
@@ -29,6 +28,10 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 import kotlinx.coroutines.launch
 import leakcanary.LeakSentry
+import android.view.MenuInflater
+import androidx.core.content.ContextCompat
+import com.odnovolov.forgetmenot.R
+import kotlinx.coroutines.flow.combine
 
 class HomeFragment : BaseFragment() {
 
@@ -37,6 +40,7 @@ class HomeFragment : BaseFragment() {
     private val adapter = DeckPreviewAdapter(controller)
     private lateinit var filterDialog: Dialog
     private lateinit var filterAdapter: ItemAdapter<Item>
+    private var actionMode: ActionMode? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,6 +83,20 @@ class HomeFragment : BaseFragment() {
                 }
                 filterAdapter.submitList(listOf(item))
             }
+            hasAnySelectedDeck.observe { hasAnySelectedDeck ->
+                if (hasAnySelectedDeck) {
+                    if (actionMode == null) {
+                        actionMode = requireActivity().startActionMode(actionModeCallback)
+                    }
+                } else {
+                    actionMode?.finish()
+                }
+            }
+            selectedDecksCount.combine(selectedCardsCount) { decksCount: Int, cardsCount: Long ->
+                val deckString = if (decksCount > 1) "decks" else "deck"
+                val cardString = if (cardsCount > 1) "cards" else "card"
+                "$decksCount $deckString, $cardsCount $cardString"
+            }.observe { actionMode?.title = it }
         }
     }
 
@@ -191,6 +209,32 @@ class HomeFragment : BaseFragment() {
         LeakSentry.refWatcher.watch(this)
     }
 
+    private val actionModeCallback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            mode.menuInflater.inflate(R.menu.deck_selection_actions, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+            when (item.itemId) {
+                R.id.action_start_exercise -> {
+                    controller.dispatch(StartExerciseMenuItemClicked)
+                    return true
+                }
+                else -> return false
+            }
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            controller.dispatch(ActionModeFinished)
+            actionMode = null
+        }
+    }
+
     companion object {
         const val STATE_KEY_FILTER_DIALOG = "filterDialog"
     }
@@ -210,8 +254,12 @@ private class DeckPreviewAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         with(viewHolder.itemView) {
             val deckPreview: DeckPreview = getItem(position)
-            setOnClickListener {
+            deckButton.setOnClickListener {
                 controller.dispatch(DeckButtonClicked(deckPreview.deckId))
+            }
+            deckButton.setOnLongClickListener {
+                controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
+                true
             }
             deckNameTextView.text = deckPreview.deckName
             deckOptionButton.setOnClickListener { view: View ->
@@ -225,6 +273,13 @@ private class DeckPreviewAdapter(
             } else {
                 taskIndicatorTextView.text = deckPreview.numberOfCardsReadyForExercise.toString()
                 taskIndicatorTextView.visibility = VISIBLE
+            }
+            if (deckPreview.isSelected) {
+                setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.selected_item_background)
+                )
+            } else {
+                background = null
             }
         }
     }

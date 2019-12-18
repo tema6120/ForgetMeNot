@@ -21,6 +21,7 @@
     <string name="action_search">Search</string>
     <string name="action_sort_by">Sort by</string>
     <string name="action_filter">Filter</string>
+    <string name="action_start_exercise">Start exercise</string>
     <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
     <string name="text_sort_by_name_textview">Name</string>
     <string name="text_sort_by_last_created_textview">Last created</string>

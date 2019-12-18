@@ -5,3 +5,8 @@ CREATE TABLE TempHomeState (
 
 initHomeState:
 INSERT INTO TempHomeState DEFAULT VALUES;
+
+createDeckSelection:
+CREATE TABLE TempDeckSelection (
+    selectedDeckId INTEGER NOT NULL
+);

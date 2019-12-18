@@ -54,3 +54,18 @@ INSERT INTO Deck SELECT * FROM DeckBackup;
 
 restoreCard:
 INSERT INTO Card SELECT * FROM CardBackup;
+
+hasAnySelectedDeckId:
+SELECT EXISTS(SELECT * FROM TempDeckSelection);
+
+hasDeckInDeckSelection:
+SELECT EXISTS (SELECT * FROM TempDeckSelection WHERE selectedDeckId == ?);
+
+deleteDeckFromDeckSelection:
+DELETE FROM TempDeckSelection WHERE selectedDeckId == ?;
+
+addDeckToDeckSelection:
+INSERT INTO TempDeckSelection(selectedDeckId) VALUES (?);
+
+clearDeckSelection:
+DELETE FROM TempDeckSelection;
