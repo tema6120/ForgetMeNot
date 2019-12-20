@@ -1,14 +1,10 @@
 package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.off
 
-import com.odnovolov.forgetmenot.common.base.BaseController
-import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardControllerQueries
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.off.AnswerOffTestEvent.*
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.AnswerController
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.off.AnswerOffTestEvent.AnswerTextSelectionChanged
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.off.AnswerOffTestEvent.ShowAnswerButtonClicked
 
-class AnswerOffTestController(private val id: Long) :
-    BaseController<AnswerOffTestEvent, Nothing>() {
-    private val queries: ExerciseCardControllerQueries = database.exerciseCardControllerQueries
-
+class AnswerOffTestController(id: Long) : AnswerController<AnswerOffTestEvent, Nothing>(id) {
     override fun handleEvent(event: AnswerOffTestEvent) {
         when (event) {
             is AnswerTextSelectionChanged -> {
@@ -16,10 +12,7 @@ class AnswerOffTestController(private val id: Long) :
             }
 
             ShowAnswerButtonClicked -> {
-                queries.updateLastAnsweredAt(id)
-                queries.incrementLapIfCardIsAnsweredForTheFirstTime(id)
-                queries.setIsQuestionDisplayedTrue(id)
-                queries.setAnswerCorrect(true, id)
+                onCorrectAnswer()
             }
         }
     }

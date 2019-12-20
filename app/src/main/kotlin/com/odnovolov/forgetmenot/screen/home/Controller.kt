@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.screen.home
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.home.HomeControllerQueries
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.QuizComposer
 import com.odnovolov.forgetmenot.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.screen.home.HomeOrder.*
 
@@ -83,6 +84,9 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             createTableExerciseCard()
             cleanTableExerciseCard()
             initExerciseCard(deckId)
+            createTableQuiz()
+            cleanTableQuiz()
+            QuizComposer.composeWhereItNeeds()
         }
         with(database.exerciseInitQueries) {
             createStateIfNotExists()

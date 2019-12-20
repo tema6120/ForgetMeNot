@@ -16,51 +16,57 @@ incrementLapIfCardIsAnsweredForTheFirstTime:
 UPDATE Card
 SET lap = lap + 1
 WHERE Card.id == (SELECT cardId FROM TempExerciseCard WHERE TempExerciseCard.id == :exerciseCardId)
-  AND CASE
-          WHEN EXISTS (
-                       SELECT * FROM TempExerciseCard
-                       WHERE cardId == (
-                                        SELECT cardId FROM TempExerciseCard
-                                        WHERE TempExerciseCard.id == :exerciseCardId
-                                       )
-                             AND isAnswerCorrect IS NOT NULL
-                      )
-              THEN 0
-          ELSE 1
-      END;
+      AND (SELECT NOT EXISTS (
+                              SELECT * FROM TempExerciseCard
+                              WHERE cardId == (
+                                               SELECT cardId FROM TempExerciseCard
+                                               WHERE TempExerciseCard.id == :exerciseCardId
+                                              )
+                                    AND isAnswerCorrect IS NOT NULL
+                             )
+          );
+
+setIsQuestionDisplayedTrue:
+UPDATE TempExerciseCard SET isQuestionDisplayed = 1 WHERE id == ?;
 
 setAnswerCorrect:
-UPDATE TempExerciseCard SET isAnswerCorrect = ? WHERE id = ?;
+UPDATE TempExerciseCard SET isAnswerCorrect = ? WHERE id == ?;
 
 deleteAllRepeatedCardsOnTheRight:
 DELETE FROM TempExerciseCard
-WHERE cardId == (SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId)
+WHERE cardId == (SELECT cardId FROM TempExerciseCard WHERE id == :exerciseCardId)
       AND id > :exerciseCardId;
 
-isThereAnyRepeatedCardOnTheRight:
-SELECT
-    CASE
-        WHEN EXISTS (
-                     SELECT * FROM TempExerciseCard
-                     WHERE cardId == (SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId)
-                       AND id > :exerciseCardId
-                    )
-            THEN 1
-        ELSE 0
-    END;
-
-addRepeatedCard:
-INSERT INTO TempExerciseCard(cardId, initialLevelOfKnowledge, isQuestionDisplayed)
-SELECT cardId,
-       initialLevelOfKnowledge,
-       (SELECT isQuestionDisplayed FROM ExercisePreference WHERE id == (
-           SELECT exercisePreferenceId FROM Deck WHERE id == (
-               SELECT deckId FROM Card WHERE id == (
-                   SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId
-               )
-           )
-       ))
-FROM TempExerciseCard WHERE id == :exerciseCardId;
+addRepeatedCardIfThereIsNotOnTheRight:
+INSERT INTO TempExerciseCard(
+    cardId,
+    initialLevelOfKnowledge,
+    isQuestionDisplayed,
+    testMethod,
+    pronunciationId
+) SELECT
+    cardId,
+    initialLevelOfKnowledge,
+    (SELECT isQuestionDisplayed FROM ExercisePreference WHERE id == (
+        SELECT exercisePreferenceId FROM Deck WHERE id == (
+            SELECT deckId FROM Card WHERE id == (
+                SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId
+            )
+        )
+    )),
+    testMethod,
+    pronunciationId
+FROM TempExerciseCard
+WHERE id == :exerciseCardId
+      AND NOT EXISTS (
+                      SELECT * FROM TempExerciseCard
+                      WHERE cardId == (
+                                       SELECT cardId
+                                       FROM TempExerciseCard
+                                       WHERE id == :exerciseCardId
+                                      )
+                            AND id > :exerciseCardId
+                     );
 
 updateLevelOfKnowledge:
 WITH
@@ -82,5 +88,17 @@ SET levelOfKnowledge = CASE
                        END
 WHERE id == (SELECT cardId FROM Extra);
 
-setIsQuestionDisplayedTrue:
-UPDATE TempExerciseCard SET isQuestionDisplayed = 1 WHERE id == ?;
+setSelectedVariant:
+UPDATE TempQuiz SET selectedVariant = ? WHERE exerciseCardId == ?;
+
+isSelectedVariantCorrect:
+SELECT
+    CASE selectedVariant
+        WHEN 1 THEN ifnull(variant1CardId == cardId, 0)
+        WHEN 2 THEN ifnull(variant2CardId == cardId, 0)
+        WHEN 3 THEN ifnull(variant3CardId == cardId, 0)
+        WHEN 4 THEN ifnull(variant4CardId == cardId, 0)
+        ELSE 0
+    END
+FROM TempExerciseCard JOIN TempQuiz ON TempExerciseCard.id == TempQuiz.exerciseCardId
+WHERE id == ?;

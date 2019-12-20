@@ -6,13 +6,7 @@ SELECT isLearned FROM TempCurrentExerciseCard;
 
 getLevelOfKnowledgeForCurrentCard:
 SELECT CASE
-           WHEN (SELECT testMethod FROM ExercisePreference WHERE id == (
-               SELECT exercisePreferenceId FROM Deck WHERE id == (
-                   SELECT deckId FROM Card WHERE id == (
-                       SELECT cardId FROM TempCurrentExerciseCard
-                   )
-               )
-           )) != 0 THEN levelOfKnowledge
+           WHEN testMethod != 0 THEN levelOfKnowledge
            ELSE -1
        END
 FROM TempCurrentExerciseCard;

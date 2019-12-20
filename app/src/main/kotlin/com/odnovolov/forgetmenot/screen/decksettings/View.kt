@@ -16,8 +16,6 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.entity.TestMethod
-import com.odnovolov.forgetmenot.common.entity.TestMethod.Manual
-import com.odnovolov.forgetmenot.common.entity.TestMethod.Off
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
@@ -25,6 +23,7 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.common.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsOrder.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
@@ -184,6 +183,7 @@ class DeckSettingsFragment : BaseFragment() {
                 selectedTestMethodTextView.text = when (selectedTestMethod) {
                     Off -> getString(R.string.test_method_label_off)
                     Manual -> getString(R.string.test_method_label_manual)
+                    Quiz -> getString(R.string.test_method_label_quiz)
                 }
 
                 val testMethods = TestMethod.values().map {
@@ -192,6 +192,7 @@ class DeckSettingsFragment : BaseFragment() {
                         text = when (it) {
                             Off -> getString(R.string.test_method_label_off)
                             Manual -> getString(R.string.test_method_label_manual)
+                            Quiz -> getString(R.string.test_method_label_quiz)
                         },
                         isSelected = it === selectedTestMethod
                     )

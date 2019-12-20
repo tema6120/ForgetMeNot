@@ -57,6 +57,7 @@
     <string name="title_choose_test_method_dialog">Choose test method</string>
     <string name="test_method_label_off">Off</string>
     <string name="test_method_label_manual">Manual</string>
+    <string name="test_method_label_quiz">Quiz</string>
     <string name="text_remember_button">Remember</string>
     <string name="text_not_remember_button">Not remember</string>
     <string name="text_intervals_title">Intervals</string>

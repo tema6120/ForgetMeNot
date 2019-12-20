@@ -1,11 +1,5 @@
 getTestMethod:
-SELECT testMethod FROM ExercisePreference WHERE id == (
-    SELECT exercisePreferenceId FROM Deck WHERE id == (
-        SELECT deckId FROM Card WHERE id == (
-            SELECT cardId FROM TempExerciseCard WHERE id == ?
-        )
-    )
-);
+SELECT testMethod FROM TempExerciseCard WHERE id == ?;
 
 getQuestion:
 SELECT question FROM Card WHERE Card.id == (
@@ -18,7 +12,7 @@ SELECT answer FROM Card WHERE Card.id == (
 );
 
 isAnswered:
-SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END FROM TempExerciseCard WHERE id = ?;
+SELECT isAnswerCorrect IS NOT NULL FROM TempExerciseCard WHERE id = ?;
 
 isAnswerCorrect:
 SELECT isAnswerCorrect FROM TempExerciseCard WHERE id == ?;
@@ -30,3 +24,30 @@ SELECT isLearned FROM Card WHERE Card.id == (
 
 isQuestionDisplayed:
 SELECT isQuestionDisplayed FROM TempExerciseCard WHERE TempExerciseCard.id == ?;
+
+getVariantText:
+SELECT answer FROM Card WHERE id == (
+    SELECT CASE :variantNumber
+               WHEN 1 THEN variant1CardId
+               WHEN 2 THEN variant2CardId
+               WHEN 3 THEN variant3CardId
+               WHEN 4 THEN variant4CardId
+           END
+    FROM TempQuiz WHERE exerciseCardId == :exerciseCardId
+);
+
+getVariantStatus:
+SELECT CASE
+           WHEN selectedVariant IS NULL THEN 'Unselected'
+           WHEN :variantNumber == 1 AND variant1CardId == cardId
+                OR
+                :variantNumber == 2 AND variant2CardId == cardId
+                OR
+                :variantNumber == 3 AND variant3CardId == cardId
+                OR
+                :variantNumber == 4 AND variant4CardId == cardId THEN 'Correct'
+           WHEN :variantNumber == selectedVariant THEN 'Wrong'
+           ELSE 'Unselected'
+       END
+FROM TempExerciseCard JOIN TempQuiz ON TempExerciseCard.id == TempQuiz.exerciseCardId
+WHERE TempExerciseCard.id == :exerciseCardId;

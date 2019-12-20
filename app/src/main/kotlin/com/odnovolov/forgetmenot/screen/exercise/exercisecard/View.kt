@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.entity.TestMethod.Manual
-import com.odnovolov.forgetmenot.common.entity.TestMethod.Off
+import com.odnovolov.forgetmenot.common.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.QuestionTextSelectionChanged
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.ShowQuestionButtonClicked
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.manual.AnswerManualTestFragment
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.off.AnswerOffTestFragment
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.AnswerQuizTestFragment
 import kotlinx.android.synthetic.main.fragment_exercise_card.*
 import leakcanary.LeakSentry
 
@@ -39,10 +39,11 @@ class ExerciseCardFragment : BaseFragment() {
             val answerFragment = when (viewModel.testMethod) {
                 Off -> AnswerOffTestFragment.create(id)
                 Manual -> AnswerManualTestFragment.create(id)
+                Quiz -> AnswerQuizTestFragment.create(id)
             }
             childFragmentManager
                 .beginTransaction()
-                .add(R.id.answerFrame, answerFragment, "tag")
+                .replace(R.id.answerFrame, answerFragment, "tag")
                 .commit()
         }
         return inflater.inflate(R.layout.fragment_exercise_card, container, false)

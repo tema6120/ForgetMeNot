@@ -4,18 +4,27 @@ CREATE TABLE IF NOT EXISTS TempExerciseCard (
     cardId INTEGER NOT NULL,
     initialLevelOfKnowledge INTEGER AS Int NOT NULL,
     isAnswerCorrect INTEGER AS Boolean,
-    isQuestionDisplayed INTEGER AS Boolean NOT NULL
+    isQuestionDisplayed INTEGER AS Boolean NOT NULL,
+    testMethod INTEGER NOT NULL,
+    pronunciationId INTEGER NOT NULL
 );
 
 cleanTableExerciseCard:
 DELETE FROM TempExerciseCard;
 
 initExerciseCard:
-INSERT INTO TempExerciseCard (cardId, initialLevelOfKnowledge, isQuestionDisplayed)
-SELECT
+INSERT INTO TempExerciseCard (
+    cardId,
+    initialLevelOfKnowledge,
+    isQuestionDisplayed,
+    testMethod,
+    pronunciationId
+) SELECT
     Card.id,
     Card.levelOfKnowledge,
-    ExercisePreference.isQuestionDisplayed
+    ExercisePreference.isQuestionDisplayed,
+    ExercisePreference.testMethod,
+    ExercisePreference.pronunciationId
 FROM
     Card
     LEFT JOIN Deck ON Card.deckId == Deck.id
@@ -24,7 +33,7 @@ FROM
     LEFT JOIN Interval ON IntervalScheme.id == Interval.intervalSchemeId
                           AND Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1
 WHERE
-     Deck.id == ? OR Deck.id IN (SELECT * FROM TempDeckSelection)
+     (Deck.id == ? OR Deck.id IN (SELECT * FROM TempDeckSelection))
      AND Card.isLearned == 0
      AND (
          ExercisePreference.intervalSchemeId IS NULL
@@ -39,3 +48,17 @@ WHERE
                  ) < datetime('now')
      )
 ORDER BY lap, random(); -- TODO check whether random mode is on
+
+createTableQuiz:
+CREATE TABLE IF NOT EXISTS TempQuiz (
+    exerciseCardId INTEGER NOT NULL PRIMARY KEY,
+    variant1CardId INTEGER,
+    variant2CardId INTEGER,
+    variant3CardId INTEGER,
+    variant4CardId INTEGER,
+    selectedVariant INTEGER AS Int,
+    FOREIGN KEY (exerciseCardId) REFERENCES TempExerciseCard(id) ON DELETE CASCADE
+);
+
+cleanTableQuiz:
+DELETE FROM TempQuiz;

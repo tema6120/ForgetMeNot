@@ -29,13 +29,7 @@ WHERE TempExerciseCard.id == (SELECT currentExerciseCardId FROM TempExercise);
 createViewCurrentExercisePronunciation:
 CREATE VIEW IF NOT EXISTS TempCurrentExercisePronunciation
 AS SELECT * FROM Pronunciation WHERE id == (
-    SELECT pronunciationId FROM ExercisePreference WHERE id == (
-        SELECT exercisePreferenceId FROM Deck WHERE id == (
-            SELECT deckId FROM Card WHERE id == (
-                SELECT cardId FROM TempCurrentExerciseCard
-            )
-        )
-    )
+    SELECT pronunciationId FROM TempCurrentExerciseCard
 );
 
 createTriggerObserveAnswerAutoSpeakEvent:

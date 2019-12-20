@@ -1,0 +1,131 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+        <FrameLayout
+                android:id="@+id/variant1Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                tools:background="@color/background_correct_answer">
+
+            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+                    android:id="@+id/variant1TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="18sp"
+                    tools:text="freely" />
+
+        </FrameLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/divider" />
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+        <FrameLayout
+                android:id="@+id/variant2Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground">
+
+            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+                    android:id="@+id/variant2TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="18sp"
+                    tools:text="assiduously" />
+
+        </FrameLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/divider" />
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+        <FrameLayout
+                android:id="@+id/variant3Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground">
+
+            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+                    android:id="@+id/variant3TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="18sp"
+                    tools:text="chronically" />
+
+        </FrameLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/divider" />
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+        <FrameLayout
+                android:id="@+id/variant4Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                tools:background="@color/background_wrong_answer">
+
+            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+                    android:id="@+id/variant4TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="18sp"
+                    tools:text="feebly" />
+
+        </FrameLayout>
+
+    </ScrollView>
+
+</LinearLayout>
