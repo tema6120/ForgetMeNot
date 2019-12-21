@@ -184,6 +184,7 @@ class DeckSettingsFragment : BaseFragment() {
                     Off -> getString(R.string.test_method_label_off)
                     Manual -> getString(R.string.test_method_label_manual)
                     Quiz -> getString(R.string.test_method_label_quiz)
+                    Entry -> getString(R.string.test_method_label_entry)
                 }
 
                 val testMethods = TestMethod.values().map {
@@ -193,6 +194,7 @@ class DeckSettingsFragment : BaseFragment() {
                             Off -> getString(R.string.test_method_label_off)
                             Manual -> getString(R.string.test_method_label_manual)
                             Quiz -> getString(R.string.test_method_label_quiz)
+                            Entry -> getString(R.string.test_method_label_entry)
                         },
                         isSelected = it === selectedTestMethod
                     )

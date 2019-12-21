@@ -49,5 +49,14 @@ SELECT CASE
            WHEN :variantNumber == selectedVariant THEN 'Wrong'
            ELSE 'Unselected'
        END
-FROM TempExerciseCard JOIN TempQuiz ON TempExerciseCard.id == TempQuiz.exerciseCardId
+FROM TempQuiz LEFT JOIN TempExerciseCard ON TempQuiz.exerciseCardId == TempExerciseCard.id
 WHERE TempExerciseCard.id == :exerciseCardId;
+
+getWrongAnswer:
+SELECT
+    CASE
+        WHEN isAnswerCorrect == 0 THEN answerInput
+        ELSE NULL
+    END AS wrongAnswer
+FROM TempAnswerInput LEFT JOIN TempExerciseCard ON TempAnswerInput.exerciseCardId == TempExerciseCard.id
+WHERE exerciseCardId == ?;

@@ -15,7 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"
-                tools:background="@color/background_correct_answer">
+                tools:background="@color/correct_answer">
 
             <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
                     android:id="@+id/variant1TextView"
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"
-                tools:background="@color/background_wrong_answer">
+                tools:background="@color/wrong_answer">
 
             <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
                     android:id="@+id/variant4TextView"

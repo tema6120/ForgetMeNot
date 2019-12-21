@@ -7,8 +7,8 @@
     <color name="divider">#1e000000</color>
     <color name="curtain">#f3f3f3</color>
     <color name="selected_item_background">#60E7D900</color>
-    <color name="background_correct_answer">#78e876</color>
-    <color name="background_wrong_answer">#e87678</color>
+    <color name="correct_answer">#78e876</color>
+    <color name="wrong_answer">#e87678</color>
     <color name="text_level_of_knowledge">#FFF</color>
     <color name="textPrimary">#DE000000</color>
     <color name="textSecondary">#99000000</color>

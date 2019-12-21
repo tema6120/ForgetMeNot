@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.QuestionTextSelectionChanged
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.ShowQuestionButtonClicked
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.entry.AnswerEntryTestFragment
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.manual.AnswerManualTestFragment
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.off.AnswerOffTestFragment
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.AnswerQuizTestFragment
@@ -40,6 +41,7 @@ class ExerciseCardFragment : BaseFragment() {
                 Off -> AnswerOffTestFragment.create(id)
                 Manual -> AnswerManualTestFragment.create(id)
                 Quiz -> AnswerQuizTestFragment.create(id)
+                Entry -> AnswerEntryTestFragment.create(id)
             }
             childFragmentManager
                 .beginTransaction()

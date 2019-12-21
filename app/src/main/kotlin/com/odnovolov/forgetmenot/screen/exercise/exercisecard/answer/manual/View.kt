@@ -61,12 +61,12 @@ class AnswerManualTestFragment : BaseFragment() {
                 curtainView.visibility = GONE
                 if (isAnswerCorrect) {
                     val backgroundColor = ContextCompat
-                        .getColor(requireContext(), R.color.background_correct_answer)
+                        .getColor(requireContext(), R.color.correct_answer)
                     rememberButton.setBackgroundColor(backgroundColor)
                     notRememberButton.background = null
                 } else {
                     val backgroundColor = ContextCompat
-                        .getColor(requireContext(), R.color.background_wrong_answer)
+                        .getColor(requireContext(), R.color.wrong_answer)
                     notRememberButton.setBackgroundColor(backgroundColor)
                     rememberButton.background = null
                 }

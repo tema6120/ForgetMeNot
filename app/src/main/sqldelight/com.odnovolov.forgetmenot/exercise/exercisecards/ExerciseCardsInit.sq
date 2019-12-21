@@ -62,3 +62,16 @@ CREATE TABLE IF NOT EXISTS TempQuiz (
 
 cleanTableQuiz:
 DELETE FROM TempQuiz;
+
+createTableAnswerInput:
+CREATE TABLE IF NOT EXISTS TempAnswerInput (
+    exerciseCardId INTEGER NOT NULL PRIMARY KEY,
+    answerInput TEXT
+);
+
+cleanTableAnswerInput:
+DELETE FROM TempAnswerInput;
+
+initTableAnswerInput:
+INSERT INTO TempAnswerInput(exerciseCardId)
+SELECT id FROM TempExerciseCard WHERE testMethod == 3;

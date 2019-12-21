@@ -37,8 +37,8 @@ class EditCardFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        questionEditTextView.observeText { controller.dispatch(QuestionInputChanged(it)) }
-        answerEditTextView.observeText { controller.dispatch(AnswerInputChanged(it)) }
+        questionEditText.observeText { controller.dispatch(QuestionInputChanged(it)) }
+        answerEditText.observeText { controller.dispatch(AnswerInputChanged(it)) }
         reverseCardButton.setOnClickListener { controller.dispatch(ReverseCardButtonClicked) }
         cancelButton.setOnClickListener { controller.dispatch(CancelButtonClicked) }
         doneButton.setOnClickListener { controller.dispatch(DoneButtonClicked) }
@@ -46,8 +46,8 @@ class EditCardFragment : BaseFragment() {
 
     private fun updateText() {
         with(EditCardViewModel()) {
-            questionEditTextView.setText(question)
-            answerEditTextView.setText(answer)
+            questionEditText.setText(question)
+            answerEditText.setText(answer)
         }
     }
 

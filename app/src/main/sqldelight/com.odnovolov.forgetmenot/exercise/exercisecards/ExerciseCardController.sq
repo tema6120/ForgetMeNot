@@ -102,3 +102,18 @@ SELECT
     END
 FROM TempExerciseCard JOIN TempQuiz ON TempExerciseCard.id == TempQuiz.exerciseCardId
 WHERE id == ?;
+
+setAnswerInput:
+UPDATE TempAnswerInput SET answerInput = ? WHERE exerciseCardId == ?;
+
+isAnswerInputCorrect:
+SELECT ifnull(trim(answer) == trim(answerInput), 0)
+FROM TempAnswerInput
+     LEFT JOIN TempExerciseCard ON TempAnswerInput.exerciseCardId == TempExerciseCard.id
+     LEFT JOIN Card ON TempExerciseCard.cardId == Card.id
+WHERE exerciseCardId == ?;
+
+createAnswerInputWhereItNeeds:
+INSERT INTO TempAnswerInput(exerciseCardId)
+SELECT id FROM TempExerciseCard
+WHERE testMethod == 3 AND id NOT IN (SELECT exerciseCardId FROM TempAnswerInput);

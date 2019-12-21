@@ -87,6 +87,9 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             createTableQuiz()
             cleanTableQuiz()
             QuizComposer.composeWhereItNeeds()
+            createTableAnswerInput()
+            cleanTableAnswerInput()
+            initTableAnswerInput()
         }
         with(database.exerciseInitQueries) {
             createStateIfNotExists()

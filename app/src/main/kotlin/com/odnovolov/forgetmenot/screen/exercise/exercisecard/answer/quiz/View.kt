@@ -112,10 +112,10 @@ class AnswerQuizTestFragment : BaseFragment() {
             when (variantStatus) {
                 Unselected -> variantView.background = null
                 Correct -> variantView.setBackgroundColor(
-                    ContextCompat.getColor(requireContext(), R.color.background_correct_answer)
+                    ContextCompat.getColor(requireContext(), R.color.correct_answer)
                 )
                 Wrong -> variantView.setBackgroundColor(
-                    ContextCompat.getColor(requireContext(), R.color.background_wrong_answer)
+                    ContextCompat.getColor(requireContext(), R.color.wrong_answer)
                 )
             }
         }
