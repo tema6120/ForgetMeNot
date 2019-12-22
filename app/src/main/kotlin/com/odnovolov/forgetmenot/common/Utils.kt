@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import com.odnovolov.forgetmenot.R
 import java.util.*
 
 fun Locale.toFlagEmoji(): String? {
@@ -38,4 +39,14 @@ fun EditText.observeText(onTextChanged: (newText: CharSequence?) -> Unit) {
 
         override fun afterTextChanged(s: Editable?) {}
     })
+}
+
+fun getBackgroundResForLevelOfKnowledge(levelOfKnowledge: Int) = when (levelOfKnowledge) {
+    0 -> R.drawable.background_level_of_knowledge_unsatisfactory
+    1 -> R.drawable.background_level_of_knowledge_poor
+    2 -> R.drawable.background_level_of_knowledge_acceptable
+    3 -> R.drawable.background_level_of_knowledge_satisfactory
+    4 -> R.drawable.background_level_of_knowledge_good
+    5 -> R.drawable.background_level_of_knowledge_very_good
+    else -> R.drawable.background_level_of_knowledge_excellent
 }

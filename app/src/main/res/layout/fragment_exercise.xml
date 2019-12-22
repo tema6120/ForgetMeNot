@@ -99,6 +99,16 @@
                     tools:text="@string/text_indicator_level_of_knowledge_unsatisfactory"
                     tools:visibility="visible" />
 
+            <FrameLayout
+                    android:id="@+id/levelOfKnowledgeButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintBottom_toBottomOf="@+id/levelOfKnowledgeTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
+                    app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
+                    app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

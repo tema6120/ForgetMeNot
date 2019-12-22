@@ -53,3 +53,13 @@ getAnswerAndLanguageToSpeak:
 SELECT
     (SELECT answer FROM TempCurrentExerciseCard) AS textToSpeak,
     (SELECT answerLanguage FROM TempCurrentExercisePronunciation) AS language;
+
+setLevelOfKnowledge:
+UPDATE Card SET levelOfKnowledge = ? WHERE id == (
+    SELECT cardId FROM TempCurrentExerciseCard
+);
+
+setIsLevelOfKnowledgeEditedByUserTrue:
+UPDATE TempExerciseCard SET isLevelOfKnowledgeEditedByUser = 1 WHERE id == (
+    SELECT currentExerciseCardId FROM TempExercise
+);

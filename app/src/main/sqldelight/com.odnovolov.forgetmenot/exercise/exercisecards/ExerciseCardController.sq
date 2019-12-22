@@ -71,12 +71,12 @@ WHERE id == :exerciseCardId
 updateLevelOfKnowledge:
 WITH
     Extra AS (
-        SELECT count(CASE WHEN isAnswerCorrect = 0 THEN 1 ELSE NULL END) AS numberOfWrong,
-               count(CASE WHEN isAnswerCorrect = 1 THEN 1 ELSE NULL END) AS numberOfCorrect,
+        SELECT count(CASE WHEN isAnswerCorrect == 0 THEN 1 ELSE NULL END) AS numberOfWrong,
+               count(CASE WHEN isAnswerCorrect == 1 THEN 1 ELSE NULL END) AS numberOfCorrect,
                initialLevelOfKnowledge,
                cardId
         FROM TempExerciseCard
-        WHERE cardId == (SELECT cardId FROM TempExerciseCard WHERE id = :exerciseCardId)
+        WHERE cardId == (SELECT cardId FROM TempExerciseCard WHERE id == :exerciseCardId)
     )
 UPDATE Card
 SET levelOfKnowledge = CASE
@@ -86,7 +86,8 @@ SET levelOfKnowledge = CASE
                                THEN (SELECT initialLevelOfKnowledge + 1 FROM Extra)
                            ELSE levelOfKnowledge
                        END
-WHERE id == (SELECT cardId FROM Extra);
+WHERE (SELECT isLevelOfKnowledgeEditedByUser FROM TempExerciseCard WHERE id == :exerciseCardId) == 0
+      AND id == (SELECT cardId FROM Extra);
 
 setSelectedVariant:
 UPDATE TempQuiz SET selectedVariant = ? WHERE exerciseCardId == ?;

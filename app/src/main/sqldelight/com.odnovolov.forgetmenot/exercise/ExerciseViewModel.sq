@@ -10,3 +10,17 @@ SELECT CASE
            ELSE -1
        END
 FROM TempCurrentExerciseCard;
+
+intervalItem:
+SELECT
+    Interval.targetLevelOfKnowledge - 1 AS levelOfKnowledge,
+    Interval.value AS waitingPeriod,
+    Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1 AS isSelected
+FROM
+    Interval
+    LEFT JOIN ExercisePreference ON ExercisePreference.intervalSchemeId == Interval.intervalSchemeId
+    LEFT JOIN Deck ON Deck.exercisePreferenceId == ExercisePreference.id
+    LEFT JOIN Card ON Card.deckId = Deck.id
+    LEFT JOIN TempExerciseCard ON TempExerciseCard.cardId == Card.id
+WHERE
+    TempExerciseCard.id == (SELECT currentExerciseCardId FROM TempExercise);

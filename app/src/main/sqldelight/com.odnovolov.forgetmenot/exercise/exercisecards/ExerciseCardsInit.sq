@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS TempExerciseCard (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     cardId INTEGER NOT NULL,
     initialLevelOfKnowledge INTEGER AS Int NOT NULL,
+    isLevelOfKnowledgeEditedByUser INTEGER AS Boolean NOT NULL DEFAULT 0,
     isAnswerCorrect INTEGER AS Boolean,
     isQuestionDisplayed INTEGER AS Boolean NOT NULL,
     testMethod INTEGER NOT NULL,
@@ -66,7 +67,8 @@ DELETE FROM TempQuiz;
 createTableAnswerInput:
 CREATE TABLE IF NOT EXISTS TempAnswerInput (
     exerciseCardId INTEGER NOT NULL PRIMARY KEY,
-    answerInput TEXT
+    answerInput TEXT,
+    FOREIGN KEY (exerciseCardId) REFERENCES TempExerciseCard(id) ON DELETE CASCADE
 );
 
 cleanTableAnswerInput:

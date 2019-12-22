@@ -82,6 +82,11 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
                     )
                 )
             }
+
+            is LevelOfKnowledgeSelected -> {
+                queries.setLevelOfKnowledge(event.levelOfKnowledge)
+                queries.setIsLevelOfKnowledgeEditedByUserTrue()
+            }
         }
     }
 }

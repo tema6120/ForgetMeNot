@@ -1,8 +1,11 @@
 package com.odnovolov.forgetmenot.screen.exercise
 
-import com.odnovolov.forgetmenot.common.database.*
-import com.odnovolov.forgetmenot.common.entity.TestMethod
+import com.odnovolov.forgetmenot.common.database.asFlow
+import com.odnovolov.forgetmenot.common.database.database
+import com.odnovolov.forgetmenot.common.database.mapToList
+import com.odnovolov.forgetmenot.common.database.mapToOneOrNull
 import com.odnovolov.forgetmenot.exercise.ExerciseViewModelQueries
+import com.odnovolov.forgetmenot.exercise.IntervalItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -28,4 +31,6 @@ class ExerciseViewModel {
         .getLevelOfKnowledgeForCurrentCard()
         .asFlow()
         .mapToOneOrNull()
+
+    val intervalItems: Flow<List<IntervalItem>> = queries.intervalItem().asFlow().mapToList()
 }
