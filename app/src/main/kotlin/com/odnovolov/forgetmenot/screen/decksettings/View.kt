@@ -27,7 +27,6 @@ import com.odnovolov.forgetmenot.common.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsOrder.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
-import leakcanary.LeakSentry
 
 class DeckSettingsFragment : BaseFragment() {
 
@@ -279,7 +278,6 @@ class DeckSettingsFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 
     companion object {

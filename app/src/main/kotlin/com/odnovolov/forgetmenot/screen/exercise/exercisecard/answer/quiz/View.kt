@@ -13,7 +13,6 @@ import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.Varian
 import kotlinx.android.synthetic.main.fragment_answer_quiz_test.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import leakcanary.LeakSentry
 
 class AnswerQuizTestFragment : BaseFragment() {
     companion object {
@@ -124,6 +123,5 @@ class AnswerQuizTestFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 }

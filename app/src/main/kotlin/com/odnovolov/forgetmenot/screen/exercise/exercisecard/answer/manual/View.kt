@@ -10,7 +10,6 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.manual.AnswerManualTestEvent.*
 import kotlinx.android.synthetic.main.fragment_answer_manual_test.*
-import leakcanary.LeakSentry
 
 class AnswerManualTestFragment : BaseFragment() {
     companion object {
@@ -86,6 +85,5 @@ class AnswerManualTestFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 }

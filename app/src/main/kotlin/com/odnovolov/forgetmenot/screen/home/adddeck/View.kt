@@ -22,7 +22,6 @@ import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.SetDialogText
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.ShowErrorMessage
 import kotlinx.android.synthetic.main.fragment_adddeck.*
 import kotlinx.coroutines.launch
-import leakcanary.LeakSentry
 
 class AddDeckFragment : BaseFragment() {
 
@@ -178,7 +177,6 @@ class AddDeckFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 
     companion object {

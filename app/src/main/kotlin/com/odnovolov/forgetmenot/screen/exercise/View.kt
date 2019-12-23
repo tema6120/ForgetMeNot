@@ -32,7 +32,6 @@ import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardFragme
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.fragment_exercise.levelOfKnowledgeTextView
 import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*
-import leakcanary.LeakSentry
 
 class ExerciseFragment : BaseFragment() {
 
@@ -188,7 +187,6 @@ class ExerciseFragment : BaseFragment() {
         (activity as AppCompatActivity).supportActionBar?.show()
         controller.dispose()
         speaker.shutdown()
-        LeakSentry.refWatcher.watch(this)
     }
 }
 

@@ -27,7 +27,6 @@ import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 import kotlinx.coroutines.launch
-import leakcanary.LeakSentry
 import android.view.MenuInflater
 import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
@@ -206,7 +205,6 @@ class HomeFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 
     private val actionModeCallback = object : ActionMode.Callback {

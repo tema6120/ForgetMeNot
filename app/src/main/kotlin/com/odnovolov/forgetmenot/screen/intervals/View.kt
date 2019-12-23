@@ -27,7 +27,6 @@ import com.odnovolov.forgetmenot.screen.intervals.IntervalsOrder.ShowModifyInter
 import com.odnovolov.forgetmenot.screen.intervals.modifyinterval.ModifyIntervalFragment
 import kotlinx.android.synthetic.main.fragment_intervals.*
 import kotlinx.android.synthetic.main.item_interval.view.*
-import leakcanary.LeakSentry
 
 class IntervalsFragment : BaseFragment() {
     private val controller = IntervalsController()
@@ -174,7 +173,6 @@ class IntervalsFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 
     companion object {

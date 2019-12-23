@@ -14,7 +14,6 @@ import com.odnovolov.forgetmenot.screen.editcard.EditCardEvent.*
 import com.odnovolov.forgetmenot.screen.editcard.EditCardOrder.NavigateUp
 import com.odnovolov.forgetmenot.screen.editcard.EditCardOrder.UpdateQuestionAndAnswer
 import kotlinx.android.synthetic.main.fragment_edit_card.*
-import leakcanary.LeakSentry
 
 class EditCardFragment : BaseFragment() {
     private val controller = EditCardController()
@@ -75,6 +74,5 @@ class EditCardFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 }

@@ -30,7 +30,6 @@ import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationEvent.*
 import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationOrder.SetDialogText
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
 import kotlinx.android.synthetic.main.item_language.view.*
-import leakcanary.LeakSentry
 import java.util.*
 
 class PronunciationFragment : BaseFragment() {
@@ -264,7 +263,6 @@ class PronunciationFragment : BaseFragment() {
         super.onDestroy()
         controller.dispose()
         speaker.shutdown()
-        LeakSentry.refWatcher.watch(this)
     }
 
     companion object {

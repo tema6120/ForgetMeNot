@@ -15,7 +15,6 @@ import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingEvent.SortBy
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingOrder.DismissBottomSheet
 import kotlinx.android.synthetic.main.bottom_sheet_deck_sorting.*
 import kotlinx.coroutines.launch
-import leakcanary.LeakSentry
 
 class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
 
@@ -102,7 +101,6 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 
 }

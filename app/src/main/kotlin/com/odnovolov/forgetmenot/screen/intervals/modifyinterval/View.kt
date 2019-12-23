@@ -12,7 +12,6 @@ import com.odnovolov.forgetmenot.common.observeText
 import com.odnovolov.forgetmenot.screen.intervals.IntervalUnit
 import com.odnovolov.forgetmenot.screen.intervals.modifyinterval.ModifyIntervalEvent.*
 import kotlinx.android.synthetic.main.dialog_modify_interval.view.*
-import leakcanary.LeakSentry
 
 class ModifyIntervalFragment : BaseDialogFragment() {
 
@@ -80,7 +79,6 @@ class ModifyIntervalFragment : BaseDialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         controller.dispose()
-        LeakSentry.refWatcher.watch(this)
     }
 
 }
