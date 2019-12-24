@@ -80,7 +80,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                 queries.toggleRandomOrder()
             }
 
-            is TestMethodWasChosen -> {
+            is TestMethodWasSelected -> {
                 queries.setTestMethod(event.testMethod)
             }
 
@@ -119,6 +119,10 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
 
             DisplayQuestionSwitchToggled -> {
                 queries.toggleIsQuestionDisplayed()
+            }
+
+            is CardReverseWasSelected -> {
+                queries.setCardReverse(event.cardReverse)
             }
         }
     }

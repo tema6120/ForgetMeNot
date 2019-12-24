@@ -79,4 +79,9 @@
     <string name="title_interval_scheme_name_input_dialog">Enter pronunciation name</string>
     <string name="title_display_question">Display question</string>
     <string name="description_display_question">Turn it off if you want to improve listening</string>
+    <string name="title_card_reverse">Card Reverse</string>
+    <string name="card_reverse_label_off">Off</string>
+    <string name="card_reverse_label_on">On</string>
+    <string name="card_reverse_label_every_other_lap">Every other lap</string>
+    <string name="title_choose_card_reverse_dialog">Choose card reverse</string>
 </resources>

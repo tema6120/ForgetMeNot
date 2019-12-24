@@ -17,9 +17,6 @@ val localeAdapter = object : ColumnAdapter<Locale, String> {
     }
 }
 
-// Adapters that we use manually
-// (SqlDelight doesn't currently take adapters if you create table with label)
-
 val stageAdapter = object : ColumnAdapter<Stage, String> {
     override fun encode(value: Stage): String {
         return value.name
@@ -74,5 +71,3 @@ val testMethodAdapter = object : ColumnAdapter<TestMethod, Long> {
 }
 
 fun Long.asBoolean() = this == 1L
-
-fun Boolean.toDatabaseValue() = if (this) 1L else 0L

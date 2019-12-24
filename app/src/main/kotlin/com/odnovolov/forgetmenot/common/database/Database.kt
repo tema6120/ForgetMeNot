@@ -55,7 +55,8 @@ private fun initDatabase() {
             deckSortingAdapter = EnumColumnAdapter()
         ),
         ExercisePreference.Adapter(
-            testMethodAdapter = testMethodAdapter
+            testMethodAdapter = testMethodAdapter,
+            cardReverseAdapter = EnumColumnAdapter()
         ),
         Pronunciation.Adapter(
             questionLanguageAdapter = localeAdapter,

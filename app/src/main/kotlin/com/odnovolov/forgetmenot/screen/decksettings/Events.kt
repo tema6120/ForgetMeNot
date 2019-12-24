@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.screen.decksettings
 
+import com.odnovolov.forgetmenot.common.entity.CardReverse
 import com.odnovolov.forgetmenot.common.entity.TestMethod
 
 sealed class DeckSettingsEvent {
@@ -13,8 +14,9 @@ sealed class DeckSettingsEvent {
     object PositiveDialogButtonClicked : DeckSettingsEvent()
     object NegativeDialogButtonClicked : DeckSettingsEvent()
     object RandomOrderSwitchToggled : DeckSettingsEvent()
-    class TestMethodWasChosen(val testMethod: TestMethod) : DeckSettingsEvent()
+    class TestMethodWasSelected(val testMethod: TestMethod) : DeckSettingsEvent()
     object IntervalsButtonClicked : DeckSettingsEvent()
     object PronunciationButtonClicked : DeckSettingsEvent()
     object DisplayQuestionSwitchToggled : DeckSettingsEvent()
+    class CardReverseWasSelected(val cardReverse: CardReverse) : DeckSettingsEvent()
 }

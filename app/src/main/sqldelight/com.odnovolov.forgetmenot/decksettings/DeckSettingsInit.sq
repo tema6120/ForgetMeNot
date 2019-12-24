@@ -44,6 +44,7 @@ WHEN old.id == 0 AND (new.id != 0
                       OR new.intervalSchemeId != 0
                       OR new.pronunciationId != 0
                       OR new.isQuestionDisplayed != 1
+                      OR new.cardReverse != 'Off'
                      )
 BEGIN
     INSERT INTO ExercisePreference(
@@ -52,14 +53,16 @@ BEGIN
         testMethod,
         intervalSchemeId,
         pronunciationId,
-        isQuestionDisplayed
+        isQuestionDisplayed,
+        cardReverse
     ) VALUES (
         new.name,
         new.randomOrder,
         new.testMethod,
         new.intervalSchemeId,
         new.pronunciationId,
-        new.isQuestionDisplayed
+        new.isQuestionDisplayed,
+        new.cardReverse
     );
 
     UPDATE Deck
@@ -78,6 +81,7 @@ WHEN new.name == ''
      AND new.intervalSchemeId == 0
      AND new.pronunciationId == 0
      AND new.isQuestionDisplayed == 1
+     AND new.cardReverse == 'Off'
 BEGIN
     UPDATE Deck
     SET exercisePreferenceId = 0

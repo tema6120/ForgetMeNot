@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.common.IntervalScheme
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*
+import com.odnovolov.forgetmenot.common.entity.CardReverse
 import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.odnovolov.forgetmenot.decksettings.DeckSettingsViewModelQueries
 import com.odnovolov.forgetmenot.decksettings.ExercisePreferenceIdAndName
@@ -68,6 +69,11 @@ class DeckSettingsViewModel {
 
     val isQuestionDisplayed: Flow<Boolean> = queries
         .isQuestionDisplayed()
+        .asFlow()
+        .mapToOne()
+
+    val selectedCardReverse: Flow<CardReverse> = queries
+        .getSelectedCardReverse()
         .asFlow()
         .mapToOne()
 }

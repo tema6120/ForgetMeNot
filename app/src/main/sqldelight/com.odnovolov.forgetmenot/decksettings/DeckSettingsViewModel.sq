@@ -47,3 +47,6 @@ SELECT id, name FROM TempCurrentPronunciation;
 
 isQuestionDisplayed:
 SELECT isQuestionDisplayed FROM TempCurrentExercisePreference;
+
+getSelectedCardReverse:
+SELECT cardReverse FROM TempCurrentExercisePreference;

@@ -23,6 +23,7 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.common.entity.CardReverse
 import com.odnovolov.forgetmenot.common.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsOrder.*
@@ -38,6 +39,8 @@ class DeckSettingsFragment : BaseFragment() {
     private lateinit var presetNameInput: EditText
     private lateinit var chooseTestMethodDialog: Dialog
     private lateinit var testMethodAdapter: ItemAdapter<TestMethodItem>
+    private lateinit var chooseCardReverseDialog: Dialog
+    private lateinit var cardReverseAdapter: ItemAdapter<CardReverseItem>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +50,7 @@ class DeckSettingsFragment : BaseFragment() {
         initChooseExercisePreferencePopup()
         initPresetNameInputDialog()
         initChooseTestMethodDialog()
+        initChooseCardReverseDialog()
         return inflater.inflate(R.layout.fragment_deck_settings, container, false)
     }
 
@@ -81,16 +85,30 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun initChooseTestMethodDialog() {
-        chooseTestMethodDialog = ChoiceDialogCreator.create<TestMethodItem>(
+        chooseTestMethodDialog = ChoiceDialogCreator.create(
             context = requireContext(),
             title = getString(R.string.title_choose_test_method_dialog),
             itemForm = AsRadioButton,
-            onItemClick = {
-                val chosenTestMethod = it.testMethod
-                controller.dispatch(TestMethodWasChosen(chosenTestMethod))
+            onItemClick = { item: TestMethodItem ->
+                val chosenTestMethod = item.testMethod
+                controller.dispatch(TestMethodWasSelected(chosenTestMethod))
                 chooseTestMethodDialog.dismiss()
             },
             takeAdapter = { testMethodAdapter = it }
+        )
+    }
+
+    private fun initChooseCardReverseDialog() {
+        chooseCardReverseDialog = ChoiceDialogCreator.create(
+            context = requireContext(),
+            title = getString(R.string.title_choose_card_reverse_dialog),
+            itemForm = AsRadioButton,
+            onItemClick = { item: CardReverseItem ->
+                val chosenCardReverse = item.cardReverse
+                controller.dispatch(CardReverseWasSelected(chosenCardReverse))
+                chooseCardReverseDialog.dismiss()
+            },
+            takeAdapter = { cardReverseAdapter = it }
         )
     }
 
@@ -115,7 +133,7 @@ class DeckSettingsFragment : BaseFragment() {
             controller.dispatch(RandomOrderSwitchToggled)
         }
         testMethodButton.setOnClickListener {
-            showChooseTestMethodDialog()
+            chooseTestMethodDialog.show()
         }
         intervalsButton.setOnClickListener {
             controller.dispatch(IntervalsButtonClicked)
@@ -126,10 +144,9 @@ class DeckSettingsFragment : BaseFragment() {
         displayQuestionButton.setOnClickListener {
             controller.dispatch(DisplayQuestionSwitchToggled)
         }
-    }
-
-    private fun showChooseTestMethodDialog() {
-        chooseTestMethodDialog.show()
+        cardReverseButton.setOnClickListener {
+            chooseCardReverseDialog.show()
+        }
     }
 
     private fun showChooseExercisePreferencePopup() {
@@ -221,6 +238,28 @@ class DeckSettingsFragment : BaseFragment() {
                     displayQuestionSwitch.jumpDrawablesToCurrentState()
                     displayQuestionSwitch.visibility = VISIBLE
                 })
+            selectedCardReverse.observe { selectedCardReverse: CardReverse ->
+                selectedCardReverseTextView.text = when (selectedCardReverse) {
+                    CardReverse.Off -> getString(R.string.card_reverse_label_off)
+                    CardReverse.On -> getString(R.string.card_reverse_label_on)
+                    CardReverse.EveryOtherLap ->
+                        getString(R.string.card_reverse_label_every_other_lap)
+                }
+
+                val items = CardReverse.values().map { cardReverse: CardReverse ->
+                    CardReverseItem(
+                        cardReverse = cardReverse,
+                        text = when (cardReverse) {
+                            CardReverse.Off -> getString(R.string.card_reverse_label_off)
+                            CardReverse.On -> getString(R.string.card_reverse_label_on)
+                            CardReverse.EveryOtherLap ->
+                                getString(R.string.card_reverse_label_every_other_lap)
+                        },
+                        isSelected = cardReverse === selectedCardReverse
+                    )
+                }
+                cardReverseAdapter.submitList(items)
+            }
         }
     }
 
@@ -257,6 +296,12 @@ class DeckSettingsFragment : BaseFragment() {
         if (chooseTestMethodDialogState != null) {
             chooseTestMethodDialog.onRestoreInstanceState(chooseTestMethodDialogState)
         }
+
+        val chooseCardReverseDialogDialogState =
+            savedInstanceState?.getBundle(STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG)
+        if (chooseCardReverseDialogDialogState != null) {
+            chooseCardReverseDialog.onRestoreInstanceState(chooseCardReverseDialogDialogState)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -273,6 +318,12 @@ class DeckSettingsFragment : BaseFragment() {
                 chooseTestMethodDialog.onSaveInstanceState()
             )
         }
+        if (::chooseCardReverseDialog.isInitialized) {
+            outState.putBundle(
+                STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG,
+                chooseCardReverseDialog.onSaveInstanceState()
+            )
+        }
     }
 
     override fun onDestroy() {
@@ -283,11 +334,18 @@ class DeckSettingsFragment : BaseFragment() {
     companion object {
         const val STATE_KEY_PRESET_NAME_INPUT_DIALOG = "presetNameInputDialog"
         const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "chooseTestMethodDialog"
+        const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "chooseCardReverseDialog"
     }
 }
 
 data class TestMethodItem(
     val testMethod: TestMethod,
+    override val text: String,
+    override val isSelected: Boolean
+) : Item
+
+data class CardReverseItem(
+    val cardReverse: CardReverse,
     override val text: String,
     override val isSelected: Boolean
 ) : Item
