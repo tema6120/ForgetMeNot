@@ -34,17 +34,17 @@ val stageAdapter = object : ColumnAdapter<Stage, String> {
     }
 }
 
-val listOfLocalesAdapter = object : ColumnAdapter<List<Locale>, String> {
-    override fun encode(value: List<Locale>): String {
-        return value.joinToString(
+val listOfLocalesAdapter = object : ColumnAdapter<List<Locale>, String?> {
+    override fun encode(value: List<Locale>): String? {
+        return if (value.isEmpty()) null
+        else value.joinToString(
             separator = ",",
             transform = localeAdapter::encode
         )
     }
 
-    override fun decode(databaseValue: String): List<Locale> {
-        return databaseValue.split(",")
-            .map(localeAdapter::decode)
+    override fun decode(databaseValue: String?): List<Locale> {
+        return databaseValue?.split(",")?.map(localeAdapter::decode) ?: emptyList()
     }
 }
 

@@ -6,12 +6,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
@@ -86,6 +83,8 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun createLanguagePopup() = PopupWindow(requireContext()).apply {
+        width = WindowManager.LayoutParams.WRAP_CONTENT
+        height = WindowManager.LayoutParams.WRAP_CONTENT
         contentView = View.inflate(requireContext(), R.layout.popup_available_languages, null)
         setBackgroundDrawable(ColorDrawable(Color.WHITE))
         elevation = 20f

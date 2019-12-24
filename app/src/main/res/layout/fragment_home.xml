@@ -13,7 +13,7 @@
             android:background="@color/background_decks_preview"
             app:layoutManager="LinearLayoutManager" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
             android:id="@+id/addDeckFragment"
             android:name="com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckFragment"
             android:layout_width="match_parent"

@@ -15,11 +15,7 @@ class PronunciationViewModel {
 
     private val availableLanguages: Flow<List<Locale>> = queries
         .getAvailableLanguages(mapper = { databaseValue: String? ->
-            if (databaseValue == null) {
-                emptyList()
-            } else {
-                listOfLocalesAdapter.decode(databaseValue)
-            }
+            listOfLocalesAdapter.decode(databaseValue)
         })
         .asFlow()
         .mapToOne()

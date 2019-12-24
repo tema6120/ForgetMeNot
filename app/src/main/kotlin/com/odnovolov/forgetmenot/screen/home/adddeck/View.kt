@@ -168,10 +168,12 @@ class AddDeckFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(
-            STATE_KEY_DECK_NAME_INPUT_DIALOG,
-            deckNameInputDialog.onSaveInstanceState()
-        )
+        if (::deckNameInputDialog.isInitialized) {
+            outState.putBundle(
+                STATE_KEY_DECK_NAME_INPUT_DIALOG,
+                deckNameInputDialog.onSaveInstanceState()
+            )
+        }
     }
 
     override fun onDestroy() {

@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.*
-import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -71,6 +68,8 @@ class ExerciseFragment : BaseFragment() {
             inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
         recycler.adapter = intervalsAdapter
         return PopupWindow(context).apply {
+            width = WindowManager.LayoutParams.WRAP_CONTENT
+            height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = recycler
             setBackgroundDrawable(
                 ColorDrawable(

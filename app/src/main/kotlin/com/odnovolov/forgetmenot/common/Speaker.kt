@@ -3,14 +3,21 @@ package com.odnovolov.forgetmenot.common
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
+import java.lang.NullPointerException
 import java.util.*
 
 class Speaker(context: Context, onInit: () -> Unit = {}) {
-    private lateinit var defaultLanguage: Locale
+    private var defaultLanguage: Locale? = null
+    private var isInitialized = false
     private val initListener = TextToSpeech.OnInitListener { status: Int ->
         if (status == TextToSpeech.SUCCESS) {
-            defaultLanguage = tts.defaultVoice.locale
+            defaultLanguage = try {
+                tts.defaultVoice?.locale
+            } catch (e: NullPointerException) {
+                null
+            }
             onInit()
+            isInitialized = true
             if (delayedSpokenText != null) {
                 speak(delayedSpokenText!!, delayedLanguage)
                 delayedSpokenText = null
@@ -34,13 +41,19 @@ class Speaker(context: Context, onInit: () -> Unit = {}) {
         }
 
     val availableLanguages: Set<Locale>
-        get() = tts.availableLanguages
+        get() {
+            return try {
+                tts.availableLanguages
+            } catch (e: NullPointerException) {
+                emptySet()
+            }
+        }
 
     private var delayedSpokenText: String? = null
     private var delayedLanguage: Locale? = null
 
     fun speak(text: String, language: Locale?) {
-        if (!::defaultLanguage.isInitialized) {
+        if (!isInitialized) {
             delayedSpokenText = text
             delayedLanguage = language
             return

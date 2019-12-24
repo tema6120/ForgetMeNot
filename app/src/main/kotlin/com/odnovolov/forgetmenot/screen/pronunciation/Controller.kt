@@ -71,7 +71,8 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             is AvailableLanguagesUpdated -> {
-                val availableLanguages = listOfLocalesAdapter.encode(event.languages.toList())
+                val value = event.languages.toList()
+                val availableLanguages = listOfLocalesAdapter.encode(value)
                 queries.setAvailableLanguages(availableLanguages)
             }
 

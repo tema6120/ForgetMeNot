@@ -8,6 +8,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
@@ -30,6 +31,7 @@ object PresetPopupCreator {
         takeAdapter: (PresetRecyclerAdapter) -> Unit
     ) = PopupWindow(context).apply {
         width = 256.dp
+        height = WindowManager.LayoutParams.WRAP_CONTENT
         setBackgroundDrawable(ColorDrawable(Color.WHITE))
         elevation = 20f
         isOutsideTouchable = true
