@@ -43,7 +43,8 @@ INSERT INTO TempExerciseCard(
     initialLevelOfKnowledge,
     isQuestionDisplayed,
     testMethod,
-    pronunciationId
+    pronunciationId,
+    isReverse
 ) SELECT
     cardId,
     initialLevelOfKnowledge,
@@ -55,7 +56,8 @@ INSERT INTO TempExerciseCard(
         )
     )),
     testMethod,
-    pronunciationId
+    pronunciationId,
+    isReverse
 FROM TempExerciseCard
 WHERE id == :exerciseCardId
       AND NOT EXISTS (

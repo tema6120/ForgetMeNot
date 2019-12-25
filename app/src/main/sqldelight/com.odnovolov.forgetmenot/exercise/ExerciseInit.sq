@@ -17,20 +17,24 @@ CREATE VIEW IF NOT EXISTS TempCurrentExerciseCard
 AS SELECT TempExerciseCard.*,
           Card.deckId,
           Card.ordinal,
-          Card.question,
-          Card.answer,
+          CASE WHEN isReverse THEN Card.answer ELSE Card.question END AS question,
+          CASE WHEN isReverse THEN Card.question ELSE Card.answer END AS answer,
           Card.lap,
           Card.isLearned,
           Card.levelOfKnowledge,
           Card.lastAnsweredAt
-FROM TempExerciseCard LEFT JOIN Card ON TempExerciseCard.cardId == Card.id
+FROM TempExerciseCard JOIN Card ON TempExerciseCard.cardId == Card.id
 WHERE TempExerciseCard.id == (SELECT currentExerciseCardId FROM TempExercise);
 
 createViewCurrentExercisePronunciation:
 CREATE VIEW IF NOT EXISTS TempCurrentExercisePronunciation
-AS SELECT * FROM Pronunciation WHERE id == (
-    SELECT pronunciationId FROM TempCurrentExerciseCard
-);
+AS SELECT
+    CASE WHEN isReverse THEN answerLanguage ELSE questionLanguage END AS questionLanguage,
+    CASE WHEN isReverse THEN questionLanguage ELSE answerLanguage END AS answerLanguage,
+    CASE WHEN isReverse THEN answerAutoSpeak ELSE questionAutoSpeak END AS questionAutoSpeak,
+    CASE WHEN isReverse THEN questionAutoSpeak ELSE answerAutoSpeak END AS answerAutoSpeak
+FROM Pronunciation JOIN TempExerciseCard ON Pronunciation.id == TempExerciseCard.pronunciationId
+WHERE TempExerciseCard.id == (SELECT currentExerciseCardId FROM TempExercise);
 
 createTriggerObserveAnswerAutoSpeakEvent:
 CREATE TRIGGER IF NOT EXISTS TempObserveAnswerAutoSpeakEvent

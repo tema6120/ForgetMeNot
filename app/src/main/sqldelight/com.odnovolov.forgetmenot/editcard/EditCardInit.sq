@@ -8,4 +8,7 @@ cleanTableEditCardState:
 DELETE FROM TempEditCardState;
 
 initTableEditCardState:
-INSERT INTO TempEditCardState SELECT question, answer FROM TempCurrentExerciseCard;
+INSERT INTO TempEditCardState
+SELECT question, answer FROM Card WHERE id == (
+    SELECT cardId FROM TempCurrentExerciseCard
+);

@@ -2,14 +2,22 @@ getTestMethod:
 SELECT testMethod FROM TempExerciseCard WHERE id == ?;
 
 getQuestion:
-SELECT question FROM Card WHERE Card.id == (
-    SELECT cardId FROM TempExerciseCard WHERE TempExerciseCard.id == ?
-);
+WITH ActualExerciseCard AS (SELECT cardId, isReverse FROM TempExerciseCard WHERE id == ?)
+SELECT CASE
+           WHEN (SELECT isReverse FROM ActualExerciseCard) THEN answer
+           ELSE question
+       END
+FROM Card
+WHERE Card.id == (SELECT cardId FROM ActualExerciseCard);
 
 getAnswer:
-SELECT answer FROM Card WHERE Card.id == (
-    SELECT cardId FROM TempExerciseCard WHERE TempExerciseCard.id == ?
-);
+WITH ActualExerciseCard AS (SELECT cardId, isReverse FROM TempExerciseCard WHERE id == ?)
+SELECT CASE
+           WHEN (SELECT isReverse FROM ActualExerciseCard) THEN question
+           ELSE answer
+       END
+FROM Card
+WHERE Card.id == (SELECT cardId FROM ActualExerciseCard);
 
 isAnswered:
 SELECT isAnswerCorrect IS NOT NULL FROM TempExerciseCard WHERE id = ?;
@@ -26,15 +34,19 @@ isQuestionDisplayed:
 SELECT isQuestionDisplayed FROM TempExerciseCard WHERE TempExerciseCard.id == ?;
 
 getVariantText:
-SELECT answer FROM Card WHERE id == (
-    SELECT CASE :variantNumber
-               WHEN 1 THEN variant1CardId
-               WHEN 2 THEN variant2CardId
-               WHEN 3 THEN variant3CardId
-               WHEN 4 THEN variant4CardId
-           END
-    FROM TempQuiz WHERE exerciseCardId == :exerciseCardId
-);
+SELECT CASE
+           WHEN (SELECT isReverse FROM TempExerciseCard WHERE id == :exerciseCardId)
+               THEN question
+           ELSE answer
+       END
+FROM Card
+WHERE id == (SELECT CASE :variantNumber
+                        WHEN 1 THEN variant1CardId
+                        WHEN 2 THEN variant2CardId
+                        WHEN 3 THEN variant3CardId
+                        ELSE variant4CardId
+                    END
+             FROM TempQuiz WHERE exerciseCardId == :exerciseCardId);
 
 getVariantStatus:
 SELECT CASE

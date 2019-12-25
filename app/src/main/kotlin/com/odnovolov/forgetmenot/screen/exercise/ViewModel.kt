@@ -7,7 +7,6 @@ import com.odnovolov.forgetmenot.common.database.mapToOneOrNull
 import com.odnovolov.forgetmenot.exercise.ExerciseViewModelQueries
 import com.odnovolov.forgetmenot.exercise.IntervalItem
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class ExerciseViewModel {
     private val queries: ExerciseViewModelQueries = database.exerciseViewModelQueries
@@ -25,7 +24,6 @@ class ExerciseViewModel {
         .isCurrentExerciseCardLearned()
         .asFlow()
         .mapToOneOrNull()
-        .map { it?.isLearned }
 
     val levelOfKnowledgeForCurrentCard: Flow<Int?> = queries
         .getLevelOfKnowledgeForCurrentCard()

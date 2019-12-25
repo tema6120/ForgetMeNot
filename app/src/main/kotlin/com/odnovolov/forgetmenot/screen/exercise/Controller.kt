@@ -19,7 +19,7 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             queries.answerAutoSpeakTriggered()
                 .asFlow()
                 .mapToOne()
-                .filter { it }
+                .filter { isTriggered -> isTriggered }
                 .collect {
                     dispatchSafely(AnswerAutoSpeakTriggered)
                 }
@@ -29,9 +29,7 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
     override fun handleEvent(event: ExerciseEvent) {
         when (event) {
             is NewPageBecameSelected -> {
-                val exerciseCardIds = queries.getAllExerciseCardIds().executeAsList()
-                val currentExerciseCardId = exerciseCardIds[event.position]
-                queries.setCurrentExerciseCardId(currentExerciseCardId)
+                queries.setCurrentExerciseCardIdByPosition(event.position.toLong())
                 if (queries.isQuestionAutoSpeakEnabled().executeAsOne()) {
                     val textToSpeakAndLanguage = queries.getQuestionAndLanguageToSpeak()
                         .executeAsOne()

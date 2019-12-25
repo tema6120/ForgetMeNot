@@ -1,8 +1,11 @@
-getAllExerciseCardIds:
-SELECT id FROM TempExerciseCard ORDER BY id;
-
-setCurrentExerciseCardId:
-UPDATE TempExercise SET currentExerciseCardId = ?;
+setCurrentExerciseCardIdByPosition:
+UPDATE TempExercise SET currentExerciseCardId = (
+    SELECT id
+    FROM TempExerciseCard
+    ORDER BY id
+    LIMIT 1
+    OFFSET :position
+);
 
 setLearnedForCurrentCard:
 UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM TempCurrentExerciseCard);
@@ -15,11 +18,15 @@ SELECT
     (SELECT question FROM TempCurrentExerciseCard) AS textToSpeak,
     (SELECT questionLanguage FROM TempCurrentExercisePronunciation) AS language;
 
+getAnswerAndLanguageToSpeak:
+SELECT
+    (SELECT answer FROM TempCurrentExerciseCard) AS textToSpeak,
+    (SELECT answerLanguage FROM TempCurrentExercisePronunciation) AS language;
+
 getTextToSpeakAndLanguage:
 WITH
     Extra AS (
-        SELECT CASE WHEN isAnswerCorrect IS NULL THEN 0 ELSE 1 END AS isAnswered
-        FROM TempCurrentExerciseCard
+        SELECT isAnswerCorrect IS NOT NULL AS isAnswered FROM TempCurrentExerciseCard
     )
 SELECT
     CASE
@@ -27,7 +34,7 @@ SELECT
             THEN (SELECT questionTextSelection FROM TempExercise)
         WHEN '' != (SELECT answerTextSelection FROM TempExercise)
             THEN (SELECT answerTextSelection FROM TempExercise)
-        WHEN (SELECT isAnswered FROM Extra) == 1
+        WHEN (SELECT isAnswered FROM Extra)
             THEN (SELECT answer FROM TempCurrentExerciseCard)
         ELSE
             (SELECT question FROM TempCurrentExerciseCard)
@@ -37,7 +44,7 @@ SELECT
             THEN (SELECT questionLanguage FROM TempCurrentExercisePronunciation)
         WHEN '' != (SELECT answerTextSelection FROM TempExercise)
             THEN (SELECT answerLanguage FROM TempCurrentExercisePronunciation)
-        WHEN (SELECT isAnswered FROM Extra) == 1
+        WHEN (SELECT isAnswered FROM Extra)
             THEN (SELECT answerLanguage FROM TempCurrentExercisePronunciation)
         ELSE
             (SELECT questionLanguage FROM TempCurrentExercisePronunciation)
@@ -48,11 +55,6 @@ SELECT answerAutoSpeakTriggered FROM TempExercise;
 
 flushAnswerAutoSpeakTriggered:
 UPDATE TempExercise SET answerAutoSpeakTriggered = 0;
-
-getAnswerAndLanguageToSpeak:
-SELECT
-    (SELECT answer FROM TempCurrentExerciseCard) AS textToSpeak,
-    (SELECT answerLanguage FROM TempCurrentExercisePronunciation) AS language;
 
 setLevelOfKnowledge:
 UPDATE Card SET levelOfKnowledge = ? WHERE id == (
