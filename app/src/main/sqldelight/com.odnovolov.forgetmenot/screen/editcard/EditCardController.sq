@@ -1,0 +1,14 @@
+setQuestion:
+UPDATE EditCardState SET question = ?;
+
+setAnswer:
+UPDATE EditCardState SET answer = ?;
+
+reverseQuestionAndAnswer:
+UPDATE EditCardState SET question = answer, answer = question;
+
+updateCard:
+UPDATE Card
+SET question = (SELECT question FROM EditCardState),
+    answer = (SELECT answer FROM EditCardState)
+WHERE id == (SELECT cardId FROM CurrentExerciseCard);

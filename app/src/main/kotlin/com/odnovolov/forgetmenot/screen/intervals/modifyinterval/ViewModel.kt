@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.screen.intervals.modifyinterval
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOneOrNull
-import com.odnovolov.forgetmenot.intervals.modifyinterval.ModifyIntervalViewModelQueries
 import com.odnovolov.forgetmenot.screen.intervals.IntervalUnit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

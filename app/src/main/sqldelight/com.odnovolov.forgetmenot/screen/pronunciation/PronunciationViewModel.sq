@@ -1,0 +1,31 @@
+getCurrentPronunciation:
+SELECT Pronunciation.*
+FROM Pronunciation JOIN CurrentExercisePreference ON Pronunciation.id == CurrentExercisePreference.pronunciationId;
+
+getAvailablePronunciations:
+SELECT id, name, CASE
+                     WHEN id = (SELECT pronunciationId FROM CurrentExercisePreference)
+                         THEN 1
+                     ELSE 0
+                 END AS isSelected
+FROM Pronunciation
+WHERE id = 0
+   OR id = (SELECT pronunciationId FROM CurrentExercisePreference)
+   OR name != ''
+ORDER BY
+    id = 0 DESC,
+    name = '' DESC;
+
+isPresetNameInputDialogVisible:
+SELECT
+    CASE
+        WHEN presetNameInputDialogStatus = 'Invisible' THEN 0
+        ELSE 1
+    END
+FROM PronunciationState;
+
+getDialogInputCheckResult:
+SELECT nameCheckResult FROM PronunciationState;
+
+getAvailableLanguages:
+SELECT availableLanguages FROM PronunciationState;

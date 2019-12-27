@@ -21,7 +21,6 @@ import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.dp
 import com.odnovolov.forgetmenot.common.getBackgroundResForLevelOfKnowledge
-import com.odnovolov.forgetmenot.exercise.IntervalItem
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import com.odnovolov.forgetmenot.screen.exercise.IntervalsAdapter.ViewHolder
@@ -100,7 +99,6 @@ class ExerciseFragment : BaseFragment() {
     private fun setupViewPagerAdapter() {
         adapter = ExerciseCardsAdapter(fragment = this)
         exerciseViewPager.adapter = adapter
-        exerciseViewPager.offscreenPageLimit = 1
         exerciseViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 controller.dispatch(NewPageBecameSelected(position))

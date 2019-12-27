@@ -9,7 +9,6 @@ import com.odnovolov.forgetmenot.common.database.asBoolean
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.nameCheckResultAdapter
 import com.odnovolov.forgetmenot.common.database.presetNameInputDialogStatusAdapter
-import com.odnovolov.forgetmenot.decksettings.DeckSettingsControllerQueries
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsOrder.*
 
@@ -85,35 +84,14 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             }
 
             IntervalsButtonClicked -> {
-                database.intervalsInitQueries.run {
-                    createStateIfNotExists()
-                    cleanState()
-                    initState()
-                    createTriggerPreventRemovalOfDefaultIntervalScheme()
-                    createTriggerTransitionToDefaultAfterDeleteOnIntervalScheme()
-                    createTriggerTransitionFromDefaultToIndividualBeforeDeleteOnInterval()
-                    createTriggerTransitionFromIndividualToDefaultAfterDeleteOnInterval()
-                    createTriggerTransitionFromDefaultToSharedBeforeUpdateOnIntervalScheme()
-                    createTriggerTransitionFromDefaultToIndividualBeforeUpdateOnInterval()
-                    createTriggerTransitionFromIndividualToDefaultAfterUpdateOnInterval()
-                    createTriggerTransitionFromDefaultToIndividualBeforeInsertOnInterval()
-                    createTriggerTransitionFromIndividualToDefaultWhenInsertOnInterval()
-                    createTriggerDeleteUnusedIndividualIntervalScheme()
-                }
+                queries.cleanIntervalsState()
+                queries.initIntervalsState()
                 issueOrder(NavigateToIntervals)
             }
 
             PronunciationButtonClicked -> {
-                with(database.pronunciationInitQueries) {
-                    createTablePronunciationState()
-                    cleanTablePronunciationState()
-                    initPronunciationState()
-                    createTriggerPreventRemovalOfDefaultPronunciation()
-                    createTriggerOnTryToModifyDefaultPronunciation()
-                    createTriggerSetDefaultPronunciationIfNeed()
-                    createTriggerOnDeletePronunciation()
-                    createTriggerDeleteUnusedIndividualPronunciation()
-                }
+                queries.cleanPronunciationState()
+                queries.initPronunciationState()
                 issueOrder(NavigateToPronunciation)
             }
 

@@ -1,16 +1,11 @@
 package com.odnovolov.forgetmenot.screen.intervals
 
 import com.odnovolov.forgetmenot.common.base.BaseController
-import com.odnovolov.forgetmenot.common.database.asBoolean
-import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.database.nameCheckResultAdapter
-import com.odnovolov.forgetmenot.common.database.presetNameInputDialogStatusAdapter
+import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
 import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus.*
-import com.odnovolov.forgetmenot.intervals.IntervalsControllerQueries
-import com.odnovolov.forgetmenot.intervals.modifyinterval.TempModifyIntervalState
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsEvent.*
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsOrder.SetDialogStatus
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsOrder.ShowModifyIntervalDialog
@@ -82,16 +77,13 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
                 val chunks = interval.value.split(" ")
                 val intervalNumber: Long = chunks[0].toLong()
                 val intervalUnit: String = chunks[1]
-                val modifyIntervalState = TempModifyIntervalState.Impl(
+                val modifyIntervalState = ModifyIntervalState.Impl(
                     interval.id,
                     intervalNumber,
                     intervalUnit
                 )
-                with(database.modifyIntervalInitQueries) {
-                    createStateIfNotExists()
-                    cleanState()
-                    initState(modifyIntervalState)
-                }
+                queries.cleanModifyIntervalState()
+                queries.initModifyIntervalState(modifyIntervalState)
                 issueOrder(ShowModifyIntervalDialog)
             }
 

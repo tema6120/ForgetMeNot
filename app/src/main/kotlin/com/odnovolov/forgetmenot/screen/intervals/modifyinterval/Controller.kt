@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.screen.intervals.modifyinterval
 
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.intervals.modifyinterval.ModifyIntervalControllerQueries
 import com.odnovolov.forgetmenot.screen.intervals.modifyinterval.ModifyIntervalEvent.*
 
 class ModifyIntervalController : BaseController<ModifyIntervalEvent, Nothing>() {

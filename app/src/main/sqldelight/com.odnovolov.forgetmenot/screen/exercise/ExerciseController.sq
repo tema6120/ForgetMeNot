@@ -1,0 +1,76 @@
+setCurrentExerciseCardIdByPosition:
+UPDATE Exercise SET currentExerciseCardId = (
+    SELECT id
+    FROM ExerciseCard
+    ORDER BY id
+    LIMIT 1
+    OFFSET :position
+);
+
+setLearnedForCurrentCard:
+UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM CurrentExerciseCard);
+
+isQuestionAutoSpeakEnabled:
+SELECT questionAutoSpeak FROM CurrentExercisePronunciation;
+
+getQuestionAndLanguageToSpeak:
+SELECT
+    (SELECT question FROM CurrentExerciseCard) AS textToSpeak,
+    (SELECT questionLanguage FROM CurrentExercisePronunciation) AS language;
+
+getAnswerAndLanguageToSpeak:
+SELECT
+    (SELECT answer FROM CurrentExerciseCard) AS textToSpeak,
+    (SELECT answerLanguage FROM CurrentExercisePronunciation) AS language;
+
+getTextToSpeakAndLanguage:
+WITH
+    Extra AS (
+        SELECT isAnswerCorrect IS NOT NULL AS isAnswered FROM CurrentExerciseCard
+    )
+SELECT
+    CASE
+        WHEN '' != (SELECT questionTextSelection FROM Exercise)
+            THEN (SELECT questionTextSelection FROM Exercise)
+        WHEN '' != (SELECT answerTextSelection FROM Exercise)
+            THEN (SELECT answerTextSelection FROM Exercise)
+        WHEN (SELECT isAnswered FROM Extra)
+            THEN (SELECT answer FROM CurrentExerciseCard)
+        ELSE
+            (SELECT question FROM CurrentExerciseCard)
+    END AS textToSpeak,
+    CASE
+        WHEN '' != (SELECT questionTextSelection FROM Exercise)
+            THEN (SELECT questionLanguage FROM CurrentExercisePronunciation)
+        WHEN '' != (SELECT answerTextSelection FROM Exercise)
+            THEN (SELECT answerLanguage FROM CurrentExercisePronunciation)
+        WHEN (SELECT isAnswered FROM Extra)
+            THEN (SELECT answerLanguage FROM CurrentExercisePronunciation)
+        ELSE
+            (SELECT questionLanguage FROM CurrentExercisePronunciation)
+    END AS language;
+
+answerAutoSpeakTriggered:
+SELECT answerAutoSpeakTriggered FROM Exercise;
+
+flushAnswerAutoSpeakTriggered:
+UPDATE Exercise SET answerAutoSpeakTriggered = 0;
+
+setLevelOfKnowledge:
+UPDATE Card SET levelOfKnowledge = ? WHERE id == (
+    SELECT cardId FROM CurrentExerciseCard
+);
+
+setIsLevelOfKnowledgeEditedByUserTrue:
+UPDATE ExerciseCard SET isLevelOfKnowledgeEditedByUser = 1 WHERE cardId == (
+    SELECT cardId FROM CurrentExerciseCard
+);
+
+cleanEditCardState:
+DELETE FROM EditCardState;
+
+initEditCardState:
+INSERT INTO EditCardState
+SELECT question, answer FROM Card WHERE id == (
+    SELECT cardId FROM CurrentExerciseCard
+);

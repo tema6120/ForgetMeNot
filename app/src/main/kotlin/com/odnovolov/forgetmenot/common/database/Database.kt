@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
-import com.odnovolov.forgetmenot.common.DeckReviewPreferences
-import com.odnovolov.forgetmenot.common.ExercisePreference
-import com.odnovolov.forgetmenot.common.Pronunciation
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlCursor
@@ -15,18 +12,23 @@ import com.squareup.sqldelight.db.SqlDriver
 lateinit var database: Database
 private lateinit var sqliteDriver: SqlDriver
 const val DATABASE_NAME = "forgetmenot.db"
+private const val BACKUP_PREFIX = "BACKUP_FORGET_ME_NOT_"
 
 fun initDatabase(applicationContext: Context, isRestoring: Boolean) {
     //applicationContext.deleteDatabase(DATABASE_NAME)
     if (!::sqliteDriver.isInitialized) {
         initSqlDriver(applicationContext)
-    }
-    if (!isRestoring) {
-        cleanUpDatabase()
-        initDatabase()
-        initFirstScreenState()
-    } else if (!::database.isInitialized) {
-        initDatabase()
+        initDatabaseInstance()
+        createTemporaryStructures()
+        transaction {
+            if (isRestoring) {
+                restoreTemporaryTablesDataFromBackup()
+            }
+            deleteBackupOfTemporaryTables()
+        }
+        if (!isRestoring) {
+            initFirstScreenState()
+        }
     }
 }
 
@@ -40,6 +42,7 @@ private fun initSqlDriver(applicationContext: Context) {
                 super.onConfigure(db)
                 db.execSQL("PRAGMA foreign_keys = true")
                 db.execSQL("PRAGMA recursive_triggers = true")
+                db.execSQL("PRAGMA temp_store = MEMORY")
                 if (BuildConfig.DEBUG) {
                     DbUtils.supportDb = db
                 }
@@ -48,7 +51,7 @@ private fun initSqlDriver(applicationContext: Context) {
     )
 }
 
-private fun initDatabase() {
+private fun initDatabaseInstance() {
     database = Database(
         sqliteDriver,
         DeckReviewPreferences.Adapter(
@@ -65,41 +68,107 @@ private fun initDatabase() {
     )
 }
 
-// 'Temp' is marker for tables, views and triggers which survives android process death but does
-// not user complete activity dismissal. Lifetime of these tables corresponds lifetime of android
-// saved instance state. It helps avoid migrations
-private fun cleanUpDatabase() {
-    "BEGIN TRANSACTION".execSQL()
-    "PRAGMA foreign_keys = false".execSQL()
-    val cursor: SqlCursor =
-        "SELECT type, name FROM sqlite_master WHERE name LIKE 'Temp%'".execQuerySQL()
-    cursor.use {
-        while (cursor.next()) {
-            val type: String? = cursor.getString(0)
-            val name: String? = cursor.getString(1)
-            when (type) {
-                "table" -> "DROP TABLE IF EXISTS $name".execSQL()
-                "view" -> "DROP VIEW IF EXISTS $name".execSQL()
-                "trigger" -> "DROP TRIGGER IF EXISTS $name".execSQL()
-                "index" -> "DROP INDEX IF EXISTS $name".execSQL()
+fun createTemporaryStructures() {
+    with(database) {
+        database.transaction {
+            with (temporaryTablesQueries) {
+                homeState()
+                deckSelection()
+                addDeckState()
+                exercise()
+                exerciseCard()
+                quiz()
+                answerInput()
+                editCardState()
+                deckSettingsState()
+                intervalsState()
+                modifyIntervalState()
+                pronunciationState()
+            }
+            with(temporaryViewsQueries) {
+                currentExerciseCard()
+                currentExercisePronunciation()
+                currentExercisePreference()
+            }
+            with(temporaryTriggersQueries) {
+                observeAnswerAutoSpeakEvent()
+                preventRemovalOfDefaultExercisePreference()
+                transitionFromDefaultToIndividualBeforeUpdateOnExercisePreference()
+                transtionFromIndividualToDefaultBeforeUpdateOnExercisePreference()
+                transitionToDefaultAfterDeleteOnExercisePreference()
+                deleteUnusedIndividualExercisePreference()
+                clenupAfterDeleteOfExercisePreference()
+                preventRemovalOfDefaultIntervalScheme()
+                transitionToDefaultAfterDeleteOnIntervalScheme()
+                transitionFromDefaultToIndividualBeforeDeleteOnInterval()
+                transitionFromIndividualToDefaultAfterDeleteOnInterval()
+                transitionFromDefaultToSharedBeforeUpdateOnIntervalScheme()
+                transitionFromDefaultToIndividualBeforeUpdateOnInterval()
+                transitionFromIndividualToDefaultAfterUpdateOnInterval()
+                transitionFromDefaultToIndividualBeforeInsertOnInterval()
+                transitionFromIndividualToDefaultWhenInsertOnInterval()
+                deleteUnusedIndividualIntervalScheme()
+                preventRemovalOfDefaultPronunciation()
+                transitionFromDefaultBeforeUpdateOnPronunciation()
+                transitionToDefaultBeforeUpdateOnPronunciation()
+                transitionToDefaultAfterDeleteOnPronunciation()
+                deleteUnusedIndividualPronunciation()
             }
         }
     }
-    "PRAGMA foreign_keys = true".execSQL()
+}
+
+private fun transaction(block: () -> Unit) {
+    "BEGIN TRANSACTION".execSQL()
+    block()
     "COMMIT TRANSACTION".execSQL()
-    "VACUUM".execSQL()
+}
+
+fun restoreTemporaryTablesDataFromBackup() {
+    val cursor: SqlCursor =
+        "SELECT name FROM sqlite_master WHERE type = 'table' AND name LIKE '$BACKUP_PREFIX%'"
+            .execQuerySQL()
+    cursor.use {
+        while (cursor.next()) {
+            val backupTableName: String? = cursor.getString(0)
+            val temporaryTableName = backupTableName!!.substring(BACKUP_PREFIX.length)
+            "INSERT INTO $temporaryTableName SELECT * FROM $backupTableName".execSQL()
+        }
+    }
+}
+
+fun deleteBackupOfTemporaryTables() {
+    val cursor: SqlCursor =
+        "SELECT name FROM sqlite_master WHERE type = 'table' AND name LIKE '$BACKUP_PREFIX%'"
+            .execQuerySQL()
+    cursor.use {
+        while (cursor.next()) {
+            val tableName: String? = cursor.getString(0)
+            "DROP TABLE IF EXISTS $tableName".execSQL()
+        }
+    }
 }
 
 fun initFirstScreenState() {
-    with(database) {
-        transaction {
-            homeInitQueries.createTableHomeState()
-            homeInitQueries.initHomeState()
-            homeInitQueries.createDeckSelection()
-            addDeckInitQueries.createTableAddDeckState()
-            addDeckInitQueries.initAddDeckState()
+    with(database.firstScreenInitQueries) {
+        initHomeState()
+        initAddDeckState()
+    }
+}
+
+fun backUpTemporaryTables() {
+    transaction {
+        deleteBackupOfTemporaryTables()
+        val cursor: SqlCursor =
+            "SELECT name FROM sqlite_temp_master WHERE type = 'table'".execQuerySQL()
+        cursor.use {
+            while (cursor.next()) {
+                val tableName: String? = cursor.getString(0)
+                "CREATE TABLE $BACKUP_PREFIX$tableName AS SELECT * FROM $tableName".execSQL()
+            }
         }
     }
+    "VACUUM".execSQL()
 }
 
 private fun String.execQuerySQL(): SqlCursor = sqliteDriver.executeQuery(null, this, 0)

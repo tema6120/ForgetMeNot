@@ -1,0 +1,30 @@
+currentExerciseCard:
+CREATE TEMPORARY VIEW CurrentExerciseCard
+AS SELECT ExerciseCard.*,
+          Card.deckId,
+          Card.ordinal,
+          CASE WHEN isReverse THEN Card.answer ELSE Card.question END AS question,
+          CASE WHEN isReverse THEN Card.question ELSE Card.answer END AS answer,
+          Card.lap,
+          Card.isLearned,
+          Card.levelOfKnowledge,
+          Card.lastAnsweredAt
+FROM ExerciseCard JOIN Card ON ExerciseCard.cardId == Card.id
+WHERE ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise);
+
+currentExercisePronunciation:
+CREATE TEMPORARY VIEW CurrentExercisePronunciation
+AS SELECT
+    CASE WHEN isReverse THEN answerLanguage ELSE questionLanguage END AS questionLanguage,
+    CASE WHEN isReverse THEN questionLanguage ELSE answerLanguage END AS answerLanguage,
+    CASE WHEN isReverse THEN answerAutoSpeak ELSE questionAutoSpeak END AS questionAutoSpeak,
+    CASE WHEN isReverse THEN questionAutoSpeak ELSE answerAutoSpeak END AS answerAutoSpeak
+FROM Pronunciation JOIN ExerciseCard ON Pronunciation.id == ExerciseCard.pronunciationId
+WHERE ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise);
+
+currentExercisePreference:
+CREATE TEMPORARY VIEW CurrentExercisePreference
+AS SELECT ExercisePreference.*
+FROM DeckSettingsState
+     JOIN Deck ON Deck.id == DeckSettingsState.deckId
+     JOIN ExercisePreference ON ExercisePreference.id == Deck.exercisePreferenceId;

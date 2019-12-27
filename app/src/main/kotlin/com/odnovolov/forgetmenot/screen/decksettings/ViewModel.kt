@@ -1,14 +1,10 @@
 package com.odnovolov.forgetmenot.screen.decksettings
 
-import com.odnovolov.forgetmenot.common.IntervalScheme
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.common.entity.CardReverse
 import com.odnovolov.forgetmenot.common.entity.TestMethod
-import com.odnovolov.forgetmenot.decksettings.DeckSettingsViewModelQueries
-import com.odnovolov.forgetmenot.decksettings.ExercisePreferenceIdAndName
-import com.odnovolov.forgetmenot.decksettings.PronunciationIdAndName
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

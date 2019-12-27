@@ -1,0 +1,92 @@
+getPresetNameInputDialogStatus:
+SELECT presetNameInputDialogStatus FROM DeckSettingsState;
+
+setPresetNameInputDialogStatus:
+UPDATE DeckSettingsState SET presetNameInputDialogStatus = ?;
+
+setTypedPresetName:
+UPDATE DeckSettingsState SET typedPresetName = ?;
+
+setNameCheckResult:
+UPDATE DeckSettingsState SET nameCheckResult = ?;
+
+setRenamePresetId:
+UPDATE DeckSettingsState SET renamePresetId = ?;
+
+getExercisePreferenceNameById:
+SELECT name FROM ExercisePreference WHERE id == ?;
+
+isTypedPresetNameEmpty:
+SELECT
+    CASE
+        WHEN typedPresetName == '' THEN 1
+        ELSE 0
+    END
+FROM DeckSettingsState;
+
+isTypedPresetNameOccupied:
+SELECT
+    CASE
+        WHEN typedPresetName IN (SELECT name FROM Pronunciation) THEN 1
+        ELSE 0
+    END
+FROM DeckSettingsState;
+
+setCurrentExercisePreference:
+UPDATE Deck SET exercisePreferenceId = ? WHERE id == (
+    SELECT deckId FROM DeckSettingsState
+);
+
+renameCurrentPreset:
+UPDATE ExercisePreference
+SET name = (SELECT typedPresetName FROM DeckSettingsState)
+WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+renameSharedPreset:
+UPDATE ExercisePreference
+SET name = (SELECT typedPresetName FROM DeckSettingsState)
+WHERE id == (SELECT renamePresetId FROM DeckSettingsState) AND name != '';
+
+deleteSharedExercisePreference:
+DELETE FROM ExercisePreference WHERE id == ? AND name != '';
+
+createNewSharedExercisePreference:
+INSERT INTO ExercisePreference(name)
+SELECT typedPresetName FROM DeckSettingsState;
+
+bindNewExercisePreferenceToDeck:
+UPDATE Deck
+SET exercisePreferenceId = (SELECT last_insert_rowid())
+WHERE id == (SELECT deckId FROM DeckSettingsState);
+
+toggleRandomOrder:
+UPDATE ExercisePreference
+SET randomOrder = (CASE WHEN randomOrder == 1 THEN 0 ELSE 1 END)
+WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+setTestMethod:
+UPDATE ExercisePreference
+SET testMethod = ?
+WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+toggleIsQuestionDisplayed:
+UPDATE ExercisePreference
+SET isQuestionDisplayed = (CASE WHEN isQuestionDisplayed == 1 THEN 0 ELSE 1 END)
+WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+setCardReverse:
+UPDATE ExercisePreference
+SET cardReverse = ?
+WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+cleanIntervalsState:
+DELETE FROM IntervalsState;
+
+initIntervalsState:
+INSERT INTO IntervalsState DEFAULT VALUES;
+
+cleanPronunciationState:
+DELETE FROM PronunciationState;
+
+initPronunciationState:
+INSERT INTO PronunciationState DEFAULT VALUES;

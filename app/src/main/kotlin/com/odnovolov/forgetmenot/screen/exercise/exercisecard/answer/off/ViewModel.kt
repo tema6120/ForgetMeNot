@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.off
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
-import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardViewModelQueries
+import com.odnovolov.forgetmenot.screen.exercise.exercisecards.ExerciseCardViewModelQueries
 import kotlinx.coroutines.flow.Flow
 
 class AnswerOffTestViewModel(id: Long) {

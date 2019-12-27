@@ -1,0 +1,5 @@
+getStage:
+SELECT stage FROM AddDeckState;
+
+getErrorText:
+SELECT errorText FROM AddDeckState;

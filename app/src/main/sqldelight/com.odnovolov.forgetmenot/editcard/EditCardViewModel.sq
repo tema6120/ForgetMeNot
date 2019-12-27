@@ -1,5 +1,0 @@
-getQuestion:
-SELECT question FROM TempEditCardState;
-
-getAnswer:
-SELECT answer FROM TempEditCardState;

@@ -1,10 +1,8 @@
 package com.odnovolov.forgetmenot.screen.pronunciation
 
-import com.odnovolov.forgetmenot.common.Pronunciation
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*
-import com.odnovolov.forgetmenot.pronunciation.PronunciationViewModelQueries
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map

@@ -4,7 +4,6 @@ import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
-import com.odnovolov.forgetmenot.exercise.ExerciseControllerQueries
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import kotlinx.coroutines.flow.collect
@@ -62,11 +61,8 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             }
 
             EditCardButtonClicked -> {
-                with(database.editCardInitQueries) {
-                    createTableEditCardState()
-                    cleanTableEditCardState()
-                    initTableEditCardState()
-                }
+                queries.cleanEditCardState()
+                queries.initEditCardState()
                 issueOrder(NavigateToEditCard)
             }
 

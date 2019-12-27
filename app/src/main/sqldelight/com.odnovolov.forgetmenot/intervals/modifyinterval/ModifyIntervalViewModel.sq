@@ -1,5 +1,0 @@
-getIntervalNumber:
-SELECT intervalNumber FROM TempModifyIntervalState;
-
-getIntervalUnit:
-SELECT intervalUnit FROM TempModifyIntervalState;

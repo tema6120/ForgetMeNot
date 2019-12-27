@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz
 
-import com.odnovolov.forgetmenot.common.Card
+import com.odnovolov.forgetmenot.common.database.Card
+import com.odnovolov.forgetmenot.common.database.Quiz
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardWithoutQuiz
-import com.odnovolov.forgetmenot.exercise.exercisecards.QuizComposerQueries
-import com.odnovolov.forgetmenot.exercise.exercisecards.TempQuiz
+import com.odnovolov.forgetmenot.screen.exercise.exercisecards.ExerciseCardWithoutQuiz
+import com.odnovolov.forgetmenot.screen.exercise.exercisecards.QuizComposerQueries
 
 object QuizComposer {
     fun composeWhereItNeeds() {
@@ -31,7 +31,7 @@ object QuizComposer {
                 .take(3)
                 .plus(correctVariant)
                 .shuffled()
-            val quiz = TempQuiz.Impl(
+            val quiz = Quiz.Impl(
                 exerciseCardId = exerciseCardWithoutQuiz.exerciseCardId,
                 variant1CardId = variants.getOrNull(0)?.id,
                 variant2CardId = variants.getOrNull(1)?.id,

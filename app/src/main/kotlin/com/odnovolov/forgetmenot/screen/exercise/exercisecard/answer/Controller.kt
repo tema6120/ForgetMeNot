@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer
 
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.exercise.exercisecards.ExerciseCardControllerQueries
+import com.odnovolov.forgetmenot.screen.exercise.exercisecards.ExerciseCardControllerQueries
 
 abstract class AnswerController<Event, Order>(protected val id: Long) :
     BaseController<Event, Order>() {

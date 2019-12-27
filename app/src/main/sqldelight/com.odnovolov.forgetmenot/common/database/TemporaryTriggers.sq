@@ -1,0 +1,380 @@
+observeAnswerAutoSpeakEvent:
+CREATE TEMPORARY TRIGGER ObserveAnswerAutoSpeakEvent
+AFTER UPDATE OF isAnswerCorrect ON ExerciseCard
+WHEN old.isAnswerCorrect IS NULL
+     AND (SELECT answerAutoSpeak FROM CurrentExercisePronunciation) == 1
+BEGIN
+    UPDATE Exercise SET answerAutoSpeakTriggered = 1;
+END;
+
+-------------------------------- DeckSettings --------------------------------
+
+preventRemovalOfDefaultExercisePreference:
+CREATE TEMPORARY TRIGGER PreventRemovalOfDefaultExercisePreference
+BEFORE DELETE ON ExercisePreference WHEN old.id == 0
+BEGIN
+    SELECT RAISE(ROLLBACK, 'cannot delete default ExercisePreference');
+END;
+
+transitionFromDefaultToIndividualBeforeUpdateOnExercisePreference:
+CREATE TEMPORARY TRIGGER TransitionFromDefaultToIndividualBeforeUpdateOnExercisePreference
+BEFORE UPDATE ON ExercisePreference
+WHEN old.id == 0 AND (new.id != 0
+                      OR new.name != ''
+                      OR new.randomOrder != 1
+                      OR new.testMethod != 1
+                      OR new.intervalSchemeId != 0
+                      OR new.pronunciationId != 0
+                      OR new.isQuestionDisplayed != 1
+                      OR new.cardReverse != 'Off'
+                     )
+BEGIN
+    INSERT INTO ExercisePreference(
+        name,
+        randomOrder,
+        testMethod,
+        intervalSchemeId,
+        pronunciationId,
+        isQuestionDisplayed,
+        cardReverse
+    ) VALUES (
+        new.name,
+        new.randomOrder,
+        new.testMethod,
+        new.intervalSchemeId,
+        new.pronunciationId,
+        new.isQuestionDisplayed,
+        new.cardReverse
+    );
+
+    UPDATE Deck
+    SET exercisePreferenceId = (SELECT last_insert_rowid())
+    WHERE id == (SELECT deckId FROM DeckSettingsState);
+
+    SELECT RAISE(IGNORE);
+END;
+
+transtionFromIndividualToDefaultBeforeUpdateOnExercisePreference:
+CREATE TEMPORARY TRIGGER TranstionFromIndividualToDefaultBeforeUpdateOnExercisePreference
+BEFORE UPDATE ON ExercisePreference
+WHEN new.name == ''
+     AND new.randomOrder == 1
+     AND new.testMethod == 1
+     AND new.intervalSchemeId == 0
+     AND new.pronunciationId == 0
+     AND new.isQuestionDisplayed == 1
+     AND new.cardReverse == 'Off'
+BEGIN
+    UPDATE Deck
+    SET exercisePreferenceId = 0
+    WHERE id == (SELECT deckId FROM DeckSettingsState);
+
+    SELECT RAISE(IGNORE);
+END;
+
+transitionToDefaultAfterDeleteOnExercisePreference:
+CREATE TEMPORARY TRIGGER TransitionToDefaultAfterDeleteOnExercisePreference
+AFTER DELETE ON ExercisePreference
+BEGIN
+    UPDATE Deck
+    SET exercisePreferenceId = 0
+    WHERE exercisePreferenceId == old.id;
+END;
+
+deleteUnusedIndividualExercisePreference:
+CREATE TEMPORARY TRIGGER DeleteUnusedIndividualExercisePreference
+AFTER UPDATE OF exercisePreferenceId ON Deck
+WHEN old.exercisePreferenceId NOT IN (0, new.exercisePreferenceId)
+BEGIN
+    DELETE FROM ExercisePreference
+    WHERE id != 0
+          AND name == ''
+          AND id NOT IN (SELECT exercisePreferenceId FROM Deck);
+END;
+
+clenupAfterDeleteOfExercisePreference:
+CREATE TEMPORARY TRIGGER ClenupAfterDeleteOfExercisePreference
+AFTER DELETE ON ExercisePreference
+BEGIN
+    DELETE FROM Pronunciation
+    WHERE id != 0
+          AND name == ''
+          AND id NOT IN (SELECT pronunciationId FROM ExercisePreference);
+
+    DELETE FROM IntervalScheme
+    WHERE id != 0
+          AND name == ''
+          AND id NOT IN (SELECT intervalSchemeId FROM ExercisePreference);
+END;
+
+-------------------------------- Intervals --------------------------------
+
+preventRemovalOfDefaultIntervalScheme:
+CREATE TEMPORARY TRIGGER PreventRemovalOfDefaultIntervalScheme
+BEFORE DELETE ON IntervalScheme WHEN old.id == 0
+BEGIN
+    SELECT RAISE(ROLLBACK, 'cannot delete default IntervalScheme');
+END;
+
+transitionToDefaultAfterDeleteOnIntervalScheme:
+CREATE TEMPORARY TRIGGER TransitionToDefaultAfterDeleteOnIntervalScheme
+AFTER DELETE ON IntervalScheme
+BEGIN
+    UPDATE ExercisePreference
+    SET intervalSchemeId = 0
+    WHERE intervalSchemeId == old.id;
+END;
+
+transitionFromDefaultToIndividualBeforeDeleteOnInterval:
+CREATE TEMPORARY TRIGGER TransitionFromDefaultToIndividualBeforeDeleteOnInterval
+BEFORE DELETE ON Interval WHEN old.intervalSchemeId == 0
+BEGIN
+    INSERT INTO IntervalScheme(name) VALUES ('');
+
+    UPDATE ExercisePreference
+    SET intervalSchemeId = (SELECT last_insert_rowid())
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+    INSERT INTO Interval(
+        intervalSchemeId,
+        targetLevelOfKnowledge,
+        value
+    ) SELECT
+        (SELECT intervalSchemeId FROM CurrentExercisePreference),
+        targetLevelOfKnowledge,
+        value
+    FROM Interval WHERE intervalSchemeId == 0 AND id != old.id;
+
+    SELECT RAISE(IGNORE);
+END;
+
+transitionFromIndividualToDefaultAfterDeleteOnInterval:
+CREATE TEMPORARY TRIGGER TransitionFromIndividualToDefaultAfterDeleteOnInterval
+AFTER DELETE ON Interval
+WHEN (SELECT count(*) FROM IntervalScheme WHERE id == old.intervalSchemeId AND id != 0 AND name == '') == 1
+      AND (SELECT count(*)
+           FROM (SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == old.intervalSchemeId
+                 UNION SELECT * FROM (
+                     SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == old.intervalSchemeId
+                     EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 )
+                )
+          ) == 0
+BEGIN
+    UPDATE ExercisePreference
+    SET intervalSchemeId = 0
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+END;
+
+transitionFromDefaultToSharedBeforeUpdateOnIntervalScheme:
+CREATE TEMPORARY TRIGGER TransitionFromDefaultToSharedBeforeUpdateOnIntervalScheme
+BEFORE UPDATE ON IntervalScheme
+WHEN old.id == 0 AND new.name != ''
+BEGIN
+    INSERT INTO IntervalScheme(name) VALUES (new.name);
+
+    UPDATE ExercisePreference
+    SET intervalSchemeId = (SELECT last_insert_rowid())
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+    INSERT INTO Interval(
+        intervalSchemeId,
+        targetLevelOfKnowledge,
+        value
+    ) SELECT
+        (SELECT intervalSchemeId FROM CurrentExercisePreference),
+        targetLevelOfKnowledge,
+        value
+    FROM Interval WHERE intervalSchemeId == 0;
+
+    SELECT RAISE(IGNORE);
+END;
+
+transitionFromDefaultToIndividualBeforeUpdateOnInterval:
+CREATE TEMPORARY TRIGGER TransitionFromDefaultToIndividualBeforeUpdateOnInterval
+BEFORE UPDATE ON Interval
+WHEN old.intervalSchemeId == 0 AND old.value != new.value
+BEGIN
+    INSERT INTO IntervalScheme(name) VALUES ('');
+
+    UPDATE ExercisePreference
+    SET intervalSchemeId = (SELECT last_insert_rowid())
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+    INSERT INTO Interval(
+        intervalSchemeId,
+        targetLevelOfKnowledge,
+        value
+    ) SELECT
+        (SELECT intervalSchemeId FROM CurrentExercisePreference),
+        targetLevelOfKnowledge,
+        value
+    FROM Interval WHERE intervalSchemeId == 0 AND targetLevelOfKnowledge != new.targetLevelOfKnowledge
+    UNION VALUES (
+        (SELECT intervalSchemeId FROM CurrentExercisePreference),
+        new.targetLevelOfKnowledge,
+        new.value
+    );
+
+    SELECT RAISE(IGNORE);
+END;
+
+transitionFromIndividualToDefaultAfterUpdateOnInterval:
+CREATE TEMPORARY TRIGGER TransitionFromIndividualToDefaultAfterUpdateOnInterval
+AFTER UPDATE ON Interval
+WHEN (SELECT count(*) FROM IntervalScheme WHERE id == new.intervalSchemeId AND id != 0 AND name == '') == 1
+      AND (SELECT count(*)
+           FROM (SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
+                 UNION SELECT * FROM (
+                     SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
+                     EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 )
+                )
+          ) == 0
+BEGIN
+    UPDATE ExercisePreference
+    SET intervalSchemeId = 0
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+END;
+
+transitionFromDefaultToIndividualBeforeInsertOnInterval:
+CREATE TEMPORARY TRIGGER TransitionFromDefaultToIndividualBeforeInsertOnInterval
+BEFORE INSERT ON Interval
+WHEN new.intervalSchemeId == 0
+BEGIN
+    INSERT INTO IntervalScheme(name) VALUES ('');
+
+    UPDATE ExercisePreference
+    SET intervalSchemeId = (SELECT last_insert_rowid())
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+    INSERT INTO Interval(
+        intervalSchemeId,
+        targetLevelOfKnowledge,
+        value
+    ) VALUES (
+        (SELECT intervalSchemeId FROM CurrentExercisePreference),
+        new.targetLevelOfKnowledge,
+        new.value
+    );
+
+    INSERT INTO Interval(
+        intervalSchemeId,
+        targetLevelOfKnowledge,
+        value
+    ) SELECT
+        (SELECT intervalSchemeId FROM CurrentExercisePreference),
+        targetLevelOfKnowledge,
+        value
+    FROM Interval WHERE intervalSchemeId == 0;
+
+    SELECT RAISE(IGNORE);
+END;
+
+transitionFromIndividualToDefaultWhenInsertOnInterval:
+CREATE TEMPORARY TRIGGER TransitionFromIndividualToDefaultWhenInsertOnInterval
+AFTER INSERT ON Interval
+WHEN (SELECT count(*) FROM IntervalScheme WHERE id == new.intervalSchemeId AND id != 0 AND name == '') == 1
+      AND (SELECT count(*)
+           FROM (SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
+                 UNION SELECT * FROM (
+                     SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == new.intervalSchemeId
+                     EXCEPT SELECT targetLevelOfKnowledge, value FROM Interval WHERE intervalSchemeId == 0
+                 )
+                )
+          ) == 0
+BEGIN
+    UPDATE ExercisePreference
+    SET intervalSchemeId = 0
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+END;
+
+deleteUnusedIndividualIntervalScheme:
+CREATE TEMPORARY TRIGGER DeleteUnusedIndividualIntervalScheme
+AFTER UPDATE OF intervalSchemeId ON ExercisePreference
+WHEN old.intervalSchemeId NOT IN (0, new.intervalSchemeId)
+BEGIN
+    DELETE FROM IntervalScheme
+    WHERE id != 0
+          AND name == ''
+          AND id NOT IN (SELECT intervalSchemeId FROM ExercisePreference);
+END;
+
+-------------------------------- Pronunciation --------------------------------
+
+preventRemovalOfDefaultPronunciation:
+CREATE TEMPORARY TRIGGER PreventRemovalOfDefaultPronunciation
+BEFORE DELETE ON Pronunciation WHEN old.id == 0
+BEGIN
+    SELECT RAISE(ROLLBACK, 'cannot delete default Pronunciation');
+END;
+
+transitionFromDefaultBeforeUpdateOnPronunciation:
+CREATE TEMPORARY TRIGGER TransitionFromDefaultBeforeUpdateOnPronunciation
+BEFORE UPDATE ON Pronunciation
+WHEN old.id == 0 AND (new.id != 0
+                      OR new.name != ''
+                      OR new.questionLanguage IS NOT NULL
+                      OR new.questionAutoSpeak != 0
+                      OR new.answerLanguage IS NOT NULL
+                      OR new.answerAutoSpeak != 0)
+BEGIN
+    INSERT INTO Pronunciation(
+        name,
+        questionLanguage,
+        questionAutoSpeak,
+        answerLanguage,
+        answerAutoSpeak
+    ) VALUES (
+        new.name,
+        new.questionLanguage,
+        new.questionAutoSpeak,
+        new.answerLanguage,
+        new.answerAutoSpeak
+    );
+
+    UPDATE ExercisePreference
+    SET pronunciationId = (SELECT last_insert_rowid())
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+    SELECT RAISE(IGNORE);
+END;
+
+transitionToDefaultBeforeUpdateOnPronunciation:
+CREATE TEMPORARY TRIGGER TransitionToDefaultBeforeUpdateOnPronunciation
+BEFORE UPDATE ON Pronunciation
+WHEN new.name == ''
+     AND new.questionLanguage IS NULL
+     AND new.questionAutoSpeak == 0
+     AND new.answerLanguage IS NULL
+     AND new.answerAutoSpeak == 0
+BEGIN
+    UPDATE ExercisePreference
+    SET pronunciationId = 0
+    WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+    SELECT RAISE(IGNORE);
+END;
+
+transitionToDefaultAfterDeleteOnPronunciation:
+CREATE TEMPORARY TRIGGER TransitionToDefaultAfterDeleteOnPronunciation
+AFTER DELETE ON Pronunciation
+BEGIN
+    UPDATE ExercisePreference
+    SET pronunciationId = 0
+    WHERE pronunciationId == old.id;
+END;
+
+deleteUnusedIndividualPronunciation:
+CREATE TEMPORARY TRIGGER DeleteUnusedIndividualPronunciation
+AFTER UPDATE OF pronunciationId ON ExercisePreference
+WHEN old.pronunciationId NOT IN (0, new.pronunciationId)
+BEGIN
+    DELETE FROM Pronunciation
+    WHERE id != 0
+          AND name == ''
+          AND id NOT IN (SELECT pronunciationId FROM ExercisePreference);
+END;

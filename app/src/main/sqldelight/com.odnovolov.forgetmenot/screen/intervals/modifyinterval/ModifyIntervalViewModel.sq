@@ -1,0 +1,5 @@
+getIntervalNumber:
+SELECT intervalNumber FROM ModifyIntervalState;
+
+getIntervalUnit:
+SELECT intervalUnit FROM ModifyIntervalState;

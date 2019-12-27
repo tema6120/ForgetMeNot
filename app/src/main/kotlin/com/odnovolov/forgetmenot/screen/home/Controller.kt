@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.screen.home
 
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.home.HomeControllerQueries
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.QuizComposer
 import com.odnovolov.forgetmenot.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.screen.home.HomeOrder.*
@@ -33,19 +32,8 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             }
 
             is SetupDeckMenuItemClicked -> {
-                with(database.deckSettingsInitQueries) {
-                    createStateIfNotExists()
-                    cleanState()
-                    initState(event.deckId)
-                    createViewCurrentExercisePreference()
-                    createViewCurrentPronunciation()
-                    createTriggerPreventRemovalOfDefaultExercisePreference()
-                    createTriggerTransitionFromDefaultToIndividualBeforeUpdateOnExercisePreference()
-                    createTriggerTranstionFromIndividualToDefaultBeforeUpdateOnExercisePreference()
-                    createTriggerTransitionToDefaultAfterDeleteOnExercisePreference()
-                    createTriggerDeleteUnusedIndividualExercisePreference()
-                    createTriggerClenupAfterDeleteOfExercisePreference()
-                }
+                queries.cleanDeckSettingsState()
+                queries.initDeckSettingsState(event.deckId)
                 issueOrder(NavigateToDeckSettings)
             }
 
@@ -80,27 +68,15 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
     }
 
     private fun startExercise(deckId: Long) {
-        with(database.exerciseCardsInitQueries) {
-            createTableExerciseCard()
-            cleanTableExerciseCard()
-            initExerciseCard(deckId)
-            createTableQuiz()
-            cleanTableQuiz()
-            QuizComposer.composeWhereItNeeds()
-            createTableAnswerInput()
-            cleanTableAnswerInput()
-            initTableAnswerInput()
-        }
-        with(database.exerciseInitQueries) {
-            createStateIfNotExists()
-            cleanState()
-            initState()
-            createViewCurrentExerciseCard()
-            createViewCurrentExercisePronunciation()
-            createTriggerObserveAnswerAutoSpeakEvent()
-        }
+        queries.cleanExerciseCard()
+        queries.initExerciseCard(deckId)
+        queries.cleanQuiz()
+        QuizComposer.composeWhereItNeeds()
+        queries.cleanAnswerInput()
+        queries.initAnswerInput()
+        queries.cleanExercise()
+        queries.initExercise()
         queries.clearDeckSelection()
-        // TODO move 'setLastOpenedAt()' to Exercise screen
         queries.updateLastOpenedAt(deckId)
         issueOrder(NavigateToExercise)
     }

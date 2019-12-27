@@ -4,8 +4,6 @@ import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToList
 import com.odnovolov.forgetmenot.common.database.mapToOne
-import com.odnovolov.forgetmenot.home.DeckPreview
-import com.odnovolov.forgetmenot.home.HomeViewModelQueries
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map

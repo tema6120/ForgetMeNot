@@ -1,0 +1,135 @@
+setSearchText:
+UPDATE HomeState SET searchText = ?;
+
+toogleDisplayOnlyWithTasks:
+UPDATE DeckReviewPreferences
+SET displayOnlyWithTasks = (CASE WHEN displayOnlyWithTasks == 0 THEN 1 ELSE 0 END);
+
+updateLastOpenedAt:
+UPDATE Deck SET lastOpenedAt = datetime('now') WHERE id == ?;
+
+dropTableCardBackup:
+DROP TABLE IF EXISTS CardBackup;
+
+dropTableDeckBackup:
+DROP TABLE IF EXISTS DeckBackup;
+
+createTableCardBackup:
+CREATE TEMPORARY TABLE CardBackup (
+    id INTEGER,
+    deckId INTEGER,
+    ordinal INTEGER,
+    question TEXT,
+    answer TEXT,
+    lap INTEGER,
+    isLearned INTEGER,
+    levelOfKnowledge INTEGER,
+    lastAnsweredAt TEXT
+);
+
+addCardBackup:
+INSERT INTO CardBackup SELECT * FROM Card WHERE deckId = ?;
+
+createTableDeckBackup:
+CREATE TEMPORARY TABLE DeckBackup (
+    id INTEGER,
+    name TEXT,
+    createdAt INTEGER,
+    lastOpenedAt INTEGER,
+    exercisePreferenceId INTEGER
+);
+
+addDeckBackup:
+INSERT INTO DeckBackup SELECT * FROM Deck WHERE id = ?;
+
+deleteDeck:
+DELETE FROM Deck WHERE id = ?;
+
+restoreDeck:
+INSERT INTO Deck SELECT * FROM DeckBackup;
+
+restoreCard:
+INSERT INTO Card SELECT * FROM CardBackup;
+
+hasAnySelectedDeckId:
+SELECT EXISTS(SELECT * FROM DeckSelection);
+
+hasDeckInDeckSelection:
+SELECT EXISTS (SELECT * FROM DeckSelection WHERE selectedDeckId == ?);
+
+deleteDeckFromDeckSelection:
+DELETE FROM DeckSelection WHERE selectedDeckId == ?;
+
+addDeckToDeckSelection:
+INSERT INTO DeckSelection(selectedDeckId) VALUES (?);
+
+clearDeckSelection:
+DELETE FROM DeckSelection;
+
+cleanExerciseCard:
+DELETE FROM ExerciseCard;
+
+initExerciseCard:
+INSERT INTO ExerciseCard (
+    cardId,
+    initialLevelOfKnowledge,
+    isQuestionDisplayed,
+    testMethod,
+    pronunciationId,
+    isReverse
+) SELECT
+    Card.id,
+    Card.levelOfKnowledge,
+    ExercisePreference.isQuestionDisplayed,
+    ExercisePreference.testMethod,
+    ExercisePreference.pronunciationId,
+    CASE ExercisePreference.cardReverse
+        WHEN 'Off' THEN 0
+        WHEN 'On' THEN 1
+        WHEN 'EveryOtherLap' THEN Card.lap % 2
+    END
+FROM
+    Card
+    LEFT JOIN Deck ON Card.deckId == Deck.id
+    LEFT JOIN ExercisePreference ON Deck.exercisePreferenceId == ExercisePreference.id
+    LEFT JOIN IntervalScheme ON ExercisePreference.intervalSchemeId == IntervalScheme.id
+    LEFT JOIN Interval ON IntervalScheme.id == Interval.intervalSchemeId
+                          AND Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1
+WHERE
+     (Deck.id == ? OR Deck.id IN (SELECT * FROM DeckSelection))
+     AND Card.isLearned == 0
+     AND (
+         ExercisePreference.intervalSchemeId IS NULL
+             OR
+         Card.lastAnsweredAt IS NULL
+             OR
+         datetime(
+                  Card.lastAnsweredAt,
+                  ifNull(Interval.value, (SELECT max(value)
+                                          FROM Interval
+                                          WHERE Interval.intervalSchemeId == IntervalScheme.id))
+                 ) < datetime('now')
+     )
+ORDER BY lap, random(); -- TODO check whether random mode is on
+
+cleanQuiz:
+DELETE FROM Quiz;
+
+cleanAnswerInput:
+DELETE FROM AnswerInput;
+
+initAnswerInput:
+INSERT INTO AnswerInput(exerciseCardId)
+SELECT id FROM ExerciseCard WHERE testMethod == 3;
+
+cleanDeckSettingsState:
+DELETE FROM DeckSettingsState;
+
+initDeckSettingsState:
+INSERT INTO DeckSettingsState(deckId) VALUES (?);
+
+cleanExercise:
+DELETE FROM Exercise;
+
+initExercise:
+INSERT INTO Exercise DEFAULT VALUES;

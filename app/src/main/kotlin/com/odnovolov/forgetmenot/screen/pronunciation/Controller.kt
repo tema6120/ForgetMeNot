@@ -7,7 +7,6 @@ import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationEvent.*
 import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus.*
-import com.odnovolov.forgetmenot.pronunciation.PronunciationControllerQueries
 import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationOrder.SetDialogText
 
 class PronunciationController : BaseController<PronunciationEvent, PronunciationOrder>() {

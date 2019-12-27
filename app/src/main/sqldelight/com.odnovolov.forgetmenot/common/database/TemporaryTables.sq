@@ -1,0 +1,95 @@
+homeState:
+CREATE TEMPORARY TABLE HomeState (
+    searchText TEXT NOT NULL DEFAULT ''
+);
+
+deckSelection:
+CREATE TEMPORARY TABLE DeckSelection (
+    selectedDeckId INTEGER NOT NULL
+);
+
+addDeckState:
+CREATE TEMPORARY TABLE AddDeckState (
+    stage TEXT NOT NULL DEFAULT 'Idle', -- AS Stage
+    fileName TEXT,
+    typedText TEXT NOT NULL DEFAULT '',
+    errorText TEXT
+);
+
+exercise:
+CREATE TEMPORARY TABLE Exercise (
+    currentExerciseCardId INTEGER,
+    questionTextSelection TEXT NOT NULL DEFAULT '',
+    answerTextSelection TEXT NOT NULL DEFAULT '',
+    answerAutoSpeakTriggered INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+exerciseCard:
+CREATE TEMPORARY TABLE ExerciseCard (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    cardId INTEGER NOT NULL,
+    initialLevelOfKnowledge INTEGER AS Int NOT NULL,
+    isLevelOfKnowledgeEditedByUser INTEGER AS Boolean NOT NULL DEFAULT 0,
+    isAnswerCorrect INTEGER AS Boolean,
+    isQuestionDisplayed INTEGER AS Boolean NOT NULL,
+    testMethod INTEGER NOT NULL,
+    pronunciationId INTEGER NOT NULL,
+    isReverse INTEGER AS Boolean NOT NULL
+);
+
+quiz:
+CREATE TEMPORARY TABLE Quiz (
+    exerciseCardId INTEGER NOT NULL PRIMARY KEY,
+    variant1CardId INTEGER,
+    variant2CardId INTEGER,
+    variant3CardId INTEGER,
+    variant4CardId INTEGER,
+    selectedVariant INTEGER AS Int,
+    FOREIGN KEY (exerciseCardId) REFERENCES ExerciseCard(id) ON DELETE CASCADE
+);
+
+answerInput:
+CREATE TEMPORARY TABLE AnswerInput (
+    exerciseCardId INTEGER NOT NULL PRIMARY KEY,
+    answerInput TEXT,
+    FOREIGN KEY (exerciseCardId) REFERENCES ExerciseCard(id) ON DELETE CASCADE
+);
+
+editCardState:
+CREATE TEMPORARY TABLE EditCardState (
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL
+);
+
+deckSettingsState:
+CREATE TEMPORARY TABLE DeckSettingsState (
+    deckId INTEGER NOT NULL,
+    presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
+    typedPresetName TEXT NOT NULL DEFAULT '',
+    nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
+    renamePresetId INTEGER
+);
+
+intervalsState:
+CREATE TEMPORARY TABLE IntervalsState (
+    presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
+    typedIntervalSchemeName TEXT NOT NULL DEFAULT '',
+    nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
+    renameIntervalSchemeId INTEGER
+);
+
+modifyIntervalState:
+CREATE TEMPORARY TABLE ModifyIntervalState (
+    intervalId INTEGER NOT NULL,
+    intervalNumber INTEGER,
+    intervalUnit TEXT NOT NULL CHECK (intervalUnit IN ('hours', 'days', 'weeks', 'months')) -- AS IntervalUnit
+);
+
+pronunciationState:
+CREATE TEMPORARY TABLE PronunciationState (
+    availableLanguages TEXT, -- AS List<Locale>
+    presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
+    typedPronunciationName TEXT NOT NULL DEFAULT '',
+    nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
+    renamePronunciationId INTEGER
+);

@@ -1,0 +1,104 @@
+getPresetNameInputDialogStatus:
+SELECT presetNameInputDialogStatus FROM IntervalsState;
+
+setPresetNameInputDialogStatus:
+UPDATE IntervalsState SET presetNameInputDialogStatus = ?;
+
+setIntervalScheme:
+UPDATE ExercisePreference SET intervalSchemeId = ? WHERE id == (
+    SELECT id FROM CurrentExercisePreference
+);
+
+getIntervalSchemeNameById:
+SELECT name FROM IntervalScheme WHERE id == (
+    SELECT intervalSchemeId FROM CurrentExercisePreference
+);
+
+setRenameIntervalSchemeId:
+UPDATE IntervalsState SET renameIntervalSchemeId = ?;
+
+deleteSharedIntervalScheme:
+DELETE FROM IntervalScheme WHERE id == ? AND name != '';
+
+setTypedIntervalSchemeName:
+UPDATE IntervalsState SET typedIntervalSchemeName = ?;
+
+isTypedIntervalSchemeNameEmpty:
+SELECT
+    CASE
+        WHEN typedIntervalSchemeName == '' THEN 1
+        ELSE 0
+    END
+FROM IntervalsState;
+
+isTypedIntervalSchemeNameOccupied:
+SELECT
+    CASE
+        WHEN typedIntervalSchemeName IN (SELECT name FROM IntervalScheme) THEN 1
+        ELSE 0
+    END
+FROM IntervalsState;
+
+setNameCheckResult:
+UPDATE IntervalsState SET nameCheckResult = ?;
+
+renameCurrent:
+UPDATE IntervalScheme
+SET name = (SELECT typedIntervalSchemeName FROM IntervalsState)
+WHERE id == (SELECT intervalSchemeId FROM CurrentExercisePreference);
+
+createNewSharedIntervalScheme:
+INSERT INTO IntervalScheme(name)
+SELECT typedIntervalSchemeName FROM IntervalsState;
+
+bindNewSharedIntervalSchemeToCurrentExercisePreference:
+UPDATE ExercisePreference
+SET intervalSchemeId = (SELECT last_insert_rowid())
+WHERE id == (SELECT id FROM CurrentExercisePreference);
+
+createNewIntervals:
+INSERT INTO Interval(
+    intervalSchemeId,
+    targetLevelOfKnowledge,
+    value
+) SELECT
+    (SELECT intervalSchemeId FROM CurrentExercisePreference),
+    targetLevelOfKnowledge,
+    value
+FROM Interval WHERE intervalSchemeId == 0;
+
+renameShared:
+UPDATE IntervalScheme
+SET name = (SELECT typedIntervalSchemeName FROM IntervalsState)
+WHERE id == (SELECT renameIntervalSchemeId FROM IntervalsState) AND name != '';
+
+getIntervalByTargetLevelOfKnowledge:
+SELECT * FROM Interval
+WHERE intervalSchemeId == (SELECT intervalSchemeId FROM CurrentExercisePreference)
+      AND targetLevelOfKnowledge == ?;
+
+addInterval:
+INSERT INTO Interval(intervalSchemeId, targetLevelOfKnowledge, value)
+SELECT intervalSchemeId, targetLevelOfKnowledge + 1, value FROM Interval
+WHERE intervalSchemeId == (SELECT intervalSchemeId FROM CurrentExercisePreference)
+      AND targetLevelOfKnowledge == (
+          SELECT max(targetLevelOfKnowledge) FROM Interval WHERE intervalSchemeId == (
+              SELECT intervalSchemeId FROM CurrentExercisePreference
+          )
+      );
+
+deleteLastInterval:
+DELETE FROM Interval
+WHERE intervalSchemeId == (SELECT intervalSchemeId FROM CurrentExercisePreference)
+      AND targetLevelOfKnowledge == (
+          SELECT max(targetLevelOfKnowledge) FROM Interval WHERE intervalSchemeId == (
+              SELECT intervalSchemeId FROM CurrentExercisePreference
+          )
+      )
+      AND targetLevelOfKnowledge != 1;
+
+cleanModifyIntervalState:
+DELETE FROM ModifyIntervalState;
+
+initModifyIntervalState:
+INSERT INTO ModifyIntervalState VALUES ?;

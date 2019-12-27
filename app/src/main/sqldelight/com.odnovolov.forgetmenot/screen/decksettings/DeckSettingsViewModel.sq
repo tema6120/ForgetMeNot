@@ -1,0 +1,53 @@
+getDeckName:
+SELECT name FROM Deck WHERE id == (
+    SELECT deckId FROM DeckSettingsState
+);
+
+exercisePreferenceIdAndName:
+SELECT id, name FROM CurrentExercisePreference;
+
+getAvailableExercisePreferences:
+SELECT id, name, CASE
+                     WHEN id == (SELECT id FROM CurrentExercisePreference)
+                         THEN 1
+                     ELSE 0
+                 END AS isSelected
+FROM ExercisePreference
+WHERE id == 0
+   OR id == (SELECT id FROM CurrentExercisePreference)
+   OR name != ''
+ORDER BY
+    id = 0 DESC,
+    name = '' DESC;
+
+isDialogVisible:
+SELECT
+    CASE
+        WHEN presetNameInputDialogStatus = 'Invisible' THEN 0
+        ELSE 1
+    END
+FROM DeckSettingsState;
+
+getDialogInputCheckResult:
+SELECT nameCheckResult FROM DeckSettingsState;
+
+getRandomOrder:
+SELECT randomOrder FROM CurrentExercisePreference;
+
+getSelectedTestMethod:
+SELECT testMethod FROM CurrentExercisePreference;
+
+getIntervalScheme:
+SELECT * FROM IntervalScheme WHERE id == (
+    SELECT intervalSchemeId FROM CurrentExercisePreference
+);
+
+pronunciationIdAndName:
+SELECT Pronunciation.id, Pronunciation.name
+FROM Pronunciation JOIN CurrentExercisePreference ON Pronunciation.id == CurrentExercisePreference.pronunciationId;
+
+isQuestionDisplayed:
+SELECT isQuestionDisplayed FROM CurrentExercisePreference;
+
+getSelectedCardReverse:
+SELECT cardReverse FROM CurrentExercisePreference;

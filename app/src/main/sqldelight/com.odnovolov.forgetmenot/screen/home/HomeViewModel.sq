@@ -1,0 +1,55 @@
+deckPreview:
+SELECT
+    deckId,
+    Deck.name AS deckName,
+    min(CASE WHEN Card.isLearned = 0 THEN Card.lap ELSE NULL END) AS passedLaps,
+    count(CASE WHEN Card.isLearned == 1 THEN 1 ELSE NULL END) AS learnedCount,
+    count(*) AS totalCount,
+    CASE
+        WHEN 0 != 0 THEN min(0) -- just help sqldelight infer type (Long?)
+        WHEN ExercisePreference.intervalSchemeId IS NULL THEN NULL
+        ELSE count(
+                   CASE
+                       WHEN Card.isLearned == 1 THEN NULL
+                       WHEN Card.lastAnsweredAt IS NULL THEN 1
+                       WHEN datetime(
+                                     Card.lastAnsweredAt,
+                                     CASE
+                                         WHEN Interval.value IS NOT NULL THEN Interval.value
+                                         ELSE (
+                                               SELECT max(value)
+                                               FROM Interval
+                                               GROUP BY Interval.intervalSchemeId
+                                               HAVING Interval.intervalSchemeId == IntervalScheme.id
+                                              )
+                                     END
+                                    ) < datetime('now') THEN 1
+                       ELSE NULL
+                   END
+                  )
+    END AS numberOfCardsReadyForExercise,
+    Deck.id IN (SELECT * FROM DeckSelection) AS isSelected
+FROM
+    Card
+    LEFT JOIN Deck ON Card.deckId == Deck.id
+    LEFT JOIN ExercisePreference ON Deck.exercisePreferenceId == ExercisePreference.id
+    LEFT JOIN IntervalScheme ON ExercisePreference.intervalSchemeId == IntervalScheme.id
+    LEFT JOIN Interval ON IntervalScheme.id == Interval.intervalSchemeId
+                          AND Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1
+WHERE
+    CASE
+        WHEN length((SELECT searchText FROM HomeState)) > 0
+            THEN Deck.name LIKE '%'||(SELECT searchText FROM HomeState)||'%'
+        ELSE 1
+    END
+GROUP BY
+    Deck.id
+ORDER BY
+    CASE (SELECT deckSorting FROM DeckReviewPreferences)
+        WHEN 'BY_LAST_CREATED' THEN Deck.createdAt
+        WHEN 'BY_LAST_OPENED' THEN Deck.lastOpenedAt
+    END DESC,
+    Deck.name ASC;
+
+displayOnlyWithTasks:
+SELECT displayOnlyWithTasks FROM DeckReviewPreferences;

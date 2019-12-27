@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.screen.editcard
 
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.editcard.EditCardControllerQueries
 import com.odnovolov.forgetmenot.screen.editcard.EditCardEvent.*
 import com.odnovolov.forgetmenot.screen.editcard.EditCardOrder.*
 

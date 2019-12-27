@@ -1,0 +1,124 @@
+setQuestionTextSelection:
+UPDATE Exercise SET questionTextSelection = ?;
+
+setAnswerTextSelection:
+UPDATE Exercise SET answerTextSelection = ?;
+
+isAnswerCorrect:
+SELECT isAnswerCorrect FROM ExerciseCard WHERE id == ?;
+
+updateLastAnsweredAt:
+UPDATE Card SET lastAnsweredAt = datetime('now') WHERE Card.id == (
+    SELECT cardId FROM ExerciseCard WHERE id == ?
+);
+
+incrementLapIfCardIsAnsweredForTheFirstTime:
+UPDATE Card
+SET lap = lap + 1
+WHERE Card.id == (SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == :exerciseCardId)
+      AND (SELECT NOT EXISTS (
+                              SELECT * FROM ExerciseCard
+                              WHERE cardId == (
+                                               SELECT cardId FROM ExerciseCard
+                                               WHERE ExerciseCard.id == :exerciseCardId
+                                              )
+                                    AND isAnswerCorrect IS NOT NULL
+                             )
+          );
+
+setIsQuestionDisplayedTrue:
+UPDATE ExerciseCard SET isQuestionDisplayed = 1 WHERE id == ?;
+
+setAnswerCorrect:
+UPDATE ExerciseCard SET isAnswerCorrect = ? WHERE id == ?;
+
+deleteAllRepeatedCardsOnTheRight:
+DELETE FROM ExerciseCard
+WHERE cardId == (SELECT cardId FROM ExerciseCard WHERE id == :exerciseCardId)
+      AND id > :exerciseCardId;
+
+addRepeatedCardIfThereIsNotOnTheRight:
+INSERT INTO ExerciseCard(
+    cardId,
+    initialLevelOfKnowledge,
+    isLevelOfKnowledgeEditedByUser,
+    isQuestionDisplayed,
+    testMethod,
+    pronunciationId,
+    isReverse
+) SELECT
+    cardId,
+    initialLevelOfKnowledge,
+    isLevelOfKnowledgeEditedByUser,
+    (SELECT isQuestionDisplayed FROM ExercisePreference WHERE id == (
+        SELECT exercisePreferenceId FROM Deck WHERE id == (
+            SELECT deckId FROM Card WHERE id == (
+                SELECT cardId FROM ExerciseCard WHERE id = :exerciseCardId
+            )
+        )
+    )),
+    testMethod,
+    pronunciationId,
+    isReverse
+FROM ExerciseCard
+WHERE id == :exerciseCardId
+      AND NOT EXISTS (
+                      SELECT * FROM ExerciseCard
+                      WHERE cardId == (
+                                       SELECT cardId
+                                       FROM ExerciseCard
+                                       WHERE id == :exerciseCardId
+                                      )
+                            AND id > :exerciseCardId
+                     );
+
+updateLevelOfKnowledge:
+WITH
+    Extra AS (
+        SELECT count(CASE WHEN isAnswerCorrect == 0 THEN 1 ELSE NULL END) AS numberOfWrong,
+               count(CASE WHEN isAnswerCorrect == 1 THEN 1 ELSE NULL END) AS numberOfCorrect,
+               initialLevelOfKnowledge,
+               cardId
+        FROM ExerciseCard
+        WHERE cardId == (SELECT cardId FROM ExerciseCard WHERE id == :exerciseCardId)
+    )
+UPDATE Card
+SET levelOfKnowledge = CASE
+                           WHEN (SELECT numberOfWrong FROM Extra) > 0
+                               THEN (SELECT max(0, initialLevelOfKnowledge - numberOfWrong) FROM Extra)
+                           WHEN (SELECT numberOfCorrect FROM Extra) > 0
+                               THEN (SELECT initialLevelOfKnowledge + 1 FROM Extra)
+                           ELSE levelOfKnowledge
+                       END
+WHERE (SELECT isLevelOfKnowledgeEditedByUser FROM ExerciseCard WHERE id == :exerciseCardId) == 0
+      AND id == (SELECT cardId FROM Extra);
+
+setSelectedVariant:
+UPDATE Quiz SET selectedVariant = ? WHERE exerciseCardId == ?;
+
+isSelectedVariantCorrect:
+SELECT
+    CASE selectedVariant
+        WHEN 1 THEN ifnull(variant1CardId == cardId, 0)
+        WHEN 2 THEN ifnull(variant2CardId == cardId, 0)
+        WHEN 3 THEN ifnull(variant3CardId == cardId, 0)
+        WHEN 4 THEN ifnull(variant4CardId == cardId, 0)
+        ELSE 0
+    END
+FROM ExerciseCard JOIN Quiz ON ExerciseCard.id == Quiz.exerciseCardId
+WHERE id == ?;
+
+setAnswerInput:
+UPDATE AnswerInput SET answerInput = ? WHERE exerciseCardId == ?;
+
+isAnswerInputCorrect:
+SELECT ifnull(trim(answer) == trim(answerInput), 0)
+FROM AnswerInput
+     LEFT JOIN ExerciseCard ON AnswerInput.exerciseCardId == ExerciseCard.id
+     LEFT JOIN Card ON ExerciseCard.cardId == Card.id
+WHERE exerciseCardId == ?;
+
+createAnswerInputWhereItNeeds:
+INSERT INTO AnswerInput(exerciseCardId)
+SELECT id FROM ExerciseCard
+WHERE testMethod == 3 AND id NOT IN (SELECT exerciseCardId FROM AnswerInput);

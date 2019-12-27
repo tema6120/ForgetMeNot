@@ -1,11 +1,8 @@
 package com.odnovolov.forgetmenot.screen.intervals
 
-import com.odnovolov.forgetmenot.common.Interval
-import com.odnovolov.forgetmenot.common.IntervalScheme
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.Preset
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
-import com.odnovolov.forgetmenot.intervals.IntervalsViewModelQueries
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

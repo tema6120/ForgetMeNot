@@ -18,7 +18,6 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
-import com.odnovolov.forgetmenot.home.DeckPreview
 import com.odnovolov.forgetmenot.screen.home.DeckPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.screen.home.HomeOrder.*

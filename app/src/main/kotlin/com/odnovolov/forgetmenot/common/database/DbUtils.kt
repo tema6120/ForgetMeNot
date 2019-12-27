@@ -10,11 +10,13 @@ object DbUtils {
     lateinit var supportDb: SupportSQLiteDatabase
 
     fun dump(statement: String): String {
-        lateinit var cursor: Cursor
+        lateinit var dump: String
         val elapsedTime = measureTimeMillis {
-            cursor = supportDb.query(statement)
+            val cursor: Cursor = supportDb.query(statement)
+            cursor.use {
+                dump = DatabaseUtils.dumpCursorToString(cursor)
+            }
         }
-        var dump = DatabaseUtils.dumpCursorToString(cursor)
         dump = dump.replaceFirst(
             regex = Regex("""android\.database\.sqlite\.SQLiteCursor.*\n"""),
             replacement = "\"${statement}\" (${elapsedTime} ms)\n"

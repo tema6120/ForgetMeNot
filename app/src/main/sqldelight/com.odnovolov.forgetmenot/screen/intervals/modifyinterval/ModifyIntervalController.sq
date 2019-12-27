@@ -1,0 +1,11 @@
+setIntervalNumber:
+UPDATE ModifyIntervalState SET intervalNumber = ?;
+
+setIntervalUnit:
+UPDATE ModifyIntervalState SET intervalUnit = ?;
+
+updateInterval:
+UPDATE Interval
+SET value = (SELECT intervalNumber||' '||intervalUnit FROM ModifyIntervalState)
+WHERE id == (SELECT intervalId FROM ModifyIntervalState)
+      AND (SELECT intervalNumber FROM ModifyIntervalState) > 0;

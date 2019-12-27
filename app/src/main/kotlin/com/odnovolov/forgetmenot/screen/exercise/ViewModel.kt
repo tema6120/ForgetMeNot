@@ -4,8 +4,6 @@ import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToList
 import com.odnovolov.forgetmenot.common.database.mapToOneOrNull
-import com.odnovolov.forgetmenot.exercise.ExerciseViewModelQueries
-import com.odnovolov.forgetmenot.exercise.IntervalItem
 import kotlinx.coroutines.flow.Flow
 
 class ExerciseViewModel {

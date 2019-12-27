@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.Interval
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.database.Interval
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.screen.intervals.IntervalAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsEvent.*
