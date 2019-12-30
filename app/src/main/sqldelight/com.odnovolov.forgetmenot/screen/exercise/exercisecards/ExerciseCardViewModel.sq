@@ -49,20 +49,25 @@ WHERE id == (SELECT CASE :variantNumber
              FROM Quiz WHERE exerciseCardId == :exerciseCardId);
 
 getVariantStatus:
-SELECT CASE
-           WHEN selectedVariant IS NULL THEN 'Unselected'
-           WHEN :variantNumber == 1 AND variant1CardId == cardId
-                OR
-                :variantNumber == 2 AND variant2CardId == cardId
-                OR
-                :variantNumber == 3 AND variant3CardId == cardId
-                OR
-                :variantNumber == 4 AND variant4CardId == cardId THEN 'Correct'
-           WHEN :variantNumber == selectedVariant THEN 'Wrong'
-           ELSE 'Unselected'
-       END
-FROM Quiz LEFT JOIN ExerciseCard ON Quiz.exerciseCardId == ExerciseCard.id
-WHERE ExerciseCard.id == :exerciseCardId;
+SELECT ifnull(
+              (
+               SELECT CASE
+                          WHEN selectedVariant IS NULL THEN 'Unselected'
+                          WHEN :variantNumber == 1 AND variant1CardId == cardId
+                               OR
+                               :variantNumber == 2 AND variant2CardId == cardId
+                               OR
+                               :variantNumber == 3 AND variant3CardId == cardId
+                               OR
+                               :variantNumber == 4 AND variant4CardId == cardId THEN 'Correct'
+                          WHEN :variantNumber == selectedVariant THEN 'Wrong'
+                          ELSE 'Unselected'
+                      END
+               FROM Quiz JOIN ExerciseCard ON Quiz.exerciseCardId == ExerciseCard.id
+               WHERE ExerciseCard.id == :exerciseCardId
+              ),
+              'Unselected'
+             );
 
 getWrongAnswer:
 SELECT

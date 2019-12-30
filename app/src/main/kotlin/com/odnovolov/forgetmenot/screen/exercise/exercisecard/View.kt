@@ -65,22 +65,22 @@ class ExerciseCardFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             question.observe(onChange = questionTextView::setText)
-            isQuestionDisplayed.observe { isDisplayed ->
+            isQuestionDisplayed.observe { isDisplayed: Boolean? ->
                 showQuestionButton.run {
-                    if (isDisplayed) {
-                        visibility = View.GONE
-                        setOnClickListener(null)
-                    } else {
+                    if (isDisplayed == false) {
                         visibility = View.VISIBLE
                         setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
+                    } else {
+                        visibility = View.GONE
+                        setOnClickListener(null)
                     }
                 }
             }
-            isLearned.observe { isLearned ->
-                isLearned ?: return@observe
-                questionTextView.setTextIsSelectable(!isLearned)
-                showQuestionButton.isClickable = !isLearned
-                val alpha = if (isLearned) 0.26f else 1f
+            isLearned.observe { isLearned: Boolean? ->
+                val isViewEnable = isLearned == false
+                questionTextView.setTextIsSelectable(isViewEnable)
+                showQuestionButton.isClickable = isViewEnable
+                val alpha = if (isLearned == true) 0.26f else 1f
                 questionTextView.alpha = alpha
                 showQuestionTextView.alpha = alpha
             }

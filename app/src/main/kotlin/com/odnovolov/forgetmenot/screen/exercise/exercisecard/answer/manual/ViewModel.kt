@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.map
 class AnswerManualTestViewModel(id: Long) {
     private val queries: ExerciseCardViewModelQueries = database.exerciseCardViewModelQueries
 
-    val answer: Flow<String> = queries
+    val answer: Flow<String?> = queries
         .getAnswer(id)
         .asFlow()
-        .mapToOne()
+        .mapToOneOrNull()
 
     val isAnswerCorrect: Flow<Boolean?> = queries
         .isAnswerCorrect(id)
@@ -22,8 +22,8 @@ class AnswerManualTestViewModel(id: Long) {
         .mapToOneOrNull()
         .map { it?.isAnswerCorrect }
 
-    val isLearned: Flow<Boolean> = queries
+    val isLearned: Flow<Boolean?> = queries
         .isLearned(id)
         .asFlow()
-        .mapToOne()
+        .mapToOneOrNull()
 }

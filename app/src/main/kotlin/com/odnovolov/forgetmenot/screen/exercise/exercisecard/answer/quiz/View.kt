@@ -75,23 +75,23 @@ class AnswerQuizTestFragment : BaseFragment() {
 
             isAnswered.combine(isLearned) { isAnswered, isLearned -> isAnswered to isLearned }
                 .observe {
-                    val (isAnswered, isLearned) = it
+                    val (isAnswered: Boolean?, isLearned: Boolean?) = it
 
-                    val isClickable = !isAnswered && !isLearned
+                    val isClickable = isAnswered == false && isLearned == false
                     variant1Button.isClickable = isClickable
                     variant2Button.isClickable = isClickable
                     variant3Button.isClickable = isClickable
                     variant4Button.isClickable = isClickable
 
-                    val isTextSelectable = isAnswered && !isLearned
+                    val isTextSelectable = isAnswered == true && isLearned == false
                     variant1TextView.setTextIsSelectable(isTextSelectable)
                     variant2TextView.setTextIsSelectable(isTextSelectable)
                     variant3TextView.setTextIsSelectable(isTextSelectable)
                     variant4TextView.setTextIsSelectable(isTextSelectable)
                 }
 
-            isLearned.observe { isLearned ->
-                val alpha = if (isLearned) 0.26f else 1f
+            isLearned.observe { isLearned: Boolean? ->
+                val alpha = if (isLearned == true) 0.26f else 1f
 
                 variant1Button.alpha = alpha
                 variant2Button.alpha = alpha

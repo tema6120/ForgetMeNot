@@ -70,11 +70,12 @@ class AnswerManualTestFragment : BaseFragment() {
                     rememberButton.background = null
                 }
             }
-            isLearned.observe { isLearned ->
-                answerTextView.setTextIsSelectable(!isLearned)
-                rememberButton.isClickable = !isLearned
-                notRememberButton.isClickable = !isLearned
-                val alpha = if (isLearned) 0.26f else 1f
+            isLearned.observe { isLearned: Boolean? ->
+                val isViewEnable = isLearned == false
+                answerTextView.setTextIsSelectable(isViewEnable)
+                rememberButton.isClickable = isViewEnable
+                notRememberButton.isClickable = isViewEnable
+                val alpha = if (isLearned == true) 0.26f else 1f
                 answerTextView.alpha = alpha
                 rememberButton.alpha = alpha
                 notRememberButton.alpha = alpha

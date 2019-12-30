@@ -62,15 +62,15 @@ class AnswerEntryTestFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            isAnswered.observe { isAnswered ->
-                if (isAnswered) {
+            isAnswered.observe { isAnswered: Boolean? ->
+                if (isAnswered == true) {
                     inputLayout.visibility = GONE
                     answerScrollView.visibility = VISIBLE
                 } else {
                     inputLayout.visibility = VISIBLE
                     answerScrollView.visibility = GONE
                 }
-                answerEditText.isEnabled = !isAnswered
+                answerEditText.isEnabled = isAnswered != true
             }
             correctAnswer.observe(onChange = correctAnswerTextView::setText)
             wrongAnswer.observe { wrongAnswer: String? ->
@@ -82,13 +82,14 @@ class AnswerEntryTestFragment : BaseFragment() {
                 }
             }
             answerEditText.setText("")
-            isLearned.observe { isLearned ->
-                answerEditText.isEnabled = !isLearned
-                checkButton.isEnabled = !isLearned
-                correctAnswerTextView.isEnabled = !isLearned
-                wrongAnswerTextView.isEnabled = !isLearned
+            isLearned.observe { isLearned: Boolean? ->
+                val isViewEnable = isLearned == false
+                answerEditText.isEnabled = isViewEnable
+                checkButton.isEnabled = isViewEnable
+                correctAnswerTextView.isEnabled = isViewEnable
+                wrongAnswerTextView.isEnabled = isViewEnable
 
-                val alpha = if (isLearned) 0.26f else 1f
+                val alpha = if (isLearned == true) 0.26f else 1f
                 answerEditText.alpha = alpha
                 checkButton.alpha = alpha
                 wrongAnswerTextView.alpha = alpha

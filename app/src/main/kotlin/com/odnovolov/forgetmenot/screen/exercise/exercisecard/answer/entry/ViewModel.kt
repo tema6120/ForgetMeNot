@@ -1,8 +1,6 @@
 package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.entry
 
-import com.odnovolov.forgetmenot.common.database.asFlow
-import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.database.mapToOne
+import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecards.ExerciseCardViewModelQueries
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -10,15 +8,15 @@ import kotlinx.coroutines.flow.map
 class AnswerEntryTestViewModel(id: Long) {
     private val queries: ExerciseCardViewModelQueries = database.exerciseCardViewModelQueries
 
-    val isAnswered: Flow<Boolean> = queries
+    val isAnswered: Flow<Boolean?> = queries
         .isAnswered(id)
         .asFlow()
-        .mapToOne()
+        .mapToOneOrNull()
 
-    val correctAnswer: Flow<String> = queries
+    val correctAnswer: Flow<String?> = queries
         .getAnswer(id)
         .asFlow()
-        .mapToOne()
+        .mapToOneOrNull()
 
     val wrongAnswer: Flow<String?> = queries
         .getWrongAnswer(id)
@@ -26,8 +24,8 @@ class AnswerEntryTestViewModel(id: Long) {
         .mapToOne()
         .map { it.wrongAnswer }
 
-    val isLearned: Flow<Boolean> = queries
+    val isLearned: Flow<Boolean?> = queries
         .isLearned(id)
         .asFlow()
-        .mapToOne()
+        .mapToOneOrNull()
 }

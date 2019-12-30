@@ -40,7 +40,7 @@ class AnswerQuizTestViewModel(id: Long) {
         .mapToOne()
         .map { VariantStatus.valueOf(it) }
 
-    val isAnswered: Flow<Boolean> = queries.isAnswered(id).asFlow().mapToOne()
+    val isAnswered: Flow<Boolean?> = queries.isAnswered(id).asFlow().mapToOneOrNull()
 
-    val isLearned: Flow<Boolean> = queries.isLearned(id).asFlow().mapToOne()
+    val isLearned: Flow<Boolean?> = queries.isLearned(id).asFlow().mapToOneOrNull()
 }
