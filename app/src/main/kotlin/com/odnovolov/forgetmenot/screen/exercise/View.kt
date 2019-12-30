@@ -45,7 +45,10 @@ class ExerciseFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.hide()
+        (activity as AppCompatActivity).supportActionBar?.run {
+            setShowHideAnimationEnabled(false)
+            hide()
+        }
     }
 
     override fun onCreateView(
