@@ -25,20 +25,22 @@ import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
-import kotlinx.coroutines.launch
 import android.view.MenuInflater
 import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 
 class HomeFragment : BaseFragment() {
 
     private val controller = HomeController()
     private val viewModel = HomeViewModel()
-    private val adapter = DeckPreviewAdapter(controller)
+    private val deckPreviewAdapter = DeckPreviewAdapter(controller)
     private lateinit var filterDialog: Dialog
     private lateinit var filterAdapter: ItemAdapter<Item>
     private var actionMode: ActionMode? = null
+    private var resumePauseScope: CoroutineScope? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,12 +70,11 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        decksPreviewRecycler.adapter = adapter
+        decksPreviewRecycler.adapter = deckPreviewAdapter
     }
 
     private fun observeViewModel() {
         with(viewModel) {
-            decksPreview.observe(onChange = adapter::submitList)
             displayOnlyWithTasks.observe { displayOnlyWithTasks: Boolean ->
                 val item = object : Item {
                     override val text = getString(R.string.filter_display_only_with_tasks)
@@ -180,6 +181,24 @@ class HomeFragment : BaseFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        resumePauseScope = MainScope()
+        resumePauseScope!!.launch {
+            viewModel.decksPreview.collect {
+                if (isActive) {
+                    deckPreviewAdapter.submitList(it)
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        resumePauseScope!!.cancel()
+        resumePauseScope = null
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
