@@ -4,7 +4,7 @@ SELECT ExerciseCard.id AS exerciseCardId,
        Card.deckId,
        Card.answer
 FROM ExerciseCard JOIN Card ON ExerciseCard.cardId == Card.id
-WHERE testMethod == 2 AND ExerciseCard.id NOT IN (SELECT exerciseCardId FROM Quiz);
+WHERE testMethod == 'Quiz' AND ExerciseCard.id NOT IN (SELECT exerciseCardId FROM Quiz);
 
 getCardsByDeckIds:
 SELECT * FROM Card WHERE deckId IN ?;

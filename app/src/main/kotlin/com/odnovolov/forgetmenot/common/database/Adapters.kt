@@ -60,13 +60,13 @@ val presetNameInputDialogStatusAdapter =
             PresetNameInputDialogStatus.valueOf(databaseValue)
     }
 
-val testMethodAdapter = object : ColumnAdapter<TestMethod, Long> {
-    override fun encode(value: TestMethod): Long {
-        return value.ordinal.toLong()
+val testMethodAdapter = object : ColumnAdapter<TestMethod, String> {
+    override fun encode(value: TestMethod): String {
+        return value.name
     }
 
-    override fun decode(databaseValue: Long): TestMethod {
-        return TestMethod.values()[databaseValue.toInt()]
+    override fun decode(databaseValue: String): TestMethod {
+        return TestMethod.valueOf(databaseValue)
     }
 }
 

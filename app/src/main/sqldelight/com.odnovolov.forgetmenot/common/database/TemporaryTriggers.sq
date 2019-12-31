@@ -22,7 +22,7 @@ BEFORE UPDATE ON ExercisePreference
 WHEN old.id == 0 AND (new.id != 0
                       OR new.name != ''
                       OR new.randomOrder != 1
-                      OR new.testMethod != 1
+                      OR new.testMethod != 'Manual'
                       OR new.intervalSchemeId != 0
                       OR new.pronunciationId != 0
                       OR new.isQuestionDisplayed != 1
@@ -54,12 +54,12 @@ BEGIN
     SELECT RAISE(IGNORE);
 END;
 
-transtionFromIndividualToDefaultBeforeUpdateOnExercisePreference:
-CREATE TEMPORARY TRIGGER TranstionFromIndividualToDefaultBeforeUpdateOnExercisePreference
-BEFORE UPDATE ON ExercisePreference
+transtionFromIndividualToDefaultAfterUpdateOnExercisePreference:
+CREATE TEMPORARY TRIGGER TranstionFromIndividualToDefaultAfterUpdateOnExercisePreference
+AFTER UPDATE ON ExercisePreference
 WHEN new.name == ''
      AND new.randomOrder == 1
-     AND new.testMethod == 1
+     AND new.testMethod == 'Manual'
      AND new.intervalSchemeId == 0
      AND new.pronunciationId == 0
      AND new.isQuestionDisplayed == 1
@@ -67,9 +67,7 @@ WHEN new.name == ''
 BEGIN
     UPDATE Deck
     SET exercisePreferenceId = 0
-    WHERE id == (SELECT deckId FROM DeckSettingsState);
-
-    SELECT RAISE(IGNORE);
+    WHERE exercisePreferenceId == new.id;
 END;
 
 transitionToDefaultAfterDeleteOnExercisePreference:

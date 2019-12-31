@@ -121,4 +121,4 @@ WHERE exerciseCardId == ?;
 createAnswerInputWhereItNeeds:
 INSERT INTO AnswerInput(exerciseCardId)
 SELECT id FROM ExerciseCard
-WHERE testMethod == 3 AND id NOT IN (SELECT exerciseCardId FROM AnswerInput);
+WHERE testMethod == 'Entry' AND id NOT IN (SELECT exerciseCardId FROM AnswerInput);

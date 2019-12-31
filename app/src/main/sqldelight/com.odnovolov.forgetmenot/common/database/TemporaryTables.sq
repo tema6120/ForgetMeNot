@@ -26,33 +26,31 @@ CREATE TEMPORARY TABLE Exercise (
 
 exerciseCard:
 CREATE TEMPORARY TABLE ExerciseCard (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY,
     cardId INTEGER NOT NULL,
     initialLevelOfKnowledge INTEGER AS Int NOT NULL,
     isLevelOfKnowledgeEditedByUser INTEGER AS Boolean NOT NULL DEFAULT 0,
     isAnswerCorrect INTEGER AS Boolean,
     isQuestionDisplayed INTEGER AS Boolean NOT NULL,
-    testMethod INTEGER NOT NULL,
+    testMethod TEXT NOT NULL, -- AS TestMethod
     pronunciationId INTEGER NOT NULL,
     isReverse INTEGER AS Boolean NOT NULL
 );
 
 quiz:
 CREATE TEMPORARY TABLE Quiz (
-    exerciseCardId INTEGER NOT NULL PRIMARY KEY,
+    exerciseCardId INTEGER PRIMARY KEY REFERENCES ExerciseCard ON DELETE CASCADE,
     variant1CardId INTEGER,
     variant2CardId INTEGER,
     variant3CardId INTEGER,
     variant4CardId INTEGER,
-    selectedVariant INTEGER AS Int,
-    FOREIGN KEY (exerciseCardId) REFERENCES ExerciseCard(id) ON DELETE CASCADE
+    selectedVariant INTEGER AS Int
 );
 
 answerInput:
 CREATE TEMPORARY TABLE AnswerInput (
-    exerciseCardId INTEGER NOT NULL PRIMARY KEY,
-    answerInput TEXT,
-    FOREIGN KEY (exerciseCardId) REFERENCES ExerciseCard(id) ON DELETE CASCADE
+    exerciseCardId INTEGER PRIMARY KEY REFERENCES ExerciseCard ON DELETE CASCADE,
+    answerInput TEXT
 );
 
 editCardState:
@@ -82,7 +80,7 @@ modifyIntervalState:
 CREATE TEMPORARY TABLE ModifyIntervalState (
     intervalId INTEGER NOT NULL,
     intervalNumber INTEGER,
-    intervalUnit TEXT NOT NULL CHECK (intervalUnit IN ('hours', 'days', 'weeks', 'months')) -- AS IntervalUnit
+    intervalUnit TEXT NOT NULL -- AS IntervalUnit
 );
 
 pronunciationState:

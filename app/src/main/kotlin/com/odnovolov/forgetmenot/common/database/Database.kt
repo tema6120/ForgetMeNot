@@ -40,8 +40,8 @@ private fun initSqlDriver(applicationContext: Context) {
         callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
             override fun onConfigure(db: SupportSQLiteDatabase) {
                 super.onConfigure(db)
-                db.execSQL("PRAGMA foreign_keys = true")
-                db.execSQL("PRAGMA recursive_triggers = true")
+                db.execSQL("PRAGMA foreign_keys = ON")
+                db.execSQL("PRAGMA recursive_triggers = ON")
                 db.execSQL("PRAGMA temp_store = MEMORY")
                 if (BuildConfig.DEBUG) {
                     DbUtils.supportDb = db
@@ -57,13 +57,13 @@ private fun initDatabaseInstance() {
         DeckReviewPreferences.Adapter(
             deckSortingAdapter = EnumColumnAdapter()
         ),
-        ExercisePreference.Adapter(
-            testMethodAdapter = testMethodAdapter,
-            cardReverseAdapter = EnumColumnAdapter()
-        ),
         Pronunciation.Adapter(
             questionLanguageAdapter = localeAdapter,
             answerLanguageAdapter = localeAdapter
+        ),
+        ExercisePreference.Adapter(
+            testMethodAdapter = EnumColumnAdapter(),
+            cardReverseAdapter = EnumColumnAdapter()
         )
     )
 }
@@ -94,7 +94,7 @@ fun createTemporaryStructures() {
                 observeAnswerAutoSpeakEvent()
                 preventRemovalOfDefaultExercisePreference()
                 transitionFromDefaultToIndividualBeforeUpdateOnExercisePreference()
-                transtionFromIndividualToDefaultBeforeUpdateOnExercisePreference()
+                transtionFromIndividualToDefaultAfterUpdateOnExercisePreference()
                 transitionToDefaultAfterDeleteOnExercisePreference()
                 deleteUnusedIndividualExercisePreference()
                 clenupAfterDeleteOfExercisePreference()

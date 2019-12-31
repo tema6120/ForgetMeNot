@@ -120,7 +120,7 @@ DELETE FROM AnswerInput;
 
 initAnswerInput:
 INSERT INTO AnswerInput(exerciseCardId)
-SELECT id FROM ExerciseCard WHERE testMethod == 3;
+SELECT id FROM ExerciseCard WHERE testMethod == 'Entry';
 
 cleanDeckSettingsState:
 DELETE FROM DeckSettingsState;
