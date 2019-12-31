@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToList
 import com.odnovolov.forgetmenot.common.database.mapToOne
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
 class HomeViewModel {
@@ -17,21 +16,6 @@ class HomeViewModel {
         .deckPreview()
         .asFlow()
         .mapToList()
-        .combine(
-            flow = displayOnlyWithTasks,
-            transform = { decksPreview: List<DeckPreview>, displayOnlyWithTasks: Boolean ->
-                if (displayOnlyWithTasks) {
-                    decksPreview.filter {
-                        when (it.numberOfCardsReadyForExercise) {
-                            null -> true
-                            0L -> false
-                            else -> true
-                        }
-                    }
-                } else {
-                    decksPreview
-                }
-            })
 
     val hasAnySelectedDeck: Flow<Boolean> = decksPreview.map { decksPreview ->
         decksPreview.any { it.isSelected }

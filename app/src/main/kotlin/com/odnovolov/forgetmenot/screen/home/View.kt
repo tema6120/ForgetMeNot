@@ -8,11 +8,13 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
@@ -25,9 +27,6 @@ import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
-import android.view.MenuInflater
-import androidx.core.content.ContextCompat
-import com.odnovolov.forgetmenot.R
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine

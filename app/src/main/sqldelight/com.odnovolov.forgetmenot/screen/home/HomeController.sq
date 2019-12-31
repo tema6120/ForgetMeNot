@@ -90,8 +90,8 @@ INSERT INTO ExerciseCard (
     END
 FROM
     Card
-    LEFT JOIN Deck ON Card.deckId == Deck.id
-    LEFT JOIN ExercisePreference ON Deck.exercisePreferenceId == ExercisePreference.id
+    JOIN Deck ON Card.deckId == Deck.id
+    JOIN ExercisePreference ON Deck.exercisePreferenceId == ExercisePreference.id
     LEFT JOIN IntervalScheme ON ExercisePreference.intervalSchemeId == IntervalScheme.id
     LEFT JOIN Interval ON IntervalScheme.id == Interval.intervalSchemeId
                           AND Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1
@@ -99,17 +99,25 @@ WHERE
      (Deck.id == ? OR Deck.id IN (SELECT * FROM DeckSelection))
      AND Card.isLearned == 0
      AND (
-         ExercisePreference.intervalSchemeId IS NULL
-             OR
-         Card.lastAnsweredAt IS NULL
-             OR
-         datetime(
-                  Card.lastAnsweredAt,
-                  ifNull(Interval.value, (SELECT max(value)
-                                          FROM Interval
-                                          WHERE Interval.intervalSchemeId == IntervalScheme.id))
-                 ) < datetime('now')
-     )
+          ExercisePreference.intervalSchemeId IS NULL
+              OR
+          Card.lastAnsweredAt IS NULL
+              OR
+          datetime(
+                   Card.lastAnsweredAt,
+                   ifNull(
+                          Interval.value,
+                          (SELECT value FROM Interval i WHERE i.intervalSchemeId == IntervalScheme.id
+                              AND targetLevelOfKnowledge == (
+                                                             SELECT max(targetLevelOfKnowledge)
+                                                             FROM Interval i2
+                                                             GROUP BY i2.intervalSchemeId
+                                                             HAVING i2.intervalSchemeId == IntervalScheme.id
+                                                            )
+                          )
+                         )
+                  ) < datetime('now')
+         )
 ORDER BY lap, random(); -- TODO check whether random mode is on
 
 cleanQuiz:
