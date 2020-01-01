@@ -70,15 +70,6 @@ BEGIN
     WHERE exercisePreferenceId == new.id;
 END;
 
-transitionToDefaultAfterDeleteOnExercisePreference:
-CREATE TEMPORARY TRIGGER TransitionToDefaultAfterDeleteOnExercisePreference
-AFTER DELETE ON ExercisePreference
-BEGIN
-    UPDATE Deck
-    SET exercisePreferenceId = 0
-    WHERE exercisePreferenceId == old.id;
-END;
-
 deleteUnusedIndividualExercisePreference:
 CREATE TEMPORARY TRIGGER DeleteUnusedIndividualExercisePreference
 AFTER UPDATE OF exercisePreferenceId ON Deck
@@ -112,15 +103,6 @@ CREATE TEMPORARY TRIGGER PreventRemovalOfDefaultIntervalScheme
 BEFORE DELETE ON IntervalScheme WHEN old.id == 0
 BEGIN
     SELECT RAISE(ROLLBACK, 'cannot delete default IntervalScheme');
-END;
-
-transitionToDefaultAfterDeleteOnIntervalScheme:
-CREATE TEMPORARY TRIGGER TransitionToDefaultAfterDeleteOnIntervalScheme
-AFTER DELETE ON IntervalScheme
-BEGIN
-    UPDATE ExercisePreference
-    SET intervalSchemeId = 0
-    WHERE intervalSchemeId == old.id;
 END;
 
 transitionFromDefaultToIndividualBeforeDeleteOnInterval:
@@ -355,15 +337,6 @@ BEGIN
     WHERE id == (SELECT id FROM CurrentExercisePreference);
 
     SELECT RAISE(IGNORE);
-END;
-
-transitionToDefaultAfterDeleteOnPronunciation:
-CREATE TEMPORARY TRIGGER TransitionToDefaultAfterDeleteOnPronunciation
-AFTER DELETE ON Pronunciation
-BEGIN
-    UPDATE ExercisePreference
-    SET pronunciationId = 0
-    WHERE pronunciationId == old.id;
 END;
 
 deleteUnusedIndividualPronunciation:

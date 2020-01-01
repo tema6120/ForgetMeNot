@@ -95,11 +95,9 @@ fun createTemporaryStructures() {
                 preventRemovalOfDefaultExercisePreference()
                 transitionFromDefaultToIndividualBeforeUpdateOnExercisePreference()
                 transtionFromIndividualToDefaultAfterUpdateOnExercisePreference()
-                transitionToDefaultAfterDeleteOnExercisePreference()
                 deleteUnusedIndividualExercisePreference()
                 clenupAfterDeleteOfExercisePreference()
                 preventRemovalOfDefaultIntervalScheme()
-                transitionToDefaultAfterDeleteOnIntervalScheme()
                 transitionFromDefaultToIndividualBeforeDeleteOnInterval()
                 transitionFromIndividualToDefaultAfterDeleteOnInterval()
                 transitionFromDefaultToSharedBeforeUpdateOnIntervalScheme()
@@ -111,7 +109,6 @@ fun createTemporaryStructures() {
                 preventRemovalOfDefaultPronunciation()
                 transitionFromDefaultBeforeUpdateOnPronunciation()
                 transitionToDefaultBeforeUpdateOnPronunciation()
-                transitionToDefaultAfterDeleteOnPronunciation()
                 deleteUnusedIndividualPronunciation()
             }
         }
