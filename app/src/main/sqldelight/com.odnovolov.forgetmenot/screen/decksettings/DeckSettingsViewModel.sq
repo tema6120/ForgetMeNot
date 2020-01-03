@@ -7,26 +7,22 @@ exercisePreferenceIdAndName:
 SELECT id, name FROM CurrentExercisePreference;
 
 getAvailableExercisePreferences:
-SELECT id, name, CASE
-                     WHEN id == (SELECT id FROM CurrentExercisePreference)
-                         THEN 1
-                     ELSE 0
-                 END AS isSelected
+WITH SelectedExercisePreferenceId AS (
+    SELECT id FROM CurrentExercisePreference
+)
+SELECT id,
+       name,
+       id == (SELECT * FROM SelectedExercisePreferenceId) AS isSelected
 FROM ExercisePreference
 WHERE id == 0
-   OR id == (SELECT id FROM CurrentExercisePreference)
-   OR name != ''
+      OR id == (SELECT * FROM SelectedExercisePreferenceId)
+      OR name != ''
 ORDER BY
-    id = 0 DESC,
-    name = '' DESC;
+    id == 0 DESC,
+    name == '' DESC;
 
 isDialogVisible:
-SELECT
-    CASE
-        WHEN presetNameInputDialogStatus = 'Invisible' THEN 0
-        ELSE 1
-    END
-FROM DeckSettingsState;
+SELECT presetNameInputDialogStatus != 'Invisible' FROM DeckSettingsState;
 
 getDialogInputCheckResult:
 SELECT nameCheckResult FROM DeckSettingsState;

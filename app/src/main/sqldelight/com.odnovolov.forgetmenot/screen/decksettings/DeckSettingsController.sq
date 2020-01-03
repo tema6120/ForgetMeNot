@@ -17,20 +17,10 @@ getExercisePreferenceNameById:
 SELECT name FROM ExercisePreference WHERE id == ?;
 
 isTypedPresetNameEmpty:
-SELECT
-    CASE
-        WHEN typedPresetName == '' THEN 1
-        ELSE 0
-    END
-FROM DeckSettingsState;
+SELECT typedPresetName == '' FROM DeckSettingsState;
 
 isTypedPresetNameOccupied:
-SELECT
-    CASE
-        WHEN typedPresetName IN (SELECT name FROM Pronunciation) THEN 1
-        ELSE 0
-    END
-FROM DeckSettingsState;
+SELECT typedPresetName IN (SELECT name FROM Pronunciation) FROM DeckSettingsState;
 
 setCurrentExercisePreference:
 UPDATE Deck SET exercisePreferenceId = ? WHERE id == (
@@ -61,7 +51,7 @@ WHERE id == (SELECT deckId FROM DeckSettingsState);
 
 toggleRandomOrder:
 UPDATE ExercisePreference
-SET randomOrder = (CASE WHEN randomOrder == 1 THEN 0 ELSE 1 END)
+SET randomOrder = 1 - randomOrder
 WHERE id == (SELECT id FROM CurrentExercisePreference);
 
 setTestMethod:
@@ -71,7 +61,7 @@ WHERE id == (SELECT id FROM CurrentExercisePreference);
 
 toggleIsQuestionDisplayed:
 UPDATE ExercisePreference
-SET isQuestionDisplayed = (CASE WHEN isQuestionDisplayed == 1 THEN 0 ELSE 1 END)
+SET isQuestionDisplayed = 1 - isQuestionDisplayed
 WHERE id == (SELECT id FROM CurrentExercisePreference);
 
 setCardReverse:

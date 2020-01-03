@@ -3,7 +3,7 @@ UPDATE HomeState SET searchText = ?;
 
 toogleDisplayOnlyWithTasks:
 UPDATE DeckReviewPreferences
-SET displayOnlyWithTasks = (CASE WHEN displayOnlyWithTasks == 0 THEN 1 ELSE 0 END);
+SET displayOnlyWithTasks = (displayOnlyWithTasks == 0);
 
 updateLastOpenedAt:
 UPDATE Deck SET lastOpenedAt = datetime('now') WHERE id == ?;
@@ -28,7 +28,7 @@ CREATE TEMPORARY TABLE CardBackup (
 );
 
 addCardBackup:
-INSERT INTO CardBackup SELECT * FROM Card WHERE deckId = ?;
+INSERT INTO CardBackup SELECT * FROM Card WHERE deckId == ?;
 
 createTableDeckBackup:
 CREATE TEMPORARY TABLE DeckBackup (
@@ -40,10 +40,10 @@ CREATE TEMPORARY TABLE DeckBackup (
 );
 
 addDeckBackup:
-INSERT INTO DeckBackup SELECT * FROM Deck WHERE id = ?;
+INSERT INTO DeckBackup SELECT * FROM Deck WHERE id == ?;
 
 deleteDeck:
-DELETE FROM Deck WHERE id = ?;
+DELETE FROM Deck WHERE id == ?;
 
 restoreDeck:
 INSERT INTO Deck SELECT * FROM DeckBackup;
@@ -52,7 +52,7 @@ restoreCard:
 INSERT INTO Card SELECT * FROM CardBackup;
 
 hasAnySelectedDeckId:
-SELECT EXISTS(SELECT * FROM DeckSelection);
+SELECT EXISTS (SELECT * FROM DeckSelection);
 
 hasDeckInDeckSelection:
 SELECT EXISTS (SELECT * FROM DeckSelection WHERE selectedDeckId == ?);
@@ -73,13 +73,15 @@ initExerciseCard:
 INSERT INTO ExerciseCard (
     cardId,
     initialLevelOfKnowledge,
-    isQuestionDisplayed,
+    isQuestionDisplayedInitial,
+    isQuestionDisplayedActual,
     testMethod,
     pronunciationId,
     isReverse
 ) SELECT
     Card.id,
     Card.levelOfKnowledge,
+    ExercisePreference.isQuestionDisplayed,
     ExercisePreference.isQuestionDisplayed,
     ExercisePreference.testMethod,
     ExercisePreference.pronunciationId,

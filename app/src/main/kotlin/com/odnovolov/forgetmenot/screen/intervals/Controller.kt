@@ -109,8 +109,8 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
 
     private fun checkName(): NameCheckResult {
         val nameCheckResult = when {
-            queries.isTypedIntervalSchemeNameEmpty().executeAsOne().asBoolean() -> EMPTY
-            queries.isTypedIntervalSchemeNameOccupied().executeAsOne().asBoolean() -> OCCUPIED
+            queries.isTypedIntervalSchemeNameEmpty().executeAsOne() -> EMPTY
+            queries.isTypedIntervalSchemeNameOccupied().executeAsOne() -> OCCUPIED
             else -> OK
         }
         queries.setNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))

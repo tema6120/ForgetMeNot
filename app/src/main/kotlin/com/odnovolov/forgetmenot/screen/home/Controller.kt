@@ -32,6 +32,8 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             }
 
             is SetupDeckMenuItemClicked -> {
+                queries.clearDeckSelection()
+
                 queries.cleanDeckSettingsState()
                 queries.initDeckSettingsState(event.deckId)
                 issueOrder(NavigateToDeckSettings)

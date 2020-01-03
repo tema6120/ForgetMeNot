@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.screen.home.adddeck
 
 import com.odnovolov.forgetmenot.common.base.BaseController
-import com.odnovolov.forgetmenot.common.database.asBoolean
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.stageAdapter
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckEvent.*
@@ -87,7 +86,7 @@ class AddDeckController : BaseController<AddDeckEvent, AddDeckOrder>() {
     }
 
     private fun isDeckNameOccupied(testedName: String): Boolean {
-        return queries.isDeckNameOccupied(testedName).executeAsOne().asBoolean()
+        return queries.isDeckNameOccupied(testedName).executeAsOne()
     }
 
     private fun finish() {

@@ -27,9 +27,7 @@ class PronunciationViewModel {
         .map { it.id != 0L && it.name.isEmpty() }
 
     val availablePronunciations: Flow<List<Preset>> = queries
-        .getAvailablePronunciations(mapper = { id: Long, name: String, isSelected: Long ->
-            Preset(id, name, isSelected.asBoolean())
-        })
+        .getAvailablePronunciations(::Preset)
         .asFlow()
         .mapToList()
 
@@ -37,7 +35,6 @@ class PronunciationViewModel {
         .isPresetNameInputDialogVisible()
         .asFlow()
         .mapToOne()
-        .map { it.asBoolean() }
 
     val dialogInputCheckResult: Flow<NameCheckResult> = queries
         .getDialogInputCheckResult()

@@ -31,7 +31,7 @@ SELECT isLearned FROM Card WHERE Card.id == (
 );
 
 isQuestionDisplayed:
-SELECT isQuestionDisplayed FROM ExerciseCard WHERE ExerciseCard.id == ?;
+SELECT isQuestionDisplayedActual FROM ExerciseCard WHERE ExerciseCard.id == ?;
 
 getVariantText:
 SELECT CASE
@@ -75,5 +75,5 @@ SELECT
         WHEN isAnswerCorrect == 0 THEN answerInput
         ELSE NULL
     END AS wrongAnswer
-FROM AnswerInput LEFT JOIN ExerciseCard ON AnswerInput.exerciseCardId == ExerciseCard.id
+FROM AnswerInput JOIN ExerciseCard ON AnswerInput.exerciseCardId == ExerciseCard.id
 WHERE exerciseCardId == ?;

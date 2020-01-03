@@ -5,7 +5,7 @@ CREATE TEMPORARY TABLE HomeState (
 
 deckSelection:
 CREATE TEMPORARY TABLE DeckSelection (
-    selectedDeckId INTEGER NOT NULL
+    selectedDeckId INTEGER PRIMARY KEY
 );
 
 addDeckState:
@@ -31,7 +31,8 @@ CREATE TEMPORARY TABLE ExerciseCard (
     initialLevelOfKnowledge INTEGER AS Int NOT NULL,
     isLevelOfKnowledgeEditedByUser INTEGER AS Boolean NOT NULL DEFAULT 0,
     isAnswerCorrect INTEGER AS Boolean,
-    isQuestionDisplayed INTEGER AS Boolean NOT NULL,
+    isQuestionDisplayedInitial INTEGER AS Boolean NOT NULL,
+    isQuestionDisplayedActual INTEGER AS Boolean NOT NULL,
     testMethod TEXT NOT NULL, -- AS TestMethod
     pronunciationId INTEGER NOT NULL,
     isReverse INTEGER AS Boolean NOT NULL

@@ -28,7 +28,6 @@ class IntervalsViewModel {
         .isPresetNameInputDialogVisible()
         .asFlow()
         .mapToOne()
-        .map { it.asBoolean() }
 
     val dialogInputCheckResult: Flow<NameCheckResult> = queries
         .getDialogInputCheckResult()

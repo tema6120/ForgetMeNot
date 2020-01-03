@@ -20,20 +20,10 @@ getPronunciationNameById:
 SELECT name FROM Pronunciation WHERE id == ?;
 
 isTypedPronunciationNameEmpty:
-SELECT
-    CASE
-        WHEN typedPronunciationName == '' THEN 1
-        ELSE 0
-    END
-FROM PronunciationState;
+SELECT typedPronunciationName == '' FROM PronunciationState;
 
 isTypedPronunciationNameOccupied:
-SELECT
-    CASE
-        WHEN typedPronunciationName IN (SELECT name FROM Pronunciation) THEN 1
-        ELSE 0
-    END
-FROM PronunciationState;
+SELECT typedPronunciationName IN (SELECT name FROM Pronunciation) FROM PronunciationState;
 
 setQuestionLanguage:
 UPDATE Pronunciation SET questionLanguage = ? WHERE id == (

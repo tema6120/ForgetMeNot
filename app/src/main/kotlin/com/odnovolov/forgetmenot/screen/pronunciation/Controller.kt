@@ -105,8 +105,8 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
 
     private fun checkName(): NameCheckResult {
         val nameCheckResult = when {
-            queries.isTypedPronunciationNameEmpty().executeAsOne().asBoolean() -> EMPTY
-            queries.isTypedPronunciationNameOccupied().executeAsOne().asBoolean() -> OCCUPIED
+            queries.isTypedPronunciationNameEmpty().executeAsOne() -> EMPTY
+            queries.isTypedPronunciationNameOccupied().executeAsOne() -> OCCUPIED
             else -> OK
         }
         queries.setNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))

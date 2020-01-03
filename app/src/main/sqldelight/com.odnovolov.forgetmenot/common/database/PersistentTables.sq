@@ -22,9 +22,10 @@ CREATE TABLE Card (
     lap INTEGER AS Int NOT NULL DEFAULT 0 CHECK (lap >= 0),
     isLearned INTEGER AS Boolean NOT NULL DEFAULT 0 CHECK (isLearned IN (0, 1)),
     levelOfKnowledge INTEGER AS Int NOT NULL DEFAULT 0 CHECK (levelOfKnowledge >= 0),
-    lastAnsweredAt TEXT CHECK (lastAnsweredAt IS NULL OR date(lastAnsweredAt) IS NOT NULL),
-    UNIQUE(deckId, ordinal)
+    lastAnsweredAt TEXT CHECK (lastAnsweredAt IS NULL OR date(lastAnsweredAt) IS NOT NULL)
 );
+
+CREATE INDEX CardDeckIdIndex ON Card(deckId);
 
 CREATE TABLE DeckReviewPreferences (
     deckSorting TEXT AS DeckSorting NOT NULL DEFAULT 'BY_LAST_CREATED',

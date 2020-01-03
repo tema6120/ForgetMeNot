@@ -11,7 +11,7 @@ dropTableCardPrototype:
 DROP TABLE IF EXISTS CardPrototype;
 
 createTableCardPrototype:
-CREATE TABLE CardPrototype (
+CREATE TEMPORARY TABLE CardPrototype (
     ordinal INTEGER AS Int NOT NULL,
     question TEXT NOT NULL,
     answer TEXT NOT NULL
@@ -21,11 +21,7 @@ addCardPrototype:
 INSERT INTO CardPrototype VALUES ?;
 
 isDeckNameOccupied:
-SELECT
-    CASE
-        WHEN EXISTS (SELECT * FROM Deck WHERE name = :testedName) THEN 1
-        ELSE 0
-    END;
+SELECT EXISTS (SELECT * FROM Deck WHERE name = :testedName);
 
 setTypedText:
 UPDATE AddDeckState SET typedText = ?;
@@ -47,4 +43,4 @@ INSERT INTO Card(deckId, ordinal, question, answer) VALUES (?, ?, ?, ?);
 
 addCardsFromCardPrototypeTable:
 INSERT INTO Card(deckId, ordinal, question, answer)
-    SELECT :deckId, ordinal, question, answer FROM CardPrototype;
+SELECT :deckId, ordinal, question, answer FROM CardPrototype;

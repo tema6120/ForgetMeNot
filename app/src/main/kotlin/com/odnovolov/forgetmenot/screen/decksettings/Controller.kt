@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
 import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus.*
-import com.odnovolov.forgetmenot.common.database.asBoolean
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.nameCheckResultAdapter
 import com.odnovolov.forgetmenot.common.database.presetNameInputDialogStatusAdapter
@@ -117,8 +116,8 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
 
     private fun checkName(): NameCheckResult {
         val nameCheckResult = when {
-            queries.isTypedPresetNameEmpty().executeAsOne().asBoolean() -> EMPTY
-            queries.isTypedPresetNameOccupied().executeAsOne().asBoolean() -> OCCUPIED
+            queries.isTypedPresetNameEmpty().executeAsOne() -> EMPTY
+            queries.isTypedPresetNameOccupied().executeAsOne() -> OCCUPIED
             else -> OK
         }
         queries.setNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))

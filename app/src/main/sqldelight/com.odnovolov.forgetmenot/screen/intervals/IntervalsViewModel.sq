@@ -18,12 +18,7 @@ ORDER BY
     name = '' DESC;
 
 isPresetNameInputDialogVisible:
-SELECT
-    CASE
-        WHEN presetNameInputDialogStatus == 'Invisible' THEN 0
-        ELSE 1
-    END
-FROM IntervalsState;
+SELECT presetNameInputDialogStatus != 'Invisible' FROM IntervalsState;
 
 getDialogInputCheckResult:
 SELECT nameCheckResult FROM IntervalsState;

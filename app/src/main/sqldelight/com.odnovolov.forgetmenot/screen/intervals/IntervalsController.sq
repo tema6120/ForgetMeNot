@@ -24,20 +24,10 @@ setTypedIntervalSchemeName:
 UPDATE IntervalsState SET typedIntervalSchemeName = ?;
 
 isTypedIntervalSchemeNameEmpty:
-SELECT
-    CASE
-        WHEN typedIntervalSchemeName == '' THEN 1
-        ELSE 0
-    END
-FROM IntervalsState;
+SELECT typedIntervalSchemeName == '' FROM IntervalsState;
 
 isTypedIntervalSchemeNameOccupied:
-SELECT
-    CASE
-        WHEN typedIntervalSchemeName IN (SELECT name FROM IntervalScheme) THEN 1
-        ELSE 0
-    END
-FROM IntervalsState;
+SELECT typedIntervalSchemeName IN (SELECT name FROM IntervalScheme) FROM IntervalsState;
 
 setNameCheckResult:
 UPDATE IntervalsState SET nameCheckResult = ?;

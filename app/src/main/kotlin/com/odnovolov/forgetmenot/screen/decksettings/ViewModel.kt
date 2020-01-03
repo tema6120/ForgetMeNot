@@ -25,9 +25,7 @@ class DeckSettingsViewModel {
         .map { it.id != 0L && it.name.isEmpty() }
 
     val availableExercisePreferences: Flow<List<Preset>> = queries
-        .getAvailableExercisePreferences(mapper = { id: Long, name: String, isSelected: Long ->
-            Preset(id, name, isSelected.asBoolean())
-        })
+        .getAvailableExercisePreferences(::Preset)
         .asFlow()
         .mapToList()
 
@@ -35,7 +33,6 @@ class DeckSettingsViewModel {
         .isDialogVisible()
         .asFlow()
         .mapToOne()
-        .map { it.asBoolean() }
 
     val dialogInputCheckResult: Flow<NameCheckResult> = queries
         .getDialogInputCheckResult()

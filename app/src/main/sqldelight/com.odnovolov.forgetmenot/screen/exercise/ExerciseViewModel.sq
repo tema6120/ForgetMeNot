@@ -1,15 +1,11 @@
 getAllExerciseCardIds:
 SELECT id FROM ExerciseCard ORDER BY id;
 
-isCurrentExerciseCardLearned: -- nullable
+isCurrentExerciseCardLearned:
 SELECT isLearned FROM CurrentExerciseCard;
 
 getLevelOfKnowledgeForCurrentCard:
-SELECT CASE
-           WHEN testMethod != 0 THEN levelOfKnowledge
-           ELSE -1
-       END
-FROM CurrentExerciseCard;
+SELECT levelOfKnowledge FROM CurrentExerciseCard;
 
 intervalItem:
 SELECT
@@ -17,11 +13,12 @@ SELECT
     Interval.value AS waitingPeriod,
     Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1 AS isSelected
 FROM
-    Interval
-    LEFT JOIN ExercisePreference ON ExercisePreference.intervalSchemeId == Interval.intervalSchemeId
-    LEFT JOIN Deck ON Deck.exercisePreferenceId == ExercisePreference.id
-    LEFT JOIN Card ON Card.deckId = Deck.id
-    LEFT JOIN ExerciseCard ON ExerciseCard.cardId == Card.id
+    ExerciseCard
+    JOIN Card ON ExerciseCard.cardId == Card.id
+    JOIN Deck ON Card.deckId = Deck.id
+    JOIN ExercisePreference ON Deck.exercisePreferenceId == ExercisePreference.id
+    JOIN Interval ON ExercisePreference.intervalSchemeId == Interval.intervalSchemeId
 WHERE
     ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise)
-ORDER BY Interval.targetLevelOfKnowledge;
+ORDER BY
+    Interval.targetLevelOfKnowledge;

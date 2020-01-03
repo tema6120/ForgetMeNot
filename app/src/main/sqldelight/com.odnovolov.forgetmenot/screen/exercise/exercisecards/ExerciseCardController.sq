@@ -13,21 +13,20 @@ UPDATE Card SET lastAnsweredAt = datetime('now') WHERE Card.id == (
 );
 
 incrementLapIfCardIsAnsweredForTheFirstTime:
+WITH ActualCardId AS (
+    SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == ?
+)
 UPDATE Card
 SET lap = lap + 1
-WHERE Card.id == (SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == :exerciseCardId)
-      AND (SELECT NOT EXISTS (
-                              SELECT * FROM ExerciseCard
-                              WHERE cardId == (
-                                               SELECT cardId FROM ExerciseCard
-                                               WHERE ExerciseCard.id == :exerciseCardId
-                                              )
-                                    AND isAnswerCorrect IS NOT NULL
-                             )
-          );
+WHERE Card.id == (SELECT * FROM ActualCardId)
+      AND NOT EXISTS (
+                      SELECT * FROM ExerciseCard
+                      WHERE cardId == (SELECT * FROM ActualCardId)
+                            AND isAnswerCorrect IS NOT NULL
+                     );
 
 setIsQuestionDisplayedTrue:
-UPDATE ExerciseCard SET isQuestionDisplayed = 1 WHERE id == ?;
+UPDATE ExerciseCard SET isQuestionDisplayedActual = 1 WHERE id == ?;
 
 setAnswerCorrect:
 UPDATE ExerciseCard SET isAnswerCorrect = ? WHERE id == ?;
@@ -42,7 +41,8 @@ INSERT INTO ExerciseCard(
     cardId,
     initialLevelOfKnowledge,
     isLevelOfKnowledgeEditedByUser,
-    isQuestionDisplayed,
+    isQuestionDisplayedInitial,
+    isQuestionDisplayedActual,
     testMethod,
     pronunciationId,
     isReverse
@@ -50,13 +50,8 @@ INSERT INTO ExerciseCard(
     cardId,
     initialLevelOfKnowledge,
     isLevelOfKnowledgeEditedByUser,
-    (SELECT isQuestionDisplayed FROM ExercisePreference WHERE id == (
-        SELECT exercisePreferenceId FROM Deck WHERE id == (
-            SELECT deckId FROM Card WHERE id == (
-                SELECT cardId FROM ExerciseCard WHERE id = :exerciseCardId
-            )
-        )
-    )),
+    isQuestionDisplayedInitial,
+    isQuestionDisplayedInitial,
     testMethod,
     pronunciationId,
     isReverse
@@ -90,8 +85,8 @@ SET levelOfKnowledge = CASE
                                THEN (SELECT initialLevelOfKnowledge + 1 FROM Extra)
                            ELSE levelOfKnowledge
                        END
-WHERE (SELECT isLevelOfKnowledgeEditedByUser FROM ExerciseCard WHERE id == :exerciseCardId) == 0
-      AND id == (SELECT cardId FROM Extra);
+WHERE id == (SELECT cardId FROM Extra)
+      AND (SELECT isLevelOfKnowledgeEditedByUser FROM ExerciseCard WHERE id == :exerciseCardId) == 0;
 
 setSelectedVariant:
 UPDATE Quiz SET selectedVariant = ? WHERE exerciseCardId == ?;
@@ -112,10 +107,10 @@ setAnswerInput:
 UPDATE AnswerInput SET answerInput = ? WHERE exerciseCardId == ?;
 
 isAnswerInputCorrect:
-SELECT ifnull(trim(answer) == trim(answerInput), 0)
+SELECT ifnull(trim(Card.answer) == trim(AnswerInput.answerInput), 0)
 FROM AnswerInput
-     LEFT JOIN ExerciseCard ON AnswerInput.exerciseCardId == ExerciseCard.id
-     LEFT JOIN Card ON ExerciseCard.cardId == Card.id
+     JOIN ExerciseCard ON AnswerInput.exerciseCardId == ExerciseCard.id
+     JOIN Card ON ExerciseCard.cardId == Card.id
 WHERE exerciseCardId == ?;
 
 createAnswerInputWhereItNeeds:
