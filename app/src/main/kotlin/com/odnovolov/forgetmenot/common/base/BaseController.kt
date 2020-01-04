@@ -10,8 +10,7 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseController<Event, Order> : CoroutineScope {
     private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = job
+    override val coroutineContext: CoroutineContext = controllerContext + job
     private val unhandledEventChannel = Channel<Event>()
     private val eventToHandleChannel = Channel<Event>()
     private val nextEventRequestChannel = Channel<Unit>()
@@ -101,3 +100,5 @@ abstract class BaseController<Event, Order> : CoroutineScope {
         job.cancel()
     }
 }
+
+val controllerContext = newSingleThreadContext("Database writer")
