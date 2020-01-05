@@ -1,14 +1,19 @@
 package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz
 
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.AnswerQuizTestEvent.AnswerTextSelectionChanged
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.AnswerQuizTestEvent.VariantSelected
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.AnswerQuizTestOrder.Vibrate
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.VariantStatus.*
 import kotlinx.android.synthetic.main.fragment_answer_quiz_test.*
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +22,7 @@ import kotlinx.coroutines.flow.combine
 class AnswerQuizTestFragment : BaseFragment() {
     companion object {
         private const val ARG_ID = "ARG_ID"
+        private const val VIBRATION_DURATION = 50L
 
         fun create(id: Long) = AnswerQuizTestFragment().apply {
             arguments = Bundle(1).apply {
@@ -27,12 +33,14 @@ class AnswerQuizTestFragment : BaseFragment() {
 
     private lateinit var controller: AnswerQuizTestController
     private lateinit var viewModel: AnswerQuizTestViewModel
+    private var vibrator: Vibrator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val id = arguments!!.getLong(ARG_ID)
         controller = AnswerQuizTestController(id)
         viewModel = AnswerQuizTestViewModel(id)
+        vibrator = getSystemService(requireContext(), Vibrator::class.java)
     }
 
     override fun onCreateView(
@@ -47,6 +55,7 @@ class AnswerQuizTestFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
+        controller.orders.forEach(execute = ::executeOrder)
     }
 
     private fun setupView() {
@@ -116,6 +125,26 @@ class AnswerQuizTestFragment : BaseFragment() {
                 Wrong -> variantView.setBackgroundColor(
                     ContextCompat.getColor(requireContext(), R.color.wrong_answer)
                 )
+            }
+        }
+    }
+
+    private fun executeOrder(order: AnswerQuizTestOrder) {
+        when (order) {
+            Vibrate -> {
+                vibrator?.let {
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        it.vibrate(
+                            VibrationEffect.createOneShot(
+                                VIBRATION_DURATION,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                        )
+                    } else {
+                        @Suppress("DEPRECATION")
+                        it.vibrate(VIBRATION_DURATION)
+                    }
+                }
             }
         }
     }
