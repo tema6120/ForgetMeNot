@@ -29,7 +29,7 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
         when (event) {
             is NewPageBecameSelected -> {
                 queries.setCurrentExerciseCardIdByPosition(event.position.toLong())
-                if (queries.isQuestionAutoSpeakEnabled().executeAsOne()) {
+                if (queries.isNeedToAutoSpeak().executeAsOne()) {
                     val textToSpeakAndLanguage = queries.getQuestionAndLanguageToSpeak()
                         .executeAsOne()
                     issueOrder(

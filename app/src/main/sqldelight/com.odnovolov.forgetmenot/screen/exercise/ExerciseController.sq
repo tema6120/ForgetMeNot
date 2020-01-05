@@ -10,8 +10,11 @@ UPDATE Exercise SET currentExerciseCardId = (
 setLearnedForCurrentCard:
 UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM CurrentExerciseCard);
 
-isQuestionAutoSpeakEnabled:
-SELECT questionAutoSpeak FROM CurrentExercisePronunciation;
+isNeedToAutoSpeak:
+SELECT
+    (SELECT questionAutoSpeak FROM CurrentExercisePronunciation)
+    AND
+    (SELECT isLearned == 0 AND isAnswerCorrect IS NULL FROM CurrentExerciseCard);
 
 getQuestionAndLanguageToSpeak:
 SELECT
