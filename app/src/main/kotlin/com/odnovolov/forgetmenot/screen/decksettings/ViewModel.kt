@@ -16,6 +16,17 @@ class DeckSettingsViewModel {
         .asFlow()
         .mapToOne()
 
+    val isRenameDeckDialogVisible: Flow<Boolean> = queries
+        .isRenameDeckDialogVisible()
+        .asFlow()
+        .mapToOne()
+
+    val deckNameCheckResult: Flow<NameCheckResult> = queries
+        .getDeckNameCheckResult()
+        .asFlow()
+        .mapToOne()
+        .map { databaseValue: String -> nameCheckResultAdapter.decode(databaseValue) }
+
     val exercisePreferenceIdAndName: Flow<ExercisePreferenceIdAndName> = queries
         .exercisePreferenceIdAndName()
         .asFlow()
@@ -29,13 +40,13 @@ class DeckSettingsViewModel {
         .asFlow()
         .mapToList()
 
-    val isDialogVisible: Flow<Boolean> = queries
-        .isDialogVisible()
+    val isNamePresetDialogVisible: Flow<Boolean> = queries
+        .isNamePresetDialogVisible()
         .asFlow()
         .mapToOne()
 
-    val dialogInputCheckResult: Flow<NameCheckResult> = queries
-        .getDialogInputCheckResult()
+    val namePresetInputCheckResult: Flow<NameCheckResult> = queries
+        .getPresetNameCheckResult()
         .asFlow()
         .mapToOne()
         .map { databaseValue: String -> nameCheckResultAdapter.decode(databaseValue) }

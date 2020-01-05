@@ -14,8 +14,8 @@ ORDER BY
     id == 0 DESC,
     name == '' DESC;
 
-isPresetNameInputDialogVisible:
-SELECT presetNameInputDialogStatus != 'Invisible' FROM PronunciationState;
+isNamePresetDialogVisible:
+SELECT namePresetDialogStatus != 'Invisible' FROM PronunciationState;
 
 getDialogInputCheckResult:
 SELECT nameCheckResult FROM PronunciationState;

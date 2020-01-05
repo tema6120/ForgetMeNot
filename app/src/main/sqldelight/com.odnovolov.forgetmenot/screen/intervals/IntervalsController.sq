@@ -1,8 +1,8 @@
-getPresetNameInputDialogStatus:
-SELECT presetNameInputDialogStatus FROM IntervalsState;
+getNamePresetDialogStatus:
+SELECT namePresetDialogStatus FROM IntervalsState;
 
-setPresetNameInputDialogStatus:
-UPDATE IntervalsState SET presetNameInputDialogStatus = ?;
+setNamePresetDialogStatus:
+UPDATE IntervalsState SET namePresetDialogStatus = ?;
 
 setIntervalScheme:
 UPDATE ExercisePreference SET intervalSchemeId = ? WHERE id == (

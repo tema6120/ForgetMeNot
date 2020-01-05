@@ -17,8 +17,8 @@ ORDER BY
     id = 0 DESC,
     name = '' DESC;
 
-isPresetNameInputDialogVisible:
-SELECT presetNameInputDialogStatus != 'Invisible' FROM IntervalsState;
+isNamePresetDialogVisible:
+SELECT namePresetDialogStatus != 'Invisible' FROM IntervalsState;
 
 getDialogInputCheckResult:
 SELECT nameCheckResult FROM IntervalsState;

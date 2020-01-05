@@ -1,14 +1,44 @@
-getPresetNameInputDialogStatus:
-SELECT presetNameInputDialogStatus FROM DeckSettingsState;
+setIsRenameDeckDialogVisible:
+UPDATE DeckSettingsState SET isRenameDeckDialogVisisble = ?;
 
-setPresetNameInputDialogStatus:
-UPDATE DeckSettingsState SET presetNameInputDialogStatus = ?;
+getDeckName:
+SELECT name FROM Deck WHERE id == (
+    SELECT deckId FROM DeckSettingsState
+);
+
+setTypedDeckName:
+UPDATE DeckSettingsState SET typedDeckName = ?;
+
+isTypedDeckNameEmpty:
+SELECT typedDeckName == '' FROM DeckSettingsState;
+
+isTypedDeckNameOccupied:
+SELECT typedDeckName IN (SELECT name FROM Deck) FROM DeckSettingsState;
+
+setDeckNameCheckResult:
+UPDATE DeckSettingsState SET deckNameCheckResult = ?;
+
+renameDeck:
+UPDATE Deck SET name = (SELECT typedDeckName FROM DeckSettingsState) WHERE id == (
+    SELECT deckId FROM DeckSettingsState
+);
+
+resetRenameDeckState:
+UPDATE DeckSettingsState SET isRenameDeckDialogVisisble = 0,
+                             typedDeckName = '',
+                             deckNameCheckResult = 'OK';
+
+getNamePresetDialogStatus:
+SELECT namePresetDialogStatus FROM DeckSettingsState;
+
+setNamePresetDialogStatus:
+UPDATE DeckSettingsState SET namePresetDialogStatus = ?;
 
 setTypedPresetName:
 UPDATE DeckSettingsState SET typedPresetName = ?;
 
-setNameCheckResult:
-UPDATE DeckSettingsState SET nameCheckResult = ?;
+setPresetNameCheckResult:
+UPDATE DeckSettingsState SET presetNameCheckResult = ?;
 
 setRenamePresetId:
 UPDATE DeckSettingsState SET renamePresetId = ?;

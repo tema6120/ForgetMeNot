@@ -24,8 +24,8 @@ class IntervalsViewModel {
     val isSaveIntervalSchemeButtonEnabled: Flow<Boolean> = currentIntervalScheme
         .map { it != null && it.id != 0L && it.name.isEmpty() }
 
-    val isPresetNameInputDialogVisible: Flow<Boolean> = queries
-        .isPresetNameInputDialogVisible()
+    val isNamePresetDialogVisible: Flow<Boolean> = queries
+        .isNamePresetDialogVisible()
         .asFlow()
         .mapToOne()
 

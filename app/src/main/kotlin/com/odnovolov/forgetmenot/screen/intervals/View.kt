@@ -122,7 +122,7 @@ class IntervalsFragment : BaseFragment() {
                 saveIntervalSchemeButton.visibility = if (isEnabled) VISIBLE else GONE
             }
             availableIntervalSchemes.observe(onChange = intervalSchemeRecyclerAdapter::submitList)
-            isPresetNameInputDialogVisible.observe { isVisible ->
+            isNamePresetDialogVisible.observe { isVisible ->
                 presetNameInputDialog.run { if (isVisible) show() else dismiss() }
             }
             dialogInputCheckResult.observe {

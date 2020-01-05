@@ -5,14 +5,20 @@ import com.odnovolov.forgetmenot.common.entity.TestMethod
 
 sealed class DeckSettingsEvent {
     object RenameDeckButtonClicked : DeckSettingsEvent()
+    class RenameDeckDialogTextChanged(val text: String) : DeckSettingsEvent()
+    object RenameDeckDialogPositiveButtonClicked : DeckSettingsEvent()
+    object RenameDeckDialogNegativeButtonClicked : DeckSettingsEvent()
+
     object SaveExercisePreferenceButtonClicked : DeckSettingsEvent()
     class SetExercisePreferenceButtonClicked(val id: Long) : DeckSettingsEvent()
     class RenameExercisePreferenceButtonClicked(val id: Long) : DeckSettingsEvent()
     class DeleteExercisePreferenceButtonClicked(val id: Long) : DeckSettingsEvent()
     object AddNewExercisePreferenceButtonClicked : DeckSettingsEvent()
-    class DialogTextChanged(val text: String) : DeckSettingsEvent()
-    object PositiveDialogButtonClicked : DeckSettingsEvent()
-    object NegativeDialogButtonClicked : DeckSettingsEvent()
+
+    class NamePresetDialogTextChanged(val text: String) : DeckSettingsEvent()
+    object NamePresetPositiveDialogButtonClicked : DeckSettingsEvent()
+    object NamePresetNegativeDialogButtonClicked : DeckSettingsEvent()
+
     object RandomOrderSwitchToggled : DeckSettingsEvent()
     class TestMethodWasSelected(val testMethod: TestMethod) : DeckSettingsEvent()
     object IntervalsButtonClicked : DeckSettingsEvent()

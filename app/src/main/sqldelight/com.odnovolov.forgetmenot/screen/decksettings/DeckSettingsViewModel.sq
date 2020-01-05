@@ -3,6 +3,12 @@ SELECT name FROM Deck WHERE id == (
     SELECT deckId FROM DeckSettingsState
 );
 
+isRenameDeckDialogVisible:
+SELECT isRenameDeckDialogVisisble FROM DeckSettingsState;
+
+getDeckNameCheckResult:
+SELECT deckNameCheckResult FROM DeckSettingsState;
+
 exercisePreferenceIdAndName:
 SELECT id, name FROM CurrentExercisePreference;
 
@@ -21,11 +27,11 @@ ORDER BY
     id == 0 DESC,
     name == '' DESC;
 
-isDialogVisible:
-SELECT presetNameInputDialogStatus != 'Invisible' FROM DeckSettingsState;
+isNamePresetDialogVisible:
+SELECT namePresetDialogStatus != 'Invisible' FROM DeckSettingsState;
 
-getDialogInputCheckResult:
-SELECT nameCheckResult FROM DeckSettingsState;
+getPresetNameCheckResult:
+SELECT presetNameCheckResult FROM DeckSettingsState;
 
 getRandomOrder:
 SELECT randomOrder FROM CurrentExercisePreference;

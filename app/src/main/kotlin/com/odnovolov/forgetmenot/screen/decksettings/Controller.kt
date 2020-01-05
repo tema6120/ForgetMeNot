@@ -3,11 +3,11 @@ package com.odnovolov.forgetmenot.screen.decksettings
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
-import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus.*
+import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
+import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.nameCheckResultAdapter
-import com.odnovolov.forgetmenot.common.database.presetNameInputDialogStatusAdapter
+import com.odnovolov.forgetmenot.common.database.namePresetDialogStatusAdapter
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsOrder.*
 
@@ -17,7 +17,25 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
     override fun handleEvent(event: DeckSettingsEvent) {
         when (event) {
             RenameDeckButtonClicked -> {
-                issueOrder(ShowRenameDeckDialog)
+                queries.setIsRenameDeckDialogVisible(true)
+                val deckName: String = queries.getDeckName().executeAsOne()
+                issueOrder(SetRenameDeckDialogText(deckName))
+            }
+
+            is RenameDeckDialogTextChanged -> {
+                queries.setTypedDeckName(event.text)
+                checkTypedDeckName()
+            }
+
+            RenameDeckDialogPositiveButtonClicked -> {
+                if (checkTypedDeckName() == OK) {
+                    queries.renameDeck()
+                    queries.resetRenameDeckState()
+                }
+            }
+
+            RenameDeckDialogNegativeButtonClicked -> {
+                queries.resetRenameDeckState()
             }
 
             SaveExercisePreferenceButtonClicked -> {
@@ -33,7 +51,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                 if (!name.isNullOrEmpty()) {
                     queries.setRenamePresetId(event.id)
                     setPresetNameInputDialogStatus(VisibleToRenameSharedPreset)
-                    issueOrder(SetDialogText(name))
+                    issueOrder(SetNamePresetDialogText(name))
                 }
             }
 
@@ -45,13 +63,13 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                 setPresetNameInputDialogStatus(VisibleToCreateNewSharedPreset)
             }
 
-            is DialogTextChanged -> {
+            is NamePresetDialogTextChanged -> {
                 queries.setTypedPresetName(event.text)
-                checkName()
+                checkTypedPresetName()
             }
 
-            PositiveDialogButtonClicked -> {
-                if (checkName() === OK) {
+            NamePresetPositiveDialogButtonClicked -> {
+                if (checkTypedPresetName() === OK) {
                     when (getNameInputDialogStatus()) {
                         VisibleToMakeIndividualPresetAsShared -> {
                             queries.renameCurrentPreset()
@@ -70,7 +88,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
                 }
             }
 
-            NegativeDialogButtonClicked -> {
+            NamePresetNegativeDialogButtonClicked -> {
                 setPresetNameInputDialogStatus(Invisible)
             }
 
@@ -104,23 +122,33 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
         }
     }
 
-    private fun setPresetNameInputDialogStatus(status: PresetNameInputDialogStatus) {
-        val databaseValue = presetNameInputDialogStatusAdapter.encode(status)
-        queries.setPresetNameInputDialogStatus(databaseValue)
+    private fun checkTypedDeckName(): NameCheckResult {
+        val nameCheckResult = when {
+            queries.isTypedDeckNameEmpty().executeAsOne() -> EMPTY
+            queries.isTypedDeckNameOccupied().executeAsOne() -> OCCUPIED
+            else -> OK
+        }
+        queries.setDeckNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
+        return nameCheckResult
     }
 
-    private fun getNameInputDialogStatus(): PresetNameInputDialogStatus {
-        val databaseValue = queries.getPresetNameInputDialogStatus().executeAsOne()
-        return presetNameInputDialogStatusAdapter.decode(databaseValue)
+    private fun setPresetNameInputDialogStatus(status: NamePresetDialogStatus) {
+        val databaseValue = namePresetDialogStatusAdapter.encode(status)
+        queries.setNamePresetDialogStatus(databaseValue)
     }
 
-    private fun checkName(): NameCheckResult {
+    private fun getNameInputDialogStatus(): NamePresetDialogStatus {
+        val databaseValue = queries.getNamePresetDialogStatus().executeAsOne()
+        return namePresetDialogStatusAdapter.decode(databaseValue)
+    }
+
+    private fun checkTypedPresetName(): NameCheckResult {
         val nameCheckResult = when {
             queries.isTypedPresetNameEmpty().executeAsOne() -> EMPTY
             queries.isTypedPresetNameOccupied().executeAsOne() -> OCCUPIED
             else -> OK
         }
-        queries.setNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
+        queries.setPresetNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
         return nameCheckResult
     }
 }

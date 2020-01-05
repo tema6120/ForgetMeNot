@@ -4,8 +4,8 @@ import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
-import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus.*
+import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
+import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsEvent.*
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsOrder.SetDialogStatus
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsOrder.ShowModifyIntervalDialog
@@ -16,7 +16,7 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
     override fun handleEvent(event: IntervalsEvent) {
         when (event) {
             SaveIntervalSchemeButtonClicked -> {
-                setPresetNameInputDialogStatus(VisibleToMakeIndividualPresetAsShared)
+                setNamePresetDialogStatus(VisibleToMakeIndividualPresetAsShared)
             }
 
             is SetIntervalSchemeButtonClicked -> {
@@ -27,7 +27,7 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
                 val name: String? = queries.getIntervalSchemeNameById().executeAsOneOrNull()
                 if (name != null && name.isNotEmpty()) {
                     queries.setRenameIntervalSchemeId(event.intervalSchemeId)
-                    setPresetNameInputDialogStatus(VisibleToRenameSharedPreset)
+                    setNamePresetDialogStatus(VisibleToRenameSharedPreset)
                     issueOrder(SetDialogStatus(name))
                 }
             }
@@ -37,7 +37,7 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
             }
 
             AddNewIntervalSchemeButtonClicked -> {
-                setPresetNameInputDialogStatus(VisibleToCreateNewSharedPreset)
+                setNamePresetDialogStatus(VisibleToCreateNewSharedPreset)
             }
 
             is DialogTextChanged -> {
@@ -47,7 +47,7 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
 
             PositiveDialogButtonClicked -> {
                 if (checkName() === OK) {
-                    when (getNameInputDialogStatus()) {
+                    when (getNamePresetDialogStatus()) {
                         VisibleToMakeIndividualPresetAsShared -> {
                             queries.renameCurrent()
                         }
@@ -62,12 +62,12 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
                         else -> {
                         }
                     }
-                    setPresetNameInputDialogStatus(Invisible)
+                    setNamePresetDialogStatus(Invisible)
                 }
             }
 
             NegativeDialogButtonClicked -> {
-                setPresetNameInputDialogStatus(Invisible)
+                setNamePresetDialogStatus(Invisible)
             }
 
             is ModifyIntervalButtonClicked -> {
@@ -97,14 +97,14 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
         }
     }
 
-    private fun getNameInputDialogStatus(): PresetNameInputDialogStatus {
-        val databaseValue = queries.getPresetNameInputDialogStatus().executeAsOne()
-        return presetNameInputDialogStatusAdapter.decode(databaseValue)
+    private fun getNamePresetDialogStatus(): NamePresetDialogStatus {
+        val databaseValue = queries.getNamePresetDialogStatus().executeAsOne()
+        return namePresetDialogStatusAdapter.decode(databaseValue)
     }
 
-    private fun setPresetNameInputDialogStatus(status: PresetNameInputDialogStatus) {
-        val databaseValue = presetNameInputDialogStatusAdapter.encode(status)
-        queries.setPresetNameInputDialogStatus(databaseValue)
+    private fun setNamePresetDialogStatus(status: NamePresetDialogStatus) {
+        val databaseValue = namePresetDialogStatusAdapter.encode(status)
+        queries.setNamePresetDialogStatus(databaseValue)
     }
 
     private fun checkName(): NameCheckResult {

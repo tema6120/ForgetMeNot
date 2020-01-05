@@ -63,15 +63,18 @@ CREATE TEMPORARY TABLE EditCardState (
 deckSettingsState:
 CREATE TEMPORARY TABLE DeckSettingsState (
     deckId INTEGER NOT NULL,
-    presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
+    isRenameDeckDialogVisisble INTEGER AS Boolean NOT NULL DEFAULT 0,
+    typedDeckName TEXT NOT NULL DEFAULT '',
+    deckNameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
+    namePresetDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS NamePresetDialogStatus
     typedPresetName TEXT NOT NULL DEFAULT '',
-    nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
+    presetNameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
     renamePresetId INTEGER
 );
 
 intervalsState:
 CREATE TEMPORARY TABLE IntervalsState (
-    presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
+    namePresetDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS NamePresetDialogStatus
     typedIntervalSchemeName TEXT NOT NULL DEFAULT '',
     nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
     renameIntervalSchemeId INTEGER
@@ -87,7 +90,7 @@ CREATE TEMPORARY TABLE ModifyIntervalState (
 pronunciationState:
 CREATE TEMPORARY TABLE PronunciationState (
     availableLanguages TEXT, -- AS List<Locale>
-    presetNameInputDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS PresetNameInputDialogStatus
+    namePresetDialogStatus TEXT NOT NULL DEFAULT 'Invisible', -- AS NamePresetDialogStatus
     typedPronunciationName TEXT NOT NULL DEFAULT '',
     nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
     renamePronunciationId INTEGER

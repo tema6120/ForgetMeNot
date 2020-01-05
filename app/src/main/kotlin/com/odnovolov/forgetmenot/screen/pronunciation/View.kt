@@ -195,7 +195,7 @@ class PronunciationFragment : BaseFragment() {
                     header.layoutTransition = LayoutTransition()
                 })
             availablePronunciations.observe(onChange = pronunciationRecyclerAdapter::submitList)
-            isPresetNameInputDialogVisible.observe { isVisible ->
+            isNamePresetDialogVisible.observe { isVisible ->
                 presetNameInputDialog.run { if (isVisible) show() else dismiss() }
             }
             dialogInputCheckResult.observe {

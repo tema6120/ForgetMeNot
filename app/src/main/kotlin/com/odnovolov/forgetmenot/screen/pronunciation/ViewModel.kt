@@ -31,8 +31,8 @@ class PronunciationViewModel {
         .asFlow()
         .mapToList()
 
-    val isPresetNameInputDialogVisible: Flow<Boolean> = queries
-        .isPresetNameInputDialogVisible()
+    val isNamePresetDialogVisible: Flow<Boolean> = queries
+        .isNamePresetDialogVisible()
         .asFlow()
         .mapToOne()
 

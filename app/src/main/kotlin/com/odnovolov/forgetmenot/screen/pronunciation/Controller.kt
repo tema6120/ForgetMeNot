@@ -3,10 +3,10 @@ package com.odnovolov.forgetmenot.screen.pronunciation
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus
+import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationEvent.*
-import com.odnovolov.forgetmenot.common.entity.PresetNameInputDialogStatus.*
+import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationOrder.SetDialogText
 
 class PronunciationController : BaseController<PronunciationEvent, PronunciationOrder>() {
@@ -15,7 +15,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
     override fun handleEvent(event: PronunciationEvent) {
         when (event) {
             SavePronunciationButtonClicked -> {
-                setPresetNameInputDialogStatus(VisibleToMakeIndividualPresetAsShared)
+                setNamePresetDialogStatus(VisibleToMakeIndividualPresetAsShared)
             }
 
             is SetPronunciationButtonClicked -> {
@@ -27,7 +27,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
                     .executeAsOneOrNull()
                 if (!name.isNullOrEmpty()) {
                     queries.setRenamePronunciationId(event.pronunciationId)
-                    setPresetNameInputDialogStatus(VisibleToRenameSharedPreset)
+                    setNamePresetDialogStatus(VisibleToRenameSharedPreset)
                     issueOrder(SetDialogText(name))
                 }
             }
@@ -37,7 +37,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             AddNewPronunciationButtonClicked -> {
-                setPresetNameInputDialogStatus(VisibleToCreateNewSharedPreset)
+                setNamePresetDialogStatus(VisibleToCreateNewSharedPreset)
             }
 
             is DialogTextChanged -> {
@@ -47,7 +47,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
 
             PositiveDialogButtonClicked -> {
                 if (checkName() === OK) {
-                    when (getNameInputDialogStatus()) {
+                    when (getNamePresetDialogStatus()) {
                         VisibleToMakeIndividualPresetAsShared -> {
                             queries.renameCurrent()
                         }
@@ -61,12 +61,12 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
                         else -> {
                         }
                     }
-                    setPresetNameInputDialogStatus(Invisible)
+                    setNamePresetDialogStatus(Invisible)
                 }
             }
 
             NegativeDialogButtonClicked -> {
-                setPresetNameInputDialogStatus(Invisible)
+                setNamePresetDialogStatus(Invisible)
             }
 
             is AvailableLanguagesUpdated -> {
@@ -93,14 +93,14 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
         }
     }
 
-    private fun setPresetNameInputDialogStatus(status: PresetNameInputDialogStatus) {
-        val databaseValue = presetNameInputDialogStatusAdapter.encode(status)
-        queries.setPresetNameInputDialogStatus(databaseValue)
+    private fun setNamePresetDialogStatus(status: NamePresetDialogStatus) {
+        val databaseValue = namePresetDialogStatusAdapter.encode(status)
+        queries.setNamePresetDialogStatus(databaseValue)
     }
 
-    private fun getNameInputDialogStatus(): PresetNameInputDialogStatus {
-        val databaseValue = queries.getPresetNameInputDialogStatus().executeAsOne()
-        return presetNameInputDialogStatusAdapter.decode(databaseValue)
+    private fun getNamePresetDialogStatus(): NamePresetDialogStatus {
+        val databaseValue = queries.getNamePresetDialogStatus().executeAsOne()
+        return namePresetDialogStatusAdapter.decode(databaseValue)
     }
 
     private fun checkName(): NameCheckResult {

@@ -14,14 +14,16 @@ object InputDialogCreator {
         context: Context,
         title: CharSequence?,
         takeEditText: (editText: EditText) -> Unit,
-        onTextChanged: (text: CharSequence?) -> Unit,
+        onTextChanged: (text: String) -> Unit,
         onPositiveClick: () -> Unit,
         onNegativeClick: () -> Unit
     ): Dialog {
         val contentView = View.inflate(context, R.layout.dialog_input, null)
         val dialogInput: EditText = contentView.findViewById(R.id.dialogInput)
         takeEditText(dialogInput)
-        dialogInput.observeText(onTextChanged)
+        dialogInput.observeText {
+            onTextChanged(it.toString())
+        }
         val dialog: AlertDialog = AlertDialog.Builder(context)
             .setTitle(title)
             .setView(contentView)
