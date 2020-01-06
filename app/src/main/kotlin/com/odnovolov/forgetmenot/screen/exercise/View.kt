@@ -28,6 +28,8 @@ import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardFragme
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.fragment_exercise.levelOfKnowledgeTextView
 import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ExerciseFragment : BaseFragment() {
 
@@ -169,7 +171,9 @@ class ExerciseFragment : BaseFragment() {
                 exerciseViewPager.setCurrentItem(nextPosition, true)
             }
             is Speak -> {
-                speaker.speak(order.text, order.language)
+                fragmentScope.launch(Dispatchers.Default) {
+                    speaker.speak(order.text, order.language)
+                }
             }
             NavigateToEditCard -> {
                 findNavController().navigate(R.id.action_exercise_screen_to_edit_card_screen)

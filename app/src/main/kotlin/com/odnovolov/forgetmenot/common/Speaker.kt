@@ -28,7 +28,7 @@ class Speaker(context: Context, onInit: () -> Unit = {}) {
                 .show()
         }
     }
-    private val tts: TextToSpeech = TextToSpeech(context, initListener)
+    private val tts: TextToSpeech = TextToSpeech(context.applicationContext, initListener)
     private var currentLanguage: Locale? = null
         set(value) {
             if (value == null && currentLanguage != defaultLanguage) {
