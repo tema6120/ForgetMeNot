@@ -103,9 +103,11 @@ class HomeFragment : BaseFragment() {
             for (order in controller.orders) {
                 when (order) {
                     NavigateToExercise -> {
+                        actionMode?.finish()
                         findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
                     }
-                    is NavigateToDeckSettings -> {
+                    NavigateToDeckSettings -> {
+                        actionMode?.finish()
                         findNavController()
                             .navigate(R.id.action_home_screen_to_deck_settings_screen)
                     }

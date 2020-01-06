@@ -120,7 +120,13 @@ WHERE
                          )
                   ) < datetime('now')
          )
-ORDER BY lap, random(); -- TODO check whether random mode is on
+ORDER BY
+   lap,
+   CASE
+       WHEN ExercisePreference.randomOrder THEN random()
+       ELSE deckId
+   END,
+   ordinal;
 
 cleanQuiz:
 DELETE FROM Quiz;
