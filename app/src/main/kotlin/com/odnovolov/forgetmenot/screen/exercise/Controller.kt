@@ -40,11 +40,13 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
 
             NotAskButtonClicked -> {
                 queries.setLearnedForCurrentCard(true)
+                queries.setVisibleToRepeatedCards(false)
                 issueOrder(MoveToNextPosition)
             }
 
             UndoButtonClicked -> {
                 queries.setLearnedForCurrentCard(false)
+                queries.setVisibleToRepeatedCards(true)
             }
 
             SpeakButtonClicked -> {

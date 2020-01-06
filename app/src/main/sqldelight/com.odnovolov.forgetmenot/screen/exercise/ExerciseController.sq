@@ -10,6 +10,15 @@ UPDATE Exercise SET currentExerciseCardId = (
 setLearnedForCurrentCard:
 UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM CurrentExerciseCard);
 
+setVisibleToRepeatedCards:
+UPDATE ExerciseCard SET isVisible = ?
+WHERE cardId == (
+                 SELECT cardId FROM ExerciseCard WHERE id == (
+                                                              SELECT currentExerciseCardId FROM Exercise
+                                                             )
+                )
+      AND id > (SELECT currentExerciseCardId FROM Exercise);
+
 isNeedToAutoSpeak:
 SELECT questionAutoSpeak AND isLearned == 0 AND isAnswerCorrect IS NULL
 FROM CurrentExercisePronunciation, CurrentExerciseCard;

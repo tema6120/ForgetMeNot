@@ -1,5 +1,5 @@
 getAllExerciseCardIds:
-SELECT id FROM ExerciseCard ORDER BY id;
+SELECT id FROM ExerciseCard WHERE isVisible ORDER BY id;
 
 isCurrentExerciseCardLearned:
 SELECT isLearned FROM CurrentExerciseCard;
