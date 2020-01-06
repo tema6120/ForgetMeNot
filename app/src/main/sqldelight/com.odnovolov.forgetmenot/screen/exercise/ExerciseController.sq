@@ -11,47 +11,39 @@ setLearnedForCurrentCard:
 UPDATE Card SET isLearned = ? WHERE id == (SELECT cardId FROM CurrentExerciseCard);
 
 isNeedToAutoSpeak:
-SELECT
-    (SELECT questionAutoSpeak FROM CurrentExercisePronunciation)
-    AND
-    (SELECT isLearned == 0 AND isAnswerCorrect IS NULL FROM CurrentExerciseCard);
+SELECT questionAutoSpeak AND isLearned == 0 AND isAnswerCorrect IS NULL
+FROM CurrentExercisePronunciation, CurrentExerciseCard;
 
-getQuestionAndLanguageToSpeak:
+speakingDataForQuestionAutoSpeak:
 SELECT
-    (SELECT question FROM CurrentExerciseCard) AS textToSpeak,
-    (SELECT questionLanguage FROM CurrentExercisePronunciation) AS language;
+    question AS text,
+    questionLanguage AS language,
+    doNotSpeakTextInBrackets
+FROM CurrentExerciseCard, CurrentExercisePronunciation;
 
-getAnswerAndLanguageToSpeak:
+speakingDataForAnswerAutoSpeak:
 SELECT
-    (SELECT answer FROM CurrentExerciseCard) AS textToSpeak,
-    (SELECT answerLanguage FROM CurrentExercisePronunciation) AS language;
+    answer AS text,
+    answerLanguage AS language,
+    doNotSpeakTextInBrackets
+FROM CurrentExerciseCard, CurrentExercisePronunciation;
 
-getTextToSpeakAndLanguage:
-WITH
-    Extra AS (
-        SELECT isAnswerCorrect IS NOT NULL AS isAnswered FROM CurrentExerciseCard
-    )
+speakingData:
 SELECT
     CASE
-        WHEN '' != (SELECT questionTextSelection FROM Exercise)
-            THEN (SELECT questionTextSelection FROM Exercise)
-        WHEN '' != (SELECT answerTextSelection FROM Exercise)
-            THEN (SELECT answerTextSelection FROM Exercise)
-        WHEN (SELECT isAnswered FROM Extra)
-            THEN (SELECT answer FROM CurrentExerciseCard)
-        ELSE
-            (SELECT question FROM CurrentExerciseCard)
-    END AS textToSpeak,
+        WHEN '' != questionTextSelection THEN questionTextSelection
+        WHEN '' != answerTextSelection THEN answerTextSelection
+        WHEN isAnswerCorrect IS NOT NULL THEN answer
+        ELSE question
+    END AS text,
     CASE
-        WHEN '' != (SELECT questionTextSelection FROM Exercise)
-            THEN (SELECT questionLanguage FROM CurrentExercisePronunciation)
-        WHEN '' != (SELECT answerTextSelection FROM Exercise)
-            THEN (SELECT answerLanguage FROM CurrentExercisePronunciation)
-        WHEN (SELECT isAnswered FROM Extra)
-            THEN (SELECT answerLanguage FROM CurrentExercisePronunciation)
-        ELSE
-            (SELECT questionLanguage FROM CurrentExercisePronunciation)
-    END AS language;
+        WHEN '' != questionTextSelection THEN questionLanguage
+        WHEN '' != answerTextSelection THEN answerLanguage
+        WHEN isAnswerCorrect IS NOT NULL THEN answerLanguage
+        ELSE questionLanguage
+    END AS language,
+    doNotSpeakTextInBrackets
+FROM Exercise, CurrentExercisePronunciation, CurrentExerciseCard;
 
 answerAutoSpeakTriggered:
 SELECT answerAutoSpeakTriggered FROM Exercise;

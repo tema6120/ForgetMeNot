@@ -145,15 +145,16 @@ class PronunciationFragment : BaseFragment() {
             showLanguagePopup(questionLanguagePopup, anchor = questionLanguageTextView)
         }
         questionAutoSpeakButton.setOnClickListener {
-            val isOn = questionAutoSpeakSwitch.isChecked.toggle()
-            controller.dispatch(QuestionAutoSpeakSwitchToggled(isOn))
+            controller.dispatch(QuestionAutoSpeakSwitchToggled)
         }
         answerLanguageTextView.setOnClickListener {
             showLanguagePopup(answerLanguagePopup, anchor = answerLanguageTextView)
         }
         answerAutoSpeakButton.setOnClickListener {
-            val isOn = answerAutoSpeakSwitch.isChecked.toggle()
-            controller.dispatch(AnswerAutoSpeakSwitchToggled(isOn))
+            controller.dispatch(AnswerAutoSpeakSwitchToggled)
+        }
+        doNotSpeakTextInBracketsButton.setOnClickListener {
+            controller.dispatch(DoNotSpeakTextInBracketsSwitchToggled)
         }
     }
 
@@ -231,6 +232,13 @@ class PronunciationFragment : BaseFragment() {
                 afterFirst = {
                     answerAutoSpeakSwitch.jumpDrawablesToCurrentState()
                     answerAutoSpeakSwitch.visibility = VISIBLE
+                }
+            )
+            doNotSpeakTextInBrackets.observe(
+                onChange = doNotSpeakTextInBracketsSwitch::setChecked,
+                afterFirst = {
+                    doNotSpeakTextInBracketsSwitch.jumpDrawablesToCurrentState()
+                    doNotSpeakTextInBracketsSwitch.visibility = VISIBLE
                 }
             )
         }

@@ -9,9 +9,11 @@ import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
     private val queries: ExerciseControllerQueries = database.exerciseControllerQueries
+    private val textInBracketsRemover by lazy { TextInBracketsRemover() }
 
     init {
         launch {
@@ -30,14 +32,9 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             is NewPageBecameSelected -> {
                 queries.setCurrentExerciseCardIdByPosition(event.position.toLong())
                 if (queries.isNeedToAutoSpeak().executeAsOne()) {
-                    val textToSpeakAndLanguage = queries.getQuestionAndLanguageToSpeak()
+                    queries.speakingDataForQuestionAutoSpeak()
                         .executeAsOne()
-                    issueOrder(
-                        Speak(
-                            text = textToSpeakAndLanguage.textToSpeak,
-                            language = textToSpeakAndLanguage.language
-                        )
-                    )
+                        .run { speak(text, language, doNotSpeakTextInBrackets) }
                 }
             }
 
@@ -51,13 +48,9 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             }
 
             SpeakButtonClicked -> {
-                val textToSpeakAndLanguage = queries.getTextToSpeakAndLanguage().executeAsOne()
-                issueOrder(
-                    Speak(
-                        text = textToSpeakAndLanguage.textToSpeak,
-                        language = textToSpeakAndLanguage.language
-                    )
-                )
+                queries.speakingData()
+                    .executeAsOne()
+                    .run { speak(text, language, doNotSpeakTextInBrackets) }
             }
 
             EditCardButtonClicked -> {
@@ -68,13 +61,9 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
 
             AnswerAutoSpeakTriggered -> {
                 queries.flushAnswerAutoSpeakTriggered()
-                val textToSpeakAndLanguage = queries.getAnswerAndLanguageToSpeak().executeAsOne()
-                issueOrder(
-                    Speak(
-                        text = textToSpeakAndLanguage.textToSpeak,
-                        language = textToSpeakAndLanguage.language
-                    )
-                )
+                queries.speakingDataForAnswerAutoSpeak()
+                    .executeAsOne()
+                    .run { speak(text, language, doNotSpeakTextInBrackets) }
             }
 
             is LevelOfKnowledgeSelected -> {
@@ -82,5 +71,14 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
                 queries.setIsLevelOfKnowledgeEditedByUserTrue()
             }
         }
+    }
+
+    private fun speak(text: String, language: Locale?, doNotSpeakTextInBrackets: Boolean) {
+        val textToSpeak = if (doNotSpeakTextInBrackets) {
+            textInBracketsRemover.process(text)
+        } else {
+            text
+        }
+        issueOrder(Speak(textToSpeak, language))
     }
 }

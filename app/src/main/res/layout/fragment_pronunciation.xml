@@ -98,7 +98,8 @@
                 android:focusable="false"
                 android:text="@string/text_auto_speak_switch"
                 android:textColor="@color/textPrimary"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                tools:visibility="visible" />
 
     </FrameLayout>
 
@@ -161,7 +162,33 @@
                 android:focusable="false"
                 android:text="@string/text_auto_speak_switch"
                 android:textColor="@color/textPrimary"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                tools:visibility="visible"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/doNotSpeakTextInBracketsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/answerAutoSpeakButton"
+            app:layout_constraintStart_toStartOf="@+id/questionAutoSpeakButton"
+            app:layout_constraintTop_toBottomOf="@id/divider">
+
+        <Switch
+                android:id="@+id/doNotSpeakTextInBracketsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:switchPadding="8dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:text="@string/text_do_not_speak_text_in_brackets"
+                android:textColor="@color/textPrimary"
+                android:visibility="invisible"
+                tools:visibility="visible" />
 
     </FrameLayout>
 

@@ -79,16 +79,20 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
                 queries.setQuestionLanguage(event.language)
             }
 
-            is QuestionAutoSpeakSwitchToggled -> {
-                queries.setQuestionAutoSpeak(event.isOn)
+            QuestionAutoSpeakSwitchToggled -> {
+                queries.toggleQuestionAutoSpeak()
             }
 
             is AnswerLanguageSelected -> {
                 queries.setAnswerLanguage(event.language)
             }
 
-            is AnswerAutoSpeakSwitchToggled -> {
-                queries.setAnswerAutoSpeak(event.isOn)
+            AnswerAutoSpeakSwitchToggled -> {
+                queries.toggleAnswerAutoSpeak()
+            }
+
+            DoNotSpeakTextInBracketsSwitchToggled -> {
+                queries.toggleDoNotSpeakTextInBrackets()
             }
         }
     }

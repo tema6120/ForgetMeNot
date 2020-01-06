@@ -83,4 +83,8 @@ class PronunciationViewModel {
         }
 
     val answerAutoSpeak: Flow<Boolean> = currentPronunciation.map { it.answerAutoSpeak }
+
+    val doNotSpeakTextInBrackets: Flow<Boolean> = currentPronunciation.map {
+        it.doNotSpeakTextInBrackets
+    }
 }

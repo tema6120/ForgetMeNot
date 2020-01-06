@@ -300,20 +300,23 @@ WHEN old.id == 0 AND (new.id != 0
                       OR new.questionLanguage IS NOT NULL
                       OR new.questionAutoSpeak != 0
                       OR new.answerLanguage IS NOT NULL
-                      OR new.answerAutoSpeak != 0)
+                      OR new.answerAutoSpeak != 0
+                      OR new.doNotSpeakTextInBrackets != 0)
 BEGIN
     INSERT INTO Pronunciation(
         name,
         questionLanguage,
         questionAutoSpeak,
         answerLanguage,
-        answerAutoSpeak
+        answerAutoSpeak,
+        doNotSpeakTextInBrackets
     ) VALUES (
         new.name,
         new.questionLanguage,
         new.questionAutoSpeak,
         new.answerLanguage,
-        new.answerAutoSpeak
+        new.answerAutoSpeak,
+        new.doNotSpeakTextInBrackets
     );
 
     UPDATE ExercisePreference
@@ -331,6 +334,7 @@ WHEN new.name == ''
      AND new.questionAutoSpeak == 0
      AND new.answerLanguage IS NULL
      AND new.answerAutoSpeak == 0
+     AND new.doNotSpeakTextInBrackets == 0
 BEGIN
     UPDATE ExercisePreference
     SET pronunciationId = 0

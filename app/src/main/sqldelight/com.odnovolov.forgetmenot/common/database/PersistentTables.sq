@@ -63,7 +63,8 @@ CREATE TABLE Pronunciation (
     questionLanguage TEXT AS Locale,
     questionAutoSpeak INTEGER AS Boolean NOT NULL DEFAULT 0 CHECK (questionAutoSpeak IN (0, 1)),
     answerLanguage TEXT AS Locale,
-    answerAutoSpeak INTEGER AS Boolean NOT NULL DEFAULT 0 CHECK (answerAutoSpeak IN (0, 1))
+    answerAutoSpeak INTEGER AS Boolean NOT NULL DEFAULT 0 CHECK (answerAutoSpeak IN (0, 1)),
+    doNotSpeakTextInBrackets INTEGER AS Boolean NOT NULL DEFAULT 0 CHECK (doNotSpeakTextInBrackets IN (0, 1))
 );
 
 INSERT INTO Pronunciation(id) VALUES (0);

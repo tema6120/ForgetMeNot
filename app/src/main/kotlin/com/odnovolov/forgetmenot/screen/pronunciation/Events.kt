@@ -13,7 +13,8 @@ sealed class PronunciationEvent {
     object NegativeDialogButtonClicked : PronunciationEvent()
     class AvailableLanguagesUpdated(val languages: Set<Locale>) : PronunciationEvent()
     class QuestionLanguageSelected(val language: Locale?) : PronunciationEvent()
-    class QuestionAutoSpeakSwitchToggled(val isOn: Boolean) : PronunciationEvent()
+    object QuestionAutoSpeakSwitchToggled : PronunciationEvent()
     class AnswerLanguageSelected(val language: Locale?) : PronunciationEvent()
-    class AnswerAutoSpeakSwitchToggled(val isOn: Boolean) : PronunciationEvent()
+    object AnswerAutoSpeakSwitchToggled : PronunciationEvent()
+    object DoNotSpeakTextInBracketsSwitchToggled : PronunciationEvent()
 }

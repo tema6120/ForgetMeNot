@@ -30,8 +30,8 @@ UPDATE Pronunciation SET questionLanguage = ? WHERE id == (
     SELECT pronunciationId FROM CurrentExercisePreference
 );
 
-setQuestionAutoSpeak:
-UPDATE Pronunciation SET questionAutoSpeak = ? WHERE id == (
+toggleQuestionAutoSpeak:
+UPDATE Pronunciation SET questionAutoSpeak = 1 - questionAutoSpeak WHERE id == (
     SELECT pronunciationId FROM CurrentExercisePreference
 );
 
@@ -40,8 +40,13 @@ UPDATE Pronunciation SET answerLanguage = ? WHERE id == (
     SELECT pronunciationId FROM CurrentExercisePreference
 );
 
-setAnswerAutoSpeak:
-UPDATE Pronunciation SET answerAutoSpeak = ? WHERE id == (
+toggleAnswerAutoSpeak:
+UPDATE Pronunciation SET answerAutoSpeak = 1 - answerAutoSpeak WHERE id == (
+    SELECT pronunciationId FROM CurrentExercisePreference
+);
+
+toggleDoNotSpeakTextInBrackets:
+UPDATE Pronunciation SET doNotSpeakTextInBrackets = 1 - doNotSpeakTextInBrackets WHERE id == (
     SELECT pronunciationId FROM CurrentExercisePreference
 );
 
