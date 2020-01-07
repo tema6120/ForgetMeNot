@@ -9,5 +9,6 @@ sealed class HomeEvent {
     class DeleteDeckMenuItemClicked(val deckId: Long) : HomeEvent()
     object DeckIsDeletedSnackbarCancelActionClicked : HomeEvent()
     object StartExerciseMenuItemClicked : HomeEvent()
+    class SelectAllDecksMenuItemClicked(val displayedCardIds: List<Long>) : HomeEvent()
     object ActionModeFinished : HomeEvent()
 }

@@ -63,6 +63,10 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 startExercise(deckId = -1)
             }
 
+            is SelectAllDecksMenuItemClicked -> {
+                event.displayedCardIds.forEach(queries::addDeckToDeckSelection)
+            }
+
             ActionModeFinished -> {
                 queries.clearDeckSelection()
             }

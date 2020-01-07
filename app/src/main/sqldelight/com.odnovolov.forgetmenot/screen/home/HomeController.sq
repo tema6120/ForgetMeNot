@@ -61,7 +61,7 @@ deleteDeckFromDeckSelection:
 DELETE FROM DeckSelection WHERE selectedDeckId == ?;
 
 addDeckToDeckSelection:
-INSERT INTO DeckSelection(selectedDeckId) VALUES (?);
+INSERT OR IGNORE INTO DeckSelection(selectedDeckId) VALUES (?);
 
 clearDeckSelection:
 DELETE FROM DeckSelection;

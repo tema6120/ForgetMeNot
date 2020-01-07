@@ -240,12 +240,18 @@ class HomeFragment : BaseFragment() {
         }
 
         override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-            when (item.itemId) {
+            return when (item.itemId) {
                 R.id.action_start_exercise -> {
                     controller.dispatch(StartExerciseMenuItemClicked)
-                    return true
+                    true
                 }
-                else -> return false
+                R.id.action_select_all_decks -> {
+                    val displayedCardIds: List<Long> =
+                        deckPreviewAdapter.currentList.map { it.deckId }
+                    controller.dispatch(SelectAllDecksMenuItemClicked(displayedCardIds))
+                    true
+                }
+                else -> false
             }
         }
 
