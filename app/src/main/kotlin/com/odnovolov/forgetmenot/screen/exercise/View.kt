@@ -1,18 +1,16 @@
 package com.odnovolov.forgetmenot.screen.exercise
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.view.View.*
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -36,13 +34,13 @@ class ExerciseFragment : BaseFragment() {
     private val controller = ExerciseController()
     private val viewModel = ExerciseViewModel()
     private lateinit var speaker: Speaker
-    private lateinit var adapter: ExerciseCardsAdapter
+    private lateinit var exerciseCardsAdapter: ExerciseCardsAdapter
     private lateinit var setLevelOfKnowledgePopup: PopupWindow
     private lateinit var intervalsAdapter: IntervalsAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        speaker = Speaker(requireContext())
+        speaker = Speaker(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,8 +100,8 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupViewPagerAdapter() {
-        adapter = ExerciseCardsAdapter(fragment = this)
-        exerciseViewPager.adapter = adapter
+        exerciseCardsAdapter = ExerciseCardsAdapter(fragment = this)
+        exerciseViewPager.adapter = exerciseCardsAdapter
         exerciseViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 controller.dispatch(NewPageBecameSelected(position))
@@ -117,33 +115,15 @@ class ExerciseFragment : BaseFragment() {
         speakButton.setOnClickListener { controller.dispatch(SpeakButtonClicked) }
         editCardButton.setOnClickListener { controller.dispatch(EditCardButtonClicked) }
         levelOfKnowledgeButton.setOnClickListener {
-            showLevelOfKnowledgePopup()
+            controller.dispatch(LevelOfKnowledgeButtonClicked)
         }
-    }
-
-    private fun showLevelOfKnowledgePopup() {
-        val content = setLevelOfKnowledgePopup.contentView
-        content.measure(
-            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-        )
-        val location = IntArray(2)
-        levelOfKnowledgeButton.getLocationOnScreen(location)
-        val x = location[0] + levelOfKnowledgeButton.width - 8.dp - content.measuredWidth
-        val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
-        setLevelOfKnowledgePopup.showAtLocation(
-            levelOfKnowledgeButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
     }
 
     private fun observeViewModel() {
         with(viewModel) {
             // we help ViewPager to restore its state
-            adapter.exerciseCardIds = exerciseCardsIdsAtStart
-            exerciseCardIds.observe { adapter.exerciseCardIds = it }
+            exerciseCardsAdapter.exerciseCardIds = exerciseCardsIdsAtStart
+            exerciseCardIds.observe { exerciseCardsAdapter.exerciseCardIds = it }
             isCurrentExerciseCardLearned.observe { isCurrentCardLearned ->
                 isCurrentCardLearned ?: return@observe
                 notAskButton.visibility = if (isCurrentCardLearned) GONE else VISIBLE
@@ -160,7 +140,6 @@ class ExerciseFragment : BaseFragment() {
                     levelOfKnowledgeTextView.visibility = VISIBLE
                 }
             }
-            intervalItems.observe(onChange = intervalsAdapter::submitList)
         }
     }
 
@@ -178,7 +157,36 @@ class ExerciseFragment : BaseFragment() {
             NavigateToEditCard -> {
                 findNavController().navigate(R.id.action_exercise_screen_to_edit_card_screen)
             }
+            is ShowLevelOfKnowledgePopup -> {
+                showLevelOfKnowledgePopup(order.intervalItems)
+            }
+            ShowIntervalsAreOffMessage -> {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.message_intervals_are_off,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
+    }
+
+    private fun showLevelOfKnowledgePopup(intervalItems: List<IntervalItem>) {
+        intervalsAdapter.intervalItems = intervalItems
+        val content = setLevelOfKnowledgePopup.contentView
+        content.measure(
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+        val location = IntArray(2)
+        levelOfKnowledgeButton.getLocationOnScreen(location)
+        val x = location[0] + levelOfKnowledgeButton.width - 8.dp - content.measuredWidth
+        val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
+        setLevelOfKnowledgePopup.showAtLocation(
+            levelOfKnowledgeButton.rootView,
+            Gravity.NO_GRAVITY,
+            x,
+            y
+        )
     }
 
     override fun onDestroyView() {
@@ -217,7 +225,15 @@ class ExerciseCardsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) 
 
 class IntervalsAdapter(
     private val onItemClick: (Int) -> Unit
-) : ListAdapter<IntervalItem, ViewHolder>(DiffCallback()) {
+) : RecyclerView.Adapter<ViewHolder>() {
+    var intervalItems: List<IntervalItem> = emptyList()
+        set(value) {
+            if (value != field) {
+                field = value
+                notifyDataSetChanged()
+            }
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_level_of_knowledge, parent, false)
@@ -225,7 +241,7 @@ class IntervalsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val intervalItem: IntervalItem = getItem(position)
+        val intervalItem: IntervalItem = intervalItems[position]
         with(holder.itemView) {
             if (intervalItem.isSelected) {
                 setBackgroundColor(
@@ -245,16 +261,7 @@ class IntervalsAdapter(
         }
     }
 
+    override fun getItemCount(): Int = intervalItems.size
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
-
-    class DiffCallback : DiffUtil.ItemCallback<IntervalItem>() {
-        override fun areItemsTheSame(oldItem: IntervalItem, newItem: IntervalItem): Boolean {
-            return oldItem.levelOfKnowledge == newItem.levelOfKnowledge
-        }
-
-        @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: IntervalItem, newItem: IntervalItem): Boolean {
-            return oldItem == newItem
-        }
-    }
 }

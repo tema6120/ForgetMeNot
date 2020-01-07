@@ -60,6 +60,33 @@ SELECT answerAutoSpeakTriggered FROM Exercise;
 flushAnswerAutoSpeakTriggered:
 UPDATE Exercise SET answerAutoSpeakTriggered = 0;
 
+areIntervalsOn:
+SELECT intervalSchemeId IS NOT NULL FROM ExercisePreference WHERE id == (
+    SELECT exercisePreferenceId FROM Deck WHERE id == (
+        SELECT deckId FROM Card WHERE id == (
+            SELECT cardId FROM ExerciseCard WHERE id == (
+                SELECT currentExerciseCardId FROM Exercise
+            )
+        )
+    )
+);
+
+intervalItem:
+SELECT
+    Interval.targetLevelOfKnowledge - 1 AS levelOfKnowledge,
+    Interval.value AS waitingPeriod,
+    Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1 AS isSelected
+FROM
+    ExerciseCard
+    JOIN Card ON ExerciseCard.cardId == Card.id
+    JOIN Deck ON Card.deckId = Deck.id
+    JOIN ExercisePreference ON Deck.exercisePreferenceId == ExercisePreference.id
+    JOIN Interval ON ExercisePreference.intervalSchemeId == Interval.intervalSchemeId
+WHERE
+    ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise)
+ORDER BY
+    Interval.targetLevelOfKnowledge;
+
 setLevelOfKnowledge:
 UPDATE Card SET levelOfKnowledge = ? WHERE id == (
     SELECT cardId FROM CurrentExerciseCard

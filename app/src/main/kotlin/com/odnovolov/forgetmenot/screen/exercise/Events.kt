@@ -7,5 +7,6 @@ sealed class ExerciseEvent {
     object SpeakButtonClicked : ExerciseEvent()
     object EditCardButtonClicked : ExerciseEvent()
     object AnswerAutoSpeakTriggered : ExerciseEvent()
+    object LevelOfKnowledgeButtonClicked : ExerciseEvent()
     class LevelOfKnowledgeSelected(val levelOfKnowledge: Int) : ExerciseEvent()
 }

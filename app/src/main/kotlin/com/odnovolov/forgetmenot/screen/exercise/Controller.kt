@@ -68,6 +68,15 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
                     .run { speak(text, language, doNotSpeakTextInBrackets) }
             }
 
+            LevelOfKnowledgeButtonClicked -> {
+                if (queries.areIntervalsOn().executeAsOne()) {
+                    val intervalItems: List<IntervalItem> = queries.intervalItem().executeAsList()
+                    issueOrder(ShowLevelOfKnowledgePopup(intervalItems))
+                } else {
+                    issueOrder(ShowIntervalsAreOffMessage)
+                }
+            }
+
             is LevelOfKnowledgeSelected -> {
                 queries.setLevelOfKnowledge(event.levelOfKnowledge)
                 queries.setIsLevelOfKnowledgeEditedByUserTrue()

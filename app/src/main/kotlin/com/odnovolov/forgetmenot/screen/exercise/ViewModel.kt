@@ -27,6 +27,4 @@ class ExerciseViewModel {
         .getLevelOfKnowledgeForCurrentCard()
         .asFlow()
         .mapToOneOrNull()
-
-    val intervalItems: Flow<List<IntervalItem>> = queries.intervalItem().asFlow().mapToList()
 }

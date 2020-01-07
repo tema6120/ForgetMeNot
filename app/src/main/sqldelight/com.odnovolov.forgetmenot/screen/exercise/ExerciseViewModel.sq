@@ -6,19 +6,3 @@ SELECT isLearned FROM CurrentExerciseCard;
 
 getLevelOfKnowledgeForCurrentCard:
 SELECT levelOfKnowledge FROM CurrentExerciseCard;
-
-intervalItem:
-SELECT
-    Interval.targetLevelOfKnowledge - 1 AS levelOfKnowledge,
-    Interval.value AS waitingPeriod,
-    Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1 AS isSelected
-FROM
-    ExerciseCard
-    JOIN Card ON ExerciseCard.cardId == Card.id
-    JOIN Deck ON Card.deckId = Deck.id
-    JOIN ExercisePreference ON Deck.exercisePreferenceId == ExercisePreference.id
-    JOIN Interval ON ExercisePreference.intervalSchemeId == Interval.intervalSchemeId
-WHERE
-    ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise)
-ORDER BY
-    Interval.targetLevelOfKnowledge;
