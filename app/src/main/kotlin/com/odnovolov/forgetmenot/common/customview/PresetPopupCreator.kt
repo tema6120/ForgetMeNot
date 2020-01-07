@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.item_preset.view.*
 object PresetPopupCreator {
     fun create(
         context: Context,
-        setPresetButtonClickListener: (id: Long) -> Unit,
+        setPresetButtonClickListener: (id: Long?) -> Unit,
         renamePresetButtonClickListener: (id: Long) -> Unit,
         deletePresetButtonClickListener: (id: Long) -> Unit,
         addButtonClickListener: () -> Unit,
@@ -41,7 +41,7 @@ object PresetPopupCreator {
         val presetRecyclerView = content.findViewById<RecyclerView>(R.id.presetRecyclerView)
         val adapter =
             PresetRecyclerAdapter(
-                setPresetButtonClickListener = { id: Long ->
+                setPresetButtonClickListener = { id: Long? ->
                     setPresetButtonClickListener.invoke(id)
                     dismiss()
                 },
@@ -57,13 +57,13 @@ object PresetPopupCreator {
     }
 
     data class Preset(
-        val id: Long,
+        val id: Long?,
         val name: String,
         val isSelected: Boolean
     )
 
     class PresetRecyclerAdapter(
-        private val setPresetButtonClickListener: (id: Long) -> Unit,
+        private val setPresetButtonClickListener: (id: Long?) -> Unit,
         private val renamePresetButtonClickListener: (id: Long) -> Unit,
         private val deletePresetButtonClickListener: (id: Long) -> Unit
     ) : ListAdapter<Preset, ViewHolder>(
@@ -80,6 +80,7 @@ object PresetPopupCreator {
             with(viewHolder.itemView) {
                 val preset = getItem(position)
                 presetNameTextView.text = when {
+                    preset.id == null -> context.getString(R.string.off)
                     preset.id == 0L -> context.getString(R.string.default_name)
                     preset.name.isEmpty() -> context.getString(R.string.individual_name)
                     else -> "'${preset.name}'"
@@ -97,11 +98,11 @@ object PresetPopupCreator {
                 if (preset.name.isNotEmpty()) {
                     renamePresetButton.visibility = VISIBLE
                     renamePresetButton.setOnClickListener {
-                        renamePresetButtonClickListener.invoke(preset.id)
+                        renamePresetButtonClickListener.invoke(preset.id!!)
                     }
                     deletePresetButton.visibility = VISIBLE
                     deletePresetButton.setOnClickListener {
-                        deletePresetButtonClickListener.invoke(preset.id)
+                        deletePresetButtonClickListener.invoke(preset.id!!)
                     }
                 } else {
                     renamePresetButton.visibility = GONE

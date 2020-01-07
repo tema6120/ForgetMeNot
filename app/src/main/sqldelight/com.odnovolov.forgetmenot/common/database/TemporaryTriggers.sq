@@ -23,7 +23,7 @@ WHEN old.id == 0 AND (new.id != 0
                       OR new.name != ''
                       OR new.randomOrder != 1
                       OR new.testMethod != 'Manual'
-                      OR new.intervalSchemeId != 0
+                      OR new.intervalSchemeId IS NOT 0
                       OR new.pronunciationId != 0
                       OR new.isQuestionDisplayed != 1
                       OR new.cardReverse != 'Off'
@@ -60,7 +60,7 @@ AFTER UPDATE ON ExercisePreference
 WHEN new.name == ''
      AND new.randomOrder == 1
      AND new.testMethod == 'Manual'
-     AND new.intervalSchemeId == 0
+     AND new.intervalSchemeId IS 0
      AND new.pronunciationId == 0
      AND new.isQuestionDisplayed == 1
      AND new.cardReverse == 'Off'

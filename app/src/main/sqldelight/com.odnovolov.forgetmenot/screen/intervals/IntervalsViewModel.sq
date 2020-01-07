@@ -4,18 +4,22 @@ SELECT * FROM IntervalScheme WHERE id == (
 );
 
 getAvailableIntervalSchemes:
-SELECT id, name, CASE
-                     WHEN id == (SELECT intervalSchemeId FROM CurrentExercisePreference)
-                         THEN 1
-                     ELSE 0
-                 END AS isSelected
-FROM IntervalScheme
-WHERE id == 0
-      OR id == (SELECT intervalSchemeId FROM CurrentExercisePreference)
-      OR name != ''
-ORDER BY
-    id = 0 DESC,
-    name = '' DESC;
+SELECT * FROM (
+    SELECT id AS idx,
+           name AS namex,
+           id IS (SELECT intervalSchemeId FROM CurrentExercisePreference) AS isSelected
+    FROM IntervalScheme
+    WHERE id == 0
+          OR id == (SELECT intervalSchemeId FROM CurrentExercisePreference)
+          OR name != ''
+    UNION ALL
+    SELECT NULL AS idx,
+          '' AS namex,
+          NULL IS (SELECT intervalSchemeId FROM CurrentExercisePreference) AS isSelected
+)
+ORDER BY idx IS NULL DESC,
+         idx == 0 DESC,
+         namex == '' DESC;
 
 isNamePresetDialogVisible:
 SELECT namePresetDialogStatus != 'Invisible' FROM IntervalsState;

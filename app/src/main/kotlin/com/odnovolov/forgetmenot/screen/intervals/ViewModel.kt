@@ -10,16 +10,14 @@ class IntervalsViewModel {
     private val queries: IntervalsViewModelQueries = database.intervalsViewModelQueries
 
     val availableIntervalSchemes: Flow<List<Preset>> = queries
-        .getAvailableIntervalSchemes(mapper = { id: Long, name: String, isSelected: Long ->
-            Preset(id, name, isSelected.asBoolean())
-        })
+        .getAvailableIntervalSchemes(::Preset)
         .asFlow()
         .mapToList()
 
     val currentIntervalScheme: Flow<IntervalScheme?> = queries
         .getCurrentIntervalScheme()
         .asFlow()
-        .mapToOneNotNull()
+        .mapToOneOrNull()
 
     val isSaveIntervalSchemeButtonEnabled: Flow<Boolean> = currentIntervalScheme
         .map { it != null && it.id != 0L && it.name.isEmpty() }

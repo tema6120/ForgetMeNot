@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
@@ -19,6 +18,7 @@ import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
 import com.odnovolov.forgetmenot.common.database.Interval
+import com.odnovolov.forgetmenot.common.database.IntervalScheme
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.screen.intervals.IntervalAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsEvent.*
@@ -50,7 +50,7 @@ class IntervalsFragment : BaseFragment() {
     private fun initChooseIntervalSchemePopup() {
         chooseIntervalSchemePopup = PresetPopupCreator.create(
             context = requireContext(),
-            setPresetButtonClickListener = { id: Long ->
+            setPresetButtonClickListener = { id: Long? ->
                 controller.dispatch(SetIntervalSchemeButtonClicked(id))
             },
             renamePresetButtonClickListener = { id: Long ->
@@ -71,7 +71,7 @@ class IntervalsFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_interval_scheme_name_input_dialog),
             takeEditText = { presetNameEditText = it },
-            onTextChanged = { controller.dispatch(DialogTextChanged(it.toString())) },
+            onTextChanged = { controller.dispatch(DialogTextChanged(it)) },
             onPositiveClick = { controller.dispatch(PositiveDialogButtonClicked) },
             onNegativeClick = { controller.dispatch(NegativeDialogButtonClicked) }
         )
@@ -110,13 +110,14 @@ class IntervalsFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            currentIntervalScheme.observe {
+            currentIntervalScheme.observe { intervalScheme: IntervalScheme? ->
                 intervalSchemeNameTextView.text = when {
-                    it == null -> getString(R.string.off)
-                    it.id == 0L -> getString(R.string.default_name)
-                    it.name.isEmpty() -> getString(R.string.individual_name)
-                    else -> "'${it.name}'"
+                    intervalScheme == null -> getString(R.string.off)
+                    intervalScheme.id == 0L -> getString(R.string.default_name)
+                    intervalScheme.name.isEmpty() -> getString(R.string.individual_name)
+                    else -> "'${intervalScheme.name}'"
                 }
+                intervalsEditorGroup.visibility = if (intervalScheme == null) INVISIBLE else VISIBLE
             }
             isSaveIntervalSchemeButtonEnabled.observe { isEnabled ->
                 saveIntervalSchemeButton.visibility = if (isEnabled) VISIBLE else GONE

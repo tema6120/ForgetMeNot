@@ -66,8 +66,8 @@ class PronunciationFragment : BaseFragment() {
     private fun initChoosePronunciationPopup() {
         choosePronunciationPopup = PresetPopupCreator.create(
             context = requireContext(),
-            setPresetButtonClickListener = { id: Long ->
-                controller.dispatch(SetPronunciationButtonClicked(id))
+            setPresetButtonClickListener = { id: Long? ->
+                controller.dispatch(SetPronunciationButtonClicked(id!!))
             },
             renamePresetButtonClickListener = { id: Long ->
                 controller.dispatch(RenamePronunciationButtonClicked(id))
@@ -97,7 +97,7 @@ class PronunciationFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_pronunciation_name_input_dialog),
             takeEditText = { presetNameEditText = it },
-            onTextChanged = { controller.dispatch(DialogTextChanged(it.toString())) },
+            onTextChanged = { controller.dispatch(DialogTextChanged(it)) },
             onPositiveClick = { controller.dispatch(PositiveDialogButtonClicked) },
             onNegativeClick = { controller.dispatch(NegativeDialogButtonClicked) }
         )

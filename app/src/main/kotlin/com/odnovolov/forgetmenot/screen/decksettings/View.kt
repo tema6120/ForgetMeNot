@@ -70,8 +70,8 @@ class DeckSettingsFragment : BaseFragment() {
     private fun initChooseExercisePreferencePopup() {
         chooseExercisePreferencePopup = PresetPopupCreator.create(
             context = requireContext(),
-            setPresetButtonClickListener = { id: Long ->
-                controller.dispatch(SetExercisePreferenceButtonClicked(id))
+            setPresetButtonClickListener = { id: Long? ->
+                controller.dispatch(SetExercisePreferenceButtonClicked(id!!))
             },
             renamePresetButtonClickListener = { id: Long ->
                 controller.dispatch(RenameExercisePreferenceButtonClicked(id))

@@ -64,7 +64,7 @@ class DeckSettingsViewModel {
     val intervalScheme: Flow<IntervalScheme?> = queries
         .getIntervalScheme()
         .asFlow()
-        .mapToOneNotNull()
+        .mapToOneOrNull()
 
     val pronunciationIdAndName: Flow<PronunciationIdAndName> = queries
         .pronunciationIdAndName()

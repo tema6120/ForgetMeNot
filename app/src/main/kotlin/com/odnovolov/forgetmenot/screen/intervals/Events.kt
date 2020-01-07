@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.screen.intervals
 
 sealed class IntervalsEvent {
     object SaveIntervalSchemeButtonClicked : IntervalsEvent()
-    class SetIntervalSchemeButtonClicked(val intervalSchemeId: Long) : IntervalsEvent()
+    class SetIntervalSchemeButtonClicked(val intervalSchemeId: Long?) : IntervalsEvent()
     class RenameIntervalSchemeButtonClicked(val intervalSchemeId: Long) : IntervalsEvent()
     class DeleteIntervalSchemeButtonClicked(val intervalSchemeId: Long) : IntervalsEvent()
     object AddNewIntervalSchemeButtonClicked : IntervalsEvent()
