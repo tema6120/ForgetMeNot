@@ -6,7 +6,7 @@
             android:title="@string/title_setup_deck_menu_item" />
 
     <item
-            android:id="@+id/deleteDeckMenuItem"
-            android:title="@string/title_delete_deck_menu_item" />
+            android:id="@+id/removeDeckMenuItem"
+            android:title="@string/title_remove_deck_menu_item" />
 
 </menu>

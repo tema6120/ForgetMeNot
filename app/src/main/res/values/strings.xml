@@ -3,7 +3,7 @@
     <string name="add_new_deck">Add new deck</string>
     <string name="enter_deck_name">Enter deck name</string>
     <string name="deck_option">Deck option</string>
-    <string name="title_delete_deck_menu_item">Delete</string>
+    <string name="title_remove_deck_menu_item">Remove</string>
     <string name="title_setup_deck_menu_item">Setup</string>
     <string name="label_exercise_screen">Exercise</string>
     <string name="text_show_question_textview">Show question</string>
@@ -15,7 +15,6 @@
     <string name="description_done_button">Done</string>
     <string name="description_cancel_button">Cancel</string>
     <string name="description_reverse_card_button">Reverse card</string>
-    <string name="snackbar_message_deck_is_deleted">Deck is deleted</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
@@ -23,6 +22,7 @@
     <string name="action_filter">Filter</string>
     <string name="action_start_exercise">Start exercise</string>
     <string name="action_select_all_decks">Select all decks</string>
+    <string name="action_remove_decks">Remove decks</string>
     <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
     <string name="text_sort_by_name_textview">Name</string>
     <string name="text_sort_by_last_created_textview">Last created</string>
@@ -89,4 +89,8 @@
     <string name="text_do_not_speak_text_in_brackets">Do not speak text in brackets</string>
     <string name="toast_text_intervals_are_off">Intervals are off for current deck</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
+    <plurals name="numberOfDecksRemoved">
+        <item quantity="one">Deck has been removed</item>
+        <item quantity="other">%d decks have been removed</item>
+    </plurals>
 </resources>

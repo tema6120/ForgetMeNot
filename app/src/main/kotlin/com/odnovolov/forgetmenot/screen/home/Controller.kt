@@ -39,24 +39,13 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 issueOrder(NavigateToDeckSettings)
             }
 
-            is DeleteDeckMenuItemClicked -> {
-                val deckId = event.deckId
-
-                queries.dropTableCardBackup()
-                queries.createTableCardBackup()
-                queries.addCardBackup(deckId)
-
-                queries.dropTableDeckBackup()
-                queries.createTableDeckBackup()
-                queries.addDeckBackup(deckId)
-
-                queries.deleteDeck(deckId)
-                issueOrder(ShowDeckWasDeletedMessage)
+            is RemoveDeckMenuItemClicked -> {
+                removeDecks(listOf(event.deckId))
             }
 
-            DeckIsDeletedSnackbarCancelActionClicked -> {
-                queries.restoreDeck()
-                queries.restoreCard()
+            DecksRemovedSnackbarCancelActionClicked -> {
+                queries.restoreDecks()
+                queries.restoreCards()
             }
 
             StartExerciseMenuItemClicked -> {
@@ -67,10 +56,28 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 event.displayedCardIds.forEach(queries::addDeckToDeckSelection)
             }
 
+            RemoveDecksMenuItemClicked -> {
+                val deckIds = queries.getDeckSelection().executeAsList()
+                removeDecks(deckIds)
+            }
+
             ActionModeFinished -> {
                 queries.clearDeckSelection()
             }
         }
+    }
+
+    private fun removeDecks(deckIds: List<Long>) {
+        queries.dropTableCardBackup()
+        queries.createTableCardBackup()
+        queries.addCardsToBackup(deckIds)
+
+        queries.dropTableDeckBackup()
+        queries.createTableDeckBackup()
+        queries.addDecksToBackup(deckIds)
+
+        queries.deleteDecks(deckIds)
+        issueOrder(ShowDeckRemovingMessage(deckIds.size))
     }
 
     private fun startExercise(deckId: Long) {
@@ -87,7 +94,7 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
         queries.cleanExercise()
         queries.initExercise()
         queries.clearDeckSelection()
-        queries.updateLastOpenedAt(deckId)
+        queries.updateLastOpenedAt(deckId) // todo fix bug
         issueOrder(NavigateToExercise)
     }
 

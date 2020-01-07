@@ -27,8 +27,8 @@ CREATE TEMPORARY TABLE CardBackup (
     lastAnsweredAt TEXT
 );
 
-addCardBackup:
-INSERT INTO CardBackup SELECT * FROM Card WHERE deckId == ?;
+addCardsToBackup:
+INSERT INTO CardBackup SELECT * FROM Card WHERE deckId IN ?;
 
 createTableDeckBackup:
 CREATE TEMPORARY TABLE DeckBackup (
@@ -39,17 +39,20 @@ CREATE TEMPORARY TABLE DeckBackup (
     exercisePreferenceId INTEGER
 );
 
-addDeckBackup:
-INSERT INTO DeckBackup SELECT * FROM Deck WHERE id == ?;
+addDecksToBackup:
+INSERT INTO DeckBackup SELECT * FROM Deck WHERE id IN ?;
 
-deleteDeck:
-DELETE FROM Deck WHERE id == ?;
+deleteDecks:
+DELETE FROM Deck WHERE id IN ?;
 
-restoreDeck:
+restoreDecks:
 INSERT INTO Deck SELECT * FROM DeckBackup;
 
-restoreCard:
+restoreCards:
 INSERT INTO Card SELECT * FROM CardBackup;
+
+getDeckSelection:
+SELECT * FROM DeckSelection;
 
 hasAnySelectedDeckId:
 SELECT EXISTS (SELECT * FROM DeckSelection);

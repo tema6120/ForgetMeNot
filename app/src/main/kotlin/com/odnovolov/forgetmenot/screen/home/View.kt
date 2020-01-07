@@ -116,16 +116,20 @@ class HomeFragment : BaseFragment() {
                 actionMode?.finish()
                 findNavController().navigate(R.id.action_home_screen_to_deck_settings_screen)
             }
-            ShowDeckWasDeletedMessage -> {
+            is ShowDeckRemovingMessage -> {
                 Snackbar
                     .make(
                         homeFragmentRootView,
-                        getString(R.string.snackbar_message_deck_is_deleted),
+                        resources.getQuantityString(
+                            R.plurals.numberOfDecksRemoved,
+                            order.numberOfDecksRemoved,
+                            order.numberOfDecksRemoved
+                        ),
                         resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
                     )
                     .setAction(
                         R.string.snackbar_action_cancel,
-                        { controller.dispatch(DeckIsDeletedSnackbarCancelActionClicked) }
+                        { controller.dispatch(DecksRemovedSnackbarCancelActionClicked) }
                     )
                     .show()
             }
@@ -251,6 +255,10 @@ class HomeFragment : BaseFragment() {
                     controller.dispatch(SelectAllDecksMenuItemClicked(displayedCardIds))
                     true
                 }
+                R.id.action_remove_decks -> {
+                    controller.dispatch(RemoveDecksMenuItemClicked)
+                    true
+                }
                 else -> false
             }
         }
@@ -319,8 +327,8 @@ private class DeckPreviewAdapter(
                         controller.dispatch(SetupDeckMenuItemClicked(deckId))
                         true
                     }
-                    R.id.deleteDeckMenuItem -> {
-                        controller.dispatch(DeleteDeckMenuItemClicked(deckId))
+                    R.id.removeDeckMenuItem -> {
+                        controller.dispatch(RemoveDeckMenuItemClicked(deckId))
                         true
                     }
                     else -> false
