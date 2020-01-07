@@ -92,9 +92,7 @@ class HomeFragment : BaseFragment() {
                 }
             }
             selectedDecksCount.combine(selectedCardsCount) { decksCount: Int, cardsCount: Long ->
-                val deckString = if (decksCount > 1) "decks" else "deck"
-                val cardString = if (cardsCount > 1) "cards" else "card"
-                "$decksCount $deckString, $cardsCount $cardString"
+                getString(R.string.deck_selection_action_mode_title, decksCount, cardsCount)
             }.observe { actionMode?.title = it }
         }
     }
