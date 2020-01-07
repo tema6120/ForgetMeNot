@@ -63,16 +63,25 @@ FROM
     )
 WHERE
     CASE
-        WHEN (SELECT displayOnlyWithTasks FROM DeckReviewPreferences)
+        WHEN (SELECT onlyWithTasks FROM DeckReviewFiltration)
             THEN numberOfCardsReadyForExercise IS NULL OR numberOfCardsReadyForExercise > 0
         ELSE 1
     END
 ORDER BY
-    CASE (SELECT deckSorting FROM DeckReviewPreferences)
-        WHEN 'BY_LAST_CREATED' THEN createdAt
-        WHEN 'BY_LAST_OPENED' THEN lastOpenedAt
-    END DESC,
-    deckName ASC;
+    CASE WHEN (SELECT direction == 'ASC' FROM DeckReviewSorting)
+         THEN CASE ((SELECT criterion FROM DeckReviewSorting))
+                  WHEN 'NAME' THEN deckName
+                  WHEN 'CREATED_AT' THEN createdAt
+                  WHEN 'LAST_OPENED_AT' THEN lastOpenedAt
+              END
+    END ASC,
+    CASE WHEN (SELECT direction == 'DESC' FROM DeckReviewSorting)
+         THEN CASE ((SELECT criterion FROM DeckReviewSorting))
+                  WHEN 'NAME' THEN deckName
+                  WHEN 'CREATED_AT' THEN createdAt
+                  WHEN 'LAST_OPENED_AT' THEN lastOpenedAt
+              END
+    END DESC;
 
 displayOnlyWithTasks:
-SELECT displayOnlyWithTasks FROM DeckReviewPreferences;
+SELECT onlyWithTasks FROM DeckReviewFiltration;

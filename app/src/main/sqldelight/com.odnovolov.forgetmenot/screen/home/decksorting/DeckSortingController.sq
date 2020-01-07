@@ -1,2 +1,8 @@
-setDeckSorting:
-UPDATE DeckReviewPreferences SET deckSorting = ?;
+getDeckSorting:
+SELECT * FROM DeckReviewSorting;
+
+setCriterion:
+UPDATE DeckReviewSorting SET criterion = ?;
+
+setDirection:
+UPDATE DeckReviewSorting SET direction = ?;

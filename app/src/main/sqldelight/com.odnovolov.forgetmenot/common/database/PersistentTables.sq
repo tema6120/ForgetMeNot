@@ -27,12 +27,18 @@ CREATE TABLE Card (
 
 CREATE INDEX CardDeckIdIndex ON Card(deckId);
 
-CREATE TABLE DeckReviewPreferences (
-    deckSorting TEXT AS DeckSorting NOT NULL DEFAULT 'BY_LAST_CREATED',
-    displayOnlyWithTasks INTEGER AS Boolean NOT NULL DEFAULT 0 CHECK (displayOnlyWithTasks IN (0, 1))
+CREATE TABLE DeckReviewFiltration (
+    onlyWithTasks INTEGER AS Boolean NOT NULL DEFAULT 0 CHECK (onlyWithTasks IN (0, 1))
 );
 
-INSERT INTO DeckReviewPreferences DEFAULT VALUES;
+INSERT INTO DeckReviewFiltration DEFAULT VALUES;
+
+CREATE TABLE DeckReviewSorting (
+    criterion TEXT AS DeckSorting.Criterion NOT NULL DEFAULT 'LAST_OPENED_AT',
+    direction TEXT AS DeckSorting.Direction NOT NULL DEFAULT 'DESC'
+);
+
+INSERT INTO DeckReviewSorting DEFAULT VALUES;
 
 CREATE TABLE IntervalScheme (
     id INTEGER PRIMARY KEY,

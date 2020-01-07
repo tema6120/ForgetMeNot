@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class DeckSortingViewModel {
     val deckSorting: Flow<DeckSorting> = database.deckSortingViewModelQueries
-        .getDeckSorting()
+        .getDeckSorting(::DeckSorting)
         .asFlow()
         .mapToOne()
 }

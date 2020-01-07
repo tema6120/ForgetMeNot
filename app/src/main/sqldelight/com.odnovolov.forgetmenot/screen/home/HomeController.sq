@@ -2,8 +2,8 @@ setSearchText:
 UPDATE HomeState SET searchText = ?;
 
 toogleDisplayOnlyWithTasks:
-UPDATE DeckReviewPreferences
-SET displayOnlyWithTasks = (displayOnlyWithTasks == 0);
+UPDATE DeckReviewFiltration
+SET onlyWithTasks = (onlyWithTasks == 0);
 
 updateLastOpenedAt:
 UPDATE Deck SET lastOpenedAt = datetime('now') WHERE id IN ?;

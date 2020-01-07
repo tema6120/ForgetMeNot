@@ -54,8 +54,9 @@ private fun initSqlDriver(applicationContext: Context) {
 private fun initDatabaseInstance() {
     database = Database(
         sqliteDriver,
-        DeckReviewPreferences.Adapter(
-            deckSortingAdapter = EnumColumnAdapter()
+        DeckReviewSorting.Adapter(
+            criterionAdapter = EnumColumnAdapter(),
+            directionAdapter = EnumColumnAdapter()
         ),
         Pronunciation.Adapter(
             questionLanguageAdapter = localeAdapter,

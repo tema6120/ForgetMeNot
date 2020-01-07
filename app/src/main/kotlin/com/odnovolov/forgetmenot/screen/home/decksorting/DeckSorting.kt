@@ -1,7 +1,17 @@
 package com.odnovolov.forgetmenot.screen.home.decksorting
 
-enum class DeckSorting {
-    BY_LAST_CREATED,
-    BY_NAME,
-    BY_LAST_OPENED
+class DeckSorting(
+    val criterion: Criterion,
+    val direction: Direction
+) {
+    enum class Criterion {
+        NAME,
+        CREATED_AT,
+        LAST_OPENED_AT
+    }
+
+    enum class Direction {
+        ASC,
+        DESC
+    }
 }

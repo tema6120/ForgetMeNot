@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseBottomSheetDialogFragment
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.*
+import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.Criterion.*
+import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.Direction.ASC
+import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.Direction.DESC
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingEvent.SortByButtonClicked
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingOrder.DismissBottomSheet
 import kotlinx.android.synthetic.main.bottom_sheet_deck_sorting.*
@@ -41,14 +45,14 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun setOnClickListeners() {
-        sortByLastCreatedTextView.setOnClickListener {
-            controller.dispatch(SortByButtonClicked(BY_LAST_CREATED))
+        sortByNameButton.setOnClickListener {
+            controller.dispatch(SortByButtonClicked(NAME))
         }
-        sortByNameTextView.setOnClickListener {
-            controller.dispatch(SortByButtonClicked(BY_NAME))
+        sortByLastCreatedButton.setOnClickListener {
+            controller.dispatch(SortByButtonClicked(CREATED_AT))
         }
-        sortByLastOpenedTextView.setOnClickListener {
-            controller.dispatch(SortByButtonClicked(BY_LAST_OPENED))
+        sortByLastOpenedButton.setOnClickListener {
+            controller.dispatch(SortByButtonClicked(LAST_OPENED_AT))
         }
     }
 
@@ -64,27 +68,36 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.deckSorting.observe { deckSorting ->
-            setupSortingTextView(
-                sortByLastCreatedTextView,
-                isChecked = deckSorting == BY_LAST_CREATED
-            )
+        viewModel.deckSorting.observe {
             setupSortingTextView(
                 sortByNameTextView,
-                isChecked = deckSorting == BY_NAME
+                direction = if (it.criterion === NAME) it.direction else null
+            )
+            setupSortingTextView(
+                sortByLastCreatedTextView,
+                direction = if (it.criterion === CREATED_AT) it.direction else null
             )
             setupSortingTextView(
                 sortByLastOpenedTextView,
-                isChecked = deckSorting == BY_LAST_OPENED
+                direction = if (it.criterion === LAST_OPENED_AT) it.direction else null
             )
         }
     }
 
-    private fun setupSortingTextView(textView: TextView, isChecked: Boolean) {
-        textView.isClickable = !isChecked
-        textView.setCompoundDrawablesWithIntrinsicBounds(
-            0, 0, if (isChecked) R.drawable.ic_check_blue_24dp else 0, 0
-        )
+    private fun setupSortingTextView(textView: TextView, direction: Direction?) {
+        val resId = when (direction) {
+            null -> R.drawable.transparent_24dp
+            ASC -> R.drawable.ic_arrow_upward_dark_24dp
+            DESC -> R.drawable.ic_arrow_downward_dark_24dp
+        }
+        textView.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
+        if (direction == null) {
+            textView.background = null
+        } else {
+            textView.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.selected_item_background)
+            )
+        }
     }
 
     private fun executeOrder(order: DeckSortingOrder) {
