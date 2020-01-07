@@ -126,7 +126,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
                     app:layout_constraintEnd_toEndOf="@+id/controlPanel"
                     app:layout_constraintTop_toTopOf="@+id/controlPanel"
-                    app:srcCompat="@drawable/ic_done_white_24dp" />
+                    app:srcCompat="@drawable/done_button_selector" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

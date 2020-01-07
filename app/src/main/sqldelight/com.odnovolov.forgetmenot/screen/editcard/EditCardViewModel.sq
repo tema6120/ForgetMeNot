@@ -3,3 +3,6 @@ SELECT question FROM EditCardState;
 
 getAnswer:
 SELECT answer FROM EditCardState;
+
+isQuestionAndAnswerNotEmpty:
+SELECT question != '' AND answer != '' FROM EditCardState;

@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_edit_card.*
 
 class EditCardFragment : BaseFragment() {
     private val controller = EditCardController()
+    private val viewModel = EditCardViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +33,7 @@ class EditCardFragment : BaseFragment() {
         if (savedInstanceState == null) {
             updateText()
         }
+        viewModel.isDoneButtonEnabled.observe(onChange = doneButton::setEnabled)
         controller.orders.forEach(::executeOrder)
     }
 
@@ -44,10 +46,8 @@ class EditCardFragment : BaseFragment() {
     }
 
     private fun updateText() {
-        with(EditCardViewModel()) {
-            questionEditText.setText(question)
-            answerEditText.setText(answer)
-        }
+        questionEditText.setText(viewModel.question)
+        answerEditText.setText(viewModel.answer)
     }
 
     private fun executeOrder(order: EditCardOrder) {

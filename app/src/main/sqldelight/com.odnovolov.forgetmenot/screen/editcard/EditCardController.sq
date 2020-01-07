@@ -7,6 +7,9 @@ UPDATE EditCardState SET answer = ?;
 reverseQuestionAndAnswer:
 UPDATE EditCardState SET question = answer, answer = question;
 
+isQuestionAndAnswerNotEmpty:
+SELECT question != '' AND answer != '' FROM EditCardState;
+
 updateCard:
 UPDATE Card
 SET question = (SELECT question FROM EditCardState),

@@ -28,8 +28,10 @@ class EditCardController : BaseController<EditCardEvent, EditCardOrder>() {
             }
 
             DoneButtonClicked -> {
-                queries.updateCard()
-                issueOrder(NavigateUp)
+                if (queries.isQuestionAndAnswerNotEmpty().executeAsOne()) {
+                    queries.updateCard()
+                    issueOrder(NavigateUp)
+                }
             }
         }
     }
