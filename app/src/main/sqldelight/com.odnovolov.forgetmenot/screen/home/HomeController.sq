@@ -6,7 +6,7 @@ UPDATE DeckReviewPreferences
 SET displayOnlyWithTasks = (displayOnlyWithTasks == 0);
 
 updateLastOpenedAt:
-UPDATE Deck SET lastOpenedAt = datetime('now') WHERE id == ?;
+UPDATE Deck SET lastOpenedAt = datetime('now') WHERE id IN ?;
 
 dropTableCardBackup:
 DROP TABLE IF EXISTS CardBackup;
@@ -101,7 +101,7 @@ FROM
     LEFT JOIN Interval ON IntervalScheme.id == Interval.intervalSchemeId
                           AND Card.levelOfKnowledge == Interval.targetLevelOfKnowledge - 1
 WHERE
-     (Deck.id == ? OR Deck.id IN (SELECT * FROM DeckSelection))
+     Deck.id IN ?
      AND Card.isLearned == 0
      AND (
           ExercisePreference.intervalSchemeId IS NULL

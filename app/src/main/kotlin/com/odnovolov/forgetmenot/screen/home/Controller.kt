@@ -23,7 +23,7 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 if (queries.hasAnySelectedDeckId().executeAsOne()) {
                     toggleDeckSelection(event.deckId)
                 } else {
-                    startExercise(event.deckId)
+                    startExercise(listOf(event.deckId))
                 }
             }
 
@@ -49,7 +49,8 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             }
 
             StartExerciseMenuItemClicked -> {
-                startExercise(deckId = -1)
+                val deckIds = queries.getDeckSelection().executeAsList()
+                startExercise(deckIds)
             }
 
             is SelectAllDecksMenuItemClicked -> {
@@ -80,9 +81,9 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
         issueOrder(ShowDeckRemovingMessage(deckIds.size))
     }
 
-    private fun startExercise(deckId: Long) {
+    private fun startExercise(deckIds: List<Long>) {
         queries.cleanExerciseCard()
-        queries.initExerciseCard(deckId)
+        queries.initExerciseCard(deckIds)
         if (!queries.isThereAnyExerciseCard().executeAsOne()) {
             issueOrder(ShowNoCardsReadyForExercise)
             return
@@ -94,7 +95,7 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
         queries.cleanExercise()
         queries.initExercise()
         queries.clearDeckSelection()
-        queries.updateLastOpenedAt(deckId) // todo fix bug
+        queries.updateLastOpenedAt(deckIds)
         issueOrder(NavigateToExercise)
     }
 
