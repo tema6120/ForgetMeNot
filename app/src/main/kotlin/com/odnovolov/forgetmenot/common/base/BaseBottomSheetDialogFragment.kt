@@ -6,6 +6,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,6 +26,14 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
         coroutineScope.launch {
             collect {
                 onChange(it)
+            }
+        }
+    }
+
+    fun <Order> ReceiveChannel<Order>.forEach(execute: (order: Order) -> Unit) {
+        viewScope?.launch {
+            for (order in this@forEach) {
+                execute(order)
             }
         }
     }

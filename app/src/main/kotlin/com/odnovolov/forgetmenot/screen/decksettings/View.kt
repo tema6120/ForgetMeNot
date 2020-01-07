@@ -129,7 +129,7 @@ class DeckSettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        controller.orders.forEach(execute = ::executeOrder)
+        controller.orders.forEach(::executeOrder)
     }
 
     private fun setupView() {

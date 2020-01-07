@@ -32,7 +32,7 @@ class EditCardFragment : BaseFragment() {
         if (savedInstanceState == null) {
             updateText()
         }
-        controller.orders.forEach(viewScope!!, ::executeOrder)
+        controller.orders.forEach(::executeOrder)
     }
 
     private fun setupView() {

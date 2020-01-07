@@ -50,11 +50,8 @@ open class BaseFragment : Fragment() {
         }
     }
 
-    fun <Order> ReceiveChannel<Order>.forEach(
-        coroutineScope: CoroutineScope = fragmentScope,
-        execute: (order: Order) -> Unit
-    ) {
-        coroutineScope.launch {
+    fun <Order> ReceiveChannel<Order>.forEach(execute: (order: Order) -> Unit) {
+        viewScope?.launch {
             for (order in this@forEach) {
                 execute(order)
             }

@@ -14,7 +14,6 @@ import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.*
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingEvent.SortByButtonClicked
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingOrder.DismissBottomSheet
 import kotlinx.android.synthetic.main.bottom_sheet_deck_sorting.*
-import kotlinx.coroutines.launch
 
 class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
 
@@ -33,7 +32,7 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        takeOrders()
+        controller.orders.forEach(::executeOrder)
     }
 
     private fun setupView() {
@@ -88,13 +87,9 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
         )
     }
 
-    private fun takeOrders() {
-        fragmentScope.launch {
-            for (order in controller.orders) {
-                when (order) {
-                    DismissBottomSheet -> dismiss()
-                }
-            }
+    private fun executeOrder(order: DeckSortingOrder) {
+        when (order) {
+            DismissBottomSheet -> dismiss()
         }
     }
 

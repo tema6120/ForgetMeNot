@@ -21,7 +21,6 @@ import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckEvent.*
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.SetDialogText
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.ShowErrorMessage
 import kotlinx.android.synthetic.main.fragment_adddeck.*
-import kotlinx.coroutines.launch
 
 class AddDeckFragment : BaseFragment() {
 
@@ -42,7 +41,7 @@ class AddDeckFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        takeOrders()
+        controller.orders.forEach(::executeOrder)
     }
 
     private fun setupView() {
@@ -96,20 +95,14 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
-    private fun takeOrders() {
-        fragmentScope.launch {
-            for (order in controller.orders) {
-                when (order) {
-                    is ShowErrorMessage -> {
-                        Toast.makeText(context, order.text, Toast.LENGTH_SHORT).show()
-                    }
-                    is SetDialogText -> {
-                        if (viewScope != null) {
-                            deckNameEditText.setText(order.text)
-                            deckNameEditText.selectAll()
-                        }
-                    }
-                }
+    private fun executeOrder(order: AddDeckOrder) {
+        when (order) {
+            is ShowErrorMessage -> {
+                Toast.makeText(context, order.text, Toast.LENGTH_SHORT).show()
+            }
+            is SetDialogText -> {
+                deckNameEditText.setText(order.text)
+                deckNameEditText.selectAll()
             }
         }
     }

@@ -91,7 +91,7 @@ class ExerciseFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        controller.orders.forEach(viewScope!!, ::executeOrder)
+        controller.orders.forEach(::executeOrder)
     }
 
     private fun setupView() {
