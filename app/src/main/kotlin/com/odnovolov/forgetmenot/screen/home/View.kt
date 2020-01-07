@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -65,7 +66,7 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        takeOrders()
+        controller.orders.forEach(execute = ::executeOrder)
     }
 
     private fun setupView() {
@@ -98,33 +99,35 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun takeOrders() {
-        fragmentScope.launch {
-            for (order in controller.orders) {
-                when (order) {
-                    NavigateToExercise -> {
-                        actionMode?.finish()
-                        findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
-                    }
-                    NavigateToDeckSettings -> {
-                        actionMode?.finish()
-                        findNavController()
-                            .navigate(R.id.action_home_screen_to_deck_settings_screen)
-                    }
-                    ShowDeckWasDeletedMessage -> {
-                        Snackbar
-                            .make(
-                                homeFragmentRootView,
-                                getString(R.string.snackbar_message_deck_is_deleted),
-                                resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
-                            )
-                            .setAction(
-                                R.string.snackbar_action_cancel,
-                                { controller.dispatch(DeckIsDeletedSnackbarCancelActionClicked) }
-                            )
-                            .show()
-                    }
-                }
+    private fun executeOrder(order: HomeOrder) {
+        when (order) {
+            ShowNoCardsReadyForExercise -> {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.toast_text_no_cards_ready_for_exercise,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            NavigateToExercise -> {
+                actionMode?.finish()
+                findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
+            }
+            NavigateToDeckSettings -> {
+                actionMode?.finish()
+                findNavController().navigate(R.id.action_home_screen_to_deck_settings_screen)
+            }
+            ShowDeckWasDeletedMessage -> {
+                Snackbar
+                    .make(
+                        homeFragmentRootView,
+                        getString(R.string.snackbar_message_deck_is_deleted),
+                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+                    )
+                    .setAction(
+                        R.string.snackbar_action_cancel,
+                        { controller.dispatch(DeckIsDeletedSnackbarCancelActionClicked) }
+                    )
+                    .show()
             }
         }
     }

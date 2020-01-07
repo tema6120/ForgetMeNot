@@ -128,6 +128,9 @@ ORDER BY
    END,
    ordinal;
 
+isThereAnyExerciseCard:
+SELECT EXISTS (SELECT * FROM ExerciseCard);
+
 cleanQuiz:
 DELETE FROM Quiz;
 

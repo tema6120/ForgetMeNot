@@ -72,6 +72,10 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
     private fun startExercise(deckId: Long) {
         queries.cleanExerciseCard()
         queries.initExerciseCard(deckId)
+        if (!queries.isThereAnyExerciseCard().executeAsOne()) {
+            issueOrder(ShowNoCardsReadyForExercise)
+            return
+        }
         queries.cleanQuiz()
         QuizComposer.composeWhereItNeeds()
         queries.cleanAnswerInput()

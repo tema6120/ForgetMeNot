@@ -163,7 +163,7 @@ class ExerciseFragment : BaseFragment() {
             ShowIntervalsAreOffMessage -> {
                 Toast.makeText(
                     requireContext(),
-                    R.string.message_intervals_are_off,
+                    R.string.toast_text_no_cards_ready_for_exercise,
                     Toast.LENGTH_SHORT
                 ).show()
             }
