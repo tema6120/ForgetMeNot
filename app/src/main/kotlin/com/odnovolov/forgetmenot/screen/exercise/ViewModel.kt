@@ -9,9 +9,10 @@ import kotlinx.coroutines.flow.Flow
 class ExerciseViewModel {
     private val queries: ExerciseViewModelQueries = database.exerciseViewModelQueries
 
-    val exerciseCardsIdsAtStart: List<Long> = queries
-        .getAllExerciseCardIds()
-        .executeAsList()
+    val exerciseCardsIdsAtStart: List<Long>
+        get() = queries
+            .getAllExerciseCardIds()
+            .executeAsList()
 
     val exerciseCardIds: Flow<List<Long>> = queries
         .getAllExerciseCardIds()

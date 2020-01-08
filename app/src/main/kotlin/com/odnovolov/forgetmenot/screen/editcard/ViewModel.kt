@@ -8,8 +8,12 @@ import kotlinx.coroutines.flow.Flow
 class EditCardViewModel {
     private val queries: EditCardViewModelQueries = database.editCardViewModelQueries
 
-    val question: String = queries.getQuestion().executeAsOne()
-    val answer: String = queries.getAnswer().executeAsOne()
+    val question: String
+        get() = queries.getQuestion().executeAsOne()
+
+    val answer: String
+        get() = queries.getAnswer().executeAsOne()
+    
     val isDoneButtonEnabled: Flow<Boolean> = queries
         .isQuestionAndAnswerNotEmpty()
         .asFlow()

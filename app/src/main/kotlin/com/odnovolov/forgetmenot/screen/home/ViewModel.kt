@@ -21,7 +21,8 @@ class HomeViewModel {
         decksPreview.any { it.isSelected }
     }
 
-    private val selectedDecksPreview = decksPreview.map { it.filter(DeckPreview::isSelected) }
+    private val selectedDecksPreview: Flow<List<DeckPreview>> = decksPreview
+        .map { it.filter(DeckPreview::isSelected) }
 
     val selectedDecksCount: Flow<Int> = selectedDecksPreview.map { it.count() }
 

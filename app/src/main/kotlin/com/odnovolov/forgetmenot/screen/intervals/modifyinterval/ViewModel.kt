@@ -10,13 +10,15 @@ import kotlinx.coroutines.flow.map
 class ModifyIntervalViewModel {
     private val queries: ModifyIntervalViewModelQueries = database.modifyIntervalViewModelQueries
 
-    val intervalNumberText: String = queries.getIntervalNumber().executeAsOne().intervalNumber.let {
-        it?.toString() ?: ""
-    }
+    val intervalNumberText: String
+        get() = queries.getIntervalNumber().executeAsOne().intervalNumber.let {
+            it?.toString() ?: ""
+        }
 
-    val intervalUnit: IntervalUnit = queries.getIntervalUnit().executeAsOne().let {
-        IntervalUnit.valueOf(it)
-    }
+    val intervalUnit: IntervalUnit
+        get() = queries.getIntervalUnit().executeAsOne().let {
+            IntervalUnit.valueOf(it)
+        }
 
     val isOkButtonEnabled: Flow<Boolean> = queries.getIntervalNumber()
         .asFlow()
