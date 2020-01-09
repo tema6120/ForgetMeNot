@@ -30,7 +30,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="16dp"
-                        android:textColor="@color/textSecondary"
+                        android:textColor="@color/text_secondary_selector"
                         android:textIsSelectable="true"
                         android:textSize="20sp"
                         tools:text="Эти люди привычны к тяжелой работе." />
@@ -56,7 +56,7 @@
                         android:gravity="center"
                         android:padding="16dp"
                         android:text="@string/text_show_question_textview"
-                        android:textColor="@android:color/secondary_text_dark_nodisable"
+                        android:textColor="@color/text_curtain_selector"
                         android:textSize="18sp" />
 
             </FrameLayout>

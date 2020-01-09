@@ -72,6 +72,7 @@ SELECT ifnull(
 getWrongAnswer:
 SELECT
     CASE
+        WHEN 0 THEN min('just help sqldelight infer return type (String?)')
         WHEN isAnswerCorrect == 0 THEN answerInput
         ELSE NULL
     END AS wrongAnswer

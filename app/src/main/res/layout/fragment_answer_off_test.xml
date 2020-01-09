@@ -4,6 +4,7 @@
         android:layout_height="match_parent">
 
     <ScrollView
+            android:id="@+id/answerScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -13,7 +14,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:textColor="@color/textSecondary"
+                android:textColor="@color/text_secondary_selector"
                 android:textSize="18sp"
                 tools:text="These men are used to hard work." />
 
@@ -33,7 +34,7 @@
                 android:gravity="center"
                 android:padding="16dp"
                 android:text="@string/text_show_answer_textview"
-                android:textColor="@android:color/secondary_text_dark_nodisable"
+                android:textColor="@color/text_curtain_selector"
                 android:textSize="18sp" />
 
     </FrameLayout>

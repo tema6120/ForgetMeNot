@@ -84,47 +84,58 @@ class AnswerQuizTestFragment : BaseFragment() {
 
             isAnswered.combine(isLearned) { isAnswered, isLearned -> isAnswered to isLearned }
                 .observe {
-                    val (isAnswered: Boolean?, isLearned: Boolean?) = it
+                    val (isAnswered: Boolean, isLearned: Boolean) = it
 
-                    val isClickable = isAnswered == false && isLearned == false
+                    val isClickable = !isAnswered && !isLearned
                     variant1Button.isClickable = isClickable
                     variant2Button.isClickable = isClickable
                     variant3Button.isClickable = isClickable
                     variant4Button.isClickable = isClickable
 
-                    val isTextSelectable = isAnswered == true && isLearned == false
+                    val isTextSelectable = isAnswered && !isLearned
                     variant1TextView.setTextIsSelectable(isTextSelectable)
                     variant2TextView.setTextIsSelectable(isTextSelectable)
                     variant3TextView.setTextIsSelectable(isTextSelectable)
                     variant4TextView.setTextIsSelectable(isTextSelectable)
                 }
 
-            isLearned.observe { isLearned: Boolean? ->
-                val alpha = if (isLearned == true) 0.26f else 1f
+            isLearned.observe { isLearned: Boolean ->
+                variant1Button.isEnabled = !isLearned
+                variant2Button.isEnabled = !isLearned
+                variant3Button.isEnabled = !isLearned
+                variant4Button.isEnabled = !isLearned
 
-                variant1Button.alpha = alpha
-                variant2Button.alpha = alpha
-                variant3Button.alpha = alpha
-                variant4Button.alpha = alpha
-
-                variant1TextView.alpha = alpha
-                variant2TextView.alpha = alpha
-                variant3TextView.alpha = alpha
-                variant4TextView.alpha = alpha
+                variant1TextView.isEnabled = !isLearned
+                variant2TextView.isEnabled = !isLearned
+                variant3TextView.isEnabled = !isLearned
+                variant4TextView.isEnabled = !isLearned
             }
         }
     }
 
     private fun observeVariantStatus(source: Flow<VariantStatus>, variantView: View) {
         source.observe { variantStatus ->
-            when (variantStatus) {
-                Unselected -> variantView.background = null
-                Correct -> variantView.setBackgroundColor(
-                    ContextCompat.getColor(requireContext(), R.color.correct_answer)
-                )
-                Wrong -> variantView.setBackgroundColor(
-                    ContextCompat.getColor(requireContext(), R.color.wrong_answer)
-                )
+            with(variantView) {
+                when (variantStatus) {
+                    Unselected -> {
+                        isSelected = false
+                        background = null
+                    }
+                    Correct -> {
+                        isSelected = true
+                        background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.correct_answer_selector
+                        )
+                    }
+                    Wrong -> {
+                        isSelected = true
+                        background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.wrong_answer_selector
+                        )
+                    }
+                }
             }
         }
     }

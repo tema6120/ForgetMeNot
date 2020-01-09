@@ -11,17 +11,17 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.EditText
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.*
-import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.common.toFlagEmoji
 import com.odnovolov.forgetmenot.screen.pronunciation.LanguageRecyclerAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationEvent.*
 import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationOrder.SetDialogText
@@ -297,13 +297,7 @@ class LanguageRecyclerAdapter(
                 languageNameTextView.text = dropdownLanguage.language.displayLanguage
                 flagTextView.text = dropdownLanguage.language.toFlagEmoji()
             }
-            if (dropdownLanguage.isSelected) {
-                val backgroundColor =
-                    ContextCompat.getColor(context, R.color.selected_item_background)
-                languageFrame.setBackgroundColor(backgroundColor)
-            } else {
-                languageFrame.background = null
-            }
+            isSelected = dropdownLanguage.isSelected
             languageItemButton.setOnClickListener {
                 onItemClick(dropdownLanguage.language)
             }

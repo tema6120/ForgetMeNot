@@ -1,5 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="false"
-            android:drawable="@drawable/ic_done_white_disabled_24dp"/>
+    <item android:drawable="@drawable/ic_done_white_disabled_24dp" android:state_enabled="false" />
     <item android:drawable="@drawable/ic_done_white_24dp" />
 </selector>

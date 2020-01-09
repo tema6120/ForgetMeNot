@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.manual.AnswerManualTestEvent.*
@@ -58,27 +57,16 @@ class AnswerManualTestFragment : BaseFragment() {
             isAnswerCorrect.observe { isAnswerCorrect: Boolean? ->
                 isAnswerCorrect ?: return@observe
                 curtainView.visibility = GONE
-                if (isAnswerCorrect) {
-                    val backgroundColor = ContextCompat
-                        .getColor(requireContext(), R.color.correct_answer)
-                    rememberButton.setBackgroundColor(backgroundColor)
-                    notRememberButton.background = null
-                } else {
-                    val backgroundColor = ContextCompat
-                        .getColor(requireContext(), R.color.wrong_answer)
-                    notRememberButton.setBackgroundColor(backgroundColor)
-                    rememberButton.background = null
-                }
+                rememberButton.isSelected = isAnswerCorrect
+                notRememberButton.isSelected = !isAnswerCorrect
             }
-            isLearned.observe { isLearned: Boolean? ->
-                val isViewEnable = isLearned == false
-                answerTextView.setTextIsSelectable(isViewEnable)
-                rememberButton.isClickable = isViewEnable
-                notRememberButton.isClickable = isViewEnable
-                val alpha = if (isLearned == true) 0.26f else 1f
-                answerTextView.alpha = alpha
-                rememberButton.alpha = alpha
-                notRememberButton.alpha = alpha
+            isLearned.observe { isLearned: Boolean ->
+                answerScrollView.isEnabled = !isLearned
+                answerTextView.isEnabled = !isLearned
+                rememberTextView.isEnabled = !isLearned
+                rememberButton.isEnabled = !isLearned
+                notRememberTextView.isEnabled = !isLearned
+                notRememberButton.isEnabled = !isLearned
             }
         }
     }

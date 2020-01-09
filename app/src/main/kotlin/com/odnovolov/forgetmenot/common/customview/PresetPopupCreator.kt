@@ -11,13 +11,12 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.dp
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter.ViewHolder
+import com.odnovolov.forgetmenot.common.dp
 import kotlinx.android.synthetic.main.fragment_deck_settings.view.presetNameTextView
 import kotlinx.android.synthetic.main.item_preset.view.*
 
@@ -85,13 +84,7 @@ object PresetPopupCreator {
                     preset.name.isEmpty() -> context.getString(R.string.individual_name)
                     else -> "'${preset.name}'"
                 }
-                if (preset.isSelected) {
-                    val backgroundColor =
-                        ContextCompat.getColor(context, R.color.selected_item_background)
-                    setBackgroundColor(backgroundColor)
-                } else {
-                    background = null
-                }
+                isSelected = preset.isSelected
                 setPresetButton.setOnClickListener {
                     setPresetButtonClickListener.invoke(preset.id)
                 }

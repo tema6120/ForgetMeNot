@@ -26,7 +26,7 @@
                     android:paddingTop="8dp"
                     android:paddingRight="16dp"
                     android:paddingBottom="8dp"
-                    android:textColor="@color/textSecondary"
+                    android:textColor="@color/text_secondary_selector"
                     android:textSize="18sp"
                     tools:text="freely" />
 
@@ -57,7 +57,7 @@
                     android:paddingTop="8dp"
                     android:paddingRight="16dp"
                     android:paddingBottom="8dp"
-                    android:textColor="@color/textSecondary"
+                    android:textColor="@color/text_secondary_selector"
                     android:textSize="18sp"
                     tools:text="assiduously" />
 
@@ -88,7 +88,7 @@
                     android:paddingTop="8dp"
                     android:paddingRight="16dp"
                     android:paddingBottom="8dp"
-                    android:textColor="@color/textSecondary"
+                    android:textColor="@color/text_secondary_selector"
                     android:textSize="18sp"
                     tools:text="chronically" />
 
@@ -120,7 +120,7 @@
                     android:paddingTop="8dp"
                     android:paddingRight="16dp"
                     android:paddingBottom="8dp"
-                    android:textColor="@color/textSecondary"
+                    android:textColor="@color/text_secondary_selector"
                     android:textSize="18sp"
                     tools:text="feebly" />
 

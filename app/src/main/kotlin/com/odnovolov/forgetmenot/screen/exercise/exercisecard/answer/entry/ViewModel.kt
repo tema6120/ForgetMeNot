@@ -8,24 +8,24 @@ import kotlinx.coroutines.flow.map
 class AnswerEntryTestViewModel(id: Long) {
     private val queries: ExerciseCardViewModelQueries = database.exerciseCardViewModelQueries
 
-    val isAnswered: Flow<Boolean?> = queries
+    val isAnswered: Flow<Boolean> = queries
         .isAnswered(id)
         .asFlow()
-        .mapToOneOrNull()
+        .mapToOneNotNull()
 
-    val correctAnswer: Flow<String?> = queries
+    val correctAnswer: Flow<String> = queries
         .getAnswer(id)
         .asFlow()
-        .mapToOneOrNull()
+        .mapToOneNotNull()
 
     val wrongAnswer: Flow<String?> = queries
         .getWrongAnswer(id)
         .asFlow()
-        .mapToOne()
+        .mapToOneNotNull()
         .map { it.wrongAnswer }
 
-    val isLearned: Flow<Boolean?> = queries
+    val isLearned: Flow<Boolean> = queries
         .isLearned(id)
         .asFlow()
-        .mapToOneOrNull()
+        .mapToOneNotNull()
 }

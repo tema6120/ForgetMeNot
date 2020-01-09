@@ -1,9 +1,6 @@
 package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz
 
-import com.odnovolov.forgetmenot.common.database.asFlow
-import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.database.mapToOne
-import com.odnovolov.forgetmenot.common.database.mapToOneOrNull
+import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecards.ExerciseCardViewModelQueries
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -40,7 +37,7 @@ class AnswerQuizTestViewModel(id: Long) {
         .mapToOne()
         .map { VariantStatus.valueOf(it) }
 
-    val isAnswered: Flow<Boolean?> = queries.isAnswered(id).asFlow().mapToOneOrNull()
+    val isAnswered: Flow<Boolean> = queries.isAnswered(id).asFlow().mapToOneNotNull()
 
-    val isLearned: Flow<Boolean?> = queries.isLearned(id).asFlow().mapToOneOrNull()
+    val isLearned: Flow<Boolean> = queries.isLearned(id).asFlow().mapToOneNotNull()
 }

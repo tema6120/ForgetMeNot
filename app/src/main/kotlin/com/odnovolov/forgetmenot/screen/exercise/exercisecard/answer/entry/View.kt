@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.entry
 
+import android.content.Context
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +8,13 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.observeText
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.entry.AnswerEntryTestEvent.*
 import kotlinx.android.synthetic.main.fragment_answer_entry_test.*
+import kotlinx.coroutines.flow.combine
 
 class AnswerEntryTestFragment : BaseFragment() {
     companion object {
@@ -49,7 +52,16 @@ class AnswerEntryTestFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        answerEditText.observeText { controller.dispatch(AnswerInputChanged(it)) }
+        answerEditText.run {
+            observeText { controller.dispatch(AnswerInputChanged(it)) }
+            setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    val imm = requireContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(answerEditText, 0)
+                }
+            }
+        }
         checkButton.setOnClickListener { controller.dispatch(CheckButtonClicked) }
         correctAnswerTextView.observeSelectedText {
             controller.dispatch(AnswerTextSelectionChanged(it))
@@ -62,15 +74,14 @@ class AnswerEntryTestFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            isAnswered.observe { isAnswered: Boolean? ->
-                if (isAnswered == true) {
+            isAnswered.observe { isAnswered: Boolean ->
+                if (isAnswered) {
                     inputLayout.visibility = GONE
                     answerScrollView.visibility = VISIBLE
                 } else {
                     inputLayout.visibility = VISIBLE
                     answerScrollView.visibility = GONE
                 }
-                answerEditText.isEnabled = isAnswered != true
             }
             correctAnswer.observe(onChange = correctAnswerTextView::setText)
             wrongAnswer.observe { wrongAnswer: String? ->
@@ -81,21 +92,23 @@ class AnswerEntryTestFragment : BaseFragment() {
                     wrongAnswerTextView.visibility = VISIBLE
                 }
             }
-            answerEditText.setText("")
-            isLearned.observe { isLearned: Boolean? ->
-                val isViewEnable = isLearned == false
-                answerEditText.isEnabled = isViewEnable
-                checkButton.isEnabled = isViewEnable
-                correctAnswerTextView.isEnabled = isViewEnable
-                wrongAnswerTextView.isEnabled = isViewEnable
-
-                val alpha = if (isLearned == true) 0.26f else 1f
-                answerEditText.alpha = alpha
-                checkButton.alpha = alpha
-                wrongAnswerTextView.alpha = alpha
-                correctAnswerTextView.alpha = alpha
+            isLearned.observe { isLearned: Boolean ->
+                answerInputScrollView.isEnabled = !isLearned
+                checkButton.isEnabled = !isLearned
+                checkTextView.isEnabled = !isLearned
+                answerScrollView.isEnabled = !isLearned
+                wrongAnswerTextView.isEnabled = !isLearned
+                correctAnswerTextView.isEnabled = !isLearned
             }
+            isAnswered.combine(isLearned) { isAnswered, isLearned -> !isAnswered && !isLearned }
+                .observe(onChange = answerEditText::setEnabled)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        answerEditText.requestFocus()
+        answerEditText.postDelayed({ answerEditText.requestFocus() }, 100)
     }
 
     override fun onDestroy() {

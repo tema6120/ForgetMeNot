@@ -54,24 +54,14 @@ class AnswerOffTestFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             answer.observe(onChange = answerTextView::setText)
-            isAnswered.observe { isAnswered: Boolean? ->
-                showAnswerButton.run {
-                    if (isAnswered == true) {
-                        visibility = GONE
-                        setOnClickListener(null)
-                    } else {
-                        visibility = VISIBLE
-                        setOnClickListener { controller.dispatch(ShowAnswerButtonClicked) }
-                    }
-                }
+            isAnswered.observe { isAnswered: Boolean ->
+                showAnswerButton.visibility = if (isAnswered) GONE else VISIBLE
             }
-            isLearned.observe { isLearned: Boolean? ->
-                val isViewEnable = isLearned == false
-                answerTextView.setTextIsSelectable(isViewEnable)
-                showAnswerButton.isClickable = isViewEnable
-                val alpha = if (isLearned == true) 0.26f else 1f
-                showAnswerTextView.alpha = alpha
-                answerTextView.alpha = alpha
+            isLearned.observe { isLearned: Boolean ->
+                answerScrollView.isEnabled = !isLearned
+                answerTextView.isEnabled = !isLearned
+                showAnswerButton.isEnabled = !isLearned
+                showAnswerTextView.isEnabled = !isLearned
             }
         }
     }

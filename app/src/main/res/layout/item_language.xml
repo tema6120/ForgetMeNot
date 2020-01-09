@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/languageFrame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_selectable_item">
 
     <LinearLayout
             android:id="@+id/languageItemButton"

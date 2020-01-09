@@ -52,7 +52,7 @@ CREATE TEMPORARY TABLE Quiz (
 answerInput:
 CREATE TEMPORARY TABLE AnswerInput (
     exerciseCardId INTEGER PRIMARY KEY REFERENCES ExerciseCard ON DELETE CASCADE,
-    answerInput TEXT
+    answerInput TEXT NOT NULL DEFAULT ''
 );
 
 editCardState:

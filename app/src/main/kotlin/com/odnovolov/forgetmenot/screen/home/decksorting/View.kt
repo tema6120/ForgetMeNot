@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseBottomSheetDialogFragment
-import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.*
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.Criterion.*
+import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.Direction
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.Direction.ASC
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting.Direction.DESC
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingEvent.SortByButtonClicked
@@ -91,13 +90,7 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
             DESC -> R.drawable.ic_arrow_downward_dark_24dp
         }
         textView.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
-        if (direction == null) {
-            textView.background = null
-        } else {
-            textView.setBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.selected_item_background)
-            )
-        }
+        textView.isSelected = direction != null
     }
 
     private fun executeOrder(order: DeckSortingOrder) {

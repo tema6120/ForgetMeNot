@@ -9,7 +9,6 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -306,13 +305,7 @@ private class DeckPreviewAdapter(
                 taskIndicatorTextView.text = deckPreview.numberOfCardsReadyForExercise.toString()
                 taskIndicatorTextView.visibility = VISIBLE
             }
-            if (deckPreview.isSelected) {
-                setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.selected_item_background)
-                )
-            } else {
-                background = null
-            }
+            isSelected = deckPreview.isSelected
         }
     }
 

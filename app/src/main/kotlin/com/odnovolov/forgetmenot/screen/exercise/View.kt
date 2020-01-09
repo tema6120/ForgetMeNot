@@ -24,7 +24,6 @@ import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import com.odnovolov.forgetmenot.screen.exercise.IntervalsAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
-import kotlinx.android.synthetic.main.fragment_exercise.levelOfKnowledgeTextView
 import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,7 +33,6 @@ class ExerciseFragment : BaseFragment() {
     private val controller = ExerciseController()
     private val viewModel = ExerciseViewModel()
     private lateinit var speaker: Speaker
-    private lateinit var exerciseCardsAdapter: ExerciseCardsAdapter
     private lateinit var setLevelOfKnowledgePopup: PopupWindow
     private lateinit var intervalsAdapter: IntervalsAdapter
 
@@ -100,13 +98,8 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupViewPagerAdapter() {
-        exerciseCardsAdapter = ExerciseCardsAdapter(fragment = this)
-        exerciseViewPager.adapter = exerciseCardsAdapter
-        exerciseViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                controller.dispatch(NewPageBecameSelected(position))
-            }
-        })
+        exerciseViewPager.adapter = ExerciseCardsAdapter(fragment = this)
+        exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
     }
 
     private fun setupControlPanel() {
@@ -121,7 +114,8 @@ class ExerciseFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            // we help ViewPager to restore its state
+            val exerciseCardsAdapter = exerciseViewPager.adapter as ExerciseCardsAdapter
+            // we help ViewPager restore its state
             exerciseCardsAdapter.exerciseCardIds = exerciseCardsIdsAtStart
             exerciseCardIds.observe { exerciseCardsAdapter.exerciseCardIds = it }
             isCurrentExerciseCardLearned.observe { isCurrentCardLearned ->
@@ -192,6 +186,8 @@ class ExerciseFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         exerciseViewPager.adapter = null
+        exerciseViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
+        (setLevelOfKnowledgePopup.contentView as RecyclerView).adapter = null
     }
 
     override fun onDestroy() {
@@ -199,6 +195,12 @@ class ExerciseFragment : BaseFragment() {
         (activity as AppCompatActivity).supportActionBar?.show()
         controller.dispose()
         speaker.shutdown()
+    }
+
+    private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            controller.dispatch(NewPageBecameSelected(position))
+        }
     }
 }
 

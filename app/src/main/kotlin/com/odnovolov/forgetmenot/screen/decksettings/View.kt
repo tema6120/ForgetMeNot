@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
@@ -22,6 +21,7 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.common.dp
 import com.odnovolov.forgetmenot.common.entity.CardReverse
 import com.odnovolov.forgetmenot.common.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsEvent.*
@@ -165,7 +165,7 @@ class DeckSettingsFragment : BaseFragment() {
     private fun showChooseExercisePreferencePopup() {
         val location = IntArray(2)
         presetNameTextView.getLocationOnScreen(location)
-        val x = location[0] + presetNameTextView.width - chooseExercisePreferencePopup.width
+        val x = location[0] + presetNameTextView.width - chooseExercisePreferencePopup.width - 8.dp
         val y = location[1]
         chooseExercisePreferencePopup.showAtLocation(
             presetNameTextView.rootView,

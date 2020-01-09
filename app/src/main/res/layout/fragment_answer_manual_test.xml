@@ -18,7 +18,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:textColor="@color/textSecondary"
+                android:textColor="@color/text_secondary_selector"
+                android:textIsSelectable="true"
                 android:textSize="18sp" />
 
     </ScrollView>
@@ -28,8 +29,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/curtain"
-            android:clickable="true"
-            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="@id/answerScrollView"
             app:layout_constraintEnd_toEndOf="@id/answerScrollView"
             app:layout_constraintStart_toStartOf="@id/answerScrollView"
@@ -45,19 +44,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/answerScrollView" />
 
-    <TextView
+    <FrameLayout
             android:id="@+id/rememberButton"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="@string/text_remember_button"
-            android:textColor="@color/textSecondary"
-            android:textSize="18sp"
+            android:background="@drawable/correct_answer_selector"
+            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider2" />
+
+    <TextView
+            android:id="@+id/rememberTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/text_remember_button"
+            android:textColor="@color/text_secondary_selector"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/rememberButton"
+            app:layout_constraintEnd_toEndOf="@+id/rememberButton"
+            app:layout_constraintStart_toStartOf="@+id/rememberButton"
+            app:layout_constraintTop_toTopOf="@+id/rememberButton" />
 
     <View
             android:id="@+id/divider3"
@@ -69,18 +78,28 @@
             app:layout_constraintStart_toEndOf="@+id/rememberButton"
             app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
-    <TextView
+    <FrameLayout
             android:id="@+id/notRememberButton"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="@string/text_not_remember_button"
-            android:textColor="@color/textSecondary"
-            android:textSize="18sp"
+            android:background="@drawable/wrong_answer_selector"
+            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider3"
             app:layout_constraintTop_toBottomOf="@id/divider2" />
+
+    <TextView
+            android:id="@+id/notRememberTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/text_not_remember_button"
+            android:textColor="@color/text_secondary_selector"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/notRememberButton"
+            app:layout_constraintEnd_toEndOf="@+id/notRememberButton"
+            app:layout_constraintStart_toStartOf="@+id/notRememberButton"
+            app:layout_constraintTop_toTopOf="@+id/notRememberButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

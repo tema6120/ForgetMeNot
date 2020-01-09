@@ -7,23 +7,23 @@ import kotlinx.coroutines.flow.Flow
 class ExerciseCardViewModel(id: Long) {
     private val queries = database.exerciseCardViewModelQueries
 
-    val testMethod: TestMethod = queries
+    val testMethod: TestMethod? = queries
         .getTestMethod(id)
-        .executeAsOne()
-        .let(testMethodAdapter::decode)
+        .executeAsOneOrNull()
+        ?.let(testMethodAdapter::decode)
 
-    val question: Flow<String?> = queries
+    val question: Flow<String> = queries
         .getQuestion(id)
         .asFlow()
-        .mapToOneOrNull()
+        .mapToOneNotNull()
 
-    val isQuestionDisplayed: Flow<Boolean?> = queries
+    val isQuestionDisplayed: Flow<Boolean> = queries
         .isQuestionDisplayed(id)
         .asFlow()
-        .mapToOneOrNull()
+        .mapToOneNotNull()
 
-    val isLearned: Flow<Boolean?> = queries
+    val isLearned: Flow<Boolean> = queries
         .isLearned(id)
         .asFlow()
-        .mapToOneOrNull()
+        .mapToOneNotNull()
 }

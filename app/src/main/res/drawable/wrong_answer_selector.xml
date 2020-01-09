@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:state_enabled="true" android:drawable="@color/wrong_answer" />
+    <item android:state_selected="true" android:state_enabled="false" android:drawable="@color/wrong_answer_disabled" />
+</selector>
