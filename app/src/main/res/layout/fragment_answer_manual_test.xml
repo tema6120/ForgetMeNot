@@ -8,7 +8,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/horizontalDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -24,25 +25,46 @@
 
     </ScrollView>
 
+    <ScrollView
+            android:id="@+id/hintScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/horizontalDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+                android:id="@+id/hintTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/text_secondary_selector"
+                android:textIsSelectable="true"
+                android:textSize="18sp" />
+
+    </ScrollView>
+
     <View
             android:id="@+id/curtainView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/curtain"
-            app:layout_constraintBottom_toBottomOf="@id/answerScrollView"
-            app:layout_constraintEnd_toEndOf="@id/answerScrollView"
-            app:layout_constraintStart_toStartOf="@id/answerScrollView"
-            app:layout_constraintTop_toTopOf="@id/answerScrollView" />
+            app:layout_constraintBottom_toTopOf="@+id/horizontalDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <View
-            android:id="@+id/divider2"
+            android:id="@+id/horizontalDivider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toTopOf="@+id/rememberButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/answerScrollView" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     <FrameLayout
             android:id="@+id/rememberButton"
@@ -51,9 +73,8 @@
             android:background="@drawable/correct_answer_selector"
             android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/divider3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider2" />
+            app:layout_constraintEnd_toStartOf="@+id/verticalDivider"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
             android:id="@+id/rememberTextView"
@@ -69,14 +90,14 @@
             app:layout_constraintTop_toTopOf="@+id/rememberButton" />
 
     <View
-            android:id="@+id/divider3"
+            android:id="@+id/verticalDivider"
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/notRememberButton"
             app:layout_constraintStart_toEndOf="@+id/rememberButton"
-            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+            app:layout_constraintTop_toBottomOf="@+id/horizontalDivider" />
 
     <FrameLayout
             android:id="@+id/notRememberButton"
@@ -86,8 +107,7 @@
             android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider3"
-            app:layout_constraintTop_toBottomOf="@id/divider2" />
+            app:layout_constraintStart_toEndOf="@+id/verticalDivider" />
 
     <TextView
             android:id="@+id/notRememberTextView"

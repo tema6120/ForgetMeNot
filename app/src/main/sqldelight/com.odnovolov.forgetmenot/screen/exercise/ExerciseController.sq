@@ -54,6 +54,17 @@ SELECT
     doNotSpeakTextInBrackets
 FROM Exercise, CurrentExercisePronunciation, CurrentExerciseCard;
 
+getHintAndAnswerForCurrentExerciseCard:
+SELECT hint, answer FROM CurrentExerciseCard;
+
+getAnswerForCurrentExerciseCard:
+SELECT answer FROM CurrentExerciseCard;
+
+setHintForCurrentExerciseCard:
+UPDATE ExerciseCard SET hint = ? WHERE id == (
+    SELECT currentExerciseCardId FROM Exercise
+);
+
 setQuizTestMethodForCurrentExerciseCard:
 UPDATE ExerciseCard SET testMethod = 'Quiz' WHERE id == (
     SELECT currentExerciseCardId FROM Exercise

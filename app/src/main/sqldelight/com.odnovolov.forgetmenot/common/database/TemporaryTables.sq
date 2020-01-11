@@ -36,7 +36,8 @@ CREATE TEMPORARY TABLE ExerciseCard (
     testMethod TEXT NOT NULL, -- AS TestMethod
     pronunciationId INTEGER NOT NULL,
     isReverse INTEGER AS Boolean NOT NULL,
-    isVisible INTEGER AS Boolean NOT NULL DEFAULT 1
+    isVisible INTEGER AS Boolean NOT NULL DEFAULT 1,
+    hint TEXT
 );
 
 quiz:

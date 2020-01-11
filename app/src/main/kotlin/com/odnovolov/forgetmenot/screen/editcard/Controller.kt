@@ -30,6 +30,7 @@ class EditCardController : BaseController<EditCardEvent, EditCardOrder>() {
             DoneButtonClicked -> {
                 if (queries.isQuestionAndAnswerNotEmpty().executeAsOne()) {
                     queries.updateCard()
+                    queries.resetHint()
                     issueOrder(NavigateUp)
                 }
             }

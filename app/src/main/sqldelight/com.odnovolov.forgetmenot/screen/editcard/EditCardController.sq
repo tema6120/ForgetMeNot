@@ -15,3 +15,8 @@ UPDATE Card
 SET question = (SELECT question FROM EditCardState),
     answer = (SELECT answer FROM EditCardState)
 WHERE id == (SELECT cardId FROM CurrentExerciseCard);
+
+resetHint:
+UPDATE ExerciseCard
+SET hint = NULL
+WHERE cardId == (SELECT cardId FROM CurrentExerciseCard);

@@ -63,7 +63,15 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             }
 
             HintButtonClicked -> {
-                issueOrder(ShowChooseHintPopup)
+                val hintAndAnswer = queries.getHintAndAnswerForCurrentExerciseCard().executeAsOne()
+                val hint: String? = hintAndAnswer.hint
+                if (hint == null) {
+                    issueOrder(ShowChooseHintPopup)
+                } else {
+                    val answer: String = hintAndAnswer.answer
+                    val newHint: String = Prompter.unmaskFirst(answer, hint)
+                    queries.setHintForCurrentExerciseCard(newHint)
+                }
             }
 
             HintAsQuizButtonClicked -> {
@@ -72,7 +80,9 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             }
 
             HintMaskLettersButtonClicked -> {
-
+                val answer: String = queries.getAnswerForCurrentExerciseCard().executeAsOne()
+                val hint: String = Prompter.maskLetters(answer)
+                queries.setHintForCurrentExerciseCard(hint)
             }
 
             AnswerAutoSpeakTriggered -> {

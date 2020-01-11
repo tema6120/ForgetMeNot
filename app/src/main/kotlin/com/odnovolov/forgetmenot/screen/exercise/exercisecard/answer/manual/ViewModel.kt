@@ -19,6 +19,12 @@ class AnswerManualTestViewModel(id: Long) {
         .mapToOneNotNull()
         .map { it.isAnswerCorrect }
 
+    val hint: Flow<String?> = queries
+        .getHint(id)
+        .asFlow()
+        .mapToOne()
+        .map { it.hint }
+
     val isLearned: Flow<Boolean> = queries
         .isLearned(id)
         .asFlow()

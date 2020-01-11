@@ -25,6 +25,9 @@ SELECT isAnswerCorrect IS NOT NULL FROM ExerciseCard WHERE id = ?;
 isAnswerCorrect:
 SELECT isAnswerCorrect FROM ExerciseCard WHERE id == ?;
 
+getHint:
+SELECT hint FROM ExerciseCard WHERE id == ?;
+
 isLearned:
 SELECT isLearned FROM Card WHERE Card.id == (
     SELECT cardId FROM ExerciseCard WHERE ExerciseCard.id == ?
