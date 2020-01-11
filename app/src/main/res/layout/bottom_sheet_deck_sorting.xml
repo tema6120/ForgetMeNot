@@ -36,13 +36,13 @@
     </FrameLayout>
 
     <FrameLayout
-            android:id="@+id/sortByLastCreatedButton"
+            android:id="@+id/sortByTimeCreatedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground">
 
         <TextView
-                android:id="@+id/sortByLastCreatedTextView"
+                android:id="@+id/sortByTimeCreatedTextView"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/background_selectable_item"
@@ -50,7 +50,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="@string/sort_by_last_created"
+                android:text="@string/sort_by_time_created"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 tools:drawableStart="@drawable/transparent_24dp" />
@@ -58,13 +58,13 @@
     </FrameLayout>
 
     <FrameLayout
-            android:id="@+id/sortByLastOpenedButton"
+            android:id="@+id/sortByTimeLastOpenedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground">
 
         <TextView
-                android:id="@+id/sortByLastOpenedTextView"
+                android:id="@+id/sortByTimeLastOpenedTextView"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/background_selectable_item"
@@ -72,7 +72,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="@string/sort_by_last_opened"
+                android:text="@string/sort_by_time_last_opened"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 tools:background="@color/selected_item_background"

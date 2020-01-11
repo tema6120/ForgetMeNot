@@ -35,7 +35,7 @@ INSERT INTO DeckReviewFiltration DEFAULT VALUES;
 
 CREATE TABLE DeckReviewSorting (
     criterion TEXT AS DeckSorting.Criterion NOT NULL DEFAULT 'LAST_OPENED_AT',
-    direction TEXT AS DeckSorting.Direction NOT NULL DEFAULT 'DESC'
+    direction TEXT AS DeckSorting.Direction NOT NULL DEFAULT 'ASC'
 );
 
 INSERT INTO DeckReviewSorting DEFAULT VALUES;

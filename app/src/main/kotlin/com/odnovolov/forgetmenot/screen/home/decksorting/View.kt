@@ -47,10 +47,10 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
         sortByNameButton.setOnClickListener {
             controller.dispatch(SortByButtonClicked(NAME))
         }
-        sortByLastCreatedButton.setOnClickListener {
+        sortByTimeCreatedButton.setOnClickListener {
             controller.dispatch(SortByButtonClicked(CREATED_AT))
         }
-        sortByLastOpenedButton.setOnClickListener {
+        sortByTimeLastOpenedButton.setOnClickListener {
             controller.dispatch(SortByButtonClicked(LAST_OPENED_AT))
         }
     }
@@ -73,11 +73,11 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
                 direction = if (it.criterion === NAME) it.direction else null
             )
             setupSortingTextView(
-                sortByLastCreatedTextView,
+                sortByTimeCreatedTextView,
                 direction = if (it.criterion === CREATED_AT) it.direction else null
             )
             setupSortingTextView(
-                sortByLastOpenedTextView,
+                sortByTimeLastOpenedTextView,
                 direction = if (it.criterion === LAST_OPENED_AT) it.direction else null
             )
         }

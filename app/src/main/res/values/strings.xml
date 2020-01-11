@@ -25,8 +25,8 @@
     <string name="action_remove_decks">Remove decks</string>
     <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
     <string name="sort_by_name">Name</string>
-    <string name="sort_by_last_created">Last created</string>
-    <string name="sort_by_last_opened">Last opened</string>
+    <string name="sort_by_time_created">Time created</string>
+    <string name="sort_by_time_last_opened">Time last opened</string>
     <string name="title_deck_settings_toolbar">Deck Settings</string>
     <string name="title_name_section">Name</string>
     <string name="title_exercise_preferences_section">Exercise Preferences</string>
