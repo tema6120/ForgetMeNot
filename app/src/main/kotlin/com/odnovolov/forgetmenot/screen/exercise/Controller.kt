@@ -63,13 +63,17 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             }
 
             HintButtonClicked -> {
-                val hintAndAnswer = queries.getHintAndAnswerForCurrentExerciseCard().executeAsOne()
-                val hint: String? = hintAndAnswer.hint
+                val (hint: String?, answer: String, startIndex: Int, endIndex: Int)
+                        = queries.getHintInfo().executeAsOne() as GetHintInfo.Impl
                 if (hint == null) {
                     issueOrder(ShowChooseHintPopup)
                 } else {
-                    val answer: String = hintAndAnswer.answer
-                    val newHint: String = Prompter.unmaskFirst(answer, hint)
+                    val hasSelection = endIndex - startIndex > 0
+                    val newHint: String = if (hasSelection) {
+                        Prompter.unmaskRange(answer, hint, startIndex, endIndex)
+                    } else {
+                        Prompter.unmaskFirst(answer, hint)
+                    }
                     queries.setHintForCurrentExerciseCard(newHint)
                 }
             }

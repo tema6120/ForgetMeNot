@@ -15,28 +15,46 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
     defStyleAttr,
     defStyleRes
 ) {
-    private var selectedText: String = ""
+    private var selectedRange = SelectedRange(0, 0)
         set(value) {
             if (field != value) {
                 field = value
-                observer?.invoke(value)
+                selectedRangeObserver?.invoke(field.startIndex, field.endIndex)
+                selectedTextObserver?.invoke(selectedText())
             }
         }
 
-    private var observer: ((String) -> Unit)? = null
+    private var selectedRangeObserver: ((startIndex: Int, endIndex: Int) -> Unit)? = null
         set(value) {
             field = value
-            field?.invoke(selectedText)
+            field?.invoke(selectedRange.startIndex, selectedRange.endIndex)
         }
+
+    private var selectedTextObserver: ((String) -> Unit)? = null
+        set(value) {
+            field = value
+            field?.invoke(selectedText())
+        }
+
+    private fun selectedText(): String {
+        return if (text.isNullOrEmpty()) ""
+        else text.toString().substring(selectedRange.startIndex, selectedRange.endIndex)
+    }
 
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
         super.onSelectionChanged(selStart, selEnd)
         val startIndex = minOf(selStart, selEnd)
         val endIndex = maxOf(selStart, selEnd)
-        selectedText = text.toString().substring(startIndex, endIndex)
+        selectedRange = SelectedRange(startIndex, endIndex)
+    }
+
+    fun observeSelectedRange(observer: ((startIndex: Int, endIndex: Int) -> Unit)?) {
+        this.selectedRangeObserver = observer
     }
 
     fun observeSelectedText(observer: ((String) -> Unit)?) {
-        this.observer = observer
+        this.selectedTextObserver = observer
     }
+
+    private class SelectedRange(val startIndex: Int, val endIndex: Int)
 }

@@ -16,6 +16,10 @@ class AnswerEntryTestController(id: Long) : AnswerController<AnswerEntryTestEven
                 queries.setAnswerInput(answerInput, id)
             }
 
+            is HintSelectionChanged -> {
+                queries.setHintSelectedRange(event.startIndex, event.endIndex)
+            }
+
             CheckButtonClicked -> {
                 if (queries.isAnswerInputCorrect(id).executeAsOne().asBoolean()) {
                     onCorrectAnswer()

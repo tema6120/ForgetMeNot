@@ -54,8 +54,9 @@ SELECT
     doNotSpeakTextInBrackets
 FROM Exercise, CurrentExercisePronunciation, CurrentExerciseCard;
 
-getHintAndAnswerForCurrentExerciseCard:
-SELECT hint, answer FROM CurrentExerciseCard;
+getHintInfo:
+SELECT hint, answer, hintSelectionStartIndex, hintSelectionEndIndex
+FROM CurrentExerciseCard, Exercise;
 
 getAnswerForCurrentExerciseCard:
 SELECT answer FROM CurrentExerciseCard;

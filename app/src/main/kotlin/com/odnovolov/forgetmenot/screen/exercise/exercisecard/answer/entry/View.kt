@@ -65,6 +65,9 @@ class AnswerEntryTestFragment : BaseFragment() {
                 }
             }
         }
+        hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
+            controller.dispatch(HintSelectionChanged(startIndex, endIndex))
+        }
         checkButton.setOnClickListener { controller.dispatch(CheckButtonClicked) }
         correctAnswerTextView.observeSelectedText {
             controller.dispatch(AnswerTextSelectionChanged(it))

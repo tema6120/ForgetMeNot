@@ -21,7 +21,9 @@ CREATE TEMPORARY TABLE Exercise (
     currentExerciseCardId INTEGER,
     questionTextSelection TEXT NOT NULL DEFAULT '',
     answerTextSelection TEXT NOT NULL DEFAULT '',
-    answerAutoSpeakTriggered INTEGER AS Boolean NOT NULL DEFAULT 0
+    answerAutoSpeakTriggered INTEGER AS Boolean NOT NULL DEFAULT 0,
+    hintSelectionStartIndex INTEGER AS Int NOT NULL DEFAULT 0,
+    hintSelectionEndIndex INTEGER AS Int NOT NULL DEFAULT 0
 );
 
 exerciseCard:

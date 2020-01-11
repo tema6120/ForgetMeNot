@@ -32,7 +32,7 @@
             android:fillViewport="true"
             android:visibility="gone">
 
-        <TextView
+        <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
                 android:id="@+id/hintTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

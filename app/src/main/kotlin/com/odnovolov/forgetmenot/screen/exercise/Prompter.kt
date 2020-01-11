@@ -18,4 +18,9 @@ object Prompter {
             toString()
         }
     }
+
+    fun unmaskRange(answer: String, hint: String, startIndex: Int, endIndex: Int): String {
+        val unmasked = answer.substring(startIndex, endIndex)
+        return hint.replaceRange(startIndex, endIndex, unmasked)
+    }
 }

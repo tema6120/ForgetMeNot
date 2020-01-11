@@ -51,6 +51,9 @@ class AnswerOffTestFragment : BaseFragment() {
 
     private fun setupView() {
         answerTextView.observeSelectedText { controller.dispatch(AnswerTextSelectionChanged(it)) }
+        hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
+            controller.dispatch(HintSelectionChanged(startIndex, endIndex))
+        }
         showAnswerButton.setOnClickListener { controller.dispatch(ShowAnswerButtonClicked) }
     }
 

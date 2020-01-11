@@ -10,6 +10,10 @@ class AnswerManualTestController(id: Long) : AnswerController<AnswerManualTestEv
                 queries.setAnswerTextSelection(event.selection)
             }
 
+            is HintSelectionChanged -> {
+                queries.setHintSelectedRange(event.startIndex, event.endIndex)
+            }
+
             RememberButtonClicked -> {
                 onCorrectAnswer()
             }

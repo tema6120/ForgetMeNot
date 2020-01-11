@@ -4,6 +4,9 @@ UPDATE Exercise SET questionTextSelection = ?;
 setAnswerTextSelection:
 UPDATE Exercise SET answerTextSelection = ?;
 
+setHintSelectedRange:
+UPDATE Exercise SET hintSelectionStartIndex = ?, hintSelectionEndIndex = ?;
+
 isAnswerCorrect:
 SELECT isAnswerCorrect FROM ExerciseCard WHERE id == ?;
 

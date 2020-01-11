@@ -49,6 +49,9 @@ class AnswerManualTestFragment : BaseFragment() {
 
     private fun setupView() {
         answerTextView.observeSelectedText { controller.dispatch(AnswerTextSelectionChanged(it)) }
+        hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
+            controller.dispatch(HintSelectionChanged(startIndex, endIndex))
+        }
         rememberButton.setOnClickListener { controller.dispatch(RememberButtonClicked) }
         notRememberButton.setOnClickListener { controller.dispatch(NotRememberButtonClicked) }
     }
