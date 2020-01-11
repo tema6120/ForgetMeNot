@@ -6,7 +6,32 @@
             android:id="@+id/inputLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
+
+        <ScrollView
+                android:id="@+id/hintScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true"
+                android:visibility="gone">
+
+            <TextView
+                    android:id="@+id/hintTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/text_secondary_selector"
+                    android:textIsSelectable="true"
+                    android:textSize="18sp" />
+
+        </ScrollView>
+
+        <include
+                android:id="@+id/divider"
+                layout="@layout/divider"
+                android:visibility="gone" />
 
         <ScrollView
                 android:id="@+id/answerInputScrollView"

@@ -13,6 +13,12 @@ class AnswerEntryTestViewModel(id: Long) {
         .asFlow()
         .mapToOneNotNull()
 
+    val hint: Flow<String?> = queries
+        .getHint(id)
+        .asFlow()
+        .mapToOne()
+        .map { it.hint }
+
     val correctAnswer: Flow<String> = queries
         .getAnswer(id)
         .asFlow()

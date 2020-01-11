@@ -86,6 +86,16 @@ class AnswerEntryTestFragment : BaseFragment() {
                     answerScrollView.visibility = GONE
                 }
             }
+            hint.observe { hint: String? ->
+                if (hint == null) {
+                    hintScrollView.visibility = GONE
+                    divider.visibility = GONE
+                } else {
+                    hintTextView.text = hint
+                    hintScrollView.visibility = VISIBLE
+                    divider.visibility = VISIBLE
+                }
+            }
             correctAnswer.observe(onChange = correctAnswerTextView::setText)
             wrongAnswer.observe { wrongAnswer: String? ->
                 if (wrongAnswer == null) {
@@ -97,6 +107,8 @@ class AnswerEntryTestFragment : BaseFragment() {
             }
             isLearned.observe { isLearned: Boolean ->
                 answerInputScrollView.isEnabled = !isLearned
+                hintScrollView.isEnabled = !isLearned
+                hintTextView.isEnabled = !isLearned
                 checkButton.isEnabled = !isLearned
                 checkTextView.isEnabled = !isLearned
                 answerScrollView.isEnabled = !isLearned
