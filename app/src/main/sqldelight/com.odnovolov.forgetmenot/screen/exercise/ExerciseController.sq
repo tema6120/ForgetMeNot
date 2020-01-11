@@ -54,6 +54,11 @@ SELECT
     doNotSpeakTextInBrackets
 FROM Exercise, CurrentExercisePronunciation, CurrentExerciseCard;
 
+setQuizTestMethodForCurrentExerciseCard:
+UPDATE ExerciseCard SET testMethod = 'Quiz' WHERE id == (
+    SELECT currentExerciseCardId FROM Exercise
+);
+
 answerAutoSpeakTriggered:
 SELECT answerAutoSpeakTriggered FROM Exercise;
 

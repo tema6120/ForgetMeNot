@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:background="@color/exercise_control_panel_popup_background">
+
+    <TextView
+            android:id="@+id/hintAsQuizButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:text="@string/text_hint_as_quiz_button"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:theme="@style/AppTheme.AppBarOverlay" />
+
+    <include layout="@layout/divider" />
+
+    <TextView
+            android:id="@+id/hintMaskLettersButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:text="@string/text_hint_mask_letters_button"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:theme="@style/AppTheme.AppBarOverlay" />
+
+</LinearLayout>

@@ -29,6 +29,9 @@ class AnswerEntryTestFragment : BaseFragment() {
 
     private lateinit var controller: AnswerEntryTestController
     private lateinit var viewModel: AnswerEntryTestViewModel
+    private val imm by lazy {
+        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +59,9 @@ class AnswerEntryTestFragment : BaseFragment() {
             observeText { controller.dispatch(AnswerInputChanged(it)) }
             setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    val imm = requireContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showSoftInput(answerEditText, 0)
+                } else {
+                    imm.hideSoftInputFromWindow(answerEditText.windowToken, 0)
                 }
             }
         }

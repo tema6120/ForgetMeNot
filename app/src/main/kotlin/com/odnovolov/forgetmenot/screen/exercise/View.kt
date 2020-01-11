@@ -25,6 +25,7 @@ import com.odnovolov.forgetmenot.screen.exercise.IntervalsAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*
+import kotlinx.android.synthetic.main.popup_choose_hint.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,7 @@ class ExerciseFragment : BaseFragment() {
     private val controller = ExerciseController()
     private val viewModel = ExerciseViewModel()
     private lateinit var speaker: Speaker
+    private lateinit var chooseHintPopup: PopupWindow
     private lateinit var setLevelOfKnowledgePopup: PopupWindow
     private lateinit var intervalsAdapter: IntervalsAdapter
 
@@ -54,11 +56,12 @@ class ExerciseFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setLevelOfKnowledgePopup = createLevelOfKnowledgePopup()
+        createLevelOfKnowledgePopup()
+        createChooseHintPopup()
         return inflater.inflate(R.layout.fragment_exercise, container, false)
     }
 
-    private fun createLevelOfKnowledgePopup(): PopupWindow {
+    private fun createLevelOfKnowledgePopup() {
         val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
             controller.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
             setLevelOfKnowledgePopup.dismiss()
@@ -67,7 +70,7 @@ class ExerciseFragment : BaseFragment() {
         val recycler: RecyclerView =
             inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
         recycler.adapter = intervalsAdapter
-        return PopupWindow(context).apply {
+        setLevelOfKnowledgePopup = PopupWindow(context).apply {
             width = WindowManager.LayoutParams.WRAP_CONTENT
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = recycler
@@ -75,7 +78,37 @@ class ExerciseFragment : BaseFragment() {
                 ColorDrawable(
                     ContextCompat.getColor(
                         requireContext(),
-                        R.color.level_of_knowledge_popup_background
+                        R.color.exercise_control_panel_popup_background
+                    )
+                )
+            )
+            elevation = 20f
+            isOutsideTouchable = true
+            isFocusable = true
+        }
+    }
+
+    private fun createChooseHintPopup() {
+        val content = inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
+            hintAsQuizButton.setOnClickListener {
+                controller.dispatch(HintAsQuizButtonClicked)
+                chooseHintPopup.dismiss()
+            }
+            hintMaskLettersButton.setOnClickListener {
+                controller.dispatch(HintMaskLettersButtonClicked)
+                chooseHintPopup.dismiss()
+            }
+        }
+        content.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        chooseHintPopup = PopupWindow(context).apply {
+            width = content.measuredWidth
+            height = content.measuredHeight
+            contentView = content
+            setBackgroundDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.exercise_control_panel_popup_background
                     )
                 )
             )
@@ -107,6 +140,7 @@ class ExerciseFragment : BaseFragment() {
         undoButton.setOnClickListener { controller.dispatch(UndoButtonClicked) }
         speakButton.setOnClickListener { controller.dispatch(SpeakButtonClicked) }
         editCardButton.setOnClickListener { controller.dispatch(EditCardButtonClicked) }
+        hintButton.setOnClickListener { controller.dispatch(HintButtonClicked) }
         levelOfKnowledgeButton.setOnClickListener {
             controller.dispatch(LevelOfKnowledgeButtonClicked)
         }
@@ -122,6 +156,9 @@ class ExerciseFragment : BaseFragment() {
                 isCurrentCardLearned ?: return@observe
                 notAskButton.visibility = if (isCurrentCardLearned) GONE else VISIBLE
                 undoButton.visibility = if (isCurrentCardLearned) VISIBLE else GONE
+            }
+            isHintButtonVisible.observe { isVisible: Boolean ->
+                hintButton.visibility = if (isVisible) VISIBLE else GONE
             }
             levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int? ->
                 levelOfKnowledge ?: return@observe
@@ -151,6 +188,9 @@ class ExerciseFragment : BaseFragment() {
             NavigateToEditCard -> {
                 findNavController().navigate(R.id.action_exercise_screen_to_edit_card_screen)
             }
+            ShowChooseHintPopup -> {
+                showChooseHintPopup()
+            }
             is ShowLevelOfKnowledgePopup -> {
                 showLevelOfKnowledgePopup(order.intervalItems)
             }
@@ -162,6 +202,18 @@ class ExerciseFragment : BaseFragment() {
                 ).show()
             }
         }
+    }
+
+    private fun showChooseHintPopup() {
+        val hintButtonLocation = IntArray(2).also { hintButton.getLocationOnScreen(it) }
+        val x = hintButtonLocation[0] + (hintButton.width / 2) - (chooseHintPopup.width / 2)
+        val y = hintButtonLocation[1] + hintButton.height - 8.dp - chooseHintPopup.height
+        chooseHintPopup.showAtLocation(
+            hintButton.rootView,
+            Gravity.NO_GRAVITY,
+            x,
+            y
+        )
     }
 
     private fun showLevelOfKnowledgePopup(intervalItems: List<IntervalItem>) {

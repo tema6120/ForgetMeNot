@@ -4,5 +4,8 @@ SELECT id FROM ExerciseCard WHERE isVisible ORDER BY id;
 isCurrentExerciseCardLearned:
 SELECT isLearned FROM CurrentExerciseCard;
 
+isHintButtonVisible:
+SELECT testMethod != 'Quiz' AND isAnswerCorrect IS NULL AND isLearned == 0 FROM CurrentExerciseCard;
+
 getLevelOfKnowledgeForCurrentCard:
 SELECT levelOfKnowledge FROM CurrentExerciseCard;

@@ -3,14 +3,16 @@ package com.odnovolov.forgetmenot.screen.exercise.exercisecard
 import com.odnovolov.forgetmenot.common.database.*
 import com.odnovolov.forgetmenot.common.entity.TestMethod
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class ExerciseCardViewModel(id: Long) {
     private val queries = database.exerciseCardViewModelQueries
 
-    val testMethod: TestMethod? = queries
+    val testMethod: Flow<TestMethod> = queries
         .getTestMethod(id)
-        .executeAsOneOrNull()
-        ?.let(testMethodAdapter::decode)
+        .asFlow()
+        .mapToOneNotNull()
+        .map { databaseValue: String -> testMethodAdapter.decode(databaseValue) }
 
     val question: Flow<String> = queries
         .getQuestion(id)

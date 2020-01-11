@@ -6,8 +6,10 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
+import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.odnovolov.forgetmenot.common.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.QuestionTextSelectionChanged
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.ShowQuestionButtonClicked
@@ -38,23 +40,7 @@ class ExerciseCardFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (savedInstanceState == null) {
-            setAnswerFragment()
-        }
         return inflater.inflate(R.layout.fragment_exercise_card, container, false)
-    }
-
-    private fun setAnswerFragment() {
-        val answerFragment = when (viewModel.testMethod ?: return) {
-            Off -> AnswerOffTestFragment.create(id)
-            Manual -> AnswerManualTestFragment.create(id)
-            Quiz -> AnswerQuizTestFragment.create(id)
-            Entry -> AnswerEntryTestFragment.create(id)
-        }
-        childFragmentManager
-            .beginTransaction()
-            .replace(R.id.answerFrame, answerFragment, ANSWER_FRAGMENT_TAG)
-            .commit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,6 +58,34 @@ class ExerciseCardFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
+            testMethod.observe { testMethod: TestMethod ->
+                val currentFragment: Fragment? = childFragmentManager
+                    .findFragmentByTag(ANSWER_FRAGMENT_TAG)
+                val newFragment: Fragment? = when (testMethod) {
+                    Off -> {
+                        if (currentFragment is AnswerOffTestFragment) null
+                        else AnswerOffTestFragment.create(id)
+                    }
+                    Manual -> {
+                        if (currentFragment is AnswerManualTestFragment) null
+                        else AnswerManualTestFragment.create(id)
+                    }
+                    Quiz -> {
+                        if (currentFragment is AnswerQuizTestFragment) null
+                        else AnswerQuizTestFragment.create(id)
+                    }
+                    Entry -> {
+                        if (currentFragment is AnswerEntryTestFragment) null
+                        else AnswerEntryTestFragment.create(id)
+                    }
+                }
+                if (newFragment != null) {
+                    childFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.answerFrame, newFragment, ANSWER_FRAGMENT_TAG)
+                        .commit()
+                }
+            }
             question.observe(onChange = questionTextView::setText)
             isQuestionDisplayed.observe { isDisplayed: Boolean ->
                 showQuestionButton.visibility = if (isDisplayed) GONE else VISIBLE

@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
+import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.QuizComposer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
@@ -59,6 +60,19 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
                 queries.cleanEditCardState()
                 queries.initEditCardState()
                 issueOrder(NavigateToEditCard)
+            }
+
+            HintButtonClicked -> {
+                issueOrder(ShowChooseHintPopup)
+            }
+
+            HintAsQuizButtonClicked -> {
+                queries.setQuizTestMethodForCurrentExerciseCard()
+                QuizComposer.composeWhereItNeeds()
+            }
+
+            HintMaskLettersButtonClicked -> {
+
             }
 
             AnswerAutoSpeakTriggered -> {

@@ -1,9 +1,6 @@
 package com.odnovolov.forgetmenot.screen.exercise
 
-import com.odnovolov.forgetmenot.common.database.asFlow
-import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.database.mapToList
-import com.odnovolov.forgetmenot.common.database.mapToOneOrNull
+import com.odnovolov.forgetmenot.common.database.*
 import kotlinx.coroutines.flow.Flow
 
 class ExerciseViewModel {
@@ -23,6 +20,11 @@ class ExerciseViewModel {
         .isCurrentExerciseCardLearned()
         .asFlow()
         .mapToOneOrNull()
+
+    val isHintButtonVisible: Flow<Boolean> = queries
+        .isHintButtonVisible()
+        .asFlow()
+        .mapToOneNotNull()
 
     val levelOfKnowledgeForCurrentCard: Flow<Int?> = queries
         .getLevelOfKnowledgeForCurrentCard()
