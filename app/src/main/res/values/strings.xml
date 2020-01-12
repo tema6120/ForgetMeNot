@@ -97,4 +97,5 @@
     <string name="deck_selection_action_mode_title">Decks: %1$d, Cards: %2$d</string>
     <string name="text_hint_as_quiz_button">As quiz</string>
     <string name="text_hint_mask_letters_button">Mask letters</string>
+    <string name="text_go_to_tts_settings_button">Go to TTS Settings</string>
 </resources>

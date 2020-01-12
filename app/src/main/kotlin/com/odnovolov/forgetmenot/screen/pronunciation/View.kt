@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.screen.pronunciation
 import android.animation.LayoutTransition
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -156,6 +157,9 @@ class PronunciationFragment : BaseFragment() {
         doNotSpeakTextInBracketsButton.setOnClickListener {
             controller.dispatch(DoNotSpeakTextInBracketsSwitchToggled)
         }
+        goToTtsSettingsButton.setOnClickListener {
+            navigateToTtsSettings()
+        }
     }
 
     private fun showChoosePronunciationPopup() {
@@ -174,6 +178,15 @@ class PronunciationFragment : BaseFragment() {
         val x = location[0]
         val y = location[1]
         popupWindow.showAtLocation(rootView, Gravity.NO_GRAVITY, x, y)
+    }
+
+    private fun navigateToTtsSettings() {
+        startActivity(
+            Intent().apply {
+                action = "com.android.settings.TTS_SETTINGS"
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+        )
     }
 
     private fun observeViewModel() {
