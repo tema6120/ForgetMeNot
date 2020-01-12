@@ -18,12 +18,20 @@ CREATE TEMPORARY TABLE AddDeckState (
 
 exercise:
 CREATE TEMPORARY TABLE Exercise (
-    currentExerciseCardId INTEGER,
+    currentExerciseCardId INTEGER
+);
+
+textSelection:
+CREATE TEMPORARY TABLE TextSelection (
     questionTextSelection TEXT NOT NULL DEFAULT '',
     answerTextSelection TEXT NOT NULL DEFAULT '',
-    answerAutoSpeakTriggered INTEGER AS Boolean NOT NULL DEFAULT 0,
     hintSelectionStartIndex INTEGER AS Int NOT NULL DEFAULT 0,
     hintSelectionEndIndex INTEGER AS Int NOT NULL DEFAULT 0
+);
+
+events:
+CREATE TEMPORARY TABLE Events (
+    answerAutoSpeakTriggered INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
 exerciseCard:

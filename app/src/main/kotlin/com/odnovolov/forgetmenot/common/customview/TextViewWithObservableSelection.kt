@@ -15,7 +15,7 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
     defStyleAttr,
     defStyleRes
 ) {
-    private var selectedRange = SelectedRange(0, 0)
+    private var selectedRange = SelectedRange.EMPTY
         set(value) {
             if (field != value) {
                 field = value
@@ -43,9 +43,13 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
 
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
         super.onSelectionChanged(selStart, selEnd)
-        val startIndex = minOf(selStart, selEnd)
-        val endIndex = maxOf(selStart, selEnd)
-        selectedRange = SelectedRange(startIndex, endIndex)
+        selectedRange = if (selStart == selEnd) {
+            SelectedRange.EMPTY
+        } else {
+            val startIndex = minOf(selStart, selEnd)
+            val endIndex = maxOf(selStart, selEnd)
+            SelectedRange(startIndex, endIndex)
+        }
     }
 
     fun observeSelectedRange(observer: ((startIndex: Int, endIndex: Int) -> Unit)?) {
@@ -56,5 +60,9 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
         this.selectedTextObserver = observer
     }
 
-    private class SelectedRange(val startIndex: Int, val endIndex: Int)
+    private data class SelectedRange(val startIndex: Int, val endIndex: Int) {
+        companion object {
+            val EMPTY = SelectedRange(0, 0)
+        }
+    }
 }

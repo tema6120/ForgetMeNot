@@ -1,11 +1,11 @@
 setQuestionTextSelection:
-UPDATE Exercise SET questionTextSelection = ?;
+UPDATE TextSelection SET questionTextSelection = ?;
 
 setAnswerTextSelection:
-UPDATE Exercise SET answerTextSelection = ?;
+UPDATE TextSelection SET answerTextSelection = ?;
 
 setHintSelectedRange:
-UPDATE Exercise SET hintSelectionStartIndex = ?, hintSelectionEndIndex = ?;
+UPDATE TextSelection SET hintSelectionStartIndex = ?, hintSelectionEndIndex = ?;
 
 isAnswerCorrect:
 SELECT isAnswerCorrect FROM ExerciseCard WHERE id == ?;

@@ -84,6 +84,8 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
                     deckSelection()
                     addDeckState()
                     exercise()
+                    textSelection()
+                    events()
                     exerciseCard()
                     quiz()
                     answerInput()

@@ -155,3 +155,15 @@ DELETE FROM Exercise;
 
 initExercise:
 INSERT INTO Exercise DEFAULT VALUES;
+
+cleanTextSelection:
+DELETE FROM TextSelection;
+
+initTextSelection:
+INSERT INTO TextSelection DEFAULT VALUES;
+
+cleanEvents:
+DELETE FROM Events;
+
+initEvents:
+INSERT INTO Events DEFAULT VALUES;

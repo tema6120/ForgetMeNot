@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.screen.exercise
 
+import android.util.Log
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
@@ -8,7 +9,9 @@ import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.QuizComposer
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -21,6 +24,7 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             queries.answerAutoSpeakTriggered()
                 .asFlow()
                 .mapToOne()
+                .distinctUntilChanged()
                 .filter { isTriggered -> isTriggered }
                 .collect {
                     dispatchSafely(AnswerAutoSpeakTriggered)

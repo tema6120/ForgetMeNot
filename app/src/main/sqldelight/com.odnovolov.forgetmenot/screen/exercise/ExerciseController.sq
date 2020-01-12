@@ -52,11 +52,11 @@ SELECT
         ELSE questionLanguage
     END AS language,
     doNotSpeakTextInBrackets
-FROM Exercise, CurrentExercisePronunciation, CurrentExerciseCard;
+FROM TextSelection, CurrentExercisePronunciation, CurrentExerciseCard;
 
 getHintInfo:
 SELECT hint, answer, hintSelectionStartIndex, hintSelectionEndIndex
-FROM CurrentExerciseCard, Exercise;
+FROM CurrentExerciseCard, TextSelection;
 
 getAnswerForCurrentExerciseCard:
 SELECT answer FROM CurrentExerciseCard;
@@ -72,10 +72,10 @@ UPDATE ExerciseCard SET testMethod = 'Quiz' WHERE id == (
 );
 
 answerAutoSpeakTriggered:
-SELECT answerAutoSpeakTriggered FROM Exercise;
+SELECT answerAutoSpeakTriggered FROM Events;
 
 flushAnswerAutoSpeakTriggered:
-UPDATE Exercise SET answerAutoSpeakTriggered = 0;
+UPDATE Events SET answerAutoSpeakTriggered = 0;
 
 areIntervalsOn:
 SELECT intervalSchemeId IS NOT NULL FROM ExercisePreference WHERE id == (

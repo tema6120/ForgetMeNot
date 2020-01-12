@@ -4,7 +4,7 @@ AFTER UPDATE OF isAnswerCorrect ON ExerciseCard
 WHEN old.isAnswerCorrect IS NULL
      AND (SELECT answerAutoSpeak FROM CurrentExercisePronunciation) == 1
 BEGIN
-    UPDATE Exercise SET answerAutoSpeakTriggered = 1;
+    UPDATE Events SET answerAutoSpeakTriggered = 1;
 END;
 
 -------------------------------- DeckSettings --------------------------------
