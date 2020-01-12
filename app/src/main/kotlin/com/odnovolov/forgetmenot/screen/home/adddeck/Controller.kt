@@ -4,8 +4,7 @@ import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.stageAdapter
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckEvent.*
-import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.SetDialogText
-import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.ShowErrorMessage
+import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.*
 import com.odnovolov.forgetmenot.screen.home.adddeck.Stage.*
 
 class AddDeckController : BaseController<AddDeckEvent, AddDeckOrder>() {
@@ -38,6 +37,7 @@ class AddDeckController : BaseController<AddDeckEvent, AddDeckOrder>() {
                         cardPrototypes.forEach {
                             queries.addCard(deckId, it.ordinal, it.question, it.answer)
                         }
+                        prepareForNavigationToDeckSettings(deckId)
                         finish()
                     }
                 }
@@ -64,6 +64,7 @@ class AddDeckController : BaseController<AddDeckEvent, AddDeckOrder>() {
                 queries.addDeck(name = typedText)
                 val deckId = queries.getLastInsertId().executeAsOne()
                 queries.addCardsFromCardPrototypeTable(deckId)
+                prepareForNavigationToDeckSettings(deckId)
                 finish()
             }
 
@@ -87,6 +88,12 @@ class AddDeckController : BaseController<AddDeckEvent, AddDeckOrder>() {
 
     private fun isDeckNameOccupied(testedName: String): Boolean {
         return queries.isDeckNameOccupied(testedName).executeAsOne()
+    }
+
+    private fun prepareForNavigationToDeckSettings(deckId: Long) {
+        queries.cleanDeckSettingsState()
+        queries.initDeckSettingsState(deckId)
+        issueOrder(NavigateToDeckSettings)
     }
 
     private fun finish() {

@@ -15,11 +15,11 @@ import android.view.WindowManager.LayoutParams
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckEvent.*
-import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.SetDialogText
-import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.ShowErrorMessage
+import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckOrder.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
 
 class AddDeckFragment : BaseFragment() {
@@ -103,6 +103,9 @@ class AddDeckFragment : BaseFragment() {
             is SetDialogText -> {
                 deckNameEditText.setText(order.text)
                 deckNameEditText.selectAll()
+            }
+            NavigateToDeckSettings -> {
+                findNavController().navigate(R.id.action_home_screen_to_deck_settings_screen)
             }
         }
     }

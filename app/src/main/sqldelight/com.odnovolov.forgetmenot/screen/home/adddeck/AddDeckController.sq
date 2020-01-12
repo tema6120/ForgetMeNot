@@ -44,3 +44,9 @@ INSERT INTO Card(deckId, ordinal, question, answer) VALUES (?, ?, ?, ?);
 addCardsFromCardPrototypeTable:
 INSERT INTO Card(deckId, ordinal, question, answer)
 SELECT :deckId, ordinal, question, answer FROM CardPrototype;
+
+cleanDeckSettingsState:
+DELETE FROM DeckSettingsState;
+
+initDeckSettingsState:
+INSERT INTO DeckSettingsState(deckId) VALUES (?);
