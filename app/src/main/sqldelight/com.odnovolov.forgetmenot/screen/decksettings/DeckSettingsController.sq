@@ -50,7 +50,7 @@ isTypedPresetNameEmpty:
 SELECT typedPresetName == '' FROM DeckSettingsState;
 
 isTypedPresetNameOccupied:
-SELECT typedPresetName IN (SELECT name FROM Pronunciation) FROM DeckSettingsState;
+SELECT typedPresetName IN (SELECT name FROM ExercisePreference) FROM DeckSettingsState;
 
 setCurrentExercisePreference:
 UPDATE Deck SET exercisePreferenceId = ? WHERE id == (
