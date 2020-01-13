@@ -30,4 +30,6 @@ class ExerciseViewModel {
         .getLevelOfKnowledgeForCurrentCard()
         .asFlow()
         .mapToOneOrNull()
+
+    val isWalkingMode: Boolean = true
 }

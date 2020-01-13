@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.screen.exercise
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.View.*
 import android.widget.PopupWindow
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.common.MainActivity
 import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.dp
@@ -128,6 +130,7 @@ class ExerciseFragment : BaseFragment() {
     private fun setupView() {
         setupViewPagerAdapter()
         setupControlPanel()
+        setupWalkingModeIfEnabled()
     }
 
     private fun setupViewPagerAdapter() {
@@ -143,6 +146,33 @@ class ExerciseFragment : BaseFragment() {
         hintButton.setOnClickListener { controller.dispatch(HintButtonClicked) }
         levelOfKnowledgeButton.setOnClickListener {
             controller.dispatch(LevelOfKnowledgeButtonClicked)
+        }
+    }
+
+    private fun setupWalkingModeIfEnabled() {
+        if (viewModel.isWalkingMode) {
+            val volumeUpGestureDetector = KeyGestureDetector(viewScope!!) {
+                Log.d("odnovolov", "Volume up gesture detect: $it")
+            }
+            val volumeDownGestureDetector = KeyGestureDetector(viewScope!!) {
+                Log.d("odnovolov", "Volume down gesture detect: $it")
+            }
+            val keyEventInterceptor: (KeyEvent) -> Boolean = { event: KeyEvent ->
+                when (event.keyCode) {
+                    KeyEvent.KEYCODE_VOLUME_UP -> {
+                        val isPressed = event.action == KeyEvent.ACTION_DOWN
+                        volumeUpGestureDetector.dispatchKeyEvent(isPressed)
+                        true
+                    }
+                    KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                        val isPressed = event.action == KeyEvent.ACTION_DOWN
+                        volumeDownGestureDetector.dispatchKeyEvent(isPressed)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            (activity as MainActivity).keyEventInterceptor = keyEventInterceptor
         }
     }
 
@@ -240,6 +270,9 @@ class ExerciseFragment : BaseFragment() {
         exerciseViewPager.adapter = null
         exerciseViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         (setLevelOfKnowledgePopup.contentView as RecyclerView).adapter = null
+        if (viewModel.isWalkingMode) {
+            (activity as MainActivity).keyEventInterceptor = null
+        }
     }
 
     override fun onDestroy() {

@@ -87,3 +87,8 @@ CREATE TABLE ExercisePreference (
 );
 
 INSERT INTO ExercisePreference(id) VALUES (0);
+
+--CREATE TABLE WalkingModePreference (
+--    action TEXT NOT NULL,
+--    shortcut TEXT
+--);
