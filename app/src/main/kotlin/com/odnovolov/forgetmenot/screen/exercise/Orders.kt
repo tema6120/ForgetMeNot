@@ -4,6 +4,7 @@ import java.util.*
 
 sealed class ExerciseOrder {
     object MoveToNextPosition : ExerciseOrder()
+    object MoveToPreviousPosition : ExerciseOrder()
     class Speak(val text: String, val language: Locale?) : ExerciseOrder()
     object NavigateToEditCard : ExerciseOrder()
     object ShowChooseHintPopup : ExerciseOrder()

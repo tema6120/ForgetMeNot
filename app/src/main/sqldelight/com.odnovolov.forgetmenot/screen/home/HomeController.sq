@@ -86,7 +86,14 @@ INSERT INTO ExerciseCard (
     Card.levelOfKnowledge,
     ExercisePreference.isQuestionDisplayed,
     ExercisePreference.isQuestionDisplayed,
-    ExercisePreference.testMethod,
+    CASE WHEN (SELECT isWalkingMode FROM Exercise)
+             THEN CASE ExercisePreference.testMethod
+                      WHEN 'Quiz' THEN 'Manual'
+                      WHEN 'Entry' THEN 'Manual'
+                      ELSE ExercisePreference.testMethod
+                  END
+         ELSE ExercisePreference.testMethod
+    END,
     ExercisePreference.pronunciationId,
     CASE ExercisePreference.cardReverse
         WHEN 'Off' THEN 0
@@ -154,7 +161,7 @@ cleanExercise:
 DELETE FROM Exercise;
 
 initExercise:
-INSERT INTO Exercise DEFAULT VALUES;
+INSERT INTO Exercise(isWalkingMode) VALUES(?);
 
 cleanTextSelection:
 DELETE FROM TextSelection;

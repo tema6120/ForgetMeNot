@@ -98,4 +98,5 @@
     <string name="text_hint_as_quiz_button">As quiz</string>
     <string name="text_hint_mask_letters_button">Mask letters</string>
     <string name="text_go_to_tts_settings_button">Go to TTS Settings</string>
+    <string name="title_start_exercise_in_walking_mode">Start exercise in \'Walking\' mode</string>
 </resources>

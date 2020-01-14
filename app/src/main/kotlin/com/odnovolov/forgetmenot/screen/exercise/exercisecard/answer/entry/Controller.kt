@@ -1,10 +1,14 @@
 package com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.entry
 
 import com.odnovolov.forgetmenot.common.database.asBoolean
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.AnswerController
+import com.odnovolov.forgetmenot.common.database.database
+import com.odnovolov.forgetmenot.screen.exercise.BaseExerciseController
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.entry.AnswerEntryTestEvent.*
+import com.odnovolov.forgetmenot.screen.exercise.exercisecards.ExerciseCardControllerQueries
 
-class AnswerEntryTestController(id: Long) : AnswerController<AnswerEntryTestEvent, Nothing>(id) {
+class AnswerEntryTestController(private val id: Long) : BaseExerciseController<AnswerEntryTestEvent, Nothing>() {
+    private val queries: ExerciseCardControllerQueries = database.exerciseCardControllerQueries
+
     override fun handleEvent(event: AnswerEntryTestEvent) {
         when (event) {
             is AnswerTextSelectionChanged -> {
@@ -22,9 +26,9 @@ class AnswerEntryTestController(id: Long) : AnswerController<AnswerEntryTestEven
 
             CheckButtonClicked -> {
                 if (queries.isAnswerInputCorrect(id).executeAsOne().asBoolean()) {
-                    onCorrectAnswer()
+                    onCorrectAnswer(id)
                 } else {
-                    onWrongAnswer()
+                    onWrongAnswer(id)
                     queries.createAnswerInputWhereItNeeds()
                 }
             }

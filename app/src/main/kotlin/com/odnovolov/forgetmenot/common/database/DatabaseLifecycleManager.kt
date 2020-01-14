@@ -20,7 +20,7 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
     private const val BACKUP_PREFIX = "BACKUP_FORGET_ME_NOT_"
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        //activity.applicationContext.deleteDatabase(DATABASE_NAME)
+        //activity.deleteDatabase(DATABASE_NAME)
         val isActivityFirstCreated = savedInstanceState == null
         if (!::sqliteDriver.isInitialized) {
             initSqlDriver(activity.applicationContext)
@@ -72,6 +72,10 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
             ExercisePreference.Adapter(
                 testMethodAdapter = EnumColumnAdapter(),
                 cardReverseAdapter = EnumColumnAdapter()
+            ),
+            WalkingModePreference.Adapter(
+                keyGestureAdapter = EnumColumnAdapter(),
+                keyGestureActionAdapter = EnumColumnAdapter()
             )
         )
     }
@@ -183,7 +187,6 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
 
     // Unused callbacks
     override fun onActivityStarted(activity: Activity) {}
-
     override fun onActivityPaused(activity: Activity) {}
     override fun onActivityResumed(activity: Activity) {}
     override fun onActivityStopped(activity: Activity) {}

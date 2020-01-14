@@ -17,10 +17,20 @@ CREATE TEMPORARY VIEW CurrentExercisePronunciation
 AS SELECT
     CASE WHEN isReverse THEN answerLanguage ELSE questionLanguage END AS questionLanguage,
     CASE WHEN isReverse THEN questionLanguage ELSE answerLanguage END AS answerLanguage,
-    CASE WHEN isReverse THEN answerAutoSpeak ELSE questionAutoSpeak END AS questionAutoSpeak,
-    CASE WHEN isReverse THEN questionAutoSpeak ELSE answerAutoSpeak END AS answerAutoSpeak,
+    CASE
+        WHEN isWalkingMode THEN 1
+        WHEN isReverse THEN answerAutoSpeak
+        ELSE questionAutoSpeak
+    END AS questionAutoSpeak,
+    CASE
+        WHEN isWalkingMode THEN 1
+        WHEN isReverse THEN questionAutoSpeak
+        ELSE answerAutoSpeak
+    END AS answerAutoSpeak,
     doNotSpeakTextInBrackets
-FROM Pronunciation JOIN ExerciseCard ON Pronunciation.id == ExerciseCard.pronunciationId
+FROM Pronunciation
+     JOIN ExerciseCard ON Pronunciation.id == ExerciseCard.pronunciationId
+     JOIN Exercise
 WHERE ExerciseCard.id == (SELECT currentExerciseCardId FROM Exercise);
 
 currentExercisePreference:

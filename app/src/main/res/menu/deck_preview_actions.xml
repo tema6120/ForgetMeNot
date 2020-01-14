@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+            android:id="@+id/walkingModeMenuItem"
+            android:title="@string/title_start_exercise_in_walking_mode" />
+
+    <item
             android:id="@+id/setupDeckMenuItem"
             android:title="@string/title_setup_deck_menu_item" />
 

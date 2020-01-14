@@ -19,4 +19,9 @@
             android:title="@string/action_remove_decks"
             app:showAsAction="ifRoom" />
 
+    <item
+            android:id="@+id/action_start_exercise_in_walking_mode"
+            android:icon="@drawable/ic_directions_walk_white_24dp"
+            android:title="@string/title_start_exercise_in_walking_mode"
+            app:showAsAction="ifRoom" />
 </menu>

@@ -19,9 +19,11 @@ WHERE cardId == (
                 )
       AND id > (SELECT currentExerciseCardId FROM Exercise);
 
-isNeedToAutoSpeak:
-SELECT questionAutoSpeak AND isLearned == 0 AND isAnswerCorrect IS NULL
-FROM CurrentExercisePronunciation, CurrentExerciseCard;
+isNeedToAutoSpeakQuestion:
+SELECT isWalkingMode
+            OR
+       questionAutoSpeak AND isLearned == 0 AND isAnswerCorrect IS NULL
+FROM Exercise, CurrentExercisePronunciation, CurrentExerciseCard;
 
 speakingDataForQuestionAutoSpeak:
 SELECT
@@ -122,3 +124,12 @@ INSERT INTO EditCardState
 SELECT question, answer FROM Card WHERE id == (
     SELECT cardId FROM CurrentExerciseCard
 );
+
+getKeyGestureAction:
+SELECT keyGestureAction FROM WalkingModePreference WHERE keyGesture == ?;
+
+getCurrentExerciseCardId:
+SELECT currentExerciseCardId FROM Exercise;
+
+isAnswered:
+SELECT isAnswerCorrect IS NOT NULL FROM CurrentExerciseCard;

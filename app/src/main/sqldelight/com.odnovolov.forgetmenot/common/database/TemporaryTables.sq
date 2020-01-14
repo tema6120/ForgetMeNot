@@ -1,3 +1,5 @@
+import java.lang.Boolean;
+
 homeState:
 CREATE TEMPORARY TABLE HomeState (
     searchText TEXT NOT NULL DEFAULT ''
@@ -18,7 +20,8 @@ CREATE TEMPORARY TABLE AddDeckState (
 
 exercise:
 CREATE TEMPORARY TABLE Exercise (
-    currentExerciseCardId INTEGER
+    currentExerciseCardId INTEGER,
+    isWalkingMode INTEGER AS Boolean NOT NULL
 );
 
 textSelection:

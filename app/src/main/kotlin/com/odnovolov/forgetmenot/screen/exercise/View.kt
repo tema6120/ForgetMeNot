@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.screen.exercise
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.View.*
 import android.widget.PopupWindow
@@ -20,10 +19,13 @@ import com.odnovolov.forgetmenot.common.MainActivity
 import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.dp
+import com.odnovolov.forgetmenot.common.entity.KeyGesture
+import com.odnovolov.forgetmenot.common.entity.KeyGesture.*
 import com.odnovolov.forgetmenot.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import com.odnovolov.forgetmenot.screen.exercise.IntervalsAdapter.ViewHolder
+import com.odnovolov.forgetmenot.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*
@@ -152,10 +154,20 @@ class ExerciseFragment : BaseFragment() {
     private fun setupWalkingModeIfEnabled() {
         if (viewModel.isWalkingMode) {
             val volumeUpGestureDetector = KeyGestureDetector(viewScope!!) {
-                Log.d("odnovolov", "Volume up gesture detect: $it")
+                val keyGesture: KeyGesture = when(it) {
+                    SINGLE_PRESS -> VOLUME_UP_SINGLE_PRESS
+                    DOUBLE_PRESS -> VOLUME_UP_DOUBLE_PRESS
+                    LONG_PRESS -> VOLUME_UP_LONG_PRESS
+                }
+                controller.dispatch(KeyGestureDetected(keyGesture))
             }
             val volumeDownGestureDetector = KeyGestureDetector(viewScope!!) {
-                Log.d("odnovolov", "Volume down gesture detect: $it")
+                val keyGesture: KeyGesture = when(it) {
+                    SINGLE_PRESS -> VOLUME_DOWN_SINGLE_PRESS
+                    DOUBLE_PRESS -> VOLUME_DOWN_DOUBLE_PRESS
+                    LONG_PRESS -> VOLUME_DOWN_LONG_PRESS
+                }
+                controller.dispatch(KeyGestureDetected(keyGesture))
             }
             val keyEventInterceptor: (KeyEvent) -> Boolean = { event: KeyEvent ->
                 when (event.keyCode) {
@@ -209,6 +221,10 @@ class ExerciseFragment : BaseFragment() {
             MoveToNextPosition -> {
                 val nextPosition = exerciseViewPager.currentItem + 1
                 exerciseViewPager.setCurrentItem(nextPosition, true)
+            }
+            MoveToPreviousPosition -> {
+                val previousPosition = exerciseViewPager.currentItem - 1
+                exerciseViewPager.setCurrentItem(previousPosition, true)
             }
             is Speak -> {
                 fragmentScope.launch(Dispatchers.Default) {

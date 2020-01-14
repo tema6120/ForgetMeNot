@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.screen.exercise
 
+import com.odnovolov.forgetmenot.common.entity.KeyGesture
+
 sealed class ExerciseEvent {
     class NewPageBecameSelected(val position: Int) : ExerciseEvent()
     object NotAskButtonClicked : ExerciseEvent()
@@ -12,4 +14,5 @@ sealed class ExerciseEvent {
     object AnswerAutoSpeakTriggered : ExerciseEvent()
     object LevelOfKnowledgeButtonClicked : ExerciseEvent()
     class LevelOfKnowledgeSelected(val levelOfKnowledge: Int) : ExerciseEvent()
+    class KeyGestureDetected(val keyGesture: KeyGesture) : ExerciseEvent()
 }

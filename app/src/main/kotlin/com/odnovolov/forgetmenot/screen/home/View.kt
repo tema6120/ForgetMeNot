@@ -256,6 +256,10 @@ class HomeFragment : BaseFragment() {
                     controller.dispatch(RemoveDecksMenuItemClicked)
                     true
                 }
+                R.id.action_start_exercise_in_walking_mode -> {
+                    controller.dispatch(StartExerciseInWalkingModeMenuItemClicked)
+                    true
+                }
                 else -> false
             }
         }
@@ -314,6 +318,10 @@ private class DeckPreviewAdapter(
             inflate(R.menu.deck_preview_actions)
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
+                    R.id.walkingModeMenuItem -> {
+                        controller.dispatch(WalkingModeMenuItemClicked(deckId))
+                        true
+                    }
                     R.id.setupDeckMenuItem -> {
                         controller.dispatch(SetupDeckMenuItemClicked(deckId))
                         true

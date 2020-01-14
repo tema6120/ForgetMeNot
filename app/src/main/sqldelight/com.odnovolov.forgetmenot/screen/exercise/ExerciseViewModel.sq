@@ -9,3 +9,6 @@ SELECT testMethod != 'Quiz' AND isAnswerCorrect IS NULL AND isLearned == 0 FROM 
 
 getLevelOfKnowledgeForCurrentCard:
 SELECT levelOfKnowledge FROM CurrentExerciseCard;
+
+isWalkingMode:
+SELECT isWalkingMode FROM Exercise;

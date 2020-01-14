@@ -1,21 +1,20 @@
 package com.odnovolov.forgetmenot.screen.exercise
 
-import android.util.Log
-import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
+import com.odnovolov.forgetmenot.common.entity.KeyGestureAction
+import com.odnovolov.forgetmenot.common.entity.KeyGestureAction.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.QuizComposer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
+class ExerciseController : BaseExerciseController<ExerciseEvent, ExerciseOrder>() {
     private val queries: ExerciseControllerQueries = database.exerciseControllerQueries
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
 
@@ -36,17 +35,13 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
         when (event) {
             is NewPageBecameSelected -> {
                 queries.setCurrentExerciseCardIdByPosition(event.position.toLong())
-                if (queries.isNeedToAutoSpeak().executeAsOne()) {
-                    queries.speakingDataForQuestionAutoSpeak()
-                        .executeAsOne()
-                        .run { speak(text, language, doNotSpeakTextInBrackets) }
+                if (queries.isNeedToAutoSpeakQuestion().executeAsOne()) {
+                    speakQuestion()
                 }
             }
 
             NotAskButtonClicked -> {
-                queries.setLearnedForCurrentCard(true)
-                queries.setVisibleToRepeatedCards(false)
-                issueOrder(MoveToNextPosition)
+                setLearnedForCurrentCard()
             }
 
             UndoButtonClicked -> {
@@ -95,9 +90,7 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
 
             AnswerAutoSpeakTriggered -> {
                 queries.flushAnswerAutoSpeakTriggered()
-                queries.speakingDataForAnswerAutoSpeak()
-                    .executeAsOne()
-                    .run { speak(text, language, doNotSpeakTextInBrackets) }
+                speakAnswer()
             }
 
             LevelOfKnowledgeButtonClicked -> {
@@ -113,7 +106,35 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
                 queries.setLevelOfKnowledge(event.levelOfKnowledge)
                 queries.setIsLevelOfKnowledgeEditedByUserTrue()
             }
+
+            is KeyGestureDetected -> {
+                val keyGestureAction: KeyGestureAction = queries
+                    .getKeyGestureAction(event.keyGesture)
+                    .executeAsOne()
+                    .keyGestureAction ?: return
+                when (keyGestureAction) {
+                    MOVE_TO_NEXT_CARD -> issueOrder(MoveToNextPosition)
+                    MOVE_TO_PREVIOUS_CARD -> issueOrder(MoveToPreviousPosition)
+                    SET_CARD_AS_REMEMBER -> setCardAsRemember()
+                    SET_CARD_AS_NOT_REMEMBER -> setCardAsNotRemember()
+                    SET_CARD_AS_LEARNED -> setLearnedForCurrentCard()
+                    SPEAK_QUESTION -> speakQuestion()
+                    SPEAK_ANSWER -> speakAnswer()
+                }
+            }
         }
+    }
+
+    private fun speakAnswer() {
+        queries.speakingDataForAnswerAutoSpeak()
+            .executeAsOne()
+            .run { speak(text, language, doNotSpeakTextInBrackets) }
+    }
+
+    private fun speakQuestion() {
+        queries.speakingDataForQuestionAutoSpeak()
+            .executeAsOne()
+            .run { speak(text, language, doNotSpeakTextInBrackets) }
     }
 
     private fun speak(text: String, language: Locale?, doNotSpeakTextInBrackets: Boolean) {
@@ -123,5 +144,29 @@ class ExerciseController : BaseController<ExerciseEvent, ExerciseOrder>() {
             text
         }
         issueOrder(Speak(textToSpeak, language))
+    }
+
+    private fun setLearnedForCurrentCard() {
+        queries.setLearnedForCurrentCard(true)
+        queries.setVisibleToRepeatedCards(false)
+        issueOrder(MoveToNextPosition)
+    }
+
+    private fun setCardAsRemember() {
+        val id = queries.getCurrentExerciseCardId().executeAsOne().currentExerciseCardId ?: return
+        val isAnswered = queries.isAnswered().executeAsOne()
+        onCorrectAnswer(id)
+        if (isAnswered) {
+            speakAnswer()
+        }
+    }
+
+    private fun setCardAsNotRemember() {
+        val id = queries.getCurrentExerciseCardId().executeAsOne().currentExerciseCardId ?: return
+        val isAnswered = queries.isAnswered().executeAsOne()
+        onWrongAnswer(id)
+        if (isAnswered) {
+            speakAnswer()
+        }
     }
 }

@@ -1,4 +1,6 @@
 import com.odnovolov.forgetmenot.common.entity.CardReverse;
+import com.odnovolov.forgetmenot.common.entity.KeyGesture;
+import com.odnovolov.forgetmenot.common.entity.KeyGestureAction;
 import com.odnovolov.forgetmenot.common.entity.TestMethod;
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting;
 import java.lang.Boolean;
@@ -88,7 +90,15 @@ CREATE TABLE ExercisePreference (
 
 INSERT INTO ExercisePreference(id) VALUES (0);
 
---CREATE TABLE WalkingModePreference (
---    action TEXT NOT NULL,
---    shortcut TEXT
---);
+CREATE TABLE WalkingModePreference (
+    keyGesture TEXT AS KeyGesture NOT NULL PRIMARY KEY,
+    keyGestureAction TEXT AS KeyGestureAction
+);
+
+INSERT INTO WalkingModePreference
+VALUES ('VOLUME_UP_SINGLE_PRESS', 'SET_CARD_AS_REMEMBER'),
+       ('VOLUME_UP_DOUBLE_PRESS', 'MOVE_TO_NEXT_CARD'),
+       ('VOLUME_UP_LONG_PRESS', 'SPEAK_QUESTION'),
+       ('VOLUME_DOWN_SINGLE_PRESS', 'SET_CARD_AS_NOT_REMEMBER'),
+       ('VOLUME_DOWN_DOUBLE_PRESS', 'MOVE_TO_PREVIOUS_CARD'),
+       ('VOLUME_DOWN_LONG_PRESS', 'SPEAK_ANSWER');

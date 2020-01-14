@@ -31,5 +31,7 @@ class ExerciseViewModel {
         .asFlow()
         .mapToOneOrNull()
 
-    val isWalkingMode: Boolean = true
+    val isWalkingMode: Boolean = queries
+        .isWalkingMode()
+        .executeAsOne()
 }

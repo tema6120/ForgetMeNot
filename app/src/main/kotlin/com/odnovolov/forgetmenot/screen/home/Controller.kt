@@ -23,12 +23,16 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 if (queries.hasAnySelectedDeckId().executeAsOne()) {
                     toggleDeckSelection(event.deckId)
                 } else {
-                    startExercise(listOf(event.deckId))
+                    startExercise(deckIds = listOf(event.deckId), isWalkingMode = false)
                 }
             }
 
             is DeckButtonLongClicked -> {
                 toggleDeckSelection(event.deckId)
+            }
+
+            is WalkingModeMenuItemClicked -> {
+                startExercise(deckIds = listOf(event.deckId), isWalkingMode = true)
             }
 
             is SetupDeckMenuItemClicked -> {
@@ -50,7 +54,7 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
 
             StartExerciseMenuItemClicked -> {
                 val deckIds = queries.getDeckSelection().executeAsList()
-                startExercise(deckIds)
+                startExercise(deckIds = deckIds, isWalkingMode = false)
             }
 
             is SelectAllDecksMenuItemClicked -> {
@@ -60,6 +64,11 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
             RemoveDecksMenuItemClicked -> {
                 val deckIds = queries.getDeckSelection().executeAsList()
                 removeDecks(deckIds)
+            }
+
+            StartExerciseInWalkingModeMenuItemClicked -> {
+                val deckIds = queries.getDeckSelection().executeAsList()
+                startExercise(deckIds = deckIds, isWalkingMode = true)
             }
 
             ActionModeFinished -> {
@@ -81,7 +90,9 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
         issueOrder(ShowDeckRemovingMessage(deckIds.size))
     }
 
-    private fun startExercise(deckIds: List<Long>) {
+    private fun startExercise(deckIds: List<Long>, isWalkingMode: Boolean) {
+        queries.cleanExercise()
+        queries.initExercise(isWalkingMode)
         queries.cleanExerciseCard()
         queries.initExerciseCard(deckIds)
         if (!queries.isThereAnyExerciseCard().executeAsOne()) {
@@ -92,8 +103,6 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
         QuizComposer.composeWhereItNeeds()
         queries.cleanAnswerInput()
         queries.initAnswerInput()
-        queries.cleanExercise()
-        queries.initExercise()
         queries.cleanTextSelection()
         queries.initTextSelection()
         queries.cleanEvents()
