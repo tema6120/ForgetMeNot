@@ -27,4 +27,10 @@
             android:title="@string/action_filter"
             app:showAsAction="ifRoom" />
 
+    <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/title_action_settings"
+            app:showAsAction="ifRoom" />
+
 </menu>

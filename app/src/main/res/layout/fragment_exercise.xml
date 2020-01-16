@@ -94,7 +94,7 @@
                     app:layout_constraintStart_toEndOf="@id/editCardButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
             <TextView
                     android:id="@+id/levelOfKnowledgeTextView"
@@ -120,7 +120,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/levelOfKnowledgeTextView"
                     app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
                     app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
-                    app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView"/>
+                    app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

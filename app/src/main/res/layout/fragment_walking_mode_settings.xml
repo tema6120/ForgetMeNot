@@ -1,0 +1,195 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/text_volume_up_button_section"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        <LinearLayout
+                android:id="@+id/volumeUpSinglePressButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/volumeUpSinglePressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_single_press_title"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedVolumeUpSinglePressActionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="14sp"
+                    tools:text="@string/key_gesture_action_set_card_as_remember" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divider" />
+
+        <LinearLayout
+                android:id="@+id/volumeUpDoublePressButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/volumeUpDoublePressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_double_press_title"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedVolumeUpDoublePressActionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="14sp"
+                    tools:text="@string/key_gesture_action_move_to_next_card" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divider" />
+
+        <LinearLayout
+                android:id="@+id/volumeUpLongPressButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/volumeUpLongPressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_long_press_title"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedVolumeUpLongPressActionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="14sp"
+                    tools:text="@string/key_gesture_action_speak_question" />
+
+        </LinearLayout>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/text_volume_down_button_section"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        <LinearLayout
+                android:id="@+id/volumeDownSinglePressButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/volumeDownSinglePressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_single_press_title"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedVolumeDownSinglePressActionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="14sp"
+                    tools:text="@string/key_gesture_action_set_card_as_not_remember" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divider" />
+
+        <LinearLayout
+                android:id="@+id/volumeDownDoublePressButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/volumeDownDoublePressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_double_press_title"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedVolumeDownDoublePressActionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="14sp"
+                    tools:text="@string/key_gesture_action_move_to_previous_card" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divider" />
+
+        <LinearLayout
+                android:id="@+id/volumeDownLongPressButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/volumeDownLongPressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_long_press_title"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedVolumeDownLongPressActionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="14sp"
+                    tools:text="@string/key_gesture_action_speak_answer" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -111,8 +111,8 @@ class ExerciseController : BaseExerciseController<ExerciseEvent, ExerciseOrder>(
                 val keyGestureAction: KeyGestureAction = queries
                     .getKeyGestureAction(event.keyGesture)
                     .executeAsOne()
-                    .keyGestureAction ?: return
                 when (keyGestureAction) {
+                    NO_ACTION -> return
                     MOVE_TO_NEXT_CARD -> issueOrder(MoveToNextPosition)
                     MOVE_TO_PREVIOUS_CARD -> issueOrder(MoveToPreviousPosition)
                     SET_CARD_AS_REMEMBER -> setCardAsRemember()

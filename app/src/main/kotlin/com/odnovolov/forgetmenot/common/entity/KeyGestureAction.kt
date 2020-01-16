@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.common.entity
 
 enum class KeyGestureAction {
+    NO_ACTION,
     MOVE_TO_NEXT_CARD,
     MOVE_TO_PREVIOUS_CARD,
     SET_CARD_AS_REMEMBER,

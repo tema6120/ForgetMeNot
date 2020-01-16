@@ -1,0 +1,2 @@
+selectedKeyGestureAction:
+SELECT keyGestureAction FROM WalkingModePreference WHERE keyGesture == ?;

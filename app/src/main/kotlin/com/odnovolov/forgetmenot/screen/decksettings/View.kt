@@ -238,7 +238,7 @@ class DeckSettingsFragment : BaseFragment() {
                         isSelected = it === selectedTestMethod
                     )
                 }
-                testMethodAdapter.submitList(testMethods)
+                testMethodAdapter.items = testMethods
             }
             intervalScheme.observe {
                 selectedIntervalsTextView.text = when {
@@ -281,7 +281,7 @@ class DeckSettingsFragment : BaseFragment() {
                         isSelected = cardReverse === selectedCardReverse
                     )
                 }
-                cardReverseAdapter.submitList(items)
+                cardReverseAdapter.items = items
             }
         }
     }

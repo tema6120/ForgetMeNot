@@ -1,0 +1,68 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/walkingModeSettingsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/text_walking_mode_title"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/navigateToWalkingModeSettingsScreenIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/walkingModeSettingsDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/text_walking_mode_settings_description"
+                android:textColor="@color/textSecondary"
+                app:layout_constraintEnd_toStartOf="@id/navigateToWalkingModeSettingsScreenIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/walkingModeSettingsTitle" />
+
+        <ImageView
+                android:id="@+id/navigateToWalkingModeSettingsScreenIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/walkingModeSettingsTitle"
+                app:layout_constraintBottom_toBottomOf="@id/walkingModeSettingsDescription"
+                app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
+
+        <View
+                android:id="@+id/walkingModeSettingsButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="@id/walkingModeSettingsDescription"
+                app:layout_constraintEnd_toEndOf="@id/navigateToWalkingModeSettingsScreenIcon"
+                app:layout_constraintStart_toStartOf="@id/walkingModeSettingsTitle"
+                app:layout_constraintTop_toTopOf="@id/walkingModeSettingsTitle" />
+
+        <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/walkingModeSettingsButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

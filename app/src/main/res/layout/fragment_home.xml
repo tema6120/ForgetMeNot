@@ -11,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background_decks_preview"
+            tools:listitem="@layout/item_deck_preview"
             app:layoutManager="LinearLayoutManager" />
 
     <androidx.fragment.app.FragmentContainerView

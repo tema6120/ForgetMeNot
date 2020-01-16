@@ -92,7 +92,7 @@ INSERT INTO ExercisePreference(id) VALUES (0);
 
 CREATE TABLE WalkingModePreference (
     keyGesture TEXT AS KeyGesture NOT NULL PRIMARY KEY,
-    keyGestureAction TEXT AS KeyGestureAction
+    keyGestureAction TEXT AS KeyGestureAction NOT NULL
 );
 
 INSERT INTO WalkingModePreference

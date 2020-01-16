@@ -79,7 +79,7 @@ class HomeFragment : BaseFragment() {
                     override val text = getString(R.string.filter_display_only_with_tasks)
                     override val isSelected = displayOnlyWithTasks
                 }
-                filterAdapter.submitList(listOf(item))
+                filterAdapter.items = listOf(item)
             }
             hasAnySelectedDeck.observe { hasAnySelectedDeck ->
                 if (hasAnySelectedDeck) {
@@ -182,6 +182,11 @@ class HomeFragment : BaseFragment() {
             }
             R.id.action_filter -> {
                 filterDialog.show()
+                true
+            }
+            R.id.action_settings -> {
+                actionMode?.finish()
+                findNavController().navigate(R.id.action_home_screen_to_settings_screen)
                 true
             }
             else -> super.onOptionsItemSelected(item)
