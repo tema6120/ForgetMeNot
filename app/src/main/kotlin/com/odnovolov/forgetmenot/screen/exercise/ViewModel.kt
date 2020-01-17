@@ -34,4 +34,12 @@ class ExerciseViewModel {
     val isWalkingMode: Boolean = queries
         .isWalkingMode()
         .executeAsOne()
+
+    val needToDetectVolumeUpGestures: NeedToDetectVolumeUpGestures = queries
+        .needToDetectVolumeUpGestures()
+        .executeAsOne()
+
+    val needToDetectVolumeDownGestures: NeedToDetectVolumeDownGestures = queries
+        .needToDetectVolumeDownGestures()
+        .executeAsOne()
 }

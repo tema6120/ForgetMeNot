@@ -12,3 +12,15 @@ SELECT levelOfKnowledge FROM CurrentExerciseCard;
 
 isWalkingMode:
 SELECT isWalkingMode FROM Exercise;
+
+needToDetectVolumeUpGestures:
+SELECT
+    (SELECT keyGestureAction != 'NO_ACTION' FROM WalkingModePreference WHERE keyGesture == 'VOLUME_UP_SINGLE_PRESS') AS detectSinglePress,
+    (SELECT keyGestureAction != 'NO_ACTION' FROM WalkingModePreference WHERE keyGesture == 'VOLUME_UP_DOUBLE_PRESS') AS detectDoublePress,
+    (SELECT keyGestureAction != 'NO_ACTION' FROM WalkingModePreference WHERE keyGesture == 'VOLUME_UP_LONG_PRESS') AS detectLongPress;
+
+needToDetectVolumeDownGestures:
+SELECT
+    (SELECT keyGestureAction != 'NO_ACTION' FROM WalkingModePreference WHERE keyGesture == 'VOLUME_DOWN_SINGLE_PRESS') AS detectSinglePress,
+    (SELECT keyGestureAction != 'NO_ACTION' FROM WalkingModePreference WHERE keyGesture == 'VOLUME_DOWN_DOUBLE_PRESS') AS detectDoublePress,
+    (SELECT keyGestureAction != 'NO_ACTION' FROM WalkingModePreference WHERE keyGesture == 'VOLUME_DOWN_LONG_PRESS') AS detectLongPress;

@@ -153,33 +153,61 @@ class ExerciseFragment : BaseFragment() {
 
     private fun setupWalkingModeIfEnabled() {
         if (viewModel.isWalkingMode) {
-            val volumeUpGestureDetector = KeyGestureDetector(viewScope!!) {
-                val keyGesture: KeyGesture = when(it) {
-                    SINGLE_PRESS -> VOLUME_UP_SINGLE_PRESS
-                    DOUBLE_PRESS -> VOLUME_UP_DOUBLE_PRESS
-                    LONG_PRESS -> VOLUME_UP_LONG_PRESS
+            val volumeUpDetectFlags = viewModel.needToDetectVolumeUpGestures
+            val volumeUpGestureDetector: KeyGestureDetector? =
+                if (with(volumeUpDetectFlags) {
+                        !detectSinglePress && !detectDoublePress && !detectLongPress
+                    }) null
+                else KeyGestureDetector(
+                    detectSinglePress = volumeUpDetectFlags.detectSinglePress,
+                    detectDoublePress = volumeUpDetectFlags.detectDoublePress,
+                    detectLongPress = volumeUpDetectFlags.detectLongPress,
+                    coroutineScope = viewScope!!
+                ) {
+                    val keyGesture: KeyGesture = when (it) {
+                        SINGLE_PRESS -> VOLUME_UP_SINGLE_PRESS
+                        DOUBLE_PRESS -> VOLUME_UP_DOUBLE_PRESS
+                        LONG_PRESS -> VOLUME_UP_LONG_PRESS
+                    }
+                    controller.dispatch(KeyGestureDetected(keyGesture))
                 }
-                controller.dispatch(KeyGestureDetected(keyGesture))
-            }
-            val volumeDownGestureDetector = KeyGestureDetector(viewScope!!) {
-                val keyGesture: KeyGesture = when(it) {
-                    SINGLE_PRESS -> VOLUME_DOWN_SINGLE_PRESS
-                    DOUBLE_PRESS -> VOLUME_DOWN_DOUBLE_PRESS
-                    LONG_PRESS -> VOLUME_DOWN_LONG_PRESS
+            val volumeDownDetectFlags = viewModel.needToDetectVolumeDownGestures
+            val volumeDownGestureDetector: KeyGestureDetector? =
+                if (with(volumeDownDetectFlags) {
+                        !detectSinglePress && !detectDoublePress && !detectLongPress
+                    }) null
+                else KeyGestureDetector(
+                    detectSinglePress = volumeDownDetectFlags.detectSinglePress,
+                    detectDoublePress = volumeDownDetectFlags.detectDoublePress,
+                    detectLongPress = volumeDownDetectFlags.detectLongPress,
+                    coroutineScope = viewScope!!
+                ) {
+                    val keyGesture: KeyGesture = when (it) {
+                        SINGLE_PRESS -> VOLUME_DOWN_SINGLE_PRESS
+                        DOUBLE_PRESS -> VOLUME_DOWN_DOUBLE_PRESS
+                        LONG_PRESS -> VOLUME_DOWN_LONG_PRESS
+                    }
+                    controller.dispatch(KeyGestureDetected(keyGesture))
                 }
-                controller.dispatch(KeyGestureDetected(keyGesture))
-            }
             val keyEventInterceptor: (KeyEvent) -> Boolean = { event: KeyEvent ->
                 when (event.keyCode) {
                     KeyEvent.KEYCODE_VOLUME_UP -> {
-                        val isPressed = event.action == KeyEvent.ACTION_DOWN
-                        volumeUpGestureDetector.dispatchKeyEvent(isPressed)
-                        true
+                        if (volumeUpGestureDetector == null) {
+                            false
+                        } else {
+                            val isPressed = event.action == KeyEvent.ACTION_DOWN
+                            volumeUpGestureDetector.dispatchKeyEvent(isPressed)
+                            true
+                        }
                     }
                     KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                        val isPressed = event.action == KeyEvent.ACTION_DOWN
-                        volumeDownGestureDetector.dispatchKeyEvent(isPressed)
-                        true
+                        if (volumeDownGestureDetector == null) {
+                            false
+                        } else {
+                            val isPressed = event.action == KeyEvent.ACTION_DOWN
+                            volumeDownGestureDetector.dispatchKeyEvent(isPressed)
+                            true
+                        }
                     }
                     else -> false
                 }
