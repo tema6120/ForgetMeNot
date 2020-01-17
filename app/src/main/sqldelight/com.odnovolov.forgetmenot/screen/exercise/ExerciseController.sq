@@ -2,6 +2,7 @@ setCurrentExerciseCardIdByPosition:
 UPDATE Exercise SET currentExerciseCardId = (
     SELECT id
     FROM ExerciseCard
+    WHERE isVisible
     ORDER BY id
     LIMIT 1
     OFFSET :position
