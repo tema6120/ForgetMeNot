@@ -15,6 +15,10 @@
                 app:destination="@id/exercise_screen" />
 
         <action
+                android:id="@+id/action_home_screen_to_repetition_screen"
+                app:destination="@id/repetition_screen" />
+
+        <action
                 android:id="@+id/action_home_screen_to_deck_settings_screen"
                 app:destination="@id/deck_settings_screen" />
 
@@ -87,5 +91,11 @@
             android:name="com.odnovolov.forgetmenot.screen.walkingmodesettings.WalkingModeSettingsFragment"
             android:label="@string/label_walking_mode_settings_screen"
             tools:layout="@layout/fragment_walking_mode_settings" />
+
+    <fragment
+            android:id="@+id/repetition_screen"
+            android:name="com.odnovolov.forgetmenot.screen.repetition.view.RepetitionFragment"
+            android:label="@string/label_repetition_screen"
+            tools:layout="@layout/fragment_repetition" />
 
 </navigation>

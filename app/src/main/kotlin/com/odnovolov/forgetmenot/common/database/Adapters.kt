@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.common.database
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.screen.home.adddeck.Stage
 import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
+import com.odnovolov.forgetmenot.common.entity.SpeakEvent
+import com.odnovolov.forgetmenot.common.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.squareup.sqldelight.ColumnAdapter
 import java.util.*
@@ -67,6 +69,29 @@ val testMethodAdapter = object : ColumnAdapter<TestMethod, String> {
 
     override fun decode(databaseValue: String): TestMethod {
         return TestMethod.valueOf(databaseValue)
+    }
+}
+
+val speakEventAdapter = object : ColumnAdapter<SpeakEvent, String> {
+    override fun encode(value: SpeakEvent): String {
+        return when (value) {
+            SpeakQuestion -> "SPEAK_QUESTION"
+            SpeakAnswer -> "SPEAK_ANSWER"
+            is Delay -> "DELAY(${value.seconds})"
+        }
+    }
+
+    override fun decode(databaseValue: String): SpeakEvent {
+        return when (databaseValue) {
+            "SPEAK_QUESTION" -> SpeakQuestion
+            "SPEAK_ANSWER" -> SpeakAnswer
+            else -> {
+                val startIndex = databaseValue.indexOf('(') + 1
+                val endIndex = databaseValue.length - 1
+                val ms = databaseValue.subSequence(startIndex, endIndex).toString().toInt()
+                Delay(ms)
+            }
+        }
     }
 }
 

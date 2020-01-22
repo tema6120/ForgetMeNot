@@ -174,3 +174,34 @@ DELETE FROM Events;
 
 initEvents:
 INSERT INTO Events DEFAULT VALUES;
+
+cleanRepetitionCards:
+DELETE FROM RepetitionCard;
+
+initRepetitionCards:
+INSERT INTO RepetitionCard (
+    cardId,
+    pronunciationId,
+    isReverse
+) SELECT
+    Card.id,
+    ExercisePreference.pronunciationId,
+    CASE ExercisePreference.cardReverse
+        WHEN 'Off' THEN 0
+        WHEN 'On' THEN 1
+        WHEN 'EveryOtherLap' THEN Card.lap % 2
+    END
+FROM Card
+    JOIN Deck ON Card.deckId == Deck.id
+    JOIN ExercisePreference ON Deck.exercisePreferenceId == ExercisePreference.id
+WHERE
+    Deck.id IN ?
+ORDER BY
+    random();
+
+cleanRepetitionState:
+DELETE FROM RepetitionState;
+
+initRepetitionState:
+INSERT INTO RepetitionState(currentRepetitionCardId)
+SELECT min(id) FROM RepetitionCard;

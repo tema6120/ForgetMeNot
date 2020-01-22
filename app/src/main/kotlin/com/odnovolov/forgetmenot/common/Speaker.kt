@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.common
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.widget.Toast
 import java.lang.NullPointerException
 import java.util.*
@@ -60,6 +61,18 @@ class Speaker(context: Context, onInit: () -> Unit = {}) {
         }
         currentLanguage = language
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+    }
+
+    fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit) {
+        tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onDone(utteranceId: String?) {
+                onSpeakingFinished()
+            }
+
+            override fun onError(utteranceId: String?) {}
+
+            override fun onStart(utteranceId: String?) {}
+        })
     }
 
     fun shutdown() {

@@ -35,6 +35,14 @@ class HomeController : BaseController<HomeEvent, HomeOrder>() {
                 startExercise(deckIds = listOf(event.deckId), isWalkingMode = true)
             }
 
+            is RepetitionModeMenuItemClicked -> {
+                queries.cleanRepetitionCards()
+                queries.initRepetitionCards(listOf(event.deckId))
+                queries.cleanRepetitionState()
+                queries.initRepetitionState()
+                issueOrder(NavigateToRepetition)
+            }
+
             is SetupDeckMenuItemClicked -> {
                 queries.clearDeckSelection()
 

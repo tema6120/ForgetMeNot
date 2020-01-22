@@ -40,6 +40,7 @@
     <string name="label_edit_card_screen">Edit card</string>
     <string name="label_settings_screen">Settings</string>
     <string name="label_walking_mode_settings_screen">Walking mode settings</string>
+    <string name="label_repetition_screen">Repetition</string>
     <string name="hint_pronunciation_name_edittext">Enter name</string>
     <string name="text_question_title_textview">Question</string>
     <string name="text_auto_speak_switch">Auto speak</string>
@@ -100,7 +101,8 @@
     <string name="text_hint_as_quiz_button">As quiz</string>
     <string name="text_hint_mask_letters_button">Mask letters</string>
     <string name="text_go_to_tts_settings_button">Go to TTS Settings</string>
-    <string name="title_start_exercise_in_walking_mode">Start exercise in \'Walking\' mode</string>
+    <string name="title_start_exercise_in_walking_mode">Start exercise in \'Walking mode\'</string>
+    <string name="title_repetition_mode">Repetition mode</string>
     <string name="title_action_settings">Settings</string>
     <string name="text_walking_mode_title">Walking mode</string>
     <string name="text_walking_mode_settings_description">Remapping volume keys actions</string>

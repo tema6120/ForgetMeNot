@@ -110,3 +110,19 @@ CREATE TEMPORARY TABLE PronunciationState (
     nameCheckResult TEXT NOT NULL DEFAULT 'OK', -- AS NameCheckStatus
     renamePronunciationId INTEGER
 );
+
+repetionState:
+CREATE TEMPORARY TABLE RepetitionState (
+    currentRepetitionCardId INTEGER NOT NULL,
+    isPlaying INTEGER AS Boolean NOT NULL DEFAULT 1,
+    speakEventOrdinal INTEGER NOT NULL DEFAULT 1
+);
+
+repetitionCard:
+CREATE TEMPORARY TABLE RepetitionCard (
+    id INTEGER PRIMARY KEY,
+    cardId INTEGER NOT NULL,
+    speakPlanId INTEGER NOT NULL DEFAULT 0,
+    pronunciationId INTEGER NOT NULL,
+    isReverse INTEGER AS Boolean NOT NULL
+);

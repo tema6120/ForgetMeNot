@@ -1,6 +1,7 @@
 import com.odnovolov.forgetmenot.common.entity.CardReverse;
 import com.odnovolov.forgetmenot.common.entity.KeyGesture;
 import com.odnovolov.forgetmenot.common.entity.KeyGestureAction;
+import com.odnovolov.forgetmenot.common.entity.SpeakEvent;
 import com.odnovolov.forgetmenot.common.entity.TestMethod;
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting;
 import java.lang.Boolean;
@@ -102,3 +103,24 @@ VALUES ('VOLUME_UP_SINGLE_PRESS', 'SET_CARD_AS_REMEMBER'),
        ('VOLUME_DOWN_SINGLE_PRESS', 'SET_CARD_AS_NOT_REMEMBER'),
        ('VOLUME_DOWN_DOUBLE_PRESS', 'MOVE_TO_PREVIOUS_CARD'),
        ('VOLUME_DOWN_LONG_PRESS', 'SPEAK_ANSWER');
+
+CREATE TABLE SpeakPlan (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL DEFAULT ''
+);
+
+INSERT INTO SpeakPlan(id) VALUES (0);
+
+CREATE TABLE SpeakEvent (
+    id INTEGER PRIMARY KEY,
+    speakPlanId INTEGER NOT NULL REFERENCES SpeakPlan ON DELETE CASCADE,
+    ordinal INTEGER NOT NULL,
+    value TEXT AS SpeakEvent NOT NULL,
+    UNIQUE (speakPlanId, ordinal)
+);
+
+INSERT INTO SpeakEvent(speakPlanId, ordinal, value)
+VALUES (0, 1, 'SPEAK_QUESTION'),
+       (0, 2, 'DELAY(2)'),
+       (0, 3, 'SPEAK_ANSWER'),
+       (0, 4, 'DELAY(1)');
