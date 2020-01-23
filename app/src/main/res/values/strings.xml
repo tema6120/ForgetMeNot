@@ -119,4 +119,9 @@
     <string name="key_gesture_action_set_card_as_learned">Set card as \'Learned\'</string>
     <string name="key_gesture_action_speak_question">Speak question</string>
     <string name="key_gesture_action_speak_answer">Speak answer</string>
+    <string name="repetition_notification_channel_name">Repetition</string>
+    <string name="repetition_notification_channel_description">Pronunciation of questions and answers in order to repetition</string>
+    <string name="repetition_notification_title">RepetitionMode</string>
+    <string name="pause_action_title_in_repetition_notification">Pause</string>
+    <string name="resume_action_title_in_repetition_notification">Resume</string>
 </resources>

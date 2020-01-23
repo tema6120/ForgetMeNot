@@ -1,0 +1,2 @@
+isPlaying:
+SELECT isPlaying FROM RepetitionState;

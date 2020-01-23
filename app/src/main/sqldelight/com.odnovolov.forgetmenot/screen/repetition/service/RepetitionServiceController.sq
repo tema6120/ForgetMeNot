@@ -1,0 +1,46 @@
+isPlaying:
+SELECT isPlaying FROM RepetitionState;
+
+setIsPlaying:
+UPDATE RepetitionState SET isPlaying = ?;
+
+isThereOneMoreSpeakEventForCurrentRepetitionCard:
+SELECT EXISTS (
+    SELECT * FROM SpeakEvent
+        WHERE speakPlanId == (SELECT speakPlanId FROM RepetitionCard WHERE id ==
+                              (SELECT currentRepetitionCardId FROM RepetitionState)
+                             )
+              AND ordinal == (SELECT speakEventOrdinal FROM RepetitionState) + 1
+);
+
+incrementSpeakEventOrdinal:
+UPDATE RepetitionState SET speakEventOrdinal = speakEventOrdinal + 1;
+
+getNextRepetitionCardId:
+SELECT min(id) AS nextRepetitionCardId FROM RepetitionCard WHERE id > (
+    SELECT currentRepetitionCardId FROM RepetitionState
+);
+
+updateRepetitionState:
+UPDATE RepetitionState SET currentRepetitionCardId = ?, speakEventOrdinal = ?;
+
+getCurrentSpeakEvent:
+SELECT value FROM SpeakEvent
+WHERE speakPlanId == (SELECT speakPlanId FROM RepetitionCard WHERE id ==
+                          (SELECT currentRepetitionCardId FROM RepetitionState)
+                     )
+      AND ordinal == (SELECT speakEventOrdinal FROM RepetitionState);
+
+speakingDataForQuestion:
+SELECT
+    question AS text,
+    questionLanguage AS language,
+    doNotSpeakTextInBrackets
+FROM CurrentRepetitionCard, CurrentRepetitionPronunciation;
+
+speakingDataForAnswer:
+SELECT
+    answer AS text,
+    answerLanguage AS language,
+    doNotSpeakTextInBrackets
+FROM CurrentRepetitionCard, CurrentRepetitionPronunciation;

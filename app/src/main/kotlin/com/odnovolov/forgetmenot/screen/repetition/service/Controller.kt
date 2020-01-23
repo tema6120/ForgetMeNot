@@ -2,11 +2,12 @@ package com.odnovolov.forgetmenot.screen.repetition.service
 
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
-import com.odnovolov.forgetmenot.common.entity.SpeakEvent
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.TextInBracketsRemover
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceEvent.*
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceOrder.Speak
+import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceOrder.StopSpeaking
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -16,6 +17,7 @@ class RepetitionServiceController :
     private val queries: RepetitionServiceControllerQueries =
         database.repetitionServiceControllerQueries
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
+    private var delayJob: Job? = null
 
     init {
         dispatch(Init)
@@ -24,52 +26,61 @@ class RepetitionServiceController :
     override fun handleEvent(event: RepetitionServiceEvent) {
         when (event) {
             Init -> {
-                startRepetition()
+                if (!queries.isPlaying().executeAsOne()) return
+                executeSpeakEvent()
             }
 
             SpeakingFinished -> {
-                executeNextSpeakEvent()
+                tryToExecuteNextSpeakEvent()
             }
 
             DelayIsUp -> {
-                executeNextSpeakEvent()
+                tryToExecuteNextSpeakEvent()
             }
-        }
-    }
 
-    private fun startRepetition() {
-        if (!queries.isPlaying().executeAsOne()) return
-        val speakEvent: SpeakEvent? = queries.getCurrentSpeakEvent().executeAsOneOrNull()
-        checkAndExecuteSpeakEvent(speakEvent)
-    }
-
-    private fun executeNextSpeakEvent() {
-        if (!queries.isPlaying().executeAsOne()) return
-        val speakEvent: SpeakEvent? = queries.getNextSpeakEvent().executeAsOneOrNull()
-        checkAndExecuteSpeakEvent(speakEvent)
-    }
-
-    private fun checkAndExecuteSpeakEvent(speakEvent: SpeakEvent?) {
-        if (speakEvent != null) {
-            queries.incrementSpeakEventOrdinal()
-            executeSpeakEvent(speakEvent)
-        } else {
-            val nextRepetitionCardId: Long? =
-                queries.getNextRepetitionCardId().executeAsOne().nextRepetitionCardId
-            if (nextRepetitionCardId == null) {
+            PauseClicked -> {
+                delayJob?.cancel()
                 queries.setIsPlaying(false)
-            } else {
-                queries.updateRepetitionState(
-                    currentRepetitionCardId = nextRepetitionCardId,
-                    speakEventOrdinal = 1
-                )
-                val newSpeakEvent = queries.getCurrentSpeakEvent().executeAsOne()
-                executeSpeakEvent(newSpeakEvent)
+                issueOrder(StopSpeaking)
+            }
+
+            ResumeClicked -> {
+                queries.setIsPlaying(true)
+                executeSpeakEvent()
             }
         }
     }
 
-    private fun executeSpeakEvent(speakEvent: SpeakEvent) {
+    private fun tryToExecuteNextSpeakEvent() {
+        if (!queries.isPlaying().executeAsOne()) return
+        val success = tryNext()
+        if (success) {
+            executeSpeakEvent()
+        } else {
+            queries.setIsPlaying(false)
+        }
+    }
+
+    private fun tryNext(): Boolean {
+        if (queries.isThereOneMoreSpeakEventForCurrentRepetitionCard().executeAsOne()) {
+            queries.incrementSpeakEventOrdinal()
+            return true
+        }
+        val nextRepetitionCardId: Long? = queries.getNextRepetitionCardId().executeAsOne()
+            .nextRepetitionCardId
+        if (nextRepetitionCardId != null) {
+            queries.updateRepetitionState(
+                currentRepetitionCardId = nextRepetitionCardId,
+                speakEventOrdinal = 1
+            )
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private fun executeSpeakEvent() {
+        val speakEvent = queries.getCurrentSpeakEvent().executeAsOne()
         when (speakEvent) {
             SpeakQuestion -> {
                 queries.speakingDataForQuestion()
@@ -82,9 +93,9 @@ class RepetitionServiceController :
                     .run { speak(text, language, doNotSpeakTextInBrackets) }
             }
             is Delay -> {
-                launch {
+                delayJob = launch {
                     delay(speakEvent.seconds * 1000L)
-                    dispatch(DelayIsUp)
+                    dispatchSafely(DelayIsUp)
                 }
             }
         }

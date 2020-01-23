@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.screen.home
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
@@ -26,7 +25,6 @@ import com.odnovolov.forgetmenot.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.screen.home.HomeOrder.*
 import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingBottomSheet
-import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionService
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 import kotlinx.coroutines.*
@@ -112,8 +110,6 @@ class HomeFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
             }
             NavigateToRepetition -> {
-                val intent = Intent(context, RepetitionService::class.java)
-                context!!.startService(intent)
                 findNavController().navigate(R.id.action_home_screen_to_repetition_screen)
             }
             NavigateToDeckSettings -> {

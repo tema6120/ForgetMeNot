@@ -20,7 +20,7 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
     private const val BACKUP_PREFIX = "BACKUP_FORGET_ME_NOT_"
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        activity.deleteDatabase(DATABASE_NAME)
+        //activity.deleteDatabase(DATABASE_NAME)
         val isActivityFirstCreated = savedInstanceState == null
         if (!::sqliteDriver.isInitialized) {
             initSqlDriver(activity.applicationContext)

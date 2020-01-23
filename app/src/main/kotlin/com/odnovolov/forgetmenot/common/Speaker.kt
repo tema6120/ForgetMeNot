@@ -4,7 +4,6 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.widget.Toast
-import java.lang.NullPointerException
 import java.util.*
 
 class Speaker(context: Context, onInit: () -> Unit = {}) {
@@ -73,6 +72,10 @@ class Speaker(context: Context, onInit: () -> Unit = {}) {
 
             override fun onStart(utteranceId: String?) {}
         })
+    }
+
+    fun stop() {
+        tts.stop()
     }
 
     fun shutdown() {
