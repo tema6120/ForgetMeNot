@@ -1,0 +1,2 @@
+setIsAnsweredTrue:
+UPDATE RepetitionCard SET isAnswered = 1 WHERE id == ?;

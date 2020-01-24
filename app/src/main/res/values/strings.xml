@@ -13,6 +13,8 @@
     <string name="description_speak_button">Speak</string>
     <string name="description_edit_card_button">Edit card</string>
     <string name="description_hint_button">Hint</string>
+    <string name="description_pause_button">Pause</string>
+    <string name="description_resume_button">Resume</string>
     <string name="description_done_button">Done</string>
     <string name="description_cancel_button">Cancel</string>
     <string name="description_reverse_card_button">Reverse card</string>

@@ -5,6 +5,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import com.odnovolov.forgetmenot.R
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 fun Locale.toFlagEmoji(): String? {
@@ -27,8 +30,6 @@ fun Locale.toFlagEmoji(): String? {
 val Int.dp: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
-fun Boolean.toggle(): Boolean = this.not()
-
 fun EditText.observeText(onTextChanged: (newText: CharSequence?) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -50,3 +51,5 @@ fun getBackgroundResForLevelOfKnowledge(levelOfKnowledge: Int) = when (levelOfKn
     5 -> R.drawable.background_level_of_knowledge_very_good
     else -> R.drawable.background_level_of_knowledge_excellent
 }
+
+fun <T> Flow<T>.firstBlocking(): T = runBlocking { first() }

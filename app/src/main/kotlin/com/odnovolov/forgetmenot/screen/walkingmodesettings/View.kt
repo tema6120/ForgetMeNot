@@ -16,11 +16,10 @@ import com.odnovolov.forgetmenot.common.entity.KeyGesture
 import com.odnovolov.forgetmenot.common.entity.KeyGesture.*
 import com.odnovolov.forgetmenot.common.entity.KeyGestureAction
 import com.odnovolov.forgetmenot.common.entity.KeyGestureAction.*
+import com.odnovolov.forgetmenot.common.firstBlocking
 import com.odnovolov.forgetmenot.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionSelected
 import kotlinx.android.synthetic.main.fragment_walking_mode_settings.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 
 class WalkingModeSettingsFragment : BaseFragment() {
     private val controller = WalkingModeSettingsController()
@@ -156,8 +155,6 @@ class WalkingModeSettingsFragment : BaseFragment() {
         SPEAK_QUESTION -> R.string.key_gesture_action_speak_question
         SPEAK_ANSWER -> R.string.key_gesture_action_speak_answer
     }
-
-    private fun <T> Flow<T>.firstBlocking(): T = runBlocking { first() }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)

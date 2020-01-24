@@ -1,0 +1,81 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <ScrollView
+                    android:id="@+id/questionScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fillViewport="true">
+
+                <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+                        android:id="@+id/questionTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:textColor="@color/text_secondary_selector"
+                        android:textIsSelectable="true"
+                        android:textSize="20sp"
+                        tools:text="Эти люди привычны к тяжелой работе." />
+
+            </ScrollView>
+
+            <include layout="@layout/divider" />
+
+            <ScrollView
+                    android:id="@+id/answerScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fillViewport="true"
+                    android:visibility="gone">
+
+                <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+                        android:id="@+id/answerTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textColor="@color/text_secondary_selector"
+                        android:textIsSelectable="true"
+                        android:textSize="18sp"
+                        tools:text="These men are used to hard work." />
+
+            </ScrollView>
+
+            <FrameLayout
+                    android:id="@+id/showAnswerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/curtain"
+                    android:foreground="?attr/selectableItemBackground">
+
+                <TextView
+                        android:id="@+id/showAnswerTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/text_show_answer_textview"
+                        android:textColor="@color/text_curtain_selector"
+                        android:textSize="18sp" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

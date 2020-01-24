@@ -44,3 +44,8 @@ SELECT
     answerLanguage AS language,
     doNotSpeakTextInBrackets
 FROM CurrentRepetitionCard, CurrentRepetitionPronunciation;
+
+setIsAnsweredTrue:
+UPDATE RepetitionCard SET isAnswered = 1 WHERE id == (
+    SELECT currentRepetitionCardId FROM RepetitionState
+);

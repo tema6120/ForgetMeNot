@@ -88,6 +88,7 @@ class RepetitionServiceController :
                     .run { speak(text, language, doNotSpeakTextInBrackets) }
             }
             SpeakAnswer -> {
+                queries.setIsAnsweredTrue()
                 queries.speakingDataForAnswer()
                     .executeAsOne()
                     .run { speak(text, language, doNotSpeakTextInBrackets) }
