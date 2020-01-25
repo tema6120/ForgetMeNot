@@ -13,12 +13,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.firstBlocking
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionService
 import com.odnovolov.forgetmenot.screen.repetition.view.RepetitionCardAdapter.ViewHolder
-import com.odnovolov.forgetmenot.screen.repetition.view.RepetitionViewEvent.ShowAnswerButtonClicked
+import com.odnovolov.forgetmenot.screen.repetition.view.RepetitionViewEvent.*
 import kotlinx.android.synthetic.main.fragment_repetition.*
 import kotlinx.android.synthetic.main.item_repetition_card.view.*
 
@@ -52,14 +53,34 @@ class RepetitionFragment : BaseFragment() {
 
     private fun setupView() {
         repetitionViewPager.adapter = repetitionCardAdapter
+        resumeButton.setOnClickListener {
+            startService(RepetitionService.ACTION_RESUME)
+        }
+        repetitionViewPager.registerOnPageChangeCallback(onPageChangeCallback)
+    }
+
+    private fun startService(action: String? = null) {
+        val intent = Intent(context, RepetitionService::class.java).apply {
+            this.action = action
+        }
+        ContextCompat.startForegroundService(requireContext(), intent)
     }
 
     private fun observeViewModel() {
         with(viewModel) {
             isPlaying.observe { isPlaying ->
                 if (isPlaying) {
-                    val intent = Intent(context, RepetitionService::class.java)
-                    ContextCompat.startForegroundService(requireContext(), intent)
+                    startService()
+                    rootView.onTouch = {
+                        startService(RepetitionService.ACTION_PAUSE)
+                        rootView.onTouch = null
+                    }
+
+                    resumeButton.visibility = GONE
+                    pauseButton.visibility = VISIBLE
+                } else {
+                    resumeButton.visibility = VISIBLE
+                    pauseButton.visibility = GONE
                 }
             }
             repetitionCardItems.observe { repetitionCardItems: List<RepetitionCardItem> ->
@@ -72,13 +93,16 @@ class RepetitionFragment : BaseFragment() {
     }
 
     private fun updateViewPagerPosition(id: Long) {
-        val position = repetitionCardAdapter.currentList.indexOfFirst { it.id == id }
-        repetitionViewPager.currentItem = position
+        if (viewModel.isPlaying.firstBlocking()) {
+            val position = repetitionCardAdapter.currentList.indexOfFirst { it.id == id }
+            repetitionViewPager.currentItem = position
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         repetitionViewPager.adapter = null
+        repetitionViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
     }
 
     override fun onDestroy() {
@@ -90,6 +114,12 @@ class RepetitionFragment : BaseFragment() {
         }
     }
 
+    private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            val id = repetitionCardAdapter.currentList[position].id
+            controller.dispatch(NewPageBecameSelected(id))
+        }
+    }
 }
 
 class RepetitionCardAdapter(

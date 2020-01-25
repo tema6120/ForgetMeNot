@@ -1,2 +1,11 @@
 setIsAnsweredTrue:
 UPDATE RepetitionCard SET isAnswered = 1 WHERE id == ?;
+
+setIsPlaying:
+UPDATE RepetitionState SET isPlaying = ?;
+
+getCurrentRepetitionCardId:
+SELECT currentRepetitionCardId FROM RepetitionState;
+
+setCurrentRepetitionCardId:
+UPDATE RepetitionState SET currentRepetitionCardId = ?, speakEventOrdinal = 1;
