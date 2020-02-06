@@ -46,7 +46,7 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
             }
 
             PositiveDialogButtonClicked -> {
-                if (checkName() === OK) {
+                if (checkName() === Ok) {
                     when (getNamePresetDialogStatus()) {
                         VisibleToMakeIndividualPresetAsShared -> {
                             queries.renameCurrent()
@@ -109,9 +109,9 @@ class IntervalsController : BaseController<IntervalsEvent, IntervalsOrder>() {
 
     private fun checkName(): NameCheckResult {
         val nameCheckResult = when {
-            queries.isTypedIntervalSchemeNameEmpty().executeAsOne() -> EMPTY
-            queries.isTypedIntervalSchemeNameOccupied().executeAsOne() -> OCCUPIED
-            else -> OK
+            queries.isTypedIntervalSchemeNameEmpty().executeAsOne() -> Empty
+            queries.isTypedIntervalSchemeNameOccupied().executeAsOne() -> Occupied
+            else -> Ok
         }
         queries.setNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
         return nameCheckResult

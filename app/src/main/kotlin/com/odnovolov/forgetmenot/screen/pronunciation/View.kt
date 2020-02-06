@@ -214,9 +214,9 @@ class PronunciationFragment : BaseFragment() {
             }
             dialogInputCheckResult.observe {
                 presetNameEditText.error = when (it) {
-                    OK -> null
-                    EMPTY -> getString(R.string.error_message_empty_name)
-                    OCCUPIED -> getString(R.string.error_message_occupied_name)
+                    Ok -> null
+                    Empty -> getString(R.string.error_message_empty_name)
+                    Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
             selectedQuestionLanguage.observe { selectedQuestionLanguage ->

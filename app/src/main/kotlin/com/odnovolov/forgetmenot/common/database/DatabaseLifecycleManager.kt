@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
+import com.odnovolov.forgetmenot.persistence.globalstate.*
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlCursor
@@ -61,6 +62,20 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
     private fun initDatabase() {
         database = Database(
             sqliteDriver,
+            CardDb.Adapter(
+                lastAnsweredAtAdapter = dateTimeAdapter
+            ),
+            DeckDb.Adapter(
+                createdAtAdapter = dateTimeAdapter,
+                lastOpenedAtAdapter = dateTimeAdapter
+            ),
+            ExercisePreferenceDb.Adapter(
+                testMethodAdapter = EnumColumnAdapter(),
+                cardReverseAdapter = EnumColumnAdapter()
+            ),
+            IntervalDb.Adapter(
+                valueAdapter = dateTimeSpanAdapter
+            ),
             DeckReviewSorting.Adapter(
                 criterionAdapter = EnumColumnAdapter(),
                 directionAdapter = EnumColumnAdapter()
@@ -79,6 +94,10 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
             ),
             SpeakEvent.Adapter(
                 valueAdapter = speakEventAdapter
+            ),
+            PronunciationDb.Adapter(
+                questionLanguageAdapter = localeAdapter,
+                answerLanguageAdapter = localeAdapter
             )
         )
     }

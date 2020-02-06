@@ -1,0 +1,43 @@
+import com.soywiz.klock.DateTime;
+
+CREATE TABLE CardDb (
+    id INTEGER PRIMARY KEY,
+    deckId INTEGER NOT NULL,
+    ordinal INTEGER AS Int NOT NULL,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    lap INTEGER AS Int NOT NULL,
+    isLearned INTEGER AS Boolean NOT NULL,
+    levelOfKnowledge INTEGER AS Int NOT NULL,
+    lastAnsweredAt INTEGER AS DateTime
+);
+
+insert:
+INSERT INTO CardDb VALUES ?;
+
+selectAll:
+SELECT * FROM CardDb ORDER BY ordinal;
+
+updateQuestion:
+UPDATE CardDb SET question = ? WHERE id = ?;
+
+updateAnswer:
+UPDATE CardDb SET answer = ? WHERE id = ?;
+
+updateLap:
+UPDATE CardDb SET lap = ? WHERE id = ?;
+
+updateIsLearned:
+UPDATE CardDb SET isLearned = ? WHERE id = ?;
+
+updateLevelOfKnowledge:
+UPDATE CardDb SET levelOfKnowledge = ? WHERE id = ?;
+
+updateLastAnsweredAt:
+UPDATE CardDb SET lastAnsweredAt = ? WHERE id = ?;
+
+delete:
+DELETE FROM CardDb WHERE id = ?;
+
+exists:
+SELECT EXISTS(SELECT * FROM CardDb WHERE id = ?);

@@ -46,7 +46,7 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
             }
 
             PositiveDialogButtonClicked -> {
-                if (checkName() === OK) {
+                if (checkName() === Ok) {
                     when (getNamePresetDialogStatus()) {
                         VisibleToMakeIndividualPresetAsShared -> {
                             queries.renameCurrent()
@@ -109,9 +109,9 @@ class PronunciationController : BaseController<PronunciationEvent, Pronunciation
 
     private fun checkName(): NameCheckResult {
         val nameCheckResult = when {
-            queries.isTypedPronunciationNameEmpty().executeAsOne() -> EMPTY
-            queries.isTypedPronunciationNameOccupied().executeAsOne() -> OCCUPIED
-            else -> OK
+            queries.isTypedPronunciationNameEmpty().executeAsOne() -> Empty
+            queries.isTypedPronunciationNameOccupied().executeAsOne() -> Occupied
+            else -> Ok
         }
         queries.setNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
         return nameCheckResult

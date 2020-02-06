@@ -1,0 +1,41 @@
+import java.util.Locale;
+
+CREATE TABLE PronunciationDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    questionLanguage TEXT AS Locale,
+    questionAutoSpeak INTEGER AS Boolean NOT NULL,
+    answerLanguage TEXT AS Locale,
+    answerAutoSpeak INTEGER AS Boolean NOT NULL,
+    doNotSpeakTextInBrackets INTEGER AS Boolean NOT NULL
+);
+
+insert:
+INSERT INTO PronunciationDb VALUES ?;
+
+selectAll:
+SELECT * FROM PronunciationDb;
+
+updateName:
+UPDATE PronunciationDb SET name = ? WHERE id = ?;
+
+updateQuestionLanguage:
+UPDATE PronunciationDb SET questionLanguage = ? WHERE id = ?;
+
+updateQuestionAutoSpeak:
+UPDATE PronunciationDb SET questionAutoSpeak = ? WHERE id = ?;
+
+updateAnswerLanguage:
+UPDATE PronunciationDb SET answerLanguage = ? WHERE id = ?;
+
+updateAnswerAutoSpeak:
+UPDATE PronunciationDb SET answerAutoSpeak = ? WHERE id = ?;
+
+updateDoNotSpeakTextInBrackets:
+UPDATE PronunciationDb SET doNotSpeakTextInBrackets = ? WHERE id = ?;
+
+delete:
+DELETE FROM PronunciationDb WHERE id = ?;
+
+exists:
+SELECT EXISTS(SELECT * FROM PronunciationDb WHERE id = ?);

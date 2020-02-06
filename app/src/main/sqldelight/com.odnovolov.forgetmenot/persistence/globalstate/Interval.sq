@@ -1,0 +1,26 @@
+import com.soywiz.klock.DateTimeSpan;
+
+CREATE TABLE IntervalDb (
+    id INTEGER PRIMARY KEY,
+    intervalSchemeId INTEGER NOT NULL REFERENCES IntervalScheme ON DELETE CASCADE,
+    targetLevelOfKnowledge INTEGER AS Int NOT NULL,
+    value TEXT AS DateTimeSpan NOT NULL
+);
+
+insert:
+INSERT INTO IntervalDb VALUES ?;
+
+selectAll:
+SELECT * FROM IntervalDb ORDER BY targetLevelOfKnowledge;
+
+updateTargetLevelOfKnowledge:
+UPDATE IntervalDb SET targetLevelOfKnowledge = ? WHERE id = ?;
+
+updateValue:
+UPDATE IntervalDb SET value = ? WHERE id = ?;
+
+delete:
+DELETE FROM IntervalDb WHERE id = ?;
+
+exists:
+SELECT EXISTS(SELECT * FROM IntervalDb WHERE id = ?);

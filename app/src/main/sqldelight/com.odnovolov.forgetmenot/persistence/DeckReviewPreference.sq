@@ -1,0 +1,11 @@
+CREATE TABLE DeckReviewPreferenceDb (
+    displayOnlyWithTasks INTEGER AS Boolean NOT NULL
+);
+
+INSERT INTO DeckReviewPreferenceDb VALUES (0);
+
+selectAll:
+SELECT * FROM DeckReviewPreferenceDb;
+
+updateDisplayOnlyWithTasks:
+UPDATE DeckReviewPreferenceDb SET displayOnlyWithTasks = ?;

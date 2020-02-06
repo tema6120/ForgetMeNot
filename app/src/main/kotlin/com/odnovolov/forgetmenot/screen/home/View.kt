@@ -20,10 +20,10 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.screen.home.DeckPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.screen.home.HomeOrder.*
-import com.odnovolov.forgetmenot.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*

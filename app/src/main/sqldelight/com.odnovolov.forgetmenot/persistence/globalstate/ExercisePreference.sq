@@ -1,0 +1,46 @@
+import com.odnovolov.forgetmenot.domain.entity.CardReverse;
+import com.odnovolov.forgetmenot.domain.entity.TestMethod;
+
+CREATE TABLE ExercisePreferenceDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    randomOrder INTEGER AS Boolean NOT NULL,
+    testMethod TEXT AS TestMethod NOT NULL,
+    intervalSchemeId INTEGER,
+    pronunciationId INTEGER NOT NULL,
+    isQuestionDisplayed INTEGER AS Boolean NOT NULL,
+    cardReverse TEXT AS CardReverse NOT NULL
+);
+
+insert:
+INSERT INTO ExercisePreferenceDb VALUES ?;
+
+selectAll:
+SELECT * FROM ExercisePreferenceDb;
+
+updateName:
+UPDATE ExercisePreferenceDb SET name = ? WHERE id = ?;
+
+updateRandomOrder:
+UPDATE ExercisePreferenceDb SET randomOrder = ? WHERE id = ?;
+
+updateTestMethod:
+UPDATE ExercisePreferenceDb SET testMethod = ? WHERE id = ?;
+
+updateIntervalSchemeId:
+UPDATE ExercisePreferenceDb SET intervalSchemeId = ? WHERE id = ?;
+
+updatePronunciationId:
+UPDATE ExercisePreferenceDb SET pronunciationId = ? WHERE id = ?;
+
+updateIsQuestionDisplayed:
+UPDATE ExercisePreferenceDb SET isQuestionDisplayed = ? WHERE id = ?;
+
+updateCardReverse:
+UPDATE ExercisePreferenceDb SET cardReverse = ? WHERE id = ?;
+
+delete:
+DELETE FROM ExercisePreferenceDb WHERE id = ?;
+
+exists:
+SELECT EXISTS(SELECT * FROM ExercisePreferenceDb WHERE id = ?);

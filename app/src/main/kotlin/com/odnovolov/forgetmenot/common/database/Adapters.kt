@@ -6,6 +6,10 @@ import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.common.entity.TestMethod
+import com.soywiz.klock.DateTime
+import com.soywiz.klock.DateTimeSpan
+import com.soywiz.klock.MonthSpan
+import com.soywiz.klock.TimeSpan
 import com.squareup.sqldelight.ColumnAdapter
 import java.util.*
 
@@ -92,6 +96,25 @@ val speakEventAdapter = object : ColumnAdapter<SpeakEvent, String> {
                 Delay(ms)
             }
         }
+    }
+}
+
+val dateTimeAdapter = object : ColumnAdapter<DateTime, Long> {
+    override fun encode(value: DateTime): Long = value.unixMillisLong
+    override fun decode(databaseValue: Long): DateTime = DateTime.fromUnix(databaseValue)
+}
+
+val dateTimeSpanAdapter = object : ColumnAdapter<DateTimeSpan, String> {
+    override fun encode(value: DateTimeSpan): String {
+        return "${value.monthSpan.totalMonths}|${value.timeSpan.millisecondsLong}"
+    }
+    override fun decode(databaseValue: String): DateTimeSpan {
+        val chunks = databaseValue.split("|")
+        val totalMonths: Int = chunks[0].toInt()
+        val monthSpan = MonthSpan(totalMonths)
+        val milliseconds: Double = chunks[1].toDouble()
+        val timeSpan = TimeSpan(milliseconds)
+        return DateTimeSpan(monthSpan, timeSpan)
     }
 }
 

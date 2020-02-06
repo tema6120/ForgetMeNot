@@ -183,9 +183,9 @@ class DeckSettingsFragment : BaseFragment() {
             }
             deckNameCheckResult.observe {
                 renameDeckEditText.error = when (it) {
-                    OK -> null
-                    EMPTY -> getString(R.string.error_message_empty_name)
-                    OCCUPIED -> getString(R.string.error_message_occupied_name)
+                    Ok -> null
+                    Empty -> getString(R.string.error_message_empty_name)
+                    Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
             exercisePreferenceIdAndName.observe {
@@ -207,9 +207,9 @@ class DeckSettingsFragment : BaseFragment() {
             }
             namePresetInputCheckResult.observe {
                 namePresetEditText.error = when (it) {
-                    OK -> null
-                    EMPTY -> getString(R.string.error_message_empty_name)
-                    OCCUPIED -> getString(R.string.error_message_occupied_name)
+                    Ok -> null
+                    Empty -> getString(R.string.error_message_empty_name)
+                    Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
             randomOrder.observe(

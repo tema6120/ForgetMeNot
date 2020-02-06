@@ -1,0 +1,15 @@
+CREATE TABLE SerializableDb (
+    className TEXT NOT NULL,
+    objectId INTEGER NOT NULL DEFAULT -1,
+    jsonData TEXT NOT NULL,
+    PRIMARY KEY(className, objectId)
+);
+
+replace:
+REPLACE INTO SerializableDb(className, jsonData) VALUES (?, ?);
+
+selectJsonData:
+SELECT jsonData FROM SerializableDb WHERE className = ?;
+
+delete:
+DELETE FROM SerializableDb WHERE className = ?;

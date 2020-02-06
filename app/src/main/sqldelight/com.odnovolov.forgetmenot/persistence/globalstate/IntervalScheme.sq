@@ -1,0 +1,19 @@
+CREATE TABLE IntervalSchemeDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+insert:
+INSERT INTO IntervalSchemeDb VALUES ?;
+
+selectAll:
+SELECT * FROM IntervalSchemeDb;
+
+updateName:
+UPDATE IntervalSchemeDb SET name = ? WHERE id = ?;
+
+delete:
+DELETE FROM IntervalSchemeDb WHERE id = ?;
+
+exists:
+SELECT EXISTS(SELECT * FROM IntervalSchemeDb WHERE id = ?);

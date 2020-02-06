@@ -28,7 +28,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             }
 
             RenameDeckDialogPositiveButtonClicked -> {
-                if (checkTypedDeckName() == OK) {
+                if (checkTypedDeckName() == Ok) {
                     queries.renameDeck()
                     queries.resetRenameDeckState()
                 }
@@ -69,7 +69,7 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
             }
 
             NamePresetPositiveDialogButtonClicked -> {
-                if (checkTypedPresetName() === OK) {
+                if (checkTypedPresetName() === Ok) {
                     when (getNameInputDialogStatus()) {
                         VisibleToMakeIndividualPresetAsShared -> {
                             queries.renameCurrentPreset()
@@ -124,9 +124,9 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
 
     private fun checkTypedDeckName(): NameCheckResult {
         val nameCheckResult = when {
-            queries.isTypedDeckNameEmpty().executeAsOne() -> EMPTY
-            queries.isTypedDeckNameOccupied().executeAsOne() -> OCCUPIED
-            else -> OK
+            queries.isTypedDeckNameEmpty().executeAsOne() -> Empty
+            queries.isTypedDeckNameOccupied().executeAsOne() -> Occupied
+            else -> Ok
         }
         queries.setDeckNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
         return nameCheckResult
@@ -144,9 +144,9 @@ class DeckSettingsController : BaseController<DeckSettingsEvent, DeckSettingsOrd
 
     private fun checkTypedPresetName(): NameCheckResult {
         val nameCheckResult = when {
-            queries.isTypedPresetNameEmpty().executeAsOne() -> EMPTY
-            queries.isTypedPresetNameOccupied().executeAsOne() -> OCCUPIED
-            else -> OK
+            queries.isTypedPresetNameEmpty().executeAsOne() -> Empty
+            queries.isTypedPresetNameOccupied().executeAsOne() -> Occupied
+            else -> Ok
         }
         queries.setPresetNameCheckResult(nameCheckResultAdapter.encode(nameCheckResult))
         return nameCheckResult
