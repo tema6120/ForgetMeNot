@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.*
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeck.Event.*
-import com.odnovolov.forgetmenot.screen.home.adddeck.Parser.IllegalCardFormatException
+import com.odnovolov.forgetmenot.domain.interactor.adddeck.Parser.IllegalCardFormatException
 import kotlinx.coroutines.flow.Flow
 import java.io.InputStream
 
@@ -19,7 +19,7 @@ class AddDeck(
     }
 
     sealed class Event {
-        class ParsingFinishedWithError(val e: IllegalCardFormatException) : Event()
+        class ParsingFinishedWithError(val exception: IllegalCardFormatException) : Event()
         class DeckNameIsOccupied(val occupiedName: String) : Event()
         class DeckHasAdded(val deck: Deck) : Event()
     }

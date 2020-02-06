@@ -13,7 +13,6 @@ import android.view.WindowManager.LayoutParams
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
@@ -21,14 +20,27 @@ import com.odnovolov.forgetmenot.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddDeckFragment : BaseFragment() {
 
+    private val fragmentScope = MainScope()
     private val viewModel: AddDeckViewModel by viewModel()
     private val controller: AddDeckController by lazy { viewModel.controller }
     private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var deckNameEditText: EditText
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        controller.commands
+            .onEach { executeCommand(it) }
+            .launchIn(fragmentScope)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,7 +79,6 @@ class AddDeckFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            controller.commands.observe(onEach = ::executeCommand)
             isProcessing.observe { isProcessing ->
                 progressBar.visibility = if (isProcessing) View.VISIBLE else View.GONE
             }
@@ -96,14 +107,14 @@ class AddDeckFragment : BaseFragment() {
     private fun executeCommand(command: AddDeckCommand) {
         when (command) {
             is ShowErrorMessage -> {
-                Toast.makeText(context, command.text, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, command.exception.message, Toast.LENGTH_SHORT).show()
             }
             is SetDialogText -> {
                 deckNameEditText.setText(command.text)
                 deckNameEditText.selectAll()
             }
             NavigateToDeckSettings -> {
-                findNavController().navigate(R.id.action_home_screen_to_deck_settings_screen)
+                //findNavController().navigate(R.id.action_home_screen_to_deck_settings_screen)
             }
         }
     }
@@ -142,7 +153,10 @@ class AddDeckFragment : BaseFragment() {
             return
         }
         val fileName = getFileNameFromUri(uri, contentResolver)
-        controller.onContentReceived(inputStream, fileName)
+        // give chance to launch commands collector coroutine
+        fragmentScope.launch {
+            controller.onContentReceived(inputStream, fileName)
+        }
     }
 
     private fun getFileNameFromUri(uri: Uri, contentResolver: ContentResolver): String? {
@@ -168,6 +182,11 @@ class AddDeckFragment : BaseFragment() {
                 deckNameInputDialog.onSaveInstanceState()
             )
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fragmentScope.cancel()
     }
 
     companion object {
