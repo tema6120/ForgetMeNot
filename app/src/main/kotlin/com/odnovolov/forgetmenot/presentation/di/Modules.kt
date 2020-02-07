@@ -7,6 +7,8 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeController
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckViewModel
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingController
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -38,4 +40,6 @@ val appModule = module {
             )
         }
     }
+    factory { DeckSortingController(deckReviewPreference = get(), store = get()) }
+    viewModel { DeckSortingViewModel(deckReviewPreference = get(), controller = get()) }
 }

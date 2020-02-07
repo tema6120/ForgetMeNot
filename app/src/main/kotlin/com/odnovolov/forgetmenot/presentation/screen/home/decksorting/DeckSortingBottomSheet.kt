@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.screen.home.decksorting
+package com.odnovolov.forgetmenot.presentation.screen.home.decksorting
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,19 +9,18 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.base.BaseBottomSheetDialogFragment
+import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingCommand.DismissBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
-import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingEvent.SortByButtonClicked
-import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingOrder.DismissBottomSheet
 import kotlinx.android.synthetic.main.bottom_sheet_deck_sorting.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
-
-    private val controller = DeckSortingController()
-    private val viewModel = DeckSortingViewModel()
+    private val viewModel: DeckSortingViewModel by viewModel()
+    private val controller: DeckSortingController by lazy { viewModel.controller }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +34,7 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        controller.orders.forEach(::executeOrder)
+        controller.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
@@ -45,13 +44,13 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
 
     private fun setOnClickListeners() {
         sortByNameButton.setOnClickListener {
-            controller.dispatch(SortByButtonClicked(Name))
+            controller.onSortByButtonClicked(Name)
         }
         sortByTimeCreatedButton.setOnClickListener {
-            controller.dispatch(SortByButtonClicked(CreatedAt))
+            controller.onSortByButtonClicked(CreatedAt)
         }
         sortByTimeLastOpenedButton.setOnClickListener {
-            controller.dispatch(SortByButtonClicked(LastOpenedAt))
+            controller.onSortByButtonClicked(LastOpenedAt)
         }
     }
 
@@ -93,15 +92,9 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
         textView.isSelected = direction != null
     }
 
-    private fun executeOrder(order: DeckSortingOrder) {
-        when (order) {
+    private fun executeCommand(command: DeckSortingCommand) {
+        when (command) {
             DismissBottomSheet -> dismiss()
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        controller.dispose()
-    }
-
 }

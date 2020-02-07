@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.common.entity.TestMethod
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeSpan
 import com.soywiz.klock.MonthSpan
@@ -108,6 +109,7 @@ val dateTimeSpanAdapter = object : ColumnAdapter<DateTimeSpan, String> {
     override fun encode(value: DateTimeSpan): String {
         return "${value.monthSpan.totalMonths}|${value.timeSpan.millisecondsLong}"
     }
+
     override fun decode(databaseValue: String): DateTimeSpan {
         val chunks = databaseValue.split("|")
         val totalMonths: Int = chunks[0].toInt()
@@ -115,6 +117,20 @@ val dateTimeSpanAdapter = object : ColumnAdapter<DateTimeSpan, String> {
         val milliseconds: Double = chunks[1].toDouble()
         val timeSpan = TimeSpan(milliseconds)
         return DateTimeSpan(monthSpan, timeSpan)
+    }
+}
+
+val deckSortingAdapter = object : ColumnAdapter<DeckSorting, String> {
+    override fun encode(value: DeckSorting): String {
+        return "${value.criterion} ${value.direction}"
+    }
+
+    override fun decode(databaseValue: String): DeckSorting {
+        return databaseValue.split(" ").let {
+            val criterion = DeckSorting.Criterion.valueOf(it[0])
+            val direction = DeckSorting.Direction.valueOf(it[1])
+            DeckSorting(criterion, direction)
+        }
     }
 }
 

@@ -9,7 +9,7 @@ fun <Item> calculateDiff(
     val removedItems = LinkedList<Item>()
     val addedItems = LinkedList(newItems)
     oldItems.forEach { oldItem: Item ->
-        if(addedItems.remove(oldItem))
+        if(!addedItems.remove(oldItem))
             removedItems.add(oldItem)
     }
     return DiffResult(

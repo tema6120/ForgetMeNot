@@ -3,7 +3,7 @@ import com.odnovolov.forgetmenot.common.entity.KeyGesture;
 import com.odnovolov.forgetmenot.common.entity.KeyGestureAction;
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent;
 import com.odnovolov.forgetmenot.common.entity.TestMethod;
-import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSorting;
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting;
 import java.lang.Boolean;
 import java.util.Calendar;
 import java.util.Locale;

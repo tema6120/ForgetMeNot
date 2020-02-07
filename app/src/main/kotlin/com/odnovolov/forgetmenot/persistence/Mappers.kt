@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.persistence
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.globalstate.*
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 
 fun DeckDb.toDeck(
     cards: CopyableList<Card>,
@@ -133,3 +134,8 @@ fun Pronunciation.toPronunciationDb(): PronunciationDb {
         doNotSpeakTextInBrackets
     )
 }
+
+fun DeckReviewPreferenceDb.toDeckReviewPreference() = DeckReviewPreference(
+    deckSorting,
+    displayOnlyWithTasks
+)

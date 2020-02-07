@@ -1,16 +1,18 @@
 package com.odnovolov.forgetmenot.persistence.deckreviewpreference
 
 import com.odnovolov.forgetmenot.common.database.database
+import com.odnovolov.forgetmenot.persistence.DeckReviewPreferenceDb
+import com.odnovolov.forgetmenot.persistence.toDeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 
 object DeckReviewPreferenceProvider {
     fun load(): DeckReviewPreference {
-        var displayOnlyWithTasks: Boolean? = null
+        lateinit var deckReviewPreferenceDb: DeckReviewPreferenceDb
         database.transaction {
-            displayOnlyWithTasks = database.deckReviewPreferenceQueries
+            deckReviewPreferenceDb = database.deckReviewPreferenceQueries
                 .selectAll()
                 .executeAsOne()
         }
-        return DeckReviewPreference(displayOnlyWithTasks!!)
+        return deckReviewPreferenceDb.toDeckReviewPreference()
     }
 }

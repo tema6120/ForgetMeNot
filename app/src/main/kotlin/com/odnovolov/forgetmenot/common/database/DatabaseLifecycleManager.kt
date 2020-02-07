@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
+import com.odnovolov.forgetmenot.persistence.DeckReviewPreferenceDb
 import com.odnovolov.forgetmenot.persistence.globalstate.*
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
@@ -68,6 +69,9 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
             DeckDb.Adapter(
                 createdAtAdapter = dateTimeAdapter,
                 lastOpenedAtAdapter = dateTimeAdapter
+            ),
+            DeckReviewPreferenceDb.Adapter(
+                deckSortingAdapter = deckSortingAdapter
             ),
             ExercisePreferenceDb.Adapter(
                 testMethodAdapter = EnumColumnAdapter(),

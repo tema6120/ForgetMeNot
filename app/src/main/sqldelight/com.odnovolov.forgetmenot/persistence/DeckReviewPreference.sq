@@ -1,11 +1,17 @@
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting;
+
 CREATE TABLE DeckReviewPreferenceDb (
+    deckSorting TEXT AS DeckSorting NOT NULL,
     displayOnlyWithTasks INTEGER AS Boolean NOT NULL
 );
 
-INSERT INTO DeckReviewPreferenceDb VALUES (0);
+INSERT INTO DeckReviewPreferenceDb VALUES ('LastOpenedAt Asc', 0);
 
 selectAll:
 SELECT * FROM DeckReviewPreferenceDb;
+
+updateDeckSorting:
+UPDATE DeckReviewPreferenceDb SET deckSorting = ?;
 
 updateDisplayOnlyWithTasks:
 UPDATE DeckReviewPreferenceDb SET displayOnlyWithTasks = ?;

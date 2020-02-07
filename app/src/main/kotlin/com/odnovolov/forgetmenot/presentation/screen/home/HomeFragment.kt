@@ -15,7 +15,7 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
-import com.odnovolov.forgetmenot.screen.home.decksorting.DeckSortingBottomSheet
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
