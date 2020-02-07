@@ -19,7 +19,6 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
@@ -79,9 +78,11 @@ class HomeFragment : BaseFragment() {
                     actionMode?.finish()
                 }
             }
-            selectedDecksCount.combine(selectedCardsCount) { decksCount: Int, cardsCount: Int ->
-                getString(R.string.deck_selection_action_mode_title, decksCount, cardsCount)
-            }.observe { actionMode?.title = it }
+            deckSelectionCount.observe {
+                val (decksCount, cardsCount) = it
+                actionMode?.title =
+                    getString(R.string.deck_selection_action_mode_title, decksCount, cardsCount)
+            }
             controller.commands.observe(onEach = ::executeCommand)
         }
     }

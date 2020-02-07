@@ -1,10 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
+import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
@@ -13,15 +15,15 @@ import com.soywiz.klock.DateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import org.koin.ext.getOrCreateScope
 
 class HomeViewModel(
+    homeScreenState: HomeScreenState,
     globalState: GlobalState,
-    deckReviewPreference: DeckReviewPreference
+    deckReviewPreference: DeckReviewPreference,
+    store: Store
 ) : ViewModel() {
-    private val koinScope = getOrCreateScope()
-    val controller: HomeController = koinScope.get()
-    private val homeScreenState: HomeScreenState = koinScope.get()
+    private val deckSelection: Flow<List<Long>> =
+        homeScreenState.flowOf(HomeScreenState::selectedDeckIds)
 
     val displayOnlyWithTasks: Flow<Boolean> = deckReviewPreference
         .flowOf(DeckReviewPreference::displayOnlyWithTasks)
@@ -29,38 +31,37 @@ class HomeViewModel(
     val decksPreview: Flow<List<DeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
         homeScreenState.flowOf(HomeScreenState::searchText),
+        deckSelection,
         deckReviewPreference.flowOf(DeckReviewPreference::deckSorting),
-        deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyWithTasks)
+        displayOnlyWithTasks
     ) { decks: List<Deck>,
         searchText: String,
+        selectedDeckIds: List<Long>,
         deckSorting: DeckSorting,
         displayOnlyWithTasks: Boolean
         ->
         decks
             .filterBy(searchText)
             .sortBy(deckSorting)
-            .mapToDeckPreview()
+            .mapToDeckPreview(selectedDeckIds)
             .filterBy(displayOnlyWithTasks)
-    }
-
-    private val deckSelection: Flow<List<Long>> =
-        homeScreenState.flowOf(HomeScreenState::selectedDeckIds)
+    }.share()
 
     val hasAnySelectedDeck: Flow<Boolean> = deckSelection.map { it.isNotEmpty() }
 
-    val selectedDecksCount: Flow<Int> = deckSelection.map { it.size }
-
-    val selectedCardsCount: Flow<Int> = deckSelection.combine(decksPreview)
-    { selectedDeckIds: List<Long>, decksPreview: List<DeckPreview> ->
-        decksPreview
-            .filter { deckPreview -> selectedDeckIds.contains(deckPreview.deckId) }
-            .map { deckPreview ->
+    val deckSelectionCount: Flow<DeckSelectionCount> =
+        decksPreview.map { decksPreview: List<DeckPreview> ->
+            val selectedDecks = decksPreview
+                .filter { deckPreview -> deckPreview.isSelected }
+            val selectedDecksCount = selectedDecks.size
+            val selectedCardsCount = selectedDecks.map { deckPreview ->
                 with(deckPreview) {
                     numberOfCardsReadyForExercise ?: totalCount - learnedCount
                 }
             }
-            .sum()
-    }
+                .sum()
+            DeckSelectionCount(selectedDecksCount, selectedCardsCount)
+        }
 
     private fun List<Deck>.filterBy(searchText: String): List<Deck> {
         return if (searchText.isEmpty()) this
@@ -86,7 +87,7 @@ class HomeViewModel(
         }
     }
 
-    private fun List<Deck>.mapToDeckPreview(): List<DeckPreview> {
+    private fun List<Deck>.mapToDeckPreview(selectedDeckIds: List<Long>): List<DeckPreview> {
         val now = DateTime.now()
         return map { deck: Deck ->
             val passedLaps: Int? = deck.cards
@@ -113,6 +114,7 @@ class HomeViewModel(
                         }
                     }
                 }
+            val isSelected = deck.id in selectedDeckIds
             DeckPreview(
                 deckId = deck.id,
                 deckName = deck.name,
@@ -120,7 +122,7 @@ class HomeViewModel(
                 learnedCount = learnedCount,
                 totalCount = deck.cards.size,
                 numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
-                isSelected = false // todo
+                isSelected = isSelected
             )
         }
     }
@@ -133,7 +135,10 @@ class HomeViewModel(
         } else this
     }
 
-    override fun onCleared() {
-        koinScope.close()
-    }
+    private val displayedDeckIds: Flow<List<Long>> =
+        decksPreview.map { decksPreview: List<DeckPreview> ->
+            decksPreview.map { it.deckId }
+        }
+
+    val controller = HomeController(homeScreenState, deckReviewPreference, displayedDeckIds, store)
 }
