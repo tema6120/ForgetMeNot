@@ -16,10 +16,10 @@ interface Store {
     fun deleteHomeScreenState()
 
     fun loadAddDeckState(): AddDeckInteractor.State
-    fun saveAddDeckState(addDeckInteractorState: AddDeckInteractor.State)
+    fun save(addDeckInteractorState: AddDeckInteractor.State)
     fun deleteAddDeckState()
 
     fun loadAddDeckScreenState(): AddDeckScreenState
-    fun saveAddDeckScreenState(addDeckScreenState: AddDeckScreenState)
+    fun save(addDeckScreenState: AddDeckScreenState)
     fun deleteAddDeckScreenState()
 }

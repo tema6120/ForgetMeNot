@@ -24,16 +24,13 @@ class HomeViewModel(
     removeDeckInteractor: RemoveDeckInteractor,
     store: Store
 ) : ViewModel() {
-    private val deckSelection: Flow<List<Long>> =
-        homeScreenState.flowOf(HomeScreenState::selectedDeckIds)
-
     val displayOnlyWithTasks: Flow<Boolean> = deckReviewPreference
         .flowOf(DeckReviewPreference::displayOnlyWithTasks)
 
     val decksPreview: Flow<List<DeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
         homeScreenState.flowOf(HomeScreenState::searchText),
-        deckSelection,
+        homeScreenState.flowOf(HomeScreenState::selectedDeckIds),
         deckReviewPreference.flowOf(DeckReviewPreference::deckSorting),
         displayOnlyWithTasks
     ) { decks: List<Deck>,
@@ -49,20 +46,20 @@ class HomeViewModel(
             .filterBy(displayOnlyWithTasks)
     }.share()
 
-    val hasAnySelectedDeck: Flow<Boolean> = deckSelection.map { it.isNotEmpty() }
-
-    val deckSelectionCount: Flow<DeckSelectionCount> =
+    val deckSelectionCount: Flow<DeckSelectionCount?> =
         decksPreview.map { decksPreview: List<DeckPreview> ->
             val selectedDecks = decksPreview
                 .filter { deckPreview -> deckPreview.isSelected }
-            val selectedDecksCount = selectedDecks.size
-            val selectedCardsCount = selectedDecks.map { deckPreview ->
-                with(deckPreview) {
-                    numberOfCardsReadyForExercise ?: totalCount - learnedCount
+            if (selectedDecks.isEmpty()) {
+                null
+            } else {
+                val selectedCardsCount = selectedDecks.map { deckPreview ->
+                    with(deckPreview) { numberOfCardsReadyForExercise ?: totalCount - learnedCount }
                 }
+                    .sum()
+                val selectedDecksCount = selectedDecks.size
+                DeckSelectionCount(selectedCardsCount, selectedDecksCount)
             }
-                .sum()
-            DeckSelectionCount(selectedDecksCount, selectedCardsCount)
         }
 
     private fun List<Deck>.filterBy(searchText: String): List<Deck> {
@@ -149,4 +146,8 @@ class HomeViewModel(
         removeDeckInteractor,
         store
     )
+
+    override fun onCleared() {
+        controller.onViewModelCleared()
+    }
 }

@@ -36,6 +36,7 @@ class AddDeckViewModel(
     }
 
     override fun onCleared() {
+        controller.onViewModelCleared()
         koinScope.close()
     }
 }

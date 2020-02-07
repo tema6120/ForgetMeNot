@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import java.io.InputStream
 
 class AddDeckInteractor(
-    private val state: State,
+    val state: State,
     private val globalState: GlobalState
 ) {
     class State : FlowableState<State>() {

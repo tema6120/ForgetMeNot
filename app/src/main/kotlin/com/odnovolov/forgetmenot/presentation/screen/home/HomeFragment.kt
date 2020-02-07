@@ -29,6 +29,15 @@ class HomeFragment : BaseFragment() {
     private lateinit var filterAdapter: ItemAdapter<Item>
     private var actionMode: ActionMode? = null
     private var resumePauseScope: CoroutineScope? = null
+    private lateinit var searchView: SearchView
+    private var searchViewText: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            searchViewText = savedInstanceState.getString(STATE_KEY_SEARCH_VIEW_TEXT)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,19 +78,17 @@ class HomeFragment : BaseFragment() {
                 }
                 filterAdapter.items = listOf(item)
             }
-            hasAnySelectedDeck.observe { hasAnySelectedDeck ->
-                if (hasAnySelectedDeck) {
+            deckSelectionCount.observe { deckSelectionCount: DeckSelectionCount? ->
+                if (deckSelectionCount == null) {
+                    actionMode?.finish()
+                } else {
                     if (actionMode == null) {
                         actionMode = requireActivity().startActionMode(actionModeCallback)
                     }
-                } else {
-                    actionMode?.finish()
+                    val (cardsCount, decksCount) = deckSelectionCount
+                    actionMode!!.title =
+                        getString(R.string.deck_selection_action_mode_title, cardsCount, decksCount)
                 }
-            }
-            deckSelectionCount.observe {
-                val (decksCount, cardsCount) = it
-                actionMode?.title =
-                    getString(R.string.deck_selection_action_mode_title, decksCount, cardsCount)
             }
             controller.commands.observe(onEach = ::executeCommand)
         }
@@ -150,7 +157,12 @@ class HomeFragment : BaseFragment() {
                 }
             }
         })
-        val searchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
+        if (!searchViewText.isNullOrEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(searchViewText, false)
+            searchView.requestFocus()
+        }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String) = false
 
@@ -217,6 +229,9 @@ class HomeFragment : BaseFragment() {
         if (::filterDialog.isInitialized) {
             outState.putBundle(STATE_KEY_FILTER_DIALOG, filterDialog.onSaveInstanceState())
         }
+        if (::searchView.isInitialized) {
+            outState.putString(STATE_KEY_SEARCH_VIEW_TEXT, searchView.query.toString())
+        }
     }
 
     override fun onDestroyView() {
@@ -264,5 +279,6 @@ class HomeFragment : BaseFragment() {
 
     companion object {
         const val STATE_KEY_FILTER_DIALOG = "filterDialog"
+        const val STATE_KEY_SEARCH_VIEW_TEXT = "searchViewText"
     }
 }

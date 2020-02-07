@@ -49,14 +49,14 @@ class StoreImpl : Store, CoroutineScope {
 
     override fun loadAddDeckState(): AddDeckInteractor.State = AddDeckStateProvider.load()
 
-    override fun saveAddDeckState(addDeckInteractorState: AddDeckInteractor.State) =
+    override fun save(addDeckInteractorState: AddDeckInteractor.State) =
         background { AddDeckStateProvider.save(addDeckInteractorState) }
 
     override fun deleteAddDeckState() = background { AddDeckStateProvider.delete() }
 
     override fun loadAddDeckScreenState(): AddDeckScreenState = AddDeckScreenStateProvider.load()
 
-    override fun saveAddDeckScreenState(addDeckScreenState: AddDeckScreenState) =
+    override fun save(addDeckScreenState: AddDeckScreenState) =
         background { AddDeckScreenStateProvider.save(addDeckScreenState) }
 
     override fun deleteAddDeckScreenState() = background { AddDeckScreenStateProvider.delete() }

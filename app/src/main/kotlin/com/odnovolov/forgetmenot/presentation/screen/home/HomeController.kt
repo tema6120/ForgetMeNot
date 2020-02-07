@@ -99,6 +99,10 @@ class HomeController(
         }
     }
 
+    fun onViewModelCleared() {
+        store.save(homeScreenState)
+    }
+
     private fun startExercise(deckIds: List<Long>, isWalkingMode: Boolean) {
     }
 

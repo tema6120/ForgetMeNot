@@ -42,4 +42,9 @@ class AddDeckController(
         addDeckInteractor.cancel()
         store.saveStateByRegistry()
     }
+
+    fun onViewModelCleared() {
+        store.save(addDeckScreenState)
+        store.save(addDeckInteractor.state)
+    }
 }

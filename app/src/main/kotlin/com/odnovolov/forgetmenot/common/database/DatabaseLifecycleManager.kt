@@ -37,6 +37,7 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
             "VACUUM".execSQL()
             if (isActivityFirstCreated) {
                 initFirstScreenState()
+                database.serializableQueries.deleteAll()
             }
         }
     }
