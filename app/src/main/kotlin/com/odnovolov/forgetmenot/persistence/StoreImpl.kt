@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.persistence
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeck
+import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
 import com.odnovolov.forgetmenot.persistence.deckreviewpreference.DeckReviewPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.globalstate.provision.GlobalStateProvider
 import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckScreenStateProvider
@@ -47,10 +47,10 @@ class StoreImpl : Store, CoroutineScope {
 
     override fun deleteHomeScreenState() = background { HomeScreenStateProvider.delete() }
 
-    override fun loadAddDeckState(): AddDeck.State = AddDeckStateProvider.load()
+    override fun loadAddDeckState(): AddDeckInteractor.State = AddDeckStateProvider.load()
 
-    override fun saveAddDeckState(addDeckState: AddDeck.State) =
-        background { AddDeckStateProvider.save(addDeckState) }
+    override fun saveAddDeckState(addDeckInteractorState: AddDeckInteractor.State) =
+        background { AddDeckStateProvider.save(addDeckInteractorState) }
 
     override fun deleteAddDeckState() = background { AddDeckStateProvider.delete() }
 

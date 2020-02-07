@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeck
+import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.Stage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -13,11 +13,11 @@ class AddDeckViewModel(
     private val globalState: GlobalState
 ) : ViewModel() {
     private val koinScope = getOrCreateScope()
-    private val addDeckState: AddDeck.State = koinScope.get()
+    private val addDeckInteractorState: AddDeckInteractor.State = koinScope.get()
     private val addDeckScreenState: AddDeckScreenState = koinScope.get()
     val controller: AddDeckController = koinScope.get()
 
-    private val stage: Flow<Stage> = addDeckState.flowOf(AddDeck.State::stage)
+    private val stage: Flow<Stage> = addDeckInteractorState.flowOf(AddDeckInteractor.State::stage)
     val isProcessing: Flow<Boolean> = stage.map { it == Stage.Parsing }
     val isDialogVisible: Flow<Boolean> = stage.map { it === Stage.WaitingForName }
     val nameCheckResult: Flow<NameCheckResult> = addDeckScreenState

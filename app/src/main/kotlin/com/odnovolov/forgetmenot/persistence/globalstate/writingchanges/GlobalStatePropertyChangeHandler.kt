@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.persistence.globalstate.writingchanges
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
+import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.persistence.globalstate.writingchanges.DeckPropertyChangeHandler.insertCards
@@ -16,7 +17,12 @@ object GlobalStatePropertyChangeHandler {
                 if (change !is CollectionChange) return
 
                 val removedDecks = change.removedItems as Collection<Deck>
-                removedDecks.forEach { deck -> database.deckQueries.delete(deck.id) }
+                removedDecks.forEach { deck: Deck ->
+                    database.deckQueries.delete(deck.id)
+                    deck.cards.forEach { card: Card ->
+                        database.cardQueries.delete(card.id)
+                    }
+                }
 
                 val addedDecks = change.addedItems as Collection<Deck>
                 addedDecks.forEach { deck ->

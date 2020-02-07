@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
@@ -20,6 +21,7 @@ class HomeViewModel(
     homeScreenState: HomeScreenState,
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
+    removeDeckInteractor: RemoveDeckInteractor,
     store: Store
 ) : ViewModel() {
     private val deckSelection: Flow<List<Long>> =
@@ -140,5 +142,11 @@ class HomeViewModel(
             decksPreview.map { it.deckId }
         }
 
-    val controller = HomeController(homeScreenState, deckReviewPreference, displayedDeckIds, store)
+    val controller = HomeController(
+        homeScreenState,
+        deckReviewPreference,
+        displayedDeckIds,
+        removeDeckInteractor,
+        store
+    )
 }

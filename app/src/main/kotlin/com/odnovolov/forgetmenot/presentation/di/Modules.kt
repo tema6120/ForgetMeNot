@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.di
 
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeck
+import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
+import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor
 import com.odnovolov.forgetmenot.persistence.StoreImpl
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeViewModel
@@ -15,11 +16,13 @@ val appModule = module {
     single<Store> { StoreImpl() }
     single { get<Store>().loadGlobalState() }
     single { get<Store>().loadDeckReviewPreference() }
+    factory { RemoveDeckInteractor(globalState = get()) }
     viewModel {
         HomeViewModel(
             homeScreenState = get<Store>().loadHomeScreenState(),
             globalState = get(),
             deckReviewPreference = get(),
+            removeDeckInteractor = get(),
             store = get()
         )
     }
@@ -27,11 +30,11 @@ val appModule = module {
     scope<AddDeckViewModel> {
         scoped { get<Store>().loadAddDeckState() }
         scoped { get<Store>().loadAddDeckScreenState() }
-        factory { AddDeck(state = get(), globalState = get()) }
+        factory { AddDeckInteractor(state = get(), globalState = get()) }
         factory {
             AddDeckController(
                 addDeckScreenState = get(),
-                addDeck = get(),
+                addDeckInteractor = get(),
                 store = get()
             )
         }

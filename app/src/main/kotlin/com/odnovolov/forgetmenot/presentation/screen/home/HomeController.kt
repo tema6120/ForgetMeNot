@@ -2,17 +2,34 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.common.firstBlocking
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
+import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor
+import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 
 class HomeController(
     private val homeScreenState: HomeScreenState,
     private val deckReviewPreference: DeckReviewPreference,
     private val displayedDeckIds: Flow<List<Long>>,
+    private val removeDeckInteractor: RemoveDeckInteractor,
     private val store: Store
 ) {
     private val commandFlow = EventFlow<HomeCommand>()
-    val commands: Flow<HomeCommand> = commandFlow.get()
+    val commands: Flow<HomeCommand> = merge(
+        commandFlow.get(),
+        removeDeckInteractor.events.toCommands()
+    )
+
+    private fun Flow<RemoveDeckInteractor.Event>.toCommands(): Flow<HomeCommand> {
+        return this.map { event: RemoveDeckInteractor.Event ->
+            when (event) {
+                is DecksHasRemoved -> ShowDeckRemovingMessage(numberOfDecksRemoved = event.count)
+            }
+        }
+    }
 
     fun onSearchTextChanged(searchText: String) {
         homeScreenState.searchText = searchText
@@ -48,11 +65,13 @@ class HomeController(
     }
 
     fun onRemoveDeckMenuItemClicked(deckId: Long) {
-
+        removeDeckInteractor.removeDeck(deckId)
+        store.saveStateByRegistry()
     }
 
     fun onDecksRemovedSnackbarCancelActionClicked() {
-
+        removeDeckInteractor.restoreDecks()
+        store.saveStateByRegistry()
     }
 
     fun onStartExerciseMenuItemClicked() {
@@ -64,7 +83,10 @@ class HomeController(
     }
 
     fun onRemoveDecksMenuItemClicked() {
-
+        val deckIds = homeScreenState.selectedDeckIds
+        removeDeckInteractor.removeDecks(deckIds)
+        store.saveStateByRegistry()
+        homeScreenState.selectedDeckIds = emptyList()
     }
 
     fun onStartExerciseInWalkingModeMenuItemClicked() {
@@ -81,7 +103,7 @@ class HomeController(
     }
 
     private fun toggleDeckSelection(deckId: Long) {
-        with (homeScreenState) {
+        with(homeScreenState) {
             if (deckId in selectedDeckIds) {
                 selectedDeckIds -= deckId
             } else {

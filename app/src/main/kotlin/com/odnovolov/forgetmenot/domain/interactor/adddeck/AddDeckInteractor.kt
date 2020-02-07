@@ -4,13 +4,13 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.architecturecomponents.*
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeck.Event.*
+import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor.Event.*
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.Parser.IllegalCardFormatException
 import kotlinx.coroutines.flow.Flow
 import java.io.InputStream
 
-class AddDeck(
-    val state: State,
+class AddDeckInteractor(
+    private val state: State,
     private val globalState: GlobalState
 ) {
     class State : FlowableState<State>() {
@@ -21,11 +21,11 @@ class AddDeck(
     sealed class Event {
         class ParsingFinishedWithError(val exception: IllegalCardFormatException) : Event()
         class DeckNameIsOccupied(val occupiedName: String) : Event()
-        class DeckHasAdded(val deck: Deck) : Event()
+        class DeckHasBeenAdded(val deck: Deck) : Event()
     }
 
-    private val eventManager = EventFlow<Event>()
-    val events: Flow<Event> = eventManager.get()
+    private val eventFlow = EventFlow<Event>()
+    val events: Flow<Event> = eventFlow.get()
 
     fun addFrom(inputStream: InputStream, deckName: String? = null) {
         val success = parse(inputStream)
@@ -52,7 +52,7 @@ class AddDeck(
             true
         } catch (e: IllegalCardFormatException) {
             state.stage = Stage.Idle
-            eventManager.send(ParsingFinishedWithError(e))
+            eventFlow.send(ParsingFinishedWithError(e))
             return false
         }
     }
@@ -65,7 +65,7 @@ class AddDeck(
             }
             isDeckNameOccupied(deckName) -> {
                 state.stage = Stage.WaitingForName
-                eventManager.send(DeckNameIsOccupied(deckName))
+                eventFlow.send(DeckNameIsOccupied(deckName))
             }
             else -> {
                 val cards: CopyableList<Card> = state.cardPrototypes!!.map {
@@ -83,7 +83,7 @@ class AddDeck(
                 globalState.decks = (globalState.decks + deck).toCopyableList()
                 state.stage = Stage.Idle
                 state.cardPrototypes = null
-                eventManager.send(DeckHasAdded(deck))
+                eventFlow.send(DeckHasBeenAdded(deck))
             }
         }
     }

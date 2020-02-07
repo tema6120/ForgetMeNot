@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeck
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeck.Event.*
+import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
+import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor.Event.*
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.*
 import kotlinx.coroutines.flow.Flow
@@ -10,14 +10,14 @@ import java.io.InputStream
 
 class AddDeckController(
     private val addDeckScreenState: AddDeckScreenState,
-    private val addDeck: AddDeck,
+    private val addDeckInteractor: AddDeckInteractor,
     private val store: Store
 ) {
-    val commands: Flow<AddDeckCommand> = addDeck.events.map { event: AddDeck.Event ->
+    val commands: Flow<AddDeckCommand> = addDeckInteractor.events.map { event: AddDeckInteractor.Event ->
         when (event) {
             is ParsingFinishedWithError -> ShowErrorMessage(event.exception)
             is DeckNameIsOccupied -> SetDialogText(event.occupiedName)
-            is DeckHasAdded -> {
+            is DeckHasBeenAdded -> {
                 // todo: prepare DeckSettings state
                 NavigateToDeckSettings
             }
@@ -25,7 +25,7 @@ class AddDeckController(
     }
 
     fun onContentReceived(inputStream: InputStream, fileName: String?) {
-        addDeck.addFrom(inputStream, fileName)
+        addDeckInteractor.addFrom(inputStream, fileName)
         store.saveStateByRegistry()
     }
 
@@ -34,12 +34,12 @@ class AddDeckController(
     }
 
     fun onPositiveDialogButtonClicked() {
-        addDeck.proposeDeckName(addDeckScreenState.typedText)
+        addDeckInteractor.proposeDeckName(addDeckScreenState.typedText)
         store.saveStateByRegistry()
     }
 
     fun onNegativeDialogButtonClicked() {
-        addDeck.cancel()
+        addDeckInteractor.cancel()
         store.saveStateByRegistry()
     }
 }
