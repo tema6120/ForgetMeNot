@@ -35,8 +35,9 @@ object CardPropertyChangeHandler {
                 queries.updateLevelOfKnowledge(levelOfKnowledge, cardId)
             }
             Card::lastAnsweredAt -> {
-                val lastAnsweredAt = change.newValue as DateTime
-                queries.updateLastAnsweredAt(lastAnsweredAt, cardId)
+                val lastAnsweredAt = change.newValue as DateTime?
+                val databaseValue = lastAnsweredAt?.unixMillisLong
+                queries.updateLastAnsweredAt(databaseValue, cardId)
             }
         }
     }

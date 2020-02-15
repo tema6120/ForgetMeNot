@@ -19,16 +19,18 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.scope.viewModel
 
 class HomeFragment : BaseFragment() {
-    private val viewModel: HomeViewModel by viewModel()
-    private val controller: HomeController by lazy { viewModel.controller }
-    private val deckPreviewAdapter by lazy { DeckPreviewAdapter(controller) }
+    private val koinScope = getKoin().getOrCreateScope<HomeViewModel>(HOME_SCREEN_SCOPE_ID)
+    private val viewModel: HomeViewModel by koinScope.viewModel(this)
+    private val controller: HomeController by koinScope.inject()
+    private val deckPreviewAdapter: DeckPreviewAdapter by koinScope.inject()
     private lateinit var filterDialog: Dialog
     private lateinit var filterAdapter: ItemAdapter<Item>
     private var actionMode: ActionMode? = null
-    private var resumePauseScope: CoroutineScope? = null
+    private var resumePauseCoroutineScope: CoroutineScope? = null
     private lateinit var searchView: SearchView
     private var searchViewText: String? = null
 
@@ -96,16 +98,12 @@ class HomeFragment : BaseFragment() {
 
     private fun executeCommand(command: HomeCommand) {
         when (command) {
-            ShowNoCardsReadyForExercise -> {
+            ShowNoCardIsReadyForExerciseMessage -> {
                 Toast.makeText(
                     requireContext(),
                     R.string.toast_text_no_cards_ready_for_exercise,
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-            NavigateToExercise -> {
-                actionMode?.finish()
-                findNavController().navigate(R.id.action_home_screen_to_exercise_screen)
             }
             NavigateToRepetition -> {
                 findNavController().navigate(R.id.action_home_screen_to_repetition_screen)
@@ -201,8 +199,8 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        resumePauseScope = MainScope()
-        resumePauseScope!!.launch {
+        resumePauseCoroutineScope = MainScope()
+        resumePauseCoroutineScope!!.launch {
             viewModel.decksPreview.collect {
                 if (isActive) {
                     deckPreviewAdapter.submitList(it)
@@ -213,8 +211,8 @@ class HomeFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        resumePauseScope!!.cancel()
-        resumePauseScope = null
+        resumePauseCoroutineScope!!.cancel()
+        resumePauseCoroutineScope = null
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

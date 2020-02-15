@@ -19,7 +19,7 @@
     <include layout="@layout/divider" />
 
     <TextView
-            android:id="@+id/hintMaskLettersButton"
+            android:id="@+id/maskLettersButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"

@@ -25,13 +25,14 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.scope.viewModel
 
 class AddDeckFragment : BaseFragment() {
-
+    private val koinScope = getKoin().getOrCreateScope<AddDeckViewModel>(ADD_DECK_SCOPE_ID)
+    private val viewModel: AddDeckViewModel by koinScope.viewModel(this)
+    private val controller: AddDeckController by koinScope.inject()
     private val fragmentScope = MainScope()
-    private val viewModel: AddDeckViewModel by viewModel()
-    private val controller: AddDeckController by lazy { viewModel.controller }
     private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var deckNameEditText: EditText
 

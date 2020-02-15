@@ -1,12 +1,12 @@
 package com.odnovolov.forgetmenot.common.database
 
 import com.odnovolov.forgetmenot.common.entity.NameCheckResult
-import com.odnovolov.forgetmenot.screen.home.adddeck.Stage
 import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
+import com.odnovolov.forgetmenot.screen.home.adddeck.Stage
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeSpan
 import com.soywiz.klock.MonthSpan
@@ -133,5 +133,3 @@ val deckSortingAdapter = object : ColumnAdapter<DeckSorting, String> {
         }
     }
 }
-
-fun Long.asBoolean() = this == 1L

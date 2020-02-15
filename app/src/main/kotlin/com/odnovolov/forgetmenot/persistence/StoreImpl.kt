@@ -4,10 +4,12 @@ import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.persistence.deckreviewpreference.DeckReviewPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.globalstate.provision.GlobalStateProvider
 import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckStateProvider
+import com.odnovolov.forgetmenot.persistence.serializablestate.ExerciseStateProvider
 import com.odnovolov.forgetmenot.persistence.serializablestate.HomeScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
@@ -60,4 +62,12 @@ class StoreImpl : Store, CoroutineScope {
         background { AddDeckScreenStateProvider.save(addDeckScreenState) }
 
     override fun deleteAddDeckScreenState() = background { AddDeckScreenStateProvider.delete() }
+
+    override fun loadExerciseState(globalState: GlobalState): Exercise.State =
+        ExerciseStateProvider.load(globalState)
+
+    override fun save(exerciseState: Exercise.State) =
+        background { ExerciseStateProvider.save(exerciseState) }
+
+    override fun deleteExerciseState() = background { ExerciseStateProvider.delete() }
 }

@@ -30,7 +30,7 @@
 
     <fragment
             android:id="@+id/exercise_screen"
-            android:name="com.odnovolov.forgetmenot.screen.exercise.ExerciseFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment"
             android:label="@string/label_exercise_screen"
             tools:layout="@layout/fragment_exercise">
 

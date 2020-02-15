@@ -13,16 +13,17 @@ class AddDeckController(
     private val addDeckInteractor: AddDeckInteractor,
     private val store: Store
 ) {
-    val commands: Flow<AddDeckCommand> = addDeckInteractor.events.map { event: AddDeckInteractor.Event ->
-        when (event) {
-            is ParsingFinishedWithError -> ShowErrorMessage(event.exception)
-            is DeckNameIsOccupied -> SetDialogText(event.occupiedName)
-            is DeckHasBeenAdded -> {
-                // todo: prepare DeckSettings state
-                NavigateToDeckSettings
+    val commands: Flow<AddDeckCommand> =
+        addDeckInteractor.events.map { event: AddDeckInteractor.Event ->
+            when (event) {
+                is ParsingFinishedWithError -> ShowErrorMessage(event.exception)
+                is DeckNameIsOccupied -> SetDialogText(event.occupiedName)
+                is DeckHasBeenAdded -> {
+                    // todo: prepare DeckSettings state
+                    NavigateToDeckSettings
+                }
             }
         }
-    }
 
     fun onContentReceived(inputStream: InputStream, fileName: String?) {
         addDeckInteractor.addFrom(inputStream, fileName)
@@ -43,7 +44,7 @@ class AddDeckController(
         store.saveStateByRegistry()
     }
 
-    fun onViewModelCleared() {
+    fun onCleared() {
         store.save(addDeckScreenState)
         store.save(addDeckInteractor.state)
     }

@@ -6,8 +6,6 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Interval
-import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor
-import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
@@ -16,14 +14,14 @@ import com.soywiz.klock.DateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import org.koin.core.KoinComponent
 
 class HomeViewModel(
     homeScreenState: HomeScreenState,
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
-    removeDeckInteractor: RemoveDeckInteractor,
-    store: Store
-) : ViewModel() {
+    private val controller: HomeController
+) : ViewModel(), KoinComponent {
     val displayOnlyWithTasks: Flow<Boolean> = deckReviewPreference
         .flowOf(DeckReviewPreference::displayOnlyWithTasks)
 
@@ -98,13 +96,13 @@ class HomeViewModel(
                 if (deck.exercisePreference.intervalScheme == null) {
                     null
                 } else {
-                    val intervals: List<Interval> =
-                        deck.exercisePreference.intervalScheme!!.intervals
                     deck.cards.count { card: Card ->
                         when {
                             card.isLearned -> false
                             card.lastAnsweredAt == null -> true
                             else -> {
+                                val intervals: List<Interval> =
+                                    deck.exercisePreference.intervalScheme!!.intervals
                                 val interval: Interval = intervals.find {
                                     it.targetLevelOfKnowledge == card.levelOfKnowledge
                                 } ?: intervals.maxBy { it.targetLevelOfKnowledge }!!
@@ -134,20 +132,14 @@ class HomeViewModel(
         } else this
     }
 
-    private val displayedDeckIds: Flow<List<Long>> =
-        decksPreview.map { decksPreview: List<DeckPreview> ->
+    init {
+        controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->
             decksPreview.map { it.deckId }
         }
-
-    val controller = HomeController(
-        homeScreenState,
-        deckReviewPreference,
-        displayedDeckIds,
-        removeDeckInteractor,
-        store
-    )
+    }
 
     override fun onCleared() {
         controller.onViewModelCleared()
+        getKoin().getScope(HOME_SCREEN_SCOPE_ID).close()
     }
 }

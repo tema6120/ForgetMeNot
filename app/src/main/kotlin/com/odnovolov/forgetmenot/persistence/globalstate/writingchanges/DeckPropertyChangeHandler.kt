@@ -28,7 +28,8 @@ object DeckPropertyChangeHandler {
             Deck::lastOpenedAt -> {
                 if (change !is PropertyValueChange) return
                 val lastOpenedAt = change.newValue as DateTime?
-                queries.updateLastOpenedAt(lastOpenedAt, deckId)
+                val databaseValue = lastOpenedAt?.unixMillisLong
+                queries.updateLastOpenedAt(databaseValue, deckId)
             }
             Deck::cards -> {
                 if (change !is CollectionChange) return

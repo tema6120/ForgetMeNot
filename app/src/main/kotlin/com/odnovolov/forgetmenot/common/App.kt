@@ -7,8 +7,19 @@ import android.content.Context
 import android.os.Build
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.database.DatabaseLifecycleManager
-import com.odnovolov.forgetmenot.presentation.di.appModule
+import com.odnovolov.forgetmenot.presentation.common.NavigatorImpl
+import com.odnovolov.forgetmenot.presentation.common.appModule
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exerciseModule
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.answerEntryTestModule
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.manual.answerManualTestModule
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off.answerOffTestModule
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.answerQuizTestModule
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.exerciseCardModule
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.addDeckModule
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.deckSortingModule
+import com.odnovolov.forgetmenot.presentation.screen.home.homeModule
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionService
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,9 +27,21 @@ import org.koin.core.context.startKoin
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+        initKoin()
+        val navigatorImpl = getKoin().get<NavigatorImpl>()
+        registerActivityLifecycleCallbacks(navigatorImpl)
         registerActivityLifecycleCallbacks(DatabaseLifecycleManager)
         createNotificationChannel()
-        initKoin()
+    }
+
+    private fun initKoin() {
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(appModule, homeModule, addDeckModule, deckSortingModule, exerciseModule,
+                exerciseCardModule, answerOffTestModule, answerManualTestModule,
+                answerQuizTestModule, answerEntryTestModule)
+        }
     }
 
     private fun createNotificationChannel() {
@@ -31,14 +54,6 @@ class App : Application() {
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun initKoin() {
-        startKoin {
-            androidLogger()
-            androidContext(this@App)
-            modules(appModule)
         }
     }
 }

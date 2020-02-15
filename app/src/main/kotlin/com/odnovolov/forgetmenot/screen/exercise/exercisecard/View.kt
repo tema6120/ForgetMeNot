@@ -13,10 +13,10 @@ import com.odnovolov.forgetmenot.common.entity.TestMethod
 import com.odnovolov.forgetmenot.common.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.QuestionTextSelectionChanged
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.ShowQuestionButtonClicked
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.entry.AnswerEntryTestFragment
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.manual.AnswerManualTestFragment
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.off.AnswerOffTestFragment
-import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.AnswerQuizTestFragment
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.AnswerEntryTestFragment
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.manual.AnswerManualTestFragment
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off.AnswerOffTestFragment
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.AnswerQuizTestFragment
 import kotlinx.android.synthetic.main.fragment_exercise_card.*
 
 class ExerciseCardFragment : BaseFragment() {

@@ -10,17 +10,19 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingCommand.DismissBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingCommand.DismissBottomSheet
 import kotlinx.android.synthetic.main.bottom_sheet_deck_sorting.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.scope.viewModel
 
 class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
-    private val viewModel: DeckSortingViewModel by viewModel()
-    private val controller: DeckSortingController by lazy { viewModel.controller }
+    private val koinScope = getKoin().getOrCreateScope<DeckSortingViewModel>(DECK_SORTING_SCOPE_ID)
+    private val viewModel: DeckSortingViewModel by koinScope.viewModel(this)
+    private val controller: DeckSortingController by koinScope.inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,

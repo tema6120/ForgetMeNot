@@ -8,7 +8,6 @@ object AddDeckScreenStateProvider {
         return loadSerializable(SerializableAddDeckScreenState.serializer())
             ?.toOriginal()
             ?: AddDeckScreenState()
-
     }
 
     fun save(addDeckScreenState: AddDeckScreenState) {

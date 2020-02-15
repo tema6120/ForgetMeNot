@@ -98,7 +98,7 @@ class ExerciseFragment : BaseFragment() {
                 controller.dispatch(HintAsQuizButtonClicked)
                 chooseHintPopup.dismiss()
             }
-            hintMaskLettersButton.setOnClickListener {
+            maskLettersButton.setOnClickListener {
                 controller.dispatch(HintMaskLettersButtonClicked)
                 chooseHintPopup.dismiss()
             }

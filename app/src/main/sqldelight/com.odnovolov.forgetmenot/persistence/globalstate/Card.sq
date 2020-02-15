@@ -9,7 +9,7 @@ CREATE TABLE CardDb (
     lap INTEGER AS Int NOT NULL,
     isLearned INTEGER AS Boolean NOT NULL,
     levelOfKnowledge INTEGER AS Int NOT NULL,
-    lastAnsweredAt INTEGER AS DateTime
+    lastAnsweredAt INTEGER --AS DateTime
 );
 
 insert:

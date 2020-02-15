@@ -7,19 +7,20 @@ import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.Stage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.koin.ext.getOrCreateScope
+import org.koin.core.KoinComponent
 
 class AddDeckViewModel(
+    addDeckInteractorState: AddDeckInteractor.State,
+    addDeckScreenState: AddDeckScreenState,
     private val globalState: GlobalState
-) : ViewModel() {
-    private val koinScope = getOrCreateScope()
-    private val addDeckInteractorState: AddDeckInteractor.State = koinScope.get()
-    private val addDeckScreenState: AddDeckScreenState = koinScope.get()
-    val controller: AddDeckController = koinScope.get()
+) : ViewModel(), KoinComponent {
 
     private val stage: Flow<Stage> = addDeckInteractorState.flowOf(AddDeckInteractor.State::stage)
+
     val isProcessing: Flow<Boolean> = stage.map { it == Stage.Parsing }
+
     val isDialogVisible: Flow<Boolean> = stage.map { it === Stage.WaitingForName }
+
     val nameCheckResult: Flow<NameCheckResult> = addDeckScreenState
         .flowOf(AddDeckScreenState::typedText)
         .map { typedText ->
@@ -29,6 +30,7 @@ class AddDeckViewModel(
                 else -> NameCheckResult.Ok
             }
         }
+
     val isPositiveButtonEnabled: Flow<Boolean> = nameCheckResult.map { it == NameCheckResult.Ok }
 
     private fun isDeckNameOccupied(testedName: String): Boolean {
@@ -36,7 +38,6 @@ class AddDeckViewModel(
     }
 
     override fun onCleared() {
-        controller.onViewModelCleared()
-        koinScope.close()
+        getKoin().getScope(ADD_DECK_SCOPE_ID).close()
     }
 }

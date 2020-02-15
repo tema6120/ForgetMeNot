@@ -64,13 +64,13 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
     private fun initDatabase() {
         database = Database(
             sqliteDriver,
-            CardDb.Adapter(
+            /*CardDb.Adapter(
                 lastAnsweredAtAdapter = dateTimeAdapter
             ),
             DeckDb.Adapter(
                 createdAtAdapter = dateTimeAdapter,
                 lastOpenedAtAdapter = dateTimeAdapter
-            ),
+            ),*/
             DeckReviewPreferenceDb.Adapter(
                 deckSortingAdapter = deckSortingAdapter
             ),

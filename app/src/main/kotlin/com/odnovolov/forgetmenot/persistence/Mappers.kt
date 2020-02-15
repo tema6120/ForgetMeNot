@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.globalstate.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
+import com.soywiz.klock.DateTime
 
 fun DeckDb.toDeck(
     cards: CopyableList<Card>,
@@ -11,8 +12,8 @@ fun DeckDb.toDeck(
 ) = Deck(
     id,
     name,
-    createdAt,
-    lastOpenedAt,
+    DateTime.fromUnix(createdAt),
+    lastOpenedAt?.let { DateTime.fromUnix(it) },
     cards,
     exercisePreference
 )
@@ -21,8 +22,8 @@ fun Deck.toDeckDb(): DeckDb {
     return DeckDb.Impl(
         id,
         name,
-        createdAt,
-        lastOpenedAt,
+        createdAt.unixMillisLong,
+        lastOpenedAt?.unixMillisLong,
         exercisePreference.id
     )
 }
@@ -34,7 +35,7 @@ fun CardDb.toCard() = Card(
     lap,
     isLearned,
     levelOfKnowledge,
-    lastAnsweredAt
+    lastAnsweredAt?.let { DateTime.fromUnix(it) }
 )
 
 fun Card.toCardDb(
@@ -50,7 +51,7 @@ fun Card.toCardDb(
         lap,
         isLearned,
         levelOfKnowledge,
-        lastAnsweredAt
+        lastAnsweredAt?.unixMillisLong
     )
 }
 

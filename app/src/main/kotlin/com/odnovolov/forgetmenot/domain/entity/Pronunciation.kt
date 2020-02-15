@@ -26,6 +26,6 @@ class Pronunciation(
     )
 
     companion object {
-        val Default = Pronunciation()
+        val Default by lazy { Pronunciation() }
     }
 }

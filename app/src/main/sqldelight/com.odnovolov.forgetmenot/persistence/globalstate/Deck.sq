@@ -3,8 +3,8 @@ import com.soywiz.klock.DateTime;
 CREATE TABLE DeckDb (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    createdAt INTEGER AS DateTime NOT NULL,
-    lastOpenedAt INTEGER AS DateTime,
+    createdAt INTEGER NOT NULL, -- AS DateTime
+    lastOpenedAt INTEGER, -- AS DateTime
     exercisePreferenceId INTEGER NOT NULL
 );
 
