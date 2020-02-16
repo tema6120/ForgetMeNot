@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
 import com.odnovolov.forgetmenot.common.entity.KeyGestureAction
 import com.odnovolov.forgetmenot.common.entity.KeyGestureAction.*
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.answer.quiz.QuizComposer

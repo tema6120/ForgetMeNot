@@ -30,12 +30,12 @@ class ExerciseViewModel(
         .share()
 
     val isCurrentExerciseCardLearned: Flow<Boolean> =
-        currentExerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::isLearned)
         }
 
     val isHintButtonVisible: Flow<Boolean> =
-        currentExerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             val isQuizTestExerciseCard: Boolean = exerciseCard is QuizTestExerciseCard
             combine(
                 exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect),
@@ -46,7 +46,7 @@ class ExerciseViewModel(
         }
 
     val levelOfKnowledgeForCurrentCard: Flow<Int?> =
-        currentExerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::levelOfKnowledge)
         }
 

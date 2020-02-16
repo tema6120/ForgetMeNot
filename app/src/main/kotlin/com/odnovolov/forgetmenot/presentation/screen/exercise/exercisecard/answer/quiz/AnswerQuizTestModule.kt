@@ -16,7 +16,7 @@ val answerQuizTestModule = module {
         viewModel { (id: Long) ->
             AnswerQuizTestViewModel(
                 exerciseState = getScope(EXERCISE_SCOPE_ID).get(),
-                id = get()
+                id = id
             )
         }
     }

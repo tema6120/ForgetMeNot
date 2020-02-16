@@ -31,16 +31,16 @@ class ExerciseCardViewModel(
         }
     }
 
-    val question: Flow<String> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val question: Flow<String> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.card.flowOf(Card::question)
     }
 
     val isQuestionDisplayed: Flow<Boolean> =
-        exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+        exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.flowOf(ExerciseCard.Base::isQuestionDisplayed)
         }
 
-    val isLearned: Flow<Boolean> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val isLearned: Flow<Boolean> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
     }
 

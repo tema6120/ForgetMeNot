@@ -46,16 +46,19 @@ class ExerciseController(
         if (exercise.currentExerciseCard.base.hint == null) {
             commandFlow.send(ShowChooseHintPopup)
         } else {
-            // todo
+            exercise.showHint()
+            store.saveStateByRegistry()
         }
     }
 
     fun onHintAsQuizButtonClicked() {
-
+        exercise.hintAsQuiz()
+        store.saveStateByRegistry()
     }
 
     fun onMaskLettersButtonClicked() {
-
+        exercise.showHint()
+        store.saveStateByRegistry()
     }
 
     fun onLevelOfKnowledgeButtonClicked() {

@@ -31,7 +31,8 @@ object ExerciseStateProvider {
         val entryAdditions: List<EntryAddition>,
         val currentPosition: Int,
         val questionSelection: String,
-        val answerSelection: String
+        val answerSelection: String,
+        val hintSelection: HintSelection
     )
 
     @Serializable
@@ -112,7 +113,8 @@ object ExerciseStateProvider {
             entryAdditions,
             currentPosition,
             questionSelection,
-            answerSelection
+            answerSelection,
+            hintSelection
         )
     }
 
@@ -165,7 +167,8 @@ object ExerciseStateProvider {
             exerciseCards,
             currentPosition,
             questionSelection,
-            answerSelection
+            answerSelection,
+            hintSelection
         )
     }
 }

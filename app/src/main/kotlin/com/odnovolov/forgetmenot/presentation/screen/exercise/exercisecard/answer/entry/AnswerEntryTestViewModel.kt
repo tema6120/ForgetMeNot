@@ -22,16 +22,16 @@ class AnswerEntryTestViewModel(
             .distinctUntilChanged()
             .share()
 
-    val isAnswered: Flow<Boolean> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val isAnswered: Flow<Boolean> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
             .map { isAnswerCorrect: Boolean? -> isAnswerCorrect != null }
     }
 
-    val hint: Flow<String?> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val hint: Flow<String?> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::hint)
     }
 
-    val correctAnswer: Flow<String> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val correctAnswer: Flow<String> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.card.flowOf(
             if (exerciseCard.base.isReverse)
                 Card::question
@@ -41,7 +41,7 @@ class AnswerEntryTestViewModel(
     }
 
     val wrongAnswer: Flow<String?> =
-        exerciseCard.flatMapMerge { entryTestExerciseCard: EntryTestExerciseCard ->
+        exerciseCard.flatMapLatest { entryTestExerciseCard: EntryTestExerciseCard ->
             combine(
                 entryTestExerciseCard.flowOf(EntryTestExerciseCard::userAnswer),
                 entryTestExerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
@@ -50,7 +50,7 @@ class AnswerEntryTestViewModel(
             }
         }
 
-    val isLearned: Flow<Boolean> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val isLearned: Flow<Boolean> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
     }
 

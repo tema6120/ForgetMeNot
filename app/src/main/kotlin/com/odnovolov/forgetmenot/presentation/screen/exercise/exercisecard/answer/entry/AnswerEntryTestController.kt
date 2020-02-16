@@ -20,7 +20,8 @@ class AnswerEntryTestController(
     }
 
     fun onHintSelectionChanged(startIndex: Int, endIndex: Int) {
-        // todo
+        exercise.setHintSelection(startIndex, endIndex)
+        store.saveStateByRegistry()
     }
 
     fun onCheckButtonClicked() {

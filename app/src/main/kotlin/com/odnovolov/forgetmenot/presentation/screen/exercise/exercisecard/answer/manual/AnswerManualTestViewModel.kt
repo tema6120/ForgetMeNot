@@ -5,10 +5,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapMerge
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.*
 import org.koin.core.KoinComponent
 
 class AnswerManualTestViewModel(
@@ -24,19 +21,19 @@ class AnswerManualTestViewModel(
             .distinctUntilChanged()
             .share()
 
-    val answer: Flow<String> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val answer: Flow<String> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.card.flowOf(Card::answer)
     }
 
-    val isAnswerCorrect: Flow<Boolean?> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val isAnswerCorrect: Flow<Boolean?> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
     }
 
-    val hint: Flow<String?> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val hint: Flow<String?> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::hint)
     }
 
-    val isLearned: Flow<Boolean> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val isLearned: Flow<Boolean> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
     }
 

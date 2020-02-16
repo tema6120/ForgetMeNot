@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.SUID
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.entity.Speaker
+import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
 import com.soywiz.klock.DateTime
 
@@ -16,12 +17,14 @@ class Exercise(
         exerciseCards: List<ExerciseCard>,
         currentPosition: Int = 0,
         questionSelection: String = "",
-        answerSelection: String = ""
+        answerSelection: String = "",
+        hintSelection: HintSelection = HintSelection(0, 0)
     ) : FlowableState<State>() {
         var exerciseCards: List<ExerciseCard> by me(exerciseCards)
         var currentPosition: Int by me(currentPosition)
         var questionSelection: String by me(questionSelection)
         var answerSelection: String by me(answerSelection)
+        var hintSelection: HintSelection by me(hintSelection)
     }
 
     lateinit var currentExerciseCard: ExerciseCard
@@ -126,6 +129,55 @@ class Exercise(
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {
         currentExerciseCard.base.card.levelOfKnowledge = levelOfKnowledge
         currentExerciseCard.base.isLevelOfKnowledgeEditedManually = true
+    }
+
+    fun setHintSelection(startIndex: Int, endIndex: Int) {
+        with(state.hintSelection) {
+            this.startIndex = startIndex
+            this.endIndex = endIndex
+        }
+    }
+
+    fun showHint() {
+        fun hasHint() = currentExerciseCard.base.hint != null
+        fun hasHintSelection() = state.hintSelection.endIndex - state.hintSelection.startIndex > 0
+        val answer: String = currentExerciseCard.base.card.answer
+        val oldHint: String? = currentExerciseCard.base.hint
+        currentExerciseCard.base.hint = when {
+            !hasHint() -> Prompter.maskLetters(answer)
+            hasHintSelection() ->
+                Prompter.unmaskRange(
+                    answer,
+                    oldHint!!,
+                    state.hintSelection.startIndex,
+                    state.hintSelection.endIndex
+                )
+            else -> Prompter.unmaskFirst(answer, oldHint!!)
+        }
+    }
+
+    fun hintAsQuiz() {
+        if (currentExerciseCard is QuizTestExerciseCard) return
+        val baseExerciseCard = with(currentExerciseCard.base) {
+            ExerciseCard.Base(
+                id = id,
+                card = card,
+                deck = deck,
+                isReverse = isReverse,
+                isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
+                initialLevelOfKnowledge = initialLevelOfKnowledge,
+                isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
+            )
+        }
+        val variants: List<Card?> = with(baseExerciseCard) {
+            QuizComposer.compose(card, deck, isReverse)
+        }
+        val newQuizTestExerciseCard = QuizTestExerciseCard(baseExerciseCard, variants)
+        state.exerciseCards = state.exerciseCards.toMutableList().run {
+            this[state.currentPosition] = newQuizTestExerciseCard
+            toList()
+        }
+        currentExerciseCard = state.exerciseCards[state.currentPosition]
     }
 
     fun answer(answer: Answer) {
@@ -257,18 +309,18 @@ class Exercise(
                 isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
             )
         }
-        val retestedExerciseCard: ExerciseCard = when (currentExerciseCard) {
-            is OffTestExerciseCard -> OffTestExerciseCard(baseExerciseCard)
-            is ManualTestExerciseCard -> ManualTestExerciseCard(baseExerciseCard)
-            is QuizTestExerciseCard -> {
-                val variants: List<Card?> = with(baseExerciseCard) {
-                    QuizComposer.compose(card, deck, isReverse)
+        val retestedExerciseCard: ExerciseCard =
+            when (currentExerciseCard.base.deck.exercisePreference.testMethod) {
+                TestMethod.Off -> OffTestExerciseCard(baseExerciseCard)
+                TestMethod.Manual -> ManualTestExerciseCard(baseExerciseCard)
+                TestMethod.Quiz -> {
+                    val variants: List<Card?> = with(baseExerciseCard) {
+                        QuizComposer.compose(card, deck, isReverse)
+                    }
+                    QuizTestExerciseCard(baseExerciseCard, variants)
                 }
-                QuizTestExerciseCard(baseExerciseCard, variants)
+                TestMethod.Entry -> EntryTestExerciseCard(baseExerciseCard)
             }
-            is EntryTestExerciseCard -> EntryTestExerciseCard(baseExerciseCard)
-            else -> throw AssertionError()
-        }
         state.exerciseCards += retestedExerciseCard
     }
 

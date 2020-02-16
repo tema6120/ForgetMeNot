@@ -28,14 +28,14 @@ class AnswerQuizTestViewModel(
     val variant4: Flow<String> = variantTextFlow(3)
 
     private fun variantTextFlow(variantIndex: Int): Flow<String> {
-        return exerciseCard.flatMapMerge { quizTestExerciseCard: QuizTestExerciseCard ->
+        return exerciseCard.flatMapLatest { quizTestExerciseCard: QuizTestExerciseCard ->
             val card: Card? = quizTestExerciseCard.variants.getOrNull(variantIndex)
             val isReverse: Boolean = quizTestExerciseCard.base.isReverse
             if (card != null) {
                 if (isReverse) {
-                    card.flowOf(Card::answer)
-                } else {
                     card.flowOf(Card::question)
+                } else {
+                    card.flowOf(Card::answer)
                 }
             } else {
                 emptyFlow()
@@ -49,7 +49,7 @@ class AnswerQuizTestViewModel(
     val variant4Status: Flow<VariantStatus> = variantStatusFlow(3)
 
     private fun variantStatusFlow(variantIndex: Int): Flow<VariantStatus> {
-        return exerciseCard.flatMapMerge { quizTestExerciseCard: QuizTestExerciseCard ->
+        return exerciseCard.flatMapLatest { quizTestExerciseCard: QuizTestExerciseCard ->
             val correctCardId: Long = quizTestExerciseCard.base.card.id
             val variantCardId: Long? = quizTestExerciseCard.variants[variantIndex]?.id
             quizTestExerciseCard.flowOf(QuizTestExerciseCard::selectedVariantIndex)
@@ -64,12 +64,12 @@ class AnswerQuizTestViewModel(
         }
     }
 
-    val isAnswered: Flow<Boolean> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val isAnswered: Flow<Boolean> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
             .map { isAnswerCorrect: Boolean? -> isAnswerCorrect != null }
     }
 
-    val isLearned: Flow<Boolean> = exerciseCard.flatMapMerge { exerciseCard: ExerciseCard ->
+    val isLearned: Flow<Boolean> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
     }
 

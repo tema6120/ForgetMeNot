@@ -41,9 +41,6 @@ class AnswerQuizTestFragment : BaseFragment() {
         val id: Long = arguments!!.getLong(ARG_ID)
         val koinScope = getKoin()
             .getOrCreateScope<AnswerQuizTestViewModel>(ANSWER_QUIZ_TEST_SCOPE_ID_PREFIX + id)
-        if (savedInstanceState == null) {
-            koinScope.declare(id)
-        }
         viewModel = koinScope.getViewModel(owner = this, parameters = { parametersOf(id) })
         controller = koinScope.get(parameters = { parametersOf(id) })
         vibrator = getSystemService(requireContext(), Vibrator::class.java)
