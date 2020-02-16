@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.screen.repetition.service
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent.*
-import com.odnovolov.forgetmenot.screen.exercise.TextInBracketsRemover
+import com.odnovolov.forgetmenot.domain.interactor.exercise.TextInBracketsRemover
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceEvent.*
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceOrder.Speak
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceOrder.StopSpeaking

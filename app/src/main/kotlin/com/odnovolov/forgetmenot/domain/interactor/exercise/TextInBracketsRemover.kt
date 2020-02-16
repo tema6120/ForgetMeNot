@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.screen.exercise
+package com.odnovolov.forgetmenot.domain.interactor.exercise
 
 class TextInBracketsRemover {
     private val openingBrackets = listOf('(', '{', '[', '<')

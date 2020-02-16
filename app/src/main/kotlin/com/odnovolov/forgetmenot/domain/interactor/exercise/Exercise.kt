@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
 import com.soywiz.klock.DateTime
+import java.util.*
 
 class Exercise(
     val state: State,
@@ -29,6 +30,7 @@ class Exercise(
 
     lateinit var currentExerciseCard: ExerciseCard
     private lateinit var currentPronunciation: Pronunciation
+    private val textInBracketsRemover by lazy { TextInBracketsRemover() }
 
     init {
         setCurrentPosition(state.currentPosition)
@@ -99,14 +101,14 @@ class Exercise(
     private fun isAnswered(): Boolean = currentExerciseCard.base.isAnswerCorrect != null
 
     private fun speakQuestionSelection() {
-        speaker.speak(
+        speak(
             state.questionSelection,
             currentPronunciation.questionLanguage
         )
     }
 
     private fun speakAnswerSelection() {
-        speaker.speak(
+        speak(
             state.answerSelection,
             currentPronunciation.answerLanguage
         )
@@ -115,15 +117,26 @@ class Exercise(
     private fun speakQuestion() {
         with(currentExerciseCard.base) {
             val question = if (isReverse) card.answer else card.question
-            speaker.speak(question, currentPronunciation.questionLanguage)
+            speak(question, currentPronunciation.questionLanguage)
         }
     }
 
     private fun speakAnswer() {
         with(currentExerciseCard.base) {
             val answer = if (isReverse) card.question else card.answer
-            speaker.speak(answer, currentPronunciation.answerLanguage)
+            speak(answer, currentPronunciation.answerLanguage)
         }
+    }
+
+    private fun speak(text: String, language: Locale?) {
+        val doNotSpeakTextInBrackets =
+            currentExerciseCard.base.deck.exercisePreference.pronunciation.doNotSpeakTextInBrackets
+        val textToSpeak = if (doNotSpeakTextInBrackets) {
+            textInBracketsRemover.process(text)
+        } else {
+            text
+        }
+        speaker.speak(textToSpeak, language)
     }
 
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {
@@ -250,7 +263,7 @@ class Exercise(
         with(currentExerciseCard.base) {
             if (currentPronunciation.answerAutoSpeak && isAnswerCorrect == null) {
                 val answer: String = if (isReverse) card.question else card.answer
-                speaker.speak(answer, currentPronunciation.answerLanguage)
+                speak(answer, currentPronunciation.answerLanguage)
             }
         }
     }
