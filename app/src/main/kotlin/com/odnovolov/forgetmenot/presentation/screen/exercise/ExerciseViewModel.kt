@@ -13,11 +13,12 @@ import kotlinx.coroutines.flow.*
 import org.koin.core.KoinComponent
 
 class ExerciseViewModel(
-    exerciseState: Exercise.State,
+    private val exerciseState: Exercise.State,
     walkingModePreference: WalkingModePreference
 ) : ViewModel(), KoinComponent {
-    val exerciseCardsIdsAtStart: List<Long> = exerciseState.exerciseCards
-        .map { exerciseCard: ExerciseCard -> exerciseCard.base.id }
+    val exerciseCardsIdsAtStart: List<Long>
+        get() = exerciseState.exerciseCards
+            .map { exerciseCard: ExerciseCard -> exerciseCard.base.id }
 
     val exerciseCardIds: Flow<List<Long>> = exerciseState.flowOf(Exercise.State::exerciseCards)
         .map { exerciseCards: List<ExerciseCard> ->

@@ -6,10 +6,12 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.common.MainActivity
 
 interface Navigator {
     fun navigateToExercise()
     fun navigateToEditCard()
+    fun navigateUp()
 }
 
 class NavigatorImpl : Navigator, Application.ActivityLifecycleCallbacks {
@@ -23,12 +25,20 @@ class NavigatorImpl : Navigator, Application.ActivityLifecycleCallbacks {
         navController?.navigate(R.id.action_exercise_screen_to_edit_card_screen)
     }
 
+    override fun navigateUp() {
+        navController?.navigateUp()
+    }
+
     override fun onActivityStarted(activity: Activity) {
-        navController = activity.findNavController(R.id.nav_host_fragment)
+        if (activity is MainActivity) {
+            navController = activity.findNavController(R.id.nav_host_fragment)
+        }
     }
 
     override fun onActivityStopped(activity: Activity) {
-        navController = null
+        if (activity is MainActivity) {
+            navController = null
+        }
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}

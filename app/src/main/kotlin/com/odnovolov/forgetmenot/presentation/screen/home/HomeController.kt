@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteract
 import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.screen.exercise.EXERCISE_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
@@ -48,7 +49,7 @@ class HomeController(
                             .forEach {
                                 deck -> deck.lastOpenedAt = DateTime.now()
                             }
-                        val koinScope = getKoin().createScope<ExerciseViewModel>()
+                        val koinScope = getKoin().createScope<ExerciseViewModel>(EXERCISE_SCOPE_ID)
                         koinScope.declare(event.exerciseState, override = true)
                         navigator.navigateToExercise()
                     }

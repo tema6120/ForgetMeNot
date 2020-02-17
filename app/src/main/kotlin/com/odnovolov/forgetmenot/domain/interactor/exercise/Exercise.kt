@@ -157,6 +157,30 @@ class Exercise(
         speaker.speak(textToSpeak, language)
     }
 
+    fun editCurrentCard(newQuestion: String, newAnswer: String) {
+        with(currentExerciseCard.base) {
+            if (newQuestion.isNotEmpty() && newQuestion != card.question) {
+                card.question = newQuestion
+                if (isReverse) {
+                    resetHint(card.id)
+                }
+            }
+            if (newAnswer.isNotEmpty() && newAnswer != card.answer) {
+                card.answer = newAnswer
+                if (!isReverse) {
+                    resetHint(card.id)
+                }
+            }
+            // todo recheck entry
+        }
+    }
+
+    private fun resetHint(cardId: Long) {
+        state.exerciseCards
+            .filter { it.base.card.id == cardId }
+            .forEach { it.base.hint = null }
+    }
+
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {
         currentExerciseCard.base.card.levelOfKnowledge = levelOfKnowledge
         currentExerciseCard.base.isLevelOfKnowledgeEditedManually = true
@@ -236,7 +260,7 @@ class Exercise(
             || variantIndex >= quizExerciseCard.variants.size
         ) return
         quizExerciseCard.selectedVariantIndex = variantIndex
-        val selectedCardId = quizExerciseCard.variants[variantIndex]!!.id
+        val selectedCardId: Long? = quizExerciseCard.variants[variantIndex]?.id
         val isVariantCorrect = selectedCardId == quizExerciseCard.base.card.id
         if (isVariantCorrect) setAnswerCorrect()
         else setAnswerWrong()

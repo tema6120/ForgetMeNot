@@ -8,17 +8,21 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotR
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EDIT_CARD_SCOPE_ID
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardViewModel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCommand.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
+import org.koin.core.KoinComponent
 
 class ExerciseController(
     private val exercise: Exercise,
     private val walkingModePreference: WalkingModePreference,
     private val navigator: Navigator,
     private val store: Store
-) {
+) : KoinComponent {
     private var isFragmentRemoving = false
     private val commandFlow = EventFlow<ExerciseCommand>()
     val commands = commandFlow.get()
@@ -44,7 +48,12 @@ class ExerciseController(
     }
 
     fun onEditCardButtonClicked() {
-        // todo: prepare EditCard screen state
+        val editCardScreenState = EditCardScreenState().apply {
+            question = exercise.currentExerciseCard.base.card.question
+            answer = exercise.currentExerciseCard.base.card.answer
+        }
+        val koinScope = getKoin().createScope<EditCardViewModel>(EDIT_CARD_SCOPE_ID)
+        koinScope.declare(editCardScreenState, override = true)
         navigator.navigateToEditCard()
     }
 
@@ -114,7 +123,6 @@ class ExerciseController(
             SPEAK_ANSWER -> exercise.speakAnswer()
         }
     }
-
 
     fun onFragmentRemoving() {
         isFragmentRemoving = true

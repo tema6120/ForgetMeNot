@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.screen.editcard
+package com.odnovolov.forgetmenot.presentation.screen.editcard
 
 import android.content.Context
 import android.os.Bundle
@@ -6,18 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.observeText
-import com.odnovolov.forgetmenot.screen.editcard.EditCardEvent.*
-import com.odnovolov.forgetmenot.screen.editcard.EditCardOrder.NavigateUp
-import com.odnovolov.forgetmenot.screen.editcard.EditCardOrder.UpdateQuestionAndAnswer
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardCommand.UpdateQuestionAndAnswer
 import kotlinx.android.synthetic.main.fragment_edit_card.*
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.scope.viewModel
 
 class EditCardFragment : BaseFragment() {
-    private val controller = EditCardController()
-    private val viewModel = EditCardViewModel()
+    private val koinScope = getKoin().getOrCreateScope<EditCardViewModel>(EDIT_CARD_SCOPE_ID)
+    private val viewModel: EditCardViewModel by koinScope.viewModel(this)
+    private val controller: EditCardController by koinScope.inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,16 +33,16 @@ class EditCardFragment : BaseFragment() {
         if (savedInstanceState == null) {
             updateText()
         }
-        viewModel.isDoneButtonEnabled.observe(onChange = doneButton::setEnabled)
-        controller.orders.forEach(::executeOrder)
+        viewModel.isDoneButtonEnabled.observe(doneButton::setEnabled)
+        controller.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
-        questionEditText.observeText { controller.dispatch(QuestionInputChanged(it)) }
-        answerEditText.observeText { controller.dispatch(AnswerInputChanged(it)) }
-        reverseCardButton.setOnClickListener { controller.dispatch(ReverseCardButtonClicked) }
-        cancelButton.setOnClickListener { controller.dispatch(CancelButtonClicked) }
-        doneButton.setOnClickListener { controller.dispatch(DoneButtonClicked) }
+        questionEditText.observeText { controller.onQuestionInputChanged(it) }
+        answerEditText.observeText { controller.onAnswerInputChanged(it) }
+        reverseCardButton.setOnClickListener { controller.onReverseCardButtonClicked() }
+        cancelButton.setOnClickListener { controller.onCancelButtonClicked() }
+        doneButton.setOnClickListener { controller.onDoneButtonClicked() }
     }
 
     private fun updateText() {
@@ -50,16 +50,17 @@ class EditCardFragment : BaseFragment() {
         answerEditText.setText(viewModel.answer)
     }
 
-    private fun executeOrder(order: EditCardOrder) {
-        when (order) {
+    private fun executeCommand(command: EditCardCommand) {
+        when (command) {
             UpdateQuestionAndAnswer -> {
                 updateText()
             }
-            NavigateUp -> {
-                hideSoftKeyboard()
-                findNavController().navigateUp()
-            }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        hideSoftKeyboard()
     }
 
     private fun hideSoftKeyboard() {
@@ -69,10 +70,5 @@ class EditCardFragment : BaseFragment() {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(focusedView.windowToken, 0)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        controller.dispose()
     }
 }

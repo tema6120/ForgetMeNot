@@ -42,7 +42,7 @@
 
     <fragment
             android:id="@+id/edit_card_screen"
-            android:name="com.odnovolov.forgetmenot.screen.editcard.EditCardFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardFragment"
             android:label="@string/label_edit_card_screen"
             tools:layout="@layout/fragment_edit_card" />
 
