@@ -12,10 +12,10 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
-import com.odnovolov.forgetmenot.common.entity.KeyGesture
-import com.odnovolov.forgetmenot.common.entity.KeyGesture.*
-import com.odnovolov.forgetmenot.common.entity.KeyGestureAction
-import com.odnovolov.forgetmenot.common.entity.KeyGestureAction.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.common.firstBlocking
 import com.odnovolov.forgetmenot.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionSelected
 import kotlinx.android.synthetic.main.fragment_walking_mode_settings.*

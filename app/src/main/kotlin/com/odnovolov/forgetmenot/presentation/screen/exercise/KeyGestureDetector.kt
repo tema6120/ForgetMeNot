@@ -1,7 +1,7 @@
-package com.odnovolov.forgetmenot.screen.exercise
+package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import com.odnovolov.forgetmenot.screen.exercise.KeyGestureDetector.Gesture.*
-import com.odnovolov.forgetmenot.screen.exercise.KeyGestureDetector.SpeedOptimization.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.SpeedOptimization.*
 import kotlinx.coroutines.*
 import java.lang.IllegalStateException
 

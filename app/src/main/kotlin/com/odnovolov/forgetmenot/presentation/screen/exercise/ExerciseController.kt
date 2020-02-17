@@ -1,15 +1,21 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import com.odnovolov.forgetmenot.common.entity.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotRemember
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCommand.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 
 class ExerciseController(
     private val exercise: Exercise,
+    private val walkingModePreference: WalkingModePreference,
     private val navigator: Navigator,
     private val store: Store
 ) {
@@ -25,6 +31,7 @@ class ExerciseController(
     fun onSetCardLearnedButtonClicked() {
         exercise.setIsCardLearned(true)
         store.saveStateByRegistry()
+        commandFlow.send(MoveToNextPosition)
     }
 
     fun onUndoButtonClicked() {
@@ -34,7 +41,6 @@ class ExerciseController(
 
     fun onSpeakButtonClicked() {
         exercise.speak()
-        store.saveStateByRegistry()
     }
 
     fun onEditCardButtonClicked() {
@@ -85,7 +91,28 @@ class ExerciseController(
     }
 
     fun onKeyGestureDetected(keyGesture: KeyGesture) {
-        // todo
+        val keyGestureAction: KeyGestureAction =
+            walkingModePreference.keyGestureMap[keyGesture] ?: return
+        when (keyGestureAction) {
+            NO_ACTION -> return
+            MOVE_TO_NEXT_CARD -> commandFlow.send(MoveToNextPosition)
+            MOVE_TO_PREVIOUS_CARD -> commandFlow.send(MoveToPreviousPosition)
+            SET_CARD_AS_REMEMBER -> {
+                exercise.answer(Remember)
+                store.saveStateByRegistry()
+            }
+            SET_CARD_AS_NOT_REMEMBER -> {
+                exercise.answer(NotRemember)
+                store.saveStateByRegistry()
+            }
+            SET_CARD_AS_LEARNED -> {
+                exercise.setIsCardLearned(true)
+                store.saveStateByRegistry()
+                commandFlow.send(MoveToNextPosition)
+            }
+            SPEAK_QUESTION -> exercise.speakQuestion()
+            SPEAK_ANSWER -> exercise.speakAnswer()
+        }
     }
 
 

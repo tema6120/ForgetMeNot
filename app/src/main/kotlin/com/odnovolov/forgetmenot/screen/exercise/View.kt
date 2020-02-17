@@ -19,13 +19,14 @@ import com.odnovolov.forgetmenot.common.MainActivity
 import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.dp
-import com.odnovolov.forgetmenot.common.entity.KeyGesture
-import com.odnovolov.forgetmenot.common.entity.KeyGesture.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
 import com.odnovolov.forgetmenot.screen.exercise.IntervalsAdapter.ViewHolder
-import com.odnovolov.forgetmenot.screen.exercise.KeyGestureDetector.Gesture.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardFragment
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*

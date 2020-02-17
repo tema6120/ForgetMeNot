@@ -11,10 +11,15 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.common.MainActivity
 import com.odnovolov.forgetmenot.common.dp
 import com.odnovolov.forgetmenot.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCommand.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.popup_choose_hint.view.*
 import org.koin.android.ext.android.getKoin
@@ -113,7 +118,7 @@ class ExerciseFragment : BaseFragment() {
     private fun setupView() {
         setupViewPagerAdapter()
         setupControlPanel()
-        //setupWalkingModeIfEnabled()
+        setupWalkingModeIfEnabled()
     }
 
     private fun setupViewPagerAdapter() {
@@ -128,6 +133,73 @@ class ExerciseFragment : BaseFragment() {
         editCardButton.setOnClickListener { controller.onEditCardButtonClicked() }
         hintButton.setOnClickListener { controller.onHintButtonClicked() }
         levelOfKnowledgeButton.setOnClickListener { controller.onLevelOfKnowledgeButtonClicked() }
+    }
+
+    private fun setupWalkingModeIfEnabled() {
+        with(viewModel) {
+            if (isWalkingMode) {
+                val volumeUpGestureDetector: KeyGestureDetector? =
+                    if (!needToDetectVolumeUpSinglePress
+                        && !needToDetectVolumeUpDoublePress
+                        && !needToDetectVolumeUpLongPress
+                    ) null
+                    else KeyGestureDetector(
+                        detectSinglePress = needToDetectVolumeUpSinglePress,
+                        detectDoublePress = needToDetectVolumeUpDoublePress,
+                        detectLongPress = needToDetectVolumeUpLongPress,
+                        coroutineScope = viewScope!!,
+                        onGestureDetect = { gesture: Gesture ->
+                            val keyGesture: KeyGesture = when (gesture) {
+                                SINGLE_PRESS -> VOLUME_UP_SINGLE_PRESS
+                                DOUBLE_PRESS -> VOLUME_UP_DOUBLE_PRESS
+                                LONG_PRESS -> VOLUME_UP_LONG_PRESS
+                            }
+                            controller.onKeyGestureDetected(keyGesture)
+                        })
+                val volumeDownGestureDetector: KeyGestureDetector? =
+                    if (!needToDetectVolumeDownSinglePress
+                        && !needToDetectVolumeDownDoublePress
+                        && !needToDetectVolumeDownLongPress
+                    ) null
+                    else KeyGestureDetector(
+                        detectSinglePress = needToDetectVolumeDownSinglePress,
+                        detectDoublePress = needToDetectVolumeDownDoublePress,
+                        detectLongPress = needToDetectVolumeDownLongPress,
+                        coroutineScope = viewScope!!,
+                        onGestureDetect = { gesture: Gesture ->
+                            val keyGesture: KeyGesture = when (gesture) {
+                                SINGLE_PRESS -> VOLUME_DOWN_SINGLE_PRESS
+                                DOUBLE_PRESS -> VOLUME_DOWN_DOUBLE_PRESS
+                                LONG_PRESS -> VOLUME_DOWN_LONG_PRESS
+                            }
+                            controller.onKeyGestureDetected(keyGesture)
+                        })
+                val keyEventInterceptor: (KeyEvent) -> Boolean = { event: KeyEvent ->
+                    when (event.keyCode) {
+                        KeyEvent.KEYCODE_VOLUME_UP -> {
+                            if (volumeUpGestureDetector == null) {
+                                false
+                            } else {
+                                val isPressed = event.action == KeyEvent.ACTION_DOWN
+                                volumeUpGestureDetector.dispatchKeyEvent(isPressed)
+                                true
+                            }
+                        }
+                        KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                            if (volumeDownGestureDetector == null) {
+                                false
+                            } else {
+                                val isPressed = event.action == KeyEvent.ACTION_DOWN
+                                volumeDownGestureDetector.dispatchKeyEvent(isPressed)
+                                true
+                            }
+                        }
+                        else -> false
+                    }
+                }
+                (activity as MainActivity).keyEventInterceptor = keyEventInterceptor
+            }
+        }
     }
 
     private fun observeViewModel() {
@@ -220,9 +292,9 @@ class ExerciseFragment : BaseFragment() {
         exerciseViewPager.adapter = null
         exerciseViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         (setLevelOfKnowledgePopup.contentView as RecyclerView).adapter = null
-        /*if (viewModel.isWalkingMode) {
+        if (viewModel.isWalkingMode) {
             (activity as MainActivity).keyEventInterceptor = null
-        }*/
+        }
     }
 
     override fun onDestroy() {

@@ -3,8 +3,8 @@ package com.odnovolov.forgetmenot.screen.walkingmodesettings
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
-import com.odnovolov.forgetmenot.common.entity.KeyGesture.*
-import com.odnovolov.forgetmenot.common.entity.KeyGestureAction
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import kotlinx.coroutines.flow.Flow
 
 class WalkingModeSettingsViewModel {

@@ -32,7 +32,8 @@ object ExerciseStateProvider {
         val currentPosition: Int,
         val questionSelection: String,
         val answerSelection: String,
-        val hintSelection: HintSelection
+        val hintSelection: HintSelection,
+        val isWalkingMode: Boolean
     )
 
     @Serializable
@@ -114,7 +115,8 @@ object ExerciseStateProvider {
             currentPosition,
             questionSelection,
             answerSelection,
-            hintSelection
+            hintSelection,
+            isWalkingMode
         )
     }
 
@@ -168,7 +170,8 @@ object ExerciseStateProvider {
             currentPosition,
             questionSelection,
             answerSelection,
-            hintSelection
+            hintSelection,
+            isWalkingMode
         )
     }
 }

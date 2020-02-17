@@ -8,6 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.DeckReviewPreferenceDb
+import com.odnovolov.forgetmenot.persistence.KeyGestureMapDb
 import com.odnovolov.forgetmenot.persistence.globalstate.*
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
@@ -80,6 +81,10 @@ object DatabaseLifecycleManager : ActivityLifecycleCallbacks {
             ),
             IntervalDb.Adapter(
                 valueAdapter = dateTimeSpanAdapter
+            ),
+            KeyGestureMapDb.Adapter(
+                keyGestureAdapter = EnumColumnAdapter(),
+                keyGestureActionAdapter = EnumColumnAdapter()
             ),
             DeckReviewSorting.Adapter(
                 criterionAdapter = EnumColumnAdapter(),

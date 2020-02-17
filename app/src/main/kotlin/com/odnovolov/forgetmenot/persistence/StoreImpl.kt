@@ -11,10 +11,12 @@ import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckScreenStat
 import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckStateProvider
 import com.odnovolov.forgetmenot.persistence.serializablestate.ExerciseStateProvider
 import com.odnovolov.forgetmenot.persistence.serializablestate.HomeScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.walkingmodepreference.WalkingModePreferenceProvider
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -36,6 +38,9 @@ class StoreImpl : Store, CoroutineScope {
 
     override fun loadDeckReviewPreference(): DeckReviewPreference =
         DeckReviewPreferenceProvider.load()
+
+    override fun loadWalkingModePreference(): WalkingModePreference =
+        WalkingModePreferenceProvider.load()
 
     override fun saveStateByRegistry() {
         val changes = PropertyChangeRegistry.removeAll()

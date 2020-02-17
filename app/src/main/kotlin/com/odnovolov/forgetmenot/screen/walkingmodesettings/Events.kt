@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.screen.walkingmodesettings
 
-import com.odnovolov.forgetmenot.common.entity.KeyGesture
-import com.odnovolov.forgetmenot.common.entity.KeyGestureAction
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 
 sealed class WalkingModeSettingsEvent {
     class KeyGestureActionSelected(

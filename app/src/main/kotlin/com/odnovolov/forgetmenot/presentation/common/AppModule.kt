@@ -8,5 +8,6 @@ val appModule = module {
     single<Store> { StoreImpl() }
     single { get<Store>().loadGlobalState() }
     single { get<Store>().loadDeckReviewPreference() }
+    single { get<Store>().loadWalkingModePreference() }
     single { NavigatorImpl() } bind Navigator::class
 }

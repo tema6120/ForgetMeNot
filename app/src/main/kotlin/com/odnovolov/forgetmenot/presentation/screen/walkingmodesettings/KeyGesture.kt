@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.common.entity
+package com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings
 
 enum class KeyGesture {
     VOLUME_UP_SINGLE_PRESS,

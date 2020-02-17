@@ -21,21 +21,21 @@ class PrepareExerciseInteractor(
     private val eventFlow = EventFlow<Event>()
     val events: Flow<Event> = eventFlow.get()
 
-    fun prepare(deckIds: List<Long>) {
+    fun prepare(deckIds: List<Long>, isWalkingMode: Boolean) {
         val now = DateTime.now()
         val exerciseCards: List<ExerciseCard> = globalState.decks
             .filter { deck -> deck.id in deckIds }
             .flatMap { deck ->
                 deck.cards
                     .filter { card -> isCardReadyForExercise(card, deck, now) }
-                    .map { card -> cardToExerciseCard(card, deck) }
+                    .map { card -> cardToExerciseCard(card, deck, isWalkingMode) }
             }
             .shuffled()
         eventFlow.send(
             if (exerciseCards.isEmpty()) {
                 NoCardIsReadyForExercise
             } else {
-                ExerciseIsReady(Exercise.State(exerciseCards))
+                ExerciseIsReady(Exercise.State(exerciseCards, isWalkingMode = isWalkingMode))
             }
         )
     }
@@ -62,7 +62,8 @@ class PrepareExerciseInteractor(
 
     private fun cardToExerciseCard(
         card: Card,
-        deck: Deck
+        deck: Deck,
+        isWalkingMode: Boolean
     ): ExerciseCard {
         val isReverse = when (deck.exercisePreference.cardReverse) {
             CardReverse.Off -> false
@@ -81,10 +82,20 @@ class PrepareExerciseInteractor(
             Off -> OffTestExerciseCard(baseExerciseCard)
             Manual -> ManualTestExerciseCard(baseExerciseCard)
             Quiz -> {
-                val variants: List<Card?> = QuizComposer.compose(card, deck, isReverse)
-                QuizTestExerciseCard(baseExerciseCard, variants)
+                if (isWalkingMode) {
+                    ManualTestExerciseCard(baseExerciseCard)
+                } else {
+                    val variants: List<Card?> = QuizComposer.compose(card, deck, isReverse)
+                    QuizTestExerciseCard(baseExerciseCard, variants)
+                }
             }
-            Entry -> EntryTestExerciseCard(baseExerciseCard)
+            Entry -> {
+                if (isWalkingMode) {
+                    ManualTestExerciseCard(baseExerciseCard)
+                } else {
+                    EntryTestExerciseCard(baseExerciseCard)
+                }
+            }
         }
     }
 }

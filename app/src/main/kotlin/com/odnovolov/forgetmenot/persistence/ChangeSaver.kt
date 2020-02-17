@@ -4,7 +4,9 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.deckreviewpreference.DeckReviewPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.globalstate.writingchanges.*
+import com.odnovolov.forgetmenot.persistence.walkingmodepreference.WalkingModePreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 
 object ChangeSaver {
     fun save(change: Change) {
@@ -17,6 +19,7 @@ object ChangeSaver {
             Interval::class -> IntervalPropertyChangeHandler.handle(change)
             Pronunciation::class -> PronunciationPropertyChangeHandler.handle(change)
             DeckReviewPreference::class -> DeckReviewPreferencePropertyChangeHandler.handle(change)
+            WalkingModePreference::class -> WalkingModePreferencePropertyChangeHandler.handle(change)
         }
     }
 }

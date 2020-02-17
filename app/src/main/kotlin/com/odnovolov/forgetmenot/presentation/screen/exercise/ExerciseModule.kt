@@ -14,9 +14,9 @@ val exerciseModule = module {
         scoped { get<Store>().loadExerciseState(globalState = get()) }
         scoped { SpeakerImpl(applicationContext = get()) } bind Speaker::class onClose { it?.shutdown() }
         scoped { Exercise(state = get(), speaker = get()) }
-        scoped { ExerciseController(exercise = get(), navigator = get(), store = get()) }
+        scoped { ExerciseController(exercise = get(), navigator = get(), store = get(), walkingModePreference = get()) }
             .onClose { it?.onCleared() }
-        viewModel { ExerciseViewModel(exerciseState = get()) }
+        viewModel { ExerciseViewModel(exerciseState = get(), walkingModePreference = get()) }
     }
 }
 

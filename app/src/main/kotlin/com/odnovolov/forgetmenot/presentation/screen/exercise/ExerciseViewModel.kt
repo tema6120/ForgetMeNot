@@ -6,11 +6,15 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.NO_ACTION
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.flow.*
 import org.koin.core.KoinComponent
 
 class ExerciseViewModel(
-    exerciseState: Exercise.State
+    exerciseState: Exercise.State,
+    walkingModePreference: WalkingModePreference
 ) : ViewModel(), KoinComponent {
     val exerciseCardsIdsAtStart: List<Long> = exerciseState.exerciseCards
         .map { exerciseCard: ExerciseCard -> exerciseCard.base.id }
@@ -50,7 +54,25 @@ class ExerciseViewModel(
             exerciseCard.base.card.flowOf(Card::levelOfKnowledge)
         }
 
-    //val isWalkingMode: Boolean = TODO()
+    val isWalkingMode: Boolean = exerciseState.isWalkingMode
+
+    val needToDetectVolumeUpSinglePress =
+        walkingModePreference.keyGestureMap[VOLUME_UP_SINGLE_PRESS] != NO_ACTION
+
+    val needToDetectVolumeUpDoublePress =
+        walkingModePreference.keyGestureMap[VOLUME_UP_DOUBLE_PRESS] != NO_ACTION
+
+    val needToDetectVolumeUpLongPress =
+        walkingModePreference.keyGestureMap[VOLUME_UP_LONG_PRESS] != NO_ACTION
+
+    val needToDetectVolumeDownSinglePress =
+        walkingModePreference.keyGestureMap[VOLUME_DOWN_SINGLE_PRESS] != NO_ACTION
+
+    val needToDetectVolumeDownDoublePress =
+        walkingModePreference.keyGestureMap[VOLUME_DOWN_DOUBLE_PRESS] != NO_ACTION
+
+    val needToDetectVolumeDownLongPress =
+        walkingModePreference.keyGestureMap[VOLUME_DOWN_LONG_PRESS] != NO_ACTION
 
     override fun onCleared() {
         getKoin().getScope(EXERCISE_SCOPE_ID).close()

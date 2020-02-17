@@ -3,8 +3,8 @@ package com.odnovolov.forgetmenot.screen.exercise
 import com.odnovolov.forgetmenot.common.database.asFlow
 import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.common.database.mapToOne
-import com.odnovolov.forgetmenot.common.entity.KeyGestureAction
-import com.odnovolov.forgetmenot.common.entity.KeyGestureAction.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
 import com.odnovolov.forgetmenot.domain.interactor.exercise.TextInBracketsRemover
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*

@@ -1,0 +1,13 @@
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture;
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction;
+
+CREATE TABLE KeyGestureMapDb (
+    keyGesture TEXT AS KeyGesture NOT NULL PRIMARY KEY,
+    keyGestureAction TEXT AS KeyGestureAction NOT NULL
+);
+
+replace:
+REPLACE INTO KeyGestureMapDb VALUES ?;
+
+selectAll:
+SELECT * FROM KeyGestureMapDb;

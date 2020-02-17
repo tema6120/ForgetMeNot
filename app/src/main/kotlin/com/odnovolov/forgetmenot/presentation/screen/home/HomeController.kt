@@ -104,7 +104,9 @@ class HomeController(
     }
 
     fun onStartExerciseMenuItemClicked() {
-
+        val deckIds: List<Long> = homeScreenState.selectedDeckIds
+        homeScreenState.selectedDeckIds = emptyList()
+        startExercise(deckIds, isWalkingMode = false)
     }
 
     fun onSelectAllDecksMenuItemClicked() {
@@ -119,7 +121,9 @@ class HomeController(
     }
 
     fun onStartExerciseInWalkingModeMenuItemClicked() {
-
+        val deckIds: List<Long> = homeScreenState.selectedDeckIds
+        homeScreenState.selectedDeckIds = emptyList()
+        startExercise(deckIds, isWalkingMode = true)
     }
 
     fun onActionModeFinished() {
@@ -134,7 +138,7 @@ class HomeController(
     }
 
     private fun startExercise(deckIds: List<Long>, isWalkingMode: Boolean) {
-        prepareExerciseInteractor.prepare(deckIds)
+        prepareExerciseInteractor.prepare(deckIds, isWalkingMode)
     }
 
     private fun toggleDeckSelection(deckId: Long) {

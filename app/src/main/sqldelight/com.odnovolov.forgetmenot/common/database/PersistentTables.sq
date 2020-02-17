@@ -1,6 +1,6 @@
 import com.odnovolov.forgetmenot.common.entity.CardReverse;
-import com.odnovolov.forgetmenot.common.entity.KeyGesture;
-import com.odnovolov.forgetmenot.common.entity.KeyGestureAction;
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture;
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction;
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent;
 import com.odnovolov.forgetmenot.common.entity.TestMethod;
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting;

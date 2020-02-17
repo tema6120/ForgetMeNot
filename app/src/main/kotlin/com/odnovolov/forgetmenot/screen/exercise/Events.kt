@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.screen.exercise
 
-import com.odnovolov.forgetmenot.common.entity.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 
 sealed class ExerciseEvent {
     class NewPageBecameSelected(val position: Int) : ExerciseEvent()
