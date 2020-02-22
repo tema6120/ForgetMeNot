@@ -4,15 +4,14 @@ import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
+import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.persistence.deckreviewpreference.DeckReviewPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.globalstate.provision.GlobalStateProvider
-import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckScreenStateProvider
-import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckStateProvider
-import com.odnovolov.forgetmenot.persistence.serializablestate.ExerciseStateProvider
-import com.odnovolov.forgetmenot.persistence.serializablestate.HomeScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.serializablestate.*
 import com.odnovolov.forgetmenot.persistence.walkingmodepreference.WalkingModePreferenceProvider
 import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
@@ -75,4 +74,21 @@ class StoreImpl : Store, CoroutineScope {
         background { ExerciseStateProvider.save(exerciseState) }
 
     override fun deleteExerciseState() = background { ExerciseStateProvider.delete() }
+
+    override fun loadDeckSettingsState(globalState: GlobalState): DeckSettings.State =
+        DeckSettingsStateProvider.load(globalState)
+
+    override fun save(deckSettingsState: DeckSettings.State) =
+        background { DeckSettingsStateProvider.save(deckSettingsState) }
+
+    override fun deleteDeckSettingsState() = background { DeckSettingsStateProvider.delete() }
+
+    override fun loadDeckSettingsScreenState(): DeckSettingsScreenState =
+        DeckSettingsScreenStateProvider.load()
+
+    override fun save(deckSettingsScreenState: DeckSettingsScreenState) =
+        background { DeckSettingsScreenStateProvider.save(deckSettingsScreenState) }
+
+    override fun deleteDeckSettingsScreenState() =
+        background { DeckSettingsScreenStateProvider.delete() }
 }

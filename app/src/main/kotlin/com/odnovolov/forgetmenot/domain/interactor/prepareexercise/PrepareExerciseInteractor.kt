@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.SUID
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.domain.interactor.prepareexercise.PrepareExerciseInteractor.Event.ExerciseIsReady
 import com.odnovolov.forgetmenot.domain.interactor.prepareexercise.PrepareExerciseInteractor.Event.NoCardIsReadyForExercise
@@ -71,7 +72,7 @@ class PrepareExerciseInteractor(
             CardReverse.EveryOtherLap -> (card.lap % 2) == 1
         }
         val baseExerciseCard = ExerciseCard.Base(
-            id = SUID.id(),
+            id = generateId(),
             card = card,
             deck = deck,
             isReverse = isReverse,

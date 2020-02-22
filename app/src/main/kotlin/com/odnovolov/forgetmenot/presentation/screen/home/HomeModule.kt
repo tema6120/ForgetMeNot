@@ -17,6 +17,7 @@ val homeModule = module {
                 deckReviewPreference = get(),
                 removeDeckInteractor = get(),
                 prepareExerciseInteractor = get(),
+                globalState = get(),
                 navigator = get(),
                 store = get()
             )

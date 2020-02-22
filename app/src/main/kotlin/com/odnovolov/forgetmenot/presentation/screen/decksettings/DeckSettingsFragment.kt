@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.screen.decksettings
+package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import android.app.Dialog
 import android.os.Bundle
@@ -9,29 +9,31 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
-import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.common.entity.TestMethod
-import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
 import com.odnovolov.forgetmenot.common.dp
-import com.odnovolov.forgetmenot.common.entity.CardReverse
-import com.odnovolov.forgetmenot.common.entity.TestMethod.*
-import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsEvent.*
-import com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsOrder.*
+import com.odnovolov.forgetmenot.domain.entity.CardReverse
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.domain.entity.TestMethod
+import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetNamePresetDialogText
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.scope.viewModel
 
 class DeckSettingsFragment : BaseFragment() {
-
-    private val viewModel = DeckSettingsViewModel()
-    private val controller = DeckSettingsController()
+    private val koinScope = getKoin()
+        .getOrCreateScope<DeckSettingsViewModel>(DECK_SETTINGS_SCOPED_ID)
+    private val viewModel: DeckSettingsViewModel by koinScope.viewModel(this)
+    private val controller: DeckSettingsController by koinScope.inject()
     private lateinit var renameDeckDialog: Dialog
     private lateinit var renameDeckEditText: EditText
     private lateinit var chooseExercisePreferencePopup: PopupWindow
@@ -61,9 +63,9 @@ class DeckSettingsFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_rename_deck_dialog),
             takeEditText = { renameDeckEditText = it },
-            onTextChanged = { controller.dispatch(RenameDeckDialogTextChanged(it)) },
-            onPositiveClick = { controller.dispatch(RenameDeckDialogPositiveButtonClicked) },
-            onNegativeClick = { controller.dispatch(RenameDeckDialogNegativeButtonClicked) }
+            onTextChanged = { controller.onRenameDeckDialogTextChanged(it) },
+            onPositiveClick = { controller.onRenameDeckDialogPositiveButtonClicked() },
+            onNegativeClick = { controller.onRenameDeckDialogNegativeButtonClicked() }
         )
     }
 
@@ -71,16 +73,16 @@ class DeckSettingsFragment : BaseFragment() {
         chooseExercisePreferencePopup = PresetPopupCreator.create(
             context = requireContext(),
             setPresetButtonClickListener = { id: Long? ->
-                controller.dispatch(SetExercisePreferenceButtonClicked(id!!))
+                controller.onSetExercisePreferenceButtonClicked(id!!)
             },
             renamePresetButtonClickListener = { id: Long ->
-                controller.dispatch(RenameExercisePreferenceButtonClicked(id))
+                controller.onRenameExercisePreferenceButtonClicked(id)
             },
             deletePresetButtonClickListener = { id: Long ->
-                controller.dispatch(DeleteExercisePreferenceButtonClicked(id))
+                controller.onDeleteExercisePreferenceButtonClicked(id)
             },
             addButtonClickListener = {
-                controller.dispatch(AddNewExercisePreferenceButtonClicked)
+                controller.onAddNewExercisePreferenceButtonClicked()
             },
             takeAdapter = { exercisePreferenceAdapter = it }
         )
@@ -91,9 +93,9 @@ class DeckSettingsFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_exercise_preference_name_input_dialog),
             takeEditText = { namePresetEditText = it },
-            onTextChanged = { controller.dispatch(NamePresetDialogTextChanged(it)) },
-            onPositiveClick = { controller.dispatch(NamePresetPositiveDialogButtonClicked) },
-            onNegativeClick = { controller.dispatch(NamePresetNegativeDialogButtonClicked) }
+            onTextChanged = { controller.onNamePresetDialogTextChanged(it) },
+            onPositiveClick = { controller.onNamePresetPositiveDialogButtonClicked() },
+            onNegativeClick = { controller.onNamePresetNegativeDialogButtonClicked() }
         )
     }
 
@@ -104,7 +106,7 @@ class DeckSettingsFragment : BaseFragment() {
             itemForm = AsRadioButton,
             onItemClick = { item: TestMethodItem ->
                 val chosenTestMethod = item.testMethod
-                controller.dispatch(TestMethodWasSelected(chosenTestMethod))
+                controller.onSelectedTestMethod(chosenTestMethod)
                 chooseTestMethodDialog.dismiss()
             },
             takeAdapter = { testMethodAdapter = it }
@@ -118,7 +120,7 @@ class DeckSettingsFragment : BaseFragment() {
             itemForm = AsRadioButton,
             onItemClick = { item: CardReverseItem ->
                 val chosenCardReverse = item.cardReverse
-                controller.dispatch(CardReverseWasSelected(chosenCardReverse))
+                controller.onSelectedCardReverse(chosenCardReverse)
                 chooseCardReverseDialog.dismiss()
             },
             takeAdapter = { cardReverseAdapter = it }
@@ -129,33 +131,33 @@ class DeckSettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        controller.orders.forEach(::executeOrder)
+        controller.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
         renameDeckButton.setOnClickListener {
-            controller.dispatch(RenameDeckButtonClicked)
+            controller.onRenameDeckButtonClicked()
         }
         saveExercisePreferencesButton.setOnClickListener {
-            controller.dispatch(SaveExercisePreferenceButtonClicked)
+            controller.onSaveExercisePreferenceButtonClicked()
         }
         presetNameTextView.setOnClickListener {
             showChooseExercisePreferencePopup()
         }
         randomButton.setOnClickListener {
-            controller.dispatch(RandomOrderSwitchToggled)
+            controller.onRandomOrderSwitchToggled()
         }
         testMethodButton.setOnClickListener {
             chooseTestMethodDialog.show()
         }
         intervalsButton.setOnClickListener {
-            controller.dispatch(IntervalsButtonClicked)
+            controller.onIntervalsButtonClicked()
         }
         pronunciationButton.setOnClickListener {
-            controller.dispatch(PronunciationButtonClicked)
+            controller.onPronunciationButtonClicked()
         }
         displayQuestionButton.setOnClickListener {
-            controller.dispatch(DisplayQuestionSwitchToggled)
+            controller.onDisplayQuestionSwitchToggled()
         }
         cardReverseButton.setOnClickListener {
             chooseCardReverseDialog.show()
@@ -175,7 +177,7 @@ class DeckSettingsFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            deckName.observe(onChange = deckNameTextView::setText)
+            deckName.observe(deckNameTextView::setText)
             isRenameDeckDialogVisible.observe { isVisible ->
                 renameDeckDialog.run {
                     if (isVisible) show() else dismiss()
@@ -188,7 +190,7 @@ class DeckSettingsFragment : BaseFragment() {
                     Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
-            exercisePreferenceIdAndName.observe {
+            exercisePreference.observe {
                 val exercisePreferenceName = when {
                     it.id == 0L -> getString(R.string.default_name)
                     it.name.isEmpty() -> getString(R.string.individual_name)
@@ -199,7 +201,7 @@ class DeckSettingsFragment : BaseFragment() {
             isSaveExercisePreferenceButtonEnabled.observe { isEnabled ->
                 saveExercisePreferencesButton.visibility = if (isEnabled) VISIBLE else GONE
             }
-            availableExercisePreferences.observe(onChange = exercisePreferenceAdapter::submitList)
+            availableExercisePreferences.observe(exercisePreferenceAdapter::submitList)
             isNamePresetDialogVisible.observe { isVisible ->
                 namePresetDialog.run {
                     if (isVisible) show() else dismiss()
@@ -212,12 +214,13 @@ class DeckSettingsFragment : BaseFragment() {
                     Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
-            randomOrder.observe(
-                onChange = randomOrderSwitch::setChecked,
-                afterFirst = {
+            randomOrder.observe { randomOrder: Boolean ->
+                randomOrderSwitch.isChecked = randomOrder
+                if (randomOrderSwitch.visibility == INVISIBLE) {
                     randomOrderSwitch.jumpDrawablesToCurrentState()
                     randomOrderSwitch.visibility = VISIBLE
-                })
+                }
+            }
             selectedTestMethod.observe { selectedTestMethod ->
                 selectedTestMethodTextView.text = when (selectedTestMethod) {
                     Off -> getString(R.string.test_method_label_off)
@@ -255,12 +258,13 @@ class DeckSettingsFragment : BaseFragment() {
                     else -> "'${it.name}'"
                 }
             }
-            isQuestionDisplayed.observe(
-                onChange = displayQuestionSwitch::setChecked,
-                afterFirst = {
+            isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
+                displayQuestionSwitch.isChecked = isQuestionDisplayed
+                if (displayQuestionSwitch.visibility == INVISIBLE) {
                     displayQuestionSwitch.jumpDrawablesToCurrentState()
                     displayQuestionSwitch.visibility = VISIBLE
-                })
+                }
+            }
             selectedCardReverse.observe { selectedCardReverse: CardReverse ->
                 selectedCardReverseTextView.text = when (selectedCardReverse) {
                     CardReverse.Off -> getString(R.string.card_reverse_label_off)
@@ -286,22 +290,15 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
-    private fun executeOrder(order: DeckSettingsOrder) {
-        when (order) {
+    private fun executeCommand(command: DeckSettingsCommand) {
+        when (command) {
             is SetRenameDeckDialogText -> {
-                renameDeckEditText.setText(order.text)
+                renameDeckEditText.setText(command.text)
                 renameDeckEditText.selectAll()
             }
             is SetNamePresetDialogText -> {
-                namePresetEditText.setText(order.text)
+                namePresetEditText.setText(command.text)
                 namePresetEditText.selectAll()
-            }
-            NavigateToIntervals -> {
-                findNavController().navigate(R.id.action_deck_settings_screen_to_intervals_screen)
-            }
-            NavigateToPronunciation -> {
-                findNavController()
-                    .navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
             }
         }
     }
@@ -353,7 +350,9 @@ class DeckSettingsFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        controller.dispose()
+        if (isRemoving) {
+            controller.onFragmentRemoving()
+        }
     }
 
     companion object {

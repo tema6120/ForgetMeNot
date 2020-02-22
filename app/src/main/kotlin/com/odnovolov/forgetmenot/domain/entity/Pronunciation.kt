@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowab
 import java.util.*
 
 class Pronunciation(
-    override val id: Long = 0,
+    override val id: Long = 0L,
     name: String = "",
     questionLanguage: Locale? = null,
     questionAutoSpeak: Boolean = false,
@@ -21,8 +21,13 @@ class Pronunciation(
     var doNotSpeakTextInBrackets: Boolean by me(doNotSpeakTextInBrackets)
 
     override fun copy() = Pronunciation(
-        id, name, questionLanguage, questionAutoSpeak,
-        answerLanguage, answerAutoSpeak, doNotSpeakTextInBrackets
+        id,
+        name,
+        questionLanguage,
+        questionAutoSpeak,
+        answerLanguage,
+        answerAutoSpeak,
+        doNotSpeakTextInBrackets
     )
 
     companion object {

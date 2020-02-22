@@ -32,12 +32,13 @@ class AnswerEntryTestViewModel(
     }
 
     val correctAnswer: Flow<String> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-        exerciseCard.base.card.flowOf(
-            if (exerciseCard.base.isReverse)
-                Card::question
-            else
-                Card::answer
-        )
+        with(exerciseCard.base) {
+            if (isReverse) {
+                card.flowOf(Card::question)
+            } else {
+                card.flowOf(Card::answer)
+            }
+        }
     }
 
     val wrongAnswer: Flow<String?> =

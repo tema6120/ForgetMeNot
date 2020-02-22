@@ -1,0 +1,12 @@
+CREATE TABLE SharedExercisePreferenceDb (
+    exercisePreferenceId INTEGER PRIMARY KEY NOT NULL
+);
+
+insert:
+INSERT INTO SharedExercisePreferenceDb(exercisePreferenceId) VALUES (?);
+
+selectAll:
+SELECT * FROM SharedExercisePreferenceDb;
+
+delete:
+DELETE FROM SharedExercisePreferenceDb WHERE exercisePreferenceId = ?;

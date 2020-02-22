@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.screen.exercise.exercisecard
 
 import com.odnovolov.forgetmenot.common.database.*
-import com.odnovolov.forgetmenot.common.entity.TestMethod
+import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

@@ -19,7 +19,7 @@ import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
 import com.odnovolov.forgetmenot.common.database.Interval
 import com.odnovolov.forgetmenot.common.database.IntervalScheme
-import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.screen.intervals.IntervalAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsEvent.*
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsOrder.SetDialogStatus

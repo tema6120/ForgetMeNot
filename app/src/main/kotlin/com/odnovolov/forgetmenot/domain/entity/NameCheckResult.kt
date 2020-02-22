@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.common.entity
+package com.odnovolov.forgetmenot.domain.entity
 
 enum class NameCheckResult {
     Ok,

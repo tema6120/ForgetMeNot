@@ -16,16 +16,18 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val exercisePreferences: List<ExercisePreference> =
             buildExercisePreferences(intervalSchemes, pronunciations)
         val decks: CopyableList<Deck> = buildDecks(exercisePreferences)
-        return GlobalState(decks)
+        val sharedExercisePreferences: CopyableList<ExercisePreference> =
+            buildSharedExercisePreferences(exercisePreferences)
+        return GlobalState(decks, sharedExercisePreferences)
     }
 
     private fun buildIntervalSchemes(): List<IntervalScheme> {
         return tables.intervalSchemeTable
             .map { intervalSchemeDb ->
                 val intervals: CopyableList<Interval> = tables.intervalTable
-                        .filter { it.intervalSchemeId == intervalSchemeDb.id }
-                        .map { it.toInterval() }
-                        .toCopyableList()
+                    .filter { it.intervalSchemeId == intervalSchemeDb.id }
+                    .map { it.toInterval() }
+                    .toCopyableList()
                 intervalSchemeDb.toIntervalScheme(intervals)
             }
     }
@@ -74,6 +76,18 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                         exercisePreferences.first { it.id == deckDb.exercisePreferenceId }
                     }
                 deckDb.toDeck(cards, exercisePreference)
+            }
+            .toCopyableList()
+    }
+
+    private fun buildSharedExercisePreferences(
+        exercisePreferences: List<ExercisePreference>
+    ): CopyableList<ExercisePreference> {
+        val exercisePreferencesMap: Map<Long, ExercisePreference> =
+            exercisePreferences.associateBy { it.id }
+        return tables.sharedExercisePreferenceTable
+            .map { exercisePreferenceId: Long ->
+                exercisePreferencesMap.getValue(exercisePreferenceId)
             }
             .toCopyableList()
     }

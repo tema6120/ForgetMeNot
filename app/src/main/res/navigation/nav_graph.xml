@@ -48,7 +48,7 @@
 
     <fragment
             android:id="@+id/deck_settings_screen"
-            android:name="com.odnovolov.forgetmenot.screen.decksettings.DeckSettingsFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsFragment"
             android:label="@string/label_deck_settings_screen"
             tools:layout="@layout/fragment_deck_settings">
 

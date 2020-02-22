@@ -2,6 +2,9 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.common.firstBlocking
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
+import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.prepareexercise.PrepareExerciseInteractor
 import com.odnovolov.forgetmenot.domain.interactor.prepareexercise.PrepareExerciseInteractor.Event.ExerciseIsReady
 import com.odnovolov.forgetmenot.domain.interactor.prepareexercise.PrepareExerciseInteractor.Event.NoCardIsReadyForExercise
@@ -9,6 +12,9 @@ import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteract
 import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsViewModel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.EXERCISE_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
@@ -24,6 +30,7 @@ class HomeController(
     private val deckReviewPreference: DeckReviewPreference,
     private val removeDeckInteractor: RemoveDeckInteractor,
     private val prepareExerciseInteractor: PrepareExerciseInteractor,
+    private val globalState: GlobalState,
     private val navigator: Navigator,
     private val store: Store
 ) : KoinComponent {
@@ -91,7 +98,12 @@ class HomeController(
     }
 
     fun onSetupDeckMenuItemClicked(deckId: Long) {
-
+        val deck: Deck = globalState.decks.find { it.id == deckId } ?: return
+        val deckSettingsState = DeckSettings.State(deck)
+        val koinScope = getKoin().createScope<DeckSettingsViewModel>(DECK_SETTINGS_SCOPED_ID)
+        koinScope.declare(deckSettingsState, override = true)
+        koinScope.declare(DeckSettingsScreenState(), override = true)
+        navigator.navigateToDeckSettings()
     }
 
     fun onRemoveDeckMenuItemClicked(deckId: Long) {

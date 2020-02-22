@@ -22,7 +22,13 @@ class AnswerOffTestViewModel(
             .share()
 
     val answer: Flow<String> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-        exerciseCard.base.card.flowOf(Card::answer)
+        with(exerciseCard.base) {
+            if (isReverse) {
+                card.flowOf(Card::question)
+            } else {
+                card.flowOf(Card::answer)
+            }
+        }
     }
 
     val isAnswered: Flow<Boolean> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->

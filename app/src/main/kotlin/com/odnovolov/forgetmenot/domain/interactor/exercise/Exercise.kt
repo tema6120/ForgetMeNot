@@ -1,11 +1,11 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
-import com.odnovolov.forgetmenot.domain.architecturecomponents.SUID
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.entity.TestMethod
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
 import com.soywiz.klock.DateTime
 import java.util.*
@@ -196,7 +196,9 @@ class Exercise(
     fun showHint() {
         fun hasHint() = currentExerciseCard.base.hint != null
         fun hasHintSelection() = state.hintSelection.endIndex - state.hintSelection.startIndex > 0
-        val answer: String = currentExerciseCard.base.card.answer
+        val answer: String = with(currentExerciseCard.base) {
+            if (isReverse) card.question else card.answer
+        }
         val oldHint: String? = currentExerciseCard.base.hint
         currentExerciseCard.base.hint = when {
             !hasHint() -> Prompter.maskLetters(answer)
@@ -301,7 +303,10 @@ class Exercise(
 
     private fun incrementLapIfCardIsAnsweredForTheFirstTime() {
         val isAnsweredForTheFirstTime = state.exerciseCards
-            .any { it.base.card.id == currentExerciseCard.base.card.id && it.base.isAnswerCorrect != null }
+            .any { exerciseCard: ExerciseCard ->
+                exerciseCard.base.card.id == currentExerciseCard.base.card.id
+                        && exerciseCard.base.isAnswerCorrect != null
+            }
             .not()
         if (isAnsweredForTheFirstTime) {
             currentExerciseCard.base.card.lap++
@@ -344,7 +349,7 @@ class Exercise(
         if (hasExerciseCardToRetest()) return
         val baseExerciseCard = with(currentExerciseCard.base) {
             ExerciseCard.Base(
-                id = SUID.id(),
+                id = generateId(),
                 card = card,
                 deck = deck,
                 isReverse = isReverse,

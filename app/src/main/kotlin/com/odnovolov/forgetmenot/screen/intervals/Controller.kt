@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.screen.intervals
 
 import com.odnovolov.forgetmenot.common.base.BaseController
 import com.odnovolov.forgetmenot.common.database.*
-import com.odnovolov.forgetmenot.common.entity.NameCheckResult
-import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.screen.intervals.IntervalsEvent.*

@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.architecturecomponents.*
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor.Event.*
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.Parser.IllegalCardFormatException
 import kotlinx.coroutines.flow.Flow
@@ -70,13 +71,13 @@ class AddDeckInteractor(
             else -> {
                 val cards: CopyableList<Card> = state.cardPrototypes!!.map {
                     Card(
-                        id = SUID.id(),
+                        id = generateId(),
                         question = it.question,
                         answer = it.answer
                     )
                 }.toCopyableList()
                 val deck = Deck(
-                    id = SUID.id(),
+                    id = generateId(),
                     name = deckName,
                     cards = cards
                 )

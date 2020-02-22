@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.database.DatabaseLifecycleManager
 import com.odnovolov.forgetmenot.presentation.common.NavigatorImpl
 import com.odnovolov.forgetmenot.presentation.common.appModule
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.deckSettingsModule
 import com.odnovolov.forgetmenot.presentation.screen.editcard.editCardModule
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exerciseModule
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.answerEntryTestModule
@@ -41,7 +42,7 @@ class App : Application() {
             androidContext(this@App)
             modules(appModule, homeModule, addDeckModule, deckSortingModule, exerciseModule,
                 exerciseCardModule, answerOffTestModule, answerManualTestModule,
-                answerQuizTestModule, answerEntryTestModule, editCardModule)
+                answerQuizTestModule, answerEntryTestModule, editCardModule, deckSettingsModule)
         }
     }
 

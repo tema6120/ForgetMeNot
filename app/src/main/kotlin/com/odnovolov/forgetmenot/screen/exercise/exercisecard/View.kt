@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.entity.TestMethod
-import com.odnovolov.forgetmenot.common.entity.TestMethod.*
+import com.odnovolov.forgetmenot.domain.entity.TestMethod
+import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.QuestionTextSelectionChanged
 import com.odnovolov.forgetmenot.screen.exercise.exercisecard.ExerciseCardEvent.ShowQuestionButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.AnswerEntryTestFragment

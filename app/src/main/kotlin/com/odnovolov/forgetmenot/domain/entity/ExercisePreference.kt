@@ -4,7 +4,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.Copyable
 import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
 
 class ExercisePreference(
-    override val id: Long = 0,
+    override val id: Long = 0L,
     name: String = "",
     randomOrder: Boolean = true,
     testMethod: TestMethod = TestMethod.Manual,
@@ -22,11 +22,17 @@ class ExercisePreference(
     var cardReverse: CardReverse by me(cardReverse)
 
     override fun copy() = ExercisePreference(
-        id, name, randomOrder, testMethod, intervalScheme?.copy(),
-        pronunciation.copy(), isQuestionDisplayed, cardReverse
+        id,
+        name,
+        randomOrder,
+        testMethod,
+        intervalScheme?.copy(),
+        pronunciation.copy(),
+        isQuestionDisplayed,
+        cardReverse
     )
 
     companion object {
-        val Default = ExercisePreference()
+        val Default by lazy { ExercisePreference() }
     }
 }

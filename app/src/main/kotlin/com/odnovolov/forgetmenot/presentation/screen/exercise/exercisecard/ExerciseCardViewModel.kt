@@ -32,7 +32,13 @@ class ExerciseCardViewModel(
     }
 
     val question: Flow<String> = exerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-        exerciseCard.base.card.flowOf(Card::question)
+        with(exerciseCard.base) {
+            if (isReverse) {
+                card.flowOf(Card::answer)
+            } else {
+                card.flowOf(Card::question)
+            }
+        }
     }
 
     val isQuestionDisplayed: Flow<Boolean> =

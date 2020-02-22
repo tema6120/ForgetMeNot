@@ -9,18 +9,20 @@ class TablesForGlobalState private constructor(
     val exercisePreferenceTable: List<ExercisePreferenceDb>,
     val intervalSchemeTable: List<IntervalSchemeDb>,
     val intervalTable: List<IntervalDb>,
-    val pronunciationTable: List<PronunciationDb>
+    val pronunciationTable: List<PronunciationDb>,
+    val sharedExercisePreferenceTable: List<Long>
 ) {
     companion object {
         fun load(): TablesForGlobalState {
-            return with (database) {
+            return with(database) {
                 TablesForGlobalState(
                     deckTable = deckQueries.selectAll().executeAsList(),
                     cardTable = cardQueries.selectAll().executeAsList(),
                     exercisePreferenceTable = exercisePreferenceQueries.selectAll().executeAsList(),
                     intervalSchemeTable = intervalSchemeQueries.selectAll().executeAsList(),
                     intervalTable = intervalQueries.selectAll().executeAsList(),
-                    pronunciationTable = pronunciationQueries.selectAll().executeAsList()
+                    pronunciationTable = pronunciationQueries.selectAll().executeAsList(),
+                    sharedExercisePreferenceTable = sharedExercisePreferenceQueries.selectAll().executeAsList()
                 )
             }
         }

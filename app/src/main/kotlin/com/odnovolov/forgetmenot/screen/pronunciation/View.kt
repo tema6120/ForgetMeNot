@@ -21,7 +21,7 @@ import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
-import com.odnovolov.forgetmenot.common.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.common.toFlagEmoji
 import com.odnovolov.forgetmenot.screen.pronunciation.LanguageRecyclerAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationEvent.*

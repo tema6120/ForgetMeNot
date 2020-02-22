@@ -1,14 +1,13 @@
 package com.odnovolov.forgetmenot.domain.architecturecomponents
 
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
 
 abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState<PropertyOwner>>
-    : Copyable {
+    : Copyable, Flowable<PropertyOwner> {
     open val id: Long = -1
     private val properties = mutableMapOf<String, WrappingRWProperty<PropertyOwner, *>>()
 
@@ -90,6 +89,14 @@ abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState
                 channels.remove(channel)
             }
         }
+    }
+
+    override fun asFlow(): Flow<PropertyOwner> {
+        val propertyFlows = properties.map { it.value.asFlow() }.toTypedArray()
+        return flowOf(*propertyFlows)
+            .flattenMerge()
+            .drop(properties.size - 1)
+            .map { this as PropertyOwner }
     }
 
     override fun equals(other: Any?): Boolean {

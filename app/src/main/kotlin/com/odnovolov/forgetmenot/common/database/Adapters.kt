@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.common.database
 
-import com.odnovolov.forgetmenot.common.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent
 import com.odnovolov.forgetmenot.common.entity.SpeakEvent.*
-import com.odnovolov.forgetmenot.common.entity.TestMethod
+import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 import com.odnovolov.forgetmenot.screen.home.adddeck.Stage
 import com.soywiz.klock.DateTime

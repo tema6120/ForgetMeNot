@@ -19,5 +19,12 @@ class Deck(
     var cards: CopyableList<Card> by me(cards)
     var exercisePreference: ExercisePreference by me(exercisePreference)
 
-    override fun copy() = Deck(id, name, createdAt, lastOpenedAt, cards, exercisePreference)
+    override fun copy() = Deck(
+        id,
+        name,
+        createdAt,
+        lastOpenedAt,
+        cards.copy(),
+        exercisePreference.copy()
+    )
 }

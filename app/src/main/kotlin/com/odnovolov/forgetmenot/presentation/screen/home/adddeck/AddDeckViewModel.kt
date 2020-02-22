@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
 import androidx.lifecycle.ViewModel
-import com.odnovolov.forgetmenot.common.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.Stage

@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.common
 
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.transform
 
 fun <T, R> Flow<T>.mapTwoLatest(block: (old: T, new: T) -> R): Flow<R> {
     class Wrapper(val t: T)

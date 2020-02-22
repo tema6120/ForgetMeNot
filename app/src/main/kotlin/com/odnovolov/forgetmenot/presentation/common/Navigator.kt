@@ -11,6 +11,9 @@ import com.odnovolov.forgetmenot.common.MainActivity
 interface Navigator {
     fun navigateToExercise()
     fun navigateToEditCard()
+    fun navigateToDeckSettings()
+    fun navigateToIntervals()
+    fun navigateToPronunciation()
     fun navigateUp()
 }
 
@@ -23,6 +26,18 @@ class NavigatorImpl : Navigator, Application.ActivityLifecycleCallbacks {
 
     override fun navigateToEditCard() {
         navController?.navigate(R.id.action_exercise_screen_to_edit_card_screen)
+    }
+
+    override fun navigateToDeckSettings() {
+        navController?.navigate(R.id.action_home_screen_to_deck_settings_screen)
+    }
+
+    override fun navigateToIntervals() {
+        navController?.navigate(R.id.action_deck_settings_screen_to_intervals_screen)
+    }
+
+    override fun navigateToPronunciation() {
+        navController?.navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
     }
 
     override fun navigateUp() {
