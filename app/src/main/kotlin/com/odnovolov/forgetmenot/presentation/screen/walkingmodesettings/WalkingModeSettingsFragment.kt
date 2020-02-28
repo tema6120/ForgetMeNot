@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.screen.walkingmodesettings
+package com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings
 
 import android.app.Dialog
 import android.os.Bundle
@@ -7,23 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
-import com.odnovolov.forgetmenot.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionSelected
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import kotlinx.android.synthetic.main.fragment_walking_mode_settings.*
 import kotlinx.coroutines.flow.Flow
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.scope.viewModel
 
 class WalkingModeSettingsFragment : BaseFragment() {
-    private val controller = WalkingModeSettingsController()
-    private val viewModel = WalkingModeSettingsViewModel()
+    private val koinScope = getKoin()
+        .getOrCreateScope<WalkingModeSettingsViewModel>(WALKING_MODE_SETTINGS_MODULE_SCOPE_ID)
+    private val viewModel: WalkingModeSettingsViewModel by koinScope.viewModel(this)
+    private val controller: WalkingModeSettingsController by koinScope.inject()
     private lateinit var chooseKeyGestureActionDialog: Dialog
     private lateinit var chooseKeyGestureActionDialogAdapter: ItemAdapter<KeyGestureActionItem>
     private var activeRemappingKeyGesture: KeyGesture? = null
@@ -43,9 +44,10 @@ class WalkingModeSettingsFragment : BaseFragment() {
             itemForm = AsRadioButton,
             onItemClick = { item: KeyGestureActionItem ->
                 chooseKeyGestureActionDialog.dismiss()
-                val event =
-                    KeyGestureActionSelected(activeRemappingKeyGesture!!, item.keyGestureAction)
-                controller.dispatch(event)
+                controller.onKeyGestureActionSelected(
+                    activeRemappingKeyGesture!!,
+                    item.keyGestureAction
+                )
                 activeRemappingKeyGesture = null
             },
             takeAdapter = { chooseKeyGestureActionDialogAdapter = it }
@@ -178,19 +180,14 @@ class WalkingModeSettingsFragment : BaseFragment() {
         outState.putSerializable(STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE, activeRemappingKeyGesture)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        controller.dispose()
-    }
+    data class KeyGestureActionItem(
+        val keyGestureAction: KeyGestureAction,
+        override val text: String,
+        override val isSelected: Boolean
+    ) : Item
 
     companion object {
         const val STATE_KEY_CHOOSE_KEY_GESTURE_ACTION_DIALOG = "chooseKeyGestureActionDialog"
         const val STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE = "activeRemappingKeyGesture"
     }
 }
-
-data class KeyGestureActionItem(
-    val keyGestureAction: KeyGestureAction,
-    override val text: String,
-    override val isSelected: Boolean
-) : Item

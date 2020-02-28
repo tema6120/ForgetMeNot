@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.screen.settings
+package com.odnovolov.forgetmenot.presentation.screen.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
