@@ -30,7 +30,7 @@ object ExercisePreferencePropertyChangeHandler {
             }
             ExercisePreference::intervalScheme -> {
                 val linkedIntervalScheme = change.newValue as IntervalScheme?
-                insertIntervalSchemeIfNotExists(linkedIntervalScheme)
+                linkedIntervalScheme?.let(::insertIntervalSchemeIfNotExists)
                 queries.updateIntervalSchemeId(linkedIntervalScheme?.id, exercisePreferenceId)
 
                 val unlinkedIntervalScheme = change.oldValue as IntervalScheme?
@@ -56,15 +56,13 @@ object ExercisePreferencePropertyChangeHandler {
         }
     }
 
-    fun insertIntervalSchemeIfNotExists(intervalScheme: IntervalScheme?) {
-        if (intervalScheme != null) {
-            val exists = intervalScheme.id == IntervalScheme.Default.id
-                    || database.intervalSchemeQueries.exists(intervalScheme.id).executeAsOne()
-            if (!exists) {
-                val intervalSchemeDb = intervalScheme.toIntervalSchemeDb()
-                database.intervalSchemeQueries.insert(intervalSchemeDb)
-                insertIntervals(intervalScheme.intervals, intervalScheme.id)
-            }
+    fun insertIntervalSchemeIfNotExists(intervalScheme: IntervalScheme) {
+        val exists = intervalScheme.id == IntervalScheme.Default.id
+                || database.intervalSchemeQueries.exists(intervalScheme.id).executeAsOne()
+        if (!exists) {
+            val intervalSchemeDb = intervalScheme.toIntervalSchemeDb()
+            database.intervalSchemeQueries.insert(intervalSchemeDb)
+            insertIntervals(intervalScheme.intervals, intervalScheme.id)
         }
     }
 

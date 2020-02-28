@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState

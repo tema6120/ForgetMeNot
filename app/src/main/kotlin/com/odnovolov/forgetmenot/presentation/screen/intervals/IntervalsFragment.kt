@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.screen.intervals
+package com.odnovolov.forgetmenot.presentation.screen.intervals
 
 import android.app.Dialog
 import android.os.Bundle
@@ -9,29 +9,28 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
-import com.odnovolov.forgetmenot.common.database.Interval
-import com.odnovolov.forgetmenot.common.database.IntervalScheme
+import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.screen.intervals.IntervalAdapter.ViewHolder
-import com.odnovolov.forgetmenot.screen.intervals.IntervalsEvent.*
-import com.odnovolov.forgetmenot.screen.intervals.IntervalsOrder.SetDialogStatus
-import com.odnovolov.forgetmenot.screen.intervals.IntervalsOrder.ShowModifyIntervalDialog
-import com.odnovolov.forgetmenot.screen.intervals.modifyinterval.ModifyIntervalFragment
+import com.odnovolov.forgetmenot.domain.isDefault
+import com.odnovolov.forgetmenot.domain.isIndividual
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.SetNamePresetDialogText
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.ShowModifyIntervalDialog
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalFragment
 import kotlinx.android.synthetic.main.fragment_intervals.*
-import kotlinx.android.synthetic.main.item_interval.view.*
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.scope.viewModel
+
 
 class IntervalsFragment : BaseFragment() {
-    private val controller = IntervalsController()
-    private val viewModel = IntervalsViewModel()
-    private val adapter = IntervalAdapter(controller)
+    private val koinScope = getKoin().getOrCreateScope<IntervalsViewModel>(INTERVALS_SCOPE_ID)
+    private val viewModel: IntervalsViewModel by koinScope.viewModel(this)
+    private val controller: IntervalsController by koinScope.inject()
+    private val adapter: IntervalAdapter by lazy { IntervalAdapter(controller) }
     private lateinit var chooseIntervalSchemePopup: PopupWindow
     private lateinit var intervalSchemeRecyclerAdapter: PresetRecyclerAdapter
     private lateinit var presetNameInputDialog: Dialog
@@ -51,16 +50,16 @@ class IntervalsFragment : BaseFragment() {
         chooseIntervalSchemePopup = PresetPopupCreator.create(
             context = requireContext(),
             setPresetButtonClickListener = { id: Long? ->
-                controller.dispatch(SetIntervalSchemeButtonClicked(id))
+                controller.onSetIntervalSchemeButtonClicked(id)
             },
             renamePresetButtonClickListener = { id: Long ->
-                controller.dispatch(RenameIntervalSchemeButtonClicked(id))
+                controller.onRenameIntervalSchemeButtonClicked(id)
             },
             deletePresetButtonClickListener = { id: Long ->
-                controller.dispatch(DeleteIntervalSchemeButtonClicked(id))
+                controller.onDeleteIntervalSchemeButtonClicked(id)
             },
             addButtonClickListener = {
-                controller.dispatch(AddNewIntervalSchemeButtonClicked)
+                controller.onAddNewIntervalSchemeButtonClicked()
             },
             takeAdapter = { intervalSchemeRecyclerAdapter = it }
         )
@@ -71,9 +70,9 @@ class IntervalsFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_interval_scheme_name_input_dialog),
             takeEditText = { presetNameEditText = it },
-            onTextChanged = { controller.dispatch(DialogTextChanged(it)) },
-            onPositiveClick = { controller.dispatch(PositiveDialogButtonClicked) },
-            onNegativeClick = { controller.dispatch(NegativeDialogButtonClicked) }
+            onTextChanged = { controller.onDialogTextChanged(it) },
+            onPositiveClick = { controller.onNamePresetPositiveDialogButtonClicked() },
+            onNegativeClick = { controller.onNamePresetNegativeDialogButtonClicked() }
         )
     }
 
@@ -81,22 +80,22 @@ class IntervalsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        controller.orders.forEach(::executeOrder)
+        controller.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
         saveIntervalSchemeButton.setOnClickListener {
-            controller.dispatch(SaveIntervalSchemeButtonClicked)
+            controller.onSaveIntervalSchemeButtonClicked()
         }
         intervalSchemeNameTextView.setOnClickListener {
             showChooseIntervalSchemePopup()
         }
         intervalsRecyclerView.adapter = adapter
         addIntervalButton.setOnClickListener {
-            controller.dispatch(AddIntervalButtonClicked)
+            controller.onAddIntervalButtonClicked()
         }
         removeIntervalButton.setOnClickListener {
-            controller.dispatch(RemoveIntervalButtonClicked)
+            controller.onRemoveIntervalButtonClicked()
         }
     }
 
@@ -110,11 +109,11 @@ class IntervalsFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            currentIntervalScheme.observe { intervalScheme: IntervalScheme? ->
+            intervalScheme.observe { intervalScheme: IntervalScheme? ->
                 intervalSchemeNameTextView.text = when {
                     intervalScheme == null -> getString(R.string.off)
-                    intervalScheme.id == 0L -> getString(R.string.default_name)
-                    intervalScheme.name.isEmpty() -> getString(R.string.individual_name)
+                    intervalScheme.isDefault() -> getString(R.string.default_name)
+                    intervalScheme.isIndividual() -> getString(R.string.individual_name)
                     else -> "'${intervalScheme.name}'"
                 }
                 intervalsEditorGroup.visibility = if (intervalScheme == null) INVISIBLE else VISIBLE
@@ -122,32 +121,32 @@ class IntervalsFragment : BaseFragment() {
             isSaveIntervalSchemeButtonEnabled.observe { isEnabled ->
                 saveIntervalSchemeButton.visibility = if (isEnabled) VISIBLE else GONE
             }
-            availableIntervalSchemes.observe(onChange = intervalSchemeRecyclerAdapter::submitList)
+            availableIntervalSchemes.observe(intervalSchemeRecyclerAdapter::submitList)
             isNamePresetDialogVisible.observe { isVisible ->
                 presetNameInputDialog.run { if (isVisible) show() else dismiss() }
             }
-            dialogInputCheckResult.observe {
+            namePresetInputCheckResult.observe {
                 presetNameEditText.error = when (it) {
                     Ok -> null
                     Empty -> getString(R.string.error_message_empty_name)
                     Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
-            intervals.observe(onChange = adapter::submitList)
+            intervals.observe(adapter::submitList)
             isRemoveIntervalButtonEnabled.observe { isEnabled: Boolean ->
-                removeIntervalButton.run { if (isEnabled) show() else hide() }
+                removeIntervalButton.isEnabled = isEnabled
             }
         }
     }
 
-    private fun executeOrder(order: IntervalsOrder) {
-        when (order) {
+    private fun executeCommand(command: IntervalsCommand) {
+        when (command) {
             ShowModifyIntervalDialog -> {
-                ModifyIntervalFragment().show(childFragmentManager, "ModifyIntervalFragment")
+                ModifyIntervalFragment().show(childFragmentManager, MODIFY_INTERVAL_FRAGMENT_TAG)
             }
 
-            is SetDialogStatus -> {
-                presetNameEditText.setText(order.text)
+            is SetNamePresetDialogText -> {
+                presetNameEditText.setText(command.text)
                 presetNameEditText.selectAll()
             }
         }
@@ -173,55 +172,13 @@ class IntervalsFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        controller.dispose()
+        if (isRemoving) {
+            controller.onFragmentRemoving()
+        }
     }
 
     companion object {
         const val STATE_KEY_DIALOG = "intervalSchemeNameInputDialog"
-    }
-}
-
-class IntervalAdapter(private val controller: IntervalsController) :
-    ListAdapter<Interval, ViewHolder>(DiffCallback()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_interval, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        with(holder.itemView) {
-            val interval: Interval = getItem(position)
-            val backgroundRes = when (interval.targetLevelOfKnowledge) {
-                1 -> R.drawable.background_level_of_knowledge_poor
-                2 -> R.drawable.background_level_of_knowledge_acceptable
-                3 -> R.drawable.background_level_of_knowledge_satisfactory
-                4 -> R.drawable.background_level_of_knowledge_good
-                5 -> R.drawable.background_level_of_knowledge_very_good
-                else -> R.drawable.background_level_of_knowledge_excellent
-            }
-            levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-            levelOfKnowledgeTextView.text = interval.targetLevelOfKnowledge.toString()
-
-            intervalTextView.text = interval.value
-            modifyIntervalButton.setOnClickListener {
-                controller.dispatch(
-                    ModifyIntervalButtonClicked(interval.targetLevelOfKnowledge)
-                )
-            }
-        }
-    }
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-    class DiffCallback : DiffUtil.ItemCallback<Interval>() {
-        override fun areItemsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-            return oldItem.targetLevelOfKnowledge == newItem.targetLevelOfKnowledge
-        }
-
-        override fun areContentsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-            return oldItem.targetLevelOfKnowledge == newItem.targetLevelOfKnowledge
-                    && oldItem.value == newItem.value
-        }
+        const val MODIFY_INTERVAL_FRAGMENT_TAG = "ModifyIntervalFragment"
     }
 }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionService
 import com.odnovolov.forgetmenot.screen.repetition.view.RepetitionCardAdapter.ViewHolder
 import com.odnovolov.forgetmenot.screen.repetition.view.RepetitionViewEvent.*

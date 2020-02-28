@@ -58,7 +58,7 @@ object DeckPropertyChangeHandler {
         val exists = exercisePreference.id == ExercisePreference.Default.id
                 || database.exercisePreferenceQueries.exists(exercisePreference.id).executeAsOne()
         if (!exists) {
-            insertIntervalSchemeIfNotExists(exercisePreference.intervalScheme)
+            exercisePreference.intervalScheme?.let(::insertIntervalSchemeIfNotExists)
             insertPronunciationIfNotExists(exercisePreference.pronunciation)
             val exercisePreferenceDb = exercisePreference.toExercisePreferenceDb()
             database.exercisePreferenceQueries.insert(exercisePreferenceDb)

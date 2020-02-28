@@ -8,7 +8,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.dp
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_answer_off_test.*
 import kotlinx.coroutines.flow.combine

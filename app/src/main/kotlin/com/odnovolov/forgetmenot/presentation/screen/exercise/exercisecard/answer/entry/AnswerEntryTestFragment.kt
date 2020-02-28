@@ -10,7 +10,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_answer_entry_test.*
 import kotlinx.coroutines.flow.combine

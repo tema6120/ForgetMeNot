@@ -1,0 +1,12 @@
+CREATE TABLE SharedIntervalSchemeDb (
+    intervalSchemeId INTEGER PRIMARY KEY NOT NULL
+);
+
+insert:
+INSERT INTO SharedIntervalSchemeDb(intervalSchemeId) VALUES (?);
+
+selectAll:
+SELECT * FROM SharedIntervalSchemeDb;
+
+delete:
+DELETE FROM SharedIntervalSchemeDb WHERE intervalSchemeId = ?;

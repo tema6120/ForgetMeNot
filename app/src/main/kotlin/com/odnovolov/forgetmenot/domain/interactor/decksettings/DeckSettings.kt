@@ -56,13 +56,8 @@ class DeckSettings(
     }
 
     fun createNewSharedExercisePreference(name: String) {
-        when (checkDeckName(name, globalState)) {
-            Ok -> {
-                val newSharedExercisePreference = ExercisePreference.Default
-                    .shallowCopy(id = generateId(), name = name)
-                addNewSharedExercisePreference(newSharedExercisePreference)
-                setExercisePreference(newSharedExercisePreference)
-            }
+        when (checkExercisePreferenceName(name, globalState)) {
+            Ok -> createNewSharedExercisePreferenceAndSetToCurrentDeck(name)
             Empty -> eventFlow.send(DeniedExercisePreferenceCreation(Empty))
             Occupied -> eventFlow.send(DeniedExercisePreferenceCreation(Occupied))
         }
@@ -73,9 +68,7 @@ class DeckSettings(
             Ok -> {
                 when {
                     exercisePreference.isDefault() -> {
-                        val newSharedExercisePreference = exercisePreference
-                            .shallowCopy(id = generateId(), name = newName)
-                        addNewSharedExercisePreference(newSharedExercisePreference)
+                        createNewSharedExercisePreferenceAndSetToCurrentDeck(newName)
                     }
                     exercisePreference.isIndividual() -> {
                         exercisePreference.name = newName
@@ -91,10 +84,16 @@ class DeckSettings(
         }
     }
 
+    private fun createNewSharedExercisePreferenceAndSetToCurrentDeck(name: String) {
+        val newSharedExercisePreference = ExercisePreference.Default
+            .shallowCopy(id = generateId(), name = name)
+        addNewSharedExercisePreference(newSharedExercisePreference)
+        setExercisePreference(newSharedExercisePreference)
+    }
+
     private fun addNewSharedExercisePreference(exercisePreference: ExercisePreference) {
         globalState.sharedExercisePreferences =
-            (globalState.sharedExercisePreferences + exercisePreference)
-                .toCopyableList()
+            (globalState.sharedExercisePreferences + exercisePreference).toCopyableList()
     }
 
     fun deleteSharedExercisePreference(exercisePreferenceId: Long) {
@@ -137,7 +136,7 @@ class DeckSettings(
         )
     }
 
-    fun setIntervalScheme(intervalScheme: IntervalScheme) {
+    fun setIntervalScheme(intervalScheme: IntervalScheme?) {
         updateExercisePreference(
             isValueChanged = currentExercisePreference.intervalScheme != intervalScheme,
             createNewIndividualExercisePreference = {

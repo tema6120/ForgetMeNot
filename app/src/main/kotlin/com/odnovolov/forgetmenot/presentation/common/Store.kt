@@ -8,6 +8,8 @@ import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsSc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 
 interface Store {
@@ -39,4 +41,12 @@ interface Store {
     fun loadDeckSettingsScreenState(): DeckSettingsScreenState
     fun save(deckSettingsScreenState: DeckSettingsScreenState)
     fun deleteDeckSettingsScreenState()
+
+    fun loadIntervalsScreenState(): IntervalsScreenState
+    fun save(intervalsScreenState: IntervalsScreenState)
+    fun deleteIntervalsScreenState()
+
+    fun loadModifyIntervalDialogState(deckSettingsState: DeckSettings.State): ModifyIntervalDialogState
+    fun save(modifyIntervalDialogState: ModifyIntervalDialogState)
+    fun deleteModifyIntervalDialogState()
 }

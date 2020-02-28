@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.observeText
 
 object InputDialogCreator {
     fun create(

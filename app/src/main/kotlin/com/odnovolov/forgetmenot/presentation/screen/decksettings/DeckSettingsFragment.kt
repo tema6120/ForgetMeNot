@@ -17,11 +17,14 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
-import com.odnovolov.forgetmenot.common.dp
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.domain.entity.CardReverse
+import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
+import com.odnovolov.forgetmenot.domain.isDefault
+import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
@@ -190,11 +193,11 @@ class DeckSettingsFragment : BaseFragment() {
                     Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
-            exercisePreference.observe {
+            exercisePreference.observe { exercisePreference: ExercisePreference ->
                 val exercisePreferenceName = when {
-                    it.id == 0L -> getString(R.string.default_name)
-                    it.name.isEmpty() -> getString(R.string.individual_name)
-                    else -> "'${it.name}'"
+                    exercisePreference.isDefault() -> getString(R.string.default_name)
+                    exercisePreference.isIndividual() -> getString(R.string.individual_name)
+                    else -> "'${exercisePreference.name}'"
                 }
                 presetNameTextView.text = exercisePreferenceName
             }

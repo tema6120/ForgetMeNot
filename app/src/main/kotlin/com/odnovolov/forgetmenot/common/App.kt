@@ -20,6 +20,8 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.exerc
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.addDeckModule
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.deckSortingModule
 import com.odnovolov.forgetmenot.presentation.screen.home.homeModule
+import com.odnovolov.forgetmenot.presentation.screen.intervals.intervalsModule
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.modifyIntervalModule
 import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionService
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
@@ -40,9 +42,12 @@ class App : Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(appModule, homeModule, addDeckModule, deckSortingModule, exerciseModule,
+            modules(
+                appModule, homeModule, addDeckModule, deckSortingModule, exerciseModule,
                 exerciseCardModule, answerOffTestModule, answerManualTestModule,
-                answerQuizTestModule, answerEntryTestModule, editCardModule, deckSettingsModule)
+                answerQuizTestModule, answerEntryTestModule, editCardModule, deckSettingsModule,
+                intervalsModule, modifyIntervalModule
+            )
         }
     }
 

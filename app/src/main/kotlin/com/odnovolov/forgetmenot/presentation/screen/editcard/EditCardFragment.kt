@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardCommand.UpdateQuestionAndAnswer
 import kotlinx.android.synthetic.main.fragment_edit_card.*

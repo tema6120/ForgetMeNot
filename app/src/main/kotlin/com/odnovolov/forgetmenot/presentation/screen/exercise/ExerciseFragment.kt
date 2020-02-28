@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.MainActivity
-import com.odnovolov.forgetmenot.common.dp
-import com.odnovolov.forgetmenot.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.dp
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCommand.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture

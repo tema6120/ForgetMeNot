@@ -92,11 +92,8 @@ abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState
     }
 
     override fun asFlow(): Flow<PropertyOwner> {
-        val propertyFlows = properties.map { it.value.asFlow() }.toTypedArray()
-        return flowOf(*propertyFlows)
-            .flattenMerge()
-            .drop(properties.size - 1)
-            .map { this as PropertyOwner }
+        val propertyFlows: List<Flow<Any?>> = properties.map { it.value.asFlow() }
+        return combine(propertyFlows) { this as PropertyOwner }
     }
 
     override fun equals(other: Any?): Boolean {

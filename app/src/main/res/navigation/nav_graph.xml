@@ -70,7 +70,7 @@
 
     <fragment
             android:id="@+id/intervals_screen"
-            android:name="com.odnovolov.forgetmenot.screen.intervals.IntervalsFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsFragment"
             android:label="@string/label_intervals_screen"
             tools:layout="@layout/fragment_intervals" />
 

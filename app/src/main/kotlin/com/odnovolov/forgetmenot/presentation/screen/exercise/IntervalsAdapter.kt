@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter.ViewHolder
 import com.soywiz.klock.DateTimeSpan
 import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*

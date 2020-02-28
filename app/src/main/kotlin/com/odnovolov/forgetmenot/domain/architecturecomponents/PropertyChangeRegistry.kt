@@ -26,9 +26,10 @@ object PropertyChangeRegistry {
                     )
                 }
                 oldValue is Collection<*> && newValue is Collection<*> -> {
-                    val diffResult: DiffResult<*> = calculateDiff(oldValue, newValue)
-                    val removedItems = diffResult.removedItems.map { it.copyIfAble() }
-                    val addedItems = diffResult.addedItems.map { it.copyIfAble() }
+                    val collectionDiffResult: CollectionDiffResult<*> =
+                        calculateCollectionDiff(oldValue, newValue)
+                    val removedItems = collectionDiffResult.removedItems.map { it.copyIfAble() }
+                    val addedItems = collectionDiffResult.addedItems.map { it.copyIfAble() }
                     CollectionChange(
                         propertyOwnerClass,
                         propertyOwnerId,

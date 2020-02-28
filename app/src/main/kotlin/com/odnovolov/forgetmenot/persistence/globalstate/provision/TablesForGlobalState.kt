@@ -10,7 +10,8 @@ class TablesForGlobalState private constructor(
     val intervalSchemeTable: List<IntervalSchemeDb>,
     val intervalTable: List<IntervalDb>,
     val pronunciationTable: List<PronunciationDb>,
-    val sharedExercisePreferenceTable: List<Long>
+    val sharedExercisePreferenceTable: List<Long>,
+    val sharedIntervalSchemeTable: List<Long>
 ) {
     companion object {
         fun load(): TablesForGlobalState {
@@ -22,7 +23,8 @@ class TablesForGlobalState private constructor(
                     intervalSchemeTable = intervalSchemeQueries.selectAll().executeAsList(),
                     intervalTable = intervalQueries.selectAll().executeAsList(),
                     pronunciationTable = pronunciationQueries.selectAll().executeAsList(),
-                    sharedExercisePreferenceTable = sharedExercisePreferenceQueries.selectAll().executeAsList()
+                    sharedExercisePreferenceTable = sharedExercisePreferenceQueries.selectAll().executeAsList(),
+                    sharedIntervalSchemeTable = sharedIntervalSchemeQueries.selectAll().executeAsList()
                 )
             }
         }

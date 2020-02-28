@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.common
+package com.odnovolov.forgetmenot.presentation.common
 
 import android.content.res.Resources
 import android.text.Editable

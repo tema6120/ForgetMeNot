@@ -41,6 +41,11 @@ fun ExercisePreference.shouldBeDefault(): Boolean {
     return this.shallowCopy(id = ExercisePreference.Default.id) == ExercisePreference.Default
 }
 
+fun IntervalScheme.isDefault(): Boolean = this.id == IntervalScheme.Default.id
+
+fun IntervalScheme.isIndividual(): Boolean =
+    this.id != IntervalScheme.Default.id && this.name.isEmpty()
+
 fun checkDeckName(testedName: String, globalState: GlobalState): NameCheckResult {
     return when {
         testedName.isEmpty() -> NameCheckResult.Empty
@@ -54,6 +59,14 @@ fun checkExercisePreferenceName(testedName: String, globalState: GlobalState): N
         testedName.isEmpty() -> NameCheckResult.Empty
         globalState.sharedExercisePreferences.any { it.name == testedName } ->
             NameCheckResult.Occupied
+        else -> NameCheckResult.Ok
+    }
+}
+
+fun checkIntervalSchemeName(testedName: String, globalState: GlobalState): NameCheckResult {
+    return when {
+        testedName.isEmpty() -> NameCheckResult.Empty
+        globalState.sharedIntervalSchemes.any { it.name == testedName } -> NameCheckResult.Occupied
         else -> NameCheckResult.Ok
     }
 }

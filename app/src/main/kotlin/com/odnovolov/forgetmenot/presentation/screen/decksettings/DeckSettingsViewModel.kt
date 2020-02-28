@@ -51,28 +51,25 @@ class DeckSettingsViewModel(
         ->
         (sharedExercisePreferences + currentExercisePreference + ExercisePreference.Default)
             .distinctBy { it.id }
-            .map { it.flowOf(ExercisePreference::name) }
-            .asFlow()
-            .flattenMerge()
     }
-        .flattenMerge()
-        .map {
-            val currentExercisePreference = deckSettingsState.deck.exercisePreference
-            (globalState.sharedExercisePreferences + currentExercisePreference + ExercisePreference.Default)
-                .distinctBy { it.id }
-                .map { exercisePreference: ExercisePreference ->
-                    with(exercisePreference) {
-                        Preset(
-                            id = id,
-                            name = name,
-                            isSelected = exercisePreference.id == currentExercisePreference.id
-                        )
+        .flatMapLatest { exercisePreferences: List<ExercisePreference> ->
+            val exercisePreferenceNameFlows: List<Flow<String>> = exercisePreferences
+                .map { it.flowOf(ExercisePreference::name) }
+            combine(exercisePreferenceNameFlows) {
+                val currentExercisePreference = deckSettingsState.deck.exercisePreference
+                exercisePreferences
+                    .map { exercisePreference: ExercisePreference ->
+                        with(exercisePreference) {
+                            Preset(
+                                id = id,
+                                name = name,
+                                isSelected = exercisePreference.id == currentExercisePreference.id
+                            )
+                        }
                     }
-                }
-                .sortedWith(compareBy({ it.name }, { it.id }))
+                    .sortedWith(compareBy({ it.name }, { it.id }))
+            }
         }
-        .distinctUntilChanged()
-
 
     val isNamePresetDialogVisible: Flow<Boolean> =
         deckSettingsScreenState.flowOf(DeckSettingsScreenState::namePresetDialogStatus)

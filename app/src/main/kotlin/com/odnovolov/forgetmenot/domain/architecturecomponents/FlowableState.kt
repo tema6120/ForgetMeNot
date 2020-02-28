@@ -6,7 +6,8 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
 
-abstract class FlowableState<PropertyOwner : FlowableState<PropertyOwner>> : Flowable<PropertyOwner> {
+abstract class FlowableState<PropertyOwner : FlowableState<PropertyOwner>>
+    : Flowable<PropertyOwner> {
     private val properties = mutableMapOf<String, WrappingRWProperty<PropertyOwner, *>>()
 
     fun <PropertyValue> flowOf(
@@ -78,11 +79,8 @@ abstract class FlowableState<PropertyOwner : FlowableState<PropertyOwner>> : Flo
     }
 
     override fun asFlow(): Flow<PropertyOwner> {
-        val propertyFlows = properties.map { it.value.asFlow() }.toTypedArray()
-        return flowOf(*propertyFlows)
-            .flattenMerge()
-            .drop(properties.size - 1)
-            .map { this as PropertyOwner }
+        val propertyFlows: List<Flow<Any?>> = properties.map { it.value.asFlow() }
+        return combine(propertyFlows) { this as PropertyOwner }
     }
 
     override fun equals(other: Any?): Boolean {

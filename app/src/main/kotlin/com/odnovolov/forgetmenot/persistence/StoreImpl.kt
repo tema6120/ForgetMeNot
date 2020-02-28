@@ -15,6 +15,8 @@ import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsSc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -91,4 +93,24 @@ class StoreImpl : Store, CoroutineScope {
 
     override fun deleteDeckSettingsScreenState() =
         background { DeckSettingsScreenStateProvider.delete() }
+
+    override fun loadIntervalsScreenState(): IntervalsScreenState =
+        IntervalsScreenStateProvider.load()
+
+    override fun save(intervalsScreenState: IntervalsScreenState) =
+        background { IntervalsScreenStateProvider.save(intervalsScreenState) }
+
+    override fun deleteIntervalsScreenState() =
+        background { IntervalsScreenStateProvider.delete() }
+
+    override fun loadModifyIntervalDialogState(
+        deckSettingsState: DeckSettings.State
+    ): ModifyIntervalDialogState =
+        ModifyIntervalDialogStateProvider.load(deckSettingsState)
+
+    override fun save(modifyIntervalDialogState: ModifyIntervalDialogState) =
+        background { ModifyIntervalDialogStateProvider.save(modifyIntervalDialogState) }
+
+    override fun deleteModifyIntervalDialogState() =
+        background { ModifyIntervalDialogStateProvider.delete() }
 }

@@ -16,7 +16,7 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
-import com.odnovolov.forgetmenot.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionSelected
 import kotlinx.android.synthetic.main.fragment_walking_mode_settings.*
 import kotlinx.coroutines.flow.Flow

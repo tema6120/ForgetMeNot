@@ -12,7 +12,12 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
+import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_ID
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsViewModel
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.KoinComponent
+import org.koin.core.scope.Scope
 
 class DeckSettingsController(
     private val deckSettingsScreenState: DeckSettingsScreenState,
@@ -20,7 +25,7 @@ class DeckSettingsController(
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val store: Store
-) {
+): KoinComponent {
     private var isFragmentRemoving = false
     private val commandFlow = EventFlow<DeckSettingsCommand>()
     val commands: Flow<DeckSettingsCommand> = commandFlow.get()
@@ -52,23 +57,23 @@ class DeckSettingsController(
         commandFlow.send(SetNamePresetDialogText(""))
     }
 
-    fun onSetExercisePreferenceButtonClicked(id: Long) {
-        deckSettings.setExercisePreference(id)
+    fun onSetExercisePreferenceButtonClicked(exercisePreferenceId: Long) {
+        deckSettings.setExercisePreference(exercisePreferenceId)
         store.saveStateByRegistry()
     }
 
-    fun onRenameExercisePreferenceButtonClicked(id: Long) {
-        deckSettingsScreenState.renamePresetId = id
+    fun onRenameExercisePreferenceButtonClicked(exercisePreferenceId: Long) {
+        deckSettingsScreenState.renamePresetId = exercisePreferenceId
         deckSettingsScreenState.namePresetDialogStatus = VisibleToRenameSharedPreset
-        globalState.sharedExercisePreferences.find { it.id == id }
+        globalState.sharedExercisePreferences.find { it.id == exercisePreferenceId }
             ?.name
             ?.let { exercisePreferenceName: String ->
                 commandFlow.send(SetNamePresetDialogText(exercisePreferenceName))
             }
     }
 
-    fun onDeleteExercisePreferenceButtonClicked(id: Long) {
-        deckSettings.deleteSharedExercisePreference(id)
+    fun onDeleteExercisePreferenceButtonClicked(exercisePreferenceId: Long) {
+        deckSettings.deleteSharedExercisePreference(exercisePreferenceId)
         store.saveStateByRegistry()
     }
 
@@ -128,7 +133,8 @@ class DeckSettingsController(
     }
 
     fun onIntervalsButtonClicked() {
-        // todo: prepare Intervals screen state
+        val koinScope: Scope = getKoin().createScope<IntervalsViewModel>(INTERVALS_SCOPE_ID)
+        koinScope.declare(IntervalsScreenState(), override = true)
         navigator.navigateToIntervals()
     }
 

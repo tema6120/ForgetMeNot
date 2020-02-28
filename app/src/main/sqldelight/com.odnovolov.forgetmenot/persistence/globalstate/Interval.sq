@@ -2,7 +2,7 @@ import com.soywiz.klock.DateTimeSpan;
 
 CREATE TABLE IntervalDb (
     id INTEGER PRIMARY KEY,
-    intervalSchemeId INTEGER NOT NULL REFERENCES IntervalScheme ON DELETE CASCADE,
+    intervalSchemeId INTEGER NOT NULL REFERENCES IntervalSchemeDb ON DELETE CASCADE,
     targetLevelOfKnowledge INTEGER AS Int NOT NULL,
     value TEXT AS DateTimeSpan NOT NULL
 );

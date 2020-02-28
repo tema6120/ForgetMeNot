@@ -22,7 +22,7 @@ class IntervalScheme(
     )
 ) : RegistrableFlowableState<IntervalScheme>(), Copyable {
     var name: String by me(name)
-    val intervals: CopyableList<Interval> by me(intervals)
+    var intervals: CopyableList<Interval> by me(intervals)
 
     override fun copy() = IntervalScheme(id, name, intervals.copy())
 

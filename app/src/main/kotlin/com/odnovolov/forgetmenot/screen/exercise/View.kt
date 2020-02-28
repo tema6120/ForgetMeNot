@@ -18,10 +18,10 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.MainActivity
 import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.common.base.BaseFragment
-import com.odnovolov.forgetmenot.common.dp
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
-import com.odnovolov.forgetmenot.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.screen.exercise.ExerciseOrder.*
