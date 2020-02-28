@@ -1,9 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 
+import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
 
 class ModifyIntervalController(
+    private val intervalsSettings: IntervalsSettings,
     private val modifyIntervalDialogState: ModifyIntervalDialogState,
     private val store: Store
 ) {
@@ -20,7 +22,10 @@ class ModifyIntervalController(
     fun onOkButtonClicked() {
         with(modifyIntervalDialogState) {
             if (displayedInterval.isValid()) {
-                interval.value = displayedInterval.toDateTimeSpan()
+                intervalsSettings.modifyInterval(
+                    targetLevelOfKnowledge = targetLevelOfKnowledge,
+                    newValue = displayedInterval.toDateTimeSpan()
+                )
                 store.saveStateByRegistry()
             }
         }

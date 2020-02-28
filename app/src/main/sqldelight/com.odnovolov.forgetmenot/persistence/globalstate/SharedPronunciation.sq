@@ -1,0 +1,12 @@
+CREATE TABLE SharedPronunciationDb (
+    pronunciationId INTEGER PRIMARY KEY NOT NULL
+);
+
+insert:
+INSERT INTO SharedPronunciationDb(pronunciationId) VALUES (?);
+
+selectAll:
+SELECT * FROM SharedPronunciationDb;
+
+delete:
+DELETE FROM SharedPronunciationDb WHERE pronunciationId = ?;

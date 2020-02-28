@@ -30,7 +30,7 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
             eventFlow.send(TtsInitializationFailed)
         }
     }
-    private val state = State()
+    val state = State()
     private val eventFlow = EventFlow<Event>()
     private val events: Flow<Event> = eventFlow.get()
     private val tts: TextToSpeech = TextToSpeech(applicationContext, initListener)

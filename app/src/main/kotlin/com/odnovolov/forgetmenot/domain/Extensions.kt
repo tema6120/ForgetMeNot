@@ -46,6 +46,11 @@ fun IntervalScheme.isDefault(): Boolean = this.id == IntervalScheme.Default.id
 fun IntervalScheme.isIndividual(): Boolean =
     this.id != IntervalScheme.Default.id && this.name.isEmpty()
 
+fun Pronunciation.isDefault(): Boolean = this.id == Pronunciation.Default.id
+
+fun Pronunciation.isIndividual(): Boolean =
+    this.id != Pronunciation.Default.id && this.name.isEmpty()
+
 fun checkDeckName(testedName: String, globalState: GlobalState): NameCheckResult {
     return when {
         testedName.isEmpty() -> NameCheckResult.Empty
@@ -67,6 +72,14 @@ fun checkIntervalSchemeName(testedName: String, globalState: GlobalState): NameC
     return when {
         testedName.isEmpty() -> NameCheckResult.Empty
         globalState.sharedIntervalSchemes.any { it.name == testedName } -> NameCheckResult.Occupied
+        else -> NameCheckResult.Ok
+    }
+}
+
+fun checkPronunciationName(testedName: String, globalState: GlobalState): NameCheckResult {
+    return when {
+        testedName.isEmpty() -> NameCheckResult.Empty
+        globalState.sharedPronunciations.any { it.name == testedName } -> NameCheckResult.Occupied
         else -> NameCheckResult.Ok
     }
 }

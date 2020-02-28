@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.globalstate.writingchanges.DeckPropertyChangeHandler.insertCards
 import com.odnovolov.forgetmenot.persistence.globalstate.writingchanges.DeckPropertyChangeHandler.insertExercisePreferenceIfNotExists
 import com.odnovolov.forgetmenot.persistence.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertIntervalSchemeIfNotExists
+import com.odnovolov.forgetmenot.persistence.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists
 import com.odnovolov.forgetmenot.persistence.toDeckDb
 
 object GlobalStatePropertyChangeHandler {
@@ -59,6 +60,20 @@ object GlobalStatePropertyChangeHandler {
                 addedSharedIntervalSchemes.forEach { intervalScheme: IntervalScheme ->
                     database.sharedIntervalSchemeQueries.insert(intervalScheme.id)
                     insertIntervalSchemeIfNotExists(intervalScheme)
+                }
+            }
+            GlobalState::sharedPronunciations -> {
+                if (change !is CollectionChange) return
+
+                val removedSharedPronunciations = change.removedItems as Collection<Pronunciation>
+                removedSharedPronunciations.forEach { pronunciation: Pronunciation ->
+                    database.sharedPronunciationQueries.delete(pronunciation.id)
+                }
+
+                val addedSharedPronunciations = change.addedItems as Collection<Pronunciation>
+                addedSharedPronunciations.forEach { pronunciation: Pronunciation ->
+                    database.sharedPronunciationQueries.insert(pronunciation.id)
+                    insertPronunciationIfNotExists(pronunciation)
                 }
             }
         }

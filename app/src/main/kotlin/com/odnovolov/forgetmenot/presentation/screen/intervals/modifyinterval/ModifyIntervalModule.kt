@@ -1,18 +1,20 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 
 import com.odnovolov.forgetmenot.presentation.common.Store
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
+import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val modifyIntervalModule = module {
     scope<ModifyIntervalViewModel> {
+        scoped { get<Store>().loadModifyIntervalDialogState() }
         scoped {
-            get<Store>().loadModifyIntervalDialogState(
-                deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get()
+            ModifyIntervalController(
+                intervalsSettings = getScope(INTERVALS_SCOPE_ID).get(),
+                modifyIntervalDialogState = get(),
+                store = get()
             )
         }
-        scoped { ModifyIntervalController(modifyIntervalDialogState = get(), store = get()) }
         viewModel { ModifyIntervalViewModel(modifyIntervalDialogState = get()) }
     }
 }

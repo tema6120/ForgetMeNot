@@ -15,6 +15,9 @@ import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCo
 import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsViewModel
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PRONUNCIATION_SCOPE_ID
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationViewModel
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.KoinComponent
 import org.koin.core.scope.Scope
@@ -139,7 +142,8 @@ class DeckSettingsController(
     }
 
     fun onPronunciationButtonClicked() {
-        // todo: prepare Pronunciation screen state
+        val koinScope: Scope = getKoin().createScope<PronunciationViewModel>(PRONUNCIATION_SCOPE_ID)
+        koinScope.declare(PronunciationScreenState(), override = true)
         navigator.navigateToPronunciation()
     }
 

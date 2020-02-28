@@ -16,7 +16,7 @@ import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapt
 import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetAdapter
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.domain.entity.CardReverse
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
@@ -40,7 +40,7 @@ class DeckSettingsFragment : BaseFragment() {
     private lateinit var renameDeckDialog: Dialog
     private lateinit var renameDeckEditText: EditText
     private lateinit var chooseExercisePreferencePopup: PopupWindow
-    private lateinit var exercisePreferenceAdapter: PresetRecyclerAdapter
+    private lateinit var exercisePreferenceAdapter: PresetAdapter
     private lateinit var namePresetDialog: Dialog
     private lateinit var namePresetEditText: EditText
     private lateinit var chooseTestMethodDialog: Dialog

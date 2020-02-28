@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter.ViewHolder
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.common.dp
 import kotlinx.android.synthetic.main.fragment_deck_settings.view.presetNameTextView
 import kotlinx.android.synthetic.main.item_preset.view.*
@@ -27,7 +27,7 @@ object PresetPopupCreator {
         renamePresetButtonClickListener: (id: Long) -> Unit,
         deletePresetButtonClickListener: (id: Long) -> Unit,
         addButtonClickListener: () -> Unit,
-        takeAdapter: (PresetRecyclerAdapter) -> Unit
+        takeAdapter: (PresetAdapter) -> Unit
     ) = PopupWindow(context).apply {
         width = 256.dp
         height = WindowManager.LayoutParams.WRAP_CONTENT
@@ -39,7 +39,7 @@ object PresetPopupCreator {
         contentView = content
         val presetRecyclerView = content.findViewById<RecyclerView>(R.id.presetRecyclerView)
         val adapter =
-            PresetRecyclerAdapter(
+            PresetAdapter(
                 setPresetButtonClickListener = { id: Long? ->
                     setPresetButtonClickListener.invoke(id)
                     dismiss()
@@ -61,7 +61,7 @@ object PresetPopupCreator {
         val isSelected: Boolean
     )
 
-    class PresetRecyclerAdapter(
+    class PresetAdapter(
         private val setPresetButtonClickListener: (id: Long?) -> Unit,
         private val renamePresetButtonClickListener: (id: Long) -> Unit,
         private val deletePresetButtonClickListener: (id: Long) -> Unit

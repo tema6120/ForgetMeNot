@@ -37,11 +37,8 @@ class DeckSettingsViewModel(
             exercisePreference.asFlow()
         }
 
-    val isSaveExercisePreferenceButtonEnabled: Flow<Boolean> = currentExercisePreference
-        .flatMapLatest { exercisePreference: ExercisePreference ->
-            exercisePreference.asFlow()
-                .map { it.isIndividual() }
-        }
+    val isSaveExercisePreferenceButtonEnabled: Flow<Boolean> =
+        exercisePreference.map { it.isIndividual() }
 
     val availableExercisePreferences: Flow<List<Preset>> = combine(
         currentExercisePreference,
@@ -63,7 +60,7 @@ class DeckSettingsViewModel(
                             Preset(
                                 id = id,
                                 name = name,
-                                isSelected = exercisePreference.id == currentExercisePreference.id
+                                isSelected = id == currentExercisePreference.id
                             )
                         }
                     }

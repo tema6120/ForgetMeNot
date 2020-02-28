@@ -64,7 +64,7 @@
 
     <fragment
             android:id="@+id/pronunciation_screen"
-            android:name="com.odnovolov.forgetmenot.screen.pronunciation.PronunciationFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationFragment"
             android:label="@string/label_pronunciation_screen"
             tools:layout="@layout/fragment_pronunciation" />
 

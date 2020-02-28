@@ -1,16 +1,14 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
-import com.odnovolov.forgetmenot.domain.entity.Interval
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
 import kotlinx.serialization.Serializable
 
 object ModifyIntervalDialogStateProvider {
-    fun load(deckSettingsState: DeckSettings.State): ModifyIntervalDialogState {
+    fun load(): ModifyIntervalDialogState {
         return loadSerializable(SerializableModifyIntervalDialogState.serializer())
-            ?.toOriginal(deckSettingsState)
+            ?.toOriginal()
             ?: throw  IllegalStateException("No ModifyIntervalDialogState in the Store")
     }
 
@@ -25,27 +23,22 @@ object ModifyIntervalDialogStateProvider {
 
     @Serializable
     private data class SerializableModifyIntervalDialogState(
-        val intervalId: Long,
+        val targetLevelOfKnowledge: Int,
         val intervalInputValue: Int?,
         val intervalUnit: IntervalUnit
     )
 
     private fun ModifyIntervalDialogState.toSerializable() = SerializableModifyIntervalDialogState(
-        intervalId = interval.id,
+        targetLevelOfKnowledge = targetLevelOfKnowledge,
         intervalInputValue = displayedInterval.value,
         intervalUnit = displayedInterval.intervalUnit
     )
 
-    private fun SerializableModifyIntervalDialogState.toOriginal(
-        deckSettingsState: DeckSettings.State
-    ): ModifyIntervalDialogState {
-        val interval: Interval = deckSettingsState.deck.exercisePreference.intervalScheme!!
-            .intervals.find { it.id == this.intervalId }!!
-        val intervalInputData =
-            DisplayedInterval(
-                intervalInputValue,
-                intervalUnit
-            )
-        return ModifyIntervalDialogState(interval, intervalInputData)
+    private fun SerializableModifyIntervalDialogState.toOriginal(): ModifyIntervalDialogState {
+        val intervalInputData = DisplayedInterval(
+            intervalInputValue,
+            intervalUnit
+        )
+        return ModifyIntervalDialogState(targetLevelOfKnowledge, intervalInputData)
     }
 }

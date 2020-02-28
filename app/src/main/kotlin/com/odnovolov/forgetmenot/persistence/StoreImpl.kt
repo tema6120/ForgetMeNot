@@ -17,6 +17,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -103,14 +104,21 @@ class StoreImpl : Store, CoroutineScope {
     override fun deleteIntervalsScreenState() =
         background { IntervalsScreenStateProvider.delete() }
 
-    override fun loadModifyIntervalDialogState(
-        deckSettingsState: DeckSettings.State
-    ): ModifyIntervalDialogState =
-        ModifyIntervalDialogStateProvider.load(deckSettingsState)
+    override fun loadModifyIntervalDialogState(): ModifyIntervalDialogState =
+        ModifyIntervalDialogStateProvider.load()
 
     override fun save(modifyIntervalDialogState: ModifyIntervalDialogState) =
         background { ModifyIntervalDialogStateProvider.save(modifyIntervalDialogState) }
 
     override fun deleteModifyIntervalDialogState() =
         background { ModifyIntervalDialogStateProvider.delete() }
+
+    override fun loadPronunciationScreenState(): PronunciationScreenState =
+        PronunciationScreenStateProvider.load()
+
+    override fun save(pronunciationScreenState: PronunciationScreenState) =
+        background { PronunciationScreenStateProvider.save(pronunciationScreenState) }
+
+    override fun deletePronunciationScreenState() =
+        background { PronunciationScreenStateProvider.delete() }
 }

@@ -12,7 +12,7 @@ import android.widget.PopupWindow
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetAdapter
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.isDefault
@@ -32,7 +32,7 @@ class IntervalsFragment : BaseFragment() {
     private val controller: IntervalsController by koinScope.inject()
     private val adapter: IntervalAdapter by lazy { IntervalAdapter(controller) }
     private lateinit var chooseIntervalSchemePopup: PopupWindow
-    private lateinit var intervalSchemeRecyclerAdapter: PresetRecyclerAdapter
+    private lateinit var intervalSchemeRecyclerAdapter: PresetAdapter
     private lateinit var presetNameInputDialog: Dialog
     private lateinit var presetNameEditText: EditText
 

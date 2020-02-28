@@ -18,11 +18,11 @@ class IntervalsSettings(
     private val deckSettings: DeckSettings,
     private val globalState: GlobalState
 ) {
-
     sealed class Event {
         class DeniedIntervalSchemeCreation(val nameCheckResult: NameCheckResult) : Event()
         class DeniedIntervalSchemeRenaming(val nameCheckResult: NameCheckResult) : Event()
     }
+
     private val eventFlow = EventFlow<Event>()
     val events: Flow<Event> = eventFlow.get()
     

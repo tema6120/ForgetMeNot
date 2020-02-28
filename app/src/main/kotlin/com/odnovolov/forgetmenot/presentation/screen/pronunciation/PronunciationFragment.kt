@@ -1,56 +1,42 @@
-package com.odnovolov.forgetmenot.screen.pronunciation
+package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
-import android.animation.LayoutTransition
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.widget.EditText
 import android.widget.PopupWindow
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.Speaker
-import com.odnovolov.forgetmenot.common.base.BaseFragment
 import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetRecyclerAdapter
+import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetAdapter
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.presentation.common.toFlagEmoji
-import com.odnovolov.forgetmenot.screen.pronunciation.LanguageRecyclerAdapter.ViewHolder
-import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationEvent.*
-import com.odnovolov.forgetmenot.screen.pronunciation.PronunciationOrder.SetDialogText
+import com.odnovolov.forgetmenot.domain.isDefault
+import com.odnovolov.forgetmenot.domain.isIndividual
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationController.Command.SetNamePresetDialogText
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
-import kotlinx.android.synthetic.main.item_language.view.*
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.scope.viewModel
 import java.util.*
 
 class PronunciationFragment : BaseFragment() {
-
-    private val controller = PronunciationController()
-    private val viewModel = PronunciationViewModel()
+    private val koinScope =
+        getKoin().getOrCreateScope<PronunciationViewModel>(PRONUNCIATION_SCOPE_ID)
+    private val viewModel: PronunciationViewModel by koinScope.viewModel(this)
+    private val controller: PronunciationController by koinScope.inject()
     private lateinit var choosePronunciationPopup: PopupWindow
-    private lateinit var pronunciationRecyclerAdapter: PresetRecyclerAdapter
+    private lateinit var pronunciationAdapter: PresetAdapter
     private lateinit var questionLanguagePopup: PopupWindow
-    private lateinit var questionLanguageRecyclerAdapter: LanguageRecyclerAdapter
+    private lateinit var questionLanguageAdapter: LanguageAdapter
     private lateinit var answerLanguagePopup: PopupWindow
-    private lateinit var answerLanguageRecyclerAdapter: LanguageRecyclerAdapter
-    private lateinit var speaker: Speaker
+    private lateinit var answerLanguageAdapter: LanguageAdapter
     private lateinit var presetNameInputDialog: Dialog
     private lateinit var presetNameEditText: EditText
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        speaker = Speaker(context, onInit = {
-            val availableLanguages: Set<Locale> = speaker.availableLanguages
-            controller.dispatch(AvailableLanguagesUpdated(availableLanguages))
-        })
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,19 +53,19 @@ class PronunciationFragment : BaseFragment() {
     private fun initChoosePronunciationPopup() {
         choosePronunciationPopup = PresetPopupCreator.create(
             context = requireContext(),
-            setPresetButtonClickListener = { id: Long? ->
-                controller.dispatch(SetPronunciationButtonClicked(id!!))
+            setPresetButtonClickListener = { pronunciationId: Long? ->
+                controller.onSetPronunciationButtonClicked(pronunciationId!!)
             },
-            renamePresetButtonClickListener = { id: Long ->
-                controller.dispatch(RenamePronunciationButtonClicked(id))
+            renamePresetButtonClickListener = { pronunciationId: Long ->
+                controller.onRenamePronunciationButtonClicked(pronunciationId)
             },
-            deletePresetButtonClickListener = { id: Long ->
-                controller.dispatch(DeletePronunciationButtonClicked(id))
+            deletePresetButtonClickListener = { pronunciationId: Long ->
+                controller.onDeletePronunciationButtonClicked(pronunciationId)
             },
             addButtonClickListener = {
-                controller.dispatch(AddNewPronunciationButtonClicked)
+                controller.onAddNewPronunciationButtonClicked()
             },
-            takeAdapter = { pronunciationRecyclerAdapter = it }
+            takeAdapter = { pronunciationAdapter = it }
         )
     }
 
@@ -98,9 +84,9 @@ class PronunciationFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_pronunciation_name_input_dialog),
             takeEditText = { presetNameEditText = it },
-            onTextChanged = { controller.dispatch(DialogTextChanged(it)) },
-            onPositiveClick = { controller.dispatch(PositiveDialogButtonClicked) },
-            onNegativeClick = { controller.dispatch(NegativeDialogButtonClicked) }
+            onTextChanged = { controller.onDialogTextChanged(it) },
+            onPositiveClick = { controller.onNamePresetPositiveDialogButtonClicked() },
+            onNegativeClick = { controller.onNamePresetNegativeDialogButtonClicked() }
         )
     }
 
@@ -108,7 +94,7 @@ class PronunciationFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        controller.orders.forEach(::executeOrder)
+        controller.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
@@ -117,27 +103,26 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun initAdapters() {
-        questionLanguageRecyclerAdapter = LanguageRecyclerAdapter(
+        questionLanguageAdapter = LanguageAdapter(
             onItemClick = { language: Locale? ->
-                controller.dispatch(QuestionLanguageSelected(language))
+                controller.onQuestionLanguageSelected(language)
                 questionLanguagePopup.dismiss()
             }
         )
-        (questionLanguagePopup.contentView as RecyclerView).adapter =
-            questionLanguageRecyclerAdapter
+        (questionLanguagePopup.contentView as RecyclerView).adapter = questionLanguageAdapter
 
-        answerLanguageRecyclerAdapter = LanguageRecyclerAdapter(
+        answerLanguageAdapter = LanguageAdapter(
             onItemClick = { language: Locale? ->
-                controller.dispatch(AnswerLanguageSelected(language))
+                controller.onAnswerLanguageSelected(language)
                 answerLanguagePopup.dismiss()
             }
         )
-        (answerLanguagePopup.contentView as RecyclerView).adapter = answerLanguageRecyclerAdapter
+        (answerLanguagePopup.contentView as RecyclerView).adapter = answerLanguageAdapter
     }
 
     private fun setOnClickListeners() {
         savePronunciationButton.setOnClickListener {
-            controller.dispatch(SavePronunciationButtonClicked)
+            controller.onSavePronunciationButtonClicked()
         }
         pronunciationNameTextView.setOnClickListener {
             showChoosePronunciationPopup()
@@ -146,16 +131,16 @@ class PronunciationFragment : BaseFragment() {
             showLanguagePopup(questionLanguagePopup, anchor = questionLanguageTextView)
         }
         questionAutoSpeakButton.setOnClickListener {
-            controller.dispatch(QuestionAutoSpeakSwitchToggled)
+            controller.onQuestionAutoSpeakSwitchToggled()
         }
         answerLanguageTextView.setOnClickListener {
             showLanguagePopup(answerLanguagePopup, anchor = answerLanguageTextView)
         }
         answerAutoSpeakButton.setOnClickListener {
-            controller.dispatch(AnswerAutoSpeakSwitchToggled)
+            controller.onAnswerAutoSpeakSwitchToggled()
         }
         doNotSpeakTextInBracketsButton.setOnClickListener {
-            controller.dispatch(DoNotSpeakTextInBracketsSwitchToggled)
+            controller.onDoNotSpeakTextInBracketsSwitchToggled()
         }
         goToTtsSettingsButton.setOnClickListener {
             navigateToTtsSettings()
@@ -191,28 +176,22 @@ class PronunciationFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            currentPronunciation.observe {
+            pronunciation.observe {
                 val pronunciationName = when {
-                    it.id == 0L -> getString(R.string.default_name)
-                    it.name.isEmpty() -> getString(R.string.individual_name)
+                    it.isDefault() -> getString(R.string.default_name)
+                    it.isIndividual() -> getString(R.string.individual_name)
                     else -> "'${it.name}'"
                 }
                 pronunciationNameTextView.text = pronunciationName
             }
-            isSavePronunciationButtonEnabled.observe(
-                onChange = { isSavePronunciationButtonEnabled ->
-                    savePronunciationButton.visibility =
-                        if (isSavePronunciationButtonEnabled) VISIBLE
-                        else GONE
-                },
-                afterFirst = {
-                    header.layoutTransition = LayoutTransition()
-                })
-            availablePronunciations.observe(onChange = pronunciationRecyclerAdapter::submitList)
+            isSavePronunciationButtonEnabled.observe { isEnabled: Boolean ->
+                savePronunciationButton.visibility = if (isEnabled) VISIBLE else GONE
+            }
+            availablePronunciations.observe(pronunciationAdapter::submitList)
             isNamePresetDialogVisible.observe { isVisible ->
                 presetNameInputDialog.run { if (isVisible) show() else dismiss() }
             }
-            dialogInputCheckResult.observe {
+            namePresetInputCheckResult.observe {
                 presetNameEditText.error = when (it) {
                     Ok -> null
                     Empty -> getString(R.string.error_message_empty_name)
@@ -224,43 +203,41 @@ class PronunciationFragment : BaseFragment() {
                     selectedQuestionLanguage?.displayLanguage
                         ?: getString(R.string.default_name)
             }
-            dropdownQuestionLanguages
-                .observe(onChange = questionLanguageRecyclerAdapter::submitList)
-            questionAutoSpeak.observe(
-                onChange = questionAutoSpeakSwitch::setChecked,
-                afterFirst = {
+            dropdownQuestionLanguages.observe(questionLanguageAdapter::submitList)
+            questionAutoSpeak.observe { questionAutoSpeak: Boolean ->
+                questionAutoSpeakSwitch.isChecked = questionAutoSpeak
+                if (questionAutoSpeakSwitch.visibility == INVISIBLE) {
                     questionAutoSpeakSwitch.jumpDrawablesToCurrentState()
                     questionAutoSpeakSwitch.visibility = VISIBLE
                 }
-            )
+            }
             selectedAnswerLanguage.observe { selectedAnswerLanguage ->
                 answerLanguageTextView.text =
                     selectedAnswerLanguage?.displayLanguage
                         ?: getString(R.string.default_name)
             }
-            dropdownAnswerLanguages
-                .observe(onChange = answerLanguageRecyclerAdapter::submitList)
-            answerAutoSpeak.observe(
-                onChange = answerAutoSpeakSwitch::setChecked,
-                afterFirst = {
+            dropdownAnswerLanguages.observe(answerLanguageAdapter::submitList)
+            answerAutoSpeak.observe { answerAutoSpeak: Boolean ->
+                answerAutoSpeakSwitch.isChecked = answerAutoSpeak
+                if (answerAutoSpeakSwitch.visibility == INVISIBLE) {
                     answerAutoSpeakSwitch.jumpDrawablesToCurrentState()
                     answerAutoSpeakSwitch.visibility = VISIBLE
                 }
-            )
-            doNotSpeakTextInBrackets.observe(
-                onChange = doNotSpeakTextInBracketsSwitch::setChecked,
-                afterFirst = {
+            }
+            doNotSpeakTextInBrackets.observe { doNotSpeakTextInBrackets: Boolean ->
+                doNotSpeakTextInBracketsSwitch.isChecked = doNotSpeakTextInBrackets
+                if (doNotSpeakTextInBracketsSwitch.visibility == INVISIBLE) {
                     doNotSpeakTextInBracketsSwitch.jumpDrawablesToCurrentState()
                     doNotSpeakTextInBracketsSwitch.visibility = VISIBLE
                 }
-            )
+            }
         }
     }
 
-    private fun executeOrder(order: PronunciationOrder) {
-        when (order) {
-            is SetDialogText -> {
-                presetNameEditText.setText(order.text)
+    private fun executeCommand(command: PronunciationController.Command) {
+        when (command) {
+            is SetNamePresetDialogText -> {
+                presetNameEditText.setText(command.text)
                 presetNameEditText.selectAll()
             }
         }
@@ -281,57 +258,12 @@ class PronunciationFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        controller.dispose()
-        speaker.shutdown()
+        if (isRemoving) {
+            controller.onFragmentRemoving()
+        }
     }
 
     companion object {
         const val STATE_KEY_DIALOG = "pronunciationNameInputDialog"
-    }
-}
-
-class LanguageRecyclerAdapter(
-    private val onItemClick: (language: Locale?) -> Unit
-) : ListAdapter<DropdownLanguage, ViewHolder>(DiffCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_language, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.apply {
-            val dropdownLanguage: DropdownLanguage = getItem(position)
-            if (dropdownLanguage.language == null) {
-                languageNameTextView.text = context.getString(R.string.default_name)
-                flagTextView.text = null
-            } else {
-                languageNameTextView.text = dropdownLanguage.language.displayLanguage
-                flagTextView.text = dropdownLanguage.language.toFlagEmoji()
-            }
-            isSelected = dropdownLanguage.isSelected
-            languageItemButton.setOnClickListener {
-                onItemClick(dropdownLanguage.language)
-            }
-        }
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
-
-    class DiffCallback : DiffUtil.ItemCallback<DropdownLanguage>() {
-        override fun areItemsTheSame(
-            oldItem: DropdownLanguage,
-            newItem: DropdownLanguage
-        ): Boolean {
-            return oldItem.language == newItem.language
-        }
-
-        override fun areContentsTheSame(
-            oldItem: DropdownLanguage,
-            newItem: DropdownLanguage
-        ): Boolean {
-            return oldItem == newItem
-        }
     }
 }

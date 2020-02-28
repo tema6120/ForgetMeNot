@@ -52,6 +52,7 @@ class IntervalsController(
 
     fun onDeleteIntervalSchemeButtonClicked(intervalSchemeId: Long) {
         intervalsSettings.deleteSharedIntervalScheme(intervalSchemeId)
+        store.saveStateByRegistry()
     }
 
     fun onAddNewIntervalSchemeButtonClicked() {
@@ -100,7 +101,7 @@ class IntervalsController(
         val interval: Interval = deckSettingsState.deck.exercisePreference.intervalScheme
             ?.intervals?.find { it.targetLevelOfKnowledge == targetLevelOfKnowledge } ?: return
         val modifyIntervalDialogState = ModifyIntervalDialogState(
-            interval = interval,
+            targetLevelOfKnowledge = targetLevelOfKnowledge,
             displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
         )
         val koinScope = getKoin().createScope<ModifyIntervalViewModel>(MODIFY_INTERVAL_SCOPE_ID)
