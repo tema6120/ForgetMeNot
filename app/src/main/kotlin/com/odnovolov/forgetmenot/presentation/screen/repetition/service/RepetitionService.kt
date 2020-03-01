@@ -1,25 +1,23 @@
-package com.odnovolov.forgetmenot.screen.repetition.service
+package com.odnovolov.forgetmenot.presentation.screen.repetition.service
 
 import android.content.Intent
 import android.os.IBinder
-import com.odnovolov.forgetmenot.common.Speaker
 import com.odnovolov.forgetmenot.common.base.BaseService
-import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceEvent.*
-import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceOrder.Speak
-import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionServiceOrder.StopSpeaking
+import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
+import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
+import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionScopeCloser
+import org.koin.android.ext.android.getKoin
 
 class RepetitionService : BaseService() {
-    private val controller = RepetitionServiceController()
-    private val serviceModel = RepetitionServiceModel()
-    private lateinit var speaker: Speaker
+    private val koinScope = getKoin().getOrCreateScope<Repetition>(REPETITION_SCOPE_ID)
+    private val serviceModel: RepetitionServiceModel by koinScope.inject()
+    private val controller: RepetitionServiceController by koinScope.inject()
     private lateinit var notificationBuilder: NotificationBuilder
 
     override fun onCreate() {
-        speaker = Speaker(this)
-        speaker.setOnSpeakingFinished { controller.dispatch(SpeakingFinished) }
+        koinScope.get<RepetitionScopeCloser>().isServiceAlive = true
         notificationBuilder = NotificationBuilder(context = this)
         observeServiceModel()
-        controller.orders.forEach(::execute)
     }
 
     private fun observeServiceModel() {
@@ -42,25 +40,17 @@ class RepetitionService : BaseService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_PAUSE -> controller.dispatch(PauseClicked)
-            ACTION_RESUME -> controller.dispatch(ResumeClicked)
+            ACTION_PAUSE -> controller.onPauseNotificationActionClicked()
+            ACTION_RESUME -> controller.onResumeNotificationActionClicked()
         }
         return START_NOT_STICKY
-    }
-
-    private fun execute(order: RepetitionServiceOrder) {
-        when (order) {
-            is Speak -> speaker.speak(order.text, order.language)
-            StopSpeaking -> speaker.stop()
-        }
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onDestroy() {
         super.onDestroy()
-        controller.dispose()
-        speaker.shutdown()
+        koinScope.get<RepetitionScopeCloser>().isServiceAlive = false
     }
 
     companion object {

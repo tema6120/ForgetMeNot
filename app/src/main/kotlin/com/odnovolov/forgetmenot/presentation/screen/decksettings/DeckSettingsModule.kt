@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.Store
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import org.koin.dsl.onClose
 
 val deckSettingsModule = module {
     scope<DeckSettingsViewModel> {
@@ -18,7 +19,7 @@ val deckSettingsModule = module {
                 navigator = get(),
                 store = get()
             )
-        }
+        } onClose { it?.onCleared() }
         viewModel {
             DeckSettingsViewModel(
                 deckSettingsScreenState = get(),

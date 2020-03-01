@@ -23,8 +23,9 @@ import com.odnovolov.forgetmenot.presentation.screen.home.homeModule
 import com.odnovolov.forgetmenot.presentation.screen.intervals.intervalsModule
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.modifyIntervalModule
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.pronunciationModule
+import com.odnovolov.forgetmenot.presentation.screen.repetition.repetitionModule
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.walkingModeSettingsModule
-import com.odnovolov.forgetmenot.screen.repetition.service.RepetitionService
+import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionService
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -49,7 +50,7 @@ class App : Application() {
                 exerciseCardModule, answerOffTestModule, answerManualTestModule,
                 answerQuizTestModule, answerEntryTestModule, editCardModule, deckSettingsModule,
                 intervalsModule, modifyIntervalModule, pronunciationModule,
-                walkingModeSettingsModule
+                walkingModeSettingsModule, repetitionModule
             )
         }
     }

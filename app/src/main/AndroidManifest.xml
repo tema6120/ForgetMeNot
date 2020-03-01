@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".screen.repetition.service.RepetitionService" />
+        <service android:name="com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionService" />
     </application>
 
 </manifest>

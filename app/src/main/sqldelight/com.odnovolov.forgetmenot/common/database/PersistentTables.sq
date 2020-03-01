@@ -1,5 +1,5 @@
-import com.odnovolov.forgetmenot.common.entity.SpeakEvent;
 import com.odnovolov.forgetmenot.domain.entity.CardReverse;
+import com.odnovolov.forgetmenot.domain.entity.SpeakEvent;
 import com.odnovolov.forgetmenot.domain.entity.TestMethod;
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting;
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture;

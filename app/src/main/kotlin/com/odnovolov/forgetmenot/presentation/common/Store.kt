@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
@@ -54,4 +55,8 @@ interface Store {
     fun loadPronunciationScreenState(): PronunciationScreenState
     fun save(pronunciationScreenState: PronunciationScreenState)
     fun deletePronunciationScreenState()
+
+    fun loadRepetitionState(globalState: GlobalState): Repetition.State
+    fun save(repetitionState: Repetition.State)
+    fun deleteRepetitionState()
 }

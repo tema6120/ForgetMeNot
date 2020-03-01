@@ -14,6 +14,7 @@ interface Navigator {
     fun navigateToDeckSettings()
     fun navigateToIntervals()
     fun navigateToPronunciation()
+    fun navigateToRepetition()
     fun navigateUp()
 }
 
@@ -38,6 +39,10 @@ class NavigatorImpl : Navigator, Application.ActivityLifecycleCallbacks {
 
     override fun navigateToPronunciation() {
         navController?.navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
+    }
+
+    override fun navigateToRepetition() {
+        navController?.navigate(R.id.action_home_screen_to_repetition_screen)
     }
 
     override fun navigateUp() {

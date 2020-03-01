@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.TtsInitializationFailed
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
@@ -31,6 +32,7 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
         }
     }
     val state = State()
+    private val coroutineScope = CoroutineScope(Job() + Dispatchers.IO)
     private val eventFlow = EventFlow<Event>()
     private val events: Flow<Event> = eventFlow.get()
     private val tts: TextToSpeech = TextToSpeech(applicationContext, initListener)
@@ -78,11 +80,13 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
             delayedLanguage = language
             return
         }
-        currentLanguage = language
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+        coroutineScope.launch {
+            currentLanguage = language
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+        }
     }
 
-    fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit) {
+    override fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit) {
         tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onDone(utteranceId: String?) {
                 onSpeakingFinished()
@@ -94,12 +98,13 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
         })
     }
 
-    fun stop() {
+    override fun stop() {
         tts.stop()
     }
 
     fun shutdown() {
         tts.stop()
         tts.shutdown()
+        coroutineScope.cancel()
     }
 }

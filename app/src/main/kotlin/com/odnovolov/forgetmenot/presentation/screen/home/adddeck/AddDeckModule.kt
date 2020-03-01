@@ -17,7 +17,7 @@ val addDeckModule = module {
                 addDeckInteractor = get(),
                 store = get()
             )
-        } onClose { controller: AddDeckController? -> controller?.onCleared() }
+        } onClose { it?.onCleared() }
         viewModel {
             AddDeckViewModel(
                 globalState = get(),

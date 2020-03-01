@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.persistence.deckreviewpreference.DeckReviewPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.globalstate.provision.GlobalStateProvider
 import com.odnovolov.forgetmenot.persistence.serializablestate.*
@@ -121,4 +122,13 @@ class StoreImpl : Store, CoroutineScope {
 
     override fun deletePronunciationScreenState() =
         background { PronunciationScreenStateProvider.delete() }
+
+    override fun loadRepetitionState(globalState: GlobalState): Repetition.State =
+        RepetitionStateProvider.load(globalState)
+
+    override fun save(repetitionState: Repetition.State) =
+        background { RepetitionStateProvider.save(repetitionState) }
+
+    override fun deleteRepetitionState() =
+        background { RepetitionStateProvider.delete() }
 }

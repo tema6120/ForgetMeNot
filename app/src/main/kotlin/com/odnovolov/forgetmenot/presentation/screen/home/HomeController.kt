@@ -10,6 +10,8 @@ import com.odnovolov.forgetmenot.domain.interactor.prepareexercise.PrepareExerci
 import com.odnovolov.forgetmenot.domain.interactor.prepareexercise.PrepareExerciseInteractor.Event.NoCardIsReadyForExercise
 import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor
 import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor.Event.DecksHasRemoved
+import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
+import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
@@ -19,6 +21,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.EXERCISE_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
+import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -30,6 +33,7 @@ class HomeController(
     private val deckReviewPreference: DeckReviewPreference,
     private val removeDeckInteractor: RemoveDeckInteractor,
     private val prepareExerciseInteractor: PrepareExerciseInteractor,
+    private val repetitionStateCreator: RepetitionStateCreator,
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val store: Store
@@ -94,7 +98,10 @@ class HomeController(
     }
 
     fun onRepetitionModeMenuItemClicked(deckId: Long) {
-
+        val repetitionState: Repetition.State = repetitionStateCreator.create(listOf(deckId))
+        val koinScope = getKoin().createScope<Repetition>(REPETITION_SCOPE_ID)
+        koinScope.declare(repetitionState, override = true)
+        navigator.navigateToRepetition()
     }
 
     fun onSetupDeckMenuItemClicked(deckId: Long) {

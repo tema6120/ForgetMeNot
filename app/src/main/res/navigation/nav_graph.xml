@@ -94,7 +94,7 @@
 
     <fragment
             android:id="@+id/repetition_screen"
-            android:name="com.odnovolov.forgetmenot.screen.repetition.view.RepetitionFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragment"
             android:label="@string/label_repetition_screen"
             tools:layout="@layout/fragment_repetition" />
 

@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import org.koin.dsl.onClose
 
 val intervalsModule = module {
     scope<IntervalsViewModel> {
@@ -23,7 +24,7 @@ val intervalsModule = module {
                 globalState = get(),
                 store = get()
             )
-        }
+        } onClose { it?.onCleared() }
         viewModel {
             IntervalsViewModel(
                 deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),

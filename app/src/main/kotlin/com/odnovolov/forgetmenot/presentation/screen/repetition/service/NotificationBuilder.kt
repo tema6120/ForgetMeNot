@@ -1,10 +1,12 @@
-package com.odnovolov.forgetmenot.screen.repetition.service
+package com.odnovolov.forgetmenot.presentation.screen.repetition.service
 
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import androidx.core.app.NotificationCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.common.MainActivity
@@ -25,9 +27,19 @@ class NotificationBuilder(private val context: Context) {
     }
 
     fun update() {
-        val mNotificationManager: NotificationManager =
+        val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mNotificationManager.notify(RepetitionService.NOTIFICATION_ID, build())
+        fun notify() = notificationManager.notify(RepetitionService.NOTIFICATION_ID, build())
+
+        if (VERSION.SDK_INT >= VERSION_CODES.M) {
+            val isNotificationVisible = notificationManager.activeNotifications
+                .any { it.id == RepetitionService.NOTIFICATION_ID }
+            if (isNotificationVisible) {
+                notify()
+            }
+        } else {
+            notify()
+        }
     }
 
     private fun contentIntent(): PendingIntent {
