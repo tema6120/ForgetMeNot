@@ -1,5 +1,0 @@
-getQuestion:
-SELECT question FROM CurrentRepetitionCard;
-
-isPlaying:
-SELECT isPlaying FROM RepetitionState;

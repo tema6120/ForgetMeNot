@@ -17,7 +17,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 tools:background="@color/correct_answer">
 
-            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+            <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                     android:id="@+id/variant1TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground">
 
-            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+            <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                     android:id="@+id/variant2TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground">
 
-            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+            <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                     android:id="@+id/variant3TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -111,7 +111,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 tools:background="@color/wrong_answer">
 
-            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+            <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                     android:id="@+id/variant4TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

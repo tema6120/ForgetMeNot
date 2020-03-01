@@ -1,2 +1,0 @@
-setKeyGestureAction:
-UPDATE WalkingModePreference SET keyGestureAction = ? WHERE keyGesture = ?;

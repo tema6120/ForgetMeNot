@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
-import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
+import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState
 import kotlinx.serialization.Serializable
 

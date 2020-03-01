@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.persistence
 
-import com.odnovolov.forgetmenot.common.database.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor

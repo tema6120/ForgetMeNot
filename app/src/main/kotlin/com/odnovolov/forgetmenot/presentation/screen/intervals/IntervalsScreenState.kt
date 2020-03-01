@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
-import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
+import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 
 class IntervalsScreenState : FlowableState<IntervalsScreenState>() {

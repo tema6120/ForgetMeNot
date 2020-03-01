@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.persistence.deckreviewpreference
 
-import com.odnovolov.forgetmenot.common.database.database
+import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference

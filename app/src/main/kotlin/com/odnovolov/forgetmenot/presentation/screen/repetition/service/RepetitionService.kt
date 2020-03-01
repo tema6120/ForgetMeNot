@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.service
 
 import android.content.Intent
 import android.os.IBinder
-import com.odnovolov.forgetmenot.common.base.BaseService
+import com.odnovolov.forgetmenot.presentation.common.base.BaseService
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionScopeCloser

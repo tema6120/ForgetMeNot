@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
-import com.odnovolov.forgetmenot.common.database.database
+import com.odnovolov.forgetmenot.persistence.database
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json

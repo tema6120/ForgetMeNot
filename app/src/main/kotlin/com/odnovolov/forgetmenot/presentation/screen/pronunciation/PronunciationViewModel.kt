@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import androidx.lifecycle.ViewModel
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.Preset
-import com.odnovolov.forgetmenot.common.entity.NamePresetDialogStatus
+import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator.Preset
+import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.checkPronunciationName
 import com.odnovolov.forgetmenot.domain.entity.*

@@ -14,7 +14,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                 android:id="@+id/answerTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                 android:id="@+id/hintTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

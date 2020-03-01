@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator
-import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.Item
-import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemAdapter
-import com.odnovolov.forgetmenot.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
+import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
+import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
+import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*

@@ -20,7 +20,7 @@
                     android:layout_weight="1"
                     android:fillViewport="true">
 
-                <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                         android:id="@+id/questionTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                     android:fillViewport="true"
                     android:visibility="gone">
 
-                <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                         android:id="@+id/answerTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

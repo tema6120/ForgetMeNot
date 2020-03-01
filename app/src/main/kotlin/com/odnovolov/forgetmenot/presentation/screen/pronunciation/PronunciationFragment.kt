@@ -11,9 +11,9 @@ import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.common.customview.InputDialogCreator
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.common.customview.PresetPopupCreator.PresetAdapter
+import com.odnovolov.forgetmenot.presentation.common.customview.InputDialogCreator
+import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator
+import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator.PresetAdapter
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.domain.isIndividual

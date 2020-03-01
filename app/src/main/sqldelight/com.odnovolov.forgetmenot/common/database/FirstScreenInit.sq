@@ -1,5 +1,0 @@
-initHomeState:
-INSERT INTO HomeState DEFAULT VALUES;
-
-initAddDeckState:
-INSERT INTO AddDeckState DEFAULT VALUES;

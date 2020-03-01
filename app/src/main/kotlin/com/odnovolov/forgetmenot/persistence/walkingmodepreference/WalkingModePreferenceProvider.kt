@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.persistence.walkingmodepreference
 
-import com.odnovolov.forgetmenot.common.database.database
+import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference

@@ -7,6 +7,8 @@ import android.widget.EditText
 import com.odnovolov.forgetmenot.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
@@ -53,3 +55,16 @@ fun getBackgroundResForLevelOfKnowledge(levelOfKnowledge: Int) = when (levelOfKn
 }
 
 fun <T> Flow<T>.firstBlocking(): T = runBlocking { first() }
+
+fun <T, R> Flow<T>.mapTwoLatest(block: (old: T, new: T) -> R): Flow<R> {
+    class Wrapper(val t: T)
+
+    return scan(Pair<Wrapper?, Wrapper?>(null, null)) { acc: Pair<Wrapper?, Wrapper?>, new: T ->
+        acc.second to Wrapper(new)
+    }
+        .transform { pair: Pair<Wrapper?, Wrapper?> ->
+            if (pair.first != null && pair.second != null) {
+                emit(block(pair.first!!.t, pair.second!!.t))
+            }
+        }
+}

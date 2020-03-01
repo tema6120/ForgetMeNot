@@ -16,7 +16,7 @@
                 android:fillViewport="true"
                 android:visibility="gone">
 
-            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+            <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                     android:id="@+id/hintTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+            <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                     android:id="@+id/wrongAnswerTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                     android:textSize="18sp"
                     android:visibility="gone" />
 
-            <com.odnovolov.forgetmenot.common.customview.TextViewWithObservableSelection
+            <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                     android:id="@+id/correctAnswerTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
