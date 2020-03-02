@@ -44,3 +44,8 @@ DELETE FROM ExercisePreferenceDb WHERE id = ?;
 
 exists:
 SELECT EXISTS(SELECT * FROM ExercisePreferenceDb WHERE id = ?);
+
+deleteUnused:
+DELETE FROM ExercisePreferenceDb
+WHERE id NOT IN (SELECT exercisePreferenceId FROM SharedExercisePreferenceDb)
+  AND id NOT IN (SELECT exercisePreferenceId FROM DeckDb);

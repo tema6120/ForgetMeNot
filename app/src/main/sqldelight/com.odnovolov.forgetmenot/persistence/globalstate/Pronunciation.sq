@@ -39,3 +39,8 @@ DELETE FROM PronunciationDb WHERE id = ?;
 
 exists:
 SELECT EXISTS(SELECT * FROM PronunciationDb WHERE id = ?);
+
+deleteUnused:
+DELETE FROM PronunciationDb
+WHERE id NOT IN (SELECT pronunciationId FROM SharedPronunciationDb)
+  AND id NOT IN (SELECT pronunciationId FROM ExercisePreferenceDb);

@@ -26,7 +26,7 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
             initDatabase(sqliteDriver)
             val isActivityFirstCreated = savedInstanceState == null
             if (isActivityFirstCreated) {
-                database.serializableQueries.deleteAll()
+                cleanupDatabase(sqliteDriver)
             }
             isInitialized = true
         }
@@ -78,6 +78,14 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
                 answerLanguageAdapter = localeAdapter
             )
         )
+    }
+
+    private fun cleanupDatabase(sqliteDriver: SqlDriver) {
+        database.serializableQueries.deleteAll()
+        database.exercisePreferenceQueries.deleteUnused()
+        database.intervalSchemeQueries.deleteUnused()
+        database.pronunciationQueries.deleteUnused()
+        sqliteDriver.executeQuery(null, "VACUUM", 0)
     }
 
     // Unused callbacks

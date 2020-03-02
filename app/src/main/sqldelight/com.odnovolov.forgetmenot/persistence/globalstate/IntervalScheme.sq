@@ -17,3 +17,8 @@ DELETE FROM IntervalSchemeDb WHERE id = ?;
 
 exists:
 SELECT EXISTS(SELECT * FROM IntervalSchemeDb WHERE id = ?);
+
+deleteUnused:
+DELETE FROM IntervalSchemeDb
+WHERE id NOT IN (SELECT intervalSchemeId FROM SharedIntervalSchemeDb)
+  AND id NOT IN (SELECT intervalSchemeId FROM ExercisePreferenceDb);
