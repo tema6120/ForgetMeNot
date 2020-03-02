@@ -35,8 +35,17 @@ class Exercise(
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
 
     init {
+        updateLastOpenedAt()
         setCurrentPronunciation()
         autoSpeakQuestionIfNeed()
+    }
+
+    private fun updateLastOpenedAt() {
+        val now = DateTime.now()
+        state.exerciseCards
+            .map { it.base.deck }
+            .distinctBy { it.id }
+            .forEach { deck -> deck.lastOpenedAt = now }
     }
 
     fun setCurrentPosition(position: Int) {

@@ -8,11 +8,11 @@ import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
-import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
@@ -235,6 +235,8 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         decksPreviewRecycler.adapter = null
+        // sometimes deckSelectionCount.observe() doesn't keep up to get last value
+        actionMode?.finish()
     }
 
     private val actionModeCallback = object : ActionMode.Callback {

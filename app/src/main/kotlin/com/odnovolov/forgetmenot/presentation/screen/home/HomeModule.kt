@@ -1,30 +1,31 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.interactor.prepareexercise.PrepareExerciseInteractor
+import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.presentation.common.Store
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import org.koin.dsl.onClose
 
 val homeModule = module {
     scope<HomeViewModel> {
         scoped { get<Store>().loadHomeScreenState() }
         scoped { RemoveDeckInteractor(globalState = get()) }
-        scoped { PrepareExerciseInteractor(globalState = get()) }
+        scoped { ExerciseStateCreator(globalState = get()) }
         scoped { RepetitionStateCreator(globalState = get()) }
         scoped {
             HomeController(
                 homeScreenState = get(),
                 deckReviewPreference = get(),
                 removeDeckInteractor = get(),
-                prepareExerciseInteractor = get(),
+                exerciseStateCreator = get(),
                 repetitionStateCreator = get(),
                 globalState = get(),
                 navigator = get(),
                 store = get()
             )
-        }
+        } onClose { it?.onCleared() }
         viewModel {
             HomeViewModel(
                 homeScreenState = get(),

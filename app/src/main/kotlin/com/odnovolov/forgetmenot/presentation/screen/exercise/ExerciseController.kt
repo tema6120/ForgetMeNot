@@ -27,6 +27,10 @@ class ExerciseController(
     private val commandFlow = EventFlow<ExerciseCommand>()
     val commands = commandFlow.get()
 
+    init {
+        store.saveStateByRegistry()
+    }
+
     fun onPageSelected(position: Int) {
         exercise.setCurrentPosition(position)
         store.saveStateByRegistry()

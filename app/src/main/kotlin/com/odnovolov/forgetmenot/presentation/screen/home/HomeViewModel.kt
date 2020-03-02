@@ -20,7 +20,7 @@ class HomeViewModel(
     homeScreenState: HomeScreenState,
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
-    private val controller: HomeController
+    controller: HomeController
 ) : ViewModel(), KoinComponent {
     val displayOnlyWithTasks: Flow<Boolean> = deckReviewPreference
         .flowOf(DeckReviewPreference::displayOnlyWithTasks)
@@ -139,7 +139,6 @@ class HomeViewModel(
     }
 
     override fun onCleared() {
-        controller.onViewModelCleared()
         getKoin().getScope(HOME_SCREEN_SCOPE_ID).close()
     }
 }
