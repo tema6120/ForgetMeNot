@@ -1,18 +1,17 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.Copyable
 import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
 import java.util.*
 
 class Pronunciation(
-    override val id: Long = 0L,
-    name: String = "",
-    questionLanguage: Locale? = null,
-    questionAutoSpeak: Boolean = false,
-    answerLanguage: Locale? = null,
-    answerAutoSpeak: Boolean = false,
-    doNotSpeakTextInBrackets: Boolean = false
-) : RegistrableFlowableState<Pronunciation>(), Copyable {
+    override val id: Long,
+    name: String,
+    questionLanguage: Locale?,
+    questionAutoSpeak: Boolean,
+    answerLanguage: Locale?,
+    answerAutoSpeak: Boolean,
+    doNotSpeakTextInBrackets: Boolean
+) : RegistrableFlowableState<Pronunciation>() {
     var name: String by me(name)
     var questionLanguage: Locale? by me(questionLanguage)
     var questionAutoSpeak: Boolean by me(questionAutoSpeak)
@@ -31,6 +30,16 @@ class Pronunciation(
     )
 
     companion object {
-        val Default by lazy { Pronunciation() }
+        val Default by lazy {
+            Pronunciation(
+                id = 0L,
+                name = "",
+                questionLanguage = null,
+                questionAutoSpeak = false,
+                answerLanguage = null,
+                answerAutoSpeak = false,
+                doNotSpeakTextInBrackets = false
+            )
+        }
     }
 }

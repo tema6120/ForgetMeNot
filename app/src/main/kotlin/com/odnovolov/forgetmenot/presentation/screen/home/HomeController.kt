@@ -7,8 +7,8 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator.NoCardIsReadyForExercise
-import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor
-import com.odnovolov.forgetmenot.domain.interactor.removedeck.RemoveDeckInteractor.Event.DecksHasRemoved
+import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
+import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -30,7 +30,7 @@ import org.koin.core.KoinComponent
 class HomeController(
     private val homeScreenState: HomeScreenState,
     private val deckReviewPreference: DeckReviewPreference,
-    private val removeDeckInteractor: RemoveDeckInteractor,
+    private val deckRemover: DeckRemover,
     private val exerciseStateCreator: ExerciseStateCreator,
     private val repetitionStateCreator: RepetitionStateCreator,
     private val globalState: GlobalState,
@@ -40,7 +40,7 @@ class HomeController(
     private val commandFlow = EventFlow<HomeCommand>()
     val commands: Flow<HomeCommand> = merge(
         commandFlow.get(),
-        removeDeckInteractor.events.map { event: RemoveDeckInteractor.Event ->
+        deckRemover.events.map { event: DeckRemover.Event ->
             when (event) {
                 is DecksHasRemoved -> ShowDeckRemovingMessage(numberOfDecksRemoved = event.count)
             }
@@ -55,6 +55,11 @@ class HomeController(
     fun onDisplayOnlyWithTasksCheckboxClicked() {
         with(deckReviewPreference) { displayOnlyWithTasks = !displayOnlyWithTasks }
         store.saveStateByRegistry()
+    }
+
+    fun onSettingsButtonClicked() {
+        homeScreenState.selectedDeckIds = emptyList()
+        navigator.navigateToSettings()
     }
 
     fun onDeckButtonClicked(deckId: Long) {
@@ -90,12 +95,12 @@ class HomeController(
     }
 
     fun onRemoveDeckMenuItemClicked(deckId: Long) {
-        removeDeckInteractor.removeDeck(deckId)
+        deckRemover.removeDeck(deckId)
         store.saveStateByRegistry()
     }
 
     fun onDecksRemovedSnackbarCancelActionClicked() {
-        removeDeckInteractor.restoreDecks()
+        deckRemover.restoreDecks()
         store.saveStateByRegistry()
     }
 
@@ -111,7 +116,7 @@ class HomeController(
 
     fun onRemoveDecksMenuItemClicked() {
         val deckIds = homeScreenState.selectedDeckIds
-        removeDeckInteractor.removeDecks(deckIds)
+        deckRemover.removeDecks(deckIds)
         store.saveStateByRegistry()
         homeScreenState.selectedDeckIds = emptyList()
     }

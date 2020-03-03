@@ -64,6 +64,7 @@ class Exercise(
             with(associatedPronunciation) {
                 Pronunciation(
                     id = -1,
+                    name = "",
                     questionLanguage = answerLanguage,
                     questionAutoSpeak = answerAutoSpeak,
                     answerLanguage = questionLanguage,

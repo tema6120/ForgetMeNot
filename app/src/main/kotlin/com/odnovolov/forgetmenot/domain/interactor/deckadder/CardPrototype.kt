@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.domain.interactor.adddeck
+package com.odnovolov.forgetmenot.domain.interactor.deckadder
 
 import kotlinx.serialization.Serializable
 

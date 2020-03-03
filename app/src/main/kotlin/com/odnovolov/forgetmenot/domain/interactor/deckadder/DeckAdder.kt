@@ -1,16 +1,16 @@
-package com.odnovolov.forgetmenot.domain.interactor.adddeck
+package com.odnovolov.forgetmenot.domain.interactor.deckadder
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.architecturecomponents.*
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor.Event.*
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.Parser.IllegalCardFormatException
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.Parser.IllegalCardFormatException
 import kotlinx.coroutines.flow.Flow
 import java.io.InputStream
 
-class AddDeckInteractor(
+class DeckAdder(
     val state: State,
     private val globalState: GlobalState
 ) {

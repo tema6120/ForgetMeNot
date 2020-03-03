@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.common
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
@@ -24,8 +24,8 @@ interface Store {
     fun save(homeScreenState: HomeScreenState)
     fun deleteHomeScreenState()
 
-    fun loadAddDeckState(): AddDeckInteractor.State
-    fun save(addDeckInteractorState: AddDeckInteractor.State)
+    fun loadAddDeckState(): DeckAdder.State
+    fun save(deckAdderState: DeckAdder.State)
     fun deleteAddDeckState()
 
     fun loadAddDeckScreenState(): AddDeckScreenState

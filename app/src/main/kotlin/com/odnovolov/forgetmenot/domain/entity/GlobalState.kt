@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.Copyable
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
 
@@ -9,7 +8,7 @@ class GlobalState(
     sharedExercisePreferences: CopyableList<ExercisePreference>,
     sharedIntervalSchemes: CopyableList<IntervalScheme>,
     sharedPronunciations: CopyableList<Pronunciation>
-) : RegistrableFlowableState<GlobalState>(), Copyable {
+) : RegistrableFlowableState<GlobalState>() {
     var decks: CopyableList<Deck> by me(decks)
     var sharedExercisePreferences: CopyableList<ExercisePreference> by me(sharedExercisePreferences)
     var sharedIntervalSchemes: CopyableList<IntervalScheme> by me(sharedIntervalSchemes)

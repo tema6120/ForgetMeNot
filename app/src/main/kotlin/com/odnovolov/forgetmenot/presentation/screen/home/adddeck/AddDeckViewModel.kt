@@ -3,19 +3,19 @@ package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.Stage
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.Stage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.koin.core.KoinComponent
 
 class AddDeckViewModel(
-    addDeckInteractorState: AddDeckInteractor.State,
+    deckAdderState: DeckAdder.State,
     addDeckScreenState: AddDeckScreenState,
     private val globalState: GlobalState
 ) : ViewModel(), KoinComponent {
 
-    private val stage: Flow<Stage> = addDeckInteractorState.flowOf(AddDeckInteractor.State::stage)
+    private val stage: Flow<Stage> = deckAdderState.flowOf(DeckAdder.State::stage)
 
     val isProcessing: Flow<Boolean> = stage.map { it == Stage.Parsing }
 

@@ -1,32 +1,59 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor.Event.*
+import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
+import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
+import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.Store
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.*
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsViewModel
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.SetDialogText
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.ShowErrorMessage
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import org.koin.core.KoinComponent
 import java.io.InputStream
 
 class AddDeckController(
     private val addDeckScreenState: AddDeckScreenState,
-    private val addDeckInteractor: AddDeckInteractor,
+    private val deckAdder: DeckAdder,
+    private val navigator: Navigator,
     private val store: Store
-) {
-    val commands: Flow<AddDeckCommand> =
-        addDeckInteractor.events.map { event: AddDeckInteractor.Event ->
-            when (event) {
-                is ParsingFinishedWithError -> ShowErrorMessage(event.exception)
-                is DeckNameIsOccupied -> SetDialogText(event.occupiedName)
-                is DeckHasBeenAdded -> {
-                    // todo: prepare DeckSettings state
-                    NavigateToDeckSettings
+) : KoinComponent {
+    private val coroutineScope = MainScope()
+    private val commandFlow = EventFlow<AddDeckCommand>()
+    val commands: Flow<AddDeckCommand> = commandFlow.get()
+
+    init {
+        deckAdder.events
+            .onEach { event: DeckAdder.Event ->
+                when (event) {
+                    is ParsingFinishedWithError -> {
+                        commandFlow.send(ShowErrorMessage(event.exception))
+                    }
+                    is DeckNameIsOccupied -> {
+                        commandFlow.send(SetDialogText(event.occupiedName))
+                    }
+                    is DeckHasBeenAdded -> {
+                        val deckSettingsState = DeckSettings.State(event.deck)
+                        val koinScope =
+                            getKoin().createScope<DeckSettingsViewModel>(DECK_SETTINGS_SCOPED_ID)
+                        koinScope.declare(deckSettingsState, override = true)
+                        koinScope.declare(DeckSettingsScreenState(), override = true)
+                        navigator.navigateToDeckSettings()
+                    }
                 }
             }
-        }
+            .launchIn(coroutineScope)
+    }
 
     fun onContentReceived(inputStream: InputStream, fileName: String?) {
-        addDeckInteractor.addFrom(inputStream, fileName)
+        deckAdder.addFrom(inputStream, fileName)
         store.saveStateByRegistry()
     }
 
@@ -35,17 +62,18 @@ class AddDeckController(
     }
 
     fun onPositiveDialogButtonClicked() {
-        addDeckInteractor.proposeDeckName(addDeckScreenState.typedText)
+        deckAdder.proposeDeckName(addDeckScreenState.typedText)
         store.saveStateByRegistry()
     }
 
     fun onNegativeDialogButtonClicked() {
-        addDeckInteractor.cancel()
+        deckAdder.cancel()
         store.saveStateByRegistry()
     }
 
     fun onCleared() {
         store.save(addDeckScreenState)
-        store.save(addDeckInteractor.state)
+        store.save(deckAdder.state)
+        coroutineScope.cancel()
     }
 }

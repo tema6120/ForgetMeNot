@@ -189,8 +189,7 @@ class HomeFragment : BaseFragment() {
                 true
             }
             R.id.action_settings -> {
-                actionMode?.finish()
-                findNavController().navigate(R.id.action_home_screen_to_settings_screen)
+                controller.onSettingsButtonClicked()
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.Navigator
 import kotlinx.android.synthetic.main.fragment_settings.*
+import org.koin.android.ext.android.get
 
 class SettingsFragment : Fragment() {
     override fun onCreateView(
@@ -25,8 +26,7 @@ class SettingsFragment : Fragment() {
 
     private fun setupView() {
         walkingModeSettingsButton.setOnClickListener {
-            findNavController()
-                .navigate(R.id.action_settings_screen_to_walking_mode_settings_screen)
+            get<Navigator>().navigateToWalkingModeSettings()
         }
     }
 }

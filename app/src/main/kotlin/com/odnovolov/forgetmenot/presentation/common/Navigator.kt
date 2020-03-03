@@ -7,5 +7,7 @@ interface Navigator {
     fun navigateToIntervals()
     fun navigateToPronunciation()
     fun navigateToRepetition()
+    fun navigateToSettings()
+    fun navigateToWalkingModeSettings()
     fun navigateUp()
 }

@@ -1,18 +1,17 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.Copyable
 import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
 
 class ExercisePreference(
-    override val id: Long = 0L,
-    name: String = "",
-    randomOrder: Boolean = true,
-    testMethod: TestMethod = TestMethod.Manual,
-    intervalScheme: IntervalScheme? = IntervalScheme.Default,
-    pronunciation: Pronunciation = Pronunciation.Default,
-    isQuestionDisplayed: Boolean = true,
-    cardReverse: CardReverse = CardReverse.Off
-) : RegistrableFlowableState<ExercisePreference>(), Copyable {
+    override val id: Long,
+    name: String,
+    randomOrder: Boolean,
+    testMethod: TestMethod,
+    intervalScheme: IntervalScheme?,
+    pronunciation: Pronunciation,
+    isQuestionDisplayed: Boolean,
+    cardReverse: CardReverse
+) : RegistrableFlowableState<ExercisePreference>() {
     var name: String by me(name)
     var randomOrder: Boolean by me(randomOrder)
     var testMethod: TestMethod by me(testMethod)
@@ -33,6 +32,17 @@ class ExercisePreference(
     )
 
     companion object {
-        val Default by lazy { ExercisePreference() }
+        val Default by lazy {
+            ExercisePreference(
+                id = 0L,
+                name = "",
+                randomOrder = true,
+                testMethod = TestMethod.Manual,
+                intervalScheme = IntervalScheme.Default,
+                pronunciation = Pronunciation.Default,
+                isQuestionDisplayed = true,
+                cardReverse = CardReverse.Off
+            )
+        }
     }
 }

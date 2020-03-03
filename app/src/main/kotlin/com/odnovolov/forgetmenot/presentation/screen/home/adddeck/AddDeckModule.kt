@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
 import com.odnovolov.forgetmenot.presentation.common.Store
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -10,18 +10,19 @@ val addDeckModule = module {
     scope<AddDeckViewModel> {
         scoped { get<Store>().loadAddDeckState() }
         scoped { get<Store>().loadAddDeckScreenState() }
-        scoped { AddDeckInteractor(state = get(), globalState = get()) }
+        scoped { DeckAdder(state = get(), globalState = get()) }
         scoped {
             AddDeckController(
                 addDeckScreenState = get(),
-                addDeckInteractor = get(),
+                deckAdder = get(),
+                navigator = get(),
                 store = get()
             )
         } onClose { it?.onCleared() }
         viewModel {
             AddDeckViewModel(
                 globalState = get(),
-                addDeckInteractorState = get(),
+                deckAdderState = get(),
                 addDeckScreenState = get()
             )
         }

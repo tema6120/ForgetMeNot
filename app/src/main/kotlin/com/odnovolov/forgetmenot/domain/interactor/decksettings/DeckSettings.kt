@@ -218,4 +218,28 @@ class DeckSettings(
             }
         }
     }
+
+    private fun ExercisePreference.shallowCopy(
+        id: Long,
+        name: String = this.name,
+        randomOrder: Boolean = this.randomOrder,
+        testMethod: TestMethod = this.testMethod,
+        intervalScheme: IntervalScheme? = this.intervalScheme,
+        pronunciation: Pronunciation = this.pronunciation,
+        isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
+        cardReverse: CardReverse = this.cardReverse
+    ) = ExercisePreference(
+        id,
+        name,
+        randomOrder,
+        testMethod,
+        intervalScheme,
+        pronunciation,
+        isQuestionDisplayed,
+        cardReverse
+    )
+
+    private fun ExercisePreference.shouldBeDefault(): Boolean {
+        return this.shallowCopy(id = ExercisePreference.Default.id) == ExercisePreference.Default
+    }
 }

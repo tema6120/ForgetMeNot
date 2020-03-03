@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.Copyable
 import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
 import com.soywiz.klock.DateTime
 
@@ -12,7 +11,7 @@ class Card(
     isLearned: Boolean = false,
     levelOfKnowledge: Int = 0,
     lastAnsweredAt: DateTime? = null
-) : RegistrableFlowableState<Card>(), Copyable {
+) : RegistrableFlowableState<Card>() {
     var question: String by me(question)
     var answer: String by me(answer)
     var lap: Int by me(lap)

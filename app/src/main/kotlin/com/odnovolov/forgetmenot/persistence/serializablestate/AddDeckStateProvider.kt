@@ -1,18 +1,18 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.AddDeckInteractor
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.CardPrototype
-import com.odnovolov.forgetmenot.domain.interactor.adddeck.Stage
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.CardPrototype
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.Stage
 import kotlinx.serialization.Serializable
 
 object AddDeckStateProvider {
-    fun load(): AddDeckInteractor.State {
+    fun load(): DeckAdder.State {
         return loadSerializable(SerializableAddDeckState.serializer())
             ?.toOriginal()
-            ?: AddDeckInteractor.State()
+            ?: DeckAdder.State()
     }
 
-    fun save(state: AddDeckInteractor.State) {
+    fun save(state: DeckAdder.State) {
         val serializable = state.toSerializable()
         saveSerializable(serializable, SerializableAddDeckState.serializer())
     }
@@ -27,12 +27,12 @@ object AddDeckStateProvider {
         val cardPrototypes: List<CardPrototype>?
     )
 
-    private fun AddDeckInteractor.State.toSerializable() = SerializableAddDeckState(
+    private fun DeckAdder.State.toSerializable() = SerializableAddDeckState(
         stage,
         cardPrototypes
     )
 
-    private fun SerializableAddDeckState.toOriginal() = AddDeckInteractor.State().apply {
+    private fun SerializableAddDeckState.toOriginal() = DeckAdder.State().apply {
         stage = this@toOriginal.stage
         cardPrototypes = this@toOriginal.cardPrototypes
     }

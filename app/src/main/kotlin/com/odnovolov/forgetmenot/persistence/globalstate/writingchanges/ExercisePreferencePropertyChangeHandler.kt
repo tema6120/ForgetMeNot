@@ -32,18 +32,11 @@ object ExercisePreferencePropertyChangeHandler {
                 val linkedIntervalScheme = change.newValue as IntervalScheme?
                 linkedIntervalScheme?.let(::insertIntervalSchemeIfNotExists)
                 queries.updateIntervalSchemeId(linkedIntervalScheme?.id, exercisePreferenceId)
-
-                val unlinkedIntervalScheme = change.oldValue as IntervalScheme?
-                if (unlinkedIntervalScheme != null) {
-                    // todo: check whether it must be deleted
-                }
             }
             ExercisePreference::pronunciation -> {
                 val linkedPronunciation = change.newValue as Pronunciation
                 insertPronunciationIfNotExists(linkedPronunciation)
                 queries.updatePronunciationId(linkedPronunciation.id, exercisePreferenceId)
-
-                // todo: check whether oldValue should be deleted
             }
             ExercisePreference::isQuestionDisplayed -> {
                 val isQuestionDisplayed = change.newValue as Boolean

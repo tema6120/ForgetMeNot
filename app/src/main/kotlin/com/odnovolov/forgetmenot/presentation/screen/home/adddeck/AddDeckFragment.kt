@@ -114,9 +114,6 @@ class AddDeckFragment : BaseFragment() {
                 deckNameEditText.setText(command.text)
                 deckNameEditText.selectAll()
             }
-            NavigateToDeckSettings -> {
-                //findNavController().navigate(R.id.action_home_screen_to_deck_settings_screen)
-            }
         }
     }
 

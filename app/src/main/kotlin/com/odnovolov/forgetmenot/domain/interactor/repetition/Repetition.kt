@@ -42,6 +42,7 @@ class Repetition(
                 with(currentRepetitionCard.pronunciation) {
                     Pronunciation(
                         id = -1,
+                        name = "",
                         questionLanguage = answerLanguage,
                         questionAutoSpeak = answerAutoSpeak,
                         answerLanguage = questionLanguage,

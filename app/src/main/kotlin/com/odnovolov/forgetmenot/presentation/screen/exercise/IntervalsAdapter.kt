@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter.ViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.soywiz.klock.DateTimeSpan
 import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*
 
@@ -41,7 +42,9 @@ class IntervalsAdapter(
             val backgroundRes = getBackgroundResForLevelOfKnowledge(intervalItem.levelOfKnowledge)
             levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
             levelOfKnowledgeTextView.text = intervalItem.levelOfKnowledge.toString()
-            waitingPeriodTextView.text = intervalItem.waitingPeriod.toString() // todo
+            val displayedInterval = DisplayedInterval.fromDateTimeSpan(intervalItem.waitingPeriod)
+            waitingPeriodTextView.text =
+                "${displayedInterval.value} ${displayedInterval.intervalUnit}" // todo
             setLevelOfKnowledgeButton.setOnClickListener {
                 onItemClick(intervalItem.levelOfKnowledge)
             }
