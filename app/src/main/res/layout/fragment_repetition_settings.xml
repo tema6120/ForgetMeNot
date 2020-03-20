@@ -1,0 +1,64 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/filtrationSectionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/title_filtration_section"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/levelOfKnowledgeTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/title_level_of_knowledge"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filtrationSectionTitle"
+            tools:visibility="visible" />
+
+    <com.appyvet.materialrangebar.RangeBar
+            android:id="@+id/levelOfKnowledgeRangeBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/levelOfKnowledgeTitle"
+            app:mrb_barWeight="2dp"
+            app:mrb_connectingLineColor="@color/colorAccent"
+            app:mrb_connectingLineWeight="4dp"
+            app:mrb_pinColor="#888888"
+            app:mrb_pinMaxFont="15sp"
+            app:mrb_pinMinFont="12sp"
+            app:mrb_pinRadius="14dp"
+            app:mrb_pinTextColor="#ffffff"
+            app:mrb_rangeBarColor="#cccccc"
+            app:mrb_rangeBar_rounded="true"
+            app:mrb_selectorSize="10dp"
+            app:mrb_tickDefaultColor="#888888"
+            app:mrb_tickHeight="4dp"
+            app:mrb_tickLabelColor="#888888"
+            app:mrb_tickLabelSelectedColor="#888888"
+            app:mrb_tickLabelSize="6sp"
+            tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

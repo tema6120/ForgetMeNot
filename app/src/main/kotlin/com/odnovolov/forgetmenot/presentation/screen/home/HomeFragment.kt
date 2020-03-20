@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -13,7 +12,8 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -105,13 +105,6 @@ class HomeFragment : BaseFragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            NavigateToRepetition -> {
-                findNavController().navigate(R.id.action_home_screen_to_repetition_screen)
-            }
-            NavigateToDeckSettings -> {
-                actionMode?.finish()
-                findNavController().navigate(R.id.action_home_screen_to_deck_settings_screen)
-            }
             is ShowDeckRemovingMessage -> {
                 Snackbar
                     .make(
@@ -169,7 +162,6 @@ class HomeFragment : BaseFragment() {
                 return true
             }
         })
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -258,12 +250,16 @@ class HomeFragment : BaseFragment() {
                     controller.onSelectAllDecksMenuItemClicked()
                     true
                 }
-                R.id.action_remove_decks -> {
-                    controller.onRemoveDecksMenuItemClicked()
-                    true
-                }
                 R.id.action_start_exercise_in_walking_mode -> {
                     controller.onStartExerciseInWalkingModeMenuItemClicked()
+                    true
+                }
+                R.id.action_repetition_mode -> {
+                    controller.onRepetitionModeMultiSelectMenuItemClicked()
+                    true
+                }
+                R.id.action_remove_decks -> {
+                    controller.onRemoveDecksMenuItemClicked()
                     true
                 }
                 else -> false

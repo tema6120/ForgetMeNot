@@ -25,8 +25,8 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
         if (status == TextToSpeech.SUCCESS) {
             state.isInitialized = true
             setDefaultLanguage()
-            speakDelayedSpokenTextIfExists()
             updateAvailableLanguages()
+            speakDelayedTextIfExists()
         } else {
             eventFlow.send(TtsInitializationFailed)
         }
@@ -51,14 +51,16 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
         }
 
     private fun updateAvailableLanguages() {
-        state.availableLanguages = try {
-            tts.availableLanguages
-        } catch (e: NullPointerException) {
-            emptySet()
+        coroutineScope.launch(Dispatchers.Main) {
+            state.availableLanguages = try {
+                tts.availableLanguages
+            } catch (e: NullPointerException) {
+                emptySet()
+            }
         }
     }
 
-    private fun speakDelayedSpokenTextIfExists() {
+    private fun speakDelayedTextIfExists() {
         if (delayedSpokenText != null) {
             speak(delayedSpokenText!!, delayedLanguage)
             delayedSpokenText = null

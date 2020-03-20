@@ -20,26 +20,34 @@ val localeAdapter = object : ColumnAdapter<Locale, String> {
     }
 }
 
-val speakEventAdapter = object : ColumnAdapter<SpeakEvent, String> {
-    override fun encode(value: SpeakEvent): String {
-        return when (value) {
-            SpeakQuestion -> "SPEAK_QUESTION"
-            SpeakAnswer -> "SPEAK_ANSWER"
-            is Delay -> "DELAY(${value.seconds})"
-        }
-    }
+val speakEventsAdapter = object : ColumnAdapter<List<SpeakEvent>, String> {
+    // example of databaseValue: "SPEAK_QUESTION, DELAY(2), SPEAK_ANSWER, DELAY(1)"
 
-    override fun decode(databaseValue: String): SpeakEvent {
-        return when (databaseValue) {
-            "SPEAK_QUESTION" -> SpeakQuestion
-            "SPEAK_ANSWER" -> SpeakAnswer
-            else -> {
-                val startIndex = databaseValue.indexOf('(') + 1
-                val endIndex = databaseValue.length - 1
-                val ms = databaseValue.subSequence(startIndex, endIndex).toString().toInt()
-                Delay(ms)
+    override fun encode(value: List<SpeakEvent>): String {
+        return value.map {
+            when (it) {
+                SpeakQuestion -> "SPEAK_QUESTION"
+                SpeakAnswer -> "SPEAK_ANSWER"
+                is Delay -> "DELAY(${it.timeSpan.millisecondsLong})"
             }
         }
+            .joinToString()
+    }
+
+    override fun decode(databaseValue: String): List<SpeakEvent> {
+        return databaseValue.split(", ")
+            .map {
+                when (it) {
+                    "SPEAK_QUESTION" -> SpeakQuestion
+                    "SPEAK_ANSWER" -> SpeakAnswer
+                    else -> {
+                        val startIndex = databaseValue.indexOf('(') + 1
+                        val endIndex = databaseValue.length - 1
+                        val ms = it.subSequence(startIndex, endIndex).toString().toDouble()
+                        Delay(TimeSpan(ms))
+                    }
+                }
+            }
     }
 }
 

@@ -15,8 +15,8 @@
                 app:destination="@id/exercise_screen" />
 
         <action
-                android:id="@+id/action_home_screen_to_repetition_screen"
-                app:destination="@id/repetition_screen" />
+                android:id="@+id/action_home_screen_to_repetition_settings_screen"
+                app:destination="@id/repetition_settings_screen" />
 
         <action
                 android:id="@+id/action_home_screen_to_deck_settings_screen"
@@ -91,6 +91,20 @@
             android:name="com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsFragment"
             android:label="@string/label_walking_mode_settings_screen"
             tools:layout="@layout/fragment_walking_mode_settings" />
+
+    <fragment
+            android:id="@+id/repetition_settings_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsFragment"
+            android:label="@string/label_repetition_settings_screen"
+            tools:layout="@layout/fragment_repetition_settings">
+
+        <action
+                android:id="@+id/action_repetition_settings_screen_to_repetition_screen"
+                app:destination="@+id/repetition_screen"
+                app:popUpTo="@+id/repetition_settings_screen"
+                app:popUpToInclusive="true"/>
+
+    </fragment>
 
     <fragment
             android:id="@+id/repetition_screen"

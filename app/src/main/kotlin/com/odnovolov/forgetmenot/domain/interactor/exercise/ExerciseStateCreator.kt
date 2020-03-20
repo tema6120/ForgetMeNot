@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.domain.interactor.exercise
 
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
+import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
 import com.soywiz.klock.DateTime
 
@@ -12,19 +13,22 @@ class ExerciseStateCreator(
 
     fun create(deckIds: List<Long>, isWalkingMode: Boolean): Exercise.State {
         val now = DateTime.now()
-        val notSortedExerciseCards: List<List<ExerciseCard>> = globalState.decks
+        val exerciseCards: List<ExerciseCard> = globalState.decks
             .filter { deck -> deck.id in deckIds }
             .map { deck ->
-                var cards: List<Card> = deck.cards
-                    .filter { card -> isCardReadyForExercise(card, deck, now) }
                 val isRandom = deck.exercisePreference.randomOrder
-                cards = sortCardsInDeck(cards, isRandom)
-                cards.map { card -> cardToExerciseCard(card, deck, isWalkingMode) }
+                deck.cards
+                    .filter { card -> isCardReadyForExercise(card, deck, now) }
+                    .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
+                    .sortedBy { card: Card -> card.lap }
+                    .map { card -> cardToExerciseCard(card, deck, isWalkingMode) }
             }
-        if (notSortedExerciseCards.flatten().isEmpty())
-            throw NoCardIsReadyForExercise("No card is ready for exercise")
-        val sortedExerciseCards: List<ExerciseCard> = sortExerciseCards(notSortedExerciseCards)
-        return Exercise.State(sortedExerciseCards, isWalkingMode = isWalkingMode)
+            .also { notSortedExerciseCards: List<List<ExerciseCard>> ->
+                if (notSortedExerciseCards.flatten().isEmpty())
+                    throw NoCardIsReadyForExercise("No card is ready for exercise")
+            }
+            .flattenWithShallowShuffling()
+        return Exercise.State(exerciseCards, isWalkingMode = isWalkingMode)
     }
 
     private fun isCardReadyForExercise(
@@ -44,14 +48,6 @@ class ExerciseStateCreator(
                 } ?: intervals.maxBy { it.targetLevelOfKnowledge }!!
                 card.lastAnsweredAt!! + interval.value < now
             }
-        }
-    }
-
-    private fun sortCardsInDeck(cards: List<Card>, isRandom: Boolean): List<Card> {
-        return if (isRandom) {
-            cards.shuffled().sortedBy { it.lap }
-        } else {
-            cards.sortedBy { it.lap }
         }
     }
 
@@ -91,26 +87,6 @@ class ExerciseStateCreator(
                     EntryTestExerciseCard(baseExerciseCard)
                 }
             }
-        }
-    }
-
-    private fun sortExerciseCards(exerciseCards: List<List<ExerciseCard>>): List<ExerciseCard> {
-        val totalSize = exerciseCards.sumBy { it.size }
-        val sortedExerciseCardArray: Array<ExerciseCard?> = arrayOfNulls(totalSize)
-        fun getVacantIndices(count: Int): List<Int> = sortedExerciseCardArray
-            .mapIndexedNotNull { index, e -> if (e == null) index else null }
-            .shuffled()
-            .take(count)
-            .sorted()
-        exerciseCards.forEach { exerciseCardsInDeck: List<ExerciseCard> ->
-            val vacantIndices: List<Int> = getVacantIndices(exerciseCardsInDeck.size)
-            vacantIndices.forEachIndexed { index: Int, vacantIndex: Int ->
-                val exerciseCard = exerciseCardsInDeck[index]
-                sortedExerciseCardArray[vacantIndex] = exerciseCard
-            }
-        }
-        return ArrayList<ExerciseCard>(sortedExerciseCardArray.size).apply {
-            sortedExerciseCardArray.forEach { exerciseCard -> this.add(exerciseCard!!) }
         }
     }
 }

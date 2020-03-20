@@ -59,3 +59,36 @@ fun checkPronunciationName(testedName: String, globalState: GlobalState): NameCh
         else -> NameCheckResult.Ok
     }
 }
+
+// shuffle items but preserve inner list order
+fun <T> List<List<T>>.flattenWithShallowShuffling(): List<T> {
+    val totalSize = this.sumBy { it.size }
+    if (totalSize == 0) return emptyList()
+    val result: MutableList<T?> = ArrayList(totalSize)
+    val indices: MutableList<Int> = ArrayList(totalSize)
+    repeat(totalSize) { index: Int ->
+        result.add(null)
+        indices.add(index)
+    }
+    fun extractIndices(count: Int): List<Int> {
+        indices.shuffle()
+        val vacantIndices = ArrayList<Int>(count)
+        repeat(count) {
+            vacantIndices.add(indices.removeAt(0))
+        }
+        vacantIndices.sort()
+        return vacantIndices
+    }
+    this.forEach { innerList: List<T> ->
+        val count = innerList.size
+        val vacantIndices: List<Int> = extractIndices(count)
+        repeat(count) { time ->
+            val vacantIndex = vacantIndices[time]
+            val item: T = innerList[time]
+            result[vacantIndex] = item
+        }
+    }
+    return ArrayList<T>(totalSize).apply {
+        result.forEach { item -> this.add(item!!) }
+    }
+}

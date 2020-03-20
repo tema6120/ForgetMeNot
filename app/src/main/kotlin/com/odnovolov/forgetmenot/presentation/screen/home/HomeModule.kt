@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
-import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.presentation.common.Store
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -13,14 +12,12 @@ val homeModule = module {
         scoped { get<Store>().loadHomeScreenState() }
         scoped { DeckRemover(globalState = get()) }
         scoped { ExerciseStateCreator(globalState = get()) }
-        scoped { RepetitionStateCreator(globalState = get()) }
         scoped {
             HomeController(
                 homeScreenState = get(),
                 deckReviewPreference = get(),
                 deckRemover = get(),
                 exerciseStateCreator = get(),
-                repetitionStateCreator = get(),
                 globalState = get(),
                 navigator = get(),
                 store = get()

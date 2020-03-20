@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.domain.entity
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
+import com.soywiz.klock.seconds
 
 class SpeakPlan(
     override val id: Long,
@@ -18,7 +19,7 @@ class SpeakPlan(
             SpeakPlan(
                 id = 0L,
                 name = "",
-                speakEvents = listOf(SpeakQuestion, Delay(2), SpeakAnswer, Delay(1))
+                speakEvents = listOf(SpeakQuestion, Delay(2.seconds), SpeakAnswer, Delay(1.seconds))
             )
         }
     }

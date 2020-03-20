@@ -29,8 +29,16 @@ class RepetitionCardAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val repetitionCard: RepetitionCard = items[position]
         with(viewHolder.itemView) {
-            questionTextView.text = repetitionCard.card.question
-            answerTextView.text = repetitionCard.card.answer
+            questionTextView.text = if (repetitionCard.isReverse) {
+                repetitionCard.card.answer
+            } else {
+                repetitionCard.card.question
+            }
+            answerTextView.text = if (repetitionCard.isReverse) {
+                repetitionCard.card.question
+            } else {
+                repetitionCard.card.answer
+            }
             if (repetitionCard.isAnswered) {
                 answerScrollView.visibility = View.VISIBLE
                 showAnswerButton.visibility = View.GONE

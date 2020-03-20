@@ -61,4 +61,5 @@ dependencies {
     implementation "org.koin:koin-android:2.1.0-beta-1"
     implementation "org.koin:koin-androidx-viewmodel:2.1.0-beta-1"
     implementation "com.soywiz.korlibs.klock:klock:1.7.3"
+    implementation 'com.appyvet:materialrangebar:1.4.7'
 }

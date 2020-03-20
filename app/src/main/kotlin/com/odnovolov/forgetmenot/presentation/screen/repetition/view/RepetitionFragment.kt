@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionScopeCloser
 import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionService

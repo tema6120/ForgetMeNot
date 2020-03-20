@@ -42,6 +42,7 @@
     <string name="label_edit_card_screen">Edit card</string>
     <string name="label_settings_screen">Settings</string>
     <string name="label_walking_mode_settings_screen">Walking mode settings</string>
+    <string name="label_repetition_settings_screen">Repetition settings</string>
     <string name="label_repetition_screen">Repetition</string>
     <string name="hint_pronunciation_name_edittext">Enter name</string>
     <string name="text_question_title_textview">Question</string>
@@ -126,4 +127,7 @@
     <string name="repetition_notification_title">RepetitionMode</string>
     <string name="pause_action_title_in_repetition_notification">Pause</string>
     <string name="resume_action_title_in_repetition_notification">Resume</string>
+    <string name="title_filtration_section">Filtration</string>
+    <string name="title_level_of_knowledge">Level of knowledge:</string>
+    <string name="title_action_start_repetition">Start repetition</string>
 </resources>

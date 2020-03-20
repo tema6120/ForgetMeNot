@@ -108,7 +108,7 @@ class Repetition(
             }
             is Delay -> {
                 delayJob = launch {
-                    delay(speakEvent.seconds * 1000L)
+                    delay(speakEvent.timeSpan.millisecondsLong)
                     if (isActive) {
                         tryToExecuteNextSpeakEvent()
                     }
