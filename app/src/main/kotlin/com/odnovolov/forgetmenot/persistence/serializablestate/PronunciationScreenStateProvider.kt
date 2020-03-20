@@ -1,42 +1,34 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
+import com.odnovolov.forgetmenot.persistence.serializablestate.PronunciationScreenStateProvider.SerializablePronunciationScreenState
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState
 import kotlinx.serialization.Serializable
 
-object PronunciationScreenStateProvider {
-    fun load(): PronunciationScreenState {
-        return loadSerializable(SerializablePronunciationScreenState.serializer())
-            ?.toOriginal()
-            ?: throw  IllegalStateException("No PronunciationScreenState in the Store")
-    }
-
-    fun save(state: PronunciationScreenState) {
-        val serializable: SerializablePronunciationScreenState = state.toSerializable()
-        saveSerializable(serializable, SerializablePronunciationScreenState.serializer())
-    }
-
-    fun delete() {
-        deleteSerializable(SerializablePronunciationScreenState::class)
-    }
-
+class PronunciationScreenStateProvider :
+    BaseSerializableStateProvider<PronunciationScreenState, SerializablePronunciationScreenState>() {
     @Serializable
-    private data class SerializablePronunciationScreenState(
+    data class SerializablePronunciationScreenState(
         val namePresetDialogStatus: NamePresetDialogStatus,
         val typedPresetName: String,
         val renamePresetId: Long?
     )
 
-    private fun PronunciationScreenState.toSerializable() = SerializablePronunciationScreenState(
-        namePresetDialogStatus,
-        typedPresetName,
-        renamePresetId
+    override val serializer = SerializablePronunciationScreenState.serializer()
+    override val serializableClassName = SerializablePronunciationScreenState::class.java.name
+
+    override fun toSerializable(
+        state: PronunciationScreenState
+    ) = SerializablePronunciationScreenState(
+        state.namePresetDialogStatus,
+        state.typedPresetName,
+        state.renamePresetId
     )
 
-    private fun SerializablePronunciationScreenState.toOriginal() =
-        PronunciationScreenState().also {
-            it.namePresetDialogStatus = this.namePresetDialogStatus
-            it.typedPresetName = this.typedPresetName
-            it.renamePresetId = this.renamePresetId
+    override fun toOriginal(serializableState: SerializablePronunciationScreenState) =
+        PronunciationScreenState().apply {
+            namePresetDialogStatus = serializableState.namePresetDialogStatus
+            typedPresetName = serializableState.typedPresetName
+            renamePresetId = serializableState.renamePresetId
         }
 }

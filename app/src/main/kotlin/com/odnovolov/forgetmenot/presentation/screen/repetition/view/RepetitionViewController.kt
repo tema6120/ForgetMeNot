@@ -1,23 +1,22 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
-import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition.State
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.StateProvider
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.SetViewPagerPosition
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineTransform
 
 class RepetitionViewController(
     private val repetition: Repetition,
-    private val store: Store
+    private val repetitionStateProvider: StateProvider<Repetition.State>
 ) {
     sealed class Command {
         class SetViewPagerPosition(val position: Int) : Command()
     }
 
     val commands: Flow<Command> = combineTransform(
-        repetition.state.flowOf(State::repetitionCardPosition),
-        repetition.state.flowOf(State::isPlaying)
+        repetition.state.flowOf(Repetition.State::repetitionCardPosition),
+        repetition.state.flowOf(Repetition.State::isPlaying)
     ) { position: Int, isPlaying: Boolean ->
         if (isPlaying) {
             emit(SetViewPagerPosition(position))
@@ -48,9 +47,9 @@ class RepetitionViewController(
 
     fun onCleared() {
         if (isFragmentRemoving) {
-            store.deleteRepetitionState()
+            repetitionStateProvider.delete()
         } else {
-            store.save(repetition.state)
+            repetitionStateProvider.save(repetition.state)
         }
     }
 }

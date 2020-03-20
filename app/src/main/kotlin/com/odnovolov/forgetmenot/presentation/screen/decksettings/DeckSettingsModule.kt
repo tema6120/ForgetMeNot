@@ -1,15 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.persistence.serializablestate.DeckSettingsScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.serializablestate.DeckSettingsStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
 val deckSettingsModule = module {
     scope<DeckSettingsViewModel> {
-        scoped { get<Store>().loadDeckSettingsState(globalState = get()) }
-        scoped { get<Store>().loadDeckSettingsScreenState() }
+        scoped { DeckSettingsStateProvider(globalState = get()) }
+        scoped { get<DeckSettingsStateProvider>().load() }
+        scoped { DeckSettingsScreenStateProvider() }
+        scoped { get<DeckSettingsScreenStateProvider>().load() }
         scoped { DeckSettings(state = get(), globalState = get()) }
         scoped {
             DeckSettingsController(
@@ -17,7 +20,9 @@ val deckSettingsModule = module {
                 deckSettings = get(),
                 globalState = get(),
                 navigator = get(),
-                store = get()
+                store = get(),
+                deckSettingsStateProvider = get<DeckSettingsStateProvider>(),
+                deckSettingsScreenStateProvider = get<DeckSettingsScreenStateProvider>()
             )
         } onClose { it?.onCleared() }
         viewModel {

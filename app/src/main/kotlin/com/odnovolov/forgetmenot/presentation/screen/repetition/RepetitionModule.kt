@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition
 
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
+import com.odnovolov.forgetmenot.persistence.serializablestate.RepetitionStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
-import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionServiceController
 import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionServiceModel
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController
@@ -17,7 +17,8 @@ import org.koin.dsl.onClose
 
 val repetitionModule = module {
     scope<Repetition> {
-        scoped { get<Store>().loadRepetitionState(globalState = get()) }
+        scoped { RepetitionStateProvider(globalState = get()) }
+        scoped { get<RepetitionStateProvider>().load() }
         scoped {
             SpeakerImpl(applicationContext = get())
         } bind Speaker::class onClose { it?.shutdown() }
@@ -31,7 +32,7 @@ val repetitionModule = module {
         scoped {
             RepetitionViewController(
                 repetition = get(),
-                store = get()
+                repetitionStateProvider = get<RepetitionStateProvider>()
             )
         } onClose { it?.onCleared() }
         scoped { RepetitionScopeCloser() }

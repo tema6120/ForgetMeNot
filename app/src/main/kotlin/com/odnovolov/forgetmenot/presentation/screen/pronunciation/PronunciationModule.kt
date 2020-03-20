@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
+import com.odnovolov.forgetmenot.persistence.serializablestate.PronunciationScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
-import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -16,7 +16,8 @@ val pronunciationModule = module {
                 globalState = get()
             )
         }
-        scoped { get<Store>().loadPronunciationScreenState() }
+        scoped { PronunciationScreenStateProvider() }
+        scoped { get<PronunciationScreenStateProvider>().load() }
         scoped { SpeakerImpl(applicationContext = get()) } onClose { it?.shutdown() }
         scoped {
             PronunciationController(
@@ -24,7 +25,8 @@ val pronunciationModule = module {
                 pronunciationSettings = get(),
                 pronunciationScreenState = get(),
                 globalState = get(),
-                store = get()
+                store = get(),
+                pronunciationScreenStateProvider = get<PronunciationScreenStateProvider>()
             )
         } onClose { it?.onCleared() }
         viewModel {

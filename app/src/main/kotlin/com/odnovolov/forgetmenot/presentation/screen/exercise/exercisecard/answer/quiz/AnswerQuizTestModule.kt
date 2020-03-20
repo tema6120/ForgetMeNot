@@ -6,7 +6,7 @@ import org.koin.dsl.module
 
 val answerQuizTestModule = module {
     scope<AnswerQuizTestViewModel> {
-        factory { (id: Long) ->
+        scoped { (id: Long) ->
             AnswerQuizTestController(
                 id = id,
                 exercise = getScope(EXERCISE_SCOPE_ID).get(),

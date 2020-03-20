@@ -1,41 +1,32 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
+import com.odnovolov.forgetmenot.persistence.serializablestate.IntervalsScreenStateProvider.SerializableIntervalsScreenState
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
 import kotlinx.serialization.Serializable
 
-object IntervalsScreenStateProvider {
-    fun load(): IntervalsScreenState {
-        return loadSerializable(SerializableIntervalsScreenState.serializer())
-            ?.toOriginal()
-            ?: throw  IllegalStateException("No IntervalsScreenState in the Store")
-    }
-
-    fun save(state: IntervalsScreenState) {
-        val serializable: SerializableIntervalsScreenState = state.toSerializable()
-        saveSerializable(serializable, SerializableIntervalsScreenState.serializer())
-    }
-
-    fun delete() {
-        deleteSerializable(SerializableIntervalsScreenState::class)
-    }
-
+class IntervalsScreenStateProvider
+    : BaseSerializableStateProvider<IntervalsScreenState, SerializableIntervalsScreenState>() {
     @Serializable
-    private data class SerializableIntervalsScreenState(
+    data class SerializableIntervalsScreenState(
         val namePresetDialogStatus: NamePresetDialogStatus,
         val typedPresetName: String,
         val renamePresetId: Long?
     )
 
-    private fun IntervalsScreenState.toSerializable() = SerializableIntervalsScreenState(
-        namePresetDialogStatus,
-        typedPresetName,
-        renamePresetId
+    override val serializer = SerializableIntervalsScreenState.serializer()
+    override val serializableClassName = SerializableIntervalsScreenState::class.java.name
+
+    override fun toSerializable(state: IntervalsScreenState) = SerializableIntervalsScreenState(
+        state.namePresetDialogStatus,
+        state.typedPresetName,
+        state.renamePresetId
     )
 
-    private fun SerializableIntervalsScreenState.toOriginal() = IntervalsScreenState().also {
-        it.namePresetDialogStatus = this.namePresetDialogStatus
-        it.typedPresetName = this.typedPresetName
-        it.renamePresetId = this.renamePresetId
-    }
+    override fun toOriginal(serializableState: SerializableIntervalsScreenState) =
+        IntervalsScreenState().apply {
+            namePresetDialogStatus = serializableState.namePresetDialogStatus
+            typedPresetName = serializableState.typedPresetName
+            renamePresetId = serializableState.renamePresetId
+        }
 }

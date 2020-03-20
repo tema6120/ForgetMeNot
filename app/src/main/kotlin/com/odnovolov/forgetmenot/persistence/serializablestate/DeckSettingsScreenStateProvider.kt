@@ -1,28 +1,14 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
+import com.odnovolov.forgetmenot.persistence.serializablestate.DeckSettingsScreenStateProvider.SerializableDeckSettingsScreenState
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
 import kotlinx.serialization.Serializable
 
-object DeckSettingsScreenStateProvider {
-    fun load(): DeckSettingsScreenState {
-        return loadSerializable(SerializableDeckSettingsScreenState.serializer())
-            ?.toOriginal()
-            ?: throw  IllegalStateException("No DeckSettingsScreenState in the Store")
-    }
-
-    fun save(deckSettingsScreenState: DeckSettingsScreenState) {
-        val serializable: SerializableDeckSettingsScreenState =
-            deckSettingsScreenState.toSerializable()
-        saveSerializable(serializable, SerializableDeckSettingsScreenState.serializer())
-    }
-
-    fun delete() {
-        deleteSerializable(SerializableDeckSettingsScreenState::class)
-    }
-
+class DeckSettingsScreenStateProvider :
+    BaseSerializableStateProvider<DeckSettingsScreenState, SerializableDeckSettingsScreenState>() {
     @Serializable
-    private data class SerializableDeckSettingsScreenState(
+    data class SerializableDeckSettingsScreenState(
         val isRenameDeckDialogVisible: Boolean,
         val typedDeckName: String,
         val namePresetDialogStatus: NamePresetDialogStatus,
@@ -30,19 +16,24 @@ object DeckSettingsScreenStateProvider {
         val renamePresetId: Long?
     )
 
-    private fun DeckSettingsScreenState.toSerializable() = SerializableDeckSettingsScreenState(
-        isRenameDeckDialogVisible,
-        typedDeckName,
-        namePresetDialogStatus,
-        typedPresetName,
-        renamePresetId
-    )
+    override val serializer = SerializableDeckSettingsScreenState.serializer()
+    override val serializableClassName = SerializableDeckSettingsScreenState::class.java.name
 
-    private fun SerializableDeckSettingsScreenState.toOriginal() = DeckSettingsScreenState().also {
-        it.isRenameDeckDialogVisible = this.isRenameDeckDialogVisible
-        it.typedDeckName = this.typedDeckName
-        it.namePresetDialogStatus = this.namePresetDialogStatus
-        it.typedPresetName = this.typedPresetName
-        it.renamePresetId = this.renamePresetId
-    }
+    override fun toSerializable(state: DeckSettingsScreenState) =
+        SerializableDeckSettingsScreenState(
+            state.isRenameDeckDialogVisible,
+            state.typedDeckName,
+            state.namePresetDialogStatus,
+            state.typedPresetName,
+            state.renamePresetId
+        )
+
+    override fun toOriginal(serializableState: SerializableDeckSettingsScreenState) =
+        DeckSettingsScreenState().apply {
+            isRenameDeckDialogVisible = serializableState.isRenameDeckDialogVisible
+            typedDeckName = serializableState.typedDeckName
+            namePresetDialogStatus = serializableState.namePresetDialogStatus
+            typedPresetName = serializableState.typedPresetName
+            renamePresetId = serializableState.renamePresetId
+        }
 }

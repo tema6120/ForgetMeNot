@@ -6,26 +6,14 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
+import com.odnovolov.forgetmenot.persistence.serializablestate.ExerciseStateProvider.SerializableExerciseState
 import kotlinx.serialization.Serializable
 
-object ExerciseStateProvider {
-    fun load(globalState: GlobalState): Exercise.State {
-        return loadSerializable(SerializableExerciseState.serializer())
-            ?.toOriginal(globalState)
-            ?: throw IllegalStateException("No Exercise.State in the Store")
-    }
-
-    fun save(exerciseState: Exercise.State) {
-        val serializable: SerializableExerciseState = exerciseState.toSerializable()
-        saveSerializable(serializable, SerializableExerciseState.serializer())
-    }
-
-    fun delete() {
-        deleteSerializable(SerializableExerciseState::class)
-    }
-
+class ExerciseStateProvider(
+    private val globalState: GlobalState
+) : BaseSerializableStateProvider<Exercise.State, SerializableExerciseState>() {
     @Serializable
-    private data class SerializableExerciseState(
+    data class SerializableExerciseState(
         val serializableExerciseCards: List<SerializableExerciseCard>,
         val quizAdditions: List<QuizAddition>,
         val entryAdditions: List<EntryAddition>,
@@ -37,7 +25,7 @@ object ExerciseStateProvider {
     )
 
     @Serializable
-    private data class SerializableExerciseCard(
+    data class SerializableExerciseCard(
         val id: Long,
         val cardId: Long,
         val deckId: Long,
@@ -51,24 +39,27 @@ object ExerciseStateProvider {
     )
 
     @Serializable
-    private data class QuizAddition(
+    data class QuizAddition(
         val id: Long,
         val variantIds: List<Long?>,
         val selectedVariantIndex: Int?
     )
 
     @Serializable
-    private data class EntryAddition(
+    data class EntryAddition(
         val id: Long,
         val userAnswer: String?
     )
 
-    private fun Exercise.State.toSerializable(): SerializableExerciseState {
+    override val serializer = SerializableExerciseState.serializer()
+    override val serializableClassName = SerializableExerciseState::class.java.name
+
+    override fun toSerializable(state: Exercise.State): SerializableExerciseState {
         val serializableExerciseCards: MutableList<SerializableExerciseCard> =
-            ArrayList(exerciseCards.size)
+            ArrayList(state.exerciseCards.size)
         val quizAdditions: MutableList<QuizAddition> = ArrayList()
         val entryAdditions: MutableList<EntryAddition> = ArrayList()
-        exerciseCards.forEach { exerciseCard: ExerciseCard ->
+        state.exerciseCards.forEach { exerciseCard: ExerciseCard ->
             val testMethod: TestMethod = when (exerciseCard) {
                 is OffTestExerciseCard -> Off
                 is ManualTestExerciseCard -> Manual
@@ -112,20 +103,20 @@ object ExerciseStateProvider {
             serializableExerciseCards,
             quizAdditions,
             entryAdditions,
-            currentPosition,
-            questionSelection,
-            answerSelection,
-            hintSelection,
-            isWalkingMode
+            state.currentPosition,
+            state.questionSelection,
+            state.answerSelection,
+            state.hintSelection,
+            state.isWalkingMode
         )
     }
 
-    private fun SerializableExerciseState.toOriginal(globalState: GlobalState): Exercise.State {
+    override fun toOriginal(serializableState: SerializableExerciseState): Exercise.State {
         val deckIdDeckMap: Map<Long, Deck> = globalState.decks.associateBy { deck -> deck.id }
         val cardIdCardMap: Map<Long, Card> = globalState.decks
             .flatMap { deck -> deck.cards }
             .associateBy { card -> card.id }
-        val exerciseCards: List<ExerciseCard> = serializableExerciseCards
+        val exerciseCards: List<ExerciseCard> = serializableState.serializableExerciseCards
             .map { serializableExerciseCard: SerializableExerciseCard ->
                 val baseExerciseCard = with(serializableExerciseCard) {
                     ExerciseCard.Base(
@@ -144,7 +135,7 @@ object ExerciseStateProvider {
                     Off -> OffTestExerciseCard(baseExerciseCard) as ExerciseCard
                     Manual -> ManualTestExerciseCard(baseExerciseCard)
                     Quiz -> {
-                        val quizAddition: QuizAddition = quizAdditions
+                        val quizAddition: QuizAddition = serializableState.quizAdditions
                             .find { it.id == serializableExerciseCard.id }!!
                         val variants: List<Card?> = quizAddition.variantIds
                             .map { variantId: Long? ->
@@ -159,7 +150,7 @@ object ExerciseStateProvider {
                         )
                     }
                     Entry -> {
-                        val entryAddition: EntryAddition = entryAdditions
+                        val entryAddition: EntryAddition = serializableState.entryAdditions
                             .find { it.id == serializableExerciseCard.id }!!
                         EntryTestExerciseCard(baseExerciseCard, entryAddition.userAnswer)
                     }
@@ -167,11 +158,11 @@ object ExerciseStateProvider {
             }
         return Exercise.State(
             exerciseCards,
-            currentPosition,
-            questionSelection,
-            answerSelection,
-            hintSelection,
-            isWalkingMode
+            serializableState.currentPosition,
+            serializableState.questionSelection,
+            serializableState.answerSelection,
+            serializableState.hintSelection,
+            serializableState.isWalkingMode
         )
     }
 }

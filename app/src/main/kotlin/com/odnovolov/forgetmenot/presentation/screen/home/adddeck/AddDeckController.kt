@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.StateProvider
 import com.odnovolov.forgetmenot.presentation.common.Store
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
@@ -23,7 +24,9 @@ class AddDeckController(
     private val addDeckScreenState: AddDeckScreenState,
     private val deckAdder: DeckAdder,
     private val navigator: Navigator,
-    private val store: Store
+    private val store: Store,
+    private val addDeckStateProvider: StateProvider<DeckAdder.State>,
+    private val addDeckScreenStateProvider: StateProvider<AddDeckScreenState>
 ) : KoinComponent {
     private val coroutineScope = MainScope()
     private val commandFlow = EventFlow<AddDeckCommand>()
@@ -72,8 +75,8 @@ class AddDeckController(
     }
 
     fun onCleared() {
-        store.save(addDeckScreenState)
-        store.save(deckAdder.state)
+        addDeckStateProvider.save(deckAdder.state)
+        addDeckScreenStateProvider.save(addDeckScreenState)
         coroutineScope.cancel()
     }
 }

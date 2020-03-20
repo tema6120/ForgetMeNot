@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
-import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.checkPronunciationName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
@@ -8,7 +7,9 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
+import com.odnovolov.forgetmenot.presentation.common.StateProvider
 import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationController.Command.SetNamePresetDialogText
 import kotlinx.coroutines.flow.Flow
 import java.util.*
@@ -18,7 +19,8 @@ class PronunciationController(
     private val pronunciationSettings: PronunciationSettings,
     private val pronunciationScreenState: PronunciationScreenState,
     private val globalState: GlobalState,
-    private val store: Store
+    private val store: Store,
+    private val pronunciationScreenStateProvider: StateProvider<PronunciationScreenState>
 ) {
     sealed class Command {
         class SetNamePresetDialogText(val text: String) : Command()
@@ -128,9 +130,9 @@ class PronunciationController(
 
     fun onCleared() {
         if (isFragmentRemoving) {
-            store.deletePronunciationScreenState()
+            pronunciationScreenStateProvider.delete()
         } else {
-            store.save(pronunciationScreenState)
+            pronunciationScreenStateProvider.save(pronunciationScreenState)
         }
     }
 }

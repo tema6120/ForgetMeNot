@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
-import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.checkIntervalSchemeName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
@@ -9,7 +8,9 @@ import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
+import com.odnovolov.forgetmenot.presentation.common.StateProvider
 import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.ShowModifyIntervalDialog
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.MODIFY_INTERVAL_SCOPE_ID
@@ -17,15 +18,16 @@ import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.Mo
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalViewModel
 import com.soywiz.klock.DateTimeSpan
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.KoinComponent
+import org.koin.java.KoinJavaComponent.getKoin
 
 class IntervalsController(
     private val deckSettingsState: DeckSettings.State,
     private val intervalsSettings: IntervalsSettings,
     private val intervalsScreenState: IntervalsScreenState,
     private val globalState: GlobalState,
-    private val store: Store
-) : KoinComponent {
+    private val store: Store,
+    private val intervalsScreenStateProvider: StateProvider<IntervalsScreenState>
+) {
     private var isFragmentRemoving = false
     private val commandFlow = EventFlow<IntervalsCommand>()
     val commands: Flow<IntervalsCommand> = commandFlow.get()
@@ -127,9 +129,9 @@ class IntervalsController(
 
     fun onCleared() {
         if (isFragmentRemoving) {
-            store.deleteIntervalsScreenState()
+            intervalsScreenStateProvider.delete()
         } else {
-            store.save(intervalsScreenState)
+            intervalsScreenStateProvider.save(intervalsScreenState)
         }
     }
 }

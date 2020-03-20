@@ -3,14 +3,14 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.StateProvider
 import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
 import org.koin.java.KoinJavaComponent.getKoin
 
 class RepetitionSettingsController(
     private val repetitionSettings: RepetitionSettings,
     private val navigator: Navigator,
-    private val store: Store
+    private val repetitionSettingsStateProvider: StateProvider<RepetitionSettings.State>
 ) {
     private var isFragmentRemoving = false
 
@@ -31,9 +31,9 @@ class RepetitionSettingsController(
 
     fun onCleared() {
         if (isFragmentRemoving) {
-            store.deleteRepetitionSettingsState()
+            repetitionSettingsStateProvider.delete()
         } else {
-            store.save(repetitionSettings.state)
+            repetitionSettingsStateProvider.save(repetitionSettings.state)
         }
     }
 }

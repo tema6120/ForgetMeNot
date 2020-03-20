@@ -3,42 +3,35 @@ package com.odnovolov.forgetmenot.persistence.serializablestate
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
+import com.odnovolov.forgetmenot.persistence.serializablestate.RepetitionSettingsStateProvider.SerializableRepetitionSettingsState
 import kotlinx.serialization.Serializable
 
-object RepetitionSettingsStateProvider {
-    fun load(globalState: GlobalState): RepetitionSettings.State {
-        return loadSerializable(SerializableRepetitionSettingsState.serializer())
-            ?.toOriginal(globalState)
-            ?: throw IllegalStateException("No RepetitionSettings.State in the Store")
-    }
-
-    fun save(state: RepetitionSettings.State) {
-        val serializable: SerializableRepetitionSettingsState = state.toSerializable()
-        saveSerializable(serializable, SerializableRepetitionSettingsState.serializer())
-    }
-
-    fun delete() {
-        deleteSerializable(SerializableRepetitionSettingsState::class)
-    }
-
+class RepetitionSettingsStateProvider(
+    private val globalState: GlobalState
+) : BaseSerializableStateProvider<RepetitionSettings.State, SerializableRepetitionSettingsState>() {
     @Serializable
-    private data class SerializableRepetitionSettingsState(
+    data class SerializableRepetitionSettingsState(
         val deckIds: List<Long>,
-        val levelOfKnowledgeStart: Int,
-        val levelOfKnowledgeEnd: Int
+        val levelOfKnowledgeMin: Int,
+        val levelOfKnowledgeMax: Int
     )
 
-    private fun RepetitionSettings.State.toSerializable() = SerializableRepetitionSettingsState(
-        deckIds = decks.map { it.id },
-        levelOfKnowledgeStart = levelOfKnowledgeRange.first,
-        levelOfKnowledgeEnd = levelOfKnowledgeRange.last
-    )
+    override val serializer = SerializableRepetitionSettingsState.serializer()
+    override val serializableClassName = SerializableRepetitionSettingsState::class.java.name
 
-    private fun SerializableRepetitionSettingsState.toOriginal(
-        globalState: GlobalState
+    override fun toSerializable(state: RepetitionSettings.State) =
+        SerializableRepetitionSettingsState(
+            deckIds = state.decks.map { it.id },
+            levelOfKnowledgeMin = state.levelOfKnowledgeRange.first,
+            levelOfKnowledgeMax = state.levelOfKnowledgeRange.last
+        )
+
+    override fun toOriginal(
+        serializableState: SerializableRepetitionSettingsState
     ): RepetitionSettings.State {
-        val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
-        val levelOfKnowledgeRange = levelOfKnowledgeStart..levelOfKnowledgeEnd
+        val decks: List<Deck> = globalState.decks.filter { it.id in serializableState.deckIds }
+        val levelOfKnowledgeRange =
+            serializableState.levelOfKnowledgeMin..serializableState.levelOfKnowledgeMax
         return RepetitionSettings.State(decks, levelOfKnowledgeRange)
     }
 }

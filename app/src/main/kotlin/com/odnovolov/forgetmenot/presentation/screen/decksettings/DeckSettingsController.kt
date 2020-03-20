@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
-import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.checkExercisePreferenceName
 import com.odnovolov.forgetmenot.domain.entity.CardReverse
@@ -9,7 +8,9 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.StateProvider
 import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
 import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_ID
@@ -19,16 +20,18 @@ import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PRONUNCIATION
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationViewModel
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.KoinComponent
 import org.koin.core.scope.Scope
+import org.koin.java.KoinJavaComponent.getKoin
 
 class DeckSettingsController(
     private val deckSettingsScreenState: DeckSettingsScreenState,
     private val deckSettings: DeckSettings,
     private val globalState: GlobalState,
     private val navigator: Navigator,
-    private val store: Store
-): KoinComponent {
+    private val store: Store,
+    private val deckSettingsStateProvider: StateProvider<DeckSettings.State>,
+    private val deckSettingsScreenStateProvider: StateProvider<DeckSettingsScreenState>
+) {
     private var isFragmentRemoving = false
     private val commandFlow = EventFlow<DeckSettingsCommand>()
     val commands: Flow<DeckSettingsCommand> = commandFlow.get()
@@ -165,11 +168,11 @@ class DeckSettingsController(
 
     fun onCleared() {
         if (isFragmentRemoving) {
-            store.deleteDeckSettingsState()
-            store.deleteDeckSettingsScreenState()
+            deckSettingsStateProvider.delete()
+            deckSettingsScreenStateProvider.delete()
         } else {
-            store.save(deckSettings.state)
-            store.save(deckSettingsScreenState)
+            deckSettingsStateProvider.save(deckSettings.state)
+            deckSettingsScreenStateProvider.save(deckSettingsScreenState)
         }
     }
 }

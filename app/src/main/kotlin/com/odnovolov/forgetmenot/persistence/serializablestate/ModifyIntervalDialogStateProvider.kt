@@ -1,44 +1,40 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
+import com.odnovolov.forgetmenot.persistence.serializablestate.ModifyIntervalDialogStateProvider.SerializableModifyIntervalDialogState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
 import kotlinx.serialization.Serializable
 
-object ModifyIntervalDialogStateProvider {
-    fun load(): ModifyIntervalDialogState {
-        return loadSerializable(SerializableModifyIntervalDialogState.serializer())
-            ?.toOriginal()
-            ?: throw  IllegalStateException("No ModifyIntervalDialogState in the Store")
-    }
-
-    fun save(state: ModifyIntervalDialogState) {
-        val serializable: SerializableModifyIntervalDialogState = state.toSerializable()
-        saveSerializable(serializable, SerializableModifyIntervalDialogState.serializer())
-    }
-
-    fun delete() {
-        deleteSerializable(SerializableModifyIntervalDialogState::class)
-    }
-
+class ModifyIntervalDialogStateProvider :
+    BaseSerializableStateProvider<ModifyIntervalDialogState, SerializableModifyIntervalDialogState>() {
     @Serializable
-    private data class SerializableModifyIntervalDialogState(
+    data class SerializableModifyIntervalDialogState(
         val targetLevelOfKnowledge: Int,
         val intervalInputValue: Int?,
         val intervalUnit: IntervalUnit
     )
 
-    private fun ModifyIntervalDialogState.toSerializable() = SerializableModifyIntervalDialogState(
-        targetLevelOfKnowledge = targetLevelOfKnowledge,
-        intervalInputValue = displayedInterval.value,
-        intervalUnit = displayedInterval.intervalUnit
-    )
+    override val serializer = SerializableModifyIntervalDialogState.serializer()
+    override val serializableClassName = SerializableModifyIntervalDialogState::class.java.name
 
-    private fun SerializableModifyIntervalDialogState.toOriginal(): ModifyIntervalDialogState {
-        val intervalInputData = DisplayedInterval(
-            intervalInputValue,
-            intervalUnit
+    override fun toSerializable(state: ModifyIntervalDialogState) =
+        SerializableModifyIntervalDialogState(
+            targetLevelOfKnowledge = state.targetLevelOfKnowledge,
+            intervalInputValue = state.displayedInterval.value,
+            intervalUnit = state.displayedInterval.intervalUnit
         )
-        return ModifyIntervalDialogState(targetLevelOfKnowledge, intervalInputData)
+
+    override fun toOriginal(
+        serializableState: SerializableModifyIntervalDialogState
+    ): ModifyIntervalDialogState {
+        val intervalInputData = DisplayedInterval(
+            serializableState.intervalInputValue,
+            serializableState.intervalUnit
+        )
+        return ModifyIntervalDialogState(
+            serializableState.targetLevelOfKnowledge,
+            intervalInputData
+        )
     }
 }

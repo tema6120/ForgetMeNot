@@ -1,15 +1,16 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
+import com.odnovolov.forgetmenot.persistence.serializablestate.HomeScreenStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
 val homeModule = module {
     scope<HomeViewModel> {
-        scoped { get<Store>().loadHomeScreenState() }
+        scoped { HomeScreenStateProvider() }
+        scoped { get<HomeScreenStateProvider>().load() }
         scoped { DeckRemover(globalState = get()) }
         scoped { ExerciseStateCreator(globalState = get()) }
         scoped {
@@ -20,7 +21,8 @@ val homeModule = module {
                 exerciseStateCreator = get(),
                 globalState = get(),
                 navigator = get(),
-                store = get()
+                store = get(),
+                homeScreenStateProvider = get<HomeScreenStateProvider>()
             )
         } onClose { it?.onCleared() }
         viewModel {

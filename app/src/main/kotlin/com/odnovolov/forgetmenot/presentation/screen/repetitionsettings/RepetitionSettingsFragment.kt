@@ -7,6 +7,7 @@ import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_repetition_settings.*
 import org.koin.android.ext.android.getKoin
@@ -14,7 +15,7 @@ import org.koin.androidx.viewmodel.scope.viewModel
 
 class RepetitionSettingsFragment : BaseFragment() {
     private val koinScope =
-        getKoin().getOrCreateScope<RepetitionSettingsViewModel>(REPETITION_SETTINGS_SCOPE_ID)
+        getKoin().getOrCreateScope<RepetitionSettings>(REPETITION_SETTINGS_SCOPE_ID)
     private val viewModel: RepetitionSettingsViewModel by koinScope.viewModel(this)
     private val controller: RepetitionSettingsController by koinScope.inject()
 
@@ -62,6 +63,7 @@ class RepetitionSettingsFragment : BaseFragment() {
                     override fun onTouchEnded(rangeBar: RangeBar?) {
                         leftSelectorColor = getLevelOfKnowledgeColor(leftPinValue.toInt())
                         rightSelectorColor = getLevelOfKnowledgeColor(rightPinValue.toInt())
+                        setConnectingLineColors(arrayListOf(leftSelectorColor, rightSelectorColor))
                     }
                 })
             tickStart = viewModel.availableLevelOfKnowledgeRange.first.toFloat()
