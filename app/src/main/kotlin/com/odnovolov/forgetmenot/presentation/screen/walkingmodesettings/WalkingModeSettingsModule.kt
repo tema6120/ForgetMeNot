@@ -5,7 +5,12 @@ import org.koin.dsl.module
 
 val walkingModeSettingsModule = module {
     scope<WalkingModeSettingsViewModel> {
-        scoped { WalkingModeSettingsController(walkingModePreference = get(), store = get()) }
+        scoped {
+            WalkingModeSettingsController(
+                walkingModePreference = get(),
+                longTermStateSaver = get()
+            )
+        }
         viewModel { WalkingModeSettingsViewModel(walkingModePreference = get()) }
     }
 }

@@ -2,24 +2,24 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answ
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Show
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 
 class AnswerOffTestController(
     private val exercise: Exercise,
-    private val store: Store
+    private val longTermStateSaver: LongTermStateSaver
 ) {
     fun onAnswerTextSelectionChanged(selection: String) {
         exercise.setAnswerSelection(selection)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onHintSelectionChanged(startIndex: Int, endIndex: Int) {
         exercise.setHintSelection(startIndex, endIndex)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onShowAnswerButtonClicked() {
         exercise.answer(Show)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 }

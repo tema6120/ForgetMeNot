@@ -2,17 +2,17 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answ
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Entry
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 
 class AnswerEntryTestController(
     private val exercise: Exercise,
-    private val store: Store
+    private val longTermStateSaver: LongTermStateSaver
 ) {
     private var answerInput: String? = null
 
     fun onAnswerTextSelectionChanged(selection: String) {
         exercise.setAnswerSelection(selection)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onAnswerInputChanged(text: String?) {
@@ -21,11 +21,11 @@ class AnswerEntryTestController(
 
     fun onHintSelectionChanged(startIndex: Int, endIndex: Int) {
         exercise.setHintSelection(startIndex, endIndex)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onCheckButtonClicked() {
         exercise.answer(Entry(answerInput))
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 }

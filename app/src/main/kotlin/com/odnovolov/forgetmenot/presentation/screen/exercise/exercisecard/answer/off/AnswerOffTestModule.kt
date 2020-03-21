@@ -9,7 +9,7 @@ val answerOffTestModule = module {
         scoped {
             AnswerOffTestController(
                 exercise = getScope(EXERCISE_SCOPE_ID).get(),
-                store = get()
+                longTermStateSaver = get()
             )
         }
         viewModel { (id: Long) ->

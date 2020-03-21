@@ -7,9 +7,9 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.StateProvider
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
@@ -28,9 +28,9 @@ class DeckSettingsController(
     private val deckSettings: DeckSettings,
     private val globalState: GlobalState,
     private val navigator: Navigator,
-    private val store: Store,
-    private val deckSettingsStateProvider: StateProvider<DeckSettings.State>,
-    private val deckSettingsScreenStateProvider: StateProvider<DeckSettingsScreenState>
+    private val longTermStateSaver: LongTermStateSaver,
+    private val deckSettingsStateProvider: UserSessionTermStateProvider<DeckSettings.State>,
+    private val deckSettingsScreenStateProvider: UserSessionTermStateProvider<DeckSettingsScreenState>
 ) {
     private val commandFlow = EventFlow<DeckSettingsCommand>()
     val commands: Flow<DeckSettingsCommand> = commandFlow.get()
@@ -49,7 +49,7 @@ class DeckSettingsController(
         deckSettingsScreenState.isRenameDeckDialogVisible = false
         val newName = deckSettingsScreenState.typedDeckName
         deckSettings.renameDeck(newName)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onRenameDeckDialogNegativeButtonClicked() {
@@ -64,7 +64,7 @@ class DeckSettingsController(
 
     fun onSetExercisePreferenceButtonClicked(exercisePreferenceId: Long) {
         deckSettings.setExercisePreference(exercisePreferenceId)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onRenameExercisePreferenceButtonClicked(exercisePreferenceId: Long) {
@@ -79,7 +79,7 @@ class DeckSettingsController(
 
     fun onDeleteExercisePreferenceButtonClicked(exercisePreferenceId: Long) {
         deckSettings.deleteSharedExercisePreference(exercisePreferenceId)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onAddNewExercisePreferenceButtonClicked() {
@@ -119,7 +119,7 @@ class DeckSettingsController(
             }
         }
         deckSettingsScreenState.namePresetDialogStatus = Invisible
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onNamePresetNegativeDialogButtonClicked() {
@@ -129,12 +129,12 @@ class DeckSettingsController(
     fun onRandomOrderSwitchToggled() {
         val newRandomOrder = deckSettings.currentExercisePreference.randomOrder.not()
         deckSettings.setRandomOrder(newRandomOrder)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onSelectedTestMethod(testMethod: TestMethod) {
         deckSettings.setTestMethod(testMethod)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onIntervalsButtonClicked() {
@@ -153,12 +153,12 @@ class DeckSettingsController(
         val newIsQuestionDisplayed =
             deckSettings.currentExercisePreference.isQuestionDisplayed.not()
         deckSettings.setIsQuestionDisplayed(newIsQuestionDisplayed)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onSelectedCardReverse(cardReverse: CardReverse) {
         deckSettings.setCardReverse(cardReverse)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onFragmentPause() {

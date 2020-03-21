@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
-import com.odnovolov.forgetmenot.persistence.serializablestate.HomeScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.usersessionterm.HomeScreenStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -20,7 +20,7 @@ val homeModule = module {
                 exerciseStateCreator = get(),
                 globalState = get(),
                 navigator = get(),
-                store = get(),
+                longTermStateSaver = get(),
                 homeScreenStateProvider = get<HomeScreenStateProvider>()
             )
         }

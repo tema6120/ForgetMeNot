@@ -5,7 +5,7 @@ import org.koin.dsl.module
 
 val deckSortingModule = module {
     scope<DeckSortingViewModel> {
-        scoped { DeckSortingController(deckReviewPreference = get(), store = get()) }
+        scoped { DeckSortingController(deckReviewPreference = get(), longTermStateSaver = get()) }
         viewModel { DeckSortingViewModel(deckReviewPreference = get()) }
     }
 }

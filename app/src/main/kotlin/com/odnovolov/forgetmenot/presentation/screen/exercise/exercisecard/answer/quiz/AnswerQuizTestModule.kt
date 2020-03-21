@@ -10,7 +10,7 @@ val answerQuizTestModule = module {
             AnswerQuizTestController(
                 id = id,
                 exercise = getScope(EXERCISE_SCOPE_ID).get(),
-                store = get()
+                longTermStateSaver = get()
             )
         }
         viewModel { (id: Long) ->

@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition
 
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
-import com.odnovolov.forgetmenot.persistence.serializablestate.RepetitionStateProvider
+import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionServiceController
 import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionServiceModel
@@ -32,6 +32,7 @@ val repetitionModule = module {
         scoped {
             RepetitionViewController(
                 repetition = get(),
+                longTermStateSaver = get(),
                 repetitionStateProvider = get<RepetitionStateProvider>()
             )
         }
@@ -40,6 +41,7 @@ val repetitionModule = module {
         scoped {
             RepetitionServiceController(
                 repetition = get(),
+                longTermStateSaver = get(),
                 repetitionStateProvider = get<RepetitionStateProvider>()
             )
         }

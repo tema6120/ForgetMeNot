@@ -1,19 +1,19 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 
 class ExerciseCardController(
     private val exercise: Exercise,
-    private val store: Store
+    private val longTermStateSaver: LongTermStateSaver
 ) {
     fun onShowQuestionButtonClicked() {
         exercise.showQuestion()
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onQuestionTextSelectionChanged(selection: String) {
         exercise.setQuestionSelection(selection)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 }

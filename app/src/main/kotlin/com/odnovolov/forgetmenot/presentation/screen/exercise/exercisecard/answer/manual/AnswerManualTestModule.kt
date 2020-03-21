@@ -9,7 +9,7 @@ val answerManualTestModule = module {
         scoped {
             AnswerManualTestController(
                 exercise = getScope(EXERCISE_SCOPE_ID).get(),
-                store = get()
+                longTermStateSaver = get()
             )
         }
         viewModel { (id: Long) ->

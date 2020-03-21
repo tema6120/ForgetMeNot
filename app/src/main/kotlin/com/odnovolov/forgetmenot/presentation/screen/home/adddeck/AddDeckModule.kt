@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
-import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckScreenStateProvider
-import com.odnovolov.forgetmenot.persistence.serializablestate.AddDeckStateProvider
+import com.odnovolov.forgetmenot.persistence.usersessionterm.AddDeckScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.usersessionterm.AddDeckStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.dsl.onClose
@@ -19,7 +19,7 @@ val addDeckModule = module {
                 addDeckScreenState = get(),
                 deckAdder = get(),
                 navigator = get(),
-                store = get(),
+                longTermStateSaver = get(),
                 addDeckStateProvider = get<AddDeckStateProvider>(),
                 addDeckScreenStateProvider = get<AddDeckScreenStateProvider>()
             )

@@ -1,14 +1,16 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
-import com.odnovolov.forgetmenot.presentation.common.StateProvider
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.SetViewPagerPosition
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineTransform
 
 class RepetitionViewController(
     private val repetition: Repetition,
-    private val repetitionStateProvider: StateProvider<Repetition.State>
+    private val longTermStateSaver: LongTermStateSaver,
+    private val repetitionStateProvider: UserSessionTermStateProvider<Repetition.State>
 ) {
     sealed class Command {
         class SetViewPagerPosition(val position: Int) : Command()
@@ -25,18 +27,22 @@ class RepetitionViewController(
 
     fun onNewPageBecameSelected(position: Int) {
         repetition.setRepetitionCardPosition(position)
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onShowAnswerButtonClicked() {
         repetition.showAnswer()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onPauseButtonClicked() {
         repetition.pause()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onResumeButtonClicked() {
         repetition.resume()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onFragmentPause() {

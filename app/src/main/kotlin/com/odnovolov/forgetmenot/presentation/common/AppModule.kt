@@ -1,13 +1,16 @@
 package com.odnovolov.forgetmenot.presentation.common
 
-import com.odnovolov.forgetmenot.persistence.StoreImpl
+import com.odnovolov.forgetmenot.persistence.longterm.LongTermStateSaverImpl
+import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferenceProvider
+import com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision.GlobalStateProvider
+import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferenceProvider
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val appModule = module {
-    single<Store> { StoreImpl() }
-    single { get<Store>().loadGlobalState() }
-    single { get<Store>().loadDeckReviewPreference() }
-    single { get<Store>().loadWalkingModePreference() }
+    single { GlobalStateProvider.load() }
+    single { DeckReviewPreferenceProvider.load() }
+    single { WalkingModePreferenceProvider.load() }
+    single<LongTermStateSaver> { LongTermStateSaverImpl }
     single { NavigatorImpl() } bind Navigator::class
 }

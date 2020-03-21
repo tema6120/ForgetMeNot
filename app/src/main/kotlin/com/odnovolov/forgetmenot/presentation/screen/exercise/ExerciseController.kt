@@ -2,12 +2,13 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotRemember
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.StateProvider
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EDIT_CARD_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardViewModel
@@ -22,34 +23,35 @@ class ExerciseController(
     private val exercise: Exercise,
     private val walkingModePreference: WalkingModePreference,
     private val navigator: Navigator,
-    private val store: Store,
-    private val exerciseStateProvider: StateProvider<Exercise.State>
+    private val longTermStateSaver: LongTermStateSaver,
+    private val exerciseStateProvider: UserSessionTermStateProvider<Exercise.State>
 ) {
     private val commandFlow = EventFlow<ExerciseCommand>()
     val commands = commandFlow.get()
 
     init {
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onPageSelected(position: Int) {
         exercise.setCurrentPosition(position)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onSetCardLearnedButtonClicked() {
         exercise.setIsCardLearned(true)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
         commandFlow.send(MoveToNextPosition)
     }
 
     fun onUndoButtonClicked() {
         exercise.setIsCardLearned(false)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onSpeakButtonClicked() {
         exercise.speak()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onEditCardButtonClicked() {
@@ -67,22 +69,22 @@ class ExerciseController(
             commandFlow.send(ShowChooseHintPopup)
         } else {
             exercise.showHint()
-            store.saveStateByRegistry()
+            longTermStateSaver.saveStateByRegistry()
         }
     }
 
     fun onHintAsQuizButtonClicked() {
         exercise.hintAsQuiz()
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onMaskLettersButtonClicked() {
         exercise.showHint()
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onLevelOfKnowledgeButtonClicked() {
-        val intervalScheme =
+        val intervalScheme: IntervalScheme? =
             exercise.currentExerciseCard.base.deck.exercisePreference.intervalScheme
         if (intervalScheme == null) {
             commandFlow.send(ShowIntervalsAreOffMessage)
@@ -103,7 +105,7 @@ class ExerciseController(
 
     fun onLevelOfKnowledgeSelected(levelOfKnowledge: Int) {
         exercise.setLevelOfKnowledge(levelOfKnowledge)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onKeyGestureDetected(keyGesture: KeyGesture) {
@@ -115,19 +117,25 @@ class ExerciseController(
             MOVE_TO_PREVIOUS_CARD -> commandFlow.send(MoveToPreviousPosition)
             SET_CARD_AS_REMEMBER -> {
                 exercise.answer(Remember)
-                store.saveStateByRegistry()
+                longTermStateSaver.saveStateByRegistry()
             }
             SET_CARD_AS_NOT_REMEMBER -> {
                 exercise.answer(NotRemember)
-                store.saveStateByRegistry()
+                longTermStateSaver.saveStateByRegistry()
             }
             SET_CARD_AS_LEARNED -> {
                 exercise.setIsCardLearned(true)
-                store.saveStateByRegistry()
+                longTermStateSaver.saveStateByRegistry()
                 commandFlow.send(MoveToNextPosition)
             }
-            SPEAK_QUESTION -> exercise.speakQuestion()
-            SPEAK_ANSWER -> exercise.speakAnswer()
+            SPEAK_QUESTION -> {
+                exercise.speakQuestion()
+                longTermStateSaver.saveStateByRegistry()
+            }
+            SPEAK_ANSWER -> {
+                exercise.speakAnswer()
+                longTermStateSaver.saveStateByRegistry()
+            }
         }
     }
 

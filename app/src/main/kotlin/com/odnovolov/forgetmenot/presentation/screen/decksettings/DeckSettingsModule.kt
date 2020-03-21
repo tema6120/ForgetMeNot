@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.persistence.serializablestate.DeckSettingsScreenStateProvider
-import com.odnovolov.forgetmenot.persistence.serializablestate.DeckSettingsStateProvider
+import com.odnovolov.forgetmenot.persistence.usersessionterm.DeckSettingsScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.usersessionterm.DeckSettingsStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -19,7 +19,7 @@ val deckSettingsModule = module {
                 deckSettings = get(),
                 globalState = get(),
                 navigator = get(),
-                store = get(),
+                longTermStateSaver = get(),
                 deckSettingsStateProvider = get<DeckSettingsStateProvider>(),
                 deckSettingsScreenStateProvider = get<DeckSettingsScreenStateProvider>()
             )

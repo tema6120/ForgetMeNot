@@ -7,8 +7,8 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
-import com.odnovolov.forgetmenot.presentation.common.StateProvider
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationController.Command.SetNamePresetDialogText
 import kotlinx.coroutines.flow.Flow
@@ -19,8 +19,8 @@ class PronunciationController(
     private val pronunciationSettings: PronunciationSettings,
     private val pronunciationScreenState: PronunciationScreenState,
     private val globalState: GlobalState,
-    private val store: Store,
-    private val pronunciationScreenStateProvider: StateProvider<PronunciationScreenState>
+    private val longTermStateSaver: LongTermStateSaver,
+    private val pronunciationScreenStateProvider: UserSessionTermStateProvider<PronunciationScreenState>
 ) {
     sealed class Command {
         class SetNamePresetDialogText(val text: String) : Command()
@@ -36,7 +36,7 @@ class PronunciationController(
 
     fun onSetPronunciationButtonClicked(pronunciationId: Long) {
         pronunciationSettings.setPronunciation(pronunciationId)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onRenamePronunciationButtonClicked(pronunciationId: Long) {
@@ -51,7 +51,7 @@ class PronunciationController(
 
     fun onDeletePronunciationButtonClicked(pronunciationId: Long) {
         pronunciationSettings.deleteSharedPronunciation(pronunciationId)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onAddNewPronunciationButtonClicked() {
@@ -85,7 +85,7 @@ class PronunciationController(
             }
         }
         pronunciationScreenState.namePresetDialogStatus = Invisible
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onNamePresetNegativeDialogButtonClicked() {
@@ -94,33 +94,33 @@ class PronunciationController(
 
     fun onQuestionLanguageSelected(language: Locale?) {
         pronunciationSettings.setQuestionLanguage(language)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onQuestionAutoSpeakSwitchToggled() {
         val newQuestionAutoSpeak: Boolean =
             deckSettingsState.deck.exercisePreference.pronunciation.questionAutoSpeak.not()
         pronunciationSettings.setQuestionAutoSpeak(newQuestionAutoSpeak)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onAnswerLanguageSelected(language: Locale?) {
         pronunciationSettings.setAnswerLanguage(language)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onAnswerAutoSpeakSwitchToggled() {
         val newAnswerAutoSpeak: Boolean =
             deckSettingsState.deck.exercisePreference.pronunciation.answerAutoSpeak.not()
         pronunciationSettings.setAnswerAutoSpeak(newAnswerAutoSpeak)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onDoNotSpeakTextInBracketsSwitchToggled() {
         val newDoNotSpeakTextInBrackets: Boolean =
             deckSettingsState.deck.exercisePreference.pronunciation.doNotSpeakTextInBrackets.not()
         pronunciationSettings.setDoNotSpeakTextInBrackets(newDoNotSpeakTextInBrackets)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onFragmentPause() {

@@ -8,8 +8,8 @@ import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
-import com.odnovolov.forgetmenot.presentation.common.StateProvider
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.ShowModifyIntervalDialog
@@ -25,8 +25,8 @@ class IntervalsController(
     private val intervalsSettings: IntervalsSettings,
     private val intervalsScreenState: IntervalsScreenState,
     private val globalState: GlobalState,
-    private val store: Store,
-    private val intervalsScreenStateProvider: StateProvider<IntervalsScreenState>
+    private val longTermStateSaver: LongTermStateSaver,
+    private val intervalsScreenStateProvider: UserSessionTermStateProvider<IntervalsScreenState>
 ) {
     private val commandFlow = EventFlow<IntervalsCommand>()
     val commands: Flow<IntervalsCommand> = commandFlow.get()
@@ -38,7 +38,7 @@ class IntervalsController(
 
     fun onSetIntervalSchemeButtonClicked(intervalSchemeId: Long?) {
         intervalsSettings.setIntervalScheme(intervalSchemeId)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onRenameIntervalSchemeButtonClicked(intervalSchemeId: Long) {
@@ -53,7 +53,7 @@ class IntervalsController(
 
     fun onDeleteIntervalSchemeButtonClicked(intervalSchemeId: Long) {
         intervalsSettings.deleteSharedIntervalScheme(intervalSchemeId)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onAddNewIntervalSchemeButtonClicked() {
@@ -91,7 +91,7 @@ class IntervalsController(
             }
         }
         intervalsScreenState.namePresetDialogStatus = Invisible
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onNamePresetNegativeDialogButtonClicked() {
@@ -114,12 +114,12 @@ class IntervalsController(
         val lastIntervalValue: DateTimeSpan = deckSettingsState.deck.exercisePreference
             .intervalScheme?.intervals?.last()?.value ?: return
         intervalsSettings.addInterval(lastIntervalValue)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onRemoveIntervalButtonClicked() {
         intervalsSettings.removeLastInterval()
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onFragmentPause() {

@@ -10,9 +10,9 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.StateProvider
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
@@ -34,8 +34,8 @@ class HomeController(
     private val exerciseStateCreator: ExerciseStateCreator,
     private val globalState: GlobalState,
     private val navigator: Navigator,
-    private val store: Store,
-    private val homeScreenStateProvider: StateProvider<HomeScreenState>
+    private val longTermStateSaver: LongTermStateSaver,
+    private val homeScreenStateProvider: UserSessionTermStateProvider<HomeScreenState>
 ) : KoinComponent {
     private val commandFlow = EventFlow<HomeCommand>()
     val commands: Flow<HomeCommand> = merge(
@@ -54,7 +54,7 @@ class HomeController(
 
     fun onDisplayOnlyWithTasksCheckboxClicked() {
         with(deckReviewPreference) { displayOnlyWithTasks = !displayOnlyWithTasks }
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onSettingsButtonClicked() {
@@ -107,12 +107,12 @@ class HomeController(
 
     fun onRemoveDeckMenuItemClicked(deckId: Long) {
         deckRemover.removeDeck(deckId)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onDecksRemovedSnackbarCancelActionClicked() {
         deckRemover.restoreDecks()
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
     }
 
     fun onStartExerciseMenuItemClicked() {
@@ -128,7 +128,7 @@ class HomeController(
     fun onRemoveDecksMenuItemClicked() {
         val deckIds = homeScreenState.selectedDeckIds
         deckRemover.removeDecks(deckIds)
-        store.saveStateByRegistry()
+        longTermStateSaver.saveStateByRegistry()
         homeScreenState.selectedDeckIds = emptyList()
     }
 

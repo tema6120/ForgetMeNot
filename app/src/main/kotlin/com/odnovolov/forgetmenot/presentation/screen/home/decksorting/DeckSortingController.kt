@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.decksorting
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
-import com.odnovolov.forgetmenot.presentation.common.Store
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 class DeckSortingController(
     private val deckReviewPreference: DeckReviewPreference,
-    private val store: Store
+    private val longTermStateSaver: LongTermStateSaver
 ) {
     private val commandFlow = EventFlow<DeckSortingCommand>()
     val commands: Flow<DeckSortingCommand> = commandFlow.get()
@@ -24,7 +24,7 @@ class DeckSortingController(
                 deckSorting.copy(criterion = criterion)
             }
         }
+        longTermStateSaver.saveStateByRegistry()
         commandFlow.send(DismissBottomSheet)
-        store.saveStateByRegistry()
     }
 }
