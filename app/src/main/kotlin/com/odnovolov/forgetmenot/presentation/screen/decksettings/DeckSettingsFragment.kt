@@ -323,6 +323,11 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        controller.onFragmentPause()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (::renameDeckDialog.isInitialized) {
@@ -348,13 +353,6 @@ class DeckSettingsFragment : BaseFragment() {
                 STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG,
                 chooseCardReverseDialog.onSaveInstanceState()
             )
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isRemoving) {
-            controller.onFragmentRemoving()
         }
     }
 

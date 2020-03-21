@@ -85,11 +85,13 @@ class ModifyIntervalFragment : DialogFragment() {
             .launchIn(coroutineScope)
     }
 
+    override fun onPause() {
+        super.onPause()
+        controller.onFragmentPause()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         coroutineScope.cancel()
-        if (isRemoving) {
-            controller.onFragmentRemoving()
-        }
     }
 }

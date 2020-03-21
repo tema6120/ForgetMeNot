@@ -17,7 +17,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.core.KoinComponent
+import org.koin.java.KoinJavaComponent.getKoin
 import java.io.InputStream
 
 class AddDeckController(
@@ -27,7 +27,7 @@ class AddDeckController(
     private val store: Store,
     private val addDeckStateProvider: StateProvider<DeckAdder.State>,
     private val addDeckScreenStateProvider: StateProvider<AddDeckScreenState>
-) : KoinComponent {
+) {
     private val coroutineScope = MainScope()
     private val commandFlow = EventFlow<AddDeckCommand>()
     val commands: Flow<AddDeckCommand> = commandFlow.get()
@@ -74,9 +74,12 @@ class AddDeckController(
         store.saveStateByRegistry()
     }
 
-    fun onCleared() {
+    fun onFragmentPause() {
         addDeckStateProvider.save(deckAdder.state)
         addDeckScreenStateProvider.save(addDeckScreenState)
+    }
+
+    fun onCleared() {
         coroutineScope.cancel()
     }
 }

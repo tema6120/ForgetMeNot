@@ -32,7 +32,6 @@ class DeckSettingsController(
     private val deckSettingsStateProvider: StateProvider<DeckSettings.State>,
     private val deckSettingsScreenStateProvider: StateProvider<DeckSettingsScreenState>
 ) {
-    private var isFragmentRemoving = false
     private val commandFlow = EventFlow<DeckSettingsCommand>()
     val commands: Flow<DeckSettingsCommand> = commandFlow.get()
 
@@ -162,17 +161,8 @@ class DeckSettingsController(
         store.saveStateByRegistry()
     }
 
-    fun onFragmentRemoving() {
-        isFragmentRemoving = true
-    }
-
-    fun onCleared() {
-        if (isFragmentRemoving) {
-            deckSettingsStateProvider.delete()
-            deckSettingsScreenStateProvider.delete()
-        } else {
-            deckSettingsStateProvider.save(deckSettings.state)
-            deckSettingsScreenStateProvider.save(deckSettingsScreenState)
-        }
+    fun onFragmentPause() {
+        deckSettingsStateProvider.save(deckSettings.state)
+        deckSettingsScreenStateProvider.save(deckSettingsScreenState)
     }
 }

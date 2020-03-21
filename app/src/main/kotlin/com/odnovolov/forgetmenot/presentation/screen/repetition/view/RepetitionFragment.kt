@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,6 +30,7 @@ class RepetitionFragment : BaseFragment() {
     private val controller: RepetitionViewController by koinScope.inject()
     private val repetitionCardAdapter by lazy { RepetitionCardAdapter(controller) }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         koinScope.get<RepetitionScopeCloser>().isFragmentAlive = true
@@ -95,6 +97,11 @@ class RepetitionFragment : BaseFragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        controller.onFragmentPause()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         repetitionViewPager.adapter = null
@@ -107,7 +114,6 @@ class RepetitionFragment : BaseFragment() {
         if (isRemoving) {
             val intent = Intent(context, RepetitionService::class.java)
             requireContext().stopService(intent)
-            controller.onFragmentRemoving()
         }
     }
 

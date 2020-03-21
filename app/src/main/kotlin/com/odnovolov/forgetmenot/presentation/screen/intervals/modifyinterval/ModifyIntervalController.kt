@@ -11,8 +11,6 @@ class ModifyIntervalController(
     private val store: Store,
     private val modifyIntervalsScreenStateProvider: StateProvider<ModifyIntervalDialogState>
 ) {
-    private var isFragmentRemoving = false
-
     fun onIntervalValueChanged(intervalValueText: String) {
         modifyIntervalDialogState.displayedInterval.value = intervalValueText.toIntOrNull()
     }
@@ -33,15 +31,7 @@ class ModifyIntervalController(
         }
     }
 
-    fun onFragmentRemoving() {
-        isFragmentRemoving = true
-    }
-
-    fun onCleared() {
-        if (isFragmentRemoving) {
-            modifyIntervalsScreenStateProvider.delete()
-        } else {
-            modifyIntervalsScreenStateProvider.save(modifyIntervalDialogState)
-        }
+    fun onFragmentPause() {
+        modifyIntervalsScreenStateProvider.save(modifyIntervalDialogState)
     }
 }

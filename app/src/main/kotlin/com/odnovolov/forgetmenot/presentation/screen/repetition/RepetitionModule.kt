@@ -34,10 +34,15 @@ val repetitionModule = module {
                 repetition = get(),
                 repetitionStateProvider = get<RepetitionStateProvider>()
             )
-        } onClose { it?.onCleared() }
+        }
         scoped { RepetitionScopeCloser() }
         viewModel { RepetitionViewModel(repetitionScopeCloser = get(), repetitionState = get()) }
-        scoped { RepetitionServiceController(repetition = get()) }
+        scoped {
+            RepetitionServiceController(
+                repetition = get(),
+                repetitionStateProvider = get<RepetitionStateProvider>()
+            )
+        }
         scoped { RepetitionServiceModel(repetitionState = get()) }
     }
 }

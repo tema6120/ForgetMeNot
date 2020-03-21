@@ -165,7 +165,7 @@ class HomeController(
         }
     }
 
-    fun onCleared() {
+    fun onFragmentPause() {
         homeScreenStateProvider.save(homeScreenState)
     }
 }

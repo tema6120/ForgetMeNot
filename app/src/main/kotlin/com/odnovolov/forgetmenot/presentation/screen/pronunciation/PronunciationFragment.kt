@@ -251,16 +251,14 @@ class PronunciationFragment : BaseFragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        controller.onFragmentPause()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(STATE_KEY_DIALOG, presetNameInputDialog.onSaveInstanceState())
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isRemoving) {
-            controller.onFragmentRemoving()
-        }
     }
 
     companion object {

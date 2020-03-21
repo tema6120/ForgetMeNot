@@ -107,10 +107,8 @@ class RepetitionSettingsFragment : BaseFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isRemoving) {
-            controller.onFragmentRemoving()
-        }
+    override fun onPause() {
+        super.onPause()
+        controller.onFragmentPause()
     }
 }

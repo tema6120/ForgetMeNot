@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.persistence.serializablestate.IntervalsScreenSt
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.koin.dsl.onClose
 
 val intervalsModule = module {
     scope<IntervalsViewModel> {
@@ -26,7 +25,7 @@ val intervalsModule = module {
                 store = get(),
                 intervalsScreenStateProvider = get<IntervalsScreenStateProvider>()
             )
-        } onClose { it?.onCleared() }
+        }
         viewModel {
             IntervalsViewModel(
                 deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),

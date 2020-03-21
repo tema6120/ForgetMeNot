@@ -14,14 +14,14 @@ import com.soywiz.klock.DateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import org.koin.core.KoinComponent
+import org.koin.java.KoinJavaComponent.getKoin
 
 class HomeViewModel(
     homeScreenState: HomeScreenState,
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
     controller: HomeController
-) : ViewModel(), KoinComponent {
+) : ViewModel() {
     val displayOnlyWithTasks: Flow<Boolean> = deckReviewPreference
         .flowOf(DeckReviewPreference::displayOnlyWithTasks)
 

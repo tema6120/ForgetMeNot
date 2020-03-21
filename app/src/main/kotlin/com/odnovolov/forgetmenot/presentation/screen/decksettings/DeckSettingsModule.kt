@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.persistence.serializablestate.DeckSettingsScree
 import com.odnovolov.forgetmenot.persistence.serializablestate.DeckSettingsStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.koin.dsl.onClose
 
 val deckSettingsModule = module {
     scope<DeckSettingsViewModel> {
@@ -24,7 +23,7 @@ val deckSettingsModule = module {
                 deckSettingsStateProvider = get<DeckSettingsStateProvider>(),
                 deckSettingsScreenStateProvider = get<DeckSettingsScreenStateProvider>()
             )
-        } onClose { it?.onCleared() }
+        }
         viewModel {
             DeckSettingsViewModel(
                 deckSettingsScreenState = get(),

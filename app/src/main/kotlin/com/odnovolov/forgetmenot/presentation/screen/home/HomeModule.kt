@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.persistence.serializablestate.HomeScreenStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.koin.dsl.onClose
 
 val homeModule = module {
     scope<HomeViewModel> {
@@ -24,7 +23,7 @@ val homeModule = module {
                 store = get(),
                 homeScreenStateProvider = get<HomeScreenStateProvider>()
             )
-        } onClose { it?.onCleared() }
+        }
         viewModel {
             HomeViewModel(
                 homeScreenState = get(),

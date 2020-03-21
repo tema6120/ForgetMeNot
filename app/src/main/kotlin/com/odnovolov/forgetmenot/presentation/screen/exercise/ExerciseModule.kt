@@ -23,7 +23,7 @@ val exerciseModule = module {
                 walkingModePreference = get(),
                 exerciseStateProvider = get<ExerciseStateProvider>()
             )
-        } onClose { it?.onCleared() }
+        }
         viewModel { ExerciseViewModel(exerciseState = get(), walkingModePreference = get()) }
     }
 }

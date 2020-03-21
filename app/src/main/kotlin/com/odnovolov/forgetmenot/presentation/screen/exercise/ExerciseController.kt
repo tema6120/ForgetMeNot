@@ -25,7 +25,6 @@ class ExerciseController(
     private val store: Store,
     private val exerciseStateProvider: StateProvider<Exercise.State>
 ) {
-    private var isFragmentRemoving = false
     private val commandFlow = EventFlow<ExerciseCommand>()
     val commands = commandFlow.get()
 
@@ -132,15 +131,7 @@ class ExerciseController(
         }
     }
 
-    fun onFragmentRemoving() {
-        isFragmentRemoving = true
-    }
-
-    fun onCleared() {
-        if (isFragmentRemoving) {
-            exerciseStateProvider.delete()
-        } else {
-            exerciseStateProvider.save(exercise.state)
-        }
+    fun onFragmentPause() {
+        exerciseStateProvider.save(exercise.state)
     }
 }

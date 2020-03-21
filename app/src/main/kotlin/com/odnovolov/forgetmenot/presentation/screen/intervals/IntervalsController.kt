@@ -28,7 +28,6 @@ class IntervalsController(
     private val store: Store,
     private val intervalsScreenStateProvider: StateProvider<IntervalsScreenState>
 ) {
-    private var isFragmentRemoving = false
     private val commandFlow = EventFlow<IntervalsCommand>()
     val commands: Flow<IntervalsCommand> = commandFlow.get()
 
@@ -123,15 +122,7 @@ class IntervalsController(
         store.saveStateByRegistry()
     }
 
-    fun onFragmentRemoving() {
-        isFragmentRemoving = true
-    }
-
-    fun onCleared() {
-        if (isFragmentRemoving) {
-            intervalsScreenStateProvider.delete()
-        } else {
-            intervalsScreenStateProvider.save(intervalsScreenState)
-        }
+    fun onFragmentPause() {
+        intervalsScreenStateProvider.save(intervalsScreenState)
     }
 }

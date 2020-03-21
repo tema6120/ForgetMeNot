@@ -1,10 +1,7 @@
 package com.odnovolov.forgetmenot.persistence.serializablestate
 
 import com.odnovolov.forgetmenot.persistence.database
-import com.odnovolov.forgetmenot.persistence.dbDispatcher
 import com.odnovolov.forgetmenot.presentation.common.StateProvider
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
@@ -30,16 +27,8 @@ abstract class BaseSerializableStateProvider<State, SerializableState> : StatePr
     }
 
     override fun save(state: State) {
-        GlobalScope.launch(dbDispatcher) {
-            val serializable: SerializableState = toSerializable(state)
-            val jsonData: String = json.stringify(serializer, serializable)
-            queries.replace(serializableClassName, jsonData)
-        }
-    }
-
-    override fun delete() {
-        GlobalScope.launch(dbDispatcher) {
-            queries.delete(serializableClassName)
-        }
+        val serializable: SerializableState = toSerializable(state)
+        val jsonData: String = json.stringify(serializer, serializable)
+        queries.replace(serializableClassName, jsonData)
     }
 }

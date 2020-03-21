@@ -12,8 +12,6 @@ class RepetitionSettingsController(
     private val navigator: Navigator,
     private val repetitionSettingsStateProvider: StateProvider<RepetitionSettings.State>
 ) {
-    private var isFragmentRemoving = false
-
     fun onLevelOfKnowledgeRangeChanged(levelOfKnowledgeRange: IntRange) {
         repetitionSettings.setLevelOfKnowledgeRange(levelOfKnowledgeRange)
     }
@@ -25,15 +23,7 @@ class RepetitionSettingsController(
         navigator.navigateToRepetition()
     }
 
-    fun onFragmentRemoving() {
-        isFragmentRemoving = true
-    }
-
-    fun onCleared() {
-        if (isFragmentRemoving) {
-            repetitionSettingsStateProvider.delete()
-        } else {
-            repetitionSettingsStateProvider.save(repetitionSettings.state)
-        }
+    fun onFragmentPause() {
+        repetitionSettingsStateProvider.save(repetitionSettings.state)
     }
 }

@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
@@ -33,6 +34,7 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var setLevelOfKnowledgePopup: PopupWindow
     private lateinit var intervalsAdapter: IntervalsAdapter
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.run {
@@ -287,6 +289,11 @@ class ExerciseFragment : BaseFragment() {
         )
     }
 
+    override fun onPause() {
+        super.onPause()
+        controller.onFragmentPause()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         exerciseViewPager.adapter = null
@@ -300,9 +307,6 @@ class ExerciseFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity as AppCompatActivity).supportActionBar?.show()
-        if (isRemoving) {
-            controller.onFragmentRemoving()
-        }
     }
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {

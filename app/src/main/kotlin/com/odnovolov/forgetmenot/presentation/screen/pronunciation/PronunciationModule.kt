@@ -28,7 +28,7 @@ val pronunciationModule = module {
                 store = get(),
                 pronunciationScreenStateProvider = get<PronunciationScreenStateProvider>()
             )
-        } onClose { it?.onCleared() }
+        }
         viewModel {
             PronunciationViewModel(
                 deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),

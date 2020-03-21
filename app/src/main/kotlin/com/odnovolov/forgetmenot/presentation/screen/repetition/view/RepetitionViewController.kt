@@ -23,8 +23,6 @@ class RepetitionViewController(
         }
     }
 
-    private var isFragmentRemoving = false
-
     fun onNewPageBecameSelected(position: Int) {
         repetition.setRepetitionCardPosition(position)
     }
@@ -41,15 +39,7 @@ class RepetitionViewController(
         repetition.resume()
     }
 
-    fun onFragmentRemoving() {
-        isFragmentRemoving = true
-    }
-
-    fun onCleared() {
-        if (isFragmentRemoving) {
-            repetitionStateProvider.delete()
-        } else {
-            repetitionStateProvider.save(repetition.state)
-        }
+    fun onFragmentPause() {
+        repetitionStateProvider.save(repetition.state)
     }
 }

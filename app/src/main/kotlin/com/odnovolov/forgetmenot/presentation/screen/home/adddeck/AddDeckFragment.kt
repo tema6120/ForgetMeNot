@@ -172,6 +172,11 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        controller.onFragmentPause()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (::deckNameInputDialog.isInitialized) {

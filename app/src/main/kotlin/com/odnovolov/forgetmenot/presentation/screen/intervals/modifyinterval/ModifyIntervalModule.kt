@@ -4,7 +4,6 @@ import com.odnovolov.forgetmenot.persistence.serializablestate.ModifyIntervalDia
 import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.koin.dsl.onClose
 
 val modifyIntervalModule = module {
     scope<ModifyIntervalViewModel> {
@@ -17,7 +16,7 @@ val modifyIntervalModule = module {
                 store = get(),
                 modifyIntervalsScreenStateProvider = get<ModifyIntervalDialogStateProvider>()
             )
-        } onClose { it?.onCleared() }
+        }
         viewModel { ModifyIntervalViewModel(modifyIntervalDialogState = get()) }
     }
 }

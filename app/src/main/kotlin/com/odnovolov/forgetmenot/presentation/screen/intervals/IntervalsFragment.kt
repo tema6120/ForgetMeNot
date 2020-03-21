@@ -160,6 +160,11 @@ class IntervalsFragment : BaseFragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        controller.onFragmentPause()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(STATE_KEY_DIALOG, presetNameInputDialog.onSaveInstanceState())
@@ -168,13 +173,6 @@ class IntervalsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         intervalsRecyclerView.adapter = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isRemoving) {
-            controller.onFragmentRemoving()
-        }
     }
 
     companion object {

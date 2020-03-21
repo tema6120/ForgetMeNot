@@ -26,7 +26,6 @@ class PronunciationController(
         class SetNamePresetDialogText(val text: String) : Command()
     }
 
-    private var isFragmentRemoving = false
     private val commandFlow = EventFlow<Command>()
     val commands: Flow<Command> = commandFlow.get()
 
@@ -124,15 +123,7 @@ class PronunciationController(
         store.saveStateByRegistry()
     }
 
-    fun onFragmentRemoving() {
-        isFragmentRemoving = true
-    }
-
-    fun onCleared() {
-        if (isFragmentRemoving) {
-            pronunciationScreenStateProvider.delete()
-        } else {
-            pronunciationScreenStateProvider.save(pronunciationScreenState)
-        }
+    fun onFragmentPause() {
+        pronunciationScreenStateProvider.save(pronunciationScreenState)
     }
 }
