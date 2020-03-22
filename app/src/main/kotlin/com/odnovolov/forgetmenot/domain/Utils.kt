@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.domain
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.SUID
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeSpan
 import com.soywiz.klock.MonthSpan
 import com.soywiz.klock.TimeSpan
@@ -90,5 +91,20 @@ fun <T> List<List<T>>.flattenWithShallowShuffling(): List<T> {
     }
     return ArrayList<T>(totalSize).apply {
         result.forEach { item -> this.add(item!!) }
+    }
+}
+
+fun isCardAvailableForExercise(card: Card, intervalScheme: IntervalScheme?): Boolean {
+    return when {
+        card.isLearned -> false
+        intervalScheme == null -> true
+        card.lastAnsweredAt == null -> true
+        else -> {
+            val intervals: List<Interval> = intervalScheme.intervals
+            val interval: Interval = intervals.find {
+                it.targetLevelOfKnowledge == card.levelOfKnowledge
+            } ?: intervals.maxBy { it.targetLevelOfKnowledge }!!
+            card.lastAnsweredAt!! + interval.value < DateTime.now()
+        }
     }
 }

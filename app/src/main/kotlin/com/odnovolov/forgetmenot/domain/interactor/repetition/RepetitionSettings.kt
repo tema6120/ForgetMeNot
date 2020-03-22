@@ -4,12 +4,16 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
+import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 
 class RepetitionSettings(
     val state: State
 ) {
     class State(
         decks: List<Deck>,
+        isAvailableForExerciseCardsIncluded: Boolean = false,
+        isAwaitingCardsIncluded: Boolean = true,
+        isLearnedCardsIncluded: Boolean = false,
         levelOfKnowledgeRange: IntRange = run {
             val allLevelOfKnowledge: List<Int> = decks
                 .flatMap { it.cards }
@@ -20,7 +24,22 @@ class RepetitionSettings(
         }
     ) : FlowableState<State>() {
         val decks: List<Deck> by me(decks)
+        var isAvailableForExerciseCardsIncluded: Boolean by me(isAvailableForExerciseCardsIncluded)
+        var isAwaitingCardsIncluded: Boolean by me(isAwaitingCardsIncluded)
+        var isLearnedCardsIncluded: Boolean by me(isLearnedCardsIncluded)
         var levelOfKnowledgeRange: IntRange by me(levelOfKnowledgeRange)
+    }
+
+    fun setIsAvailableForExerciseCardsIncluded(isIncluded: Boolean) {
+        state.isAvailableForExerciseCardsIncluded = isIncluded
+    }
+
+    fun setIsAwaitingCardsIncluded(isIncluded: Boolean) {
+        state.isAwaitingCardsIncluded = isIncluded
+    }
+
+    fun setIsLearnedCardsIncluded(isIncluded: Boolean) {
+        state.isLearnedCardsIncluded = isIncluded
     }
 
     fun setLevelOfKnowledgeRange(levelOfKnowledgeRange: IntRange) {
@@ -32,13 +51,26 @@ class RepetitionSettings(
             .map { deck: Deck ->
                 val isRandom = deck.exercisePreference.randomOrder
                 deck.cards
-                    .filter { card: Card -> card.levelOfKnowledge in state.levelOfKnowledgeRange }
+                    .filter { card: Card ->
+                        isCorrespondingCardGroupIncluded(card, deck)
+                                && card.levelOfKnowledge in state.levelOfKnowledgeRange
+                    }
                     .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
                     .sortedBy { card: Card -> card.lap }
                     .map { card: Card -> cardToRepetitionCard(card, deck) }
             }
             .flattenWithShallowShuffling()
+        if (repetitionCards.isEmpty()) throw NoCardIsReadyForRepetition
         return Repetition.State(repetitionCards)
+    }
+
+    private fun isCorrespondingCardGroupIncluded(card: Card, deck: Deck): Boolean {
+        return when {
+            card.isLearned -> state.isLearnedCardsIncluded
+            isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme) ->
+                state.isAvailableForExerciseCardsIncluded
+            else -> state.isAwaitingCardsIncluded
+        }
     }
 
     private fun cardToRepetitionCard(card: Card, deck: Deck): RepetitionCard {
@@ -55,4 +87,6 @@ class RepetitionSettings(
             speakPlan = SpeakPlan.Default
         )
     }
+
+    object NoCardIsReadyForRepetition : Exception("no card is ready for repetition")
 }

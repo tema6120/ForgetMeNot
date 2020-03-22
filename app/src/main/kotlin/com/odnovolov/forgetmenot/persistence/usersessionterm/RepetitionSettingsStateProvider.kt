@@ -12,6 +12,9 @@ class RepetitionSettingsStateProvider(
     @Serializable
     data class SerializableRepetitionSettingsState(
         val deckIds: List<Long>,
+        val isAvailableForExerciseCardsIncluded: Boolean,
+        val isAwaitingCardsIncluded: Boolean,
+        val isLearnedCardsIncluded: Boolean,
         val levelOfKnowledgeMin: Int,
         val levelOfKnowledgeMax: Int
     )
@@ -22,6 +25,9 @@ class RepetitionSettingsStateProvider(
     override fun toSerializable(state: RepetitionSettings.State) =
         SerializableRepetitionSettingsState(
             deckIds = state.decks.map { it.id },
+            isAvailableForExerciseCardsIncluded = state.isAvailableForExerciseCardsIncluded,
+            isAwaitingCardsIncluded = state.isAwaitingCardsIncluded,
+            isLearnedCardsIncluded = state.isLearnedCardsIncluded,
             levelOfKnowledgeMin = state.levelOfKnowledgeRange.first,
             levelOfKnowledgeMax = state.levelOfKnowledgeRange.last
         )
@@ -32,6 +38,12 @@ class RepetitionSettingsStateProvider(
         val decks: List<Deck> = globalState.decks.filter { it.id in serializableState.deckIds }
         val levelOfKnowledgeRange =
             serializableState.levelOfKnowledgeMin..serializableState.levelOfKnowledgeMax
-        return RepetitionSettings.State(decks, levelOfKnowledgeRange)
+        return RepetitionSettings.State(
+            decks,
+            serializableState.isAvailableForExerciseCardsIncluded,
+            serializableState.isAwaitingCardsIncluded,
+            serializableState.isLearnedCardsIncluded,
+            levelOfKnowledgeRange
+        )
     }
 }

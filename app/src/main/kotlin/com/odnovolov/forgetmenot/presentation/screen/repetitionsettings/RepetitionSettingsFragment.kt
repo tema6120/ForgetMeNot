@@ -2,13 +2,15 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
 import android.os.Bundle
 import android.view.*
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
+import android.widget.CheckBox
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
 import kotlinx.android.synthetic.main.fragment_repetition_settings.*
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
@@ -30,11 +32,49 @@ class RepetitionSettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
+        setupFilterGroups()
+        setupLevelOfKnowledgeRangeBar()
+        controller.commands.observe(::executeCommand)
     }
 
-    private fun setupView() {
-        setupLevelOfKnowledgeRangeBar()
+    private fun executeCommand(command: RepetitionSettingsController.Command) {
+        when (command) {
+            ShowNoCardIsReadyForRepetitionMessage -> {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.toast_text_no_card_matches_filter_conditions,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun setupFilterGroups() {
+        with(viewModel) {
+            fun updateCheckBox(checkBox: CheckBox, isChecked: Boolean) {
+                with(checkBox) {
+                    setChecked(isChecked)
+                    if (visibility == INVISIBLE) {
+                        jumpDrawablesToCurrentState()
+                        visibility = VISIBLE
+                    }
+                }
+            }
+            isAvailableForExerciseGroupChecked.observe { isChecked: Boolean ->
+                updateCheckBox(availableForExerciseGroupCheckBox, isChecked)
+            }
+            isAwaitingGroupChecked.observe { isChecked: Boolean ->
+                updateCheckBox(awaitingGroupCheckBox, isChecked)
+            }
+            isLearnedGroupChecked.observe { isChecked: Boolean ->
+                updateCheckBox(learnedGroupCheckBox, isChecked)
+            }
+        }
+        availableForExerciseGroupButton.setOnClickListener {
+            controller.onAvailableForExerciseGroupButtonClicked()
+        }
+        awaitingGroupButton.setOnClickListener { controller.onAwaitingGroupButtonClicked() }
+        learnedGroupButton.setOnClickListener { controller.onLearnedGroupButtonClicked() }
     }
 
     private fun setupLevelOfKnowledgeRangeBar() {

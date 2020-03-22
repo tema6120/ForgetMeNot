@@ -1,54 +1,33 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
-import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.CardReverse
+import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
 import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
-import com.soywiz.klock.DateTime
+import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 
 class ExerciseStateCreator(
     private val globalState: GlobalState
 ) {
-    class NoCardIsReadyForExercise(override val message: String) : Exception(message)
-
     fun create(deckIds: List<Long>, isWalkingMode: Boolean): Exercise.State {
-        val now = DateTime.now()
         val exerciseCards: List<ExerciseCard> = globalState.decks
             .filter { deck -> deck.id in deckIds }
             .map { deck ->
                 val isRandom = deck.exercisePreference.randomOrder
                 deck.cards
-                    .filter { card -> isCardReadyForExercise(card, deck, now) }
+                    .filter { card ->
+                        isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
+                    }
                     .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
                     .sortedBy { card: Card -> card.lap }
                     .map { card -> cardToExerciseCard(card, deck, isWalkingMode) }
             }
-            .also { notSortedExerciseCards: List<List<ExerciseCard>> ->
-                if (notSortedExerciseCards.flatten().isEmpty())
-                    throw NoCardIsReadyForExercise("No card is ready for exercise")
-            }
             .flattenWithShallowShuffling()
+        if (exerciseCards.isEmpty()) throw NoCardIsReadyForExercise
         return Exercise.State(exerciseCards, isWalkingMode = isWalkingMode)
-    }
-
-    private fun isCardReadyForExercise(
-        card: Card,
-        deck: Deck,
-        now: DateTime
-    ): Boolean {
-        return when {
-            card.isLearned -> false
-            card.lastAnsweredAt == null -> true
-            deck.exercisePreference.intervalScheme == null -> true
-            else -> {
-                val intervals: List<Interval> =
-                    deck.exercisePreference.intervalScheme!!.intervals
-                val interval: Interval = intervals.find {
-                    it.targetLevelOfKnowledge == card.levelOfKnowledge
-                } ?: intervals.maxBy { it.targetLevelOfKnowledge }!!
-                card.lastAnsweredAt!! + interval.value < now
-            }
-        }
     }
 
     private fun cardToExerciseCard(
@@ -89,4 +68,6 @@ class ExerciseStateCreator(
             }
         }
     }
+
+    object NoCardIsReadyForExercise : Exception("No card is ready for exercise")
 }

@@ -2,11 +2,23 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
 import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
+import kotlinx.coroutines.flow.Flow
 import org.koin.java.KoinJavaComponent.getKoin
 
 class RepetitionSettingsViewModel(
     private val repetitionSettingsState: RepetitionSettings.State
 ) : ViewModel() {
+    val isAvailableForExerciseGroupChecked: Flow<Boolean> = repetitionSettingsState.flowOf(
+        RepetitionSettings.State::isAvailableForExerciseCardsIncluded
+    )
+
+    val isAwaitingGroupChecked: Flow<Boolean> = repetitionSettingsState.flowOf(
+        RepetitionSettings.State::isAwaitingCardsIncluded
+    )
+
+    val isLearnedGroupChecked: Flow<Boolean> = repetitionSettingsState.flowOf(
+        RepetitionSettings.State::isLearnedCardsIncluded
+    )
 
     val availableLevelOfKnowledgeRange: IntRange = run {
         val allLevelOfKnowledge: List<Int> = repetitionSettingsState.decks

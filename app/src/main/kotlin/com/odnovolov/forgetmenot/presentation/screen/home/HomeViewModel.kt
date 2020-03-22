@@ -5,12 +5,11 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
-import com.soywiz.klock.DateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -85,7 +84,6 @@ class HomeViewModel(
     }
 
     private fun List<Deck>.mapToDeckPreview(selectedDeckIds: List<Long>): List<DeckPreview> {
-        val now = DateTime.now()
         return map { deck: Deck ->
             val passedLaps: Int? = deck.cards
                 .filter { !it.isLearned }
@@ -97,18 +95,7 @@ class HomeViewModel(
                     null
                 } else {
                     deck.cards.count { card: Card ->
-                        when {
-                            card.isLearned -> false
-                            card.lastAnsweredAt == null -> true
-                            else -> {
-                                val intervals: List<Interval> =
-                                    deck.exercisePreference.intervalScheme!!.intervals
-                                val interval: Interval = intervals.find {
-                                    it.targetLevelOfKnowledge == card.levelOfKnowledge
-                                } ?: intervals.maxBy { it.targetLevelOfKnowledge }!!
-                                card.lastAnsweredAt!! + interval.value < now
-                            }
-                        }
+                        isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
                     }
                 }
             val isSelected = deck.id in selectedDeckIds

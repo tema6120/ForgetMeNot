@@ -128,6 +128,11 @@
     <string name="pause_action_title_in_repetition_notification">Pause</string>
     <string name="resume_action_title_in_repetition_notification">Resume</string>
     <string name="title_filtration_section">Filtration</string>
+    <string name="title_groups">Groups:</string>
+    <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>
+    <string name="text_awaiting_group_checkbox">Awaiting</string>
+    <string name="text_learned_group_checkbox">Learned</string>
     <string name="title_level_of_knowledge">Level of knowledge:</string>
     <string name="title_action_start_repetition">Start repetition</string>
+    <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
 </resources>

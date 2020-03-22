@@ -3,12 +3,12 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
+import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator.NoCardIsReadyForExercise
-import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
-import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -145,14 +145,16 @@ class HomeController(
     }
 
     private fun startExercise(deckIds: List<Long>, isWalkingMode: Boolean) {
-        try {
-            val exerciseState: Exercise.State = exerciseStateCreator.create(deckIds, isWalkingMode)
-            val koinScope = getKoin().createScope<ExerciseViewModel>(EXERCISE_SCOPE_ID)
-            koinScope.declare(exerciseState, override = true)
-            navigator.navigateToExercise()
+        val exerciseState: Exercise.State = try {
+            exerciseStateCreator.create(deckIds, isWalkingMode)
         } catch (e: NoCardIsReadyForExercise) {
             commandFlow.send(ShowNoCardIsReadyForExerciseMessage)
+            return
         }
+        longTermStateSaver.saveStateByRegistry()
+        val koinScope = getKoin().createScope<ExerciseViewModel>(EXERCISE_SCOPE_ID)
+        koinScope.declare(exerciseState, override = true)
+        navigator.navigateToExercise()
     }
 
     private fun toggleDeckSelection(deckId: Long) {
