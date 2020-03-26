@@ -20,7 +20,7 @@ import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.ShowModifyIntervalDialog
-import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalFragment
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialog
 import kotlinx.android.synthetic.main.fragment_intervals.*
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
@@ -142,7 +142,7 @@ class IntervalsFragment : BaseFragment() {
     private fun executeCommand(command: IntervalsCommand) {
         when (command) {
             ShowModifyIntervalDialog -> {
-                ModifyIntervalFragment().show(childFragmentManager, MODIFY_INTERVAL_FRAGMENT_TAG)
+                ModifyIntervalDialog().show(childFragmentManager, MODIFY_INTERVAL_FRAGMENT_TAG)
             }
 
             is SetNamePresetDialogText -> {

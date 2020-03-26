@@ -10,23 +10,14 @@
             android:orientation="vertical">
 
         <TextView
-                android:id="@+id/filtrationSectionTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/title_filtration_section"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-        <TextView
                 android:id="@+id/groupsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/title_groups"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
         <FrameLayout
                 android:id="@+id/availableForExerciseGroupButton"
@@ -103,8 +94,6 @@
 
         </FrameLayout>
 
-        <include layout="@layout/divider" />
-
         <TextView
                 android:id="@+id/levelOfKnowledgeTitle"
                 android:layout_width="match_parent"
@@ -113,8 +102,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_level_of_knowledge"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -145,7 +135,88 @@
                 tools:mrb_rightSelectorColor="@color/level_of_knowledge_excellent"
                 tools:visibility="visible" />
 
-        <include layout="@layout/divider" />
+        <TextView
+                android:id="@+id/lastAnswerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/title_last_answer"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/title_last_answer_from"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp" />
+
+                <FrameLayout
+                        android:id="@+id/lastAnswerFromButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/rectangle_darker_gray_1dp_stroke"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="8dp">
+
+                    <TextView
+                            android:id="@+id/lastAnswerFromTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="zero time"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="14sp" />
+
+                </FrameLayout>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/title_last_answer_to"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp" />
+
+                <FrameLayout
+                        android:id="@+id/lastAnswerToButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/rectangle_darker_gray_1dp_stroke"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="8dp">
+
+                    <TextView
+                            android:id="@+id/lastAnswerToTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="now"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="14sp" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
     </LinearLayout>
 

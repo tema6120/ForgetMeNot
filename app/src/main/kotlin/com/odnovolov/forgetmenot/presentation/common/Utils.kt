@@ -1,8 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.common
 
+import android.content.Context
 import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.ViewTreeObserver
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.odnovolov.forgetmenot.R
 import kotlinx.coroutines.flow.Flow
@@ -67,4 +71,30 @@ fun <T, R> Flow<T>.mapTwoLatest(block: (old: T, new: T) -> R): Flow<R> {
                 emit(block(pair.first!!.t, pair.second!!.t))
             }
         }
+}
+
+fun View.showSoftInput(showImplicit: Boolean = false) {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val flags: Int = if (showImplicit) InputMethodManager.SHOW_IMPLICIT else 0
+    fun show(): Boolean = requestFocus() && imm.showSoftInput(this, flags)
+    if (hasWindowFocus()) {
+        val success = show()
+        if (!success) post { show() }
+    } else {
+        viewTreeObserver.addOnWindowFocusChangeListener(
+            object : ViewTreeObserver.OnWindowFocusChangeListener {
+                override fun onWindowFocusChanged(hasFocus: Boolean) {
+                    if (hasFocus) {
+                        post { show() }
+                        viewTreeObserver.removeOnWindowFocusChangeListener(this)
+                    }
+                }
+            })
+    }
+}
+
+fun View.hideSoftInput(hideImplicitlyOnly: Boolean = false): Boolean {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val flags: Int = if (hideImplicitlyOnly) InputMethodManager.HIDE_IMPLICIT_ONLY else 0
+    return imm.hideSoftInputFromWindow(windowToken, flags)
 }

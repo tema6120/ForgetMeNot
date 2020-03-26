@@ -10,10 +10,12 @@ import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
 import kotlinx.android.synthetic.main.fragment_repetition_settings.*
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
+import java.util.*
 
 class RepetitionSettingsFragment : BaseFragment() {
     private val koinScope =
@@ -34,19 +36,8 @@ class RepetitionSettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupFilterGroups()
         setupLevelOfKnowledgeRangeBar()
+        setupLastAnswerFilter()
         controller.commands.observe(::executeCommand)
-    }
-
-    private fun executeCommand(command: RepetitionSettingsController.Command) {
-        when (command) {
-            ShowNoCardIsReadyForRepetitionMessage -> {
-                Toast.makeText(
-                    requireContext(),
-                    R.string.toast_text_no_card_matches_filter_conditions,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
     }
 
     private fun setupFilterGroups() {
@@ -131,6 +122,49 @@ class RepetitionSettingsFragment : BaseFragment() {
             else -> R.color.level_of_knowledge_excellent
         }
         return ContextCompat.getColor(context!!, resId)
+    }
+
+    private fun setupLastAnswerFilter() {
+        with(viewModel) {
+            lastAnswerFromTimeAgo.observe { lastAnswerFromTimeAgo: DisplayedInterval? ->
+                lastAnswerFromTextView.text =
+                    if (lastAnswerFromTimeAgo == null) {
+                        getString(R.string.zero_time).toLowerCase(Locale.ROOT)
+                    } else {
+                        val timeAgo: String =
+                            lastAnswerFromTimeAgo.toString(context!!).toLowerCase(Locale.ROOT)
+                        getString(R.string.time_ago, timeAgo)
+                    }
+            }
+            lastAnswerToTimeAgo.observe { lastAnswerToTimeAgo: DisplayedInterval? ->
+                lastAnswerToTextView.text =
+                    if (lastAnswerToTimeAgo == null) {
+                        getString(R.string.now).toLowerCase(Locale.ROOT)
+                    } else {
+                        val timeAgo: String =
+                            lastAnswerToTimeAgo.toString(context!!).toLowerCase(Locale.ROOT)
+                        getString(R.string.time_ago, timeAgo)
+                    }
+            }
+        }
+        lastAnswerFromButton.setOnClickListener {
+            controller.onLastAnswerFromButtonClicked()
+        }
+        lastAnswerToButton.setOnClickListener {
+            controller.onLastAnswerToButtonClicked()
+        }
+    }
+
+    private fun executeCommand(command: RepetitionSettingsController.Command) {
+        when (command) {
+            ShowNoCardIsReadyForRepetitionMessage -> {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.toast_text_no_card_matches_filter_conditions,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

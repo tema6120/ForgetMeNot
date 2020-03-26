@@ -1,14 +1,21 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
+import LAST_ANSWER_FILTER_SCOPE_ID
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings.NoCardIsReadyForRepetition
+import com.odnovolov.forgetmenot.domain.toDateTimeSpan
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor.LastAnswerFilterDialogState
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor.LastAnswerFilterViewModel
+import com.soywiz.klock.DateTimeSpan
+import com.soywiz.klock.days
 import kotlinx.coroutines.flow.Flow
 import org.koin.java.KoinJavaComponent.getKoin
 
@@ -62,6 +69,30 @@ class RepetitionSettingsController(
         val koinScope = getKoin().createScope<Repetition>(REPETITION_SCOPE_ID)
         koinScope.declare(repetitionState, override = true)
         navigator.navigateToRepetition()
+    }
+
+    fun onLastAnswerFromButtonClicked() {
+        showLastAnswerFilterDialog(isFromDialog = true)
+    }
+
+    fun onLastAnswerToButtonClicked() {
+        showLastAnswerFilterDialog(isFromDialog = false)
+    }
+
+    private fun showLastAnswerFilterDialog(isFromDialog: Boolean) {
+        val dateTimeSpan: DateTimeSpan? =
+            if (isFromDialog) repetitionSettings.state.lastAnswerFromTimeAgo
+            else repetitionSettings.state.lastAnswerToTimeAgo
+        val dialogState = LastAnswerFilterDialogState(
+            isFromDialog = isFromDialog,
+            isZeroTimeSelected = dateTimeSpan == null,
+            timeAgo = dateTimeSpan?.let(DisplayedInterval.Companion::fromDateTimeSpan)
+                ?: DisplayedInterval.fromDateTimeSpan(7.days.toDateTimeSpan())
+        )
+        val koinScope =
+            getKoin().createScope<LastAnswerFilterViewModel>(LAST_ANSWER_FILTER_SCOPE_ID)
+        koinScope.declare(dialogState, override = true)
+        navigator.showLastAnswerFilterDialog()
     }
 
     fun onFragmentPause() {

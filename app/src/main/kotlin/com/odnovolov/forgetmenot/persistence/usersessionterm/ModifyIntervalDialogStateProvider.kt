@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.persistence.usersessionterm
 
 import com.odnovolov.forgetmenot.persistence.usersessionterm.ModifyIntervalDialogStateProvider.SerializableModifyIntervalDialogState
-import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
 import kotlinx.serialization.Serializable
 
@@ -28,10 +28,11 @@ class ModifyIntervalDialogStateProvider :
     override fun toOriginal(
         serializableState: SerializableModifyIntervalDialogState
     ): ModifyIntervalDialogState {
-        val intervalInputData = DisplayedInterval(
-            serializableState.intervalInputValue,
-            serializableState.intervalUnit
-        )
+        val intervalInputData =
+            DisplayedInterval(
+                serializableState.intervalInputValue,
+                serializableState.intervalUnit
+            )
         return ModifyIntervalDialogState(
             serializableState.targetLevelOfKnowledge,
             intervalInputData

@@ -8,4 +8,8 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark"/>
 
+    <style name="DefaultNumberPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/accent_selector</item>
+    </style>
+
 </resources>

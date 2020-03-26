@@ -6,20 +6,15 @@ import android.view.View
 import android.view.WindowManager.LayoutParams
 import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import kotlinx.android.synthetic.main.dialog_modify_interval.view.*
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
 
-class ModifyIntervalFragment : DialogFragment() {
-    private val coroutineScope = MainScope()
+class ModifyIntervalDialog : BaseDialogFragment() {
     private val koinScope =
         getKoin().getOrCreateScope<ModifyIntervalViewModel>(MODIFY_INTERVAL_SCOPE_ID)
     private val viewModel: ModifyIntervalViewModel by koinScope.viewModel(this)
@@ -27,6 +22,7 @@ class ModifyIntervalFragment : DialogFragment() {
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        onCreateDialog()
         rootView = View.inflate(requireContext(), R.layout.dialog_modify_interval, null)
 
         setupView()
@@ -55,7 +51,15 @@ class ModifyIntervalFragment : DialogFragment() {
 
     private fun setupUnitPicker() {
         val intervalUnits = DisplayedInterval.IntervalUnit.values()
-            .map { it.name }
+            .map { intervalUnit: DisplayedInterval.IntervalUnit ->
+                getString(
+                    when (intervalUnit) {
+                        DisplayedInterval.IntervalUnit.Hours -> R.string.interval_unit_hours
+                        DisplayedInterval.IntervalUnit.Days -> R.string.interval_unit_days
+                        DisplayedInterval.IntervalUnit.Months -> R.string.interval_unit_months
+                    }
+                )
+            }
             .toTypedArray()
         with(rootView.unitPicker) {
             minValue = 0
@@ -79,19 +83,13 @@ class ModifyIntervalFragment : DialogFragment() {
         }
         rootView.unitPicker.value = DisplayedInterval.IntervalUnit.values()
             .indexOf(viewModel.displayedIntervalUnit)
-        viewModel.isOkButtonEnabled.onEach { isEnabled ->
+        viewModel.isOkButtonEnabled.observe { isEnabled ->
             (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = isEnabled
         }
-            .launchIn(coroutineScope)
     }
 
     override fun onPause() {
         super.onPause()
         controller.onFragmentPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        coroutineScope.cancel()
     }
 }

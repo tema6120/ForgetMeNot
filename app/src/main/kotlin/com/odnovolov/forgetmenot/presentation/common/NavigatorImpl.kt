@@ -35,6 +35,10 @@ class NavigatorImpl : Navigator,
         navController?.navigate(R.id.action_home_screen_to_repetition_settings_screen)
     }
 
+    override fun showLastAnswerFilterDialog() {
+        navController?.navigate(R.id.action_show_last_answer_filter_dialog)
+    }
+
     override fun navigateToRepetition() {
         navController?.navigate(R.id.action_repetition_settings_screen_to_repetition_screen)
     }

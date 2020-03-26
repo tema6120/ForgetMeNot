@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R.layout
 import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalAdapter.ViewHolder
 import kotlinx.android.synthetic.main.item_interval.view.*
@@ -27,7 +28,7 @@ class IntervalAdapter(private val controller: IntervalsController) :
             levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
             levelOfKnowledgeTextView.text = interval.targetLevelOfKnowledge.toString()
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
-            intervalTextView.text = "${displayedInterval.value} ${displayedInterval.intervalUnit}"
+            intervalTextView.text = displayedInterval.toString(context)
             modifyIntervalButton.setOnClickListener {
                 controller.onModifyIntervalButtonClicked(interval.targetLevelOfKnowledge)
             }

@@ -104,7 +104,16 @@
                 app:popUpTo="@+id/repetition_settings_screen"
                 app:popUpToInclusive="true"/>
 
+        <action
+            android:id="@+id/action_show_last_answer_filter_dialog"
+            app:destination="@+id/last_answer_filter_dialog"/>
+
     </fragment>
+
+    <dialog
+        android:id="@+id/last_answer_filter_dialog"
+        android:name="com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor.LastAnswerFilterDialog"
+        tools:layout="@layout/dialog_last_answer_filter"/>
 
     <fragment
             android:id="@+id/repetition_screen"

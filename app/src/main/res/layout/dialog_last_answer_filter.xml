@@ -1,0 +1,101 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <FrameLayout
+            android:id="@+id/zeroTimeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/agoTextView"
+            app:layout_constraintStart_toStartOf="@+id/specificTimeSpanButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+                android:id="@+id/zeroTimeRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                tools:text="Zero time"
+                tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/specificTimeSpanButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/unitPicker"
+            app:layout_constraintEnd_toStartOf="@+id/valueEditText"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/unitPicker">
+
+        <RadioButton
+                android:id="@+id/specificTimeSpanRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:visibility="invisible"
+                tools:checked="true"
+                tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <EditText
+            android:id="@+id/valueEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:gravity="end"
+            android:hint="000"
+            android:inputType="number"
+            android:maxLength="3"
+            android:padding="8dp"
+            android:textColor="@color/text_primary_selector"
+            android:textColorHint="#00FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/unitPicker"
+            app:layout_constraintEnd_toStartOf="@+id/unitPicker"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/specificTimeSpanButton"
+            app:layout_constraintTop_toTopOf="@+id/unitPicker"
+            tools:text="7" />
+
+    <NumberPicker
+            android:id="@+id/unitPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/text_primary_selector"
+            android:theme="@style/DefaultNumberPickerTheme"
+            app:layout_constraintEnd_toStartOf="@+id/agoTextView"
+            app:layout_constraintStart_toEndOf="@+id/valueEditText"
+            app:layout_constraintTop_toBottomOf="@id/zeroTimeButton" />
+
+    <TextView
+            android:id="@+id/agoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/ago"
+            android:textColor="@color/text_primary_selector"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/unitPicker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/unitPicker"
+            app:layout_constraintTop_toTopOf="@+id/unitPicker" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

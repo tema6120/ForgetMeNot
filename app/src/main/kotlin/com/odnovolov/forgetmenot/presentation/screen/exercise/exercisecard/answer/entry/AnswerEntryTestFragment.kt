@@ -12,6 +12,8 @@ import android.view.inputmethod.InputMethodManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import kotlinx.android.synthetic.main.fragment_answer_entry_test.*
 import kotlinx.coroutines.flow.combine
 import org.koin.android.ext.android.getKoin
@@ -59,16 +61,7 @@ class AnswerEntryTestFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        answerEditText.run {
-            observeText { controller.onAnswerInputChanged(it?.toString()) }
-            setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    imm.showSoftInput(answerEditText, 0)
-                } else {
-                    imm.hideSoftInputFromWindow(answerEditText.windowToken, 0)
-                }
-            }
-        }
+        answerEditText.observeText { controller.onAnswerInputChanged(it?.toString()) }
         hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
             controller.onHintSelectionChanged(startIndex, endIndex)
         }
@@ -129,7 +122,8 @@ class AnswerEntryTestFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        answerEditText.requestFocus()
-        answerEditText.postDelayed({ answerEditText.requestFocus() }, 100)
+        if (!viewModel.isAnswered.firstBlocking()) {
+            answerEditText.showSoftInput(showImplicit = true)
+        }
     }
 }

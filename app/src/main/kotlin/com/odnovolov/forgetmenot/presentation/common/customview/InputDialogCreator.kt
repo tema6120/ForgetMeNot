@@ -3,12 +3,12 @@ package com.odnovolov.forgetmenot.presentation.common.customview
 import android.app.Dialog
 import android.content.Context
 import android.view.View
-import android.view.WindowManager.LayoutParams
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
 import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 
 object InputDialogCreator {
     fun create(
@@ -32,13 +32,8 @@ object InputDialogCreator {
             .setPositiveButton(android.R.string.ok, null)
             .setNegativeButton(android.R.string.cancel, null)
             .create()
-        dialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         fun hideSoftKeyboard() {
-            dialog.currentFocus?.let { focusedView: View ->
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE)
-                        as InputMethodManager
-                imm.hideSoftInputFromWindow(focusedView.windowToken, 0)
-            }
+            dialog.currentFocus?.let { focusedView: View -> focusedView.hideSoftInput() }
         }
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
@@ -49,7 +44,7 @@ object InputDialogCreator {
                 hideSoftKeyboard()
                 onNegativeClick()
             }
-            dialogInput.requestFocus()
+            dialogInput.showSoftInput()
         }
         return dialog
     }

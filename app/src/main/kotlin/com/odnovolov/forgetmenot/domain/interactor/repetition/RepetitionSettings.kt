@@ -1,10 +1,15 @@
 package com.odnovolov.forgetmenot.domain.interactor.repetition
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
-import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.CardReverse
+import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.SpeakPlan
 import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
+import com.soywiz.klock.DateTime
+import com.soywiz.klock.DateTimeSpan
 
 class RepetitionSettings(
     val state: State
@@ -21,13 +26,17 @@ class RepetitionSettings(
             val min: Int = allLevelOfKnowledge.min()!!
             val max: Int = allLevelOfKnowledge.max()!!
             min..max
-        }
+        },
+        lastAnswerFromTimeAgo: DateTimeSpan? = null,
+        lastAnswerToTimeAgo: DateTimeSpan? = null
     ) : FlowableState<State>() {
         val decks: List<Deck> by me(decks)
         var isAvailableForExerciseCardsIncluded: Boolean by me(isAvailableForExerciseCardsIncluded)
         var isAwaitingCardsIncluded: Boolean by me(isAwaitingCardsIncluded)
         var isLearnedCardsIncluded: Boolean by me(isLearnedCardsIncluded)
         var levelOfKnowledgeRange: IntRange by me(levelOfKnowledgeRange)
+        var lastAnswerFromTimeAgo: DateTimeSpan? by me(lastAnswerFromTimeAgo) // null means zero time
+        var lastAnswerToTimeAgo: DateTimeSpan? by me(lastAnswerToTimeAgo) // null means now
     }
 
     fun setIsAvailableForExerciseCardsIncluded(isIncluded: Boolean) {
@@ -46,6 +55,14 @@ class RepetitionSettings(
         state.levelOfKnowledgeRange = levelOfKnowledgeRange
     }
 
+    fun setLastAnswerFromTimeAgo(lastAnswerFromTimeAgo: DateTimeSpan?) {
+        state.lastAnswerFromTimeAgo = lastAnswerFromTimeAgo
+    }
+
+    fun setLastAnswerToTimeAgo(lastAnswerToTimeAgo: DateTimeSpan?) {
+        state.lastAnswerToTimeAgo = lastAnswerToTimeAgo
+    }
+
     fun createRepetitionState(): Repetition.State {
         val repetitionCards: List<RepetitionCard> = state.decks
             .map { deck: Deck ->
@@ -54,6 +71,7 @@ class RepetitionSettings(
                     .filter { card: Card ->
                         isCorrespondingCardGroupIncluded(card, deck)
                                 && card.levelOfKnowledge in state.levelOfKnowledgeRange
+                                && isLastAnswerTimeInFilterRange(card)
                     }
                     .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
                     .sortedBy { card: Card -> card.lap }
@@ -86,6 +104,19 @@ class RepetitionSettings(
             pronunciation = deck.exercisePreference.pronunciation,
             speakPlan = SpeakPlan.Default
         )
+    }
+
+    private fun isLastAnswerTimeInFilterRange(card: Card): Boolean {
+        val now = DateTime.now()
+        return if (card.lastAnsweredAt == null) {
+            state.lastAnswerFromTimeAgo == null
+        } else {
+            (state.lastAnswerFromTimeAgo == null
+                    || card.lastAnsweredAt!! > now - state.lastAnswerFromTimeAgo!!)
+                    &&
+                    (state.lastAnswerToTimeAgo == null
+                            || card.lastAnsweredAt!! < now - state.lastAnswerToTimeAgo!!)
+        }
     }
 
     object NoCardIsReadyForRepetition : Exception("no card is ready for repetition")

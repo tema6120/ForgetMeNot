@@ -1,9 +1,11 @@
-package com.odnovolov.forgetmenot.presentation.screen.intervals
+package com.odnovolov.forgetmenot.presentation.common.entity
 
+import android.content.Context
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.toDateTimeSpan
-import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit.*
-import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit.Months
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit.*
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit.Months
 import com.soywiz.klock.*
 
 class DisplayedInterval(
@@ -13,7 +15,7 @@ class DisplayedInterval(
     var value: Int? by me(value)
     var intervalUnit: IntervalUnit by me(intervalUnit)
 
-    fun isValid(): Boolean = value?.let { it > 0 } ?: false
+    fun isValid(): Boolean = value.let { value -> value != null && value > 0 }
 
     fun toDateTimeSpan(): DateTimeSpan {
         if (!isValid()) throw IllegalStateException("intervalNumber is not valid")
@@ -22,6 +24,17 @@ class DisplayedInterval(
             Days -> value!!.days.toDateTimeSpan()
             Months -> value!!.months.toDateTimeSpan()
         }
+    }
+
+    fun toString(context: Context): String {
+        val intervalUnit: String = context.getString(
+            when (intervalUnit) {
+                Hours -> R.string.interval_unit_hours
+                Days -> R.string.interval_unit_days
+                Months -> R.string.interval_unit_months
+            }
+        )
+        return "$value $intervalUnit"
     }
 
     companion object {
