@@ -5,7 +5,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_selectable_item"
         android:orientation="vertical"
-        tools:context=".screen.home.HomeFragment">
+        tools:context="presentation.screen.home.HomeFragment">
 
     <FrameLayout
             android:id="@+id/deckButton"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toStartOf="@+id/deckOptionButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="bring up (point)" />
+            tools:text="Idioms 23" />
 
     <ImageButton
             android:id="@+id/deckOptionButton"
@@ -47,43 +47,56 @@
             android:id="@+id/passedLapsIndicatorTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:background="@drawable/background_deckpreview_indicator_passed_laps"
             android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:textColor="@android:color/white"
+            android:paddingLeft="12dp"
+            android:paddingTop="2dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="2dp"
+            android:textColor="#05a1dc"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/deckNameTextView"
             app:layout_constraintTop_toBottomOf="@+id/deckNameTextView"
-            tools:text="1" />
+            tools:text="2" />
 
     <TextView
             android:id="@+id/progressIndicatorTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/background_deckpreview_indicator_progress"
             android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:textColor="@android:color/white"
+            android:paddingLeft="12dp"
+            android:paddingTop="2dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="2dp"
+            android:textColor="#00bda6"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/passedLapsIndicatorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/deckNameTextView"
-            tools:text="2/9" />
+            app:layout_constraintTop_toTopOf="@+id/passedLapsIndicatorTextView"
+            tools:text="12/50" />
 
     <TextView
             android:id="@+id/taskIndicatorTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/background_deckpreview_indicator_task"
             android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:textColor="@android:color/white"
+            android:paddingLeft="12dp"
+            android:paddingTop="2dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="2dp"
+            android:textColor="#a70074"
+            android:textSize="12sp"
+            android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/progressIndicatorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/deckNameTextView"
-            tools:text="7"
+            app:layout_constraintTop_toTopOf="@+id/progressIndicatorTextView"
+            tools:text="24"
             tools:visibility="visible" />
 
     <View
