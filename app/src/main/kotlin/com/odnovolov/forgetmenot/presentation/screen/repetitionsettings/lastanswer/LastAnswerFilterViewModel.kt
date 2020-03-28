@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor
+package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer
 
 import LAST_ANSWER_FILTER_SCOPE_ID
 import androidx.lifecycle.ViewModel

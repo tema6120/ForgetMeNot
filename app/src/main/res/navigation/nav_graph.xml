@@ -102,18 +102,27 @@
                 android:id="@+id/action_repetition_settings_screen_to_repetition_screen"
                 app:destination="@+id/repetition_screen"
                 app:popUpTo="@+id/repetition_settings_screen"
-                app:popUpToInclusive="true"/>
+                app:popUpToInclusive="true" />
 
         <action
-            android:id="@+id/action_show_last_answer_filter_dialog"
-            app:destination="@+id/last_answer_filter_dialog"/>
+                android:id="@+id/action_show_last_answer_filter_dialog"
+                app:destination="@+id/last_answer_filter_dialog" />
+
+        <action
+                android:id="@+id/action_show_repetition_last_dialog"
+                app:destination="@+id/repetition_laps_dialog" />
 
     </fragment>
 
     <dialog
-        android:id="@+id/last_answer_filter_dialog"
-        android:name="com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor.LastAnswerFilterDialog"
-        tools:layout="@layout/dialog_last_answer_filter"/>
+            android:id="@+id/last_answer_filter_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialog"
+            tools:layout="@layout/dialog_last_answer_filter" />
+
+    <dialog
+            android:id="@+id/repetition_laps_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDialog"
+            tools:layout="@layout/dialog_repetition_laps" />
 
     <fragment
             android:id="@+id/repetition_screen"

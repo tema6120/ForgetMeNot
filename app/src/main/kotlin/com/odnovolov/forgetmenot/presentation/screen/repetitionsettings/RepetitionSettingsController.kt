@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
 import LAST_ANSWER_FILTER_SCOPE_ID
+import REPETITION_LAPS_SCOPE_ID
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
@@ -12,8 +13,10 @@ import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvide
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor.LastAnswerFilterDialogState
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor.LastAnswerFilterViewModel
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDialogState
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsViewModel
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialogState
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterViewModel
 import com.soywiz.klock.DateTimeSpan
 import com.soywiz.klock.days
 import kotlinx.coroutines.flow.Flow
@@ -93,6 +96,20 @@ class RepetitionSettingsController(
             getKoin().createScope<LastAnswerFilterViewModel>(LAST_ANSWER_FILTER_SCOPE_ID)
         koinScope.declare(dialogState, override = true)
         navigator.showLastAnswerFilterDialog()
+    }
+
+    fun onLapsButtonClicked() {
+        val isInfinite = repetitionSettings.state.numberOfLaps == Int.MAX_VALUE
+        val numberOfLapsInput: String =
+            if (isInfinite) "1"
+            else repetitionSettings.state.numberOfLaps.toString()
+        val dialogState = RepetitionLapsDialogState(
+            isInfinitely = isInfinite,
+            numberOfLapsInput = numberOfLapsInput
+        )
+        val koinScope = getKoin().createScope<RepetitionLapsViewModel>(REPETITION_LAPS_SCOPE_ID)
+        koinScope.declare(dialogState, override = true)
+        navigator.showRepetitionLapsDialog()
     }
 
     fun onFragmentPause() {

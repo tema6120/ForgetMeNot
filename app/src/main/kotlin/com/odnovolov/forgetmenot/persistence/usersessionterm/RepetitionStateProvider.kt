@@ -14,7 +14,9 @@ class RepetitionStateProvider(
         val serializableRepetitionCards: List<SerializableRepetitionCard>,
         val repetitionCardPosition: Int,
         val speakEventPosition: Int,
-        val isPlaying: Boolean
+        val isPlaying: Boolean,
+        val numberOfLaps: Int,
+        val currentLap: Int
     )
 
     @Serializable
@@ -48,7 +50,9 @@ class RepetitionStateProvider(
             serializableRepetitionCards,
             state.repetitionCardPosition,
             state.speakEventPosition,
-            state.isPlaying
+            state.isPlaying,
+            state.numberOfLaps,
+            state.currentLap
         )
     }
 
@@ -77,7 +81,9 @@ class RepetitionStateProvider(
             repetitionCards,
             serializableState.repetitionCardPosition,
             serializableState.speakEventPosition,
-            serializableState.isPlaying
+            serializableState.isPlaying,
+            serializableState.numberOfLaps,
+            serializableState.currentLap
         )
     }
 }

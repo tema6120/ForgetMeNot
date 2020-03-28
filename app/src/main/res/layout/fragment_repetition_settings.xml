@@ -15,9 +15,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/title_groups"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp" />
 
         <FrameLayout
                 android:id="@+id/availableForExerciseGroupButton"
@@ -94,6 +93,8 @@
 
         </FrameLayout>
 
+        <include layout="@layout/divider" />
+
         <TextView
                 android:id="@+id/levelOfKnowledgeTitle"
                 android:layout_width="match_parent"
@@ -102,9 +103,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_level_of_knowledge"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -135,6 +135,8 @@
                 tools:mrb_rightSelectorColor="@color/level_of_knowledge_excellent"
                 tools:visibility="visible" />
 
+        <include layout="@layout/divider" />
+
         <TextView
                 android:id="@+id/lastAnswerTitle"
                 android:layout_width="wrap_content"
@@ -143,9 +145,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_last_answer"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp" />
 
         <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -179,9 +180,9 @@
                             android:id="@+id/lastAnswerFromTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="zero time"
                             android:textColor="@color/textPrimary"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="zero time" />
 
                 </FrameLayout>
 
@@ -208,15 +209,44 @@
                             android:id="@+id/lastAnswerToTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="now"
                             android:textColor="@color/textPrimary"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="now" />
 
                 </FrameLayout>
 
             </LinearLayout>
 
         </HorizontalScrollView>
+
+        <include layout="@layout/divider" />
+
+        <LinearLayout
+                android:id="@+id/lapsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_number_of_laps"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/lapsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="14sp"
+                    tools:text="1 lap" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divider" />
 
     </LinearLayout>
 

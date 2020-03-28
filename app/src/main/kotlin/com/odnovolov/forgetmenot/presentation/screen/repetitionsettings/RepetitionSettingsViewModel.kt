@@ -47,6 +47,9 @@ class RepetitionSettingsViewModel(
         dateTimeSpan?.let(DisplayedInterval.Companion::fromDateTimeSpan)
     }
 
+    val numberOfLaps: Flow<Int> =
+        repetitionSettingsState.flowOf(RepetitionSettings.State::numberOfLaps)
+
     override fun onCleared() {
         getKoin().getScope(REPETITION_SETTINGS_SCOPE_ID).close()
     }

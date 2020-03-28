@@ -128,12 +128,12 @@
     <string name="pause_action_title_in_repetition_notification">Pause</string>
     <string name="resume_action_title_in_repetition_notification">Resume</string>
     <string name="title_filtration_section">Filtration</string>
-    <string name="title_groups">Groups</string>
+    <string name="title_groups">Groups:</string>
     <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>
     <string name="text_awaiting_group_checkbox">Awaiting</string>
     <string name="text_learned_group_checkbox">Learned</string>
-    <string name="title_level_of_knowledge">Level of knowledge</string>
-    <string name="title_last_answer">Last answer</string>
+    <string name="title_level_of_knowledge">Level of knowledge:</string>
+    <string name="title_last_answer">Last answer:</string>
     <string name="title_last_answer_from">From</string>
     <string name="title_last_answer_to">to</string>
     <string name="zero_time">Zero time</string>
@@ -147,4 +147,14 @@
     <string name="ago">ago</string>
     <string name="title_action_start_repetition">Start repetition</string>
     <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
+    <string name="title_number_of_laps">Number of laps</string>
+    <plurals name="number_of_laps_with_args">
+        <item quantity="one">%d lap</item>
+        <item quantity="other">%d laps</item>
+    </plurals>
+    <plurals name="number_of_laps">
+        <item quantity="one">lap</item>
+        <item quantity="other">laps</item>
+    </plurals>
+    <string name="infinitely">Infinitely</string>
 </resources>

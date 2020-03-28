@@ -20,12 +20,16 @@ class Repetition(
         repetitionCards: List<RepetitionCard>,
         repetitionCardPosition: Int = 0,
         speakEventPosition: Int = 0,
-        isPlaying: Boolean = true
+        isPlaying: Boolean = true,
+        numberOfLaps: Int,
+        currentLap: Int = 0
     ) : FlowableState<State>() {
         val repetitionCards: List<RepetitionCard> by me(repetitionCards)
         var repetitionCardPosition: Int by me(repetitionCardPosition)
         var speakEventPosition: Int by me(speakEventPosition)
         var isPlaying: Boolean by me(isPlaying)
+        val numberOfLaps: Int by me(numberOfLaps)
+        var currentLap: Int by me(currentLap)
     }
 
     private val currentRepetitionCard: RepetitionCard
@@ -161,6 +165,13 @@ class Repetition(
                 state.speakEventPosition = 0
                 true
             }
+            hasOneMoreLap() -> {
+                state.repetitionCards.forEach { it.isAnswered = false }
+                state.repetitionCardPosition = 0
+                state.speakEventPosition = 0
+                state.currentLap++
+                true
+            }
             else -> false
         }
     }
@@ -170,4 +181,6 @@ class Repetition(
 
     private fun hasOneMoreRepetitionCard(): Boolean =
         state.repetitionCardPosition + 1 < state.repetitionCards.size
+
+    private fun hasOneMoreLap(): Boolean = state.currentLap + 1 < state.numberOfLaps
 }

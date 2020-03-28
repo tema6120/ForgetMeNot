@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.persistence.usersessionterm
 import com.odnovolov.forgetmenot.persistence.usersessionterm.LastAnswerFilterDialogStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor.LastAnswerFilterDialogState
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialogState
 import kotlinx.serialization.Serializable
 
 class LastAnswerFilterDialogStateProvider

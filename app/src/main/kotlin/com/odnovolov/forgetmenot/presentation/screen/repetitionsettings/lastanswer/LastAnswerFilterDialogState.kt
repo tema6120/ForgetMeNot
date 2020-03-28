@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswerfiltereditor
+package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval

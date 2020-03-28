@@ -28,7 +28,8 @@ class RepetitionSettings(
             min..max
         },
         lastAnswerFromTimeAgo: DateTimeSpan? = null,
-        lastAnswerToTimeAgo: DateTimeSpan? = null
+        lastAnswerToTimeAgo: DateTimeSpan? = null,
+        numberOfLaps: Int = 1
     ) : FlowableState<State>() {
         val decks: List<Deck> by me(decks)
         var isAvailableForExerciseCardsIncluded: Boolean by me(isAvailableForExerciseCardsIncluded)
@@ -37,6 +38,7 @@ class RepetitionSettings(
         var levelOfKnowledgeRange: IntRange by me(levelOfKnowledgeRange)
         var lastAnswerFromTimeAgo: DateTimeSpan? by me(lastAnswerFromTimeAgo) // null means zero time
         var lastAnswerToTimeAgo: DateTimeSpan? by me(lastAnswerToTimeAgo) // null means now
+        var numberOfLaps: Int by me(numberOfLaps)
     }
 
     fun setIsAvailableForExerciseCardsIncluded(isIncluded: Boolean) {
@@ -63,7 +65,12 @@ class RepetitionSettings(
         state.lastAnswerToTimeAgo = lastAnswerToTimeAgo
     }
 
+    fun setNumberOfLaps(numberOfLaps: Int) {
+        state.numberOfLaps = numberOfLaps
+    }
+
     fun createRepetitionState(): Repetition.State {
+        if (state.numberOfLaps <= 0) throw WrongNumberOfLaps
         val repetitionCards: List<RepetitionCard> = state.decks
             .map { deck: Deck ->
                 val isRandom = deck.exercisePreference.randomOrder
@@ -79,7 +86,10 @@ class RepetitionSettings(
             }
             .flattenWithShallowShuffling()
         if (repetitionCards.isEmpty()) throw NoCardIsReadyForRepetition
-        return Repetition.State(repetitionCards)
+        return Repetition.State(
+            repetitionCards = repetitionCards,
+            numberOfLaps = state.numberOfLaps
+        )
     }
 
     private fun isCorrespondingCardGroupIncluded(card: Card, deck: Deck): Boolean {
@@ -120,4 +130,5 @@ class RepetitionSettings(
     }
 
     object NoCardIsReadyForRepetition : Exception("no card is ready for repetition")
+    object WrongNumberOfLaps : Exception("number of laps should be greater than zero")
 }

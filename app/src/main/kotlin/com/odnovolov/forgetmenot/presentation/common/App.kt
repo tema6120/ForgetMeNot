@@ -30,6 +30,7 @@ import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import repetitionLapsModule
 
 class App : Application() {
     override fun onCreate() {
@@ -51,7 +52,7 @@ class App : Application() {
                 answerQuizTestModule, answerEntryTestModule, editCardModule, deckSettingsModule,
                 intervalsModule, modifyIntervalModule, pronunciationModule,
                 walkingModeSettingsModule, repetitionSettingsModule, lastAnswerFilterModule,
-                repetitionModule
+                repetitionLapsModule, repetitionModule
             )
         }
     }

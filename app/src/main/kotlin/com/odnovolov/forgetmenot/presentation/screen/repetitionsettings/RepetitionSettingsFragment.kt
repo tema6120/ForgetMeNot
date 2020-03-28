@@ -37,6 +37,7 @@ class RepetitionSettingsFragment : BaseFragment() {
         setupFilterGroups()
         setupLevelOfKnowledgeRangeBar()
         setupLastAnswerFilter()
+        setupNumberOfLaps()
         controller.commands.observe(::executeCommand)
     }
 
@@ -152,6 +153,21 @@ class RepetitionSettingsFragment : BaseFragment() {
         }
         lastAnswerToButton.setOnClickListener {
             controller.onLastAnswerToButtonClicked()
+        }
+    }
+
+    private fun setupNumberOfLaps() {
+        viewModel.numberOfLaps.observe { numberOfLaps: Int ->
+            val isInfinitely = numberOfLaps == Int.MAX_VALUE
+            if (isInfinitely) {
+                lapsTextView.setText(R.string.infinitely)
+            } else {
+                lapsTextView.text =
+                    resources.getQuantityString(R.plurals.number_of_laps_with_args, numberOfLaps, numberOfLaps)
+            }
+        }
+        lapsButton.setOnClickListener {
+            controller.onLapsButtonClicked()
         }
     }
 
