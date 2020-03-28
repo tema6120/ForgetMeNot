@@ -9,11 +9,44 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+        <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="32dp"
+                android:background="@drawable/background_matching_cards_number_for_repetition"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+            <TextView
+                    android:id="@+id/matchingCardsNumberTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    tools:text="25" />
+
+            <TextView
+                    android:id="@+id/matchingCardsLabelTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="12sp"
+                    tools:text="cards match the filter" />
+
+        </LinearLayout>
+
         <TextView
                 android:id="@+id/groupsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/title_groups"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp" />
@@ -172,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
-                        android:background="@drawable/rectangle_darker_gray_1dp_stroke"
+                        android:background="@drawable/background_last_answer_button"
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="8dp">
 
@@ -201,7 +234,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
-                        android:background="@drawable/rectangle_darker_gray_1dp_stroke"
+                        android:background="@drawable/background_last_answer_button"
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="8dp">
 

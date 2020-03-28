@@ -34,11 +34,22 @@ class RepetitionSettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupMatchingCardsLabel()
         setupFilterGroups()
         setupLevelOfKnowledgeRangeBar()
         setupLastAnswerFilter()
         setupNumberOfLaps()
         controller.commands.observe(::executeCommand)
+    }
+
+    private fun setupMatchingCardsLabel() {
+        viewModel.matchingCardsNumber.observe { matchingCardsNumber: Int ->
+            matchingCardsNumberTextView.text = matchingCardsNumber.toString()
+            matchingCardsLabelTextView.text = resources.getQuantityString(
+                R.plurals.matching_cards_number_label,
+                matchingCardsNumber
+            )
+        }
     }
 
     private fun setupFilterGroups() {
@@ -163,7 +174,11 @@ class RepetitionSettingsFragment : BaseFragment() {
                 lapsTextView.setText(R.string.infinitely)
             } else {
                 lapsTextView.text =
-                    resources.getQuantityString(R.plurals.number_of_laps_with_args, numberOfLaps, numberOfLaps)
+                    resources.getQuantityString(
+                        R.plurals.number_of_laps_with_args,
+                        numberOfLaps,
+                        numberOfLaps
+                    )
             }
         }
         lapsButton.setOnClickListener {

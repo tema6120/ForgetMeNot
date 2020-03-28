@@ -18,7 +18,7 @@ val repetitionSettingsModule = module {
                 repetitionSettingsStateProvider = get<RepetitionSettingsStateProvider>()
             )
         }
-        viewModel { RepetitionSettingsViewModel(repetitionSettingsState = get()) }
+        viewModel { RepetitionSettingsViewModel(repetitionSettings = get()) }
     }
 }
 

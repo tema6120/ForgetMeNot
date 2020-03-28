@@ -9,22 +9,25 @@ import kotlinx.coroutines.flow.map
 import org.koin.java.KoinJavaComponent.getKoin
 
 class RepetitionSettingsViewModel(
-    private val repetitionSettingsState: RepetitionSettings.State
+    private val repetitionSettings: RepetitionSettings
 ) : ViewModel() {
-    val isAvailableForExerciseGroupChecked: Flow<Boolean> = repetitionSettingsState.flowOf(
+    val matchingCardsNumber: Flow<Int> = repetitionSettings.state.asFlow()
+        .map { repetitionSettings.getCurrentMatchingCardsNumber() }
+
+    val isAvailableForExerciseGroupChecked: Flow<Boolean> = repetitionSettings.state.flowOf(
         RepetitionSettings.State::isAvailableForExerciseCardsIncluded
     )
 
-    val isAwaitingGroupChecked: Flow<Boolean> = repetitionSettingsState.flowOf(
+    val isAwaitingGroupChecked: Flow<Boolean> = repetitionSettings.state.flowOf(
         RepetitionSettings.State::isAwaitingCardsIncluded
     )
 
-    val isLearnedGroupChecked: Flow<Boolean> = repetitionSettingsState.flowOf(
+    val isLearnedGroupChecked: Flow<Boolean> = repetitionSettings.state.flowOf(
         RepetitionSettings.State::isLearnedCardsIncluded
     )
 
     val availableLevelOfKnowledgeRange: IntRange = run {
-        val allLevelOfKnowledge: List<Int> = repetitionSettingsState.decks
+        val allLevelOfKnowledge: List<Int> = repetitionSettings.state.decks
             .flatMap { it.cards }
             .map { it.levelOfKnowledge }
         val min: Int = allLevelOfKnowledge.min()!!
@@ -33,22 +36,22 @@ class RepetitionSettingsViewModel(
     }
 
     val currentLevelOfKnowledgeRange: IntRange
-        get() = repetitionSettingsState.levelOfKnowledgeRange
+        get() = repetitionSettings.state.levelOfKnowledgeRange
 
-    val lastAnswerFromTimeAgo: Flow<DisplayedInterval?> = repetitionSettingsState.flowOf(
+    val lastAnswerFromTimeAgo: Flow<DisplayedInterval?> = repetitionSettings.state.flowOf(
         RepetitionSettings.State::lastAnswerFromTimeAgo
     ).map { dateTimeSpan: DateTimeSpan? ->
         dateTimeSpan?.let(DisplayedInterval.Companion::fromDateTimeSpan)
     }
 
-    val lastAnswerToTimeAgo: Flow<DisplayedInterval?> = repetitionSettingsState.flowOf(
+    val lastAnswerToTimeAgo: Flow<DisplayedInterval?> = repetitionSettings.state.flowOf(
         RepetitionSettings.State::lastAnswerToTimeAgo
     ).map { dateTimeSpan: DateTimeSpan? ->
         dateTimeSpan?.let(DisplayedInterval.Companion::fromDateTimeSpan)
     }
 
     val numberOfLaps: Flow<Int> =
-        repetitionSettingsState.flowOf(RepetitionSettings.State::numberOfLaps)
+        repetitionSettings.state.flowOf(RepetitionSettings.State::numberOfLaps)
 
     override fun onCleared() {
         getKoin().getScope(REPETITION_SETTINGS_SCOPE_ID).close()

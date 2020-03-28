@@ -69,6 +69,18 @@ class RepetitionSettings(
         state.numberOfLaps = numberOfLaps
     }
 
+    fun getCurrentMatchingCardsNumber(): Int {
+        return state.decks.sumBy { deck: Deck ->
+            deck.cards
+                .filter { card: Card ->
+                    isCorrespondingCardGroupIncluded(card, deck)
+                            && card.levelOfKnowledge in state.levelOfKnowledgeRange
+                            && isLastAnswerTimeInFilterRange(card)
+                }
+                .count()
+        }
+    }
+
     fun createRepetitionState(): Repetition.State {
         if (state.numberOfLaps <= 0) throw WrongNumberOfLaps
         val repetitionCards: List<RepetitionCard> = state.decks
@@ -101,6 +113,19 @@ class RepetitionSettings(
         }
     }
 
+    private fun isLastAnswerTimeInFilterRange(card: Card): Boolean {
+        val now = DateTime.now()
+        return if (card.lastAnsweredAt == null) {
+            state.lastAnswerFromTimeAgo == null
+        } else {
+            (state.lastAnswerFromTimeAgo == null
+                    || card.lastAnsweredAt!! > now - state.lastAnswerFromTimeAgo!!)
+                    &&
+                    (state.lastAnswerToTimeAgo == null
+                            || card.lastAnsweredAt!! < now - state.lastAnswerToTimeAgo!!)
+        }
+    }
+
     private fun cardToRepetitionCard(card: Card, deck: Deck): RepetitionCard {
         val isReverse = when (deck.exercisePreference.cardReverse) {
             CardReverse.Off -> false
@@ -114,19 +139,6 @@ class RepetitionSettings(
             pronunciation = deck.exercisePreference.pronunciation,
             speakPlan = SpeakPlan.Default
         )
-    }
-
-    private fun isLastAnswerTimeInFilterRange(card: Card): Boolean {
-        val now = DateTime.now()
-        return if (card.lastAnsweredAt == null) {
-            state.lastAnswerFromTimeAgo == null
-        } else {
-            (state.lastAnswerFromTimeAgo == null
-                    || card.lastAnsweredAt!! > now - state.lastAnswerFromTimeAgo!!)
-                    &&
-                    (state.lastAnswerToTimeAgo == null
-                            || card.lastAnsweredAt!! < now - state.lastAnswerToTimeAgo!!)
-        }
     }
 
     object NoCardIsReadyForRepetition : Exception("no card is ready for repetition")

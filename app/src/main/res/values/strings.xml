@@ -157,4 +157,8 @@
         <item quantity="other">laps</item>
     </plurals>
     <string name="infinitely">Infinitely</string>
+    <plurals name="matching_cards_number_label">
+        <item quantity="one">card matches the filter</item>
+        <item quantity="other">cards match the filter</item>
+    </plurals>
 </resources>
