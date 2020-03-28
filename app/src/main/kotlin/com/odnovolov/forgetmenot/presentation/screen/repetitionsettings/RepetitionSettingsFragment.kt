@@ -81,12 +81,11 @@ class RepetitionSettingsFragment : BaseFragment() {
     }
 
     private fun setupLevelOfKnowledgeRangeBar() {
+        if (with(viewModel.availableLevelOfKnowledgeRange) { first == last }) {
+            levelOfKnowledgeGroup.visibility = GONE
+            return
+        }
         with(levelOfKnowledgeRangeBar) {
-            if (with(viewModel.availableLevelOfKnowledgeRange) { first == last }) {
-                levelOfKnowledgeTitle.visibility = GONE
-                visibility = GONE
-                return
-            }
             setOnRangeBarChangeListener(
                 object : RangeBar.OnRangeBarChangeListener {
                     override fun onTouchStarted(rangeBar: RangeBar?) {}
@@ -171,9 +170,9 @@ class RepetitionSettingsFragment : BaseFragment() {
         viewModel.numberOfLaps.observe { numberOfLaps: Int ->
             val isInfinitely = numberOfLaps == Int.MAX_VALUE
             if (isInfinitely) {
-                lapsTextView.setText(R.string.infinitely)
+                lapNumberTextView.setText(R.string.infinitely)
             } else {
-                lapsTextView.text =
+                lapNumberTextView.text =
                     resources.getQuantityString(
                         R.plurals.number_of_laps_with_args,
                         numberOfLaps,

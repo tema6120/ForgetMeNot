@@ -4,18 +4,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
         <LinearLayout
-                android:layout_width="100dp"
+                android:id="@+id/matchingCardsLinearLayout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/background_matching_cards_number_for_repetition"
                 android:orientation="vertical"
-                android:padding="8dp">
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                     android:id="@+id/matchingCardsNumberTextView"
@@ -36,7 +42,7 @@
                     android:gravity="center_horizontal"
                     android:textColor="@color/textSecondary"
                     android:textSize="12sp"
-                    tools:text="cards match the filter" />
+                    tools:text="cards match\nthe filter" />
 
         </LinearLayout>
 
@@ -45,88 +51,107 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/title_groups"
                 android:textColor="@color/textPrimary"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/matchingCardsLinearLayout" />
 
-        <FrameLayout
+        <CheckBox
+                android:id="@+id/availableForExerciseGroupCheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="16dp"
+                android:text="@string/text_available_for_exercise_group_checkbox"
+                android:textColor="@color/textPrimary"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/groupsTitle"
+                tools:visibility="visible" />
+
+        <View
                 android:id="@+id/availableForExerciseGroupButton"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="@id/availableForExerciseGroupCheckBox"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/availableForExerciseGroupCheckBox" />
+
+        <CheckBox
+                android:id="@+id/awaitingGroupCheckBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="16dp"
+                android:text="@string/text_awaiting_group_checkbox"
+                android:textColor="@color/textPrimary"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/availableForExerciseGroupCheckBox"
+                tools:checked="true"
+                tools:visibility="visible" />
 
-            <CheckBox
-                    android:id="@+id/availableForExerciseGroupCheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/text_available_for_exercise_group_checkbox"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="14sp"
-                    android:visibility="invisible"
-                    tools:visibility="visible" />
-
-        </FrameLayout>
-
-        <FrameLayout
+        <View
                 android:id="@+id/awaitingGroupButton"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="@id/awaitingGroupCheckBox"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/awaitingGroupCheckBox" />
+
+        <CheckBox
+                android:id="@+id/learnedGroupCheckBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="16dp"
+                android:text="@string/text_learned_group_checkbox"
+                android:textColor="@color/textPrimary"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/awaitingGroupCheckBox"
+                tools:visibility="visible" />
 
-            <CheckBox
-                    android:id="@+id/awaitingGroupCheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/text_awaiting_group_checkbox"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="14sp"
-                    android:visibility="invisible"
-                    tools:visibility="visible" />
-
-        </FrameLayout>
-
-        <FrameLayout
+        <View
                 android:id="@+id/learnedGroupButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground">
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="@id/learnedGroupCheckBox"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/learnedGroupCheckBox" />
 
-            <CheckBox
-                    android:id="@+id/learnedGroupCheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/text_learned_group_checkbox"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="14sp"
-                    android:visibility="invisible"
-                    tools:visibility="visible" />
-
-        </FrameLayout>
-
-        <include layout="@layout/divider" />
+        <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/learnedGroupCheckBox" />
 
         <TextView
                 android:id="@+id/levelOfKnowledgeTitle"
@@ -139,6 +164,8 @@
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider"
                 tools:visibility="visible" />
 
         <com.appyvet.materialrangebar.RangeBar
@@ -148,6 +175,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/levelOfKnowledgeTitle"
                 app:mrb_barWeight="2dp"
                 app:mrb_connectingLineWeight="4dp"
                 app:mrb_pinColor="#888888"
@@ -168,7 +198,20 @@
                 tools:mrb_rightSelectorColor="@color/level_of_knowledge_excellent"
                 tools:visibility="visible" />
 
-        <include layout="@layout/divider" />
+        <View
+                android:id="@+id/divider2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/levelOfKnowledgeRangeBar" />
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/levelOfKnowledgeGroup"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:constraint_referenced_ids="levelOfKnowledgeTitle,levelOfKnowledgeRangeBar,divider2" />
 
         <TextView
                 android:id="@+id/lastAnswerTitle"
@@ -179,11 +222,17 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_last_answer"
                 android:textColor="@color/textPrimary"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider2" />
 
         <HorizontalScrollView
+                android:id="@+id/lastAnswerScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lastAnswerTitle">
 
             <LinearLayout
                     android:layout_width="wrap_content"
@@ -252,35 +301,62 @@
 
         </HorizontalScrollView>
 
-        <include layout="@layout/divider" />
+        <View
+                android:id="@+id/divider3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lastAnswerScrollView" />
 
-        <LinearLayout
-                android:id="@+id/lapsButton"
-                android:layout_width="match_parent"
+        <TextView
+                android:id="@+id/lapTitleTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/title_number_of_laps"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+        <TextView
+                android:id="@+id/lapNumberTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lapTitleTextView"
+                tools:text="1 lap" />
+
+        <View
+                android:id="@+id/lapsButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:layout_constraintBottom_toBottomOf="@id/lapNumberTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/lapTitleTextView" />
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_number_of_laps"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp" />
+        <View
+                android:id="@+id/divider4"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lapNumberTextView" />
 
-            <TextView
-                    android:id="@+id/lapsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textSecondary"
-                    android:textSize="14sp"
-                    tools:text="1 lap" />
-
-        </LinearLayout>
-
-        <include layout="@layout/divider" />
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
