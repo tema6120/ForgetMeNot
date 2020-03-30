@@ -86,7 +86,7 @@
                 app:layout_constraintStart_toEndOf="@+id/exercisePreferencesSectionTitle"
                 app:layout_constraintTop_toTopOf="@+id/presetNameTextView"
                 app:srcCompat="@drawable/ic_save_dark_24dp"
-                tools:visibilisty="visible" />
+                tools:visibility="visible" />
 
         <TextView
                 android:id="@+id/presetNameTextView"

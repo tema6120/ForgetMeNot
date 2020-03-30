@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.*
+import com.odnovolov.forgetmenot.persistence.globalstate.RepetitionSettingDb
 
 class GlobalStateBuilder private constructor(private val tables: TablesForGlobalState) {
     companion object {
@@ -22,11 +23,18 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             buildSharedIntervalSchemes(intervalSchemes)
         val sharedPronunciations: CopyableList<Pronunciation> =
             buildSharedPronunciations(pronunciations)
+        val repetitionSettings: CopyableList<RepetitionSetting> = buildRepetitionSettings()
+        val savedRepetitionSettings: CopyableList<RepetitionSetting> =
+            buildSavedRepetitionSettings(repetitionSettings)
+        val currentRepetitionSetting: RepetitionSetting =
+            buildCurrentRepetitionSetting(repetitionSettings)
         return GlobalState(
             decks,
             sharedExercisePreferences,
             sharedIntervalSchemes,
-            sharedPronunciations
+            sharedPronunciations,
+            savedRepetitionSettings,
+            currentRepetitionSetting
         )
     }
 
@@ -121,5 +129,36 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                 pronunciationsMap.getValue(pronunciationId)
             }
             .toCopyableList()
+    }
+
+    private fun buildRepetitionSettings(): CopyableList<RepetitionSetting> {
+        return tables.repetitionSettingTable
+            .map { repetitionSettingDb: RepetitionSettingDb ->
+                repetitionSettingDb.toRepetitionSetting()
+            }
+            .toCopyableList()
+    }
+
+    private fun buildSavedRepetitionSettings(
+        repetitionSettings: CopyableList<RepetitionSetting>
+    ): CopyableList<RepetitionSetting> {
+        val repetitionSettingsMap: Map<Long, RepetitionSetting> =
+            repetitionSettings.associateBy { it.id }
+        return tables.savedRepetitionSettingTable
+            .map { repetitionSettingId: Long ->
+                repetitionSettingsMap.getValue(repetitionSettingId)
+            }
+            .toCopyableList()
+    }
+
+    private fun buildCurrentRepetitionSetting(
+        repetitionSettings: CopyableList<RepetitionSetting>
+    ): RepetitionSetting {
+        val currentRepetitionSettingId: Long = tables.currentRepetitionSettingTable
+        return if (currentRepetitionSettingId == RepetitionSetting.Default.id) {
+            RepetitionSetting.Default
+        } else {
+            repetitionSettings.find { it.id == currentRepetitionSettingId }!!
+        }
     }
 }

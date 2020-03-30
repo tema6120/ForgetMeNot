@@ -10,6 +10,7 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.globalstate.ExercisePreferenceDb
 import com.odnovolov.forgetmenot.persistence.globalstate.IntervalDb
 import com.odnovolov.forgetmenot.persistence.globalstate.PronunciationDb
+import com.odnovolov.forgetmenot.persistence.globalstate.RepetitionSettingDb
 import com.odnovolov.forgetmenot.presentation.common.MainActivity
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
@@ -76,6 +77,10 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
             PronunciationDb.Adapter(
                 questionLanguageAdapter = localeAdapter,
                 answerLanguageAdapter = localeAdapter
+            ),
+            RepetitionSettingDb.Adapter(
+                lastAnswerFromTimeAgoAdapter = dateTimeSpanAdapter,
+                lastAnswerToTimeAgoAdapter = dateTimeSpanAdapter
             )
         )
     }
@@ -85,6 +90,7 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
         database.exercisePreferenceQueries.deleteUnused()
         database.intervalSchemeQueries.deleteUnused()
         database.pronunciationQueries.deleteUnused()
+        database.repetitionSettingQueries.deleteUnused()
         sqliteDriver.executeQuery(null, "VACUUM", 0)
     }
 

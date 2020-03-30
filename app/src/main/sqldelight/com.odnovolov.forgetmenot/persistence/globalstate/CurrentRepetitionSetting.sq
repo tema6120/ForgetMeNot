@@ -1,0 +1,11 @@
+CREATE TABLE CurrentRepetitionSettingDb (
+    repetitionSettingId INTEGER PRIMARY KEY NOT NULL
+);
+
+INSERT INTO CurrentRepetitionSettingDb VALUES (0);
+
+select:
+SELECT * FROM CurrentRepetitionSettingDb;
+
+update:
+UPDATE CurrentRepetitionSettingDb SET repetitionSettingId = ?;

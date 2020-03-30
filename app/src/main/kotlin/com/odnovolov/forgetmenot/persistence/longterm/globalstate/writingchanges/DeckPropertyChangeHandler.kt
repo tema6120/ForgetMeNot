@@ -1,12 +1,13 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
-import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
+import com.odnovolov.forgetmenot.domain.isDefault
+import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertIntervalSchemeIfNotExists
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists
 import com.odnovolov.forgetmenot.persistence.toCardDb
@@ -55,7 +56,7 @@ object DeckPropertyChangeHandler {
     }
 
     fun insertExercisePreferenceIfNotExists(exercisePreference: ExercisePreference) {
-        val exists = exercisePreference.id == ExercisePreference.Default.id
+        val exists = exercisePreference.isDefault()
                 || database.exercisePreferenceQueries.exists(exercisePreference.id).executeAsOne()
         if (!exists) {
             exercisePreference.intervalScheme?.let(::insertIntervalSchemeIfNotExists)

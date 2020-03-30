@@ -1,146 +1,237 @@
 package com.odnovolov.forgetmenot.domain.interactor.repetition
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
-import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.entity.CardReverse
-import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.entity.SpeakPlan
-import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
+import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
+import com.odnovolov.forgetmenot.domain.checkRepetitionSettingName
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
+import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting.Companion
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
-import com.soywiz.klock.DateTime
+import com.odnovolov.forgetmenot.domain.isDefault
+import com.odnovolov.forgetmenot.domain.isIndividual
 import com.soywiz.klock.DateTimeSpan
 
 class RepetitionSettings(
-    val state: State
+    private val globalState: GlobalState
 ) {
-    class State(
-        decks: List<Deck>,
-        isAvailableForExerciseCardsIncluded: Boolean = false,
-        isAwaitingCardsIncluded: Boolean = true,
-        isLearnedCardsIncluded: Boolean = false,
-        levelOfKnowledgeRange: IntRange = run {
-            val allLevelOfKnowledge: List<Int> = decks
-                .flatMap { it.cards }
-                .map { it.levelOfKnowledge }
-            val min: Int = allLevelOfKnowledge.min()!!
-            val max: Int = allLevelOfKnowledge.max()!!
-            min..max
-        },
-        lastAnswerFromTimeAgo: DateTimeSpan? = null,
-        lastAnswerToTimeAgo: DateTimeSpan? = null,
-        numberOfLaps: Int = 1
-    ) : FlowableState<State>() {
-        val decks: List<Deck> by me(decks)
-        var isAvailableForExerciseCardsIncluded: Boolean by me(isAvailableForExerciseCardsIncluded)
-        var isAwaitingCardsIncluded: Boolean by me(isAwaitingCardsIncluded)
-        var isLearnedCardsIncluded: Boolean by me(isLearnedCardsIncluded)
-        var levelOfKnowledgeRange: IntRange by me(levelOfKnowledgeRange)
-        var lastAnswerFromTimeAgo: DateTimeSpan? by me(lastAnswerFromTimeAgo) // null means zero time
-        var lastAnswerToTimeAgo: DateTimeSpan? by me(lastAnswerToTimeAgo) // null means now
-        var numberOfLaps: Int by me(numberOfLaps)
+    private val currentRepetitionSetting: RepetitionSetting
+        get() = globalState.currentRepetitionSetting
+
+    fun setCurrentRepetitionSetting(repetitionSettingId: Long) {
+        globalState.currentRepetitionSetting = when (repetitionSettingId) {
+            globalState.currentRepetitionSetting.id -> return
+            RepetitionSetting.Default.id -> RepetitionSetting.Default
+            else -> {
+                globalState.savedRepetitionSettings
+                    .find { it.id == repetitionSettingId }
+                    ?: return
+            }
+        }
+    }
+
+    fun createNewSavedRepetitionSetting(name: String) {
+        checkName(name)
+        createNewSavedRepetitionSettingAndSetAsCurrent(name)
+    }
+
+    fun renameRepetitionSetting(repetitionSetting: RepetitionSetting, newName: String) {
+        checkName(newName)
+        when {
+            repetitionSetting.isDefault() -> {
+                createNewSavedRepetitionSettingAndSetAsCurrent(newName)
+            }
+            repetitionSetting.isIndividual() -> {
+                repetitionSetting.name = newName
+                addNewSavedRepetitionSetting(repetitionSetting)
+            }
+            else -> {
+                repetitionSetting.name = newName
+            }
+        }
+    }
+
+    private fun checkName(testedName: String) {
+        when (checkRepetitionSettingName(testedName, globalState)) {
+            Ok -> return
+            Empty -> throw IllegalArgumentException("saved repetitionSetting name cannot be empty")
+            Occupied -> throw IllegalArgumentException("$testedName is occupied")
+        }
+    }
+
+    private fun createNewSavedRepetitionSettingAndSetAsCurrent(name: String) {
+        val newSavedRepetitionSetting: RepetitionSetting = RepetitionSetting.Default
+            .shallowCopy(id = generateId(), name = name)
+        addNewSavedRepetitionSetting(newSavedRepetitionSetting)
+        globalState.currentRepetitionSetting = newSavedRepetitionSetting
+    }
+
+    private fun addNewSavedRepetitionSetting(repetitionSetting: RepetitionSetting) {
+        globalState.savedRepetitionSettings =
+            (globalState.savedRepetitionSettings + repetitionSetting).toCopyableList()
+    }
+
+    fun deleteSavedRepetitionSetting(repetitionSettingId: Long) {
+        globalState.savedRepetitionSettings = globalState.savedRepetitionSettings
+            .filter { it.id != repetitionSettingId }
+            .toCopyableList()
+        if (globalState.currentRepetitionSetting.id == repetitionSettingId) {
+            globalState.currentRepetitionSetting = RepetitionSetting.Default
+        }
     }
 
     fun setIsAvailableForExerciseCardsIncluded(isIncluded: Boolean) {
-        state.isAvailableForExerciseCardsIncluded = isIncluded
+        updateRepetitionSetting(
+            isValueChanged = currentRepetitionSetting
+                .isAvailableForExerciseCardsIncluded != isIncluded,
+            createNewIndividualRepetitionSetting = {
+                currentRepetitionSetting.shallowCopy(
+                    id = generateId(),
+                    isAvailableForExerciseCardsIncluded = isIncluded
+                )
+            },
+            updateCurrentRepetitionSetting = {
+                currentRepetitionSetting.isAvailableForExerciseCardsIncluded = isIncluded
+            }
+        )
     }
 
     fun setIsAwaitingCardsIncluded(isIncluded: Boolean) {
-        state.isAwaitingCardsIncluded = isIncluded
+        updateRepetitionSetting(
+            isValueChanged = currentRepetitionSetting.isAwaitingCardsIncluded != isIncluded,
+            createNewIndividualRepetitionSetting = {
+                currentRepetitionSetting.shallowCopy(
+                    id = generateId(),
+                    isAwaitingCardsIncluded = isIncluded
+                )
+            },
+            updateCurrentRepetitionSetting = {
+                currentRepetitionSetting.isAwaitingCardsIncluded = isIncluded
+            }
+        )
     }
 
     fun setIsLearnedCardsIncluded(isIncluded: Boolean) {
-        state.isLearnedCardsIncluded = isIncluded
+        updateRepetitionSetting(
+            isValueChanged = currentRepetitionSetting.isLearnedCardsIncluded != isIncluded,
+            createNewIndividualRepetitionSetting = {
+                currentRepetitionSetting.shallowCopy(
+                    id = generateId(),
+                    isLearnedCardsIncluded = isIncluded
+                )
+            },
+            updateCurrentRepetitionSetting = {
+                currentRepetitionSetting.isLearnedCardsIncluded = isIncluded
+            }
+        )
     }
 
     fun setLevelOfKnowledgeRange(levelOfKnowledgeRange: IntRange) {
-        state.levelOfKnowledgeRange = levelOfKnowledgeRange
+        updateRepetitionSetting(
+            isValueChanged = currentRepetitionSetting.levelOfKnowledgeRange != levelOfKnowledgeRange,
+            createNewIndividualRepetitionSetting = {
+                currentRepetitionSetting.shallowCopy(
+                    id = generateId(),
+                    levelOfKnowledgeRange = levelOfKnowledgeRange
+                )
+            },
+            updateCurrentRepetitionSetting = {
+                currentRepetitionSetting.levelOfKnowledgeRange = levelOfKnowledgeRange
+            }
+        )
     }
 
     fun setLastAnswerFromTimeAgo(lastAnswerFromTimeAgo: DateTimeSpan?) {
-        state.lastAnswerFromTimeAgo = lastAnswerFromTimeAgo
+        updateRepetitionSetting(
+            isValueChanged = currentRepetitionSetting.lastAnswerFromTimeAgo != lastAnswerFromTimeAgo,
+            createNewIndividualRepetitionSetting = {
+                currentRepetitionSetting.shallowCopy(
+                    id = generateId(),
+                    lastAnswerFromTimeAgo = lastAnswerFromTimeAgo
+                )
+            },
+            updateCurrentRepetitionSetting = {
+                currentRepetitionSetting.lastAnswerFromTimeAgo = lastAnswerFromTimeAgo
+            }
+        )
     }
 
     fun setLastAnswerToTimeAgo(lastAnswerToTimeAgo: DateTimeSpan?) {
-        state.lastAnswerToTimeAgo = lastAnswerToTimeAgo
+        updateRepetitionSetting(
+            isValueChanged = currentRepetitionSetting.lastAnswerToTimeAgo != lastAnswerToTimeAgo,
+            createNewIndividualRepetitionSetting = {
+                currentRepetitionSetting.shallowCopy(
+                    id = generateId(),
+                    lastAnswerToTimeAgo = lastAnswerToTimeAgo
+                )
+            },
+            updateCurrentRepetitionSetting = {
+                currentRepetitionSetting.lastAnswerToTimeAgo = lastAnswerToTimeAgo
+            }
+        )
     }
 
     fun setNumberOfLaps(numberOfLaps: Int) {
-        state.numberOfLaps = numberOfLaps
-    }
-
-    fun getCurrentMatchingCardsNumber(): Int {
-        return state.decks.sumBy { deck: Deck ->
-            deck.cards
-                .filter { card: Card ->
-                    isCorrespondingCardGroupIncluded(card, deck)
-                            && card.levelOfKnowledge in state.levelOfKnowledgeRange
-                            && isLastAnswerTimeInFilterRange(card)
-                }
-                .count()
+        if (numberOfLaps <= 0) {
+            throw IllegalArgumentException("number of laps should be greater than zero")
         }
-    }
-
-    fun createRepetitionState(): Repetition.State {
-        if (state.numberOfLaps <= 0) throw WrongNumberOfLaps
-        val repetitionCards: List<RepetitionCard> = state.decks
-            .map { deck: Deck ->
-                val isRandom = deck.exercisePreference.randomOrder
-                deck.cards
-                    .filter { card: Card ->
-                        isCorrespondingCardGroupIncluded(card, deck)
-                                && card.levelOfKnowledge in state.levelOfKnowledgeRange
-                                && isLastAnswerTimeInFilterRange(card)
-                    }
-                    .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
-                    .sortedBy { card: Card -> card.lap }
-                    .map { card: Card -> cardToRepetitionCard(card, deck) }
+        updateRepetitionSetting(
+            isValueChanged = currentRepetitionSetting.numberOfLaps != numberOfLaps,
+            createNewIndividualRepetitionSetting = {
+                currentRepetitionSetting.shallowCopy(
+                    id = generateId(),
+                    numberOfLaps = numberOfLaps
+                )
+            },
+            updateCurrentRepetitionSetting = {
+                currentRepetitionSetting.numberOfLaps = numberOfLaps
             }
-            .flattenWithShallowShuffling()
-        if (repetitionCards.isEmpty()) throw NoCardIsReadyForRepetition
-        return Repetition.State(
-            repetitionCards = repetitionCards,
-            numberOfLaps = state.numberOfLaps
         )
     }
 
-    private fun isCorrespondingCardGroupIncluded(card: Card, deck: Deck): Boolean {
-        return when {
-            card.isLearned -> state.isLearnedCardsIncluded
-            isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme) ->
-                state.isAvailableForExerciseCardsIncluded
-            else -> state.isAwaitingCardsIncluded
+    private inline fun updateRepetitionSetting(
+        isValueChanged: Boolean,
+        createNewIndividualRepetitionSetting: () -> RepetitionSetting,
+        updateCurrentRepetitionSetting: () -> Unit
+    ) {
+        when {
+            !isValueChanged -> return
+            currentRepetitionSetting.isDefault() -> {
+                globalState.currentRepetitionSetting = createNewIndividualRepetitionSetting()
+            }
+            currentRepetitionSetting.isIndividual() -> {
+                updateCurrentRepetitionSetting()
+                if (currentRepetitionSetting.shouldBeDefault()) {
+                    globalState.currentRepetitionSetting = RepetitionSetting.Default
+                }
+            }
+            else -> {
+                updateCurrentRepetitionSetting()
+            }
         }
     }
 
-    private fun isLastAnswerTimeInFilterRange(card: Card): Boolean {
-        val now = DateTime.now()
-        return if (card.lastAnsweredAt == null) {
-            state.lastAnswerFromTimeAgo == null
-        } else {
-            (state.lastAnswerFromTimeAgo == null
-                    || card.lastAnsweredAt!! > now - state.lastAnswerFromTimeAgo!!)
-                    &&
-                    (state.lastAnswerToTimeAgo == null
-                            || card.lastAnsweredAt!! < now - state.lastAnswerToTimeAgo!!)
-        }
-    }
+    private fun RepetitionSetting.shallowCopy(
+        id: Long,
+        name: String = this.name,
+        isAvailableForExerciseCardsIncluded: Boolean = this.isAvailableForExerciseCardsIncluded,
+        isAwaitingCardsIncluded: Boolean = this.isAwaitingCardsIncluded,
+        isLearnedCardsIncluded: Boolean = this.isLearnedCardsIncluded,
+        levelOfKnowledgeRange: IntRange = this.levelOfKnowledgeRange,
+        lastAnswerFromTimeAgo: DateTimeSpan? = this.lastAnswerFromTimeAgo,
+        lastAnswerToTimeAgo: DateTimeSpan? = this.lastAnswerToTimeAgo,
+        numberOfLaps: Int = this.numberOfLaps
+    ) = RepetitionSetting(
+        id,
+        name,
+        isAvailableForExerciseCardsIncluded,
+        isAwaitingCardsIncluded,
+        isLearnedCardsIncluded,
+        levelOfKnowledgeRange,
+        lastAnswerFromTimeAgo,
+        lastAnswerToTimeAgo,
+        numberOfLaps
+    )
 
-    private fun cardToRepetitionCard(card: Card, deck: Deck): RepetitionCard {
-        val isReverse = when (deck.exercisePreference.cardReverse) {
-            CardReverse.Off -> false
-            CardReverse.On -> true
-            CardReverse.EveryOtherLap -> (card.lap % 2) == 1
-        }
-        return RepetitionCard(
-            id = generateId(),
-            card = card,
-            isReverse = isReverse,
-            pronunciation = deck.exercisePreference.pronunciation,
-            speakPlan = SpeakPlan.Default
-        )
-    }
-
-    object NoCardIsReadyForRepetition : Exception("no card is ready for repetition")
-    object WrongNumberOfLaps : Exception("number of laps should be greater than zero")
+    private fun RepetitionSetting.shouldBeDefault(): Boolean =
+        this.shallowCopy(id = RepetitionSetting.Default.id) == RepetitionSetting.Default
 }

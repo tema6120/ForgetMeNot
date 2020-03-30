@@ -1,24 +1,39 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
-import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionSettingsStateProvider
+import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
+import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionCreatorStateProvider
+import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionSettingsScreenStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val repetitionSettingsModule = module {
     scope<RepetitionSettings> {
-        scoped { RepetitionSettingsStateProvider(globalState = get()) }
-        scoped { get<RepetitionSettingsStateProvider>().load() }
-        scoped { RepetitionSettings(state = get()) }
+        scoped { RepetitionSettings(globalState = get()) }
+        scoped { RepetitionCreatorStateProvider(globalState = get()) }
+        scoped { get<RepetitionCreatorStateProvider>().load() }
+        scoped { RepetitionStateCreator(state = get(), globalState = get()) }
+        scoped { RepetitionSettingsScreenStateProvider() }
+        scoped { get<RepetitionSettingsScreenStateProvider>().load() }
         scoped {
             RepetitionSettingsController(
                 repetitionSettings = get(),
+                repetitionStateCreator = get(),
+                screenState = get(),
+                globalState = get(),
                 navigator = get(),
                 longTermStateSaver = get(),
-                repetitionSettingsStateProvider = get<RepetitionSettingsStateProvider>()
+                repetitionCreatorStateProvider = get<RepetitionCreatorStateProvider>(),
+                screenStateProvider = get<RepetitionSettingsScreenStateProvider>()
             )
         }
-        viewModel { RepetitionSettingsViewModel(repetitionSettings = get()) }
+        viewModel {
+            RepetitionSettingsViewModel(
+                screenState = get(),
+                repetitionStateCreator = get(),
+                globalState = get()
+            )
+        }
     }
 }
 

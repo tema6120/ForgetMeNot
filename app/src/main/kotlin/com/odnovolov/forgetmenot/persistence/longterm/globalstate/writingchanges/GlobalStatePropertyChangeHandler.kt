@@ -1,14 +1,17 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
-import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
+import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.isDefault
+import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.DeckPropertyChangeHandler.insertCards
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.DeckPropertyChangeHandler.insertExercisePreferenceIfNotExists
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertIntervalSchemeIfNotExists
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists
 import com.odnovolov.forgetmenot.persistence.toDeckDb
+import com.odnovolov.forgetmenot.persistence.toRepetitionSettingDb
 
 object GlobalStatePropertyChangeHandler {
     fun handle(change: PropertyChangeRegistry.Change) {
@@ -76,6 +79,35 @@ object GlobalStatePropertyChangeHandler {
                     insertPronunciationIfNotExists(pronunciation)
                 }
             }
+            GlobalState::savedRepetitionSettings -> {
+                if (change !is CollectionChange) return
+
+                val removedRepetitionSettings = change.removedItems as Collection<RepetitionSetting>
+                removedRepetitionSettings.forEach { repetitionSetting: RepetitionSetting ->
+                    database.savedRepetitionSettingQueries.delete(repetitionSetting.id)
+                }
+
+                val addedRepetitionSettings = change.addedItems as Collection<RepetitionSetting>
+                addedRepetitionSettings.forEach { repetitionSetting: RepetitionSetting ->
+                    insertRepetitionSettingIfNotExists(repetitionSetting)
+                    database.savedRepetitionSettingQueries.insert(repetitionSetting.id)
+                }
+            }
+            GlobalState::currentRepetitionSetting -> {
+                if (change !is PropertyValueChange) return
+                val currentRepetitionSetting = change.newValue as RepetitionSetting
+                insertRepetitionSettingIfNotExists(currentRepetitionSetting)
+                database.currentRepetitionSettingQueries.update(currentRepetitionSetting.id)
+            }
+        }
+    }
+
+    private fun insertRepetitionSettingIfNotExists(repetitionSetting: RepetitionSetting) {
+        val exists = repetitionSetting.isDefault()
+                || database.repetitionSettingQueries.exists(repetitionSetting.id).executeAsOne()
+        if (!exists) {
+            val repetitionSettingDb = repetitionSetting.toRepetitionSettingDb()
+            database.repetitionSettingQueries.insert(repetitionSettingDb)
         }
     }
 }

@@ -15,7 +15,7 @@
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_save_intervals"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/intervalSchemeNameTextView"
                 app:layout_constraintEnd_toStartOf="@+id/intervalSchemeNameTextView"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -23,7 +23,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/intervalSchemeNameTextView"
                 app:srcCompat="@drawable/ic_save_dark_24dp"
-                tools:visibilisty="visible" />
+                tools:visibility="visible" />
 
         <TextView
                 android:id="@+id/intervalSchemeNameTextView"

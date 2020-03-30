@@ -10,6 +10,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator.NoCardIsReadyForExercise
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
+import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
@@ -22,10 +23,12 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.REPETITION_SETTINGS_SCOPE_ID
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsScreenState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import org.koin.core.KoinComponent
+import org.koin.java.KoinJavaComponent.getKoin
 
 class HomeController(
     private val homeScreenState: HomeScreenState,
@@ -36,7 +39,7 @@ class HomeController(
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val homeScreenStateProvider: UserSessionTermStateProvider<HomeScreenState>
-) : KoinComponent {
+) {
     private val commandFlow = EventFlow<HomeCommand>()
     val commands: Flow<HomeCommand> = merge(
         commandFlow.get(),
@@ -90,9 +93,10 @@ class HomeController(
 
     private fun startRepetitionSettings(deckIds: List<Long>) {
         val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
-        val repetitionSettingsState = RepetitionSettings.State(decks)
+        val repetitionCreatorState = RepetitionStateCreator.State(decks)
         val koinScope = getKoin().createScope<RepetitionSettings>(REPETITION_SETTINGS_SCOPE_ID)
-        koinScope.declare(repetitionSettingsState, override = true)
+        koinScope.declare(repetitionCreatorState, override = true)
+        koinScope.declare(RepetitionSettingsScreenState(), override = true)
         navigator.navigateToRepetitionSettings()
     }
 

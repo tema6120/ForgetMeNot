@@ -140,3 +140,28 @@ fun DeckReviewPreferenceDb.toDeckReviewPreference() = DeckReviewPreference(
     deckSorting,
     displayOnlyWithTasks
 )
+
+fun RepetitionSetting.toRepetitionSettingDb() = RepetitionSettingDb.Impl(
+    id,
+    name,
+    isAvailableForExerciseCardsIncluded,
+    isAwaitingCardsIncluded,
+    isLearnedCardsIncluded,
+    levelOfKnowledgeRange.first,
+    levelOfKnowledgeRange.last,
+    lastAnswerFromTimeAgo,
+    lastAnswerToTimeAgo,
+    numberOfLaps
+)
+
+fun RepetitionSettingDb.toRepetitionSetting() = RepetitionSetting(
+    id,
+    name,
+    isAvailableForExerciseCardsIncluded,
+    isAwaitingCardsIncluded,
+    isLearnedCardsIncluded,
+    levelOfKnowledgeMin..levelOfKnowledgeMax,
+    lastAnswerFromTimeAgo,
+    lastAnswerToTimeAgo,
+    numberOfLaps
+)

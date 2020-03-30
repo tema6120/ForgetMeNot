@@ -1,0 +1,12 @@
+CREATE TABLE SavedRepetitionSettingDb (
+    repetitionSettingId INTEGER PRIMARY KEY NOT NULL
+);
+
+insert:
+INSERT INTO SavedRepetitionSettingDb(repetitionSettingId) VALUES (?);
+
+selectAll:
+SELECT * FROM SavedRepetitionSettingDb;
+
+delete:
+DELETE FROM SavedRepetitionSettingDb WHERE repetitionSettingId = ?;

@@ -37,6 +37,7 @@ object LongTermStateSaverImpl : LongTermStateSaver {
             IntervalScheme::class -> IntervalSchemePropertyChangeHandler.handle(change)
             Interval::class -> IntervalPropertyChangeHandler.handle(change)
             Pronunciation::class -> PronunciationPropertyChangeHandler.handle(change)
+            RepetitionSetting::class -> RepetitionSettingPropertyChangeHandler.handle(change)
             DeckReviewPreference::class -> DeckReviewPreferencePropertyChangeHandler.handle(change)
             WalkingModePreference::class -> WalkingModePreferencePropertyChangeHandler.handle(change)
         }

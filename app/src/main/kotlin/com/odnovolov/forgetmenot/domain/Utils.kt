@@ -28,6 +28,11 @@ fun Pronunciation.isDefault(): Boolean = this.id == Pronunciation.Default.id
 fun Pronunciation.isIndividual(): Boolean =
     this.id != Pronunciation.Default.id && this.name.isEmpty()
 
+fun RepetitionSetting.isDefault(): Boolean = this.id == RepetitionSetting.Default.id
+
+fun RepetitionSetting.isIndividual(): Boolean =
+    this.id != RepetitionSetting.Default.id && this.name.isEmpty()
+
 fun checkDeckName(testedName: String, globalState: GlobalState): NameCheckResult {
     return when {
         testedName.isEmpty() -> NameCheckResult.Empty
@@ -57,6 +62,14 @@ fun checkPronunciationName(testedName: String, globalState: GlobalState): NameCh
     return when {
         testedName.isEmpty() -> NameCheckResult.Empty
         globalState.sharedPronunciations.any { it.name == testedName } -> NameCheckResult.Occupied
+        else -> NameCheckResult.Ok
+    }
+}
+
+fun checkRepetitionSettingName(testedName: String, globalState: GlobalState): NameCheckResult {
+    return when {
+        testedName.isEmpty() -> NameCheckResult.Empty
+        globalState.savedRepetitionSettings.any { it.name == testedName } -> NameCheckResult.Occupied
         else -> NameCheckResult.Ok
     }
 }

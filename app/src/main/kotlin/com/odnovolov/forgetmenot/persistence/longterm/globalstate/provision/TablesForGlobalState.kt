@@ -12,7 +12,10 @@ class TablesForGlobalState private constructor(
     val pronunciationTable: List<PronunciationDb>,
     val sharedExercisePreferenceTable: List<Long>,
     val sharedIntervalSchemeTable: List<Long>,
-    val sharedPronunciationTable: List<Long>
+    val sharedPronunciationTable: List<Long>,
+    val repetitionSettingTable: List<RepetitionSettingDb>,
+    val savedRepetitionSettingTable: List<Long>,
+    val currentRepetitionSettingTable: Long
 ) {
     companion object {
         fun load(): TablesForGlobalState {
@@ -26,7 +29,10 @@ class TablesForGlobalState private constructor(
                     pronunciationTable = pronunciationQueries.selectAll().executeAsList(),
                     sharedExercisePreferenceTable = sharedExercisePreferenceQueries.selectAll().executeAsList(),
                     sharedIntervalSchemeTable = sharedIntervalSchemeQueries.selectAll().executeAsList(),
-                    sharedPronunciationTable = sharedPronunciationQueries.selectAll().executeAsList()
+                    sharedPronunciationTable = sharedPronunciationQueries.selectAll().executeAsList(),
+                    repetitionSettingTable = repetitionSettingQueries.selectAll().executeAsList(),
+                    savedRepetitionSettingTable = savedRepetitionSettingQueries.selectAll().executeAsList(),
+                    currentRepetitionSettingTable = currentRepetitionSettingQueries.select().executeAsOne()
                 )
             }
         }
