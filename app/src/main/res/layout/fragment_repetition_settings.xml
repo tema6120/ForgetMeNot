@@ -11,35 +11,32 @@
 
         <LinearLayout
                 android:id="@+id/matchingCardsLinearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="102dp"
+                android:layout_height="102dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/background_matching_cards_number_for_repetition"
                 android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="8dp"
+                android:padding="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                     android:id="@+id/matchingCardsNumberTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="@color/textSecondary"
-                    android:textSize="36sp"
                     android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
                     tools:text="25" />
 
             <TextView
                     android:id="@+id/matchingCardsLabelTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
                     android:textColor="@color/textSecondary"
                     android:textSize="12sp"
@@ -51,10 +48,10 @@
                 android:id="@+id/savePresetButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginStart="32dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_save_intervals"
                 android:visibility="gone"
-                android:layout_marginStart="32dp"
                 app:layout_constraintBottom_toBottomOf="@+id/presetButton"
                 app:layout_constraintEnd_toStartOf="@+id/presetButton"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -202,10 +199,8 @@
                 android:text="@string/title_level_of_knowledge"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
-                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <com.appyvet.materialrangebar.RangeBar
                 android:id="@+id/levelOfKnowledgeRangeBar"
@@ -213,7 +208,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/levelOfKnowledgeTitle"
@@ -234,8 +228,7 @@
                 app:mrb_tickLabelSize="6sp"
                 tools:mrb_connectingLineColor="@color/colorAccent"
                 tools:mrb_leftSelectorColor="@color/level_of_knowledge_unsatisfactory"
-                tools:mrb_rightSelectorColor="@color/level_of_knowledge_excellent"
-                tools:visibility="visible" />
+                tools:mrb_rightSelectorColor="@color/level_of_knowledge_excellent" />
 
         <View
                 android:id="@+id/divider2"
@@ -245,12 +238,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/levelOfKnowledgeRangeBar" />
-
-        <androidx.constraintlayout.widget.Group
-                android:id="@+id/levelOfKnowledgeGroup"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:constraint_referenced_ids="levelOfKnowledgeTitle,levelOfKnowledgeRangeBar,divider2" />
 
         <TextView
                 android:id="@+id/lastAnswerTitle"

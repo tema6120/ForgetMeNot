@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.checkRepetitionSettingName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
@@ -92,26 +93,37 @@ class RepetitionSettingsViewModel(
         }
 
     val availableLevelOfKnowledgeRange: IntRange = run {
-        val allLevelOfKnowledge: List<Int> = repetitionStateCreator.state.decks
-            .flatMap { it.cards }
-            .map { it.levelOfKnowledge }
-        val min: Int = allLevelOfKnowledge.min()!!
-        val max: Int = allLevelOfKnowledge.max()!!
-        min..max
+        val maxLokFromCards: Int = globalState.decks
+            .flatMap { deck -> deck.cards }
+            .map { card -> card.levelOfKnowledge }
+            .max() ?: 0
+        val maxLokFromSharedIntervals: Int = globalState.sharedIntervalSchemes
+            .flatMap { intervalScheme -> intervalScheme.intervals }
+            .map { interval -> interval.targetLevelOfKnowledge }
+            .max() ?: 0
+        val maxLokFromDeckIntervals: Int = globalState.decks
+            .flatMap { deck ->
+                deck.exercisePreference.intervalScheme?.intervals ?: emptyList<Interval>()
+            }
+            .map { interval -> interval.targetLevelOfKnowledge }
+            .max() ?: 0
+        val maxLokFromSavedRepetitionSettings: Int = globalState.savedRepetitionSettings
+            .map { repetitionSetting -> repetitionSetting.levelOfKnowledgeRange.last }
+            .max() ?: 0
+        val maxLokFromCurrentRepetitionSetting: Int =
+            globalState.currentRepetitionSetting.levelOfKnowledgeRange.last
+        val maxLevelOfKnowledge: Int = arrayOf(
+            maxLokFromCards,
+            maxLokFromSharedIntervals,
+            maxLokFromDeckIntervals,
+            maxLokFromSavedRepetitionSettings,
+            maxLokFromCurrentRepetitionSetting
+        ).max()!!
+        0..maxLevelOfKnowledge
     }
 
-    val currentLevelOfKnowledgeRange: Flow<IntRange> =
-        currentRepetitionSetting.map { repetitionSetting: RepetitionSetting ->
-            val min: Int = minOf(
-                repetitionSetting.levelOfKnowledgeRange.first,
-                availableLevelOfKnowledgeRange.first
-            )
-            val max: Int = minOf(
-                repetitionSetting.levelOfKnowledgeRange.last,
-                availableLevelOfKnowledgeRange.last
-            )
-            min..max
-        }
+    val selectedLevelOfKnowledgeRange: Flow<IntRange> =
+        currentRepetitionSetting.map { it.levelOfKnowledgeRange }
 
     val lastAnswerFromTimeAgo: Flow<DisplayedInterval?> = currentRepetitionSetting
         .flatMapLatest { repetitionSetting: RepetitionSetting ->

@@ -43,7 +43,7 @@ class RepetitionSetting(
                 isAvailableForExerciseCardsIncluded = false,
                 isAwaitingCardsIncluded = true,
                 isLearnedCardsIncluded = false,
-                levelOfKnowledgeRange = 0..Int.MAX_VALUE,
+                levelOfKnowledgeRange = 0..6,
                 lastAnswerFromTimeAgo = null,
                 lastAnswerToTimeAgo = null,
                 numberOfLaps = 1

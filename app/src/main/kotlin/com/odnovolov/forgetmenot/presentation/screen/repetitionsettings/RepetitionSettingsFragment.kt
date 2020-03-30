@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_repetition_settings.*
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 class RepetitionSettingsFragment : BaseFragment() {
     private val koinScope =
@@ -167,10 +168,6 @@ class RepetitionSettingsFragment : BaseFragment() {
     }
 
     private fun setupLevelOfKnowledgeRangeBar() {
-        if (with(viewModel.availableLevelOfKnowledgeRange) { first == last }) {
-            levelOfKnowledgeGroup.visibility = GONE
-            return
-        }
         with(levelOfKnowledgeRangeBar) {
             setOnRangeBarChangeListener(
                 object : RangeBar.OnRangeBarChangeListener {
@@ -195,11 +192,7 @@ class RepetitionSettingsFragment : BaseFragment() {
                                 val max = rightPinValue?.toInt() ?: return
                                 controller.onLevelOfKnowledgeRangeChanged(min..max)
                             }
-                            leftSelectorColor = getLevelOfKnowledgeColor(leftPinValue.toInt())
-                            rightSelectorColor = getLevelOfKnowledgeColor(rightPinValue.toInt())
-                            setConnectingLineColors(
-                                arrayListOf(leftSelectorColor, rightSelectorColor)
-                            )
+                            updateLevelOfKnowledgeRangeSelectorColors()
                         }
                         updateOldPinValues()
                     }
@@ -214,19 +207,28 @@ class RepetitionSettingsFragment : BaseFragment() {
                 })
             tickStart = viewModel.availableLevelOfKnowledgeRange.first.toFloat()
             tickEnd = viewModel.availableLevelOfKnowledgeRange.last.toFloat()
+            val list = (tickStart.toInt()..tickEnd.toInt())
+                .map(::getLevelOfKnowledgeColor)
+            setConnectingLineColors(ArrayList(list))
+            updateLevelOfKnowledgeRangeSelectorColors()
             tickTopLabels = viewModel.availableLevelOfKnowledgeRange
                 .map { it.toString() }
                 .toTypedArray()
-            levelOfKnowledgeTitle.visibility = VISIBLE
-            visibility = VISIBLE
         }
-        viewModel.currentLevelOfKnowledgeRange.observe { levelOfKnowledgeRange: IntRange ->
+        viewModel.selectedLevelOfKnowledgeRange.observe { levelOfKnowledgeRange: IntRange ->
             isLevelOfKnowledgeRangeListenerEnabled = false
             levelOfKnowledgeRangeBar.setRangePinsByValue(
                 levelOfKnowledgeRange.first.toFloat(),
                 levelOfKnowledgeRange.last.toFloat()
             )
             isLevelOfKnowledgeRangeListenerEnabled = true
+        }
+    }
+
+    private fun updateLevelOfKnowledgeRangeSelectorColors() {
+        with(levelOfKnowledgeRangeBar) {
+            leftSelectorColor = getLevelOfKnowledgeColor(leftPinValue.toInt())
+            rightSelectorColor = getLevelOfKnowledgeColor(rightPinValue.toInt())
         }
     }
 
