@@ -31,6 +31,10 @@ class NavigatorImpl : Navigator,
         navController?.navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
     }
 
+    override fun navigateToSpeakPlan() {
+        navController?.navigate(R.id.action_deck_settings_screen_to_speak_plan_screen)
+    }
+
     override fun navigateToRepetitionSettings() {
         navController?.navigate(R.id.action_home_screen_to_repetition_settings_screen)
     }

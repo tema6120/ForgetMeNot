@@ -161,6 +161,10 @@ class DeckSettingsController(
         longTermStateSaver.saveStateByRegistry()
     }
 
+    fun onSpeakPlanButtonClicked() {
+        navigator.navigateToSpeakPlan()
+    }
+
     fun onFragmentPause() {
         deckSettingsStateProvider.save(deckSettings.state)
         deckSettingsScreenStateProvider.save(deckSettingsScreenState)

@@ -60,6 +60,10 @@
                 android:id="@+id/action_deck_settings_screen_to_intervals_screen"
                 app:destination="@id/intervals_screen" />
 
+        <action
+                android:id="@+id/action_deck_settings_screen_to_speak_plan_screen"
+                app:destination="@id/speak_plan_screen" />
+
     </fragment>
 
     <fragment
@@ -73,6 +77,12 @@
             android:name="com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsFragment"
             android:label="@string/label_intervals_screen"
             tools:layout="@layout/fragment_intervals" />
+
+    <fragment
+            android:id="@+id/speak_plan_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanFragment"
+            android:label="@string/label_speak_plan_screen"
+            tools:layout="@layout/fragment_speak_plan" />
 
     <fragment
             android:id="@+id/settings_screen"

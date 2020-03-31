@@ -469,6 +469,69 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectedCardReverseTextView" />
 
+        <TextView
+                android:id="@+id/speakPlanTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/text_speak_plan_title"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/navigateToSpeakPlanScreenIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider6" />
+
+        <TextView
+                android:id="@+id/selectedSpeakPlanTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/textSecondary"
+                app:layout_constraintEnd_toStartOf="@+id/navigateToSpeakPlanScreenIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/speakPlanTitle"
+                tools:text="Default" />
+
+        <ImageView
+                android:id="@+id/navigateToSpeakPlanScreenIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/selectedSpeakPlanTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/speakPlanTitle"
+                app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
+
+        <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="selectedSpeakPlanTextView,navigateToSpeakPlanScreenIcon" />
+
+        <View
+                android:id="@+id/speakPlanButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toTopOf="@+id/barrier7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider6" />
+
+        <View
+                android:id="@+id/divider7"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier7" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

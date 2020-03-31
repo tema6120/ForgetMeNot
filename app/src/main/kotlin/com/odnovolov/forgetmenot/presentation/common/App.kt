@@ -31,6 +31,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import repetitionLapsModule
+import speakPlanModule
 
 class App : Application() {
     override fun onCreate() {
@@ -50,7 +51,7 @@ class App : Application() {
                 appModule, homeModule, addDeckModule, deckSortingModule, exerciseModule,
                 exerciseCardModule, answerOffTestModule, answerManualTestModule,
                 answerQuizTestModule, answerEntryTestModule, editCardModule, deckSettingsModule,
-                intervalsModule, modifyIntervalModule, pronunciationModule,
+                intervalsModule, modifyIntervalModule, pronunciationModule, speakPlanModule,
                 walkingModeSettingsModule, repetitionSettingsModule, lastAnswerFilterModule,
                 repetitionLapsModule, repetitionModule
             )

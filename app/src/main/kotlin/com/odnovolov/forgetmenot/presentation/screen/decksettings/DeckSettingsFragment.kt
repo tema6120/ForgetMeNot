@@ -165,6 +165,9 @@ class DeckSettingsFragment : BaseFragment() {
         cardReverseButton.setOnClickListener {
             chooseCardReverseDialog.show()
         }
+        speakPlanButton.setOnClickListener {
+            controller.onSpeakPlanButtonClicked()
+        }
     }
 
     private fun showChooseExercisePreferencePopup() {

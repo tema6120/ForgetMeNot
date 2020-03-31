@@ -18,6 +18,10 @@
     <string name="description_done_button">Done</string>
     <string name="description_cancel_button">Cancel</string>
     <string name="description_reverse_card_button">Reverse card</string>
+    <string name="description_drag_handle_button">Drag handle</string>
+    <string name="description_remove_speak_event_button">Remove speak event</string>
+    <string name="description_add_speak_event_button">Add speak event</string>
+    <string name="description_speak_icon">Speak icon</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
@@ -39,6 +43,7 @@
     <string name="text_pronunciation">Pronunciation</string>
     <string name="label_pronunciation_screen">Pronunciation</string>
     <string name="label_intervals_screen">Intervals</string>
+    <string name="label_speak_plan_screen">Speak plan</string>
     <string name="label_edit_card_screen">Edit card</string>
     <string name="label_settings_screen">Settings</string>
     <string name="label_walking_mode_settings_screen">Walking mode settings</string>
@@ -161,4 +166,8 @@
         <item quantity="one">card matches\nthe filter</item>
         <item quantity="other">cards match\nthe filter</item>
     </plurals>
+    <string name="text_speak_plan_title">Speak plan for Repetition</string>
+    <string name="speak_event_speak_question">Speak question</string>
+    <string name="speak_event_speak_answer">Speak answer</string>
+    <string name="speak_event_delay">Delay %d sec.</string>
 </resources>

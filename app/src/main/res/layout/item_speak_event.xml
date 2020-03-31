@@ -1,0 +1,105 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <View
+            android:id="@+id/speakEventButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+            android:id="@+id/dragHandleButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_drag_handle_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_drag_handle_dark_24dp" />
+
+    <View
+            android:id="@+id/timeLine"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:background="#cccccc"
+            app:layout_constraintBottom_toTopOf="@id/speakIcon"
+            app:layout_constraintStart_toEndOf="@id/dragHandleButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:id="@+id/speakIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@string/description_speak_icon"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/timeLine"
+            app:layout_constraintStart_toStartOf="@id/timeLine"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_volume_up_dark_24dp" />
+
+    <View
+            android:id="@+id/timeLine2"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:background="#cccccc"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/speakIcon"
+            app:layout_constraintStart_toEndOf="@id/dragHandleButton"
+            app:layout_constraintTop_toTopOf="@id/speakIcon" />
+
+    <View
+            android:id="@+id/timeLine3"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:background="#cccccc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dragHandleButton"
+            app:layout_constraintTop_toBottomOf="@id/speakIcon" />
+
+    <TextView
+            android:id="@+id/speakEventTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/textPrimary"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/removeSpeakEventButton"
+            app:layout_constraintStart_toEndOf="@id/timeLine"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Speak question"
+            tools:textStyle="bold" />
+
+    <ImageButton
+            android:id="@+id/removeSpeakEventButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_remove_speak_event_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/remove_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

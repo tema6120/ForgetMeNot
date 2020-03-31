@@ -6,6 +6,7 @@ interface Navigator {
     fun navigateToDeckSettings()
     fun navigateToIntervals()
     fun navigateToPronunciation()
+    fun navigateToSpeakPlan()
     fun navigateToRepetitionSettings()
     fun showLastAnswerFilterDialog()
     fun showRepetitionLapsDialog()
