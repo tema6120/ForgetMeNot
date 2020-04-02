@@ -4,7 +4,12 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.*
+import com.odnovolov.forgetmenot.persistence.globalstate.DelaySpeakEventDb
 import com.odnovolov.forgetmenot.persistence.globalstate.RepetitionSettingDb
+import com.odnovolov.forgetmenot.persistence.globalstate.SpeakEventDb
+import com.odnovolov.forgetmenot.persistence.globalstate.SpeakPlanDb
+import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.milliseconds
 
 class GlobalStateBuilder private constructor(private val tables: TablesForGlobalState) {
     companion object {
@@ -14,8 +19,9 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
     private fun build(): GlobalState {
         val intervalSchemes: List<IntervalScheme> = buildIntervalSchemes()
         val pronunciations: List<Pronunciation> = buildPronunciations()
+        val speakPlans: List<SpeakPlan> = buildSpeakPlans()
         val exercisePreferences: List<ExercisePreference> =
-            buildExercisePreferences(intervalSchemes, pronunciations)
+            buildExercisePreferences(intervalSchemes, pronunciations, speakPlans)
         val decks: CopyableList<Deck> = buildDecks(exercisePreferences)
         val sharedExercisePreferences: CopyableList<ExercisePreference> =
             buildSharedExercisePreferences(exercisePreferences)
@@ -23,6 +29,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             buildSharedIntervalSchemes(intervalSchemes)
         val sharedPronunciations: CopyableList<Pronunciation> =
             buildSharedPronunciations(pronunciations)
+        val sharedSpeakPlans: CopyableList<SpeakPlan> = buildSharedSpeakPlans(speakPlans)
         val repetitionSettings: CopyableList<RepetitionSetting> = buildRepetitionSettings()
         val savedRepetitionSettings: CopyableList<RepetitionSetting> =
             buildSavedRepetitionSettings(repetitionSettings)
@@ -33,6 +40,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             sharedExercisePreferences,
             sharedIntervalSchemes,
             sharedPronunciations,
+            sharedSpeakPlans,
             savedRepetitionSettings,
             currentRepetitionSetting
         )
@@ -43,6 +51,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             .map { intervalSchemeDb ->
                 val intervals: CopyableList<Interval> = tables.intervalTable
                     .filter { it.intervalSchemeId == intervalSchemeDb.id }
+                    .sortedBy { it.targetLevelOfKnowledge }
                     .map { it.toInterval() }
                     .toCopyableList()
                 intervalSchemeDb.toIntervalScheme(intervals)
@@ -50,13 +59,42 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
     }
 
     private fun buildPronunciations(): List<Pronunciation> {
-        return tables.pronunciationTable
-            .map { it.toPronunciation() }
+        return tables.pronunciationTable.map { it.toPronunciation() }
+    }
+
+    private fun buildSpeakPlans(): List<SpeakPlan> {
+        val delaySpeakEventDbMap: Map<Long, DelaySpeakEventDb> =
+            tables.delaySpeakEventTable.associateBy { it.speakEventId }
+        val groupedSpeakEventDb: Map<Long, List<SpeakEventDb>> =
+            tables.speakEventTable.groupBy { it.speakPlanId }
+        return tables.speakPlanTable.map { speakPlanDb: SpeakPlanDb ->
+            val speakEvents: List<SpeakEvent> = groupedSpeakEventDb.getValue(speakPlanDb.id)
+                .sortedBy { speakEventDb: SpeakEventDb -> speakEventDb.ordinal }
+                .map { speakEventDb: SpeakEventDb ->
+                    when (speakEventDb.speakEventType) {
+                        SpeakEvent.SpeakQuestion::class.simpleName ->
+                            SpeakEvent.SpeakQuestion(speakEventDb.id)
+                        SpeakEvent.SpeakAnswer::class.simpleName ->
+                            SpeakEvent.SpeakAnswer(speakEventDb.id)
+                        SpeakEvent.Delay::class.simpleName -> {
+                            val delay: TimeSpan =
+                                delaySpeakEventDbMap.getValue(speakEventDb.id).delayMs.milliseconds
+                            SpeakEvent.Delay(speakEventDb.id, delay)
+                        }
+                        else -> throw IllegalStateException(
+                            "column ${speakEventDb::speakEventType.name} cannot be adapted to " +
+                                    SpeakEvent::class.simpleName
+                        )
+                    }
+                }
+            speakPlanDb.toSpeakPlan(speakEvents)
+        }
     }
 
     private fun buildExercisePreferences(
         intervalSchemes: List<IntervalScheme>,
-        pronunciations: List<Pronunciation>
+        pronunciations: List<Pronunciation>,
+        speakPlans: List<SpeakPlan>
     ): List<ExercisePreference> {
         return tables.exercisePreferenceTable
             .map { exercisePreferencesDb ->
@@ -73,7 +111,13 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                     } else {
                         pronunciations.first { it.id == exercisePreferencesDb.pronunciationId }
                     }
-                exercisePreferencesDb.toExercisePreference(intervalScheme, pronunciation)
+                val speakPlan: SpeakPlan =
+                    if (exercisePreferencesDb.speakPlanId == SpeakPlan.Default.id) {
+                        SpeakPlan.Default
+                    } else {
+                        speakPlans.first { it.id == exercisePreferencesDb.speakPlanId }
+                    }
+                exercisePreferencesDb.toExercisePreference(intervalScheme, pronunciation, speakPlan)
             }
     }
 
@@ -114,9 +158,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
     ): CopyableList<IntervalScheme> {
         val intervalSchemesMap: Map<Long, IntervalScheme> = intervalSchemes.associateBy { it.id }
         return tables.sharedIntervalSchemeTable
-            .map { intervalSchemeId: Long ->
-                intervalSchemesMap.getValue(intervalSchemeId)
-            }
+            .map { intervalSchemeId: Long -> intervalSchemesMap.getValue(intervalSchemeId) }
             .toCopyableList()
     }
 
@@ -125,9 +167,14 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
     ): CopyableList<Pronunciation> {
         val pronunciationsMap: Map<Long, Pronunciation> = pronunciations.associateBy { it.id }
         return tables.sharedPronunciationTable
-            .map { pronunciationId: Long ->
-                pronunciationsMap.getValue(pronunciationId)
-            }
+            .map { pronunciationId: Long -> pronunciationsMap.getValue(pronunciationId) }
+            .toCopyableList()
+    }
+
+    private fun buildSharedSpeakPlans(speakPlans: List<SpeakPlan>): CopyableList<SpeakPlan> {
+        val speakPlanMap: Map<Long, SpeakPlan> = speakPlans.associateBy { it.id }
+        return tables.sharedSpeakPlanTable
+            .map { speakPlanId: Long -> speakPlanMap.getValue(speakPlanId) }
             .toCopyableList()
     }
 

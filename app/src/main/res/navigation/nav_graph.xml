@@ -82,7 +82,18 @@
             android:id="@+id/speak_plan_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanFragment"
             android:label="@string/label_speak_plan_screen"
-            tools:layout="@layout/fragment_speak_plan" />
+            tools:layout="@layout/fragment_speak_plan">
+
+        <action
+                android:id="@+id/action_show_speak_event_dialog"
+                app:destination="@+id/speak_event_dialog" />
+
+    </fragment>
+
+    <dialog
+            android:id="@+id/speak_event_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialog"
+            tools:layout="@layout/dialog_speak_event" />
 
     <fragment
             android:id="@+id/settings_screen"

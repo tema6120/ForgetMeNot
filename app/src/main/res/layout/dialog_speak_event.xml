@@ -1,0 +1,100 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <FrameLayout
+            android:id="@+id/speakQuestionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+        <RadioButton
+                android:id="@+id/speakQuestionRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="16dp"
+                android:text="@string/speak_event_speak_question"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/speakAnswerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RadioButton
+                android:id="@+id/speakAnswerRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="16dp"
+                android:text="@string/speak_event_speak_answer"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <LinearLayout
+            android:id="@+id/delayButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+        <RadioButton
+                android:id="@+id/delayRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="32dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="16dp"
+                android:text="@string/speak_event_delay"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+
+        <EditText
+                android:id="@+id/delayEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="end"
+                android:hint="00"
+                android:inputType="number"
+                android:maxLength="2"
+                android:padding="16dp"
+                android:textColor="@color/text_primary_selector"
+                android:textColorHint="#00FFFFFF"
+                android:textSize="18sp"
+                tools:text="2" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:text="@string/sec"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

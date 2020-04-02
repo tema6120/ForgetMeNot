@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings.Event.*
 import kotlinx.coroutines.flow.Flow
@@ -227,7 +226,8 @@ class DeckSettings(
         intervalScheme: IntervalScheme? = this.intervalScheme,
         pronunciation: Pronunciation = this.pronunciation,
         isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
-        cardReverse: CardReverse = this.cardReverse
+        cardReverse: CardReverse = this.cardReverse,
+        speakPlan: SpeakPlan = this.speakPlan
     ) = ExercisePreference(
         id,
         name,
@@ -236,7 +236,8 @@ class DeckSettings(
         intervalScheme,
         pronunciation,
         isQuestionDisplayed,
-        cardReverse
+        cardReverse,
+        speakPlan
     )
 
     private fun ExercisePreference.shouldBeDefault(): Boolean {

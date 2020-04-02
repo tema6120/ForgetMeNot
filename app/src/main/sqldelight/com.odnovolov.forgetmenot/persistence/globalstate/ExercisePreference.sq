@@ -9,7 +9,8 @@ CREATE TABLE ExercisePreferenceDb (
     intervalSchemeId INTEGER,
     pronunciationId INTEGER NOT NULL,
     isQuestionDisplayed INTEGER AS Boolean NOT NULL,
-    cardReverse TEXT AS CardReverse NOT NULL
+    cardReverse TEXT AS CardReverse NOT NULL,
+    speakPlanId INTEGER NOT NULL
 );
 
 insert:
@@ -39,11 +40,14 @@ UPDATE ExercisePreferenceDb SET isQuestionDisplayed = ? WHERE id = ?;
 updateCardReverse:
 UPDATE ExercisePreferenceDb SET cardReverse = ? WHERE id = ?;
 
+updateSpeakPlanId:
+UPDATE ExercisePreferenceDb SET speakPlanId = ? WHERE id = ?;
+
 delete:
 DELETE FROM ExercisePreferenceDb WHERE id = ?;
 
 exists:
-SELECT EXISTS(SELECT * FROM ExercisePreferenceDb WHERE id = ?);
+SELECT EXISTS (SELECT * FROM ExercisePreferenceDb WHERE id = ?);
 
 deleteUnused:
 DELETE FROM ExercisePreferenceDb

@@ -3,8 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.speakplan
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +15,9 @@ import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventAdapter.ViewHolder
 import kotlinx.android.synthetic.main.item_speak_event.view.*
 
-class SpeakEventAdapter : ListAdapter<SpeakEvent, ViewHolder>(DiffCallback()) {
+class SpeakEventAdapter(
+    private val controller: SpeakPlanController
+) : ListAdapter<SpeakEventItem, ViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_speak_event, parent, false)
@@ -24,10 +25,11 @@ class SpeakEventAdapter : ListAdapter<SpeakEvent, ViewHolder>(DiffCallback()) {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val speakEvent: SpeakEvent = getItem(position)
+        val speakEventItem: SpeakEventItem = getItem(position)
+        val speakEvent: SpeakEvent = speakEventItem.speakEvent
         with(viewHolder.itemView) {
             when (speakEvent) {
-                SpeakQuestion -> {
+                is SpeakQuestion -> {
                     speakEventTextView.text = context.getString(R.string.speak_event_speak_question)
                     speakEventTextView.setTypeface(null, Typeface.BOLD)
                     speakEventTextView.setTextColor(
@@ -39,7 +41,7 @@ class SpeakEventAdapter : ListAdapter<SpeakEvent, ViewHolder>(DiffCallback()) {
                     speakIcon.visibility = VISIBLE
                     timeLine2.visibility = INVISIBLE
                 }
-                SpeakAnswer -> {
+                is SpeakAnswer -> {
                     speakEventTextView.text = context.getString(R.string.speak_event_speak_answer)
                     speakEventTextView.setTypeface(null, Typeface.BOLD)
                     speakEventTextView.setTextColor(
@@ -53,7 +55,8 @@ class SpeakEventAdapter : ListAdapter<SpeakEvent, ViewHolder>(DiffCallback()) {
                 }
                 is Delay -> {
                     val seconds = speakEvent.timeSpan.seconds.toInt()
-                    speakEventTextView.text = context.getString(R.string.speak_event_delay, seconds)
+                    speakEventTextView.text =
+                        context.getString(R.string.speak_event_delay_with_args, seconds)
                     speakEventTextView.setTypeface(null, Typeface.ITALIC)
                     speakEventTextView.setTextColor(
                         ContextCompat.getColor(
@@ -65,17 +68,24 @@ class SpeakEventAdapter : ListAdapter<SpeakEvent, ViewHolder>(DiffCallback()) {
                     timeLine2.visibility = VISIBLE
                 }
             }
+            removeSpeakEventButton.visibility = if (speakEventItem.isRemovable) VISIBLE else GONE
+            speakEventButton.setOnClickListener {
+                controller.onSpeakEventButtonClicked(speakEvent.id)
+            }
+            removeSpeakEventButton.setOnClickListener {
+                controller.onRemoveSpeakEventButtonClicked(speakEvent.id)
+            }
         }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    class DiffCallback : DiffUtil.ItemCallback<SpeakEvent>() {
-        override fun areItemsTheSame(oldItem: SpeakEvent, newItem: SpeakEvent): Boolean {
-            return oldItem == newItem
+    class DiffCallback : DiffUtil.ItemCallback<SpeakEventItem>() {
+        override fun areItemsTheSame(oldItem: SpeakEventItem, newItem: SpeakEventItem): Boolean {
+            return oldItem.speakEvent.id == newItem.speakEvent.id
         }
 
-        override fun areContentsTheSame(oldItem: SpeakEvent, newItem: SpeakEvent): Boolean {
+        override fun areContentsTheSame(oldItem: SpeakEventItem, newItem: SpeakEventItem): Boolean {
             return oldItem == newItem
         }
     }

@@ -11,8 +11,5 @@ REPLACE INTO SerializableDb(className, jsonData) VALUES (?, ?);
 selectJsonData:
 SELECT jsonData FROM SerializableDb WHERE className = ?;
 
-delete:
-DELETE FROM SerializableDb WHERE className = ?;
-
 deleteAll:
 DELETE FROM SerializableDb;

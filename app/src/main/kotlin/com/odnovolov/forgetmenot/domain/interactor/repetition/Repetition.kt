@@ -103,10 +103,10 @@ class Repetition(
 
     private fun executeSpeakEvent() {
         when (val speakEvent = currentSpeakEvent) {
-            SpeakQuestion -> {
+            is SpeakQuestion -> {
                 speakQuestion()
             }
-            SpeakAnswer -> {
+            is SpeakAnswer -> {
                 showAnswer()
                 speakAnswer()
             }

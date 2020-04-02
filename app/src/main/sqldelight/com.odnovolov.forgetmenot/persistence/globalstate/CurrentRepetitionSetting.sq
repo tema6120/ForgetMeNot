@@ -1,5 +1,5 @@
 CREATE TABLE CurrentRepetitionSettingDb (
-    repetitionSettingId INTEGER PRIMARY KEY NOT NULL
+    repetitionSettingId INTEGER PRIMARY KEY
 );
 
 INSERT INTO CurrentRepetitionSettingDb VALUES (0);

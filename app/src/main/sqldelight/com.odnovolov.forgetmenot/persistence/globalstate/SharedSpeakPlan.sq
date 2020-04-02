@@ -1,0 +1,12 @@
+CREATE TABLE SharedSpeakPlanDb (
+    speakPlanId INTEGER PRIMARY KEY
+);
+
+insert:
+INSERT INTO SharedSpeakPlanDb(speakPlanId) VALUES (?);
+
+selectAll:
+SELECT * FROM SharedSpeakPlanDb;
+
+delete:
+DELETE FROM SharedSpeakPlanDb WHERE speakPlanId = ?;

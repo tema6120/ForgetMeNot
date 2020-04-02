@@ -59,32 +59,49 @@ object PropertyChangeRegistry {
         return result
     }
 
-    sealed class Change(
-        val propertyOwnerClass: KClass<*>,
-        val propertyOwnerId: Long,
-        val property: KProperty<*>
-    ) {
+    sealed class Change {
+        abstract val propertyOwnerClass: KClass<*>
+        abstract val propertyOwnerId: Long
+        abstract val property: KProperty<*>
+
         class TheSameValueAssignment(
-            propertyOwnerClass: KClass<*>,
-            propertyOwnerId: Long,
-            property: KProperty<*>,
+            override val propertyOwnerClass: KClass<*>,
+            override val propertyOwnerId: Long,
+            override val property: KProperty<*>,
             val value: Any?
-        ) : Change(propertyOwnerClass, propertyOwnerId, property)
+        ) : Change() {
+            override fun toString(): String =
+                "TheSameValueAssignment(${propertyOwnerClass.simpleName}.${property.name}):\n" +
+                        "propertyOwnerId = $propertyOwnerId\n" +
+                        "value = $value"
+        }
 
         class CollectionChange(
-            propertyOwnerClass: KClass<*>,
-            propertyOwnerId: Long,
-            property: KProperty<*>,
+            override val propertyOwnerClass: KClass<*>,
+            override val propertyOwnerId: Long,
+            override val property: KProperty<*>,
             val removedItems: Collection<Any?>,
             val addedItems: Collection<Any?>
-        ) : Change(propertyOwnerClass, propertyOwnerId, property)
+        ) : Change() {
+            override fun toString(): String =
+                "CollectionChange(${propertyOwnerClass.simpleName}.${property.name}):\n" +
+                        "propertyOwnerId = $propertyOwnerId\n" +
+                        "removedItems = $removedItems\n" +
+                        "addedItems = $addedItems"
+        }
 
         class PropertyValueChange(
-            propertyOwnerClass: KClass<*>,
-            propertyOwnerId: Long,
-            property: KProperty<*>,
+            override val propertyOwnerClass: KClass<*>,
+            override val propertyOwnerId: Long,
+            override val property: KProperty<*>,
             val oldValue: Any?,
             val newValue: Any?
-        ) : Change(propertyOwnerClass, propertyOwnerId, property)
+        ) : Change() {
+            override fun toString(): String =
+                "PropertyValueChange(${propertyOwnerClass.simpleName}.${property.name}):\n" +
+                        "propertyOwnerId = $propertyOwnerId\n" +
+                        "oldValue = $oldValue\n" +
+                        "newValue = $newValue"
+        }
     }
 }

@@ -1,5 +1,5 @@
 CREATE TABLE SharedIntervalSchemeDb (
-    intervalSchemeId INTEGER PRIMARY KEY NOT NULL
+    intervalSchemeId INTEGER PRIMARY KEY
 );
 
 insert:

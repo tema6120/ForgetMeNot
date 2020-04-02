@@ -1,0 +1,10 @@
+CREATE TABLE DelaySpeakEventDb (
+    speakEventId INTEGER PRIMARY KEY REFERENCES SpeakEventDb ON DELETE CASCADE,
+    delayMs INTEGER NOT NULL
+);
+
+insert:
+INSERT INTO DelaySpeakEventDb VALUES ?;
+
+selectAll:
+SELECT * FROM DelaySpeakEventDb;

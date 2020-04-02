@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
@@ -15,6 +16,7 @@ import com.odnovolov.forgetmenot.presentation.common.MainActivity
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
+import com.squareup.sqldelight.logs.LogSqliteDriver
 
 object DatabaseInitializer : ActivityLifecycleCallbacks {
     private var isInitialized = false
@@ -34,7 +36,7 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
     }
 
     private fun initSqlDriver(applicationContext: Context): SqlDriver {
-        return AndroidSqliteDriver(
+        val androidSqliteDriver = AndroidSqliteDriver(
             schema = Database.Schema,
             context = applicationContext,
             name = DATABASE_NAME,
@@ -48,6 +50,11 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
                 }
             }
         )
+        return if (BuildConfig.DEBUG) {
+            LogSqliteDriver(androidSqliteDriver) { Log.d("db", it) }
+        } else {
+            androidSqliteDriver
+        }
     }
 
     private fun initDatabase(sqliteDriver: SqlDriver) {
@@ -90,6 +97,7 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
         database.exercisePreferenceQueries.deleteUnused()
         database.intervalSchemeQueries.deleteUnused()
         database.pronunciationQueries.deleteUnused()
+        database.speakPlanQueries.deleteUnused()
         database.repetitionSettingQueries.deleteUnused()
         sqliteDriver.executeQuery(null, "VACUUM", 0)
     }

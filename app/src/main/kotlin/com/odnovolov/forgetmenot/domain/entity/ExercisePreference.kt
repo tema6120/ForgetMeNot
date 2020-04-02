@@ -10,7 +10,8 @@ class ExercisePreference(
     intervalScheme: IntervalScheme?,
     pronunciation: Pronunciation,
     isQuestionDisplayed: Boolean,
-    cardReverse: CardReverse
+    cardReverse: CardReverse,
+    speakPlan: SpeakPlan
 ) : RegistrableFlowableState<ExercisePreference>() {
     var name: String by me(name)
     var randomOrder: Boolean by me(randomOrder)
@@ -19,6 +20,7 @@ class ExercisePreference(
     var pronunciation: Pronunciation by me(pronunciation)
     var isQuestionDisplayed: Boolean by me(isQuestionDisplayed)
     var cardReverse: CardReverse by me(cardReverse)
+    var speakPlan: SpeakPlan by me(speakPlan)
 
     override fun copy() = ExercisePreference(
         id,
@@ -28,7 +30,8 @@ class ExercisePreference(
         intervalScheme?.copy(),
         pronunciation.copy(),
         isQuestionDisplayed,
-        cardReverse
+        cardReverse,
+        speakPlan.copy()
     )
 
     companion object {
@@ -41,7 +44,8 @@ class ExercisePreference(
                 intervalScheme = IntervalScheme.Default,
                 pronunciation = Pronunciation.Default,
                 isQuestionDisplayed = true,
-                cardReverse = CardReverse.Off
+                cardReverse = CardReverse.Off,
+                speakPlan = SpeakPlan.Default
             )
         }
     }

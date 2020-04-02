@@ -1,0 +1,12 @@
+CREATE TABLE SpeakEventDb (
+    id INTEGER PRIMARY KEY,
+    speakPlanId INTEGER NOT NULL REFERENCES SpeakPlanDb ON DELETE CASCADE,
+    ordinal INTEGER AS Int NOT NULL,
+    speakEventType TEXT NOT NULL
+);
+
+insert:
+INSERT INTO SpeakEventDb VALUES ?;
+
+selectAll:
+SELECT * FROM SpeakEventDb;

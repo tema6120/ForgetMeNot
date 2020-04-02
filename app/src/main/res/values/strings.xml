@@ -169,5 +169,10 @@
     <string name="text_speak_plan_title">Speak plan for Repetition</string>
     <string name="speak_event_speak_question">Speak question</string>
     <string name="speak_event_speak_answer">Speak answer</string>
-    <string name="speak_event_delay">Delay %d sec.</string>
+    <string name="speak_event_delay_with_args">Delay %d sec.</string>
+    <string name="speak_event_delay">Delay</string>
+    <string name="sec">sec.</string>
+    <string name="title_dialog_speak_event">Speak event</string>
+    <string name="error_message_cannot_change_last_speak_question">Cannot change last \'Speak Question\' event</string>
+    <string name="error_message_cannot_change_last_speak_answer">Cannot change last \'Speak Answer\' event</string>
 </resources>

@@ -19,7 +19,12 @@ class SpeakPlan(
             SpeakPlan(
                 id = 0L,
                 name = "",
-                speakEvents = listOf(SpeakQuestion, Delay(2.seconds), SpeakAnswer, Delay(1.seconds))
+                speakEvents = listOf(
+                    SpeakQuestion(id = 0L),
+                    Delay(id = 1L, timeSpan = 2.seconds),
+                    SpeakAnswer(id = 2L),
+                    Delay(id = 3L, timeSpan = 1.seconds)
+                )
             )
         }
     }

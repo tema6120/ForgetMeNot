@@ -27,4 +27,4 @@ delete:
 DELETE FROM DeckDb WHERE id = ?;
 
 exists:
-SELECT EXISTS(SELECT * FROM DeckDb WHERE id = ?);
+SELECT EXISTS (SELECT * FROM DeckDb WHERE id = ?);

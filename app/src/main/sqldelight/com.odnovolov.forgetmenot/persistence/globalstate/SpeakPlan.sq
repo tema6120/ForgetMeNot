@@ -1,0 +1,24 @@
+CREATE TABLE SpeakPlanDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+insert:
+INSERT INTO SpeakPlanDb VALUES ?;
+
+selectAll:
+SELECT * FROM SpeakPlanDb;
+
+updateName:
+UPDATE SpeakPlanDb SET name = ? WHERE id = ?;
+
+delete:
+DELETE FROM SpeakPlanDb WHERE id = ?;
+
+exists:
+SELECT EXISTS (SELECT * FROM SpeakPlanDb WHERE id = ?);
+
+deleteUnused:
+DELETE FROM SpeakPlanDb
+WHERE id NOT IN (SELECT speakPlanId FROM SharedSpeakPlanDb)
+  AND id NOT IN (SELECT speakPlanId FROM ExercisePreferenceDb);

@@ -1,7 +1,8 @@
 package com.odnovolov.forgetmenot.persistence.longterm
 
+import android.util.Log
+import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
-import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferencePropertyChangeHandler
@@ -19,7 +20,7 @@ object LongTermStateSaverImpl : LongTermStateSaver {
     private val dbDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
     override fun saveStateByRegistry() {
-        val changes = PropertyChangeRegistry.removeAll()
+        val changes: List<PropertyChangeRegistry.Change> = PropertyChangeRegistry.removeAll()
         if (changes.isEmpty()) return
         GlobalScope.launch(dbDispatcher) {
             database.transaction {
@@ -28,7 +29,10 @@ object LongTermStateSaverImpl : LongTermStateSaver {
         }
     }
 
-    private fun save(change: Change) {
+    private fun save(change: PropertyChangeRegistry.Change) {
+        if (BuildConfig.DEBUG) {
+            Log.d("db", change.toString())
+        }
         when (change.propertyOwnerClass) {
             GlobalState::class -> GlobalStatePropertyChangeHandler.handle(change)
             Deck::class -> DeckPropertyChangeHandler.handle(change)

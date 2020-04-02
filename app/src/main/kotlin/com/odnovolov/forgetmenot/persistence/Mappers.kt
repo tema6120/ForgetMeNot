@@ -18,15 +18,13 @@ fun DeckDb.toDeck(
     exercisePreference
 )
 
-fun Deck.toDeckDb(): DeckDb {
-    return DeckDb.Impl(
-        id,
-        name,
-        createdAt.unixMillisLong,
-        lastOpenedAt?.unixMillisLong,
-        exercisePreference.id
-    )
-}
+fun Deck.toDeckDb(): DeckDb = DeckDb.Impl(
+    id,
+    name,
+    createdAt.unixMillisLong,
+    lastOpenedAt?.unixMillisLong,
+    exercisePreference.id
+)
 
 fun CardDb.toCard() = Card(
     id,
@@ -41,23 +39,22 @@ fun CardDb.toCard() = Card(
 fun Card.toCardDb(
     deckId: Long,
     ordinal: Int
-): CardDb {
-    return CardDb.Impl(
-        id,
-        deckId,
-        ordinal,
-        question,
-        answer,
-        lap,
-        isLearned,
-        levelOfKnowledge,
-        lastAnsweredAt?.unixMillisLong
-    )
-}
+): CardDb = CardDb.Impl(
+    id,
+    deckId,
+    ordinal,
+    question,
+    answer,
+    lap,
+    isLearned,
+    levelOfKnowledge,
+    lastAnsweredAt?.unixMillisLong
+)
 
 fun ExercisePreferenceDb.toExercisePreference(
     intervalScheme: IntervalScheme?,
-    pronunciation: Pronunciation
+    pronunciation: Pronunciation,
+    speakPlan: SpeakPlan
 ) = ExercisePreference(
     id,
     name,
@@ -66,21 +63,21 @@ fun ExercisePreferenceDb.toExercisePreference(
     intervalScheme,
     pronunciation,
     isQuestionDisplayed,
-    cardReverse
+    cardReverse,
+    speakPlan
 )
 
-fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb {
-    return ExercisePreferenceDb.Impl(
-        id,
-        name,
-        randomOrder,
-        testMethod,
-        intervalScheme?.id,
-        pronunciation.id,
-        isQuestionDisplayed,
-        cardReverse
-    )
-}
+fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = ExercisePreferenceDb.Impl(
+    id,
+    name,
+    randomOrder,
+    testMethod,
+    intervalScheme?.id,
+    pronunciation.id,
+    isQuestionDisplayed,
+    cardReverse,
+    speakPlan.id
+)
 
 fun IntervalSchemeDb.toIntervalScheme(
     intervals: CopyableList<Interval>
@@ -90,12 +87,10 @@ fun IntervalSchemeDb.toIntervalScheme(
     intervals
 )
 
-fun IntervalScheme.toIntervalSchemeDb(): IntervalSchemeDb {
-    return IntervalSchemeDb.Impl(
-        id,
-        name
-    )
-}
+fun IntervalScheme.toIntervalSchemeDb(): IntervalSchemeDb = IntervalSchemeDb.Impl(
+    id,
+    name
+)
 
 fun IntervalDb.toInterval() = Interval(
     id,
@@ -105,14 +100,12 @@ fun IntervalDb.toInterval() = Interval(
 
 fun Interval.toIntervalDb(
     intervalSchemeId: Long
-): IntervalDb {
-    return IntervalDb.Impl(
-        id,
-        intervalSchemeId,
-        targetLevelOfKnowledge,
-        value
-    )
-}
+): IntervalDb = IntervalDb.Impl(
+    id,
+    intervalSchemeId,
+    targetLevelOfKnowledge,
+    value
+)
 
 fun PronunciationDb.toPronunciation() = Pronunciation(
     id,
@@ -124,24 +117,33 @@ fun PronunciationDb.toPronunciation() = Pronunciation(
     doNotSpeakTextInBrackets
 )
 
-fun Pronunciation.toPronunciationDb(): PronunciationDb {
-    return PronunciationDb.Impl(
-        id,
-        name,
-        questionLanguage,
-        questionAutoSpeak,
-        answerLanguage,
-        answerAutoSpeak,
-        doNotSpeakTextInBrackets
-    )
-}
+fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb.Impl(
+    id,
+    name,
+    questionLanguage,
+    questionAutoSpeak,
+    answerLanguage,
+    answerAutoSpeak,
+    doNotSpeakTextInBrackets
+)
+
+fun SpeakPlanDb.toSpeakPlan(speakEvents: List<SpeakEvent>) = SpeakPlan(
+    id,
+    name,
+    speakEvents
+)
+
+fun SpeakPlan.toSpeakPlanDb(): SpeakPlanDb = SpeakPlanDb.Impl(
+    id,
+    name
+)
 
 fun DeckReviewPreferenceDb.toDeckReviewPreference() = DeckReviewPreference(
     deckSorting,
     displayOnlyWithTasks
 )
 
-fun RepetitionSetting.toRepetitionSettingDb() = RepetitionSettingDb.Impl(
+fun RepetitionSetting.toRepetitionSettingDb(): RepetitionSettingDb = RepetitionSettingDb.Impl(
     id,
     name,
     isAvailableForExerciseCardsIncluded,

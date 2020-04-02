@@ -23,4 +23,4 @@ delete:
 DELETE FROM IntervalDb WHERE id = ?;
 
 exists:
-SELECT EXISTS(SELECT * FROM IntervalDb WHERE id = ?);
+SELECT EXISTS (SELECT * FROM IntervalDb WHERE id = ?);

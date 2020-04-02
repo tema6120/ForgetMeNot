@@ -1,7 +1,7 @@
 import com.soywiz.klock.DateTimeSpan;
 
 CREATE TABLE RepetitionSettingDb (
-    id INTEGER PRIMARY KEY NOT NULL,
+    id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     isAvailableForExerciseCardsIncluded INTEGER AS Boolean NOT NULL,
     isAwaitingCardsIncluded INTEGER AS Boolean NOT NULL,
@@ -47,7 +47,7 @@ delete:
 DELETE FROM RepetitionSettingDb WHERE id = ?;
 
 exists:
-SELECT EXISTS(SELECT * FROM RepetitionSettingDb WHERE id = ?);
+SELECT EXISTS (SELECT * FROM RepetitionSettingDb WHERE id = ?);
 
 deleteUnused:
 DELETE FROM RepetitionSettingDb

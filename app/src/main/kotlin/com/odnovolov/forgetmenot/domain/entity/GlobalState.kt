@@ -8,6 +8,7 @@ class GlobalState(
     sharedExercisePreferences: CopyableList<ExercisePreference>,
     sharedIntervalSchemes: CopyableList<IntervalScheme>,
     sharedPronunciations: CopyableList<Pronunciation>,
+    sharedSpeakPlans: CopyableList<SpeakPlan>,
     savedRepetitionSettings: CopyableList<RepetitionSetting>,
     currentRepetitionSetting: RepetitionSetting
 ) : RegistrableFlowableState<GlobalState>() {
@@ -15,6 +16,7 @@ class GlobalState(
     var sharedExercisePreferences: CopyableList<ExercisePreference> by me(sharedExercisePreferences)
     var sharedIntervalSchemes: CopyableList<IntervalScheme> by me(sharedIntervalSchemes)
     var sharedPronunciations: CopyableList<Pronunciation> by me(sharedPronunciations)
+    var sharedSpeakPlans: CopyableList<SpeakPlan> by me(sharedSpeakPlans)
     var savedRepetitionSettings: CopyableList<RepetitionSetting> by me(savedRepetitionSettings)
     var currentRepetitionSetting: RepetitionSetting by me(currentRepetitionSetting)
 
@@ -23,6 +25,7 @@ class GlobalState(
         sharedExercisePreferences.copy(),
         sharedIntervalSchemes.copy(),
         sharedPronunciations.copy(),
+        sharedSpeakPlans.copy(),
         savedRepetitionSettings.copy(),
         currentRepetitionSetting.copy()
     )

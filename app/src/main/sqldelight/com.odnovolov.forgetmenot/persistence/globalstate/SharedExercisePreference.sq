@@ -1,5 +1,5 @@
 CREATE TABLE SharedExercisePreferenceDb (
-    exercisePreferenceId INTEGER PRIMARY KEY NOT NULL
+    exercisePreferenceId INTEGER PRIMARY KEY
 );
 
 insert:

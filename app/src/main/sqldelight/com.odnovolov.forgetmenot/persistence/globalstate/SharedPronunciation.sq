@@ -1,5 +1,5 @@
 CREATE TABLE SharedPronunciationDb (
-    pronunciationId INTEGER PRIMARY KEY NOT NULL
+    pronunciationId INTEGER PRIMARY KEY
 );
 
 insert:

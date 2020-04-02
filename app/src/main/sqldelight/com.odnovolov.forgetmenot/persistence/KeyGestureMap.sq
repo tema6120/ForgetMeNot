@@ -2,7 +2,7 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction;
 
 CREATE TABLE KeyGestureMapDb (
-    keyGesture TEXT AS KeyGesture NOT NULL PRIMARY KEY,
+    keyGesture TEXT AS KeyGesture PRIMARY KEY NOT NULL,
     keyGestureAction TEXT AS KeyGestureAction NOT NULL
 );
 

@@ -2,7 +2,7 @@ import com.soywiz.klock.DateTime;
 
 CREATE TABLE CardDb (
     id INTEGER PRIMARY KEY,
-    deckId INTEGER NOT NULL,
+    deckId INTEGER NOT NULL REFERENCES DeckDb ON DELETE CASCADE,
     ordinal INTEGER AS Int NOT NULL,
     question TEXT NOT NULL,
     answer TEXT NOT NULL,
@@ -40,4 +40,4 @@ delete:
 DELETE FROM CardDb WHERE id = ?;
 
 exists:
-SELECT EXISTS(SELECT * FROM CardDb WHERE id = ?);
+SELECT EXISTS (SELECT * FROM CardDb WHERE id = ?);

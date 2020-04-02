@@ -16,7 +16,7 @@ delete:
 DELETE FROM IntervalSchemeDb WHERE id = ?;
 
 exists:
-SELECT EXISTS(SELECT * FROM IntervalSchemeDb WHERE id = ?);
+SELECT EXISTS (SELECT * FROM IntervalSchemeDb WHERE id = ?);
 
 deleteUnused:
 DELETE FROM IntervalSchemeDb

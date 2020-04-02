@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -98,3 +100,8 @@ fun View.hideSoftInput(hideImplicitlyOnly: Boolean = false): Boolean {
     val flags: Int = if (hideImplicitlyOnly) InputMethodManager.HIDE_IMPLICIT_ONLY else 0
     return imm.hideSoftInputFromWindow(windowToken, flags)
 }
+
+fun Fragment.showToast(
+    stringId: Int,
+    duration: Int = Toast.LENGTH_SHORT
+) = Toast.makeText(requireContext(), stringId, duration).show()

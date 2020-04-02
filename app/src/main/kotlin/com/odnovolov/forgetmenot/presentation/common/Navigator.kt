@@ -7,6 +7,7 @@ interface Navigator {
     fun navigateToIntervals()
     fun navigateToPronunciation()
     fun navigateToSpeakPlan()
+    fun showSpeakEventDialog()
     fun navigateToRepetitionSettings()
     fun showLastAnswerFilterDialog()
     fun showRepetitionLapsDialog()

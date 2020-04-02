@@ -38,7 +38,7 @@ delete:
 DELETE FROM PronunciationDb WHERE id = ?;
 
 exists:
-SELECT EXISTS(SELECT * FROM PronunciationDb WHERE id = ?);
+SELECT EXISTS (SELECT * FROM PronunciationDb WHERE id = ?);
 
 deleteUnused:
 DELETE FROM PronunciationDb
