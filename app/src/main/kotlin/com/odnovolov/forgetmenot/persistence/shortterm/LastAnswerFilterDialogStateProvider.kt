@@ -1,6 +1,6 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
-import com.odnovolov.forgetmenot.persistence.usersessionterm.LastAnswerFilterDialogStateProvider.SerializableState
+import com.odnovolov.forgetmenot.persistence.shortterm.LastAnswerFilterDialogStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialogState

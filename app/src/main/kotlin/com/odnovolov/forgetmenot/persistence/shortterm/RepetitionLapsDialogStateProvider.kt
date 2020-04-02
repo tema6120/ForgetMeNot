@@ -1,6 +1,6 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
-import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionLapsDialogStateProvider.SerializableState
+import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionLapsDialogStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDialogState
 import kotlinx.serialization.Serializable
 

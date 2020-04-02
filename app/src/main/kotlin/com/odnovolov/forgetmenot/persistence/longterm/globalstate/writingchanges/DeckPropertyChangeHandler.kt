@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
-import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
+import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.ListChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
@@ -33,11 +33,17 @@ object DeckPropertyChangeHandler {
                 queries.updateLastOpenedAt(databaseValue, deckId)
             }
             Deck::cards -> {
-                if (change !is CollectionChange) return
-                val removedCards = change.removedItems as Collection<Card>
-                removedCards.forEach { card -> database.cardQueries.delete(card.id) }
-                val addedCards = change.addedItems as Collection<Card>
-                insertCards(addedCards, deckId)
+                if (change !is ListChange) return
+                change.removedItemsAt.forEach { ordinal: Int ->
+                    database.cardQueries.delete(deckId, ordinal)
+                }
+                change.movedItemsAt.forEach { (oldOrdinal: Int, newOrdinal: Int) ->
+                    database.cardQueries.updateOrdinal(newOrdinal, deckId, oldOrdinal)
+                }
+                (change.addedItems as Map<Int, Card>).forEach { (ordinal, card) ->
+                    val cardDb = card.toCardDb(deckId, ordinal)
+                    database.cardQueries.insert(cardDb)
+                }
             }
             Deck::exercisePreference -> {
                 if (change !is PropertyValueChange) return
@@ -45,13 +51,6 @@ object DeckPropertyChangeHandler {
                 insertExercisePreferenceIfNotExists(linkedExercisePreference)
                 queries.updateExercisePreferenceId(linkedExercisePreference.id, deckId)
             }
-        }
-    }
-
-    fun insertCards(cards: Collection<Card>/* todo: should be List<Card> */, deckId: Long) {
-        cards.forEachIndexed { index, card ->
-            val cardDb = card.toCardDb(deckId, ordinal = index)
-            database.cardQueries.insert(cardDb)
         }
     }
 

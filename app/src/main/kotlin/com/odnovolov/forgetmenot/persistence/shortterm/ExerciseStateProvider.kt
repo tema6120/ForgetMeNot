@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
-import com.odnovolov.forgetmenot.persistence.usersessionterm.ExerciseStateProvider.SerializableExerciseState
+import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider.SerializableExerciseState
 import kotlinx.serialization.Serializable
 
 class ExerciseStateProvider(

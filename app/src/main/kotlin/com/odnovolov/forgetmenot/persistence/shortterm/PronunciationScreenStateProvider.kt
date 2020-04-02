@@ -1,6 +1,6 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
-import com.odnovolov.forgetmenot.persistence.usersessionterm.PronunciationScreenStateProvider.SerializablePronunciationScreenState
+import com.odnovolov.forgetmenot.persistence.shortterm.PronunciationScreenStateProvider.SerializablePronunciationScreenState
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState
 import kotlinx.serialization.Serializable

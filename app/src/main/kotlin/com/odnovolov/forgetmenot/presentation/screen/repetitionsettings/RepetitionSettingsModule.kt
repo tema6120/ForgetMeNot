@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
-import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionCreatorStateProvider
-import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionSettingsScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionCreatorStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionSettingsScreenStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

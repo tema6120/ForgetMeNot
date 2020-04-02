@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationController.Command.SetNamePresetDialogText
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +20,7 @@ class PronunciationController(
     private val pronunciationScreenState: PronunciationScreenState,
     private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver,
-    private val pronunciationScreenStateProvider: UserSessionTermStateProvider<PronunciationScreenState>
+    private val pronunciationScreenStateProvider: ShortTermStateProvider<PronunciationScreenState>
 ) {
     sealed class Command {
         class SetNamePresetDialogText(val text: String) : Command()

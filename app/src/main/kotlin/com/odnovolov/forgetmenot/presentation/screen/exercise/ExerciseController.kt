@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotR
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EDIT_CARD_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardViewModel
@@ -24,7 +24,7 @@ class ExerciseController(
     private val walkingModePreference: WalkingModePreference,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val exerciseStateProvider: UserSessionTermStateProvider<Exercise.State>
+    private val exerciseStateProvider: ShortTermStateProvider<Exercise.State>
 ) {
     private val commandFlow = EventFlow<ExerciseCommand>()
     val commands = commandFlow.get()

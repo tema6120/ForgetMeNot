@@ -1,4 +1,4 @@
-import com.odnovolov.forgetmenot.persistence.usersessionterm.LastAnswerFilterDialogStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.LastAnswerFilterDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.REPETITION_SETTINGS_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterController
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterViewModel

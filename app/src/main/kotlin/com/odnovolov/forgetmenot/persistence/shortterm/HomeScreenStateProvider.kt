@@ -1,6 +1,6 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
-import com.odnovolov.forgetmenot.persistence.usersessionterm.HomeScreenStateProvider.SerializableHomeScreenState
+import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider.SerializableHomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import kotlinx.serialization.Serializable
 

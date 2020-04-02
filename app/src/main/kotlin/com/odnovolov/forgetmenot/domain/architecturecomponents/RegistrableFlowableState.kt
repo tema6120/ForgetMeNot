@@ -1,8 +1,11 @@
 package com.odnovolov.forgetmenot.domain.architecturecomponents
 
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
 
@@ -19,9 +22,10 @@ abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState
     }
 
     protected fun <PropertyValue> me(
-        initialValue: PropertyValue
+        initialValue: PropertyValue,
+        preferredChangeClass: KClass<*>? = null
     ): DelegateProvider<PropertyOwner, PropertyValue> {
-        return DelegateProviderImpl(initialValue)
+        return DelegateProviderImpl(initialValue, preferredChangeClass)
     }
 
     protected interface DelegateProvider<PropertyOwner, PropertyValue> {
@@ -32,7 +36,8 @@ abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState
     }
 
     private inner class DelegateProviderImpl<PropertyValue>(
-        private val initialValue: PropertyValue
+        private val initialValue: PropertyValue,
+        private val preferredChangeClass: KClass<*>?
     ) : DelegateProvider<PropertyOwner, PropertyValue> {
         override fun provideDelegate(
             thisRef: PropertyOwner,
@@ -40,8 +45,9 @@ abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState
         ): ReadWriteProperty<PropertyOwner, PropertyValue> {
             val property =
                 WrappingRWProperty<PropertyOwner, PropertyValue>(
-                    initialValue,
-                    propertyOwnerId = id
+                    value = initialValue,
+                    propertyOwnerId = id,
+                    preferredChangeClass = preferredChangeClass
                 )
             properties[prop.name] = property
             return property
@@ -50,7 +56,8 @@ abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState
 
     private class WrappingRWProperty<PropertyOwner : Any, PropertyValue>(
         var value: PropertyValue,
-        private val propertyOwnerId: Long
+        private val propertyOwnerId: Long,
+        private val preferredChangeClass: KClass<*>? = null
     ) : ReadWriteProperty<PropertyOwner, PropertyValue>, Flowable<PropertyValue> {
         private val channels: MutableList<Channel<PropertyValue>> = ArrayList()
 
@@ -71,7 +78,8 @@ abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState
                 propertyOwnerId = propertyOwnerId,
                 property = property,
                 oldValue = this.value,
-                newValue = value
+                newValue = value,
+                preferredChangeClass = preferredChangeClass
             )
             this.value = value
             channels.forEach { it.offer(value) }
@@ -116,7 +124,7 @@ abstract class RegistrableFlowableState<PropertyOwner : RegistrableFlowableState
 
     override fun toString(): String {
         return listOf("id=$id")
-            .plus( properties.entries.map { entry -> "${entry.key}=${entry.value.value}" })
+            .plus(properties.entries.map { entry -> "${entry.key}=${entry.value.value}" })
             .joinToString(prefix = "(", postfix = ")")
     }
 }

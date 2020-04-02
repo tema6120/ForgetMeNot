@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
-import com.odnovolov.forgetmenot.persistence.usersessionterm.AddDeckScreenStateProvider
-import com.odnovolov.forgetmenot.persistence.usersessionterm.AddDeckStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.dsl.onClose

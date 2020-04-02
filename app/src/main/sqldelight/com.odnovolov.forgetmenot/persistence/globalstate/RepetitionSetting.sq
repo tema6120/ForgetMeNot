@@ -51,5 +51,5 @@ SELECT EXISTS (SELECT * FROM RepetitionSettingDb WHERE id = ?);
 
 deleteUnused:
 DELETE FROM RepetitionSettingDb
-WHERE id NOT IN (SELECT repetitionSettingId FROM SavedRepetitionSettingDb)
+WHERE id NOT IN (SELECT repetitionSettingId FROM SharedRepetitionSettingDb)
   AND id NOT IN (SELECT repetitionSettingId FROM CurrentRepetitionSettingDb);

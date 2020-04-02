@@ -1,4 +1,4 @@
-import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionLapsDialogStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionLapsDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.REPETITION_SETTINGS_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsController
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsViewModel

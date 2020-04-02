@@ -1,8 +1,8 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
-import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionCreatorStateProvider.SerializableState
+import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionCreatorStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 
 class RepetitionCreatorStateProvider(

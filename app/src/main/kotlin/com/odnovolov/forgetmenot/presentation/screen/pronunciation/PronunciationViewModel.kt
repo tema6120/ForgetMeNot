@@ -10,7 +10,7 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import kotlinx.coroutines.flow.*
-import org.koin.core.KoinComponent
+import org.koin.java.KoinJavaComponent.getKoin
 import java.util.*
 
 class PronunciationViewModel(
@@ -18,7 +18,7 @@ class PronunciationViewModel(
     private val pronunciationScreenState: PronunciationScreenState,
     private val speakerImpl: SpeakerImpl,
     private val globalState: GlobalState
-) : ViewModel(), KoinComponent {
+) : ViewModel() {
 
     private val availableLanguages: Flow<Set<Locale>> = speakerImpl.state
         .flowOf(SpeakerImpl.State::availableLanguages)
@@ -38,7 +38,7 @@ class PronunciationViewModel(
         currentPronunciation,
         globalState.flowOf(GlobalState::sharedPronunciations)
     ) { currentPronunciation: Pronunciation,
-        sharedPronunciations: List<Pronunciation>
+        sharedPronunciations: Collection<Pronunciation>
         ->
         (sharedPronunciations + currentPronunciation + Pronunciation.Default)
             .distinctBy { it.id }

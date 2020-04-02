@@ -1,14 +1,15 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.persistence.database
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
 private val json = Json(JsonConfiguration.Stable)
 
-abstract class BaseSerializableStateProvider<State, SerializableState> : UserSessionTermStateProvider<State> {
+abstract class BaseSerializableStateProvider<State, SerializableState>
+    : ShortTermStateProvider<State> {
     private val queries = database.serializableQueries
     abstract val serializer: KSerializer<SerializableState>
     abstract val serializableClassName: String

@@ -1,9 +1,9 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.CardPrototype
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.Stage
-import com.odnovolov.forgetmenot.persistence.usersessionterm.AddDeckStateProvider.SerializableAddDeckState
+import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckStateProvider.SerializableAddDeckState
 import kotlinx.serialization.Serializable
 
 class AddDeckStateProvider

@@ -1,23 +1,35 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
+import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
+import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
 
 class GlobalState(
-    decks: CopyableList<Deck>,
-    sharedExercisePreferences: CopyableList<ExercisePreference>,
-    sharedIntervalSchemes: CopyableList<IntervalScheme>,
-    sharedPronunciations: CopyableList<Pronunciation>,
-    sharedSpeakPlans: CopyableList<SpeakPlan>,
-    savedRepetitionSettings: CopyableList<RepetitionSetting>,
+    decks: CopyableCollection<Deck>,
+    sharedExercisePreferences: CopyableCollection<ExercisePreference>,
+    sharedIntervalSchemes: CopyableCollection<IntervalScheme>,
+    sharedPronunciations: CopyableCollection<Pronunciation>,
+    sharedSpeakPlans: CopyableCollection<SpeakPlan>,
+    sharedRepetitionSettings: CopyableCollection<RepetitionSetting>,
     currentRepetitionSetting: RepetitionSetting
 ) : RegistrableFlowableState<GlobalState>() {
-    var decks: CopyableList<Deck> by me(decks)
-    var sharedExercisePreferences: CopyableList<ExercisePreference> by me(sharedExercisePreferences)
-    var sharedIntervalSchemes: CopyableList<IntervalScheme> by me(sharedIntervalSchemes)
-    var sharedPronunciations: CopyableList<Pronunciation> by me(sharedPronunciations)
-    var sharedSpeakPlans: CopyableList<SpeakPlan> by me(sharedSpeakPlans)
-    var savedRepetitionSettings: CopyableList<RepetitionSetting> by me(savedRepetitionSettings)
+    var decks: CopyableCollection<Deck> by me(decks, CollectionChange::class)
+
+    var sharedExercisePreferences: CopyableCollection<ExercisePreference>
+            by me(sharedExercisePreferences, CollectionChange::class)
+
+    var sharedIntervalSchemes: CopyableCollection<IntervalScheme>
+            by me(sharedIntervalSchemes, CollectionChange::class)
+
+    var sharedPronunciations: CopyableCollection<Pronunciation>
+            by me(sharedPronunciations, CollectionChange::class)
+
+    var sharedSpeakPlans: CopyableCollection<SpeakPlan>
+            by me(sharedSpeakPlans, CollectionChange::class)
+
+    var sharedRepetitionSettings: CopyableCollection<RepetitionSetting>
+            by me(sharedRepetitionSettings, CollectionChange::class)
+
     var currentRepetitionSetting: RepetitionSetting by me(currentRepetitionSetting)
 
     override fun copy() = GlobalState(
@@ -26,7 +38,7 @@ class GlobalState(
         sharedIntervalSchemes.copy(),
         sharedPronunciations.copy(),
         sharedSpeakPlans.copy(),
-        savedRepetitionSettings.copy(),
+        sharedRepetitionSettings.copy(),
         currentRepetitionSetting.copy()
     )
 }

@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 
-import com.odnovolov.forgetmenot.persistence.usersessionterm.ModifyIntervalDialogStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.ModifyIntervalDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

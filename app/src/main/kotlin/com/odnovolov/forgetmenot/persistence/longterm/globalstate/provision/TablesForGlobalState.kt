@@ -18,7 +18,7 @@ class TablesForGlobalState private constructor(
     val sharedPronunciationTable: List<Long>,
     val sharedSpeakPlanTable: List<Long>,
     val repetitionSettingTable: List<RepetitionSettingDb>,
-    val savedRepetitionSettingTable: List<Long>,
+    val sharedRepetitionSettingTable: List<Long>,
     val currentRepetitionSettingTable: Long
 ) {
     companion object {
@@ -39,7 +39,7 @@ class TablesForGlobalState private constructor(
                     sharedPronunciationTable = sharedPronunciationQueries.selectAll().executeAsList(),
                     sharedSpeakPlanTable = sharedSpeakPlanQueries.selectAll().executeAsList(),
                     repetitionSettingTable = repetitionSettingQueries.selectAll().executeAsList(),
-                    savedRepetitionSettingTable = savedRepetitionSettingQueries.selectAll().executeAsList(),
+                    sharedRepetitionSettingTable = sharedRepetitionSettingQueries.selectAll().executeAsList(),
                     currentRepetitionSettingTable = currentRepetitionSettingQueries.select().executeAsOne()
                 )
             }

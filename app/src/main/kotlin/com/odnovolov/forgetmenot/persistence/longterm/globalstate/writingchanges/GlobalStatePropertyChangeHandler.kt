@@ -6,10 +6,11 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.persistence.database
-import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.DeckPropertyChangeHandler.insertCards
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.DeckPropertyChangeHandler.insertExercisePreferenceIfNotExists
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertIntervalSchemeIfNotExists
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists
+import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertSpeakPlanIfNotExists
+import com.odnovolov.forgetmenot.persistence.toCardDb
 import com.odnovolov.forgetmenot.persistence.toDeckDb
 import com.odnovolov.forgetmenot.persistence.toRepetitionSettingDb
 
@@ -22,16 +23,14 @@ object GlobalStatePropertyChangeHandler {
                 val removedDecks = change.removedItems as Collection<Deck>
                 removedDecks.forEach { deck: Deck ->
                     database.deckQueries.delete(deck.id)
-                    deck.cards.forEach { card: Card ->
-                        database.cardQueries.delete(card.id)
-                    }
                 }
 
                 val addedDecks = change.addedItems as Collection<Deck>
                 addedDecks.forEach { deck ->
                     val deckDb = deck.toDeckDb()
                     database.deckQueries.insert(deckDb)
-                    insertCards(deck.cards, deck.id)
+                    deck.cards.mapIndexed { index, card -> card.toCardDb(deck.id, ordinal = index) }
+                        .forEach(database.cardQueries::insert)
                     insertExercisePreferenceIfNotExists(deck.exercisePreference)
                 }
             }
@@ -79,18 +78,32 @@ object GlobalStatePropertyChangeHandler {
                     insertPronunciationIfNotExists(pronunciation)
                 }
             }
-            GlobalState::savedRepetitionSettings -> {
+            GlobalState::sharedSpeakPlans -> {
+                if (change !is CollectionChange) return
+
+                val removedSharedSpeakPlans = change.removedItems as Collection<SpeakPlan>
+                removedSharedSpeakPlans.forEach { speakPlan: SpeakPlan ->
+                    database.sharedSpeakPlanQueries.delete(speakPlan.id)
+                }
+
+                val addedSharedSpeakPlans = change.addedItems as Collection<SpeakPlan>
+                addedSharedSpeakPlans.forEach { speakPlan: SpeakPlan ->
+                    database.sharedSpeakPlanQueries.insert(speakPlan.id)
+                    insertSpeakPlanIfNotExists(speakPlan)
+                }
+            }
+            GlobalState::sharedRepetitionSettings -> {
                 if (change !is CollectionChange) return
 
                 val removedRepetitionSettings = change.removedItems as Collection<RepetitionSetting>
                 removedRepetitionSettings.forEach { repetitionSetting: RepetitionSetting ->
-                    database.savedRepetitionSettingQueries.delete(repetitionSetting.id)
+                    database.sharedRepetitionSettingQueries.delete(repetitionSetting.id)
                 }
 
                 val addedRepetitionSettings = change.addedItems as Collection<RepetitionSetting>
                 addedRepetitionSettings.forEach { repetitionSetting: RepetitionSetting ->
                     insertRepetitionSettingIfNotExists(repetitionSetting)
-                    database.savedRepetitionSettingQueries.insert(repetitionSetting.id)
+                    database.sharedRepetitionSettingQueries.insert(repetitionSetting.id)
                 }
             }
             GlobalState::currentRepetitionSetting -> {

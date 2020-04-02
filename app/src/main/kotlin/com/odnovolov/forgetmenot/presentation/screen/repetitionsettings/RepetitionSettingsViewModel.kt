@@ -42,11 +42,11 @@ class RepetitionSettingsViewModel(
 
     val availablePresets: Flow<List<Preset>> = combine(
         currentRepetitionSetting,
-        globalState.flowOf(GlobalState::savedRepetitionSettings)
+        globalState.flowOf(GlobalState::sharedRepetitionSettings)
     ) { currentRepetitionSetting: RepetitionSetting,
-        savedRepetitionSettings: List<RepetitionSetting>
+        sharedRepetitionSettings: Collection<RepetitionSetting>
         ->
-        (savedRepetitionSettings + currentRepetitionSetting + RepetitionSetting.Default)
+        (sharedRepetitionSettings + currentRepetitionSetting + RepetitionSetting.Default)
             .distinctBy { it.id }
     }
         .flatMapLatest { repetitionSettings: List<RepetitionSetting> ->
@@ -107,7 +107,7 @@ class RepetitionSettingsViewModel(
             }
             .map { interval -> interval.targetLevelOfKnowledge }
             .max() ?: 0
-        val maxLokFromSavedRepetitionSettings: Int = globalState.savedRepetitionSettings
+        val maxLokFromSharedRepetitionSettings: Int = globalState.sharedRepetitionSettings
             .map { repetitionSetting -> repetitionSetting.levelOfKnowledgeRange.last }
             .max() ?: 0
         val maxLokFromCurrentRepetitionSetting: Int =
@@ -116,7 +116,7 @@ class RepetitionSettingsViewModel(
             maxLokFromCards,
             maxLokFromSharedIntervals,
             maxLokFromDeckIntervals,
-            maxLokFromSavedRepetitionSettings,
+            maxLokFromSharedRepetitionSettings,
             maxLokFromCurrentRepetitionSetting
         ).max()!!
         0..maxLevelOfKnowledge

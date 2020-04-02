@@ -5,8 +5,16 @@ CREATE TABLE SpeakEventDb (
     speakEventType TEXT NOT NULL
 );
 
+CREATE INDEX SpeakEventDbIndex ON SpeakEventDb(speakPlanId, ordinal);
+
 insert:
 INSERT INTO SpeakEventDb VALUES ?;
 
 selectAll:
 SELECT * FROM SpeakEventDb;
+
+updateOrdinal:
+UPDATE SpeakEventDb SET ordinal = ? WHERE speakPlanId = ? AND ordinal = ?;
+
+delete:
+DELETE FROM SpeakEventDb WHERE speakPlanId = ? AND ordinal = ?;

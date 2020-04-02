@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.domain.checkRepetitionSettingName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
-import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting.Companion
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.domain.isIndividual
@@ -22,27 +21,27 @@ class RepetitionSettings(
             globalState.currentRepetitionSetting.id -> return
             RepetitionSetting.Default.id -> RepetitionSetting.Default
             else -> {
-                globalState.savedRepetitionSettings
+                globalState.sharedRepetitionSettings
                     .find { it.id == repetitionSettingId }
                     ?: return
             }
         }
     }
 
-    fun createNewSavedRepetitionSetting(name: String) {
+    fun createNewSharedRepetitionSetting(name: String) {
         checkName(name)
-        createNewSavedRepetitionSettingAndSetAsCurrent(name)
+        createNewSharedRepetitionSettingAndSetAsCurrent(name)
     }
 
     fun renameRepetitionSetting(repetitionSetting: RepetitionSetting, newName: String) {
         checkName(newName)
         when {
             repetitionSetting.isDefault() -> {
-                createNewSavedRepetitionSettingAndSetAsCurrent(newName)
+                createNewSharedRepetitionSettingAndSetAsCurrent(newName)
             }
             repetitionSetting.isIndividual() -> {
                 repetitionSetting.name = newName
-                addNewSavedRepetitionSetting(repetitionSetting)
+                addNewSharedRepetitionSetting(repetitionSetting)
             }
             else -> {
                 repetitionSetting.name = newName
@@ -53,25 +52,25 @@ class RepetitionSettings(
     private fun checkName(testedName: String) {
         when (checkRepetitionSettingName(testedName, globalState)) {
             Ok -> return
-            Empty -> throw IllegalArgumentException("saved repetitionSetting name cannot be empty")
+            Empty -> throw IllegalArgumentException("shared repetitionSetting name cannot be empty")
             Occupied -> throw IllegalArgumentException("$testedName is occupied")
         }
     }
 
-    private fun createNewSavedRepetitionSettingAndSetAsCurrent(name: String) {
-        val newSavedRepetitionSetting: RepetitionSetting = RepetitionSetting.Default
+    private fun createNewSharedRepetitionSettingAndSetAsCurrent(name: String) {
+        val newSharedRepetitionSetting: RepetitionSetting = RepetitionSetting.Default
             .shallowCopy(id = generateId(), name = name)
-        addNewSavedRepetitionSetting(newSavedRepetitionSetting)
-        globalState.currentRepetitionSetting = newSavedRepetitionSetting
+        addNewSharedRepetitionSetting(newSharedRepetitionSetting)
+        globalState.currentRepetitionSetting = newSharedRepetitionSetting
     }
 
-    private fun addNewSavedRepetitionSetting(repetitionSetting: RepetitionSetting) {
-        globalState.savedRepetitionSettings =
-            (globalState.savedRepetitionSettings + repetitionSetting).toCopyableList()
+    private fun addNewSharedRepetitionSetting(repetitionSetting: RepetitionSetting) {
+        globalState.sharedRepetitionSettings =
+            (globalState.sharedRepetitionSettings + repetitionSetting).toCopyableList()
     }
 
-    fun deleteSavedRepetitionSetting(repetitionSettingId: Long) {
-        globalState.savedRepetitionSettings = globalState.savedRepetitionSettings
+    fun deleteSharedRepetitionSetting(repetitionSettingId: Long) {
+        globalState.sharedRepetitionSettings = globalState.sharedRepetitionSettings
             .filter { it.id != repetitionSettingId }
             .toCopyableList()
         if (globalState.currentRepetitionSetting.id == repetitionSettingId) {
@@ -171,9 +170,7 @@ class RepetitionSettings(
     }
 
     fun setNumberOfLaps(numberOfLaps: Int) {
-        if (numberOfLaps <= 0) {
-            throw IllegalArgumentException("number of laps should be greater than zero")
-        }
+        require(numberOfLaps > 0) { "number of laps must be greater than zero" }
         updateRepetitionSetting(
             isValueChanged = currentRepetitionSetting.numberOfLaps != numberOfLaps,
             createNewIndividualRepetitionSetting = {

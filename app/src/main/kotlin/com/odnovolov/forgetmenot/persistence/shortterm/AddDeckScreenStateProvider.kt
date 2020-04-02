@@ -1,6 +1,6 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
-import com.odnovolov.forgetmenot.persistence.usersessionterm.AddDeckScreenStateProvider.SerializableAddDeckScreenState
+import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckScreenStateProvider.SerializableAddDeckScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
 import kotlinx.serialization.Serializable
 

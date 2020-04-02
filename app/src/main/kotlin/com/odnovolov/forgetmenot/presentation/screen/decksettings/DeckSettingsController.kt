@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
@@ -29,8 +29,8 @@ class DeckSettingsController(
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val deckSettingsStateProvider: UserSessionTermStateProvider<DeckSettings.State>,
-    private val deckSettingsScreenStateProvider: UserSessionTermStateProvider<DeckSettingsScreenState>
+    private val deckSettingsStateProvider: ShortTermStateProvider<DeckSettings.State>,
+    private val deckSettingsScreenStateProvider: ShortTermStateProvider<DeckSettingsScreenState>
 ) {
     private val commandFlow = EventFlow<DeckSettingsCommand>()
     val commands: Flow<DeckSettingsCommand> = commandFlow.get()

@@ -12,11 +12,16 @@ CREATE TABLE CardDb (
     lastAnsweredAt INTEGER --AS DateTime
 );
 
+CREATE INDEX CardDbIndex ON CardDb(deckId, ordinal);
+
 insert:
 INSERT INTO CardDb VALUES ?;
 
 selectAll:
 SELECT * FROM CardDb ORDER BY ordinal;
+
+updateOrdinal:
+UPDATE CardDb SET ordinal = ? WHERE deckId = ? AND ordinal = ?;
 
 updateQuestion:
 UPDATE CardDb SET question = ? WHERE id = ?;
@@ -37,7 +42,7 @@ updateLastAnsweredAt:
 UPDATE CardDb SET lastAnsweredAt = ? WHERE id = ?;
 
 delete:
-DELETE FROM CardDb WHERE id = ?;
+DELETE FROM CardDb WHERE deckId = ? AND ordinal = ?;
 
 exists:
 SELECT EXISTS (SELECT * FROM CardDb WHERE id = ?);

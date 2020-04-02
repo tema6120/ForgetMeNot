@@ -2,12 +2,12 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps
 
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 
 class RepetitionLapsController(
     private val repetitionSettings: RepetitionSettings,
     private val dialogState: RepetitionLapsDialogState,
-    private val dialogStateProvider: UserSessionTermStateProvider<RepetitionLapsDialogState>,
+    private val dialogStateProvider: ShortTermStateProvider<RepetitionLapsDialogState>,
     private val longTermStateSaver: LongTermStateSaver
 ) {
     fun onLapsRadioButtonClicked() {

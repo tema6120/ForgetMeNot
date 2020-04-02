@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
-import com.odnovolov.forgetmenot.persistence.usersessionterm.IntervalsScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.IntervalsScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

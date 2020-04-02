@@ -1,0 +1,12 @@
+CREATE TABLE SharedRepetitionSettingDb (
+    repetitionSettingId INTEGER PRIMARY KEY
+);
+
+insert:
+INSERT INTO SharedRepetitionSettingDb(repetitionSettingId) VALUES (?);
+
+selectAll:
+SELECT * FROM SharedRepetitionSettingDb;
+
+delete:
+DELETE FROM SharedRepetitionSettingDb WHERE repetitionSettingId = ?;

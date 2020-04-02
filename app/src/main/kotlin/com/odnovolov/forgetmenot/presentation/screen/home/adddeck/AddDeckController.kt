@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsViewModel
@@ -25,8 +25,8 @@ class AddDeckController(
     private val deckAdder: DeckAdder,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val addDeckStateProvider: UserSessionTermStateProvider<DeckAdder.State>,
-    private val addDeckScreenStateProvider: UserSessionTermStateProvider<AddDeckScreenState>
+    private val addDeckStateProvider: ShortTermStateProvider<DeckAdder.State>,
+    private val addDeckScreenStateProvider: ShortTermStateProvider<AddDeckScreenState>
 ) {
     private val coroutineScope = MainScope()
     private val commandFlow = EventFlow<AddDeckCommand>()

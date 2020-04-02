@@ -14,7 +14,7 @@ import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCre
 import com.odnovolov.forgetmenot.domain.toDateTimeSpan
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
@@ -36,8 +36,8 @@ class RepetitionSettingsController(
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val repetitionCreatorStateProvider: UserSessionTermStateProvider<RepetitionStateCreator.State>,
-    private val screenStateProvider: UserSessionTermStateProvider<RepetitionSettingsScreenState>
+    private val repetitionCreatorStateProvider: ShortTermStateProvider<RepetitionStateCreator.State>,
+    private val screenStateProvider: ShortTermStateProvider<RepetitionSettingsScreenState>
 ) {
     sealed class Command {
         object ShowNoCardIsReadyForRepetitionMessage : Command()
@@ -73,7 +73,7 @@ class RepetitionSettingsController(
     fun onRenameRepetitionSettingsClicked(repetitionSettingsId: Long) {
         screenState.renamePresetId = repetitionSettingsId
         screenState.namePresetDialogStatus = VisibleToRenameSharedPreset
-        globalState.savedRepetitionSettings.find { it.id == repetitionSettingsId }
+        globalState.sharedRepetitionSettings.find { it.id == repetitionSettingsId }
             ?.name
             ?.let { repetitionSettingName: String ->
                 commandFlow.send(SetNamePresetDialogText(repetitionSettingName))
@@ -81,7 +81,7 @@ class RepetitionSettingsController(
     }
 
     fun onDeleteRepetitionSettingsClicked(repetitionSettingsId: Long) {
-        repetitionSettings.deleteSavedRepetitionSetting(repetitionSettingsId)
+        repetitionSettings.deleteSharedRepetitionSetting(repetitionSettingsId)
         longTermStateSaver.saveStateByRegistry()
     }
 
@@ -103,10 +103,10 @@ class RepetitionSettingsController(
                 repetitionSettings.renameRepetitionSetting(repetitionSetting, newPresetName)
             }
             VisibleToCreateNewSharedPreset -> {
-                repetitionSettings.createNewSavedRepetitionSetting(newPresetName)
+                repetitionSettings.createNewSharedRepetitionSetting(newPresetName)
             }
             VisibleToRenameSharedPreset -> {
-                globalState.savedRepetitionSettings
+                globalState.sharedRepetitionSettings
                     .find { it.id == screenState.renamePresetId }
                     ?.let { repetitionSetting: RepetitionSetting ->
                         repetitionSettings.renameRepetitionSetting(repetitionSetting, newPresetName)

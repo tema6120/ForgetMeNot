@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
-import com.odnovolov.forgetmenot.persistence.usersessionterm.ExerciseStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind

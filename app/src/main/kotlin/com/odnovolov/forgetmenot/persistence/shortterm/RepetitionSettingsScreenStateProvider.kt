@@ -1,6 +1,6 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
-import com.odnovolov.forgetmenot.persistence.usersessionterm.RepetitionSettingsScreenStateProvider.SerializableState
+import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionSettingsScreenStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsScreenState
 import kotlinx.serialization.Serializable

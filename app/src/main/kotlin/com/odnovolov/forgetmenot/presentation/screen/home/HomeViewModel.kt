@@ -30,7 +30,7 @@ class HomeViewModel(
         homeScreenState.flowOf(HomeScreenState::selectedDeckIds),
         deckReviewPreference.flowOf(DeckReviewPreference::deckSorting),
         displayOnlyWithTasks
-    ) { decks: List<Deck>,
+    ) { decks: Collection<Deck>,
         searchText: String,
         selectedDeckIds: List<Long>,
         deckSorting: DeckSorting,
@@ -59,12 +59,12 @@ class HomeViewModel(
             }
         }
 
-    private fun List<Deck>.filterBy(searchText: String): List<Deck> {
+    private fun Collection<Deck>.filterBy(searchText: String): Collection<Deck> {
         return if (searchText.isEmpty()) this
         else this.filter { it.name.contains(searchText) }
     }
 
-    private fun List<Deck>.sortBy(deckSorting: DeckSorting): List<Deck> {
+    private fun Collection<Deck>.sortBy(deckSorting: DeckSorting): List<Deck> {
         return when (deckSorting.direction) {
             Asc -> {
                 when (deckSorting.criterion) {

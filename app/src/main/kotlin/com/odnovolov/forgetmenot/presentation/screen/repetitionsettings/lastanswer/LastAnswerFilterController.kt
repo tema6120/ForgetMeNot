@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastans
 
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
 import com.soywiz.klock.DateTimeSpan
 
@@ -10,7 +10,7 @@ class LastAnswerFilterController(
     private val repetitionSettings: RepetitionSettings,
     private val dialogState: LastAnswerFilterDialogState,
     private val longTermStateSaver: LongTermStateSaver,
-    private val dialogStateProvider: UserSessionTermStateProvider<LastAnswerFilterDialogState>
+    private val dialogStateProvider: ShortTermStateProvider<LastAnswerFilterDialogState>
 ) {
     fun onZeroTimeRadioButtonClicked() {
         dialogState.isZeroTimeSelected = true

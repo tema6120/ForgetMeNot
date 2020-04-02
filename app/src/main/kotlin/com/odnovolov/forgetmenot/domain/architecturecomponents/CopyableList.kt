@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.domain.architecturecomponents
 
 class CopyableList<E : Copyable>(
     private val listRealization: List<E>
-) : List<E> by listRealization, Copyable {
+) : List<E> by listRealization, CopyableCollection<E>, Copyable {
     override fun copy(): CopyableList<E> {
         return CopyableList(listRealization.map { it.copy() } as List<E>)
     }

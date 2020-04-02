@@ -44,7 +44,7 @@ class DeckSettingsViewModel(
         currentExercisePreference,
         globalState.flowOf(GlobalState::sharedExercisePreferences)
     ) { currentExercisePreference: ExercisePreference,
-        sharedExercisePreferences: List<ExercisePreference>
+        sharedExercisePreferences: Collection<ExercisePreference>
         ->
         (sharedExercisePreferences + currentExercisePreference + ExercisePreference.Default)
             .distinctBy { it.id }

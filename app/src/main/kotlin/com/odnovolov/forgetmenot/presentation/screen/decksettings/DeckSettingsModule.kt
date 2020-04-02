@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.persistence.usersessionterm.DeckSettingsScreenStateProvider
-import com.odnovolov.forgetmenot.persistence.usersessionterm.DeckSettingsStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.DeckSettingsScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.DeckSettingsStateProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

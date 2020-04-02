@@ -15,23 +15,24 @@ fun generateId(): Long = SUID.id()
 
 fun ExercisePreference.isDefault(): Boolean = this.id == ExercisePreference.Default.id
 
-fun ExercisePreference.isIndividual(): Boolean =
-    this.id != ExercisePreference.Default.id && this.name.isEmpty()
+fun ExercisePreference.isIndividual(): Boolean = !isDefault() && name.isEmpty()
 
 fun IntervalScheme.isDefault(): Boolean = this.id == IntervalScheme.Default.id
 
-fun IntervalScheme.isIndividual(): Boolean =
-    this.id != IntervalScheme.Default.id && this.name.isEmpty()
+fun IntervalScheme.isIndividual(): Boolean = !isDefault() && name.isEmpty()
 
 fun Pronunciation.isDefault(): Boolean = this.id == Pronunciation.Default.id
+
+fun SpeakPlan.isDefault(): Boolean = this.id == SpeakPlan.Default.id
+
+fun SpeakPlan.isIndividual(): Boolean = !isDefault() && name.isEmpty()
 
 fun Pronunciation.isIndividual(): Boolean =
     this.id != Pronunciation.Default.id && this.name.isEmpty()
 
 fun RepetitionSetting.isDefault(): Boolean = this.id == RepetitionSetting.Default.id
 
-fun RepetitionSetting.isIndividual(): Boolean =
-    this.id != RepetitionSetting.Default.id && this.name.isEmpty()
+fun RepetitionSetting.isIndividual(): Boolean = !isDefault() && name.isEmpty()
 
 fun checkDeckName(testedName: String, globalState: GlobalState): NameCheckResult {
     return when {
@@ -69,7 +70,7 @@ fun checkPronunciationName(testedName: String, globalState: GlobalState): NameCh
 fun checkRepetitionSettingName(testedName: String, globalState: GlobalState): NameCheckResult {
     return when {
         testedName.isEmpty() -> NameCheckResult.Empty
-        globalState.savedRepetitionSettings.any { it.name == testedName } -> NameCheckResult.Occupied
+        globalState.sharedRepetitionSettings.any { it.name == testedName } -> NameCheckResult.Occupied
         else -> NameCheckResult.Ok
     }
 }

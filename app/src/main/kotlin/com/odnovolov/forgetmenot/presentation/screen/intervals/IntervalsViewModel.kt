@@ -32,7 +32,7 @@ class IntervalsViewModel(
         currentIntervalScheme,
         globalState.flowOf(GlobalState::sharedIntervalSchemes)
     ) { currentIntervalScheme: IntervalScheme?,
-        sharedIntervalSchemes: List<IntervalScheme>
+        sharedIntervalSchemes: Collection<IntervalScheme>
         ->
         (sharedIntervalSchemes + IntervalScheme.Default + currentIntervalScheme + listOf(null))
             .distinctBy { it?.id }

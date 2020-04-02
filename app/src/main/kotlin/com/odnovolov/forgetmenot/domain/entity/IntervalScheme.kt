@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.domain.entity
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
+import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
 import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.toDateTimeSpan
@@ -14,7 +15,7 @@ class IntervalScheme(
     intervals: CopyableList<Interval>
 ) : RegistrableFlowableState<IntervalScheme>() {
     var name: String by me(name)
-    var intervals: CopyableList<Interval> by me(intervals)
+    var intervals: CopyableList<Interval> by me(intervals, CollectionChange::class)
 
     override fun copy() = IntervalScheme(id, name, intervals.copy())
 

@@ -4,9 +4,12 @@ import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.IntervalSchemePropertyChangeHandler.insertIntervals
+import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.SpeakPlanPropertyChangeHandler.insertSpeakEvent
 import com.odnovolov.forgetmenot.persistence.toIntervalSchemeDb
 import com.odnovolov.forgetmenot.persistence.toPronunciationDb
+import com.odnovolov.forgetmenot.persistence.toSpeakPlanDb
 
 object ExercisePreferencePropertyChangeHandler {
     private val queries = database.exercisePreferenceQueries
@@ -46,6 +49,11 @@ object ExercisePreferencePropertyChangeHandler {
                 val cardReverse = change.newValue as CardReverse
                 queries.updateCardReverse(cardReverse, exercisePreferenceId)
             }
+            ExercisePreference::speakPlan -> {
+                val linkedSpeakPlan = change.newValue as SpeakPlan
+                insertSpeakPlanIfNotExists(linkedSpeakPlan)
+                queries.updateSpeakPlanId(linkedSpeakPlan.id, exercisePreferenceId)
+            }
         }
     }
 
@@ -65,6 +73,18 @@ object ExercisePreferencePropertyChangeHandler {
         if (!exists) {
             val pronunciationDb = pronunciation.toPronunciationDb()
             database.pronunciationQueries.insert(pronunciationDb)
+        }
+    }
+
+    fun insertSpeakPlanIfNotExists(speakPlan: SpeakPlan) {
+        val exists = speakPlan.isDefault()
+                || database.speakPlanQueries.exists(speakPlan.id).executeAsOne()
+        if (!exists) {
+            val speakPlanDb = speakPlan.toSpeakPlanDb()
+            database.speakPlanQueries.insert(speakPlanDb)
+            speakPlan.speakEvents.forEachIndexed { ordinal, speakEvent ->
+                insertSpeakEvent(speakEvent, speakPlan.id, ordinal)
+            }
         }
     }
 }

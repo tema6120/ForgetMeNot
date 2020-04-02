@@ -1,6 +1,6 @@
-package com.odnovolov.forgetmenot.persistence.usersessionterm
+package com.odnovolov.forgetmenot.persistence.shortterm
 
-import com.odnovolov.forgetmenot.persistence.usersessionterm.IntervalsScreenStateProvider.SerializableIntervalsScreenState
+import com.odnovolov.forgetmenot.persistence.shortterm.IntervalsScreenStateProvider.SerializableIntervalsScreenState
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
 import kotlinx.serialization.Serializable

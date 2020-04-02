@@ -13,7 +13,7 @@ import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
@@ -27,7 +27,6 @@ import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.Repetiti
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
-import org.koin.core.KoinComponent
 import org.koin.java.KoinJavaComponent.getKoin
 
 class HomeController(
@@ -38,7 +37,7 @@ class HomeController(
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val homeScreenStateProvider: UserSessionTermStateProvider<HomeScreenState>
+    private val homeScreenStateProvider: ShortTermStateProvider<HomeScreenState>
 ) {
     private val commandFlow = EventFlow<HomeCommand>()
     val commands: Flow<HomeCommand> = merge(

@@ -31,8 +31,8 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             buildSharedPronunciations(pronunciations)
         val sharedSpeakPlans: CopyableList<SpeakPlan> = buildSharedSpeakPlans(speakPlans)
         val repetitionSettings: CopyableList<RepetitionSetting> = buildRepetitionSettings()
-        val savedRepetitionSettings: CopyableList<RepetitionSetting> =
-            buildSavedRepetitionSettings(repetitionSettings)
+        val sharedRepetitionSettings: CopyableList<RepetitionSetting> =
+            buildSharedRepetitionSettings(repetitionSettings)
         val currentRepetitionSetting: RepetitionSetting =
             buildCurrentRepetitionSetting(repetitionSettings)
         return GlobalState(
@@ -41,7 +41,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             sharedIntervalSchemes,
             sharedPronunciations,
             sharedSpeakPlans,
-            savedRepetitionSettings,
+            sharedRepetitionSettings,
             currentRepetitionSetting
         )
     }
@@ -186,12 +186,12 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             .toCopyableList()
     }
 
-    private fun buildSavedRepetitionSettings(
+    private fun buildSharedRepetitionSettings(
         repetitionSettings: CopyableList<RepetitionSetting>
     ): CopyableList<RepetitionSetting> {
         val repetitionSettingsMap: Map<Long, RepetitionSetting> =
             repetitionSettings.associateBy { it.id }
-        return tables.savedRepetitionSettingTable
+        return tables.sharedRepetitionSettingTable
             .map { repetitionSettingId: Long ->
                 repetitionSettingsMap.getValue(repetitionSettingId)
             }

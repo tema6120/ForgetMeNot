@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
-import com.odnovolov.forgetmenot.presentation.common.UserSessionTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.SetNamePresetDialogText
@@ -27,7 +27,7 @@ class IntervalsController(
     private val intervalsScreenState: IntervalsScreenState,
     private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver,
-    private val intervalsScreenStateProvider: UserSessionTermStateProvider<IntervalsScreenState>
+    private val intervalsScreenStateProvider: ShortTermStateProvider<IntervalsScreenState>
 ) {
     private val commandFlow = EventFlow<IntervalsCommand>()
     val commands: Flow<IntervalsCommand> = commandFlow.get()

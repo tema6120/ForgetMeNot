@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
-import com.odnovolov.forgetmenot.persistence.usersessionterm.PronunciationScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.PronunciationScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
