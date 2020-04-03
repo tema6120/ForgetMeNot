@@ -16,7 +16,7 @@ class ModifyIntervalDialogStateProvider :
     )
 
     override val serializer = SerializableModifyIntervalDialogState.serializer()
-    override val serializableClassName = SerializableModifyIntervalDialogState::class.java.name
+    override val serializableId = SerializableModifyIntervalDialogState::class.simpleName!!
 
     override fun toSerializable(state: ModifyIntervalDialogState) =
         SerializableModifyIntervalDialogState(

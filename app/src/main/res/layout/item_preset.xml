@@ -2,8 +2,18 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/background_selectable_item">
+        android:layout_height="48dp">
+
+    <FrameLayout
+            android:id="@+id/setPresetButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/background_selectable_item"
+            android:foreground="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/presetNameTextView"
@@ -20,16 +30,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Default" />
-
-    <View
-            android:id="@+id/setPresetButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="?attr/selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
             android:id="@+id/renamePresetButton"

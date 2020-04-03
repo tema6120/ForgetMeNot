@@ -20,7 +20,7 @@ import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator.PresetAdapter
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetAdapter
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
@@ -242,7 +242,7 @@ class RepetitionSettingsFragment : BaseFragment() {
             5 -> R.color.level_of_knowledge_very_good
             else -> R.color.level_of_knowledge_excellent
         }
-        return ContextCompat.getColor(context!!, resId)
+        return ContextCompat.getColor(requireContext(), resId)
     }
 
     private fun setupLastAnswerFilter() {
@@ -253,7 +253,7 @@ class RepetitionSettingsFragment : BaseFragment() {
                         getString(R.string.zero_time).toLowerCase(Locale.ROOT)
                     } else {
                         val timeAgo: String =
-                            lastAnswerFromTimeAgo.toString(context!!).toLowerCase(Locale.ROOT)
+                            lastAnswerFromTimeAgo.toString(requireContext()).toLowerCase(Locale.ROOT)
                         getString(R.string.time_ago, timeAgo)
                     }
             }
@@ -263,7 +263,7 @@ class RepetitionSettingsFragment : BaseFragment() {
                         getString(R.string.now).toLowerCase(Locale.ROOT)
                     } else {
                         val timeAgo: String =
-                            lastAnswerToTimeAgo.toString(context!!).toLowerCase(Locale.ROOT)
+                            lastAnswerToTimeAgo.toString(requireContext()).toLowerCase(Locale.ROOT)
                         getString(R.string.time_ago, timeAgo)
                     }
             }

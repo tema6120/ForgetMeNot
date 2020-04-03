@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 val homeModule = module {
     scope<HomeViewModel> {
-        scoped { HomeScreenStateProvider() }
+        scoped { HomeScreenStateProvider(defaultState = HomeScreenState()) }
         scoped { get<HomeScreenStateProvider>().load() }
         scoped { DeckRemover(globalState = get()) }
         scoped { ExerciseStateCreator(globalState = get()) }

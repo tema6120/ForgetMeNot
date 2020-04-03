@@ -15,7 +15,7 @@ class RepetitionSettingsScreenStateProvider
     )
 
     override val serializer = SerializableState.serializer()
-    override val serializableClassName: String = SerializableState::class.java.name
+    override val serializableId: String = SerializableState::class.simpleName!!
 
     override fun toSerializable(state: RepetitionSettingsScreenState) = SerializableState(
         state.namePresetDialogStatus,

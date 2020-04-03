@@ -9,9 +9,9 @@ import org.koin.dsl.onClose
 
 val addDeckModule = module {
     scope<AddDeckViewModel> {
-        scoped { AddDeckStateProvider() }
+        scoped { AddDeckStateProvider(defaultState = DeckAdder.State()) }
         scoped { get<AddDeckStateProvider>().load() }
-        scoped { AddDeckScreenStateProvider() }
+        scoped { AddDeckScreenStateProvider(defaultState = AddDeckScreenState()) }
         scoped { get<AddDeckScreenStateProvider>().load() }
         scoped { DeckAdder(state = get(), globalState = get()) }
         scoped {

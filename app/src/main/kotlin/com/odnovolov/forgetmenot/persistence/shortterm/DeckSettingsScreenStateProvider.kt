@@ -17,7 +17,7 @@ class DeckSettingsScreenStateProvider :
     )
 
     override val serializer = SerializableDeckSettingsScreenState.serializer()
-    override val serializableClassName = SerializableDeckSettingsScreenState::class.java.name
+    override val serializableId = SerializableDeckSettingsScreenState::class.simpleName!!
 
     override fun toSerializable(state: DeckSettingsScreenState) =
         SerializableDeckSettingsScreenState(

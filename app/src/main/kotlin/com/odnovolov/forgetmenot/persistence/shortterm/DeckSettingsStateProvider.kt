@@ -14,7 +14,7 @@ class DeckSettingsStateProvider(private val globalState: GlobalState) :
     )
 
     override val serializer = SerializableDeckSettingsState.serializer()
-    override val serializableClassName = SerializableDeckSettingsState::class.java.name
+    override val serializableId = SerializableDeckSettingsState::class.simpleName!!
 
     override fun toSerializable(state: DeckSettings.State) =
         SerializableDeckSettingsState(state.deck.id)

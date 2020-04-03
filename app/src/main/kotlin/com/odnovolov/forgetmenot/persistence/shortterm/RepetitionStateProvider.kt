@@ -30,7 +30,7 @@ class RepetitionStateProvider(
     )
 
     override val serializer = SerializableRepetitionState.serializer()
-    override val serializableClassName = SerializableRepetitionState::class.java.name
+    override val serializableId = SerializableRepetitionState::class.simpleName!!
 
     override fun toSerializable(state: Repetition.State): SerializableRepetitionState {
         val serializableRepetitionCards: List<SerializableRepetitionCard> = state.repetitionCards

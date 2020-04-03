@@ -6,8 +6,10 @@ import com.odnovolov.forgetmenot.domain.interactor.deckadder.Stage
 import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckStateProvider.SerializableAddDeckState
 import kotlinx.serialization.Serializable
 
-class AddDeckStateProvider
-    : BaseSerializableStateProvider<DeckAdder.State, SerializableAddDeckState>() {
+class AddDeckStateProvider(
+    override val serializableId: String = DeckAdder.State::class.simpleName!!,
+    override val defaultState: DeckAdder.State? = null
+) : BaseSerializableStateProvider<DeckAdder.State, SerializableAddDeckState>() {
     @Serializable
     data class SerializableAddDeckState(
         val stage: Stage,
@@ -15,8 +17,6 @@ class AddDeckStateProvider
     )
 
     override val serializer = SerializableAddDeckState.serializer()
-    override val serializableClassName: String = SerializableAddDeckState::class.java.name
-    override val defaultState = DeckAdder.State()
 
     override fun toSerializable(state: DeckAdder.State) = SerializableAddDeckState(
         state.stage,

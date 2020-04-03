@@ -69,7 +69,7 @@ class NavigatorImpl : Navigator,
 
     override fun onActivityStarted(activity: Activity) {
         if (activity is MainActivity) {
-            navController = activity.findNavController(R.id.nav_host_fragment)
+            navController = activity.findNavController(R.id.navHostFragment)
         }
     }
 

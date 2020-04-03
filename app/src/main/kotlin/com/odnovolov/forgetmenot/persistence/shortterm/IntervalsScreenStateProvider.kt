@@ -15,7 +15,7 @@ class IntervalsScreenStateProvider
     )
 
     override val serializer = SerializableIntervalsScreenState.serializer()
-    override val serializableClassName = SerializableIntervalsScreenState::class.java.name
+    override val serializableId = SerializableIntervalsScreenState::class.java.name
 
     override fun toSerializable(state: IntervalsScreenState) = SerializableIntervalsScreenState(
         state.namePresetDialogStatus,

@@ -12,7 +12,7 @@ import android.widget.PopupWindow
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator.PresetAdapter
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetAdapter
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.isDefault

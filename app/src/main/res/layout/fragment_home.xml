@@ -4,7 +4,7 @@
         android:id="@+id/homeFragmentRootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".screen.home.HomeFragment">
+        tools:context="presentation.screen.home.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/decksPreviewRecycler"

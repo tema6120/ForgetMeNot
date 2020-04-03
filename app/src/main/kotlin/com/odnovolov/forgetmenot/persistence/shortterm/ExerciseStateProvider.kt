@@ -52,7 +52,7 @@ class ExerciseStateProvider(
     )
 
     override val serializer = SerializableExerciseState.serializer()
-    override val serializableClassName = SerializableExerciseState::class.java.name
+    override val serializableId = SerializableExerciseState::class.simpleName!!
 
     override fun toSerializable(state: Exercise.State): SerializableExerciseState {
         val serializableExerciseCards: MutableList<SerializableExerciseCard> =

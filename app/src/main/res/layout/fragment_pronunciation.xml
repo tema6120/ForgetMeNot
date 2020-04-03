@@ -6,44 +6,19 @@
         android:layout_height="match_parent"
         tools:context=".presentation.screen.pronunciation.PronunciationFragment">
 
-    <LinearLayout
-            android:id="@+id/header"
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/presetFragmentView"
+            android:name="com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
+            android:tag="Pronunciation Preset Tag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-                android:id="@+id/savePronunciationButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_save_pronunciation"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_save_dark_24dp"
-                tools:visibilisty="visible" />
-
-        <TextView
-                android:id="@+id/pronunciationNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="?attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_more_expand_more_with_inset"
-                android:padding="16dp"
-                android:singleLine="true"
-                android:textColor="@color/textPrimary"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                tools:text="Default" />
-
-    </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/fragment_preset" />
 
     <TextView
             android:id="@+id/questionTitleTextView"

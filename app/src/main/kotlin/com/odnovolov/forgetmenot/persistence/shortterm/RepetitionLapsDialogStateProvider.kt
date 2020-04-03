@@ -13,7 +13,7 @@ class RepetitionLapsDialogStateProvider
     )
 
     override val serializer = SerializableState.serializer()
-    override val serializableClassName: String = SerializableState::class.java.name
+    override val serializableId: String = SerializableState::class.simpleName!!
 
     override fun toSerializable(state: RepetitionLapsDialogState) = SerializableState(
         state.isInfinitely,

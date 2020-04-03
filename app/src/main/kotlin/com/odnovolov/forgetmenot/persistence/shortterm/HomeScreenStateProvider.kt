@@ -4,8 +4,10 @@ import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider.S
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import kotlinx.serialization.Serializable
 
-class HomeScreenStateProvider
-    : BaseSerializableStateProvider<HomeScreenState, SerializableHomeScreenState>() {
+class HomeScreenStateProvider(
+    override val serializableId: String = HomeScreenState::class.simpleName!!,
+    override val defaultState: HomeScreenState? = null
+) : BaseSerializableStateProvider<HomeScreenState, SerializableHomeScreenState>() {
     @Serializable
     data class SerializableHomeScreenState(
         val searchText: String,
@@ -13,8 +15,6 @@ class HomeScreenStateProvider
     )
 
     override val serializer = SerializableHomeScreenState.serializer()
-    override val serializableClassName = SerializableHomeScreenState::class.java.name
-    override val defaultState = HomeScreenState()
 
     override fun toSerializable(state: HomeScreenState) = SerializableHomeScreenState(
         state.searchText,

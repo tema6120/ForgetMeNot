@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.domain.isIndividual
-import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator.Preset
+import com.odnovolov.forgetmenot.presentation.common.preset.Preset
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.soywiz.klock.DateTimeSpan

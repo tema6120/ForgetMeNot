@@ -24,7 +24,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.presentation.common.customview.InputDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator.PresetAdapter
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetAdapter
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetNamePresetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText

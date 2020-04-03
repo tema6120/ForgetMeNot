@@ -175,4 +175,5 @@
     <string name="title_dialog_speak_event">Speak event</string>
     <string name="error_message_cannot_change_last_speak_question">Cannot change last \'Speak Question\' event</string>
     <string name="error_message_cannot_change_last_speak_answer">Cannot change last \'Speak Answer\' event</string>
+    <string name="title_preset_name_input_dialog">Preset name</string>
 </resources>

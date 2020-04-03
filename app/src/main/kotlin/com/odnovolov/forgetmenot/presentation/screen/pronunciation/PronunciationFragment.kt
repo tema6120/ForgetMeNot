@@ -1,24 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.view.View.*
-import android.widget.EditText
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.PopupWindow
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.customview.InputDialogCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator.PresetAdapter
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.domain.isDefault
-import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationController.Command.SetNamePresetDialogText
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
@@ -29,44 +23,26 @@ class PronunciationFragment : BaseFragment() {
         getKoin().getOrCreateScope<PronunciationViewModel>(PRONUNCIATION_SCOPE_ID)
     private val viewModel: PronunciationViewModel by koinScope.viewModel(this)
     private val controller: PronunciationController by koinScope.inject()
-    private lateinit var choosePronunciationPopup: PopupWindow
-    private lateinit var pronunciationAdapter: PresetAdapter
     private lateinit var questionLanguagePopup: PopupWindow
     private lateinit var questionLanguageAdapter: LanguageAdapter
     private lateinit var answerLanguagePopup: PopupWindow
     private lateinit var answerLanguageAdapter: LanguageAdapter
-    private lateinit var presetNameInputDialog: Dialog
-    private lateinit var presetNameEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initChoosePronunciationPopup()
         questionLanguagePopup = createLanguagePopup()
         answerLanguagePopup = createLanguagePopup()
-        initPresetNameInputDialog()
         return inflater.inflate(R.layout.fragment_pronunciation, container, false)
     }
 
-    private fun initChoosePronunciationPopup() {
-        choosePronunciationPopup = PresetPopupCreator.create(
-            context = requireContext(),
-            setPresetButtonClickListener = { pronunciationId: Long? ->
-                controller.onSetPronunciationButtonClicked(pronunciationId!!)
-            },
-            renamePresetButtonClickListener = { pronunciationId: Long ->
-                controller.onRenamePronunciationButtonClicked(pronunciationId)
-            },
-            deletePresetButtonClickListener = { pronunciationId: Long ->
-                controller.onDeletePronunciationButtonClicked(pronunciationId)
-            },
-            addButtonClickListener = {
-                controller.onAddNewPronunciationButtonClicked()
-            },
-            takeAdapter = { pronunciationAdapter = it }
-        )
+    override fun onAttachFragment(childFragment: Fragment) {
+        if (childFragment is PresetFragment) {
+            childFragment.controller = koinScope.get()
+            childFragment.viewModel = koinScope.get()
+        }
     }
 
     private fun createLanguagePopup() = PopupWindow(requireContext()).apply {
@@ -79,22 +55,10 @@ class PronunciationFragment : BaseFragment() {
         isFocusable = true
     }
 
-    private fun initPresetNameInputDialog() {
-        presetNameInputDialog = InputDialogCreator.create(
-            context = requireContext(),
-            title = getString(R.string.title_pronunciation_name_input_dialog),
-            takeEditText = { presetNameEditText = it },
-            onTextChanged = { controller.onDialogTextChanged(it) },
-            onPositiveClick = { controller.onNamePresetPositiveDialogButtonClicked() },
-            onNegativeClick = { controller.onNamePresetNegativeDialogButtonClicked() }
-        )
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         observeViewModel()
-        controller.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
@@ -121,12 +85,6 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun setOnClickListeners() {
-        savePronunciationButton.setOnClickListener {
-            controller.onSavePronunciationButtonClicked()
-        }
-        pronunciationNameTextView.setOnClickListener {
-            showChoosePronunciationPopup()
-        }
         questionLanguageTextView.setOnClickListener {
             showLanguagePopup(questionLanguagePopup, anchor = questionLanguageTextView)
         }
@@ -147,17 +105,8 @@ class PronunciationFragment : BaseFragment() {
         }
     }
 
-    private fun showChoosePronunciationPopup() {
-        val location = IntArray(2)
-        pronunciationNameTextView.getLocationOnScreen(location)
-        val x = location[0] + pronunciationNameTextView.width - choosePronunciationPopup.width
-        val y = location[1]
-        choosePronunciationPopup.showAtLocation(rootView, Gravity.NO_GRAVITY, x, y)
-    }
-
     private fun showLanguagePopup(popupWindow: PopupWindow, anchor: View) {
         popupWindow.width = anchor.width
-
         val location = IntArray(2)
         anchor.getLocationOnScreen(location)
         val x = location[0]
@@ -176,28 +125,6 @@ class PronunciationFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            pronunciation.observe {
-                val pronunciationName = when {
-                    it.isDefault() -> getString(R.string.default_name)
-                    it.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${it.name}'"
-                }
-                pronunciationNameTextView.text = pronunciationName
-            }
-            isSavePronunciationButtonEnabled.observe { isEnabled: Boolean ->
-                savePronunciationButton.visibility = if (isEnabled) VISIBLE else GONE
-            }
-            availablePronunciations.observe(pronunciationAdapter::submitList)
-            isNamePresetDialogVisible.observe { isVisible ->
-                presetNameInputDialog.run { if (isVisible) show() else dismiss() }
-            }
-            namePresetInputCheckResult.observe {
-                presetNameEditText.error = when (it) {
-                    Ok -> null
-                    Empty -> getString(R.string.error_message_empty_name)
-                    Occupied -> getString(R.string.error_message_occupied_name)
-                }
-            }
             selectedQuestionLanguage.observe { selectedQuestionLanguage ->
                 questionLanguageTextView.text =
                     selectedQuestionLanguage?.displayLanguage
@@ -232,36 +159,5 @@ class PronunciationFragment : BaseFragment() {
                 }
             }
         }
-    }
-
-    private fun executeCommand(command: PronunciationController.Command) {
-        when (command) {
-            is SetNamePresetDialogText -> {
-                presetNameEditText.setText(command.text)
-                presetNameEditText.selectAll()
-            }
-        }
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        val dialogState = savedInstanceState?.getBundle(STATE_KEY_DIALOG)
-        if (dialogState != null) {
-            presetNameInputDialog.onRestoreInstanceState(dialogState)
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        controller.onFragmentPause()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBundle(STATE_KEY_DIALOG, presetNameInputDialog.onSaveInstanceState())
-    }
-
-    companion object {
-        const val STATE_KEY_DIALOG = "pronunciationNameInputDialog"
     }
 }

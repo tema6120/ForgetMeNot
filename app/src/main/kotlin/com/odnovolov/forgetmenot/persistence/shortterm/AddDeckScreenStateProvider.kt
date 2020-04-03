@@ -4,16 +4,16 @@ import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckScreenStateProvide
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
 import kotlinx.serialization.Serializable
 
-class AddDeckScreenStateProvider
-    : BaseSerializableStateProvider<AddDeckScreenState, SerializableAddDeckScreenState>() {
+class AddDeckScreenStateProvider(
+    override val serializableId: String = AddDeckScreenState::class.simpleName!!,
+    override val defaultState: AddDeckScreenState? = null
+) : BaseSerializableStateProvider<AddDeckScreenState, SerializableAddDeckScreenState>() {
     @Serializable
     data class SerializableAddDeckScreenState(
         val typedText: String
     )
 
     override val serializer = SerializableAddDeckScreenState.serializer()
-    override val serializableClassName: String = SerializableAddDeckScreenState::class.java.name
-    override val defaultState = AddDeckScreenState()
 
     override fun toSerializable(state: AddDeckScreenState) = SerializableAddDeckScreenState(
         state.typedText

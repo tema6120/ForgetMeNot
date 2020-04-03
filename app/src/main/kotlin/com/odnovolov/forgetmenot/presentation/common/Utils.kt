@@ -35,8 +35,7 @@ fun Locale.toFlagEmoji(): String? {
     return String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
 }
 
-val Int.dp: Int
-    get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 fun EditText.observeText(onTextChanged: (newText: CharSequence?) -> Unit) {
     addTextChangedListener(object : TextWatcher {

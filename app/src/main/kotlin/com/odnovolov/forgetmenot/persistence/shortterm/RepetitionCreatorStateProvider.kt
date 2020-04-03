@@ -14,7 +14,7 @@ class RepetitionCreatorStateProvider(
     )
 
     override val serializer = SerializableState.serializer()
-    override val serializableClassName: String = SerializableState::class.java.name
+    override val serializableId: String = SerializableState::class.simpleName!!
 
     override fun toSerializable(state: RepetitionStateCreator.State) = SerializableState(
         deckIds = state.decks.map { it.id }

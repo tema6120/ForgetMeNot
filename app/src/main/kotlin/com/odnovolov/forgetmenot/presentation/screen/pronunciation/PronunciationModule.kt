@@ -1,8 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
-import com.odnovolov.forgetmenot.persistence.shortterm.PronunciationScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
+import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetController
+import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetViewModel
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -16,25 +18,37 @@ val pronunciationModule = module {
                 globalState = get()
             )
         }
-        scoped { PronunciationScreenStateProvider() }
-        scoped { get<PronunciationScreenStateProvider>().load() }
+        scoped { PresetDialogStateProvider(serializableId = "Pronunciation Preset State") }
+        scoped { get<PresetDialogStateProvider>().load() }
+        scoped<SkeletalPresetController> {
+            PronunciationPresetController(
+                deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),
+                pronunciationSettings = get(),
+                presetDialogState = get(),
+                globalState = get(),
+                longTermStateSaver = get(),
+                dialogStateProvider = get<PresetDialogStateProvider>()
+            )
+        }
+        scoped<SkeletalPresetViewModel> {
+            PronunciationPresetViewModel(
+                deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),
+                presetDialogState = get(),
+                globalState = get()
+            )
+        }
         scoped { SpeakerImpl(applicationContext = get()) } onClose { it?.shutdown() }
         scoped {
             PronunciationController(
                 deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),
                 pronunciationSettings = get(),
-                pronunciationScreenState = get(),
-                globalState = get(),
-                longTermStateSaver = get(),
-                pronunciationScreenStateProvider = get<PronunciationScreenStateProvider>()
+                longTermStateSaver = get()
             )
         }
         viewModel {
             PronunciationViewModel(
                 deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),
-                pronunciationScreenState = get(),
-                speakerImpl = get(),
-                globalState = get()
+                speakerImpl = get()
             )
         }
     }
