@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.service.Repetiti
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
@@ -26,7 +27,7 @@ val repetitionModule = module {
             Repetition(
                 state = get(),
                 speaker = get(),
-                coroutineDispatcher = Dispatchers.Main
+                coroutineContext = SupervisorJob() + Dispatchers.Main.immediate
             )
         } onClose { it?.cancel() }
         scoped {

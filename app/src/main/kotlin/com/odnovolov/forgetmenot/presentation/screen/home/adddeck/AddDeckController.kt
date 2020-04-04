@@ -9,8 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.ShowErrorMessage
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +23,7 @@ class AddDeckController(
     private val addDeckStateProvider: ShortTermStateProvider<DeckAdder.State>,
     private val addDeckScreenStateProvider: ShortTermStateProvider<AddDeckScreenState>
 ) {
-    private val coroutineScope = MainScope()
+    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val commandFlow = EventFlow<AddDeckCommand>()
     val commands: Flow<AddDeckCommand> = commandFlow.get()
 

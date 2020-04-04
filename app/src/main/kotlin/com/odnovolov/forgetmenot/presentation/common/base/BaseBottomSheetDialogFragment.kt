@@ -12,7 +12,7 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewScope = MainScope()
+        viewScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }
 
     fun <T> Flow<T>.observe(onEach: (value: T) -> Unit) {

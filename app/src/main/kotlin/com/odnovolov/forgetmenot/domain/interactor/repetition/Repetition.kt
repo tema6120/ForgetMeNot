@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
 class Repetition(
     val state: State,
     private val speaker: Speaker,
-    private val coroutineDispatcher: CoroutineDispatcher
+    override val coroutineContext: CoroutineContext
 ) : CoroutineScope {
     class State(
         repetitionCards: List<RepetitionCard>,
@@ -62,9 +62,6 @@ class Repetition(
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
 
     private var delayJob: Job? = null
-
-    override val coroutineContext: CoroutineContext
-        get() = Job() + coroutineDispatcher
 
     init {
         speaker.setOnSpeakingFinished { tryToExecuteNextSpeakEvent() }

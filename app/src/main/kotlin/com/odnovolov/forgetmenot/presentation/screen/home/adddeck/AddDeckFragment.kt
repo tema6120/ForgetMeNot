@@ -20,11 +20,9 @@ import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
 
@@ -32,7 +30,7 @@ class AddDeckFragment : BaseFragment() {
     private val koinScope = getKoin().getOrCreateScope<AddDeckViewModel>(ADD_DECK_SCOPE_ID)
     private val viewModel: AddDeckViewModel by koinScope.viewModel(this)
     private val controller: AddDeckController by koinScope.inject()
-    private val fragmentScope = MainScope()
+    private val fragmentScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var deckNameEditText: EditText
 

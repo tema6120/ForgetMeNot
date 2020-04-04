@@ -190,7 +190,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        resumePauseCoroutineScope = MainScope()
+        resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         resumePauseCoroutineScope!!.launch {
             viewModel.decksPreview.collect {
                 if (isActive) {

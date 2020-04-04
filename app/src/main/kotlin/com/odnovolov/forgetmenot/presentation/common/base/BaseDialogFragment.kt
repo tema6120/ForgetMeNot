@@ -9,7 +9,7 @@ open class BaseDialogFragment : DialogFragment() {
     var viewScope: CoroutineScope? = null
 
     fun onCreateDialog() {
-        viewScope = MainScope()
+        viewScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }
 
     fun <T> Flow<T>.observe(onEach: (value: T) -> Unit) {
