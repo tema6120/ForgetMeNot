@@ -10,7 +10,6 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
 import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_ID
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsViewModel
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PRONUNCIATION_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationViewModel
@@ -64,7 +63,7 @@ class DeckSettingsController(
 
     fun onIntervalsButtonClicked() {
         val koinScope: Scope = getKoin().createScope<IntervalsViewModel>(INTERVALS_SCOPE_ID)
-        koinScope.declare(IntervalsScreenState(), override = true)
+        koinScope.declare(PresetDialogState(), override = true)
         navigator.navigateToIntervals()
     }
 

@@ -9,49 +9,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <ImageButton
-                android:id="@+id/saveIntervalSchemeButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_save_intervals"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/intervalSchemeNameTextView"
-                app:layout_constraintEnd_toStartOf="@+id/intervalSchemeNameTextView"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/intervalSchemeNameTextView"
-                app:srcCompat="@drawable/ic_save_dark_24dp"
-                tools:visibility="visible" />
-
-        <TextView
-                android:id="@+id/intervalSchemeNameTextView"
+        <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/presetFragmentView"
+                android:name="com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_more_expand_more_with_inset"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:textColor="@color/textPrimary"
-                android:textSize="22sp"
-                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:tag="IntervalScheme Preset Tag"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/saveIntervalSchemeButton"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Default" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="saveIntervalSchemeButton,intervalSchemeNameTextView" />
+                tools:layout="@layout/fragment_preset" />
 
         <TextView
                 android:id="@+id/unsatisfactoryLevelOfKnowledgeTextView"
@@ -65,7 +37,7 @@
                 android:textColor="@color/text_level_of_knowledge"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier" />
+                app:layout_constraintTop_toBottomOf="@id/presetFragmentView" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/intervalsRecyclerView"
@@ -102,7 +74,7 @@
                 app:srcCompat="@drawable/ic_remove_white_24dp" />
 
         <androidx.constraintlayout.widget.Group
-                android:id="@+id/intervalsEditorGroup"
+                android:id="@+id/intervalsEditionGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"

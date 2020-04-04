@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 import com.odnovolov.forgetmenot.domain.checkPronunciationName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -19,8 +18,10 @@ class PronunciationPresetController(
     private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver,
     presetDialogStateProvider: ShortTermStateProvider<PresetDialogState>
-) : SkeletalPresetController(presetDialogState, presetDialogStateProvider) {
-
+) : SkeletalPresetController(
+    presetDialogState,
+    presetDialogStateProvider
+) {
     override fun onSetPresetButtonClicked(id: Long?) {
         pronunciationSettings.setPronunciation(pronunciationId = id!!)
         longTermStateSaver.saveStateByRegistry()
@@ -47,11 +48,8 @@ class PronunciationPresetController(
                 pronunciationSettings.createNewSharedPronunciation(newPresetName)
             }
             is ToRenameSharedPreset -> {
-                globalState.sharedPronunciations
-                    .find { it.id == purpose.id }
-                    ?.let { pronunciation: Pronunciation ->
-                        pronunciationSettings.renamePronunciation(pronunciation, newPresetName)
-                    }
+                val pronunciation = globalState.sharedPronunciations.first { it.id == purpose.id }
+                pronunciationSettings.renamePronunciation(pronunciation, newPresetName)
             }
         }
         longTermStateSaver.saveStateByRegistry()

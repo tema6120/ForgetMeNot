@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 
 class PronunciationPresetViewModel(
     private val deckSettingsState: DeckSettings.State,
-    private val presetDialogState: PresetDialogState,
+    presetDialogState: PresetDialogState,
     private val globalState: GlobalState
 ) : SkeletalPresetViewModel() {
     private val currentPronunciation: Flow<Pronunciation>
