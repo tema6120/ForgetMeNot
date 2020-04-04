@@ -12,3 +12,6 @@
 /captures
 .externalNativeBuild
 /.idea/codeStyles/
+/.idea/sqldelight/
+/.idea/markdown-navigator.xml
+/.idea/markdown-navigator-enh.xml
