@@ -6,21 +6,22 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.persistence.shortterm.DeckSettingsStateProvider.SerializableDeckSettingsState
 import kotlinx.serialization.Serializable
 
-class DeckSettingsStateProvider(private val globalState: GlobalState) :
-    BaseSerializableStateProvider<DeckSettings.State, SerializableDeckSettingsState>() {
+class DeckSettingsStateProvider(
+    override val key: String = DeckSettings.State::class.qualifiedName!!,
+    private val globalState: GlobalState
+) : BaseSerializableStateProvider<DeckSettings.State, SerializableDeckSettingsState>() {
     @Serializable
     data class SerializableDeckSettingsState(
         val deckId: Long
     )
 
     override val serializer = SerializableDeckSettingsState.serializer()
-    override val serializableId = SerializableDeckSettingsState::class.simpleName!!
 
     override fun toSerializable(state: DeckSettings.State) =
         SerializableDeckSettingsState(state.deck.id)
 
     override fun toOriginal(serializableState: SerializableDeckSettingsState): DeckSettings.State {
-        val deck: Deck = globalState.decks.find { it.id == serializableState.deckId }!!
+        val deck: Deck = globalState.decks.first { it.id == serializableState.deckId }
         return DeckSettings.State(deck)
     }
 }

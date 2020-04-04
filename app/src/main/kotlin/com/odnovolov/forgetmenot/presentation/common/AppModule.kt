@@ -4,7 +4,6 @@ import com.odnovolov.forgetmenot.persistence.longterm.LongTermStateSaverImpl
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision.GlobalStateProvider
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferenceProvider
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val appModule = module {
@@ -12,5 +11,5 @@ val appModule = module {
     single { DeckReviewPreferenceProvider.load() }
     single { WalkingModePreferenceProvider.load() }
     single<LongTermStateSaver> { LongTermStateSaverImpl }
-    single { NavigatorImpl() } bind Navigator::class
+    single { Navigator() }
 }

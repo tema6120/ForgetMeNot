@@ -9,25 +9,16 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator.NoCardIsReadyForExercise
-import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsViewModel
-import com.odnovolov.forgetmenot.presentation.screen.exercise.EXERCISE_SCOPE_ID
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.REPETITION_SETTINGS_SCOPE_ID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
-import org.koin.java.KoinJavaComponent.getKoin
 
 class HomeController(
     private val homeScreenState: HomeScreenState,
@@ -93,20 +84,13 @@ class HomeController(
     private fun startRepetitionSettings(deckIds: List<Long>) {
         val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
         val repetitionCreatorState = RepetitionStateCreator.State(decks)
-        val koinScope = getKoin().createScope<RepetitionSettings>(REPETITION_SETTINGS_SCOPE_ID)
-        koinScope.declare(repetitionCreatorState, override = true)
-        koinScope.declare(PresetDialogState(), override = true)
-        navigator.navigateToRepetitionSettings()
+        navigator.navigateToRepetitionSettings(repetitionCreatorState)
     }
 
     fun onSetupDeckMenuItemClicked(deckId: Long) {
         val deck: Deck = globalState.decks.find { it.id == deckId } ?: return
         val deckSettingsState = DeckSettings.State(deck)
-        val koinScope = getKoin().createScope<DeckSettingsViewModel>(DECK_SETTINGS_SCOPED_ID)
-        koinScope.declare(deckSettingsState, override = true)
-        koinScope.declare(PresetDialogState(), override = true)
-        koinScope.declare(DeckSettingsScreenState(), override = true)
-        navigator.navigateToDeckSettings()
+        navigator.navigateToDeckSettings(deckSettingsState)
     }
 
     fun onRemoveDeckMenuItemClicked(deckId: Long) {
@@ -156,9 +140,7 @@ class HomeController(
             return
         }
         longTermStateSaver.saveStateByRegistry()
-        val koinScope = getKoin().createScope<ExerciseViewModel>(EXERCISE_SCOPE_ID)
-        koinScope.declare(exerciseState, override = true)
-        navigator.navigateToExercise()
+        navigator.navigateToExercise(exerciseState)
     }
 
     private fun toggleDeckSelection(deckId: Long) {

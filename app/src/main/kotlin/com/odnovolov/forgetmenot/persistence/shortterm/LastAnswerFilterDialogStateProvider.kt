@@ -6,8 +6,9 @@ import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.In
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialogState
 import kotlinx.serialization.Serializable
 
-class LastAnswerFilterDialogStateProvider
-    : BaseSerializableStateProvider<LastAnswerFilterDialogState, SerializableState>() {
+class LastAnswerFilterDialogStateProvider(
+    override val key: String = LastAnswerFilterDialogState::class.qualifiedName!!
+) : BaseSerializableStateProvider<LastAnswerFilterDialogState, SerializableState>() {
     @Serializable
     data class SerializableState(
         val isFromDialog: Boolean,
@@ -17,7 +18,6 @@ class LastAnswerFilterDialogStateProvider
     )
 
     override val serializer = SerializableState.serializer()
-    override val serializableId: String = SerializableState::class.simpleName!!
 
     override fun toSerializable(state: LastAnswerFilterDialogState) = SerializableState(
         state.isFromDialog,

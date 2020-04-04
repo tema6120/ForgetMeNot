@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
 import LAST_ANSWER_FILTER_SCOPE_ID
-import REPETITION_LAPS_SCOPE_ID
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
@@ -13,10 +12,8 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDialogState
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsViewModel
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialogState
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterViewModel
 import com.soywiz.klock.DateTimeSpan
@@ -47,9 +44,7 @@ class RepetitionSettingsController(
             return
         }
         longTermStateSaver.saveStateByRegistry()
-        val koinScope = getKoin().createScope<Repetition>(REPETITION_SCOPE_ID)
-        koinScope.declare(repetitionState, override = true)
-        navigator.navigateToRepetition()
+        navigator.navigateToRepetition(repetitionState)
     }
 
     fun onAvailableForExerciseGroupButtonClicked() {
@@ -111,9 +106,7 @@ class RepetitionSettingsController(
             isInfinitely = isInfinite,
             numberOfLapsInput = numberOfLapsInput
         )
-        val koinScope = getKoin().createScope<RepetitionLapsViewModel>(REPETITION_LAPS_SCOPE_ID)
-        koinScope.declare(dialogState, override = true)
-        navigator.showRepetitionLapsDialog()
+        navigator.showRepetitionLapsDialog(dialogState)
     }
 
     fun onFragmentPause() {

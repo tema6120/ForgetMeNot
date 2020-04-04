@@ -7,15 +7,8 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
-import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_ID
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsViewModel
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PRONUNCIATION_SCOPE_ID
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationViewModel
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.scope.Scope
-import org.koin.java.KoinJavaComponent.getKoin
 
 class DeckSettingsController(
     private val deckSettingsScreenState: DeckSettingsScreenState,
@@ -62,14 +55,10 @@ class DeckSettingsController(
     }
 
     fun onIntervalsButtonClicked() {
-        val koinScope: Scope = getKoin().createScope<IntervalsViewModel>(INTERVALS_SCOPE_ID)
-        koinScope.declare(PresetDialogState(), override = true)
         navigator.navigateToIntervals()
     }
 
     fun onPronunciationButtonClicked() {
-        val koinScope: Scope = getKoin().createScope<PronunciationViewModel>(PRONUNCIATION_SCOPE_ID)
-        koinScope.declare(PresetDialogState(), override = true)
         navigator.navigateToPronunciation()
     }
 

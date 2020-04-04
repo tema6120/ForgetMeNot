@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 val homeModule = module {
     scope<HomeViewModel> {
-        scoped { HomeScreenStateProvider(defaultState = HomeScreenState()) }
+        scoped { HomeScreenStateProvider() }
         scoped { get<HomeScreenStateProvider>().load() }
         scoped { DeckRemover(globalState = get()) }
         scoped { ExerciseStateCreator(globalState = get()) }
@@ -32,7 +32,6 @@ val homeModule = module {
                 controller = get()
             )
         }
-        factory { DeckPreviewAdapter(controller = get()) }
     }
 }
 

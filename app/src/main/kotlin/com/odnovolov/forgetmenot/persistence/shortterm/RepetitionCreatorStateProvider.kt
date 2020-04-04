@@ -6,7 +6,8 @@ import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionCreatorStatePro
 import kotlinx.serialization.Serializable
 
 class RepetitionCreatorStateProvider(
-    val globalState: GlobalState
+    override val key: String = RepetitionStateCreator.State::class.qualifiedName!!,
+    private val globalState: GlobalState
 ) : BaseSerializableStateProvider<RepetitionStateCreator.State, SerializableState>() {
     @Serializable
     data class SerializableState(
@@ -14,7 +15,6 @@ class RepetitionCreatorStateProvider(
     )
 
     override val serializer = SerializableState.serializer()
-    override val serializableId: String = SerializableState::class.simpleName!!
 
     override fun toSerializable(state: RepetitionStateCreator.State) = SerializableState(
         deckIds = state.decks.map { it.id }

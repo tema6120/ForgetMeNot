@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
 import kotlinx.serialization.Serializable
 
 class PresetDialogStateProvider(
-    override val serializableId: String
+    override val key: String
 ): BaseSerializableStateProvider<PresetDialogState, SerializableState>() {
     @Serializable
     data class SerializableState(

@@ -37,8 +37,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initKoin()
-        val navigatorImpl = getKoin().get<NavigatorImpl>()
-        registerActivityLifecycleCallbacks(navigatorImpl)
+        val navigator = getKoin().get<Navigator>()
+        registerActivityLifecycleCallbacks(navigator)
         registerActivityLifecycleCallbacks(DatabaseInitializer)
         createNotificationChannel()
     }

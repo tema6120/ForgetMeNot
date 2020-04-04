@@ -38,9 +38,11 @@ class SpeakEventDialog : BaseDialogFragment() {
         with(rootView) {
             speakQuestionButton.setOnClickListener {
                 controller.onSpeakQuestionRadioButtonClicked()
+                dismiss()
             }
             speakAnswerButton.setOnClickListener {
                 controller.onSpeakAnswerRadioButtonClicked()
+                dismiss()
             }
             delayButton.setOnClickListener {
                 controller.onDelayButtonClicked()

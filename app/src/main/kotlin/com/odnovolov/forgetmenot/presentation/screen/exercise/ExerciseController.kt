@@ -9,15 +9,12 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Reme
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EDIT_CARD_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardViewModel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCommand.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
-import org.koin.java.KoinJavaComponent.getKoin
 
 class ExerciseController(
     private val exercise: Exercise,
@@ -59,9 +56,7 @@ class ExerciseController(
             question = exercise.currentExerciseCard.base.card.question
             answer = exercise.currentExerciseCard.base.card.answer
         }
-        val koinScope = getKoin().createScope<EditCardViewModel>(EDIT_CARD_SCOPE_ID)
-        koinScope.declare(editCardScreenState, override = true)
-        navigator.navigateToEditCard()
+        navigator.navigateToEditCard(editCardScreenState)
     }
 
     fun onHintButtonClicked() {

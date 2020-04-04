@@ -5,8 +5,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import kotlinx.serialization.Serializable
 
 class HomeScreenStateProvider(
-    override val serializableId: String = HomeScreenState::class.simpleName!!,
-    override val defaultState: HomeScreenState? = null
+    override val key: String = HomeScreenState::class.qualifiedName!!
 ) : BaseSerializableStateProvider<HomeScreenState, SerializableHomeScreenState>() {
     @Serializable
     data class SerializableHomeScreenState(

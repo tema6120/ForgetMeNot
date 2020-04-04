@@ -10,6 +10,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider.Ser
 import kotlinx.serialization.Serializable
 
 class ExerciseStateProvider(
+    override val key: String = Exercise.State::class.qualifiedName!!,
     private val globalState: GlobalState
 ) : BaseSerializableStateProvider<Exercise.State, SerializableExerciseState>() {
     @Serializable
@@ -52,7 +53,6 @@ class ExerciseStateProvider(
     )
 
     override val serializer = SerializableExerciseState.serializer()
-    override val serializableId = SerializableExerciseState::class.simpleName!!
 
     override fun toSerializable(state: Exercise.State): SerializableExerciseState {
         val serializableExerciseCards: MutableList<SerializableExerciseCard> =
@@ -136,7 +136,7 @@ class ExerciseStateProvider(
                     Manual -> ManualTestExerciseCard(baseExerciseCard)
                     Quiz -> {
                         val quizAddition: QuizAddition = serializableState.quizAdditions
-                            .find { it.id == serializableExerciseCard.id }!!
+                            .first { it.id == serializableExerciseCard.id }
                         val variants: List<Card?> = quizAddition.variantIds
                             .map { variantId: Long? ->
                                 variantId?.let {
@@ -151,7 +151,7 @@ class ExerciseStateProvider(
                     }
                     Entry -> {
                         val entryAddition: EntryAddition = serializableState.entryAdditions
-                            .find { it.id == serializableExerciseCard.id }!!
+                            .first { it.id == serializableExerciseCard.id }
                         EntryTestExerciseCard(baseExerciseCard, entryAddition.userAnswer)
                     }
                 }

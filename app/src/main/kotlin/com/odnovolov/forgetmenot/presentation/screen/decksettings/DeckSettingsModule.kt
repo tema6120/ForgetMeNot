@@ -13,9 +13,11 @@ val deckSettingsModule = module {
     scope<DeckSettingsViewModel> {
         scoped { DeckSettingsStateProvider(globalState = get()) }
         scoped { get<DeckSettingsStateProvider>().load() }
-        scoped { DeckSettings(state = get(), globalState = get()) }
-        scoped { PresetDialogStateProvider(serializableId = "ExercisePreference Preset State") }
+        scoped { PresetDialogStateProvider(key = "ExercisePreference Preset State") }
         scoped { get<PresetDialogStateProvider>().load() }
+        scoped { DeckSettingsScreenStateProvider() }
+        scoped { get<DeckSettingsScreenStateProvider>().load() }
+        scoped { DeckSettings(state = get(), globalState = get()) }
         scoped<SkeletalPresetController> {
             ExercisePreferencePresetController(
                 deckSettings = get(),
@@ -32,8 +34,6 @@ val deckSettingsModule = module {
                 globalState = get()
             )
         }
-        scoped { DeckSettingsScreenStateProvider() }
-        scoped { get<DeckSettingsScreenStateProvider>().load() }
         scoped {
             DeckSettingsController(
                 deckSettingsScreenState = get(),

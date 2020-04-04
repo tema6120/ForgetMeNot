@@ -11,12 +11,12 @@ import org.koin.dsl.module
 
 val repetitionSettingsModule = module {
     scope<RepetitionSettings> {
-        scoped { RepetitionSettings(globalState = get()) }
         scoped { RepetitionCreatorStateProvider(globalState = get()) }
         scoped { get<RepetitionCreatorStateProvider>().load() }
-        scoped { RepetitionStateCreator(state = get(), globalState = get()) }
-        scoped { PresetDialogStateProvider(serializableId = "RepetitionSetting Preset State") }
+        scoped { PresetDialogStateProvider(key = "RepetitionSetting Preset State") }
         scoped { get<PresetDialogStateProvider>().load() }
+        scoped { RepetitionSettings(globalState = get()) }
+        scoped { RepetitionStateCreator(state = get(), globalState = get()) }
         scoped<SkeletalPresetController> {
             RepetitionSettingsPresetController(
                 repetitionSettings = get(),

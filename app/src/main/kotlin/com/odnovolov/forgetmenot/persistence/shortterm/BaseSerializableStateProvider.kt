@@ -11,15 +11,13 @@ private val json = Json(JsonConfiguration.Stable)
 
 abstract class BaseSerializableStateProvider<State, SerializableState>
     : ShortTermStateProvider<State> {
-    private val queries = database.serializableQueries
+    private val queries get() = database.serializableQueries
     protected abstract val serializer: KSerializer<SerializableState>
-    abstract val serializableId: String
-    open val defaultState: State? = null
+    abstract val key: String
 
     final override fun load(): State {
-        val jsonData: String = queries.selectJson(serializableId).executeAsOneOrNull()
-            ?: defaultState?.let { return it }
-            ?: throw IllegalStateException("No json in db by id '$serializableId'")
+        val jsonData: String = queries.selectJsonData(key).executeAsOneOrNull()
+            ?: throw NoSuchElementException("jsonData by key '$key' was not found")
         val serializableState: SerializableState = json.parse(serializer, jsonData)
         return toOriginal(serializableState)
     }
@@ -29,7 +27,7 @@ abstract class BaseSerializableStateProvider<State, SerializableState>
     final override fun save(state: State) {
         val serializable: SerializableState = toSerializable(state)
         val jsonData: String = json.stringify(serializer, serializable)
-        val serializableDb = SerializableDb.Impl(serializableId, jsonData)
+        val serializableDb = SerializableDb.Impl(key, jsonData)
         queries.replace(serializableDb)
     }
 

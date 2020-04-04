@@ -26,7 +26,7 @@ class HomeFragment : BaseFragment() {
     private val koinScope = getKoin().getOrCreateScope<HomeViewModel>(HOME_SCREEN_SCOPE_ID)
     private val viewModel: HomeViewModel by koinScope.viewModel(this)
     private val controller: HomeController by koinScope.inject()
-    private val deckPreviewAdapter: DeckPreviewAdapter by koinScope.inject()
+    private val deckPreviewAdapter = DeckPreviewAdapter(controller)
     private lateinit var filterDialog: Dialog
     private lateinit var filterAdapter: ItemAdapter<Item>
     private var actionMode: ActionMode? = null

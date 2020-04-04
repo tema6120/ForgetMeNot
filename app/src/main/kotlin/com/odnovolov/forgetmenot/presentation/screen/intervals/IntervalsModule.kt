@@ -10,14 +10,14 @@ import org.koin.dsl.module
 
 val intervalsModule = module {
     scope<IntervalsViewModel> {
+        scoped { PresetDialogStateProvider(key = "IntervalScheme Preset State") }
+        scoped { get<PresetDialogStateProvider>().load() }
         scoped {
             IntervalsSettings(
                 deckSettings = getScope(DECK_SETTINGS_SCOPED_ID).get(),
                 globalState = get()
             )
         }
-        scoped { PresetDialogStateProvider(serializableId = "IntervalScheme Preset State") }
-        scoped { get<PresetDialogStateProvider>().load() }
         scoped<SkeletalPresetController> {
             IntervalsPresetController(
                 deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),

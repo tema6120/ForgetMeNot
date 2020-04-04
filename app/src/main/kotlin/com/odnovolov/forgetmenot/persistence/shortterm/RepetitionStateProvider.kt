@@ -3,14 +3,15 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
-import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionStateProvider.SerializableRepetitionState
+import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 
 class RepetitionStateProvider(
+    override val key: String = Repetition.State::class.qualifiedName!!,
     private val globalState: GlobalState
-) : BaseSerializableStateProvider<Repetition.State, SerializableRepetitionState>() {
+) : BaseSerializableStateProvider<Repetition.State, SerializableState>() {
     @Serializable
-    data class SerializableRepetitionState(
+    data class SerializableState(
         val serializableRepetitionCards: List<SerializableRepetitionCard>,
         val repetitionCardPosition: Int,
         val speakEventPosition: Int,
@@ -29,10 +30,9 @@ class RepetitionStateProvider(
         val speakPlanId: Long
     )
 
-    override val serializer = SerializableRepetitionState.serializer()
-    override val serializableId = SerializableRepetitionState::class.simpleName!!
+    override val serializer = SerializableState.serializer()
 
-    override fun toSerializable(state: Repetition.State): SerializableRepetitionState {
+    override fun toSerializable(state: Repetition.State): SerializableState {
         val serializableRepetitionCards: List<SerializableRepetitionCard> = state.repetitionCards
             .map { repetitionCard: RepetitionCard ->
                 with(repetitionCard) {
@@ -46,7 +46,7 @@ class RepetitionStateProvider(
                     )
                 }
             }
-        return SerializableRepetitionState(
+        return SerializableState(
             serializableRepetitionCards,
             state.repetitionCardPosition,
             state.speakEventPosition,
@@ -56,7 +56,7 @@ class RepetitionStateProvider(
         )
     }
 
-    override fun toOriginal(serializableState: SerializableRepetitionState): Repetition.State {
+    override fun toOriginal(serializableState: SerializableState): Repetition.State {
         val cardMap: Map<Long, Card> = globalState.decks
             .flatMap { deck -> deck.cards }
             .associateBy { card -> card.id }

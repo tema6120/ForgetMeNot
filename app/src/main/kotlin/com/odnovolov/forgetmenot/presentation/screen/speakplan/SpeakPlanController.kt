@@ -106,14 +106,12 @@ class SpeakPlanController(
         dialogState.selectedRadioButton = SpeakEventDialogState.SpeakEvent.SpeakQuestion
         val newSpeakEvent = SpeakQuestion(generateId())
         processNewSpeakEvent(newSpeakEvent)
-        navigator.navigateUp()
     }
 
     fun onSpeakAnswerRadioButtonClicked() {
         dialogState.selectedRadioButton = SpeakEventDialogState.SpeakEvent.SpeakAnswer
         val newSpeakEvent = SpeakAnswer(generateId())
         processNewSpeakEvent(newSpeakEvent)
-        navigator.navigateUp()
     }
 
     private fun processNewSpeakEvent(speakEvent: SpeakEvent) {

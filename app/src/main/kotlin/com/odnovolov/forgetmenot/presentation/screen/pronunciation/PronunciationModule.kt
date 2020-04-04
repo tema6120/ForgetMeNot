@@ -12,14 +12,14 @@ import org.koin.dsl.onClose
 
 val pronunciationModule = module {
     scope<PronunciationViewModel> {
+        scoped { PresetDialogStateProvider(key = "Pronunciation Preset State") }
+        scoped { get<PresetDialogStateProvider>().load() }
         scoped {
             PronunciationSettings(
                 deckSettings = getScope(DECK_SETTINGS_SCOPED_ID).get(),
                 globalState = get()
             )
         }
-        scoped { PresetDialogStateProvider(serializableId = "Pronunciation Preset State") }
-        scoped { get<PresetDialogStateProvider>().load() }
         scoped<SkeletalPresetController> {
             PronunciationPresetController(
                 deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),

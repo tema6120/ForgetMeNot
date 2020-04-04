@@ -1,13 +1,13 @@
 CREATE TABLE SerializableDb (
-    id TEXT PRIMARY KEY NOT NULL,
-    json TEXT NOT NULL
+    key TEXT PRIMARY KEY NOT NULL,
+    jsonData TEXT NOT NULL
 );
 
 replace:
 REPLACE INTO SerializableDb VALUES ?;
 
-selectJson:
-SELECT json FROM SerializableDb WHERE id = ?;
+selectJsonData:
+SELECT jsonData FROM SerializableDb WHERE key = ?;
 
 deleteAll:
 DELETE FROM SerializableDb;

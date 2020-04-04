@@ -4,8 +4,9 @@ import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionLapsDialogState
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDialogState
 import kotlinx.serialization.Serializable
 
-class RepetitionLapsDialogStateProvider
-    : BaseSerializableStateProvider<RepetitionLapsDialogState, SerializableState>() {
+class RepetitionLapsDialogStateProvider(
+    override val key: String = RepetitionLapsDialogState::class.qualifiedName!!
+) : BaseSerializableStateProvider<RepetitionLapsDialogState, SerializableState>() {
     @Serializable
     data class SerializableState(
         val isInfinitely: Boolean,
@@ -13,7 +14,6 @@ class RepetitionLapsDialogStateProvider
     )
 
     override val serializer = SerializableState.serializer()
-    override val serializableId: String = SerializableState::class.simpleName!!
 
     override fun toSerializable(state: RepetitionLapsDialogState) = SerializableState(
         state.isInfinitely,
