@@ -1,28 +1,19 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.*
-import android.view.View.*
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
-import com.odnovolov.forgetmenot.domain.isDefault
-import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.customview.InputDialogCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetAdapter
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.SetNamePresetDialogText
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
 import kotlinx.android.synthetic.main.fragment_repetition_settings.*
 import org.koin.android.ext.android.getKoin
@@ -35,10 +26,6 @@ class RepetitionSettingsFragment : BaseFragment() {
         getKoin().getOrCreateScope<RepetitionSettings>(REPETITION_SETTINGS_SCOPE_ID)
     private val viewModel: RepetitionSettingsViewModel by koinScope.viewModel(this)
     private val controller: RepetitionSettingsController by koinScope.inject()
-    private lateinit var presetPopup: PopupWindow
-    private lateinit var presetAdapter: PresetAdapter
-    private lateinit var namePresetDialog: Dialog
-    private lateinit var namePresetEditText: EditText
     private var isLevelOfKnowledgeRangeListenerEnabled = true
 
     override fun onCreateView(
@@ -47,45 +34,19 @@ class RepetitionSettingsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        initPresetPopup()
-        initNamePresetDialog()
         return inflater.inflate(R.layout.fragment_repetition_settings, container, false)
     }
 
-    private fun initPresetPopup() {
-        presetPopup = PresetPopupCreator.create(
-            context = requireContext(),
-            setPresetButtonClickListener = { repetitionSettingsId: Long? ->
-                controller.onSetRepetitionSettingsClicked(repetitionSettingsId!!)
-            },
-            renamePresetButtonClickListener = { repetitionSettingsId: Long ->
-                controller.onRenameRepetitionSettingsClicked(repetitionSettingsId)
-            },
-            deletePresetButtonClickListener = { repetitionSettingsId: Long ->
-                controller.onDeleteRepetitionSettingsClicked(repetitionSettingsId)
-            },
-            addButtonClickListener = {
-                controller.onAddNewRepetitionSettingsClicked()
-            },
-            takeAdapter = { presetAdapter = it }
-        )
-    }
-
-    private fun initNamePresetDialog() {
-        namePresetDialog = InputDialogCreator.create(
-            context = requireContext(),
-            title = getString(R.string.title_exercise_preference_name_input_dialog),
-            takeEditText = { namePresetEditText = it },
-            onTextChanged = { controller.onDialogTextChanged(it) },
-            onPositiveClick = { controller.onNamePresetPositiveDialogButtonClicked() },
-            onNegativeClick = { controller.onNamePresetNegativeDialogButtonClicked() }
-        )
+    override fun onAttachFragment(childFragment: Fragment) {
+        if (childFragment is PresetFragment) {
+            childFragment.controller = koinScope.get()
+            childFragment.viewModel = koinScope.get()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMatchingCardsLabel()
-        setupPresetPanel()
         setupFilterGroups()
         setupLevelOfKnowledgeRangeBar()
         setupLastAnswerFilter()
@@ -101,42 +62,6 @@ class RepetitionSettingsFragment : BaseFragment() {
                 matchingCardsNumber
             )
         }
-    }
-
-    private fun setupPresetPanel() {
-        with(viewModel) {
-            repetitionSetting.observe { repetitionSetting: RepetitionSetting ->
-                presetButton.text = when {
-                    repetitionSetting.isDefault() -> getString(R.string.default_name)
-                    repetitionSetting.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${repetitionSetting.name}'"
-                }
-            }
-            isSavePresetButtonEnabled.observe { isEnabled: Boolean ->
-                savePresetButton.visibility = if (isEnabled) VISIBLE else GONE
-            }
-            availablePresets.observe(presetAdapter::submitList)
-            isNamePresetDialogVisible.observe { isVisible: Boolean ->
-                namePresetDialog.run { if (isVisible) show() else dismiss() }
-            }
-            namePresetInputCheckResult.observe { nameCheckResult: NameCheckResult ->
-                namePresetEditText.error = when (nameCheckResult) {
-                    Ok -> null
-                    Empty -> getString(R.string.error_message_empty_name)
-                    Occupied -> getString(R.string.error_message_occupied_name)
-                }
-            }
-        }
-        savePresetButton.setOnClickListener { controller.onSavePresetButtonClicked() }
-        presetButton.setOnClickListener { showPresetPopup() }
-    }
-
-    private fun showPresetPopup() {
-        val location = IntArray(2)
-        presetButton.getLocationOnScreen(location)
-        val x = location[0] + presetButton.width - presetPopup.width
-        val y = location[1]
-        presetPopup.showAtLocation(rootView, Gravity.NO_GRAVITY, x, y)
     }
 
     private fun setupFilterGroups() {
@@ -252,8 +177,8 @@ class RepetitionSettingsFragment : BaseFragment() {
                     if (lastAnswerFromTimeAgo == null) {
                         getString(R.string.zero_time).toLowerCase(Locale.ROOT)
                     } else {
-                        val timeAgo: String =
-                            lastAnswerFromTimeAgo.toString(requireContext()).toLowerCase(Locale.ROOT)
+                        val timeAgo: String = lastAnswerFromTimeAgo.toString(requireContext())
+                            .toLowerCase(Locale.ROOT)
                         getString(R.string.time_ago, timeAgo)
                     }
             }
@@ -304,10 +229,6 @@ class RepetitionSettingsFragment : BaseFragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            is SetNamePresetDialogText -> {
-                namePresetEditText.setText(command.text)
-                namePresetEditText.selectAll()
-            }
         }
     }
 
@@ -325,25 +246,8 @@ class RepetitionSettingsFragment : BaseFragment() {
         }
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.getBundle(STATE_KEY_NAME_PRESET_DIALOG)
-            ?.let(namePresetDialog::onRestoreInstanceState)
-    }
-
     override fun onPause() {
         super.onPause()
         controller.onFragmentPause()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (::namePresetDialog.isInitialized) {
-            outState.putBundle(STATE_KEY_NAME_PRESET_DIALOG, namePresetDialog.onSaveInstanceState())
-        }
-    }
-
-    companion object {
-        const val STATE_KEY_NAME_PRESET_DIALOG = "STATE_KEY_NAME_PRESET_DIALOG"
     }
 }

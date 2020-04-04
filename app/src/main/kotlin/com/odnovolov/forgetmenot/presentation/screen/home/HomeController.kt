@@ -24,7 +24,6 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.REPETITION_SETTINGS_SCOPE_ID
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsScreenState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -96,7 +95,7 @@ class HomeController(
         val repetitionCreatorState = RepetitionStateCreator.State(decks)
         val koinScope = getKoin().createScope<RepetitionSettings>(REPETITION_SETTINGS_SCOPE_ID)
         koinScope.declare(repetitionCreatorState, override = true)
-        koinScope.declare(RepetitionSettingsScreenState(), override = true)
+        koinScope.declare(PresetDialogState(), override = true)
         navigator.navigateToRepetitionSettings()
     }
 
@@ -164,10 +163,10 @@ class HomeController(
 
     private fun toggleDeckSelection(deckId: Long) {
         with(homeScreenState) {
-            if (deckId in selectedDeckIds) {
-                selectedDeckIds -= deckId
+            selectedDeckIds = if (deckId in selectedDeckIds) {
+                selectedDeckIds - deckId
             } else {
-                selectedDeckIds += deckId
+                selectedDeckIds + deckId
             }
         }
     }

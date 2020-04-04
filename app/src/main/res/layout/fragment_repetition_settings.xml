@@ -44,43 +44,21 @@
 
         </LinearLayout>
 
-        <ImageButton
-                android:id="@+id/savePresetButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="32dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_save_intervals"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/presetButton"
-                app:layout_constraintEnd_toStartOf="@+id/presetButton"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/matchingCardsLinearLayout"
-                app:layout_constraintTop_toTopOf="@+id/presetButton"
-                app:srcCompat="@drawable/ic_save_dark_24dp"
-                tools:visibility="visible" />
-
-        <TextView
-                android:id="@+id/presetButton"
+        <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/presetFragmentView"
+                android:name="com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_more_expand_more_with_inset"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:textColor="@color/textPrimary"
-                android:textSize="22sp"
-                android:textStyle="bold"
+                android:tag="RepetitionSetting Preset Tag"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/savePresetButton"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/matchingCardsLinearLayout"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Individual" />
+                tools:layout="@layout/fragment_preset" />
 
         <TextView
                 android:id="@+id/groupsTitle"
