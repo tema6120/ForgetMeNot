@@ -15,7 +15,7 @@ class AnswerEntryTestController(
         longTermStateSaver.saveStateByRegistry()
     }
 
-    fun onAnswerInputChanged(text: String?) {
+    fun onAnswerInputChanged(text: String) {
         answerInput = text
     }
 

@@ -45,7 +45,7 @@ class ModifyIntervalDialog : BaseDialogFragment() {
     private fun setupNumberEditText() {
         with(rootView.numberEditText) {
             requestFocus()
-            observeText { text -> controller.onIntervalValueChanged(text.toString()) }
+            observeText(controller::onIntervalValueChanged)
         }
     }
 

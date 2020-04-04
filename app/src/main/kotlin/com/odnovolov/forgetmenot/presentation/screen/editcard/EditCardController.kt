@@ -13,12 +13,12 @@ class EditCardController(
     private val commandFlow = EventFlow<EditCardCommand>()
     val commands = commandFlow.get()
 
-    fun onQuestionInputChanged(text: CharSequence?) {
-        editCardScreenState.question = text?.toString() ?: return
+    fun onQuestionInputChanged(text: String) {
+        editCardScreenState.question = text
     }
 
-    fun onAnswerInputChanged(text: CharSequence?) {
-        editCardScreenState.answer = text?.toString() ?: return
+    fun onAnswerInputChanged(text: String) {
+        editCardScreenState.answer = text
     }
 
     fun onReverseCardButtonClicked() {

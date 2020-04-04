@@ -20,9 +20,6 @@ class DeckSettingsViewModel(
 
     val deckName: Flow<String> = deckSettingsState.deck.flowOf(Deck::name)
 
-    val isRenameDeckDialogVisible: Flow<Boolean> =
-        deckSettingsScreenState.flowOf(DeckSettingsScreenState::isRenameDeckDialogVisible)
-
     val deckNameCheckResult: Flow<NameCheckResult> =
         deckSettingsScreenState.flowOf(DeckSettingsScreenState::typedDeckName)
             .map { typedDeckName: String -> checkDeckName(typedDeckName, globalState) }

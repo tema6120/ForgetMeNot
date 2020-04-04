@@ -52,8 +52,8 @@ class AddDeckController(
         longTermStateSaver.saveStateByRegistry()
     }
 
-    fun onDialogTextChanged(dialogText: CharSequence?) {
-        addDeckScreenState.typedText = dialogText?.toString() ?: ""
+    fun onDialogTextChanged(dialogText: String) {
+        addDeckScreenState.typedText = dialogText
     }
 
     fun onPositiveDialogButtonClicked() {

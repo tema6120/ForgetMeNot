@@ -90,9 +90,8 @@ class SpeakPlanController(
             SpeakEventDialogState.SpeakEvent.SpeakAnswer -> SpeakAnswer(generateId())
             SpeakEventDialogState.SpeakEvent.Delay -> {
                 val delay: Int? = dialogState.delayInput.toIntOrNull()
-                val isDelayInputValid: Boolean = delay != null && delay > 0
-                if (isDelayInputValid) {
-                    Delay(generateId(), delay!!.seconds)
+                if (delay != null && delay > 0) {
+                    Delay(generateId(), delay.seconds)
                 } else {
                     return
                 }

@@ -62,9 +62,7 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
     }
 
     private fun setupValueEditText() {
-        rootView.valueEditText.observeText { text: CharSequence? ->
-            controller.onIntervalValueChanged(text.toString())
-        }
+        rootView.valueEditText.observeText(controller::onIntervalValueChanged)
     }
 
     private fun setupUnitPicker() {

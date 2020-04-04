@@ -7,7 +7,7 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command.ShowRenameDialogWithText
 import kotlinx.coroutines.flow.Flow
 
 class DeckSettingsController(
@@ -18,14 +18,17 @@ class DeckSettingsController(
     private val deckSettingsStateProvider: ShortTermStateProvider<DeckSettings.State>,
     private val deckSettingsScreenStateProvider: ShortTermStateProvider<DeckSettingsScreenState>
 ) {
-    private val commandFlow = EventFlow<DeckSettingsCommand>()
-    val commands: Flow<DeckSettingsCommand> = commandFlow.get()
+    sealed class Command {
+        data class ShowRenameDialogWithText(val text: String) : Command()
+    }
+
+    private val commandFlow = EventFlow<Command>()
+    val commands: Flow<Command> = commandFlow.get()
     private val currentExercisePreference get() = deckSettings.state.deck.exercisePreference
 
     fun onRenameDeckButtonClicked() {
-        deckSettingsScreenState.isRenameDeckDialogVisible = true
         val deckName = deckSettings.state.deck.name
-        commandFlow.send(SetRenameDeckDialogText(deckName))
+        commandFlow.send(ShowRenameDialogWithText(deckName))
     }
 
     fun onRenameDeckDialogTextChanged(text: String) {
@@ -33,14 +36,9 @@ class DeckSettingsController(
     }
 
     fun onRenameDeckDialogPositiveButtonClicked() {
-        deckSettingsScreenState.isRenameDeckDialogVisible = false
         val newName = deckSettingsScreenState.typedDeckName
         deckSettings.renameDeck(newName)
         longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onRenameDeckDialogNegativeButtonClicked() {
-        deckSettingsScreenState.isRenameDeckDialogVisible = false
     }
 
     fun onRandomOrderSwitchToggled() {

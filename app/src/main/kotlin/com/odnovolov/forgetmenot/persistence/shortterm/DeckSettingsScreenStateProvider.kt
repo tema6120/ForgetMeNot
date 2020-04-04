@@ -8,22 +8,15 @@ class DeckSettingsScreenStateProvider(
     override val key: String = DeckSettingsScreenState::class.qualifiedName!!
 ) : BaseSerializableStateProvider<DeckSettingsScreenState, SerializableState>() {
     @Serializable
-    data class SerializableState(
-        val isRenameDeckDialogVisible: Boolean,
-        val typedDeckName: String
-    )
+    data class SerializableState(val typedDeckName: String)
 
     override val serializer = SerializableState.serializer()
 
     override fun toSerializable(state: DeckSettingsScreenState) =
-        SerializableState(
-            state.isRenameDeckDialogVisible,
-            state.typedDeckName
-        )
+        SerializableState(state.typedDeckName)
 
     override fun toOriginal(serializableState: SerializableState) =
         DeckSettingsScreenState().apply {
-            isRenameDeckDialogVisible = serializableState.isRenameDeckDialogVisible
             typedDeckName = serializableState.typedDeckName
         }
 }

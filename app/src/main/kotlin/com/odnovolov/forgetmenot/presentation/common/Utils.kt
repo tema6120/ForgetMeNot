@@ -37,12 +37,12 @@ fun Locale.toFlagEmoji(): String? {
 
 val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
-fun EditText.observeText(onTextChanged: (newText: CharSequence?) -> Unit) {
+fun EditText.observeText(onTextChanged: (newText: String) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-            onTextChanged(text)
+            onTextChanged(text?.toString() ?: "")
         }
 
         override fun afterTextChanged(s: Editable?) {}
@@ -92,12 +92,6 @@ fun View.showSoftInput(showImplicit: Boolean = false) {
                 }
             })
     }
-}
-
-fun View.hideSoftInput(hideImplicitlyOnly: Boolean = false): Boolean {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    val flags: Int = if (hideImplicitlyOnly) InputMethodManager.HIDE_IMPLICIT_ONLY else 0
-    return imm.hideSoftInputFromWindow(windowToken, flags)
 }
 
 fun Fragment.showToast(

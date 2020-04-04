@@ -38,7 +38,7 @@ class AnswerEntryTestFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val id = arguments!!.getLong(ARG_ID)
+        val id = requireArguments().getLong(ARG_ID)
         val koinScope: Scope = getKoin()
             .getOrCreateScope<AnswerEntryTestViewModel>(ANSWER_ENTRY_TEST_SCOPE_ID_PREFIX + id)
         viewModel = koinScope.getViewModel(owner = this, parameters = { parametersOf(id) })
@@ -61,7 +61,7 @@ class AnswerEntryTestFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        answerEditText.observeText { controller.onAnswerInputChanged(it?.toString()) }
+        answerEditText.observeText(controller::onAnswerInputChanged)
         hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
             controller.onHintSelectionChanged(startIndex, endIndex)
         }

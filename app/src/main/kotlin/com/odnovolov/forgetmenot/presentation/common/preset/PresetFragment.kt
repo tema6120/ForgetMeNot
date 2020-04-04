@@ -72,7 +72,7 @@ class PresetFragment : BaseFragment() {
     private fun initNameInputDialog() {
         val contentView = View.inflate(context, R.layout.dialog_input, null)
         nameEditText = contentView.dialogInput
-        nameEditText.observeText { controller.onPresetNameInputChanged(it.toString()) }
+        nameEditText.observeText(controller::onPresetNameInputChanged)
         nameInputDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.title_preset_name_input_dialog)
             .setView(contentView)

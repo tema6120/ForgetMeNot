@@ -60,7 +60,7 @@ class AddDeckFragment : BaseFragment() {
     private fun setupView() {
         val contentView = View.inflate(context, R.layout.dialog_deck_name_input, null)
         deckNameEditText = contentView.findViewById(R.id.deckNameEditText)
-        deckNameEditText.observeText { text -> controller.onDialogTextChanged(text) }
+        deckNameEditText.observeText(controller::onDialogTextChanged)
         deckNameInputDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.enter_deck_name)
             .setView(contentView)

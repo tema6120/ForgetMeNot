@@ -25,7 +25,7 @@ class RepetitionLapsDialog : BaseDialogFragment() {
         rootView = View.inflate(context, R.layout.dialog_repetition_laps, null)
         observeViewModel()
         setupView()
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(requireContext())
             .setTitle(R.string.title_number_of_laps)
             .setView(rootView)
             .setPositiveButton(android.R.string.ok) { _, _ -> controller.onOkButtonClicked() }
@@ -75,15 +75,9 @@ class RepetitionLapsDialog : BaseDialogFragment() {
 
     private fun setupView() {
         with(rootView) {
-            lapsButton.setOnClickListener {
-                controller.onLapsRadioButtonClicked()
-            }
-            infinitelyButton.setOnClickListener {
-                controller.onInfinitelyRadioButtonClicked()
-            }
-            lapsEditText.observeText {
-                controller.onLapsInputChanged(it.toString())
-            }
+            lapsButton.setOnClickListener { controller.onLapsRadioButtonClicked() }
+            infinitelyButton.setOnClickListener { controller.onInfinitelyRadioButtonClicked() }
+            lapsEditText.observeText(controller::onLapsInputChanged)
         }
     }
 

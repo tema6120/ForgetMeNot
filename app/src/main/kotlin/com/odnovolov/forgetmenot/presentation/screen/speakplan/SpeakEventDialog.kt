@@ -47,7 +47,7 @@ class SpeakEventDialog : BaseDialogFragment() {
             delayButton.setOnClickListener {
                 controller.onDelayButtonClicked()
             }
-            delayEditText.observeText { controller.onDelayInputChanged(it.toString()) }
+            delayEditText.observeText(controller::onDelayInputChanged)
         }
     }
 
