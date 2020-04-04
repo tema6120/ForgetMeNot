@@ -45,7 +45,7 @@ abstract class SkeletalPresetController(
 
     abstract fun onPresetNamePositiveDialogButtonClicked()
 
-    fun onFragmentPause() {
+    fun performSaving() {
         dialogStateProvider.save(dialogState)
     }
 }

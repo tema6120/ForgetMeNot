@@ -248,6 +248,8 @@ class RepetitionSettingsFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        controller.onFragmentPause()
+        if (!isRemoving) {
+            controller.performSaving()
+        }
     }
 }

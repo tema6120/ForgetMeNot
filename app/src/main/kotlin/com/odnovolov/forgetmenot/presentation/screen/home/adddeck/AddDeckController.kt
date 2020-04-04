@@ -66,7 +66,7 @@ class AddDeckController(
         longTermStateSaver.saveStateByRegistry()
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         addDeckStateProvider.save(deckAdder.state)
         addDeckScreenStateProvider.save(addDeckScreenState)
     }

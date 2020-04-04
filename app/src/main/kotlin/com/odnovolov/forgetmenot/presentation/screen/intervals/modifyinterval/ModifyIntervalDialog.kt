@@ -90,6 +90,8 @@ class ModifyIntervalDialog : BaseDialogFragment() {
 
     override fun onPause() {
         super.onPause()
-        controller.onFragmentPause()
+        if (!isRemoving) {
+            controller.performSaving()
+        }
     }
 }

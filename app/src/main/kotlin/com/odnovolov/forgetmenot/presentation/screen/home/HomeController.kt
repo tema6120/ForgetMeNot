@@ -153,7 +153,7 @@ class HomeController(
         }
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         homeScreenStateProvider.save(homeScreenState)
     }
 }

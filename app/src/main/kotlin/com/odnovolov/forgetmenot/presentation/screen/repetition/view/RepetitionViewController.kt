@@ -45,7 +45,7 @@ class RepetitionViewController(
         longTermStateSaver.saveStateByRegistry()
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         repetitionStateProvider.save(repetition.state)
     }
 }

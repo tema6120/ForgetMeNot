@@ -174,7 +174,9 @@ class AddDeckFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        controller.onFragmentPause()
+        if (!isRemoving) {
+            controller.performSaving()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

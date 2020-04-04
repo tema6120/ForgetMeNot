@@ -109,7 +109,7 @@ class RepetitionSettingsController(
         navigator.showRepetitionLapsDialog(dialogState)
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         repetitionCreatorStateProvider.save(repetitionStateCreator.state)
     }
 }

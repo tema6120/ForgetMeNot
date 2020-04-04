@@ -131,6 +131,6 @@ class SpeakPlanController(
         dialogState.delayInput = delayInput
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
     }
 }

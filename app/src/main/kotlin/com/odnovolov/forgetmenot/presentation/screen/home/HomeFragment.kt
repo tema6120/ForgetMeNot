@@ -202,7 +202,9 @@ class HomeFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        controller.onFragmentPause()
+        if (!isRemoving) {
+            controller.performSaving()
+        }
         resumePauseCoroutineScope!!.cancel()
         resumePauseCoroutineScope = null
     }

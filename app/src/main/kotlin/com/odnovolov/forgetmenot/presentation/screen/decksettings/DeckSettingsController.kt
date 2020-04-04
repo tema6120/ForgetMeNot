@@ -75,7 +75,7 @@ class DeckSettingsController(
         navigator.navigateToSpeakPlan()
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         deckSettingsStateProvider.save(deckSettings.state)
         deckSettingsScreenStateProvider.save(deckSettingsScreenState)
     }

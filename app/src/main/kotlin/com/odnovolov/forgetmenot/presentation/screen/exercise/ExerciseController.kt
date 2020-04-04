@@ -134,7 +134,7 @@ class ExerciseController(
         }
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         exerciseStateProvider.save(exercise.state)
     }
 }

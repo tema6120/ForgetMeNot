@@ -47,7 +47,7 @@ class LastAnswerFilterController(
         longTermStateSaver.saveStateByRegistry()
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         dialogStateProvider.save(dialogState)
     }
 }

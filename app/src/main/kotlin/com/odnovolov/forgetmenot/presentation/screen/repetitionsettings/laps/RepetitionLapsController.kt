@@ -32,7 +32,7 @@ class RepetitionLapsController(
         }
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         dialogStateProvider.save(dialogState)
     }
 }

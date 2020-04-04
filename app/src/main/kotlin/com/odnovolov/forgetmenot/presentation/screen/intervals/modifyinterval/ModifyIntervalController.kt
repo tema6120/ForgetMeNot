@@ -31,7 +31,7 @@ class ModifyIntervalController(
         }
     }
 
-    fun onFragmentPause() {
+    fun performSaving() {
         modifyIntervalsScreenStateProvider.save(modifyIntervalDialogState)
     }
 }
