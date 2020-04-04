@@ -15,6 +15,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_SCOPED_ID
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsViewModel
@@ -104,6 +105,7 @@ class HomeController(
         val deckSettingsState = DeckSettings.State(deck)
         val koinScope = getKoin().createScope<DeckSettingsViewModel>(DECK_SETTINGS_SCOPED_ID)
         koinScope.declare(deckSettingsState, override = true)
+        koinScope.declare(PresetDialogState(), override = true)
         koinScope.declare(DeckSettingsScreenState(), override = true)
         navigator.navigateToDeckSettings()
     }

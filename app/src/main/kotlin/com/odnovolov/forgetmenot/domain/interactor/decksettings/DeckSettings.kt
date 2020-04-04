@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.domain.interactor.decksettings
 
 import com.odnovolov.forgetmenot.domain.*
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
@@ -13,11 +12,7 @@ class DeckSettings(
     val state: State,
     private val globalState: GlobalState
 ) {
-    class State(
-        deck: Deck
-    ) : FlowableState<State>() {
-        var deck: Deck by me(deck)
-    }
+    data class State(val deck: Deck)
 
     sealed class Event {
         class DeniedDeckRenaming(val nameCheckResult: NameCheckResult) : Event()
@@ -27,7 +22,7 @@ class DeckSettings(
 
     private val eventFlow = EventFlow<Event>()
     val events: Flow<Event> = eventFlow.get()
-    val currentExercisePreference: ExercisePreference
+    private val currentExercisePreference: ExercisePreference
         get() = state.deck.exercisePreference
 
     fun renameDeck(newName: String) {

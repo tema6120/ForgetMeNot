@@ -11,7 +11,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/description_save_exercise_preferences"
+            android:contentDescription="@string/description_save_preset"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_save_dark_24dp"
             tools:visibility="visible" />

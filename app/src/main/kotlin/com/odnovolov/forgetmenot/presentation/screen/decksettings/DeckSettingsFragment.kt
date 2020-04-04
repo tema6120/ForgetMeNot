@@ -2,19 +2,17 @@ package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.*
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.PopupWindow
+import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.CardReverse
-import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.entity.TestMethod
-import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
 import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -23,10 +21,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.presentation.common.customview.InputDialogCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.PresetPopupCreator
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetAdapter
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetNamePresetDialogText
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsCommand.SetRenameDeckDialogText
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import org.koin.android.ext.android.getKoin
@@ -39,10 +34,6 @@ class DeckSettingsFragment : BaseFragment() {
     private val controller: DeckSettingsController by koinScope.inject()
     private lateinit var renameDeckDialog: Dialog
     private lateinit var renameDeckEditText: EditText
-    private lateinit var chooseExercisePreferencePopup: PopupWindow
-    private lateinit var exercisePreferenceAdapter: PresetAdapter
-    private lateinit var namePresetDialog: Dialog
-    private lateinit var namePresetEditText: EditText
     private lateinit var chooseTestMethodDialog: Dialog
     private lateinit var testMethodAdapter: ItemAdapter<TestMethodItem>
     private lateinit var chooseCardReverseDialog: Dialog
@@ -54,8 +45,6 @@ class DeckSettingsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         initRenameDeckDialog()
-        initChooseExercisePreferencePopup()
-        initNamePresetDialog()
         initChooseTestMethodDialog()
         initChooseCardReverseDialog()
         return inflater.inflate(R.layout.fragment_deck_settings, container, false)
@@ -69,36 +58,6 @@ class DeckSettingsFragment : BaseFragment() {
             onTextChanged = { controller.onRenameDeckDialogTextChanged(it) },
             onPositiveClick = { controller.onRenameDeckDialogPositiveButtonClicked() },
             onNegativeClick = { controller.onRenameDeckDialogNegativeButtonClicked() }
-        )
-    }
-
-    private fun initChooseExercisePreferencePopup() {
-        chooseExercisePreferencePopup = PresetPopupCreator.create(
-            context = requireContext(),
-            setPresetButtonClickListener = { id: Long? ->
-                controller.onSetExercisePreferenceButtonClicked(id!!)
-            },
-            renamePresetButtonClickListener = { id: Long ->
-                controller.onRenameExercisePreferenceButtonClicked(id)
-            },
-            deletePresetButtonClickListener = { id: Long ->
-                controller.onDeleteExercisePreferenceButtonClicked(id)
-            },
-            addButtonClickListener = {
-                controller.onAddNewExercisePreferenceButtonClicked()
-            },
-            takeAdapter = { exercisePreferenceAdapter = it }
-        )
-    }
-
-    private fun initNamePresetDialog() {
-        namePresetDialog = InputDialogCreator.create(
-            context = requireContext(),
-            title = getString(R.string.title_exercise_preference_name_input_dialog),
-            takeEditText = { namePresetEditText = it },
-            onTextChanged = { controller.onNamePresetDialogTextChanged(it) },
-            onPositiveClick = { controller.onNamePresetPositiveDialogButtonClicked() },
-            onNegativeClick = { controller.onNamePresetNegativeDialogButtonClicked() }
         )
     }
 
@@ -130,6 +89,13 @@ class DeckSettingsFragment : BaseFragment() {
         )
     }
 
+    override fun onAttachFragment(childFragment: Fragment) {
+        if (childFragment is PresetFragment) {
+            childFragment.controller = koinScope.get()
+            childFragment.viewModel = koinScope.get()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
@@ -138,47 +104,14 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        renameDeckButton.setOnClickListener {
-            controller.onRenameDeckButtonClicked()
-        }
-        saveExercisePreferencesButton.setOnClickListener {
-            controller.onSaveExercisePreferenceButtonClicked()
-        }
-        presetNameTextView.setOnClickListener {
-            showChooseExercisePreferencePopup()
-        }
-        randomButton.setOnClickListener {
-            controller.onRandomOrderSwitchToggled()
-        }
-        testMethodButton.setOnClickListener {
-            chooseTestMethodDialog.show()
-        }
-        intervalsButton.setOnClickListener {
-            controller.onIntervalsButtonClicked()
-        }
-        pronunciationButton.setOnClickListener {
-            controller.onPronunciationButtonClicked()
-        }
-        displayQuestionButton.setOnClickListener {
-            controller.onDisplayQuestionSwitchToggled()
-        }
-        cardReverseButton.setOnClickListener {
-            chooseCardReverseDialog.show()
-        }
-        speakPlanButton.setOnClickListener {
-            controller.onSpeakPlanButtonClicked()
-        }
-    }
-
-    private fun showChooseExercisePreferencePopup() {
-        val location = IntArray(2)
-        presetNameTextView.getLocationOnScreen(location)
-        val x = location[0] + presetNameTextView.width - chooseExercisePreferencePopup.width - 8.dp
-        val y = location[1]
-        chooseExercisePreferencePopup.showAtLocation(
-            presetNameTextView.rootView,
-            Gravity.NO_GRAVITY, x, y
-        )
+        renameDeckButton.setOnClickListener { controller.onRenameDeckButtonClicked() }
+        randomButton.setOnClickListener { controller.onRandomOrderSwitchToggled() }
+        testMethodButton.setOnClickListener { chooseTestMethodDialog.show() }
+        intervalsButton.setOnClickListener { controller.onIntervalsButtonClicked() }
+        pronunciationButton.setOnClickListener { controller.onPronunciationButtonClicked() }
+        displayQuestionButton.setOnClickListener { controller.onDisplayQuestionSwitchToggled() }
+        cardReverseButton.setOnClickListener { chooseCardReverseDialog.show() }
+        speakPlanButton.setOnClickListener { controller.onSpeakPlanButtonClicked() }
     }
 
     private fun observeViewModel() {
@@ -196,30 +129,6 @@ class DeckSettingsFragment : BaseFragment() {
                     Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
-            exercisePreference.observe { exercisePreference: ExercisePreference ->
-                val exercisePreferenceName = when {
-                    exercisePreference.isDefault() -> getString(R.string.default_name)
-                    exercisePreference.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${exercisePreference.name}'"
-                }
-                presetNameTextView.text = exercisePreferenceName
-            }
-            isSaveExercisePreferenceButtonEnabled.observe { isEnabled ->
-                saveExercisePreferencesButton.visibility = if (isEnabled) VISIBLE else GONE
-            }
-            availableExercisePreferences.observe(exercisePreferenceAdapter::submitList)
-            isNamePresetDialogVisible.observe { isVisible ->
-                namePresetDialog.run {
-                    if (isVisible) show() else dismiss()
-                }
-            }
-            namePresetInputCheckResult.observe {
-                namePresetEditText.error = when (it) {
-                    Ok -> null
-                    Empty -> getString(R.string.error_message_empty_name)
-                    Occupied -> getString(R.string.error_message_occupied_name)
-                }
-            }
             randomOrder.observe { randomOrder: Boolean ->
                 randomOrderSwitch.isChecked = randomOrder
                 if (randomOrderSwitch.visibility == INVISIBLE) {
@@ -229,20 +138,20 @@ class DeckSettingsFragment : BaseFragment() {
             }
             selectedTestMethod.observe { selectedTestMethod ->
                 selectedTestMethodTextView.text = when (selectedTestMethod) {
-                    Off -> getString(R.string.test_method_label_off)
-                    Manual -> getString(R.string.test_method_label_manual)
-                    Quiz -> getString(R.string.test_method_label_quiz)
-                    Entry -> getString(R.string.test_method_label_entry)
+                    TestMethod.Off -> getString(R.string.test_method_label_off)
+                    TestMethod.Manual -> getString(R.string.test_method_label_manual)
+                    TestMethod.Quiz -> getString(R.string.test_method_label_quiz)
+                    TestMethod.Entry -> getString(R.string.test_method_label_entry)
                 }
 
                 val testMethods = TestMethod.values().map {
                     TestMethodItem(
                         testMethod = it,
                         text = when (it) {
-                            Off -> getString(R.string.test_method_label_off)
-                            Manual -> getString(R.string.test_method_label_manual)
-                            Quiz -> getString(R.string.test_method_label_quiz)
-                            Entry -> getString(R.string.test_method_label_entry)
+                            TestMethod.Off -> getString(R.string.test_method_label_off)
+                            TestMethod.Manual -> getString(R.string.test_method_label_manual)
+                            TestMethod.Quiz -> getString(R.string.test_method_label_quiz)
+                            TestMethod.Entry -> getString(R.string.test_method_label_entry)
                         },
                         isSelected = it === selectedTestMethod
                     )
@@ -252,15 +161,15 @@ class DeckSettingsFragment : BaseFragment() {
             intervalScheme.observe {
                 selectedIntervalsTextView.text = when {
                     it == null -> getString(R.string.off)
-                    it.id == 0L -> getString(R.string.default_name)
-                    it.name.isEmpty() -> getString(R.string.individual_name)
+                    it.isDefault() -> getString(R.string.default_name)
+                    it.isIndividual() -> getString(R.string.individual_name)
                     else -> "'${it.name}'"
                 }
             }
             pronunciationIdAndName.observe {
                 selectedPronunciationTextView.text = when {
-                    it.id == 0L -> getString(R.string.default_name)
-                    it.name.isEmpty() -> getString(R.string.individual_name)
+                    it.isDefault() -> getString(R.string.default_name)
+                    it.isIndividual() -> getString(R.string.individual_name)
                     else -> "'${it.name}'"
                 }
             }
@@ -302,10 +211,6 @@ class DeckSettingsFragment : BaseFragment() {
                 renameDeckEditText.setText(command.text)
                 renameDeckEditText.selectAll()
             }
-            is SetNamePresetDialogText -> {
-                namePresetEditText.setText(command.text)
-                namePresetEditText.selectAll()
-            }
         }
     }
 
@@ -314,9 +219,6 @@ class DeckSettingsFragment : BaseFragment() {
         savedInstanceState?.run {
             getBundle(STATE_KEY_RENAME_DECK_DIALOG)
                 ?.let(renameDeckDialog::onRestoreInstanceState)
-
-            getBundle(STATE_KEY_PRESET_NAME_INPUT_DIALOG)
-                ?.let(namePresetDialog::onRestoreInstanceState)
 
             getBundle(STATE_KEY_CHOOSE_TEST_METHOD_DIALOG)
                 ?.let(chooseTestMethodDialog::onRestoreInstanceState)
@@ -339,12 +241,6 @@ class DeckSettingsFragment : BaseFragment() {
                 renameDeckDialog.onSaveInstanceState()
             )
         }
-        if (::namePresetDialog.isInitialized) {
-            outState.putBundle(
-                STATE_KEY_PRESET_NAME_INPUT_DIALOG,
-                namePresetDialog.onSaveInstanceState()
-            )
-        }
         if (::chooseTestMethodDialog.isInitialized) {
             outState.putBundle(
                 STATE_KEY_CHOOSE_TEST_METHOD_DIALOG,
@@ -361,7 +257,6 @@ class DeckSettingsFragment : BaseFragment() {
 
     companion object {
         const val STATE_KEY_RENAME_DECK_DIALOG = "renameDeckDialog"
-        const val STATE_KEY_PRESET_NAME_INPUT_DIALOG = "presetNameInputDialog"
         const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "chooseTestMethodDialog"
         const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "chooseCardReverseDialog"
     }

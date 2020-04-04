@@ -148,7 +148,9 @@ class PresetFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(STATE_KEY_NAME_INPUT_DIALOG, nameInputDialog.onSaveInstanceState())
+        if (::nameInputDialog.isInitialized) {
+            outState.putBundle(STATE_KEY_NAME_INPUT_DIALOG, nameInputDialog.onSaveInstanceState())
+        }
     }
 
     companion object {

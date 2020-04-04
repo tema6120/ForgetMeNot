@@ -27,7 +27,7 @@ val pronunciationModule = module {
                 presetDialogState = get(),
                 globalState = get(),
                 longTermStateSaver = get(),
-                dialogStateProvider = get<PresetDialogStateProvider>()
+                presetDialogStateProvider = get<PresetDialogStateProvider>()
             )
         }
         scoped<SkeletalPresetViewModel> {

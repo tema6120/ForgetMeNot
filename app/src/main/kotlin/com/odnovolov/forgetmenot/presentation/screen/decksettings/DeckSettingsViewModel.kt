@@ -1,29 +1,24 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import androidx.lifecycle.ViewModel
-import com.odnovolov.forgetmenot.presentation.common.preset.Preset
-import com.odnovolov.forgetmenot.presentation.common.entity.NamePresetDialogStatus
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.checkDeckName
-import com.odnovolov.forgetmenot.domain.checkExercisePreferenceName
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.domain.isIndividual
-import kotlinx.coroutines.flow.*
-import org.koin.core.KoinComponent
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import org.koin.java.KoinJavaComponent.getKoin
 
 class DeckSettingsViewModel(
     deckSettingsScreenState: DeckSettingsScreenState,
-    private val deckSettingsState: DeckSettings.State,
+    deckSettingsState: DeckSettings.State,
     private val globalState: GlobalState
-) : ViewModel(), KoinComponent {
-    private val currentDeck: Flow<Deck> = deckSettingsState.flowOf(DeckSettings.State::deck).share()
+) : ViewModel() {
+    private val currentExercisePreference: Flow<ExercisePreference> =
+        deckSettingsState.deck.flowOf(Deck::exercisePreference).share()
 
-    private val currentExercisePreference: Flow<ExercisePreference> = currentDeck
-        .flatMapLatest { deck: Deck -> deck.flowOf(Deck::exercisePreference) }
-        .share()
-
-    val deckName: Flow<String> = currentDeck.flatMapLatest { deck: Deck -> deck.flowOf(Deck::name) }
+    val deckName: Flow<String> = deckSettingsState.deck.flowOf(Deck::name)
 
     val isRenameDeckDialogVisible: Flow<Boolean> =
         deckSettingsScreenState.flowOf(DeckSettingsScreenState::isRenameDeckDialogVisible)
@@ -31,54 +26,6 @@ class DeckSettingsViewModel(
     val deckNameCheckResult: Flow<NameCheckResult> =
         deckSettingsScreenState.flowOf(DeckSettingsScreenState::typedDeckName)
             .map { typedDeckName: String -> checkDeckName(typedDeckName, globalState) }
-
-    val exercisePreference: Flow<ExercisePreference> = currentExercisePreference
-        .flatMapLatest { exercisePreference: ExercisePreference ->
-            exercisePreference.asFlow()
-        }
-
-    val isSaveExercisePreferenceButtonEnabled: Flow<Boolean> =
-        exercisePreference.map { it.isIndividual() }
-
-    val availableExercisePreferences: Flow<List<Preset>> = combine(
-        currentExercisePreference,
-        globalState.flowOf(GlobalState::sharedExercisePreferences)
-    ) { currentExercisePreference: ExercisePreference,
-        sharedExercisePreferences: Collection<ExercisePreference>
-        ->
-        (sharedExercisePreferences + currentExercisePreference + ExercisePreference.Default)
-            .distinctBy { it.id }
-    }
-        .flatMapLatest { exercisePreferences: List<ExercisePreference> ->
-            val exercisePreferenceNameFlows: List<Flow<String>> = exercisePreferences
-                .map { it.flowOf(ExercisePreference::name) }
-            combine(exercisePreferenceNameFlows) {
-                val currentExercisePreference = deckSettingsState.deck.exercisePreference
-                exercisePreferences
-                    .map { exercisePreference: ExercisePreference ->
-                        with(exercisePreference) {
-                            Preset(
-                                id = id,
-                                name = name,
-                                isSelected = id == currentExercisePreference.id
-                            )
-                        }
-                    }
-                    .sortedWith(compareBy({ it.name }, { it.id }))
-            }
-        }
-
-    val isNamePresetDialogVisible: Flow<Boolean> =
-        deckSettingsScreenState.flowOf(DeckSettingsScreenState::namePresetDialogStatus)
-            .map { namePresetDialogStatus: NamePresetDialogStatus ->
-                namePresetDialogStatus != NamePresetDialogStatus.Invisible
-            }
-
-    val namePresetInputCheckResult: Flow<NameCheckResult> =
-        deckSettingsScreenState.flowOf(DeckSettingsScreenState::typedPresetName)
-            .map { typedPresetName: String ->
-                checkExercisePreferenceName(typedPresetName, globalState)
-            }
 
     val randomOrder: Flow<Boolean> = currentExercisePreference
         .flatMapLatest { exercisePreference: ExercisePreference ->

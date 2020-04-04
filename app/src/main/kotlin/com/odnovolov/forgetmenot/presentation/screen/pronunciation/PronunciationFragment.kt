@@ -38,13 +38,6 @@ class PronunciationFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_pronunciation, container, false)
     }
 
-    override fun onAttachFragment(childFragment: Fragment) {
-        if (childFragment is PresetFragment) {
-            childFragment.controller = koinScope.get()
-            childFragment.viewModel = koinScope.get()
-        }
-    }
-
     private fun createLanguagePopup() = PopupWindow(requireContext()).apply {
         width = WindowManager.LayoutParams.WRAP_CONTENT
         height = WindowManager.LayoutParams.WRAP_CONTENT
@@ -53,6 +46,13 @@ class PronunciationFragment : BaseFragment() {
         elevation = 20f
         isOutsideTouchable = true
         isFocusable = true
+    }
+
+    override fun onAttachFragment(childFragment: Fragment) {
+        if (childFragment is PresetFragment) {
+            childFragment.controller = koinScope.get()
+            childFragment.viewModel = koinScope.get()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
