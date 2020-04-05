@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
-import com.odnovolov.forgetmenot.domain.checkPronunciationName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.checkPronunciationName
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver

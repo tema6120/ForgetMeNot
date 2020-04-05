@@ -1,42 +1,21 @@
 package com.odnovolov.forgetmenot.domain.interactor.decksettings
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.checkPronunciationName
-import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings.Event.DeniedPronunciationCreation
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings.Event.DeniedPronunciationRenaming
-import com.odnovolov.forgetmenot.domain.isDefault
-import com.odnovolov.forgetmenot.domain.isIndividual
-import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 class PronunciationSettings(
     private val deckSettings: DeckSettings,
     private val globalState: GlobalState
 ) {
-    sealed class Event {
-        class DeniedPronunciationCreation(val nameCheckResult: NameCheckResult) : Event()
-        class DeniedPronunciationRenaming(val nameCheckResult: NameCheckResult) : Event()
-    }
-
-    private val eventFlow = EventFlow<Event>()
-    val events: Flow<Event> = eventFlow.get()
-
-    private val exercisePreference: ExercisePreference
-        get() = deckSettings.state.deck.exercisePreference
-
     private val currentPronunciation: Pronunciation
-        get() = exercisePreference.pronunciation
+        get() = deckSettings.state.deck.exercisePreference.pronunciation
 
     fun setPronunciation(pronunciationId: Long) {
         when (pronunciationId) {
-            deckSettings.state.deck.exercisePreference.pronunciation.id -> return
+            currentPronunciation.id -> return
             Pronunciation.Default.id -> deckSettings.setPronunciation(Pronunciation.Default)
             else -> {
                 globalState.sharedPronunciations
@@ -47,15 +26,20 @@ class PronunciationSettings(
     }
 
     fun createNewSharedPronunciation(name: String) {
-        when (checkPronunciationName(name, globalState)) {
-            Ok -> createNewSharedPronunciationAndSetToCurrentExercisePreference(name)
-            Empty -> eventFlow.send(DeniedPronunciationCreation(Empty))
-            Occupied -> eventFlow.send(DeniedPronunciationCreation(Occupied))
+        checkName(name)
+        createNewSharedPronunciationAndSetAsCurrent(name)
+    }
+
+    private fun checkName(testedName: String) {
+        when (checkPronunciationName(testedName, globalState)) {
+            Ok -> return
+            Empty -> throw IllegalArgumentException("shared Pronunciation name cannot be empty")
+            Occupied -> throw IllegalArgumentException("$testedName is occupied")
         }
     }
 
-    private fun createNewSharedPronunciationAndSetToCurrentExercisePreference(name: String) {
-        val newSharedPronunciation = Pronunciation.Default
+    private fun createNewSharedPronunciationAndSetAsCurrent(name: String) {
+        val newSharedPronunciation: Pronunciation = Pronunciation.Default
             .shallowCopy(id = generateId(), name = name)
         addNewSharedPronunciation(newSharedPronunciation)
         deckSettings.setPronunciation(newSharedPronunciation)
@@ -67,23 +51,18 @@ class PronunciationSettings(
     }
 
     fun renamePronunciation(pronunciation: Pronunciation, newName: String) {
-        when (checkPronunciationName(newName, globalState)) {
-            Ok -> {
-                when {
-                    pronunciation.isDefault() -> {
-                        createNewSharedPronunciationAndSetToCurrentExercisePreference(newName)
-                    }
-                    pronunciation.isIndividual() -> {
-                        pronunciation.name = newName
-                        addNewSharedPronunciation(pronunciation)
-                    }
-                    else -> { // current Pronunciation is shared
-                        pronunciation.name = newName
-                    }
-                }
+        checkName(newName)
+        when {
+            pronunciation.isDefault() -> {
+                createNewSharedPronunciationAndSetAsCurrent(newName)
             }
-            Empty -> eventFlow.send(DeniedPronunciationRenaming(Empty))
-            Occupied -> eventFlow.send(DeniedPronunciationRenaming(Occupied))
+            pronunciation.isIndividual() -> {
+                pronunciation.name = newName
+                addNewSharedPronunciation(pronunciation)
+            }
+            else -> { // current Pronunciation is shared
+                pronunciation.name = newName
+            }
         }
     }
 
@@ -93,10 +72,12 @@ class PronunciationSettings(
             .filter { it.id != pronunciationId }
             .toCopyableList()
         globalState.decks
-            .map { it.exercisePreference }
-            .filter { it.pronunciation.id == pronunciationId }
+            .map(Deck::exercisePreference)
+            .filter { exercisePreference -> exercisePreference.pronunciation.id == pronunciationId }
             .distinct()
-            .forEach { it.pronunciation = Pronunciation.Default }
+            .forEach { exercisePreference ->
+                exercisePreference.pronunciation = Pronunciation.Default
+            }
     }
 
     fun setQuestionLanguage(questionLanguage: Locale?) {
@@ -114,17 +95,18 @@ class PronunciationSettings(
         )
     }
 
-    fun setQuestionAutoSpeak(questionAutoSpeak: Boolean) {
+    fun toggleQuestionAutoSpeak() {
+        val newQuestionAutoSpeak = !currentPronunciation.questionAutoSpeak
         updatePronunciation(
-            isValueChanged = currentPronunciation.questionAutoSpeak != questionAutoSpeak,
+            isValueChanged = true,
             createNewIndividualPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
-                    questionAutoSpeak = questionAutoSpeak
+                    questionAutoSpeak = newQuestionAutoSpeak
                 )
             },
             updateCurrentPronunciation = {
-                currentPronunciation.questionAutoSpeak = questionAutoSpeak
+                currentPronunciation.questionAutoSpeak = newQuestionAutoSpeak
             }
         )
     }
@@ -144,32 +126,34 @@ class PronunciationSettings(
         )
     }
 
-    fun setAnswerAutoSpeak(answerAutoSpeak: Boolean) {
+    fun toggleAnswerAutoSpeak() {
+        val newAnswerAutoSpeak = !currentPronunciation.answerAutoSpeak
         updatePronunciation(
-            isValueChanged = currentPronunciation.answerAutoSpeak != answerAutoSpeak,
+            isValueChanged = true,
             createNewIndividualPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
-                    answerAutoSpeak = answerAutoSpeak
+                    answerAutoSpeak = newAnswerAutoSpeak
                 )
             },
             updateCurrentPronunciation = {
-                currentPronunciation.answerAutoSpeak = answerAutoSpeak
+                currentPronunciation.answerAutoSpeak = newAnswerAutoSpeak
             }
         )
     }
 
-    fun setDoNotSpeakTextInBrackets(doNotSpeakTextInBrackets: Boolean) {
+    fun toggleSpeakTextInBrackets() {
+        val newSpeakTextInBrackets = !currentPronunciation.speakTextInBrackets
         updatePronunciation(
-            isValueChanged = currentPronunciation.doNotSpeakTextInBrackets != doNotSpeakTextInBrackets,
+            isValueChanged = true,
             createNewIndividualPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
-                    doNotSpeakTextInBrackets = doNotSpeakTextInBrackets
+                    speakTextInBrackets = newSpeakTextInBrackets
                 )
             },
             updateCurrentPronunciation = {
-                currentPronunciation.doNotSpeakTextInBrackets = doNotSpeakTextInBrackets
+                currentPronunciation.speakTextInBrackets = newSpeakTextInBrackets
             }
         )
     }
@@ -204,7 +188,7 @@ class PronunciationSettings(
         questionAutoSpeak: Boolean = this.questionAutoSpeak,
         answerLanguage: Locale? = this.answerLanguage,
         answerAutoSpeak: Boolean = this.answerAutoSpeak,
-        doNotSpeakTextInBrackets: Boolean = this.doNotSpeakTextInBrackets
+        speakTextInBrackets: Boolean = this.speakTextInBrackets
     ) = Pronunciation(
         id,
         name,
@@ -212,10 +196,9 @@ class PronunciationSettings(
         questionAutoSpeak,
         answerLanguage,
         answerAutoSpeak,
-        doNotSpeakTextInBrackets
+        speakTextInBrackets
     )
 
-    private fun Pronunciation.shouldBeDefault(): Boolean {
-        return this.shallowCopy(id = Pronunciation.Default.id) == Pronunciation.Default
-    }
+    private fun Pronunciation.shouldBeDefault(): Boolean =
+        this.shallowCopy(id = Pronunciation.Default.id) == Pronunciation.Default
 }

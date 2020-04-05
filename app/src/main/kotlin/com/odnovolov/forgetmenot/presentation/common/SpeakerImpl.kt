@@ -51,12 +51,10 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
         }
 
     private fun updateAvailableLanguages() {
-        coroutineScope.launch(Dispatchers.Main) {
-            state.availableLanguages = try {
-                tts.availableLanguages
-            } catch (e: NullPointerException) {
-                emptySet()
-            }
+        state.availableLanguages = try {
+            tts.availableLanguages
+        } catch (e: NullPointerException) {
+            emptySet()
         }
     }
 

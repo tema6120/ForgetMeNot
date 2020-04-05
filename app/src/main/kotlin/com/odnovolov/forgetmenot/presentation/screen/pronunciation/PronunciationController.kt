@@ -1,12 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import java.util.*
 
 class PronunciationController(
-    private val deckSettingsState: DeckSettings.State,
     private val pronunciationSettings: PronunciationSettings,
     private val longTermStateSaver: LongTermStateSaver
 ) {
@@ -16,9 +14,7 @@ class PronunciationController(
     }
 
     fun onQuestionAutoSpeakSwitchToggled() {
-        val newQuestionAutoSpeak: Boolean =
-            deckSettingsState.deck.exercisePreference.pronunciation.questionAutoSpeak.not()
-        pronunciationSettings.setQuestionAutoSpeak(newQuestionAutoSpeak)
+        pronunciationSettings.toggleQuestionAutoSpeak()
         longTermStateSaver.saveStateByRegistry()
     }
 
@@ -28,16 +24,12 @@ class PronunciationController(
     }
 
     fun onAnswerAutoSpeakSwitchToggled() {
-        val newAnswerAutoSpeak: Boolean =
-            deckSettingsState.deck.exercisePreference.pronunciation.answerAutoSpeak.not()
-        pronunciationSettings.setAnswerAutoSpeak(newAnswerAutoSpeak)
+        pronunciationSettings.toggleAnswerAutoSpeak()
         longTermStateSaver.saveStateByRegistry()
     }
 
-    fun onDoNotSpeakTextInBracketsSwitchToggled() {
-        val newDoNotSpeakTextInBrackets: Boolean =
-            deckSettingsState.deck.exercisePreference.pronunciation.doNotSpeakTextInBrackets.not()
-        pronunciationSettings.setDoNotSpeakTextInBrackets(newDoNotSpeakTextInBrackets)
+    fun onSpeakTextInBracketsSwitchToggled() {
+        pronunciationSettings.toggleSpeakTextInBrackets()
         longTermStateSaver.saveStateByRegistry()
     }
 }

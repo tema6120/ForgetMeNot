@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
-import com.odnovolov.forgetmenot.domain.checkPronunciationName
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.preset.Preset

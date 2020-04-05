@@ -51,7 +51,7 @@ class Repetition(
                         questionAutoSpeak = answerAutoSpeak,
                         answerLanguage = questionLanguage,
                         answerAutoSpeak = questionAutoSpeak,
-                        doNotSpeakTextInBrackets = doNotSpeakTextInBrackets
+                        speakTextInBrackets = speakTextInBrackets
                     )
                 }
             } else {
@@ -133,11 +133,9 @@ class Repetition(
     }
 
     private fun speak(text: String, language: Locale?) {
-        val textToSpeak = if (currentPronunciation.doNotSpeakTextInBrackets) {
-            textInBracketsRemover.process(text)
-        } else {
-            text
-        }
+        val textToSpeak =
+            if (currentPronunciation.speakTextInBrackets) text
+            else textInBracketsRemover.process(text)
         speaker.speak(textToSpeak, language)
     }
 

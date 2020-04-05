@@ -32,17 +32,17 @@ class PronunciationViewModel(
             currentPronunciation.flowOf(Pronunciation::questionLanguage)
         }
 
-    val dropdownQuestionLanguages: Flow<List<DropdownLanguage>> = combine(
+    val displayedQuestionLanguages: Flow<List<DisplayedLanguage>> = combine(
         availableLanguages,
         selectedQuestionLanguage
     ) { availableLanguages: Set<Locale>, selectedQuestionLanguage: Locale? ->
-        val defaultLanguage = DropdownLanguage(
+        val defaultLanguage = DisplayedLanguage(
             language = null,
             isSelected = selectedQuestionLanguage == null
         )
         val concreteLanguages = availableLanguages
             .map { language: Locale ->
-                DropdownLanguage(
+                DisplayedLanguage(
                     language = language,
                     isSelected = selectedQuestionLanguage == language
                 )
@@ -60,17 +60,17 @@ class PronunciationViewModel(
             currentPronunciation.flowOf(Pronunciation::answerLanguage)
         }
 
-    val dropdownAnswerLanguages: Flow<List<DropdownLanguage>> = combine(
+    val displayedAnswerLanguages: Flow<List<DisplayedLanguage>> = combine(
         availableLanguages,
         selectedAnswerLanguage
     ) { availableLanguages: Set<Locale>, selectedAnswerLanguage: Locale? ->
-        val defaultLanguage = DropdownLanguage(
+        val defaultLanguage = DisplayedLanguage(
             language = null,
             isSelected = selectedAnswerLanguage == null
         )
         val concreteLanguages = availableLanguages
             .map { language: Locale ->
-                DropdownLanguage(
+                DisplayedLanguage(
                     language = language,
                     isSelected = selectedAnswerLanguage == language
                 )
@@ -83,9 +83,9 @@ class PronunciationViewModel(
             currentPronunciation.flowOf(Pronunciation::answerAutoSpeak)
         }
 
-    val doNotSpeakTextInBrackets: Flow<Boolean> = currentPronunciation
+    val speakTextInBrackets: Flow<Boolean> = currentPronunciation
         .flatMapLatest { currentPronunciation: Pronunciation ->
-            currentPronunciation.flowOf(Pronunciation::doNotSpeakTextInBrackets)
+            currentPronunciation.flowOf(Pronunciation::speakTextInBrackets)
         }
 
     override fun onCleared() {

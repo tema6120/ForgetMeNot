@@ -18,7 +18,7 @@ class RepetitionSettings(
 
     fun setCurrentRepetitionSetting(repetitionSettingId: Long) {
         globalState.currentRepetitionSetting = when (repetitionSettingId) {
-            globalState.currentRepetitionSetting.id -> return
+            currentRepetitionSetting.id -> return
             RepetitionSetting.Default.id -> RepetitionSetting.Default
             else -> {
                 globalState.sharedRepetitionSettings

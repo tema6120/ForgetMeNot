@@ -1,57 +1,53 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R.layout
 import com.odnovolov.forgetmenot.R.string
+import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.toFlagEmoji
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.LanguageAdapter.ViewHolder
 import kotlinx.android.synthetic.main.item_language.view.*
 import java.util.*
 
 class LanguageAdapter(
     private val onItemClick: (language: Locale?) -> Unit
-) : ListAdapter<DropdownLanguage, ViewHolder>(DiffCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+) : ListAdapter<DisplayedLanguage, SimpleRecyclerViewHolder>(DiffCallback()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(layout.item_language, parent, false)
-        return ViewHolder(view)
+        return SimpleRecyclerViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.apply {
-            val dropdownLanguage: DropdownLanguage = getItem(position)
-            if (dropdownLanguage.language == null) {
+    override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
+        val displayedLanguage: DisplayedLanguage = getItem(position)
+        with(viewHolder.itemView) {
+            if (displayedLanguage.language == null) {
                 languageNameTextView.text = context.getString(string.default_name)
                 flagTextView.text = null
             } else {
-                languageNameTextView.text = dropdownLanguage.language.displayLanguage
-                flagTextView.text = dropdownLanguage.language.toFlagEmoji()
+                languageNameTextView.text = displayedLanguage.language.displayLanguage
+                flagTextView.text = displayedLanguage.language.toFlagEmoji()
             }
-            isSelected = dropdownLanguage.isSelected
+            isSelected = displayedLanguage.isSelected
             languageItemButton.setOnClickListener {
-                onItemClick(dropdownLanguage.language)
+                onItemClick(displayedLanguage.language)
             }
         }
     }
 
-    class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
-
-    class DiffCallback : ItemCallback<DropdownLanguage>() {
+    class DiffCallback : ItemCallback<DisplayedLanguage>() {
         override fun areItemsTheSame(
-            oldItem: DropdownLanguage,
-            newItem: DropdownLanguage
+            oldItem: DisplayedLanguage,
+            newItem: DisplayedLanguage
         ): Boolean {
             return oldItem.language == newItem.language
         }
 
         override fun areContentsTheSame(
-            oldItem: DropdownLanguage,
-            newItem: DropdownLanguage
+            oldItem: DisplayedLanguage,
+            newItem: DisplayedLanguage
         ): Boolean {
             return oldItem == newItem
         }

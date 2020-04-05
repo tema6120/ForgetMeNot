@@ -114,7 +114,7 @@ fun PronunciationDb.toPronunciation() = Pronunciation(
     questionAutoSpeak,
     answerLanguage,
     answerAutoSpeak,
-    doNotSpeakTextInBrackets
+    speakTextInBrackets
 )
 
 fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb.Impl(
@@ -124,7 +124,7 @@ fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb.Impl(
     questionAutoSpeak,
     answerLanguage,
     answerAutoSpeak,
-    doNotSpeakTextInBrackets
+    speakTextInBrackets
 )
 
 fun SpeakPlanDb.toSpeakPlan(speakEvents: List<SpeakEvent>) = SpeakPlan(

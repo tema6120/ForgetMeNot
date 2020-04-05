@@ -40,7 +40,6 @@ val pronunciationModule = module {
         scoped { SpeakerImpl(applicationContext = get()) } onClose { it?.shutdown() }
         scoped {
             PronunciationController(
-                deckSettingsState = getScope(DECK_SETTINGS_SCOPED_ID).get(),
                 pronunciationSettings = get(),
                 longTermStateSaver = get()
             )

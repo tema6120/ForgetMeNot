@@ -11,10 +11,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.CardReverse
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -173,11 +171,11 @@ class DeckSettingsFragment : BaseFragment() {
                     else -> "'${it.name}'"
                 }
             }
-            pronunciationIdAndName.observe {
+            pronunciation.observe { pronunciation: Pronunciation ->
                 selectedPronunciationTextView.text = when {
-                    it.isDefault() -> getString(R.string.default_name)
-                    it.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${it.name}'"
+                    pronunciation.isDefault() -> getString(R.string.default_name)
+                    pronunciation.isIndividual() -> getString(R.string.individual_name)
+                    else -> "'${pronunciation.name}'"
                 }
             }
             isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->

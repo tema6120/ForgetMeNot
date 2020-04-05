@@ -34,9 +34,9 @@ object PronunciationPropertyChangeHandler {
                 val answerAutoSpeak = change.newValue as Boolean
                 queries.updateAnswerAutoSpeak(answerAutoSpeak, pronunciationId)
             }
-            Pronunciation::doNotSpeakTextInBrackets -> {
-                val doNotSpeakTextInBrackets = change.newValue as Boolean
-                queries.updateDoNotSpeakTextInBrackets(doNotSpeakTextInBrackets, pronunciationId)
+            Pronunciation::speakTextInBrackets -> {
+                val speakTextInBrackets = change.newValue as Boolean
+                queries.updateSpeakTextInBrackets(speakTextInBrackets, pronunciationId)
             }
         }
     }

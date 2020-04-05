@@ -111,12 +111,12 @@ class Navigator : ActivityLifecycleCallbacks {
     }
 
     override fun onActivityStarted(activity: Activity) {
-        if (activity is MainActivity) {
+        if (activity is MainActivity && navController == null) {
             navController = activity.findNavController(R.id.navHostFragment)
         }
     }
 
-    override fun onActivityStopped(activity: Activity) {
+    override fun onActivityDestroyed(activity: Activity) {
         if (activity is MainActivity) {
             navController = null
         }
@@ -126,5 +126,5 @@ class Navigator : ActivityLifecycleCallbacks {
     override fun onActivityResumed(activity: Activity) {}
     override fun onActivityPaused(activity: Activity) {}
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-    override fun onActivityDestroyed(activity: Activity) {}
+    override fun onActivityStopped(activity: Activity) {}
 }

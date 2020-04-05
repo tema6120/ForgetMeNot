@@ -5,14 +5,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
+import com.odnovolov.forgetmenot.presentation.common.uncover
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
@@ -97,8 +96,8 @@ class PronunciationFragment : BaseFragment() {
         answerAutoSpeakButton.setOnClickListener {
             controller.onAnswerAutoSpeakSwitchToggled()
         }
-        doNotSpeakTextInBracketsButton.setOnClickListener {
-            controller.onDoNotSpeakTextInBracketsSwitchToggled()
+        speakTextInBracketsButton.setOnClickListener {
+            controller.onSpeakTextInBracketsSwitchToggled()
         }
         goToTtsSettingsButton.setOnClickListener {
             navigateToTtsSettings()
@@ -127,36 +126,25 @@ class PronunciationFragment : BaseFragment() {
         with(viewModel) {
             selectedQuestionLanguage.observe { selectedQuestionLanguage ->
                 questionLanguageTextView.text =
-                    selectedQuestionLanguage?.displayLanguage
-                        ?: getString(R.string.default_name)
+                    selectedQuestionLanguage?.displayLanguage ?: getString(R.string.default_name)
             }
-            dropdownQuestionLanguages.observe(questionLanguageAdapter::submitList)
+            displayedQuestionLanguages.observe(questionLanguageAdapter::submitList)
             questionAutoSpeak.observe { questionAutoSpeak: Boolean ->
                 questionAutoSpeakSwitch.isChecked = questionAutoSpeak
-                if (questionAutoSpeakSwitch.visibility == INVISIBLE) {
-                    questionAutoSpeakSwitch.jumpDrawablesToCurrentState()
-                    questionAutoSpeakSwitch.visibility = VISIBLE
-                }
+                questionAutoSpeakSwitch.uncover()
             }
             selectedAnswerLanguage.observe { selectedAnswerLanguage ->
                 answerLanguageTextView.text =
-                    selectedAnswerLanguage?.displayLanguage
-                        ?: getString(R.string.default_name)
+                    selectedAnswerLanguage?.displayLanguage ?: getString(R.string.default_name)
             }
-            dropdownAnswerLanguages.observe(answerLanguageAdapter::submitList)
+            displayedAnswerLanguages.observe(answerLanguageAdapter::submitList)
             answerAutoSpeak.observe { answerAutoSpeak: Boolean ->
                 answerAutoSpeakSwitch.isChecked = answerAutoSpeak
-                if (answerAutoSpeakSwitch.visibility == INVISIBLE) {
-                    answerAutoSpeakSwitch.jumpDrawablesToCurrentState()
-                    answerAutoSpeakSwitch.visibility = VISIBLE
-                }
+                answerAutoSpeakSwitch.uncover()
             }
-            doNotSpeakTextInBrackets.observe { doNotSpeakTextInBrackets: Boolean ->
-                doNotSpeakTextInBracketsSwitch.isChecked = doNotSpeakTextInBrackets
-                if (doNotSpeakTextInBracketsSwitch.visibility == INVISIBLE) {
-                    doNotSpeakTextInBracketsSwitch.jumpDrawablesToCurrentState()
-                    doNotSpeakTextInBracketsSwitch.visibility = VISIBLE
-                }
+            speakTextInBrackets.observe { speakTextInBrackets: Boolean ->
+                speakTextInBracketsSwitch.isChecked = speakTextInBrackets
+                speakTextInBracketsSwitch.uncover()
             }
         }
     }

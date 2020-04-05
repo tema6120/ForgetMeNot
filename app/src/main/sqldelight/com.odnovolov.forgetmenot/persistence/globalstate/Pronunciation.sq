@@ -7,7 +7,7 @@ CREATE TABLE PronunciationDb (
     questionAutoSpeak INTEGER AS Boolean NOT NULL,
     answerLanguage TEXT AS Locale,
     answerAutoSpeak INTEGER AS Boolean NOT NULL,
-    doNotSpeakTextInBrackets INTEGER AS Boolean NOT NULL
+    speakTextInBrackets INTEGER AS Boolean NOT NULL
 );
 
 insert:
@@ -31,8 +31,8 @@ UPDATE PronunciationDb SET answerLanguage = ? WHERE id = ?;
 updateAnswerAutoSpeak:
 UPDATE PronunciationDb SET answerAutoSpeak = ? WHERE id = ?;
 
-updateDoNotSpeakTextInBrackets:
-UPDATE PronunciationDb SET doNotSpeakTextInBrackets = ? WHERE id = ?;
+updateSpeakTextInBrackets:
+UPDATE PronunciationDb SET speakTextInBrackets = ? WHERE id = ?;
 
 delete:
 DELETE FROM PronunciationDb WHERE id = ?;

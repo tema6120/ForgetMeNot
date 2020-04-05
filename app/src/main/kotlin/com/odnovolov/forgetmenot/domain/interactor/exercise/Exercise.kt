@@ -69,7 +69,7 @@ class Exercise(
                     questionAutoSpeak = answerAutoSpeak,
                     answerLanguage = questionLanguage,
                     answerAutoSpeak = questionAutoSpeak,
-                    doNotSpeakTextInBrackets = doNotSpeakTextInBrackets
+                    speakTextInBrackets = speakTextInBrackets
                 )
             }
         } else {
@@ -157,13 +157,9 @@ class Exercise(
     }
 
     private fun speak(text: String, language: Locale?) {
-        val doNotSpeakTextInBrackets =
-            currentExerciseCard.base.deck.exercisePreference.pronunciation.doNotSpeakTextInBrackets
-        val textToSpeak = if (doNotSpeakTextInBrackets) {
-            textInBracketsRemover.process(text)
-        } else {
-            text
-        }
+        val speakTextInBrackets =
+            currentExerciseCard.base.deck.exercisePreference.pronunciation.speakTextInBrackets
+        val textToSpeak = if (speakTextInBrackets) text else textInBracketsRemover.process(text)
         speaker.speak(textToSpeak, language)
     }
 

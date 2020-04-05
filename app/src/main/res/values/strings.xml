@@ -98,7 +98,7 @@
     <string name="card_reverse_label_every_other_lap">Every other lap</string>
     <string name="title_choose_card_reverse_dialog">Choose card reverse</string>
     <string name="title_rename_deck_dialog">Enter deck name</string>
-    <string name="text_do_not_speak_text_in_brackets">Do not speak text in brackets</string>
+    <string name="text_speak_text_in_brackets">Speak text in brackets</string>
     <string name="toast_text_intervals_are_off">Intervals are off for current deck</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
     <plurals name="numberOfDecksRemoved">
