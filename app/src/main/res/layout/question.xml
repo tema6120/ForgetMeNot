@@ -1,0 +1,45 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+            android:id="@+id/questionScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                android:id="@+id/questionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="16dp"
+                android:textIsSelectable="true"
+                android:textColor="@color/text_secondary_selector"
+                android:textSize="20sp"
+                tools:text="Эти люди привычны к тяжелой работе." />
+
+    </ScrollView>
+
+    <TextView
+            android:id="@+id/showQuestionButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/curtain"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/text_show_question_textview"
+            android:textColor="@color/text_curtain_selector"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+</merge>

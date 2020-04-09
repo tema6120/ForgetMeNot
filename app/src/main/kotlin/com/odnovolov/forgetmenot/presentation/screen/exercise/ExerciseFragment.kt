@@ -12,9 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.MainActivity
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCommand.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
@@ -25,14 +23,15 @@ import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.popup_choose_hint.view.*
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.scope.viewModel
+import org.koin.core.parameter.parametersOf
 
 class ExerciseFragment : BaseFragment() {
     private val koinScope = getKoin().getOrCreateScope<ExerciseViewModel>(EXERCISE_SCOPE_ID)
     private val viewModel: ExerciseViewModel by koinScope.viewModel(this)
     private val controller: ExerciseController by koinScope.inject()
-    private lateinit var chooseHintPopup: PopupWindow
-    private lateinit var setLevelOfKnowledgePopup: PopupWindow
-    private lateinit var intervalsAdapter: IntervalsAdapter
+    private val chooseHintPopup: PopupWindow by lazy { createChooseHintPopup() }
+    private val setLevelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
+    private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,21 +47,22 @@ class ExerciseFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        createLevelOfKnowledgePopup()
-        createChooseHintPopup()
         return inflater.inflate(R.layout.fragment_exercise, container, false)
     }
 
-    private fun createLevelOfKnowledgePopup() {
+    private fun createIntervalsAdapter(): IntervalsAdapter {
         val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
             controller.onLevelOfKnowledgeSelected(levelOfKnowledge)
             setLevelOfKnowledgePopup.dismiss()
         }
-        intervalsAdapter = IntervalsAdapter(onItemClick)
+        return IntervalsAdapter(onItemClick)
+    }
+
+    private fun createLevelOfKnowledgePopup(): PopupWindow {
         val recycler: RecyclerView =
             View.inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
         recycler.adapter = intervalsAdapter
-        setLevelOfKnowledgePopup = PopupWindow(context).apply {
+        return PopupWindow(context).apply {
             width = WindowManager.LayoutParams.WRAP_CONTENT
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = recycler
@@ -80,7 +80,7 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun createChooseHintPopup() {
+    private fun createChooseHintPopup(): PopupWindow {
         val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
             hintAsQuizButton.setOnClickListener {
                 controller.onHintAsQuizButtonClicked()
@@ -92,7 +92,7 @@ class ExerciseFragment : BaseFragment() {
             }
         }
         content.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        chooseHintPopup = PopupWindow(context).apply {
+        return PopupWindow(context).apply {
             width = content.measuredWidth
             height = content.measuredHeight
             contentView = content
@@ -124,7 +124,7 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupViewPagerAdapter() {
-        exerciseViewPager.adapter = ExerciseCardsAdapter(fragment = this)
+        exerciseViewPager.adapter = koinScope.get<ExerciseCardAdapter> { parametersOf(viewScope!!) }
         exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
     }
 
@@ -206,10 +206,8 @@ class ExerciseFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            val exerciseCardsAdapter = exerciseViewPager.adapter as ExerciseCardsAdapter
-            // we help ViewPager restore its state
-            exerciseCardsAdapter.exerciseCardIds = exerciseCardsIdsAtStart
-            exerciseCardIds.observe { exerciseCardsAdapter.exerciseCardIds = it }
+            val exerciseCardAdapter = exerciseViewPager.adapter as ExerciseCardAdapter
+            exerciseCards.observe(exerciseCardAdapter::submitList)
             isCurrentExerciseCardLearned.observe { isCurrentCardLearned ->
                 isCurrentCardLearned ?: return@observe
                 notAskButton.visibility = if (isCurrentCardLearned) View.GONE else View.VISIBLE

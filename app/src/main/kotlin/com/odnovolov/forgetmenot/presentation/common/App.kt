@@ -10,11 +10,6 @@ import com.odnovolov.forgetmenot.persistence.DatabaseInitializer
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.deckSettingsModule
 import com.odnovolov.forgetmenot.presentation.screen.editcard.editCardModule
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exerciseModule
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.answerEntryTestModule
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.manual.answerManualTestModule
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off.answerOffTestModule
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.answerQuizTestModule
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.exerciseCardModule
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.addDeckModule
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.deckSortingModule
 import com.odnovolov.forgetmenot.presentation.screen.home.homeModule
@@ -49,11 +44,10 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 appModule, homeModule, addDeckModule, deckSortingModule, exerciseModule,
-                exerciseCardModule, answerOffTestModule, answerManualTestModule,
-                answerQuizTestModule, answerEntryTestModule, editCardModule, deckSettingsModule,
-                intervalsModule, modifyIntervalModule, pronunciationModule, speakPlanModule,
-                walkingModeSettingsModule, repetitionSettingsModule, lastAnswerFilterModule,
-                repetitionLapsModule, repetitionModule
+                editCardModule, deckSettingsModule, intervalsModule, modifyIntervalModule,
+                pronunciationModule, speakPlanModule,  walkingModeSettingsModule,
+                repetitionSettingsModule, lastAnswerFilterModule, repetitionLapsModule,
+                repetitionModule
             )
         }
     }

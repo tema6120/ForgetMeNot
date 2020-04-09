@@ -5,17 +5,17 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotR
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 
-class AnswerManualTestController(
+class ManualTestExerciseCardController(
     private val exercise: Exercise,
     private val longTermStateSaver: LongTermStateSaver
 ) {
-    fun onAnswerTextSelectionChanged(selection: String) {
-        exercise.setAnswerSelection(selection)
+    fun onShowQuestionButtonClicked() {
+        exercise.showQuestion()
         longTermStateSaver.saveStateByRegistry()
     }
 
-    fun onHintSelectionChanged(startIndex: Int, endIndex: Int) {
-        exercise.setHintSelection(startIndex, endIndex)
+    fun onQuestionTextSelectionChanged(selection: String) {
+        exercise.setQuestionSelection(selection)
         longTermStateSaver.saveStateByRegistry()
     }
 
@@ -26,6 +26,16 @@ class AnswerManualTestController(
 
     fun onNotRememberButtonClicked() {
         exercise.answer(NotRemember)
+        longTermStateSaver.saveStateByRegistry()
+    }
+
+    fun onHintSelectionChanged(startIndex: Int, endIndex: Int) {
+        exercise.setHintSelection(startIndex, endIndex)
+        longTermStateSaver.saveStateByRegistry()
+    }
+
+    fun onAnswerTextSelectionChanged(selection: String) {
+        exercise.setAnswerSelection(selection)
         longTermStateSaver.saveStateByRegistry()
     }
 }

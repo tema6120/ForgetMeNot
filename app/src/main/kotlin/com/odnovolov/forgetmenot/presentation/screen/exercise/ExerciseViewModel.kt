@@ -9,21 +9,18 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.NO_ACTION
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
-import kotlinx.coroutines.flow.*
-import org.koin.core.KoinComponent
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import org.koin.java.KoinJavaComponent.getKoin
 
 class ExerciseViewModel(
     private val exerciseState: Exercise.State,
     walkingModePreference: WalkingModePreference
-) : ViewModel(), KoinComponent {
-    val exerciseCardsIdsAtStart: List<Long>
-        get() = exerciseState.exerciseCards
-            .map { exerciseCard: ExerciseCard -> exerciseCard.base.id }
-
-    val exerciseCardIds: Flow<List<Long>> = exerciseState.flowOf(Exercise.State::exerciseCards)
-        .map { exerciseCards: List<ExerciseCard> ->
-            exerciseCards.map { exerciseCard: ExerciseCard -> exerciseCard.base.id }
-        }
+) : ViewModel() {
+    val exerciseCards: Flow<List<ExerciseCard>> =
+        exerciseState.flowOf(Exercise.State::exerciseCards)
 
     private val currentExerciseCard: Flow<ExerciseCard> = combine(
         exerciseState.flowOf(Exercise.State::exerciseCards),

@@ -15,7 +15,7 @@ open class BaseFragment : Fragment() {
         viewScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }
 
-    fun <T> Flow<T>.observe(onEach: (value: T) -> Unit) {
+    inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit) {
         viewScope!!.launch {
             collect {
                 if (isActive) {

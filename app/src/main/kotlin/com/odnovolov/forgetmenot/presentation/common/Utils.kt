@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
@@ -11,10 +12,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.scan
-import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
@@ -103,5 +104,28 @@ fun View.uncover() {
     if (visibility != View.VISIBLE) {
         jumpDrawablesToCurrentState()
         visibility = View.VISIBLE
+    }
+}
+
+inline fun <T> Flow<T>.observe(
+    coroutineScope: CoroutineScope,
+    crossinline onEach: (value: T) -> Unit
+) {
+    coroutineScope.launch {
+        collect {
+            if (isActive) {
+                onEach(it)
+            }
+        }
+    }
+}
+
+fun <T> measureTimeAndLog(name: String = "Action", block: () -> T): T {
+    val start = System.currentTimeMillis()
+    return try {
+        block()
+    } finally {
+        val elapsedTime = System.currentTimeMillis() - start
+        Log.d("odnovolov", "$name took $elapsedTime ms")
     }
 }

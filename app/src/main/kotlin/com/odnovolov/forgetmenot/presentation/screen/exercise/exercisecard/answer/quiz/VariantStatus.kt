@@ -3,5 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answ
 enum class VariantStatus {
     Unselected,
     Correct,
-    Wrong
+    Wrong,
+    Unaffected
 }

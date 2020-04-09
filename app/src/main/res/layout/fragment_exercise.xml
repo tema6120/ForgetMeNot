@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".screen.exercise.ExerciseFragment">
+        tools:context="presentation.screen.exercise.ExerciseFragment">
 
     <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/exerciseViewPager"
