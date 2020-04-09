@@ -27,11 +27,11 @@
 
             <ScrollView
                     android:id="@+id/hintScrollView"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:fillViewport="true"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@id/divider2"
+                    app:layout_constraintBottom_toTopOf="@id/hintDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider"
@@ -50,12 +50,13 @@
             </ScrollView>
 
             <View
-                    android:id="@+id/divider2"
+                    android:id="@+id/hintDivider"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
+                    android:layout_marginBottom="50dp"
                     android:background="?android:listDivider"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@id/showAnswerButton"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hintScrollView"
@@ -74,8 +75,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider2"
-                    tools:layout_height="50dp" />
+                    app:layout_constraintTop_toBottomOf="@id/hintDivider" />
 
             <ScrollView
                     android:id="@+id/answerScrollView"

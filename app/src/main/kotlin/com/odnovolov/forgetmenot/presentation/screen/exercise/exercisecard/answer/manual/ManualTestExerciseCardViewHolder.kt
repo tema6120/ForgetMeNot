@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answ
 import android.view.View
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.manual.AnswerStatus.*
@@ -37,7 +38,10 @@ class ManualTestExerciseCardViewHolder(
                     showQuestionButton.isVisible = !isQuestionDisplayed
                     questionScrollView.isVisible = isQuestionDisplayed
                 }
-                question.observe(coroutineScope, questionTextView::setText)
+                question.observe(coroutineScope) { question: String ->
+                    questionTextView.text = question
+                    questionTextView.fixTextSelection()
+                }
                 answerStatus.observe(coroutineScope) { answerStatus: AnswerStatus ->
                     curtainView.isVisible = answerStatus == Unanswered
                     hintScrollView.isVisible = answerStatus == UnansweredWithHint
@@ -45,20 +49,27 @@ class ManualTestExerciseCardViewHolder(
                     rememberButton.isSelected = answerStatus == Correct
                     notRememberButton.isSelected = answerStatus == Wrong
                 }
-                hint.observe(coroutineScope, hintTextView::setText)
-                answer.observe(coroutineScope, answerTextView::setText)
+                hint.observe(coroutineScope) { hint: String? ->
+                    hintTextView.text = hint
+                    hintTextView.fixTextSelection()
+                }
+                answer.observe(coroutineScope) { answer: String ->
+                    answerTextView.text = answer
+                    answerTextView.fixTextSelection()
+                }
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
                     val isEnabled = !isLearned
                     showQuestionButton.isEnabled = isEnabled
-                    questionScrollView.isEnabled = isEnabled
                     questionTextView.isEnabled = isEnabled
                     curtainView.isEnabled = isEnabled
-                    answerScrollView.isEnabled = isEnabled
                     rememberButton.isEnabled = isEnabled
                     notRememberButton.isEnabled = isEnabled
                     hintTextView.isEnabled = isEnabled
                     answerTextView.isEnabled = isEnabled
                 }
+                questionScrollView.scrollTo(0, 0)
+                hintScrollView.scrollTo(0, 0)
+                answerScrollView.scrollTo(0, 0)
             }
         }
     }

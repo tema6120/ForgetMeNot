@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.VariantStatus.*
@@ -55,7 +56,10 @@ class QuizTestExerciseCardViewHolder(
                     showQuestionButton.isVisible = !isQuestionDisplayed
                     questionScrollView.isVisible = isQuestionDisplayed
                 }
-                question.observe(coroutineScope, questionTextView::setText)
+                question.observe(coroutineScope) { question: String ->
+                    questionTextView.text = question
+                    questionTextView.fixTextSelection()
+                }
 
                 forEachVariantButton { variant: Int ->
                     variantText(variant).observe(coroutineScope, ::setText)
@@ -66,10 +70,13 @@ class QuizTestExerciseCardViewHolder(
 
                 isAnswered.observe(coroutineScope) { isAnswered: Boolean ->
                     forEachVariantButton { variant: Int ->
-                        setTextIsSelectable(isAnswered)
-                        if (isAnswered)
-                            setOnClickListener(null) else
+                        if (isAnswered) {
+                            setOnClickListener(null)
+                            fixTextSelection()
+                        } else {
                             setOnClickListener { controller.onVariantSelected(variant) }
+                            setTextIsSelectable(false)
+                        }
                     }
                 }
 
@@ -80,6 +87,11 @@ class QuizTestExerciseCardViewHolder(
                     questionTextView.isEnabled = !isLearned
                     forEachVariantButton { isEnabled = !isLearned }
                 }
+                questionScrollView.scrollTo(0, 0)
+                variant1ScrollView.scrollTo(0, 0)
+                variant2ScrollView.scrollTo(0, 0)
+                variant3ScrollView.scrollTo(0, 0)
+                variant4ScrollView.scrollTo(0, 0)
             }
         }
     }

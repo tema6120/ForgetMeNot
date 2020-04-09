@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
@@ -128,4 +129,9 @@ fun <T> measureTimeAndLog(name: String = "Action", block: () -> T): T {
         val elapsedTime = System.currentTimeMillis() - start
         Log.d("odnovolov", "$name took $elapsedTime ms")
     }
+}
+
+fun TextView.fixTextSelection() {
+    setTextIsSelectable(false)
+    post { setTextIsSelectable(true) }
 }
