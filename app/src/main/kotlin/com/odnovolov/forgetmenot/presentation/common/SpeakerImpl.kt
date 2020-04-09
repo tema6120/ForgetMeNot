@@ -21,21 +21,10 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
         object TtsInitializationFailed : Event()
     }
 
-    private val initListener = TextToSpeech.OnInitListener { status: Int ->
-        if (status == TextToSpeech.SUCCESS) {
-            state.isInitialized = true
-            setDefaultLanguage()
-            updateAvailableLanguages()
-            speakDelayedTextIfExists()
-        } else {
-            eventFlow.send(TtsInitializationFailed)
-        }
-    }
     val state = State()
-    private val coroutineScope = CoroutineScope(Job() + Dispatchers.IO)
     private val eventFlow = EventFlow<Event>()
-    private val events: Flow<Event> = eventFlow.get()
-    private val tts: TextToSpeech = TextToSpeech(applicationContext, initListener)
+    val events: Flow<Event> = eventFlow.get()
+    private val coroutineScope = CoroutineScope(Job() + Dispatchers.IO)
     private var defaultLanguage: Locale? = null
     private var delayedSpokenText: String? = null
     private var delayedLanguage: Locale? = null
@@ -49,6 +38,29 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
                 field = value
             }
         }
+
+    private val initListener = TextToSpeech.OnInitListener { status: Int ->
+        coroutineScope.launch {
+            if (status == TextToSpeech.SUCCESS) {
+                state.isInitialized = true
+                setDefaultLanguage()
+                updateAvailableLanguages()
+                speakDelayedTextIfExists()
+            } else {
+                eventFlow.send(TtsInitializationFailed)
+            }
+        }
+    }
+
+    private val tts: TextToSpeech = TextToSpeech(applicationContext, initListener)
+
+    private fun setDefaultLanguage() {
+        defaultLanguage = try {
+            tts.defaultVoice?.locale
+        } catch (e: NullPointerException) {
+            null
+        }
+    }
 
     private fun updateAvailableLanguages() {
         state.availableLanguages = try {
@@ -66,23 +78,15 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
         }
     }
 
-    private fun setDefaultLanguage() {
-        defaultLanguage = try {
-            tts.defaultVoice?.locale
-        } catch (e: NullPointerException) {
-            null
-        }
-    }
-
     override fun speak(text: String, language: Locale?) {
-        if (!state.isInitialized) {
-            delayedSpokenText = text
-            delayedLanguage = language
-            return
-        }
         coroutineScope.launch {
-            currentLanguage = language
-            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+            if (!state.isInitialized) {
+                delayedSpokenText = text
+                delayedLanguage = language
+            } else {
+                currentLanguage = language
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+            }
         }
     }
 
@@ -99,7 +103,9 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
     }
 
     override fun stop() {
-        tts.stop()
+        coroutineScope.launch {
+            tts.stop()
+        }
     }
 
     fun shutdown() {
