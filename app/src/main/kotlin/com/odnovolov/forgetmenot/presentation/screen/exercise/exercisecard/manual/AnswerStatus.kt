@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.manual
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual
 
 enum class AnswerStatus {
     Unanswered,

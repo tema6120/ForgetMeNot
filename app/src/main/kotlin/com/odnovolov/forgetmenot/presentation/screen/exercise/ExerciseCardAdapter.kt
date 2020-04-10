@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.EntryTestExerciseCardController
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.EntryTestExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.manual.ManualTestExerciseCardController
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.manual.ManualTestExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off.OffTestExerciseCardController
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off.OffTestExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.QuizTestExerciseCardController
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.QuizTestExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardViewHolder
 import kotlinx.coroutines.CoroutineScope
 
 class ExerciseCardAdapter(

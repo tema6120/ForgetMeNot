@@ -4,10 +4,10 @@ import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.EntryTestExerciseCardController
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.manual.ManualTestExerciseCardController
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off.OffTestExerciseCardController
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.QuizTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardController
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind

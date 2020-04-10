@@ -1,10 +1,10 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.OffTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewModel
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off.AnswerStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 

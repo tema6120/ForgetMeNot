@@ -1,11 +1,11 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewModel
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.VariantStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
 import kotlinx.coroutines.flow.*
 
 class QuizTestExerciseCardViewModel(

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz
 
 import android.content.Context
 import android.os.Build
@@ -14,7 +14,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObse
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.quiz.VariantStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.view.*
 import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -74,8 +74,8 @@ class QuizTestExerciseCardViewHolder(
                             setOnClickListener(null)
                             fixTextSelection()
                         } else {
-                            setOnClickListener { controller.onVariantSelected(variant) }
                             setTextIsSelectable(false)
+                            setOnClickListener { controller.onVariantSelected(variant) }
                         }
                     }
                 }

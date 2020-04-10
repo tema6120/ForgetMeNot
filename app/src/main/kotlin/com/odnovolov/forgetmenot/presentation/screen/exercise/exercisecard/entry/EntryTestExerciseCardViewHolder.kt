@@ -1,15 +1,14 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry
 
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Paint
 import android.view.View
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
-import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
-import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.AnswerStatus.Answered
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.AnswerStatus.UnansweredWithHint
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.Answered
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.UnansweredWithHint
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
 import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +25,10 @@ class EntryTestExerciseCardViewHolder(
         with(itemView) {
             showQuestionButton.setOnClickListener { controller.onShowQuestionButtonClicked() }
             questionTextView.observeSelectedText(controller::onQuestionTextSelectionChanged)
-            answerEditText.observeText(controller::onAnswerInputChanged)
+            answerEditText.run {
+                observeText(controller::onAnswerInputChanged)
+                setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) hideSoftInput() }
+            }
             hintTextView.observeSelectedRange(controller::onHintSelectionChanged)
             checkButton.setOnClickListener { controller.onCheckButtonClicked() }
             wrongAnswerTextView.run {
@@ -60,6 +62,7 @@ class EntryTestExerciseCardViewHolder(
                     hintTextView.text = hint
                     hintTextView.fixTextSelection()
                 }
+                isInputEnabled.observe(coroutineScope, answerEditText::setEnabled)
                 wrongAnswer.observe(coroutineScope) { wrongAnswer: String? ->
                     wrongAnswerTextView.isVisible = wrongAnswer != null
                     wrongAnswerTextView.text = wrongAnswer
@@ -80,6 +83,14 @@ class EntryTestExerciseCardViewHolder(
                 answerInputScrollView.scrollTo(0, 0)
                 hintScrollView.scrollTo(0, 0)
                 answerScrollView.scrollTo(0, 0)
+            }
+        }
+    }
+
+    fun onPageSelected() {
+        with(itemView.answerEditText) {
+            if (isEnabled && resources.configuration.orientation == ORIENTATION_PORTRAIT) {
+                showSoftInput()
             }
         }
     }

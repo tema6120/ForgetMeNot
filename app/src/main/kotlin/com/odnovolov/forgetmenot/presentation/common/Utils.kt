@@ -96,6 +96,12 @@ fun View.showSoftInput(showImplicit: Boolean = false) {
     }
 }
 
+fun View.hideSoftInput(hideImplicitlyOnly: Boolean = false): Boolean {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val flags: Int = if (hideImplicitlyOnly) InputMethodManager.HIDE_IMPLICIT_ONLY else 0
+    return imm.hideSoftInputFromWindow(windowToken, flags)
+}
+
 fun Fragment.showToast(
     stringId: Int,
     duration: Int = Toast.LENGTH_SHORT

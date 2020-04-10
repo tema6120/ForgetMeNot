@@ -1,10 +1,10 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewModel
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.entry.AnswerStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
@@ -22,6 +22,13 @@ class EntryTestExerciseCardViewModel(
             hint != null -> UnansweredWithHint
             else -> Unanswered
         }
+    }
+
+    val isInputEnabled: Flow<Boolean> = combine(
+        answerStatus,
+        isLearned
+    ) { answerStatus: AnswerStatus, isLearned: Boolean ->
+        answerStatus != Answered && !isLearned
     }
 
     val wrongAnswer: Flow<String?> = combine(

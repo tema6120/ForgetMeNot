@@ -1,10 +1,10 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.answer.off
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
-import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Show
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Variant
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 
-class OffTestExerciseCardController(
+class QuizTestExerciseCardController(
     private val exercise: Exercise,
     private val longTermStateSaver: LongTermStateSaver
 ) {
@@ -18,13 +18,8 @@ class OffTestExerciseCardController(
         longTermStateSaver.saveStateByRegistry()
     }
 
-    fun onShowAnswerButtonClicked() {
-        exercise.answer(Show)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onHintSelectionChanged(startIndex: Int, endIndex: Int) {
-        exercise.setHintSelection(startIndex, endIndex)
+    fun onVariantSelected(variantIndex: Int) {
+        exercise.answer(Variant(variantIndex))
         longTermStateSaver.saveStateByRegistry()
     }
 
