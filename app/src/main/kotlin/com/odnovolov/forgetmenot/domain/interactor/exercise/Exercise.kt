@@ -157,7 +157,7 @@ class Exercise(
     }
 
     private fun speak(text: String, language: Locale?) {
-        val speakTextInBrackets =
+        val speakTextInBrackets: Boolean =
             currentExerciseCard.base.deck.exercisePreference.pronunciation.speakTextInBrackets
         val textToSpeak = if (speakTextInBrackets) text else textInBracketsRemover.process(text)
         speaker.speak(textToSpeak, language)

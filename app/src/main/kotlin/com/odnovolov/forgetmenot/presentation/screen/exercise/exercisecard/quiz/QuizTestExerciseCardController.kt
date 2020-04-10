@@ -3,28 +3,31 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Variant
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardEvent.*
 
 class QuizTestExerciseCardController(
     private val exercise: Exercise,
     private val longTermStateSaver: LongTermStateSaver
-) {
-    fun onShowQuestionButtonClicked() {
-        exercise.showQuestion()
-        longTermStateSaver.saveStateByRegistry()
+) : BaseController<QuizTestExerciseCardEvent, Nothing>() {
+    override fun handle(event: QuizTestExerciseCardEvent) {
+        when(event) {
+            ShowQuestionButtonClicked -> {
+                exercise.showQuestion()
+            }
+            is QuestionTextSelectionChanged -> {
+                exercise.setQuestionSelection(event.selection)
+            }
+            is VariantSelected -> {
+                exercise.answer(Variant(event.variantIndex))
+            }
+            is AnswerTextSelectionChanged -> {
+                exercise.setAnswerSelection(event.selection)
+            }
+        }
     }
 
-    fun onQuestionTextSelectionChanged(selection: String) {
-        exercise.setQuestionSelection(selection)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onVariantSelected(variantIndex: Int) {
-        exercise.answer(Variant(variantIndex))
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onAnswerTextSelectionChanged(selection: String) {
-        exercise.setAnswerSelection(selection)
+    override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
     }
 }

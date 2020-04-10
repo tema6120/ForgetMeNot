@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import org.koin.java.KoinJavaComponent.getKoin
 
 class ExerciseViewModel(
-    private val exerciseState: Exercise.State,
+    exerciseState: Exercise.State,
     walkingModePreference: WalkingModePreference
 ) : ViewModel() {
     val exerciseCards: Flow<List<ExerciseCard>> =

@@ -29,6 +29,9 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.REPETITION_SETTINGS_SCOPE_ID
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDialogState
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.core.scope.Scope
 import org.koin.java.KoinJavaComponent.getKoin
 
@@ -44,7 +47,9 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToEditCard(editCardScreenState: EditCardScreenState) {
         val koinScope = getKoin().createScope<EditCardViewModel>(EDIT_CARD_SCOPE_ID)
         koinScope.declare(editCardScreenState, override = true)
-        navController?.navigate(R.id.action_exercise_screen_to_edit_card_screen)
+        GlobalScope.launch(Dispatchers.Main.immediate) {
+            navController?.navigate(R.id.action_exercise_screen_to_edit_card_screen)
+        }
     }
 
     fun navigateToDeckSettings(deckSettingsState: DeckSettings.State) {

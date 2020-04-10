@@ -10,7 +10,7 @@ class KeyGestureDetector(
     detectDoublePress: Boolean = true,
     private val detectLongPress: Boolean = true,
     private val coroutineScope: CoroutineScope,
-    private val onGestureDetect: ((Gesture) -> Unit)
+    private val onGestureDetect: (Gesture) -> Unit
 ) {
     private var longPressDetectorJob: Job? = null
     private var singlePressDetectorJob: Job? = null

@@ -13,14 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.common.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCommand.*
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
+import com.odnovolov.forgetmenot.presentation.common.dp
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.popup_choose_hint.view.*
 import org.koin.android.ext.android.getKoin
@@ -54,7 +57,7 @@ class ExerciseFragment : BaseFragment() {
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
         val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
-            controller.onLevelOfKnowledgeSelected(levelOfKnowledge)
+            controller.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
             setLevelOfKnowledgePopup.dismiss()
         }
         return IntervalsAdapter(onItemClick)
@@ -85,11 +88,11 @@ class ExerciseFragment : BaseFragment() {
     private fun createChooseHintPopup(): PopupWindow {
         val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
             hintAsQuizButton.setOnClickListener {
-                controller.onHintAsQuizButtonClicked()
+                controller.dispatch(HintAsQuizButtonClicked)
                 chooseHintPopup.dismiss()
             }
             maskLettersButton.setOnClickListener {
-                controller.onMaskLettersButtonClicked()
+                controller.dispatch(MaskLettersButtonClicked)
                 chooseHintPopup.dismiss()
             }
         }
@@ -131,12 +134,14 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupControlPanel() {
-        notAskButton.setOnClickListener { controller.onSetCardLearnedButtonClicked() }
-        undoButton.setOnClickListener { controller.onUndoButtonClicked() }
-        speakButton.setOnClickListener { controller.onSpeakButtonClicked() }
-        editCardButton.setOnClickListener { controller.onEditCardButtonClicked() }
-        hintButton.setOnClickListener { controller.onHintButtonClicked() }
-        levelOfKnowledgeButton.setOnClickListener { controller.onLevelOfKnowledgeButtonClicked() }
+        notAskButton.setOnClickListener { controller.dispatch(SetCardLearnedButtonClicked) }
+        undoButton.setOnClickListener { controller.dispatch(UndoButtonClicked) }
+        speakButton.setOnClickListener { controller.dispatch(SpeakButtonClicked) }
+        editCardButton.setOnClickListener { controller.dispatch(EditCardButtonClicked) }
+        hintButton.setOnClickListener { controller.dispatch(HintButtonClicked) }
+        levelOfKnowledgeButton.setOnClickListener {
+            controller.dispatch(LevelOfKnowledgeButtonClicked)
+        }
     }
 
     private fun setupWalkingModeIfEnabled() {
@@ -158,7 +163,7 @@ class ExerciseFragment : BaseFragment() {
                                 DOUBLE_PRESS -> VOLUME_UP_DOUBLE_PRESS
                                 LONG_PRESS -> VOLUME_UP_LONG_PRESS
                             }
-                            controller.onKeyGestureDetected(keyGesture)
+                            controller.dispatch(KeyGestureDetected(keyGesture))
                         })
                 val volumeDownGestureDetector: KeyGestureDetector? =
                     if (!needToDetectVolumeDownSinglePress
@@ -176,7 +181,7 @@ class ExerciseFragment : BaseFragment() {
                                 DOUBLE_PRESS -> VOLUME_DOWN_DOUBLE_PRESS
                                 LONG_PRESS -> VOLUME_DOWN_LONG_PRESS
                             }
-                            controller.onKeyGestureDetected(keyGesture)
+                            controller.dispatch(KeyGestureDetected(keyGesture))
                         })
                 val keyEventInterceptor: (KeyEvent) -> Boolean = { event: KeyEvent ->
                     when (event.keyCode) {
@@ -232,7 +237,7 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: ExerciseCommand) {
+    private fun executeCommand(command: ExerciseController.Command) {
         when (command) {
             MoveToNextPosition -> {
                 val nextPosition = exerciseViewPager.currentItem + 1
@@ -289,13 +294,6 @@ class ExerciseFragment : BaseFragment() {
         )
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         exerciseViewPager.adapter = null
@@ -313,7 +311,7 @@ class ExerciseFragment : BaseFragment() {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            controller.onPageSelected(position)
+            controller.dispatch(PageSelected(position))
             val currentViewHolder = exerciseViewPager.findViewHolderForAdapterPosition(position)
             if (currentViewHolder is EntryTestExerciseCardViewHolder) {
                 currentViewHolder.onPageSelected()

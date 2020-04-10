@@ -28,12 +28,32 @@ val exerciseModule = module {
                 walkingModePreference = get(),
                 exerciseStateProvider = get<ExerciseStateProvider>()
             )
-        }
+        } onClose { it?.dispose() }
         viewModel { ExerciseViewModel(exerciseState = get(), walkingModePreference = get()) }
-        scoped { OffTestExerciseCardController(exercise = get(), longTermStateSaver = get()) }
-        scoped { ManualTestExerciseCardController(exercise = get(), longTermStateSaver = get()) }
-        scoped { QuizTestExerciseCardController(exercise = get(), longTermStateSaver = get()) }
-        scoped { EntryTestExerciseCardController(exercise = get(), longTermStateSaver = get()) }
+        scoped {
+            OffTestExerciseCardController(
+                exercise = get(),
+                longTermStateSaver = get()
+            )
+        } onClose { it?.dispose() }
+        scoped {
+            ManualTestExerciseCardController(
+                exercise = get(),
+                longTermStateSaver = get()
+            )
+        } onClose { it?.dispose() }
+        scoped {
+            QuizTestExerciseCardController(
+                exercise = get(),
+                longTermStateSaver = get()
+            )
+        } onClose { it?.dispose() }
+        scoped {
+            EntryTestExerciseCardController(
+                exercise = get(),
+                longTermStateSaver = get()
+            )
+        } onClose { it?.dispose() }
         factory { (coroutineScope: CoroutineScope) ->
             ExerciseCardAdapter(
                 coroutineScope,

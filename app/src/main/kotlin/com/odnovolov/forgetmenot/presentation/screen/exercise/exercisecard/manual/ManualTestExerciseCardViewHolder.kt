@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.AnswerStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
 import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -21,12 +22,24 @@ class ManualTestExerciseCardViewHolder(
 ) {
     init {
         with(itemView) {
-            showQuestionButton.setOnClickListener { controller.onShowQuestionButtonClicked() }
-            questionTextView.observeSelectedText(controller::onQuestionTextSelectionChanged)
-            rememberButton.setOnClickListener { controller.onRememberButtonClicked() }
-            notRememberButton.setOnClickListener { controller.onNotRememberButtonClicked() }
-            hintTextView.observeSelectedRange(controller::onHintSelectionChanged)
-            answerTextView.observeSelectedText(controller::onAnswerTextSelectionChanged)
+            showQuestionButton.setOnClickListener {
+                controller.dispatch(ShowQuestionButtonClicked)
+            }
+            questionTextView.observeSelectedText { selection: String ->
+                controller.dispatch(QuestionTextSelectionChanged(selection))
+            }
+            rememberButton.setOnClickListener {
+                controller.dispatch(RememberButtonClicked)
+            }
+            notRememberButton.setOnClickListener {
+                controller.dispatch(NotRememberButtonClicked)
+            }
+            hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
+                controller.dispatch(HintSelectionChanged(startIndex, endIndex))
+            }
+            answerTextView.observeSelectedText { selection: String ->
+                controller.dispatch(AnswerTextSelectionChanged(selection))
+            }
         }
     }
 

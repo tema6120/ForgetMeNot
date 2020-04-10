@@ -3,39 +3,39 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entr
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Entry
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardEvent.*
 
 class EntryTestExerciseCardController(
     private val exercise: Exercise,
     private val longTermStateSaver: LongTermStateSaver
-) {
+) : BaseController<EntryTestExerciseCardEvent, Nothing>() {
     private var answerInput: String? = null
 
-    fun onShowQuestionButtonClicked() {
-        exercise.showQuestion()
-        longTermStateSaver.saveStateByRegistry()
+    override fun handle(event: EntryTestExerciseCardEvent) {
+        when (event) {
+            ShowQuestionButtonClicked -> {
+                exercise.showQuestion()
+            }
+            is QuestionTextSelectionChanged -> {
+                exercise.setQuestionSelection(event.selection)
+            }
+            is AnswerInputChanged -> {
+                answerInput = event.text
+            }
+            is HintSelectionChanged -> {
+                exercise.setHintSelection(event.startIndex, event.endIndex)
+            }
+            CheckButtonClicked -> {
+                exercise.answer(Entry(answerInput))
+            }
+            is AnswerTextSelectionChanged -> {
+                exercise.setAnswerSelection(event.selection)
+            }
+        }
     }
 
-    fun onQuestionTextSelectionChanged(selection: String) {
-        exercise.setQuestionSelection(selection)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onAnswerInputChanged(text: String) {
-        answerInput = text
-    }
-
-    fun onHintSelectionChanged(startIndex: Int, endIndex: Int) {
-        exercise.setHintSelection(startIndex, endIndex)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onCheckButtonClicked() {
-        exercise.answer(Entry(answerInput))
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onAnswerTextSelectionChanged(selection: String) {
-        exercise.setAnswerSelection(selection)
+    override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
     }
 }

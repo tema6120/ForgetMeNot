@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.Answered
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.UnansweredWithHint
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
 import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -23,19 +24,27 @@ class EntryTestExerciseCardViewHolder(
 ) {
     init {
         with(itemView) {
-            showQuestionButton.setOnClickListener { controller.onShowQuestionButtonClicked() }
-            questionTextView.observeSelectedText(controller::onQuestionTextSelectionChanged)
+            showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
+            questionTextView.observeSelectedText { selection: String ->
+                controller.dispatch(QuestionTextSelectionChanged(selection))
+            }
             answerEditText.run {
-                observeText(controller::onAnswerInputChanged)
+                observeText { text: String -> controller.dispatch(AnswerInputChanged(text)) }
                 setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) hideSoftInput() }
             }
-            hintTextView.observeSelectedRange(controller::onHintSelectionChanged)
-            checkButton.setOnClickListener { controller.onCheckButtonClicked() }
+            hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
+                controller.dispatch(HintSelectionChanged(startIndex, endIndex))
+            }
+            checkButton.setOnClickListener { controller.dispatch(CheckButtonClicked) }
             wrongAnswerTextView.run {
-                observeSelectedText(controller::onAnswerTextSelectionChanged)
+                observeSelectedText { selection: String ->
+                    controller.dispatch(AnswerTextSelectionChanged(selection))
+                }
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
-            correctAnswerTextView.observeSelectedText(controller::onAnswerTextSelectionChanged)
+            correctAnswerTextView.observeSelectedText { selection: String ->
+                controller.dispatch(AnswerTextSelectionChanged(selection))
+            }
         }
     }
 

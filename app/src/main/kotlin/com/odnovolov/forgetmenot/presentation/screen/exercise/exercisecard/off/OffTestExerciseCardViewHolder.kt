@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.Answered
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.UnansweredWithHint
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -22,11 +23,21 @@ class OffTestExerciseCardViewHolder(
 ) {
     init {
         with(itemView) {
-            showQuestionButton.setOnClickListener { controller.onShowQuestionButtonClicked() }
-            questionTextView.observeSelectedText(controller::onQuestionTextSelectionChanged)
-            showAnswerButton.setOnClickListener { controller.onShowAnswerButtonClicked() }
-            hintTextView.observeSelectedRange(controller::onHintSelectionChanged)
-            answerTextView.observeSelectedText(controller::onAnswerTextSelectionChanged)
+            showQuestionButton.setOnClickListener {
+                controller.dispatch(ShowQuestionButtonClicked)
+            }
+            questionTextView.observeSelectedText { selection: String ->
+                controller.dispatch(QuestionTextSelectionChanged(selection))
+            }
+            showAnswerButton.setOnClickListener {
+                controller.dispatch(ShowAnswerButtonClicked)
+            }
+            hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
+                controller.dispatch(HintSelectionChanged(startIndex, endIndex))
+            }
+            answerTextView.observeSelectedText { selection: String ->
+                controller.dispatch(AnswerTextSelectionChanged(selection))
+            }
         }
     }
 

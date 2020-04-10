@@ -14,6 +14,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObse
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.view.*
 import kotlinx.android.synthetic.main.question.view.*
@@ -39,11 +40,15 @@ class QuizTestExerciseCardViewHolder(
 
     init {
         with(itemView) {
-            showQuestionButton.setOnClickListener { controller.onShowQuestionButtonClicked() }
-            questionTextView.observeSelectedText(controller::onQuestionTextSelectionChanged)
+            showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
+            questionTextView.observeSelectedText { selection: String ->
+                controller.dispatch(QuestionTextSelectionChanged(selection))
+            }
             forEachVariantButton { variant: Int ->
-                setOnClickListener { controller.onVariantSelected(variant) }
-                observeSelectedText(controller::onAnswerTextSelectionChanged)
+                setOnClickListener { controller.dispatch(VariantSelected(variant)) }
+                observeSelectedText { selection: String ->
+                    controller.dispatch(AnswerTextSelectionChanged(selection))
+                }
             }
         }
     }
@@ -75,7 +80,7 @@ class QuizTestExerciseCardViewHolder(
                             fixTextSelection()
                         } else {
                             setTextIsSelectable(false)
-                            setOnClickListener { controller.onVariantSelected(variant) }
+                            setOnClickListener { controller.dispatch(VariantSelected(variant)) }
                         }
                     }
                 }

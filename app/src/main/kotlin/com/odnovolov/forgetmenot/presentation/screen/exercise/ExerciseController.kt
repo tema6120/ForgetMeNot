@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
@@ -9,12 +8,15 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Reme
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCommand.*
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
+import kotlinx.coroutines.launch
 
 class ExerciseController(
     private val exercise: Exercise,
@@ -22,67 +24,73 @@ class ExerciseController(
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val exerciseStateProvider: ShortTermStateProvider<Exercise.State>
-) {
-    private val commandFlow = EventFlow<ExerciseCommand>()
-    val commands = commandFlow.get()
+) : BaseController<ExerciseEvent, Command>() {
+    sealed class Command {
+        object MoveToNextPosition : Command()
+        object MoveToPreviousPosition : Command()
+        object ShowChooseHintPopup : Command()
+        class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
+        object ShowIntervalsAreOffMessage : Command()
+    }
 
     init {
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onPageSelected(position: Int) {
-        exercise.setCurrentPosition(position)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onSetCardLearnedButtonClicked() {
-        exercise.setIsCardLearned(true)
-        longTermStateSaver.saveStateByRegistry()
-        commandFlow.send(MoveToNextPosition)
-    }
-
-    fun onUndoButtonClicked() {
-        exercise.setIsCardLearned(false)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onSpeakButtonClicked() {
-        exercise.speak()
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onEditCardButtonClicked() {
-        val editCardScreenState = EditCardScreenState().apply {
-            question = exercise.currentExerciseCard.base.card.question
-            answer = exercise.currentExerciseCard.base.card.answer
-        }
-        navigator.navigateToEditCard(editCardScreenState)
-    }
-
-    fun onHintButtonClicked() {
-        if (exercise.currentExerciseCard.base.hint == null) {
-            commandFlow.send(ShowChooseHintPopup)
-        } else {
-            exercise.showHint()
-            longTermStateSaver.saveStateByRegistry()
+        coroutineScope.launch {
+            saveState()
         }
     }
 
-    fun onHintAsQuizButtonClicked() {
-        exercise.hintAsQuiz()
-        longTermStateSaver.saveStateByRegistry()
+    override fun handle(event: ExerciseEvent) {
+        when (event) {
+            is PageSelected -> {
+                exercise.setCurrentPosition(event.position)
+            }
+            SetCardLearnedButtonClicked -> {
+                exercise.setIsCardLearned(true)
+                sendCommand(MoveToNextPosition)
+            }
+            UndoButtonClicked -> {
+                exercise.setIsCardLearned(false)
+            }
+            SpeakButtonClicked -> {
+                exercise.speak()
+            }
+            EditCardButtonClicked -> {
+                val editCardScreenState = EditCardScreenState().apply {
+                    question = exercise.currentExerciseCard.base.card.question
+                    answer = exercise.currentExerciseCard.base.card.answer
+                }
+                navigator.navigateToEditCard(editCardScreenState)
+            }
+            HintButtonClicked -> {
+                if (exercise.currentExerciseCard.base.hint == null) {
+                    sendCommand(ShowChooseHintPopup)
+                } else {
+                    exercise.showHint()
+                }
+            }
+            HintAsQuizButtonClicked -> {
+                exercise.hintAsQuiz()
+            }
+            MaskLettersButtonClicked -> {
+                exercise.showHint()
+            }
+            LevelOfKnowledgeButtonClicked -> {
+                onLevelOfKnowledgeButtonClicked()
+            }
+            is LevelOfKnowledgeSelected -> {
+                exercise.setLevelOfKnowledge(event.levelOfKnowledge)
+            }
+            is KeyGestureDetected -> {
+                onKeyGestureDetected(event)
+            }
+        }
     }
 
-    fun onMaskLettersButtonClicked() {
-        exercise.showHint()
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onLevelOfKnowledgeButtonClicked() {
+    private fun onLevelOfKnowledgeButtonClicked() {
         val intervalScheme: IntervalScheme? =
             exercise.currentExerciseCard.base.deck.exercisePreference.intervalScheme
         if (intervalScheme == null) {
-            commandFlow.send(ShowIntervalsAreOffMessage)
+            sendCommand(ShowIntervalsAreOffMessage)
         } else {
             val currentLevelOfKnowledge: Int =
                 exercise.currentExerciseCard.base.card.levelOfKnowledge
@@ -94,47 +102,30 @@ class ExerciseController(
                         isSelected = currentLevelOfKnowledge == interval.targetLevelOfKnowledge - 1
                     )
                 }
-            commandFlow.send(ShowLevelOfKnowledgePopup(intervalItems))
+            sendCommand(ShowLevelOfKnowledgePopup(intervalItems))
         }
     }
 
-    fun onLevelOfKnowledgeSelected(levelOfKnowledge: Int) {
-        exercise.setLevelOfKnowledge(levelOfKnowledge)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onKeyGestureDetected(keyGesture: KeyGesture) {
+    private fun onKeyGestureDetected(event: KeyGestureDetected) {
         val keyGestureAction: KeyGestureAction =
-            walkingModePreference.keyGestureMap[keyGesture] ?: return
+            walkingModePreference.keyGestureMap[event.keyGesture] ?: return
         when (keyGestureAction) {
             NO_ACTION -> return
-            MOVE_TO_NEXT_CARD -> commandFlow.send(MoveToNextPosition)
-            MOVE_TO_PREVIOUS_CARD -> commandFlow.send(MoveToPreviousPosition)
-            SET_CARD_AS_REMEMBER -> {
-                exercise.answer(Remember)
-                longTermStateSaver.saveStateByRegistry()
-            }
-            SET_CARD_AS_NOT_REMEMBER -> {
-                exercise.answer(NotRemember)
-                longTermStateSaver.saveStateByRegistry()
-            }
+            MOVE_TO_NEXT_CARD -> sendCommand(MoveToNextPosition)
+            MOVE_TO_PREVIOUS_CARD -> sendCommand(MoveToPreviousPosition)
+            SET_CARD_AS_REMEMBER -> exercise.answer(Remember)
+            SET_CARD_AS_NOT_REMEMBER -> exercise.answer(NotRemember)
             SET_CARD_AS_LEARNED -> {
                 exercise.setIsCardLearned(true)
-                longTermStateSaver.saveStateByRegistry()
-                commandFlow.send(MoveToNextPosition)
+                sendCommand(MoveToNextPosition)
             }
-            SPEAK_QUESTION -> {
-                exercise.speakQuestion()
-                longTermStateSaver.saveStateByRegistry()
-            }
-            SPEAK_ANSWER -> {
-                exercise.speakAnswer()
-                longTermStateSaver.saveStateByRegistry()
-            }
+            SPEAK_QUESTION -> exercise.speakQuestion()
+            SPEAK_ANSWER -> exercise.speakAnswer()
         }
     }
 
-    fun performSaving() {
+    override fun saveState() {
+        longTermStateSaver.saveStateByRegistry()
         exerciseStateProvider.save(exercise.state)
     }
 }
