@@ -13,71 +13,50 @@
             android:text="@string/heading_deck_sorting_bottom_sheet"
             android:textSize="16sp" />
 
-    <FrameLayout
+    <TextView
             android:id="@+id/sortByNameButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground">
+            android:layout_height="48dp"
+            android:background="@drawable/background_selectable_item"
+            android:drawablePadding="16dp"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/sort_by_name"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp"
+            tools:drawableStart="@drawable/transparent_24dp" />
 
-        <TextView
-                android:id="@+id/sortByNameTextView"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/background_selectable_item"
-                android:drawablePadding="16dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/sort_by_name"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                tools:drawableStart="@drawable/transparent_24dp" />
-
-    </FrameLayout>
-
-    <FrameLayout
+    <TextView
             android:id="@+id/sortByTimeCreatedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground">
+            android:layout_height="48dp"
+            android:background="@drawable/background_selectable_item"
+            android:drawablePadding="16dp"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/sort_by_time_created"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp"
+            tools:drawableStart="@drawable/transparent_24dp" />
 
-        <TextView
-                android:id="@+id/sortByTimeCreatedTextView"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/background_selectable_item"
-                android:drawablePadding="16dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/sort_by_time_created"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                tools:drawableStart="@drawable/transparent_24dp" />
-
-    </FrameLayout>
-
-    <FrameLayout
+    <TextView
             android:id="@+id/sortByTimeLastOpenedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground">
-
-        <TextView
-                android:id="@+id/sortByTimeLastOpenedTextView"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/background_selectable_item"
-                android:drawablePadding="16dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/sort_by_time_last_opened"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                tools:background="@color/selected_item_background"
-                tools:drawableStart="@drawable/ic_arrow_downward_dark_24dp" />
-
-    </FrameLayout>
+            android:layout_height="48dp"
+            android:background="@drawable/background_selectable_item"
+            android:drawablePadding="16dp"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/sort_by_time_last_opened"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp"
+            tools:background="@color/selected_item_background"
+            tools:drawableStart="@drawable/ic_arrow_downward_dark_24dp" />
 
 </LinearLayout>

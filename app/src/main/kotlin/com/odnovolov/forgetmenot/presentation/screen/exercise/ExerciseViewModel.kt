@@ -36,7 +36,7 @@ class ExerciseViewModel(
             exerciseCard.base.card.flowOf(Card::isLearned)
         }
 
-    val isHintButtonVisible: Flow<Boolean> =
+    val isHintAccessible: Flow<Boolean> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             val isQuizTestExerciseCard: Boolean = exerciseCard is QuizTestExerciseCard
             combine(
@@ -47,7 +47,7 @@ class ExerciseViewModel(
             }
         }
 
-    val levelOfKnowledgeForCurrentCard: Flow<Int?> =
+    val levelOfKnowledgeForCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::levelOfKnowledge)
         }

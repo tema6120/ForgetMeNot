@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.TooltipCompat
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardCommand.UpdateQuestionAndAnswer
 import kotlinx.android.synthetic.main.fragment_edit_card.*
 import org.koin.android.ext.android.getKoin
@@ -33,16 +34,25 @@ class EditCardFragment : BaseFragment() {
         if (savedInstanceState == null) {
             updateText()
         }
-        viewModel.isDoneButtonEnabled.observe(doneButton::setEnabled)
+        viewModel.isDoneButtonEnabled.observe(acceptButton::setEnabled)
         controller.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
         questionEditText.observeText(controller::onQuestionInputChanged)
         answerEditText.observeText(controller::onAnswerInputChanged)
-        reverseCardButton.setOnClickListener { controller.onReverseCardButtonClicked() }
-        cancelButton.setOnClickListener { controller.onCancelButtonClicked() }
-        doneButton.setOnClickListener { controller.onDoneButtonClicked() }
+        reverseCardButton.run {
+            setOnClickListener { controller.onReverseCardButtonClicked() }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        cancelButton.run {
+            setOnClickListener { controller.onCancelButtonClicked() }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        acceptButton.run {
+            setOnClickListener { controller.onDoneButtonClicked() }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
     }
 
     private fun updateText() {

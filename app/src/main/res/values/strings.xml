@@ -13,9 +13,10 @@
     <string name="description_speak_button">Speak</string>
     <string name="description_edit_card_button">Edit card</string>
     <string name="description_hint_button">Hint</string>
+    <string name="description_level_of_knowledge_button">Level of knowledge</string>
     <string name="description_pause_button">Pause</string>
     <string name="description_resume_button">Resume</string>
-    <string name="description_done_button">Done</string>
+    <string name="description_accept_button">Accept</string>
     <string name="description_cancel_button">Cancel</string>
     <string name="description_reverse_card_button">Reverse card</string>
     <string name="description_drag_handle_button">Drag handle</string>
@@ -76,13 +77,6 @@
     <string name="text_not_remember_button">Not remember</string>
     <string name="text_check_button">Check</string>
     <string name="text_intervals_title">Intervals</string>
-    <string name="text_indicator_level_of_knowledge_unsatisfactory">0</string>
-    <string name="text_indicator_level_of_knowledge_poor">1</string>
-    <string name="text_indicator_level_of_knowledge_acceptable">2</string>
-    <string name="text_indicator_level_of_knowledge_satisfactory">3</string>
-    <string name="text_indicator_level_of_knowledge_good">4</string>
-    <string name="text_indicator_level_of_knowledge_very_good">5</string>
-    <string name="text_indicator_level_of_knowledge_excellent">6</string>
     <string name="close">close</string>
     <string name="title_deckpreview_filter_dialog">Filter</string>
     <string name="filter_display_only_with_tasks">Display only with tasks</string>
@@ -99,7 +93,7 @@
     <string name="title_choose_card_reverse_dialog">Choose card reverse</string>
     <string name="title_rename_deck_dialog">Enter deck name</string>
     <string name="text_speak_text_in_brackets">Speak text in brackets</string>
-    <string name="toast_text_intervals_are_off">Intervals are off for current deck</string>
+    <string name="toast_text_intervals_are_off">Intervals are off for this card</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
     <plurals name="numberOfDecksRemoved">
         <item quantity="one">Deck has been removed</item>

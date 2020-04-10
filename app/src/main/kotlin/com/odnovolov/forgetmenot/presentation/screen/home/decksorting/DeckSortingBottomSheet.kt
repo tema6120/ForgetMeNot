@@ -69,22 +69,22 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
 
     private fun observeViewModel() {
         viewModel.deckSorting.observe {
-            setupSortingTextView(
-                sortByNameTextView,
+            setupSortingButton(
+                sortByNameButton,
                 direction = if (it.criterion === Name) it.direction else null
             )
-            setupSortingTextView(
-                sortByTimeCreatedTextView,
+            setupSortingButton(
+                sortByTimeCreatedButton,
                 direction = if (it.criterion === CreatedAt) it.direction else null
             )
-            setupSortingTextView(
-                sortByTimeLastOpenedTextView,
+            setupSortingButton(
+                sortByTimeLastOpenedButton,
                 direction = if (it.criterion === LastOpenedAt) it.direction else null
             )
         }
     }
 
-    private fun setupSortingTextView(textView: TextView, direction: Direction?) {
+    private fun setupSortingButton(textView: TextView, direction: Direction?) {
         val resId = when (direction) {
             null -> R.drawable.transparent_24dp
             Asc -> R.drawable.ic_arrow_upward_dark_24dp

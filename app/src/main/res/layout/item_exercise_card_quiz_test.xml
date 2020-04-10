@@ -74,7 +74,7 @@
                         android:paddingTop="8dp"
                         android:paddingRight="16dp"
                         android:paddingBottom="8dp"
-                        android:textColor="@color/text_secondary_selector"
+                        android:textColor="@color/text_exercise_button_selector"
                         android:textSize="18sp"
                         tools:background="@color/correct_answer"
                         tools:text="freely" />
@@ -100,7 +100,7 @@
                         android:paddingTop="8dp"
                         android:paddingRight="16dp"
                         android:paddingBottom="8dp"
-                        android:textColor="@color/text_secondary_selector"
+                        android:textColor="@color/text_exercise_button_selector"
                         android:textSize="18sp"
                         tools:text="assiduously" />
 
@@ -125,7 +125,7 @@
                         android:paddingTop="8dp"
                         android:paddingRight="16dp"
                         android:paddingBottom="8dp"
-                        android:textColor="@color/text_secondary_selector"
+                        android:textColor="@color/text_exercise_button_selector"
                         android:textSize="18sp"
                         tools:text="chronically" />
 
@@ -151,7 +151,7 @@
                         android:paddingTop="8dp"
                         android:paddingRight="16dp"
                         android:paddingBottom="8dp"
-                        android:textColor="@color/text_secondary_selector"
+                        android:textColor="@color/text_exercise_button_selector"
                         android:textSize="18sp"
                         tools:background="@color/wrong_answer"
                         tools:text="feebly" />

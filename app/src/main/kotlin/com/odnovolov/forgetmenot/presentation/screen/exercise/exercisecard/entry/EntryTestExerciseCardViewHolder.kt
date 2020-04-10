@@ -84,6 +84,8 @@ class EntryTestExerciseCardViewHolder(
                     val isEnabled = !isLearned
                     showQuestionButton.isEnabled = isEnabled
                     questionTextView.isEnabled = isEnabled
+                    hintTextView.isEnabled = isEnabled
+                    checkButton.isEnabled = isEnabled
                     wrongAnswerTextView.isEnabled = isEnabled
                     correctAnswerTextView.isEnabled = isEnabled
                 }

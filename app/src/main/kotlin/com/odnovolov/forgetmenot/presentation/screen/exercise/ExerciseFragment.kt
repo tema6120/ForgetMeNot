@@ -8,7 +8,9 @@ import android.view.View.MeasureSpec
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
@@ -96,7 +98,7 @@ class ExerciseFragment : BaseFragment() {
                 chooseHintPopup.dismiss()
             }
         }
-        content.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         return PopupWindow(context).apply {
             width = content.measuredWidth
             height = content.measuredHeight
@@ -134,13 +136,29 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupControlPanel() {
-        notAskButton.setOnClickListener { controller.dispatch(SetCardLearnedButtonClicked) }
-        undoButton.setOnClickListener { controller.dispatch(UndoButtonClicked) }
-        speakButton.setOnClickListener { controller.dispatch(SpeakButtonClicked) }
-        editCardButton.setOnClickListener { controller.dispatch(EditCardButtonClicked) }
-        hintButton.setOnClickListener { controller.dispatch(HintButtonClicked) }
-        levelOfKnowledgeButton.setOnClickListener {
-            controller.dispatch(LevelOfKnowledgeButtonClicked)
+        notAskButton.run {
+            setOnClickListener { controller.dispatch(SetCardLearnedButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        undoButton.run {
+            setOnClickListener { controller.dispatch(UndoButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        speakButton.run {
+            setOnClickListener { controller.dispatch(SpeakButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        editCardButton.run {
+            setOnClickListener { controller.dispatch(EditCardButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        hintButton.run {
+            setOnClickListener { controller.dispatch(HintButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        levelOfKnowledgeButton.run {
+            setOnClickListener { controller.dispatch(LevelOfKnowledgeButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
         }
     }
 
@@ -215,24 +233,15 @@ class ExerciseFragment : BaseFragment() {
         with(viewModel) {
             val exerciseCardAdapter = exerciseViewPager.adapter as ExerciseCardAdapter
             exerciseCards.observe(exerciseCardAdapter::submitList)
-            isCurrentExerciseCardLearned.observe { isCurrentCardLearned ->
-                isCurrentCardLearned ?: return@observe
-                notAskButton.visibility = if (isCurrentCardLearned) View.GONE else View.VISIBLE
-                undoButton.visibility = if (isCurrentCardLearned) View.VISIBLE else View.GONE
+            isCurrentExerciseCardLearned.observe { isLearned: Boolean ->
+                notAskButton.isVisible = !isLearned
+                undoButton.isVisible = isLearned
             }
-            isHintButtonVisible.observe { isVisible: Boolean ->
-                hintButton.visibility = if (isVisible) View.VISIBLE else View.GONE
-            }
-            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int? ->
-                levelOfKnowledge ?: return@observe
-                if (levelOfKnowledge == -1) {
-                    levelOfKnowledgeTextView.visibility = View.GONE
-                } else {
-                    val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
-                    levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-                    levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
-                    levelOfKnowledgeTextView.visibility = View.VISIBLE
-                }
+            isHintAccessible.observe(hintButton::setEnabled)
+            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
+                val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
+                levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
+                levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
             }
         }
     }

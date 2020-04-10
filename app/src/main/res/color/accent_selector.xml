@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="#63E7D900" android:state_enabled="false" />
-    <item android:color="#E7D900" />
+    <item android:color="@color/colorAccentDisabled" android:state_enabled="false" />
+    <item android:color="@color/colorAccent" />
 </selector>

@@ -4,12 +4,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".screen.exercise.ExerciseFragment">
+        tools:context="presentation.screen.exercise.ExerciseFragment">
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="24dp"
+            android:layout_margin="20dp"
             android:layout_weight="1">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,56 +80,46 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/controlPanel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="0dp">
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/controlPanel"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/colorPrimary"
-                android:theme="@style/AppTheme.AppBarOverlay"
+        <ImageButton
+                android:id="@+id/reverseCardButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_reverse_card_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_reverse_white_24dp" />
+
+        <ImageButton
+                android:id="@+id/cancelButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_cancel_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/acceptButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_cancel_white_24dp" />
+
+        <ImageButton
+                android:id="@+id/acceptButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_accept_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/done_button_selector" />
 
-            <ImageButton
-                    android:id="@+id/reverseCardButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_reverse_card_button"
-                    app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-                    app:layout_constraintStart_toStartOf="@+id/controlPanel"
-                    app:layout_constraintTop_toTopOf="@+id/controlPanel"
-                    app:srcCompat="@drawable/ic_reverse_white_24dp" />
-
-            <ImageButton
-                    android:id="@+id/cancelButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_cancel_button"
-                    app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-                    app:layout_constraintEnd_toStartOf="@+id/doneButton"
-                    app:layout_constraintTop_toTopOf="@+id/controlPanel"
-                    app:srcCompat="@drawable/ic_cancel_white_24dp" />
-
-            <ImageButton
-                    android:id="@+id/doneButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_done_button"
-                    app:layout_constraintBottom_toBottomOf="@+id/controlPanel"
-                    app:layout_constraintEnd_toEndOf="@+id/controlPanel"
-                    app:layout_constraintTop_toTopOf="@+id/controlPanel"
-                    app:srcCompat="@drawable/done_button_selector" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

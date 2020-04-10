@@ -25,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:background="@drawable/background_level_of_knowledge_acceptable"
-            tools:text="@string/text_indicator_level_of_knowledge_acceptable" />
+            tools:text="2" />
 
     <TextView
             android:id="@+id/intervalTextView"
