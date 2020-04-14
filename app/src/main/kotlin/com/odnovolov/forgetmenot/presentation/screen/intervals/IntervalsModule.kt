@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.screen.decksettings.DECK_SETTINGS_
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val intervalsModule = module {
+/*val intervalsModule = module {
     scope<IntervalsViewModel> {
         scoped { PresetDialogStateProvider(key = "IntervalScheme Preset State") }
         scoped { get<PresetDialogStateProvider>().load() }
@@ -48,6 +48,6 @@ val intervalsModule = module {
             )
         }
     }
-}
+}*/
 
 const val INTERVALS_SCOPE_ID = "INTERVALS_SCOPE_ID"

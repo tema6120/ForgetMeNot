@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastansw
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val lastAnswerFilterModule = module {
+/*val lastAnswerFilterModule = module {
     scope<LastAnswerFilterViewModel> {
         scoped { LastAnswerFilterDialogStateProvider() }
         scoped { get<LastAnswerFilterDialogStateProvider>().load() }
@@ -19,6 +19,6 @@ val lastAnswerFilterModule = module {
         }
         viewModel { LastAnswerFilterViewModel(dialogState = get()) }
     }
-}
+}*/
 
 const val LAST_ANSWER_FILTER_SCOPE_ID = "LAST_ANSWER_FILTER_SCOPE_ID"

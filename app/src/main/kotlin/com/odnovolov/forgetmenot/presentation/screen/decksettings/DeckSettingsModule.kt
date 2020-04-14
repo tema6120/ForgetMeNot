@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetViewMo
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val deckSettingsModule = module {
+/*val deckSettingsModule = module {
     scope<DeckSettingsViewModel> {
         scoped { DeckSettingsStateProvider(globalState = get()) }
         scoped { get<DeckSettingsStateProvider>().load() }
@@ -52,6 +52,6 @@ val deckSettingsModule = module {
             )
         }
     }
-}
+}*/
 
 const val DECK_SETTINGS_SCOPED_ID = "DECK_SETTINGS_SCOPED_ID"

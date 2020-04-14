@@ -11,13 +11,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.id
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
-import com.odnovolov.forgetmenot.presentation.screen.home.HOME_SCREEN_SCOPE_ID
+import com.odnovolov.forgetmenot.persistence.DbCleaner
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeViewModel
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.ADD_DECK_SCOPE_ID
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckViewModel
-import org.koin.android.ext.android.getKoin
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingDiScope
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -25,20 +24,19 @@ class MainActivity : AppCompatActivity() {
     var keyEventInterceptor: ((KeyEvent) -> Boolean)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            initFirstScreenState()
+            DbCleaner.cleanupDatabase()
+            openFirstScreenDiScopes()
         }
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initNavController()
     }
 
-    private fun initFirstScreenState() {
-        val homeScreenScope = getKoin().createScope<HomeViewModel>(HOME_SCREEN_SCOPE_ID)
-        homeScreenScope.declare(HomeScreenState(), override = true)
-        val addDeckScope = getKoin().createScope<AddDeckViewModel>(ADD_DECK_SCOPE_ID)
-        addDeckScope.declare(DeckAdder.State(), override = true)
-        addDeckScope.declare(AddDeckScreenState(), override = true)
+    private fun openFirstScreenDiScopes() {
+        HomeDiScope.open { HomeDiScope(HomeScreenState()) }
+        DeckSortingDiScope.open { DeckSortingDiScope() }
+        AddDeckDiScope.open { AddDeckDiScope(DeckAdder.State(), AddDeckScreenState()) }
     }
 
     private fun initNavController() {

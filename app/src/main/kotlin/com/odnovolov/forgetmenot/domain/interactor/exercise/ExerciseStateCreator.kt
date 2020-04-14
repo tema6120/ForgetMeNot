@@ -12,6 +12,14 @@ import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 class ExerciseStateCreator(
     private val globalState: GlobalState
 ) {
+    fun hasAnyCardAvailableForExercise(deckIds: List<Long>): Boolean {
+        return globalState.decks.any { deck: Deck ->
+            deck.id in deckIds && deck.cards.any { card: Card ->
+                isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
+            }
+        }
+    }
+
     fun create(deckIds: List<Long>, isWalkingMode: Boolean): Exercise.State {
         val exerciseCards: List<ExerciseCard> = globalState.decks
             .filter { deck -> deck.id in deckIds }

@@ -1,23 +1,27 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
-import com.odnovolov.forgetmenot.persistence.database
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.isDefault
-import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.IntervalSchemePropertyChangeHandler.insertIntervals
-import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.SpeakPlanPropertyChangeHandler.insertSpeakEvent
+import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.toIntervalSchemeDb
 import com.odnovolov.forgetmenot.persistence.toPronunciationDb
 import com.odnovolov.forgetmenot.persistence.toSpeakPlanDb
 
-object ExercisePreferencePropertyChangeHandler {
+class ExercisePreferencePropertyChangeHandler(
+    private val database: Database,
+    private val intervalSchemePropertyChangeHandler: IntervalSchemePropertyChangeHandler,
+    private val speakPlanPropertyChangeHandler: SpeakPlanPropertyChangeHandler
+) : PropertyChangeHandler {
     private val queries = database.exercisePreferenceQueries
 
-    fun handle(change: PropertyChangeRegistry.Change) {
+    override fun handle(change: PropertyChangeRegistry.Change) {
         if (change !is PropertyValueChange) return
-        val exercisePreferenceId = change.propertyOwnerId
-        if (!queries.exists(exercisePreferenceId).executeAsOne()) return
+        val exercisePreferenceId: Long = change.propertyOwnerId
+        val exists: Boolean = queries.exists(exercisePreferenceId).executeAsOne()
+        if (!exists) return
         when (change.property) {
             ExercisePreference::name -> {
                 val name = change.newValue as String
@@ -63,12 +67,15 @@ object ExercisePreferencePropertyChangeHandler {
         if (!exists) {
             val intervalSchemeDb = intervalScheme.toIntervalSchemeDb()
             database.intervalSchemeQueries.insert(intervalSchemeDb)
-            insertIntervals(intervalScheme.intervals, intervalScheme.id)
+            intervalSchemePropertyChangeHandler.insertIntervals(
+                intervalScheme.intervals,
+                intervalScheme.id
+            )
         }
     }
 
     fun insertPronunciationIfNotExists(pronunciation: Pronunciation) {
-        val exists = pronunciation.id == Pronunciation.Default.id
+        val exists: Boolean = pronunciation.id == Pronunciation.Default.id
                 || database.pronunciationQueries.exists(pronunciation.id).executeAsOne()
         if (!exists) {
             val pronunciationDb = pronunciation.toPronunciationDb()
@@ -77,13 +84,13 @@ object ExercisePreferencePropertyChangeHandler {
     }
 
     fun insertSpeakPlanIfNotExists(speakPlan: SpeakPlan) {
-        val exists = speakPlan.isDefault()
+        val exists: Boolean = speakPlan.isDefault()
                 || database.speakPlanQueries.exists(speakPlan.id).executeAsOne()
         if (!exists) {
             val speakPlanDb = speakPlan.toSpeakPlanDb()
             database.speakPlanQueries.insert(speakPlanDb)
             speakPlan.speakEvents.forEachIndexed { ordinal, speakEvent ->
-                insertSpeakEvent(speakEvent, speakPlan.id, ordinal)
+                speakPlanPropertyChangeHandler.insertSpeakEvent(speakEvent, speakPlan.id, ordinal)
             }
         }
     }

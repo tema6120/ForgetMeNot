@@ -24,18 +24,20 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.home.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.popup_choose_hint.view.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
-import org.koin.core.parameter.parametersOf
+import kotlinx.coroutines.launch
 
 class ExerciseFragment : BaseFragment() {
-    private val koinScope = getKoin().getOrCreateScope<ExerciseViewModel>(EXERCISE_SCOPE_ID)
-    private val viewModel: ExerciseViewModel by koinScope.viewModel(this)
-    private val controller: ExerciseController by koinScope.inject()
+    init {
+        ExerciseDiScope.reopenIfClosed()
+    }
+
+    private lateinit var viewModel: ExerciseViewModel
+    private var controller: ExerciseController? = null
     private val chooseHintPopup: PopupWindow by lazy { createChooseHintPopup() }
     private val setLevelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
@@ -59,7 +61,7 @@ class ExerciseFragment : BaseFragment() {
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
         val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
-            controller.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
+            controller?.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
             setLevelOfKnowledgePopup.dismiss()
         }
         return IntervalsAdapter(onItemClick)
@@ -90,11 +92,11 @@ class ExerciseFragment : BaseFragment() {
     private fun createChooseHintPopup(): PopupWindow {
         val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
             hintAsQuizButton.setOnClickListener {
-                controller.dispatch(HintAsQuizButtonClicked)
+                controller?.dispatch(HintAsQuizButtonClicked)
                 chooseHintPopup.dismiss()
             }
             maskLettersButton.setOnClickListener {
-                controller.dispatch(MaskLettersButtonClicked)
+                controller?.dispatch(MaskLettersButtonClicked)
                 chooseHintPopup.dismiss()
             }
         }
@@ -120,44 +122,49 @@ class ExerciseFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        observeViewModel()
-        controller.commands.observe(::executeCommand)
+        viewCoroutineScope!!.launch() {
+            val diScope = ExerciseDiScope.get()
+            controller = diScope.controller
+            exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!)
+            viewModel = diScope.viewModel
+            observeViewModel()
+            setupWalkingModeIfEnabled()
+            controller!!.commands.observe(::executeCommand)
+        }
     }
 
     private fun setupView() {
         setupViewPagerAdapter()
         setupControlPanel()
-        setupWalkingModeIfEnabled()
     }
 
     private fun setupViewPagerAdapter() {
-        exerciseViewPager.adapter = koinScope.get<ExerciseCardAdapter> { parametersOf(viewScope!!) }
         exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
     }
 
     private fun setupControlPanel() {
         notAskButton.run {
-            setOnClickListener { controller.dispatch(SetCardLearnedButtonClicked) }
+            setOnClickListener { controller?.dispatch(SetCardLearnedButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         undoButton.run {
-            setOnClickListener { controller.dispatch(UndoButtonClicked) }
+            setOnClickListener { controller?.dispatch(UndoButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         speakButton.run {
-            setOnClickListener { controller.dispatch(SpeakButtonClicked) }
+            setOnClickListener { controller?.dispatch(SpeakButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         editCardButton.run {
-            setOnClickListener { controller.dispatch(EditCardButtonClicked) }
+            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         hintButton.run {
-            setOnClickListener { controller.dispatch(HintButtonClicked) }
+            setOnClickListener { controller?.dispatch(HintButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         levelOfKnowledgeButton.run {
-            setOnClickListener { controller.dispatch(LevelOfKnowledgeButtonClicked) }
+            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
     }
@@ -174,14 +181,14 @@ class ExerciseFragment : BaseFragment() {
                         detectSinglePress = needToDetectVolumeUpSinglePress,
                         detectDoublePress = needToDetectVolumeUpDoublePress,
                         detectLongPress = needToDetectVolumeUpLongPress,
-                        coroutineScope = viewScope!!,
+                        coroutineScope = viewCoroutineScope!!,
                         onGestureDetect = { gesture: Gesture ->
                             val keyGesture: KeyGesture = when (gesture) {
                                 SINGLE_PRESS -> VOLUME_UP_SINGLE_PRESS
                                 DOUBLE_PRESS -> VOLUME_UP_DOUBLE_PRESS
                                 LONG_PRESS -> VOLUME_UP_LONG_PRESS
                             }
-                            controller.dispatch(KeyGestureDetected(keyGesture))
+                            controller?.dispatch(KeyGestureDetected(keyGesture))
                         })
                 val volumeDownGestureDetector: KeyGestureDetector? =
                     if (!needToDetectVolumeDownSinglePress
@@ -192,14 +199,14 @@ class ExerciseFragment : BaseFragment() {
                         detectSinglePress = needToDetectVolumeDownSinglePress,
                         detectDoublePress = needToDetectVolumeDownDoublePress,
                         detectLongPress = needToDetectVolumeDownLongPress,
-                        coroutineScope = viewScope!!,
+                        coroutineScope = viewCoroutineScope!!,
                         onGestureDetect = { gesture: Gesture ->
                             val keyGesture: KeyGesture = when (gesture) {
                                 SINGLE_PRESS -> VOLUME_DOWN_SINGLE_PRESS
                                 DOUBLE_PRESS -> VOLUME_DOWN_DOUBLE_PRESS
                                 LONG_PRESS -> VOLUME_DOWN_LONG_PRESS
                             }
-                            controller.dispatch(KeyGestureDetected(keyGesture))
+                            controller?.dispatch(KeyGestureDetected(keyGesture))
                         })
                 val keyEventInterceptor: (KeyEvent) -> Boolean = { event: KeyEvent ->
                     when (event.keyCode) {
@@ -316,11 +323,14 @@ class ExerciseFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity as AppCompatActivity).supportActionBar?.show()
+        if (needToCloseDiScope()) {
+            ExerciseDiScope.close()
+        }
     }
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            controller.dispatch(PageSelected(position))
+            controller?.dispatch(PageSelected(position))
             val currentViewHolder = exerciseViewPager.findViewHolderForAdapterPosition(position)
             if (currentViewHolder is EntryTestExerciseCardViewHolder) {
                 currentViewHolder.onPageSelected()

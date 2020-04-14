@@ -1,12 +1,19 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider.SerializableHomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 class HomeScreenStateProvider(
+    json: Json,
+    database: Database,
     override val key: String = HomeScreenState::class.qualifiedName!!
-) : BaseSerializableStateProvider<HomeScreenState, SerializableHomeScreenState>() {
+) : BaseSerializableStateProvider<HomeScreenState, SerializableHomeScreenState>(
+    json,
+    database
+) {
     @Serializable
     data class SerializableHomeScreenState(
         val searchText: String,

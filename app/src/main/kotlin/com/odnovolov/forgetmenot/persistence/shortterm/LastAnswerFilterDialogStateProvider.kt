@@ -1,14 +1,21 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.LastAnswerFilterDialogStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialogState
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 class LastAnswerFilterDialogStateProvider(
+    json: Json,
+    database: Database,
     override val key: String = LastAnswerFilterDialogState::class.qualifiedName!!
-) : BaseSerializableStateProvider<LastAnswerFilterDialogState, SerializableState>() {
+) : BaseSerializableStateProvider<LastAnswerFilterDialogState, SerializableState>(
+    json,
+    database
+) {
     @Serializable
     data class SerializableState(
         val isFromDialog: Boolean,

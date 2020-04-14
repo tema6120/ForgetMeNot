@@ -1,19 +1,23 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.ListChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.domain.entity.SpeakPlan
-import com.odnovolov.forgetmenot.persistence.database
 import com.odnovolov.forgetmenot.persistence.globalstate.DelaySpeakEventDb
 import com.odnovolov.forgetmenot.persistence.globalstate.SpeakEventDb
+import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 
-object SpeakPlanPropertyChangeHandler {
-    fun handle(change: Change) {
-        val speakPlanId = change.propertyOwnerId
-        if (!database.speakPlanQueries.exists(speakPlanId).executeAsOne()) return
+class SpeakPlanPropertyChangeHandler(
+    private val database: Database
+) : PropertyChangeHandler {
+    override fun handle(change: Change) {
+        val speakPlanId: Long = change.propertyOwnerId
+        val exists: Boolean = database.speakPlanQueries.exists(speakPlanId).executeAsOne()
+        if (!exists) return
         when (change.property) {
             SpeakPlan::name -> {
                 if (change !is PropertyValueChange) return

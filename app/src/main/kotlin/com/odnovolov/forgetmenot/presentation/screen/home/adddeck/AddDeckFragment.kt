@@ -16,29 +16,36 @@ import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.*
+import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.needToCloseDiScope
 import kotlinx.android.synthetic.main.fragment_adddeck.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
 
 class AddDeckFragment : BaseFragment() {
-    private val koinScope = getKoin().getOrCreateScope<AddDeckViewModel>(ADD_DECK_SCOPE_ID)
-    private val viewModel: AddDeckViewModel by koinScope.viewModel(this)
-    private val controller: AddDeckController by koinScope.inject()
+    init {
+        AddDeckDiScope.reopenIfClosed()
+    }
+
+    private var controller: AddDeckController? = null
     private val fragmentScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var deckNameEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        controller.commands
-            .onEach { executeCommand(it) }
-            .launchIn(fragmentScope)
+        fragmentScope.launch {
+            val diScope = AddDeckDiScope.get()
+            controller = diScope.controller
+            controller!!.commands
+                .onEach { executeCommand(it) }
+                .launchIn(fragmentScope)
+        }
     }
 
     override fun onCreateView(
@@ -52,13 +59,19 @@ class AddDeckFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        observeViewModel()
+        viewCoroutineScope!!.launch() {
+            val diScope = AddDeckDiScope.get()
+            val viewModel = diScope.viewModel
+            observeViewModel(viewModel)
+        }
     }
 
     private fun setupView() {
         val contentView = View.inflate(context, R.layout.dialog_deck_name_input, null)
         deckNameEditText = contentView.findViewById(R.id.deckNameEditText)
-        deckNameEditText.observeText(controller::onDialogTextChanged)
+        deckNameEditText.observeText { dialogText: String ->
+            controller?.dispatch(DialogTextChanged(dialogText))
+        }
         deckNameInputDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.enter_deck_name)
             .setView(contentView)
@@ -69,14 +82,14 @@ class AddDeckFragment : BaseFragment() {
         deckNameInputDialog.window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         deckNameInputDialog.setOnShowListener {
             deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setOnClickListener { controller.onPositiveDialogButtonClicked() }
+                .setOnClickListener { controller?.dispatch(PositiveDialogButtonClicked) }
             deckNameInputDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setOnClickListener { controller.onNegativeDialogButtonClicked() }
+                .setOnClickListener { controller?.dispatch(NegativeDialogButtonClicked) }
             deckNameEditText.requestFocus()
         }
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(viewModel: AddDeckViewModel) {
         with(viewModel) {
             isProcessing.observe { isProcessing ->
                 progressBar.visibility = if (isProcessing) View.VISIBLE else View.GONE
@@ -103,7 +116,7 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: AddDeckCommand) {
+    private fun executeCommand(command: AddDeckController.Command) {
         when (command) {
             is ShowErrorMessage -> {
                 Toast.makeText(context, command.exception.message, Toast.LENGTH_SHORT).show()
@@ -151,7 +164,7 @@ class AddDeckFragment : BaseFragment() {
         val fileName = getFileNameFromUri(uri, contentResolver)
         // give chance to launch commands collector coroutine
         fragmentScope.launch {
-            controller.onContentReceived(inputStream, fileName)
+            controller?.dispatch(ContentReceived(inputStream, fileName))
         }
     }
 
@@ -170,13 +183,6 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (::deckNameInputDialog.isInitialized) {
@@ -190,6 +196,9 @@ class AddDeckFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         fragmentScope.cancel()
+        if (needToCloseDiScope()) {
+            AddDeckDiScope.close()
+        }
     }
 
     companion object {

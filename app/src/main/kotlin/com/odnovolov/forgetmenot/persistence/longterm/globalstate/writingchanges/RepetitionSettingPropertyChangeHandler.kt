@@ -1,18 +1,22 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
-import com.odnovolov.forgetmenot.persistence.database
+import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.soywiz.klock.DateTimeSpan
 
-object RepetitionSettingPropertyChangeHandler {
+class RepetitionSettingPropertyChangeHandler(
+    database: Database
+) : PropertyChangeHandler {
     private val queries = database.repetitionSettingQueries
 
-    fun handle(change: PropertyChangeRegistry.Change) {
+    override fun handle(change: PropertyChangeRegistry.Change) {
         if (change !is PropertyValueChange) return
-        val repetitionSettingId = change.propertyOwnerId
-        if (!queries.exists(repetitionSettingId).executeAsOne()) return
+        val repetitionSettingId: Long = change.propertyOwnerId
+        val exists: Boolean = queries.exists(repetitionSettingId).executeAsOne()
+        if (!exists) return
         when (change.property) {
             RepetitionSetting::name -> {
                 val name = change.newValue as String

@@ -10,7 +10,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
-val pronunciationModule = module {
+/*val pronunciationModule = module {
     scope<PronunciationViewModel> {
         scoped { PresetDialogStateProvider(key = "Pronunciation Preset State") }
         scoped { get<PresetDialogStateProvider>().load() }
@@ -51,6 +51,6 @@ val pronunciationModule = module {
             )
         }
     }
-}
+}*/
 
 const val PRONUNCIATION_SCOPE_ID = "PRONUNCIATION_SCOPE_ID"

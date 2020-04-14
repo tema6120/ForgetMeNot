@@ -127,16 +127,6 @@ inline fun <T> Flow<T>.observe(
     }
 }
 
-fun <T> measureTimeAndLog(name: String = "Action", block: () -> T): T {
-    val start = System.currentTimeMillis()
-    return try {
-        block()
-    } finally {
-        val elapsedTime = System.currentTimeMillis() - start
-        Log.d("odnovolov", "$name took $elapsedTime ms")
-    }
-}
-
 fun TextView.fixTextSelection() {
     setTextIsSelectable(false)
     post { setTextIsSelectable(true) }

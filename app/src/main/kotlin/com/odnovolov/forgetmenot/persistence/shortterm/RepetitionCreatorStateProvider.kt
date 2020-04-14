@@ -1,14 +1,21 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionCreatorStateProvider.SerializableState
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 class RepetitionCreatorStateProvider(
-    override val key: String = RepetitionStateCreator.State::class.qualifiedName!!,
-    private val globalState: GlobalState
-) : BaseSerializableStateProvider<RepetitionStateCreator.State, SerializableState>() {
+    json: Json,
+    database: Database,
+    private val globalState: GlobalState,
+    override val key: String = RepetitionStateCreator.State::class.qualifiedName!!
+) : BaseSerializableStateProvider<RepetitionStateCreator.State, SerializableState>(
+    json,
+    database
+) {
     @Serializable
     data class SerializableState(
         val deckIds: List<Long>

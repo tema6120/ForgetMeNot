@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.ViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DeckPreviewAdapter(
@@ -25,10 +26,10 @@ class DeckPreviewAdapter(
         with(viewHolder.itemView) {
             val deckPreview: DeckPreview = getItem(position)
             deckButton.setOnClickListener {
-                controller.onDeckButtonClicked(deckPreview.deckId)
+                controller.dispatch(DeckButtonClicked(deckPreview.deckId))
             }
             deckButton.setOnLongClickListener {
-                controller.onDeckButtonLongClicked(deckPreview.deckId)
+                controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
                 true
             }
             deckNameTextView.text = deckPreview.deckName
@@ -54,19 +55,19 @@ class DeckPreviewAdapter(
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.walkingModeMenuItem -> {
-                        controller.onWalkingModeMenuItemClicked(deckId)
+                        controller.dispatch(WalkingModeMenuItemClicked(deckId))
                         true
                     }
                     R.id.repetitionModeMenuItem -> {
-                        controller.onRepetitionModeMenuItemClicked(deckId)
+                        controller.dispatch(RepetitionModeMenuItemClicked(deckId))
                         true
                     }
                     R.id.setupDeckMenuItem -> {
-                        controller.onSetupDeckMenuItemClicked(deckId)
+                        controller.dispatch(SetupDeckMenuItemClicked(deckId))
                         true
                     }
                     R.id.removeDeckMenuItem -> {
-                        controller.onRemoveDeckMenuItemClicked(deckId)
+                        controller.dispatch(RemoveDeckMenuItemClicked(deckId))
                         true
                     }
                     else -> false

@@ -1,13 +1,20 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.common.preset.DialogPurpose
 import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 class PresetDialogStateProvider(
+    json: Json,
+    database: Database,
     override val key: String
-): BaseSerializableStateProvider<PresetDialogState, SerializableState>() {
+): BaseSerializableStateProvider<PresetDialogState, SerializableState>(
+    json,
+    database
+) {
     @Serializable
     data class SerializableState(
         val purpose: DialogPurpose?,

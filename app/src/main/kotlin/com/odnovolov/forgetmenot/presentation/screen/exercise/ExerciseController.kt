@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
@@ -44,23 +45,31 @@ class ExerciseController(
             is PageSelected -> {
                 exercise.setCurrentPosition(event.position)
             }
+
             SetCardLearnedButtonClicked -> {
                 exercise.setIsCardLearned(true)
                 sendCommand(MoveToNextPosition)
             }
+
             UndoButtonClicked -> {
                 exercise.setIsCardLearned(false)
             }
+
             SpeakButtonClicked -> {
                 exercise.speak()
             }
+
             EditCardButtonClicked -> {
-                val editCardScreenState = EditCardScreenState().apply {
-                    question = exercise.currentExerciseCard.base.card.question
-                    answer = exercise.currentExerciseCard.base.card.answer
+                EditCardDiScope.open {
+                    val editCardScreenState = EditCardScreenState().apply {
+                        question = exercise.currentExerciseCard.base.card.question
+                        answer = exercise.currentExerciseCard.base.card.answer
+                    }
+                    EditCardDiScope(editCardScreenState)
                 }
-                navigator.navigateToEditCard(editCardScreenState)
+                navigator.navigateToEditCard()
             }
+
             HintButtonClicked -> {
                 if (exercise.currentExerciseCard.base.hint == null) {
                     sendCommand(ShowChooseHintPopup)
@@ -68,18 +77,23 @@ class ExerciseController(
                     exercise.showHint()
                 }
             }
+
             HintAsQuizButtonClicked -> {
                 exercise.hintAsQuiz()
             }
+
             MaskLettersButtonClicked -> {
                 exercise.showHint()
             }
+
             LevelOfKnowledgeButtonClicked -> {
                 onLevelOfKnowledgeButtonClicked()
             }
+
             is LevelOfKnowledgeSelected -> {
                 exercise.setLevelOfKnowledge(event.levelOfKnowledge)
             }
+
             is KeyGestureDetected -> {
                 onKeyGestureDetected(event)
             }

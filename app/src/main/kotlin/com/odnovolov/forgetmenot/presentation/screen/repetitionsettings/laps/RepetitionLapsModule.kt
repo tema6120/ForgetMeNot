@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.Rep
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val repetitionLapsModule = module {
+/*val repetitionLapsModule = module {
     scope<RepetitionLapsViewModel> {
         scoped { RepetitionLapsDialogStateProvider() }
         scoped { get<RepetitionLapsDialogStateProvider>().load() }
@@ -19,6 +19,6 @@ val repetitionLapsModule = module {
         }
         viewModel { RepetitionLapsViewModel(dialogState = get()) }
     }
-}
+}*/
 
 const val REPETITION_LAPS_SCOPE_ID = "REPETITION_LAPS_SCOPE_ID"

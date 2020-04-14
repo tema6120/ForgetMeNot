@@ -1,24 +1,26 @@
 package com.odnovolov.forgetmenot.presentation.screen.editcard
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.TooltipCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
 import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardCommand.UpdateQuestionAndAnswer
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardController.Command.UpdateQuestionAndAnswer
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardEvent.*
 import kotlinx.android.synthetic.main.fragment_edit_card.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.launch
 
 class EditCardFragment : BaseFragment() {
-    private val koinScope = getKoin().getOrCreateScope<EditCardViewModel>(EDIT_CARD_SCOPE_ID)
-    private val viewModel: EditCardViewModel by koinScope.viewModel(this)
-    private val controller: EditCardController by koinScope.inject()
+    init {
+        EditCardDiScope.reopenIfClosed()
+    }
+
+    private lateinit var viewModel: EditCardViewModel
+    private var controller: EditCardController? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,27 +33,37 @@ class EditCardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        if (savedInstanceState == null) {
-            updateText()
+        viewCoroutineScope!!.launch {
+            val diScope = EditCardDiScope.get()
+            controller = diScope.controller
+            viewModel = diScope.viewModel
+            if (savedInstanceState == null) {
+                updateText()
+            }
+            viewModel.isAcceptButtonEnabled.observe(acceptButton::setEnabled)
+            controller!!.commands.observe(::executeCommand)
         }
-        viewModel.isDoneButtonEnabled.observe(acceptButton::setEnabled)
-        controller.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
-        questionEditText.observeText(controller::onQuestionInputChanged)
-        answerEditText.observeText(controller::onAnswerInputChanged)
+        questionEditText.observeText { text: String ->
+            controller?.dispatch(QuestionInputChanged(text))
+        }
+        answerEditText.observeText { text: String ->
+            controller?.dispatch(AnswerInputChanged(text))
+        }
         reverseCardButton.run {
-            setOnClickListener { controller.onReverseCardButtonClicked() }
+            setOnClickListener { controller?.dispatch(ReverseCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         cancelButton.run {
-            setOnClickListener { controller.onCancelButtonClicked() }
+            setOnClickListener { controller?.dispatch(CancelButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         acceptButton.run {
-            setOnClickListener { controller.onDoneButtonClicked() }
+            setOnClickListener { controller?.dispatch(AcceptButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
+            isEnabled = false
         }
     }
 
@@ -60,7 +72,7 @@ class EditCardFragment : BaseFragment() {
         answerEditText.setText(viewModel.answer)
     }
 
-    private fun executeCommand(command: EditCardCommand) {
+    private fun executeCommand(command: EditCardController.Command) {
         when (command) {
             UpdateQuestionAndAnswer -> {
                 updateText()
@@ -70,15 +82,6 @@ class EditCardFragment : BaseFragment() {
 
     override fun onStop() {
         super.onStop()
-        hideSoftKeyboard()
-    }
-
-    private fun hideSoftKeyboard() {
-        with(requireActivity()) {
-            val focusedView = currentFocus ?: return
-            focusedView.clearFocus()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(focusedView.windowToken, 0)
-        }
+        requireActivity().currentFocus?.hideSoftInput()
     }
 }

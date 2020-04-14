@@ -16,7 +16,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
-val repetitionModule = module {
+/*val repetitionModule = module {
     scope<Repetition> {
         scoped { RepetitionStateProvider(globalState = get()) }
         scoped { get<RepetitionStateProvider>().load() }
@@ -48,6 +48,6 @@ val repetitionModule = module {
         }
         scoped { RepetitionServiceModel(repetitionState = get()) }
     }
-}
+}*/
 
 const val REPETITION_SCOPE_ID = "REPETITION_SCOPE_ID"

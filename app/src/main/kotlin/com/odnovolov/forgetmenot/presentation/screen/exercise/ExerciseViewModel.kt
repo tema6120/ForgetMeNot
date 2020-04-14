@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
@@ -13,12 +12,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import org.koin.java.KoinJavaComponent.getKoin
 
 class ExerciseViewModel(
     exerciseState: Exercise.State,
     walkingModePreference: WalkingModePreference
-) : ViewModel() {
+) {
     val exerciseCards: Flow<List<ExerciseCard>> =
         exerciseState.flowOf(Exercise.State::exerciseCards)
 
@@ -71,8 +69,4 @@ class ExerciseViewModel(
 
     val needToDetectVolumeDownLongPress =
         walkingModePreference.keyGestureMap[VOLUME_DOWN_LONG_PRESS] != NO_ACTION
-
-    override fun onCleared() {
-        getKoin().getScope(EXERCISE_SCOPE_ID).close()
-    }
 }

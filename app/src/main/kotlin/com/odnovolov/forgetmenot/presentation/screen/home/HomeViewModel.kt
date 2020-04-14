@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
@@ -13,14 +12,13 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import org.koin.java.KoinJavaComponent.getKoin
 
 class HomeViewModel(
     homeScreenState: HomeScreenState,
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
     controller: HomeController
-) : ViewModel() {
+) {
     val displayOnlyWithTasks: Flow<Boolean> = deckReviewPreference
         .flowOf(DeckReviewPreference::displayOnlyWithTasks)
 
@@ -123,9 +121,5 @@ class HomeViewModel(
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->
             decksPreview.map { it.deckId }
         }
-    }
-
-    override fun onCleared() {
-        getKoin().getScope(HOME_SCREEN_SCOPE_ID).close()
     }
 }

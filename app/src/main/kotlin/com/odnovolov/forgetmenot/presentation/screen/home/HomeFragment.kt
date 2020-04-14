@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -14,19 +15,21 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
 
 class HomeFragment : BaseFragment() {
-    private val koinScope = getKoin().getOrCreateScope<HomeViewModel>(HOME_SCREEN_SCOPE_ID)
-    private val viewModel: HomeViewModel by koinScope.viewModel(this)
-    private val controller: HomeController by koinScope.inject()
-    private val deckPreviewAdapter = DeckPreviewAdapter(controller)
+    init {
+        HomeDiScope.reopenIfClosed()
+    }
+
+    private lateinit var viewModel: HomeViewModel
+    private var controller: HomeController? = null
+    private lateinit var deckPreviewAdapter: DeckPreviewAdapter
     private lateinit var filterDialog: Dialog
     private lateinit var filterAdapter: ItemAdapter<Item>
     private var actionMode: ActionMode? = null
@@ -56,19 +59,22 @@ class HomeFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_deckpreview_filter_dialog),
             itemForm = AsCheckBox,
-            onItemClick = { controller.onDisplayOnlyWithTasksCheckboxClicked() },
+            onItemClick = { controller?.dispatch(DisplayOnlyWithTasksCheckboxClicked) },
             takeAdapter = { filterAdapter = it }
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
-        observeViewModel()
-    }
-
-    private fun setupView() {
-        decksPreviewRecycler.adapter = deckPreviewAdapter
+        viewCoroutineScope!!.launch() {
+            val diScope = HomeDiScope.get()
+            controller = diScope.controller
+            viewModel = diScope.viewModel
+            deckPreviewAdapter = diScope.deckPreviewAdapter
+            decksPreviewRecycler.adapter = deckPreviewAdapter
+            observeViewModel()
+            controller!!.commands.observe(onEach = ::executeCommand)
+        }
     }
 
     private fun observeViewModel() {
@@ -92,7 +98,6 @@ class HomeFragment : BaseFragment() {
                         getString(R.string.deck_selection_action_mode_title, cardsCount, decksCount)
                 }
             }
-            controller.commands.observe(onEach = ::executeCommand)
         }
     }
 
@@ -118,7 +123,7 @@ class HomeFragment : BaseFragment() {
                     )
                     .setAction(
                         R.string.snackbar_action_cancel,
-                        { controller.onDecksRemovedSnackbarCancelActionClicked() }
+                        { controller?.dispatch(DecksRemovedSnackbarCancelActionClicked) }
                     )
                     .show()
             }
@@ -158,7 +163,7 @@ class HomeFragment : BaseFragment() {
             override fun onQueryTextSubmit(query: String) = false
 
             override fun onQueryTextChange(newText: String): Boolean {
-                controller.onSearchTextChanged(newText)
+                controller?.dispatch(SearchTextChanged(newText))
                 return true
             }
         })
@@ -181,7 +186,7 @@ class HomeFragment : BaseFragment() {
                 true
             }
             R.id.action_settings -> {
-                controller.onSettingsButtonClicked()
+                controller?.dispatch(SettingsButtonClicked)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -192,6 +197,7 @@ class HomeFragment : BaseFragment() {
         super.onResume()
         resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         resumePauseCoroutineScope!!.launch {
+            val viewModel = HomeDiScope.get().viewModel
             viewModel.decksPreview.collect {
                 if (isActive) {
                     deckPreviewAdapter.submitList(it)
@@ -202,9 +208,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
-        }
         resumePauseCoroutineScope!!.cancel()
         resumePauseCoroutineScope = null
     }
@@ -233,6 +236,13 @@ class HomeFragment : BaseFragment() {
         actionMode?.finish()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (needToCloseDiScope()) {
+            HomeDiScope.close()
+        }
+    }
+
     private val actionModeCallback = object : ActionMode.Callback {
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
             mode.menuInflater.inflate(R.menu.deck_selection_actions, menu)
@@ -246,23 +256,23 @@ class HomeFragment : BaseFragment() {
         override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
             return when (item.itemId) {
                 R.id.action_start_exercise -> {
-                    controller.onStartExerciseMenuItemClicked()
+                    controller?.dispatch(StartExerciseMenuItemClicked)
                     true
                 }
                 R.id.action_select_all_decks -> {
-                    controller.onSelectAllDecksMenuItemClicked()
+                    controller?.dispatch(SelectAllDecksMenuItemClicked)
                     true
                 }
                 R.id.action_start_exercise_in_walking_mode -> {
-                    controller.onStartExerciseInWalkingModeMenuItemClicked()
+                    controller?.dispatch(StartExerciseInWalkingModeMenuItemClicked)
                     true
                 }
                 R.id.action_repetition_mode -> {
-                    controller.onRepetitionModeMultiSelectMenuItemClicked()
+                    controller?.dispatch(RepetitionModeMultiSelectMenuItemClicked)
                     true
                 }
                 R.id.action_remove_decks -> {
-                    controller.onRemoveDecksMenuItemClicked()
+                    controller?.dispatch(RemoveDecksMenuItemClicked)
                     true
                 }
                 else -> false
@@ -270,7 +280,7 @@ class HomeFragment : BaseFragment() {
         }
 
         override fun onDestroyActionMode(mode: ActionMode) {
-            controller.onActionModeFinished()
+            controller?.dispatch(ActionModeFinished)
             actionMode = null
         }
     }
@@ -279,4 +289,8 @@ class HomeFragment : BaseFragment() {
         const val STATE_KEY_FILTER_DIALOG = "filterDialog"
         const val STATE_KEY_SEARCH_VIEW_TEXT = "searchViewText"
     }
+}
+
+fun Fragment.needToCloseDiScope(): Boolean {
+    return isRemoving || !requireActivity().isChangingConfigurations
 }

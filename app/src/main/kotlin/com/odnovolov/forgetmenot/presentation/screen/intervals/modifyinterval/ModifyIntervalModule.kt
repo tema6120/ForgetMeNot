@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.presentation.screen.intervals.INTERVALS_SCOPE_I
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val modifyIntervalModule = module {
+/*val modifyIntervalModule = module {
     scope<ModifyIntervalViewModel> {
         scoped { ModifyIntervalDialogStateProvider() }
         scoped { get<ModifyIntervalDialogStateProvider>().load() }
@@ -19,6 +19,6 @@ val modifyIntervalModule = module {
         }
         viewModel { ModifyIntervalViewModel(modifyIntervalDialogState = get()) }
     }
-}
+}*/
 
 const val MODIFY_INTERVAL_SCOPE_ID = "MODIFY_INTERVAL_SCOPE_ID"

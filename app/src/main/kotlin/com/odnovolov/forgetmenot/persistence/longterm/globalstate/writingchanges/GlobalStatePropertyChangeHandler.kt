@@ -1,21 +1,22 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.isDefault
-import com.odnovolov.forgetmenot.persistence.database
-import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.DeckPropertyChangeHandler.insertExercisePreferenceIfNotExists
-import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertIntervalSchemeIfNotExists
-import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists
-import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.ExercisePreferencePropertyChangeHandler.insertSpeakPlanIfNotExists
+import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.toCardDb
 import com.odnovolov.forgetmenot.persistence.toDeckDb
 import com.odnovolov.forgetmenot.persistence.toRepetitionSettingDb
 
-object GlobalStatePropertyChangeHandler {
-    fun handle(change: PropertyChangeRegistry.Change) {
+class GlobalStatePropertyChangeHandler(
+    private val database: Database,
+    private val deckPropertyChangeHandler: DeckPropertyChangeHandler,
+    private val exercisePreferencePropertyChangeHandler: ExercisePreferencePropertyChangeHandler
+) : PropertyChangeHandler {
+    override fun handle(change: PropertyChangeRegistry.Change) {
         when (change.property) {
             GlobalState::decks -> {
                 if (change !is CollectionChange) return
@@ -31,7 +32,9 @@ object GlobalStatePropertyChangeHandler {
                     database.deckQueries.insert(deckDb)
                     deck.cards.mapIndexed { index, card -> card.toCardDb(deck.id, ordinal = index) }
                         .forEach(database.cardQueries::insert)
-                    insertExercisePreferenceIfNotExists(deck.exercisePreference)
+                    deckPropertyChangeHandler.insertExercisePreferenceIfNotExists(
+                        deck.exercisePreference
+                    )
                 }
             }
             GlobalState::sharedExercisePreferences -> {
@@ -47,7 +50,7 @@ object GlobalStatePropertyChangeHandler {
                     change.addedItems as Collection<ExercisePreference>
                 addedSharedExercisePreferences.forEach { exercisePreference: ExercisePreference ->
                     database.sharedExercisePreferenceQueries.insert(exercisePreference.id)
-                    insertExercisePreferenceIfNotExists(exercisePreference)
+                    deckPropertyChangeHandler.insertExercisePreferenceIfNotExists(exercisePreference)
                 }
             }
             GlobalState::sharedIntervalSchemes -> {
@@ -61,7 +64,9 @@ object GlobalStatePropertyChangeHandler {
                 val addedSharedIntervalSchemes = change.addedItems as Collection<IntervalScheme>
                 addedSharedIntervalSchemes.forEach { intervalScheme: IntervalScheme ->
                     database.sharedIntervalSchemeQueries.insert(intervalScheme.id)
-                    insertIntervalSchemeIfNotExists(intervalScheme)
+                    exercisePreferencePropertyChangeHandler.insertIntervalSchemeIfNotExists(
+                        intervalScheme
+                    )
                 }
             }
             GlobalState::sharedPronunciations -> {
@@ -75,7 +80,9 @@ object GlobalStatePropertyChangeHandler {
                 val addedSharedPronunciations = change.addedItems as Collection<Pronunciation>
                 addedSharedPronunciations.forEach { pronunciation: Pronunciation ->
                     database.sharedPronunciationQueries.insert(pronunciation.id)
-                    insertPronunciationIfNotExists(pronunciation)
+                    exercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists(
+                        pronunciation
+                    )
                 }
             }
             GlobalState::sharedSpeakPlans -> {
@@ -89,7 +96,7 @@ object GlobalStatePropertyChangeHandler {
                 val addedSharedSpeakPlans = change.addedItems as Collection<SpeakPlan>
                 addedSharedSpeakPlans.forEach { speakPlan: SpeakPlan ->
                     database.sharedSpeakPlanQueries.insert(speakPlan.id)
-                    insertSpeakPlanIfNotExists(speakPlan)
+                    exercisePreferencePropertyChangeHandler.insertSpeakPlanIfNotExists(speakPlan)
                 }
             }
             GlobalState::sharedRepetitionSettings -> {
@@ -116,7 +123,7 @@ object GlobalStatePropertyChangeHandler {
     }
 
     private fun insertRepetitionSettingIfNotExists(repetitionSetting: RepetitionSetting) {
-        val exists = repetitionSetting.isDefault()
+        val exists: Boolean = repetitionSetting.isDefault()
                 || database.repetitionSettingQueries.exists(repetitionSetting.id).executeAsOne()
         if (!exists) {
             val repetitionSettingDb = repetitionSetting.toRepetitionSettingDb()

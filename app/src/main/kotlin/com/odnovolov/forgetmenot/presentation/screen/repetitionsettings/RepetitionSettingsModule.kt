@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetViewMo
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val repetitionSettingsModule = module {
+/*val repetitionSettingsModule = module {
     scope<RepetitionSettings> {
         scoped { RepetitionCreatorStateProvider(globalState = get()) }
         scoped { get<RepetitionCreatorStateProvider>().load() }
@@ -49,6 +49,6 @@ val repetitionSettingsModule = module {
             )
         }
     }
-}
+}*/
 
 const val REPETITION_SETTINGS_SCOPE_ID = "REPETITION_SETTINGS_SCOPE_ID"

@@ -14,7 +14,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
-val exerciseModule = module {
+/*val exerciseModule = module {
     scope<ExerciseViewModel> {
         scoped { ExerciseStateProvider(globalState = get()) }
         scoped { get<ExerciseStateProvider>().load() }
@@ -64,6 +64,6 @@ val exerciseModule = module {
             )
         }
     }
-}
+}*/
 
 const val EXERCISE_SCOPE_ID = "EXERCISE_SCOPE_ID"

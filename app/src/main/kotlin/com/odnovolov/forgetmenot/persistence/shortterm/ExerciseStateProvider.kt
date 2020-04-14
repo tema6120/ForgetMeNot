@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
@@ -8,11 +9,17 @@ import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider.SerializableExerciseState
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 class ExerciseStateProvider(
-    override val key: String = Exercise.State::class.qualifiedName!!,
-    private val globalState: GlobalState
-) : BaseSerializableStateProvider<Exercise.State, SerializableExerciseState>() {
+    json: Json,
+    database: Database,
+    private val globalState: GlobalState,
+    override val key: String = Exercise.State::class.qualifiedName!!
+) : BaseSerializableStateProvider<Exercise.State, SerializableExerciseState>(
+    json,
+    database
+) {
     @Serializable
     data class SerializableExerciseState(
         val serializableExerciseCards: List<SerializableExerciseCard>,

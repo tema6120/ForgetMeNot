@@ -44,7 +44,7 @@ class RepetitionSettingsController(
             return
         }
         longTermStateSaver.saveStateByRegistry()
-        navigator.navigateToRepetition(repetitionState)
+        navigator.navigateToRepetition()
     }
 
     fun onAvailableForExerciseGroupButtonClicked() {
@@ -106,7 +106,7 @@ class RepetitionSettingsController(
             isInfinitely = isInfinite,
             numberOfLapsInput = numberOfLapsInput
         )
-        navigator.showRepetitionLapsDialog(dialogState)
+        navigator.showRepetitionLapsDialog()
     }
 
     fun performSaving() {

@@ -1,9 +1,6 @@
 package com.odnovolov.forgetmenot.persistence
 
-import android.app.Activity
-import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.odnovolov.forgetmenot.BuildConfig
@@ -12,30 +9,15 @@ import com.odnovolov.forgetmenot.persistence.globalstate.ExercisePreferenceDb
 import com.odnovolov.forgetmenot.persistence.globalstate.IntervalDb
 import com.odnovolov.forgetmenot.persistence.globalstate.PronunciationDb
 import com.odnovolov.forgetmenot.persistence.globalstate.RepetitionSettingDb
-import com.odnovolov.forgetmenot.presentation.common.MainActivity
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.logs.LogSqliteDriver
 
-object DatabaseInitializer : ActivityLifecycleCallbacks {
-    private var isInitialized = false
+const val DATABASE_NAME = "forgetmenot.db"
 
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        if (activity !is MainActivity) return
-        //activity.deleteDatabase(DATABASE_NAME)
-        if (!isInitialized) {
-            val sqliteDriver: SqlDriver = initSqlDriver(activity.applicationContext)
-            initDatabase(sqliteDriver)
-            val isActivityFirstCreated = savedInstanceState == null
-            if (isActivityFirstCreated) {
-                cleanupDatabase(sqliteDriver)
-            }
-            isInitialized = true
-        }
-    }
-
-    private fun initSqlDriver(applicationContext: Context): SqlDriver {
+object DatabaseInitializer {
+    fun initSqlDriver(applicationContext: Context): SqlDriver {
         val androidSqliteDriver = AndroidSqliteDriver(
             schema = Database.Schema,
             context = applicationContext,
@@ -57,8 +39,8 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
         }
     }
 
-    private fun initDatabase(sqliteDriver: SqlDriver) {
-        database = Database(
+    fun initDatabase(sqliteDriver: SqlDriver): Database {
+        return Database(
             sqliteDriver,
             /*CardDb.Adapter(
                 lastAnsweredAtAdapter = dateTimeAdapter
@@ -91,22 +73,4 @@ object DatabaseInitializer : ActivityLifecycleCallbacks {
             )
         )
     }
-
-    private fun cleanupDatabase(sqliteDriver: SqlDriver) {
-        database.serializableQueries.deleteAll()
-        database.exercisePreferenceQueries.deleteUnused()
-        database.intervalSchemeQueries.deleteUnused()
-        database.pronunciationQueries.deleteUnused()
-        database.speakPlanQueries.deleteUnused()
-        database.repetitionSettingQueries.deleteUnused()
-        sqliteDriver.executeQuery(null, "VACUUM", 0)
-    }
-
-    // Unused callbacks
-    override fun onActivityStarted(activity: Activity) {}
-    override fun onActivityPaused(activity: Activity) {}
-    override fun onActivityResumed(activity: Activity) {}
-    override fun onActivityStopped(activity: Activity) {}
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-    override fun onActivityDestroyed(activity: Activity) {}
 }

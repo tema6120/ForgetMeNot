@@ -52,7 +52,13 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
         }
     }
 
-    private val tts: TextToSpeech = TextToSpeech(applicationContext, initListener)
+    private lateinit var tts: TextToSpeech
+
+    init {
+        coroutineScope.launch {
+            tts = TextToSpeech(applicationContext, initListener)
+        }
+    }
 
     private fun setDefaultLanguage() {
         defaultLanguage = try {

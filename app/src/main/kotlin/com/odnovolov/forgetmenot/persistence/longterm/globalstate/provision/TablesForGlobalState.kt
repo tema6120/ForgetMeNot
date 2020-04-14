@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision
 
-import com.odnovolov.forgetmenot.persistence.database
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.globalstate.*
 
 class TablesForGlobalState private constructor(
@@ -22,7 +22,7 @@ class TablesForGlobalState private constructor(
     val currentRepetitionSettingTable: Long
 ) {
     companion object {
-        fun load(): TablesForGlobalState {
+        fun load(database: Database): TablesForGlobalState {
             return with(database) {
                 TablesForGlobalState(
                     deckTable = deckQueries.selectAll().executeAsList(),

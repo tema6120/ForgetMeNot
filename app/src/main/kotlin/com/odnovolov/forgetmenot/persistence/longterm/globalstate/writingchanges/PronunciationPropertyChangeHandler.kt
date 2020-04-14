@@ -1,18 +1,22 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
-import com.odnovolov.forgetmenot.persistence.database
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
+import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import java.util.*
 
-object PronunciationPropertyChangeHandler {
+class PronunciationPropertyChangeHandler(
+    database: Database
+) : PropertyChangeHandler {
     private val queries = database.pronunciationQueries
 
-    fun handle(change: PropertyChangeRegistry.Change) {
+    override fun handle(change: PropertyChangeRegistry.Change) {
         if (change !is PropertyValueChange) return
-        val pronunciationId = change.propertyOwnerId
-        if (!queries.exists(pronunciationId).executeAsOne()) return
+        val pronunciationId: Long = change.propertyOwnerId
+        val exists: Boolean = queries.exists(pronunciationId).executeAsOne()
+        if (!exists) return
         when (change.property) {
             Pronunciation::name -> {
                 val name = change.newValue as String

@@ -1,19 +1,19 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
+import com.odnovolov.forgetmenot.domain.interactor.deckadder.Parser.IllegalCardFormatException
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.SetDialogText
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckCommand.ShowErrorMessage
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.io.InputStream
 
 class AddDeckController(
     private val addDeckScreenState: AddDeckScreenState,
@@ -22,55 +22,54 @@ class AddDeckController(
     private val longTermStateSaver: LongTermStateSaver,
     private val addDeckStateProvider: ShortTermStateProvider<DeckAdder.State>,
     private val addDeckScreenStateProvider: ShortTermStateProvider<AddDeckScreenState>
-) {
-    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val commandFlow = EventFlow<AddDeckCommand>()
-    val commands: Flow<AddDeckCommand> = commandFlow.get()
+) : BaseController<AddDeckEvent, Command>() {
+    sealed class Command {
+        class ShowErrorMessage(val exception: IllegalCardFormatException) : Command()
+        class SetDialogText(val text: String) : Command()
+    }
 
     init {
         deckAdder.events
             .onEach { event: DeckAdder.Event ->
                 when (event) {
                     is ParsingFinishedWithError -> {
-                        commandFlow.send(ShowErrorMessage(event.exception))
+                        sendCommand(ShowErrorMessage(event.exception))
                     }
                     is DeckNameIsOccupied -> {
-                        commandFlow.send(SetDialogText(event.occupiedName))
+                        sendCommand(SetDialogText(event.occupiedName))
                     }
                     is DeckHasBeenAdded -> {
                         val deckSettingsState = DeckSettings.State(event.deck)
-                        navigator.navigateToDeckSettings(deckSettingsState)
+                        navigator.navigateToDeckSettings()
                     }
                 }
             }
             .launchIn(coroutineScope)
     }
 
-    fun onContentReceived(inputStream: InputStream, fileName: String?) {
-        deckAdder.addFrom(inputStream, fileName)
+    override fun handle(event: AddDeckEvent) {
+        when (event) {
+            is ContentReceived -> {
+                deckAdder.addFrom(event.inputStream, event.fileName)
+            }
+
+            is DialogTextChanged -> {
+                addDeckScreenState.typedText = event.dialogText
+            }
+
+            PositiveDialogButtonClicked -> {
+                deckAdder.proposeDeckName(addDeckScreenState.typedText)
+            }
+
+            NegativeDialogButtonClicked -> {
+                deckAdder.cancel()
+            }
+        }
+    }
+
+    override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onDialogTextChanged(dialogText: String) {
-        addDeckScreenState.typedText = dialogText
-    }
-
-    fun onPositiveDialogButtonClicked() {
-        deckAdder.proposeDeckName(addDeckScreenState.typedText)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onNegativeDialogButtonClicked() {
-        deckAdder.cancel()
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun performSaving() {
         addDeckStateProvider.save(deckAdder.state)
         addDeckScreenStateProvider.save(addDeckScreenState)
-    }
-
-    fun onCleared() {
-        coroutineScope.cancel()
     }
 }

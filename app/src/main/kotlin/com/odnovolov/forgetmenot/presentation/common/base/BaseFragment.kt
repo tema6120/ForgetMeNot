@@ -8,15 +8,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
 open class BaseFragment : Fragment() {
-    var viewScope: CoroutineScope? = null
+    var viewCoroutineScope: CoroutineScope? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        viewCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }
 
     inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit) {
-        viewScope!!.launch {
+        viewCoroutineScope!!.launch {
             collect {
                 if (isActive) {
                     onEach(it)
@@ -26,7 +26,7 @@ open class BaseFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        viewScope!!.cancel()
+        viewCoroutineScope!!.cancel()
         super.onDestroyView()
     }
 }

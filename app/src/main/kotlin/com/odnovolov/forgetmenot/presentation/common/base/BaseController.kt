@@ -1,18 +1,20 @@
 package com.odnovolov.forgetmenot.presentation.common.base
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 
 abstract class BaseController<Event, Command> {
-    protected val coroutineScope = CoroutineScope(Job() + controllerDispatcher)
+    protected val coroutineScope = CoroutineScope(Job() + businessLogicThread)
     private val commandFlow = EventFlow<Command>()
     val commands: Flow<Command> = commandFlow.get()
+    protected open val autoSave = true
 
     fun dispatch(event: Event) {
         coroutineScope.launch {
             handle(event)
-            saveState()
+            if (autoSave) saveState()
         }
     }
 
@@ -28,5 +30,3 @@ abstract class BaseController<Event, Command> {
         coroutineScope.cancel()
     }
 }
-
-private val controllerDispatcher = newSingleThreadContext("Controller Thread")

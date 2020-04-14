@@ -1,19 +1,23 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
-import com.odnovolov.forgetmenot.persistence.database
+import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
+import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.toIntervalDb
 
-object IntervalSchemePropertyChangeHandler {
+class IntervalSchemePropertyChangeHandler(
+    private val database: Database
+) : PropertyChangeHandler {
     private val queries = database.intervalSchemeQueries
 
-    fun handle(change: PropertyChangeRegistry.Change) {
-        val intervalSchemeId = change.propertyOwnerId
-        if (!queries.exists(intervalSchemeId).executeAsOne()) return
+    override fun handle(change: PropertyChangeRegistry.Change) {
+        val intervalSchemeId: Long = change.propertyOwnerId
+        val exists: Boolean = queries.exists(intervalSchemeId).executeAsOne()
+        if (!exists) return
         when (change.property) {
             IntervalScheme::name -> {
                 if (change !is PropertyValueChange) return
