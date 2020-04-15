@@ -13,7 +13,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.CoroutineScope
 
-class ExerciseDiScope(
+class ExerciseDiScope private constructor(
     initialExerciseState: Exercise.State? = null
 ) {
     private val exerciseStateProvider = ExerciseStateProvider(
@@ -22,7 +22,8 @@ class ExerciseDiScope(
         AppDiScope.get().globalState
     )
 
-    private val exerciseState: Exercise.State = initialExerciseState ?: exerciseStateProvider.load()
+    private val exerciseState: Exercise.State =
+        initialExerciseState ?: exerciseStateProvider.load()
 
     private val walkingModePreferenceProvider = WalkingModePreferenceProvider(
         AppDiScope.get().database
@@ -81,6 +82,8 @@ class ExerciseDiScope(
     )
 
     companion object : DiScopeManager<ExerciseDiScope>() {
+        fun create(initialExerciseState: Exercise.State) = ExerciseDiScope(initialExerciseState)
+
         fun shareExercise(): Exercise {
             return diScope?.exercise ?: error("ExerciseDiScope is not opened")
         }

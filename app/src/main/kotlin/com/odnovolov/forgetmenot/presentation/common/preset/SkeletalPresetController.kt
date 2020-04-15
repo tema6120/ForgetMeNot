@@ -1,51 +1,68 @@
 package com.odnovolov.forgetmenot.presentation.common.preset
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.preset.DialogPurpose.*
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetEvent.*
+import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetController.Command
 import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetController.Command.ShowDialogWithText
-import kotlinx.coroutines.flow.Flow
 
 abstract class SkeletalPresetController(
     private val dialogState: PresetDialogState,
-    private val dialogStateProvider: ShortTermStateProvider<PresetDialogState>
-) {
+    private val dialogStateProvider: ShortTermStateProvider<PresetDialogState>,
+    private val longTermStateSaver: LongTermStateSaver
+) : BaseController<PresetEvent, Command>() {
     sealed class Command {
         class ShowDialogWithText(val text: String) : Command()
     }
 
-    protected val commandFlow = EventFlow<Command>()
-    val commands: Flow<Command> = commandFlow.get()
+    override fun handle(event: PresetEvent) {
+        when (event) {
+            SavePresetButtonClicked -> {
+                dialogState.purpose = ToMakeIndividualPresetAsShared
+                sendCommand(ShowDialogWithText(""))
+            }
 
-    fun onSavePresetButtonClicked() {
-        dialogState.purpose = ToMakeIndividualPresetAsShared
-        commandFlow.send(ShowDialogWithText(""))
+            is SetPresetButtonClicked -> {
+                onSetPresetButtonClicked(event.id)
+            }
+
+            is RenamePresetButtonClicked -> {
+                dialogState.purpose = ToRenameSharedPreset(event.id)
+                val currentName: String = getPresetName(event.id)
+                sendCommand(ShowDialogWithText(currentName))
+            }
+
+            is DeletePresetButtonClicked -> {
+                onDeletePresetButtonClicked(event.id)
+            }
+
+            AddNewPresetButtonClicked -> {
+                dialogState.purpose = ToCreateNewSharedPreset
+                sendCommand(ShowDialogWithText(""))
+            }
+
+            is PresetNameInputChanged -> {
+                dialogState.typedPresetName = event.typedName
+            }
+
+            PresetNamePositiveDialogButtonClicked -> {
+                onPresetNamePositiveDialogButtonClicked()
+            }
+        }
     }
 
-    abstract fun onSetPresetButtonClicked(id: Long?)
-
-    fun onRenamePresetButtonClicked(id: Long) {
-        dialogState.purpose = ToRenameSharedPreset(id)
-        val currentName: String = getPresetName(id)
-        commandFlow.send(ShowDialogWithText(currentName))
-    }
+    protected abstract fun onSetPresetButtonClicked(id: Long?)
 
     protected abstract fun getPresetName(id: Long): String
 
-    abstract fun onDeletePresetButtonClicked(id: Long)
+    protected abstract fun onDeletePresetButtonClicked(id: Long)
 
-    fun onAddNewPresetButtonClicked() {
-        dialogState.purpose = ToCreateNewSharedPreset
-        commandFlow.send(ShowDialogWithText(""))
-    }
+    protected abstract fun onPresetNamePositiveDialogButtonClicked()
 
-    fun onPresetNameInputChanged(typedName: String) {
-        dialogState.typedPresetName = typedName
-    }
-
-    abstract fun onPresetNamePositiveDialogButtonClicked()
-
-    fun performSaving() {
+    override fun saveState() {
+        longTermStateSaver.saveStateByRegistry()
         dialogStateProvider.save(dialogState)
     }
 }

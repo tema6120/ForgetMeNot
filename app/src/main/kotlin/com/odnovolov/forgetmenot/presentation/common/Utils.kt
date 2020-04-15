@@ -131,3 +131,7 @@ fun TextView.fixTextSelection() {
     setTextIsSelectable(false)
     post { setTextIsSelectable(true) }
 }
+
+fun Fragment.needToCloseDiScope(): Boolean {
+    return isRemoving || !requireActivity().isChangingConfigurations
+}

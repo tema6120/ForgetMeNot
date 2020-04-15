@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
-import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
@@ -10,13 +9,12 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import org.koin.java.KoinJavaComponent.getKoin
 import java.util.*
 
 class PronunciationViewModel(
     deckSettingsState: DeckSettings.State,
     speakerImpl: SpeakerImpl
-) : ViewModel() {
+) {
     private val availableLanguages: Flow<Set<Locale>> = speakerImpl.state
         .flowOf(SpeakerImpl.State::availableLanguages)
 
@@ -87,8 +85,4 @@ class PronunciationViewModel(
         .flatMapLatest { currentPronunciation: Pronunciation ->
             currentPronunciation.flowOf(Pronunciation::speakTextInBrackets)
         }
-
-    override fun onCleared() {
-        getKoin().getScope(PRONUNCIATION_SCOPE_ID).close()
-    }
 }

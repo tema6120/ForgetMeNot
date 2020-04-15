@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer
 
-import LAST_ANSWER_FILTER_SCOPE_ID
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
@@ -10,32 +9,34 @@ import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
+import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterEvent.*
 import kotlinx.android.synthetic.main.dialog_last_answer_filter.view.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.launch
 
 class LastAnswerFilterDialog : BaseDialogFragment() {
-    private val koinScope = getKoin()
-        .getOrCreateScope<LastAnswerFilterViewModel>(LAST_ANSWER_FILTER_SCOPE_ID)
-    private val viewModel: LastAnswerFilterViewModel by koinScope.viewModel(this)
-    private val controller: LastAnswerFilterController by koinScope.inject()
+    init {
+        RepetitionSettingsDiScope.reopenIfClosed()
+        LastAnswerFilterDiScope.reopenIfClosed()
+    }
+
+    private var controller: LastAnswerFilterController? = null
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         onCreateDialog()
         rootView = View.inflate(requireContext(), R.layout.dialog_last_answer_filter, null)
         setupView()
-        observeViewModel()
-        val titleId: Int =
-            if (viewModel.isFromDialog) R.string.last_answer_time_from_filter_dialog_title
-            else R.string.last_answer_time_to_filter_dialog_title
         return AlertDialog.Builder(requireContext())
-            .setTitle(titleId)
+            .setTitle(" ") // need to set any title (but not empty) so that dialog will build with Title TextView
             .setView(rootView)
-            .setPositiveButton(android.R.string.ok) { _, _ -> controller.onOkButtonClicked() }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                controller?.dispatch(OkButtonClicked)
+            }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
     }
@@ -48,10 +49,10 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
 
     private fun setupRadioButtons() {
         rootView.zeroTimeButton.setOnClickListener {
-            controller.onZeroTimeRadioButtonClicked()
+            controller?.dispatch(ZeroTimeRadioButtonClicked)
         }
         rootView.specificTimeSpanButton.setOnClickListener {
-            controller.onSpecificTimeRadioButtonClicked()
+            controller?.dispatch(SpecificTimeRadioButtonClicked)
         }
         rootView.specificTimeSpanRadioButton.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -62,7 +63,9 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
     }
 
     private fun setupValueEditText() {
-        rootView.valueEditText.observeText(controller::onIntervalValueChanged)
+        rootView.valueEditText.observeText { text: String ->
+            controller?.dispatch(IntervalValueChanged(text))
+        }
     }
 
     private fun setupUnitPicker() {
@@ -85,13 +88,27 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
             wrapSelectorWheel = false
             setOnValueChangedListener { _, _, newValue: Int ->
                 val intervalUnit = DisplayedInterval.IntervalUnit.values()[newValue]
-                controller.onIntervalUnitChanged(intervalUnit)
+                controller?.dispatch(IntervalUnitChanged(intervalUnit))
             }
         }
     }
 
-    private fun observeViewModel() {
+    override fun onStart() {
+        super.onStart()
+        viewCoroutineScope!!.launch {
+            val diScope = LastAnswerFilterDiScope.get()
+            controller = diScope.controller
+            observeViewModel(diScope.viewModel)
+        }
+    }
+
+    private fun observeViewModel(viewModel: LastAnswerFilterViewModel) {
         with(viewModel) {
+            val titleId: Int =
+                if (isFromDialog)
+                    R.string.last_answer_time_from_filter_dialog_title else
+                    R.string.last_answer_time_to_filter_dialog_title
+            dialog!!.setTitle(titleId)
             with(rootView) {
                 zeroTimeRadioButton.text = getString(
                     if (isFromDialog) R.string.zero_time else R.string.now
@@ -138,10 +155,10 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
         rootView.agoTextView.isEnabled = isEnabled
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
+    override fun onDestroy() {
+        super.onDestroy()
+        if (needToCloseDiScope()) {
+            LastAnswerFilterDiScope.close()
         }
     }
 }

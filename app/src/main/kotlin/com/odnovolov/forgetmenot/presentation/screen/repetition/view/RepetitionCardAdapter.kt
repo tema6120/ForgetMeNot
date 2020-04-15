@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R.layout
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionCardAdapter.ViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.ShowAnswerButtonClicked
 import kotlinx.android.synthetic.main.item_repetition_card.view.*
 
 class RepetitionCardAdapter(
@@ -47,7 +48,7 @@ class RepetitionCardAdapter(
                 answerScrollView.visibility = View.GONE
                 showAnswerButton.visibility = View.VISIBLE
                 showAnswerButton.setOnClickListener {
-                    controller.onShowAnswerButtonClicked()
+                    controller.dispatch(ShowAnswerButtonClicked)
                 }
             }
         }

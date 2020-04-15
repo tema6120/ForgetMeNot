@@ -2,34 +2,38 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
-import java.util.*
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationEvent.*
 
 class PronunciationController(
     private val pronunciationSettings: PronunciationSettings,
     private val longTermStateSaver: LongTermStateSaver
-) {
-    fun onQuestionLanguageSelected(language: Locale?) {
-        pronunciationSettings.setQuestionLanguage(language)
-        longTermStateSaver.saveStateByRegistry()
+) : BaseController<PronunciationEvent, Nothing>() {
+    override fun handle(event: PronunciationEvent) {
+        when (event) {
+            is QuestionLanguageSelected -> {
+                pronunciationSettings.setQuestionLanguage(event.language)
+            }
+
+            QuestionAutoSpeakSwitchToggled -> {
+                pronunciationSettings.toggleQuestionAutoSpeak()
+            }
+
+            is AnswerLanguageSelected -> {
+                pronunciationSettings.setAnswerLanguage(event.language)
+            }
+
+            AnswerAutoSpeakSwitchToggled -> {
+                pronunciationSettings.toggleAnswerAutoSpeak()
+            }
+
+            SpeakTextInBracketsSwitchToggled -> {
+                pronunciationSettings.toggleSpeakTextInBrackets()
+            }
+        }
     }
 
-    fun onQuestionAutoSpeakSwitchToggled() {
-        pronunciationSettings.toggleQuestionAutoSpeak()
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onAnswerLanguageSelected(language: Locale?) {
-        pronunciationSettings.setAnswerLanguage(language)
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onAnswerAutoSpeakSwitchToggled() {
-        pronunciationSettings.toggleAnswerAutoSpeak()
-        longTermStateSaver.saveStateByRegistry()
-    }
-
-    fun onSpeakTextInBracketsSwitchToggled() {
-        pronunciationSettings.toggleSpeakTextInBrackets()
+    override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
     }
 }

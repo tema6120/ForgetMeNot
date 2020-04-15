@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.speakplan
 
-import SPEAK_PLAN_SCOPE_ID
 import android.app.Dialog
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,24 +11,37 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanSettingsEvent.*
 import kotlinx.android.synthetic.main.dialog_speak_event.view.*
-import org.koin.android.ext.android.getKoin
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SpeakEventDialog : BaseDialogFragment() {
-    private val koinScope = getKoin().getScope(SPEAK_PLAN_SCOPE_ID)
-    private val viewModel: SpeakPlanViewModel by koinScope.inject()
-    private val controller: SpeakPlanController by koinScope.inject()
+    init {
+        DeckSettingsDiScope.reopenIfClosed()
+        SpeakPlanDiScope.reopenIfClosed()
+    }
+
+    private var controller: SpeakPlanController? = null
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         onCreateDialog()
         rootView = View.inflate(requireContext(), R.layout.dialog_speak_event, null)
         setupView()
-        observeViewModel(isRestoring = savedInstanceState != null)
+        val isRestoring = savedInstanceState != null
+        viewCoroutineScope!!.launch(Dispatchers.Main) {
+            val diScope = SpeakPlanDiScope.get()
+            controller = diScope.controller
+            observeViewModel(diScope.viewModel, isRestoring)
+        }
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.title_dialog_speak_event)
             .setView(rootView)
-            .setPositiveButton(android.R.string.ok) { _, _ -> controller.onDialogOkButtonClicked() }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                controller?.dispatch(DialogOkButtonClicked)
+            }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
     }
@@ -37,21 +49,23 @@ class SpeakEventDialog : BaseDialogFragment() {
     private fun setupView() {
         with(rootView) {
             speakQuestionButton.setOnClickListener {
-                controller.onSpeakQuestionRadioButtonClicked()
+                controller?.dispatch(SpeakQuestionRadioButtonClicked)
                 dismiss()
             }
             speakAnswerButton.setOnClickListener {
-                controller.onSpeakAnswerRadioButtonClicked()
+                controller?.dispatch(SpeakAnswerRadioButtonClicked)
                 dismiss()
             }
             delayButton.setOnClickListener {
-                controller.onDelayButtonClicked()
+                controller?.dispatch(DelayButtonClicked)
             }
-            delayEditText.observeText(controller::onDelayInputChanged)
+            delayEditText.observeText { text: String ->
+                controller?.dispatch(DelayInputChanged(text))
+            }
         }
     }
 
-    private fun observeViewModel(isRestoring: Boolean) {
+    private fun observeViewModel(viewModel: SpeakPlanViewModel, isRestoring: Boolean) {
         with(viewModel) {
             with(rootView) {
                 if (!isRestoring) {

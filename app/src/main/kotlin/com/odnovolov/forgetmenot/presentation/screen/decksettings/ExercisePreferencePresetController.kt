@@ -15,14 +15,14 @@ class ExercisePreferencePresetController(
     private val presetDialogState: PresetDialogState,
     private val globalState: GlobalState,
     presetDialogStateProvider: ShortTermStateProvider<PresetDialogState>,
-    private val longTermStateSaver: LongTermStateSaver
+    longTermStateSaver: LongTermStateSaver
 ) : SkeletalPresetController(
     presetDialogState,
-    presetDialogStateProvider
+    presetDialogStateProvider,
+    longTermStateSaver
 ) {
     override fun onSetPresetButtonClicked(id: Long?) {
         deckSettings.setExercisePreference(exercisePreferenceId = id!!)
-        longTermStateSaver.saveStateByRegistry()
     }
 
     override fun getPresetName(id: Long): String {
@@ -31,7 +31,6 @@ class ExercisePreferencePresetController(
 
     override fun onDeletePresetButtonClicked(id: Long) {
         deckSettings.deleteSharedExercisePreference(exercisePreferenceId = id)
-        longTermStateSaver.saveStateByRegistry()
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
@@ -51,6 +50,5 @@ class ExercisePreferencePresetController(
                 deckSettings.renameExercisePreference(exercisePreference, newPresetName)
             }
         }
-        longTermStateSaver.saveStateByRegistry()
     }
 }

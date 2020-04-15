@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
 abstract class BaseService : Service() {
-    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     fun <T> Flow<T>.observe(onEach: (value: T) -> Unit) {
-        serviceScope.launch {
+        coroutineScope.launch {
             collect {
                 if (isActive) {
                     onEach(it)
@@ -19,6 +19,7 @@ abstract class BaseService : Service() {
     }
 
     override fun onDestroy() {
-        serviceScope.cancel()
+        super.onDestroy()
+        coroutineScope.cancel()
     }
 }

@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalAdapter.ViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.ModifyIntervalButtonClicked
 import kotlinx.android.synthetic.main.item_interval.view.*
 
 class IntervalAdapter(private val controller: IntervalsController) :
@@ -30,7 +31,7 @@ class IntervalAdapter(private val controller: IntervalsController) :
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
             intervalTextView.text = displayedInterval.toString(context)
             modifyIntervalButton.setOnClickListener {
-                controller.onModifyIntervalButtonClicked(interval.targetLevelOfKnowledge)
+                controller.dispatch(ModifyIntervalButtonClicked(interval.targetLevelOfKnowledge))
             }
         }
     }

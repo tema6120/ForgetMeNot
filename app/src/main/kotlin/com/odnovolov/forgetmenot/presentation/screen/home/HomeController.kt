@@ -13,10 +13,14 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -87,9 +91,15 @@ class HomeController(
             }
 
             is SetupDeckMenuItemClicked -> {
-                val deck: Deck = globalState.decks.find { it.id == event.deckId } ?: return
-                val deckSettingsState = DeckSettings.State(deck)
-                navigator.navigateToDeckSettings()
+                navigator.navigateToDeckSettings {
+                    val deck: Deck = globalState.decks.first { it.id == event.deckId }
+                    val deckSettingsState = DeckSettings.State(deck)
+                    DeckSettingsDiScope.create(
+                        deckSettingsState,
+                        DeckSettingsScreenState(),
+                        PresetDialogState()
+                    )
+                }
             }
 
             is RemoveDeckMenuItemClicked -> {
@@ -131,19 +141,20 @@ class HomeController(
     }
 
     private fun startRepetitionSettings(deckIds: List<Long>) {
-        val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
-        val repetitionCreatorState = RepetitionStateCreator.State(decks)
-        navigator.navigateToRepetitionSettings()
+        navigator.navigateToRepetitionSettings {
+            val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
+            val repetitionCreatorState = RepetitionStateCreator.State(decks)
+            RepetitionSettingsDiScope.create(repetitionCreatorState, PresetDialogState())
+        }
     }
 
     private fun startExercise(deckIds: List<Long>, isWalkingMode: Boolean) {
         if (exerciseStateCreator.hasAnyCardAvailableForExercise(deckIds)) {
-            ExerciseDiScope.open {
+            navigator.navigateToExercise {
                 val exerciseState: Exercise.State =
                     exerciseStateCreator.create(deckIds, isWalkingMode)
-                ExerciseDiScope(exerciseState)
+                ExerciseDiScope.create(exerciseState)
             }
-            navigator.navigateToExercise()
         } else {
             sendCommand(ShowNoCardIsReadyForExerciseMessage)
         }

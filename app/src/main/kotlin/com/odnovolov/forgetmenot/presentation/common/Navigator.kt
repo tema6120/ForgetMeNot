@@ -6,6 +6,17 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDiScope
+import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanDiScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -13,27 +24,38 @@ import kotlinx.coroutines.launch
 class Navigator : ActivityLifecycleCallbacks {
     private var navController: NavController? = null
 
-    fun navigateToExercise() {
+    fun navigateToExercise(createDiScope: () -> ExerciseDiScope) {
+        ExerciseDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_exercise_screen)
     }
 
-    fun navigateToEditCard() {
+    fun navigateToEditCard(createDiScope: () -> EditCardDiScope) {
+        EditCardDiScope.open(createDiScope)
         navigate(R.id.action_exercise_screen_to_edit_card_screen)
     }
 
-    fun navigateToDeckSettings() {
+    fun navigateToDeckSettings(createDiScope: () -> DeckSettingsDiScope) {
+        DeckSettingsDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_deck_settings_screen)
     }
 
-    fun navigateToIntervals() {
+    fun navigateToIntervals(createDiScope: () -> IntervalsDiScope) {
+        IntervalsDiScope.open(createDiScope)
         navigate(R.id.action_deck_settings_screen_to_intervals_screen)
     }
 
-    fun navigateToPronunciation() {
+    fun showModifyIntervalDialog(createDiScope: () -> ModifyIntervalDiScope) {
+        ModifyIntervalDiScope.open(createDiScope)
+        navigate(R.id.action_show_modify_interval_dialog)
+    }
+
+    fun navigateToPronunciation(createDiScope: () -> PronunciationDiScope) {
+        PronunciationDiScope.open(createDiScope)
         navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
     }
 
-    fun navigateToSpeakPlan() {
+    fun navigateToSpeakPlan(createDiScope: () -> SpeakPlanDiScope) {
+        SpeakPlanDiScope.open(createDiScope)
         navigate(R.id.action_deck_settings_screen_to_speak_plan_screen)
     }
 
@@ -41,19 +63,23 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_show_speak_event_dialog)
     }
 
-    fun navigateToRepetitionSettings() {
+    fun navigateToRepetitionSettings(createDiScope: () -> RepetitionSettingsDiScope) {
+        RepetitionSettingsDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_repetition_settings_screen)
     }
 
-    fun showLastAnswerFilterDialog() {
+    fun showLastAnswerFilterDialog(createDiScope: () -> LastAnswerFilterDiScope) {
+        LastAnswerFilterDiScope.open(createDiScope)
         navigate(R.id.action_show_last_answer_filter_dialog)
     }
 
-    fun showRepetitionLapsDialog() {
+    fun showRepetitionLapsDialog(createDiScope: () -> RepetitionLapsDiScope) {
+        RepetitionLapsDiScope.open(createDiScope)
         navigate(R.id.action_show_repetition_last_dialog)
     }
 
-    fun navigateToRepetition() {
+    fun navigateToRepetition(createDiScope: () -> RepetitionDiScope) {
+        RepetitionDiScope.open(createDiScope)
         navigate(R.id.action_repetition_settings_screen_to_repetition_screen)
     }
 
@@ -78,18 +104,14 @@ class Navigator : ActivityLifecycleCallbacks {
     }
 
     override fun onActivityStarted(activity: Activity) {
-        GlobalScope.launch(Dispatchers.Main.immediate) {
-            if (activity is MainActivity && navController == null) {
-                navController = activity.findNavController(R.id.navHostFragment)
-            }
+        if (activity is MainActivity && navController == null) {
+            navController = activity.findNavController(R.id.navHostFragment)
         }
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        GlobalScope.launch(Dispatchers.Main.immediate) {
-            if (activity is MainActivity) {
-                navController = null
-            }
+        if (activity is MainActivity) {
+            navController = null
         }
     }
 

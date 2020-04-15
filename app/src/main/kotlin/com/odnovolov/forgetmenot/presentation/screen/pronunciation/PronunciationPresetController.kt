@@ -16,15 +16,15 @@ class PronunciationPresetController(
     private val pronunciationSettings: PronunciationSettings,
     private val presetDialogState: PresetDialogState,
     private val globalState: GlobalState,
-    private val longTermStateSaver: LongTermStateSaver,
+    longTermStateSaver: LongTermStateSaver,
     presetDialogStateProvider: ShortTermStateProvider<PresetDialogState>
 ) : SkeletalPresetController(
     presetDialogState,
-    presetDialogStateProvider
+    presetDialogStateProvider,
+    longTermStateSaver
 ) {
     override fun onSetPresetButtonClicked(id: Long?) {
         pronunciationSettings.setPronunciation(pronunciationId = id!!)
-        longTermStateSaver.saveStateByRegistry()
     }
 
     override fun getPresetName(id: Long): String {
@@ -33,7 +33,6 @@ class PronunciationPresetController(
 
     override fun onDeletePresetButtonClicked(id: Long) {
         pronunciationSettings.deleteSharedPronunciation(pronunciationId = id)
-        longTermStateSaver.saveStateByRegistry()
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
@@ -52,6 +51,5 @@ class PronunciationPresetController(
                 pronunciationSettings.renamePronunciation(pronunciation, newPresetName)
             }
         }
-        longTermStateSaver.saveStateByRegistry()
     }
 }

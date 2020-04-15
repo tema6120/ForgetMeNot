@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
-import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.checkDeckName
 import com.odnovolov.forgetmenot.domain.entity.*
@@ -8,13 +7,12 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import org.koin.java.KoinJavaComponent.getKoin
 
 class DeckSettingsViewModel(
     deckSettingsScreenState: DeckSettingsScreenState,
     deckSettingsState: DeckSettings.State,
     private val globalState: GlobalState
-) : ViewModel() {
+) {
     private val currentExercisePreference: Flow<ExercisePreference> =
         deckSettingsState.deck.flowOf(Deck::exercisePreference).share()
 
@@ -53,8 +51,4 @@ class DeckSettingsViewModel(
         .flatMapLatest { exercisePreference: ExercisePreference ->
             exercisePreference.flowOf(ExercisePreference::cardReverse)
         }
-
-    override fun onCleared() {
-        getKoin().getScope(DECK_SETTINGS_SCOPED_ID).close()
-    }
 }

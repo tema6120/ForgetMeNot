@@ -7,25 +7,25 @@ import android.view.View.VISIBLE
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_repetition_settings.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
 class RepetitionSettingsFragment : BaseFragment() {
-    private val koinScope =
-        getKoin().getOrCreateScope<RepetitionSettings>(REPETITION_SETTINGS_SCOPE_ID)
-    private val viewModel: RepetitionSettingsViewModel by koinScope.viewModel(this)
-    private val controller: RepetitionSettingsController by koinScope.inject()
+    init {
+        RepetitionSettingsDiScope.reopenIfClosed()
+    }
+
+    private var controller: RepetitionSettingsController? = null
     private var isLevelOfKnowledgeRangeListenerEnabled = true
 
     override fun onCreateView(
@@ -37,59 +37,33 @@ class RepetitionSettingsFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_repetition_settings, container, false)
     }
 
-    override fun onAttachFragment(childFragment: Fragment) {
-        if (childFragment is PresetFragment) {
-            childFragment.controller = koinScope.get()
-            childFragment.viewModel = koinScope.get()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
+        viewCoroutineScope!!.launch {
+            val diScope = RepetitionSettingsDiScope.get()
+            controller = diScope.controller
+            val presetFragment = childFragmentManager
+                .findFragmentByTag("RepetitionSetting Preset Tag") as PresetFragment
+            presetFragment.inject(diScope.presetController, diScope.presetViewModel)
+            observeViewModel(diScope.viewModel)
+            controller!!.commands.observe(::executeCommand)
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupMatchingCardsLabel()
+    private fun setupView() {
         setupFilterGroups()
         setupLevelOfKnowledgeRangeBar()
         setupLastAnswerFilter()
         setupNumberOfLaps()
-        controller.commands.observe(::executeCommand)
-    }
-
-    private fun setupMatchingCardsLabel() {
-        viewModel.matchingCardsNumber.observe { matchingCardsNumber: Int ->
-            matchingCardsNumberTextView.text = matchingCardsNumber.toString()
-            matchingCardsLabelTextView.text = resources.getQuantityString(
-                R.plurals.matching_cards_number_label,
-                matchingCardsNumber
-            )
-        }
     }
 
     private fun setupFilterGroups() {
-        with(viewModel) {
-            fun updateCheckBox(checkBox: CheckBox, isChecked: Boolean) {
-                with(checkBox) {
-                    setChecked(isChecked)
-                    if (visibility == INVISIBLE) {
-                        jumpDrawablesToCurrentState()
-                        visibility = VISIBLE
-                    }
-                }
-            }
-            isAvailableForExerciseGroupChecked.observe { isChecked: Boolean ->
-                updateCheckBox(availableForExerciseGroupCheckBox, isChecked)
-            }
-            isAwaitingGroupChecked.observe { isChecked: Boolean ->
-                updateCheckBox(awaitingGroupCheckBox, isChecked)
-            }
-            isLearnedGroupChecked.observe { isChecked: Boolean ->
-                updateCheckBox(learnedGroupCheckBox, isChecked)
-            }
-        }
         availableForExerciseGroupButton.setOnClickListener {
-            controller.onAvailableForExerciseGroupButtonClicked()
+            controller?.dispatch(AvailableForExerciseGroupButtonClicked)
         }
-        awaitingGroupButton.setOnClickListener { controller.onAwaitingGroupButtonClicked() }
-        learnedGroupButton.setOnClickListener { controller.onLearnedGroupButtonClicked() }
+        awaitingGroupButton.setOnClickListener { controller?.dispatch(AwaitingGroupButtonClicked) }
+        learnedGroupButton.setOnClickListener { controller?.dispatch(LearnedGroupButtonClicked) }
     }
 
     private fun setupLevelOfKnowledgeRangeBar() {
@@ -115,7 +89,7 @@ class RepetitionSettingsFragment : BaseFragment() {
                             if (isLevelOfKnowledgeRangeListenerEnabled) {
                                 val min = leftPinValue?.toInt() ?: return
                                 val max = rightPinValue?.toInt() ?: return
-                                controller.onLevelOfKnowledgeRangeChanged(min..max)
+                                controller?.dispatch(LevelOfKnowledgeRangeChanged(min..max))
                             }
                             updateLevelOfKnowledgeRangeSelectorColors()
                         }
@@ -130,30 +104,6 @@ class RepetitionSettingsFragment : BaseFragment() {
                         oldRightPinValue = rightPinValue
                     }
                 })
-            tickStart = viewModel.availableLevelOfKnowledgeRange.first.toFloat()
-            tickEnd = viewModel.availableLevelOfKnowledgeRange.last.toFloat()
-            val list = (tickStart.toInt()..tickEnd.toInt())
-                .map(::getLevelOfKnowledgeColor)
-            setConnectingLineColors(ArrayList(list))
-            updateLevelOfKnowledgeRangeSelectorColors()
-            tickTopLabels = viewModel.availableLevelOfKnowledgeRange
-                .map { it.toString() }
-                .toTypedArray()
-        }
-        viewModel.selectedLevelOfKnowledgeRange.observe { levelOfKnowledgeRange: IntRange ->
-            isLevelOfKnowledgeRangeListenerEnabled = false
-            levelOfKnowledgeRangeBar.setRangePinsByValue(
-                levelOfKnowledgeRange.first.toFloat(),
-                levelOfKnowledgeRange.last.toFloat()
-            )
-            isLevelOfKnowledgeRangeListenerEnabled = true
-        }
-    }
-
-    private fun updateLevelOfKnowledgeRangeSelectorColors() {
-        with(levelOfKnowledgeRangeBar) {
-            leftSelectorColor = getLevelOfKnowledgeColor(leftPinValue.toInt())
-            rightSelectorColor = getLevelOfKnowledgeColor(rightPinValue.toInt())
         }
     }
 
@@ -171,7 +121,43 @@ class RepetitionSettingsFragment : BaseFragment() {
     }
 
     private fun setupLastAnswerFilter() {
+        lastAnswerFromButton.setOnClickListener {
+            controller?.dispatch(LastAnswerFromButtonClicked)
+        }
+        lastAnswerToButton.setOnClickListener { controller?.dispatch(LastAnswerToButtonClicked) }
+    }
+
+    private fun setupNumberOfLaps() {
+        lapsButton.setOnClickListener { controller?.dispatch(LapsButtonClicked) }
+    }
+
+    private fun observeViewModel(viewModel: RepetitionSettingsViewModel) {
         with(viewModel) {
+            matchingCardsNumber.observe { matchingCardsNumber: Int ->
+                matchingCardsNumberTextView.text = matchingCardsNumber.toString()
+                matchingCardsLabelTextView.text = resources.getQuantityString(
+                    R.plurals.matching_cards_number_label,
+                    matchingCardsNumber
+                )
+            }
+            isAvailableForExerciseGroupChecked.observe { isChecked: Boolean ->
+                updateCheckBox(availableForExerciseGroupCheckBox, isChecked)
+            }
+            isAwaitingGroupChecked.observe { isChecked: Boolean ->
+                updateCheckBox(awaitingGroupCheckBox, isChecked)
+            }
+            isLearnedGroupChecked.observe { isChecked: Boolean ->
+                updateCheckBox(learnedGroupCheckBox, isChecked)
+            }
+            availableLevelOfKnowledgeRange.let(::adaptLevelOfKnowledgeBarToAvailableRange)
+            selectedLevelOfKnowledgeRange.observe { levelOfKnowledgeRange: IntRange ->
+                isLevelOfKnowledgeRangeListenerEnabled = false
+                levelOfKnowledgeRangeBar.setRangePinsByValue(
+                    levelOfKnowledgeRange.first.toFloat(),
+                    levelOfKnowledgeRange.last.toFloat()
+                )
+                isLevelOfKnowledgeRangeListenerEnabled = true
+            }
             lastAnswerFromTimeAgo.observe { lastAnswerFromTimeAgo: DisplayedInterval? ->
                 lastAnswerFromTextView.text =
                     if (lastAnswerFromTimeAgo == null) {
@@ -192,31 +178,50 @@ class RepetitionSettingsFragment : BaseFragment() {
                         getString(R.string.time_ago, timeAgo)
                     }
             }
-        }
-        lastAnswerFromButton.setOnClickListener {
-            controller.onLastAnswerFromButtonClicked()
-        }
-        lastAnswerToButton.setOnClickListener {
-            controller.onLastAnswerToButtonClicked()
+            numberOfLaps.observe { numberOfLaps: Int ->
+                val isInfinitely = numberOfLaps == Int.MAX_VALUE
+                if (isInfinitely) {
+                    lapNumberTextView.setText(R.string.infinitely)
+                } else {
+                    lapNumberTextView.text =
+                        resources.getQuantityString(
+                            R.plurals.number_of_laps_with_args,
+                            numberOfLaps,
+                            numberOfLaps
+                        )
+                }
+            }
         }
     }
 
-    private fun setupNumberOfLaps() {
-        viewModel.numberOfLaps.observe { numberOfLaps: Int ->
-            val isInfinitely = numberOfLaps == Int.MAX_VALUE
-            if (isInfinitely) {
-                lapNumberTextView.setText(R.string.infinitely)
-            } else {
-                lapNumberTextView.text =
-                    resources.getQuantityString(
-                        R.plurals.number_of_laps_with_args,
-                        numberOfLaps,
-                        numberOfLaps
-                    )
+    private fun updateCheckBox(checkBox: CheckBox, isChecked: Boolean) {
+        with(checkBox) {
+            setChecked(isChecked)
+            if (visibility == INVISIBLE) {
+                jumpDrawablesToCurrentState()
+                visibility = VISIBLE
             }
         }
-        lapsButton.setOnClickListener {
-            controller.onLapsButtonClicked()
+    }
+
+    private fun adaptLevelOfKnowledgeBarToAvailableRange(availableLevelOfKnowledgeRange: IntRange) {
+        with(levelOfKnowledgeRangeBar) {
+            tickStart = availableLevelOfKnowledgeRange.first.toFloat()
+            tickEnd = availableLevelOfKnowledgeRange.last.toFloat()
+            tickTopLabels = availableLevelOfKnowledgeRange
+                .map { it.toString() }
+                .toTypedArray()
+            val list = (tickStart.toInt()..tickEnd.toInt())
+                .map(::getLevelOfKnowledgeColor)
+            setConnectingLineColors(ArrayList(list))
+            updateLevelOfKnowledgeRangeSelectorColors()
+        }
+    }
+
+    private fun updateLevelOfKnowledgeRangeSelectorColors() {
+        with(levelOfKnowledgeRangeBar) {
+            leftSelectorColor = getLevelOfKnowledgeColor(leftPinValue.toInt())
+            rightSelectorColor = getLevelOfKnowledgeColor(rightPinValue.toInt())
         }
     }
 
@@ -239,17 +244,17 @@ class RepetitionSettingsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_start_repetition -> {
-                controller.onStartRepetitionMenuItemClicked()
+                controller?.dispatch(StartRepetitionMenuItemClicked)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
+    override fun onDestroy() {
+        super.onDestroy()
+        if (needToCloseDiScope()) {
+            RepetitionSettingsDiScope.close()
         }
     }
 }

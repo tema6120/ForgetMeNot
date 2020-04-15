@@ -16,6 +16,7 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetEvent.*
 import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetController.Command.ShowDialogWithText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import kotlinx.android.synthetic.main.dialog_input.view.*
@@ -23,8 +24,8 @@ import kotlinx.android.synthetic.main.fragment_preset.*
 import kotlinx.android.synthetic.main.popup_preset.view.*
 
 class PresetFragment : BaseFragment() {
-    lateinit var viewModel: SkeletalPresetViewModel // it's initialized from parent fragment
-    lateinit var controller: SkeletalPresetController // it's initialized from parent fragment
+    private lateinit var viewModel: SkeletalPresetViewModel
+    private var controller: SkeletalPresetController? = null
     private lateinit var popup: PopupWindow
     private lateinit var presetAdapter: PresetAdapter
     private lateinit var nameInputDialog: AlertDialog
@@ -52,19 +53,19 @@ class PresetFragment : BaseFragment() {
             contentView = View.inflate(context, R.layout.popup_preset, null)
             presetAdapter = PresetAdapter(
                 onSetPresetButtonClick = { id: Long? ->
-                    controller.onSetPresetButtonClicked(id)
+                    controller?.dispatch(SetPresetButtonClicked(id))
                     dismiss()
                 },
                 onRenamePresetButtonClick = { id: Long ->
-                    controller.onRenamePresetButtonClicked(id)
+                    controller?.dispatch(RenamePresetButtonClicked(id))
                 },
                 onDeletePresetButtonClick = { id: Long ->
-                    controller.onDeletePresetButtonClicked(id)
+                    controller?.dispatch(DeletePresetButtonClicked(id))
                 }
             )
             contentView.presetRecyclerView.adapter = presetAdapter
             contentView.addPresetButton.setOnClickListener {
-                controller.onAddNewPresetButtonClicked()
+                controller?.dispatch(AddNewPresetButtonClicked)
             }
         }
     }
@@ -72,12 +73,14 @@ class PresetFragment : BaseFragment() {
     private fun initNameInputDialog() {
         val contentView = View.inflate(context, R.layout.dialog_input, null)
         nameEditText = contentView.dialogInput
-        nameEditText.observeText(controller::onPresetNameInputChanged)
+        nameEditText.observeText { text: String ->
+            controller?.dispatch(PresetNameInputChanged(text))
+        }
         nameInputDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.title_preset_name_input_dialog)
             .setView(contentView)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                controller.onPresetNamePositiveDialogButtonClicked()
+                controller?.dispatch(PresetNamePositiveDialogButtonClicked)
             }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
@@ -87,12 +90,23 @@ class PresetFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        observe()
+    }
+
+    fun inject(controller: SkeletalPresetController, viewModel: SkeletalPresetViewModel) {
+        this.controller = controller
+        this.viewModel = viewModel
+        observe()
+    }
+
+    private fun observe() {
+        if (viewCoroutineScope == null || controller == null) return
         observeViewModel()
-        controller.commands.observe(::executeCommand)
+        controller!!.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
-        savePresetButton.setOnClickListener { controller.onSavePresetButtonClicked() }
+        savePresetButton.setOnClickListener { controller?.dispatch(SavePresetButtonClicked) }
         selectPresetButton.setOnClickListener { showPopup() }
     }
 
@@ -139,13 +153,6 @@ class PresetFragment : BaseFragment() {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.getBundle(STATE_KEY_NAME_INPUT_DIALOG)
             ?.let(nameInputDialog::onRestoreInstanceState)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

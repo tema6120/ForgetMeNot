@@ -10,13 +10,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingCommand.DismissBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingEvent.SortByButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.home.needToCloseDiScope
 import kotlinx.android.synthetic.main.bottom_sheet_deck_sorting.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

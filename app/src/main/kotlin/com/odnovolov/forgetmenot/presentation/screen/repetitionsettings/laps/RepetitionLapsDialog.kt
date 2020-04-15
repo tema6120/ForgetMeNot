@@ -1,39 +1,64 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps
 
-import REPETITION_LAPS_SCOPE_ID
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsEvent.*
 import kotlinx.android.synthetic.main.dialog_repetition_laps.view.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.launch
 
 class RepetitionLapsDialog : BaseDialogFragment() {
-    private val koinScope = getKoin()
-        .getOrCreateScope<RepetitionLapsViewModel>(REPETITION_LAPS_SCOPE_ID)
-    private val viewModel: RepetitionLapsViewModel by koinScope.viewModel(this)
-    private val controller: RepetitionLapsController by koinScope.inject()
+    init {
+        RepetitionSettingsDiScope.reopenIfClosed()
+        RepetitionLapsDiScope.reopenIfClosed()
+    }
+
+    private var controller: RepetitionLapsController? = null
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         onCreateDialog()
         rootView = View.inflate(context, R.layout.dialog_repetition_laps, null)
-        observeViewModel()
         setupView()
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.title_number_of_laps)
             .setView(rootView)
-            .setPositiveButton(android.R.string.ok) { _, _ -> controller.onOkButtonClicked() }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                controller?.dispatch(OkButtonClicked)
+            }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
     }
 
-    private fun observeViewModel() {
+    private fun setupView() {
+        with(rootView) {
+            lapsButton.setOnClickListener { controller?.dispatch(LapsRadioButtonClicked) }
+            infinitelyButton.setOnClickListener {
+                controller?.dispatch(InfinitelyRadioButtonClicked)
+            }
+            lapsEditText.observeText { text: String ->
+                controller?.dispatch(LapsInputChanged(text))
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewCoroutineScope!!.launch {
+            val diScope = RepetitionLapsDiScope.get()
+            controller = diScope.controller
+            observeViewModel(diScope.viewModel)
+        }
+    }
+
+    private fun observeViewModel(viewModel: RepetitionLapsViewModel) {
         with(rootView) {
             with(viewModel) {
                 lapsEditText.setText(numberOfLapsInput)
@@ -73,18 +98,10 @@ class RepetitionLapsDialog : BaseDialogFragment() {
         }
     }
 
-    private fun setupView() {
-        with(rootView) {
-            lapsButton.setOnClickListener { controller.onLapsRadioButtonClicked() }
-            infinitelyButton.setOnClickListener { controller.onInfinitelyRadioButtonClicked() }
-            lapsEditText.observeText(controller::onLapsInputChanged)
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
+    override fun onDestroy() {
+        super.onDestroy()
+        if (needToCloseDiScope()) {
+            RepetitionLapsDiScope.close()
         }
     }
 }

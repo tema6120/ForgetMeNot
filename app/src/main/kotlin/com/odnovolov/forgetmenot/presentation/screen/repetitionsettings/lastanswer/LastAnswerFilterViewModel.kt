@@ -1,15 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer
 
-import LAST_ANSWER_FILTER_SCOPE_ID
-import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import org.koin.java.KoinJavaComponent.getKoin
 
 class LastAnswerFilterViewModel(
     private val dialogState: LastAnswerFilterDialogState
-) : ViewModel() {
+) {
     val isFromDialog: Boolean = dialogState.isFromDialog
 
     val intervalValueText: String
@@ -26,9 +23,5 @@ class LastAnswerFilterViewModel(
         dialogState.timeAgo.asFlow()
     ) { isZeroTimeSelected: Boolean, timeAgo: DisplayedInterval ->
         isZeroTimeSelected || timeAgo.isValid()
-    }
-
-    override fun onCleared() {
-        getKoin().getScope(LAST_ANSWER_FILTER_SCOPE_ID).close()
     }
 }

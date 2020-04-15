@@ -8,6 +8,7 @@
             android:id="@+id/zeroTimeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/agoTextView"
             app:layout_constraintStart_toStartOf="@+id/specificTimeSpanButton"
             app:layout_constraintTop_toTopOf="parent">

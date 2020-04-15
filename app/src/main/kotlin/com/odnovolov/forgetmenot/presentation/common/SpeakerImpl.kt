@@ -24,7 +24,7 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
     val state = State()
     private val eventFlow = EventFlow<Event>()
     val events: Flow<Event> = eventFlow.get()
-    private val coroutineScope = CoroutineScope(Job() + Dispatchers.IO)
+    private val coroutineScope = CoroutineScope(newSingleThreadContext("SpeakerThread"))
     private var defaultLanguage: Locale? = null
     private var delayedSpokenText: String? = null
     private var delayedLanguage: Locale? = null
@@ -97,15 +97,17 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
     }
 
     override fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit) {
-        tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-            override fun onDone(utteranceId: String?) {
-                onSpeakingFinished()
-            }
+        coroutineScope.launch {
+            tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onDone(utteranceId: String?) {
+                    onSpeakingFinished()
+                }
 
-            override fun onError(utteranceId: String?) {}
+                override fun onError(utteranceId: String?) {}
 
-            override fun onStart(utteranceId: String?) {}
-        })
+                override fun onStart(utteranceId: String?) {}
+            })
+        }
     }
 
     override fun stop() {

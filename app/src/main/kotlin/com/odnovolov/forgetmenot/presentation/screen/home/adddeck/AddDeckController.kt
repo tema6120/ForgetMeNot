@@ -8,6 +8,9 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
@@ -39,8 +42,14 @@ class AddDeckController(
                         sendCommand(SetDialogText(event.occupiedName))
                     }
                     is DeckHasBeenAdded -> {
-                        val deckSettingsState = DeckSettings.State(event.deck)
-                        navigator.navigateToDeckSettings()
+                        navigator.navigateToDeckSettings {
+                            val deckSettingsState = DeckSettings.State(event.deck)
+                            DeckSettingsDiScope.create(
+                                deckSettingsState,
+                                DeckSettingsScreenState(),
+                                PresetDialogState()
+                            )
+                        }
                     }
                 }
             }

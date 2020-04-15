@@ -9,29 +9,41 @@ import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalEvent.*
 import kotlinx.android.synthetic.main.dialog_modify_interval.view.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ModifyIntervalDialog : BaseDialogFragment() {
-    private val koinScope =
-        getKoin().getOrCreateScope<ModifyIntervalViewModel>(MODIFY_INTERVAL_SCOPE_ID)
-    private val viewModel: ModifyIntervalViewModel by koinScope.viewModel(this)
-    private val controller: ModifyIntervalController by koinScope.inject()
+    init {
+        DeckSettingsDiScope.reopenIfClosed()
+        IntervalsDiScope.reopenIfClosed()
+        ModifyIntervalDiScope.reopenIfClosed()
+    }
+
+    private var controller: ModifyIntervalController? = null
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         onCreateDialog()
         rootView = View.inflate(requireContext(), R.layout.dialog_modify_interval, null)
-
         setupView()
-        observeViewModel(isRestoring = savedInstanceState != null)
-
+        val isRestoring = savedInstanceState != null
+        viewCoroutineScope!!.launch(Dispatchers.Main) {
+            val diScope = ModifyIntervalDiScope.get()
+            controller = diScope.controller
+            observeViewModel(diScope.viewModel, isRestoring)
+        }
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.dialog_title_modify_interval)
             .setView(rootView)
-            .setPositiveButton(android.R.string.ok) { _, _ -> controller.onOkButtonClicked() }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                controller?.dispatch(OkButtonClicked)
+            }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
             .apply { window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE) }
@@ -45,7 +57,9 @@ class ModifyIntervalDialog : BaseDialogFragment() {
     private fun setupNumberEditText() {
         with(rootView.numberEditText) {
             requestFocus()
-            observeText(controller::onIntervalValueChanged)
+            observeText { text: String ->
+                controller?.dispatch(IntervalValueChanged(text))
+            }
         }
     }
 
@@ -69,12 +83,12 @@ class ModifyIntervalDialog : BaseDialogFragment() {
             wrapSelectorWheel = false
             setOnValueChangedListener { _, _, newValue: Int ->
                 val intervalUnit = DisplayedInterval.IntervalUnit.values()[newValue]
-                controller.onIntervalUnitChanged(intervalUnit)
+                controller?.dispatch(IntervalUnitChanged(intervalUnit))
             }
         }
     }
 
-    private fun observeViewModel(isRestoring: Boolean) {
+    private fun observeViewModel(viewModel: ModifyIntervalViewModel, isRestoring: Boolean) {
         if (!isRestoring) {
             rootView.numberEditText.run {
                 setText(viewModel.intervalValueText)
@@ -88,10 +102,10 @@ class ModifyIntervalDialog : BaseDialogFragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
+    override fun onDestroy() {
+        super.onDestroy()
+        if (needToCloseDiScope()) {
+            ModifyIntervalDiScope.close()
         }
     }
 }

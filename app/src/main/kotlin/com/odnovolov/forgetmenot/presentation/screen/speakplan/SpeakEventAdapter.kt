@@ -13,6 +13,8 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventAdapter.ViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanSettingsEvent.RemoveSpeakEventButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanSettingsEvent.SpeakEventButtonClicked
 import kotlinx.android.synthetic.main.item_speak_event.view.*
 
 class SpeakEventAdapter(
@@ -70,10 +72,10 @@ class SpeakEventAdapter(
             }
             removeSpeakEventButton.visibility = if (speakEventItem.isRemovable) VISIBLE else GONE
             speakEventButton.setOnClickListener {
-                controller.onSpeakEventButtonClicked(speakEvent.id)
+                controller.dispatch(SpeakEventButtonClicked(speakEvent.id))
             }
             removeSpeakEventButton.setOnClickListener {
-                controller.onRemoveSpeakEventButtonClicked(speakEvent.id)
+                controller.dispatch(RemoveSpeakEventButtonClicked(speakEvent.id))
             }
         }
     }

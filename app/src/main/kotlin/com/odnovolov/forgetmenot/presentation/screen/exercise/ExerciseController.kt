@@ -34,12 +34,6 @@ class ExerciseController(
         object ShowIntervalsAreOffMessage : Command()
     }
 
-    init {
-        coroutineScope.launch {
-            saveState()
-        }
-    }
-
     override fun handle(event: ExerciseEvent) {
         when (event) {
             is PageSelected -> {
@@ -60,14 +54,13 @@ class ExerciseController(
             }
 
             EditCardButtonClicked -> {
-                EditCardDiScope.open {
+                navigator.navigateToEditCard {
                     val editCardScreenState = EditCardScreenState().apply {
                         question = exercise.currentExerciseCard.base.card.question
                         answer = exercise.currentExerciseCard.base.card.answer
                     }
                     EditCardDiScope(editCardScreenState)
                 }
-                navigator.navigateToEditCard()
             }
 
             HintButtonClicked -> {

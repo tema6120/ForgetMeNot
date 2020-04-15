@@ -9,6 +9,7 @@ class RepetitionServiceModel(
     private val repetitionState: Repetition.State
 ) {
     val question: Flow<String> = repetitionState.flowOf(Repetition.State::repetitionCardPosition)
+        // todo: flatMapLatest!
         .map { position: Int ->
             val repetitionCard: RepetitionCard = repetitionState.repetitionCards[position]
             with(repetitionCard) { if (isReverse) card.answer else card.question }

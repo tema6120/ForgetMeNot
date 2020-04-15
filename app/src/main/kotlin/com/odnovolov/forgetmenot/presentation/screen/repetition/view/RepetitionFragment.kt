@@ -12,28 +12,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
-import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionScopeCloser
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionService
+import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.SetViewPagerPosition
 import kotlinx.android.synthetic.main.fragment_repetition.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.launch
 
 class RepetitionFragment : BaseFragment() {
-    private val koinScope = getKoin().getOrCreateScope<Repetition>(REPETITION_SCOPE_ID)
-    private val viewModel: RepetitionViewModel by koinScope.viewModel(this)
-    private val controller: RepetitionViewController by koinScope.inject()
-    private val repetitionCardAdapter by lazy { RepetitionCardAdapter(controller) }
+    init {
+        RepetitionDiScope.isFragmentAlive = true
+    }
+
+    private var controller: RepetitionViewController? = null
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        koinScope.get<RepetitionScopeCloser>().isFragmentAlive = true
         (activity as AppCompatActivity).supportActionBar?.run {
             setShowHideAnimationEnabled(false)
             hide()
@@ -51,18 +50,25 @@ class RepetitionFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        observeViewModel()
-        controller.commands.observe(::executeCommand)
+        viewCoroutineScope!!.launch {
+            val diScope = RepetitionDiScope.get()
+            controller = diScope.viewController
+            repetitionViewPager.adapter = diScope.adapter
+            observeViewModel(
+                diScope.viewModel,
+                diScope.adapter
+            )
+            controller!!.commands.observe(::executeCommand)
+        }
     }
 
     private fun setupView() {
-        repetitionViewPager.adapter = repetitionCardAdapter
         repetitionViewPager.registerOnPageChangeCallback(onPageChangeCallback)
-        pauseButton.setOnClickListener { controller.onPauseButtonClicked() }
-        resumeButton.setOnClickListener { controller.onResumeButtonClicked() }
+        pauseButton.setOnClickListener { controller?.dispatch(PauseButtonClicked) }
+        resumeButton.setOnClickListener { controller?.dispatch(ResumeButtonClicked) }
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(viewModel: RepetitionViewModel, adapter: RepetitionCardAdapter) {
         with(viewModel) {
             isPlaying.observe { isPlaying ->
                 if (isPlaying) {
@@ -75,8 +81,8 @@ class RepetitionFragment : BaseFragment() {
                 }
             }
             repetitionCards.observe { repetitionCards: List<RepetitionCard> ->
-                val isFirst = repetitionCardAdapter.items.isEmpty()
-                repetitionCardAdapter.items = repetitionCards
+                val isFirst = adapter.items.isEmpty()
+                adapter.items = repetitionCards
                 if (isFirst) {
                     repetitionViewPager.setCurrentItem(repetitionCardPosition, false)
                 }
@@ -97,13 +103,6 @@ class RepetitionFragment : BaseFragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         repetitionViewPager.adapter = null
@@ -117,11 +116,14 @@ class RepetitionFragment : BaseFragment() {
             val intent = Intent(context, RepetitionService::class.java)
             requireContext().stopService(intent)
         }
+        if (needToCloseDiScope()) {
+            RepetitionDiScope.isFragmentAlive = false
+        }
     }
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            controller.onNewPageBecameSelected(position)
+            controller?.dispatch(NewPageBecameSelected(position))
         }
     }
 }

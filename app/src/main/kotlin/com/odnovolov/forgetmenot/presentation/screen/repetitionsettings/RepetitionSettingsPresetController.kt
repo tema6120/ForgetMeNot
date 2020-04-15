@@ -14,15 +14,15 @@ class RepetitionSettingsPresetController(
     private val repetitionSettings: RepetitionSettings,
     private val presetDialogState: PresetDialogState,
     private val globalState: GlobalState,
-    private val longTermStateSaver: LongTermStateSaver,
+    longTermStateSaver: LongTermStateSaver,
     presetDialogStateProvider: ShortTermStateProvider<PresetDialogState>
 ) : SkeletalPresetController(
     presetDialogState,
-    presetDialogStateProvider
+    presetDialogStateProvider,
+    longTermStateSaver
 ) {
     override fun onSetPresetButtonClicked(id: Long?) {
         repetitionSettings.setCurrentRepetitionSetting(repetitionSettingId = id!!)
-        longTermStateSaver.saveStateByRegistry()
     }
 
     override fun getPresetName(id: Long): String {
@@ -31,7 +31,6 @@ class RepetitionSettingsPresetController(
 
     override fun onDeletePresetButtonClicked(id: Long) {
         repetitionSettings.deleteSharedRepetitionSetting(repetitionSettingId = id)
-        longTermStateSaver.saveStateByRegistry()
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
@@ -51,6 +50,5 @@ class RepetitionSettingsPresetController(
                 repetitionSettings.renameRepetitionSetting(repetitionSetting, newPresetName)
             }
         }
-        longTermStateSaver.saveStateByRegistry()
     }
 }

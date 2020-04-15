@@ -3,24 +3,25 @@ package com.odnovolov.forgetmenot.presentation.screen.intervals
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsCommand.ShowModifyIntervalDialog
-import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialog
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.AddIntervalButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.RemoveIntervalButtonClicked
 import kotlinx.android.synthetic.main.fragment_intervals.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.launch
 
 class IntervalsFragment : BaseFragment() {
-    private val koinScope = getKoin().getOrCreateScope<IntervalsViewModel>(INTERVALS_SCOPE_ID)
-    private val viewModel: IntervalsViewModel by koinScope.viewModel(this)
-    private val controller: IntervalsController by koinScope.inject()
-    private val adapter: IntervalAdapter by lazy { IntervalAdapter(controller) }
+    init {
+        DeckSettingsDiScope.reopenIfClosed()
+        IntervalsDiScope.reopenIfClosed()
+    }
+
+    private var controller: IntervalsController? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,42 +31,35 @@ class IntervalsFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_intervals, container, false)
     }
 
-    override fun onAttachFragment(childFragment: Fragment) {
-        if (childFragment is PresetFragment) {
-            childFragment.controller = koinScope.get()
-            childFragment.viewModel = koinScope.get()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        observeViewModel()
-        controller.commands.observe(::executeCommand)
+        viewCoroutineScope!!.launch {
+            val diScope = IntervalsDiScope.get()
+            controller = diScope.controller
+            val presetFragment = childFragmentManager
+                .findFragmentByTag("IntervalScheme Preset Tag") as PresetFragment
+            presetFragment.inject(diScope.presetController, diScope.presetViewModel)
+            intervalsRecyclerView.adapter = diScope.adapter
+            observeViewModel(diScope.viewModel, diScope.adapter)
+        }
     }
 
     private fun setupView() {
-        intervalsRecyclerView.adapter = adapter
-        addIntervalButton.setOnClickListener { controller.onAddIntervalButtonClicked() }
-        removeIntervalButton.setOnClickListener { controller.onRemoveIntervalButtonClicked() }
+        addIntervalButton.setOnClickListener { controller?.dispatch(AddIntervalButtonClicked) }
+        removeIntervalButton.setOnClickListener {
+            controller?.dispatch(RemoveIntervalButtonClicked)
+        }
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(viewModel: IntervalsViewModel, adapter: IntervalAdapter) {
         with(viewModel) {
             intervals.observe(adapter::submitList)
             isRemoveIntervalButtonEnabled.observe { isEnabled: Boolean ->
                 removeIntervalButton.isEnabled = isEnabled
             }
             canBeEdited.observe { canBeEdited: Boolean ->
-                intervalsEditionGroup.visibility = if (canBeEdited) VISIBLE else INVISIBLE
-            }
-        }
-    }
-
-    private fun executeCommand(command: IntervalsCommand) {
-        when (command) {
-            ShowModifyIntervalDialog -> {
-                ModifyIntervalDialog().show(childFragmentManager, MODIFY_INTERVAL_FRAGMENT_TAG)
+                intervalsEditionGroup.isVisible = canBeEdited
             }
         }
     }
@@ -75,7 +69,10 @@ class IntervalsFragment : BaseFragment() {
         intervalsRecyclerView.adapter = null
     }
 
-    companion object {
-        const val MODIFY_INTERVAL_FRAGMENT_TAG = "ModifyIntervalFragment"
+    override fun onDestroy() {
+        super.onDestroy()
+        if (needToCloseDiScope()) {
+            IntervalsDiScope.close()
+        }
     }
 }

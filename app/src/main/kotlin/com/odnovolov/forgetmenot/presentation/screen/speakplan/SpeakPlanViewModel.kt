@@ -1,7 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.speakplan
 
-import SPEAK_PLAN_SCOPE_ID
-import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
@@ -11,12 +9,11 @@ import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialogS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import org.koin.java.KoinJavaComponent.getKoin
 
 class SpeakPlanViewModel(
     deckSettingsState: DeckSettings.State,
-    private val dialogState: SpeakEventDialogState
-) : ViewModel() {
+    dialogState: SpeakEventDialogState
+) {
     val speakEventItems: Flow<List<SpeakEventItem>> = deckSettingsState.deck
         .flowOf(Deck::exercisePreference)
         .flatMapLatest { exercisePreference: ExercisePreference ->
@@ -58,8 +55,4 @@ class SpeakPlanViewModel(
                 null -> false
             }
         }
-
-    override fun onCleared() {
-        getKoin().getScope(SPEAK_PLAN_SCOPE_ID).close()
-    }
 }

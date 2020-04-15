@@ -24,6 +24,14 @@ class RepetitionStateCreator(
         }
     }
 
+    fun hasAnyCardAvailableForRepetition(): Boolean {
+        return state.decks.any { deck: Deck ->
+            deck.cards.any { card: Card ->
+                isCardMatchTheFilter(card, deck)
+            }
+        }
+    }
+
     fun create(): Repetition.State {
         val repetitionCards: List<RepetitionCard> = state.decks
             .map { deck: Deck ->

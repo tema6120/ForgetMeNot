@@ -6,22 +6,24 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupWindow
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
 import com.odnovolov.forgetmenot.presentation.common.uncover
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationEvent.*
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.launch
 import java.util.*
 
 class PronunciationFragment : BaseFragment() {
-    private val koinScope =
-        getKoin().getOrCreateScope<PronunciationViewModel>(PRONUNCIATION_SCOPE_ID)
-    private val viewModel: PronunciationViewModel by koinScope.viewModel(this)
-    private val controller: PronunciationController by koinScope.inject()
+    init {
+        DeckSettingsDiScope.reopenIfClosed()
+        PronunciationDiScope.reopenIfClosed()
+    }
+
+    private var controller: PronunciationController? = null
     private lateinit var questionLanguagePopup: PopupWindow
     private lateinit var questionLanguageAdapter: LanguageAdapter
     private lateinit var answerLanguagePopup: PopupWindow
@@ -47,17 +49,17 @@ class PronunciationFragment : BaseFragment() {
         isFocusable = true
     }
 
-    override fun onAttachFragment(childFragment: Fragment) {
-        if (childFragment is PresetFragment) {
-            childFragment.controller = koinScope.get()
-            childFragment.viewModel = koinScope.get()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        observeViewModel()
+        viewCoroutineScope!!.launch {
+            val diScope = PronunciationDiScope.get()
+            controller = diScope.controller
+            val presetFragment = childFragmentManager
+                .findFragmentByTag("Pronunciation Preset Tag") as PresetFragment
+            presetFragment.inject(diScope.presetController, diScope.presetViewModel)
+            observeViewModel(diScope.viewModel)
+        }
     }
 
     private fun setupView() {
@@ -68,7 +70,7 @@ class PronunciationFragment : BaseFragment() {
     private fun initAdapters() {
         questionLanguageAdapter = LanguageAdapter(
             onItemClick = { language: Locale? ->
-                controller.onQuestionLanguageSelected(language)
+                controller?.dispatch(QuestionLanguageSelected(language))
                 questionLanguagePopup.dismiss()
             }
         )
@@ -76,7 +78,7 @@ class PronunciationFragment : BaseFragment() {
 
         answerLanguageAdapter = LanguageAdapter(
             onItemClick = { language: Locale? ->
-                controller.onAnswerLanguageSelected(language)
+                controller?.dispatch(AnswerLanguageSelected(language))
                 answerLanguagePopup.dismiss()
             }
         )
@@ -88,16 +90,16 @@ class PronunciationFragment : BaseFragment() {
             showLanguagePopup(questionLanguagePopup, anchor = questionLanguageTextView)
         }
         questionAutoSpeakButton.setOnClickListener {
-            controller.onQuestionAutoSpeakSwitchToggled()
+            controller?.dispatch(QuestionAutoSpeakSwitchToggled)
         }
         answerLanguageTextView.setOnClickListener {
             showLanguagePopup(answerLanguagePopup, anchor = answerLanguageTextView)
         }
         answerAutoSpeakButton.setOnClickListener {
-            controller.onAnswerAutoSpeakSwitchToggled()
+            controller?.dispatch(AnswerAutoSpeakSwitchToggled)
         }
         speakTextInBracketsButton.setOnClickListener {
-            controller.onSpeakTextInBracketsSwitchToggled()
+            controller?.dispatch(SpeakTextInBracketsSwitchToggled)
         }
         goToTtsSettingsButton.setOnClickListener {
             navigateToTtsSettings()
@@ -122,7 +124,7 @@ class PronunciationFragment : BaseFragment() {
         )
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(viewModel: PronunciationViewModel) {
         with(viewModel) {
             selectedQuestionLanguage.observe { selectedQuestionLanguage ->
                 questionLanguageTextView.text =
@@ -147,5 +149,10 @@ class PronunciationFragment : BaseFragment() {
                 speakTextInBracketsSwitch.uncover()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        PronunciationDiScope.close()
     }
 }

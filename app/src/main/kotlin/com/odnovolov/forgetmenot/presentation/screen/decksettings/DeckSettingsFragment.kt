@@ -9,7 +9,6 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
@@ -20,20 +19,23 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command.ShowRenameDialogWithText
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.scope.viewModel
+import kotlinx.coroutines.launch
 
 class DeckSettingsFragment : BaseFragment() {
-    private val koinScope = getKoin()
-        .getOrCreateScope<DeckSettingsViewModel>(DECK_SETTINGS_SCOPED_ID)
-    private val viewModel: DeckSettingsViewModel by koinScope.viewModel(this)
-    private val controller: DeckSettingsController by koinScope.inject()
+    init {
+        DeckSettingsDiScope.reopenIfClosed()
+    }
+
+    private var controller: DeckSettingsController? = null
+    private lateinit var viewModel: DeckSettingsViewModel
     private lateinit var renameDeckDialog: AlertDialog
     private lateinit var renameDeckEditText: EditText
     private lateinit var chooseTestMethodDialog: Dialog
@@ -55,12 +57,14 @@ class DeckSettingsFragment : BaseFragment() {
     private fun initRenameDeckDialog() {
         val contentView = View.inflate(context, R.layout.dialog_input, null)
         renameDeckEditText = contentView.dialogInput
-        renameDeckEditText.observeText(controller::onRenameDeckDialogTextChanged)
+        renameDeckEditText.observeText { text: String ->
+            controller?.dispatch(RenameDeckDialogTextChanged(text))
+        }
         renameDeckDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.title_rename_deck_dialog)
             .setView(contentView)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                controller.onRenameDeckDialogPositiveButtonClicked()
+                controller?.dispatch(RenameDeckDialogPositiveButtonClicked)
             }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
@@ -74,7 +78,7 @@ class DeckSettingsFragment : BaseFragment() {
             itemForm = AsRadioButton,
             onItemClick = { item: TestMethodItem ->
                 val chosenTestMethod = item.testMethod
-                controller.onSelectedTestMethod(chosenTestMethod)
+                controller?.dispatch(SelectedTestMethod(chosenTestMethod))
                 chooseTestMethodDialog.dismiss()
             },
             takeAdapter = { testMethodAdapter = it }
@@ -88,36 +92,39 @@ class DeckSettingsFragment : BaseFragment() {
             itemForm = AsRadioButton,
             onItemClick = { item: CardReverseItem ->
                 val chosenCardReverse = item.cardReverse
-                controller.onSelectedCardReverse(chosenCardReverse)
+                controller?.dispatch(SelectedCardReverse(chosenCardReverse))
                 chooseCardReverseDialog.dismiss()
             },
             takeAdapter = { cardReverseAdapter = it }
         )
     }
 
-    override fun onAttachFragment(childFragment: Fragment) {
-        if (childFragment is PresetFragment) {
-            childFragment.controller = koinScope.get()
-            childFragment.viewModel = koinScope.get()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        observeViewModel()
-        controller.commands.observe(::executeCommand)
+        viewCoroutineScope!!.launch {
+            val diScope = DeckSettingsDiScope.get()
+            controller = diScope.controller
+            viewModel = diScope.viewModel
+            val presetFragment = childFragmentManager
+                .findFragmentByTag("ExercisePreference Preset Tag") as PresetFragment
+            presetFragment.inject(diScope.presetController, diScope.presetViewModel)
+            observeViewModel()
+            controller!!.commands.observe(::executeCommand)
+        }
     }
 
     private fun setupView() {
-        renameDeckButton.setOnClickListener { controller.onRenameDeckButtonClicked() }
-        randomButton.setOnClickListener { controller.onRandomOrderSwitchToggled() }
+        renameDeckButton.setOnClickListener { controller?.dispatch(RenameDeckButtonClicked) }
+        randomButton.setOnClickListener { controller?.dispatch(RandomOrderSwitchToggled) }
         testMethodButton.setOnClickListener { chooseTestMethodDialog.show() }
-        intervalsButton.setOnClickListener { controller.onIntervalsButtonClicked() }
-        pronunciationButton.setOnClickListener { controller.onPronunciationButtonClicked() }
-        displayQuestionButton.setOnClickListener { controller.onDisplayQuestionSwitchToggled() }
+        intervalsButton.setOnClickListener { controller?.dispatch(IntervalsButtonClicked) }
+        pronunciationButton.setOnClickListener { controller?.dispatch(PronunciationButtonClicked) }
+        displayQuestionButton.setOnClickListener {
+            controller?.dispatch(DisplayQuestionSwitchToggled)
+        }
         cardReverseButton.setOnClickListener { chooseCardReverseDialog.show() }
-        speakPlanButton.setOnClickListener { controller.onSpeakPlanButtonClicked() }
+        speakPlanButton.setOnClickListener { controller?.dispatch(SpeakPlanButtonClicked) }
     }
 
     private fun observeViewModel() {
@@ -234,13 +241,6 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (!isRemoving) {
-            controller.performSaving()
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (::renameDeckDialog.isInitialized) {
@@ -263,21 +263,28 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (needToCloseDiScope()) {
+            DeckSettingsDiScope.close()
+        }
+    }
+
+    data class TestMethodItem(
+        val testMethod: TestMethod,
+        override val text: String,
+        override val isSelected: Boolean
+    ) : Item
+
+    data class CardReverseItem(
+        val cardReverse: CardReverse,
+        override val text: String,
+        override val isSelected: Boolean
+    ) : Item
+
     companion object {
         const val STATE_KEY_RENAME_DECK_DIALOG = "renameDeckDialog"
         const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "chooseTestMethodDialog"
         const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "chooseCardReverseDialog"
     }
 }
-
-data class TestMethodItem(
-    val testMethod: TestMethod,
-    override val text: String,
-    override val isSelected: Boolean
-) : Item
-
-data class CardReverseItem(
-    val cardReverse: CardReverse,
-    override val text: String,
-    override val isSelected: Boolean
-) : Item

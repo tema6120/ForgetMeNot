@@ -3,24 +3,28 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.service
 import android.content.Intent
 import android.os.IBinder
 import com.odnovolov.forgetmenot.presentation.common.base.BaseService
-import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
-import com.odnovolov.forgetmenot.presentation.screen.repetition.REPETITION_SCOPE_ID
-import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionScopeCloser
-import org.koin.android.ext.android.getKoin
+import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionServiceEvent.PauseNotificationActionClicked
+import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionServiceEvent.ResumeNotificationActionClicked
+import kotlinx.coroutines.launch
 
 class RepetitionService : BaseService() {
-    private val koinScope = getKoin().getOrCreateScope<Repetition>(REPETITION_SCOPE_ID)
-    private val serviceModel: RepetitionServiceModel by koinScope.inject()
-    private val controller: RepetitionServiceController by koinScope.inject()
+    init {
+        RepetitionDiScope.isServiceAlive = true
+    }
+
     private lateinit var notificationBuilder: NotificationBuilder
 
     override fun onCreate() {
-        koinScope.get<RepetitionScopeCloser>().isServiceAlive = true
+        super.onCreate()
         notificationBuilder = NotificationBuilder(context = this)
-        observeServiceModel()
+        coroutineScope.launch {
+            val diScope = RepetitionDiScope.get()
+            observeServiceModel(diScope.serviceModel)
+        }
     }
 
-    private fun observeServiceModel() {
+    private fun observeServiceModel(serviceModel: RepetitionServiceModel) {
         with(serviceModel) {
             question.observe { question ->
                 notificationBuilder.contextText = question
@@ -39,9 +43,13 @@ class RepetitionService : BaseService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            ACTION_PAUSE -> controller.onPauseNotificationActionClicked()
-            ACTION_RESUME -> controller.onResumeNotificationActionClicked()
+        coroutineScope.launch {
+            val diScope = RepetitionDiScope.get()
+            val controller = diScope.serviceController
+            when (intent?.action) {
+                ACTION_PAUSE -> controller.dispatch(PauseNotificationActionClicked)
+                ACTION_RESUME -> controller.dispatch(ResumeNotificationActionClicked)
+            }
         }
         return START_NOT_STICKY
     }
@@ -50,7 +58,7 @@ class RepetitionService : BaseService() {
 
     override fun onDestroy() {
         super.onDestroy()
-        koinScope.get<RepetitionScopeCloser>().isServiceAlive = false
+        RepetitionDiScope.isServiceAlive = false
     }
 
     companion object {

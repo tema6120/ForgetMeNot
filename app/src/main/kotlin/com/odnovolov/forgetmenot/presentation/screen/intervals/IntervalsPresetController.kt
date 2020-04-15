@@ -16,15 +16,15 @@ class IntervalsPresetController(
     private val intervalsSettings: IntervalsSettings,
     private val presetDialogState: PresetDialogState,
     private val globalState: GlobalState,
-    private val longTermStateSaver: LongTermStateSaver,
+    longTermStateSaver: LongTermStateSaver,
     presetDialogStateProvider: ShortTermStateProvider<PresetDialogState>
 ) : SkeletalPresetController(
     presetDialogState,
-    presetDialogStateProvider
+    presetDialogStateProvider,
+    longTermStateSaver
 ) {
     override fun onSetPresetButtonClicked(id: Long?) {
         intervalsSettings.setIntervalScheme(intervalSchemeId = id)
-        longTermStateSaver.saveStateByRegistry()
     }
 
     override fun getPresetName(id: Long): String {
@@ -33,7 +33,6 @@ class IntervalsPresetController(
 
     override fun onDeletePresetButtonClicked(id: Long) {
         intervalsSettings.deleteSharedIntervalScheme(intervalSchemeId = id)
-        longTermStateSaver.saveStateByRegistry()
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
@@ -52,6 +51,5 @@ class IntervalsPresetController(
                 intervalsSettings.renameIntervalScheme(intervalScheme, newPresetName)
             }
         }
-        longTermStateSaver.saveStateByRegistry()
     }
 }

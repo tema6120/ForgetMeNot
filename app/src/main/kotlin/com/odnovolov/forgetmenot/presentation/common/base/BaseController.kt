@@ -11,6 +11,12 @@ abstract class BaseController<Event, Command> {
     val commands: Flow<Command> = commandFlow.get()
     protected open val autoSave = true
 
+    init {
+        coroutineScope.launch {
+            if (autoSave) saveState()
+        }
+    }
+
     fun dispatch(event: Event) {
         coroutineScope.launch {
             handle(event)

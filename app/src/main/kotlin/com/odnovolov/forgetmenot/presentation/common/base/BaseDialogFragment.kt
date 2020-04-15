@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
 open class BaseDialogFragment : DialogFragment() {
-    var viewScope: CoroutineScope? = null
+    var viewCoroutineScope: CoroutineScope? = null
 
     fun onCreateDialog() {
-        viewScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        viewCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }
 
     fun <T> Flow<T>.observe(onEach: (value: T) -> Unit) {
-        viewScope!!.launch {
+        viewCoroutineScope!!.launch {
             collect {
                 if (isActive) {
                     onEach(it)
@@ -23,7 +23,7 @@ open class BaseDialogFragment : DialogFragment() {
     }
 
     override fun onDestroyView() {
-        viewScope!!.cancel()
+        viewCoroutineScope!!.cancel()
         super.onDestroyView()
     }
 }

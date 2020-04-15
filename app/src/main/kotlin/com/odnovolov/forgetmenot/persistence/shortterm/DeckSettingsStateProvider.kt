@@ -11,8 +11,8 @@ import kotlinx.serialization.json.Json
 class DeckSettingsStateProvider(
     json: Json,
     database: Database,
-    override val key: String = DeckSettings.State::class.qualifiedName!!,
-    private val globalState: GlobalState
+    private val globalState: GlobalState,
+    override val key: String = DeckSettings.State::class.qualifiedName!!
 ) : BaseSerializableStateProvider<DeckSettings.State, SerializableDeckSettingsState>(
     json,
     database

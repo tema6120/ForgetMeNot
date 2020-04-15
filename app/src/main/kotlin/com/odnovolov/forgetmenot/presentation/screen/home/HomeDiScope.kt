@@ -7,7 +7,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
-class HomeDiScope(
+class HomeDiScope private constructor(
     initialHomeScreenState: HomeScreenState? = null
 ) {
     private val deckReviewPreference: DeckReviewPreference =
@@ -46,6 +46,8 @@ class HomeDiScope(
     val deckPreviewAdapter = DeckPreviewAdapter(controller)
 
     companion object : DiScopeManager<HomeDiScope>() {
+        fun create(initialHomeScreenState: HomeScreenState) = HomeDiScope(initialHomeScreenState)
+
         fun shareDeckReviewPreference(): DeckReviewPreference {
             return diScope?.deckReviewPreference ?: error("HomeDiScope is not opened")
         }

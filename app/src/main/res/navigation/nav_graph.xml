@@ -76,7 +76,18 @@
             android:id="@+id/intervals_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsFragment"
             android:label="@string/label_intervals_screen"
-            tools:layout="@layout/fragment_intervals" />
+            tools:layout="@layout/fragment_intervals">
+
+        <action
+                android:id="@+id/action_show_modify_interval_dialog"
+                app:destination="@+id/modify_interval_dialog" />
+
+    </fragment>
+
+    <dialog
+            android:id="@+id/modify_interval_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialog"
+            tools:layout="@layout/dialog_modify_interval" />
 
     <fragment
             android:id="@+id/speak_plan_screen"

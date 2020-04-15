@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
-import androidx.lifecycle.ViewModel
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Interval
@@ -11,12 +10,11 @@ import com.soywiz.klock.DateTimeSpan
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import org.koin.java.KoinJavaComponent.getKoin
 
 class RepetitionSettingsViewModel(
     private val repetitionStateCreator: RepetitionStateCreator,
     private val globalState: GlobalState
-) : ViewModel() {
+) {
     private val currentRepetitionSetting: Flow<RepetitionSetting> = globalState
         .flowOf(GlobalState::currentRepetitionSetting)
         .share()
@@ -92,8 +90,4 @@ class RepetitionSettingsViewModel(
         .flatMapLatest { repetitionSetting: RepetitionSetting ->
             repetitionSetting.flowOf(RepetitionSetting::numberOfLaps)
         }
-
-    override fun onCleared() {
-        getKoin().getScope(REPETITION_SETTINGS_SCOPE_ID).close()
-    }
 }

@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
-class AddDeckDiScope(
+class AddDeckDiScope private constructor(
     initialDeckAdderState: DeckAdder.State? = null,
     initialAddDeckScreenState: AddDeckScreenState? = null
 ) {
@@ -47,6 +47,14 @@ class AddDeckDiScope(
     )
 
     companion object : DiScopeManager<AddDeckDiScope>() {
+        fun create(
+            initialDeckAdderState: DeckAdder.State,
+            initialAddDeckScreenState: AddDeckScreenState
+        ) = AddDeckDiScope(
+            initialDeckAdderState,
+            initialAddDeckScreenState
+        )
+
         override fun recreateDiScope() = AddDeckDiScope()
 
         override fun onCloseDiScope(diScope: AddDeckDiScope) {

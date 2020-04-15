@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -289,8 +290,4 @@ class HomeFragment : BaseFragment() {
         const val STATE_KEY_FILTER_DIALOG = "filterDialog"
         const val STATE_KEY_SEARCH_VIEW_TEXT = "searchViewText"
     }
-}
-
-fun Fragment.needToCloseDiScope(): Boolean {
-    return isRemoving || !requireActivity().isChangingConfigurations
 }
