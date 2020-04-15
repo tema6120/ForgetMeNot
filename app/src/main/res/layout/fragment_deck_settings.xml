@@ -4,514 +4,389 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <TextView
                 android:id="@+id/nameSectionTitle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="@string/title_name_section"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
 
-        <TextView
-                android:id="@+id/deckNameTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:textColor="@color/textPrimary"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@+id/renameIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameSectionTitle"
-                tools:text="My Vocabulary" />
-
-        <ImageView
-                android:id="@+id/renameIcon"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:padding="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/deckNameTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/deckNameTextView"
-                app:srcCompat="@drawable/ic_edit_dark_24dp" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/renameDeckButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toTopOf="@+id/barrier"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameSectionTitle" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="deckNameTextView,renameIcon" />
+                android:background="?selectableItemBackground"
+                android:orientation="horizontal">
 
-        <TextView
-                android:id="@+id/exercisePreferencesSectionTitle"
-                android:layout_width="wrap_content"
+            <TextView
+                    android:id="@+id/deckNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:padding="16dp"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="24sp"
+                    tools:text="My Vocabulary" />
+
+            <ImageView
+                    android:id="@+id/renameIcon"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/description_rename_icon"
+                    android:padding="16dp"
+                    app:srcCompat="@drawable/ic_edit_dark_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/title_exercise_preferences_section"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/barrier" />
+                android:orientation="horizontal">
 
-        <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/presetFragmentView"
-                android:name="com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:tag="ExercisePreference Preset Tag"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/exercisePreferencesSectionTitle"
-                app:layout_constraintTop_toTopOf="@+id/barrier"
-                tools:layout="@layout/fragment_preset" />
+            <TextView
+                    android:id="@+id/exercisePreferencesSectionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/title_exercise_preferences_section"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="exercisePreferencesSectionTitle, presetFragmentView" />
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
-        <TextView
-                android:id="@+id/randomOrderTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/text_random_order"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/randomOrderSwitch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/barrier2" />
+            <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/presetFragmentView"
+                    android:name="com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:tag="ExercisePreference Preset Tag"
+                    tools:layout="@layout/fragment_preset" />
 
-        <TextView
-                android:id="@+id/randomOrderDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:text="@string/description_random_order"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toStartOf="@+id/randomOrderSwitch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/randomOrderTitle" />
+        </LinearLayout>
 
-        <Switch
-                android:id="@+id/randomOrderSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@null"
-                android:clickable="false"
-                android:focusable="false"
-                android:padding="16dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/randomOrderDescription"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/randomOrderTitle"
-                tools:checked="true"
-                tools:visibility="visible" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/randomButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toTopOf="@+id/barrier3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier2" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="randomOrderDescription,randomOrderSwitch" />
+                android:background="?selectableItemBackground"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                <TextView
+                        android:id="@+id/randomOrderTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_random_order"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+
+                <TextView
+                        android:id="@+id/randomOrderDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description_random_order"
+                        android:textColor="@color/textSecondary" />
+
+            </LinearLayout>
+
+            <Switch
+                    android:id="@+id/randomOrderSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:visibility="invisible"
+                    tools:checked="true"
+                    tools:visibility="visible" />
+
+        </LinearLayout>
 
         <View
-                android:id="@+id/divider"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier3" />
+                android:background="?android:listDivider" />
 
-        <TextView
-                android:id="@+id/testMethodTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/title_test_method"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-        <TextView
-                android:id="@+id/selectedTestMethodTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/testMethodTitle"
-                tools:text="Manual" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/testMethodButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toBottomOf="@+id/selectedTestMethodTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/testMethodTitle" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/testMethodTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_test_method"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedTestMethodTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    tools:text="Manual" />
+
+        </LinearLayout>
 
         <View
-                android:id="@+id/divider2"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/selectedTestMethodTextView" />
+                android:background="?android:listDivider" />
 
-        <TextView
-                android:id="@+id/intervalsTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/text_intervals_title"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/navigateToIntervalsScreenIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2" />
-
-        <TextView
-                android:id="@+id/selectedIntervalsTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toStartOf="@+id/navigateToIntervalsScreenIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/intervalsTitle"
-                tools:text="Default" />
-
-        <ImageView
-                android:id="@+id/navigateToIntervalsScreenIcon"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:padding="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/selectedIntervalsTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/intervalsTitle"
-                app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="selectedIntervalsTextView,navigateToIntervalsScreenIcon" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/intervalsButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toTopOf="@+id/barrier4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                <TextView
+                        android:id="@+id/intervalsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_intervals_title"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+
+                <TextView
+                        android:id="@+id/selectedIntervalsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textSecondary"
+                        tools:text="Default" />
+
+            </LinearLayout>
+
+            <ImageView
+                    android:id="@+id/navigateToIntervalsScreenIcon"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/description_navigate_icon"
+                    android:padding="16dp"
+                    app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
+
+        </LinearLayout>
 
         <View
-                android:id="@+id/divider3"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier4" />
+                android:background="?android:listDivider" />
 
-        <TextView
-                android:id="@+id/pronunciationTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/text_pronunciation"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/navigateToPronunciationScreenIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider3" />
-
-        <TextView
-                android:id="@+id/selectedPronunciationTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toStartOf="@+id/navigateToPronunciationScreenIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pronunciationTitle"
-                tools:text="'Answer in English'" />
-
-        <ImageView
-                android:id="@+id/navigateToPronunciationScreenIcon"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:padding="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/selectedPronunciationTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/pronunciationTitle"
-                app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="selectedPronunciationTextView,navigateToPronunciationScreenIcon" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/pronunciationButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toTopOf="@+id/barrier5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider3" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                <TextView
+                        android:id="@+id/pronunciationTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_pronunciation"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+
+                <TextView
+                        android:id="@+id/selectedPronunciationTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textSecondary"
+                        tools:text="'Answer in English'" />
+
+            </LinearLayout>
+
+            <ImageView
+                    android:id="@+id/navigateToPronunciationScreenIcon"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/description_navigate_icon"
+                    android:padding="16dp"
+                    app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
+
+        </LinearLayout>
 
         <View
-                android:id="@+id/divider4"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier5" />
+                android:background="?android:listDivider" />
 
-        <TextView
-                android:id="@+id/displayQuestionTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/title_display_question"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/displayQuestionSwitch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider4" />
-
-        <TextView
-                android:id="@+id/displayQuestionDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:text="@string/description_display_question"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toStartOf="@+id/displayQuestionSwitch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/displayQuestionTitle" />
-
-        <Switch
-                android:id="@+id/displayQuestionSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@null"
-                android:clickable="false"
-                android:focusable="false"
-                android:padding="16dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/displayQuestionDescription"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/displayQuestionTitle"
-                tools:checked="true"
-                tools:visibility="visible" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/displayQuestionButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toTopOf="@+id/divider5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider4" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier6"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="displayQuestionDescription,displayQuestionSwitch" />
+                android:background="?selectableItemBackground"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                <TextView
+                        android:id="@+id/displayQuestionTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_display_question"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+
+                <TextView
+                        android:id="@+id/displayQuestionDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description_display_question"
+                        android:textColor="@color/textSecondary" />
+
+            </LinearLayout>
+
+            <Switch
+                    android:id="@+id/displayQuestionSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:visibility="invisible"
+                    tools:checked="true"
+                    tools:visibility="visible" />
+
+        </LinearLayout>
 
         <View
-                android:id="@+id/divider5"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier6" />
+                android:background="?android:listDivider" />
 
-        <TextView
-                android:id="@+id/cardReverseTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/title_card_reverse"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider5" />
-
-        <TextView
-                android:id="@+id/selectedCardReverseTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardReverseTitle"
-                tools:text="Off" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/cardReverseButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toBottomOf="@+id/selectedCardReverseTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cardReverseTitle" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/cardReverseTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_card_reverse"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedCardReverseTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    tools:text="Off" />
+
+        </LinearLayout>
 
         <View
-                android:id="@+id/divider6"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/selectedCardReverseTextView" />
+                android:background="?android:listDivider" />
 
-        <TextView
-                android:id="@+id/speakPlanTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/text_speak_plan_title"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/navigateToSpeakPlanScreenIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider6" />
-
-        <TextView
-                android:id="@+id/selectedSpeakPlanTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toStartOf="@+id/navigateToSpeakPlanScreenIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/speakPlanTitle"
-                tools:text="Default" />
-
-        <ImageView
-                android:id="@+id/navigateToSpeakPlanScreenIcon"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:padding="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/selectedSpeakPlanTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/speakPlanTitle"
-                app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="selectedSpeakPlanTextView,navigateToSpeakPlanScreenIcon" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/speakPlanButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toTopOf="@+id/barrier7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider6" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                <TextView
+                        android:id="@+id/speakPlanTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_speak_plan_title"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+
+                <TextView
+                        android:id="@+id/selectedSpeakPlanTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textSecondary"
+                        tools:text="Default" />
+
+            </LinearLayout>
+
+            <ImageView
+                    android:id="@+id/navigateToSpeakPlanScreenIcon"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/description_navigate_icon"
+                    android:padding="16dp"
+                    app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
+
+        </LinearLayout>
 
         <View
-                android:id="@+id/divider7"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier7" />
+                android:background="?android:listDivider" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </ScrollView>

@@ -23,6 +23,8 @@
     <string name="description_remove_speak_event_button">Remove speak event</string>
     <string name="description_add_speak_event_button">Add speak event</string>
     <string name="description_speak_icon">Speak icon</string>
+    <string name="description_rename_icon">Rename icon</string>
+    <string name="description_navigate_icon">Navigate icon</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
