@@ -29,7 +29,7 @@ class IntervalsViewModel(
         }
         .share()
 
-    val isRemoveIntervalButtonEnabled: Flow<Boolean> = intervals.map { it.size > 1 }
+    val isRemoveIntervalButtonVisible: Flow<Boolean> = intervals.map { it.size > 1 }
 
     val canBeEdited: Flow<Boolean> = intervals.map { it.isNotEmpty() }
 }

@@ -263,7 +263,7 @@ class DeckSettingsFragment : BaseFragment() {
             getBundle(STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG)
                 ?.let(chooseCardReverseDialog::onRestoreInstanceState)
 
-            getBundle(STATE_KEY_PRESET_VIEW)
+            getBundle(STATE_KEY_EXERCISE_PREFERENCE_PRESET_VIEW)
                 ?.let(presetView::restoreInstanceState)
         }
         savedInstanceState = null
@@ -301,7 +301,7 @@ class DeckSettingsFragment : BaseFragment() {
         }
         if (isInflated) {
             outState.putBundle(
-                STATE_KEY_PRESET_VIEW,
+                STATE_KEY_EXERCISE_PREFERENCE_PRESET_VIEW,
                 presetView.saveInstanceState()
             )
         }
@@ -337,6 +337,7 @@ class DeckSettingsFragment : BaseFragment() {
         const val STATE_KEY_RENAME_DECK_DIALOG = "STATE_KEY_RENAME_DECK_DIALOG"
         const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "STATE_KEY_CHOOSE_TEST_METHOD_DIALOG"
         const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG"
-        const val STATE_KEY_PRESET_VIEW = "STATE_KEY_PRESET_VIEW"
+        const val STATE_KEY_EXERCISE_PREFERENCE_PRESET_VIEW =
+            "STATE_KEY_EXERCISE_PREFERENCE_PRESET_VIEW"
     }
 }

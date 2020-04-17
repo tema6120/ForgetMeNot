@@ -9,21 +9,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/presetFragmentView"
-                android:name="com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment"
+        <com.odnovolov.forgetmenot.presentation.common.preset.PresetView
+                android:id="@+id/presetView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:tag="IntervalScheme Preset Tag"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout="@layout/fragment_preset" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/unsatisfactoryLevelOfKnowledgeTextView"
@@ -37,7 +34,7 @@
                 android:textColor="@color/text_level_of_knowledge"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/presetFragmentView" />
+                app:layout_constraintTop_toBottomOf="@id/presetView" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/intervalsRecyclerView"
@@ -50,35 +47,39 @@
                 app:layout_constraintTop_toBottomOf="@id/unsatisfactoryLevelOfKnowledgeTextView"
                 tools:listitem="@layout/item_interval" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
                 android:id="@+id/addIntervalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_add_speak_event_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/removeIntervalButton"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/intervalsRecyclerView"
-                app:srcCompat="@drawable/ic_add_white_24dp" />
+                app:srcCompat="@drawable/add_button" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
                 android:id="@+id/removeIntervalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_remove_speak_event_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/addIntervalButton"
                 app:layout_constraintTop_toBottomOf="@id/intervalsRecyclerView"
-                app:srcCompat="@drawable/ic_remove_white_24dp" />
+                app:srcCompat="@drawable/remove_button" />
 
         <androidx.constraintlayout.widget.Group
                 android:id="@+id/intervalsEditionGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="unsatisfactoryLevelOfKnowledgeTextView,intervalsRecyclerView,addIntervalButton,removeIntervalButton"
+                app:constraint_referenced_ids="unsatisfactoryLevelOfKnowledgeTextView,intervalsRecyclerView,addIntervalButton"
                 tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

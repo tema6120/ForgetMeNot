@@ -30,6 +30,9 @@ class IntervalAdapter(private val controller: IntervalsController) :
             levelOfKnowledgeTextView.text = interval.targetLevelOfKnowledge.toString()
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
             intervalTextView.text = displayedInterval.toString(context)
+            intervalTextView.setOnClickListener {
+                controller.dispatch(ModifyIntervalButtonClicked(interval.targetLevelOfKnowledge))
+            }
             modifyIntervalButton.setOnClickListener {
                 controller.dispatch(ModifyIntervalButtonClicked(interval.targetLevelOfKnowledge))
             }

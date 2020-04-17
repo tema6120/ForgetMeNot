@@ -22,9 +22,12 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.common.dp
+import com.odnovolov.forgetmenot.presentation.common.observe
+import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.preset.PresetEvent.*
 import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetController.Command.ShowDialogWithText
+import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.popup_preset.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -89,39 +92,14 @@ class PresetView @JvmOverloads constructor(
         addView(selectPresetButton)
     }
 
-    private val presetAdapter = PresetAdapter(
-        onSetPresetButtonClick = { id: Long? ->
-            controller?.dispatch(SetPresetButtonClicked(id))
-            popup.dismiss()
-        },
-        onRenamePresetButtonClick = { id: Long ->
-            controller?.dispatch(RenamePresetButtonClicked(id))
-        },
-        onDeletePresetButtonClick = { id: Long ->
-            controller?.dispatch(DeletePresetButtonClicked(id))
-        }
-    )
-
-    private val popup: PopupWindow = PopupWindow(context).apply {
-        width = 256.dp
-        height = WindowManager.LayoutParams.WRAP_CONTENT
-        setBackgroundDrawable(ColorDrawable(Color.WHITE))
-        elevation = 20f
-        isOutsideTouchable = true
-        isFocusable = true
-        softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        contentView = View.inflate(context, R.layout.popup_preset, null)
-        contentView.presetRecyclerView.adapter = presetAdapter
-        contentView.addPresetButton.setOnClickListener {
-            controller?.dispatch(AddNewPresetButtonClicked)
-        }
-    }
-
+    private lateinit var popup: PopupWindow
+    private lateinit var presetAdapter: PresetAdapter
     private lateinit var nameInputDialog: AlertDialog
     private lateinit var nameEditText: EditText
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: SkeletalPresetController? = null
     private lateinit var viewModel: SkeletalPresetViewModel
+    private var savedInstanceState: Bundle? = null
 
     fun inject(controller: SkeletalPresetController, viewModel: SkeletalPresetViewModel) {
         this.controller = controller
@@ -141,9 +119,10 @@ class PresetView @JvmOverloads constructor(
     }
 
     private fun setupSecondary() {
+        initPopup()
+        initDialog()
         savePresetButton.setOnClickListener { controller?.dispatch(SavePresetButtonClicked) }
         selectPresetButton.setOnClickListener { showPopup() }
-        initDialog()
         with(viewModel) {
             availablePresets.observe(coroutineScope, presetAdapter::submitList)
             presetInputCheckResult.observe(coroutineScope) { nameCheckResult: NameCheckResult ->
@@ -159,15 +138,37 @@ class PresetView @JvmOverloads constructor(
                 }
             }
         }
+        restoreInstanceState()
         controller!!.commands.observe(coroutineScope, ::executeCommand)
     }
 
-    private fun showPopup() {
-        val location = IntArray(2)
-        selectPresetButton.getLocationOnScreen(location)
-        val x = location[0] + selectPresetButton.width - popup.width
-        val y = location[1]
-        popup.showAtLocation(parent as View, Gravity.NO_GRAVITY, x, y)
+    private fun initPopup() {
+        popup = PopupWindow(context).apply {
+            width = 256.dp
+            height = WindowManager.LayoutParams.WRAP_CONTENT
+            setBackgroundDrawable(ColorDrawable(Color.WHITE))
+            elevation = 20f
+            isOutsideTouchable = true
+            isFocusable = true
+            softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            contentView = View.inflate(context, R.layout.popup_preset, null)
+            presetAdapter = PresetAdapter(
+                onSetPresetButtonClick = { id: Long? ->
+                    controller?.dispatch(SetPresetButtonClicked(id))
+                    popup.dismiss()
+                },
+                onRenamePresetButtonClick = { id: Long ->
+                    controller?.dispatch(RenamePresetButtonClicked(id))
+                },
+                onDeletePresetButtonClick = { id: Long ->
+                    controller?.dispatch(DeletePresetButtonClicked(id))
+                }
+            )
+            contentView.presetRecyclerView.adapter = presetAdapter
+            contentView.addPresetButton.setOnClickListener {
+                controller?.dispatch(AddNewPresetButtonClicked)
+            }
+        }
     }
 
     private fun initDialog() {
@@ -187,6 +188,14 @@ class PresetView @JvmOverloads constructor(
         nameInputDialog.setOnShowListener { nameEditText.showSoftInput() }
     }
 
+    private fun showPopup() {
+        val location = IntArray(2)
+        selectPresetButton.getLocationOnScreen(location)
+        val x = location[0] + selectPresetButton.width - popup.width
+        val y = location[1]
+        popup.showAtLocation(parent as View, Gravity.NO_GRAVITY, x, y)
+    }
+
     private fun executeCommand(command: SkeletalPresetController.Command) {
         when (command) {
             is ShowDialogWithText -> {
@@ -198,7 +207,12 @@ class PresetView @JvmOverloads constructor(
     }
 
     fun restoreInstanceState(savedInstanceState: Bundle) {
-        nameInputDialog.onRestoreInstanceState(savedInstanceState)
+        this.savedInstanceState = savedInstanceState
+    }
+
+    private fun restoreInstanceState() {
+        savedInstanceState?.let(nameInputDialog::onRestoreInstanceState)
+        savedInstanceState = null
     }
 
     fun saveInstanceState(): Bundle {

@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.AddIntervalButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.RemoveIntervalButtonClicked
@@ -37,9 +36,7 @@ class IntervalsFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = IntervalsDiScope.get()
             controller = diScope.controller
-            val presetFragment = childFragmentManager
-                .findFragmentByTag("IntervalScheme Preset Tag") as PresetFragment
-            presetFragment.inject(diScope.presetController, diScope.presetViewModel)
+            presetView.inject(diScope.presetController, diScope.presetViewModel)
             intervalsRecyclerView.adapter = diScope.adapter
             observeViewModel(diScope.viewModel, diScope.adapter)
         }
@@ -55,13 +52,29 @@ class IntervalsFragment : BaseFragment() {
     private fun observeViewModel(viewModel: IntervalsViewModel, adapter: IntervalAdapter) {
         with(viewModel) {
             intervals.observe(adapter::submitList)
-            isRemoveIntervalButtonEnabled.observe { isEnabled: Boolean ->
-                removeIntervalButton.isEnabled = isEnabled
+            isRemoveIntervalButtonVisible.observe { isVisible: Boolean ->
+                removeIntervalButton.isVisible = isVisible
             }
             canBeEdited.observe { canBeEdited: Boolean ->
                 intervalsEditionGroup.isVisible = canBeEdited
             }
         }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            getBundle(STATE_KEY_INTERVALS_PRESET_VIEW)
+                ?.let(presetView::restoreInstanceState)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle(
+            STATE_KEY_INTERVALS_PRESET_VIEW,
+            presetView.saveInstanceState()
+        )
     }
 
     override fun onDestroyView() {
@@ -74,5 +87,9 @@ class IntervalsFragment : BaseFragment() {
         if (needToCloseDiScope()) {
             IntervalsDiScope.close()
         }
+    }
+
+    companion object {
+        const val STATE_KEY_INTERVALS_PRESET_VIEW = "STATE_KEY_INTERVALS_PRESET_VIEW"
     }
 }
