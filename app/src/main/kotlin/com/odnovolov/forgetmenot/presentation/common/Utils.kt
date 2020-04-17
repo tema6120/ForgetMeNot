@@ -4,20 +4,18 @@ import android.content.Context
 import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 fun Locale.toFlagEmoji(): String? {
@@ -134,4 +132,19 @@ fun TextView.fixTextSelection() {
 
 fun Fragment.needToCloseDiScope(): Boolean {
     return isRemoving || !requireActivity().isChangingConfigurations
+}
+
+fun LayoutInflater.inflateAsync(
+    layoutResId: Int,
+    onInflated: () -> Unit
+): FrameLayout {
+    val frameLayout = FrameLayout(context)
+    GlobalScope.launch(Dispatchers.IO) {
+        val view = inflate(layoutResId, frameLayout, false)
+        withContext(Dispatchers.Main.immediate) {
+            frameLayout.addView(view)
+            onInflated()
+        }
+    }
+    return frameLayout
 }

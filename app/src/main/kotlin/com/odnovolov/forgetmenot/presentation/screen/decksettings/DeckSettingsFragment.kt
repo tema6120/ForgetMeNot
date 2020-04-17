@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import android.app.Dialog
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -19,9 +20,9 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*
@@ -39,19 +40,111 @@ class DeckSettingsFragment : BaseFragment() {
     private lateinit var renameDeckDialog: AlertDialog
     private lateinit var renameDeckEditText: EditText
     private lateinit var chooseTestMethodDialog: Dialog
-    private lateinit var testMethodAdapter: ItemAdapter<TestMethodItem>
+    private var testMethodAdapter: ItemAdapter<TestMethodItem>? = null
     private lateinit var chooseCardReverseDialog: Dialog
-    private lateinit var cardReverseAdapter: ItemAdapter<CardReverseItem>
+    private var cardReverseAdapter: ItemAdapter<CardReverseItem>? = null
+    private var isInflated = false
+    private var savedInstanceState: Bundle? = null
+    private lateinit var diScope: DeckSettingsDiScope
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflateAsync(R.layout.fragment_deck_settings, ::onViewInflated)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewCoroutineScope!!.launch {
+            diScope = DeckSettingsDiScope.get()
+            controller = diScope.controller
+            viewModel = diScope.viewModel
+            setupIfReady()
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        this.savedInstanceState = savedInstanceState
+    }
+
+    private fun onViewInflated() {
+        isInflated = true
+        setupIfReady()
+    }
+
+    private fun setupIfReady() {
+        if (viewCoroutineScope == null || controller == null || !isInflated) return
+        presetView.inject(diScope.presetController, diScope.presetViewModel)
+        setupPrimary()
+        Looper.myQueue().addIdleHandler {
+            setupSecondary()
+            false
+        }
+    }
+
+    private fun setupPrimary() {
+        with(viewModel) {
+            deckName.observe(deckNameTextView::setText)
+            randomOrder.observe { randomOrder: Boolean ->
+                randomOrderSwitch.isChecked = randomOrder
+                if (randomOrderSwitch.visibility == INVISIBLE) {
+                    randomOrderSwitch.jumpDrawablesToCurrentState()
+                    randomOrderSwitch.visibility = VISIBLE
+                }
+            }
+            selectedTestMethod.observe { selectedTestMethod ->
+                selectedTestMethodTextView.text = when (selectedTestMethod) {
+                    TestMethod.Off -> getString(R.string.test_method_label_off)
+                    TestMethod.Manual -> getString(R.string.test_method_label_manual)
+                    TestMethod.Quiz -> getString(R.string.test_method_label_quiz)
+                    TestMethod.Entry -> getString(R.string.test_method_label_entry)
+                }
+            }
+            intervalScheme.observe {
+                selectedIntervalsTextView.text = when {
+                    it == null -> getString(R.string.off)
+                    it.isDefault() -> getString(R.string.default_name)
+                    it.isIndividual() -> getString(R.string.individual_name)
+                    else -> "'${it.name}'"
+                }
+            }
+            pronunciation.observe { pronunciation: Pronunciation ->
+                selectedPronunciationTextView.text = when {
+                    pronunciation.isDefault() -> getString(R.string.default_name)
+                    pronunciation.isIndividual() -> getString(R.string.individual_name)
+                    else -> "'${pronunciation.name}'"
+                }
+            }
+            isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
+                displayQuestionSwitch.isChecked = isQuestionDisplayed
+                if (displayQuestionSwitch.visibility == INVISIBLE) {
+                    displayQuestionSwitch.jumpDrawablesToCurrentState()
+                    displayQuestionSwitch.visibility = VISIBLE
+                }
+            }
+            selectedCardReverse.observe { selectedCardReverse: CardReverse ->
+                selectedCardReverseTextView.text =
+                    when (selectedCardReverse) {
+                        CardReverse.Off -> getString(R.string.card_reverse_label_off)
+                        CardReverse.On -> getString(R.string.card_reverse_label_on)
+                        CardReverse.EveryOtherLap ->
+                            getString(R.string.card_reverse_label_every_other_lap)
+                    }
+            }
+        }
+    }
+
+    private fun setupSecondary() {
         initRenameDeckDialog()
         initChooseTestMethodDialog()
         initChooseCardReverseDialog()
-        return inflater.inflate(R.layout.fragment_deck_settings, container, false)
+        setupListeners()
+        observeViewModelSecondary()
+        restoreState()
+        controller!!.commands.observe(::executeCommand)
     }
 
     private fun initRenameDeckDialog() {
@@ -99,22 +192,7 @@ class DeckSettingsFragment : BaseFragment() {
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupView()
-        viewCoroutineScope!!.launch {
-            val diScope = DeckSettingsDiScope.get()
-            controller = diScope.controller
-            viewModel = diScope.viewModel
-            val presetFragment = childFragmentManager
-                .findFragmentByTag("ExercisePreference Preset Tag") as PresetFragment
-            presetFragment.inject(diScope.presetController, diScope.presetViewModel)
-            observeViewModel()
-            controller!!.commands.observe(::executeCommand)
-        }
-    }
-
-    private fun setupView() {
+    private fun setupListeners() {
         renameDeckButton.setOnClickListener { controller?.dispatch(RenameDeckButtonClicked) }
         randomButton.setOnClickListener { controller?.dispatch(RandomOrderSwitchToggled) }
         testMethodButton.setOnClickListener { chooseTestMethodDialog.show() }
@@ -127,9 +205,8 @@ class DeckSettingsFragment : BaseFragment() {
         speakPlanButton.setOnClickListener { controller?.dispatch(SpeakPlanButtonClicked) }
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModelSecondary() {
         with(viewModel) {
-            deckName.observe(deckNameTextView::setText)
             deckNameCheckResult.observe { nameCheckResult: NameCheckResult ->
                 renameDeckEditText.error = when (nameCheckResult) {
                     Ok -> null
@@ -141,21 +218,8 @@ class DeckSettingsFragment : BaseFragment() {
                         .isEnabled = nameCheckResult == Ok
                 }
             }
-            randomOrder.observe { randomOrder: Boolean ->
-                randomOrderSwitch.isChecked = randomOrder
-                if (randomOrderSwitch.visibility == INVISIBLE) {
-                    randomOrderSwitch.jumpDrawablesToCurrentState()
-                    randomOrderSwitch.visibility = VISIBLE
-                }
-            }
-            selectedTestMethod.observe { selectedTestMethod ->
-                selectedTestMethodTextView.text = when (selectedTestMethod) {
-                    TestMethod.Off -> getString(R.string.test_method_label_off)
-                    TestMethod.Manual -> getString(R.string.test_method_label_manual)
-                    TestMethod.Quiz -> getString(R.string.test_method_label_quiz)
-                    TestMethod.Entry -> getString(R.string.test_method_label_entry)
-                }
 
+            selectedTestMethod.observe { selectedTestMethod ->
                 val testMethods = TestMethod.values().map {
                     TestMethodItem(
                         testMethod = it,
@@ -168,38 +232,9 @@ class DeckSettingsFragment : BaseFragment() {
                         isSelected = it === selectedTestMethod
                     )
                 }
-                testMethodAdapter.items = testMethods
-            }
-            intervalScheme.observe {
-                selectedIntervalsTextView.text = when {
-                    it == null -> getString(R.string.off)
-                    it.isDefault() -> getString(R.string.default_name)
-                    it.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${it.name}'"
-                }
-            }
-            pronunciation.observe { pronunciation: Pronunciation ->
-                selectedPronunciationTextView.text = when {
-                    pronunciation.isDefault() -> getString(R.string.default_name)
-                    pronunciation.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${pronunciation.name}'"
-                }
-            }
-            isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
-                displayQuestionSwitch.isChecked = isQuestionDisplayed
-                if (displayQuestionSwitch.visibility == INVISIBLE) {
-                    displayQuestionSwitch.jumpDrawablesToCurrentState()
-                    displayQuestionSwitch.visibility = VISIBLE
-                }
+                testMethodAdapter?.items = testMethods
             }
             selectedCardReverse.observe { selectedCardReverse: CardReverse ->
-                selectedCardReverseTextView.text = when (selectedCardReverse) {
-                    CardReverse.Off -> getString(R.string.card_reverse_label_off)
-                    CardReverse.On -> getString(R.string.card_reverse_label_on)
-                    CardReverse.EveryOtherLap ->
-                        getString(R.string.card_reverse_label_every_other_lap)
-                }
-
                 val items = CardReverse.values().map { cardReverse: CardReverse ->
                     CardReverseItem(
                         cardReverse = cardReverse,
@@ -212,23 +247,12 @@ class DeckSettingsFragment : BaseFragment() {
                         isSelected = cardReverse === selectedCardReverse
                     )
                 }
-                cardReverseAdapter.items = items
+                cardReverseAdapter?.items = items
             }
         }
     }
 
-    private fun executeCommand(command: DeckSettingsController.Command) {
-        when (command) {
-            is ShowRenameDialogWithText -> {
-                renameDeckEditText.setText(command.text)
-                renameDeckEditText.selectAll()
-                renameDeckDialog.show()
-            }
-        }
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
+    private fun restoreState() {
         savedInstanceState?.run {
             getBundle(STATE_KEY_RENAME_DECK_DIALOG)
                 ?.let(renameDeckDialog::onRestoreInstanceState)
@@ -238,6 +262,20 @@ class DeckSettingsFragment : BaseFragment() {
 
             getBundle(STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG)
                 ?.let(chooseCardReverseDialog::onRestoreInstanceState)
+
+            getBundle(STATE_KEY_PRESET_VIEW)
+                ?.let(presetView::restoreInstanceState)
+        }
+        savedInstanceState = null
+    }
+
+    private fun executeCommand(command: DeckSettingsController.Command) {
+        when (command) {
+            is ShowRenameDialogWithText -> {
+                renameDeckEditText.setText(command.text)
+                renameDeckEditText.selectAll()
+                renameDeckDialog.show()
+            }
         }
     }
 
@@ -261,6 +299,19 @@ class DeckSettingsFragment : BaseFragment() {
                 chooseCardReverseDialog.onSaveInstanceState()
             )
         }
+        if (isInflated) {
+            outState.putBundle(
+                STATE_KEY_PRESET_VIEW,
+                presetView.saveInstanceState()
+            )
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isInflated = false
+        testMethodAdapter = null
+        cardReverseAdapter = null
     }
 
     override fun onDestroy() {
@@ -283,8 +334,9 @@ class DeckSettingsFragment : BaseFragment() {
     ) : Item
 
     companion object {
-        const val STATE_KEY_RENAME_DECK_DIALOG = "renameDeckDialog"
-        const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "chooseTestMethodDialog"
-        const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "chooseCardReverseDialog"
+        const val STATE_KEY_RENAME_DECK_DIALOG = "STATE_KEY_RENAME_DECK_DIALOG"
+        const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "STATE_KEY_CHOOSE_TEST_METHOD_DIALOG"
+        const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG"
+        const val STATE_KEY_PRESET_VIEW = "STATE_KEY_PRESET_VIEW"
     }
 }
