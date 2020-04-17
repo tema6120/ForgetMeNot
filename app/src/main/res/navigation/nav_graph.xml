@@ -54,15 +54,27 @@
 
         <action
                 android:id="@+id/action_deck_settings_screen_to_pronunciation_screen"
-                app:destination="@id/pronunciation_screen" />
+                app:destination="@id/pronunciation_screen"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/action_deck_settings_screen_to_intervals_screen"
-                app:destination="@id/intervals_screen" />
+                app:destination="@id/intervals_screen"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/action_deck_settings_screen_to_speak_plan_screen"
-                app:destination="@id/speak_plan_screen" />
+                app:destination="@id/speak_plan_screen"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
@@ -114,7 +126,11 @@
 
         <action
                 android:id="@+id/action_settings_screen_to_walking_mode_settings_screen"
-                app:destination="@+id/walking_mode_settings_screen" />
+                app:destination="@+id/walking_mode_settings_screen"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
