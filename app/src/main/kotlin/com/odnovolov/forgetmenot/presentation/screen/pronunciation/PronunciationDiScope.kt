@@ -46,6 +46,7 @@ class PronunciationDiScope private constructor(
 
     val controller = PronunciationController(
         pronunciationSettings,
+        speakerImpl,
         AppDiScope.get().longTermStateSaver
     )
 

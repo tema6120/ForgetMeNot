@@ -7,11 +7,14 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.TtsInitializationFailed
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
 import java.util.*
 
-class SpeakerImpl(applicationContext: Context) : Speaker {
+class SpeakerImpl(private val applicationContext: Context) : Speaker {
     class State : FlowableState<State>() {
         var isInitialized: Boolean by me(false)
         var availableLanguages: Set<Locale> by me(emptySet())
@@ -27,6 +30,7 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
     private val coroutineScope = CoroutineScope(newSingleThreadContext("SpeakerThread"))
     private var defaultLanguage: Locale? = null
     private var delayedSpokenText: String? = null
+    private var currentTtsEngine: String? = null
     private var delayedLanguage: Locale? = null
     private var currentLanguage: Locale? = null
         set(value) {
@@ -41,8 +45,9 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
 
     private val initListener = TextToSpeech.OnInitListener { status: Int ->
         coroutineScope.launch {
+            state.isInitialized = true
+            currentTtsEngine = tts.defaultEngine
             if (status == TextToSpeech.SUCCESS) {
-                state.isInitialized = true
                 setDefaultLanguage()
                 updateAvailableLanguages()
                 speakDelayedTextIfExists()
@@ -55,7 +60,12 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
     private lateinit var tts: TextToSpeech
 
     init {
+        initTts()
+    }
+
+    private fun initTts() {
         coroutineScope.launch {
+            state.isInitialized = false
             tts = TextToSpeech(applicationContext, initListener)
         }
     }
@@ -113,6 +123,16 @@ class SpeakerImpl(applicationContext: Context) : Speaker {
     override fun stop() {
         coroutineScope.launch {
             tts.stop()
+        }
+    }
+
+    fun reloadIfConfigurationChanged() {
+        coroutineScope.launch {
+            if (state.isInitialized && currentTtsEngine != tts.defaultEngine) {
+                tts.stop()
+                tts.shutdown()
+                initTts()
+            }
         }
     }
 

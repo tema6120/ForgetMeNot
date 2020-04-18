@@ -4,12 +4,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Looper
 import android.view.*
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
+import com.odnovolov.forgetmenot.presentation.common.toFlagEmoji
 import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationEvent.*
@@ -24,6 +25,7 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private var controller: PronunciationController? = null
+    private lateinit var viewModel: PronunciationViewModel
     private lateinit var questionLanguagePopup: PopupWindow
     private lateinit var questionLanguageAdapter: LanguageAdapter
     private lateinit var answerLanguagePopup: PopupWindow
@@ -34,9 +36,67 @@ class PronunciationFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.fragment_pronunciation, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewCoroutineScope!!.launch {
+            val diScope = PronunciationDiScope.get()
+            controller = diScope.controller
+            viewModel = diScope.viewModel
+            presetView.inject(diScope.presetController, diScope.presetViewModel)
+            observeViewModel()
+            Looper.myQueue().addIdleHandler {
+                finishSetup()
+                false
+            }
+        }
+    }
+
+    private fun observeViewModel() {
+        with(viewModel) {
+            selectedQuestionLanguage.observe { selectedQuestionLanguage: Locale? ->
+                questionLanguageTextView.text = getSelectedLanguageText(selectedQuestionLanguage)
+            }
+            questionAutoSpeak.observe { questionAutoSpeak: Boolean ->
+                questionAutoSpeakSwitch.isChecked = questionAutoSpeak
+                questionAutoSpeakSwitch.uncover()
+            }
+            selectedAnswerLanguage.observe { selectedAnswerLanguage: Locale? ->
+                answerLanguageTextView.text = getSelectedLanguageText(selectedAnswerLanguage)
+            }
+            answerAutoSpeak.observe { answerAutoSpeak: Boolean ->
+                answerAutoSpeakSwitch.isChecked = answerAutoSpeak
+                answerAutoSpeakSwitch.uncover()
+            }
+            speakTextInBrackets.observe { speakTextInBrackets: Boolean ->
+                speakTextInBracketsSwitch.isChecked = speakTextInBrackets
+                speakTextInBracketsSwitch.uncover()
+            }
+        }
+    }
+
+    private fun getSelectedLanguageText(locale: Locale?): String {
+        return if (locale != null) {
+            val flagEmoji: String? = locale.toFlagEmoji()
+            if (flagEmoji != null) {
+                "${locale.displayLanguage} $flagEmoji"
+            } else {
+                locale.displayLanguage
+            }
+        } else {
+            getString(R.string.default_name)
+        }
+    }
+
+    private fun finishSetup() {
         questionLanguagePopup = createLanguagePopup()
         answerLanguagePopup = createLanguagePopup()
-        return inflater.inflate(R.layout.fragment_pronunciation, container, false)
+        initAdapters()
+        setOnClickListeners()
+        viewModel.displayedQuestionLanguages.observe(questionLanguageAdapter::submitList)
+        viewModel.displayedAnswerLanguages.observe(answerLanguageAdapter::submitList)
     }
 
     private fun createLanguagePopup() = PopupWindow(requireContext()).apply {
@@ -47,24 +107,6 @@ class PronunciationFragment : BaseFragment() {
         elevation = 20f
         isOutsideTouchable = true
         isFocusable = true
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupView()
-        viewCoroutineScope!!.launch {
-            val diScope = PronunciationDiScope.get()
-            controller = diScope.controller
-            val presetFragment = childFragmentManager
-                .findFragmentByTag("Pronunciation Preset Tag") as PresetFragment
-            presetFragment.inject(diScope.presetController, diScope.presetViewModel)
-            observeViewModel(diScope.viewModel)
-        }
-    }
-
-    private fun setupView() {
-        initAdapters()
-        setOnClickListeners()
     }
 
     private fun initAdapters() {
@@ -124,35 +166,35 @@ class PronunciationFragment : BaseFragment() {
         )
     }
 
-    private fun observeViewModel(viewModel: PronunciationViewModel) {
-        with(viewModel) {
-            selectedQuestionLanguage.observe { selectedQuestionLanguage ->
-                questionLanguageTextView.text =
-                    selectedQuestionLanguage?.displayLanguage ?: getString(R.string.default_name)
-            }
-            displayedQuestionLanguages.observe(questionLanguageAdapter::submitList)
-            questionAutoSpeak.observe { questionAutoSpeak: Boolean ->
-                questionAutoSpeakSwitch.isChecked = questionAutoSpeak
-                questionAutoSpeakSwitch.uncover()
-            }
-            selectedAnswerLanguage.observe { selectedAnswerLanguage ->
-                answerLanguageTextView.text =
-                    selectedAnswerLanguage?.displayLanguage ?: getString(R.string.default_name)
-            }
-            displayedAnswerLanguages.observe(answerLanguageAdapter::submitList)
-            answerAutoSpeak.observe { answerAutoSpeak: Boolean ->
-                answerAutoSpeakSwitch.isChecked = answerAutoSpeak
-                answerAutoSpeakSwitch.uncover()
-            }
-            speakTextInBrackets.observe { speakTextInBrackets: Boolean ->
-                speakTextInBracketsSwitch.isChecked = speakTextInBrackets
-                speakTextInBracketsSwitch.uncover()
-            }
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            getBundle(STATE_KEY_PRONUNCIATION_PRESET_VIEW)
+                ?.let(presetView::restoreInstanceState)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle(
+            STATE_KEY_PRONUNCIATION_PRESET_VIEW,
+            presetView.saveInstanceState()
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewCoroutineScope!!.launch {
+            PronunciationDiScope.get().controller.dispatch(FragmentResumed)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         PronunciationDiScope.close()
+    }
+
+    companion object {
+        const val STATE_KEY_PRONUNCIATION_PRESET_VIEW = "STATE_KEY_PRONUNCIATION_PRESET_VIEW"
     }
 }
