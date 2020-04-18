@@ -6,6 +6,8 @@ import android.speech.tts.UtteranceProgressListener
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.entity.Speaker
+import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent
+import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent.ActivityResumed
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.TtsInitializationFailed
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -14,7 +16,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import java.util.*
 
-class SpeakerImpl(private val applicationContext: Context) : Speaker {
+class SpeakerImpl(
+    private val applicationContext: Context,
+    private val activityLifecycleEvents: Flow<ActivityLifecycleEvent>
+) : Speaker {
     class State : FlowableState<State>() {
         var isInitialized: Boolean by me(false)
         var availableLanguages: Set<Locale> by me(emptySet())
@@ -32,6 +37,7 @@ class SpeakerImpl(private val applicationContext: Context) : Speaker {
     private var delayedSpokenText: String? = null
     private var currentTtsEngine: String? = null
     private var delayedLanguage: Locale? = null
+    private var onSpeakingFinishedListener: (() -> Unit)? = null
     private var currentLanguage: Locale? = null
         set(value) {
             if (value == null && currentLanguage != defaultLanguage) {
@@ -50,6 +56,7 @@ class SpeakerImpl(private val applicationContext: Context) : Speaker {
             if (status == TextToSpeech.SUCCESS) {
                 setDefaultLanguage()
                 updateAvailableLanguages()
+                bindOnSpeakingFinishedListener()
                 speakDelayedTextIfExists()
             } else {
                 eventFlow.send(TtsInitializationFailed)
@@ -60,13 +67,22 @@ class SpeakerImpl(private val applicationContext: Context) : Speaker {
     private lateinit var tts: TextToSpeech
 
     init {
-        initTts()
+        coroutineScope.launch {
+            initTts()
+            observeActivityLifecycleEvents()
+        }
     }
 
     private fun initTts() {
-        coroutineScope.launch {
-            state.isInitialized = false
-            tts = TextToSpeech(applicationContext, initListener)
+        state.isInitialized = false
+        tts = TextToSpeech(applicationContext, initListener)
+    }
+
+    private fun observeActivityLifecycleEvents() {
+        activityLifecycleEvents.observe(coroutineScope) { activityLifecycleEvent ->
+            if (activityLifecycleEvent is ActivityResumed && isTtsEngineChanged()) {
+                restartTts()
+            }
         }
     }
 
@@ -86,6 +102,20 @@ class SpeakerImpl(private val applicationContext: Context) : Speaker {
         }
     }
 
+    private fun bindOnSpeakingFinishedListener() {
+        onSpeakingFinishedListener?.let { onSpeakingFinishedListener ->
+            tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onDone(utteranceId: String?) {
+                    onSpeakingFinishedListener.invoke()
+                }
+
+                override fun onError(utteranceId: String?) {}
+
+                override fun onStart(utteranceId: String?) {}
+            })
+        } ?: tts.setOnUtteranceProgressListener(null)
+    }
+
     private fun speakDelayedTextIfExists() {
         if (delayedSpokenText != null) {
             speak(delayedSpokenText!!, delayedLanguage)
@@ -96,27 +126,28 @@ class SpeakerImpl(private val applicationContext: Context) : Speaker {
 
     override fun speak(text: String, language: Locale?) {
         coroutineScope.launch {
-            if (!state.isInitialized) {
-                delayedSpokenText = text
-                delayedLanguage = language
-            } else {
-                currentLanguage = language
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+            when {
+                !state.isInitialized -> {
+                    delayedSpokenText = text
+                    delayedLanguage = language
+                }
+                isTtsEngineChanged() -> {
+                    delayedSpokenText = text
+                    delayedLanguage = language
+                    restartTts()
+                }
+                else -> {
+                    currentLanguage = language
+                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+                }
             }
         }
     }
 
     override fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit) {
         coroutineScope.launch {
-            tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                override fun onDone(utteranceId: String?) {
-                    onSpeakingFinished()
-                }
-
-                override fun onError(utteranceId: String?) {}
-
-                override fun onStart(utteranceId: String?) {}
-            })
+            onSpeakingFinishedListener = onSpeakingFinished
+            bindOnSpeakingFinishedListener()
         }
     }
 
@@ -126,14 +157,12 @@ class SpeakerImpl(private val applicationContext: Context) : Speaker {
         }
     }
 
-    fun reloadIfConfigurationChanged() {
-        coroutineScope.launch {
-            if (state.isInitialized && currentTtsEngine != tts.defaultEngine) {
-                tts.stop()
-                tts.shutdown()
-                initTts()
-            }
-        }
+    private fun isTtsEngineChanged() = state.isInitialized && currentTtsEngine != tts.defaultEngine
+
+    private fun restartTts() {
+        tts.stop()
+        tts.shutdown()
+        initTts()
     }
 
     fun shutdown() {

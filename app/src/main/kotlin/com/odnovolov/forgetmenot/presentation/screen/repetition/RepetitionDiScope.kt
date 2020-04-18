@@ -27,7 +27,8 @@ class RepetitionDiScope private constructor(
         initialRepetitionState ?: repetitionStateProvider.load()
 
     private val speakerImpl = SpeakerImpl(
-        AppDiScope.get().app
+        AppDiScope.get().app,
+        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
     )
 
     private val repetition = Repetition(

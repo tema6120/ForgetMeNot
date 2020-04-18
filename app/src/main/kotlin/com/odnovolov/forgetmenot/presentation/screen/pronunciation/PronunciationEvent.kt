@@ -8,5 +8,4 @@ sealed class PronunciationEvent {
     class AnswerLanguageSelected(val language: Locale?) : PronunciationEvent()
     object AnswerAutoSpeakSwitchToggled : PronunciationEvent()
     object SpeakTextInBracketsSwitchToggled : PronunciationEvent()
-    object FragmentResumed : PronunciationEvent()
 }

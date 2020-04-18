@@ -5,10 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.persistence.DatabaseInitializer
 import com.odnovolov.forgetmenot.persistence.longterm.LongTermStateSaverImpl
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision.GlobalStateProvider
-import com.odnovolov.forgetmenot.presentation.common.App
-import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
-import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
+import com.odnovolov.forgetmenot.presentation.common.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -16,7 +13,8 @@ import kotlinx.serialization.json.JsonConfiguration
 
 class AppDiScope(
     val app: App,
-    val navigator: Navigator
+    val navigator: Navigator,
+    val activityLifecycleCallbacksInterceptor: ActivityLifecycleCallbacksInterceptor
 ) {
     val sqlDriver = DatabaseInitializer.initSqlDriver(app)
 
@@ -32,10 +30,12 @@ class AppDiScope(
         private lateinit var instance: AppDiScope
 
         fun init(app: App) {
+            val activityLifecycleCallbacksInterceptor = ActivityLifecycleCallbacksInterceptor()
+            app.registerActivityLifecycleCallbacks(activityLifecycleCallbacksInterceptor)
             val navigator = Navigator()
             app.registerActivityLifecycleCallbacks(navigator)
             GlobalScope.launch(businessLogicThread) {
-                instance = AppDiScope(app, navigator)
+                instance = AppDiScope(app, navigator, activityLifecycleCallbacksInterceptor)
             }
         }
 

@@ -32,7 +32,8 @@ class ExerciseDiScope private constructor(
     private val walkingModePreference: WalkingModePreference = walkingModePreferenceProvider.load()
 
     private val speakerImpl = SpeakerImpl(
-        AppDiScope.get().app
+        AppDiScope.get().app,
+        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
     )
 
     private val exercise = Exercise(

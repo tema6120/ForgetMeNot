@@ -182,13 +182,6 @@ class PronunciationFragment : BaseFragment() {
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewCoroutineScope!!.launch {
-            PronunciationDiScope.get().controller.dispatch(FragmentResumed)
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         PronunciationDiScope.close()

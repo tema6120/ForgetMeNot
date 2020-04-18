@@ -26,7 +26,8 @@ class PronunciationDiScope private constructor(
     )
 
     private val speakerImpl = SpeakerImpl(
-        AppDiScope.get().app
+        AppDiScope.get().app,
+        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
     )
 
     val presetController = PronunciationPresetController(
@@ -46,7 +47,6 @@ class PronunciationDiScope private constructor(
 
     val controller = PronunciationController(
         pronunciationSettings,
-        speakerImpl,
         AppDiScope.get().longTermStateSaver
     )
 
