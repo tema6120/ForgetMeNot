@@ -7,6 +7,7 @@ sealed class ExerciseEvent {
     object SetCardLearnedButtonClicked : ExerciseEvent()
     object UndoButtonClicked : ExerciseEvent()
     object SpeakButtonClicked : ExerciseEvent()
+    object StopSpeakButtonClicked : ExerciseEvent()
     object EditCardButtonClicked : ExerciseEvent()
     object HintButtonClicked : ExerciseEvent()
     object HintAsQuizButtonClicked : ExerciseEvent()

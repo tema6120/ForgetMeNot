@@ -151,10 +151,6 @@ class ExerciseFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(UndoButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
-        speakButton.run {
-            setOnClickListener { controller?.dispatch(SpeakButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
         editCardButton.run {
             setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
@@ -243,6 +239,28 @@ class ExerciseFragment : BaseFragment() {
             isCurrentExerciseCardLearned.observe { isLearned: Boolean ->
                 notAskButton.isVisible = !isLearned
                 undoButton.isVisible = isLearned
+            }
+            isSpeaking.observe { isSpeaking: Boolean ->
+                with(speakButton) {
+                    setImageResource(
+                        if (isSpeaking)
+                            R.drawable.ic_volume_off_white_24dp else
+                            R.drawable.ic_volume_up_white_24dp
+                    )
+                    setOnClickListener {
+                        controller?.dispatch(
+                            if (isSpeaking)
+                                StopSpeakButtonClicked else
+                                SpeakButtonClicked
+                        )
+                    }
+                    contentDescription = getString(
+                        if (isSpeaking)
+                            R.string.description_stop_speak_button else
+                            R.string.description_speak_button
+                    )
+                    TooltipCompat.setTooltipText(this, contentDescription)
+                }
             }
             isHintAccessible.observe(hintButton::setEnabled)
             levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->

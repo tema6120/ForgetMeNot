@@ -23,6 +23,7 @@ class SpeakerImpl(
     class State : FlowableState<State>() {
         var isInitialized: Boolean by me(false)
         var availableLanguages: Set<Locale> by me(emptySet())
+        var isSpeaking: Boolean by me(false)
     }
 
     sealed class Event {
@@ -56,7 +57,7 @@ class SpeakerImpl(
             if (status == TextToSpeech.SUCCESS) {
                 setDefaultLanguage()
                 updateAvailableLanguages()
-                bindOnSpeakingFinishedListener()
+                setProgressListener()
                 speakDelayedTextIfExists()
             } else {
                 eventFlow.send(TtsInitializationFailed)
@@ -102,18 +103,27 @@ class SpeakerImpl(
         }
     }
 
-    private fun bindOnSpeakingFinishedListener() {
-        onSpeakingFinishedListener?.let { onSpeakingFinishedListener ->
-            tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                override fun onDone(utteranceId: String?) {
-                    onSpeakingFinishedListener.invoke()
+    private fun setProgressListener() {
+        tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+                coroutineScope.launch {
+                    state.isSpeaking = true
                 }
+            }
 
-                override fun onError(utteranceId: String?) {}
+            override fun onDone(utteranceId: String?) {
+                coroutineScope.launch {
+                    state.isSpeaking = false
+                    onSpeakingFinishedListener?.invoke()
+                }
+            }
 
-                override fun onStart(utteranceId: String?) {}
-            })
-        } ?: tts.setOnUtteranceProgressListener(null)
+            override fun onError(utteranceId: String?) {
+                coroutineScope.launch {
+                    state.isSpeaking = false
+                }
+            }
+        })
     }
 
     private fun speakDelayedTextIfExists() {
@@ -147,13 +157,13 @@ class SpeakerImpl(
     override fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit) {
         coroutineScope.launch {
             onSpeakingFinishedListener = onSpeakingFinished
-            bindOnSpeakingFinishedListener()
         }
     }
 
     override fun stop() {
         coroutineScope.launch {
             tts.stop()
+            state.isSpeaking = false
         }
     }
 
@@ -161,13 +171,17 @@ class SpeakerImpl(
 
     private fun restartTts() {
         tts.stop()
+        state.isSpeaking = false
         tts.shutdown()
         initTts()
     }
 
     fun shutdown() {
         tts.stop()
+        state.isSpeaking = false
         tts.shutdown()
+        state.isInitialized = false
+        state.availableLanguages = emptySet()
         coroutineScope.cancel()
     }
 }

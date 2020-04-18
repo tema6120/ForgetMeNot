@@ -17,7 +17,6 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
-import kotlinx.coroutines.launch
 
 class ExerciseController(
     private val exercise: Exercise,
@@ -51,6 +50,10 @@ class ExerciseController(
 
             SpeakButtonClicked -> {
                 exercise.speak()
+            }
+
+            StopSpeakButtonClicked -> {
+                exercise.stopSpeaking()
             }
 
             EditCardButtonClicked -> {

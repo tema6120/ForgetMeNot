@@ -163,6 +163,10 @@ class Exercise(
         speaker.speak(textToSpeak, language)
     }
 
+    fun stopSpeaking() {
+        speaker.stop()
+    }
+
     fun editCurrentCard(newQuestion: String, newAnswer: String) {
         with(currentExerciseCard.base) {
             if (newQuestion.isNotEmpty() && newQuestion != card.question) {

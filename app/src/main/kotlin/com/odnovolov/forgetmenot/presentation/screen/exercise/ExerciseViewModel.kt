@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.NO_ACTION
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 
 class ExerciseViewModel(
     exerciseState: Exercise.State,
+    speakerImplState: SpeakerImpl.State,
     walkingModePreference: WalkingModePreference
 ) {
     val exerciseCards: Flow<List<ExerciseCard>> =
@@ -33,6 +35,8 @@ class ExerciseViewModel(
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::isLearned)
         }
+
+    val isSpeaking: Flow<Boolean> = speakerImplState.flowOf(SpeakerImpl.State::isSpeaking)
 
     val isHintAccessible: Flow<Boolean> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->

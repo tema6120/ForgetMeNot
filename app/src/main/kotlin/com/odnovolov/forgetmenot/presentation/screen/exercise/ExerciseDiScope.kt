@@ -51,6 +51,7 @@ class ExerciseDiScope private constructor(
 
     val viewModel = ExerciseViewModel(
         exerciseState,
+        speakerImpl.state,
         walkingModePreference
     )
 
