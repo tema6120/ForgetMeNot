@@ -4,7 +4,10 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSetting
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToAddNewInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToChangeInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalEvent.*
+import com.soywiz.klock.DateTimeSpan
 
 class ModifyIntervalController(
     private val intervalsSettings: IntervalsSettings,
@@ -25,11 +28,18 @@ class ModifyIntervalController(
 
             OkButtonClicked -> {
                 with(modifyIntervalDialogState) {
-                    if (displayedInterval.isValid()) {
-                        intervalsSettings.modifyInterval(
-                            targetLevelOfKnowledge = targetLevelOfKnowledge,
-                            newValue = displayedInterval.toDateTimeSpan()
-                        )
+                    if (!displayedInterval.isValid()) return
+                    val newValue: DateTimeSpan = displayedInterval.toDateTimeSpan()
+                    when (val purpose = modifyIntervalDialogState.dialogPurpose) {
+                        ToAddNewInterval -> {
+                            intervalsSettings.addInterval(newValue)
+                        }
+                        is ToChangeInterval -> {
+                            intervalsSettings.modifyInterval(
+                                purpose.targetLevelOfKnowledge,
+                                newValue
+                            )
+                        }
                     }
                 }
             }

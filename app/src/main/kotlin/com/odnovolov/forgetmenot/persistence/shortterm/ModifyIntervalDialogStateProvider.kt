@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.ModifyIntervalDialogStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -18,7 +19,7 @@ class ModifyIntervalDialogStateProvider(
 ) {
     @Serializable
     data class SerializableState(
-        val targetLevelOfKnowledge: Int,
+        val dialogPurpose: DialogPurpose,
         val intervalInputValue: Int?,
         val intervalUnit: IntervalUnit
     )
@@ -27,7 +28,7 @@ class ModifyIntervalDialogStateProvider(
 
     override fun toSerializable(state: ModifyIntervalDialogState) =
         SerializableState(
-            targetLevelOfKnowledge = state.targetLevelOfKnowledge,
+            dialogPurpose = state.dialogPurpose,
             intervalInputValue = state.displayedInterval.value,
             intervalUnit = state.displayedInterval.intervalUnit
         )
@@ -41,7 +42,7 @@ class ModifyIntervalDialogStateProvider(
                 serializableState.intervalUnit
             )
         return ModifyIntervalDialogState(
-            serializableState.targetLevelOfKnowledge,
+            serializableState.dialogPurpose,
             intervalInputData
         )
     }

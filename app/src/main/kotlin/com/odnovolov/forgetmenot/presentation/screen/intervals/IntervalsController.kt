@@ -8,6 +8,8 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToAddNewInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToChangeInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
 import com.soywiz.klock.DateTimeSpan
@@ -27,7 +29,7 @@ class IntervalsController(
                             it.targetLevelOfKnowledge == event.targetLevelOfKnowledge
                         }
                     val modifyIntervalDialogState = ModifyIntervalDialogState(
-                        targetLevelOfKnowledge = event.targetLevelOfKnowledge,
+                        dialogPurpose = ToChangeInterval(event.targetLevelOfKnowledge),
                         displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
                     )
                     ModifyIntervalDiScope.create(modifyIntervalDialogState)
@@ -35,9 +37,15 @@ class IntervalsController(
             }
 
             AddIntervalButtonClicked -> {
-                val lastIntervalValue: DateTimeSpan = deckSettingsState.deck.exercisePreference
-                    .intervalScheme!!.intervals.last().value
-                intervalsSettings.addInterval(lastIntervalValue)
+                navigator.showModifyIntervalDialog {
+                    val lastIntervalValue: DateTimeSpan = deckSettingsState.deck.exercisePreference
+                        .intervalScheme!!.intervals.last().value
+                    val modifyIntervalDialogState = ModifyIntervalDialogState(
+                        dialogPurpose = ToAddNewInterval,
+                        displayedInterval = DisplayedInterval.fromDateTimeSpan(lastIntervalValue)
+                    )
+                    ModifyIntervalDiScope.create(modifyIntervalDialogState)
+                }
             }
 
             RemoveIntervalButtonClicked -> {

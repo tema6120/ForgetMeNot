@@ -4,7 +4,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import kotlinx.serialization.Serializable
 
 class PresetDialogState : FlowableState<PresetDialogState>() {
-    var purpose: DialogPurpose? by me(null)
+    var purpose: DialogPurpose? by me<DialogPurpose?>(null)
     var typedPresetName: String by me("")
 }
 
