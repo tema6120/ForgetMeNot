@@ -27,4 +27,5 @@
     <color name="level_of_knowledge_good">#BAD400</color>
     <color name="level_of_knowledge_very_good">#94D619</color>
     <color name="level_of_knowledge_excellent">#5BD958</color>
+    <color name="time_line">#cccccc</color>
 </resources>

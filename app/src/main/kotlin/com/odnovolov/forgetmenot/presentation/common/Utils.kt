@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
@@ -13,6 +14,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -147,4 +149,17 @@ fun LayoutInflater.inflateAsync(
         }
     }
     return frameLayout
+}
+
+inline fun catchAndLogException(block: () -> Unit) {
+    try {
+        block()
+    } catch (e: Exception) {
+        if (BuildConfig.DEBUG) {
+            Log.d(
+                "odnovolov", "Caught Exception that is likely related to" +
+                        " asynchronous behavior: ${e.message}"
+            )
+        }
+    }
 }

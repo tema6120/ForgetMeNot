@@ -18,6 +18,9 @@ class SpeakPlanSettings(
     }
 
     fun changeSpeakEvent(position: Int, newSpeakEvent: SpeakEvent) {
+        require(position in 0..currentSpeakPlan.speakEvents.lastIndex) {
+            "Invalid position: $position"
+        }
         currentSpeakPlan.speakEvents.toMutableList().let { speakEvents: MutableList<SpeakEvent> ->
             speakEvents[position] = newSpeakEvent
             checkAndSetSpeakEvents(speakEvents)
@@ -25,6 +28,9 @@ class SpeakPlanSettings(
     }
 
     fun removeSpeakEvent(position: Int) {
+        require(position in 0..currentSpeakPlan.speakEvents.lastIndex) {
+            "Invalid position: $position"
+        }
         currentSpeakPlan.speakEvents.toMutableList().let { speakEvents: MutableList<SpeakEvent> ->
             speakEvents.removeAt(position)
             checkAndSetSpeakEvents(speakEvents)
@@ -32,12 +38,12 @@ class SpeakPlanSettings(
     }
 
     private fun checkAndSetSpeakEvents(speakEvents: List<SpeakEvent>) {
-        val hasSpeakQuestion: Boolean = speakEvents.any { it is SpeakQuestion }
-        if (!hasSpeakQuestion)
-            throw IllegalStateException("'SpeakPlan' must have at least one 'SpeakQuestion'")
-        val hasSpeakAnswer: Boolean = speakEvents.any { it is SpeakAnswer }
-        if (!hasSpeakAnswer)
-            throw IllegalStateException("'SpeakPlan' must have at least one 'SpeakAnswer'")
+        require(speakEvents.any { it is SpeakQuestion }) {
+            "'SpeakPlan' must have at least one 'SpeakQuestion'"
+        }
+        require(speakEvents.any { it is SpeakAnswer }) {
+            "'SpeakPlan' must have at least one 'SpeakAnswer'"
+        }
         currentSpeakPlan.speakEvents = speakEvents
     }
 }

@@ -80,7 +80,7 @@
                 android:hint="00"
                 android:inputType="number"
                 android:maxLength="2"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:textColor="@color/text_primary_selector"
                 android:textColorHint="#00FFFFFF"
                 android:textSize="18sp"

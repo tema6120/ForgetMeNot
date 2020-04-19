@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.SpeakPlanSetting
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.common.catchAndLogException
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialogState.DialogPurpose.ToAddNewSpeakEvent
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialogState.DialogPurpose.ToChangeAtPosition
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanController.Command
@@ -39,7 +40,9 @@ class SpeakPlanController(
 
             is RemoveSpeakEventButtonClicked -> {
                 val position = speakEvents.indexOfFirst { it.id == event.id }
-                speakPlanSettings.removeSpeakEvent(position)
+                catchAndLogException {
+                    speakPlanSettings.removeSpeakEvent(position)
+                }
             }
 
             AddSpeakEventButtonClicked -> {
@@ -92,6 +95,7 @@ class SpeakPlanController(
 
     private fun onSpeakEventButtonClicked(id: Long) {
         val position = speakEvents.indexOfFirst { it.id == id }
+        if (position !in 0..speakEvents.lastIndex) return
         val purpose = ToChangeAtPosition(position)
         val selectedSpeakEvent: SpeakEvent = speakEvents[position]
         val initialSelectedRadioButton: SpeakEventDialogState.SpeakEvent =
@@ -130,9 +134,11 @@ class SpeakPlanController(
     private fun processNewSpeakEvent(speakEvent: SpeakEvent) {
         when (val purpose = dialogState.dialogPurpose) {
             ToAddNewSpeakEvent -> speakPlanSettings.addSpeakEvent(speakEvent)
-            is ToChangeAtPosition ->
-                speakPlanSettings.changeSpeakEvent(purpose.position, speakEvent)
-            null -> return
+            is ToChangeAtPosition -> {
+                catchAndLogException {
+                    speakPlanSettings.changeSpeakEvent(purpose.position, speakEvent)
+                }
+            }
         }
     }
 
