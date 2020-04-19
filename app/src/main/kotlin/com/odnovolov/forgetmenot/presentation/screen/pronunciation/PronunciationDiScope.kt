@@ -20,6 +20,8 @@ class PronunciationDiScope private constructor(
     private val presetDialogState: PresetDialogState =
         initialPresetDialogState ?: presetDialogStateProvider.load()
 
+    private val pronunciationScreenState = PronunciationScreenState()
+
     private val pronunciationSettings = PronunciationSettings(
         DeckSettingsDiScope.shareDeckSettings(),
         AppDiScope.get().globalState
@@ -47,11 +49,15 @@ class PronunciationDiScope private constructor(
 
     val controller = PronunciationController(
         pronunciationSettings,
+        DeckSettingsDiScope.shareDeckSettings().state,
+        pronunciationScreenState,
+        speakerImpl,
         AppDiScope.get().longTermStateSaver
     )
 
     val viewModel = PronunciationViewModel(
         DeckSettingsDiScope.shareDeckSettings().state,
+        pronunciationScreenState,
         speakerImpl
     )
 

@@ -26,6 +26,8 @@
     <string name="description_speak_icon">Speak icon</string>
     <string name="description_rename_icon">Rename icon</string>
     <string name="description_navigate_icon">Navigate icon</string>
+    <string name="description_test_pronunciation_of_question_button">Test pronunciation of question</string>
+    <string name="description_test_pronunciation_of_answer_button">Test pronunciation of answer</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>

@@ -6,7 +6,9 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Looper
 import android.view.*
+import android.widget.ImageButton
 import android.widget.PopupWindow
+import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -14,6 +16,8 @@ import com.odnovolov.forgetmenot.presentation.common.toFlagEmoji
 import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState.WhatIsPronounced
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState.WhatIsPronounced.*
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -56,12 +60,20 @@ class PronunciationFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
+            isQuestionPronounced.observe { isPronounced: Boolean ->
+                val whatIsPronounced: WhatIsPronounced = if (isPronounced) NOTHING else QUESTION
+                setupTestPronunciationButton(testPronunciationOfQuestionButton, whatIsPronounced)
+            }
             selectedQuestionLanguage.observe { selectedQuestionLanguage: Locale? ->
                 questionLanguageTextView.text = getSelectedLanguageText(selectedQuestionLanguage)
             }
             questionAutoSpeak.observe { questionAutoSpeak: Boolean ->
                 questionAutoSpeakSwitch.isChecked = questionAutoSpeak
                 questionAutoSpeakSwitch.uncover()
+            }
+            isAnswerPronounced.observe { isPronounced: Boolean ->
+                val whatIsPronounced: WhatIsPronounced = if (isPronounced) NOTHING else ANSWER
+                setupTestPronunciationButton(testPronunciationOfAnswerButton, whatIsPronounced)
             }
             selectedAnswerLanguage.observe { selectedAnswerLanguage: Locale? ->
                 answerLanguageTextView.text = getSelectedLanguageText(selectedAnswerLanguage)
@@ -74,6 +86,36 @@ class PronunciationFragment : BaseFragment() {
                 speakTextInBracketsSwitch.isChecked = speakTextInBrackets
                 speakTextInBracketsSwitch.uncover()
             }
+        }
+    }
+
+    private fun setupTestPronunciationButton(
+        testPronunciationButton: ImageButton,
+        whatIsPronounced: WhatIsPronounced
+    ) {
+        with(testPronunciationButton) {
+            setImageResource(
+                if (whatIsPronounced == NOTHING)
+                    R.drawable.ic_volume_off_dark_24dp else
+                    R.drawable.ic_volume_up_dark_24dp
+            )
+            setOnClickListener {
+                controller?.dispatch(
+                    when (whatIsPronounced) {
+                        NOTHING -> StopSpeakButtonClicked
+                        QUESTION -> TestPronunciationOfQuestionButtonClicked
+                        ANSWER -> TestPronunciationOfAnswerButtonClicked
+                    }
+                )
+            }
+            contentDescription = getString(
+                when (whatIsPronounced) {
+                    NOTHING -> R.string.description_stop_speak_button
+                    QUESTION -> R.string.description_test_pronunciation_of_question_button
+                    ANSWER -> R.string.description_test_pronunciation_of_answer_button
+                }
+            )
+            TooltipCompat.setTooltipText(this, contentDescription)
         }
     }
 
