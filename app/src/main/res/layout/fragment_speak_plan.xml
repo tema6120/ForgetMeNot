@@ -10,7 +10,7 @@
             android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/speakPlanRecycler"
+                android:id="@+id/speakPlanRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -33,7 +33,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/speakPlanRecycler"
+                app:layout_constraintTop_toBottomOf="@id/speakPlanRecyclerView"
                 app:srcCompat="@drawable/add_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

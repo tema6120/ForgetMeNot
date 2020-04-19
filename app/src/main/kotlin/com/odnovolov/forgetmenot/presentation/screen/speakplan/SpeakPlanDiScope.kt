@@ -29,8 +29,6 @@ class SpeakPlanDiScope(
         dialogState
     )
 
-    val adapter = SpeakEventAdapter(controller)
-
     companion object : DiScopeManager<SpeakPlanDiScope>() {
         override fun recreateDiScope() = SpeakPlanDiScope(SpeakEventDialogState())
 

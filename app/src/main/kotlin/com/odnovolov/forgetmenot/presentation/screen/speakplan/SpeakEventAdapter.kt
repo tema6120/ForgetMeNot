@@ -2,10 +2,12 @@ package com.odnovolov.forgetmenot.presentation.screen.speakplan
 
 import android.graphics.Typeface
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View.*
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
@@ -18,10 +20,19 @@ import kotlinx.android.synthetic.main.item_speak_event.view.*
 class SpeakEventAdapter(
     private val controller: SpeakPlanController
 ) : ListAdapter<SpeakEventItem, SimpleRecyclerViewHolder>(DiffCallback()) {
+    lateinit var itemTouchHelper: ItemTouchHelper
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_speak_event, parent, false)
-        return SimpleRecyclerViewHolder(view)
+        val viewHolder = SimpleRecyclerViewHolder(view)
+        view.dragHandleButton.setOnTouchListener { _, event ->
+            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                itemTouchHelper.startDrag(viewHolder)
+            }
+            false
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {

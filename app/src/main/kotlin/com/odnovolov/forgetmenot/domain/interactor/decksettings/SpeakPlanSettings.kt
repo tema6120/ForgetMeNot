@@ -13,37 +13,13 @@ class SpeakPlanSettings(
     private val currentSpeakPlan: SpeakPlan
         get() = deckSettings.state.deck.exercisePreference.speakPlan
 
-    fun addSpeakEvent(speakEvent: SpeakEvent) {
-        currentSpeakPlan.speakEvents += speakEvent
-    }
-
-    fun changeSpeakEvent(position: Int, newSpeakEvent: SpeakEvent) {
-        require(position in 0..currentSpeakPlan.speakEvents.lastIndex) {
-            "Invalid position: $position"
-        }
-        currentSpeakPlan.speakEvents.toMutableList().let { speakEvents: MutableList<SpeakEvent> ->
-            speakEvents[position] = newSpeakEvent
-            checkAndSetSpeakEvents(speakEvents)
-        }
-    }
-
-    fun removeSpeakEvent(position: Int) {
-        require(position in 0..currentSpeakPlan.speakEvents.lastIndex) {
-            "Invalid position: $position"
-        }
-        currentSpeakPlan.speakEvents.toMutableList().let { speakEvents: MutableList<SpeakEvent> ->
-            speakEvents.removeAt(position)
-            checkAndSetSpeakEvents(speakEvents)
-        }
-    }
-
-    private fun checkAndSetSpeakEvents(speakEvents: List<SpeakEvent>) {
-        require(speakEvents.any { it is SpeakQuestion }) {
+    fun setSpeakEvents(speakEvent: List<SpeakEvent>) {
+        require(speakEvent.any { it is SpeakQuestion }) {
             "'SpeakPlan' must have at least one 'SpeakQuestion'"
         }
-        require(speakEvents.any { it is SpeakAnswer }) {
+        require(speakEvent.any { it is SpeakAnswer }) {
             "'SpeakPlan' must have at least one 'SpeakAnswer'"
         }
-        currentSpeakPlan.speakEvents = speakEvents
+        currentSpeakPlan.speakEvents = speakEvent
     }
 }

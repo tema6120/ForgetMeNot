@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
@@ -37,8 +38,14 @@ class SpeakPlanFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = SpeakPlanDiScope.get()
             controller = diScope.controller
-            speakPlanRecycler.adapter = diScope.adapter
-            observeViewModel(diScope.viewModel, diScope.adapter)
+            val adapter = SpeakEventAdapter(controller!!)
+            speakPlanRecyclerView.adapter = adapter
+            observeViewModel(diScope.viewModel, adapter)
+            val itemTouchHelperCallback =
+                SpeakEventItemTouchHelperCallback(controller!!, adapter)
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            adapter.itemTouchHelper = itemTouchHelper
+            itemTouchHelper.attachToRecyclerView(speakPlanRecyclerView)
             controller!!.commands.observe(::executeCommand)
         }
     }
@@ -66,7 +73,7 @@ class SpeakPlanFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        speakPlanRecycler.adapter = null
+        speakPlanRecyclerView.adapter = null
     }
 
     override fun onDestroy() {

@@ -39,9 +39,9 @@ class SpeakPlanController(
             }
 
             is RemoveSpeakEventButtonClicked -> {
-                val position = speakEvents.indexOfFirst { it.id == event.id }
+                val newSpeakEvents = speakEvents.filter { it.id != event.id }
                 catchAndLogException {
-                    speakPlanSettings.removeSpeakEvent(position)
+                    speakPlanSettings.setSpeakEvents(newSpeakEvents)
                 }
             }
 
@@ -90,6 +90,10 @@ class SpeakPlanController(
             is DelayInputChanged -> {
                 dialogState.delayInput = event.delayInput
             }
+
+            is SpeakEventItemsMoved -> {
+                speakPlanSettings.setSpeakEvents(event.newSpeakEvents)
+            }
         }
     }
 
@@ -132,13 +136,20 @@ class SpeakPlanController(
     }
 
     private fun processNewSpeakEvent(speakEvent: SpeakEvent) {
-        when (val purpose = dialogState.dialogPurpose) {
-            ToAddNewSpeakEvent -> speakPlanSettings.addSpeakEvent(speakEvent)
+        val newSpeakEvents = when (val purpose = dialogState.dialogPurpose) {
+            ToAddNewSpeakEvent -> {
+                speakEvents + speakEvent
+            }
             is ToChangeAtPosition -> {
-                catchAndLogException {
-                    speakPlanSettings.changeSpeakEvent(purpose.position, speakEvent)
+                if (purpose.position !in 0..speakEvents.lastIndex) return
+                speakEvents.toMutableList().also {
+                    it[purpose.position] = speakEvent
                 }
             }
+            null -> return
+        }
+        catchAndLogException {
+            speakPlanSettings.setSpeakEvents(newSpeakEvents)
         }
     }
 
