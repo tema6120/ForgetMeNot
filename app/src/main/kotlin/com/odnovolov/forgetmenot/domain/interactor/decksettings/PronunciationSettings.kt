@@ -69,7 +69,7 @@ class PronunciationSettings(
     fun deleteSharedPronunciation(pronunciationId: Long) {
         if (pronunciationId == Pronunciation.Default.id) return
         globalState.sharedPronunciations = globalState.sharedPronunciations
-            .filter { it.id != pronunciationId }
+            .filter { sharedPronunciation -> sharedPronunciation.id != pronunciationId }
             .toCopyableList()
         globalState.decks
             .map(Deck::exercisePreference)
@@ -78,6 +78,7 @@ class PronunciationSettings(
             .forEach { exercisePreference ->
                 exercisePreference.pronunciation = Pronunciation.Default
             }
+        deckSettings.recheckIndividualExercisePreferences()
     }
 
     fun setQuestionLanguage(questionLanguage: Locale?) {

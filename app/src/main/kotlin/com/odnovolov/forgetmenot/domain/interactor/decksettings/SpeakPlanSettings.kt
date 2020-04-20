@@ -69,7 +69,7 @@ class SpeakPlanSettings(
     fun deleteSharedSpeakPlan(speakPlanId: Long) {
         if (speakPlanId == SpeakPlan.Default.id) return
         globalState.sharedSpeakPlans = globalState.sharedSpeakPlans
-            .filter { it.id != speakPlanId }
+            .filter { sharedSpeakPlan -> sharedSpeakPlan.id != speakPlanId }
             .toCopyableList()
         globalState.decks
             .map(Deck::exercisePreference)
@@ -78,6 +78,7 @@ class SpeakPlanSettings(
             .forEach { exercisePreference ->
                 exercisePreference.speakPlan = SpeakPlan.Default
             }
+        deckSettings.recheckIndividualExercisePreferences()
     }
 
     fun setSpeakEvents(speakEvents: List<SpeakEvent>) {

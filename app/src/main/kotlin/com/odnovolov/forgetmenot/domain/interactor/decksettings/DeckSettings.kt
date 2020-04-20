@@ -35,15 +35,15 @@ class DeckSettings(
 
     fun setExercisePreference(exercisePreferenceId: Long) {
         if (exercisePreferenceId == ExercisePreference.Default.id) {
-            setExercisePreference(ExercisePreference.Default)
+            setCurrentExercisePreference(ExercisePreference.Default)
         } else {
             globalState.sharedExercisePreferences
                 .find { it.id == exercisePreferenceId }
-                ?.let(::setExercisePreference)
+                ?.let(::setCurrentExercisePreference)
         }
     }
 
-    private fun setExercisePreference(exercisePreference: ExercisePreference) {
+    private fun setCurrentExercisePreference(exercisePreference: ExercisePreference) {
         if (state.deck.exercisePreference.id != exercisePreference.id) {
             state.deck.exercisePreference = exercisePreference
         }
@@ -82,7 +82,7 @@ class DeckSettings(
         val newSharedExercisePreference = ExercisePreference.Default
             .shallowCopy(id = generateId(), name = name)
         addNewSharedExercisePreference(newSharedExercisePreference)
-        setExercisePreference(newSharedExercisePreference)
+        setCurrentExercisePreference(newSharedExercisePreference)
     }
 
     private fun addNewSharedExercisePreference(exercisePreference: ExercisePreference) {
@@ -212,6 +212,16 @@ class DeckSettings(
         )
     }
 
+    fun recheckIndividualExercisePreferences() {
+        globalState.decks.forEach { deck: Deck ->
+            with(deck) {
+                if (exercisePreference.shouldBeDefault()) {
+                    exercisePreference = ExercisePreference.Default
+                }
+            }
+        }
+    }
+
     private inline fun updateExercisePreference(
         isValueChanged: Boolean,
         createNewIndividualExercisePreference: () -> ExercisePreference,
@@ -221,12 +231,12 @@ class DeckSettings(
             !isValueChanged -> return
             currentExercisePreference.isDefault() -> {
                 val newIndividualExercisePreference = createNewIndividualExercisePreference()
-                setExercisePreference(newIndividualExercisePreference)
+                setCurrentExercisePreference(newIndividualExercisePreference)
             }
             currentExercisePreference.isIndividual() -> {
                 updateCurrentExercisePreference()
                 if (currentExercisePreference.shouldBeDefault()) {
-                    setExercisePreference(ExercisePreference.Default)
+                    setCurrentExercisePreference(ExercisePreference.Default)
                 }
             }
             else -> { // current ExercisePreference is shared

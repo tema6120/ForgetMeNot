@@ -84,13 +84,18 @@ class IntervalsSettings(
     fun deleteSharedIntervalScheme(intervalSchemeId: Long) {
         if (intervalSchemeId == IntervalScheme.Default.id) return
         globalState.sharedIntervalSchemes = globalState.sharedIntervalSchemes
-            .filter { it.id != intervalSchemeId }
+            .filter { sharedIntervalScheme -> sharedIntervalScheme.id != intervalSchemeId }
             .toCopyableList()
         globalState.decks
-            .map { it.exercisePreference }
-            .filter { it.intervalScheme?.run { this.id == intervalSchemeId } ?: false }
+            .map { deck -> deck.exercisePreference }
+            .filter { exercisePreference ->
+                exercisePreference.intervalScheme?.let { it.id == intervalSchemeId } ?: false
+            }
             .distinct()
-            .forEach { it.intervalScheme = IntervalScheme.Default }
+            .forEach { exercisePreference ->
+                exercisePreference.intervalScheme = IntervalScheme.Default
+            }
+        deckSettings.recheckIndividualExercisePreferences()
     }
 
     private fun addNewSharedIntervalScheme(intervalsScheme: IntervalScheme) {
