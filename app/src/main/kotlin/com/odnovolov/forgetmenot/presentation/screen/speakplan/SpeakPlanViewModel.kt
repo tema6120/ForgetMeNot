@@ -3,16 +3,16 @@ package com.odnovolov.forgetmenot.presentation.screen.speakplan
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
+import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.domain.entity.SpeakPlan
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialogState.SpeakEvent.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class SpeakPlanViewModel(
     deckSettingsState: DeckSettings.State,
-    dialogState: SpeakEventDialogState
+    private val dialogState: SpeakEventDialogState
 ) {
     val speakEventItems: Flow<List<SpeakEventItem>> = deckSettingsState.deck
         .flowOf(Deck::exercisePreference)
@@ -24,30 +24,30 @@ class SpeakPlanViewModel(
         }
         .map { speakEvents: List<SpeakEvent> ->
             val isSpeakQuestionItemRemovable: Boolean =
-                speakEvents.count { it is SpeakEvent.SpeakQuestion } > 1
+                speakEvents.count { it == SpeakQuestion } > 1
             val isSpeakAnswerItemRemovable: Boolean =
-                speakEvents.count { it is SpeakEvent.SpeakAnswer } > 1
+                speakEvents.count { it == SpeakAnswer } > 1
             speakEvents.map { speakEvent: SpeakEvent ->
                 val isRemovable = when (speakEvent) {
-                    is SpeakEvent.SpeakQuestion -> isSpeakQuestionItemRemovable
-                    is SpeakEvent.SpeakAnswer -> isSpeakAnswerItemRemovable
-                    is SpeakEvent.Delay -> true
+                    SpeakQuestion -> isSpeakQuestionItemRemovable
+                    SpeakAnswer -> isSpeakAnswerItemRemovable
+                    is Delay -> true
                 }
                 SpeakEventItem(speakEvent, isRemovable)
             }
         }
 
-    val selectedSpeakEvent: Flow<SpeakEventDialogState.SpeakEvent?> =
+    val selectedSpeakEventType: Flow<SpeakEventType?> =
         dialogState.flowOf(SpeakEventDialogState::selectedRadioButton)
 
-    val delayText: String = dialogState.delayInput
+    val delayText: String get() = dialogState.delayInput
 
     val isOkButtonEnabled: Flow<Boolean> = dialogState.asFlow()
         .map { dialogState: SpeakEventDialogState ->
             when (dialogState.selectedRadioButton) {
-                SpeakQuestion -> true
-                SpeakAnswer -> true
-                Delay -> {
+                SpeakEventType.SpeakQuestion -> true
+                SpeakEventType.SpeakAnswer -> true
+                SpeakEventType.Delay -> {
                     val isDelayInputValid: Boolean = dialogState.delayInput.toIntOrNull()
                         .let { it != null && it > 0 }
                     isDelayInputValid

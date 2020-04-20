@@ -1,6 +1,10 @@
+import com.odnovolov.forgetmenot.domain.entity.SpeakEvent;
+import kotlin.collections.List;
+
 CREATE TABLE SpeakPlanDb (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    speakEvents TEXT AS List<SpeakEvent> NOT NULL
 );
 
 insert:
@@ -11,6 +15,9 @@ SELECT * FROM SpeakPlanDb;
 
 updateName:
 UPDATE SpeakPlanDb SET name = ? WHERE id = ?;
+
+updateSpeakEvents:
+UPDATE SpeakPlanDb SET speakEvents = ? WHERE id = ?;
 
 delete:
 DELETE FROM SpeakPlanDb WHERE id = ?;

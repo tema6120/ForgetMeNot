@@ -5,10 +5,7 @@ import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
-import com.odnovolov.forgetmenot.persistence.globalstate.ExercisePreferenceDb
-import com.odnovolov.forgetmenot.persistence.globalstate.IntervalDb
-import com.odnovolov.forgetmenot.persistence.globalstate.PronunciationDb
-import com.odnovolov.forgetmenot.persistence.globalstate.RepetitionSettingDb
+import com.odnovolov.forgetmenot.persistence.globalstate.*
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
@@ -18,6 +15,7 @@ const val DATABASE_NAME = "forgetmenot.db"
 
 object DatabaseInitializer {
     fun initSqlDriver(applicationContext: Context): SqlDriver {
+        //applicationContext.deleteDatabase(DATABASE_NAME)
         val androidSqliteDriver = AndroidSqliteDriver(
             schema = Database.Schema,
             context = applicationContext,
@@ -70,6 +68,9 @@ object DatabaseInitializer {
             RepetitionSettingDb.Adapter(
                 lastAnswerFromTimeAgoAdapter = dateTimeSpanAdapter,
                 lastAnswerToTimeAgoAdapter = dateTimeSpanAdapter
+            ),
+            SpeakPlanDb.Adapter(
+                speakEventsAdapter = speakEventsAdapter
             )
         )
     }

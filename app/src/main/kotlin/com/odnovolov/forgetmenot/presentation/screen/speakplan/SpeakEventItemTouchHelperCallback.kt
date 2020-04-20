@@ -3,15 +3,14 @@ package com.odnovolov.forgetmenot.presentation.screen.speakplan
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanSettingsEvent.SpeakEventItemsMoved
-import java.util.*
+import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanUiEvent.SpeakEventItemsMoved
 
 class SpeakEventItemTouchHelperCallback(
     private val controller: SpeakPlanController,
-    private val speakEventAdapter: SpeakEventAdapter
+    private val adapter: SpeakEventAdapter
 ) : ItemTouchHelper.Callback() {
-    private val lastPositionFrom = -1
-    private val lastPositionTo = -1
+    private val lastFromPosition = -1
+    private val lastToPosition = -1
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
         val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -24,17 +23,19 @@ class SpeakEventItemTouchHelperCallback(
         viewHolder: ViewHolder,
         target: ViewHolder
     ): Boolean {
-        val currentPositionFrom = viewHolder.adapterPosition
-        val currentPositionTo = target.adapterPosition
-        if (currentPositionFrom == lastPositionFrom && currentPositionTo == lastPositionTo) {
+        val fromPosition = viewHolder.adapterPosition
+        val toPosition = target.adapterPosition
+        if (fromPosition == lastFromPosition && toPosition == lastToPosition) {
             return false
         }
-        val newSpeakEvents = speakEventAdapter.currentList
-            .map { it.speakEvent }
-            .toMutableList()
-        Collections.swap(newSpeakEvents, viewHolder.adapterPosition, target.adapterPosition)
-        controller.dispatch(SpeakEventItemsMoved(newSpeakEvents))
-        return false
+        adapter.onItemMove(fromPosition, toPosition)
+        controller.dispatch(SpeakEventItemsMoved(fromPosition, toPosition))
+        return true
+    }
+
+    override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
+        super.clearView(recyclerView, viewHolder)
+        adapter.notifyDraggingStopped()
     }
 
     override fun isLongPressDragEnabled() = false

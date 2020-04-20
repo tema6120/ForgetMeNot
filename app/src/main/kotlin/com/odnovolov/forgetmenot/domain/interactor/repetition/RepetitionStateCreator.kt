@@ -89,7 +89,7 @@ class RepetitionStateCreator(
             card = card,
             isReverse = isReverse,
             pronunciation = deck.exercisePreference.pronunciation,
-            speakPlan = SpeakPlan.Default
+            speakPlan = deck.exercisePreference.speakPlan
         )
     }
 

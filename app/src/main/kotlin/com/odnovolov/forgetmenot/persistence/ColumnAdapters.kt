@@ -1,10 +1,9 @@
 package com.odnovolov.forgetmenot.persistence
 
+import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
+import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
-import com.soywiz.klock.DateTime
-import com.soywiz.klock.DateTimeSpan
-import com.soywiz.klock.MonthSpan
-import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.*
 import com.squareup.sqldelight.ColumnAdapter
 import java.util.*
 
@@ -50,5 +49,31 @@ val deckSortingAdapter = object : ColumnAdapter<DeckSorting, String> {
             val direction = DeckSorting.Direction.valueOf(it[1])
             DeckSorting(criterion, direction)
         }
+    }
+}
+
+val speakEventsAdapter = object : ColumnAdapter<List<SpeakEvent>, String> {
+    override fun encode(value: List<SpeakEvent>): String {
+        return value.joinToString { speakEvent: SpeakEvent ->
+            when (speakEvent) {
+                SpeakQuestion -> "SPEAK_QUESTION"
+                SpeakAnswer -> "SPEAK_ANSWER"
+                is Delay -> speakEvent.timeSpan.seconds.toInt().toString()
+            }
+        }
+    }
+
+    override fun decode(databaseValue: String): List<SpeakEvent> {
+        return databaseValue.split(", ")
+            .map { chunk: String ->
+                when (chunk) {
+                    "SPEAK_QUESTION" -> SpeakQuestion
+                    "SPEAK_ANSWER" -> SpeakAnswer
+                    else -> {
+                        val timeSpan: TimeSpan = chunk.toInt().seconds
+                        Delay(timeSpan)
+                    }
+                }
+            }
     }
 }

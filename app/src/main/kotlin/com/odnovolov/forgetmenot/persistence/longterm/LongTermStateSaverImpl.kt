@@ -22,11 +22,9 @@ class LongTermStateSaverImpl(
     private val propertyChangeHandlers: Map<KClass<*>, PropertyChangeHandler> =
         HashMap<KClass<*>, PropertyChangeHandler>().apply {
             val intervalSchemePropertyChangeHandler = IntervalSchemePropertyChangeHandler(database)
-            val speakPlanPropertyChangeHandler = SpeakPlanPropertyChangeHandler(database)
             val exercisePreferencePropertyChangeHandler = ExercisePreferencePropertyChangeHandler(
                 database,
-                intervalSchemePropertyChangeHandler,
-                speakPlanPropertyChangeHandler
+                intervalSchemePropertyChangeHandler
             )
             val deckPropertyChangeHandler = DeckPropertyChangeHandler(
                 database,
@@ -45,7 +43,7 @@ class LongTermStateSaverImpl(
             put(IntervalScheme::class, IntervalSchemePropertyChangeHandler(database))
             put(Interval::class, IntervalPropertyChangeHandler(database))
             put(Pronunciation::class, PronunciationPropertyChangeHandler(database))
-            put(SpeakPlan::class, speakPlanPropertyChangeHandler)
+            put(SpeakPlan::class, SpeakPlanPropertyChangeHandler(database))
             put(RepetitionSetting::class, RepetitionSettingPropertyChangeHandler(database))
             put(DeckReviewPreference::class, DeckReviewPreferencePropertyChangeHandler(database))
             put(WalkingModePreference::class, WalkingModePreferencePropertyChangeHandler(database))

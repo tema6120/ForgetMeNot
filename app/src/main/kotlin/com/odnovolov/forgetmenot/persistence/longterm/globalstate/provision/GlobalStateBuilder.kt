@@ -4,12 +4,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.*
-import com.odnovolov.forgetmenot.persistence.globalstate.DelaySpeakEventDb
 import com.odnovolov.forgetmenot.persistence.globalstate.RepetitionSettingDb
-import com.odnovolov.forgetmenot.persistence.globalstate.SpeakEventDb
-import com.odnovolov.forgetmenot.persistence.globalstate.SpeakPlanDb
-import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.milliseconds
 
 class GlobalStateBuilder private constructor(private val tables: TablesForGlobalState) {
     companion object {
@@ -63,32 +58,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
     }
 
     private fun buildSpeakPlans(): List<SpeakPlan> {
-        val delaySpeakEventDbMap: Map<Long, DelaySpeakEventDb> =
-            tables.delaySpeakEventTable.associateBy { it.speakEventId }
-        val groupedSpeakEventDb: Map<Long, List<SpeakEventDb>> =
-            tables.speakEventTable.groupBy { it.speakPlanId }
-        return tables.speakPlanTable.map { speakPlanDb: SpeakPlanDb ->
-            val speakEvents: List<SpeakEvent> = groupedSpeakEventDb.getValue(speakPlanDb.id)
-                .sortedBy { speakEventDb: SpeakEventDb -> speakEventDb.ordinal }
-                .map { speakEventDb: SpeakEventDb ->
-                    when (speakEventDb.speakEventType) {
-                        SpeakEvent.SpeakQuestion::class.simpleName ->
-                            SpeakEvent.SpeakQuestion(speakEventDb.id)
-                        SpeakEvent.SpeakAnswer::class.simpleName ->
-                            SpeakEvent.SpeakAnswer(speakEventDb.id)
-                        SpeakEvent.Delay::class.simpleName -> {
-                            val delay: TimeSpan =
-                                delaySpeakEventDbMap.getValue(speakEventDb.id).delayMs.milliseconds
-                            SpeakEvent.Delay(speakEventDb.id, delay)
-                        }
-                        else -> throw IllegalStateException(
-                            "column ${speakEventDb::speakEventType.name} cannot be adapted to " +
-                                    SpeakEvent::class.simpleName
-                        )
-                    }
-                }
-            speakPlanDb.toSpeakPlan(speakEvents)
-        }
+        return tables.speakPlanTable.map { it.toSpeakPlan() }
     }
 
     private fun buildExercisePreferences(

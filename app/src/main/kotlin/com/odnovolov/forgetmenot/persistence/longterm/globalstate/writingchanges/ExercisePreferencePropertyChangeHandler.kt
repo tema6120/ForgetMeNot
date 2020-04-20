@@ -4,7 +4,6 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.toIntervalSchemeDb
 import com.odnovolov.forgetmenot.persistence.toPronunciationDb
@@ -12,8 +11,7 @@ import com.odnovolov.forgetmenot.persistence.toSpeakPlanDb
 
 class ExercisePreferencePropertyChangeHandler(
     private val database: Database,
-    private val intervalSchemePropertyChangeHandler: IntervalSchemePropertyChangeHandler,
-    private val speakPlanPropertyChangeHandler: SpeakPlanPropertyChangeHandler
+    private val intervalSchemePropertyChangeHandler: IntervalSchemePropertyChangeHandler
 ) : PropertyChangeHandler {
     private val queries = database.exercisePreferenceQueries
 
@@ -89,9 +87,6 @@ class ExercisePreferencePropertyChangeHandler(
         if (!exists) {
             val speakPlanDb = speakPlan.toSpeakPlanDb()
             database.speakPlanQueries.insert(speakPlanDb)
-            speakPlan.speakEvents.forEachIndexed { ordinal, speakEvent ->
-                speakPlanPropertyChangeHandler.insertSpeakEvent(speakEvent, speakPlan.id, ordinal)
-            }
         }
     }
 }

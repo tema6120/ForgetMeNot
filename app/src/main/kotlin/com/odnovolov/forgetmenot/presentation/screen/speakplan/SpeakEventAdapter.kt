@@ -6,29 +6,59 @@ import android.view.MotionEvent
 import android.view.View.*
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanSettingsEvent.RemoveSpeakEventButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanSettingsEvent.SpeakEventButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanUiEvent.RemoveSpeakEventButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanUiEvent.SpeakEventButtonClicked
 import kotlinx.android.synthetic.main.item_speak_event.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SpeakEventAdapter(
     private val controller: SpeakPlanController
-) : ListAdapter<SpeakEventItem, SimpleRecyclerViewHolder>(DiffCallback()) {
+) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
     lateinit var itemTouchHelper: ItemTouchHelper
+    private var isDragging = false
+    private var mutableItems: MutableList<SpeakEventItem> = ArrayList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+    private var pendingItems: List<SpeakEventItem>? = null
+
+    fun setItems(items: List<SpeakEventItem>) {
+        if (isDragging) {
+            pendingItems = items
+        } else {
+            mutableItems = items.toMutableList()
+        }
+    }
+
+    fun onItemMove(fromPosition: Int, toPosition: Int) {
+        Collections.swap(mutableItems, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    fun notifyDraggingStopped() {
+        isDragging = false
+        pendingItems?.let(::setItems)
+        pendingItems = null
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_speak_event, parent, false)
         val viewHolder = SimpleRecyclerViewHolder(view)
         view.dragHandleButton.setOnTouchListener { _, event ->
-            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                itemTouchHelper.startDrag(viewHolder)
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    isDragging = true
+                    itemTouchHelper.startDrag(viewHolder)
+                }
             }
             false
         }
@@ -36,11 +66,11 @@ class SpeakEventAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
-        val speakEventItem: SpeakEventItem = getItem(position)
+        val speakEventItem: SpeakEventItem = mutableItems[position]
         val speakEvent: SpeakEvent = speakEventItem.speakEvent
         with(viewHolder.itemView) {
             when (speakEvent) {
-                is SpeakQuestion -> {
+                SpeakQuestion -> {
                     speakEventTextView.text = context.getString(R.string.speak_event_speak_question)
                     speakEventTextView.setTypeface(null, Typeface.BOLD)
                     speakEventTextView.setTextColor(
@@ -52,7 +82,7 @@ class SpeakEventAdapter(
                     speakIcon.visibility = VISIBLE
                     timeLineCenter.visibility = INVISIBLE
                 }
-                is SpeakAnswer -> {
+                SpeakAnswer -> {
                     speakEventTextView.text = context.getString(R.string.speak_event_speak_answer)
                     speakEventTextView.setTypeface(null, Typeface.BOLD)
                     speakEventTextView.setTextColor(
@@ -81,21 +111,19 @@ class SpeakEventAdapter(
             }
             removeSpeakEventButton.visibility = if (speakEventItem.isRemovable) VISIBLE else GONE
             speakEventButton.setOnClickListener {
-                controller.dispatch(SpeakEventButtonClicked(speakEvent.id))
+                if (!isDragging) {
+                    controller.dispatch(SpeakEventButtonClicked(position))
+                }
             }
             removeSpeakEventButton.setOnClickListener {
-                controller.dispatch(RemoveSpeakEventButtonClicked(speakEvent.id))
+                if (!isDragging) {
+                    controller.dispatch(RemoveSpeakEventButtonClicked(position))
+                }
             }
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<SpeakEventItem>() {
-        override fun areItemsTheSame(oldItem: SpeakEventItem, newItem: SpeakEventItem): Boolean {
-            return oldItem.speakEvent.id == newItem.speakEvent.id
-        }
-
-        override fun areContentsTheSame(oldItem: SpeakEventItem, newItem: SpeakEventItem): Boolean {
-            return oldItem == newItem
-        }
+    override fun getItemCount(): Int {
+        return mutableItems.size
     }
 }

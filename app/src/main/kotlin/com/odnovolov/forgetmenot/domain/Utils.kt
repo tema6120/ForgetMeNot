@@ -21,10 +21,6 @@ fun IntervalScheme.isDefault(): Boolean = this.id == IntervalScheme.Default.id
 
 fun IntervalScheme.isIndividual(): Boolean = !isDefault() && name.isEmpty()
 
-fun SpeakPlan.isDefault(): Boolean = this.id == SpeakPlan.Default.id
-
-fun SpeakPlan.isIndividual(): Boolean = !isDefault() && name.isEmpty()
-
 fun RepetitionSetting.isDefault(): Boolean = this.id == RepetitionSetting.Default.id
 
 fun RepetitionSetting.isIndividual(): Boolean = !isDefault() && name.isEmpty()

@@ -127,7 +127,7 @@ fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb.Impl(
     speakTextInBrackets
 )
 
-fun SpeakPlanDb.toSpeakPlan(speakEvents: List<SpeakEvent>) = SpeakPlan(
+fun SpeakPlanDb.toSpeakPlan() = SpeakPlan(
     id,
     name,
     speakEvents
@@ -135,7 +135,8 @@ fun SpeakPlanDb.toSpeakPlan(speakEvents: List<SpeakEvent>) = SpeakPlan(
 
 fun SpeakPlan.toSpeakPlanDb(): SpeakPlanDb = SpeakPlanDb.Impl(
     id,
-    name
+    name,
+    speakEvents
 )
 
 fun DeckReviewPreferenceDb.toDeckReviewPreference() = DeckReviewPreference(

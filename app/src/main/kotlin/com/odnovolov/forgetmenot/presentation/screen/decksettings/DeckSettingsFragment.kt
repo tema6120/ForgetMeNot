@@ -134,6 +134,13 @@ class DeckSettingsFragment : BaseFragment() {
                             getString(R.string.card_reverse_label_every_other_lap)
                     }
             }
+            speakPlan.observe { speakPlan: SpeakPlan ->
+                selectedSpeakPlanTextView.text = when {
+                    speakPlan.isDefault() -> getString(R.string.default_name)
+                    speakPlan.isIndividual() -> getString(R.string.individual_name)
+                    else -> "'${speakPlan.name}'"
+                }
+            }
         }
     }
 

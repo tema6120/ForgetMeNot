@@ -76,7 +76,7 @@ class DeckSettingsController(
 
             SpeakPlanButtonClicked -> {
                 navigator.navigateToSpeakPlan {
-                    SpeakPlanDiScope(SpeakEventDialogState())
+                    SpeakPlanDiScope.create(PresetDialogState(), SpeakEventDialogState())
                 }
             }
         }

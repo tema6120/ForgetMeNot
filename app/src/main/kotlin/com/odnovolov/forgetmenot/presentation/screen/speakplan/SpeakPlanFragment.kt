@@ -12,7 +12,7 @@ import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanController.Command.ShowCannotChangeLastSpeakAnswerMessage
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanController.Command.ShowCannotChangeLastSpeakQuestionMessage
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanSettingsEvent.AddSpeakEventButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanUiEvent.AddSpeakEventButtonClicked
 import kotlinx.android.synthetic.main.fragment_speak_plan.*
 import kotlinx.coroutines.launch
 
@@ -23,6 +23,8 @@ class SpeakPlanFragment : BaseFragment() {
     }
 
     private var controller: SpeakPlanController? = null
+    private lateinit var viewModel: SpeakPlanViewModel
+    private lateinit var speakEventAdapter: SpeakEventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,32 +36,38 @@ class SpeakPlanFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
+        setupAddSpeakButton()
         viewCoroutineScope!!.launch {
             val diScope = SpeakPlanDiScope.get()
             controller = diScope.controller
-            val adapter = SpeakEventAdapter(controller!!)
-            speakPlanRecyclerView.adapter = adapter
-            observeViewModel(diScope.viewModel, adapter)
-            val itemTouchHelperCallback =
-                SpeakEventItemTouchHelperCallback(controller!!, adapter)
-            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-            adapter.itemTouchHelper = itemTouchHelper
-            itemTouchHelper.attachToRecyclerView(speakPlanRecyclerView)
+            viewModel = diScope.viewModel
+            speakEventAdapter = SpeakEventAdapter(controller!!)
+            presetView.inject(diScope.presetController, diScope.presetViewModel)
+            setupSpeakPlanRecyclerView()
+            observeSpeakEvents()
             controller!!.commands.observe(::executeCommand)
         }
     }
 
-    private fun setupView() {
+    private fun setupAddSpeakButton() {
         addSpeakEventButton.setOnClickListener {
             controller?.dispatch(AddSpeakEventButtonClicked)
         }
     }
 
-    private fun observeViewModel(viewModel: SpeakPlanViewModel, adapter: SpeakEventAdapter) {
-        with(viewModel) {
-            speakEventItems.observe(adapter::submitList)
-        }
+    private fun setupSpeakPlanRecyclerView() {
+        speakPlanRecyclerView.adapter = speakEventAdapter
+        val itemTouchHelperCallback = SpeakEventItemTouchHelperCallback(
+            controller!!,
+            speakEventAdapter
+        )
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        speakEventAdapter.itemTouchHelper = itemTouchHelper
+        itemTouchHelper.attachToRecyclerView(speakPlanRecyclerView)
+    }
+
+    private fun observeSpeakEvents() {
+        viewModel.speakEventItems.observe(speakEventAdapter::setItems)
     }
 
     private fun executeCommand(command: SpeakPlanController.Command) {

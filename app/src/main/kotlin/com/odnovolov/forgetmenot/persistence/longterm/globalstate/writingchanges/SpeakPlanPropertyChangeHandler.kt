@@ -2,13 +2,9 @@ package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchange
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change
-import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.ListChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
-import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
 import com.odnovolov.forgetmenot.domain.entity.SpeakPlan
-import com.odnovolov.forgetmenot.persistence.globalstate.DelaySpeakEventDb
-import com.odnovolov.forgetmenot.persistence.globalstate.SpeakEventDb
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 
 class SpeakPlanPropertyChangeHandler(
@@ -25,53 +21,9 @@ class SpeakPlanPropertyChangeHandler(
                 database.speakPlanQueries.updateName(newName, speakPlanId)
             }
             SpeakPlan::speakEvents -> {
-                if (change !is ListChange) return
-                change.removedItemsAt.forEach { ordinal: Int ->
-                    database.speakEventQueries.delete(speakPlanId, ordinal)
-                }
-                change.movedItemsAt.forEach { (oldOrdinal: Int, newOrdinal: Int) ->
-                    database.speakEventQueries.updateOrdinal(newOrdinal, speakPlanId, oldOrdinal)
-                }
-                (change.addedItems as Map<Int, SpeakEvent>).forEach { (ordinal, speakEvent) ->
-                    insertSpeakEvent(speakEvent, speakPlanId, ordinal)
-                }
-            }
-        }
-    }
-
-    fun insertSpeakEvent(speakEvent: SpeakEvent, speakPlanId: Long, ordinal: Int) {
-        when (speakEvent) {
-            is SpeakQuestion -> {
-                val speakEventDb = SpeakEventDb.Impl(
-                    speakEvent.id,
-                    speakPlanId,
-                    ordinal,
-                    SpeakQuestion::class.simpleName!!
-                )
-                database.speakEventQueries.insert(speakEventDb)
-            }
-            is SpeakAnswer -> {
-                val speakEventDb = SpeakEventDb.Impl(
-                    speakEvent.id,
-                    speakPlanId,
-                    ordinal,
-                    SpeakAnswer::class.simpleName!!
-                )
-                database.speakEventQueries.insert(speakEventDb)
-            }
-            is Delay -> {
-                val speakEventDb = SpeakEventDb.Impl(
-                    speakEvent.id,
-                    speakPlanId,
-                    ordinal,
-                    Delay::class.simpleName!!
-                )
-                database.speakEventQueries.insert(speakEventDb)
-                val delaySpeakEventDb = DelaySpeakEventDb.Impl(
-                    speakEventId = speakEvent.id,
-                    delayMs = speakEvent.timeSpan.millisecondsLong
-                )
-                database.delaySpeakEventQueries.insert(delaySpeakEventDb)
+                if (change !is PropertyValueChange) return
+                val newSpeakEvents = change.newValue as List<SpeakEvent>
+                database.speakPlanQueries.updateSpeakEvents(newSpeakEvents, speakPlanId)
             }
         }
     }

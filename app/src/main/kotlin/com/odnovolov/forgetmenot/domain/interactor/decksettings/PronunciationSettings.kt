@@ -86,6 +86,7 @@ class PronunciationSettings(
             createNewIndividualPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
+                    name = "",
                     questionLanguage = questionLanguage
                 )
             },
@@ -102,6 +103,7 @@ class PronunciationSettings(
             createNewIndividualPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
+                    name = "",
                     questionAutoSpeak = newQuestionAutoSpeak
                 )
             },
@@ -117,6 +119,7 @@ class PronunciationSettings(
             createNewIndividualPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
+                    name = "",
                     answerLanguage = answerLanguage
                 )
             },
@@ -133,6 +136,7 @@ class PronunciationSettings(
             createNewIndividualPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
+                    name = "",
                     answerAutoSpeak = newAnswerAutoSpeak
                 )
             },
@@ -149,6 +153,7 @@ class PronunciationSettings(
             createNewIndividualPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
+                    name = "",
                     speakTextInBrackets = newSpeakTextInBrackets
                 )
             },

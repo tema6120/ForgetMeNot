@@ -106,6 +106,7 @@ class DeckSettings(
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
+                    name = "",
                     randomOrder = randomOrder
                 )
             },
@@ -121,6 +122,7 @@ class DeckSettings(
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
+                    name = "",
                     testMethod = testMethod
                 )
             },
@@ -136,6 +138,7 @@ class DeckSettings(
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
+                    name = "",
                     intervalScheme = intervalScheme
                 )
             },
@@ -151,6 +154,7 @@ class DeckSettings(
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
+                    name = "",
                     pronunciation = pronunciation
                 )
             },
@@ -166,6 +170,7 @@ class DeckSettings(
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
+                    name = "",
                     isQuestionDisplayed = isQuestionDisplayed
                 )
             },
@@ -181,11 +186,28 @@ class DeckSettings(
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
+                    name = "",
                     cardReverse = cardReverse
                 )
             },
             updateCurrentExercisePreference = {
                 currentExercisePreference.cardReverse = cardReverse
+            }
+        )
+    }
+
+    fun setSpeakPlan(speakPlan: SpeakPlan) {
+        updateExercisePreference(
+            isValueChanged = currentExercisePreference.speakPlan != speakPlan,
+            createNewIndividualExercisePreference = {
+                currentExercisePreference.shallowCopy(
+                    id = generateId(),
+                    name = "",
+                    speakPlan = speakPlan
+                )
+            },
+            updateCurrentExercisePreference = {
+                currentExercisePreference.speakPlan = speakPlan
             }
         )
     }

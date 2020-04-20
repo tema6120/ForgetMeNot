@@ -64,6 +64,9 @@ class DeckPropertyChangeHandler(
             exercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists(
                 exercisePreference.pronunciation
             )
+            exercisePreferencePropertyChangeHandler.insertSpeakPlanIfNotExists(
+                exercisePreference.speakPlan
+            )
             val exercisePreferenceDb = exercisePreference.toExercisePreferenceDb()
             database.exercisePreferenceQueries.insert(exercisePreferenceDb)
         }
