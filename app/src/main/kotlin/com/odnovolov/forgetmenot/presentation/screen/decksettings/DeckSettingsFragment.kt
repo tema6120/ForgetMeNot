@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -15,15 +13,12 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.domain.isIndividual
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
-import com.odnovolov.forgetmenot.presentation.common.inflateAsync
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*
 import kotlinx.android.synthetic.main.dialog_input.view.*
@@ -90,10 +85,7 @@ class DeckSettingsFragment : BaseFragment() {
             deckName.observe(deckNameTextView::setText)
             randomOrder.observe { randomOrder: Boolean ->
                 randomOrderSwitch.isChecked = randomOrder
-                if (randomOrderSwitch.visibility == INVISIBLE) {
-                    randomOrderSwitch.jumpDrawablesToCurrentState()
-                    randomOrderSwitch.visibility = VISIBLE
-                }
+                randomOrderSwitch.uncover()
             }
             selectedTestMethod.observe { selectedTestMethod ->
                 selectedTestMethodTextView.text = when (selectedTestMethod) {
@@ -120,10 +112,7 @@ class DeckSettingsFragment : BaseFragment() {
             }
             isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
                 displayQuestionSwitch.isChecked = isQuestionDisplayed
-                if (displayQuestionSwitch.visibility == INVISIBLE) {
-                    displayQuestionSwitch.jumpDrawablesToCurrentState()
-                    displayQuestionSwitch.visibility = VISIBLE
-                }
+                displayQuestionSwitch.uncover()
             }
             selectedCardReverse.observe { selectedCardReverse: CardReverse ->
                 selectedCardReverseTextView.text =

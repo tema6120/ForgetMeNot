@@ -1,11 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -173,9 +173,7 @@ class HomeFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_add_deck -> {
-                val addDeckFragment = childFragmentManager
-                    .findFragmentById(R.id.addDeckFragment) as AddDeckFragment
-                addDeckFragment.showFileChooser()
+                showFileChooser()
                 true
             }
             R.id.action_sort_by -> {
@@ -192,6 +190,17 @@ class HomeFragment : BaseFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showFileChooser() {
+        val addDeckFragment = childFragmentManager
+            .findFragmentById(R.id.addDeckFragment) as AddDeckFragment
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .setType("text/plain")
+        // we call startActivityForResult() on behalf of AddDeckFragment in order that
+        // AddDeckFragment can get result onActivityResult()
+        addDeckFragment.startActivityForResult(intent, AddDeckFragment.GET_CONTENT_REQUEST_CODE)
     }
 
     override fun onResume() {

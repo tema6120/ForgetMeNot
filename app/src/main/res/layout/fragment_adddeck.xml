@@ -9,6 +9,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@drawable/background_add_deck_progress_bar"
+            android:padding="32dp"
             android:visibility="gone"
             tools:visibility="visible" />
 

@@ -107,6 +107,11 @@ fun Fragment.showToast(
     duration: Int = Toast.LENGTH_SHORT
 ) = Toast.makeText(requireContext(), stringId, duration).show()
 
+fun Fragment.showToast(
+    text: String,
+    duration: Int = Toast.LENGTH_SHORT
+) = Toast.makeText(requireContext(), text, duration).show()
+
 fun View.uncover() {
     if (visibility != View.VISIBLE) {
         jumpDrawablesToCurrentState()

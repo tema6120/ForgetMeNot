@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
+import com.odnovolov.forgetmenot.domain.checkDeckName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
@@ -16,21 +17,11 @@ class AddDeckViewModel(
 
     val isProcessing: Flow<Boolean> = stage.map { it == Stage.Parsing }
 
-    val isDialogVisible: Flow<Boolean> = stage.map { it === Stage.WaitingForName }
+    val isDialogVisible: Flow<Boolean> = stage.map { it == Stage.WaitingForName }
 
     val nameCheckResult: Flow<NameCheckResult> = addDeckScreenState
         .flowOf(AddDeckScreenState::typedText)
-        .map { typedText ->
-            when {
-                typedText.isEmpty() -> NameCheckResult.Empty
-                isDeckNameOccupied(typedText) -> NameCheckResult.Occupied
-                else -> NameCheckResult.Ok
-            }
-        }
+        .map { typedText -> checkDeckName(typedText, globalState) }
 
     val isPositiveButtonEnabled: Flow<Boolean> = nameCheckResult.map { it == NameCheckResult.Ok }
-
-    private fun isDeckNameOccupied(testedName: String): Boolean {
-        return globalState.decks.any { it.name == testedName }
-    }
 }

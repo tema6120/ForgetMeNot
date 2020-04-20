@@ -1,9 +1,12 @@
 package com.odnovolov.forgetmenot.domain.interactor.deckadder
 
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.architecturecomponents.*
+import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
+import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.Parser.IllegalCardFormatException
@@ -16,7 +19,7 @@ class DeckAdder(
 ) {
     class State : FlowableState<State>() {
         var stage: Stage by me(Stage.Idle)
-        var cardPrototypes: List<CardPrototype>? by me(null)
+        var cardPrototypes: List<CardPrototype>? by me<List<CardPrototype>?>(null)
     }
 
     sealed class Event {
@@ -31,7 +34,8 @@ class DeckAdder(
     fun addFrom(inputStream: InputStream, deckName: String? = null) {
         val success = parse(inputStream)
         if (success) {
-            tryToAdd(deckName)
+            val nameWithoutExtension = deckName?.substringBeforeLast(".")
+            tryToAdd(nameWithoutExtension)
         }
     }
 
