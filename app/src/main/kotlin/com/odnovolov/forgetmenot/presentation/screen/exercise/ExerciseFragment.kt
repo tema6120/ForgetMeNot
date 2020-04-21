@@ -121,7 +121,7 @@ class ExerciseFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        viewCoroutineScope!!.launch() {
+        viewCoroutineScope!!.launch {
             val diScope = ExerciseDiScope.get()
             controller = diScope.controller
             exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!)
@@ -227,6 +227,9 @@ class ExerciseFragment : BaseFragment() {
         with(viewModel) {
             val exerciseCardAdapter = exerciseViewPager.adapter as ExerciseCardAdapter
             exerciseCards.observe(exerciseCardAdapter::submitList)
+            if (exerciseViewPager.currentItem != currentPosition) {
+                exerciseViewPager.setCurrentItem(currentPosition, false)
+            }
             isCurrentExerciseCardLearned.observe { isLearned: Boolean ->
                 with(notAskButton) {
                     setImageResource(

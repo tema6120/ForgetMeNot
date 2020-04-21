@@ -62,7 +62,8 @@ class RepetitionDiScope private constructor(
 
     private val repetitionCardController = RepetitionCardController(
         repetition,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        repetitionStateProvider
     )
 
     fun getRepetitionCardAdapter(coroutineScope: CoroutineScope) = RepetitionCardAdapter(

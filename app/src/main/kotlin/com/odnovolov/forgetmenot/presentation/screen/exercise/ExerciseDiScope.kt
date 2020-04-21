@@ -57,22 +57,26 @@ class ExerciseDiScope private constructor(
 
     private val offTestExerciseCardController = OffTestExerciseCardController(
         exercise,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        exerciseStateProvider
     )
 
     private val manualTestExerciseCardController = ManualTestExerciseCardController(
         exercise,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        exerciseStateProvider
     )
 
     private val quizTestExerciseCardController = QuizTestExerciseCardController(
         exercise,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        exerciseStateProvider
     )
 
     private val entryTestExerciseCardController = EntryTestExerciseCardController(
         exercise,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        exerciseStateProvider
     )
 
     fun getExerciseCardAdapter(coroutineScope: CoroutineScope) = ExerciseCardAdapter(

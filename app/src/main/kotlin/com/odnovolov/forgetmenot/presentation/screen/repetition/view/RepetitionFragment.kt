@@ -20,8 +20,6 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionF
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.SetViewPagerPosition
 import kotlinx.android.synthetic.main.fragment_repetition.*
-import kotlinx.android.synthetic.main.fragment_repetition.notAskButton
-import kotlinx.android.synthetic.main.fragment_repetition.speakButton
 import kotlinx.coroutines.launch
 
 class RepetitionFragment : BaseFragment() {
@@ -68,11 +66,7 @@ class RepetitionFragment : BaseFragment() {
     private fun observeViewModel(viewModel: RepetitionViewModel, adapter: RepetitionCardAdapter) {
         with(viewModel) {
             repetitionCards.observe { repetitionCards: List<RepetitionCard> ->
-                val isFirst = adapter.items.isEmpty()
                 adapter.items = repetitionCards
-                if (isFirst) {
-                    repetitionViewPager.setCurrentItem(repetitionCardPosition, false)
-                }
             }
             isCurrentRepetitionCardLearned.observe { isLearned: Boolean ->
                 with(notAskButton) {
@@ -153,6 +147,16 @@ class RepetitionFragment : BaseFragment() {
         when (command) {
             is SetViewPagerPosition -> {
                 repetitionViewPager.currentItem = command.position
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewCoroutineScope!!.launch {
+            val repetitionCardPosition = RepetitionDiScope.get().viewModel.repetitionCardPosition
+            if (repetitionViewPager.currentItem != repetitionCardPosition) {
+                repetitionViewPager.setCurrentItem(repetitionCardPosition, false)
             }
         }
     }
