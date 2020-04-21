@@ -23,31 +23,12 @@
                 android:id="@+id/notAskButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_not_ask_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_block_white_24dp" />
-
-        <ImageButton
-                android:id="@+id/undoButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_undo_button"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_undo_white_24dp" />
-
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="end"
-                app:constraint_referenced_ids="notAskButton,undoButton" />
 
         <ImageButton
                 android:id="@+id/speakButton"
@@ -56,7 +37,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_speak_button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/barrier5"
+                app:layout_constraintStart_toEndOf="@id/notAskButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_volume_up_white_24dp" />
 

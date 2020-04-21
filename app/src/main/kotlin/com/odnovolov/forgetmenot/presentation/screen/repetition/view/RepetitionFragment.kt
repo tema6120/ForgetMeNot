@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
@@ -61,22 +61,60 @@ class RepetitionFragment : BaseFragment() {
 
     private fun setupView() {
         repetitionViewPager.registerOnPageChangeCallback(onPageChangeCallback)
-        pauseButton.setOnClickListener { controller?.dispatch(PauseButtonClicked) }
-        resumeButton.setOnClickListener { controller?.dispatch(ResumeButtonClicked) }
     }
 
     private fun observeViewModel(viewModel: RepetitionViewModel, adapter: RepetitionCardAdapter) {
         with(viewModel) {
-            isPlaying.observe { isPlaying ->
-                resumeButton.isVisible = !isPlaying
-                pauseButton.isVisible = isPlaying
-                if (isPlaying) startService()
-            }
             repetitionCards.observe { repetitionCards: List<RepetitionCard> ->
                 val isFirst = adapter.items.isEmpty()
                 adapter.items = repetitionCards
                 if (isFirst) {
                     repetitionViewPager.setCurrentItem(repetitionCardPosition, false)
+                }
+            }
+            isCurrentRepetitionCardLearned.observe { isLearned: Boolean ->
+                with(notAskButton) {
+                    setImageResource(
+                        if (isLearned)
+                            R.drawable.ic_undo_white_24dp else
+                            R.drawable.ic_block_white_24dp
+                    )
+                    setOnClickListener {
+                        controller?.dispatch(
+                            if (isLearned)
+                                AskAgainButtonClicked else
+                                NotAskButtonClicked
+                        )
+                    }
+                    contentDescription = getString(
+                        if (isLearned)
+                            R.string.description_ask_again_button else
+                            R.string.description_not_ask_button
+                    )
+                    TooltipCompat.setTooltipText(this, contentDescription)
+                }
+            }
+            isPlaying.observe { isPlaying: Boolean ->
+                if (isPlaying) startService()
+                with(pauseResumeButton) {
+                    setImageResource(
+                        if (isPlaying)
+                            R.drawable.ic_pause_white_24dp else
+                            R.drawable.ic_play_arrow_white_24dp
+                    )
+                    setOnClickListener {
+                        controller?.dispatch(
+                            if (isPlaying)
+                                PauseButtonClicked else
+                                ResumeButtonClicked
+                        )
+                    }
+                    contentDescription = getString(
+                        if (isPlaying)
+                            R.string.description_pause_button else
+                            R.string.description_resume_button
+                    )
+                    TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
         }

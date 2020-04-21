@@ -23,7 +23,7 @@ class ExerciseViewModel(
         exerciseState.flowOf(Exercise.State::exerciseCards)
 
     private val currentExerciseCard: Flow<ExerciseCard> = combine(
-        exerciseState.flowOf(Exercise.State::exerciseCards),
+        exerciseCards,
         exerciseState.flowOf(Exercise.State::currentPosition)
     ) { exerciseCards: List<ExerciseCard>, currentPosition: Int ->
         exerciseCards[currentPosition]

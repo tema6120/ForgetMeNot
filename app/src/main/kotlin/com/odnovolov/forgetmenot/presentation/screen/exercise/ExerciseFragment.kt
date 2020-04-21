@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
@@ -143,14 +142,6 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupControlPanel() {
-        notAskButton.run {
-            setOnClickListener { controller?.dispatch(SetCardLearnedButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
-        undoButton.run {
-            setOnClickListener { controller?.dispatch(UndoButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
         editCardButton.run {
             setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
@@ -237,8 +228,26 @@ class ExerciseFragment : BaseFragment() {
             val exerciseCardAdapter = exerciseViewPager.adapter as ExerciseCardAdapter
             exerciseCards.observe(exerciseCardAdapter::submitList)
             isCurrentExerciseCardLearned.observe { isLearned: Boolean ->
-                notAskButton.isVisible = !isLearned
-                undoButton.isVisible = isLearned
+                with(notAskButton) {
+                    setImageResource(
+                        if (isLearned)
+                            R.drawable.ic_undo_white_24dp else
+                            R.drawable.ic_block_white_24dp
+                    )
+                    setOnClickListener {
+                        controller?.dispatch(
+                            if (isLearned)
+                                AskAgainButtonClicked else
+                                NotAskButtonClicked
+                        )
+                    }
+                    contentDescription = getString(
+                        if (isLearned)
+                            R.string.description_ask_again_button else
+                            R.string.description_not_ask_button
+                    )
+                    TooltipCompat.setTooltipText(this, contentDescription)
+                }
             }
             isSpeaking.observe { isSpeaking: Boolean ->
                 with(speakButton) {

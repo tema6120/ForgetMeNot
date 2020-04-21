@@ -39,6 +39,14 @@ class RepetitionViewController(
                 repetition.setRepetitionCardPosition(event.position)
             }
 
+            NotAskButtonClicked -> {
+                repetition.setIsCardLearned(true)
+            }
+
+            AskAgainButtonClicked -> {
+                repetition.setIsCardLearned(false)
+            }
+
             PauseButtonClicked -> {
                 repetition.pause()
             }

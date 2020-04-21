@@ -39,12 +39,12 @@ class ExerciseController(
                 exercise.setCurrentPosition(event.position)
             }
 
-            SetCardLearnedButtonClicked -> {
+            NotAskButtonClicked -> {
                 exercise.setIsCardLearned(true)
                 sendCommand(MoveToNextPosition)
             }
 
-            UndoButtonClicked -> {
+            AskAgainButtonClicked -> {
                 exercise.setIsCardLearned(false)
             }
 

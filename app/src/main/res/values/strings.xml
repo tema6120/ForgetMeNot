@@ -9,7 +9,7 @@
     <string name="text_show_question_textview">Show question</string>
     <string name="text_show_answer_textview">Show answer</string>
     <string name="description_not_ask_button">Not ask anymore</string>
-    <string name="description_undo_button">Undo</string>
+    <string name="description_ask_again_button">Ask again</string>
     <string name="description_speak_button">Speak</string>
     <string name="description_stop_speak_button">Stop speak</string>
     <string name="description_edit_card_button">Edit card</string>

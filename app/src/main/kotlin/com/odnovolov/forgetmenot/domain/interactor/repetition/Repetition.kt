@@ -106,6 +106,10 @@ class Repetition(
         currentRepetitionCard.isAnswered = true
     }
 
+    fun setIsCardLearned(isLearned: Boolean) {
+        currentRepetitionCard.card.isLearned = isLearned
+    }
+
     private fun executeSpeakEvent() {
         when (val speakEvent = currentSpeakEvent) {
             SpeakQuestion -> {
