@@ -3,9 +3,9 @@ package com.odnovolov.forgetmenot.presentation.screen.intervals
 import com.odnovolov.forgetmenot.domain.checkIntervalSchemeName
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.presentation.common.preset.Preset
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetViewModel
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.Preset
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetViewModel
 import kotlinx.coroutines.flow.*
 
 class IntervalsPresetViewModel(

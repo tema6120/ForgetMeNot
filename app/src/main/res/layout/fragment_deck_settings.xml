@@ -63,7 +63,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-            <com.odnovolov.forgetmenot.presentation.common.preset.PresetView
+            <com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetView
                     android:id="@+id/presetView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

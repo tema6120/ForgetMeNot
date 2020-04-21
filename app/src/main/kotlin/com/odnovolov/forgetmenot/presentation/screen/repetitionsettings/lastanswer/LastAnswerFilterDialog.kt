@@ -32,7 +32,7 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
         rootView = View.inflate(requireContext(), R.layout.dialog_last_answer_filter, null)
         setupView()
         return AlertDialog.Builder(requireContext())
-            .setTitle(" ") // need to set any title (but not empty) so that dialog will build with Title TextView
+            .setTitle(" ") // need to set any title (but not empty) so that dialog will be built with Title TextView
             .setView(rootView)
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 controller?.dispatch(OkButtonClicked)

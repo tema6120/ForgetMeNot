@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.common.preset
+package com.odnovolov.forgetmenot.presentation.common.customview.preset
 
 import android.view.LayoutInflater
 import android.view.View.GONE

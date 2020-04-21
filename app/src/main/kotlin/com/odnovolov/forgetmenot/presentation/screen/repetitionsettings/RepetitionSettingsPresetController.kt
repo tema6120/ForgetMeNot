@@ -6,9 +6,9 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
-import com.odnovolov.forgetmenot.presentation.common.preset.DialogPurpose.*
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetController
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController
 
 class RepetitionSettingsPresetController(
     private val repetitionSettings: RepetitionSettings,

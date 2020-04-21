@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.common.preset
+package com.odnovolov.forgetmenot.presentation.common.customview.preset
 
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import kotlinx.coroutines.flow.Flow

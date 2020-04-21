@@ -149,7 +149,7 @@
     <string name="interval_unit_months">Months</string>
     <string name="time_ago">%1$s ago</string>
     <string name="ago">ago</string>
-    <string name="title_action_start_repetition">Start repetition</string>
+    <string name="title_action_start_repetition">START</string>
     <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
     <string name="title_number_of_laps">Number of laps</string>
     <plurals name="number_of_laps_with_args">

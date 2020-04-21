@@ -2,17 +2,16 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
 import android.os.Bundle
 import android.view.*
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.widget.CheckBox
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment
+import com.odnovolov.forgetmenot.presentation.common.showToast
+import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_repetition_settings.*
@@ -25,8 +24,10 @@ class RepetitionSettingsFragment : BaseFragment() {
         RepetitionSettingsDiScope.reopenIfClosed()
     }
 
+    private lateinit var diScope: RepetitionSettingsDiScope
     private var controller: RepetitionSettingsController? = null
     private var isLevelOfKnowledgeRangeListenerEnabled = true
+    private var isInflated = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,21 +35,36 @@ class RepetitionSettingsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_repetition_settings, container, false)
+        return if (savedInstanceState == null) {
+            inflater.inflateAsync(R.layout.fragment_repetition_settings, ::onViewInflated)
+        } else {
+            inflater.inflate(R.layout.fragment_repetition_settings, container, false)
+        }
+    }
+
+    private fun onViewInflated() {
+        isInflated = true
+        setupIfReady()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
-        viewCoroutineScope!!.launch {
-            val diScope = RepetitionSettingsDiScope.get()
-            controller = diScope.controller
-            val presetFragment = childFragmentManager
-                .findFragmentByTag("RepetitionSetting Preset Tag") as PresetFragment
-            presetFragment.inject(diScope.presetController, diScope.presetViewModel)
-            observeViewModel(diScope.viewModel)
-            controller!!.commands.observe(::executeCommand)
+        if (savedInstanceState != null) {
+            isInflated = true
         }
+        viewCoroutineScope!!.launch {
+            diScope = RepetitionSettingsDiScope.get()
+            controller = diScope.controller
+            setupIfReady()
+        }
+    }
+
+    private fun setupIfReady() {
+        if (viewCoroutineScope == null || controller == null || !isInflated) return
+        presetView.inject(diScope.presetController, diScope.presetViewModel)
+        setupView()
+        observeViewModel()
+        controller!!.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
@@ -131,8 +147,8 @@ class RepetitionSettingsFragment : BaseFragment() {
         lapsButton.setOnClickListener { controller?.dispatch(LapsButtonClicked) }
     }
 
-    private fun observeViewModel(viewModel: RepetitionSettingsViewModel) {
-        with(viewModel) {
+    private fun observeViewModel() {
+        with(diScope.viewModel) {
             matchingCardsNumber.observe { matchingCardsNumber: Int ->
                 matchingCardsNumberTextView.text = matchingCardsNumber.toString()
                 matchingCardsLabelTextView.text = resources.getQuantityString(
@@ -197,10 +213,7 @@ class RepetitionSettingsFragment : BaseFragment() {
     private fun updateCheckBox(checkBox: CheckBox, isChecked: Boolean) {
         with(checkBox) {
             setChecked(isChecked)
-            if (visibility == INVISIBLE) {
-                jumpDrawablesToCurrentState()
-                visibility = VISIBLE
-            }
+            checkBox.uncover()
         }
     }
 
@@ -228,11 +241,7 @@ class RepetitionSettingsFragment : BaseFragment() {
     private fun executeCommand(command: RepetitionSettingsController.Command) {
         when (command) {
             ShowNoCardIsReadyForRepetitionMessage -> {
-                Toast.makeText(
-                    requireContext(),
-                    R.string.toast_text_no_card_matches_filter_conditions,
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(R.string.toast_text_no_card_matches_filter_conditions)
             }
         }
     }
@@ -249,6 +258,11 @@ class RepetitionSettingsFragment : BaseFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isInflated = false
     }
 
     override fun onDestroy() {

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.common.preset
+package com.odnovolov.forgetmenot.presentation.common.customview.preset
 
 import android.content.Context
 import android.graphics.Color
@@ -29,8 +29,8 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetEvent.*
-import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetController.Command.ShowDialogWithText
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetEvent.*
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowDialogWithText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.popup_preset.view.*

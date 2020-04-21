@@ -44,21 +44,18 @@
 
         </LinearLayout>
 
-        <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/presetFragmentView"
-                android:name="com.odnovolov.forgetmenot.presentation.common.preset.PresetFragment"
+        <com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetView
+                android:id="@+id/presetView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:tag="RepetitionSetting Preset Tag"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@id/matchingCardsLinearLayout"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout="@layout/fragment_preset" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/groupsTitle"

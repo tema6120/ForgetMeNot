@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*

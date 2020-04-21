@@ -47,21 +47,15 @@ class RepetitionSettingsController(
             }
 
             AvailableForExerciseGroupButtonClicked -> {
-                repetitionSettings.setIsAvailableForExerciseCardsIncluded(
-                    !globalState.currentRepetitionSetting.isAvailableForExerciseCardsIncluded
-                )
+                repetitionSettings.toggleIsAvailableForExerciseCardsIncluded()
             }
 
             AwaitingGroupButtonClicked -> {
-                repetitionSettings.setIsAwaitingCardsIncluded(
-                    !globalState.currentRepetitionSetting.isAwaitingCardsIncluded
-                )
+                repetitionSettings.toggleIsAwaitingCardsIncluded()
             }
 
             LearnedGroupButtonClicked -> {
-                repetitionSettings.setIsLearnedCardsIncluded(
-                    !globalState.currentRepetitionSetting.isLearnedCardsIncluded
-                )
+                repetitionSettings.toggleIsLearnedCardsIncluded()
             }
 
             is LevelOfKnowledgeRangeChanged -> {

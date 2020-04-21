@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.common.preset
+package com.odnovolov.forgetmenot.presentation.common.customview.preset
 
 sealed class PresetEvent {
     object SavePresetButtonClicked : PresetEvent()

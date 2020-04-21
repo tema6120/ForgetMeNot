@@ -78,10 +78,10 @@ class RepetitionSettings(
         }
     }
 
-    fun setIsAvailableForExerciseCardsIncluded(isIncluded: Boolean) {
+    fun toggleIsAvailableForExerciseCardsIncluded() {
+        val isIncluded = !currentRepetitionSetting.isAvailableForExerciseCardsIncluded
         updateRepetitionSetting(
-            isValueChanged = currentRepetitionSetting
-                .isAvailableForExerciseCardsIncluded != isIncluded,
+            isValueChanged = true,
             createNewIndividualRepetitionSetting = {
                 currentRepetitionSetting.shallowCopy(
                     id = generateId(),
@@ -94,9 +94,10 @@ class RepetitionSettings(
         )
     }
 
-    fun setIsAwaitingCardsIncluded(isIncluded: Boolean) {
+    fun toggleIsAwaitingCardsIncluded() {
+        val isIncluded = !currentRepetitionSetting.isAwaitingCardsIncluded
         updateRepetitionSetting(
-            isValueChanged = currentRepetitionSetting.isAwaitingCardsIncluded != isIncluded,
+            isValueChanged = true,
             createNewIndividualRepetitionSetting = {
                 currentRepetitionSetting.shallowCopy(
                     id = generateId(),
@@ -109,9 +110,10 @@ class RepetitionSettings(
         )
     }
 
-    fun setIsLearnedCardsIncluded(isIncluded: Boolean) {
+    fun toggleIsLearnedCardsIncluded() {
+        val isIncluded = !currentRepetitionSetting.isLearnedCardsIncluded
         updateRepetitionSetting(
-            isValueChanged = currentRepetitionSetting.isLearnedCardsIncluded != isIncluded,
+            isValueChanged = true,
             createNewIndividualRepetitionSetting = {
                 currentRepetitionSetting.shallowCopy(
                     id = generateId(),

@@ -7,9 +7,9 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
-import com.odnovolov.forgetmenot.presentation.common.preset.DialogPurpose.*
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.common.preset.SkeletalPresetController
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController
 
 class IntervalsPresetController(
     private val deckSettingsState: DeckSettings.State,

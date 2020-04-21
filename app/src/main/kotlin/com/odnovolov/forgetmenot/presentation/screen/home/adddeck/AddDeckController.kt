@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command

@@ -2,7 +2,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
             android:id="@+id/action_start_repetition"
-            android:icon="@drawable/ic_arrow_forward_white_24dp"
             android:title="@string/title_action_start_repetition"
-            app:showAsAction="ifRoom" />
+            app:showAsAction="always" />
 </menu>

@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <com.odnovolov.forgetmenot.presentation.common.preset.PresetView
+        <com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetView
                 android:id="@+id/presetView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
