@@ -20,6 +20,8 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionF
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.SetViewPagerPosition
 import kotlinx.android.synthetic.main.fragment_repetition.*
+import kotlinx.android.synthetic.main.fragment_repetition.notAskButton
+import kotlinx.android.synthetic.main.fragment_repetition.speakButton
 import kotlinx.coroutines.launch
 
 class RepetitionFragment : BaseFragment() {
@@ -90,6 +92,28 @@ class RepetitionFragment : BaseFragment() {
                         if (isLearned)
                             R.string.description_ask_again_button else
                             R.string.description_not_ask_button
+                    )
+                    TooltipCompat.setTooltipText(this, contentDescription)
+                }
+            }
+            isSpeaking.observe { isSpeaking: Boolean ->
+                with(speakButton) {
+                    setImageResource(
+                        if (isSpeaking)
+                            R.drawable.ic_volume_off_white_24dp else
+                            R.drawable.ic_volume_up_white_24dp
+                    )
+                    setOnClickListener {
+                        controller?.dispatch(
+                            if (isSpeaking)
+                                StopSpeakButtonClicked else
+                                SpeakButtonClicked
+                        )
+                    }
+                    contentDescription = getString(
+                        if (isSpeaking)
+                            R.string.description_stop_speak_button else
+                            R.string.description_speak_button
                     )
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }

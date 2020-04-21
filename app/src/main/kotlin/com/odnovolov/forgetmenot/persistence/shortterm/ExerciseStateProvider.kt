@@ -26,9 +26,6 @@ class ExerciseStateProvider(
         val quizAdditions: List<QuizAddition>,
         val entryAdditions: List<EntryAddition>,
         val currentPosition: Int,
-        val questionSelection: String,
-        val answerSelection: String,
-        val hintSelection: HintSelection,
         val isWalkingMode: Boolean
     )
 
@@ -111,9 +108,6 @@ class ExerciseStateProvider(
             quizAdditions,
             entryAdditions,
             state.currentPosition,
-            state.questionSelection,
-            state.answerSelection,
-            state.hintSelection,
             state.isWalkingMode
         )
     }
@@ -166,10 +160,7 @@ class ExerciseStateProvider(
         return Exercise.State(
             exerciseCards,
             serializableState.currentPosition,
-            serializableState.questionSelection,
-            serializableState.answerSelection,
-            serializableState.hintSelection,
-            serializableState.isWalkingMode
+            isWalkingMode = serializableState.isWalkingMode
         )
     }
 }

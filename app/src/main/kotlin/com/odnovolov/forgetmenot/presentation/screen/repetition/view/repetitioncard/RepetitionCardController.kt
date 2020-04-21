@@ -3,8 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.view.repetition
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.repetition.view.repetitioncard.RepetitionCardEvent.ShowAnswerButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.repetition.view.repetitioncard.RepetitionCardEvent.ShowQuestionButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.repetition.view.repetitioncard.RepetitionCardEvent.*
 
 class RepetitionCardController(
     private val repetition: Repetition,
@@ -18,6 +17,14 @@ class RepetitionCardController(
 
             ShowAnswerButtonClicked -> {
                 repetition.showAnswer()
+            }
+
+            is QuestionTextSelectionChanged -> {
+                repetition.setQuestionSelection(event.selection)
+            }
+
+            is AnswerTextSelectionChanged -> {
+                repetition.setAnswerSelection(event.selection)
             }
         }
     }

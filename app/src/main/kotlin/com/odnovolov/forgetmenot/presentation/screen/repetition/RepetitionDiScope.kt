@@ -56,7 +56,8 @@ class RepetitionDiScope private constructor(
     )
 
     val viewModel = RepetitionViewModel(
-        repetitionState
+        repetitionState,
+        speakerImpl.state
     )
 
     private val repetitionCardController = RepetitionCardController(

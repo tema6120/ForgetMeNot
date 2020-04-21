@@ -22,7 +22,9 @@ class Repetition(
         speakEventPosition: Int = 0,
         isPlaying: Boolean = true,
         numberOfLaps: Int,
-        currentLap: Int = 0
+        currentLap: Int = 0,
+        questionSelection: String = "",
+        answerSelection: String = ""
     ) : FlowableState<State>() {
         val repetitionCards: List<RepetitionCard> by me(repetitionCards)
         var repetitionCardPosition: Int by me(repetitionCardPosition)
@@ -30,6 +32,8 @@ class Repetition(
         var isPlaying: Boolean by me(isPlaying)
         val numberOfLaps: Int by me(numberOfLaps)
         var currentLap: Int by me(currentLap)
+        var questionSelection: String by me(questionSelection)
+        var answerSelection: String by me(answerSelection)
     }
 
     private val currentRepetitionCard: RepetitionCard
@@ -84,6 +88,83 @@ class Repetition(
         }
     }
 
+    fun showQuestion() {
+        currentRepetitionCard.isQuestionDisplayed = true
+    }
+
+    fun showAnswer() {
+        showQuestion()
+        currentRepetitionCard.isAnswered = true
+    }
+
+    fun setQuestionSelection(selection: String) {
+        state.questionSelection = selection
+        state.answerSelection = ""
+    }
+
+    fun setAnswerSelection(selection: String) {
+        state.answerSelection = selection
+        state.questionSelection = ""
+    }
+
+    fun setIsCardLearned(isLearned: Boolean) {
+        currentRepetitionCard.card.isLearned = isLearned
+    }
+
+    fun speak() {
+        pause()
+        when {
+            hasQuestionSelection() -> speakQuestionSelection()
+            hasAnswerSelection() -> speakAnswerSelection()
+            currentRepetitionCard.isAnswered -> speakAnswer()
+            else -> speakQuestion()
+        }
+    }
+
+    private fun hasAnswerSelection(): Boolean = state.answerSelection.isNotEmpty()
+    private fun hasQuestionSelection(): Boolean = state.questionSelection.isNotEmpty()
+
+    private fun speakQuestionSelection() {
+        speak(
+            state.questionSelection,
+            currentPronunciation.questionLanguage
+        )
+    }
+
+    private fun speakAnswerSelection() {
+        speak(
+            state.answerSelection,
+            currentPronunciation.answerLanguage
+        )
+    }
+
+    private fun speakQuestion() {
+        with(currentRepetitionCard) {
+            val question = if (isReverse) card.answer else card.question
+            speak(question, currentPronunciation.questionLanguage)
+        }
+    }
+
+    private fun speakAnswer() {
+        with(currentRepetitionCard) {
+            val answer = if (isReverse) card.question else card.answer
+            speak(answer, currentPronunciation.answerLanguage)
+        }
+    }
+
+    private fun speak(text: String, language: Locale?) {
+        val textToSpeak =
+            if (currentPronunciation.speakTextInBrackets) text
+            else textInBracketsRemover.process(text)
+        speaker.speak(textToSpeak, language)
+    }
+
+    fun stopSpeaking() {
+        delayJob?.cancel()
+        speaker.stop()
+        state.isPlaying = false
+    }
+
     fun pause() {
         if (!state.isPlaying) return
         delayJob?.cancel()
@@ -95,19 +176,6 @@ class Repetition(
         if (state.isPlaying) return
         state.isPlaying = true
         executeSpeakEvent()
-    }
-
-    fun showQuestion() {
-        currentRepetitionCard.isQuestionDisplayed = true
-    }
-
-    fun showAnswer() {
-        showQuestion()
-        currentRepetitionCard.isAnswered = true
-    }
-
-    fun setIsCardLearned(isLearned: Boolean) {
-        currentRepetitionCard.card.isLearned = isLearned
     }
 
     private fun executeSpeakEvent() {
@@ -128,27 +196,6 @@ class Repetition(
                 }
             }
         }
-    }
-
-    fun speakQuestion() {
-        with(currentRepetitionCard) {
-            val question = if (isReverse) card.answer else card.question
-            speak(question, currentPronunciation.questionLanguage)
-        }
-    }
-
-    fun speakAnswer() {
-        with(currentRepetitionCard) {
-            val answer = if (isReverse) card.question else card.answer
-            speak(answer, currentPronunciation.answerLanguage)
-        }
-    }
-
-    private fun speak(text: String, language: Locale?) {
-        val textToSpeak =
-            if (currentPronunciation.speakTextInBrackets) text
-            else textInBracketsRemover.process(text)
-        speaker.speak(textToSpeak, language)
     }
 
     private fun tryToExecuteNextSpeakEvent() {

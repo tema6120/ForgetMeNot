@@ -47,6 +47,14 @@ class RepetitionViewController(
                 repetition.setIsCardLearned(false)
             }
 
+            SpeakButtonClicked -> {
+                repetition.speak()
+            }
+
+            StopSpeakButtonClicked -> {
+                repetition.stopSpeaking()
+            }
+
             PauseButtonClicked -> {
                 repetition.pause()
             }

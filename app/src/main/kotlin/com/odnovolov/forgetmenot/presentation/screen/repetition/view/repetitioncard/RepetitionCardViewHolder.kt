@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.screen.repetition.view.repetitioncard.RepetitionCardEvent.ShowAnswerButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.repetition.view.repetitioncard.RepetitionCardEvent.ShowQuestionButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.repetition.view.repetitioncard.RepetitionCardEvent.*
 import kotlinx.android.synthetic.main.item_repetition_card.view.*
 import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +24,12 @@ class RepetitionCardViewHolder(
         with(itemView) {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
             showAnswerButton.setOnClickListener { controller.dispatch(ShowAnswerButtonClicked) }
+            questionTextView.observeSelectedText { selection: String ->
+                controller.dispatch(QuestionTextSelectionChanged(selection))
+            }
+            answerTextView.observeSelectedText { selection: String ->
+                controller.dispatch(AnswerTextSelectionChanged(selection))
+            }
         }
     }
 
