@@ -6,8 +6,12 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Looper
+import android.os.Parcel
+import android.os.Parcelable
+import android.os.Parcelable.Creator
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.SparseArray
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.Gravity.CENTER_VERTICAL
@@ -99,7 +103,8 @@ class PresetView @JvmOverloads constructor(
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: SkeletalPresetController? = null
     private lateinit var viewModel: SkeletalPresetViewModel
-    private var savedInstanceState: Bundle? = null
+    private var pendingDialogState: Bundle? = null
+    private var pendingPopupState: Boolean? = null
 
     fun inject(controller: SkeletalPresetController, viewModel: SkeletalPresetViewModel) {
         this.controller = controller
@@ -138,7 +143,7 @@ class PresetView @JvmOverloads constructor(
                 }
             }
         }
-        restoreInstanceState()
+        restoreByPendingState()
         controller!!.commands.observe(coroutineScope, ::executeCommand)
     }
 
@@ -206,21 +211,68 @@ class PresetView @JvmOverloads constructor(
         }
     }
 
-    fun restoreInstanceState(savedInstanceState: Bundle) {
-        this.savedInstanceState = savedInstanceState
+    override fun onSaveInstanceState(): Parcelable? {
+        return SavedState(super.onSaveInstanceState()).apply {
+            dialogState = nameInputDialog.onSaveInstanceState()
+            isPopupVisible = popup.isShowing
+        }
     }
 
-    private fun restoreInstanceState() {
-        savedInstanceState?.let(nameInputDialog::onRestoreInstanceState)
-        savedInstanceState = null
+    override fun onRestoreInstanceState(state: Parcelable) {
+        when (state) {
+            is SavedState -> {
+                super.onRestoreInstanceState(state.superState)
+                pendingDialogState = state.dialogState
+                pendingPopupState = state.isPopupVisible
+            }
+            else -> super.onRestoreInstanceState(state)
+        }
     }
 
-    fun saveInstanceState(): Bundle {
-        return nameInputDialog.onSaveInstanceState()
+    override fun dispatchSaveInstanceState(container: SparseArray<Parcelable>) {
+        dispatchFreezeSelfOnly(container)
+    }
+
+    override fun dispatchRestoreInstanceState(container: SparseArray<Parcelable>) {
+        dispatchThawSelfOnly(container)
+    }
+
+    private fun restoreByPendingState() {
+        pendingDialogState?.let(nameInputDialog::onRestoreInstanceState)
+        pendingPopupState?.let { isVisible: Boolean -> if (isVisible) showPopup() }
+        pendingDialogState = null
+        pendingPopupState = null
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         coroutineScope.cancel()
+    }
+
+    class SavedState : BaseSavedState {
+        var dialogState: Bundle? = null
+        var isPopupVisible: Boolean = false
+
+        constructor(superState: Parcelable?) : super(superState)
+
+        constructor(source: Parcel) : super(source) {
+            dialogState = source.readBundle(javaClass.classLoader)
+            isPopupVisible = source.readInt() == 1
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeBundle(dialogState)
+            out.writeInt(if (isPopupVisible) 1 else 0)
+        }
+
+        companion object {
+            @Suppress("UNUSED")
+            @JvmField
+            val CREATOR = object : Creator<SavedState> {
+                override fun createFromParcel(source: Parcel) = SavedState(source)
+                override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
+            }
+        }
     }
 }

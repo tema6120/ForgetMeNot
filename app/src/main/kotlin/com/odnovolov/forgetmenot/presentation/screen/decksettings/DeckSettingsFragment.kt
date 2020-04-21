@@ -47,11 +47,23 @@ class DeckSettingsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflateAsync(R.layout.fragment_deck_settings, ::onViewInflated)
+        return if (savedInstanceState == null) {
+            inflater.inflateAsync(R.layout.fragment_deck_settings, ::onViewInflated)
+        } else {
+            inflater.inflate(R.layout.fragment_deck_settings, container, false)
+        }
+    }
+
+    private fun onViewInflated() {
+        isInflated = true
+        setupIfReady()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState != null) {
+            isInflated = true
+        }
         viewCoroutineScope!!.launch {
             diScope = DeckSettingsDiScope.get()
             controller = diScope.controller
@@ -63,11 +75,6 @@ class DeckSettingsFragment : BaseFragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         this.savedInstanceState = savedInstanceState
-    }
-
-    private fun onViewInflated() {
-        isInflated = true
-        setupIfReady()
     }
 
     private fun setupIfReady() {
@@ -258,9 +265,6 @@ class DeckSettingsFragment : BaseFragment() {
 
             getBundle(STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG)
                 ?.let(chooseCardReverseDialog::onRestoreInstanceState)
-
-            getBundle(STATE_KEY_EXERCISE_PREFERENCE_PRESET_VIEW)
-                ?.let(presetView::restoreInstanceState)
         }
         savedInstanceState = null
     }
@@ -295,12 +299,6 @@ class DeckSettingsFragment : BaseFragment() {
                 chooseCardReverseDialog.onSaveInstanceState()
             )
         }
-        if (isInflated) {
-            outState.putBundle(
-                STATE_KEY_EXERCISE_PREFERENCE_PRESET_VIEW,
-                presetView.saveInstanceState()
-            )
-        }
     }
 
     override fun onDestroyView() {
@@ -333,7 +331,5 @@ class DeckSettingsFragment : BaseFragment() {
         const val STATE_KEY_RENAME_DECK_DIALOG = "STATE_KEY_RENAME_DECK_DIALOG"
         const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "STATE_KEY_CHOOSE_TEST_METHOD_DIALOG"
         const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG"
-        const val STATE_KEY_EXERCISE_PREFERENCE_PRESET_VIEW =
-            "STATE_KEY_EXERCISE_PREFERENCE_PRESET_VIEW"
     }
 }

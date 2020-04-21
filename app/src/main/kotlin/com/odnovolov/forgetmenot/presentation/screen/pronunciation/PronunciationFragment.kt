@@ -208,28 +208,8 @@ class PronunciationFragment : BaseFragment() {
         )
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.run {
-            getBundle(STATE_KEY_PRONUNCIATION_PRESET_VIEW)
-                ?.let(presetView::restoreInstanceState)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBundle(
-            STATE_KEY_PRONUNCIATION_PRESET_VIEW,
-            presetView.saveInstanceState()
-        )
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         PronunciationDiScope.close()
-    }
-
-    companion object {
-        const val STATE_KEY_PRONUNCIATION_PRESET_VIEW = "STATE_KEY_PRONUNCIATION_PRESET_VIEW"
     }
 }
