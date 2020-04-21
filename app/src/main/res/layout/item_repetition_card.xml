@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -8,40 +9,47 @@
             android:layout_height="match_parent"
             android:layout_margin="20dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-            <ScrollView
-                    android:id="@+id/questionScrollView"
-                    android:layout_width="match_parent"
+            <include layout="@layout/question" />
+
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="?android:listDivider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                    android:id="@+id/showAnswerButton"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:fillViewport="true">
-
-                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                        android:id="@+id/questionTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        android:textColor="@color/text_secondary_selector"
-                        android:textIsSelectable="true"
-                        android:textSize="20sp"
-                        tools:text="Эти люди привычны к тяжелой работе." />
-
-            </ScrollView>
-
-            <include layout="@layout/divider" />
+                    android:background="@color/curtain"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/text_show_answer_textview"
+                    android:textColor="@color/text_curtain_selector"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
 
             <ScrollView
                     android:id="@+id/answerScrollView"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
                     android:fillViewport="true"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider">
 
                 <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                         android:id="@+id/answerTextView"
@@ -55,26 +63,7 @@
 
             </ScrollView>
 
-            <FrameLayout
-                    android:id="@+id/showAnswerButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/curtain"
-                    android:foreground="?attr/selectableItemBackground">
-
-                <TextView
-                        android:id="@+id/showAnswerTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/text_show_answer_textview"
-                        android:textColor="@color/text_curtain_selector"
-                        android:textSize="18sp" />
-
-            </FrameLayout>
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 

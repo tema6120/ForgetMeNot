@@ -31,10 +31,10 @@ class RepetitionStateProvider(
     data class SerializableRepetitionCard(
         val id: Long,
         val cardId: Long,
-        val isAnswered: Boolean,
+        val deckId: Long,
+        val isQuestionDisplayed: Boolean,
         val isReverse: Boolean,
-        val pronunciationId: Long,
-        val speakPlanId: Long
+        val isAnswered: Boolean
     )
 
     override val serializer = SerializableState.serializer()
@@ -44,12 +44,12 @@ class RepetitionStateProvider(
             .map { repetitionCard: RepetitionCard ->
                 with(repetitionCard) {
                     SerializableRepetitionCard(
-                        id = id,
-                        cardId = card.id,
-                        isAnswered = isAnswered,
-                        isReverse = isReverse,
-                        pronunciationId = pronunciation.id,
-                        speakPlanId = speakPlan.id
+                        id,
+                        card.id,
+                        deck.id,
+                        isQuestionDisplayed,
+                        isReverse,
+                        isAnswered
                     )
                 }
             }
@@ -64,23 +64,20 @@ class RepetitionStateProvider(
     }
 
     override fun toOriginal(serializableState: SerializableState): Repetition.State {
-        val cardMap: Map<Long, Card> = globalState.decks
+        val deckIdDeckMap: Map<Long, Deck> = globalState.decks.associateBy { deck -> deck.id }
+        val cardIdCardMap: Map<Long, Card> = globalState.decks
             .flatMap { deck -> deck.cards }
             .associateBy { card -> card.id }
-        val pronunciationMap: Map<Long, Pronunciation> =
-            globalState.sharedPronunciations
-                .plus(globalState.decks.map { deck: Deck -> deck.exercisePreference.pronunciation })
-                .associateBy { pronunciation: Pronunciation -> pronunciation.id }
         val repetitionCards: List<RepetitionCard> = serializableState.serializableRepetitionCards
             .map { serializableRepetitionCard: SerializableRepetitionCard ->
                 with(serializableRepetitionCard) {
                     RepetitionCard(
                         id = id,
-                        card = cardMap.getValue(cardId),
+                        card = cardIdCardMap.getValue(cardId),
+                        deck = deckIdDeckMap.getValue(deckId),
+                        isQuestionDisplayed = isQuestionDisplayed,
                         isAnswered = isAnswered,
-                        isReverse = isReverse,
-                        pronunciation = pronunciationMap.getValue(pronunciationId),
-                        speakPlan = SpeakPlan.Default // todo
+                        isReverse = isReverse
                     )
                 }
             }

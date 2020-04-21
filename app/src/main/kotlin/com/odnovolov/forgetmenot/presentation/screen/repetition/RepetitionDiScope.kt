@@ -11,6 +11,8 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.service.Repetiti
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionCardAdapter
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewModel
+import com.odnovolov.forgetmenot.presentation.screen.repetition.view.repetitioncard.RepetitionCardController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 
@@ -57,8 +59,14 @@ class RepetitionDiScope private constructor(
         repetitionState
     )
 
-    val adapter = RepetitionCardAdapter(
-        viewController
+    private val repetitionCardController = RepetitionCardController(
+        repetition,
+        AppDiScope.get().longTermStateSaver
+    )
+
+    fun getRepetitionCardAdapter(coroutineScope: CoroutineScope) = RepetitionCardAdapter(
+        coroutineScope,
+        repetitionCardController
     )
 
     companion object : DiScopeManager<RepetitionDiScope>() {
@@ -92,6 +100,7 @@ class RepetitionDiScope private constructor(
                 repetition.cancel()
                 serviceController.dispose()
                 viewController.dispose()
+                repetitionCardController.dispose()
             }
         }
     }

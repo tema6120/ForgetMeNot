@@ -30,13 +30,13 @@ class Exercise(
         val isWalkingMode: Boolean by me(isWalkingMode)
     }
 
-    var currentExerciseCard: ExerciseCard = state.exerciseCards[state.currentPosition]
+    val currentExerciseCard: ExerciseCard get() = state.exerciseCards[state.currentPosition]
     private lateinit var currentPronunciation: Pronunciation
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
 
     init {
         updateLastOpenedAt()
-        setCurrentPronunciation()
+        updateCurrentPronunciation()
         autoSpeakQuestionIfNeed()
     }
 
@@ -53,12 +53,11 @@ class Exercise(
             return
         }
         state.currentPosition = position
-        currentExerciseCard = state.exerciseCards[state.currentPosition]
-        setCurrentPronunciation()
+        updateCurrentPronunciation()
         autoSpeakQuestionIfNeed()
     }
 
-    private fun setCurrentPronunciation() {
+    private fun updateCurrentPronunciation() {
         val associatedPronunciation = currentExerciseCard.base.deck.exercisePreference.pronunciation
         currentPronunciation = if (currentExerciseCard.base.isReverse) {
             with(associatedPronunciation) {
@@ -244,7 +243,6 @@ class Exercise(
             this[state.currentPosition] = newQuizTestExerciseCard
             toList()
         }
-        currentExerciseCard = state.exerciseCards[state.currentPosition]
     }
 
     fun answer(answer: Answer) {

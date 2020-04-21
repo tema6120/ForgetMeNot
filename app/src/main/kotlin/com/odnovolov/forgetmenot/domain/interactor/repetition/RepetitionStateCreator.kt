@@ -87,9 +87,9 @@ class RepetitionStateCreator(
         return RepetitionCard(
             id = generateId(),
             card = card,
-            isReverse = isReverse,
-            pronunciation = deck.exercisePreference.pronunciation,
-            speakPlan = deck.exercisePreference.speakPlan
+            deck = deck,
+            isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
+            isReverse = isReverse
         )
     }
 

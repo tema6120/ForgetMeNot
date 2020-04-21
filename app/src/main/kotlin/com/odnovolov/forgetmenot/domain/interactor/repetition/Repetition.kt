@@ -33,31 +33,15 @@ class Repetition(
     }
 
     private val currentRepetitionCard: RepetitionCard
-        get() = with(state) {
-            repetitionCards[repetitionCardPosition]
-        }
+        get() = with(state) { repetitionCards[repetitionCardPosition] }
+
+    private lateinit var currentPronunciation: Pronunciation
+
+    private val currentSpeakPlan
+        get() = currentRepetitionCard.deck.exercisePreference.speakPlan
 
     private val currentSpeakEvent: SpeakEvent
-        get() = currentRepetitionCard.speakPlan.speakEvents[state.speakEventPosition]
-
-    private val currentPronunciation: Pronunciation
-        get() {
-            return if (currentRepetitionCard.isReverse) {
-                with(currentRepetitionCard.pronunciation) {
-                    Pronunciation(
-                        id = -1,
-                        name = "",
-                        questionLanguage = answerLanguage,
-                        questionAutoSpeak = answerAutoSpeak,
-                        answerLanguage = questionLanguage,
-                        answerAutoSpeak = questionAutoSpeak,
-                        speakTextInBrackets = speakTextInBrackets
-                    )
-                }
-            } else {
-                currentRepetitionCard.pronunciation
-            }
-        }
+        get() = currentSpeakPlan.speakEvents[state.speakEventPosition]
 
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
 
@@ -65,6 +49,7 @@ class Repetition(
 
     init {
         speaker.setOnSpeakingFinished { tryToExecuteNextSpeakEvent() }
+        updateCurrentPronunciation()
         if (state.isPlaying) {
             executeSpeakEvent()
         }
@@ -76,7 +61,27 @@ class Repetition(
         }
         pause()
         state.repetitionCardPosition = position
+        updateCurrentPronunciation()
         state.speakEventPosition = 0
+    }
+
+    private fun updateCurrentPronunciation() {
+        val associatedPronunciation = currentRepetitionCard.deck.exercisePreference.pronunciation
+        currentPronunciation = if (currentRepetitionCard.isReverse) {
+            with(associatedPronunciation) {
+                Pronunciation(
+                    id = -1,
+                    name = "",
+                    questionLanguage = answerLanguage,
+                    questionAutoSpeak = answerAutoSpeak,
+                    answerLanguage = questionLanguage,
+                    answerAutoSpeak = questionAutoSpeak,
+                    speakTextInBrackets = speakTextInBrackets
+                )
+            }
+        } else {
+            associatedPronunciation
+        }
     }
 
     fun pause() {
@@ -92,10 +97,13 @@ class Repetition(
         executeSpeakEvent()
     }
 
+    fun showQuestion() {
+        currentRepetitionCard.isQuestionDisplayed = true
+    }
+
     fun showAnswer() {
-        if (!currentRepetitionCard.isAnswered) {
-            currentRepetitionCard.isAnswered = true
-        }
+        showQuestion()
+        currentRepetitionCard.isAnswered = true
     }
 
     private fun executeSpeakEvent() {
@@ -157,12 +165,18 @@ class Repetition(
             }
             hasOneMoreRepetitionCard() -> {
                 state.repetitionCardPosition++
+                updateCurrentPronunciation()
                 state.speakEventPosition = 0
                 true
             }
             hasOneMoreLap() -> {
-                state.repetitionCards.forEach { it.isAnswered = false }
+                state.repetitionCards.forEach { repetitionCard: RepetitionCard ->
+                    repetitionCard.isQuestionDisplayed =
+                        repetitionCard.deck.exercisePreference.isQuestionDisplayed
+                    repetitionCard.isAnswered = false
+                }
                 state.repetitionCardPosition = 0
+                updateCurrentPronunciation()
                 state.speakEventPosition = 0
                 state.currentLap++
                 true
@@ -172,7 +186,7 @@ class Repetition(
     }
 
     private fun hasOneMoreSpeakEventForCurrentRepetitionCard(): Boolean =
-        state.speakEventPosition + 1 < currentRepetitionCard.speakPlan.speakEvents.size
+        state.speakEventPosition + 1 < currentSpeakPlan.speakEvents.size
 
     private fun hasOneMoreRepetitionCard(): Boolean =
         state.repetitionCardPosition + 1 < state.repetitionCards.size

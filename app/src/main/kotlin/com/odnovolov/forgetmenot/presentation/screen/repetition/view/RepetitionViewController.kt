@@ -39,10 +39,6 @@ class RepetitionViewController(
                 repetition.setRepetitionCardPosition(event.position)
             }
 
-            ShowAnswerButtonClicked -> {
-                repetition.showAnswer()
-            }
-
             PauseButtonClicked -> {
                 repetition.pause()
             }

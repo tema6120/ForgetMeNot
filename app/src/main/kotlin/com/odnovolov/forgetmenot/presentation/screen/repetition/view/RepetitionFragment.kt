@@ -5,11 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
@@ -53,11 +52,9 @@ class RepetitionFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = RepetitionDiScope.get()
             controller = diScope.viewController
-            repetitionViewPager.adapter = diScope.adapter
-            observeViewModel(
-                diScope.viewModel,
-                diScope.adapter
-            )
+            val adapter = diScope.getRepetitionCardAdapter(viewCoroutineScope!!)
+            repetitionViewPager.adapter = adapter
+            observeViewModel(diScope.viewModel, adapter)
             controller!!.commands.observe(::executeCommand)
         }
     }
@@ -71,14 +68,9 @@ class RepetitionFragment : BaseFragment() {
     private fun observeViewModel(viewModel: RepetitionViewModel, adapter: RepetitionCardAdapter) {
         with(viewModel) {
             isPlaying.observe { isPlaying ->
-                if (isPlaying) {
-                    resumeButton.visibility = GONE
-                    pauseButton.visibility = VISIBLE
-                    startService()
-                } else {
-                    resumeButton.visibility = VISIBLE
-                    pauseButton.visibility = GONE
-                }
+                resumeButton.isVisible = !isPlaying
+                pauseButton.isVisible = isPlaying
+                if (isPlaying) startService()
             }
             repetitionCards.observe { repetitionCards: List<RepetitionCard> ->
                 val isFirst = adapter.items.isEmpty()
