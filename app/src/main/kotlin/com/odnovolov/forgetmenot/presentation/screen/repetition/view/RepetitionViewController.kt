@@ -2,8 +2,11 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
+import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.SetViewPagerPosition
@@ -13,6 +16,7 @@ import kotlinx.coroutines.flow.onEach
 
 class RepetitionViewController(
     private val repetition: Repetition,
+    private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val repetitionStateProvider: ShortTermStateProvider<Repetition.State>
 ) : BaseController<RepetitionFragmentEvent, Command>() {
@@ -53,6 +57,17 @@ class RepetitionViewController(
 
             StopSpeakButtonClicked -> {
                 repetition.stopSpeaking()
+            }
+
+            EditCardButtonClicked -> {
+                repetition.pause()
+                navigator.navigateToEditCardFromRepetition {
+                    val editCardScreenState = EditCardScreenState(
+                        card = repetition.currentRepetitionCard.card,
+                        isExerciseOpened = false
+                    )
+                    EditCardDiScope.create(editCardScreenState)
+                }
             }
 
             PauseButtonClicked -> {

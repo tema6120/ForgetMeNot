@@ -51,6 +51,7 @@ class RepetitionDiScope private constructor(
 
     val viewController = RepetitionViewController(
         repetition,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         repetitionStateProvider
     )

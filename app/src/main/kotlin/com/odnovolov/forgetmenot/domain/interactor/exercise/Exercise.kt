@@ -166,28 +166,12 @@ class Exercise(
         speaker.stop()
     }
 
-    fun editCurrentCard(newQuestion: String, newAnswer: String) {
-        with(currentExerciseCard.base) {
-            if (newQuestion.isNotEmpty() && newQuestion != card.question) {
-                card.question = newQuestion
-                if (isReverse) {
-                    resetHint(card.id)
-                }
-            }
-            if (newAnswer.isNotEmpty() && newAnswer != card.answer) {
-                card.answer = newAnswer
-                if (!isReverse) {
-                    resetHint(card.id)
-                }
-            }
-            // todo recheck entry
+    fun notifyCurrentCardChanged() {
+        val exerciseCard = currentExerciseCard
+        exerciseCard.base.hint = null
+        if (exerciseCard is EntryTestExerciseCard && exerciseCard.base.isAnswerCorrect != null) {
+            checkEntry(exerciseCard.userAnswer)
         }
-    }
-
-    private fun resetHint(cardId: Long) {
-        state.exerciseCards
-            .filter { it.base.card.id == cardId }
-            .forEach { it.base.hint = null }
     }
 
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {
@@ -248,8 +232,8 @@ class Exercise(
     fun answer(answer: Answer) {
         if (!isAnswerRelevant(answer)) return
         when (answer) {
-            Show, Remember -> setAnswerCorrect()
-            NotRemember -> setAnswerWrong()
+            Show, Remember -> setAnswerAsCorrect()
+            NotRemember -> setAnswerAsWrong()
             is Variant -> checkVariant(answer.variantIndex)
             is Entry -> checkEntry(answer.userAnswer)
         }
@@ -272,8 +256,8 @@ class Exercise(
         quizExerciseCard.selectedVariantIndex = variantIndex
         val selectedCardId: Long? = quizExerciseCard.variants[variantIndex]?.id
         val isVariantCorrect = selectedCardId == quizExerciseCard.base.card.id
-        if (isVariantCorrect) setAnswerCorrect()
-        else setAnswerWrong()
+        if (isVariantCorrect) setAnswerAsCorrect()
+        else setAnswerAsWrong()
     }
 
     private fun checkEntry(userAnswer: String?) {
@@ -283,11 +267,12 @@ class Exercise(
             if (isReverse) card.question else card.answer
         }
         val isUserAnswerCorrect = userAnswer?.trim() == correctAnswer.trim()
-        if (isUserAnswerCorrect) setAnswerCorrect()
-        else setAnswerWrong()
+        if (isUserAnswerCorrect)
+            setAnswerAsCorrect() else
+            setAnswerAsWrong()
     }
 
-    private fun setAnswerCorrect() {
+    private fun setAnswerAsCorrect() {
         if (currentExerciseCard.base.isAnswerCorrect == true) return
         autoSpeakAnswerIfNeed()
         incrementLapIfCardIsAnsweredForTheFirstTime()
@@ -298,7 +283,7 @@ class Exercise(
         updateLastAnsweredAt()
     }
 
-    private fun setAnswerWrong() {
+    private fun setAnswerAsWrong() {
         if (currentExerciseCard.base.isAnswerCorrect == false) return
         autoSpeakAnswerIfNeed()
         incrementLapIfCardIsAnsweredForTheFirstTime()

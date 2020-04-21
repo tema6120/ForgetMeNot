@@ -29,7 +29,7 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_home_screen_to_exercise_screen)
     }
 
-    fun navigateToEditCard(createDiScope: () -> EditCardDiScope) {
+    fun navigateToEditCardFromExercise(createDiScope: () -> EditCardDiScope) {
         EditCardDiScope.open(createDiScope)
         navigate(R.id.action_exercise_screen_to_edit_card_screen)
     }
@@ -81,6 +81,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToRepetition(createDiScope: () -> RepetitionDiScope) {
         RepetitionDiScope.open(createDiScope)
         navigate(R.id.action_repetition_settings_screen_to_repetition_screen)
+    }
+
+    fun navigateToEditCardFromRepetition(createDiScope: () -> EditCardDiScope) {
+        EditCardDiScope.open(createDiScope)
+        navigate(R.id.action_repetition_screen_to_edit_card_screen)
     }
 
     fun navigateToSettings() {

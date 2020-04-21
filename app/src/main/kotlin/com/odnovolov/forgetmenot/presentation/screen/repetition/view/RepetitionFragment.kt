@@ -61,6 +61,7 @@ class RepetitionFragment : BaseFragment() {
 
     private fun setupView() {
         repetitionViewPager.registerOnPageChangeCallback(onPageChangeCallback)
+        editCardButton.setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
     }
 
     private fun observeViewModel(viewModel: RepetitionViewModel, adapter: RepetitionCardAdapter) {

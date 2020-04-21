@@ -176,6 +176,12 @@
             android:id="@+id/repetition_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragment"
             android:label="@string/label_repetition_screen"
-            tools:layout="@layout/fragment_repetition" />
+            tools:layout="@layout/fragment_repetition">
+
+        <action
+                android:id="@+id/action_repetition_screen_to_edit_card_screen"
+                app:destination="@id/edit_card_screen" />
+
+    </fragment>
 
 </navigation>

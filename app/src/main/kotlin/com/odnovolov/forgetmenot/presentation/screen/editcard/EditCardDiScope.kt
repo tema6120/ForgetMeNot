@@ -1,26 +1,53 @@
 package com.odnovolov.forgetmenot.presentation.screen.editcard
 
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardEditor
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
+import com.odnovolov.forgetmenot.persistence.shortterm.EditCardScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 
-class EditCardDiScope(initialEditCardScreenState: EditCardScreenState) {
-    private val editCardScreenState = initialEditCardScreenState
+class EditCardDiScope private constructor(
+    initialEditCardScreenState: EditCardScreenState? = null
+) {
+    private val screenStateProvider = EditCardScreenStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database,
+        AppDiScope.get().globalState
+    )
+
+    private val screenState: EditCardScreenState =
+        initialEditCardScreenState ?: screenStateProvider.load()
+
+    private val exercise: Exercise?
+        get() = if (screenState.isExerciseOpened) {
+            ExerciseDiScope.shareExercise()
+        } else {
+            null
+        }
+
+    private val cardEditor = CardEditor(
+        screenState.card,
+        exercise
+    )
 
     val controller = EditCardController(
-        editCardScreenState,
-        ExerciseDiScope.shareExercise(),
+        screenState,
+        cardEditor,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        screenStateProvider
     )
 
     val viewModel = EditCardViewModel(
-        editCardScreenState
+        screenState
     )
 
     companion object : DiScopeManager<EditCardDiScope>() {
-        override fun recreateDiScope() =
-            EditCardDiScope(EditCardScreenState()) // EditTexts will restore state
+        fun create(initialEditCardScreenState: EditCardScreenState) =
+            EditCardDiScope(initialEditCardScreenState)
+
+        override fun recreateDiScope() = EditCardDiScope()
 
         override fun onCloseDiScope(diScope: EditCardDiScope) {
             diScope.controller.dispose()

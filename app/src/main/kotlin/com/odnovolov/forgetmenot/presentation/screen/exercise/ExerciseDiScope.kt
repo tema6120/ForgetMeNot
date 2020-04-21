@@ -91,7 +91,10 @@ class ExerciseDiScope private constructor(
         fun create(initialExerciseState: Exercise.State) = ExerciseDiScope(initialExerciseState)
 
         fun shareExercise(): Exercise {
-            return diScope?.exercise ?: error("ExerciseDiScope is not opened")
+            if (diScope == null) {
+                diScope = recreateDiScope()
+            }
+            return diScope!!.exercise
         }
 
         override fun recreateDiScope() = ExerciseDiScope()

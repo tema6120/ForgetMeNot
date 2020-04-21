@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.combine
 class EditCardViewModel(
     private val editCardScreenState: EditCardScreenState
 ) {
-    val question: String get() = editCardScreenState.question
+    val question: String get() = editCardScreenState.questionInput
 
-    val answer: String get() = editCardScreenState.answer
+    val answer: String get() = editCardScreenState.answerInput
 
     val isAcceptButtonEnabled: Flow<Boolean> = combine(
-        editCardScreenState.flowOf(EditCardScreenState::question),
-        editCardScreenState.flowOf(EditCardScreenState::answer)
+        editCardScreenState.flowOf(EditCardScreenState::questionInput),
+        editCardScreenState.flowOf(EditCardScreenState::answerInput)
     ) { question: String, answer: String ->
-        question.isNotEmpty() && answer.isNotEmpty()
+        question.isNotBlank() && answer.isNotBlank()
     }
 }

@@ -57,12 +57,12 @@ class ExerciseController(
             }
 
             EditCardButtonClicked -> {
-                navigator.navigateToEditCard {
-                    val editCardScreenState = EditCardScreenState().apply {
-                        question = exercise.currentExerciseCard.base.card.question
-                        answer = exercise.currentExerciseCard.base.card.answer
-                    }
-                    EditCardDiScope(editCardScreenState)
+                navigator.navigateToEditCardFromExercise {
+                    val editCardScreenState = EditCardScreenState(
+                        card = exercise.currentExerciseCard.base.card,
+                        isExerciseOpened = true
+                    )
+                    EditCardDiScope.create(editCardScreenState)
                 }
             }
 

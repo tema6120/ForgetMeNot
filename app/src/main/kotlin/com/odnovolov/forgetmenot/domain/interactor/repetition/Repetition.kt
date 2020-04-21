@@ -36,7 +36,7 @@ class Repetition(
         var answerSelection: String by me(answerSelection)
     }
 
-    private val currentRepetitionCard: RepetitionCard
+    val currentRepetitionCard: RepetitionCard
         get() = with(state) { repetitionCards[repetitionCardPosition] }
 
     private lateinit var currentPronunciation: Pronunciation

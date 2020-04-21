@@ -12,13 +12,11 @@ import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardController.Command.UpdateQuestionAndAnswer
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import kotlinx.android.synthetic.main.fragment_edit_card.*
 import kotlinx.coroutines.launch
 
 class EditCardFragment : BaseFragment() {
     init {
-        ExerciseDiScope.reopenIfClosed()
         EditCardDiScope.reopenIfClosed()
     }
 
