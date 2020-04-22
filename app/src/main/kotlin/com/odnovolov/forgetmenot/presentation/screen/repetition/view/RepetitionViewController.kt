@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
+import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -7,9 +9,10 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
+import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
-import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.SetViewPagerPosition
+import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.*
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,6 +25,8 @@ class RepetitionViewController(
 ) : BaseController<RepetitionFragmentEvent, Command>() {
     sealed class Command {
         class SetViewPagerPosition(val position: Int) : Command()
+        class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
+        object ShowIntervalsAreOffMessage : Command()
     }
 
     init {
@@ -77,6 +82,35 @@ class RepetitionViewController(
             ResumeButtonClicked -> {
                 repetition.resume()
             }
+
+            LevelOfKnowledgeButtonClicked -> {
+                onLevelOfKnowledgeButtonClicked()
+            }
+
+            is LevelOfKnowledgeSelected -> {
+                repetition.setLevelOfKnowledge(event.levelOfKnowledge)
+            }
+        }
+    }
+
+    private fun onLevelOfKnowledgeButtonClicked() {
+        repetition.pause()
+        val intervalScheme: IntervalScheme? =
+            repetition.currentRepetitionCard.deck.exercisePreference.intervalScheme
+        if (intervalScheme == null) {
+            sendCommand(ShowIntervalsAreOffMessage)
+        } else {
+            val currentLevelOfKnowledge: Int =
+                repetition.currentRepetitionCard.card.levelOfKnowledge
+            val intervalItems: List<IntervalItem> = intervalScheme.intervals
+                .map { interval: Interval ->
+                    IntervalItem(
+                        levelOfKnowledge = interval.targetLevelOfKnowledge - 1,
+                        waitingPeriod = interval.value,
+                        isSelected = currentLevelOfKnowledge == interval.targetLevelOfKnowledge - 1
+                    )
+                }
+            sendCommand(ShowLevelOfKnowledgePopup(intervalItems))
         }
     }
 

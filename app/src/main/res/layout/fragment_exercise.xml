@@ -34,7 +34,7 @@
                 android:id="@+id/speakButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_speak_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/notAskButton"
@@ -45,7 +45,7 @@
                 android:id="@+id/editCardButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_edit_card_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/speakButton"
@@ -56,7 +56,7 @@
                 android:id="@+id/hintButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_hint_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/editCardButton"
@@ -76,14 +76,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
-                tools:text="0"
-                tools:visibility="visible" />
+                tools:text="0" />
 
         <View
                 android:id="@+id/levelOfKnowledgeButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_level_of_knowledge_button"
                 app:layout_constraintBottom_toBottomOf="@+id/levelOfKnowledgeTextView"
                 app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"

@@ -165,6 +165,10 @@ class Repetition(
         state.isPlaying = false
     }
 
+    fun setLevelOfKnowledge(levelOfKnowledge: Int) {
+        currentRepetitionCard.card.levelOfKnowledge = levelOfKnowledge
+    }
+
     fun pause() {
         if (!state.isPlaying) return
         delayJob?.cancel()

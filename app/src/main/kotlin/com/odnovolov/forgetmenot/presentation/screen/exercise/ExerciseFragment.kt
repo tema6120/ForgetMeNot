@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
@@ -14,11 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.MainActivity
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
@@ -38,7 +34,7 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var viewModel: ExerciseViewModel
     private var controller: ExerciseController? = null
     private val chooseHintPopup: PopupWindow by lazy { createChooseHintPopup() }
-    private val setLevelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
+    private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
 
     @SuppressLint("RestrictedApi")
@@ -61,61 +57,9 @@ class ExerciseFragment : BaseFragment() {
     private fun createIntervalsAdapter(): IntervalsAdapter {
         val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
             controller?.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
-            setLevelOfKnowledgePopup.dismiss()
+            levelOfKnowledgePopup.dismiss()
         }
         return IntervalsAdapter(onItemClick)
-    }
-
-    private fun createLevelOfKnowledgePopup(): PopupWindow {
-        val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
-        recycler.adapter = intervalsAdapter
-        return PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            contentView = recycler
-            setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
-            )
-            elevation = 20f
-            isOutsideTouchable = true
-            isFocusable = true
-        }
-    }
-
-    private fun createChooseHintPopup(): PopupWindow {
-        val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
-            hintAsQuizButton.setOnClickListener {
-                controller?.dispatch(HintAsQuizButtonClicked)
-                chooseHintPopup.dismiss()
-            }
-            maskLettersButton.setOnClickListener {
-                controller?.dispatch(MaskLettersButtonClicked)
-                chooseHintPopup.dismiss()
-            }
-        }
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        return PopupWindow(context).apply {
-            width = content.measuredWidth
-            height = content.measuredHeight
-            contentView = content
-            setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
-            )
-            elevation = 20f
-            isOutsideTouchable = true
-            isFocusable = true
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -300,12 +244,38 @@ class ExerciseFragment : BaseFragment() {
                 showLevelOfKnowledgePopup(command.intervalItems)
             }
             ShowIntervalsAreOffMessage -> {
-                Toast.makeText(
-                    requireContext(),
-                    R.string.toast_text_intervals_are_off,
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(R.string.toast_text_intervals_are_off)
             }
+        }
+    }
+
+    private fun createChooseHintPopup(): PopupWindow {
+        val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
+            hintAsQuizButton.setOnClickListener {
+                controller?.dispatch(HintAsQuizButtonClicked)
+                chooseHintPopup.dismiss()
+            }
+            maskLettersButton.setOnClickListener {
+                controller?.dispatch(MaskLettersButtonClicked)
+                chooseHintPopup.dismiss()
+            }
+        }
+        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+        return PopupWindow(context).apply {
+            width = content.measuredWidth
+            height = content.measuredHeight
+            contentView = content
+            setBackgroundDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.exercise_control_panel_popup_background
+                    )
+                )
+            )
+            elevation = 20f
+            isOutsideTouchable = true
+            isFocusable = true
         }
     }
 
@@ -321,18 +291,37 @@ class ExerciseFragment : BaseFragment() {
         )
     }
 
+    private fun createLevelOfKnowledgePopup(): PopupWindow {
+        val recycler: RecyclerView =
+            View.inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
+        recycler.adapter = intervalsAdapter
+        return PopupWindow(context).apply {
+            width = WindowManager.LayoutParams.WRAP_CONTENT
+            height = WindowManager.LayoutParams.WRAP_CONTENT
+            contentView = recycler
+            setBackgroundDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.exercise_control_panel_popup_background
+                    )
+                )
+            )
+            elevation = 20f
+            isOutsideTouchable = true
+            isFocusable = true
+        }
+    }
+
     private fun showLevelOfKnowledgePopup(intervalItems: List<IntervalItem>) {
         intervalsAdapter.intervalItems = intervalItems
-        val content = setLevelOfKnowledgePopup.contentView
-        content.measure(
-            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-        )
+        val content = levelOfKnowledgePopup.contentView
+        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         val location = IntArray(2)
         levelOfKnowledgeButton.getLocationOnScreen(location)
         val x = location[0] + levelOfKnowledgeButton.width - 8.dp - content.measuredWidth
         val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
-        setLevelOfKnowledgePopup.showAtLocation(
+        levelOfKnowledgePopup.showAtLocation(
             levelOfKnowledgeButton.rootView,
             Gravity.NO_GRAVITY,
             x,
@@ -344,7 +333,6 @@ class ExerciseFragment : BaseFragment() {
         super.onDestroyView()
         exerciseViewPager.adapter = null
         exerciseViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
-        (setLevelOfKnowledgePopup.contentView as RecyclerView).adapter = null
         if (viewModel.isWalkingMode) {
             (activity as MainActivity).keyEventInterceptor = null
         }

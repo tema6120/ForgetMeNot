@@ -2,23 +2,31 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.View.MeasureSpec
+import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.dp
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.showToast
+import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
+import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
 import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionService
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
-import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.SetViewPagerPosition
+import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.*
 import kotlinx.android.synthetic.main.fragment_repetition.*
 import kotlinx.coroutines.launch
 
@@ -28,6 +36,8 @@ class RepetitionFragment : BaseFragment() {
     }
 
     private var controller: RepetitionViewController? = null
+    private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
+    private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +71,14 @@ class RepetitionFragment : BaseFragment() {
 
     private fun setupView() {
         repetitionViewPager.registerOnPageChangeCallback(onPageChangeCallback)
-        editCardButton.setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
+        editCardButton.run {
+            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        levelOfKnowledgeButton.run {
+            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
     }
 
     private fun observeViewModel(viewModel: RepetitionViewModel, adapter: RepetitionCardAdapter) {
@@ -136,6 +153,11 @@ class RepetitionFragment : BaseFragment() {
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
+            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
+                val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
+                levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
+                levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
+            }
         }
     }
 
@@ -149,7 +171,29 @@ class RepetitionFragment : BaseFragment() {
             is SetViewPagerPosition -> {
                 repetitionViewPager.currentItem = command.position
             }
+            is ShowLevelOfKnowledgePopup -> {
+                showLevelOfKnowledgePopup(command.intervalItems)
+            }
+            ShowIntervalsAreOffMessage -> {
+                showToast(R.string.toast_text_intervals_are_off)
+            }
         }
+    }
+
+    private fun showLevelOfKnowledgePopup(intervalItems: List<IntervalItem>) {
+        intervalsAdapter.intervalItems = intervalItems
+        val content = levelOfKnowledgePopup.contentView
+        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+        val location = IntArray(2)
+        levelOfKnowledgeButton.getLocationOnScreen(location)
+        val x = location[0] + levelOfKnowledgeButton.width - 8.dp - content.measuredWidth
+        val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
+        levelOfKnowledgePopup.showAtLocation(
+            levelOfKnowledgeButton.rootView,
+            Gravity.NO_GRAVITY,
+            x,
+            y
+        )
     }
 
     override fun onResume() {
@@ -159,6 +203,36 @@ class RepetitionFragment : BaseFragment() {
             if (repetitionViewPager.currentItem != repetitionCardPosition) {
                 repetitionViewPager.setCurrentItem(repetitionCardPosition, false)
             }
+        }
+    }
+
+    private fun createIntervalsAdapter(): IntervalsAdapter {
+        val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
+            controller?.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
+            levelOfKnowledgePopup.dismiss()
+        }
+        return IntervalsAdapter(onItemClick)
+    }
+
+    private fun createLevelOfKnowledgePopup(): PopupWindow {
+        val recycler: RecyclerView =
+            View.inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
+        recycler.adapter = intervalsAdapter
+        return PopupWindow(context).apply {
+            width = WindowManager.LayoutParams.WRAP_CONTENT
+            height = WindowManager.LayoutParams.WRAP_CONTENT
+            contentView = recycler
+            setBackgroundDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        color.exercise_control_panel_popup_background
+                    )
+                )
+            )
+            elevation = 20f
+            isOutsideTouchable = true
+            isFocusable = true
         }
     }
 
