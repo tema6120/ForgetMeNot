@@ -133,6 +133,7 @@ class RepetitionFragment : BaseFragment() {
             isPlaying.observe { isPlaying: Boolean ->
                 if (isPlaying) startService()
                 with(pauseResumeButton) {
+                    keepScreenOn = isPlaying
                     setImageResource(
                         if (isPlaying)
                             R.drawable.ic_pause_white_24dp else
