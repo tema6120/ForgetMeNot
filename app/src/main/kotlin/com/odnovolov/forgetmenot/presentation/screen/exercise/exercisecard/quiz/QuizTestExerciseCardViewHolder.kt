@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
@@ -21,11 +22,11 @@ import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class QuizTestExerciseCardViewHolder(
-    itemView: View,
+    asyncItemView: AsyncFrameLayout,
     coroutineScope: CoroutineScope,
     private val controller: QuizTestExerciseCardController
 ) : ExerciseCardViewHolder<QuizTestExerciseCard>(
-    itemView,
+    asyncItemView,
     coroutineScope
 ) {
     private val rippleId: Int = getRippleId(itemView.context)
@@ -39,7 +40,7 @@ class QuizTestExerciseCardViewHolder(
     }
 
     init {
-        with(itemView) {
+        asyncItemView.invokeWhenInflated {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))

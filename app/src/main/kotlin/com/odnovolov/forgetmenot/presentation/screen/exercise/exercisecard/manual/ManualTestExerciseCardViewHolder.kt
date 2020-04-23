@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual
 
-import android.view.View
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.AnswerStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardEvent.*
@@ -13,15 +13,15 @@ import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class ManualTestExerciseCardViewHolder(
-    itemView: View,
+    asyncItemView: AsyncFrameLayout,
     coroutineScope: CoroutineScope,
     controller: ManualTestExerciseCardController
 ) : ExerciseCardViewHolder<ManualTestExerciseCard>(
-    itemView,
+    asyncItemView,
     coroutineScope
 ) {
     init {
-        with(itemView) {
+        asyncItemView.invokeWhenInflated {
             showQuestionButton.setOnClickListener {
                 controller.dispatch(ShowQuestionButtonClicked)
             }

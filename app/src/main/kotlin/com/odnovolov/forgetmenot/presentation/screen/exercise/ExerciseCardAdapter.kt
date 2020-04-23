@@ -1,12 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
@@ -42,7 +42,8 @@ class ExerciseCardAdapter(
         viewType: Int
     ): ExerciseCardViewHolder<ExerciseCard> {
         val layoutId: Int = viewType
-        val itemView = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
+        val itemView = AsyncFrameLayout(parent.context)
+        itemView.inflateAsync(layoutId)
         return when (layoutId) {
             R.layout.item_exercise_card_off_test -> {
                 OffTestExerciseCardViewHolder(

@@ -2,10 +2,10 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entr
 
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Paint
-import android.view.View
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.Answered
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.UnansweredWithHint
@@ -15,15 +15,15 @@ import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class EntryTestExerciseCardViewHolder(
-    itemView: View,
+    asyncItemView: AsyncFrameLayout,
     coroutineScope: CoroutineScope,
     controller: EntryTestExerciseCardController
 ) : ExerciseCardViewHolder<EntryTestExerciseCard>(
-    itemView,
+    asyncItemView,
     coroutineScope
 ) {
     init {
-        with(itemView) {
+        asyncItemView.invokeWhenInflated {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
