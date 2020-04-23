@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.common.customview
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DiffUtil.ItemCallback
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter.ViewHolder
@@ -15,12 +18,12 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import kotlinx.android.synthetic.main.dialog_single_choice.view.*
 
 object ChoiceDialogCreator {
-    fun <T : Item> create(
+    fun create(
         context: Context,
         title: CharSequence? = null,
         itemForm: ItemForm,
-        onItemClick: (T) -> Unit,
-        takeAdapter: (ItemAdapter<T>) -> Unit
+        onItemClick: (Item) -> Unit,
+        takeAdapter: (ItemAdapter) -> Unit
     ): Dialog {
         val adapter = ItemAdapter(itemForm, onItemClick)
         takeAdapter(adapter)
@@ -44,18 +47,10 @@ object ChoiceDialogCreator {
         val isSelected: Boolean
     }
 
-    class ItemAdapter<T : Item>(
+    class ItemAdapter(
         private val itemForm: ItemForm,
-        private val onItemClick: (T) -> Unit
-    ) : RecyclerView.Adapter<ViewHolder>() {
-        var items: List<T> = emptyList()
-            set(value) {
-                if (value != field) {
-                    field = value
-                    notifyDataSetChanged()
-                }
-            }
-
+        private val onItemClick: (Item) -> Unit
+    ) : ListAdapter<Item, ViewHolder>(DiffCallback()) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val layoutRes: Int = when (itemForm) {
                 AsRadioButton -> R.layout.item_single_choice
@@ -66,17 +61,26 @@ object ChoiceDialogCreator {
         }
 
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            val item = items[position]
+            val item: Item = getItem(position)
             viewHolder.shamButton.isChecked = item.isSelected
             viewHolder.shamButton.text = item.text
             viewHolder.button.setOnClickListener { onItemClick(item) }
         }
 
-        override fun getItemCount(): Int = items.size
-
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val shamButton: CompoundButton = view.findViewById(R.id.shamButton)
             val button: View = view.findViewById(R.id.button)
+        }
+
+        class DiffCallback : ItemCallback<Item>() {
+            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+                return oldItem.text == newItem.text
+            }
+
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 }

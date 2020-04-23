@@ -113,6 +113,7 @@
     <string name="title_action_settings">Settings</string>
     <string name="text_walking_mode_title">Walking mode</string>
     <string name="text_walking_mode_settings_description">Remapping volume keys actions</string>
+    <string name="text_fullscreen_settings_title">Fullscreen mode</string>
     <string name="text_volume_up_button_section">Volume up button</string>
     <string name="text_volume_down_button_section">Volume down button</string>
     <string name="text_single_press_title">Single press action</string>
@@ -175,4 +176,10 @@
     <string name="error_message_cannot_change_last_speak_question">Cannot change last \'Speak Question\' event</string>
     <string name="error_message_cannot_change_last_speak_answer">Cannot change last \'Speak Answer\' event</string>
     <string name="title_preset_name_input_dialog">Preset name</string>
+    <string name="title_fullscreen_mode_dialog">Fullscreen mode</string>
+    <string name="item_text_fullscreen_in_dashboard_and_settings"><![CDATA[In Dashboard & Settings]]></string>
+    <string name="item_text_fullscreen_in_exercise">In Exercise</string>
+    <string name="item_text_fullscreen_in_repetition">In Repetition</string>
+    <string name="everywhere">Everywhere</string>
+    <string name="nowhere">Nowhere</string>
 </resources>

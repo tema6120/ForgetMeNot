@@ -35,9 +35,9 @@ class DeckSettingsFragment : BaseFragment() {
     private lateinit var renameDeckDialog: AlertDialog
     private lateinit var renameDeckEditText: EditText
     private lateinit var chooseTestMethodDialog: Dialog
-    private var testMethodAdapter: ItemAdapter<TestMethodItem>? = null
+    private var testMethodAdapter: ItemAdapter? = null
     private lateinit var chooseCardReverseDialog: Dialog
-    private var cardReverseAdapter: ItemAdapter<CardReverseItem>? = null
+    private var cardReverseAdapter: ItemAdapter? = null
     private var isInflated = false
     private var savedInstanceState: Bundle? = null
     private lateinit var diScope: DeckSettingsDiScope
@@ -172,7 +172,8 @@ class DeckSettingsFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_choose_test_method_dialog),
             itemForm = AsRadioButton,
-            onItemClick = { item: TestMethodItem ->
+            onItemClick = { item: Item ->
+                item as TestMethodItem
                 val chosenTestMethod = item.testMethod
                 controller?.dispatch(SelectedTestMethod(chosenTestMethod))
                 chooseTestMethodDialog.dismiss()
@@ -186,7 +187,8 @@ class DeckSettingsFragment : BaseFragment() {
             context = requireContext(),
             title = getString(R.string.title_choose_card_reverse_dialog),
             itemForm = AsRadioButton,
-            onItemClick = { item: CardReverseItem ->
+            onItemClick = { item: Item ->
+                item as CardReverseItem
                 val chosenCardReverse = item.cardReverse
                 controller?.dispatch(SelectedCardReverse(chosenCardReverse))
                 chooseCardReverseDialog.dismiss()
@@ -235,7 +237,7 @@ class DeckSettingsFragment : BaseFragment() {
                         isSelected = it === selectedTestMethod
                     )
                 }
-                testMethodAdapter?.items = testMethods
+                testMethodAdapter?.submitList(testMethods)
             }
             selectedCardReverse.observe { selectedCardReverse: CardReverse ->
                 val items = CardReverse.values().map { cardReverse: CardReverse ->
@@ -250,7 +252,7 @@ class DeckSettingsFragment : BaseFragment() {
                         isSelected = cardReverse === selectedCardReverse
                     )
                 }
-                cardReverseAdapter?.items = items
+                cardReverseAdapter?.submitList(items)
             }
         }
     }

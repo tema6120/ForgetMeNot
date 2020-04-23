@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
@@ -14,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -32,7 +32,7 @@ class HomeFragment : BaseFragment() {
     private var controller: HomeController? = null
     private lateinit var deckPreviewAdapter: DeckPreviewAdapter
     private lateinit var filterDialog: Dialog
-    private lateinit var filterAdapter: ItemAdapter<Item>
+    private lateinit var filterAdapter: ItemAdapter
     private var actionMode: ActionMode? = null
     private var resumePauseCoroutineScope: CoroutineScope? = null
     private lateinit var searchView: SearchView
@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initFilterDialog() {
-        filterDialog = ChoiceDialogCreator.create<Item>(
+        filterDialog = ChoiceDialogCreator.create(
             context = requireContext(),
             title = getString(R.string.title_deckpreview_filter_dialog),
             itemForm = AsCheckBox,
@@ -67,7 +67,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewCoroutineScope!!.launch() {
+        viewCoroutineScope!!.launch {
             val diScope = HomeDiScope.get()
             controller = diScope.controller
             viewModel = diScope.viewModel
@@ -85,7 +85,7 @@ class HomeFragment : BaseFragment() {
                     override val text = getString(R.string.filter_display_only_with_tasks)
                     override val isSelected = displayOnlyWithTasks
                 }
-                filterAdapter.items = listOf(item)
+                filterAdapter.submitList(listOf(item))
             }
             deckSelectionCount.observe { deckSelectionCount: DeckSelectionCount? ->
                 if (deckSelectionCount == null) {
@@ -105,11 +105,7 @@ class HomeFragment : BaseFragment() {
     private fun executeCommand(command: HomeCommand) {
         when (command) {
             ShowNoCardIsReadyForExerciseMessage -> {
-                Toast.makeText(
-                    requireContext(),
-                    R.string.toast_text_no_cards_ready_for_exercise,
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(R.string.toast_text_no_cards_ready_for_exercise)
             }
             is ShowDeckRemovingMessage -> {
                 Snackbar

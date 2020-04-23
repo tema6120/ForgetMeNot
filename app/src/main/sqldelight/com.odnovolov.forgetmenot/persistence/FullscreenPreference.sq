@@ -1,0 +1,19 @@
+CREATE TABLE FullscreenPreferenceDb (
+    isEnabledInDashboardAndSettings INTEGER AS Boolean NOT NULL,
+    isEnabledInExercise INTEGER AS Boolean NOT NULL,
+    isEnabledInRepetition INTEGER AS Boolean NOT NULL
+);
+
+INSERT INTO FullscreenPreferenceDb VALUES (0, 0, 0);
+
+selectAll:
+SELECT * FROM FullscreenPreferenceDb;
+
+updateIsEnabledInDashboardAndSettings:
+UPDATE FullscreenPreferenceDb SET isEnabledInDashboardAndSettings = ?;
+
+updateIsEnabledInExercise:
+UPDATE FullscreenPreferenceDb SET isEnabledInExercise = ?;
+
+updateIsEnabledInRepetition:
+UPDATE FullscreenPreferenceDb SET isEnabledInRepetition = ?;

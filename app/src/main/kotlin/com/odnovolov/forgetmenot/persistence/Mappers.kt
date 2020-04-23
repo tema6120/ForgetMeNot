@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.persistence
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.globalstate.*
+import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.soywiz.klock.DateTime
 
@@ -167,4 +168,10 @@ fun RepetitionSettingDb.toRepetitionSetting() = RepetitionSetting(
     lastAnswerFromTimeAgo,
     lastAnswerToTimeAgo,
     numberOfLaps
+)
+
+fun FullscreenPreferenceDb.toFullscreenPreference() = FullscreenPreference(
+    isEnabledInDashboardAndSettings,
+    isEnabledInExercise,
+    isEnabledInRepetition
 )

@@ -29,7 +29,7 @@ class WalkingModeSettingsFragment : BaseFragment() {
     private lateinit var viewModel: WalkingModeSettingsViewModel
     private var controller: WalkingModeSettingsController? = null
     private lateinit var chooseKeyGestureActionDialog: Dialog
-    private lateinit var chooseKeyGestureActionDialogAdapter: ItemAdapter<KeyGestureActionItem>
+    private lateinit var chooseKeyGestureActionDialogAdapter: ItemAdapter
     private var activeRemappingKeyGesture: KeyGesture? = null
 
     override fun onCreateView(
@@ -45,7 +45,8 @@ class WalkingModeSettingsFragment : BaseFragment() {
         chooseKeyGestureActionDialog = ChoiceDialogCreator.create(
             context = requireContext(),
             itemForm = AsRadioButton,
-            onItemClick = { item: KeyGestureActionItem ->
+            onItemClick = { item: Item ->
+                item as KeyGestureActionItem
                 chooseKeyGestureActionDialog.dismiss()
                 controller?.dispatch(
                     KeyGestureActionSelected(
@@ -114,13 +115,14 @@ class WalkingModeSettingsFragment : BaseFragment() {
                 VOLUME_DOWN_LONG_PRESS -> selectedVolumeDownLongPressAction
             }.firstBlocking()
         }
-        chooseKeyGestureActionDialogAdapter.items = KeyGestureAction.values().map {
+        val items: List<KeyGestureActionItem> = KeyGestureAction.values().map {
             KeyGestureActionItem(
                 keyGestureAction = it,
                 text = getString(getStringResIdOf(it)),
                 isSelected = it === selectedKeyGestureAction
             )
         }
+        chooseKeyGestureActionDialogAdapter.submitList(items)
     }
 
     private fun updateDialogTitle() {

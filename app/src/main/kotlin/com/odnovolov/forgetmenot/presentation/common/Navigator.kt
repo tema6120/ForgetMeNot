@@ -16,6 +16,7 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScop
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDiScope
+import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanDiScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -88,7 +89,8 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_repetition_screen_to_edit_card_screen)
     }
 
-    fun navigateToSettings() {
+    fun navigateToSettings(createDiScope: () -> SettingsDiScope) {
+        SettingsDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_settings_screen)
     }
 
