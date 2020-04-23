@@ -34,6 +34,7 @@ class ExerciseStateCreator(
                     .map { card -> cardToExerciseCard(card, deck, isWalkingMode) }
             }
             .flattenWithShallowShuffling()
+        QuizComposer.clearCache()
         if (exerciseCards.isEmpty()) throw NoCardIsReadyForExercise
         return Exercise.State(exerciseCards, isWalkingMode = isWalkingMode)
     }
@@ -63,7 +64,8 @@ class ExerciseStateCreator(
                 if (isWalkingMode) {
                     ManualTestExerciseCard(baseExerciseCard)
                 } else {
-                    val variants: List<Card?> = QuizComposer.compose(card, deck, isReverse)
+                    val variants: List<Card?> =
+                        QuizComposer.compose(card, deck, isReverse, withCaching = true)
                     QuizTestExerciseCard(baseExerciseCard, variants)
                 }
             }

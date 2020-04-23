@@ -177,11 +177,13 @@ class SpeakerImpl(
     }
 
     fun shutdown() {
-        tts.stop()
-        state.isSpeaking = false
-        tts.shutdown()
-        state.isInitialized = false
-        state.availableLanguages = emptySet()
-        coroutineScope.cancel()
+        coroutineScope.launch {
+            tts.stop()
+            state.isSpeaking = false
+            tts.shutdown()
+            state.isInitialized = false
+            state.availableLanguages = emptySet()
+            coroutineScope.cancel()
+        }
     }
 }

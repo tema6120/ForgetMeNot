@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import android.view.View.GONE
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
@@ -170,7 +172,10 @@ class ExerciseFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             val exerciseCardAdapter = exerciseViewPager.adapter as ExerciseCardAdapter
-            exerciseCards.observe(exerciseCardAdapter::submitList)
+            exerciseCards.observe { exerciseCards: List<ExerciseCard> ->
+                exerciseCardAdapter.submitList(exerciseCards)
+                progressBar.visibility = GONE
+            }
             if (exerciseViewPager.currentItem != currentPosition) {
                 exerciseViewPager.setCurrentItem(currentPosition, false)
             }
@@ -333,7 +338,7 @@ class ExerciseFragment : BaseFragment() {
         super.onDestroyView()
         exerciseViewPager.adapter = null
         exerciseViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
-        if (viewModel.isWalkingMode) {
+        if (::viewModel.isInitialized && viewModel.isWalkingMode) {
             (activity as MainActivity).keyEventInterceptor = null
         }
     }

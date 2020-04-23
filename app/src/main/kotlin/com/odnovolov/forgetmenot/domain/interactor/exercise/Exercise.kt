@@ -220,7 +220,7 @@ class Exercise(
             )
         }
         val variants: List<Card?> = with(baseExerciseCard) {
-            QuizComposer.compose(card, deck, isReverse)
+            QuizComposer.compose(card, deck, isReverse, withCaching = false)
         }
         val newQuizTestExerciseCard = QuizTestExerciseCard(baseExerciseCard, variants)
         state.exerciseCards = state.exerciseCards.toMutableList().run {
@@ -360,7 +360,7 @@ class Exercise(
                         ManualTestExerciseCard(baseExerciseCard)
                     } else {
                         val variants: List<Card?> = with(baseExerciseCard) {
-                            QuizComposer.compose(card, deck, isReverse)
+                            QuizComposer.compose(card, deck, isReverse, withCaching = false)
                         }
                         QuizTestExerciseCard(baseExerciseCard, variants)
                     }
