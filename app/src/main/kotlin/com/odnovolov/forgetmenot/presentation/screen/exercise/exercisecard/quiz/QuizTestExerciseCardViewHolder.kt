@@ -78,9 +78,16 @@ class QuizTestExerciseCardViewHolder(
                         if (isAnswered) {
                             setOnClickListener(null)
                             fixTextSelection()
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                // give chance to finish ripple animation
+                                postDelayed({ foreground = null }, 600)
+                            }
                         } else {
                             setTextIsSelectable(false)
                             setOnClickListener { controller.dispatch(VariantSelected(variant)) }
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                foreground = ContextCompat.getDrawable(context, rippleId)
+                            }
                         }
                     }
                 }
@@ -115,7 +122,6 @@ class QuizTestExerciseCardViewHolder(
             when (variantStatus) {
                 Unselected -> {
                     isSelected = false
-                    setBackgroundResource(rippleId)
                 }
                 Correct -> {
                     isSelected = true
@@ -133,7 +139,6 @@ class QuizTestExerciseCardViewHolder(
                 }
                 Unaffected -> {
                     isSelected = false
-                    background = null
                 }
             }
         }
