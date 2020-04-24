@@ -92,6 +92,13 @@ class SpeakEventDialog : BaseDialogFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (rootView.delayEditText.isEnabled) {
+            rootView.delayEditText.showSoftInput()
+        }
+    }
+
     private fun isPortraitOrientation() =
         resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 }

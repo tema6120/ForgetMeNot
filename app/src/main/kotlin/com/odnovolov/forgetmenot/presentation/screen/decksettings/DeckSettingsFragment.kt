@@ -264,6 +264,16 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
+    private fun executeCommand(command: DeckSettingsController.Command) {
+        when (command) {
+            is ShowRenameDialogWithText -> {
+                renameDeckEditText.setText(command.text)
+                renameDeckEditText.selectAll()
+                renameDeckDialog.show()
+            }
+        }
+    }
+
     private fun restoreState() {
         savedInstanceState?.run {
             getBundle(STATE_KEY_RENAME_DECK_DIALOG)
@@ -278,14 +288,10 @@ class DeckSettingsFragment : BaseFragment() {
         savedInstanceState = null
     }
 
-    private fun executeCommand(command: DeckSettingsController.Command) {
-        when (command) {
-            is ShowRenameDialogWithText -> {
-                renameDeckEditText.setText(command.text)
-                renameDeckEditText.selectAll()
-                renameDeckDialog.show()
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        if (::renameDeckEditText.isInitialized)
+            renameDeckEditText.showSoftInput()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

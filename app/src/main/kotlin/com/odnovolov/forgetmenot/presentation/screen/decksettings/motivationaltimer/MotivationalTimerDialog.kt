@@ -13,7 +13,6 @@ import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerEvent.*
 import kotlinx.android.synthetic.main.dialog_motivational_timer.view.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MotivationalTimerDialog : BaseDialogFragment() {
@@ -29,11 +28,6 @@ class MotivationalTimerDialog : BaseDialogFragment() {
         onCreateDialog()
         rootView = View.inflate(requireContext(), R.layout.dialog_motivational_timer, null)
         setupView()
-        viewCoroutineScope!!.launch(Dispatchers.Main) {
-            val diScope = MotivationalTimerDiScope.get()
-            controller = diScope.controller
-            observeViewModel(diScope.viewModel)
-        }
         return AlertDialog.Builder(requireContext())
             .setView(rootView)
             .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -51,6 +45,15 @@ class MotivationalTimerDialog : BaseDialogFragment() {
             timeForAnswerEditText.observeText { text: String ->
                 controller?.dispatch(TimeInputChanged(text))
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewCoroutineScope!!.launch {
+            val diScope = MotivationalTimerDiScope.get()
+            controller = diScope.controller
+            observeViewModel(diScope.viewModel)
         }
     }
 

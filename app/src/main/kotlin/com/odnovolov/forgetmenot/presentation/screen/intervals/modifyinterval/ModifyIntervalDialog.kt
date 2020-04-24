@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager.LayoutParams
 import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
@@ -11,6 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalEvent.*
@@ -46,7 +46,7 @@ class ModifyIntervalDialog : BaseDialogFragment() {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
-            .apply { window?.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE) }
+            .apply { setOnShowListener { rootView.numberEditText.showSoftInput() } }
     }
 
     private fun setupView() {
@@ -55,11 +55,8 @@ class ModifyIntervalDialog : BaseDialogFragment() {
     }
 
     private fun setupNumberEditText() {
-        with(rootView.numberEditText) {
-            requestFocus()
-            observeText { text: String ->
-                controller?.dispatch(IntervalValueChanged(text))
-            }
+        rootView.numberEditText.observeText { text: String ->
+            controller?.dispatch(IntervalValueChanged(text))
         }
     }
 
@@ -100,6 +97,11 @@ class ModifyIntervalDialog : BaseDialogFragment() {
         viewModel.isOkButtonEnabled.observe { isEnabled ->
             (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = isEnabled
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        rootView.numberEditText.showSoftInput()
     }
 
     override fun onDestroy() {

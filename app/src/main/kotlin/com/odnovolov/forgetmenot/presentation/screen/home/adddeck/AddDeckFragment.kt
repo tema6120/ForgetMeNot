@@ -168,6 +168,13 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (::dialog.isInitialized && dialog.isShowing) {
+            dialogEditText.showSoftInput()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
