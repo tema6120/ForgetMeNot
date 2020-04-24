@@ -9,7 +9,7 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.core.app.NotificationCompat
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.MainActivity
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 
 class NotificationBuilder(private val context: Context) {
     var contextText: CharSequence? = null

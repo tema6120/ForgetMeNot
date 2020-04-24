@@ -14,6 +14,8 @@ interface ExerciseCard {
         isQuestionDisplayed: Boolean,
         isAnswerCorrect: Boolean? = null,
         hint: String? = null,
+        timeLeft: Int = 5, // todo
+        isExpired: Boolean = false,
         initialLevelOfKnowledge: Int,
         isLevelOfKnowledgeEditedManually: Boolean = false
     ) : FlowableState<Base>() {
@@ -24,6 +26,8 @@ interface ExerciseCard {
         var isQuestionDisplayed: Boolean by me (isQuestionDisplayed)
         var isAnswerCorrect: Boolean? by me(isAnswerCorrect)
         var hint: String? by me(hint)
+        var timeLeft: Int by me(timeLeft)
+        var isExpired: Boolean by me(isExpired)
         val initialLevelOfKnowledge: Int by me(initialLevelOfKnowledge)
         var isLevelOfKnowledgeEditedManually: Boolean by me(isLevelOfKnowledgeEditedManually)
     }

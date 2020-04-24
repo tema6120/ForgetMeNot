@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.string
-import com.odnovolov.forgetmenot.presentation.common.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
-import com.odnovolov.forgetmenot.presentation.common.di.MainActivityDiScope
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivityDiScope
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_settings.*

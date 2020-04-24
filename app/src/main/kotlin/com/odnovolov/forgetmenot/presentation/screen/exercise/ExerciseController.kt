@@ -82,6 +82,18 @@ class ExerciseController(
                 exercise.showHint()
             }
 
+            TimerButtonClicked -> {
+                exercise.stopTimer()
+            }
+
+            FragmentResumed -> {
+                exercise.startTimer()
+            }
+
+            FragmentPaused -> {
+                exercise.resetTimer()
+            }
+
             LevelOfKnowledgeButtonClicked -> {
                 onLevelOfKnowledgeButtonClicked()
             }

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.common
+package com.odnovolov.forgetmenot.presentation.common.mainactivity
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -12,7 +12,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
 import com.odnovolov.forgetmenot.persistence.DbCleaner
-import com.odnovolov.forgetmenot.presentation.common.di.MainActivityDiScope
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
@@ -41,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        AndroidBug5497Workaround.assistActivity(this)
         initNavController()
         coroutineScope.launch {
             val diScope = MainActivityDiScope.get()

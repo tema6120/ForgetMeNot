@@ -9,16 +9,15 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.NO_ACTION
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.*
 
 class ExerciseViewModel(
     exerciseState: Exercise.State,
     speakerImplState: SpeakerImpl.State,
     walkingModePreference: WalkingModePreference
 ) {
+    val isWalkingMode: Boolean = exerciseState.isWalkingMode
+
     val exerciseCards: Flow<List<ExerciseCard>> =
         exerciseState.flowOf(Exercise.State::exerciseCards)
 
@@ -51,12 +50,32 @@ class ExerciseViewModel(
             }
         }
 
+    val timeLeft: Flow<Int> =
+        if (isWalkingMode) flowOf(0)
+        else currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+            combine(
+                exerciseCard.base.card.flowOf(Card::isLearned),
+                exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect),
+                exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft)
+            ) { isLearned: Boolean, isAnswerCorrect: Boolean?, timeLeft: Int ->
+                val isAnswered = isAnswerCorrect != null
+                if (isLearned || isAnswered) {
+                    0
+                } else {
+                    timeLeft
+                }
+            }
+        }
+
     val levelOfKnowledgeForCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::levelOfKnowledge)
         }
 
-    val isWalkingMode: Boolean = exerciseState.isWalkingMode
+    val isLevelOfKnowledgeEditedManually: Flow<Boolean> =
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+            exerciseCard.base.flowOf(ExerciseCard.Base::isLevelOfKnowledgeEditedManually)
+        }
 
     val needToDetectVolumeUpSinglePress =
         walkingModePreference.keyGestureMap[VOLUME_UP_SINGLE_PRESS] != NO_ACTION

@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferenceProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardController
@@ -12,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.O
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardController
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 
 class ExerciseDiScope private constructor(
     initialExerciseState: Exercise.State? = null
@@ -38,7 +40,8 @@ class ExerciseDiScope private constructor(
 
     private val exercise = Exercise(
         exerciseState,
-        speakerImpl
+        speakerImpl,
+        coroutineContext = Job() + businessLogicThread
     )
 
     val controller = ExerciseController(

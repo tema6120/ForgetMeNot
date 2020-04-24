@@ -1,8 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry
 
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
+import android.graphics.Color
 import android.graphics.Paint
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
@@ -15,7 +18,7 @@ import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class EntryTestExerciseCardViewHolder(
-    asyncItemView: AsyncFrameLayout,
+    private val asyncItemView: AsyncFrameLayout,
     coroutineScope: CoroutineScope,
     controller: EntryTestExerciseCardController
 ) : ExerciseCardViewHolder<EntryTestExerciseCard>(
@@ -80,6 +83,16 @@ class EntryTestExerciseCardViewHolder(
                     correctAnswerTextView.text = correctAnswer
                     correctAnswerTextView.fixTextSelection()
                 }
+                isExpired.observe(coroutineScope) { isExpired: Boolean ->
+                    val cardBackgroundColor: Int =
+                        if (isExpired) {
+                            ContextCompat.getColor(context, R.color.background_expired_card)
+                        } else {
+                            Color.WHITE
+                        }
+                    cardView.setCardBackgroundColor(cardBackgroundColor)
+                }
+                vibrateCommand.observe(coroutineScope) { vibrate() }
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
                     val isEnabled = !isLearned
                     showQuestionButton.isEnabled = isEnabled
@@ -99,9 +112,11 @@ class EntryTestExerciseCardViewHolder(
     }
 
     fun onPageSelected() {
-        with(itemView.answerEditText) {
-            if (isEnabled && resources.configuration.orientation == ORIENTATION_PORTRAIT) {
-                showSoftInput()
+        asyncItemView.invokeWhenInflated {
+            if (answerEditText.isEnabled
+                && resources.configuration.orientation == ORIENTATION_PORTRAIT
+            ) {
+                answerEditText.showSoftInput()
             }
         }
     }

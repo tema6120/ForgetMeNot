@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
@@ -10,13 +12,18 @@ import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.dp
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
@@ -94,6 +101,10 @@ class ExerciseFragment : BaseFragment() {
         }
         hintButton.run {
             setOnClickListener { controller?.dispatch(HintButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        timerButton.run {
+            setOnClickListener { controller?.dispatch(TimerButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         levelOfKnowledgeButton.run {
@@ -223,11 +234,27 @@ class ExerciseFragment : BaseFragment() {
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
-            isHintAccessible.observe(hintButton::setEnabled)
+            isHintAccessible.observe { isHintAccessible: Boolean ->
+                hintButton.isVisible = isHintAccessible
+            }
+            timeLeft.observe { timeLeft: Int ->
+                timerButton.isVisible = timeLeft > 0
+            }
             levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
                 val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
                 levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
                 levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
+            }
+            isLevelOfKnowledgeEditedManually.observe { isEdited: Boolean ->
+                with(levelOfKnowledgeTextView) {
+                    if (isEdited) {
+                        paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                        setTypeface(null, Typeface.BOLD)
+                    } else {
+                        paintFlags = paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+                        setTypeface(null, Typeface.NORMAL)
+                    }
+                }
             }
         }
     }
@@ -332,6 +359,22 @@ class ExerciseFragment : BaseFragment() {
             x,
             y
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewCoroutineScope!!.launch {
+            val diScope = ExerciseDiScope.get()
+            diScope.controller.dispatch(FragmentResumed)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewCoroutineScope!!.launch {
+            val diScope = ExerciseDiScope.get()
+            diScope.controller.dispatch(FragmentPaused)
+        }
     }
 
     override fun onDestroyView() {

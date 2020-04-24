@@ -3,10 +3,12 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entr
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewModel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 
 class EntryTestExerciseCardViewModel(
     exerciseCard: EntryTestExerciseCard
@@ -35,7 +37,10 @@ class EntryTestExerciseCardViewModel(
         exerciseCard.flowOf(EntryTestExerciseCard::userAnswer),
         exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
     ) { userAnswer: String?, isAnswerCorrect: Boolean? ->
-        if (isAnswerCorrect == false) userAnswer else null
+        when (isAnswerCorrect) {
+            false -> userAnswer ?: ""
+            else -> null
+        }
     }
 
     val correctAnswer: Flow<String> = with(exerciseCard.base) {
@@ -44,4 +49,11 @@ class EntryTestExerciseCardViewModel(
         else
             card.flowOf(Card::answer)
     }
+
+    override val vibrateCommand: Flow<Unit> = exerciseCard.base
+        .flowOf(ExerciseCard.Base::isAnswerCorrect)
+        .mapTwoLatest { wasCorrect: Boolean?, isCorrectNow: Boolean? ->
+            if (wasCorrect == null && isCorrectNow == false) Unit else null
+        }
+        .filterNotNull()
 }

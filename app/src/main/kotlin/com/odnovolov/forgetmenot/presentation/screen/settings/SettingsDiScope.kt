@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.settings
 
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.common.di.MainActivityDiScope
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivityDiScope
 
 class SettingsDiScope {
     val controller = SettingsController(

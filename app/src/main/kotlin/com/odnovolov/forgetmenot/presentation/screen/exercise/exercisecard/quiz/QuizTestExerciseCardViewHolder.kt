@@ -1,9 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -30,8 +29,6 @@ class QuizTestExerciseCardViewHolder(
     coroutineScope
 ) {
     private val rippleId: Int = getRippleId(itemView.context)
-    private val vibrator: Vibrator? =
-        ContextCompat.getSystemService(itemView.context, Vibrator::class.java)
 
     private fun getRippleId(context: Context): Int {
         val outValue = TypedValue()
@@ -66,14 +63,12 @@ class QuizTestExerciseCardViewHolder(
                     questionTextView.text = question
                     questionTextView.fixTextSelection()
                 }
-
                 forEachVariantButton { variant: Int ->
                     variantText(variant).observe(coroutineScope, ::setText)
                     variantStatus(variant).observe(coroutineScope) { variantStatus: VariantStatus ->
                         setVariantButtonBackground(button = this, variantStatus = variantStatus)
                     }
                 }
-
                 isAnswered.observe(coroutineScope) { isAnswered: Boolean ->
                     forEachVariantButton { variant: Int ->
                         if (isAnswered) {
@@ -92,9 +87,16 @@ class QuizTestExerciseCardViewHolder(
                         }
                     }
                 }
-
+                isExpired.observe(coroutineScope) { isExpired: Boolean ->
+                    val cardBackgroundColor: Int =
+                        if (isExpired) {
+                            ContextCompat.getColor(context, R.color.background_expired_card)
+                        } else {
+                            Color.WHITE
+                        }
+                    cardView.setCardBackgroundColor(cardBackgroundColor)
+                }
                 vibrateCommand.observe(coroutineScope) { vibrate() }
-
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
                     showQuestionButton.isEnabled = !isLearned
                     questionTextView.isEnabled = !isLearned
@@ -138,30 +140,7 @@ class QuizTestExerciseCardViewHolder(
                         R.drawable.wrong_answer_selector
                     )
                 }
-                Unaffected -> {
-                    isSelected = false
-                }
             }
         }
-    }
-
-    private fun vibrate() {
-        vibrator?.let { vibrator: Vibrator ->
-            if (Build.VERSION.SDK_INT >= 26) {
-                vibrator.vibrate(
-                    VibrationEffect.createOneShot(
-                        VIBRATION_DURATION,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                    )
-                )
-            } else {
-                @Suppress("DEPRECATION")
-                vibrator.vibrate(VIBRATION_DURATION)
-            }
-        }
-    }
-
-    companion object {
-        private const val VIBRATION_DURATION = 50L
     }
 }

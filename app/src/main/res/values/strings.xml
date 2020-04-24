@@ -14,6 +14,7 @@
     <string name="description_stop_speak_button">Stop speak</string>
     <string name="description_edit_card_button">Edit card</string>
     <string name="description_hint_button">Hint</string>
+    <string name="description_timer_button">Stop timer</string>
     <string name="description_level_of_knowledge_button">Level of knowledge</string>
     <string name="description_pause_button">Pause</string>
     <string name="description_resume_button">Resume</string>

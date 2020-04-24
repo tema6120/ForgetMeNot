@@ -76,7 +76,20 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/editCardButton"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/hint_button_selector"
+                app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
+                tools:visibility="visible" />
+
+        <ImageButton
+                android:id="@+id/timerButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_timer_button"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hintButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_timer_white_24dp"
                 tools:visibility="visible" />
 
         <TextView

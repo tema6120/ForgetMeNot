@@ -8,12 +8,15 @@ import com.odnovolov.forgetmenot.domain.entity.TestMethod
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
 import com.soywiz.klock.DateTime
+import kotlinx.coroutines.*
 import java.util.*
+import kotlin.coroutines.CoroutineContext
 
 class Exercise(
     val state: State,
-    private val speaker: Speaker
-) {
+    private val speaker: Speaker,
+    override val coroutineContext: CoroutineContext
+) : CoroutineScope {
     class State(
         exerciseCards: List<ExerciseCard>,
         currentPosition: Int = 0,
@@ -33,11 +36,13 @@ class Exercise(
     val currentExerciseCard: ExerciseCard get() = state.exerciseCards[state.currentPosition]
     private lateinit var currentPronunciation: Pronunciation
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
+    private var timerJob: Job? = null
 
     init {
         updateLastOpenedAt()
         updateCurrentPronunciation()
         autoSpeakQuestionIfNeed()
+        startTimer()
     }
 
     private fun updateLastOpenedAt() {
@@ -52,9 +57,11 @@ class Exercise(
         if (position >= state.exerciseCards.size || position == state.currentPosition) {
             return
         }
+        resetTimer()
         state.currentPosition = position
         updateCurrentPronunciation()
         autoSpeakQuestionIfNeed()
+        startTimer()
     }
 
     private fun updateCurrentPronunciation() {
@@ -92,6 +99,7 @@ class Exercise(
 
     fun setIsCardLearned(isLearned: Boolean) {
         currentExerciseCard.base.card.isLearned = isLearned
+        if (isLearned) resetTimer() else startTimer()
     }
 
     fun speak() {
@@ -122,8 +130,8 @@ class Exercise(
     }
 
     private fun autoSpeakQuestionIfNeed() {
-        if (state.isWalkingMode ||
-            currentPronunciation.questionAutoSpeak
+        if (state.isWalkingMode
+            || currentPronunciation.questionAutoSpeak
             && !currentExerciseCard.base.card.isLearned
             && currentExerciseCard.base.isAnswerCorrect == null
         ) {
@@ -132,8 +140,8 @@ class Exercise(
     }
 
     private fun autoSpeakAnswerIfNeed() {
-        if (state.isWalkingMode ||
-            currentPronunciation.answerAutoSpeak
+        if (state.isWalkingMode
+            || currentPronunciation.answerAutoSpeak
             && !currentExerciseCard.base.card.isLearned
             && currentExerciseCard.base.isAnswerCorrect == null
         ) {
@@ -175,8 +183,11 @@ class Exercise(
     }
 
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {
-        currentExerciseCard.base.card.levelOfKnowledge = levelOfKnowledge
-        currentExerciseCard.base.isLevelOfKnowledgeEditedManually = true
+        if (levelOfKnowledge < 0) return
+        with(currentExerciseCard.base) {
+            card.levelOfKnowledge = levelOfKnowledge
+            isLevelOfKnowledgeEditedManually = true
+        }
     }
 
     fun setHintSelection(startIndex: Int, endIndex: Int) {
@@ -207,7 +218,13 @@ class Exercise(
     }
 
     fun hintAsQuiz() {
-        if (state.isWalkingMode || currentExerciseCard is QuizTestExerciseCard) return
+        if (state.isWalkingMode
+            || currentExerciseCard is QuizTestExerciseCard
+            || currentExerciseCard.base.card.isLearned
+            || isAnswered()
+        ) {
+            return
+        }
         val baseExerciseCard = with(currentExerciseCard.base) {
             ExerciseCard.Base(
                 id = id,
@@ -215,6 +232,7 @@ class Exercise(
                 deck = deck,
                 isReverse = isReverse,
                 isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
+                timeLeft = timeLeft,
                 initialLevelOfKnowledge = initialLevelOfKnowledge,
                 isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
             )
@@ -223,14 +241,67 @@ class Exercise(
             QuizComposer.compose(card, deck, isReverse, withCaching = false)
         }
         val newQuizTestExerciseCard = QuizTestExerciseCard(baseExerciseCard, variants)
+        stopTimer()
         state.exerciseCards = state.exerciseCards.toMutableList().run {
             this[state.currentPosition] = newQuizTestExerciseCard
             toList()
+        }
+        startTimer()
+    }
+
+    fun startTimer() {
+        with(currentExerciseCard.base) {
+            if (state.isWalkingMode
+                || card.isLearned
+                || isAnswered()
+                || isExpired
+                || timeLeft <= 0
+                || timerJob?.isActive == true
+            ) {
+                return
+            }
+            timerJob = launch {
+                while (timeLeft > 0) {
+                    delay(1000)
+                    timeLeft--
+                }
+                if (isActive) {
+                    isExpired = true
+                    setAnswerAsWrong()
+                }
+            }
+        }
+    }
+
+    fun resetTimer() {
+        with(currentExerciseCard.base) {
+            if (state.isWalkingMode
+                || isExpired
+                || isAnswered()
+            ) {
+                return
+            }
+            timerJob?.cancel()
+            timeLeft = 5 // todo
+        }
+    }
+
+    fun stopTimer() {
+        with(currentExerciseCard.base) {
+            if (state.isWalkingMode
+                || isExpired
+                || isAnswered()
+            ) {
+                return
+            }
+            timerJob?.cancel()
+            timeLeft = 0
         }
     }
 
     fun answer(answer: Answer) {
         if (!isAnswerRelevant(answer)) return
+        stopTimer()
         when (answer) {
             Show, Remember -> setAnswerAsCorrect()
             NotRemember -> setAnswerAsWrong()

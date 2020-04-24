@@ -1,6 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual
 
+import android.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
@@ -70,6 +73,16 @@ class ManualTestExerciseCardViewHolder(
                     answerTextView.text = answer
                     answerTextView.fixTextSelection()
                 }
+                isExpired.observe(coroutineScope) { isExpired: Boolean ->
+                    val cardBackgroundColor: Int =
+                        if (isExpired) {
+                            ContextCompat.getColor(context, R.color.background_expired_card)
+                        } else {
+                            Color.WHITE
+                        }
+                    cardView.setCardBackgroundColor(cardBackgroundColor)
+                }
+                vibrateCommand.observe(coroutineScope) { vibrate() }
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
                     val isEnabled = !isLearned
                     showQuestionButton.isEnabled = isEnabled
