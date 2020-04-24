@@ -88,7 +88,7 @@ class SettingsFragment : BaseFragment() {
     private fun observeViewModel(viewModel: SettingsViewModel) {
         with(viewModel) {
             fullscreenPreference.observe { fullscreenPreference: FullscreenPreference ->
-                (requireActivity() as MainActivity)
+                (requireActivity() as MainActivity).fullscreenModeManager
                     .setFullscreenMode(fullscreenPreference.isEnabledInDashboardAndSettings)
 
                 val items = listOf(
