@@ -5,7 +5,7 @@
         android:layout_height="match_parent">
 
     <FrameLayout
-            android:id="@+id/lapsButton"
+            android:id="@+id/specificLapNumberButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -14,7 +14,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-                android:id="@+id/lapsRadioButton"
+                android:id="@+id/specificLapNumberRadioButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -32,7 +32,7 @@
                 tools:visibility="visible" />
 
         <EditText
-                android:id="@+id/lapsEditText"
+                android:id="@+id/specificLapNumberEditText"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -54,7 +54,7 @@
             android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lapsButton">
+            app:layout_constraintTop_toBottomOf="@id/specificLapNumberButton">
 
         <RadioButton
                 android:id="@+id/infinitelyRadioButton"

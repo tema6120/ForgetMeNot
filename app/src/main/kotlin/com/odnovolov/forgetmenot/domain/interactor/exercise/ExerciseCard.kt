@@ -14,10 +14,10 @@ interface ExerciseCard {
         isQuestionDisplayed: Boolean,
         isAnswerCorrect: Boolean? = null,
         hint: String? = null,
-        timeLeft: Int = 5, // todo
+        timeLeft: Int,
         isExpired: Boolean = false,
         initialLevelOfKnowledge: Int,
-        isLevelOfKnowledgeEditedManually: Boolean = false
+        isLevelOfKnowledgeEditedManually: Boolean
     ) : FlowableState<Base>() {
         val id: Long by me(id)
         val card: Card by me(card)

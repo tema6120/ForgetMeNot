@@ -212,6 +212,22 @@ class DeckSettings(
         )
     }
 
+    fun setTimeForAnswer(timeForAnswer: Int) {
+        updateExercisePreference(
+            isValueChanged = currentExercisePreference.timeForAnswer != timeForAnswer,
+            createNewIndividualExercisePreference = {
+                currentExercisePreference.shallowCopy(
+                    id = generateId(),
+                    name = "",
+                    timeForAnswer = timeForAnswer
+                )
+            },
+            updateCurrentExercisePreference = {
+                currentExercisePreference.timeForAnswer = timeForAnswer
+            }
+        )
+    }
+
     fun recheckIndividualExercisePreferences() {
         globalState.decks.forEach { deck: Deck ->
             with(deck) {
@@ -254,7 +270,8 @@ class DeckSettings(
         pronunciation: Pronunciation = this.pronunciation,
         isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
         cardReverse: CardReverse = this.cardReverse,
-        speakPlan: SpeakPlan = this.speakPlan
+        speakPlan: SpeakPlan = this.speakPlan,
+        timeForAnswer: Int = this.timeForAnswer
     ) = ExercisePreference(
         id,
         name,
@@ -264,7 +281,8 @@ class DeckSettings(
         pronunciation,
         isQuestionDisplayed,
         cardReverse,
-        speakPlan
+        speakPlan,
+        timeForAnswer
     )
 
     private fun ExercisePreference.shouldBeDefault(): Boolean {

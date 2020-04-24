@@ -137,6 +137,12 @@ class DeckSettingsFragment : BaseFragment() {
                     else -> "'${speakPlan.name}'"
                 }
             }
+            timeForAnswer.observe { timeForAnswer: Int ->
+                selectedTimeForAnswerTextView.text =
+                    if (timeForAnswer == 0)
+                        getString(R.string.off) else
+                        getString(R.string.selected_time_for_answer, timeForAnswer)
+            }
         }
     }
 
@@ -208,6 +214,7 @@ class DeckSettingsFragment : BaseFragment() {
         }
         cardReverseButton.setOnClickListener { chooseCardReverseDialog.show() }
         speakPlanButton.setOnClickListener { controller?.dispatch(SpeakPlanButtonClicked) }
+        timeForAnswerButton.setOnClickListener { controller?.dispatch(TimeForAnswerButtonClicked) }
     }
 
     private fun observeViewModelSecondary() {

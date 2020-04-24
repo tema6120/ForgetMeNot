@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
@@ -63,6 +64,11 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun showSpeakEventDialog() {
         navigate(R.id.action_show_speak_event_dialog)
+    }
+
+    fun showMotivationalTimerDialog(createDiScope: () -> MotivationalTimerDiScope) {
+        MotivationalTimerDiScope.open(createDiScope)
+        navigate(R.id.action_show_motivational_timer_dialog)
     }
 
     fun navigateToRepetitionSettings(createDiScope: () -> RepetitionSettingsDiScope) {

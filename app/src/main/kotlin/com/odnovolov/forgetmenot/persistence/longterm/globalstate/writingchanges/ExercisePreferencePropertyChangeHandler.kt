@@ -56,6 +56,10 @@ class ExercisePreferencePropertyChangeHandler(
                 insertSpeakPlanIfNotExists(linkedSpeakPlan)
                 queries.updateSpeakPlanId(linkedSpeakPlan.id, exercisePreferenceId)
             }
+            ExercisePreference::timeForAnswer -> {
+                val timeForAnswer = change.newValue as Int
+                queries.updateTimeForAnswer(timeForAnswer, exercisePreferenceId)
+            }
         }
     }
 

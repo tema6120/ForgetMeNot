@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
+import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsEvent.*
 import kotlinx.android.synthetic.main.dialog_repetition_laps.view.*
@@ -39,11 +40,13 @@ class RepetitionLapsDialog : BaseDialogFragment() {
 
     private fun setupView() {
         with(rootView) {
-            lapsButton.setOnClickListener { controller?.dispatch(LapsRadioButtonClicked) }
+            specificLapNumberButton.setOnClickListener {
+                controller?.dispatch(LapsRadioButtonClicked)
+            }
             infinitelyButton.setOnClickListener {
                 controller?.dispatch(InfinitelyRadioButtonClicked)
             }
-            lapsEditText.observeText { text: String ->
+            specificLapNumberEditText.observeText { text: String ->
                 controller?.dispatch(LapsInputChanged(text))
             }
         }
@@ -61,33 +64,28 @@ class RepetitionLapsDialog : BaseDialogFragment() {
     private fun observeViewModel(viewModel: RepetitionLapsViewModel) {
         with(rootView) {
             with(viewModel) {
-                lapsEditText.setText(numberOfLapsInput)
+                specificLapNumberEditText.setText(numberOfLapsInput)
                 isInfinitely.observe { isInfinitely: Boolean ->
-                    if (isInfinitely) {
-                        infinitelyRadioButton.isChecked = true
-                        lapsRadioButton.isChecked = false
-                        lapsRadioButton.jumpDrawablesToCurrentState()
-                        lapsEditText.isEnabled = false
-                        lapsEditText.isClickable = false
-                    } else {
-                        infinitelyRadioButton.isChecked = false
-                        infinitelyRadioButton.jumpDrawablesToCurrentState()
-                        lapsRadioButton.isChecked = true
-                        lapsEditText.isEnabled = true
-                        lapsEditText.selectAll()
-                        lapsEditText.showSoftInput(showImplicit = true)
+                    infinitelyRadioButton.run {
+                        isChecked = isInfinitely
+                        uncover()
                     }
-                    if (infinitelyRadioButton.visibility == View.INVISIBLE) {
-                        infinitelyRadioButton.jumpDrawablesToCurrentState()
-                        infinitelyRadioButton.visibility = View.VISIBLE
+                    specificLapNumberRadioButton.run {
+                        isChecked = !isInfinitely
+                        uncover()
                     }
-                    if (lapsRadioButton.visibility == View.INVISIBLE) {
-                        lapsRadioButton.jumpDrawablesToCurrentState()
-                        lapsRadioButton.visibility = View.VISIBLE
+                    specificLapNumberEditText.run {
+                        isEnabled = !isInfinitely
+                        if (isInfinitely) {
+                            setSelection(0)
+                        } else {
+                            selectAll()
+                            showSoftInput()
+                        }
                     }
                 }
                 numberOfLaps.observe { numberOfLaps: Int ->
-                    lapsRadioButton.text = resources
+                    specificLapNumberRadioButton.text = resources
                         .getQuantityText(R.plurals.number_of_laps, numberOfLaps)
                 }
                 isOkButtonEnabled.observe { isEnabled ->

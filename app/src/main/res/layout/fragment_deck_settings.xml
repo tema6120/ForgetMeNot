@@ -380,6 +380,36 @@
                 android:layout_height="1dp"
                 android:background="?android:listDivider" />
 
+        <LinearLayout
+                android:id="@+id/timeForAnswerButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <TextView
+                    android:id="@+id/timeForAnswerTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_time_for_answer"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:id="@+id/selectedTimeForAnswerTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    tools:text="Off" />
+
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:listDivider" />
+
     </LinearLayout>
 
 </ScrollView>

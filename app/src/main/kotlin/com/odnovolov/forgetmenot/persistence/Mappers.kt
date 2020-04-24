@@ -65,7 +65,8 @@ fun ExercisePreferenceDb.toExercisePreference(
     pronunciation,
     isQuestionDisplayed,
     cardReverse,
-    speakPlan
+    speakPlan,
+    timeForAnswer
 )
 
 fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = ExercisePreferenceDb.Impl(
@@ -77,7 +78,8 @@ fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = Exercise
     pronunciation.id,
     isQuestionDisplayed,
     cardReverse,
-    speakPlan.id
+    speakPlan.id,
+    timeForAnswer
 )
 
 fun IntervalSchemeDb.toIntervalScheme(

@@ -282,7 +282,7 @@ class Exercise(
                 return
             }
             timerJob?.cancel()
-            timeLeft = 5 // todo
+            timeLeft = deck.exercisePreference.timeForAnswer
         }
     }
 
@@ -418,6 +418,7 @@ class Exercise(
                 deck = deck,
                 isReverse = isReverse,
                 isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
+                timeLeft = deck.exercisePreference.timeForAnswer,
                 initialLevelOfKnowledge = initialLevelOfKnowledge,
                 isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
             )

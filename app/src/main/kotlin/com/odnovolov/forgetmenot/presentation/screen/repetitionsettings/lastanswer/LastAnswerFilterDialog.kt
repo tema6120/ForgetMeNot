@@ -3,8 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastans
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
@@ -13,6 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
+import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterEvent.*
 import kotlinx.android.synthetic.main.dialog_last_answer_filter.view.*
@@ -53,12 +52,6 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
         }
         rootView.specificTimeSpanButton.setOnClickListener {
             controller?.dispatch(SpecificTimeRadioButtonClicked)
-        }
-        rootView.specificTimeSpanRadioButton.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                rootView.valueEditText.selectAll()
-                rootView.valueEditText.showSoftInput(showImplicit = true)
-            }
         }
     }
 
@@ -120,24 +113,22 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
                     DisplayedInterval.IntervalUnit.values().indexOf(displayedIntervalUnit)
 
                 isZeroTimeSelected.observe { isZeroTimeSelected: Boolean ->
-                    if (isZeroTimeSelected) {
-                        zeroTimeRadioButton.isChecked = true
-                        specificTimeSpanRadioButton.isChecked = false
-                        specificTimeSpanRadioButton.jumpDrawablesToCurrentState()
-                        setIsEnabledOfValueInputGroup(false)
-                    } else {
-                        zeroTimeRadioButton.isChecked = false
-                        zeroTimeRadioButton.jumpDrawablesToCurrentState()
-                        specificTimeSpanRadioButton.isChecked = true
-                        setIsEnabledOfValueInputGroup(true)
+                    zeroTimeRadioButton.run {
+                        isChecked = isZeroTimeSelected
+                        uncover()
                     }
-                    if (zeroTimeRadioButton.visibility == INVISIBLE) {
-                        zeroTimeRadioButton.jumpDrawablesToCurrentState()
-                        zeroTimeRadioButton.visibility = VISIBLE
+                    specificTimeSpanRadioButton.run {
+                        isChecked = !isZeroTimeSelected
+                        uncover()
                     }
-                    if (specificTimeSpanRadioButton.visibility == INVISIBLE) {
-                        specificTimeSpanRadioButton.jumpDrawablesToCurrentState()
-                        specificTimeSpanRadioButton.visibility = VISIBLE
+                    setIsEnabledOfValueInputGroup(!isZeroTimeSelected)
+                    valueEditText.run {
+                        if (isZeroTimeSelected) {
+                            setSelection(0)
+                        } else {
+                            selectAll()
+                            showSoftInput()
+                        }
                     }
                 }
 

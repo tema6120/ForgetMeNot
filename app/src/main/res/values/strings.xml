@@ -183,4 +183,6 @@
     <string name="item_text_fullscreen_in_repetition">In Repetition</string>
     <string name="everywhere">Everywhere</string>
     <string name="nowhere">Nowhere</string>
+    <string name="title_time_for_answer">Motivational timer</string>
+    <string name="selected_time_for_answer">%d sec.</string>
 </resources>

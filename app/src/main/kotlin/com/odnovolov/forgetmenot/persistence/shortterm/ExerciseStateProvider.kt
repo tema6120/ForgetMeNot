@@ -38,6 +38,8 @@ class ExerciseStateProvider(
         val isQuestionDisplayed: Boolean,
         val isAnswerCorrect: Boolean?,
         val hint: String?,
+        val timeLeft: Int,
+        val isExpired: Boolean = false,
         val initialLevelOfKnowledge: Int,
         val isLevelOfKnowledgeEditedManually: Boolean,
         val testMethod: TestMethod
@@ -89,16 +91,18 @@ class ExerciseStateProvider(
             }
             val serializableExerciseCard = with(exerciseCard.base) {
                 SerializableExerciseCard(
-                    id = id,
-                    cardId = card.id,
-                    deckId = deck.id,
-                    isReverse = isReverse,
-                    isQuestionDisplayed = isQuestionDisplayed,
-                    isAnswerCorrect = isAnswerCorrect,
-                    hint = hint,
-                    initialLevelOfKnowledge = initialLevelOfKnowledge,
-                    isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually,
-                    testMethod = testMethod
+                    id,
+                    card.id,
+                    deck.id,
+                    isReverse,
+                    isQuestionDisplayed,
+                    isAnswerCorrect,
+                    hint,
+                    timeLeft,
+                    isExpired,
+                    initialLevelOfKnowledge,
+                    isLevelOfKnowledgeEditedManually,
+                    testMethod
                 )
             }
             serializableExerciseCards.add(serializableExerciseCard)
@@ -121,15 +125,17 @@ class ExerciseStateProvider(
             .map { serializableExerciseCard: SerializableExerciseCard ->
                 val baseExerciseCard = with(serializableExerciseCard) {
                     ExerciseCard.Base(
-                        id = id,
-                        card = cardIdCardMap.getValue(cardId),
-                        deck = deckIdDeckMap.getValue(deckId),
-                        isReverse = isReverse,
-                        isQuestionDisplayed = isQuestionDisplayed,
-                        isAnswerCorrect = isAnswerCorrect,
-                        hint = hint,
-                        initialLevelOfKnowledge = initialLevelOfKnowledge,
-                        isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
+                        id,
+                        cardIdCardMap.getValue(cardId),
+                        deckIdDeckMap.getValue(deckId),
+                        isReverse,
+                        isQuestionDisplayed,
+                        isAnswerCorrect,
+                        hint,
+                        timeLeft,
+                        isExpired,
+                        initialLevelOfKnowledge,
+                        isLevelOfKnowledgeEditedManually
                     )
                 }
                 when (serializableExerciseCard.testMethod) {

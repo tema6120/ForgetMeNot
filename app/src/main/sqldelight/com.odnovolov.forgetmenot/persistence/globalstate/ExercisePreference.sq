@@ -10,7 +10,8 @@ CREATE TABLE ExercisePreferenceDb (
     pronunciationId INTEGER NOT NULL,
     isQuestionDisplayed INTEGER AS Boolean NOT NULL,
     cardReverse TEXT AS CardReverse NOT NULL,
-    speakPlanId INTEGER NOT NULL
+    speakPlanId INTEGER NOT NULL,
+    timeForAnswer INTEGER AS Int NOT NULL
 );
 
 insert:
@@ -42,6 +43,9 @@ UPDATE ExercisePreferenceDb SET cardReverse = ? WHERE id = ?;
 
 updateSpeakPlanId:
 UPDATE ExercisePreferenceDb SET speakPlanId = ? WHERE id = ?;
+
+updateTimeForAnswer:
+UPDATE ExercisePreferenceDb SET timeForAnswer = ? WHERE id = ?;
 
 delete:
 DELETE FROM ExercisePreferenceDb WHERE id = ?;

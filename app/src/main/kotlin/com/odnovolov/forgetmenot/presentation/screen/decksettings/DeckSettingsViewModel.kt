@@ -56,4 +56,9 @@ class DeckSettingsViewModel(
         .flatMapLatest { exercisePreference: ExercisePreference ->
             exercisePreference.flowOf(ExercisePreference::speakPlan)
         }
+
+    val timeForAnswer: Flow<Int> = currentExercisePreference
+        .flatMapLatest { exercisePreference: ExercisePreference ->
+            exercisePreference.flowOf(ExercisePreference::timeForAnswer)
+        }
 }

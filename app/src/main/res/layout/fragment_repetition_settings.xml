@@ -340,7 +340,7 @@
                 tools:text="1 lap" />
 
         <View
-                android:id="@+id/lapsButton"
+                android:id="@+id/specificLapNumberButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"

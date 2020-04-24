@@ -144,7 +144,7 @@ class RepetitionSettingsFragment : BaseFragment() {
     }
 
     private fun setupNumberOfLaps() {
-        lapsButton.setOnClickListener { controller?.dispatch(LapsButtonClicked) }
+        specificLapNumberButton.setOnClickListener { controller?.dispatch(LapsButtonClicked) }
     }
 
     private fun observeViewModel() {

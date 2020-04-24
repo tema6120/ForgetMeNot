@@ -9,6 +9,8 @@ import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDia
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDialogState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialogState
@@ -77,6 +79,17 @@ class DeckSettingsController(
             SpeakPlanButtonClicked -> {
                 navigator.navigateToSpeakPlan {
                     SpeakPlanDiScope.create(PresetDialogState(), SpeakEventDialogState())
+                }
+            }
+
+            TimeForAnswerButtonClicked -> {
+                navigator.showMotivationalTimerDialog {
+                    val timeForAnswer: Int = currentExercisePreference.timeForAnswer
+                    val dialogState = MotivationalTimerDialogState(
+                        isTimerEnabled = timeForAnswer != 0,
+                        timeInput = if (timeForAnswer == 0) "15" else timeForAnswer.toString()
+                    )
+                    MotivationalTimerDiScope.create(dialogState)
                 }
             }
         }

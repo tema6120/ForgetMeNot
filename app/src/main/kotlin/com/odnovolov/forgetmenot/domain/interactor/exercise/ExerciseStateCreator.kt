@@ -55,7 +55,9 @@ class ExerciseStateCreator(
             deck = deck,
             isReverse = isReverse,
             isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
-            initialLevelOfKnowledge = card.levelOfKnowledge
+            timeLeft = deck.exercisePreference.timeForAnswer,
+            initialLevelOfKnowledge = card.levelOfKnowledge,
+            isLevelOfKnowledgeEditedManually = false
         )
         return when (deck.exercisePreference.testMethod) {
             Off -> OffTestExerciseCard(baseExerciseCard)
