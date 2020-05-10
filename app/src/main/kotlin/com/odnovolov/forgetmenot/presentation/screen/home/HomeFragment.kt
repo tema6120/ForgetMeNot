@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
@@ -21,7 +22,6 @@ import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragmen
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 
 class HomeFragment : BaseFragment() {
     init {
@@ -86,18 +86,6 @@ class HomeFragment : BaseFragment() {
                     override val isSelected = displayOnlyWithTasks
                 }
                 filterAdapter.submitList(listOf(item))
-            }
-            deckSelectionCount.observe { deckSelectionCount: DeckSelectionCount? ->
-                if (deckSelectionCount == null) {
-                    actionMode?.finish()
-                } else {
-                    if (actionMode == null) {
-                        actionMode = requireActivity().startActionMode(actionModeCallback)
-                    }
-                    val (cardsCount, decksCount) = deckSelectionCount
-                    actionMode!!.title =
-                        getString(R.string.deck_selection_action_mode_title, cardsCount, decksCount)
-                }
             }
         }
     }
@@ -204,9 +192,25 @@ class HomeFragment : BaseFragment() {
         resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         resumePauseCoroutineScope!!.launch {
             val viewModel = HomeDiScope.get().viewModel
-            viewModel.decksPreview.collect {
-                if (isActive) {
-                    deckPreviewAdapter.submitList(it)
+            with(viewModel) {
+                decksPreview.observe(resumePauseCoroutineScope!!, deckPreviewAdapter::submitList)
+                deckSelectionCount.observe(
+                    resumePauseCoroutineScope!!
+                ) { deckSelectionCount: DeckSelectionCount? ->
+                    if (deckSelectionCount == null) {
+                        actionMode?.finish()
+                    } else {
+                        if (actionMode == null) {
+                            actionMode = requireActivity().startActionMode(actionModeCallback)
+                        }
+                        val (cardsCount, decksCount) = deckSelectionCount
+                        actionMode!!.title =
+                            getString(
+                                R.string.deck_selection_action_mode_title,
+                                cardsCount,
+                                decksCount
+                            )
+                    }
                 }
             }
         }

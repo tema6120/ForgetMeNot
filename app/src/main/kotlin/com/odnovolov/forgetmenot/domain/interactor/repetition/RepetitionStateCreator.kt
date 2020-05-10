@@ -38,8 +38,12 @@ class RepetitionStateCreator(
                 val isRandom = deck.exercisePreference.randomOrder
                 deck.cards
                     .filter { card: Card -> isCardMatchTheFilter(card, deck) }
-                    .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
-                    .sortedBy { card: Card -> card.lap }
+                    .let { cards: List<Card> ->
+                        if (isRandom)
+                            cards.shuffled()
+                        else
+                            cards.sortedBy { it.lap }
+                    }
                     .map { card: Card -> cardToRepetitionCard(card, deck) }
             }
             .flattenWithShallowShuffling()

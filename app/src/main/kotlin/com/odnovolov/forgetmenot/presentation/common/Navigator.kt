@@ -107,13 +107,21 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateUp() {
         GlobalScope.launch(Dispatchers.Main.immediate) {
-            navController?.navigateUp()
+            try {
+                navController?.navigateUp()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     private fun navigate(actionId: Int) {
         GlobalScope.launch(Dispatchers.Main.immediate) {
-            navController!!.navigate(actionId)
+            try {
+                navController!!.navigate(actionId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

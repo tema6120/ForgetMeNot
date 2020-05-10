@@ -14,8 +14,8 @@ class RepetitionServiceModel(
             val repetitionCard: RepetitionCard = repetitionState.repetitionCards[position]
             with(repetitionCard) {
                 if (isReverse)
-                    card.flowOf(Card::question) else
-                    card.flowOf(Card::answer)
+                    card.flowOf(Card::answer) else
+                    card.flowOf(Card::question)
             }
         }
 

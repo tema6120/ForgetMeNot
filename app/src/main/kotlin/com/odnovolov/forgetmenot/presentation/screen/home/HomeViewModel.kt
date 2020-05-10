@@ -59,7 +59,7 @@ class HomeViewModel(
 
     private fun Collection<Deck>.filterBy(searchText: String): Collection<Deck> {
         return if (searchText.isEmpty()) this
-        else this.filter { it.name.contains(searchText) }
+        else this.filter { it.name.contains(searchText, ignoreCase = true) }
     }
 
     private fun Collection<Deck>.sortBy(deckSorting: DeckSorting): List<Deck> {

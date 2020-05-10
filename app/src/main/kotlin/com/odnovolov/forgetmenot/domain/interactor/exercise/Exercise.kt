@@ -39,18 +39,10 @@ class Exercise(
     private var timerJob: Job? = null
 
     init {
-        updateLastOpenedAt()
         updateCurrentPronunciation()
         autoSpeakQuestionIfNeed()
+        updateLastOpenedAt()
         startTimer()
-    }
-
-    private fun updateLastOpenedAt() {
-        val now = DateTime.now()
-        state.exerciseCards
-            .map { it.base.deck }
-            .distinctBy { it.id }
-            .forEach { deck -> deck.lastOpenedAt = now }
     }
 
     fun setCurrentPosition(position: Int) {
@@ -61,6 +53,7 @@ class Exercise(
         state.currentPosition = position
         updateCurrentPronunciation()
         autoSpeakQuestionIfNeed()
+        updateLastOpenedAt()
         startTimer()
     }
 
@@ -81,6 +74,10 @@ class Exercise(
         } else {
             associatedPronunciation
         }
+    }
+
+    private fun updateLastOpenedAt() {
+        currentExerciseCard.base.deck.lastOpenedAt = DateTime.now()
     }
 
     fun showQuestion() {
@@ -184,10 +181,13 @@ class Exercise(
 
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {
         if (levelOfKnowledge < 0) return
-        with(currentExerciseCard.base) {
-            card.levelOfKnowledge = levelOfKnowledge
-            isLevelOfKnowledgeEditedManually = true
+        currentExerciseCard.base.card.levelOfKnowledge = levelOfKnowledge
+        state.exerciseCards.filter { exerciseCard: ExerciseCard ->
+            exerciseCard.base.card.id == currentExerciseCard.base.card.id
         }
+            .forEach { exerciseCard: ExerciseCard ->
+                exerciseCard.base.isLevelOfKnowledgeEditedManually = true
+            }
     }
 
     fun setHintSelection(startIndex: Int, endIndex: Int) {
