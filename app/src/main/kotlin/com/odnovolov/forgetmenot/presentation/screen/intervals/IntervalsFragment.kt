@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.AddIntervalButtonClicked
@@ -51,7 +53,10 @@ class IntervalsFragment : BaseFragment() {
 
     private fun observeViewModel(viewModel: IntervalsViewModel, adapter: IntervalAdapter) {
         with(viewModel) {
-            intervals.observe(adapter::submitList)
+            intervals.observe { intervals: List<Interval> ->
+                adapter.submitList(intervals)
+                updateExcellentLevelOfKnowledgeTextView(intervals)
+            }
             isRemoveIntervalButtonVisible.observe { isVisible: Boolean ->
                 removeIntervalButton.isVisible = isVisible
             }
@@ -59,6 +64,15 @@ class IntervalsFragment : BaseFragment() {
                 intervalsEditionGroup.isVisible = canBeEdited
             }
         }
+    }
+
+    private fun updateExcellentLevelOfKnowledgeTextView(intervals: List<Interval>) {
+        val maxLevelOfKnowledge: Int = intervals.map { it.levelOfKnowledge }.max() ?: -1
+        val excellentLevelOfKnowledge: Int = maxLevelOfKnowledge + 1
+        excellentLevelOfKnowledgeTextView.text = excellentLevelOfKnowledge.toString()
+        excellentLevelOfKnowledgeTextView.setBackgroundResource(
+            getBackgroundResForLevelOfKnowledge(excellentLevelOfKnowledge)
+        )
     }
 
     override fun onDestroyView() {

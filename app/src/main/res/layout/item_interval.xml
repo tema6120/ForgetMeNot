@@ -4,16 +4,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <View
-            android:id="@+id/indicatorLine"
-            android:layout_width="2dp"
-            android:layout_height="0dp"
-            android:background="?android:listDivider"
-            app:layout_constraintBottom_toTopOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
             android:id="@+id/levelOfKnowledgeTextView"
             android:layout_width="32dp"
@@ -22,10 +12,20 @@
             android:gravity="center"
             android:textColor="@color/text_level_of_knowledge"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:background="@drawable/background_level_of_knowledge_acceptable"
-            tools:text="2" />
+            tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
+            tools:text="0" />
+
+    <View
+            android:id="@+id/indicatorLine"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:background="?android:listDivider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
+            app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
+            app:layout_constraintTop_toBottomOf="@+id/levelOfKnowledgeTextView" />
 
     <TextView
             android:id="@+id/intervalTextView"
@@ -40,13 +40,13 @@
             android:textColor="@color/textPrimary"
             android:textSize="18sp"
             app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toTopOf="@+id/levelOfKnowledgeTextView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/modifyIntervalButton"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="7 days" />
+            app:layout_constraintTop_toBottomOf="@+id/levelOfKnowledgeTextView"
+            tools:text="8 hours" />
 
     <ImageView
             android:id="@+id/modifyIntervalButton"

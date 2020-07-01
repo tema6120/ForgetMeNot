@@ -44,13 +44,13 @@ class RepetitionSettingsViewModel(
             .max() ?: 0
         val maxLokFromSharedIntervals: Int = globalState.sharedIntervalSchemes
             .flatMap { intervalScheme -> intervalScheme.intervals }
-            .map { interval -> interval.targetLevelOfKnowledge }
+            .map { interval -> interval.levelOfKnowledge }
             .max() ?: 0
         val maxLokFromDeckIntervals: Int = globalState.decks
             .flatMap { deck ->
                 deck.exercisePreference.intervalScheme?.intervals ?: emptyList<Interval>()
             }
-            .map { interval -> interval.targetLevelOfKnowledge }
+            .map { interval -> interval.levelOfKnowledge }
             .max() ?: 0
         val maxLokFromSharedRepetitionSettings: Int = globalState.sharedRepetitionSettings
             .map { repetitionSetting -> repetitionSetting.levelOfKnowledgeRange.last }

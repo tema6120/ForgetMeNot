@@ -22,30 +22,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-                android:id="@+id/unsatisfactoryLevelOfKnowledgeTextView"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/background_level_of_knowledge_unsatisfactory"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/text_level_of_knowledge"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/presetView" />
-
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/intervalsRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
                 android:overScrollMode="never"
                 app:layoutManager="LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/unsatisfactoryLevelOfKnowledgeTextView"
+                app:layout_constraintTop_toBottomOf="@id/presetView"
                 tools:listitem="@layout/item_interval" />
+
+        <TextView
+                android:id="@+id/excellentLevelOfKnowledgeTextView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="32dp"
+                android:gravity="center"
+                android:textColor="@color/text_level_of_knowledge"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/intervalsRecyclerView"
+                tools:background="@drawable/background_level_of_knowledge_excellent"
+                tools:text="6" />
 
         <ImageButton
                 android:id="@+id/addIntervalButton"
@@ -59,7 +59,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/removeIntervalButton"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/intervalsRecyclerView"
+                app:layout_constraintTop_toBottomOf="@id/excellentLevelOfKnowledgeTextView"
                 app:srcCompat="@drawable/add_button" />
 
         <ImageButton
@@ -68,10 +68,10 @@
                 android:layout_height="48dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_remove_speak_event_button"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/addIntervalButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/addIntervalButton"
-                app:layout_constraintTop_toBottomOf="@id/intervalsRecyclerView"
+                app:layout_constraintTop_toTopOf="@id/addIntervalButton"
                 app:srcCompat="@drawable/remove_button" />
 
         <androidx.constraintlayout.widget.Group
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="unsatisfactoryLevelOfKnowledgeTextView,intervalsRecyclerView,addIntervalButton"
+                app:constraint_referenced_ids="intervalsRecyclerView,excellentLevelOfKnowledgeTextView,addIntervalButton"
                 tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

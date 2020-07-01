@@ -26,10 +26,10 @@ class IntervalsController(
                 navigator.showModifyIntervalDialog {
                     val interval: Interval = deckSettingsState.deck.exercisePreference
                         .intervalScheme!!.intervals.first {
-                            it.targetLevelOfKnowledge == event.targetLevelOfKnowledge
+                            it.levelOfKnowledge == event.levelOfKnowledge
                         }
                     val modifyIntervalDialogState = ModifyIntervalDialogState(
-                        dialogPurpose = ToChangeInterval(event.targetLevelOfKnowledge),
+                        dialogPurpose = ToChangeInterval(event.levelOfKnowledge),
                         displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
                     )
                     ModifyIntervalDiScope.create(modifyIntervalDialogState)

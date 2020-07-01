@@ -105,9 +105,9 @@ class RepetitionViewController(
             val intervalItems: List<IntervalItem> = intervalScheme.intervals
                 .map { interval: Interval ->
                     IntervalItem(
-                        levelOfKnowledge = interval.targetLevelOfKnowledge - 1,
+                        levelOfKnowledge = interval.levelOfKnowledge,
                         waitingPeriod = interval.value,
-                        isSelected = currentLevelOfKnowledge == interval.targetLevelOfKnowledge - 1
+                        isSelected = currentLevelOfKnowledge == interval.levelOfKnowledge
                     )
                 }
             sendCommand(ShowLevelOfKnowledgePopup(intervalItems))

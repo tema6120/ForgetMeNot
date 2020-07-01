@@ -36,7 +36,7 @@ class ModifyIntervalController(
                         }
                         is ToChangeInterval -> {
                             intervalsSettings.modifyInterval(
-                                purpose.targetLevelOfKnowledge,
+                                purpose.levelOfKnowledge,
                                 newValue
                             )
                         }

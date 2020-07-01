@@ -22,15 +22,15 @@ class IntervalScheme(
     companion object {
         val Default by lazy {
             IntervalScheme(
-                id = 0L,
+                id = 0,
                 name = "",
                 intervals = copyableListOf(
-                    Interval(id = 1L, targetLevelOfKnowledge = 1, value = 8.hours.toDateTimeSpan()),
-                    Interval(id = 2L, targetLevelOfKnowledge = 2, value = 2.days.toDateTimeSpan()),
-                    Interval(id = 3L, targetLevelOfKnowledge = 3, value = 7.days.toDateTimeSpan()),
-                    Interval(id = 4L, targetLevelOfKnowledge = 4, value = 21.days.toDateTimeSpan()),
-                    Interval(id = 5L, targetLevelOfKnowledge = 5, value = 2.months.toDateTimeSpan()),
-                    Interval(id = 6L, targetLevelOfKnowledge = 6, value = 6.months.toDateTimeSpan())
+                    Interval(id = 0, levelOfKnowledge = 0, value = 8.hours.toDateTimeSpan()),
+                    Interval(id = 1, levelOfKnowledge = 1, value = 2.days.toDateTimeSpan()),
+                    Interval(id = 2, levelOfKnowledge = 2, value = 7.days.toDateTimeSpan()),
+                    Interval(id = 3, levelOfKnowledge = 3, value = 21.days.toDateTimeSpan()),
+                    Interval(id = 4, levelOfKnowledge = 4, value = 2.months.toDateTimeSpan()),
+                    Interval(id = 5, levelOfKnowledge = 5, value = 6.months.toDateTimeSpan())
                 )
             )
         }

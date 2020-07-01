@@ -25,16 +25,16 @@ class IntervalAdapter(private val controller: IntervalsController) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.itemView) {
             val interval: Interval = getItem(position)
-            val backgroundRes = getBackgroundResForLevelOfKnowledge(interval.targetLevelOfKnowledge)
+            val backgroundRes = getBackgroundResForLevelOfKnowledge(interval.levelOfKnowledge)
             levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-            levelOfKnowledgeTextView.text = interval.targetLevelOfKnowledge.toString()
+            levelOfKnowledgeTextView.text = interval.levelOfKnowledge.toString()
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
             intervalTextView.text = displayedInterval.toString(context)
             intervalTextView.setOnClickListener {
-                controller.dispatch(ModifyIntervalButtonClicked(interval.targetLevelOfKnowledge))
+                controller.dispatch(ModifyIntervalButtonClicked(interval.levelOfKnowledge))
             }
             modifyIntervalButton.setOnClickListener {
-                controller.dispatch(ModifyIntervalButtonClicked(interval.targetLevelOfKnowledge))
+                controller.dispatch(ModifyIntervalButtonClicked(interval.levelOfKnowledge))
             }
         }
     }
@@ -43,11 +43,11 @@ class IntervalAdapter(private val controller: IntervalsController) :
 
     class DiffCallback : ItemCallback<Interval>() {
         override fun areItemsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-            return oldItem.targetLevelOfKnowledge == newItem.targetLevelOfKnowledge
+            return oldItem.levelOfKnowledge == newItem.levelOfKnowledge
         }
 
         override fun areContentsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-            return oldItem.targetLevelOfKnowledge == newItem.targetLevelOfKnowledge
+            return oldItem.levelOfKnowledge == newItem.levelOfKnowledge
                     && oldItem.value == newItem.value
         }
     }

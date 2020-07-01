@@ -91,17 +91,17 @@ fun <T> List<List<T>>.flattenWithShallowShuffling(): List<T> {
     }
 }
 
-fun isCardAvailableForExercise(card: Card, intervalScheme: IntervalScheme?): Boolean {
+fun isCardAvailableForExercise(testingCard: Card, intervalScheme: IntervalScheme?): Boolean {
     return when {
-        card.isLearned -> false
+        testingCard.isLearned -> false
         intervalScheme == null -> true
-        card.lastAnsweredAt == null -> true
+        testingCard.lastAnsweredAt == null -> true
         else -> {
             val intervals: List<Interval> = intervalScheme.intervals
             val interval: Interval = intervals.find {
-                it.targetLevelOfKnowledge == card.levelOfKnowledge + 1
-            } ?: intervals.maxBy { it.targetLevelOfKnowledge }!!
-            card.lastAnsweredAt!! + interval.value < DateTime.now()
+                it.levelOfKnowledge == testingCard.levelOfKnowledge
+            } ?: intervals.maxBy { it.levelOfKnowledge }!!
+            testingCard.lastAnsweredAt!! + interval.value < DateTime.now()
         }
     }
 }

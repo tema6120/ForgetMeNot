@@ -13,5 +13,5 @@ sealed class DialogPurpose {
     @Serializable
     object ToAddNewInterval : DialogPurpose()
     @Serializable
-    class ToChangeInterval(val targetLevelOfKnowledge: Int) : DialogPurpose()
+    class ToChangeInterval(val levelOfKnowledge: Int) : DialogPurpose()
 }

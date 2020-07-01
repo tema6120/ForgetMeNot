@@ -18,9 +18,9 @@ class IntervalPropertyChangeHandler(
         val exists: Boolean = queries.exists(intervalId).executeAsOne()
         if (!exists) return
         when (change.property) {
-            Interval::targetLevelOfKnowledge -> {
-                val targetLevelOfKnowledge = change.newValue as Int
-                queries.updateTargetLevelOfKnowledge(targetLevelOfKnowledge, intervalId)
+            Interval::levelOfKnowledge -> {
+                val levelOfKnowledge = change.newValue as Int
+                queries.updateLevelOfKnowledge(levelOfKnowledge, intervalId)
             }
             Interval::value -> {
                 val value = change.newValue as DateTimeSpan

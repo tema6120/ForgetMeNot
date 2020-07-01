@@ -97,7 +97,7 @@ fun IntervalScheme.toIntervalSchemeDb(): IntervalSchemeDb = IntervalSchemeDb.Imp
 
 fun IntervalDb.toInterval() = Interval(
     id,
-    targetLevelOfKnowledge,
+    levelOfKnowledge,
     value
 )
 
@@ -106,7 +106,7 @@ fun Interval.toIntervalDb(
 ): IntervalDb = IntervalDb.Impl(
     id,
     intervalSchemeId,
-    targetLevelOfKnowledge,
+    levelOfKnowledge,
     value
 )
 

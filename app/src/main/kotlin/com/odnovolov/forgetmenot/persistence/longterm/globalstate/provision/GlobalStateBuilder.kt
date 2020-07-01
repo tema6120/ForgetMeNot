@@ -46,7 +46,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             .map { intervalSchemeDb ->
                 val intervals: CopyableList<Interval> = tables.intervalTable
                     .filter { it.intervalSchemeId == intervalSchemeDb.id }
-                    .sortedBy { it.targetLevelOfKnowledge }
+                    .sortedBy { it.levelOfKnowledge }
                     .map { it.toInterval() }
                     .toCopyableList()
                 intervalSchemeDb.toIntervalScheme(intervals)
