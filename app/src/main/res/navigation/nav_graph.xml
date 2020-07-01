@@ -20,11 +20,11 @@
 
         <action
                 android:id="@+id/action_home_screen_to_deck_settings_screen"
-                app:destination="@id/deck_settings_screen" />
+                app:destination="@id/deck_setup_screen" />
 
         <action
-                android:id="@+id/action_home_screen_to_settings_screen"
-                app:destination="@id/settings_screen" />
+                android:id="@+id/action_home_screen_to_setup_screen"
+                app:destination="@id/deck_setup_screen" />
 
     </fragment>
 
@@ -47,13 +47,13 @@
             tools:layout="@layout/fragment_edit_card" />
 
     <fragment
-            android:id="@+id/deck_settings_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsFragment"
-            android:label="@string/label_deck_settings_screen"
-            tools:layout="@layout/fragment_deck_settings">
+            android:id="@+id/deck_setup_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupFragment"
+            android:label="@string/label_deck_setup_screen"
+            tools:layout="@layout/fragment_deck_overview">
 
         <action
-                android:id="@+id/action_deck_settings_screen_to_pronunciation_screen"
+                android:id="@+id/action_deck_setup_screen_to_pronunciation_screen"
                 app:destination="@id/pronunciation_screen"
                 app:enterAnim="@anim/slide_in_right"
                 app:exitAnim="@anim/slide_out_left"
@@ -61,7 +61,7 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
-                android:id="@+id/action_deck_settings_screen_to_intervals_screen"
+                android:id="@+id/action_deck_setup_screen_to_intervals_screen"
                 app:destination="@id/intervals_screen"
                 app:enterAnim="@anim/slide_in_right"
                 app:exitAnim="@anim/slide_out_left"
@@ -69,7 +69,7 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
-                android:id="@+id/action_deck_settings_screen_to_speak_plan_screen"
+                android:id="@+id/action_deck_setup_screen_to_speak_plan_screen"
                 app:destination="@id/speak_plan_screen"
                 app:enterAnim="@anim/slide_in_right"
                 app:exitAnim="@anim/slide_out_left"

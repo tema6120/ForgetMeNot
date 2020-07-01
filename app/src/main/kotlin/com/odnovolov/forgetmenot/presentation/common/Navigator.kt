@@ -44,7 +44,7 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToIntervals(createDiScope: () -> IntervalsDiScope) {
         IntervalsDiScope.open(createDiScope)
-        navigate(R.id.action_deck_settings_screen_to_intervals_screen)
+        navigate(R.id.action_deck_setup_screen_to_intervals_screen)
     }
 
     fun showModifyIntervalDialog(createDiScope: () -> ModifyIntervalDiScope) {
@@ -54,12 +54,12 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToPronunciation(createDiScope: () -> PronunciationDiScope) {
         PronunciationDiScope.open(createDiScope)
-        navigate(R.id.action_deck_settings_screen_to_pronunciation_screen)
+        navigate(R.id.action_deck_setup_screen_to_pronunciation_screen)
     }
 
     fun navigateToSpeakPlan(createDiScope: () -> SpeakPlanDiScope) {
         SpeakPlanDiScope.open(createDiScope)
-        navigate(R.id.action_deck_settings_screen_to_speak_plan_screen)
+        navigate(R.id.action_deck_setup_screen_to_speak_plan_screen)
     }
 
     fun showSpeakEventDialog() {
@@ -98,7 +98,7 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToSettings(createDiScope: () -> SettingsDiScope) {
         SettingsDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_settings_screen)
+        navigate(R.id.action_home_screen_to_setup_screen)
     }
 
     fun navigateToWalkingModeSettings() {
