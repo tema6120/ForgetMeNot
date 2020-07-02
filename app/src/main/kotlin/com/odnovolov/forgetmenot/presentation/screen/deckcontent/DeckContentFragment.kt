@@ -4,15 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_deck_content.*
 
-class DeckContentFragment : Fragment() {
+class DeckContentFragment : BaseFragment() {
+    private val viewModel = DeckContentViewModel()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_deck_content, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val adapter = CardOverviewAdapter()
+        cardsRecycler.adapter = adapter
+        viewModel.cards.observe(adapter::submitList)
     }
 }
