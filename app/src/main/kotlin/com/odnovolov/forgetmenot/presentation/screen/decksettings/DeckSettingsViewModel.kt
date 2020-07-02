@@ -1,26 +1,16 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
-import com.odnovolov.forgetmenot.domain.checkDeckName
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 
 class DeckSettingsViewModel(
-    deckSettingsScreenState: DeckSettingsScreenState,
-    deckSettingsState: DeckSettings.State,
-    private val globalState: GlobalState
+    deckSettingsState: DeckSettings.State
 ) {
     private val currentExercisePreference: Flow<ExercisePreference> =
         deckSettingsState.deck.flowOf(Deck::exercisePreference).share()
-
-    val deckName: Flow<String> = deckSettingsState.deck.flowOf(Deck::name)
-
-    val deckNameCheckResult: Flow<NameCheckResult> =
-        deckSettingsScreenState.flowOf(DeckSettingsScreenState::typedDeckName)
-            .map { typedDeckName: String -> checkDeckName(typedDeckName, globalState) }
 
     val randomOrder: Flow<Boolean> = currentExercisePreference
         .flatMapLatest { exercisePreference: ExercisePreference ->

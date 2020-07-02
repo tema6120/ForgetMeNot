@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
@@ -15,7 +16,8 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
@@ -92,15 +94,21 @@ class HomeController(
             }
 
             is SetupDeckMenuItemClicked -> {
-                navigator.navigateToDeckSettings {
-                    val deck: Deck = globalState.decks.first { it.id == event.deckId }
-                    val deckSettingsState = DeckSettings.State(deck)
-                    DeckSettingsDiScope.create(
-                        deckSettingsState,
-                        DeckSettingsScreenState(),
-                        PresetDialogState()
-                    )
-                }
+                navigator.navigateToDeckSetup(
+                    createDeckSetupDiScope = {
+                        val deck: Deck = globalState.decks.first { it.id == event.deckId }
+                        val deckEditorState = DeckEditor.State(deck)
+                        DeckSetupDiScope.create(DeckSetupScreenState(), deckEditorState)
+                    },
+                    createDeckSettingsDiScope = {
+                        val deck: Deck = globalState.decks.first { it.id == event.deckId }
+                        val deckSettingsState = DeckSettings.State(deck)
+                        DeckSettingsDiScope.create(
+                            deckSettingsState,
+                            PresetDialogState()
+                        )
+                    }
+                )
             }
 
             is RemoveDeckMenuItemClicked -> {

@@ -50,7 +50,7 @@
             android:id="@+id/deck_setup_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupFragment"
             android:label="@string/label_deck_setup_screen"
-            tools:layout="@layout/fragment_deck_overview">
+            tools:layout="@layout/fragment_deck_setup">
 
         <action
                 android:id="@+id/action_deck_setup_screen_to_pronunciation_screen"

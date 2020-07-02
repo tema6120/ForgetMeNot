@@ -25,35 +25,35 @@ fun RepetitionSetting.isDefault(): Boolean = this.id == RepetitionSetting.Defaul
 
 fun RepetitionSetting.isIndividual(): Boolean = !isDefault() && name.isEmpty()
 
-fun checkDeckName(testedName: String, globalState: GlobalState): NameCheckResult {
+fun checkDeckName(testingName: String, globalState: GlobalState): NameCheckResult {
     return when {
-        testedName.isEmpty() -> NameCheckResult.Empty
-        globalState.decks.any { it.name == testedName } -> NameCheckResult.Occupied
+        testingName.isEmpty() -> NameCheckResult.Empty
+        globalState.decks.any { it.name == testingName } -> NameCheckResult.Occupied
         else -> NameCheckResult.Ok
     }
 }
 
-fun checkExercisePreferenceName(testedName: String, globalState: GlobalState): NameCheckResult {
+fun checkExercisePreferenceName(testingName: String, globalState: GlobalState): NameCheckResult {
     return when {
-        testedName.isEmpty() -> NameCheckResult.Empty
-        globalState.sharedExercisePreferences.any { it.name == testedName } ->
+        testingName.isEmpty() -> NameCheckResult.Empty
+        globalState.sharedExercisePreferences.any { it.name == testingName } ->
             NameCheckResult.Occupied
         else -> NameCheckResult.Ok
     }
 }
 
-fun checkIntervalSchemeName(testedName: String, globalState: GlobalState): NameCheckResult {
+fun checkIntervalSchemeName(testingName: String, globalState: GlobalState): NameCheckResult {
     return when {
-        testedName.isEmpty() -> NameCheckResult.Empty
-        globalState.sharedIntervalSchemes.any { it.name == testedName } -> NameCheckResult.Occupied
+        testingName.isEmpty() -> NameCheckResult.Empty
+        globalState.sharedIntervalSchemes.any { it.name == testingName } -> NameCheckResult.Occupied
         else -> NameCheckResult.Ok
     }
 }
 
-fun checkRepetitionSettingName(testedName: String, globalState: GlobalState): NameCheckResult {
+fun checkRepetitionSettingName(testingName: String, globalState: GlobalState): NameCheckResult {
     return when {
-        testedName.isEmpty() -> NameCheckResult.Empty
-        globalState.sharedRepetitionSettings.any { it.name == testedName } -> NameCheckResult.Occupied
+        testingName.isEmpty() -> NameCheckResult.Empty
+        globalState.sharedRepetitionSettings.any { it.name == testingName } -> NameCheckResult.Occupied
         else -> NameCheckResult.Ok
     }
 }

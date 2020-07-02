@@ -3,17 +3,17 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.persistence.shortterm.DeckSettingsStateProvider.SerializableState
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
+import com.odnovolov.forgetmenot.persistence.shortterm.DeckEditorStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-class DeckSettingsStateProvider(
+class DeckEditorStateProvider(
     json: Json,
     database: Database,
     private val globalState: GlobalState,
-    override val key: String = DeckSettings.State::class.qualifiedName!!
-) : BaseSerializableStateProvider<DeckSettings.State, SerializableState>(
+    override val key: String = DeckEditor.State::class.qualifiedName!!
+) : BaseSerializableStateProvider<DeckEditor.State, SerializableState>(
     json,
     database
 ) {
@@ -24,10 +24,10 @@ class DeckSettingsStateProvider(
 
     override val serializer = SerializableState.serializer()
 
-    override fun toSerializable(state: DeckSettings.State) = SerializableState(state.deck.id)
+    override fun toSerializable(state: DeckEditor.State) = SerializableState(state.deck.id)
 
-    override fun toOriginal(serializableState: SerializableState): DeckSettings.State {
+    override fun toOriginal(serializableState: SerializableState): DeckEditor.State {
         val deck: Deck = globalState.decks.first { it.id == serializableState.deckId }
-        return DeckSettings.State(deck)
+        return DeckEditor.State(deck)
     }
 }

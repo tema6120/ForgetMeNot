@@ -10,7 +10,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.domain.isIndividual
 import com.odnovolov.forgetmenot.presentation.common.*
@@ -19,9 +18,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*
-import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import kotlinx.coroutines.launch
 
@@ -89,7 +86,6 @@ class DeckSettingsFragment : BaseFragment() {
 
     private fun setupPrimary() {
         with(viewModel) {
-            deckName.observe(deckNameTextView::setText)
             randomOrder.observe { randomOrder: Boolean ->
                 randomOrderSwitch.isChecked = randomOrder
                 randomOrderSwitch.uncover()
@@ -147,30 +143,11 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun setupSecondary() {
-        initRenameDeckDialog()
         initChooseTestMethodDialog()
         initChooseCardReverseDialog()
         setupListeners()
         observeViewModelSecondary()
         restoreState()
-        controller!!.commands.observe(::executeCommand)
-    }
-
-    private fun initRenameDeckDialog() {
-        val contentView = View.inflate(context, R.layout.dialog_input, null)
-        renameDeckEditText = contentView.dialogInput
-        renameDeckEditText.observeText { text: String ->
-            controller?.dispatch(RenameDeckDialogTextChanged(text))
-        }
-        renameDeckDialog = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.title_rename_deck_dialog)
-            .setView(contentView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                controller?.dispatch(RenameDeckDialogPositiveButtonClicked)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
-        renameDeckDialog.setOnShowListener { renameDeckEditText.showSoftInput() }
     }
 
     private fun initChooseTestMethodDialog() {
@@ -204,7 +181,6 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun setupListeners() {
-        renameDeckButton.setOnClickListener { controller?.dispatch(RenameDeckButtonClicked) }
         randomButton.setOnClickListener { controller?.dispatch(RandomOrderSwitchToggled) }
         testMethodButton.setOnClickListener { chooseTestMethodDialog.show() }
         intervalsButton.setOnClickListener { controller?.dispatch(IntervalsButtonClicked) }
@@ -219,18 +195,6 @@ class DeckSettingsFragment : BaseFragment() {
 
     private fun observeViewModelSecondary() {
         with(viewModel) {
-            deckNameCheckResult.observe { nameCheckResult: NameCheckResult ->
-                renameDeckEditText.error = when (nameCheckResult) {
-                    Ok -> null
-                    Empty -> getString(R.string.error_message_empty_name)
-                    Occupied -> getString(R.string.error_message_occupied_name)
-                }
-                if (renameDeckDialog.isShowing) {
-                    renameDeckDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                        .isEnabled = nameCheckResult == Ok
-                }
-            }
-
             selectedTestMethod.observe { selectedTestMethod ->
                 val testMethods = TestMethod.values().map {
                     TestMethodItem(
@@ -264,21 +228,8 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: DeckSettingsController.Command) {
-        when (command) {
-            is ShowRenameDialogWithText -> {
-                renameDeckEditText.setText(command.text)
-                renameDeckEditText.selectAll()
-                renameDeckDialog.show()
-            }
-        }
-    }
-
     private fun restoreState() {
         savedInstanceState?.run {
-            getBundle(STATE_KEY_RENAME_DECK_DIALOG)
-                ?.let(renameDeckDialog::onRestoreInstanceState)
-
             getBundle(STATE_KEY_CHOOSE_TEST_METHOD_DIALOG)
                 ?.let(chooseTestMethodDialog::onRestoreInstanceState)
 
@@ -296,12 +247,6 @@ class DeckSettingsFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (::renameDeckDialog.isInitialized) {
-            outState.putBundle(
-                STATE_KEY_RENAME_DECK_DIALOG,
-                renameDeckDialog.onSaveInstanceState()
-            )
-        }
         if (::chooseTestMethodDialog.isInitialized) {
             outState.putBundle(
                 STATE_KEY_CHOOSE_TEST_METHOD_DIALOG,
@@ -343,7 +288,6 @@ class DeckSettingsFragment : BaseFragment() {
     ) : Item
 
     companion object {
-        const val STATE_KEY_RENAME_DECK_DIALOG = "STATE_KEY_RENAME_DECK_DIALOG"
         const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "STATE_KEY_CHOOSE_TEST_METHOD_DIALOG"
         const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG"
     }

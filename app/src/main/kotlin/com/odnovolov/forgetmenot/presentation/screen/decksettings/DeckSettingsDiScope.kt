@@ -1,16 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.persistence.shortterm.DeckSettingsScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.DeckSettingsStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 
 class DeckSettingsDiScope private constructor(
     initialDeckSettingsState: DeckSettings.State? = null,
-    initialDeckSettingsScreenState: DeckSettingsScreenState? = null,
     initialPresetDialogState: PresetDialogState? = null
 ) {
     private val deckSettingsStateProvider = DeckSettingsStateProvider(
@@ -30,14 +28,6 @@ class DeckSettingsDiScope private constructor(
 
     private val presetDialogState: PresetDialogState =
         initialPresetDialogState ?: presetDialogStateProvider.load()
-
-    private val deckSettingsScreenStateProvider = DeckSettingsScreenStateProvider(
-        AppDiScope.get().json,
-        AppDiScope.get().database
-    )
-
-    private val deckSettingsScreenState =
-        initialDeckSettingsScreenState ?: deckSettingsScreenStateProvider.load()
 
     private val deckSettings = DeckSettings(
         deckSettingsState,
@@ -59,28 +49,22 @@ class DeckSettingsDiScope private constructor(
     )
 
     val controller = DeckSettingsController(
-        deckSettingsScreenState,
         deckSettings,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
-        deckSettingsStateProvider,
-        deckSettingsScreenStateProvider
+        deckSettingsStateProvider
     )
 
     val viewModel = DeckSettingsViewModel(
-        deckSettingsScreenState,
-        deckSettingsState,
-        AppDiScope.get().globalState
+        deckSettingsState
     )
 
     companion object : DiScopeManager<DeckSettingsDiScope>() {
         fun create(
             initialDeckSettingsState: DeckSettings.State,
-            initialDeckSettingsScreenState: DeckSettingsScreenState,
             initialPresetDialogState: PresetDialogState
         ) = DeckSettingsDiScope(
             initialDeckSettingsState,
-            initialDeckSettingsScreenState,
             initialPresetDialogState
         )
 

@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.Parser.IllegalCardFormatException
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -10,7 +11,8 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsScreenState
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
@@ -42,14 +44,19 @@ class AddDeckController(
                         sendCommand(SetDialogText(event.occupiedName))
                     }
                     is DeckHasBeenAdded -> {
-                        navigator.navigateToDeckSettings {
-                            val deckSettingsState = DeckSettings.State(event.deck)
-                            DeckSettingsDiScope.create(
-                                deckSettingsState,
-                                DeckSettingsScreenState(),
-                                PresetDialogState()
-                            )
-                        }
+                        navigator.navigateToDeckSetup(
+                            createDeckSetupDiScope = {
+                                val deckEditorState = DeckEditor.State(event.deck)
+                                DeckSetupDiScope.create(DeckSetupScreenState(), deckEditorState)
+                            },
+                            createDeckSettingsDiScope = {
+                                val deckSettingsState = DeckSettings.State(event.deck)
+                                DeckSettingsDiScope.create(
+                                    deckSettingsState,
+                                    PresetDialogState()
+                                )
+                            }
+                        )
                     }
                 }
             }

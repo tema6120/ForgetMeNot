@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
@@ -37,8 +38,12 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_exercise_screen_to_edit_card_screen)
     }
 
-    fun navigateToDeckSettings(createDiScope: () -> DeckSettingsDiScope) {
-        DeckSettingsDiScope.open(createDiScope)
+    fun navigateToDeckSetup(
+        createDeckSetupDiScope: () -> DeckSetupDiScope,
+        createDeckSettingsDiScope: () -> DeckSettingsDiScope
+    ) {
+        DeckSetupDiScope.open(createDeckSetupDiScope)
+        DeckSettingsDiScope.open(createDeckSettingsDiScope)
         navigate(R.id.action_home_screen_to_deck_settings_screen)
     }
 

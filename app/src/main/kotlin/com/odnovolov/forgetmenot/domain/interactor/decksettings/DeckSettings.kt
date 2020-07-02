@@ -15,7 +15,6 @@ class DeckSettings(
     data class State(val deck: Deck)
 
     sealed class Event {
-        class DeniedDeckRenaming(val nameCheckResult: NameCheckResult) : Event()
         class DeniedExercisePreferenceCreation(val nameCheckResult: NameCheckResult) : Event()
         class DeniedExercisePreferenceRenaming(val nameCheckResult: NameCheckResult) : Event()
     }
@@ -24,14 +23,6 @@ class DeckSettings(
     val events: Flow<Event> = eventFlow.get()
     private val currentExercisePreference: ExercisePreference
         get() = state.deck.exercisePreference
-
-    fun renameDeck(newName: String) {
-        when (checkDeckName(newName, globalState)) {
-            Ok -> state.deck.name = newName
-            Empty -> eventFlow.send(DeniedDeckRenaming(Empty))
-            Occupied -> eventFlow.send(DeniedDeckRenaming(Occupied))
-        }
-    }
 
     fun setExercisePreference(exercisePreferenceId: Long) {
         if (exercisePreferenceId == ExercisePreference.Default.id) {
