@@ -6,18 +6,18 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.isDefault
 import com.odnovolov.forgetmenot.domain.isIndividual
-import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.presentation.common.inflateAsync
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import kotlinx.coroutines.launch
@@ -29,8 +29,6 @@ class DeckSettingsFragment : BaseFragment() {
 
     private var controller: DeckSettingsController? = null
     private lateinit var viewModel: DeckSettingsViewModel
-    private lateinit var renameDeckDialog: AlertDialog
-    private lateinit var renameDeckEditText: EditText
     private lateinit var chooseTestMethodDialog: Dialog
     private var testMethodAdapter: ItemAdapter? = null
     private lateinit var chooseCardReverseDialog: Dialog
@@ -237,12 +235,6 @@ class DeckSettingsFragment : BaseFragment() {
                 ?.let(chooseCardReverseDialog::onRestoreInstanceState)
         }
         savedInstanceState = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (::renameDeckEditText.isInitialized)
-            renameDeckEditText.showSoftInput()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

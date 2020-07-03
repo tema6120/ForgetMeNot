@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksetup
 
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.persistence.shortterm.DeckEditorStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.DeckSetupScreenStateProvider
@@ -12,7 +13,8 @@ class DeckSetupDiScope private constructor(
 ) {
     private val screenStateProvider = DeckSetupScreenStateProvider(
         AppDiScope.get().json,
-        AppDiScope.get().database
+        AppDiScope.get().database,
+        AppDiScope.get().globalState
     )
 
     private val screenState: DeckSetupScreenState =
@@ -40,7 +42,7 @@ class DeckSetupDiScope private constructor(
         screenStateProvider
     )
 
-    val viewModel = DeckSetupViewModel(
+    val deckSetupViewModel = DeckSetupViewModel(
         screenState,
         deckEditorState,
         AppDiScope.get().globalState
@@ -54,6 +56,13 @@ class DeckSetupDiScope private constructor(
             initialScreenState,
             initialDeckEditorState
         )
+
+        fun shareDeck(): Deck {
+            if (diScope == null) {
+                diScope = recreateDiScope()
+            }
+            return diScope!!.screenState.relevantDeck
+        }
 
         override fun recreateDiScope() = DeckSetupDiScope()
 

@@ -78,7 +78,7 @@ class DeckSetupFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             diScope = DeckSetupDiScope.get()
             controller = diScope.controller
-            viewModel = diScope.viewModel
+            viewModel = diScope.deckSetupViewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }

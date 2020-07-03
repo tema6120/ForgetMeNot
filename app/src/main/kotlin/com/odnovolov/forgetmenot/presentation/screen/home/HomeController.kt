@@ -98,13 +98,10 @@ class HomeController(
                     createDeckSetupDiScope = {
                         val deck: Deck = globalState.decks.first { it.id == event.deckId }
                         val deckEditorState = DeckEditor.State(deck)
-                        DeckSetupDiScope.create(DeckSetupScreenState(), deckEditorState)
+                        DeckSetupDiScope.create(DeckSetupScreenState(deck), deckEditorState)
                     },
                     createDeckSettingsDiScope = {
-                        val deck: Deck = globalState.decks.first { it.id == event.deckId }
-                        val deckSettingsState = DeckSettings.State(deck)
                         DeckSettingsDiScope.create(
-                            deckSettingsState,
                             PresetDialogState()
                         )
                     }

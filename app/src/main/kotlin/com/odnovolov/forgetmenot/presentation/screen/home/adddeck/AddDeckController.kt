@@ -4,7 +4,6 @@ import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
 import com.odnovolov.forgetmenot.domain.interactor.deckadder.Parser.IllegalCardFormatException
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -47,12 +46,13 @@ class AddDeckController(
                         navigator.navigateToDeckSetup(
                             createDeckSetupDiScope = {
                                 val deckEditorState = DeckEditor.State(event.deck)
-                                DeckSetupDiScope.create(DeckSetupScreenState(), deckEditorState)
+                                DeckSetupDiScope.create(
+                                    DeckSetupScreenState(event.deck),
+                                    deckEditorState
+                                )
                             },
                             createDeckSettingsDiScope = {
-                                val deckSettingsState = DeckSettings.State(event.deck)
                                 DeckSettingsDiScope.create(
-                                    deckSettingsState,
                                     PresetDialogState()
                                 )
                             }

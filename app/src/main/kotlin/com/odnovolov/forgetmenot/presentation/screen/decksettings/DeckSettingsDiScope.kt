@@ -1,24 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksettings
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.persistence.shortterm.DeckSettingsStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 
 class DeckSettingsDiScope private constructor(
-    initialDeckSettingsState: DeckSettings.State? = null,
     initialPresetDialogState: PresetDialogState? = null
 ) {
-    private val deckSettingsStateProvider = DeckSettingsStateProvider(
-        AppDiScope.get().json,
-        AppDiScope.get().database,
-        AppDiScope.get().globalState
+    private val deckSettingsState = DeckSettings.State(
+        DeckSetupDiScope.shareDeck()
     )
-
-    private val deckSettingsState: DeckSettings.State =
-        initialDeckSettingsState ?: deckSettingsStateProvider.load()
 
     private val presetDialogStateProvider = PresetDialogStateProvider(
         AppDiScope.get().json,
@@ -51,8 +45,7 @@ class DeckSettingsDiScope private constructor(
     val controller = DeckSettingsController(
         deckSettings,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver,
-        deckSettingsStateProvider
+        AppDiScope.get().longTermStateSaver
     )
 
     val viewModel = DeckSettingsViewModel(
@@ -60,13 +53,8 @@ class DeckSettingsDiScope private constructor(
     )
 
     companion object : DiScopeManager<DeckSettingsDiScope>() {
-        fun create(
-            initialDeckSettingsState: DeckSettings.State,
-            initialPresetDialogState: PresetDialogState
-        ) = DeckSettingsDiScope(
-            initialDeckSettingsState,
-            initialPresetDialogState
-        )
+        fun create(initialPresetDialogState: PresetDialogState) =
+            DeckSettingsDiScope(initialPresetDialogState)
 
         fun shareDeckSettings(): DeckSettings {
             return diScope?.deckSettings ?: error("DeckSettingsDiScope is not opened")

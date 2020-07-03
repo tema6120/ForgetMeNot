@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.decksettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*
@@ -17,8 +16,7 @@ import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanDiScope
 class DeckSettingsController(
     private val deckSettings: DeckSettings,
     private val navigator: Navigator,
-    private val longTermStateSaver: LongTermStateSaver,
-    private val deckSettingsStateProvider: ShortTermStateProvider<DeckSettings.State>
+    private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<DeckSettingsEvent, Nothing>() {
     private val currentExercisePreference get() = deckSettings.state.deck.exercisePreference
 
@@ -75,6 +73,5 @@ class DeckSettingsController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
-        deckSettingsStateProvider.save(deckSettings.state)
     }
 }
