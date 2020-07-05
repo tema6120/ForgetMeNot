@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardController.Command.UpdateQuestionAndAnswer
 import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardEvent.*
 import kotlinx.android.synthetic.main.fragment_edit_card.*
+import kotlinx.android.synthetic.main.item_card_editor.*
 import kotlinx.coroutines.launch
 
 class EditCardFragment : BaseFragment() {

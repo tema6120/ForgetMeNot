@@ -38,12 +38,8 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_exercise_screen_to_edit_card_screen)
     }
 
-    fun navigateToDeckSetup(
-        createDeckSetupDiScope: () -> DeckSetupDiScope,
-        createDeckSettingsDiScope: () -> DeckSettingsDiScope
-    ) {
+    fun navigateToDeckSetup(createDeckSetupDiScope: () -> DeckSetupDiScope) {
         DeckSetupDiScope.open(createDeckSetupDiScope)
-        DeckSettingsDiScope.open(createDeckSettingsDiScope)
         navigate(R.id.action_home_screen_to_deck_settings_screen)
     }
 

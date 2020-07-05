@@ -8,8 +8,6 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command
@@ -43,20 +41,13 @@ class AddDeckController(
                         sendCommand(SetDialogText(event.occupiedName))
                     }
                     is DeckHasBeenAdded -> {
-                        navigator.navigateToDeckSetup(
-                            createDeckSetupDiScope = {
-                                val deckEditorState = DeckEditor.State(event.deck)
-                                DeckSetupDiScope.create(
-                                    DeckSetupScreenState(event.deck),
-                                    deckEditorState
-                                )
-                            },
-                            createDeckSettingsDiScope = {
-                                DeckSettingsDiScope.create(
-                                    PresetDialogState()
-                                )
-                            }
-                        )
+                        navigator.navigateToDeckSetup {
+                            val deckEditorState = DeckEditor.State(event.deck)
+                            DeckSetupDiScope.create(
+                                DeckSetupScreenState(event.deck),
+                                deckEditorState
+                            )
+                        }
                     }
                 }
             }
