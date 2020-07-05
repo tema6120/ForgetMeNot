@@ -31,9 +31,6 @@
     <string name="description_test_pronunciation_of_answer_button">Test pronunciation of answer</string>
     <string name="description_add_card_button">Add card</string>
     <string name="description_paste_button">Paste</string>
-    <string name="description_cut_button">Cut</string>
-    <string name="description_copy_button">Copy</string>
-    <string name="description_select_all_button">Select all</string>
     <string name="description_clear_button">Clear</string>
     <string name="description_cursor_left_button">Move cursor to the left</string>
     <string name="description_cursor_right_button">Move cursor to the right</string>
@@ -195,4 +192,5 @@
     <!-- Deck Overview Tabs -->
     <string name="tab_name_settings">Settings</string>
     <string name="tab_name_content">Content</string>
+    <string name="message_no_paste_data">Clipboard doesn\'t contain text</string>
 </resources>

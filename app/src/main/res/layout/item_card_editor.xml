@@ -14,37 +14,12 @@
                 android:layout_height="match_parent">
 
             <ScrollView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:fillViewport="true"
-                    app:layout_constraintBottom_toTopOf="@id/divider"
-                    app:layout_constraintEnd_toStartOf="@id/questionToolbarScrollView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                <EditText
-                        android:id="@+id/questionEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:hint="@string/hint_question_edittext"
-                        android:importantForAutofill="no"
-                        android:inputType="textMultiLine"
-                        android:padding="16dp"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="20sp"
-                        tools:text="Эти люди привычны к тяжелой работе." />
-
-            </ScrollView>
-
-            <ScrollView
                     android:id="@+id/questionToolbarScrollView"
                     android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:background="@color/background_card_editor_toolbar"
                     app:layout_constraintBottom_toTopOf="@id/divider"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
@@ -62,38 +37,6 @@
                             app:srcCompat="@drawable/ic_content_paste_24px" />
 
                     <ImageButton
-                            android:id="@+id/questionCutButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_cut_button"
-                            app:srcCompat="@drawable/ic_content_cut_24px" />
-
-                    <ImageButton
-                            android:id="@+id/questionCopyButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_copy_button"
-                            app:srcCompat="@drawable/ic_content_copy_24px" />
-
-                    <ImageButton
-                            android:id="@+id/questionSelectAllButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_select_all_button"
-                            app:srcCompat="@drawable/ic_baseline_select_all_24" />
-
-                    <ImageButton
-                            android:id="@+id/questionClearButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_clear_button"
-                            app:srcCompat="@drawable/ic_baseline_clear_24" />
-
-                    <ImageButton
                             android:id="@+id/questionCursorLeftButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
@@ -109,7 +52,43 @@
                             android:contentDescription="@string/description_cursor_right_button"
                             app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
 
+                    <ImageButton
+                            android:id="@+id/questionClearButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/description_clear_button"
+                            app:srcCompat="@drawable/ic_baseline_clear_24" />
+
                 </LinearLayout>
+
+            </ScrollView>
+
+            <ScrollView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fillViewport="true"
+                    app:layout_constraintBottom_toTopOf="@id/divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/questionToolbarScrollView"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                        android:id="@+id/questionEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="@string/hint_question_edittext"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine"
+                        android:paddingStart="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="24dp"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="20sp"
+                        tools:text="Эти люди привычны к тяжелой работе." />
 
             </ScrollView>
 
@@ -124,12 +103,41 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             <ScrollView
+                    android:id="@+id/answerScrollView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fillViewport="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/answerToolbarScrollView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider">
+
+                <EditText
+                        android:id="@+id/answerEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="top|start"
+                        android:hint="@string/hint_answer_edittext"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine"
+                        android:paddingStart="16dp"
+                        android:paddingTop="24dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="18sp"
+                        tools:text="Эти люди привычны к тяжелой работе." />
+
+            </ScrollView>
+
+            <ScrollView
                     android:id="@+id/answerToolbarScrollView"
                     android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:background="@color/background_card_editor_toolbar"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider">
 
                 <LinearLayout
@@ -147,38 +155,6 @@
                             app:srcCompat="@drawable/ic_content_paste_24px" />
 
                     <ImageButton
-                            android:id="@+id/answerCutButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_cut_button"
-                            app:srcCompat="@drawable/ic_content_cut_24px" />
-
-                    <ImageButton
-                            android:id="@+id/answerCopyButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_copy_button"
-                            app:srcCompat="@drawable/ic_content_copy_24px" />
-
-                    <ImageButton
-                            android:id="@+id/answerSelectAllButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_select_all_button"
-                            app:srcCompat="@drawable/ic_baseline_select_all_24" />
-
-                    <ImageButton
-                            android:id="@+id/answerClearButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_clear_button"
-                            app:srcCompat="@drawable/ic_baseline_clear_24" />
-
-                    <ImageButton
                             android:id="@+id/answerCursorLeftButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
@@ -194,36 +170,15 @@
                             android:contentDescription="@string/description_cursor_right_button"
                             app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
 
+                    <ImageButton
+                            android:id="@+id/answerClearButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/description_clear_button"
+                            app:srcCompat="@drawable/ic_baseline_clear_24" />
+
                 </LinearLayout>
-
-            </ScrollView>
-
-            <ScrollView
-                    android:id="@+id/answerScrollView"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:fillViewport="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/answerToolbarScrollView"
-                    app:layout_constraintTop_toBottomOf="@id/divider">
-
-                <EditText
-                        android:id="@+id/answerEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:gravity="top|start"
-                        android:hint="@string/hint_answer_edittext"
-                        android:importantForAutofill="no"
-                        android:inputType="textMultiLine"
-                        android:paddingTop="24dp"
-                        android:paddingBottom="16dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="18sp"
-                        tools:text="Эти люди привычны к тяжелой работе." />
 
             </ScrollView>
 
@@ -232,11 +187,11 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/background_reverse_card_button"
-                    app:layout_constraintTop_toTopOf="@id/divider"
+                    android:contentDescription="@string/description_reverse_card_button"
                     app:layout_constraintBottom_toBottomOf="@id/divider"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:contentDescription="@string/description_reverse_card_button" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/divider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
