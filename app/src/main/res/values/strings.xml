@@ -55,7 +55,7 @@
     <string name="label_pronunciation_screen">Pronunciation</string>
     <string name="label_intervals_screen">Intervals</string>
     <string name="label_speak_plan_screen">Speak plan</string>
-    <string name="label_edit_card_screen">Edit card</string>
+    <string name="label_ongoing_card_editor_screen">Card editor</string>
     <string name="label_settings_screen">Settings</string>
     <string name="label_walking_mode_settings_screen">Walking mode settings</string>
     <string name="label_repetition_settings_screen">Repetition settings</string>

@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotRemember
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
@@ -9,8 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
+import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
@@ -57,12 +57,9 @@ class ExerciseController(
             }
 
             EditCardButtonClicked -> {
-                navigator.navigateToEditCardFromExercise {
-                    val editCardScreenState = EditCardScreenState(
-                        card = exercise.currentExerciseCard.base.card,
-                        isExerciseOpened = true
-                    )
-                    EditCardDiScope.create(editCardScreenState)
+                navigator.navigateToCardEditorFromExercise {
+                    val editableCard = EditableCard(exercise.currentExerciseCard.base.card)
+                    OngoingCardEditorDiScope.create(editableCard)
                 }
             }
 

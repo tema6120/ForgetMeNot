@@ -15,6 +15,8 @@ abstract class DiScopeManager<DiScope> {
         }
     }
 
+    fun isOpen(): Boolean = diScope != null
+
     fun reopenIfClosed() {
         GlobalScope.launch(businessLogicThread) {
             if (diScope == null) {

@@ -35,16 +35,16 @@
             tools:layout="@layout/fragment_exercise">
 
         <action
-                android:id="@+id/action_exercise_screen_to_edit_card_screen"
-                app:destination="@id/edit_card_screen" />
+                android:id="@+id/action_exercise_screen_to_ongoing_card_editor_screen"
+                app:destination="@id/ongoing_card_editor_screen" />
 
     </fragment>
 
     <fragment
-            android:id="@+id/edit_card_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardFragment"
-            android:label="@string/label_edit_card_screen"
-            tools:layout="@layout/fragment_edit_card" />
+            android:id="@+id/ongoing_card_editor_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorFragment"
+            android:label="@string/label_ongoing_card_editor_screen"
+            tools:layout="@layout/fragment_ongoing_card_editor" />
 
     <fragment
             android:id="@+id/deck_setup_screen"
@@ -188,8 +188,8 @@
             tools:layout="@layout/fragment_repetition">
 
         <action
-                android:id="@+id/action_repetition_screen_to_edit_card_screen"
-                app:destination="@id/edit_card_screen" />
+                android:id="@+id/action_repetition_screen_to_ongoing_card_editor_screen"
+                app:destination="@id/ongoing_card_editor_screen" />
 
     </fragment>
 

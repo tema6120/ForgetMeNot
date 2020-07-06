@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.editcard
+package com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor
 
 import android.content.ClipDescription
 import android.content.ClipboardManager
@@ -12,44 +12,30 @@ import androidx.appcompat.widget.TooltipCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showToast
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardController.Command.UpdateQuestionAndAnswer
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardEvent.*
-import kotlinx.android.synthetic.main.fragment_edit_card.*
-import kotlinx.android.synthetic.main.item_card_editor.*
-import kotlinx.coroutines.launch
+import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorEvent.AnswerInputChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorEvent.QuestionInputChanged
+import kotlinx.android.synthetic.main.fragment_qa_editor.*
 
-class EditCardFragment : BaseFragment() {
-    init {
-        EditCardDiScope.reopenIfClosed()
-    }
-
-    private lateinit var viewModel: EditCardViewModel
-    private var controller: EditCardController? = null
+class QAEditorFragment : BaseFragment() {
+    private var controller: SkeletalQAEditorController? = null
+    private var viewModel: QAEditorViewModel? = null
+    private var isViewInitialized = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_edit_card, container, false)
+        return inflater.inflate(R.layout.fragment_qa_editor, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        viewCoroutineScope!!.launch {
-            val diScope = EditCardDiScope.get()
-            controller = diScope.controller
-            viewModel = diScope.viewModel
-            if (savedInstanceState == null) {
-                updateText()
-            }
-            viewModel.isAcceptButtonEnabled.observe(acceptButton::setEnabled)
-            controller!!.commands.observe(::executeCommand)
-        }
+        isViewInitialized = true
+        observeViewModel()
     }
 
     private fun setupView() {
@@ -60,17 +46,12 @@ class EditCardFragment : BaseFragment() {
             controller?.dispatch(AnswerInputChanged(text))
         }
         reverseCardButton.run {
-            setOnClickListener { controller?.dispatch(ReverseCardButtonClicked) }
+            setOnClickListener {
+                val newAnswer = questionEditText.text
+                questionEditText.text = answerEditText.text
+                answerEditText.text = newAnswer
+            }
             TooltipCompat.setTooltipText(this, contentDescription)
-        }
-        cancelButton.run {
-            setOnClickListener { controller?.dispatch(CancelButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
-        acceptButton.run {
-            setOnClickListener { controller?.dispatch(AcceptButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-            isEnabled = false
         }
         questionPasteButton.run {
             setOnClickListener { questionEditText.paste() }
@@ -114,24 +95,22 @@ class EditCardFragment : BaseFragment() {
 
     private fun EditText.paste() {
         val clipboardText = getClipboardText()
-        when {
-            clipboardText == null -> {
-                showToast(R.string.message_no_paste_data)
-            }
-            hasSelection() -> {
-                val cursorFinalPosition = selStart + clipboardText.length
-                text = text.replace(selStart, selEnd, clipboardText)
-                requestFocus()
-                setSelection(cursorFinalPosition)
-            }
-            else -> {
-                val newText = StringBuilder(text).insert(selStart, clipboardText)
-                val cursorFinalPosition = selStart + clipboardText.length
-                setText(newText)
-                requestFocus()
-                setSelection(cursorFinalPosition)
-            }
+        if (clipboardText == null) {
+            showToast(R.string.message_no_paste_data)
+            return
         }
+        val cursorFinalPosition: Int = selStart + clipboardText.length
+        setText(
+            StringBuilder(text).run {
+                if (hasSelection()) {
+                    replace(selStart, selEnd, clipboardText)
+                } else {
+                    insert(selStart, clipboardText)
+                }
+            }
+        )
+        requestFocus()
+        setSelection(cursorFinalPosition)
     }
 
     private fun EditText.getClipboardText(): String? {
@@ -220,17 +199,16 @@ class EditCardFragment : BaseFragment() {
         }
     }
 
-    private fun updateText() {
-        questionEditText.setText(viewModel.question)
-        answerEditText.setText(viewModel.answer)
+    fun inject(controller: SkeletalQAEditorController, viewModel: QAEditorViewModel) {
+        this.controller = controller
+        this.viewModel = viewModel
+        observeViewModel()
     }
 
-    private fun executeCommand(command: EditCardController.Command) {
-        when (command) {
-            UpdateQuestionAndAnswer -> {
-                updateText()
-            }
-        }
+    private fun observeViewModel() {
+        if (!isViewInitialized || viewModel == null) return
+        questionEditText.setText(viewModel!!.question)
+        answerEditText.setText(viewModel!!.answer)
     }
 
     override fun onStop() {
@@ -238,10 +216,8 @@ class EditCardFragment : BaseFragment() {
         requireActivity().currentFocus?.hideSoftInput()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (needToCloseDiScope()) {
-            EditCardDiScope.close()
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isViewInitialized = false
     }
 }

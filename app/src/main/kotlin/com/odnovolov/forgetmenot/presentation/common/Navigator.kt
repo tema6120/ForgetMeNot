@@ -7,10 +7,9 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
+import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
@@ -33,9 +32,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_home_screen_to_exercise_screen)
     }
 
-    fun navigateToEditCardFromExercise(createDiScope: () -> EditCardDiScope) {
-        EditCardDiScope.open(createDiScope)
-        navigate(R.id.action_exercise_screen_to_edit_card_screen)
+    fun navigateToCardEditorFromExercise(createDiScope: () -> OngoingCardEditorDiScope) {
+        OngoingCardEditorDiScope.open(createDiScope)
+        navigate(R.id.action_exercise_screen_to_ongoing_card_editor_screen)
     }
 
     fun navigateToDeckSetup(createDeckSetupDiScope: () -> DeckSetupDiScope) {
@@ -92,9 +91,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_repetition_settings_screen_to_repetition_screen)
     }
 
-    fun navigateToEditCardFromRepetition(createDiScope: () -> EditCardDiScope) {
-        EditCardDiScope.open(createDiScope)
-        navigate(R.id.action_repetition_screen_to_edit_card_screen)
+    fun navigateToCardEditorFromRepetition(createDiScope: () -> OngoingCardEditorDiScope) {
+        OngoingCardEditorDiScope.open(createDiScope)
+        navigate(R.id.action_repetition_screen_to_ongoing_card_editor_screen)
     }
 
     fun navigateToSettings(createDiScope: () -> SettingsDiScope) {

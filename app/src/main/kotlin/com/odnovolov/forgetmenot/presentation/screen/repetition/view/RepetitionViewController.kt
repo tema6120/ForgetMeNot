@@ -2,13 +2,13 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardDiScope
-import com.odnovolov.forgetmenot.presentation.screen.editcard.EditCardScreenState
+import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
@@ -66,12 +66,9 @@ class RepetitionViewController(
 
             EditCardButtonClicked -> {
                 repetition.pause()
-                navigator.navigateToEditCardFromRepetition {
-                    val editCardScreenState = EditCardScreenState(
-                        card = repetition.currentRepetitionCard.card,
-                        isExerciseOpened = false
-                    )
-                    EditCardDiScope.create(editCardScreenState)
+                navigator.navigateToCardEditorFromRepetition {
+                    val editableCard = EditableCard(repetition.currentRepetitionCard.card)
+                    OngoingCardEditorDiScope.create(editableCard)
                 }
             }
 
