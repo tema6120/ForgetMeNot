@@ -20,6 +20,17 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
         <ImageButton
+                android:id="@+id/notAskButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_not_ask_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_block_white_24dp" />
+
+        <ImageButton
                 android:id="@+id/cancelButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

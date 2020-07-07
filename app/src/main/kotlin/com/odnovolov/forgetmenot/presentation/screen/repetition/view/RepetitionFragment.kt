@@ -90,7 +90,7 @@ class RepetitionFragment : BaseFragment() {
                 with(notAskButton) {
                     setImageResource(
                         if (isLearned)
-                            R.drawable.ic_undo_white_24dp else
+                            R.drawable.ic_baseline_replay_white_24 else
                             R.drawable.ic_block_white_24dp
                     )
                     setOnClickListener {

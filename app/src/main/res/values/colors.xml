@@ -17,6 +17,7 @@
     <color name="text_level_of_knowledge">#FFF</color>
     <color name="textPrimary">#DE000000</color>
     <color name="textSecondary">#99000000</color>
+    <color name="textSecondaryDisabled">#29000000</color>
     <color name="iconDark">#DE000000</color>
     <color name="exercise_control_panel_popup_background">#383838</color>
     <color name="current_level_of_knowledge_background">#484848</color>

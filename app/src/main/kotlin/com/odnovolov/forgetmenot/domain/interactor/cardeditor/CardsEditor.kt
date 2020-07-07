@@ -54,7 +54,7 @@ class CardsEditor(
     }
 
     fun setIsLearned(isLearned: Boolean) {
-
+        currentEditableCard.isLearned = isLearned
     }
 
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {

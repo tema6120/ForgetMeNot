@@ -27,7 +27,7 @@ abstract class DiScopeManager<DiScope> {
 
     suspend fun get(): DiScope {
         return diScope ?: withContext(businessLogicThread) {
-            diScope ?: error("DiScope is not opened")
+            diScope ?: error("DiScope is not opened (${diScope.toString()})")
         }
     }
 

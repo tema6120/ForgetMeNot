@@ -26,6 +26,14 @@ class CardsEditorController(
                 cardsEditor.setCurrentPosition(event.position)
             }
 
+            NotAskButtonClicked -> {
+                cardsEditor.setIsLearned(true)
+            }
+
+            AskAgainButtonClicked -> {
+                cardsEditor.setIsLearned(false)
+            }
+
             CancelButtonClicked -> {
                 navigator.navigateUp()
             }

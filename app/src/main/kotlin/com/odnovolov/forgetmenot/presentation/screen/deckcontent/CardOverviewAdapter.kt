@@ -23,7 +23,9 @@ class CardOverviewAdapter(
         val item: Card = getItem(position)
         with(viewHolder.itemView) {
             questionTextView.text = item.question
+            questionTextView.isEnabled = !item.isLearned
             answerTextView.text = item.answer
+            answerTextView.isEnabled = !item.isLearned
             cardView.setOnClickListener { controller.dispatch(CardClicked(item.id)) }
         }
     }

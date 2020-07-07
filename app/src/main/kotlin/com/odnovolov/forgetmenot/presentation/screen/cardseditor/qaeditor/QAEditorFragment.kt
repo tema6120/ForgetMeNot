@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.TooltipCompat
+import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
@@ -217,8 +218,21 @@ class QAEditorFragment : BaseFragment() {
 
     private fun observeViewModel() {
         if (!isViewInitialized || viewModel == null) return
-        questionEditText.setText(viewModel!!.question)
-        answerEditText.setText(viewModel!!.answer)
+        with (viewModel!!) {
+            questionEditText.setText(question)
+            answerEditText.setText(answer)
+            isLearned.observe { isLearned: Boolean ->
+                val color: Int = ContextCompat.getColor(
+                    requireContext(),
+                    if (isLearned)
+                        R.color.textSecondaryDisabled else
+                        R.color.textSecondary
+                )
+                questionEditText.setTextColor(color)
+                answerEditText.setTextColor(color)
+            }
+        }
+
     }
 
     override fun onStop() {

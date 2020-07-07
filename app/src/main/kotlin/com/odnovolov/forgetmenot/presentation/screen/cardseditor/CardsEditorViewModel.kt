@@ -1,9 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class CardsEditorViewModel(
     private val cardsEditorState: CardsEditor.State
@@ -14,4 +14,18 @@ class CardsEditorViewModel(
         }
 
     val currentPosition: Int get() = cardsEditorState.currentPosition
+
+    private val currentEditableCard: Flow<EditableCard> = combine(
+        cardsEditorState.flowOf(CardsEditor.State::editableCards),
+        cardsEditorState.flowOf(CardsEditor.State::currentPosition)
+    ) { editableCards: List<EditableCard>, currentPosition: Int ->
+        editableCards[currentPosition]
+    }
+        .distinctUntilChanged()
+        .share()
+
+    val isCurrentEditableCardLearned: Flow<Boolean> =
+        currentEditableCard.flatMapLatest { editableCard: EditableCard ->
+            editableCard.flowOf(EditableCard::isLearned)
+        }
 }

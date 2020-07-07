@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.TooltipCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
@@ -15,6 +16,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorCont
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorFragment
 import kotlinx.android.synthetic.main.fragment_cards_editor.*
+import kotlinx.android.synthetic.main.fragment_cards_editor.notAskButton
 import kotlinx.coroutines.*
 
 class CardsEditorFragment : BaseFragment() {
@@ -70,6 +72,28 @@ class CardsEditorFragment : BaseFragment() {
                 editableCardAdapter.cardIds = cardIds
                 if (cardsViewPager.currentItem != currentPosition) {
                     cardsViewPager.setCurrentItem(currentPosition, false)
+                }
+            }
+            isCurrentEditableCardLearned.observe { isLearned: Boolean ->
+                with(notAskButton) {
+                    setImageResource(
+                        if (isLearned)
+                            R.drawable.ic_baseline_replay_white_24 else
+                            R.drawable.ic_block_white_24dp
+                    )
+                    setOnClickListener {
+                        controller?.dispatch(
+                            if (isLearned)
+                                AskAgainButtonClicked else
+                                NotAskButtonClicked
+                        )
+                    }
+                    contentDescription = getString(
+                        if (isLearned)
+                            R.string.description_ask_again_button else
+                            R.string.description_not_ask_button
+                    )
+                    TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
         }
