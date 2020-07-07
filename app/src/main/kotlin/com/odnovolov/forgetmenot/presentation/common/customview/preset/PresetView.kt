@@ -34,10 +34,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalP
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.popup_preset.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 
 class PresetView @JvmOverloads constructor(
     context: Context,
@@ -100,7 +97,7 @@ class PresetView @JvmOverloads constructor(
     private lateinit var presetAdapter: PresetAdapter
     private lateinit var nameInputDialog: AlertDialog
     private lateinit var nameEditText: EditText
-    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: SkeletalPresetController? = null
     private lateinit var viewModel: SkeletalPresetViewModel
     private var pendingDialogState: Bundle? = null
@@ -128,23 +125,9 @@ class PresetView @JvmOverloads constructor(
         initDialog()
         savePresetButton.setOnClickListener { controller?.dispatch(SavePresetButtonClicked) }
         selectPresetButton.setOnClickListener { showPopup() }
-        with(viewModel) {
-            availablePresets.observe(coroutineScope, presetAdapter::submitList)
-            presetInputCheckResult.observe(coroutineScope) { nameCheckResult: NameCheckResult ->
-                nameEditText.error = when (nameCheckResult) {
-                    NameCheckResult.Ok -> null
-                    NameCheckResult.Empty -> context.getString(R.string.error_message_empty_name)
-                    NameCheckResult.Occupied ->
-                        context.getString(R.string.error_message_occupied_name)
-                }
-                if (nameInputDialog.isShowing) {
-                    nameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                        .isEnabled = nameCheckResult == NameCheckResult.Ok
-                }
-            }
-        }
+        observeViewModel()
         restoreByPendingState()
-        controller!!.commands.observe(coroutineScope, ::executeCommand)
+        observeCommands()
     }
 
     private fun initPopup() {
@@ -201,6 +184,24 @@ class PresetView @JvmOverloads constructor(
         popup.showAtLocation(parent as View, Gravity.NO_GRAVITY, x, y)
     }
 
+    private fun observeViewModel() {
+        with(viewModel) {
+            availablePresets.observe(coroutineScope, presetAdapter::submitList)
+            presetInputCheckResult.observe(coroutineScope) { nameCheckResult: NameCheckResult ->
+                nameEditText.error = when (nameCheckResult) {
+                    NameCheckResult.Ok -> null
+                    NameCheckResult.Empty -> context.getString(R.string.error_message_empty_name)
+                    NameCheckResult.Occupied ->
+                        context.getString(R.string.error_message_occupied_name)
+                }
+                if (nameInputDialog.isShowing) {
+                    nameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .isEnabled = nameCheckResult == NameCheckResult.Ok
+                }
+            }
+        }
+    }
+
     private fun executeCommand(command: SkeletalPresetController.Command) {
         when (command) {
             is ShowDialogWithText -> {
@@ -242,6 +243,20 @@ class PresetView @JvmOverloads constructor(
         pendingPopupState?.let { isVisible: Boolean -> if (isVisible) showPopup() }
         pendingDialogState = null
         pendingPopupState = null
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (!coroutineScope.isActive) {
+            coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+            setupPrimary()
+            observeViewModel()
+            observeCommands()
+        }
+    }
+
+    private fun observeCommands() {
+        controller!!.commands.observe(coroutineScope, ::executeCommand)
     }
 
     override fun onDetachedFromWindow() {
