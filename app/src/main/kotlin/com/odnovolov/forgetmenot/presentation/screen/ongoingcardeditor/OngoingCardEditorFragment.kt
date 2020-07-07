@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorFragment
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorFragment
 import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorEvent.AcceptButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorEvent.CancelButtonClicked
 import kotlinx.android.synthetic.main.fragment_ongoing_card_editor.*

@@ -13,6 +13,7 @@ abstract class BaseController<Event, Command> {
 
     init {
         coroutineScope.launch {
+            delay(50)
             if (autoSave) saveState()
         }
     }

@@ -10,7 +10,14 @@ class DeckContentDiScope {
         DeckSetupDiScope.shareDeck()
     )
 
+    private val deckEditor = DeckEditor(
+        deckEditorState,
+        AppDiScope.get().globalState
+    )
+
     val controller = DeckContentController(
+        deckEditor,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 

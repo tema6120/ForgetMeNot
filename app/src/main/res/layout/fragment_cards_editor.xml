@@ -1,12 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context="presentation.screen.exercise.ExerciseFragment">
 
-    <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/qaEditorFragment"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorFragment"
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/cardsViewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />

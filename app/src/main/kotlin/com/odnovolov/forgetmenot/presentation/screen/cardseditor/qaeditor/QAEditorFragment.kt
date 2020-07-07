@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor
+package com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor
 
 import android.content.ClipDescription
 import android.content.ClipboardManager
@@ -14,11 +14,21 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showToast
-import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorEvent.AnswerInputChanged
-import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorEvent.QuestionInputChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.AnswerInputChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.QuestionInputChanged
 import kotlinx.android.synthetic.main.fragment_qa_editor.*
 
 class QAEditorFragment : BaseFragment() {
+    companion object {
+        const val ARG_ID = "ARG_ID"
+
+        fun create(id: Long) = QAEditorFragment().apply {
+            arguments = Bundle(1).apply {
+                putLong(ARG_ID, id)
+            }
+        }
+    }
+
     private var controller: SkeletalQAEditorController? = null
     private var viewModel: QAEditorViewModel? = null
     private var isViewInitialized = false

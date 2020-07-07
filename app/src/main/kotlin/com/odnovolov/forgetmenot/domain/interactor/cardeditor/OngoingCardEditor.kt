@@ -7,16 +7,13 @@ class OngoingCardEditor(
     private val exercise: Exercise?
 ) {
     init {
-        require(editableCard.card != null) {
-            "EditableCard must be bound to Card"
-        }
-        require(if (exercise == null) true else isCurrentExerciseCardEdited()) {
+        require(if (exercise == null) true else isCurrentExerciseCard()) {
             "If exercise is opened, only current card can be edited"
         }
     }
 
-    private fun isCurrentExerciseCardEdited() =
-        exercise!!.currentExerciseCard.base.card.id == editableCard.card!!.id
+    private fun isCurrentExerciseCard() =
+        exercise!!.currentExerciseCard.base.card.id == editableCard.card.id
 
     fun setQuestion(question: String) {
         editableCard.question = question
@@ -31,7 +28,7 @@ class OngoingCardEditor(
             "Neither question nor answer must not be blank"
         }
 
-        if (editableCard.question != editableCard.card!!.question
+        if (editableCard.question != editableCard.card.question
             || editableCard.answer != editableCard.card.answer
         ) {
             editableCard.card.question = editableCard.question

@@ -2,15 +2,13 @@ package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.entity.Card
-import com.soywiz.klock.DateTime
+import com.odnovolov.forgetmenot.domain.generateId
 
 class EditableCard(
-    val card: Card? = null
+    val card: Card = Card(id = generateId(), question = "", answer = "")
 ) : FlowableState<EditableCard>() {
-    var question: String by me(card?.question ?: "")
-    var answer: String by me(card?.answer ?: "")
-    var lap: Int by me(card?.lap ?: 0)
-    var isLearned: Boolean by me(card?.isLearned ?: false)
-    var levelOfKnowledge: Int by me(card?.levelOfKnowledge ?: 0)
-    var lastAnsweredAt: DateTime? by me(card?.lastAnsweredAt)
+    var question: String by me(card.question)
+    var answer: String by me(card.answer)
+    var isLearned: Boolean by me(card.isLearned)
+    var levelOfKnowledge: Int by me(card.levelOfKnowledge)
 }

@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor
 
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.OngoingCardEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
-import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.SkeletalQAEditorController
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.SkeletalQAEditorController
 
 class OngoingQAEditorController(
     private val ongoingCardEditor: OngoingCardEditor,

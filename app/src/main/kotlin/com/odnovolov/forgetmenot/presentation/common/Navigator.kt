@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
@@ -69,6 +70,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun showMotivationalTimerDialog(createDiScope: () -> MotivationalTimerDiScope) {
         MotivationalTimerDiScope.open(createDiScope)
         navigate(R.id.action_show_motivational_timer_dialog)
+    }
+
+    fun navigateToCardsEditor(createDiScope: () -> CardsEditorDiScope) {
+        CardsEditorDiScope.open(createDiScope)
+        navigate(R.id.action_deck_setup_screen_to_cards_editor_screen)
     }
 
     fun navigateToRepetitionSettings(createDiScope: () -> RepetitionSettingsDiScope) {

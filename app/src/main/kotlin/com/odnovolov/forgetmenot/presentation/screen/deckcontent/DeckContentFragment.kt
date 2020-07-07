@@ -25,10 +25,10 @@ class DeckContentFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = CardOverviewAdapter()
-        cardsRecycler.adapter = adapter
         viewCoroutineScope!!.launch {
             val diScope = DeckContentDiScope.get()
+            val adapter = CardOverviewAdapter(diScope.controller)
+            cardsRecycler.adapter = adapter
             diScope.viewModel.cards.observe(adapter::submitList)
         }
     }

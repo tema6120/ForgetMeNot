@@ -1,9 +1,9 @@
-package com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor
+package com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor
 
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorEvent.AnswerInputChanged
-import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorEvent.QuestionInputChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.AnswerInputChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.QuestionInputChanged
 
 abstract class SkeletalQAEditorController(
     private val longTermStateSaver: LongTermStateSaver

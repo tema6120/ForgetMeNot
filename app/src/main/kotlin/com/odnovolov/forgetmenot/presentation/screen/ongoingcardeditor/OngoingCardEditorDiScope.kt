@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.persistence.shortterm.OngoingCardEditorStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor.QAEditorViewModel
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorViewModel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 
 class OngoingCardEditorDiScope private constructor(

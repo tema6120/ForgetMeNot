@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.cardeditor.qaeditor
+package com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor
 
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 

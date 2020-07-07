@@ -80,6 +80,10 @@
                 android:id="@+id/action_show_motivational_timer_dialog"
                 app:destination="@+id/motivational_timer_dialog" />
 
+        <action
+                android:id="@+id/action_deck_setup_screen_to_cards_editor_screen"
+                app:destination="@+id/cards_editor_screen" />
+
     </fragment>
 
     <fragment
@@ -126,6 +130,12 @@
             android:id="@+id/motivational_timer_dialog"
             android:name="com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDialog"
             tools:layout="@layout/dialog_motivational_timer" />
+
+    <fragment
+        android:id="@+id/cards_editor_screen"
+        android:name="com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorFragment"
+        android:label="@string/label_cards_editor_screen"
+        android:layout="@layout/fragment_cards_editor"/>
 
     <fragment
             android:id="@+id/settings_screen"
