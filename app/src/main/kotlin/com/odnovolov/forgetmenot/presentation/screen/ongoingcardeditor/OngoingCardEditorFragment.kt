@@ -41,7 +41,7 @@ class OngoingCardEditorFragment : BaseFragment() {
             val diScope = OngoingCardEditorDiScope.get()
             controller = diScope.controller
             viewModel = diScope.viewModel
-            viewModel.isAcceptButtonEnabled.observe(acceptButton::setEnabled)
+            viewModel.isAcceptButtonEnabled.observe(doneButton::setEnabled)
         }
     }
 
@@ -50,7 +50,7 @@ class OngoingCardEditorFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(CancelButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
-        acceptButton.run {
+        doneButton.run {
             setOnClickListener { controller?.dispatch(AcceptButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
             isEnabled = false

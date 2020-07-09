@@ -6,6 +6,8 @@ sealed class CardsEditorEvent {
     class LevelOfKnowledgeSelected(val levelOfKnowledge: Int) : CardsEditorEvent()
     object NotAskButtonClicked : CardsEditorEvent()
     object AskAgainButtonClicked : CardsEditorEvent()
+    object RemoveCardButtonClicked : CardsEditorEvent()
+    object RestoreLastRemovedCardButtonClicked : CardsEditorEvent()
     object CancelButtonClicked : CardsEditorEvent()
     object AcceptButtonClicked : CardsEditorEvent()
 }

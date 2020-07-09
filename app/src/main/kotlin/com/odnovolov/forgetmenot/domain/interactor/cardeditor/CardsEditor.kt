@@ -20,9 +20,11 @@ class CardsEditor(
     }
 
     val currentEditableCard: EditableCard get() = state.editableCards[state.currentPosition]
+    private var cardBackup: CardBackup? = null
 
     fun setCurrentPosition(position: Int) {
         state.currentPosition = position
+        ensureLastEmptyCard()
     }
 
     fun setQuestion(question: String) {
@@ -36,22 +38,26 @@ class CardsEditor(
     }
 
     private fun ensureLastEmptyCard() {
-        val isCurrentPositionLast = state.currentPosition == state.editableCards.lastIndex
-        if (isCurrentPositionLast) {
-            if (currentEditableCard.question.isNotBlank()
-                || currentEditableCard.answer.isNotBlank()) {
-                state.editableCards += EditableCard()
+        with(state) {
+            if (editableCards.last().isBlank()) {
+                var redundantCardCount = 0
+                for (i in editableCards.lastIndex - 1 downTo currentPosition) {
+                    if (editableCards[i].isBlank()) {
+                        redundantCardCount++
+                    } else {
+                        break
+                    }
+                }
+                if (redundantCardCount > 0) {
+                    editableCards = editableCards.dropLast(redundantCardCount)
+                }
+            } else {
+                editableCards += EditableCard()
             }
-            return
-        }
-        val isCurrentPositionSecondToLast =
-            state.currentPosition == state.editableCards.lastIndex - 1
-        if (isCurrentPositionSecondToLast
-            && currentEditableCard.question.isBlank()
-            && currentEditableCard.answer.isBlank()) {
-            state.editableCards = state.editableCards.dropLast(1)
         }
     }
+
+    private fun EditableCard.isBlank(): Boolean = question.isBlank() && answer.isBlank()
 
     fun setIsLearned(isLearned: Boolean) {
         currentEditableCard.isLearned = isLearned
@@ -61,8 +67,28 @@ class CardsEditor(
         currentEditableCard.levelOfKnowledge = levelOfKnowledge
     }
 
-    fun removeCard() {
+    fun removeCard(): Boolean {
+        with(state) {
+            if (currentPosition == editableCards.lastIndex) return false
+            cardBackup = CardBackup(editableCards[currentPosition], currentPosition)
+            editableCards = editableCards.toMutableList().apply { removeAt(currentPosition) }
+            return true
+        }
+    }
 
+    fun restoreLastRemovedCard() {
+        cardBackup?.let { cardBackup: CardBackup ->
+            with(state) {
+                // Because size of editableCards can be changed,
+                // we correct insertPosition to avoid IndexOutOfBoundsException during inserting
+                val insertPosition = minOf(cardBackup.position, editableCards.size)
+                editableCards = editableCards.toMutableList().apply {
+                    add(insertPosition, cardBackup.editableCard)
+                }
+            }
+            ensureLastEmptyCard()
+        }
+        cardBackup = null
     }
 
     fun applyChanges(): Boolean {
@@ -89,4 +115,9 @@ class CardsEditor(
     fun isCardUnderfilled(editableCard: EditableCard): Boolean {
         return editableCard.question.isBlank() xor editableCard.answer.isBlank()
     }
+
+    private class CardBackup(
+        val editableCard: EditableCard,
+        val position: Int
+    )
 }

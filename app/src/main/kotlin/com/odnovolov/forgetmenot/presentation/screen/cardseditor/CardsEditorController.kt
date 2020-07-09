@@ -23,6 +23,7 @@ class CardsEditorController(
         class MoveToPosition(val position: Int) : Command()
         class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
+        object ShowCardIsRemovedMessage : Command()
     }
 
     override fun handle(event: CardsEditorEvent) {
@@ -45,6 +46,17 @@ class CardsEditorController(
 
             AskAgainButtonClicked -> {
                 cardsEditor.setIsLearned(false)
+            }
+
+            RemoveCardButtonClicked -> {
+                val success = cardsEditor.removeCard()
+                if (success) {
+                    sendCommand(ShowCardIsRemovedMessage)
+                }
+            }
+
+            RestoreLastRemovedCardButtonClicked -> {
+                cardsEditor.restoreLastRemovedCard()
             }
 
             CancelButtonClicked -> {

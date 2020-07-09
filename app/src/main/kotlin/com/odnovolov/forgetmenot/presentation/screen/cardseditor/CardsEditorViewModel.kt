@@ -33,4 +33,11 @@ class CardsEditorViewModel(
         currentEditableCard.flatMapLatest { editableCard: EditableCard ->
             editableCard.flowOf(EditableCard::isLearned)
         }
+
+    val isRemoveButtonVisible: Flow<Boolean> = combine(
+        cardsEditorState.flowOf(CardsEditor.State::editableCards),
+        cardsEditorState.flowOf(CardsEditor.State::currentPosition)
+    ) { editableCards: List<EditableCard>, currentPosition: Int ->
+        currentPosition != editableCards.lastIndex
+    }
 }

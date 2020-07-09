@@ -25,16 +25,16 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_cancel_button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/acceptButton"
+                app:layout_constraintEnd_toStartOf="@+id/doneButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_cancel_white_24dp" />
 
         <ImageButton
-                android:id="@+id/acceptButton"
+                android:id="@+id/doneButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_accept_button"
+                android:contentDescription="@string/description_done_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

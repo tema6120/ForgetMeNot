@@ -9,9 +9,11 @@ import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -105,8 +107,18 @@ class CardsEditorFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
-        cancelButton.setOnClickListener { controller?.dispatch(CancelButtonClicked) }
-        acceptButton.setOnClickListener { controller?.dispatch(AcceptButtonClicked) }
+        removeCardButton.run {
+            setOnClickListener { controller?.dispatch(RemoveCardButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        cancelButton.run {
+            setOnClickListener { controller?.dispatch(CancelButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        doneButton.run {
+            setOnClickListener { controller?.dispatch(AcceptButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
     }
 
     private fun observeViewModel() {
@@ -145,6 +157,9 @@ class CardsEditorFragment : BaseFragment() {
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
+            isRemoveButtonVisible.observe { isVisible: Boolean ->
+                removeCardButton.isVisible = isVisible
+            }
         }
     }
 
@@ -158,6 +173,19 @@ class CardsEditorFragment : BaseFragment() {
             }
             ShowIntervalsAreOffMessage -> {
                 showToast(R.string.toast_text_intervals_are_off)
+            }
+            ShowCardIsRemovedMessage -> {
+                Snackbar
+                    .make(
+                        coordinatorLayout,
+                        R.string.card_is_removed,
+                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+                    )
+                    .setAction(
+                        R.string.snackbar_action_cancel,
+                        { controller?.dispatch(RestoreLastRemovedCardButtonClicked) }
+                    )
+                    .show()
             }
         }
     }
