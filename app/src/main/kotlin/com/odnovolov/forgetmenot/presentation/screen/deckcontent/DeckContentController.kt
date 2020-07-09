@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentController.Command
+import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.AddCardButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.CardClicked
 
 class DeckContentController(
@@ -25,6 +26,16 @@ class DeckContentController(
                         deck = deckEditor.state.deck,
                         currentPosition = deckEditor.state.deck.cards
                             .indexOfFirst { card -> card.id == event.cardId }
+                    )
+                    CardsEditorDiScope.create(cardsEditorState)
+                }
+            }
+
+            AddCardButtonClicked -> {
+                navigator.navigateToCardsEditor {
+                    val cardsEditorState = CardsEditor.State(
+                        deck = deckEditor.state.deck,
+                        currentPosition = deckEditor.state.deck.cards.lastIndex + 1
                     )
                     CardsEditorDiScope.create(cardsEditorState)
                 }
