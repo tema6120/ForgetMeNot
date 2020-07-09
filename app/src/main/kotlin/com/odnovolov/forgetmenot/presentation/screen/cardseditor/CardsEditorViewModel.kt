@@ -24,6 +24,11 @@ class CardsEditorViewModel(
         .distinctUntilChanged()
         .share()
 
+    val levelOfKnowledgeForCurrentCard: Flow<Int> =
+        currentEditableCard.flatMapLatest { editableCard: EditableCard ->
+            editableCard.flowOf(EditableCard::levelOfKnowledge)
+        }
+
     val isCurrentEditableCardLearned: Flow<Boolean> =
         currentEditableCard.flatMapLatest { editableCard: EditableCard ->
             editableCard.flowOf(EditableCard::isLearned)

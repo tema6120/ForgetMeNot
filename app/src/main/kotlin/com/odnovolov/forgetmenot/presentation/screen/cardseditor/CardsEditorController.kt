@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
+import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -7,8 +9,9 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.catchAndLogException
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command
-import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command.MoveToPosition
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 
 class CardsEditorController(
     private val cardsEditor: CardsEditor,
@@ -18,12 +21,22 @@ class CardsEditorController(
 ) : BaseController<CardsEditorEvent, Command>() {
     sealed class Command {
         class MoveToPosition(val position: Int) : Command()
+        class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
+        object ShowIntervalsAreOffMessage : Command()
     }
 
     override fun handle(event: CardsEditorEvent) {
         when (event) {
             is PageSelected -> {
                 cardsEditor.setCurrentPosition(event.position)
+            }
+
+            LevelOfKnowledgeButtonClicked -> {
+                onLevelOfKnowledgeButtonClicked()
+            }
+
+            is LevelOfKnowledgeSelected -> {
+                cardsEditor.setLevelOfKnowledge(event.levelOfKnowledge)
             }
 
             NotAskButtonClicked -> {
@@ -50,6 +63,26 @@ class CardsEditorController(
                     }
                 }
             }
+        }
+    }
+
+    private fun onLevelOfKnowledgeButtonClicked() {
+        val intervalScheme: IntervalScheme? =
+            cardsEditor.state.deck.exercisePreference.intervalScheme
+        if (intervalScheme == null) {
+            sendCommand(ShowIntervalsAreOffMessage)
+        } else {
+            val currentLevelOfKnowledge: Int =
+                cardsEditor.currentEditableCard.card.levelOfKnowledge
+            val intervalItems: List<IntervalItem> = intervalScheme.intervals
+                .map { interval: Interval ->
+                    IntervalItem(
+                        levelOfKnowledge = interval.levelOfKnowledge,
+                        waitingPeriod = interval.value,
+                        isSelected = currentLevelOfKnowledge == interval.levelOfKnowledge
+                    )
+                }
+            sendCommand(ShowLevelOfKnowledgePopup(intervalItems))
         }
     }
 

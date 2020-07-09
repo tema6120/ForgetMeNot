@@ -58,7 +58,7 @@ class CardsEditor(
     }
 
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {
-
+        currentEditableCard.levelOfKnowledge = levelOfKnowledge
     }
 
     fun removeCard() {
