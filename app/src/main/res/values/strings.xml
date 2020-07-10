@@ -35,6 +35,7 @@
     <string name="description_cursor_left_button">Move cursor to the left</string>
     <string name="description_cursor_right_button">Move cursor to the right</string>
     <string name="description_remove_card_button">Remove card</string>
+    <string name="description_help_button">Help</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
@@ -196,4 +197,6 @@
     <string name="message_no_paste_data">Clipboard doesn\'t contain text</string>
     <string name="card_is_removed">Card is removed</string>
     <string name="toast_fill_in_the_card">Fill in the card</string>
+    <string name="text_load_from_file_button">Load from file</string>
+    <string name="text_create_deck_button">Create</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 sealed class HomeEvent {
+    object CreateDeckButtonClicked : HomeEvent()
     class SearchTextChanged(val searchText: String) : HomeEvent()
     object DisplayOnlyWithTasksCheckboxClicked : HomeEvent()
     object SettingsButtonClicked : HomeEvent()
