@@ -191,9 +191,9 @@
     <string name="nowhere">Nowhere</string>
     <string name="title_time_for_answer">Motivational timer</string>
     <string name="selected_time_for_answer">%d sec.</string>
-    <!-- Deck Overview Tabs -->
     <string name="tab_name_settings">Settings</string>
     <string name="tab_name_content">Content</string>
     <string name="message_no_paste_data">Clipboard doesn\'t contain text</string>
     <string name="card_is_removed">Card is removed</string>
+    <string name="toast_fill_in_the_card">Fill in the card</string>
 </resources>

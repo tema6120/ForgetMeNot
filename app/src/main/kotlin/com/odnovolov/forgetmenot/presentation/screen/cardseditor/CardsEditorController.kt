@@ -3,6 +3,11 @@ package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Failure
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.AllCardsAreEmpty
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -20,7 +25,7 @@ class CardsEditorController(
     private val cardsEditorStateProvider: ShortTermStateProvider<CardsEditor.State>
 ) : BaseController<CardsEditorEvent, Command>() {
     sealed class Command {
-        class MoveToPosition(val position: Int) : Command()
+        class ShowUnfilledTextInputAt(val position: Int) : Command()
         class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
         object ShowCardIsRemovedMessage : Command()
@@ -63,15 +68,17 @@ class CardsEditorController(
                 navigator.navigateUp()
             }
 
-            AcceptButtonClicked -> {
+            DoneButtonClicked -> {
                 catchAndLogException {
-                    val success: Boolean = cardsEditor.applyChanges()
-                    if (success) {
-                        navigator.navigateUp()
-                    } else {
-                        val firstUnderfilledCardPosition = cardsEditor.state.editableCards
-                            .indexOfFirst(cardsEditor::isCardUnderfilled)
-                        sendCommand(MoveToPosition(firstUnderfilledCardPosition))
+                    when (val savingResult: SavingResult = cardsEditor.save()) {
+                        Success -> navigator.navigateUp()
+                        is Failure -> {
+                            val problemPosition: Int = when (savingResult.failureCause) {
+                                AllCardsAreEmpty -> cardsEditor.state.currentPosition
+                                is HasUnderfilledCards -> savingResult.failureCause.positions[0]
+                            }
+                            sendCommand(ShowUnfilledTextInputAt(problemPosition))
+                        }
                     }
                 }
             }
@@ -84,8 +91,7 @@ class CardsEditorController(
         if (intervalScheme == null) {
             sendCommand(ShowIntervalsAreOffMessage)
         } else {
-            val currentLevelOfKnowledge: Int =
-                cardsEditor.currentEditableCard.card.levelOfKnowledge
+            val currentLevelOfKnowledge: Int = cardsEditor.currentEditableCard.levelOfKnowledge
             val intervalItems: List<IntervalItem> = intervalScheme.intervals
                 .map { interval: Interval ->
                     IntervalItem(

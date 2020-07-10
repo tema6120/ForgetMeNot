@@ -9,5 +9,5 @@ sealed class CardsEditorEvent {
     object RemoveCardButtonClicked : CardsEditorEvent()
     object RestoreLastRemovedCardButtonClicked : CardsEditorEvent()
     object CancelButtonClicked : CardsEditorEvent()
-    object AcceptButtonClicked : CardsEditorEvent()
+    object DoneButtonClicked : CardsEditorEvent()
 }

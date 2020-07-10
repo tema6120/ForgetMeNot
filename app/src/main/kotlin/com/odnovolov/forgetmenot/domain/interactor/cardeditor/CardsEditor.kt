@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.AllCardsAreEmpty
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
 
 class CardsEditor(
     val state: State
@@ -57,8 +59,6 @@ class CardsEditor(
         }
     }
 
-    private fun EditableCard.isBlank(): Boolean = question.isBlank() && answer.isBlank()
-
     fun setIsLearned(isLearned: Boolean) {
         currentEditableCard.isLearned = isLearned
     }
@@ -91,29 +91,43 @@ class CardsEditor(
         cardBackup = null
     }
 
-    fun applyChanges(): Boolean {
-        val hasIncompleteCard = state.editableCards.any(::isCardUnderfilled)
-        if (hasIncompleteCard) return false
-        state.deck.cards = state.editableCards
-            .filter { editableCard -> editableCard.question.isNotBlank() }
-            .map { editableCard ->
-                editableCard.card.apply {
-                    if (question != editableCard.question)
-                        question = editableCard.question
-                    if (answer != editableCard.answer)
-                        answer = editableCard.answer
-                    if (isLearned != editableCard.isLearned)
-                        isLearned = editableCard.isLearned
-                    if (levelOfKnowledge != editableCard.levelOfKnowledge)
-                        levelOfKnowledge = editableCard.levelOfKnowledge
+    fun save(): SavingResult {
+        return with(state) {
+            when {
+                editableCards.all(EditableCard::isBlank) -> SavingResult.Failure(AllCardsAreEmpty)
+                editableCards.any(EditableCard::isUnderfilled) -> {
+                    val positions: List<Int> = editableCards
+                        .mapIndexedNotNull { index, editableCard ->
+                            if (editableCard.isUnderfilled()) index else null
+                        }
+                    SavingResult.Failure(HasUnderfilledCards(positions))
+                }
+                else -> {
+                    deck.cards = editableCards
+                        .filterNot(EditableCard::isBlank)
+                        .map { editableCard ->
+                            editableCard.card.apply {
+                                question = editableCard.question
+                                answer = editableCard.answer
+                                isLearned = editableCard.isLearned
+                                levelOfKnowledge = editableCard.levelOfKnowledge
+                            }
+                        }
+                        .toCopyableList()
+                    SavingResult.Success
                 }
             }
-            .toCopyableList()
-        return true
+        }
     }
 
-    fun isCardUnderfilled(editableCard: EditableCard): Boolean {
-        return editableCard.question.isBlank() xor editableCard.answer.isBlank()
+    sealed class SavingResult {
+        object Success : SavingResult()
+        class Failure(val failureCause: FailureCause) : SavingResult()
+
+        sealed class FailureCause {
+            class HasUnderfilledCards(val positions: List<Int>) : FailureCause()
+            object AllCardsAreEmpty : FailureCause()
+        }
     }
 
     private class CardBackup(

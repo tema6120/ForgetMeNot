@@ -116,7 +116,7 @@ class CardsEditorFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         doneButton.run {
-            setOnClickListener { controller?.dispatch(AcceptButtonClicked) }
+            setOnClickListener { controller?.dispatch(DoneButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
     }
@@ -165,8 +165,9 @@ class CardsEditorFragment : BaseFragment() {
 
     private fun executeCommand(command: CardsEditorController.Command) {
         when (command) {
-            is MoveToPosition -> {
+            is ShowUnfilledTextInputAt -> {
                 cardsViewPager.setCurrentItem(command.position, true)
+                showToast(R.string.toast_fill_in_the_card)
             }
             is ShowLevelOfKnowledgePopup -> {
                 showLevelOfKnowledgePopup(command.intervalItems)

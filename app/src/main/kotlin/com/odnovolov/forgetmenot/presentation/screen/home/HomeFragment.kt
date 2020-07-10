@@ -192,6 +192,7 @@ class HomeFragment : BaseFragment() {
         resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         resumePauseCoroutineScope!!.launch {
             val viewModel = HomeDiScope.get().viewModel
+            yield()
             with(viewModel) {
                 decksPreview.observe(resumePauseCoroutineScope!!, deckPreviewAdapter::submitList)
                 deckSelectionCount.observe(

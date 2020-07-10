@@ -12,3 +12,6 @@ class EditableCard(
     var isLearned: Boolean by me(card.isLearned)
     var levelOfKnowledge: Int by me(card.levelOfKnowledge)
 }
+
+fun EditableCard.isBlank(): Boolean = question.isBlank() && answer.isBlank()
+fun EditableCard.isUnderfilled(): Boolean = question.isBlank() xor answer.isBlank()

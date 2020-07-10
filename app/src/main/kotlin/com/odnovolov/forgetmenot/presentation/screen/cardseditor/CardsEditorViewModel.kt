@@ -21,7 +21,6 @@ class CardsEditorViewModel(
     ) { editableCards: List<EditableCard>, currentPosition: Int ->
         editableCards[currentPosition]
     }
-        .distinctUntilChanged()
         .share()
 
     val levelOfKnowledgeForCurrentCard: Flow<Int> =
