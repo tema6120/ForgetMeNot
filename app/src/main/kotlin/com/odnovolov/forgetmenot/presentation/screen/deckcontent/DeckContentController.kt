@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckcontent
 
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -21,9 +22,9 @@ class DeckContentController(
     override fun handle(event: DeckContentEvent) {
         when (event) {
             is CardClicked -> {
-                navigator.navigateToCardsEditor {
+                navigator.navigateToCardsEditorFromDeckSetup {
                     val cardsEditorState = CardsEditor.State(
-                        deck = deckEditor.state.deck,
+                        mode = EditingExistingDeck(deckEditor.state.deck),
                         currentPosition = deckEditor.state.deck.cards
                             .indexOfFirst { card -> card.id == event.cardId }
                     )
@@ -32,9 +33,9 @@ class DeckContentController(
             }
 
             AddCardButtonClicked -> {
-                navigator.navigateToCardsEditor {
+                navigator.navigateToCardsEditorFromDeckSetup {
                     val cardsEditorState = CardsEditor.State(
-                        deck = deckEditor.state.deck,
+                        mode = EditingExistingDeck(deckEditor.state.deck),
                         currentPosition = deckEditor.state.deck.cards.lastIndex + 1
                     )
                     CardsEditorDiScope.create(cardsEditorState)

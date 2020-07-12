@@ -1,10 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
@@ -22,7 +20,6 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.popup_add_deck.view.*
 import kotlinx.coroutines.*
 
 class HomeFragment : BaseFragment() {
@@ -39,7 +36,6 @@ class HomeFragment : BaseFragment() {
     private var resumePauseCoroutineScope: CoroutineScope? = null
     private lateinit var searchView: SearchView
     private var searchViewText: String? = null
-    private val addDeckDialog: Dialog by lazy(::createAddDeckDialog)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,22 +52,6 @@ class HomeFragment : BaseFragment() {
         setHasOptionsMenu(true)
         initFilterDialog()
         return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    private fun createAddDeckDialog(): Dialog {
-        val dialogView = View.inflate(requireContext(), R.layout.popup_add_deck, null).apply {
-            loadFromFileButton.setOnClickListener {
-                showFileChooser()
-                addDeckDialog.dismiss()
-            }
-            createDeckButton.setOnClickListener {
-                controller?.dispatch(CreateDeckButtonClicked)
-                addDeckDialog.dismiss()
-            }
-        }
-        return AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .create()
     }
 
     private fun initFilterDialog() {
@@ -176,7 +156,8 @@ class HomeFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_add_deck -> {
-                showAddDeckPopup()
+                (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
+                    .addDeck()
                 true
             }
             R.id.action_sort_by -> {
@@ -193,21 +174,6 @@ class HomeFragment : BaseFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun showAddDeckPopup() {
-        addDeckDialog.show()
-    }
-
-    private fun showFileChooser() {
-        val addDeckFragment = childFragmentManager
-            .findFragmentById(R.id.addDeckFragment) as AddDeckFragment
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/plain")
-        // we call startActivityForResult() on behalf of AddDeckFragment in order that
-        // AddDeckFragment can get result onActivityResult()
-        addDeckFragment.startActivityForResult(intent, AddDeckFragment.GET_CONTENT_REQUEST_CODE)
     }
 
     override fun onResume() {

@@ -9,7 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
 import com.odnovolov.forgetmenot.persistence.DbCleaner
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     private fun openFirstScreenDiScopes() {
         HomeDiScope.open { HomeDiScope.create(HomeScreenState()) }
         DeckSortingDiScope.open { DeckSortingDiScope() }
-        AddDeckDiScope.open { AddDeckDiScope.create(DeckAdder.State(), AddDeckScreenState()) }
+        AddDeckDiScope.open { AddDeckDiScope.create(DeckFromFileCreator.State(), AddDeckScreenState()) }
     }
 
     private fun initNavController() {

@@ -5,6 +5,8 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.Creation
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.persistence.shortterm.CardsEditorStateProvider.SerializableState
 import kotlinx.serialization.Serializable
@@ -21,7 +23,8 @@ class CardsEditorStateProvider(
 ) {
     @Serializable
     data class SerializableState(
-        val deckId: Long,
+        val deckId: Long?,
+        val deckName: String?,
         val serializableEditableCards: List<SerializableEditableCard>,
         val currentPosition: Int
     )
@@ -48,18 +51,27 @@ class CardsEditorStateProvider(
                     editableCard.levelOfKnowledge
                 )
             }
+        val mode: CardsEditor.State.Mode = state.mode
         return SerializableState(
-            state.deck.id,
+            if (mode is EditingExistingDeck) mode.deck.id else null,
+            if (mode is Creation) mode.deckName else null,
             serializableEditableCards,
             state.currentPosition
         )
     }
 
     override fun toOriginal(serializableState: SerializableState): CardsEditor.State {
-        val deck: Deck = globalState.decks.first { it.id == serializableState.deckId }
+        var deck: Deck? = null
+        val mode: CardsEditor.State.Mode =
+            if (serializableState.deckId != null) {
+                deck = globalState.decks.first { it.id == serializableState.deckId }
+                EditingExistingDeck(deck)
+            } else {
+                Creation(serializableState.deckName!!)
+            }
         val editableCards: List<EditableCard> = serializableState.serializableEditableCards
             .map { serializableEditableCard: SerializableEditableCard ->
-                val card: Card = deck.cards.find { it.id == serializableEditableCard.cardId }
+                val card: Card = deck?.cards?.find { it.id == serializableEditableCard.cardId }
                     ?: Card(id = serializableEditableCard.cardId, question = "", answer = "")
                 EditableCard(card).apply {
                     question = serializableEditableCard.question
@@ -69,7 +81,7 @@ class CardsEditorStateProvider(
                 }
             }
         return CardsEditor.State(
-            deck,
+            mode,
             editableCards,
             serializableState.currentPosition
         )

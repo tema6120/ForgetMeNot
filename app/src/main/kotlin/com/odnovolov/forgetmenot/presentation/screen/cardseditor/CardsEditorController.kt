@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
+import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
@@ -8,6 +9,8 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.Saving
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.AllCardsAreEmpty
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.Creation
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -71,7 +74,7 @@ class CardsEditorController(
             DoneButtonClicked -> {
                 catchAndLogException {
                     when (val savingResult: SavingResult = cardsEditor.save()) {
-                        Success -> navigator.navigateUp()
+                        is Success -> navigator.navigateUp()
                         is Failure -> {
                             val problemPosition: Int = when (savingResult.failureCause) {
                                 AllCardsAreEmpty -> cardsEditor.state.currentPosition
@@ -86,8 +89,10 @@ class CardsEditorController(
     }
 
     private fun onLevelOfKnowledgeButtonClicked() {
-        val intervalScheme: IntervalScheme? =
-            cardsEditor.state.deck.exercisePreference.intervalScheme
+        val intervalScheme: IntervalScheme? = when (val mode = cardsEditor.state.mode) {
+            is Creation -> ExercisePreference.Default.intervalScheme
+            is EditingExistingDeck -> mode.deck.exercisePreference.intervalScheme
+        }
         if (intervalScheme == null) {
             sendCommand(ShowIntervalsAreOffMessage)
         } else {

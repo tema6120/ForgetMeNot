@@ -1,24 +1,38 @@
 package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
+import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.AllCardsAreEmpty
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.Creation
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
 
 class CardsEditor(
-    val state: State
+    val state: State,
+    val globalState: GlobalState
 ) {
-    class State(
-        deck: Deck,
-        editableCards: List<EditableCard> = deck.cards
-            .map { card -> EditableCard(card) }
-            .plus(EditableCard()),
-        currentPosition: Int
+    class State (
+        mode: Mode,
+        editableCards: List<EditableCard> =
+            when (mode) {
+                is Creation -> listOf(EditableCard())
+                is EditingExistingDeck -> mode.deck.cards.map(::EditableCard) + EditableCard()
+            },
+        currentPosition: Int = 0
     ) : FlowableState<State>() {
-        val deck: Deck by me(deck)
+        val mode: Mode by me(mode)
         var editableCards: List<EditableCard> by me(editableCards)
         var currentPosition: Int by me(currentPosition)
+
+        sealed class Mode {
+            class Creation(val deckName: String) : Mode()
+            class EditingExistingDeck(val deck: Deck) : Mode()
+        }
     }
 
     val currentEditableCard: EditableCard get() = state.editableCards[state.currentPosition]
@@ -103,7 +117,7 @@ class CardsEditor(
                     SavingResult.Failure(HasUnderfilledCards(positions))
                 }
                 else -> {
-                    deck.cards = editableCards
+                    val cards: CopyableList<Card> = editableCards
                         .filterNot(EditableCard::isBlank)
                         .map { editableCard ->
                             editableCard.card.apply {
@@ -114,14 +128,29 @@ class CardsEditor(
                             }
                         }
                         .toCopyableList()
-                    SavingResult.Success
+                    val deckId: Long = when (val mode = mode) {
+                        is Creation -> {
+                            val deck = Deck(
+                                id = generateId(),
+                                name = mode.deckName,
+                                cards = cards
+                            )
+                            globalState.decks = (globalState.decks + deck).toCopyableList()
+                            deck.id
+                        }
+                        is EditingExistingDeck -> {
+                            mode.deck.cards = cards
+                            mode.deck.id
+                        }
+                    }
+                    SavingResult.Success(deckId)
                 }
             }
         }
     }
 
     sealed class SavingResult {
-        object Success : SavingResult()
+        class Success(val deckId: Long) : SavingResult()
         class Failure(val failureCause: FailureCause) : SavingResult()
 
         sealed class FailureCause {

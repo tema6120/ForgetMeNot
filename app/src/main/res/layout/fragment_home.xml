@@ -17,6 +17,7 @@
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/addDeckFragment"
             android:name="com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment"
+            android:tag="AddDeckFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

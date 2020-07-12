@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.domain.interactor.deckadder
+package com.odnovolov.forgetmenot.domain.interactor.deckcreator
 
 import java.io.InputStream
 

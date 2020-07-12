@@ -38,6 +38,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_exercise_screen_to_ongoing_card_editor_screen)
     }
 
+    fun navigateToCardsEditorFromHome(createDiScope: () -> CardsEditorDiScope) {
+        CardsEditorDiScope.open(createDiScope)
+        navigate(R.id.action_home_screen_to_cards_editor_screen)
+    }
+
     fun navigateToDeckSetup(createDeckSetupDiScope: () -> DeckSetupDiScope) {
         DeckSetupDiScope.open(createDeckSetupDiScope)
         navigate(R.id.action_home_screen_to_deck_settings_screen)
@@ -72,7 +77,7 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_show_motivational_timer_dialog)
     }
 
-    fun navigateToCardsEditor(createDiScope: () -> CardsEditorDiScope) {
+    fun navigateToCardsEditorFromDeckSetup(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.action_deck_setup_screen_to_cards_editor_screen)
     }

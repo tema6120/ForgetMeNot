@@ -13,10 +13,9 @@ class DeckEditor(
     data class State(val deck: Deck)
 
     fun renameDeck(newName: String) {
-        when (checkDeckName(newName, globalState)) {
+        when (val nameCheckResult = checkDeckName(newName, globalState)) {
             Ok -> state.deck.name = newName
-            Empty -> throw InvalidNameException(Empty)
-            Occupied -> throw InvalidNameException(Occupied)
+            else -> throw InvalidNameException(nameCheckResult)
         }
     }
 }

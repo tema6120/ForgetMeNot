@@ -1,57 +1,63 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
-import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckCreator
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
 import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckScreenStateProvider
-import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.DeckFromFileCreatorStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
 class AddDeckDiScope private constructor(
-    initialDeckAdderState: DeckAdder.State? = null,
-    initialAddDeckScreenState: AddDeckScreenState? = null
+    initialDeckAdderState: DeckFromFileCreator.State? = null,
+    initialscreenState: AddDeckScreenState? = null
 ) {
-    private val addDeckStateProvider = AddDeckStateProvider(
+    private val deckFromFileCreatorStateProvider = DeckFromFileCreatorStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database
     )
 
-    private val deckAdderState: DeckAdder.State =
-        initialDeckAdderState ?: addDeckStateProvider.load()
+    private val deckFromFileCreatorState: DeckFromFileCreator.State =
+        initialDeckAdderState ?: deckFromFileCreatorStateProvider.load()
 
-    private val addDeckScreenStateProvider = AddDeckScreenStateProvider(
-        AppDiScope.get().json,
-        AppDiScope.get().database
-    )
-
-    private val addDeckScreenState: AddDeckScreenState =
-        initialAddDeckScreenState ?: addDeckScreenStateProvider.load()
-
-    private val deckAdder = DeckAdder(
-        deckAdderState,
+    private val deckFromFileCreator = DeckFromFileCreator(
+        deckFromFileCreatorState,
         AppDiScope.get().globalState
     )
 
+    private val deckCreator = DeckCreator(
+        AppDiScope.get().globalState
+    )
+
+    private val screenStateProvider = AddDeckScreenStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database
+    )
+
+    private val screenState: AddDeckScreenState =
+        initialscreenState ?: screenStateProvider.load()
+
     val controller = AddDeckController(
-        addDeckScreenState,
-        deckAdder,
+        screenState,
+        deckCreator,
+        deckFromFileCreator,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
-        addDeckStateProvider,
-        addDeckScreenStateProvider
+        deckFromFileCreatorStateProvider,
+        screenStateProvider
     )
 
     val viewModel = AddDeckViewModel(
-        deckAdderState,
-        addDeckScreenState,
+        deckFromFileCreatorState,
+        screenState,
         AppDiScope.get().globalState
     )
 
     companion object : DiScopeManager<AddDeckDiScope>() {
         fun create(
-            initialDeckAdderState: DeckAdder.State,
+            initialDeckFromFileCreatorState: DeckFromFileCreator.State,
             initialAddDeckScreenState: AddDeckScreenState
         ) = AddDeckDiScope(
-            initialDeckAdderState,
+            initialDeckFromFileCreatorState,
             initialAddDeckScreenState
         )
 

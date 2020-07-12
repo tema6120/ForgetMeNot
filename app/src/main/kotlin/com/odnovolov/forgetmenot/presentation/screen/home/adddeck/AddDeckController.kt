@@ -1,28 +1,35 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
-import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder
-import com.odnovolov.forgetmenot.domain.interactor.deckadder.DeckAdder.Event.*
-import com.odnovolov.forgetmenot.domain.interactor.deckadder.Parser.IllegalCardFormatException
-import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
+import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckCreator
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.Failure
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.FailureCause.*
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.Success
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser.IllegalCardFormatException
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor.State
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState.HowToAdd.CREATE
+import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState.HowToAdd.LOAD_FROM_FILE
 
 class AddDeckController(
-    private val addDeckScreenState: AddDeckScreenState,
-    private val deckAdder: DeckAdder,
+    private val screenState: AddDeckScreenState,
+    private val deckCreator: DeckCreator,
+    private val deckFromFileCreator: DeckFromFileCreator,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val addDeckStateProvider: ShortTermStateProvider<DeckAdder.State>,
+    private val deckFromFileCreatorStateProvider: ShortTermStateProvider<DeckFromFileCreator.State>,
     private val addDeckScreenStateProvider: ShortTermStateProvider<AddDeckScreenState>
 ) : BaseController<AddDeckEvent, Command>() {
     sealed class Command {
@@ -30,53 +37,83 @@ class AddDeckController(
         class SetDialogText(val text: String) : Command()
     }
 
-    init {
-        deckAdder.events
-            .onEach { event: DeckAdder.Event ->
-                when (event) {
-                    is ParsingFinishedWithError -> {
-                        sendCommand(ShowErrorMessage(event.exception))
+    override fun handle(event: AddDeckEvent) {
+        when (event) {
+            CreateDeckButtonClicked -> {
+                screenState.howToAdd = CREATE
+            }
+
+            is ContentReceived -> {
+                screenState.howToAdd = LOAD_FROM_FILE
+                val result = deckFromFileCreator.loadFromFile(
+                    event.inputStream,
+                    event.fileName ?: ""
+                )
+                when (result) {
+                    is Success -> {
+                        navigateToDeckSetup(result.deck)
+                        screenState.howToAdd = null
                     }
-                    is DeckNameIsOccupied -> {
-                        sendCommand(SetDialogText(event.occupiedName))
-                    }
-                    is DeckHasBeenAdded -> {
-                        navigator.navigateToDeckSetup {
-                            val deckEditorState = DeckEditor.State(event.deck)
-                            DeckSetupDiScope.create(
-                                DeckSetupScreenState(event.deck),
-                                deckEditorState
-                            )
+                    is Failure -> {
+                        when (result.failureCause) {
+                            is ParsingError -> {
+                                sendCommand(ShowErrorMessage(result.failureCause.exception))
+                                screenState.howToAdd = null
+                            }
+                            is DeckNameIsOccupied -> {
+                                sendCommand(SetDialogText(result.failureCause.occupiedName))
+                            }
+                            DeckNameIsEmpty -> {
+                            }
                         }
                     }
                 }
             }
-            .launchIn(coroutineScope)
-    }
-
-    override fun handle(event: AddDeckEvent) {
-        when (event) {
-            is ContentReceived -> {
-                deckAdder.addFrom(event.inputStream, event.fileName)
-            }
 
             is DialogTextChanged -> {
-                addDeckScreenState.typedText = event.dialogText
+                screenState.typedText = event.dialogText
             }
 
             PositiveDialogButtonClicked -> {
-                deckAdder.proposeDeckName(addDeckScreenState.typedText)
+                when (screenState.howToAdd) {
+                    LOAD_FROM_FILE -> {
+                        val result = deckFromFileCreator.proposeDeckName(screenState.typedText)
+                        if (result is Success) {
+                            navigateToDeckSetup(result.deck)
+                            screenState.howToAdd = null
+                        }
+                    }
+                    CREATE -> {
+                        val cardsEditorState: CardsEditor.State =
+                            deckCreator.create(screenState.typedText)
+                        navigator.navigateToCardsEditorFromHome {
+                            CardsEditorDiScope.create(cardsEditorState)
+                        }
+                        screenState.howToAdd = null
+                    }
+                }
             }
 
             NegativeDialogButtonClicked -> {
-                deckAdder.cancel()
+                deckFromFileCreator.cancel()
+                screenState.howToAdd = null
             }
+        }
+    }
+
+    private fun navigateToDeckSetup(deck: Deck) {
+        navigator.navigateToDeckSetup {
+            val deckEditorState = State(deck)
+            DeckSetupDiScope.create(
+                DeckSetupScreenState(deck),
+                deckEditorState
+            )
         }
     }
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
-        addDeckStateProvider.save(deckAdder.state)
-        addDeckScreenStateProvider.save(addDeckScreenState)
+        deckFromFileCreatorStateProvider.save(deckFromFileCreator.state)
+        addDeckScreenStateProvider.save(screenState)
     }
 }

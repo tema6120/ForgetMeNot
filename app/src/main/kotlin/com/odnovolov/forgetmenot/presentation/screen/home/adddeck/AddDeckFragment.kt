@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
@@ -25,6 +26,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckControl
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
 import kotlinx.android.synthetic.main.dialog_deck_name_input.view.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
+import kotlinx.android.synthetic.main.popup_add_deck.view.*
 import kotlinx.coroutines.launch
 
 class AddDeckFragment : BaseFragment() {
@@ -33,26 +35,28 @@ class AddDeckFragment : BaseFragment() {
     }
 
     private var controller: AddDeckController? = null
-    private lateinit var dialog: AlertDialog
-    private lateinit var dialogEditText: EditText
+    private lateinit var deckNameInputDialog: AlertDialog
+    private lateinit var deckNameDialogEditText: EditText
     private var pendingEvent: ContentReceived? = null
+    private val addDeckDialog: Dialog by lazy(::createAddDeckDialog)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        createDialog()
+        setHasOptionsMenu(true)
+        createDeckNameInputDialog()
         return inflater.inflate(R.layout.fragment_adddeck, container, false)
     }
 
-    private fun createDialog() {
+    private fun createDeckNameInputDialog() {
         val contentView = View.inflate(context, R.layout.dialog_deck_name_input, null)
-        dialogEditText = contentView.deckNameEditText
-        dialogEditText.observeText { dialogText: String ->
+        deckNameDialogEditText = contentView.deckNameEditText
+        deckNameDialogEditText.observeText { dialogText: String ->
             controller?.dispatch(DialogTextChanged(dialogText))
         }
-        dialog = AlertDialog.Builder(requireContext())
+        deckNameInputDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.enter_deck_name)
             .setView(contentView)
             .setCancelable(false)
@@ -63,7 +67,7 @@ class AddDeckFragment : BaseFragment() {
                 controller?.dispatch(NegativeDialogButtonClicked)
             }
             .create()
-        dialog.setOnShowListener { dialogEditText.showSoftInput() }
+            .apply { setOnShowListener { deckNameDialogEditText.showSoftInput() } }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,17 +89,17 @@ class AddDeckFragment : BaseFragment() {
                 progressBar.isVisible = isProcessing
             }
             isDialogVisible.observe { isDialogVisible ->
-                dialog.run { if (isDialogVisible) show() else dismiss() }
+                deckNameInputDialog.run { if (isDialogVisible) show() else dismiss() }
             }
             nameCheckResult.observe { nameCheckResult: NameCheckResult ->
-                dialogEditText.error = when (nameCheckResult) {
+                deckNameDialogEditText.error = when (nameCheckResult) {
                     Ok -> null
                     Empty -> getString(R.string.error_message_empty_name)
                     Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
             isPositiveButtonEnabled.observe { isPositiveButtonEnabled ->
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let { positiveButton ->
+                deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let { positiveButton ->
                     positiveButton.isEnabled = isPositiveButtonEnabled
                 }
             }
@@ -108,10 +112,38 @@ class AddDeckFragment : BaseFragment() {
                 showToast(command.exception.message)
             }
             is SetDialogText -> {
-                dialogEditText.setText(command.text)
-                dialogEditText.selectAll()
+                deckNameDialogEditText.setText(command.text)
+                deckNameDialogEditText.selectAll()
             }
         }
+    }
+
+    // it is called from parent fragment
+    fun addDeck() {
+        addDeckDialog.show()
+    }
+
+    private fun createAddDeckDialog(): Dialog {
+        val dialogView = View.inflate(requireContext(), R.layout.popup_add_deck, null).apply {
+            loadFromFileButton.setOnClickListener {
+                showFileChooser()
+                addDeckDialog.dismiss()
+            }
+            createDeckButton.setOnClickListener {
+                controller?.dispatch(CreateDeckButtonClicked)
+                addDeckDialog.dismiss()
+            }
+        }
+        return AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+    }
+
+    private fun showFileChooser() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .setType("text/plain")
+        startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -154,24 +186,24 @@ class AddDeckFragment : BaseFragment() {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
             getBundle(STATE_KEY_DECK_NAME_INPUT_DIALOG)
-                ?.let(dialog::onRestoreInstanceState)
+                ?.let(deckNameInputDialog::onRestoreInstanceState)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (::dialog.isInitialized) {
+        if (::deckNameInputDialog.isInitialized) {
             outState.putBundle(
                 STATE_KEY_DECK_NAME_INPUT_DIALOG,
-                dialog.onSaveInstanceState()
+                deckNameInputDialog.onSaveInstanceState()
             )
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (::dialog.isInitialized && dialog.isShowing) {
-            dialogEditText.showSoftInput()
+        if (::deckNameInputDialog.isInitialized && deckNameInputDialog.isShowing) {
+            deckNameDialogEditText.showSoftInput()
         }
     }
 

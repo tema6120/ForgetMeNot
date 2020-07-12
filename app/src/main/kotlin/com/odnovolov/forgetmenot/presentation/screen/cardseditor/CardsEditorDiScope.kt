@@ -19,7 +19,8 @@ class CardsEditorDiScope private constructor(
         initialCardsEditorState ?: cardsEditorStateProvider.load()
 
     private val cardsEditor = CardsEditor(
-        cardsEditorState
+        cardsEditorState,
+        AppDiScope.get().globalState
     )
 
     val controller = CardsEditorController(
