@@ -102,7 +102,7 @@ class AddDeckController(
     }
 
     private fun navigateToDeckSetup(deck: Deck) {
-        navigator.navigateToDeckSetup {
+        navigator.navigateToDeckSetupFromHome {
             val deckEditorState = State(deck)
             DeckSetupDiScope.create(
                 DeckSetupScreenState(deck),

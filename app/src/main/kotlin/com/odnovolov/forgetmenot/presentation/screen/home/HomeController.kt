@@ -92,7 +92,7 @@ class HomeController(
             }
 
             is SetupDeckMenuItemClicked -> {
-                navigator.navigateToDeckSetup {
+                navigator.navigateToDeckSetupFromHome {
                     val deck: Deck = globalState.decks.first { it.id == event.deckId }
                     val deckEditorState = DeckEditor.State(deck)
                     DeckSetupDiScope.create(DeckSetupScreenState(deck), deckEditorState)

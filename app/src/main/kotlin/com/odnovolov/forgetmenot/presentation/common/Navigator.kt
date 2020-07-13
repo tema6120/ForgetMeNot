@@ -10,10 +10,10 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
-import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
+import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
@@ -43,9 +43,14 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_home_screen_to_cards_editor_screen)
     }
 
-    fun navigateToDeckSetup(createDeckSetupDiScope: () -> DeckSetupDiScope) {
+    fun navigateToDeckSetupFromHome(createDeckSetupDiScope: () -> DeckSetupDiScope) {
         DeckSetupDiScope.open(createDeckSetupDiScope)
-        navigate(R.id.action_home_screen_to_deck_settings_screen)
+        navigate(R.id.action_home_screen_to_deck_setup_screen)
+    }
+
+    fun navigateToDeckSetupFromCardsEditor(createDeckSetupDiScope: () -> DeckSetupDiScope) {
+        DeckSetupDiScope.open(createDeckSetupDiScope)
+        navigate(R.id.action_cards_editor_screen_to_deck_setup_screen)
     }
 
     fun navigateToIntervals(createDiScope: () -> IntervalsDiScope) {

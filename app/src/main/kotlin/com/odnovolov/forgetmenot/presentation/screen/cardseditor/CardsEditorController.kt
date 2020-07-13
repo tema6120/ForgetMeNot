@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.Saving
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.Creation
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -19,6 +20,8 @@ import com.odnovolov.forgetmenot.presentation.common.catchAndLogException
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 
 class CardsEditorController(
@@ -74,7 +77,21 @@ class CardsEditorController(
             DoneButtonClicked -> {
                 catchAndLogException {
                     when (val savingResult: SavingResult = cardsEditor.save()) {
-                        is Success -> navigator.navigateUp()
+                        is Success -> {
+                            when (cardsEditor.state.mode) {
+                                is Creation -> {
+                                    navigator.navigateToDeckSetupFromCardsEditor {
+                                        val deck = savingResult.deck
+                                        val screenState = DeckSetupScreenState(deck)
+                                        val deckEditorState = DeckEditor.State(deck)
+                                        DeckSetupDiScope.create(screenState, deckEditorState)
+                                    }
+                                }
+                                is EditingExistingDeck -> {
+                                    navigator.navigateUp()
+                                }
+                            }
+                        }
                         is Failure -> {
                             val problemPosition: Int = when (savingResult.failureCause) {
                                 AllCardsAreEmpty -> cardsEditor.state.currentPosition

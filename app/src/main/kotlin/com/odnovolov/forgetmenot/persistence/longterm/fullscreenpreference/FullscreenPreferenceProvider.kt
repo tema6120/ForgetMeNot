@@ -18,5 +18,4 @@ class FullscreenPreferenceProvider(
         }
         return fullscreenPreferenceDb.toFullscreenPreference()
     }
-
 }

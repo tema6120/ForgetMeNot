@@ -16,7 +16,7 @@ class CardsEditor(
     val state: State,
     val globalState: GlobalState
 ) {
-    class State (
+    class State(
         mode: Mode,
         editableCards: List<EditableCard> =
             when (mode) {
@@ -128,29 +128,28 @@ class CardsEditor(
                             }
                         }
                         .toCopyableList()
-                    val deckId: Long = when (val mode = mode) {
+                    val deck: Deck = when (val mode = mode) {
                         is Creation -> {
-                            val deck = Deck(
+                            Deck(
                                 id = generateId(),
                                 name = mode.deckName,
                                 cards = cards
-                            )
-                            globalState.decks = (globalState.decks + deck).toCopyableList()
-                            deck.id
+                            ).also { deck ->
+                                globalState.decks = (globalState.decks + deck).toCopyableList()
+                            }
                         }
                         is EditingExistingDeck -> {
-                            mode.deck.cards = cards
-                            mode.deck.id
+                            mode.deck.also { deck -> deck.cards = cards }
                         }
                     }
-                    SavingResult.Success(deckId)
+                    SavingResult.Success(deck)
                 }
             }
         }
     }
 
     sealed class SavingResult {
-        class Success(val deckId: Long) : SavingResult()
+        class Success(val deck: Deck) : SavingResult()
         class Failure(val failureCause: FailureCause) : SavingResult()
 
         sealed class FailureCause {

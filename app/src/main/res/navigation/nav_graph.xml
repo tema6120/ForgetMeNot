@@ -23,7 +23,7 @@
                 app:destination="@id/cards_editor_screen" />
 
         <action
-                android:id="@+id/action_home_screen_to_deck_settings_screen"
+                android:id="@+id/action_home_screen_to_deck_setup_screen"
                 app:destination="@id/deck_setup_screen" />
 
         <action
@@ -136,10 +136,18 @@
             tools:layout="@layout/dialog_motivational_timer" />
 
     <fragment
-        android:id="@+id/cards_editor_screen"
-        android:name="com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorFragment"
-        android:label="@string/label_cards_editor_screen"
-        android:layout="@layout/fragment_cards_editor"/>
+            android:id="@+id/cards_editor_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorFragment"
+            android:label="@string/label_cards_editor_screen"
+            android:layout="@layout/fragment_cards_editor">
+
+        <action
+                android:id="@+id/action_cards_editor_screen_to_deck_setup_screen"
+                app:destination="@+id/deck_setup_screen"
+                app:popUpTo="@+id/cards_editor_screen"
+                app:popUpToInclusive="true" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/settings_screen"
