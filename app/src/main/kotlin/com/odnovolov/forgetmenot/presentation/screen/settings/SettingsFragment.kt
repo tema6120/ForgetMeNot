@@ -62,6 +62,7 @@ class SettingsFragment : BaseFragment() {
             },
             takeAdapter = { fullscreenPreferenceAdapter = it }
         )
+        dialogTimeCapsule.register("fullscreenModeDialog", fullscreenModeDialog)
     }
 
     @ExperimentalStdlibApi
@@ -130,23 +131,6 @@ class SettingsFragment : BaseFragment() {
         }
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState
-            ?.getBundle(STATE_KEY_FULLSCREEN_MODE_DIALOG)
-            ?.let(fullscreenModeDialog::onRestoreInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (::fullscreenModeDialog.isInitialized) {
-            outState.putBundle(
-                STATE_KEY_FULLSCREEN_MODE_DIALOG,
-                fullscreenModeDialog.onSaveInstanceState()
-            )
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
@@ -159,8 +143,4 @@ class SettingsFragment : BaseFragment() {
         override val text: String,
         override val isSelected: Boolean
     ) : Item
-
-    companion object {
-        const val STATE_KEY_FULLSCREEN_MODE_DIALOG = "STATE_KEY_FULLSCREEN_MODE_DIALOG"
-    }
 }

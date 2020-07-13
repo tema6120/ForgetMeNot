@@ -114,7 +114,7 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToSettings(createDiScope: () -> SettingsDiScope) {
         SettingsDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_setup_screen)
+        navigate(R.id.action_home_screen_to_settings_screen)
     }
 
     fun navigateToWalkingModeSettings() {

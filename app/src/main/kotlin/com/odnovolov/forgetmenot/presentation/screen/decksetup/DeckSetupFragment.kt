@@ -56,6 +56,7 @@ class DeckSetupFragment : BaseFragment() {
             .setNegativeButton(android.R.string.cancel, null)
             .create()
         renameDeckDialog.setOnShowListener { renameDeckEditText.showSoftInput() }
+        dialogTimeCapsule.register("renameDeckDialog", renameDeckDialog)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -129,22 +130,6 @@ class DeckSetupFragment : BaseFragment() {
         }
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.getBundle(STATE_KEY_RENAME_DECK_DIALOG)
-            ?.let(renameDeckDialog::onRestoreInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (::renameDeckDialog.isInitialized) {
-            outState.putBundle(
-                STATE_KEY_RENAME_DECK_DIALOG,
-                renameDeckDialog.onSaveInstanceState()
-            )
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         tabLayoutMediator?.detach()
@@ -156,9 +141,5 @@ class DeckSetupFragment : BaseFragment() {
         if (needToCloseDiScope()) {
             DeckSetupDiScope.close()
         }
-    }
-
-    companion object {
-        const val STATE_KEY_RENAME_DECK_DIALOG = "STATE_KEY_RENAME_DECK_DIALOG"
     }
 }

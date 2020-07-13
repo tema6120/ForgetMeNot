@@ -34,7 +34,6 @@ class DeckSettingsFragment : BaseFragment() {
     private lateinit var chooseCardReverseDialog: Dialog
     private var cardReverseAdapter: ItemAdapter? = null
     private var isInflated = false
-    private var savedInstanceState: Bundle? = null
     private lateinit var diScope: DeckSettingsDiScope
 
     override fun onCreateView(
@@ -65,11 +64,6 @@ class DeckSettingsFragment : BaseFragment() {
             viewModel = diScope.viewModel
             setupIfReady()
         }
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        this.savedInstanceState = savedInstanceState
     }
 
     private fun setupIfReady() {
@@ -145,7 +139,6 @@ class DeckSettingsFragment : BaseFragment() {
         initChooseCardReverseDialog()
         setupListeners()
         observeViewModelSecondary()
-        restoreState()
     }
 
     private fun initChooseTestMethodDialog() {
@@ -161,6 +154,7 @@ class DeckSettingsFragment : BaseFragment() {
             },
             takeAdapter = { testMethodAdapter = it }
         )
+        dialogTimeCapsule.register("chooseTestMethodDialog", chooseTestMethodDialog)
     }
 
     private fun initChooseCardReverseDialog() {
@@ -176,6 +170,7 @@ class DeckSettingsFragment : BaseFragment() {
             },
             takeAdapter = { cardReverseAdapter = it }
         )
+        dialogTimeCapsule.register("chooseCardReverseDialog", chooseCardReverseDialog)
     }
 
     private fun setupListeners() {
@@ -226,33 +221,6 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
-    private fun restoreState() {
-        savedInstanceState?.run {
-            getBundle(STATE_KEY_CHOOSE_TEST_METHOD_DIALOG)
-                ?.let(chooseTestMethodDialog::onRestoreInstanceState)
-
-            getBundle(STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG)
-                ?.let(chooseCardReverseDialog::onRestoreInstanceState)
-        }
-        savedInstanceState = null
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (::chooseTestMethodDialog.isInitialized) {
-            outState.putBundle(
-                STATE_KEY_CHOOSE_TEST_METHOD_DIALOG,
-                chooseTestMethodDialog.onSaveInstanceState()
-            )
-        }
-        if (::chooseCardReverseDialog.isInitialized) {
-            outState.putBundle(
-                STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG,
-                chooseCardReverseDialog.onSaveInstanceState()
-            )
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         isInflated = false
@@ -278,9 +246,4 @@ class DeckSettingsFragment : BaseFragment() {
         override val text: String,
         override val isSelected: Boolean
     ) : Item
-
-    companion object {
-        const val STATE_KEY_CHOOSE_TEST_METHOD_DIALOG = "STATE_KEY_CHOOSE_TEST_METHOD_DIALOG"
-        const val STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG = "STATE_KEY_CHOOSE_CARD_REVERSE_DIALOG"
-    }
 }

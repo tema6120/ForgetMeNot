@@ -38,7 +38,7 @@ class AddDeckFragment : BaseFragment() {
     private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var deckNameDialogEditText: EditText
     private var pendingEvent: ContentReceived? = null
-    private val addDeckDialog: Dialog by lazy(::createAddDeckDialog)
+    private lateinit var addDeckDialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +47,7 @@ class AddDeckFragment : BaseFragment() {
     ): View? {
         setHasOptionsMenu(true)
         createDeckNameInputDialog()
+        createAddDeckDialog()
         return inflater.inflate(R.layout.fragment_adddeck, container, false)
     }
 
@@ -68,6 +69,24 @@ class AddDeckFragment : BaseFragment() {
             }
             .create()
             .apply { setOnShowListener { deckNameDialogEditText.showSoftInput() } }
+        dialogTimeCapsule.register("deckNameInputDialog", deckNameInputDialog)
+    }
+
+    private fun createAddDeckDialog() {
+        val dialogView = View.inflate(requireContext(), R.layout.popup_add_deck, null).apply {
+            loadFromFileButton.setOnClickListener {
+                showFileChooser()
+                addDeckDialog.dismiss()
+            }
+            createDeckButton.setOnClickListener {
+                controller?.dispatch(CreateDeckButtonClicked)
+                addDeckDialog.dismiss()
+            }
+        }
+        addDeckDialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+        dialogTimeCapsule.register("addDeckDialog", addDeckDialog)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -123,22 +142,6 @@ class AddDeckFragment : BaseFragment() {
         addDeckDialog.show()
     }
 
-    private fun createAddDeckDialog(): Dialog {
-        val dialogView = View.inflate(requireContext(), R.layout.popup_add_deck, null).apply {
-            loadFromFileButton.setOnClickListener {
-                showFileChooser()
-                addDeckDialog.dismiss()
-            }
-            createDeckButton.setOnClickListener {
-                controller?.dispatch(CreateDeckButtonClicked)
-                addDeckDialog.dismiss()
-            }
-        }
-        return AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .create()
-    }
-
     private fun showFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
@@ -182,24 +185,6 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.run {
-            getBundle(STATE_KEY_DECK_NAME_INPUT_DIALOG)
-                ?.let(deckNameInputDialog::onRestoreInstanceState)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (::deckNameInputDialog.isInitialized) {
-            outState.putBundle(
-                STATE_KEY_DECK_NAME_INPUT_DIALOG,
-                deckNameInputDialog.onSaveInstanceState()
-            )
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         if (::deckNameInputDialog.isInitialized && deckNameInputDialog.isShowing) {
@@ -216,6 +201,5 @@ class AddDeckFragment : BaseFragment() {
 
     companion object {
         const val GET_CONTENT_REQUEST_CODE = 39
-        const val STATE_KEY_DECK_NAME_INPUT_DIALOG = "deckNameInputDialog"
     }
 }

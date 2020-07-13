@@ -62,6 +62,7 @@ class HomeFragment : BaseFragment() {
             onItemClick = { controller?.dispatch(DisplayOnlyWithTasksCheckboxClicked) },
             takeAdapter = { filterAdapter = it }
         )
+        dialogTimeCapsule.register("filterDialog", filterDialog)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -212,18 +213,8 @@ class HomeFragment : BaseFragment() {
         resumePauseCoroutineScope = null
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState
-            ?.getBundle(STATE_KEY_FILTER_DIALOG)
-            ?.let(filterDialog::onRestoreInstanceState)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (::filterDialog.isInitialized) {
-            outState.putBundle(STATE_KEY_FILTER_DIALOG, filterDialog.onSaveInstanceState())
-        }
         if (::searchView.isInitialized) {
             outState.putString(STATE_KEY_SEARCH_VIEW_TEXT, searchView.query.toString())
         }
@@ -286,7 +277,6 @@ class HomeFragment : BaseFragment() {
     }
 
     companion object {
-        const val STATE_KEY_FILTER_DIALOG = "filterDialog"
         const val STATE_KEY_SEARCH_VIEW_TEXT = "searchViewText"
     }
 }

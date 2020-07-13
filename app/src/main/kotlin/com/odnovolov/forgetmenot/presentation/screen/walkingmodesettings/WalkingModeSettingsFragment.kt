@@ -58,6 +58,7 @@ class WalkingModeSettingsFragment : BaseFragment() {
             },
             takeAdapter = { chooseKeyGestureActionDialogAdapter = it }
         )
+        dialogTimeCapsule.register("chooseKeyGestureActionDialog", chooseKeyGestureActionDialog)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -173,8 +174,6 @@ class WalkingModeSettingsFragment : BaseFragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
-            getBundle(STATE_KEY_CHOOSE_KEY_GESTURE_ACTION_DIALOG)
-                ?.let(chooseKeyGestureActionDialog::onRestoreInstanceState)
             activeRemappingKeyGesture = getSerializable(STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE)
                     as? KeyGesture
             if (activeRemappingKeyGesture != null)
@@ -184,12 +183,6 @@ class WalkingModeSettingsFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (::chooseKeyGestureActionDialog.isInitialized) {
-            outState.putBundle(
-                STATE_KEY_CHOOSE_KEY_GESTURE_ACTION_DIALOG,
-                chooseKeyGestureActionDialog.onSaveInstanceState()
-            )
-        }
         outState.putSerializable(STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE, activeRemappingKeyGesture)
     }
 
@@ -207,7 +200,6 @@ class WalkingModeSettingsFragment : BaseFragment() {
     ) : Item
 
     companion object {
-        const val STATE_KEY_CHOOSE_KEY_GESTURE_ACTION_DIALOG = "chooseKeyGestureActionDialog"
         const val STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE = "activeRemappingKeyGesture"
     }
 }
