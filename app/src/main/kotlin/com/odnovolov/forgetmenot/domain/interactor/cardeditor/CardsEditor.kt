@@ -105,6 +105,32 @@ class CardsEditor(
         cardBackup = null
     }
 
+    fun areCardsEdited(): Boolean {
+        when (val mode = state.mode) {
+            is Creation -> return true
+            is EditingExistingDeck -> {
+                with(state) {
+                    val originalCards = mode.deck.cards
+                    if (originalCards.size != editableCards.size - 1) return true
+                    repeat(originalCards.size) { i ->
+                        val originalCard: Card = originalCards[i]
+                        val editableCard: EditableCard = editableCards[i]
+                        if (isEdited(originalCard, editableCard)) return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    private fun isEdited(originalCard: Card, editableCard: EditableCard): Boolean {
+        return originalCard.id != editableCard.card.id
+                || originalCard.question != editableCard.question
+                || originalCard.answer != editableCard.answer
+                || originalCard.isLearned != editableCard.isLearned
+                || originalCard.levelOfKnowledge != editableCard.levelOfKnowledge
+    }
+
     fun save(): SavingResult {
         return with(state) {
             when {

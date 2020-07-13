@@ -1,11 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
@@ -15,10 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command.*
@@ -40,6 +42,7 @@ class CardsEditorFragment : BaseFragment() {
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
+    private lateinit var exitDialog: Dialog
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +58,18 @@ class CardsEditorFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        createExitDialog()
         return inflater.inflate(R.layout.fragment_cards_editor, container, false)
+    }
+
+    private fun createExitDialog() {
+        exitDialog = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.title_exit_dialog)
+            .setMessage(R.string.message_changes_will_be_lost)
+            .setPositiveButton(R.string.yes) { _, _ -> controller?.dispatch(UserConfirmedExit) }
+            .setNegativeButton(R.string.no, null)
+            .create()
+        dialogTimeCapsule.register("exitDialog", exitDialog)
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
@@ -78,7 +92,7 @@ class CardsEditorFragment : BaseFragment() {
                 ColorDrawable(
                     ContextCompat.getColor(
                         requireContext(),
-                        color.exercise_control_panel_popup_background
+                        R.color.exercise_control_panel_popup_background
                     )
                 )
             )
@@ -97,6 +111,7 @@ class CardsEditorFragment : BaseFragment() {
             viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
+            setupBackPressInterceptor()
         }
     }
 
@@ -188,6 +203,9 @@ class CardsEditorFragment : BaseFragment() {
                     )
                     .show()
             }
+            AskUserToConfirmExit -> {
+                exitDialog.show()
+            }
         }
     }
 
@@ -207,6 +225,13 @@ class CardsEditorFragment : BaseFragment() {
         )
     }
 
+    private fun setupBackPressInterceptor() {
+        (activity as MainActivity).backPressInterceptor = {
+            controller?.dispatch(BackButtonClicked)
+            true
+        }
+    }
+
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         if (childFragment is QAEditorFragment) {
@@ -224,6 +249,7 @@ class CardsEditorFragment : BaseFragment() {
         super.onDestroyView()
         cardsViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         cardsViewPager.adapter = null
+        (activity as MainActivity).backPressInterceptor = null
     }
 
     override fun onDestroy() {

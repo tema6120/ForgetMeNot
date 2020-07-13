@@ -199,4 +199,8 @@
     <string name="toast_fill_in_the_card">Fill in the card</string>
     <string name="text_load_from_file_button">Load from file</string>
     <string name="text_create_deck_button">Create</string>
+    <string name="title_exit_dialog">Are you sure you want to quit?</string>
+    <string name="message_changes_will_be_lost">Your changes will be lost if you don\'t save them.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

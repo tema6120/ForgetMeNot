@@ -35,6 +35,7 @@ class CardsEditorController(
         class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
         object ShowCardIsRemovedMessage : Command()
+        object AskUserToConfirmExit : Command()
     }
 
     override fun handle(event: CardsEditorEvent) {
@@ -101,6 +102,18 @@ class CardsEditorController(
                         }
                     }
                 }
+            }
+
+            BackButtonClicked -> {
+                if (cardsEditor.areCardsEdited()) {
+                    sendCommand(AskUserToConfirmExit)
+                } else {
+                    navigator.navigateUp()
+                }
+            }
+
+            UserConfirmedExit -> {
+                navigator.navigateUp()
             }
         }
     }

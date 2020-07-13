@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
     var keyEventInterceptor: ((KeyEvent) -> Boolean)? = null
+    var backPressInterceptor: (() -> Boolean)? = null
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     lateinit var fullscreenModeManager: FullscreenModeManager
 
@@ -74,6 +75,16 @@ class MainActivity : AppCompatActivity() {
             if (intercepted) return true
         }
         return super.dispatchKeyEvent(event)
+    }
+
+    override fun onBackPressed() {
+        val backPressInterceptor = backPressInterceptor
+        if (backPressInterceptor != null) {
+            val intercepted = backPressInterceptor.invoke()
+            if (!intercepted) super.onBackPressed()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onDestroy() {
