@@ -1,17 +1,20 @@
 package com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorFragment
-import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorEvent.AcceptButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorEvent.CancelButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorController.Command.AskUserToConfirmExit
+import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorEvent.*
 import kotlinx.android.synthetic.main.fragment_ongoing_card_editor.*
 import kotlinx.coroutines.*
 
@@ -25,13 +28,25 @@ class OngoingCardEditorFragment : BaseFragment() {
     }
     private lateinit var viewModel: OngoingCardEditorViewModel
     private var controller: OngoingCardEditorController? = null
+    private lateinit var exitDialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        createExitDialog()
         return inflater.inflate(R.layout.fragment_ongoing_card_editor, container, false)
+    }
+
+    private fun createExitDialog() {
+        exitDialog = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.title_exit_dialog)
+            .setMessage(R.string.message_changes_will_be_lost)
+            .setPositiveButton(R.string.yes) { _, _ -> controller?.dispatch(UserConfirmedExit) }
+            .setNegativeButton(R.string.no, null)
+            .create()
+        dialogTimeCapsule.register("exitDialog", exitDialog)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +57,16 @@ class OngoingCardEditorFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             viewModel.isAcceptButtonEnabled.observe(doneButton::setEnabled)
+            controller!!.commands.observe(::executeCommand)
+            setupBackPressInterceptor()
+        }
+    }
+
+    private fun executeCommand(command: OngoingCardEditorController.Command) {
+        when (command) {
+            AskUserToConfirmExit -> {
+                exitDialog.show()
+            }
         }
     }
 
@@ -54,6 +79,13 @@ class OngoingCardEditorFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(AcceptButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
             isEnabled = false
+        }
+    }
+
+    private fun setupBackPressInterceptor() {
+        (activity as MainActivity).backPressInterceptor = {
+            controller?.dispatch(BackButtonClicked)
+            true
         }
     }
 

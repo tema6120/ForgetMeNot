@@ -23,7 +23,12 @@ class OngoingCardEditor(
         editableCard.answer = answer
     }
 
-    fun applyChanges() {
+    fun isCardEdited(): Boolean {
+        return editableCard.question != editableCard.card.question
+                || editableCard.answer != editableCard.card.answer
+    }
+
+    fun save() {
         require(editableCard.question.isNotBlank() && editableCard.answer.isNotBlank()) {
             "Neither question nor answer must not be blank"
         }
