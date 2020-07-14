@@ -203,4 +203,12 @@
     <string name="message_changes_will_be_lost">Your changes will be lost if you don\'t save them.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <plurals name="exit_message_unanswered_cards">
+        <item quantity="one">%d card is still unanswered</item>
+        <item quantity="other">%d cards are still unanswered</item>
+    </plurals>
+    <plurals name="text_show_unanswered_card_button">
+        <item quantity="one">Show</item>
+        <item quantity="other">Show the first</item>
+    </plurals>
 </resources>

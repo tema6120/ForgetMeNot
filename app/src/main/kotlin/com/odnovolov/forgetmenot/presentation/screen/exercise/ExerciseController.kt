@@ -10,10 +10,10 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
@@ -28,9 +28,11 @@ class ExerciseController(
     sealed class Command {
         object MoveToNextPosition : Command()
         object MoveToPreviousPosition : Command()
+        class MoveToPosition(val position: Int) : Command()
         object ShowChooseHintPopup : Command()
         class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
+        class ShowThereAreUnansweredCardsMessage(val unansweredCardCount: Int) : Command()
     }
 
     override fun handle(event: ExerciseEvent) {
@@ -101,6 +103,31 @@ class ExerciseController(
 
             is KeyGestureDetected -> {
                 onKeyGestureDetected(event)
+            }
+
+            BackButtonClicked -> {
+                val unansweredCardCount = exercise.state.exerciseCards.count { exerciseCard ->
+                    exerciseCard.base.isAnswerCorrect == null
+                }
+                if (unansweredCardCount > 0) {
+                    sendCommand(ShowThereAreUnansweredCardsMessage(unansweredCardCount))
+                } else {
+                    navigator.navigateUp()
+                }
+            }
+
+            ShowUnansweredCardButtonClicked -> {
+                val firstUnansweredCardPosition: Int =
+                    exercise.state.exerciseCards.indexOfFirst { exerciseCard ->
+                        exerciseCard.base.isAnswerCorrect == null
+                    }
+                if (firstUnansweredCardPosition >= 0) {
+                    sendCommand(MoveToPosition(firstUnansweredCardPosition))
+                }
+            }
+
+            UserConfirmedExit -> {
+                navigator.navigateUp()
             }
         }
     }

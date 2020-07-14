@@ -18,4 +18,7 @@ sealed class ExerciseEvent {
     object LevelOfKnowledgeButtonClicked : ExerciseEvent()
     class LevelOfKnowledgeSelected(val levelOfKnowledge: Int) : ExerciseEvent()
     class KeyGestureDetected(val keyGesture: KeyGesture) : ExerciseEvent()
+    object BackButtonClicked : ExerciseEvent()
+    object ShowUnansweredCardButtonClicked : ExerciseEvent()
+    object UserConfirmedExit : ExerciseEvent()
 }

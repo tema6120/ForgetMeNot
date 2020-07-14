@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
     var keyEventInterceptor: ((KeyEvent) -> Boolean)? = null
-    var backPressInterceptor: (() -> Boolean)? = null
+    private val backPressInterceptors: MutableList<BackPressInterceptor> = ArrayList()
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     lateinit var fullscreenModeManager: FullscreenModeManager
 
@@ -56,7 +56,12 @@ class MainActivity : AppCompatActivity() {
     private fun openFirstScreenDiScopes() {
         HomeDiScope.open { HomeDiScope.create(HomeScreenState()) }
         DeckSortingDiScope.open { DeckSortingDiScope() }
-        AddDeckDiScope.open { AddDeckDiScope.create(DeckFromFileCreator.State(), AddDeckScreenState()) }
+        AddDeckDiScope.open {
+            AddDeckDiScope.create(
+                DeckFromFileCreator.State(),
+                AddDeckScreenState()
+            )
+        }
     }
 
     private fun initNavController() {
@@ -77,14 +82,20 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchKeyEvent(event)
     }
 
+    fun registerBackPressInterceptor(backPressInterceptor: BackPressInterceptor) {
+        backPressInterceptors.add(backPressInterceptor)
+    }
+
+    fun unregisterBackPressInterceptor(backPressInterceptor: BackPressInterceptor) {
+        backPressInterceptors.remove(backPressInterceptor)
+    }
+
     override fun onBackPressed() {
-        val backPressInterceptor = backPressInterceptor
-        if (backPressInterceptor != null) {
-            val intercepted = backPressInterceptor.invoke()
-            if (!intercepted) super.onBackPressed()
-        } else {
-            super.onBackPressed()
+        backPressInterceptors.forEach { backPressInterceptor ->
+            val intercepted = backPressInterceptor.onBackPressed()
+            if (intercepted) return
         }
+        super.onBackPressed()
     }
 
     override fun onDestroy() {
@@ -92,5 +103,9 @@ class MainActivity : AppCompatActivity() {
         if (isFinishing || !isChangingConfigurations) {
             MainActivityDiScope.close()
         }
+    }
+
+    interface BackPressInterceptor {
+        fun onBackPressed(): Boolean
     }
 }

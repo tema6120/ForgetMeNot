@@ -58,7 +58,6 @@ class OngoingCardEditorFragment : BaseFragment() {
             viewModel = diScope.viewModel
             viewModel.isAcceptButtonEnabled.observe(doneButton::setEnabled)
             controller!!.commands.observe(::executeCommand)
-            setupBackPressInterceptor()
         }
     }
 
@@ -82,13 +81,6 @@ class OngoingCardEditorFragment : BaseFragment() {
         }
     }
 
-    private fun setupBackPressInterceptor() {
-        (activity as MainActivity).backPressInterceptor = {
-            controller?.dispatch(BackButtonClicked)
-            true
-        }
-    }
-
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         if (childFragment is QAEditorFragment) {
@@ -99,11 +91,28 @@ class OngoingCardEditorFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         fragmentCoroutineScope.cancel()
         if (needToCloseDiScope()) {
             OngoingCardEditorDiScope.close()
+        }
+    }
+
+    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
+        override fun onBackPressed(): Boolean {
+            controller?.dispatch(BackButtonClicked)
+            return true
         }
     }
 }

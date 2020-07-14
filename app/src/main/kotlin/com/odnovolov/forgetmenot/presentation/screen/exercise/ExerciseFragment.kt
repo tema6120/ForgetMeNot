@@ -5,10 +5,12 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Looper
 import android.view.*
 import android.view.View.GONE
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
@@ -31,6 +33,8 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
+import kotlinx.android.synthetic.main.dialog_exit_from_exercise.*
+import kotlinx.android.synthetic.main.dialog_exit_from_exercise.view.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.popup_choose_hint.view.*
 import kotlinx.coroutines.launch
@@ -45,6 +49,7 @@ class ExerciseFragment : BaseFragment() {
     private val chooseHintPopup: PopupWindow by lazy { createChooseHintPopup() }
     private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
+    private var exitDialog: AlertDialog? = null
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +65,26 @@ class ExerciseFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Looper.myQueue().addIdleHandler {
+            createExitDialog()
+            false
+        }
         return inflater.inflate(R.layout.fragment_exercise, container, false)
+    }
+
+    private fun createExitDialog() {
+        val content: View = View.inflate(context, R.layout.dialog_exit_from_exercise, null)
+        content.showButton.setOnClickListener {
+            controller?.dispatch(ShowUnansweredCardButtonClicked)
+            exitDialog?.dismiss()
+        }
+        exitDialog = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.title_exit_dialog)
+            .setView(content)
+            .setPositiveButton(R.string.yes) { _, _ -> controller?.dispatch(UserConfirmedExit) }
+            .setNegativeButton(R.string.no, null)
+            .create()
+        dialogTimeCapsule.register("exerciseExitDialog", exitDialog!!)
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
@@ -269,6 +293,9 @@ class ExerciseFragment : BaseFragment() {
                 val previousPosition = exerciseViewPager.currentItem - 1
                 exerciseViewPager.setCurrentItem(previousPosition, true)
             }
+            is MoveToPosition -> {
+                exerciseViewPager.setCurrentItem(command.position, true)
+            }
             ShowChooseHintPopup -> {
                 showChooseHintPopup()
             }
@@ -277,6 +304,20 @@ class ExerciseFragment : BaseFragment() {
             }
             ShowIntervalsAreOffMessage -> {
                 showToast(R.string.toast_text_intervals_are_off)
+            }
+            is ShowThereAreUnansweredCardsMessage -> {
+                exitDialog?.run {
+                    show()
+                    messageTextView.text = resources.getQuantityString(
+                        R.plurals.exit_message_unanswered_cards,
+                        command.unansweredCardCount,
+                        command.unansweredCardCount
+                    )
+                    showButton.text = resources.getQuantityString(
+                        R.plurals.text_show_unanswered_card_button,
+                        command.unansweredCardCount
+                    )
+                }
             }
         }
     }
@@ -367,6 +408,7 @@ class ExerciseFragment : BaseFragment() {
             val diScope = ExerciseDiScope.get()
             diScope.controller.dispatch(FragmentResumed)
         }
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
@@ -375,6 +417,7 @@ class ExerciseFragment : BaseFragment() {
             val diScope = ExerciseDiScope.get()
             diScope.controller.dispatch(FragmentPaused)
         }
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onDestroyView() {
@@ -401,6 +444,13 @@ class ExerciseFragment : BaseFragment() {
             if (currentViewHolder is EntryTestExerciseCardViewHolder) {
                 currentViewHolder.onPageSelected()
             }
+        }
+    }
+
+    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
+        override fun onBackPressed(): Boolean {
+            controller?.dispatch(BackButtonClicked)
+            return true
         }
     }
 }

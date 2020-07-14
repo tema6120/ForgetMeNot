@@ -111,7 +111,6 @@ class CardsEditorFragment : BaseFragment() {
             viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
-            setupBackPressInterceptor()
         }
     }
 
@@ -225,13 +224,6 @@ class CardsEditorFragment : BaseFragment() {
         )
     }
 
-    private fun setupBackPressInterceptor() {
-        (activity as MainActivity).backPressInterceptor = {
-            controller?.dispatch(BackButtonClicked)
-            true
-        }
-    }
-
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         if (childFragment is QAEditorFragment) {
@@ -245,11 +237,20 @@ class CardsEditorFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         cardsViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         cardsViewPager.adapter = null
-        (activity as MainActivity).backPressInterceptor = null
     }
 
     override fun onDestroy() {
@@ -264,6 +265,13 @@ class CardsEditorFragment : BaseFragment() {
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             controller?.dispatch(PageSelected(position))
+        }
+    }
+
+    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
+        override fun onBackPressed(): Boolean {
+            controller?.dispatch(BackButtonClicked)
+            return true
         }
     }
 }
