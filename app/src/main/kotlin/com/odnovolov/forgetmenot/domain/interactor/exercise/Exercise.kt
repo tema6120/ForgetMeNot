@@ -1,10 +1,7 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
-import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.entity.Pronunciation
-import com.odnovolov.forgetmenot.domain.entity.Speaker
-import com.odnovolov.forgetmenot.domain.entity.TestMethod
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
 import com.soywiz.klock.DateTime
@@ -14,6 +11,7 @@ import kotlin.coroutines.CoroutineContext
 
 class Exercise(
     val state: State,
+    private val globalState: GlobalState,
     private val speaker: Speaker,
     override val coroutineContext: CoroutineContext
 ) : CoroutineScope {
@@ -22,18 +20,17 @@ class Exercise(
         currentPosition: Int = 0,
         questionSelection: String = "",
         answerSelection: String = "",
-        hintSelection: HintSelection = HintSelection(0, 0),
-        isWalkingMode: Boolean
+        hintSelection: HintSelection = HintSelection(0, 0)
     ) : FlowableState<State>() {
         var exerciseCards: List<ExerciseCard> by me(exerciseCards)
         var currentPosition: Int by me(currentPosition)
         var questionSelection: String by me(questionSelection)
         var answerSelection: String by me(answerSelection)
         var hintSelection: HintSelection by me(hintSelection)
-        val isWalkingMode: Boolean by me(isWalkingMode)
     }
 
     val currentExerciseCard: ExerciseCard get() = state.exerciseCards[state.currentPosition]
+    private val isWalkingMode get() = globalState.isWalkingModeEnabled
     private lateinit var currentPronunciation: Pronunciation
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
     private var timerJob: Job? = null
@@ -103,14 +100,13 @@ class Exercise(
         when {
             hasQuestionSelection() -> speakQuestionSelection()
             hasAnswerSelection() -> speakAnswerSelection()
-            isAnswered() -> speakAnswer()
+            currentExerciseCard.isAnswered -> speakAnswer()
             else -> speakQuestion()
         }
     }
 
     private fun hasAnswerSelection(): Boolean = state.answerSelection.isNotEmpty()
     private fun hasQuestionSelection(): Boolean = state.questionSelection.isNotEmpty()
-    private fun isAnswered(): Boolean = currentExerciseCard.base.isAnswerCorrect != null
 
     private fun speakQuestionSelection() {
         speak(
@@ -127,20 +123,20 @@ class Exercise(
     }
 
     private fun autoSpeakQuestionIfNeed() {
-        if (state.isWalkingMode
+        if (isWalkingMode
             || currentPronunciation.questionAutoSpeak
             && !currentExerciseCard.base.card.isLearned
-            && currentExerciseCard.base.isAnswerCorrect == null
+            && !currentExerciseCard.isAnswered
         ) {
             speakQuestion()
         }
     }
 
     private fun autoSpeakAnswerIfNeed() {
-        if (state.isWalkingMode
+        if (isWalkingMode
             || currentPronunciation.answerAutoSpeak
             && !currentExerciseCard.base.card.isLearned
-            && currentExerciseCard.base.isAnswerCorrect == null
+            && !currentExerciseCard.isAnswered
         ) {
             speakAnswer()
         }
@@ -174,10 +170,73 @@ class Exercise(
     fun notifyCurrentCardChanged() {
         val exerciseCard = currentExerciseCard
         exerciseCard.base.hint = null
-        if (exerciseCard is EntryTestExerciseCard && exerciseCard.base.isAnswerCorrect != null) {
+        if (exerciseCard is EntryTestExerciseCard && exerciseCard.isAnswered) {
             checkEntry(exerciseCard.userAnswer)
         }
     }
+
+    fun setWalkingModeEnabled(enabled: Boolean) {
+        if (isWalkingMode == enabled) return
+        stopTimer()
+        globalState.isWalkingModeEnabled = enabled
+        conformExerciseCards()
+        startTimer()
+    }
+
+    private fun conformExerciseCards() {
+        var hasChange = false
+        val conformedExerciseCards = state.exerciseCards
+            .map { exerciseCard ->
+                when {
+                    exerciseCard.isAnswered -> exerciseCard
+                    exerciseCard.shouldMapToManualTestExerciseCard() -> {
+                        hasChange = true
+                        ManualTestExerciseCard(exerciseCard.base)
+                    }
+                    exerciseCard.shouldMapToQuizTestExerciseCard() -> {
+                        hasChange = true
+                        val variants: List<Card?> = with(exerciseCard.base) {
+                            QuizComposer.compose(card, deck, isReverse, withCaching = true)
+                        }
+                        QuizTestExerciseCard(exerciseCard.base, variants)
+                    }
+                    exerciseCard.shouldMapToEntryTestExerciseCard() -> {
+                        hasChange = true
+                        EntryTestExerciseCard(exerciseCard.base)
+                    }
+                    else -> exerciseCard
+                }.apply {
+                    if (isWalkingMode
+                        && base.timeLeft != 0
+                    ) {
+                        base.timeLeft = 0
+                    } else if (!isWalkingMode
+                        && !base.card.isLearned
+                        && !isAnswered
+                        && !base.isExpired
+                    ) {
+                        base.timeLeft = base.deck.exercisePreference.timeForAnswer
+                    }
+                }
+            }
+        QuizComposer.clearCache()
+        if (hasChange) {
+            state.exerciseCards = conformedExerciseCards
+        }
+    }
+
+    private fun ExerciseCard.shouldMapToManualTestExerciseCard(): Boolean =
+        isWalkingMode && (this is QuizTestExerciseCard || this is EntryTestExerciseCard)
+
+    private fun ExerciseCard.shouldMapToQuizTestExerciseCard(): Boolean =
+        !isWalkingMode
+                && base.deck.exercisePreference.testMethod == TestMethod.Quiz
+                && this !is QuizTestExerciseCard
+
+    private fun ExerciseCard.shouldMapToEntryTestExerciseCard(): Boolean =
+        !isWalkingMode
+                && base.deck.exercisePreference.testMethod == TestMethod.Entry
+                && this !is EntryTestExerciseCard
 
     fun setLevelOfKnowledge(levelOfKnowledge: Int) {
         if (levelOfKnowledge < 0) return
@@ -218,30 +277,18 @@ class Exercise(
     }
 
     fun hintAsQuiz() {
-        if (state.isWalkingMode
+        if (isWalkingMode
             || currentExerciseCard is QuizTestExerciseCard
             || currentExerciseCard.base.card.isLearned
-            || isAnswered()
+            || currentExerciseCard.isAnswered
         ) {
             return
         }
-        val baseExerciseCard = with(currentExerciseCard.base) {
-            ExerciseCard.Base(
-                id = id,
-                card = card,
-                deck = deck,
-                isReverse = isReverse,
-                isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
-                timeLeft = timeLeft,
-                initialLevelOfKnowledge = initialLevelOfKnowledge,
-                isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
-            )
-        }
-        val variants: List<Card?> = with(baseExerciseCard) {
+        resetTimer()
+        val variants: List<Card?> = with(currentExerciseCard.base) {
             QuizComposer.compose(card, deck, isReverse, withCaching = false)
         }
-        val newQuizTestExerciseCard = QuizTestExerciseCard(baseExerciseCard, variants)
-        stopTimer()
+        val newQuizTestExerciseCard = QuizTestExerciseCard(currentExerciseCard.base, variants)
         state.exerciseCards = state.exerciseCards.toMutableList().run {
             this[state.currentPosition] = newQuizTestExerciseCard
             toList()
@@ -251,9 +298,9 @@ class Exercise(
 
     fun startTimer() {
         with(currentExerciseCard.base) {
-            if (state.isWalkingMode
+            if (isWalkingMode
                 || card.isLearned
-                || isAnswered()
+                || currentExerciseCard.isAnswered
                 || isExpired
                 || timeLeft <= 0
                 || timerJob?.isActive == true
@@ -275,9 +322,9 @@ class Exercise(
 
     fun resetTimer() {
         with(currentExerciseCard.base) {
-            if (state.isWalkingMode
+            if (isWalkingMode
                 || isExpired
-                || isAnswered()
+                || currentExerciseCard.isAnswered
             ) {
                 return
             }
@@ -288,9 +335,9 @@ class Exercise(
 
     fun stopTimer() {
         with(currentExerciseCard.base) {
-            if (state.isWalkingMode
+            if (isWalkingMode
                 || isExpired
-                || isAnswered()
+                || currentExerciseCard.isAnswered
             ) {
                 return
             }
@@ -369,7 +416,7 @@ class Exercise(
         val isAnsweredForTheFirstTime = state.exerciseCards
             .any { exerciseCard: ExerciseCard ->
                 exerciseCard.base.card.id == currentExerciseCard.base.card.id
-                        && exerciseCard.base.isAnswerCorrect != null
+                        && exerciseCard.isAnswered
             }
             .not()
         if (isAnsweredForTheFirstTime) {
@@ -418,7 +465,7 @@ class Exercise(
                 deck = deck,
                 isReverse = isReverse,
                 isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
-                timeLeft = deck.exercisePreference.timeForAnswer,
+                timeLeft = if (isWalkingMode) 0 else deck.exercisePreference.timeForAnswer,
                 initialLevelOfKnowledge = initialLevelOfKnowledge,
                 isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
             )
@@ -428,7 +475,7 @@ class Exercise(
                 TestMethod.Off -> OffTestExerciseCard(baseExerciseCard)
                 TestMethod.Manual -> ManualTestExerciseCard(baseExerciseCard)
                 TestMethod.Quiz -> {
-                    if (state.isWalkingMode) {
+                    if (isWalkingMode) {
                         ManualTestExerciseCard(baseExerciseCard)
                     } else {
                         val variants: List<Card?> = with(baseExerciseCard) {
@@ -438,7 +485,7 @@ class Exercise(
                     }
                 }
                 TestMethod.Entry -> {
-                    if (state.isWalkingMode) {
+                    if (isWalkingMode) {
                         ManualTestExerciseCard(baseExerciseCard)
                     } else {
                         EntryTestExerciseCard(baseExerciseCard)

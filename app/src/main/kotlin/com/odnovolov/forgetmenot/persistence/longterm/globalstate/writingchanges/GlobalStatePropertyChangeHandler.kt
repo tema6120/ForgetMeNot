@@ -119,6 +119,11 @@ class GlobalStatePropertyChangeHandler(
                 insertRepetitionSettingIfNotExists(currentRepetitionSetting)
                 database.currentRepetitionSettingQueries.update(currentRepetitionSetting.id)
             }
+            GlobalState::isWalkingModeEnabled -> {
+                if (change !is PropertyValueChange) return
+                val isWalkingModeEnabled = change.newValue as Boolean
+                database.walkingModeQueries.updateIsEnabled(isWalkingModeEnabled)
+            }
         }
     }
 

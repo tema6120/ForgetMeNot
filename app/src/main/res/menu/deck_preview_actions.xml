@@ -2,10 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/walkingModeMenuItem"
-            android:title="@string/title_start_exercise_in_walking_mode" />
-
-    <item
             android:id="@+id/repetitionModeMenuItem"
             android:title="@string/title_repetition_mode" />
 

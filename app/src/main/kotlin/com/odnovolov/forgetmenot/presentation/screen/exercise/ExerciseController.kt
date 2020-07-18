@@ -1,11 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotRemember
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
+import com.odnovolov.forgetmenot.domain.interactor.exercise.isAnswered
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -21,6 +23,7 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.Walking
 class ExerciseController(
     private val exercise: Exercise,
     private val walkingModePreference: WalkingModePreference,
+    private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val exerciseStateProvider: ShortTermStateProvider<Exercise.State>
@@ -65,8 +68,23 @@ class ExerciseController(
                 }
             }
 
+            WalkingModeSettingsButtonClicked -> {
+                navigator.navigateToWalkingModeSettingsFromExercise()
+            }
+
+            WalkingModeHelpButtonClicked -> {
+
+            }
+
+            WalkingModeSwitchToggled -> {
+                val enabled = !globalState.isWalkingModeEnabled
+                exercise.setWalkingModeEnabled(enabled)
+            }
+
             HintButtonClicked -> {
-                if (exercise.currentExerciseCard.base.hint == null) {
+                if (!globalState.isWalkingModeEnabled
+                    && exercise.currentExerciseCard.base.hint == null
+                ) {
                     sendCommand(ShowChooseHintPopup)
                 } else {
                     exercise.showHint()
@@ -107,7 +125,7 @@ class ExerciseController(
 
             BackButtonClicked -> {
                 val unansweredCardCount = exercise.state.exerciseCards.count { exerciseCard ->
-                    exerciseCard.base.isAnswerCorrect == null
+                    !exerciseCard.isAnswered && !exerciseCard.base.card.isLearned
                 }
                 if (unansweredCardCount > 0) {
                     sendCommand(ShowThereAreUnansweredCardsMessage(unansweredCardCount))
@@ -119,7 +137,7 @@ class ExerciseController(
             ShowUnansweredCardButtonClicked -> {
                 val firstUnansweredCardPosition: Int =
                     exercise.state.exerciseCards.indexOfFirst { exerciseCard ->
-                        exerciseCard.base.isAnswerCorrect == null
+                        !exerciseCard.isAnswered && !exerciseCard.base.card.isLearned
                     }
                 if (firstUnansweredCardPosition >= 0) {
                     sendCommand(MoveToPosition(firstUnansweredCardPosition))

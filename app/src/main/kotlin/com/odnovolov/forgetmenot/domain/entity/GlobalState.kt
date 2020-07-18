@@ -11,7 +11,8 @@ class GlobalState(
     sharedPronunciations: CopyableCollection<Pronunciation>,
     sharedSpeakPlans: CopyableCollection<SpeakPlan>,
     sharedRepetitionSettings: CopyableCollection<RepetitionSetting>,
-    currentRepetitionSetting: RepetitionSetting
+    currentRepetitionSetting: RepetitionSetting,
+    isWalkingModeEnabled: Boolean
 ) : RegistrableFlowableState<GlobalState>() {
     var decks: CopyableCollection<Deck> by me(decks, CollectionChange::class)
 
@@ -32,6 +33,8 @@ class GlobalState(
 
     var currentRepetitionSetting: RepetitionSetting by me(currentRepetitionSetting)
 
+    var isWalkingModeEnabled: Boolean by me(isWalkingModeEnabled)
+
     override fun copy() = GlobalState(
         decks.copy(),
         sharedExercisePreferences.copy(),
@@ -39,6 +42,7 @@ class GlobalState(
         sharedPronunciations.copy(),
         sharedSpeakPlans.copy(),
         sharedRepetitionSettings.copy(),
-        currentRepetitionSetting.copy()
+        currentRepetitionSetting.copy(),
+        isWalkingModeEnabled
     )
 }

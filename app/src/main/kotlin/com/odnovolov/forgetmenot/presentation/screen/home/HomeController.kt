@@ -69,16 +69,12 @@ class HomeController(
                 if (homeScreenState.selectedDeckIds.isNotEmpty()) {
                     toggleDeckSelection(event.deckId)
                 } else {
-                    startExercise(deckIds = listOf(event.deckId), isWalkingMode = false)
+                    startExercise(deckIds = listOf(event.deckId))
                 }
             }
 
             is DeckButtonLongClicked -> {
                 toggleDeckSelection(event.deckId)
-            }
-
-            is WalkingModeMenuItemClicked -> {
-                startExercise(deckIds = listOf(event.deckId), isWalkingMode = true)
             }
 
             is RepetitionModeMenuItemClicked -> {
@@ -110,7 +106,7 @@ class HomeController(
             StartExerciseMenuItemClicked -> {
                 val deckIds: List<Long> = homeScreenState.selectedDeckIds
                 homeScreenState.selectedDeckIds = emptyList()
-                startExercise(deckIds, isWalkingMode = false)
+                startExercise(deckIds)
             }
 
             SelectAllDecksMenuItemClicked -> {
@@ -121,12 +117,6 @@ class HomeController(
                 val deckIds = homeScreenState.selectedDeckIds
                 deckRemover.removeDecks(deckIds)
                 homeScreenState.selectedDeckIds = emptyList()
-            }
-
-            StartExerciseInWalkingModeMenuItemClicked -> {
-                val deckIds: List<Long> = homeScreenState.selectedDeckIds
-                homeScreenState.selectedDeckIds = emptyList()
-                startExercise(deckIds, isWalkingMode = true)
             }
 
             ActionModeFinished -> {
@@ -145,11 +135,11 @@ class HomeController(
         }
     }
 
-    private fun startExercise(deckIds: List<Long>, isWalkingMode: Boolean) {
+    private fun startExercise(deckIds: List<Long>) {
         if (exerciseStateCreator.hasAnyCardAvailableForExercise(deckIds)) {
             navigator.navigateToExercise {
                 val exerciseState: Exercise.State =
-                    exerciseStateCreator.create(deckIds, isWalkingMode)
+                    exerciseStateCreator.create(deckIds)
                 ExerciseDiScope.create(exerciseState)
             }
         } else {

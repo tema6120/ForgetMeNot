@@ -17,7 +17,8 @@ class TablesForGlobalState private constructor(
     val sharedSpeakPlanTable: List<Long>,
     val repetitionSettingTable: List<RepetitionSettingDb>,
     val sharedRepetitionSettingTable: List<Long>,
-    val currentRepetitionSettingTable: Long
+    val currentRepetitionSettingTable: Long,
+    val walkingModeTable: Boolean
 ) {
     companion object {
         fun load(database: Database): TablesForGlobalState {
@@ -36,7 +37,8 @@ class TablesForGlobalState private constructor(
                     sharedSpeakPlanTable = sharedSpeakPlanQueries.selectAll().executeAsList(),
                     repetitionSettingTable = repetitionSettingQueries.selectAll().executeAsList(),
                     sharedRepetitionSettingTable = sharedRepetitionSettingQueries.selectAll().executeAsList(),
-                    currentRepetitionSettingTable = currentRepetitionSettingQueries.select().executeAsOne()
+                    currentRepetitionSettingTable = currentRepetitionSettingQueries.select().executeAsOne(),
+                    walkingModeTable = walkingModeQueries.selectAll().executeAsOne()
                 )
             }
         }

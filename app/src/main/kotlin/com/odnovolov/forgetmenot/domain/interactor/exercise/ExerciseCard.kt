@@ -1,7 +1,8 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
-import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.Deck
 
 interface ExerciseCard {
     val base: Base
@@ -23,7 +24,7 @@ interface ExerciseCard {
         val card: Card by me(card)
         val deck: Deck by me(deck)
         val isReverse: Boolean by me(isReverse)
-        var isQuestionDisplayed: Boolean by me (isQuestionDisplayed)
+        var isQuestionDisplayed: Boolean by me(isQuestionDisplayed)
         var isAnswerCorrect: Boolean? by me(isAnswerCorrect)
         var hint: String? by me(hint)
         var timeLeft: Int by me(timeLeft)
@@ -32,3 +33,5 @@ interface ExerciseCard {
         var isLevelOfKnowledgeEditedManually: Boolean by me(isLevelOfKnowledgeEditedManually)
     }
 }
+
+val ExerciseCard.isAnswered get() = base.isAnswerCorrect != null

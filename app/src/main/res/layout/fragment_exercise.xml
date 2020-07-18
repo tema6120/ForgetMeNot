@@ -68,13 +68,24 @@
                 app:srcCompat="@drawable/ic_edit_white_24dp" />
 
         <ImageButton
+                android:id="@+id/walkingModeButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_walking_mode_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/editCardButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/walking_mode_button_selector" />
+
+        <ImageButton
                 android:id="@+id/hintButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_hint_button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/editCardButton"
+                app:layout_constraintStart_toEndOf="@id/walkingModeButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
                 tools:visibility="visible" />

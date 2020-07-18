@@ -1,0 +1,11 @@
+CREATE TABLE WalkingModeDb (
+    isEnabled INTEGER AS Boolean NOT NULL
+);
+
+INSERT INTO WalkingModeDb VALUES(0);
+
+selectAll:
+SELECT * FROM WalkingModeDb;
+
+updateIsEnabled:
+UPDATE WalkingModeDb SET isEnabled = ?;

@@ -30,6 +30,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             buildSharedRepetitionSettings(repetitionSettings)
         val currentRepetitionSetting: RepetitionSetting =
             buildCurrentRepetitionSetting(repetitionSettings)
+        val isWalkingModeEnabled: Boolean = tables.walkingModeTable
         return GlobalState(
             decks,
             sharedExercisePreferences,
@@ -37,7 +38,8 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             sharedPronunciations,
             sharedSpeakPlans,
             sharedRepetitionSettings,
-            currentRepetitionSetting
+            currentRepetitionSetting,
+            isWalkingModeEnabled
         )
     }
 

@@ -3,43 +3,43 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.SpeedOptimization.*
 import kotlinx.coroutines.*
-import java.lang.IllegalStateException
 
 class KeyGestureDetector(
-    private val detectSinglePress: Boolean = true,
-    detectDoublePress: Boolean = true,
-    private val detectLongPress: Boolean = true,
+    var detectSinglePress: Boolean = false,
+    var detectDoublePress: Boolean = false,
+    var detectLongPress: Boolean = false,
     private val coroutineScope: CoroutineScope,
     private val onGestureDetect: (Gesture) -> Unit
 ) {
     private var longPressDetectorJob: Job? = null
     private var singlePressDetectorJob: Job? = null
     private var isPressed: Boolean = false
-    private val speedOptimization: SpeedOptimization = when {
-        !detectSinglePress
-                && !detectDoublePress
-                && !detectLongPress -> {
-            throw IllegalStateException("At least one gesture should be detected")
+    private val speedOptimization: SpeedOptimization
+        get() = when {
+            !detectSinglePress
+                    && !detectDoublePress
+                    && !detectLongPress -> {
+                DO_NOT_DETECT
+            }
+            detectSinglePress
+                    && !detectDoublePress
+                    && !detectLongPress -> {
+                FIXATION_SINGLE_PRESS_ON_KEY_PRESSED
+            }
+            detectSinglePress
+                    && !detectDoublePress
+                    && detectLongPress -> {
+                FIXATION_SINGLE_PRESS_ON_KEY_RELEASED
+            }
+            !detectSinglePress
+                    && !detectDoublePress
+                    && detectLongPress -> {
+                FIXATION_LONG_PRESS_ON_KEY_PRESSED
+            }
+            else -> {
+                NO_OPTIMIZATION
+            }
         }
-        detectSinglePress
-                && !detectDoublePress
-                && !detectLongPress -> {
-            FIXATION_SINGLE_PRESS_ON_KEY_PRESSED
-        }
-        detectSinglePress
-                && !detectDoublePress
-                && detectLongPress -> {
-            FIXATION_SINGLE_PRESS_ON_KEY_RELEASED
-        }
-        !detectSinglePress
-                && !detectDoublePress
-                && detectLongPress -> {
-            FIXATION_LONG_PRESS_ON_KEY_PRESSED
-        }
-        else -> {
-            NO_OPTIMIZATION
-        }
-    }
 
     fun dispatchKeyEvent(isPressed: Boolean) {
         if (this.isPressed == isPressed) return else this.isPressed = isPressed
@@ -48,6 +48,9 @@ class KeyGestureDetector(
 
     private fun onKeyPressed() {
         when (speedOptimization) {
+            DO_NOT_DETECT -> {
+                // nothing happens
+            }
             FIXATION_SINGLE_PRESS_ON_KEY_PRESSED -> {
                 onGestureDetect.invoke(SINGLE_PRESS)
             }
@@ -70,6 +73,9 @@ class KeyGestureDetector(
 
     private fun onKeyReleased() {
         when (speedOptimization) {
+            DO_NOT_DETECT -> {
+                // nothing happens
+            }
             FIXATION_SINGLE_PRESS_ON_KEY_PRESSED -> {
                 // nothing happens
             }
@@ -112,6 +118,7 @@ class KeyGestureDetector(
     private fun Job?.isActive() = this != null && this.isActive
 
     private enum class SpeedOptimization {
+        DO_NOT_DETECT,
         FIXATION_SINGLE_PRESS_ON_KEY_PRESSED,
         FIXATION_SINGLE_PRESS_ON_KEY_RELEASED,
         FIXATION_LONG_PRESS_ON_KEY_PRESSED,
@@ -124,7 +131,7 @@ class KeyGestureDetector(
         LONG_PRESS
     }
 
-    companion object {
+    private companion object {
         const val MAX_DOUBLE_PRESS_INTERVAL = 300L
         const val LONG_PRESS_DURATION = 300L
     }

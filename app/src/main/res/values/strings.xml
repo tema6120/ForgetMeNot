@@ -36,6 +36,8 @@
     <string name="description_cursor_right_button">Move cursor to the right</string>
     <string name="description_remove_card_button">Remove card</string>
     <string name="description_help_button">Help</string>
+    <string name="description_walking_mode_button">Walking mode</string>
+    <string name="description_walking_mode_settings_button">Walking mode settings</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
@@ -116,8 +118,7 @@
     <string name="text_hint_as_quiz_button">As quiz</string>
     <string name="text_hint_mask_letters_button">Mask letters</string>
     <string name="text_go_to_tts_settings_button">Go to TTS Settings</string>
-    <string name="title_start_exercise_in_walking_mode">Start exercise in \'Walking mode\'</string>
-    <string name="title_repetition_mode">Repetition mode</string>
+    <string name="title_repetition_mode">Start repetition</string>
     <string name="title_action_settings">Settings</string>
     <string name="text_walking_mode_title">Walking mode</string>
     <string name="text_walking_mode_settings_description">Remapping volume keys actions</string>
@@ -203,6 +204,7 @@
     <string name="message_changes_will_be_lost">Your changes will be lost if you don\'t save them.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="popup_title_walking_mode">Walking Mode</string>
     <plurals name="exit_message_unanswered_cards">
         <item quantity="one">%d card is still unanswered</item>
         <item quantity="other">%d cards are still unanswered</item>

@@ -54,10 +54,6 @@ class DeckPreviewAdapter(
             inflate(R.menu.deck_preview_actions)
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.walkingModeMenuItem -> {
-                        controller.dispatch(WalkingModeMenuItemClicked(deckId))
-                        true
-                    }
                     R.id.repetitionModeMenuItem -> {
                         controller.dispatch(RepetitionModeMenuItemClicked(deckId))
                         true

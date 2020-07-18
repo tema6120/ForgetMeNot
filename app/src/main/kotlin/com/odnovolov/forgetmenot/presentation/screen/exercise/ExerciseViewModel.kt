@@ -2,21 +2,26 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.NO_ACTION
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
 
 class ExerciseViewModel(
     exerciseState: Exercise.State,
     speakerImplState: SpeakerImpl.State,
-    walkingModePreference: WalkingModePreference
+    walkingModePreference: WalkingModePreference,
+    globalState: GlobalState
 ) {
-    val isWalkingMode: Boolean = exerciseState.isWalkingMode
+    val isWalkingModeEnabled: Flow<Boolean> = globalState.flowOf(GlobalState::isWalkingModeEnabled)
 
     val exerciseCards: Flow<List<ExerciseCard>> =
         exerciseState.flowOf(Exercise.State::exerciseCards)
@@ -50,22 +55,9 @@ class ExerciseViewModel(
             }
         }
 
-    val timeLeft: Flow<Int> =
-        if (isWalkingMode) flowOf(0)
-        else currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            combine(
-                exerciseCard.base.card.flowOf(Card::isLearned),
-                exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect),
-                exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft)
-            ) { isLearned: Boolean, isAnswerCorrect: Boolean?, timeLeft: Int ->
-                val isAnswered = isAnswerCorrect != null
-                if (isLearned || isAnswered) {
-                    0
-                } else {
-                    timeLeft
-                }
-            }
-        }
+    val timeLeft: Flow<Int> = currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+        exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft)
+    }
 
     val levelOfKnowledgeForCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
@@ -77,21 +69,6 @@ class ExerciseViewModel(
             exerciseCard.base.flowOf(ExerciseCard.Base::isLevelOfKnowledgeEditedManually)
         }
 
-    val needToDetectVolumeUpSinglePress =
-        walkingModePreference.keyGestureMap[VOLUME_UP_SINGLE_PRESS] != NO_ACTION
-
-    val needToDetectVolumeUpDoublePress =
-        walkingModePreference.keyGestureMap[VOLUME_UP_DOUBLE_PRESS] != NO_ACTION
-
-    val needToDetectVolumeUpLongPress =
-        walkingModePreference.keyGestureMap[VOLUME_UP_LONG_PRESS] != NO_ACTION
-
-    val needToDetectVolumeDownSinglePress =
-        walkingModePreference.keyGestureMap[VOLUME_DOWN_SINGLE_PRESS] != NO_ACTION
-
-    val needToDetectVolumeDownDoublePress =
-        walkingModePreference.keyGestureMap[VOLUME_DOWN_DOUBLE_PRESS] != NO_ACTION
-
-    val needToDetectVolumeDownLongPress =
-        walkingModePreference.keyGestureMap[VOLUME_DOWN_LONG_PRESS] != NO_ACTION
+    val keyGestureMap: Flow<Map<KeyGesture, KeyGestureAction>> =
+        walkingModePreference.flowOf(WalkingModePreference::keyGestureMap)
 }

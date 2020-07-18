@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
-import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferenceProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
@@ -11,7 +10,6 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardController
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
@@ -27,12 +25,6 @@ class ExerciseDiScope private constructor(
     private val exerciseState: Exercise.State =
         initialExerciseState ?: exerciseStateProvider.load()
 
-    private val walkingModePreferenceProvider = WalkingModePreferenceProvider(
-        AppDiScope.get().database
-    )
-
-    private val walkingModePreference: WalkingModePreference = walkingModePreferenceProvider.load()
-
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
@@ -40,13 +32,15 @@ class ExerciseDiScope private constructor(
 
     private val exercise = Exercise(
         exerciseState,
+        AppDiScope.get().globalState,
         speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
 
     val controller = ExerciseController(
         exercise,
-        walkingModePreference,
+        AppDiScope.get().walkingModePreference,
+        AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         exerciseStateProvider
@@ -55,7 +49,8 @@ class ExerciseDiScope private constructor(
     val viewModel = ExerciseViewModel(
         exerciseState,
         speakerImpl.state,
-        walkingModePreference
+        AppDiScope.get().walkingModePreference,
+        AppDiScope.get().globalState
     )
 
     private val offTestExerciseCardController = OffTestExerciseCardController(

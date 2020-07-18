@@ -38,6 +38,10 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_exercise_screen_to_ongoing_card_editor_screen)
     }
 
+    fun navigateToWalkingModeSettingsFromExercise() {
+        navigate(R.id.action_exercise_screen_to_walking_mode_settings_screen)
+    }
+
     fun navigateToCardsEditorFromHome(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_cards_editor_screen)

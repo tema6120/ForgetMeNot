@@ -20,7 +20,7 @@ class ExerciseStateCreator(
         }
     }
 
-    fun create(deckIds: List<Long>, isWalkingMode: Boolean): Exercise.State {
+    fun create(deckIds: List<Long>): Exercise.State {
         val exerciseCards: List<ExerciseCard> = globalState.decks
             .filter { deck -> deck.id in deckIds }
             .map { deck ->
@@ -31,31 +31,31 @@ class ExerciseStateCreator(
                     }
                     .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
                     .sortedBy { card: Card -> card.lap }
-                    .map { card -> cardToExerciseCard(card, deck, isWalkingMode) }
+                    .map { card -> cardToExerciseCard(card, deck) }
             }
             .flattenWithShallowShuffling()
         QuizComposer.clearCache()
         if (exerciseCards.isEmpty()) throw NoCardIsReadyForExercise
-        return Exercise.State(exerciseCards, isWalkingMode = isWalkingMode)
+        return Exercise.State(exerciseCards)
     }
 
     private fun cardToExerciseCard(
         card: Card,
-        deck: Deck,
-        isWalkingMode: Boolean
+        deck: Deck
     ): ExerciseCard {
         val isReverse = when (deck.exercisePreference.cardReverse) {
             CardReverse.Off -> false
             CardReverse.On -> true
             CardReverse.EveryOtherLap -> (card.lap % 2) == 1
         }
+        val isWalkingMode = globalState.isWalkingModeEnabled
         val baseExerciseCard = ExerciseCard.Base(
             id = generateId(),
             card = card,
             deck = deck,
             isReverse = isReverse,
             isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
-            timeLeft = deck.exercisePreference.timeForAnswer,
+            timeLeft = if (isWalkingMode) 0 else deck.exercisePreference.timeForAnswer,
             initialLevelOfKnowledge = card.levelOfKnowledge,
             isLevelOfKnowledgeEditedManually = false
         )

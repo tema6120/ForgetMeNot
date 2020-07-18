@@ -254,10 +254,6 @@ class HomeFragment : BaseFragment() {
                     controller?.dispatch(SelectAllDecksMenuItemClicked)
                     true
                 }
-                R.id.action_start_exercise_in_walking_mode -> {
-                    controller?.dispatch(StartExerciseInWalkingModeMenuItemClicked)
-                    true
-                }
                 R.id.action_repetition_mode -> {
                     controller?.dispatch(RepetitionModeMultiSelectMenuItemClicked)
                     true

@@ -6,7 +6,6 @@ sealed class HomeEvent {
     object SettingsButtonClicked : HomeEvent()
     class DeckButtonClicked(val deckId: Long) : HomeEvent()
     class DeckButtonLongClicked(val deckId: Long) : HomeEvent()
-    class WalkingModeMenuItemClicked(val deckId: Long) : HomeEvent()
     class RepetitionModeMenuItemClicked(val deckId: Long) : HomeEvent()
     object RepetitionModeMultiSelectMenuItemClicked : HomeEvent()
     class SetupDeckMenuItemClicked(val deckId: Long) : HomeEvent()
@@ -15,6 +14,5 @@ sealed class HomeEvent {
     object StartExerciseMenuItemClicked : HomeEvent()
     object SelectAllDecksMenuItemClicked : HomeEvent()
     object RemoveDecksMenuItemClicked : HomeEvent()
-    object StartExerciseInWalkingModeMenuItemClicked : HomeEvent()
     object ActionModeFinished : HomeEvent()
 }
