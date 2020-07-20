@@ -33,6 +33,12 @@
     </fragment>
 
     <fragment
+            android:id="@+id/search_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.search.SearchFragment"
+            android:label="@string/label_search_screen"
+            tools:layout="@layout/fragment_search" />
+
+    <fragment
             android:id="@+id/exercise_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment"
             android:label="@string/label_exercise_screen"
@@ -87,6 +93,10 @@
         <action
                 android:id="@+id/action_show_motivational_timer_dialog"
                 app:destination="@+id/motivational_timer_dialog" />
+
+        <action
+                android:id="@+id/action_deck_setup_screen_to_search_screen"
+                app:destination="@+id/search_screen" />
 
         <action
                 android:id="@+id/action_deck_setup_screen_to_cards_editor_screen"

@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.*
@@ -13,6 +14,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observe
+import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
@@ -177,12 +179,14 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onResume() {
         super.onResume()
         resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         resumePauseCoroutineScope!!.launch {
-            val viewModel = HomeDiScope.get().viewModel
-            yield()
+            val diScope = HomeDiScope.get()
+            val viewModel = diScope.viewModel
+            deckPreviewAdapter = diScope.deckPreviewAdapter
             with(viewModel) {
                 decksPreview.observe(resumePauseCoroutineScope!!, deckPreviewAdapter::submitList)
                 deckSelectionCount.observe(
@@ -205,6 +209,7 @@ class HomeFragment : BaseFragment() {
                 }
             }
         }
+        showActionBar()
     }
 
     override fun onPause() {

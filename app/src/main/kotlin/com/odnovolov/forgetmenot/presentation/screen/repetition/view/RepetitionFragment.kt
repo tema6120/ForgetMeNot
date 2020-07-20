@@ -1,13 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -15,11 +13,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
 import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
@@ -38,15 +33,6 @@ class RepetitionFragment : BaseFragment() {
     private var controller: RepetitionViewController? = null
     private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.run {
-            setShowHideAnimationEnabled(false)
-            hide()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -205,6 +191,7 @@ class RepetitionFragment : BaseFragment() {
                 repetitionViewPager.setCurrentItem(repetitionCardPosition, false)
             }
         }
+        hideActionBar()
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
@@ -245,7 +232,6 @@ class RepetitionFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity as AppCompatActivity).supportActionBar?.show()
         if (isRemoving) {
             val intent = Intent(context, RepetitionService::class.java)
             requireContext().stopService(intent)

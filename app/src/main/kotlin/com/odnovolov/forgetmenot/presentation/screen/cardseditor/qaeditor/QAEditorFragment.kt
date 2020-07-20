@@ -1,20 +1,15 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor
 
-import android.content.ClipDescription
-import android.content.ClipboardManager
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
 import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.AnswerInputChanged
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.QuestionInputChanged
 import kotlinx.android.synthetic.main.fragment_qa_editor.*
@@ -104,38 +99,6 @@ class QAEditorFragment : BaseFragment() {
         }
     }
 
-    private fun EditText.paste() {
-        val clipboardText = getClipboardText()
-        if (clipboardText == null) {
-            showToast(R.string.message_no_paste_data)
-            return
-        }
-        val cursorFinalPosition: Int = selStart + clipboardText.length
-        setText(
-            StringBuilder(text).run {
-                if (hasSelection()) {
-                    replace(selStart, selEnd, clipboardText)
-                } else {
-                    insert(selStart, clipboardText)
-                }
-            }
-        )
-        requestFocus()
-        setSelection(cursorFinalPosition)
-    }
-
-    private fun EditText.getClipboardText(): String? {
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        if (!clipboard.hasPrimaryClip()) return null
-        clipboard.primaryClipDescription?.let {
-            if (!it.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) return null
-        } ?: return null
-        return clipboard.primaryClip?.getItemAt(0)?.text.toString()
-    }
-
-    private val EditText.selStart get() = minOf(selectionStart, selectionEnd)
-    private val EditText.selEnd get() = maxOf(selectionStart, selectionEnd)
-
     private fun moveQuestionCursorToTheLeft() {
         when {
             questionEditText.hasSelection() -> questionEditText.moveLeftPinToTheLeft()
@@ -143,19 +106,6 @@ class QAEditorFragment : BaseFragment() {
             answerEditText.hasFocus() -> answerEditText.moveCursorToTheLeft()
             else -> questionEditText.moveCursorToTheLeft()
         }
-    }
-
-    private fun EditText.moveLeftPinToTheLeft() {
-        if (selStart > 0) {
-            setSelection(selStart - 1, selEnd)
-        }
-    }
-
-    private fun EditText.moveCursorToTheLeft() {
-        if (selStart > 0) {
-            setSelection(selStart - 1)
-        }
-        requestFocus()
     }
 
     private fun moveQuestionCursorToTheRight() {
@@ -167,31 +117,12 @@ class QAEditorFragment : BaseFragment() {
         }
     }
 
-    private fun EditText.moveLeftPinToTheRight() {
-        if (selStart + 1 < selEnd) {
-            setSelection(selStart + 1, selEnd)
-        }
-    }
-
-    private fun EditText.moveCursorToTheRight() {
-        if (selStart < text.length) {
-            setSelection(selStart + 1)
-        }
-        requestFocus()
-    }
-
     private fun moveAnswerCursorToTheLeft() {
         when {
             questionEditText.hasSelection() -> questionEditText.moveRightPinToTheLeft()
             answerEditText.hasSelection() -> answerEditText.moveRightPinToTheLeft()
             questionEditText.hasFocus() -> questionEditText.moveCursorToTheLeft()
             else -> answerEditText.moveCursorToTheLeft()
-        }
-    }
-
-    private fun EditText.moveRightPinToTheLeft() {
-        if (selStart < selEnd - 1) {
-            setSelection(selStart, selEnd - 1)
         }
     }
 
@@ -204,12 +135,6 @@ class QAEditorFragment : BaseFragment() {
         }
     }
 
-    private fun EditText.moveRightPinToTheRight() {
-        if (selEnd < text.length) {
-            setSelection(selStart, selEnd + 1)
-        }
-    }
-
     fun inject(controller: SkeletalQAEditorController, viewModel: QAEditorViewModel) {
         this.controller = controller
         this.viewModel = viewModel
@@ -218,7 +143,7 @@ class QAEditorFragment : BaseFragment() {
 
     private fun observeViewModel() {
         if (!isViewInitialized || viewModel == null) return
-        with (viewModel!!) {
+        with(viewModel!!) {
             questionEditText.setText(question)
             answerEditText.setText(answer)
             isLearned.observe { isLearned: Boolean ->

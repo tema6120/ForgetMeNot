@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.AddCardButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.SearchButtonClicked
 import kotlinx.android.synthetic.main.fragment_deck_content.*
 import kotlinx.coroutines.launch
 
@@ -40,6 +41,10 @@ class DeckContentFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        searchButton.run {
+            setOnClickListener { controller?.dispatch(SearchButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
         addCardButton.run {
             setOnClickListener { controller?.dispatch(AddCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)

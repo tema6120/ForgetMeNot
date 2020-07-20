@@ -38,6 +38,8 @@
     <string name="description_help_button">Help</string>
     <string name="description_walking_mode_button">Walking mode</string>
     <string name="description_walking_mode_settings_button">Walking mode settings</string>
+    <string name="description_back_button">Navigate back</string>
+    <string name="description_search_in_cards_button">Search in cards</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
@@ -65,6 +67,7 @@
     <string name="label_walking_mode_settings_screen">Walking mode settings</string>
     <string name="label_repetition_settings_screen">Repetition settings</string>
     <string name="label_repetition_screen">Repetition</string>
+    <string name="label_search_screen">Search</string>
     <string name="hint_pronunciation_name_edittext">Enter name</string>
     <string name="text_question_title_textview">Question</string>
     <string name="text_auto_speak_switch">Auto speak</string>
@@ -213,4 +216,5 @@
         <item quantity="one">Show</item>
         <item quantity="other">Show the first</item>
     </plurals>
+    <string name="hint_deck_content_search_edittext">Search in all cards</string>
 </resources>

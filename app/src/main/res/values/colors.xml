@@ -31,4 +31,5 @@
     <color name="time_line">#cccccc</color>
     <color name="background_expired_card">#FFE7E3</color>
     <color name="background_card_editor_toolbar">#F5F5F5</color>
+    <color name="background_window">#F9F9F9</color>
 </resources>

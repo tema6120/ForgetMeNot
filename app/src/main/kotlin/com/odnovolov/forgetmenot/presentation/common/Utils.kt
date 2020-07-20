@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.common
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.text.Editable
@@ -16,6 +17,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.*
@@ -166,5 +168,21 @@ inline fun catchAndLogException(block: () -> Unit) {
                         " asynchronous behavior: ${e.message}"
             )
         }
+    }
+}
+
+@SuppressLint("RestrictedApi")
+fun Fragment.hideActionBar() {
+    (activity as MainActivity).supportActionBar?.run {
+        setShowHideAnimationEnabled(false)
+        hide()
+    }
+}
+
+@SuppressLint("RestrictedApi")
+fun Fragment.showActionBar() {
+    (activity as MainActivity).supportActionBar?.run {
+        setShowHideAnimationEnabled(false)
+        show()
     }
 }

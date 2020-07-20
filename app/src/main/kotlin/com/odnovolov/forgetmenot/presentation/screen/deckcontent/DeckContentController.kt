@@ -7,20 +7,23 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentController.Command
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.AddCardButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.CardClicked
+import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchScreenState
 
 class DeckContentController(
     private val deckEditor: DeckEditor,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
-) : BaseController<DeckContentEvent, Command>() {
-    sealed class Command {
-    }
-
+) : BaseController<DeckContentEvent, Nothing>() {
     override fun handle(event: DeckContentEvent) {
         when (event) {
+            SearchButtonClicked -> {
+                navigator.navigateToSearchScreenFromDeckSetup {
+                    SearchDiScope.create(SearchScreenState())
+                }
+            }
+
             is CardClicked -> {
                 navigator.navigateToCardsEditorFromDeckSetup {
                     val cardsEditorState = CardsEditor.State(

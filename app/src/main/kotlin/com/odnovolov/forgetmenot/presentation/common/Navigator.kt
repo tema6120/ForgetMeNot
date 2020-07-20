@@ -19,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScop
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDiScope
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanDiScope
 import kotlinx.coroutines.Dispatchers
@@ -84,6 +85,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun showMotivationalTimerDialog(createDiScope: () -> MotivationalTimerDiScope) {
         MotivationalTimerDiScope.open(createDiScope)
         navigate(R.id.action_show_motivational_timer_dialog)
+    }
+
+    fun navigateToSearchScreenFromDeckSetup(createDiScope: () -> SearchDiScope) {
+        SearchDiScope.open(createDiScope)
+        navigate(R.id.action_deck_setup_screen_to_search_screen)
     }
 
     fun navigateToCardsEditorFromDeckSetup(createDiScope: () -> CardsEditorDiScope) {

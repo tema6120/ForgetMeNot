@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupEvent.*
@@ -128,6 +129,11 @@ class DeckSetupFragment : BaseFragment() {
                 renameDeckDialog.show()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showActionBar()
     }
 
     override fun onDestroyView() {

@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
@@ -12,7 +11,6 @@ import android.view.View.GONE
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -22,12 +20,9 @@ import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.plurals
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
@@ -59,15 +54,6 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var keyEventInterceptor: (KeyEvent) -> Boolean
     private lateinit var volumeUpGestureDetector: KeyGestureDetector
     private lateinit var volumeDownGestureDetector: KeyGestureDetector
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.run {
-            setShowHideAnimationEnabled(false)
-            hide()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -474,6 +460,7 @@ class ExerciseFragment : BaseFragment() {
             val diScope = ExerciseDiScope.get()
             diScope.controller.dispatch(FragmentResumed)
         }
+        hideActionBar()
     }
 
     override fun onPause() {
@@ -501,7 +488,6 @@ class ExerciseFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity as AppCompatActivity).supportActionBar?.show()
         if (needToCloseDiScope()) {
             ExerciseDiScope.close()
         }
