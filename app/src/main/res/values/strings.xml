@@ -216,5 +216,6 @@
         <item quantity="one">Show</item>
         <item quantity="other">Show the first</item>
     </plurals>
-    <string name="hint_deck_content_search_edittext">Search in all cards</string>
+    <string name="hint_search_in_all_cards">Search in all cards</string>
+    <string name="hint_search_in_specific_deck">Search in \'%1$s\'</string>
 </resources>

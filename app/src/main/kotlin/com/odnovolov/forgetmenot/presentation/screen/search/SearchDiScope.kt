@@ -22,7 +22,10 @@ class SearchDiScope private constructor(
         screenStateProvider
     )
 
-    val viewModel = SearchViewModel()
+    val viewModel = SearchViewModel(
+        screenState,
+        AppDiScope.get().globalState
+    )
 
     companion object : DiScopeManager<SearchDiScope>() {
         fun create(screenState: SearchScreenState) = SearchDiScope(screenState)

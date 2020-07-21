@@ -27,7 +27,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@null"
-                android:hint="@string/hint_deck_content_search_edittext"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"

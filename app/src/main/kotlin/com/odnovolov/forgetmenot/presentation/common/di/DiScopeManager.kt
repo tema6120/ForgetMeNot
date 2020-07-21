@@ -17,6 +17,12 @@ abstract class DiScopeManager<DiScope> {
 
     fun isOpen(): Boolean = diScope != null
 
+    suspend fun isOpenAsync(): Boolean {
+        return withContext(businessLogicThread) {
+            diScope != null
+        }
+    }
+
     fun reopenIfClosed() {
         GlobalScope.launch(businessLogicThread) {
             if (diScope == null) {

@@ -37,8 +37,15 @@ class SearchFragment : BaseFragment() {
             val diScope = SearchDiScope.get()
             controller = diScope.controller
             viewModel = diScope.viewModel
+            initAdapter()
             observeViewModel()
         }
+    }
+
+    private fun initAdapter() {
+        val adapter = SearchCardAdapter(controller!!)
+        cardsRecycler.adapter = adapter
+        viewModel.cards.observe(adapter::submitList)
     }
 
     private fun setupView() {
@@ -60,6 +67,13 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun observeViewModel() {
+        with(viewModel) {
+            searchDeckName.observe { searchDeckName: String? ->
+                searchEditText.hint = (if (searchDeckName == null)
+                    getString(R.string.hint_search_in_all_cards) else
+                    getString(R.string.hint_search_in_specific_deck, searchDeckName))
+            }
+        }
     }
 
     override fun onResume() {

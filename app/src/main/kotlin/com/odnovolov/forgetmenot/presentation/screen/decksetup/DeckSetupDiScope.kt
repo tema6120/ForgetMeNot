@@ -17,7 +17,7 @@ class DeckSetupDiScope private constructor(
         AppDiScope.get().globalState
     )
 
-    private val screenState: DeckSetupScreenState =
+    val screenState: DeckSetupScreenState =
         initialScreenState ?: screenStateProvider.load()
 
     private val deckEditorStateProvider = DeckEditorStateProvider(
