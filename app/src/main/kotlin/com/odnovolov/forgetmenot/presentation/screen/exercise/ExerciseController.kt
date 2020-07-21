@@ -16,6 +16,8 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchScreenState
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
@@ -44,6 +46,14 @@ class ExerciseController(
                 exercise.setCurrentPosition(event.position)
             }
 
+            LevelOfKnowledgeButtonClicked -> {
+                onLevelOfKnowledgeButtonClicked()
+            }
+
+            is LevelOfKnowledgeSelected -> {
+                exercise.setLevelOfKnowledge(event.levelOfKnowledge)
+            }
+
             NotAskButtonClicked -> {
                 exercise.setIsCardLearned(true)
                 sendCommand(MoveToNextPosition)
@@ -68,17 +78,8 @@ class ExerciseController(
                 }
             }
 
-            WalkingModeSettingsButtonClicked -> {
-                navigator.navigateToWalkingModeSettingsFromExercise()
-            }
-
-            WalkingModeHelpButtonClicked -> {
-
-            }
-
-            WalkingModeSwitchToggled -> {
-                val enabled = !globalState.isWalkingModeEnabled
-                exercise.setWalkingModeEnabled(enabled)
+            TimerButtonClicked -> {
+                exercise.stopTimer()
             }
 
             HintButtonClicked -> {
@@ -99,8 +100,31 @@ class ExerciseController(
                 exercise.showHint()
             }
 
-            TimerButtonClicked -> {
-                exercise.stopTimer()
+            SearchButtonClicked -> {
+                navigator.navigateToSearchFromExercise {
+                    val searchText = with(exercise.state) {
+                        when {
+                            questionSelection.isNotEmpty() -> questionSelection
+                            answerSelection.isNotEmpty() -> answerSelection
+                            else -> ""
+                        }
+                    }
+                    val screenState = SearchScreenState(searchText)
+                    SearchDiScope.create(screenState)
+                }
+            }
+
+            WalkingModeSettingsButtonClicked -> {
+                navigator.navigateToWalkingModeSettingsFromExercise()
+            }
+
+            WalkingModeHelpButtonClicked -> {
+
+            }
+
+            WalkingModeSwitchToggled -> {
+                val enabled = !globalState.isWalkingModeEnabled
+                exercise.setWalkingModeEnabled(enabled)
             }
 
             FragmentResumed -> {
@@ -109,14 +133,6 @@ class ExerciseController(
 
             FragmentPaused -> {
                 exercise.resetTimer()
-            }
-
-            LevelOfKnowledgeButtonClicked -> {
-                onLevelOfKnowledgeButtonClicked()
-            }
-
-            is LevelOfKnowledgeSelected -> {
-                exercise.setLevelOfKnowledge(event.levelOfKnowledge)
             }
 
             is KeyGestureDetected -> {

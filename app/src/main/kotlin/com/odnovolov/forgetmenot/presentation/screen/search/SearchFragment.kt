@@ -73,16 +73,19 @@ class SearchFragment : BaseFragment() {
                     getString(R.string.hint_search_in_all_cards) else
                     getString(R.string.hint_search_in_specific_deck, searchDeckName))
             }
-            if (isFirstCreated) searchEditText.setText(initialSearchText)
+            if (isFirstCreated)
+                searchEditText.setText(initialSearchText)
+            if (initialSearchText.isEmpty()) {
+                searchEditText.post {
+                    searchEditText.showSoftInput()
+                }
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
         hideActionBar()
-        searchEditText.post {
-            searchEditText.showSoftInput()
-        }
     }
 
     override fun onPause() {

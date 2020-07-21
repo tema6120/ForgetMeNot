@@ -40,6 +40,7 @@
     <string name="description_walking_mode_settings_button">Walking mode settings</string>
     <string name="description_back_button">Navigate back</string>
     <string name="description_search_in_cards_button">Search in cards</string>
+    <string name="description_search_button">Search</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>

@@ -10,7 +10,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/controlPanel"
+            app:layout_constraintBottom_toTopOf="@id/controlPanelScroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -19,13 +19,13 @@
             android:id="@+id/exerciseViewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/controlPanel"
+            app:layout_constraintBottom_toTopOf="@id/controlPanelScroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/controlPanel"
+    <HorizontalScrollView
+            android:id="@+id/controlPanelScroll"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
@@ -34,100 +34,117 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
-                android:id="@+id/notAskButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_not_ask_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_block_white_24dp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
-        <ImageButton
-                android:id="@+id/speakButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_speak_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/notAskButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+            <TextView
+                    android:id="@+id/levelOfKnowledgeTextView"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="9dp"
+                    android:gravity="center"
+                    android:textColor="@color/text_level_of_knowledge"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
+                    tools:text="0" />
 
-        <ImageButton
-                android:id="@+id/editCardButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_edit_card_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/speakButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_edit_white_24dp" />
+            <View
+                    android:id="@+id/levelOfKnowledgeButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_level_of_knowledge_button"
+                    app:layout_constraintBottom_toBottomOf="@+id/levelOfKnowledgeTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
+                    app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
+                    app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView" />
 
-        <ImageButton
-                android:id="@+id/walkingModeButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_walking_mode_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/editCardButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/walking_mode_button_selector" />
+            <ImageButton
+                    android:id="@+id/notAskButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_not_ask_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/levelOfKnowledgeButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_block_white_24dp" />
 
-        <ImageButton
-                android:id="@+id/hintButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_hint_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/walkingModeButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
-                tools:visibility="visible" />
+            <ImageButton
+                    android:id="@+id/speakButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_speak_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/notAskButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_volume_up_white_24dp" />
 
-        <ImageButton
-                android:id="@+id/timerButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_timer_button"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/hintButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_timer_white_24dp"
-                tools:visibility="visible" />
+            <ImageButton
+                    android:id="@+id/editCardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_edit_card_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/speakButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_edit_white_24dp" />
 
-        <TextView
-                android:id="@+id/levelOfKnowledgeTextView"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="9dp"
-                android:gravity="center"
-                android:textColor="@color/text_level_of_knowledge"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
-                tools:text="0" />
+            <ImageButton
+                    android:id="@+id/timerButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_timer_button"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/editCardButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_timer_white_24dp"
+                    tools:visibility="visible" />
 
-        <View
-                android:id="@+id/levelOfKnowledgeButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_level_of_knowledge_button"
-                app:layout_constraintBottom_toBottomOf="@+id/levelOfKnowledgeTextView"
-                app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
-                app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
-                app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView" />
+            <ImageButton
+                    android:id="@+id/hintButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_hint_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/timerButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
+                    tools:visibility="visible" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                    android:id="@+id/searchButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_search_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/hintButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_search_white_24dp" />
+
+            <ImageButton
+                    android:id="@+id/walkingModeButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_walking_mode_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/searchButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/walking_mode_button_selector" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

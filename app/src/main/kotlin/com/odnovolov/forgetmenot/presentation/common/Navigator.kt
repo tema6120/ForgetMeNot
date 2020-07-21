@@ -44,6 +44,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_exercise_screen_to_ongoing_card_editor_screen)
     }
 
+    fun navigateToSearchFromExercise(createDiScope: () -> SearchDiScope) {
+        SearchDiScope.open(createDiScope)
+        navigate(R.id.action_exercise_screen_to_search_screen)
+    }
+
     fun navigateToWalkingModeSettingsFromExercise() {
         navigate(R.id.action_exercise_screen_to_walking_mode_settings_screen)
     }

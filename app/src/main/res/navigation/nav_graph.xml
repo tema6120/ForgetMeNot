@@ -61,6 +61,10 @@
                 app:destination="@id/ongoing_card_editor_screen" />
 
         <action
+                android:id="@+id/action_exercise_screen_to_search_screen"
+                app:destination="@+id/search_screen" />
+
+        <action
                 android:id="@+id/action_exercise_screen_to_walking_mode_settings_screen"
                 app:destination="@id/walking_mode_settings_screen" />
 

@@ -60,9 +60,7 @@ class HomeController(
 
             SearchInCardsButtonClicked -> {
                 navigator.navigateToSearchFromHome {
-                    val screenState = SearchScreenState().apply {
-                        searchText = homeScreenState.searchText
-                    }
+                    val screenState = SearchScreenState(homeScreenState.searchText)
                     SearchDiScope.create(screenState)
                 }
             }

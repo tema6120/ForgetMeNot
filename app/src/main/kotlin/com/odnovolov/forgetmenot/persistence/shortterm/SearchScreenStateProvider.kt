@@ -25,7 +25,7 @@ class SearchScreenStateProvider(
         state.searchText
     )
 
-    override fun toOriginal(serializableState: SerializableState) = SearchScreenState().apply {
-        searchText = serializableState.searchText
-    }
+    override fun toOriginal(serializableState: SerializableState) = SearchScreenState(
+        serializableState.searchText
+    )
 }

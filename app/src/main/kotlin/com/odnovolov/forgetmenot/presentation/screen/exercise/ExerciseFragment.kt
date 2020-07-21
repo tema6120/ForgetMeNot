@@ -86,6 +86,10 @@ class ExerciseFragment : BaseFragment() {
 
     private fun setupView() {
         exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
+        levelOfKnowledgeButton.run {
+            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
         editCardButton.run {
             setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
@@ -94,16 +98,16 @@ class ExerciseFragment : BaseFragment() {
             setOnClickListener { showWalkingModePopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
-        hintButton.run {
-            setOnClickListener { controller?.dispatch(HintButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
         timerButton.run {
             setOnClickListener { controller?.dispatch(TimerButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
-        levelOfKnowledgeButton.run {
-            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
+        hintButton.run {
+            setOnClickListener { controller?.dispatch(HintButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        searchButton.run {
+            setOnClickListener { controller?.dispatch(SearchButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
     }
@@ -113,7 +117,7 @@ class ExerciseFragment : BaseFragment() {
         val walkingModeButtonLocation =
             IntArray(2).also { walkingModeButton.getLocationOnScreen(it) }
         val x =
-            walkingModeButtonLocation[0] + (walkingModeButton.width / 2) - (walkingModePopup!!.width / 2)
+            walkingModeButtonLocation[0] + walkingModeButton.width - 8.dp - walkingModePopup!!.width
         val y =
             walkingModeButtonLocation[1] + walkingModeButton.height - 8.dp - walkingModePopup!!.height
         walkingModePopup!!.showAtLocation(
@@ -305,7 +309,7 @@ class ExerciseFragment : BaseFragment() {
         content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         val location = IntArray(2)
         levelOfKnowledgeButton.getLocationOnScreen(location)
-        val x = location[0] + levelOfKnowledgeButton.width - 8.dp - content.measuredWidth
+        val x = location[0] + 8.dp
         val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
         levelOfKnowledgePopup!!.showAtLocation(
             levelOfKnowledgeButton.rootView,
