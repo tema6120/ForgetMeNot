@@ -34,6 +34,7 @@ class ExerciseController(
         object MoveToNextPosition : Command()
         object MoveToPreviousPosition : Command()
         class MoveToPosition(val position: Int) : Command()
+        object ShowTimerIsAlreadyOffMessage : Command()
         object ShowChooseHintPopup : Command()
         class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
@@ -79,7 +80,11 @@ class ExerciseController(
             }
 
             TimerButtonClicked -> {
-                exercise.stopTimer()
+                if (exercise.currentExerciseCard.base.timeLeft == 0) {
+                    sendCommand(ShowTimerIsAlreadyOffMessage)
+                } else {
+                    exercise.stopTimer()
+                }
             }
 
             HintButtonClicked -> {

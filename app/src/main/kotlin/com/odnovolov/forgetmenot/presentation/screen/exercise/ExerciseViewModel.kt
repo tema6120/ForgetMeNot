@@ -10,10 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.*
 
 class ExerciseViewModel(
     exerciseState: Exercise.State,
@@ -55,8 +52,19 @@ class ExerciseViewModel(
             }
         }
 
-    val timeLeft: Flow<Int> = currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-        exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft)
+    val timeLeft: Flow<Int?> = combine(
+        isWalkingModeEnabled,
+        currentExerciseCard
+    ) { isWalkingModeEnabled: Boolean, currentExerciseCard: ExerciseCard ->
+        val isTimerEnabled = !isWalkingModeEnabled
+                && currentExerciseCard.base.deck.exercisePreference.timeForAnswer > 0
+        isTimerEnabled to currentExerciseCard
+    }.flatMapLatest { (isTimerEnabled: Boolean, currentExerciseCard: ExerciseCard) ->
+        if (isTimerEnabled) {
+            currentExerciseCard.base.flowOf(ExerciseCard.Base::timeLeft)
+        } else {
+            flowOf(null)
+        }
     }
 
     val levelOfKnowledgeForCurrentCard: Flow<Int> =

@@ -227,8 +227,19 @@ class ExerciseFragment : BaseFragment() {
             isHintAccessible.observe { isHintAccessible: Boolean ->
                 hintButton.isVisible = isHintAccessible
             }
-            timeLeft.observe { timeLeft: Int ->
-                timerButton.isVisible = timeLeft > 0
+            timeLeft.observe { timeLeft: Int? ->
+                if (timeLeft == null) {
+                    timerButton.isVisible = false
+                } else {
+                    timerButton.setImageResource(
+                        when {
+                            timeLeft == 0 -> R.drawable.ic_timer_white_24dp_off
+                            timeLeft % 2 == 1 -> R.drawable.ic_timer_white_24dp_odd
+                            else -> R.drawable.ic_timer_white_24dp
+                        }
+                    )
+                    timerButton.isVisible = true
+                }
             }
             levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
                 val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
@@ -273,6 +284,9 @@ class ExerciseFragment : BaseFragment() {
             }
             is MoveToPosition -> {
                 exerciseViewPager.setCurrentItem(command.position, true)
+            }
+            ShowTimerIsAlreadyOffMessage -> {
+                showToast(R.string.message_timer_is_already_off)
             }
             ShowChooseHintPopup -> {
                 showChooseHintPopup()
