@@ -36,7 +36,15 @@
             android:id="@+id/search_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.search.SearchFragment"
             android:label="@string/label_search_screen"
-            tools:layout="@layout/fragment_search" />
+            tools:layout="@layout/fragment_search" >
+
+        <action
+                android:id="@+id/action_search_screen_to_cards_editor_screen"
+                app:destination="@+id/cards_editor_screen"
+                app:popUpTo="@+id/search_screen"
+                app:popUpToInclusive="true" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/exercise_screen"

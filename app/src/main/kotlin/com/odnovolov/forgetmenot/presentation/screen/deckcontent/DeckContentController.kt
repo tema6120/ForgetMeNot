@@ -19,7 +19,7 @@ class DeckContentController(
     override fun handle(event: DeckContentEvent) {
         when (event) {
             SearchButtonClicked -> {
-                navigator.navigateToSearchScreenFromDeckSetup {
+                navigator.navigateToSearchFromDeckSetup {
                     SearchDiScope.create(SearchScreenState())
                 }
             }

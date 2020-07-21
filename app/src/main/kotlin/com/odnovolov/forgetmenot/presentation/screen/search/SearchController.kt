@@ -1,10 +1,15 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.*
+import kotlinx.coroutines.runBlocking
 
 class SearchController(
     private val screenState: SearchScreenState,
@@ -23,7 +28,21 @@ class SearchController(
             }
 
             is CardClicked -> {
-
+                when {
+                    DeckSetupDiScope.isOpen() -> {
+                        navigator.navigateToCardsEditorFromSearch {
+                            val deck = runBlocking {
+                                DeckSetupDiScope.get().screenState.relevantDeck
+                            }
+                            val cardsEditorState = CardsEditor.State(
+                                mode = EditingExistingDeck(deck),
+                                currentPosition = deck.cards
+                                    .indexOfFirst { card -> card.id == event.cardId }
+                            )
+                            CardsEditorDiScope.create(cardsEditorState)
+                        }
+                    }
+                }
             }
         }
     }

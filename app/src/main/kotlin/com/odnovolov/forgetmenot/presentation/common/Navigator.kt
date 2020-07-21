@@ -87,9 +87,14 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_show_motivational_timer_dialog)
     }
 
-    fun navigateToSearchScreenFromDeckSetup(createDiScope: () -> SearchDiScope) {
+    fun navigateToSearchFromDeckSetup(createDiScope: () -> SearchDiScope) {
         SearchDiScope.open(createDiScope)
         navigate(R.id.action_deck_setup_screen_to_search_screen)
+    }
+
+    fun navigateToCardsEditorFromSearch(createDiScope: () -> CardsEditorDiScope) {
+        CardsEditorDiScope.open(createDiScope)
+        navigate(R.id.action_search_screen_to_cards_editor_screen)
     }
 
     fun navigateToCardsEditorFromDeckSetup(createDiScope: () -> CardsEditorDiScope) {
