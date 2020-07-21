@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -69,6 +69,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
         viewCoroutineScope!!.launch {
             val diScope = HomeDiScope.get()
             controller = diScope.controller
@@ -77,6 +78,12 @@ class HomeFragment : BaseFragment() {
             decksPreviewRecycler.adapter = deckPreviewAdapter
             observeViewModel()
             controller!!.commands.observe(onEach = ::executeCommand)
+        }
+    }
+
+    private fun setupView() {
+        searchInCardsButton.setOnClickListener {
+            controller?.dispatch(SearchInCardsButtonClicked)
         }
     }
 
@@ -123,12 +130,14 @@ class HomeFragment : BaseFragment() {
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
                 setMenuItemsVisibility(false)
+                searchInCardsButton.isVisible = true
                 return true
             }
 
             override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
                 setMenuItemsVisibility(true)
                 requireActivity().invalidateOptionsMenu()
+                searchInCardsButton.isVisible = false
                 return true
             }
 
@@ -179,7 +188,6 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onResume() {
         super.onResume()
         resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)

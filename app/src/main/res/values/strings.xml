@@ -218,4 +218,5 @@
     </plurals>
     <string name="hint_search_in_all_cards">Search in all cards</string>
     <string name="hint_search_in_specific_deck">Search in \'%1$s\'</string>
+    <string name="text_search_in_cards_button">Search in cards</string>
 </resources>

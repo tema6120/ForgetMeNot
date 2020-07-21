@@ -38,7 +38,7 @@ class SearchFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             initAdapter()
-            observeViewModel()
+            observeViewModel(isFirstCreated = savedInstanceState == null)
         }
     }
 
@@ -66,20 +66,23 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(isFirstCreated: Boolean) {
         with(viewModel) {
             searchDeckName.observe { searchDeckName: String? ->
                 searchEditText.hint = (if (searchDeckName == null)
                     getString(R.string.hint_search_in_all_cards) else
                     getString(R.string.hint_search_in_specific_deck, searchDeckName))
             }
+            if (isFirstCreated) searchEditText.setText(initialSearchText)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        searchEditText.showSoftInput()
         hideActionBar()
+        searchEditText.post {
+            searchEditText.showSoftInput()
+        }
     }
 
     override fun onPause() {

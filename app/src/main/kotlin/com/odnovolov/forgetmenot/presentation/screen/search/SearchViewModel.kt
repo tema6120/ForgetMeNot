@@ -24,6 +24,8 @@ class SearchViewModel(
 
     val searchDeckName: Flow<String?> = searchDeck.map { it?.name }
 
+    val initialSearchText: String = screenState.searchText
+
     private val allCards: Flow<List<Card>> = searchDeck.transform { searchDeck: Deck? ->
         val allCards: List<Card> = searchDeck?.cards ?: globalState.decks.flatMap(Deck::cards)
         emit(allCards)

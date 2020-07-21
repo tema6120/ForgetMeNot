@@ -11,6 +11,10 @@
             tools:layout="@layout/fragment_home">
 
         <action
+                android:id="@+id/action_home_screen_to_search_screen"
+                app:destination="@id/search_screen" />
+
+        <action
                 android:id="@+id/action_home_screen_to_exercise_screen"
                 app:destination="@id/exercise_screen" />
 
@@ -36,7 +40,7 @@
             android:id="@+id/search_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.search.SearchFragment"
             android:label="@string/label_search_screen"
-            tools:layout="@layout/fragment_search" >
+            tools:layout="@layout/fragment_search">
 
         <action
                 android:id="@+id/action_search_screen_to_cards_editor_screen"

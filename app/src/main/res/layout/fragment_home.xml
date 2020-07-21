@@ -1,23 +1,44 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/homeFragmentRootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
         tools:context="presentation.screen.home.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/decksPreviewRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_deck_preview"
-            app:layoutManager="LinearLayoutManager" />
+    <Button
+            android:id="@+id/searchInCardsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:text="@string/text_search_in_cards_button"
+            android:visibility="gone"
+            app:icon="@drawable/ic_search_white_24dp"
+            app:iconGravity="textStart"
+            tools:visibility="visible" />
 
-    <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/addDeckFragment"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment"
-            android:tag="AddDeckFragment"
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/decksPreviewRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_deck_preview" />
+
+        <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/addDeckFragment"
+                android:name="com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:tag="AddDeckFragment" />
+
+    </FrameLayout>
+
+</LinearLayout>

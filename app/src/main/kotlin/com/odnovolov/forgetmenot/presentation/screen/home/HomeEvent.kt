@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
+    object SearchInCardsButtonClicked : HomeEvent()
     object DisplayOnlyWithTasksCheckboxClicked : HomeEvent()
     object SettingsButtonClicked : HomeEvent()
     class DeckButtonClicked(val deckId: Long) : HomeEvent()
