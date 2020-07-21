@@ -10,7 +10,10 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
 
 class ExerciseViewModel(
     exerciseState: Exercise.State,
@@ -41,31 +44,44 @@ class ExerciseViewModel(
 
     val isSpeaking: Flow<Boolean> = speakerImplState.flowOf(SpeakerImpl.State::isSpeaking)
 
-    val isHintAccessible: Flow<Boolean> =
+    val hintStatus: Flow<HintStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             val isQuizTestExerciseCard: Boolean = exerciseCard is QuizTestExerciseCard
             combine(
                 exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect),
                 exerciseCard.base.card.flowOf(Card::isLearned)
             ) { isAnswerCorrect: Boolean?, isLearned: Boolean ->
-                !isQuizTestExerciseCard && isAnswerCorrect == null && !isLearned
+                when {
+                    isQuizTestExerciseCard || isLearned -> HintStatus.Off
+                    isAnswerCorrect == null -> HintStatus.Accessible
+                    else -> HintStatus.NotAccessible
+                }
             }
         }
 
-    val timeLeft: Flow<Int?> = combine(
-        isWalkingModeEnabled,
-        currentExerciseCard
-    ) { isWalkingModeEnabled: Boolean, currentExerciseCard: ExerciseCard ->
-        val isTimerEnabled = !isWalkingModeEnabled
-                && currentExerciseCard.base.deck.exercisePreference.timeForAnswer > 0
-        isTimerEnabled to currentExerciseCard
-    }.flatMapLatest { (isTimerEnabled: Boolean, currentExerciseCard: ExerciseCard) ->
-        if (isTimerEnabled) {
-            currentExerciseCard.base.flowOf(ExerciseCard.Base::timeLeft)
-        } else {
-            flowOf(null)
-        }
+    enum class HintStatus {
+        Accessible,
+        NotAccessible,
+        Off
     }
+
+    val timeLeft: Flow<Int?> =
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+            val isTimerEnabled = exerciseCard.base.deck.exercisePreference.timeForAnswer > 0
+            combine(
+                exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
+                exerciseCard.base.card.flowOf(Card::isLearned),
+                isWalkingModeEnabled
+            ) { timeLeft: Int,
+                isLearned: Boolean,
+                isWalkingModeEnabled: Boolean
+                ->
+                when {
+                    isWalkingModeEnabled || isLearned || !isTimerEnabled -> null
+                    else -> timeLeft
+                }
+            }
+        }
 
     val levelOfKnowledgeForCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->

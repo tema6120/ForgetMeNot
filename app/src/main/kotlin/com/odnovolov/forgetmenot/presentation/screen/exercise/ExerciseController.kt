@@ -36,6 +36,7 @@ class ExerciseController(
         class MoveToPosition(val position: Int) : Command()
         object ShowTimerIsAlreadyOffMessage : Command()
         object ShowChooseHintPopup : Command()
+        object ShowHintIsNotAccessibleMessage : Command()
         class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
         class ShowThereAreUnansweredCardsMessage(val unansweredCardCount: Int) : Command()
@@ -88,12 +89,17 @@ class ExerciseController(
             }
 
             HintButtonClicked -> {
-                if (!globalState.isWalkingModeEnabled
-                    && exercise.currentExerciseCard.base.hint == null
-                ) {
-                    sendCommand(ShowChooseHintPopup)
-                } else {
-                    exercise.showHint()
+                when {
+                    exercise.currentExerciseCard.isAnswered -> {
+                        sendCommand(ShowHintIsNotAccessibleMessage)
+                    }
+                    !globalState.isWalkingModeEnabled
+                            && exercise.currentExerciseCard.base.hint == null -> {
+                        sendCommand(ShowChooseHintPopup)
+                    }
+                    else -> {
+                        exercise.showHint()
+                    }
                 }
             }
 

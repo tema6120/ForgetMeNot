@@ -25,6 +25,8 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel.HintStatus
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel.HintStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
@@ -224,8 +226,20 @@ class ExerciseFragment : BaseFragment() {
                 (activity as MainActivity).keyEventInterceptor =
                     if (isEnabled) keyEventInterceptor else null
             }
-            isHintAccessible.observe { isHintAccessible: Boolean ->
-                hintButton.isVisible = isHintAccessible
+            hintStatus.observe { hintStatus: HintStatus ->
+                when (hintStatus) {
+                    Accessible -> {
+                        hintButton.setImageResource(R.drawable.ic_lightbulb_outline_white_24dp)
+                        hintButton.isVisible = true
+                    }
+                    NotAccessible -> {
+                        hintButton.setImageResource(R.drawable.ic_lightbulb_outline_white_24dp_disabled)
+                        hintButton.isVisible = true
+                    }
+                    Off -> {
+                        hintButton.isVisible = false
+                    }
+                }
             }
             timeLeft.observe { timeLeft: Int? ->
                 if (timeLeft == null) {
@@ -286,10 +300,13 @@ class ExerciseFragment : BaseFragment() {
                 exerciseViewPager.setCurrentItem(command.position, true)
             }
             ShowTimerIsAlreadyOffMessage -> {
-                showToast(R.string.message_timer_is_already_off)
+                showToast(R.string.toast_timer_is_already_off)
             }
             ShowChooseHintPopup -> {
                 showChooseHintPopup()
+            }
+            ShowHintIsNotAccessibleMessage -> {
+                showToast(R.string.toast_hint_is_not_accessible)
             }
             is ShowLevelOfKnowledgePopup -> {
                 showLevelOfKnowledgePopup(command.intervalItems)
