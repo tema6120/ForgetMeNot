@@ -42,7 +42,7 @@ class QAEditorFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = CardsEditorDiScope.get()
+            val diScope = CardsEditorDiScope.getAsync()
             val cardId = requireArguments().getLong(ARG_ID)
             controller = diScope.qaEditorController(cardId)
             viewModel = diScope.qaEditorViewModel(cardId)

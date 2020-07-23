@@ -92,7 +92,7 @@ class AddDeckFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewCoroutineScope!!.launch {
-            val diScope = AddDeckDiScope.get()
+            val diScope = AddDeckDiScope.getAsync()
             controller = diScope.controller
             val viewModel = diScope.viewModel
             observeViewModel(viewModel)

@@ -5,6 +5,8 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -50,7 +52,6 @@ class CardsEditorProvider(
                     cardsEditor.state.currentPosition
                 )
             }
-
             else -> {
                 error("Type is not supported")
             }
@@ -64,7 +65,6 @@ class CardsEditorProvider(
         answer,
         isLearned,
         levelOfKnowledge
-
     )
 
     override fun toOriginal(serializableState: SerializableState): CardsEditor {
@@ -108,10 +108,28 @@ class CardsEditorProvider(
                             )
                         }
                         .toMutableList()
-                CardsEditorForEditingSpecificCards(
-                    removedEditableCards,
-                    cardsEditorState
-                )
+                when {
+                    ExerciseDiScope.isOpen() -> {
+                        CardsEditorForExercise(
+                            ExerciseDiScope.get().exercise,
+                            removedEditableCards,
+                            cardsEditorState
+                        )
+                    }
+                    RepetitionDiScope.isOpen() -> {
+                        CardsEditorForRepetition(
+                            RepetitionDiScope.get().repetition,
+                            removedEditableCards,
+                            cardsEditorState
+                        )
+                    }
+                    else -> {
+                        CardsEditorForEditingSpecificCards(
+                            removedEditableCards,
+                            cardsEditorState
+                        )
+                    }
+                }
             }
         }
     }

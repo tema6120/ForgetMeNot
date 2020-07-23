@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         )
         initNavController()
         coroutineScope.launch {
-            val diScope = MainActivityDiScope.get()
+            val diScope = MainActivityDiScope.getAsync()
             fullscreenModeManager = FullscreenModeManager(
                 diScope.fullScreenPreference,
                 window.decorView,

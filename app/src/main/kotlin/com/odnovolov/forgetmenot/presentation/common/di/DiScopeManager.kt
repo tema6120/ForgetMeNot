@@ -31,10 +31,14 @@ abstract class DiScopeManager<DiScope> {
         }
     }
 
-    suspend fun get(): DiScope {
+    suspend fun getAsync(): DiScope {
         return diScope ?: withContext(businessLogicThread) {
             diScope ?: error("DiScope is not opened")
         }
+    }
+
+    fun get(): DiScope {
+        return diScope ?: error("DiScope is not opened")
     }
 
     fun close() {

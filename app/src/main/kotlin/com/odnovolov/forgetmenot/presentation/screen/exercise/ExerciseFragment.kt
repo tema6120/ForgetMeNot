@@ -70,7 +70,7 @@ class ExerciseFragment : BaseFragment() {
         setupView()
         initKeyEventInterceptor()
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.get()
+            val diScope = ExerciseDiScope.getAsync()
             controller = diScope.controller
             exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!)
             viewModel = diScope.viewModel
@@ -377,7 +377,7 @@ class ExerciseFragment : BaseFragment() {
     private fun createWalkingModePopup() {
         val content = View.inflate(requireContext(), R.layout.popup_walking_mode, null)
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.get()
+            val diScope = ExerciseDiScope.getAsync()
             diScope.viewModel.isWalkingModeEnabled.observe(content.walkingModeSwitch::setChecked)
         }
         content.walkingModeSettingsButton.run {
@@ -492,7 +492,7 @@ class ExerciseFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.get()
+            val diScope = ExerciseDiScope.getAsync()
             diScope.controller.dispatch(FragmentResumed)
         }
         hideActionBar()
@@ -501,7 +501,7 @@ class ExerciseFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.get()
+            val diScope = ExerciseDiScope.getAsync()
             diScope.controller.dispatch(FragmentPaused)
         }
     }

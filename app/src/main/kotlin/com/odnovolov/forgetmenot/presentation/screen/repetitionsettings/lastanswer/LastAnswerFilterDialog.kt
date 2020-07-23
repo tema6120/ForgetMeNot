@@ -89,7 +89,7 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
     override fun onStart() {
         super.onStart()
         viewCoroutineScope!!.launch {
-            val diScope = LastAnswerFilterDiScope.get()
+            val diScope = LastAnswerFilterDiScope.getAsync()
             controller = diScope.controller
             observeViewModel(diScope.viewModel)
         }

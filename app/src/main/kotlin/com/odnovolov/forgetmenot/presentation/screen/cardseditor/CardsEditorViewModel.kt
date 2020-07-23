@@ -34,7 +34,7 @@ class CardsEditorViewModel(
             editableCard?.flowOf(EditableCard::isLearned) ?: flowOf(null)
         }
 
-    val isRemoveButtonVisible: Flow<Boolean> = combine(
+    val isCurrentCardRemovable: Flow<Boolean> = combine(
         cardsEditor.state.flowOf(CardsEditor.State::editableCards),
         cardsEditor.state.flowOf(CardsEditor.State::currentPosition)
     ) { _, _ -> cardsEditor.isCurrentCardRemovable() }

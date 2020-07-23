@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
-import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorFragment
 import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorController.Command.AskUserToConfirmExit
 import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorEvent.*
 import kotlinx.android.synthetic.main.fragment_ongoing_card_editor.*
@@ -53,7 +51,7 @@ class OngoingCardEditorFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = OngoingCardEditorDiScope.get()
+            val diScope = OngoingCardEditorDiScope.getAsync()
             controller = diScope.controller
             viewModel = diScope.viewModel
             viewModel.isAcceptButtonEnabled.observe(doneButton::setEnabled)

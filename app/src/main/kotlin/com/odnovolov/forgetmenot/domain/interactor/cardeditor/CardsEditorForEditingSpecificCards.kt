@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
 
-class CardsEditorForEditingSpecificCards(
+open class CardsEditorForEditingSpecificCards(
     val removedCards: MutableList<EditableCard> = ArrayList(),
     state: State
 ) : CardsEditor(state) {
@@ -15,7 +15,7 @@ class CardsEditorForEditingSpecificCards(
 
     override fun removeCard(): Boolean {
         with(state) {
-            if (editableCards.isEmpty()) return false
+            if (!isCurrentCardRemovable()) return false
             editableCards = editableCards.toMutableList().apply {
                 val removedCard = removeAt(currentPosition)
                 removedCards.add(removedCard)

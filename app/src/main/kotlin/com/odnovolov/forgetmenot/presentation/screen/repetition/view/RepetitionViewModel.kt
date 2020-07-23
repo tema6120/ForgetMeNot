@@ -26,6 +26,11 @@ class RepetitionViewModel(
         .distinctUntilChanged()
         .share()
 
+    val levelOfKnowledgeForCurrentCard: Flow<Int> =
+        currentRepetitionCard.flatMapLatest { repetitionCard: RepetitionCard ->
+            repetitionCard.card.flowOf(Card::levelOfKnowledge)
+        }
+
     val isCurrentRepetitionCardLearned: Flow<Boolean> =
         currentRepetitionCard.flatMapLatest { repetitionCard: RepetitionCard ->
             repetitionCard.card.flowOf(Card::isLearned)
@@ -35,11 +40,5 @@ class RepetitionViewModel(
 
     val isPlaying: Flow<Boolean> = repetitionState.flowOf(Repetition.State::isPlaying)
 
-    val levelOfKnowledgeForCurrentCard: Flow<Int> =
-        currentRepetitionCard.flatMapLatest { repetitionCard: RepetitionCard ->
-            repetitionCard.card.flowOf(Card::levelOfKnowledge)
-        }
-
-    val repetitionCardPosition: Int
-        get() = repetitionState.repetitionCardPosition
+    val repetitionCardPosition: Int get() = repetitionState.repetitionCardPosition
 }

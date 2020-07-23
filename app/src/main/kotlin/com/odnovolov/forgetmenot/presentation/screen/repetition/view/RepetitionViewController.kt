@@ -2,17 +2,21 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForRepetition
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.*
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchScreenState
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -48,6 +52,14 @@ class RepetitionViewController(
                 repetition.setRepetitionCardPosition(event.position)
             }
 
+            LevelOfKnowledgeButtonClicked -> {
+                onLevelOfKnowledgeButtonClicked()
+            }
+
+            is LevelOfKnowledgeSelected -> {
+                repetition.setLevelOfKnowledge(event.levelOfKnowledge)
+            }
+
             NotAskButtonClicked -> {
                 repetition.setIsCardLearned(true)
             }
@@ -67,8 +79,17 @@ class RepetitionViewController(
             EditCardButtonClicked -> {
                 repetition.pause()
                 navigator.navigateToCardEditorFromRepetition {
-                    val editableCard = EditableCard(repetition.currentRepetitionCard.card)
-                    OngoingCardEditorDiScope.create(editableCard)
+                    val editableCard = EditableCard(
+                        repetition.currentRepetitionCard.card,
+                        repetition.currentRepetitionCard.deck
+                    )
+                    val editableCards = listOf(editableCard)
+                    val cardsEditorState = CardsEditor.State(editableCards)
+                    val cardsEditor = CardsEditorForRepetition(
+                        repetition,
+                        state = cardsEditorState
+                    )
+                    CardsEditorDiScope.create(cardsEditor)
                 }
             }
 
@@ -80,12 +101,19 @@ class RepetitionViewController(
                 repetition.resume()
             }
 
-            LevelOfKnowledgeButtonClicked -> {
-                onLevelOfKnowledgeButtonClicked()
-            }
-
-            is LevelOfKnowledgeSelected -> {
-                repetition.setLevelOfKnowledge(event.levelOfKnowledge)
+            SearchButtonClicked -> {
+                repetition.pause()
+                navigator.navigateToSearchFromRepetition {
+                    val searchText = with(repetition.state) {
+                        when {
+                            questionSelection.isNotEmpty() -> questionSelection
+                            answerSelection.isNotEmpty() -> answerSelection
+                            else -> ""
+                        }
+                    }
+                    val screenState = SearchScreenState(searchText)
+                    SearchDiScope.create(screenState)
+                }
             }
         }
     }

@@ -132,9 +132,14 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_repetition_settings_screen_to_repetition_screen)
     }
 
-    fun navigateToCardEditorFromRepetition(createDiScope: () -> OngoingCardEditorDiScope) {
-        OngoingCardEditorDiScope.open(createDiScope)
-        navigate(R.id.action_repetition_screen_to_ongoing_card_editor_screen)
+    fun navigateToCardEditorFromRepetition(createDiScope: () -> CardsEditorDiScope) {
+        CardsEditorDiScope.open(createDiScope)
+        navigate(R.id.action_repetition_screen_to_cards_editor_screen)
+    }
+
+    fun navigateToSearchFromRepetition(createDiScope: () -> SearchDiScope) {
+        SearchDiScope.open(createDiScope)
+        navigate(R.id.action_repetition_screen_to_search_screen)
     }
 
     fun navigateToSettings(createDiScope: () -> SettingsDiScope) {

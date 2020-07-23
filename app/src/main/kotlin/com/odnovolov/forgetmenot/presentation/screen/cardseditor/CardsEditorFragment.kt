@@ -91,7 +91,7 @@ class CardsEditorFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = CardsEditorDiScope.get()
+            val diScope = CardsEditorDiScope.getAsync()
             controller = diScope.controller
             viewModel = diScope.viewModel
             observeViewModel()
@@ -168,7 +168,7 @@ class CardsEditorFragment : BaseFragment() {
                     }
                 }
             }
-            isRemoveButtonVisible.observe { isVisible: Boolean ->
+            isCurrentCardRemovable.observe { isVisible: Boolean ->
                 removeCardButton.isVisible = isVisible
             }
         }

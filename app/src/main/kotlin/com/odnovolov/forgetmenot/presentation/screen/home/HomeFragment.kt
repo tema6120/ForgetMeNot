@@ -71,7 +71,7 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = HomeDiScope.get()
+            val diScope = HomeDiScope.getAsync()
             controller = diScope.controller
             viewModel = diScope.viewModel
             deckPreviewAdapter = diScope.deckPreviewAdapter
@@ -192,7 +192,7 @@ class HomeFragment : BaseFragment() {
         super.onResume()
         resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         resumePauseCoroutineScope!!.launch {
-            val diScope = HomeDiScope.get()
+            val diScope = HomeDiScope.getAsync()
             val viewModel = diScope.viewModel
             deckPreviewAdapter = diScope.deckPreviewAdapter
             with(viewModel) {

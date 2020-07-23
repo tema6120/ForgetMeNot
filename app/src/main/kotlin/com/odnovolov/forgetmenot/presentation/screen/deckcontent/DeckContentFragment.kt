@@ -32,7 +32,7 @@ class DeckContentFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = DeckContentDiScope.get()
+            val diScope = DeckContentDiScope.getAsync()
             controller = diScope.controller
             val adapter = CardOverviewAdapter(diScope.controller)
             cardsRecycler.adapter = adapter

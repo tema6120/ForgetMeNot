@@ -33,7 +33,7 @@ class RepetitionDiScope private constructor(
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
     )
 
-    private val repetition = Repetition(
+    val repetition = Repetition(
         repetitionState,
         speakerImpl,
         coroutineContext = Job() + businessLogicThread

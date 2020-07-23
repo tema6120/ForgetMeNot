@@ -19,7 +19,7 @@ class RepetitionService : BaseService() {
         super.onCreate()
         notificationBuilder = NotificationBuilder(context = this)
         coroutineScope.launch {
-            val diScope = RepetitionDiScope.get()
+            val diScope = RepetitionDiScope.getAsync()
             observeServiceModel(diScope.serviceModel)
         }
     }
@@ -44,7 +44,7 @@ class RepetitionService : BaseService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         coroutineScope.launch {
-            val diScope = RepetitionDiScope.get()
+            val diScope = RepetitionDiScope.getAsync()
             val controller = diScope.serviceController
             when (intent?.action) {
                 ACTION_PAUSE -> controller.dispatch(PauseNotificationActionClicked)

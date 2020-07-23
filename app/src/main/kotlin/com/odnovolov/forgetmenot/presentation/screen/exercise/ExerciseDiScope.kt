@@ -30,7 +30,7 @@ class ExerciseDiScope private constructor(
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
     )
 
-    private val exercise = Exercise(
+    val exercise = Exercise(
         exerciseState,
         AppDiScope.get().globalState,
         speakerImpl,

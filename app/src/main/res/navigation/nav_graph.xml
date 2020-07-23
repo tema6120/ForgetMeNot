@@ -240,8 +240,12 @@
             tools:layout="@layout/fragment_repetition">
 
         <action
-                android:id="@+id/action_repetition_screen_to_ongoing_card_editor_screen"
-                app:destination="@id/ongoing_card_editor_screen" />
+                android:id="@+id/action_repetition_screen_to_cards_editor_screen"
+                app:destination="@id/cards_editor_screen" />
+
+        <action
+                android:id="@+id/action_repetition_screen_to_search_screen"
+                app:destination="@+id/search_screen" />
 
     </fragment>
 

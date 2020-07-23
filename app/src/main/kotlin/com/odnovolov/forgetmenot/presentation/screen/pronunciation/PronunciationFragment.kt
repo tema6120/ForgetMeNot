@@ -46,7 +46,7 @@ class PronunciationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewCoroutineScope!!.launch {
-            val diScope = PronunciationDiScope.get()
+            val diScope = PronunciationDiScope.getAsync()
             controller = diScope.controller
             viewModel = diScope.viewModel
             presetView.inject(diScope.presetController, diScope.presetViewModel)

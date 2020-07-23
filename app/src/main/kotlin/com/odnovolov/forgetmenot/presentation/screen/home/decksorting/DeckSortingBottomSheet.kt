@@ -40,7 +40,7 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewScope!!.launch(Dispatchers.Main.immediate) {
-            val diScope = DeckSortingDiScope.get()
+            val diScope = DeckSortingDiScope.getAsync()
             controller = diScope.controller
             val viewModel = diScope.viewModel
             observeViewModel(viewModel)

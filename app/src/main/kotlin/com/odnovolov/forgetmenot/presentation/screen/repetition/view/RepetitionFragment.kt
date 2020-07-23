@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
@@ -46,7 +47,7 @@ class RepetitionFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = RepetitionDiScope.get()
+            val diScope = RepetitionDiScope.getAsync()
             controller = diScope.viewController
             val adapter = diScope.getRepetitionCardAdapter(viewCoroutineScope!!)
             repetitionViewPager.adapter = adapter
@@ -57,12 +58,16 @@ class RepetitionFragment : BaseFragment() {
 
     private fun setupView() {
         repetitionViewPager.registerOnPageChangeCallback(onPageChangeCallback)
+        levelOfKnowledgeButton.run {
+            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
         editCardButton.run {
             setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
-        levelOfKnowledgeButton.run {
-            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
+        searchButton.run {
+            setOnClickListener { controller?.dispatch(SearchButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
     }
@@ -71,6 +76,11 @@ class RepetitionFragment : BaseFragment() {
         with(viewModel) {
             repetitionCards.observe { repetitionCards: List<RepetitionCard> ->
                 adapter.items = repetitionCards
+            }
+            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
+                val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
+                levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
+                levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
             }
             isCurrentRepetitionCardLearned.observe { isLearned: Boolean ->
                 with(notAskButton) {
@@ -140,11 +150,6 @@ class RepetitionFragment : BaseFragment() {
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
-            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
-                val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
-                levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-                levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
-            }
         }
     }
 
@@ -173,7 +178,7 @@ class RepetitionFragment : BaseFragment() {
         content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         val location = IntArray(2)
         levelOfKnowledgeButton.getLocationOnScreen(location)
-        val x = location[0] + levelOfKnowledgeButton.width - 8.dp - content.measuredWidth
+        val x = location[0] + 8.dp
         val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
         levelOfKnowledgePopup.showAtLocation(
             levelOfKnowledgeButton.rootView,
@@ -186,12 +191,14 @@ class RepetitionFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewCoroutineScope!!.launch {
-            val repetitionCardPosition = RepetitionDiScope.get().viewModel.repetitionCardPosition
+            val repetitionCardPosition =
+                RepetitionDiScope.getAsync().viewModel.repetitionCardPosition
             if (repetitionViewPager.currentItem != repetitionCardPosition) {
                 repetitionViewPager.setCurrentItem(repetitionCardPosition, false)
             }
         }
         hideActionBar()
+        Handler().post { hideActionBar() }
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {

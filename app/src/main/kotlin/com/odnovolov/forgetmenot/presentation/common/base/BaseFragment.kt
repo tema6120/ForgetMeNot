@@ -29,6 +29,7 @@ open class BaseFragment : Fragment() {
 
     override fun onDestroyView() {
         viewCoroutineScope!!.cancel()
+        viewCoroutineScope = null
         super.onDestroyView()
     }
 

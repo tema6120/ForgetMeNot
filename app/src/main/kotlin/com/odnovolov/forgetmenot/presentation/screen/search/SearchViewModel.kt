@@ -14,7 +14,7 @@ class SearchViewModel(
     private val searchDeck: Flow<Deck?> = flow {
         val deck: Deck? =
             if (DeckSetupDiScope.isOpenAsync()) {
-                DeckSetupDiScope.get().screenState.relevantDeck
+                DeckSetupDiScope.getAsync().screenState.relevantDeck
             } else {
                 null
             }

@@ -64,7 +64,7 @@ class WalkingModeSettingsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewCoroutineScope!!.launch {
-            val diScope = WalkingModeSettingsDiScope.get()
+            val diScope = WalkingModeSettingsDiScope.getAsync()
             controller = diScope.controller
             viewModel = diScope.viewModel
             setupView()

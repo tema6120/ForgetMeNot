@@ -34,7 +34,7 @@ class SearchFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = SearchDiScope.get()
+            val diScope = SearchDiScope.getAsync()
             controller = diScope.controller
             viewModel = diScope.viewModel
             initAdapter()

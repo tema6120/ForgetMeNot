@@ -78,7 +78,7 @@ class DeckSetupFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
         viewCoroutineScope!!.launch {
-            diScope = DeckSetupDiScope.get()
+            diScope = DeckSetupDiScope.getAsync()
             controller = diScope.controller
             viewModel = diScope.deckSetupViewModel
             observeViewModel()

@@ -3,7 +3,9 @@ package com.odnovolov.forgetmenot.presentation.screen.search
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingExistingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForRepetition
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
+import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -35,9 +37,7 @@ class SearchController(
                 when {
                     DeckSetupDiScope.isOpen() -> {
                         navigator.navigateToCardsEditorFromSearch {
-                            val deck = runBlocking {
-                                DeckSetupDiScope.get().screenState.relevantDeck
-                            }
+                            val deck = DeckSetupDiScope.get().screenState.relevantDeck
                             val editableCards: List<EditableCard> =
                                 deck.cards.map { card -> EditableCard(card) } + EditableCard()
                             val currentPosition: Int = deck.cards.indexOfFirst { card ->
@@ -53,7 +53,32 @@ class SearchController(
 
                     }
                     RepetitionDiScope.isOpen() -> {
-
+                        navigator.navigateToCardsEditorFromSearch {
+                            val repetition: Repetition = RepetitionDiScope.get().repetition
+                            val foundEditableCard = EditableCard(
+                                event.searchCard.card,
+                                event.searchCard.deck
+                            )
+                            val cardsEditorState = if (event.searchCard.card.id ==
+                                repetition.currentRepetitionCard.card.id
+                            ) {
+                                val editableCards: List<EditableCard> = listOf(foundEditableCard)
+                                State(editableCards)
+                            } else {
+                                val editableCardFromRepetition = EditableCard(
+                                    repetition.currentRepetitionCard.card,
+                                    repetition.currentRepetitionCard.deck
+                                )
+                                val editableCards: List<EditableCard> =
+                                    listOf(editableCardFromRepetition, foundEditableCard)
+                                State(editableCards, currentPosition = 1)
+                            }
+                            val cardsEditor = CardsEditorForRepetition(
+                                repetition,
+                                state = cardsEditorState
+                            )
+                            CardsEditorDiScope.create(cardsEditor)
+                        }
                     }
                     else -> {
                         navigator.navigateToCardsEditorFromSearch {
