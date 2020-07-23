@@ -1,7 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckcontent
 
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingExistingDeck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -25,25 +26,26 @@ class DeckContentController(
             }
 
             is CardClicked -> {
-                navigator.navigateToCardsEditorFromDeckSetup {
-                    val cardsEditorState = CardsEditor.State(
-                        mode = EditingExistingDeck(deckEditor.state.deck),
-                        currentPosition = deckEditor.state.deck.cards
-                            .indexOfFirst { card -> card.id == event.cardId }
-                    )
-                    CardsEditorDiScope.create(cardsEditorState)
-                }
+                navigateToCardsEditor(event.cardId)
             }
 
             AddCardButtonClicked -> {
-                navigator.navigateToCardsEditorFromDeckSetup {
-                    val cardsEditorState = CardsEditor.State(
-                        mode = EditingExistingDeck(deckEditor.state.deck),
-                        currentPosition = deckEditor.state.deck.cards.lastIndex + 1
-                    )
-                    CardsEditorDiScope.create(cardsEditorState)
-                }
+                navigateToCardsEditor()
             }
+        }
+    }
+
+    private fun navigateToCardsEditor(cardId: Long? = null) {
+        navigator.navigateToCardsEditorFromDeckSetup {
+            val deck = deckEditor.state.deck
+            val editableCards: List<EditableCard> =
+                deck.cards.map { card -> EditableCard(card) } + EditableCard()
+            val currentPosition: Int =
+                if (cardId == null) editableCards.lastIndex
+                else deck.cards.indexOfFirst { card -> card.id == cardId }
+            val cardsEditorState = State(editableCards, currentPosition)
+            val cardsEditor = CardsEditorForEditingExistingDeck(deck, cardsEditorState)
+            CardsEditorDiScope.create(cardsEditor)
         }
     }
 

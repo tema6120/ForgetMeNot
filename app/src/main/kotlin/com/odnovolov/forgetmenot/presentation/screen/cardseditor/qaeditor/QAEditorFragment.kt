@@ -10,9 +10,11 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
 import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.AnswerInputChanged
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.QuestionInputChanged
 import kotlinx.android.synthetic.main.fragment_qa_editor.*
+import kotlinx.coroutines.launch
 
 class QAEditorFragment : BaseFragment() {
     companion object {
@@ -25,9 +27,8 @@ class QAEditorFragment : BaseFragment() {
         }
     }
 
-    private var controller: SkeletalQAEditorController? = null
-    private var viewModel: QAEditorViewModel? = null
-    private var isViewInitialized = false
+    private var controller: QAEditorController? = null
+    private lateinit var viewModel: QAEditorViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +41,13 @@ class QAEditorFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        isViewInitialized = true
-        observeViewModel()
+        viewCoroutineScope!!.launch {
+            val diScope = CardsEditorDiScope.get()
+            val cardId = requireArguments().getLong(ARG_ID)
+            controller = diScope.qaEditorController(cardId)
+            viewModel = diScope.qaEditorViewModel(cardId)
+            observeViewModel()
+        }
     }
 
     private fun setupView() {
@@ -135,15 +141,8 @@ class QAEditorFragment : BaseFragment() {
         }
     }
 
-    fun inject(controller: SkeletalQAEditorController, viewModel: QAEditorViewModel) {
-        this.controller = controller
-        this.viewModel = viewModel
-        observeViewModel()
-    }
-
     private fun observeViewModel() {
-        if (!isViewInitialized || viewModel == null) return
-        with(viewModel!!) {
+        with(viewModel) {
             questionEditText.setText(question)
             answerEditText.setText(answer)
             isLearned.observe { isLearned: Boolean ->
@@ -160,13 +159,8 @@ class QAEditorFragment : BaseFragment() {
 
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         requireActivity().currentFocus?.hideSoftInput()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        isViewInitialized = false
     }
 }

@@ -33,7 +33,7 @@ class SearchCardAdapter(
             SpannableStringBuilder(item.card.answer)
             answerTextView.text = highlight(item.card.answer, item.answerMatchingRanges, context)
             answerTextView.isEnabled = !item.card.isLearned
-            cardView.setOnClickListener { controller.dispatch(CardClicked(item.card.id)) }
+            cardView.setOnClickListener { controller.dispatch(CardClicked(item)) }
         }
     }
 

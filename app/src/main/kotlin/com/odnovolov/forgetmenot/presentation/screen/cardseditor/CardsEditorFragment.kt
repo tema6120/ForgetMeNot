@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,20 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
 import kotlinx.android.synthetic.main.fragment_cards_editor.*
@@ -43,15 +37,6 @@ class CardsEditorFragment : BaseFragment() {
     private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
     private lateinit var exitDialog: Dialog
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.run {
-            setShowHideAnimationEnabled(false)
-            hide()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -144,31 +129,43 @@ class CardsEditorFragment : BaseFragment() {
                     cardsViewPager.setCurrentItem(currentPosition, false)
                 }
             }
-            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
-                val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
-                levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-                levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
-            }
-            isCurrentEditableCardLearned.observe { isLearned: Boolean ->
-                with(notAskButton) {
-                    setImageResource(
-                        if (isLearned)
-                            R.drawable.ic_baseline_replay_white_24 else
-                            R.drawable.ic_block_white_24dp
-                    )
-                    setOnClickListener {
-                        controller?.dispatch(
-                            if (isLearned)
-                                AskAgainButtonClicked else
-                                NotAskButtonClicked
-                        )
+            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int? ->
+                with(levelOfKnowledgeTextView) {
+                    if (levelOfKnowledge == null) {
+                        isVisible = false
+                    } else {
+                        val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
+                        setBackgroundResource(backgroundRes)
+                        text = levelOfKnowledge.toString()
+                        isVisible = true
                     }
-                    contentDescription = getString(
-                        if (isLearned)
-                            R.string.description_ask_again_button else
-                            R.string.description_not_ask_button
-                    )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                }
+            }
+            isCurrentEditableCardLearned.observe { isLearned: Boolean? ->
+                with(notAskButton) {
+                    if (isLearned == null) {
+                        isVisible = false
+                    } else {
+                        setImageResource(
+                            if (isLearned)
+                                R.drawable.ic_baseline_replay_white_24 else
+                                R.drawable.ic_block_white_24dp
+                        )
+                        setOnClickListener {
+                            controller?.dispatch(
+                                if (isLearned)
+                                    AskAgainButtonClicked else
+                                    NotAskButtonClicked
+                            )
+                        }
+                        contentDescription = getString(
+                            if (isLearned)
+                                R.string.description_ask_again_button else
+                                R.string.description_not_ask_button
+                        )
+                        TooltipCompat.setTooltipText(this, contentDescription)
+                        isVisible = true
+                    }
                 }
             }
             isRemoveButtonVisible.observe { isVisible: Boolean ->
@@ -224,22 +221,10 @@ class CardsEditorFragment : BaseFragment() {
         )
     }
 
-    override fun onAttachFragment(childFragment: Fragment) {
-        super.onAttachFragment(childFragment)
-        if (childFragment is QAEditorFragment) {
-            fragmentCoroutineScope.launch {
-                val diScope = CardsEditorDiScope.get()
-                val cardId: Long = childFragment.requireArguments().getLong(QAEditorFragment.ARG_ID)
-                val qaEditorController = diScope.qaEditorController(cardId)
-                val qaEditorViewModel = diScope.qaEditorViewModel(cardId)
-                childFragment.inject(qaEditorController, qaEditorViewModel)
-            }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+        hideActionBar()
     }
 
     override fun onPause() {

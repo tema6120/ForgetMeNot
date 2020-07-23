@@ -44,11 +44,6 @@ class OngoingCardEditorDiScope private constructor(
         editableCard
     )
 
-    val qaEditorController = OngoingQAEditorController(
-        ongoingCardEditor,
-        AppDiScope.get().longTermStateSaver
-    )
-
     val qaEditorViewModel = QAEditorViewModel(
         editableCard
     )

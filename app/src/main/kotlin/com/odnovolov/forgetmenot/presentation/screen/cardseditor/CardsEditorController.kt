@@ -9,8 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.Saving
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.AllCardsAreEmpty
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.Creation
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForDeckCreation
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -28,7 +27,7 @@ class CardsEditorController(
     private val cardsEditor: CardsEditor,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val cardsEditorStateProvider: ShortTermStateProvider<CardsEditor.State>
+    private val cardsEditorProvider: ShortTermStateProvider<CardsEditor>
 ) : BaseController<CardsEditorEvent, Command>() {
     sealed class Command {
         class ShowUnfilledTextInputAt(val position: Int) : Command()
@@ -78,17 +77,17 @@ class CardsEditorController(
             DoneButtonClicked -> {
                 catchAndLogException {
                     when (val savingResult: SavingResult = cardsEditor.save()) {
-                        is Success -> {
-                            when (cardsEditor.state.mode) {
-                                is Creation -> {
+                        Success -> {
+                            when (cardsEditor) {
+                                is CardsEditorForDeckCreation -> {
                                     navigator.navigateToDeckSetupFromCardsEditor {
-                                        val deck = savingResult.deck
+                                        val deck = cardsEditor.createdDeck!!
                                         val screenState = DeckSetupScreenState(deck)
                                         val deckEditorState = DeckEditor.State(deck)
                                         DeckSetupDiScope.create(screenState, deckEditorState)
                                     }
                                 }
-                                is EditingExistingDeck -> {
+                                else -> {
                                     navigator.navigateUp()
                                 }
                             }
@@ -119,10 +118,12 @@ class CardsEditorController(
     }
 
     private fun onLevelOfKnowledgeButtonClicked() {
-        val intervalScheme: IntervalScheme? = when (val mode = cardsEditor.state.mode) {
-            is Creation -> ExercisePreference.Default.intervalScheme
-            is EditingExistingDeck -> mode.deck.exercisePreference.intervalScheme
-        }
+        val intervalScheme: IntervalScheme? =
+            if (cardsEditor.currentEditableCard.deck == null) {
+                ExercisePreference.Default.intervalScheme
+            } else {
+                cardsEditor.currentEditableCard.deck!!.exercisePreference.intervalScheme
+            }
         if (intervalScheme == null) {
             sendCommand(ShowIntervalsAreOffMessage)
         } else {
@@ -141,6 +142,6 @@ class CardsEditorController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
-        cardsEditorStateProvider.save(cardsEditor.state)
+        cardsEditorProvider.save(cardsEditor)
     }
 }

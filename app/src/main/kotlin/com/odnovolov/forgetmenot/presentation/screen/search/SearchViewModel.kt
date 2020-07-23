@@ -26,24 +26,33 @@ class SearchViewModel(
 
     val initialSearchText: String = screenState.searchText
 
-    private val allCards: Flow<List<Card>> = searchDeck.transform { searchDeck: Deck? ->
-        val allCards: List<Card> = searchDeck?.cards ?: globalState.decks.flatMap(Deck::cards)
+    private val allCards: Flow<List<Pair<Card, Deck>>> = searchDeck.transform { searchDeck: Deck? ->
+        val allCards: List<Pair<Card, Deck>> = if (searchDeck != null) {
+            decomposeDeck(searchDeck)
+        } else {
+            globalState.decks.flatMap { deck: Deck -> decomposeDeck(deck) }
+        }
         emit(allCards)
+    }
+
+    private fun decomposeDeck(deck: Deck): List<Pair<Card, Deck>> {
+        return deck.cards.map { card: Card -> card to deck }
     }
 
     val cards: Flow<List<SearchCard>> = combine(
         screenState.flowOf(SearchScreenState::searchText),
         allCards
-    ) { searchText: String, allCards: List<Card> ->
+    ) { searchText: String, allCards: List<Pair<Card, Deck>> ->
         if (searchText.isEmpty())
             emptyList()
         else {
-            allCards.filter { card: Card ->
+            allCards.filter { (card: Card, deck: Deck) ->
                 card.question.contains(searchText, true) || card.answer.contains(searchText, true)
             }
-                .map { card: Card ->
+                .map { (card: Card, deck: Deck) ->
                     SearchCard(
                         card,
+                        deck,
                         questionMatchingRanges = findMatchingRange(card.question, searchText),
                         answerMatchingRanges = findMatchingRange(card.answer, searchText)
                     )

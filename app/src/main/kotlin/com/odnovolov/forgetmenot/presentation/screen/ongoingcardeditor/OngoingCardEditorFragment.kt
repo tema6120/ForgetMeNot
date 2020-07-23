@@ -81,7 +81,7 @@ class OngoingCardEditorFragment : BaseFragment() {
         }
     }
 
-    override fun onAttachFragment(childFragment: Fragment) {
+    /*override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         if (childFragment is QAEditorFragment) {
             fragmentCoroutineScope.launch {
@@ -89,7 +89,7 @@ class OngoingCardEditorFragment : BaseFragment() {
                 childFragment.inject(diScope.qaEditorController, diScope.qaEditorViewModel)
             }
         }
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()

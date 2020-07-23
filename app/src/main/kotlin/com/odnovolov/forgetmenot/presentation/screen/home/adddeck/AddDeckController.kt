@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.InvalidNameException
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckCreator
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
@@ -84,10 +85,14 @@ class AddDeckController(
                         }
                     }
                     CREATE -> {
-                        val cardsEditorState: CardsEditor.State =
+                        val cardsEditor: CardsEditor = try {
                             deckCreator.create(screenState.typedText)
+                        } catch (e: InvalidNameException) {
+                            // asynchronous behavior issue
+                            return
+                        }
                         navigator.navigateToCardsEditorFromHome {
-                            CardsEditorDiScope.create(cardsEditorState)
+                            CardsEditorDiScope.create(cardsEditor)
                         }
                         screenState.howToAdd = null
                     }

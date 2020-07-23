@@ -6,37 +6,36 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import kotlinx.coroutines.flow.*
 
 class CardsEditorViewModel(
-    private val cardsEditorState: CardsEditor.State
+    private val cardsEditor: CardsEditor
 ) {
-    val cardIds: Flow<List<Long>> = cardsEditorState.flowOf(CardsEditor.State::editableCards)
+    val cardIds: Flow<List<Long>> = cardsEditor.state.flowOf(CardsEditor.State::editableCards)
         .map { editableCards: List<EditableCard> ->
             editableCards.map { it.card.id }
         }
 
-    val currentPosition: Int get() = cardsEditorState.currentPosition
+    val currentPosition: Int get() = cardsEditor.state.currentPosition
 
-    private val currentEditableCard: Flow<EditableCard> = combine(
-        cardsEditorState.flowOf(CardsEditor.State::editableCards),
-        cardsEditorState.flowOf(CardsEditor.State::currentPosition)
+    private val currentEditableCard: Flow<EditableCard?> = combine(
+        cardsEditor.state.flowOf(CardsEditor.State::editableCards),
+        cardsEditor.state.flowOf(CardsEditor.State::currentPosition)
     ) { editableCards: List<EditableCard>, currentPosition: Int ->
-        editableCards[currentPosition]
+        if (currentPosition !in 0..editableCards.lastIndex) null
+        else editableCards[currentPosition]
     }
         .share()
 
-    val levelOfKnowledgeForCurrentCard: Flow<Int> =
-        currentEditableCard.flatMapLatest { editableCard: EditableCard ->
-            editableCard.flowOf(EditableCard::levelOfKnowledge)
+    val levelOfKnowledgeForCurrentCard: Flow<Int?> =
+        currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
+            editableCard?.flowOf(EditableCard::levelOfKnowledge) ?: flowOf(null)
         }
 
-    val isCurrentEditableCardLearned: Flow<Boolean> =
-        currentEditableCard.flatMapLatest { editableCard: EditableCard ->
-            editableCard.flowOf(EditableCard::isLearned)
+    val isCurrentEditableCardLearned: Flow<Boolean?> =
+        currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
+            editableCard?.flowOf(EditableCard::isLearned) ?: flowOf(null)
         }
 
     val isRemoveButtonVisible: Flow<Boolean> = combine(
-        cardsEditorState.flowOf(CardsEditor.State::editableCards),
-        cardsEditorState.flowOf(CardsEditor.State::currentPosition)
-    ) { editableCards: List<EditableCard>, currentPosition: Int ->
-        currentPosition != editableCards.lastIndex
-    }
+        cardsEditor.state.flowOf(CardsEditor.State::editableCards),
+        cardsEditor.state.flowOf(CardsEditor.State::currentPosition)
+    ) { _, _ -> cardsEditor.isCurrentCardRemovable() }
 }

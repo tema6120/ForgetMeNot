@@ -61,7 +61,10 @@ class SearchFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         clearButton.run {
-            setOnClickListener { searchEditText.text.clear() }
+            setOnClickListener {
+                searchEditText.text.clear()
+                searchEditText.showSoftInput()
+            }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
     }

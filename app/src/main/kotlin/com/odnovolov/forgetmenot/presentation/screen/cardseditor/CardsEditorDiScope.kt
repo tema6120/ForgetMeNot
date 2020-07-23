@@ -1,53 +1,51 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
-import com.odnovolov.forgetmenot.persistence.shortterm.CardsEditorStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.CardsEditorProvider
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorViewModel
 
 class CardsEditorDiScope private constructor(
-    initialCardsEditorState: CardsEditor.State? = null
+    initialCardsEditor: CardsEditor? = null
 ) {
-    private val cardsEditorStateProvider = CardsEditorStateProvider(
+    private val cardsEditorProvider: ShortTermStateProvider<CardsEditor> = CardsEditorProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
         AppDiScope.get().globalState
     )
 
-    private val cardsEditorState: CardsEditor.State =
-        initialCardsEditorState ?: cardsEditorStateProvider.load()
-
-    private val cardsEditor = CardsEditor(
-        cardsEditorState,
-        AppDiScope.get().globalState
-    )
+    private val cardsEditor: CardsEditor =
+        initialCardsEditor ?: cardsEditorProvider.load()
 
     val controller = CardsEditorController(
         cardsEditor,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
-        cardsEditorStateProvider
+        cardsEditorProvider
     )
 
     val viewModel = CardsEditorViewModel(
-        cardsEditorState
+        cardsEditor
     )
 
-    fun qaEditorController(cardId: Long) = QAEditorControllerImpl(
+    fun qaEditorController(cardId: Long) = QAEditorController(
         cardId,
         cardsEditor,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        cardsEditorProvider
     )
 
     fun qaEditorViewModel(cardId: Long): QAEditorViewModel {
-        val editableCard = cardsEditorState.editableCards.first { it.card.id == cardId }
+        val editableCard = cardsEditor.state.editableCards.first { it.card.id == cardId }
         return QAEditorViewModel(editableCard)
     }
 
     companion object : DiScopeManager<CardsEditorDiScope>() {
-        fun create(initialCardsEditorState: CardsEditor.State) =
-            CardsEditorDiScope(initialCardsEditorState)
+        fun create(cardsEditor: CardsEditor) =
+            CardsEditorDiScope(cardsEditor)
 
         override fun recreateDiScope() = CardsEditorDiScope()
 

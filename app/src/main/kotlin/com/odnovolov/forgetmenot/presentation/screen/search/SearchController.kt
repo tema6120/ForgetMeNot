@@ -1,13 +1,17 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State.Mode.EditingExistingDeck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingExistingDeck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.*
 import kotlinx.coroutines.runBlocking
 
@@ -34,12 +38,35 @@ class SearchController(
                             val deck = runBlocking {
                                 DeckSetupDiScope.get().screenState.relevantDeck
                             }
-                            val cardsEditorState = CardsEditor.State(
-                                mode = EditingExistingDeck(deck),
-                                currentPosition = deck.cards
-                                    .indexOfFirst { card -> card.id == event.cardId }
+                            val editableCards: List<EditableCard> =
+                                deck.cards.map { card -> EditableCard(card) } + EditableCard()
+                            val currentPosition: Int = deck.cards.indexOfFirst { card ->
+                                card.id == event.searchCard.card.id
+                            }
+                            val cardsEditorState = State(editableCards, currentPosition)
+                            val cardsEditor =
+                                CardsEditorForEditingExistingDeck(deck, cardsEditorState)
+                            CardsEditorDiScope.create(cardsEditor)
+                        }
+                    }
+                    ExerciseDiScope.isOpen() -> {
+
+                    }
+                    RepetitionDiScope.isOpen() -> {
+
+                    }
+                    else -> {
+                        navigator.navigateToCardsEditorFromSearch {
+                            val editableCard = EditableCard(
+                                event.searchCard.card,
+                                event.searchCard.deck
                             )
-                            CardsEditorDiScope.create(cardsEditorState)
+                            val editableCards: List<EditableCard> = listOf(editableCard)
+                            val cardsEditorState = State(editableCards)
+                            val cardsEditor = CardsEditorForEditingSpecificCards(
+                                state = cardsEditorState
+                            )
+                            CardsEditorDiScope.create(cardsEditor)
                         }
                     }
                 }
