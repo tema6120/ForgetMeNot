@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 
+import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
 
 class CardsEditorForRepetition(
@@ -10,8 +11,9 @@ class CardsEditorForRepetition(
     removedCards,
     state
 ) {
-    override fun isCurrentCardRemovable(): Boolean {
-        return state.editableCards.isNotEmpty() &&
-                currentEditableCard.card.id !in repetition.state.repetitionCards.map { it.card.id }
-    }
+    override fun isCurrentCardRemovable(): Boolean =
+        state.editableCards.isNotEmpty() && currentEditableCard.card.isNotInRepetition()
+
+    private fun Card.isNotInRepetition(): Boolean =
+        id !in repetition.state.repetitionCards.map { it.card.id }
 }

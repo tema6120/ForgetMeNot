@@ -496,6 +496,9 @@ class ExerciseFragment : BaseFragment() {
             diScope.controller.dispatch(FragmentResumed)
         }
         hideActionBar()
+        Handler().post {
+            hideActionBar()
+        }
     }
 
     override fun onPause() {

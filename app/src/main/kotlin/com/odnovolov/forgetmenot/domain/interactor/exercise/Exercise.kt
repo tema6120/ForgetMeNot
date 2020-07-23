@@ -167,12 +167,34 @@ class Exercise(
         speaker.stop()
     }
 
-    fun notifyCurrentCardChanged() {
-        val exerciseCard = currentExerciseCard
-        exerciseCard.base.hint = null
-        if (exerciseCard is EntryTestExerciseCard && exerciseCard.isAnswered) {
-            checkEntry(exerciseCard.userAnswer)
+    fun notifyCardChanged(
+        card: Card,
+        isQuestionChanged: Boolean,
+        isAnswerChanged: Boolean,
+        isLevelOfKnowledgeChanged: Boolean,
+        isIsLearnedChanged: Boolean
+    ) {
+        val currentPosition = state.currentPosition
+        state.exerciseCards.forEachIndexed { position, exerciseCard ->
+            if (card.id != exerciseCard.base.card.id) return@forEachIndexed
+            state.currentPosition = position
+            val isReverse = exerciseCard.base.isReverse
+            val isActualAnswerChanged: Boolean =
+                isReverse && isQuestionChanged || !isReverse && isAnswerChanged
+            if (isActualAnswerChanged) {
+                exerciseCard.base.hint = null
+                if (exerciseCard is EntryTestExerciseCard && exerciseCard.isAnswered) {
+                    checkEntry(exerciseCard.userAnswer)
+                }
+            }
+            if (isLevelOfKnowledgeChanged) {
+                exerciseCard.base.isLevelOfKnowledgeEditedManually = true
+            }
+            if (isIsLearnedChanged && currentPosition == position) {
+                resetTimer()
+            }
         }
+        state.currentPosition = currentPosition
     }
 
     fun setWalkingModeEnabled(enabled: Boolean) {

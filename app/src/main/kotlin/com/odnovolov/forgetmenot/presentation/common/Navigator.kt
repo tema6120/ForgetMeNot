@@ -13,7 +13,6 @@ import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
-import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
@@ -39,9 +38,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_home_screen_to_exercise_screen)
     }
 
-    fun navigateToCardEditorFromExercise(createDiScope: () -> OngoingCardEditorDiScope) {
-        OngoingCardEditorDiScope.open(createDiScope)
-        navigate(R.id.action_exercise_screen_to_ongoing_card_editor_screen)
+    fun navigateToCardsEditorFromExercise(createDiScope: () -> CardsEditorDiScope) {
+        CardsEditorDiScope.open(createDiScope)
+        navigate(R.id.action_exercise_screen_to_cards_editor_screen)
     }
 
     fun navigateToSearchFromExercise(createDiScope: () -> SearchDiScope) {

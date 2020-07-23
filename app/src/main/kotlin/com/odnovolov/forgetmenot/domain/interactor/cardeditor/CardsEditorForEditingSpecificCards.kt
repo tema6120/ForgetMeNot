@@ -54,7 +54,7 @@ open class CardsEditorForEditingSpecificCards(
         return Success
     }
 
-    private fun check(): SavingResult.Failure? {
+    protected fun check(): SavingResult.Failure? {
         val underfilledPositions: List<Int> =
             state.editableCards.mapIndexedNotNull { index, editableCard ->
                 if (editableCard.question.isBlank() || editableCard.answer.isBlank()) index
@@ -64,7 +64,7 @@ open class CardsEditorForEditingSpecificCards(
         else SavingResult.Failure(HasUnderfilledCards(underfilledPositions))
     }
 
-    private fun reallyRemoveCards() {
+    protected fun reallyRemoveCards() {
         removedCards.forEach { editableCard: EditableCard ->
             val deck = editableCard.deck!!
             deck.cards = deck.cards

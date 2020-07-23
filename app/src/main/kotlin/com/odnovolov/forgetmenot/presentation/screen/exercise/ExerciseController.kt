@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForExercise
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotRemember
@@ -12,10 +14,10 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchScreenState
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
@@ -74,9 +76,18 @@ class ExerciseController(
             }
 
             EditCardButtonClicked -> {
-                navigator.navigateToCardEditorFromExercise {
-                    val editableCard = EditableCard(exercise.currentExerciseCard.base.card)
-                    OngoingCardEditorDiScope.create(editableCard)
+                navigator.navigateToCardsEditorFromExercise {
+                    val editableCard = EditableCard(
+                        exercise.currentExerciseCard.base.card,
+                        exercise.currentExerciseCard.base.deck
+                    )
+                    val editableCards = listOf(editableCard)
+                    val cardsEditorState = CardsEditor.State(editableCards)
+                    val cardsEditor = CardsEditorForExercise(
+                        exercise,
+                        state = cardsEditorState
+                    )
+                    CardsEditorDiScope.create(cardsEditor)
                 }
             }
 

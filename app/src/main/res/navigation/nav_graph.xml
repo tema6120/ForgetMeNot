@@ -57,8 +57,8 @@
             tools:layout="@layout/fragment_exercise">
 
         <action
-                android:id="@+id/action_exercise_screen_to_ongoing_card_editor_screen"
-                app:destination="@id/ongoing_card_editor_screen" />
+                android:id="@+id/action_exercise_screen_to_cards_editor_screen"
+                app:destination="@id/cards_editor_screen" />
 
         <action
                 android:id="@+id/action_exercise_screen_to_search_screen"
@@ -69,12 +69,6 @@
                 app:destination="@id/walking_mode_settings_screen" />
 
     </fragment>
-
-    <fragment
-            android:id="@+id/ongoing_card_editor_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.ongoingcardeditor.OngoingCardEditorFragment"
-            android:label="@string/label_ongoing_card_editor_screen"
-            tools:layout="@layout/fragment_ongoing_card_editor" />
 
     <fragment
             android:id="@+id/deck_setup_screen"

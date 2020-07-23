@@ -44,8 +44,6 @@ class FullscreenModeManager(
                     R.id.repetition_screen -> {
                         setFullscreenMode(isEnabledInRepetition)
                     }
-                    R.id.ongoing_card_editor_screen -> {
-                    }
                     else -> {
                         setFullscreenMode(isEnabledInDashboardAndSettings)
                     }
