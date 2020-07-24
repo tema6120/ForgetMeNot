@@ -26,15 +26,18 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetEvent.*
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowDialogWithText
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetEvent.*
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowDialogWithText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.popup_preset.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 
 class PresetView @JvmOverloads constructor(
     context: Context,
@@ -97,37 +100,89 @@ class PresetView @JvmOverloads constructor(
     private lateinit var presetAdapter: PresetAdapter
     private lateinit var nameInputDialog: AlertDialog
     private lateinit var nameEditText: EditText
-    private var coroutineScope: CoroutineScope? = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var coroutineScope: CoroutineScope? = null
     private var controller: SkeletalPresetController? = null
     private lateinit var viewModel: SkeletalPresetViewModel
     private var pendingDialogState: Bundle? = null
     private var pendingPopupState: Boolean? = null
 
-    fun inject(controller: SkeletalPresetController, viewModel: SkeletalPresetViewModel) {
-        this.controller = controller
-        this.viewModel = viewModel
-        setupPrimary()
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (controller == null) return
+        coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        observePrimaries()
         Looper.myQueue().addIdleHandler {
-            setupSecondary()
+            if (isAttachedToWindow) {
+                observeSecondaries()
+            }
             false
         }
     }
 
-    private fun setupPrimary() {
+    fun inject(controller: SkeletalPresetController, viewModel: SkeletalPresetViewModel) {
+        this.controller = controller
+        this.viewModel = viewModel
+
+        if (isAttachedToWindow) {
+            coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+            observePrimaries()
+            Looper.myQueue().addIdleHandler {
+                initSecondaries()
+                if (isAttachedToWindow) {
+                    observeSecondaries()
+                }
+                false
+            }
+        } else {
+            Looper.myQueue().addIdleHandler {
+                initSecondaries()
+                false
+            }
+        }
+    }
+
+    private fun observePrimaries() {
         viewModel.currentPreset.observe(coroutineScope!!) { preset: Preset ->
             selectPresetButton.text = preset.toString(context)
             savePresetButton.isVisible = preset.isIndividual()
         }
     }
 
-    private fun setupSecondary() {
+    private fun observeSecondaries() {
+        with(viewModel) {
+            availablePresets.observe(coroutineScope!!, presetAdapter::submitList)
+            presetInputCheckResult.observe(coroutineScope!!) { nameCheckResult: NameCheckResult ->
+                nameEditText.error = when (nameCheckResult) {
+                    NameCheckResult.Ok -> null
+                    NameCheckResult.Empty -> context.getString(R.string.error_message_empty_name)
+                    NameCheckResult.Occupied ->
+                        context.getString(R.string.error_message_occupied_name)
+                }
+                if (nameInputDialog.isShowing) {
+                    nameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .isEnabled = nameCheckResult == NameCheckResult.Ok
+                }
+            }
+        }
+        controller!!.commands.observe(coroutineScope!!, ::executeCommand)
+    }
+
+    private fun executeCommand(command: SkeletalPresetController.Command) {
+        when (command) {
+            is ShowDialogWithText -> {
+                nameInputDialog.show()
+                nameEditText.setText(command.text)
+                nameEditText.selectAll()
+            }
+        }
+    }
+
+    private fun initSecondaries() {
         initPopup()
         initDialog()
         savePresetButton.setOnClickListener { controller?.dispatch(SavePresetButtonClicked) }
         selectPresetButton.setOnClickListener { showPopup() }
-        observeViewModel()
         restoreByPendingState()
-        observeCommands()
     }
 
     private fun initPopup() {
@@ -184,39 +239,11 @@ class PresetView @JvmOverloads constructor(
         popup.showAtLocation(parent as View, Gravity.NO_GRAVITY, x, y)
     }
 
-    private fun observeViewModel() {
-        with(viewModel) {
-            availablePresets.observe(coroutineScope!!, presetAdapter::submitList)
-            presetInputCheckResult.observe(coroutineScope!!) { nameCheckResult: NameCheckResult ->
-                nameEditText.error = when (nameCheckResult) {
-                    NameCheckResult.Ok -> null
-                    NameCheckResult.Empty -> context.getString(R.string.error_message_empty_name)
-                    NameCheckResult.Occupied ->
-                        context.getString(R.string.error_message_occupied_name)
-                }
-                if (nameInputDialog.isShowing) {
-                    nameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                        .isEnabled = nameCheckResult == NameCheckResult.Ok
-                }
-            }
-        }
-    }
-
-    private fun executeCommand(command: SkeletalPresetController.Command) {
-        when (command) {
-            is ShowDialogWithText -> {
-                nameInputDialog.show()
-                nameEditText.setText(command.text)
-                nameEditText.selectAll()
-            }
-        }
-    }
-
-    override fun onSaveInstanceState(): Parcelable? {
-        return SavedState(super.onSaveInstanceState()).apply {
-            dialogState = nameInputDialog.onSaveInstanceState()
-            isPopupVisible = popup.isShowing
-        }
+    private fun restoreByPendingState() {
+        pendingDialogState?.let(nameInputDialog::onRestoreInstanceState)
+        pendingPopupState?.let { isVisible: Boolean -> if (isVisible) showPopup() }
+        pendingDialogState = null
+        pendingPopupState = null
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
@@ -230,33 +257,19 @@ class PresetView @JvmOverloads constructor(
         }
     }
 
+    override fun onSaveInstanceState(): Parcelable? {
+        return SavedState(super.onSaveInstanceState()).apply {
+            dialogState = nameInputDialog.onSaveInstanceState()
+            isPopupVisible = popup.isShowing
+        }
+    }
+
     override fun dispatchSaveInstanceState(container: SparseArray<Parcelable>) {
         dispatchFreezeSelfOnly(container)
     }
 
     override fun dispatchRestoreInstanceState(container: SparseArray<Parcelable>) {
         dispatchThawSelfOnly(container)
-    }
-
-    private fun restoreByPendingState() {
-        pendingDialogState?.let(nameInputDialog::onRestoreInstanceState)
-        pendingPopupState?.let { isVisible: Boolean -> if (isVisible) showPopup() }
-        pendingDialogState = null
-        pendingPopupState = null
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (coroutineScope == null) {
-            coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-            setupPrimary()
-            observeViewModel()
-            observeCommands()
-        }
-    }
-
-    private fun observeCommands() {
-        controller!!.commands.observe(coroutineScope!!, ::executeCommand)
     }
 
     override fun onDetachedFromWindow() {
