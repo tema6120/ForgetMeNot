@@ -40,10 +40,12 @@ abstract class CardsEditorForEditingDeck(
                     editableCards = editableCards.dropLast(redundantCardCount)
                 }
             } else {
-                editableCards = editableCards + EditableCard()
+                editableCards = editableCards + newEditableCard()
             }
         }
     }
+
+    protected abstract fun newEditableCard(): EditableCard
 
     override fun isCurrentCardRemovable(): Boolean {
         return state.currentPosition != state.editableCards.lastIndex

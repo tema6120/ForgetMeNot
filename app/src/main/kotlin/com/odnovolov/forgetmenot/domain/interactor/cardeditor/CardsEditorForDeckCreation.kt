@@ -10,10 +10,21 @@ import com.odnovolov.forgetmenot.domain.generateId
 class CardsEditorForDeckCreation(
     val deckName: String,
     private val globalState: GlobalState,
-    state: State = State(listOf(EditableCard()))
+    state: State = run {
+        val initialEditableCard = EditableCard(
+            card = Card(generateId(), "", ""),
+            deck = null
+        )
+        State(listOf(initialEditableCard))
+    }
 ) : CardsEditorForEditingDeck(state) {
     val createdDeck: Deck? get() = newDeck
     private var newDeck: Deck? = null
+
+    override fun newEditableCard() = EditableCard(
+        card = Card(generateId(), "", ""),
+        deck = null
+    )
 
     override fun areCardsEdited(): Boolean = true
 

@@ -97,7 +97,7 @@ class PresetView @JvmOverloads constructor(
     private lateinit var presetAdapter: PresetAdapter
     private lateinit var nameInputDialog: AlertDialog
     private lateinit var nameEditText: EditText
-    private var coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var coroutineScope: CoroutineScope? = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: SkeletalPresetController? = null
     private lateinit var viewModel: SkeletalPresetViewModel
     private var pendingDialogState: Bundle? = null
@@ -114,7 +114,7 @@ class PresetView @JvmOverloads constructor(
     }
 
     private fun setupPrimary() {
-        viewModel.currentPreset.observe(coroutineScope) { preset: Preset ->
+        viewModel.currentPreset.observe(coroutineScope!!) { preset: Preset ->
             selectPresetButton.text = preset.toString(context)
             savePresetButton.isVisible = preset.isIndividual()
         }
@@ -186,8 +186,8 @@ class PresetView @JvmOverloads constructor(
 
     private fun observeViewModel() {
         with(viewModel) {
-            availablePresets.observe(coroutineScope, presetAdapter::submitList)
-            presetInputCheckResult.observe(coroutineScope) { nameCheckResult: NameCheckResult ->
+            availablePresets.observe(coroutineScope!!, presetAdapter::submitList)
+            presetInputCheckResult.observe(coroutineScope!!) { nameCheckResult: NameCheckResult ->
                 nameEditText.error = when (nameCheckResult) {
                     NameCheckResult.Ok -> null
                     NameCheckResult.Empty -> context.getString(R.string.error_message_empty_name)
@@ -247,7 +247,7 @@ class PresetView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (!coroutineScope.isActive) {
+        if (coroutineScope == null) {
             coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
             setupPrimary()
             observeViewModel()
@@ -256,12 +256,13 @@ class PresetView @JvmOverloads constructor(
     }
 
     private fun observeCommands() {
-        controller!!.commands.observe(coroutineScope, ::executeCommand)
+        controller!!.commands.observe(coroutineScope!!, ::executeCommand)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        coroutineScope.cancel()
+        coroutineScope!!.cancel()
+        coroutineScope = null
     }
 
     class SavedState : BaseSavedState {

@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckcontent
 
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingExistingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
@@ -67,7 +69,8 @@ class DeckContentController(
         navigator.navigateToCardsEditorFromDeckSetup {
             val deck = deckEditor.state.deck
             val editableCards: List<EditableCard> =
-                deck.cards.map { card -> EditableCard(card) } + EditableCard()
+                deck.cards.map { card -> EditableCard(card, deck) }
+                    .plus(EditableCard(Card(generateId(), "", ""), deck))
             val currentPosition: Int =
                 if (cardId == null) editableCards.lastIndex
                 else deck.cards.indexOfFirst { card -> card.id == cardId }

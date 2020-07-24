@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
@@ -36,7 +38,8 @@ class SearchController(
                         navigator.navigateToCardsEditorFromSearch {
                             val deck = DeckSetupDiScope.get().screenState.relevantDeck
                             val editableCards: List<EditableCard> =
-                                deck.cards.map { card -> EditableCard(card) } + EditableCard()
+                                deck.cards.map { card -> EditableCard(card, deck) }
+                                    .plus(EditableCard(Card(generateId(), "", ""), deck))
                             val currentPosition: Int = deck.cards.indexOfFirst { card ->
                                 card.id == event.searchCard.card.id
                             }

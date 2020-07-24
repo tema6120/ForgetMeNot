@@ -3,11 +3,17 @@ package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.generateId
 
 class CardsEditorForEditingExistingDeck(
     val deck: Deck,
     state: State
 ) : CardsEditorForEditingDeck(state) {
+    override fun newEditableCard() = EditableCard(
+        Card(generateId(), "", ""),
+        deck
+    )
+
     override fun areCardsEdited(): Boolean {
         with(state) {
             val originalCards = deck.cards

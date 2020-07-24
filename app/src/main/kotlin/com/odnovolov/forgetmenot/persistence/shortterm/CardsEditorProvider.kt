@@ -74,8 +74,10 @@ class CardsEditorProvider(
             .associateBy { card -> card.id }
         val editableCards: List<EditableCard> = serializableState.serializableEditableCards
             .map { serializableEditableCards: SerializableEditableCard ->
+                val card: Card = cardIdCardMap[serializableEditableCards.cardId]
+                    ?: Card(serializableEditableCards.cardId, "", "")
                 EditableCard(
-                    cardIdCardMap.getValue(serializableEditableCards.cardId),
+                    card,
                     serializableEditableCards.deckId?.let { deckIdDeckMap.getValue(it) }
                 )
             }
