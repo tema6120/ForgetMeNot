@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferenceProvider
@@ -15,7 +16,8 @@ class HomeDiScope private constructor(
 
     private val homeScreenStateProvider = HomeScreenStateProvider(
         AppDiScope.get().json,
-        AppDiScope.get().database
+        AppDiScope.get().database,
+        AppDiScope.get().globalState
     )
 
     private val homeScreenState: HomeScreenState =
@@ -28,6 +30,7 @@ class HomeDiScope private constructor(
     val controller = HomeController(
         homeScreenState,
         deckReviewPreference,
+        DeckExporter(),
         deckRemover,
         exerciseStateCreator,
         AppDiScope.get().globalState,

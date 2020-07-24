@@ -62,6 +62,10 @@ class DeckPreviewAdapter(
                         controller.dispatch(SetupDeckMenuItemClicked(deckId))
                         true
                     }
+                    R.id.exportMenuItem -> {
+                        controller.dispatch(ExportMenuItemClicked(deckId))
+                        true
+                    }
                     R.id.removeDeckMenuItem -> {
                         controller.dispatch(RemoveDeckMenuItemClicked(deckId))
                         true

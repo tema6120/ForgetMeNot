@@ -22,6 +22,7 @@ class DeckContentFragment : BaseFragment() {
     }
 
     private var controller: DeckContentController? = null
+    private var pendingEvent: OutputStreamOpened? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +42,8 @@ class DeckContentFragment : BaseFragment() {
             cardsRecycler.adapter = adapter
             diScope.viewModel.cards.observe(adapter::submitList)
             controller!!.commands.observe(::executeCommand)
+            pendingEvent?.let(controller!!::dispatch)
+            pendingEvent = null
         }
     }
 
@@ -94,8 +97,14 @@ class DeckContentFragment : BaseFragment() {
         }
         val uri = intent.data ?: return
         val outputStream = requireContext().contentResolver?.openOutputStream(uri)
-        if (outputStream != null)
-        controller?.dispatch(OutputStreamOpened(outputStream))
+        if (outputStream != null) {
+            val event = OutputStreamOpened(outputStream)
+            if (controller == null) {
+                pendingEvent = event
+            } else {
+                controller!!.dispatch(event)
+            }
+        }
     }
 
     override fun onDestroy() {

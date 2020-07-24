@@ -5,6 +5,7 @@
     <string name="deck_option">Deck option</string>
     <string name="title_remove_deck_menu_item">Remove</string>
     <string name="title_setup_deck_menu_item">Setup</string>
+    <string name="title_export_menu_item">Export to file</string>
     <string name="label_exercise_screen">Exercise</string>
     <string name="text_show_question_textview">Show question</string>
     <string name="text_show_answer_textview">Show answer</string>

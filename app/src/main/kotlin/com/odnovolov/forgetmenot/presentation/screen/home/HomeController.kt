@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
+import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
@@ -17,8 +18,8 @@ import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
@@ -27,17 +28,27 @@ import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsDiScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.io.IOException
 
 class HomeController(
     private val homeScreenState: HomeScreenState,
     private val deckReviewPreference: DeckReviewPreference,
+    private val deckExporter: DeckExporter,
     private val deckRemover: DeckRemover,
     private val exerciseStateCreator: ExerciseStateCreator,
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val homeScreenStateProvider: ShortTermStateProvider<HomeScreenState>
-) : BaseController<HomeEvent, HomeCommand>() {
+) : BaseController<HomeEvent, Command>() {
+    sealed class Command {
+        object ShowNoCardIsReadyForExerciseMessage : Command()
+        class ShowDeckRemovingMessage(val numberOfDecksRemoved: Int) : Command()
+        class ShowCreateFileDialog(val fileName: String) : Command()
+        object ShowDeckIsExportedMessage : Command()
+        class ShowExportErrorMessage(val e: IOException) : Command()
+    }
+
     init {
         deckRemover.events.onEach { event: DeckRemover.Event ->
             when (event) {
@@ -101,6 +112,25 @@ class HomeController(
                     val deck: Deck = globalState.decks.first { it.id == event.deckId }
                     val deckEditorState = DeckEditor.State(deck)
                     DeckSetupDiScope.create(DeckSetupScreenState(deck), deckEditorState)
+                }
+            }
+
+            is ExportMenuItemClicked -> {
+                val deck: Deck = globalState.decks.first { it.id == event.deckId }
+                homeScreenState.exportedDeck = deck
+                val fileName = deck.name
+                sendCommand(ShowCreateFileDialog(fileName))
+            }
+
+            is OutputStreamOpened -> {
+                try {
+                    deckExporter.export(
+                        deck = homeScreenState.exportedDeck ?: return,
+                        outputStream = event.outputStream
+                    )
+                    sendCommand(ShowDeckIsExportedMessage)
+                } catch (e: IOException) {
+                    sendCommand(ShowExportErrorMessage(e))
                 }
             }
 

@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -16,8 +18,7 @@ import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.common.showToast
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowDeckRemovingMessage
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeCommand.ShowNoCardIsReadyForExerciseMessage
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
@@ -38,6 +39,7 @@ class HomeFragment : BaseFragment() {
     private var resumePauseCoroutineScope: CoroutineScope? = null
     private lateinit var searchView: SearchView
     private var searchViewText: String? = null
+    private var pendingEvent: OutputStreamOpened? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +80,8 @@ class HomeFragment : BaseFragment() {
             decksPreviewRecycler.adapter = deckPreviewAdapter
             observeViewModel()
             controller!!.commands.observe(onEach = ::executeCommand)
+            pendingEvent?.let(controller!!::dispatch)
+            pendingEvent = null
         }
     }
 
@@ -99,7 +103,7 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: HomeCommand) {
+    private fun executeCommand(command: HomeController.Command) {
         when (command) {
             ShowNoCardIsReadyForExerciseMessage -> {
                 showToast(R.string.toast_text_no_cards_ready_for_exercise)
@@ -120,6 +124,46 @@ class HomeFragment : BaseFragment() {
                         { controller?.dispatch(DecksRemovedSnackbarCancelActionClicked) }
                     )
                     .show()
+            }
+            is ShowCreateFileDialog -> {
+                showCreateFileDialog(command.fileName)
+            }
+            ShowDeckIsExportedMessage -> {
+                showToast(R.string.toast_deck_is_exported)
+            }
+            is ShowExportErrorMessage -> {
+                val errorMessage = getString(
+                    R.string.toast_error_while_exporting_deck,
+                    command.e.message
+                )
+                showToast(errorMessage)
+            }
+        }
+    }
+
+    private fun showCreateFileDialog(fileName: String) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .setType("text/plain")
+            .putExtra(Intent.EXTRA_TITLE, fileName)
+        startActivityForResult(intent, CREATE_FILE_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        if (requestCode != CREATE_FILE_REQUEST_CODE
+            || resultCode != Activity.RESULT_OK
+            || intent == null
+        ) {
+            return
+        }
+        val uri = intent.data ?: return
+        val outputStream = requireContext().contentResolver?.openOutputStream(uri)
+        if (outputStream != null) {
+            val event = OutputStreamOpened(outputStream)
+            if (controller == null) {
+                pendingEvent = event
+            } else {
+                controller!!.dispatch(event)
             }
         }
     }
@@ -287,5 +331,6 @@ class HomeFragment : BaseFragment() {
 
     companion object {
         const val STATE_KEY_SEARCH_VIEW_TEXT = "searchViewText"
+        const val CREATE_FILE_REQUEST_CODE = 40
     }
 }
