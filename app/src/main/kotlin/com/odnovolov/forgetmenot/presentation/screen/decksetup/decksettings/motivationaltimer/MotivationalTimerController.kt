@@ -1,10 +1,10 @@
-package com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerEvent.*
 
 class MotivationalTimerController(
     private val deckSettings: DeckSettings,

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.TooltipCompat
+import androidx.core.view.isInvisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -76,12 +77,17 @@ class SearchFragment : BaseFragment() {
                     getString(R.string.hint_search_in_all_cards) else
                     getString(R.string.hint_search_in_specific_deck, searchDeckName))
             }
-            if (isFirstCreated)
+            if (isFirstCreated) {
                 searchEditText.setText(initialSearchText)
-            if (initialSearchText.isEmpty()) {
-                searchEditText.post {
-                    searchEditText.showSoftInput()
+                if (initialSearchText.isEmpty()) {
+                    searchEditText.post {
+                        searchEditText.showSoftInput()
+                    }
                 }
+            }
+            isSearching.observe { isSearching: Boolean ->
+                cardsRecycler.isInvisible = isSearching
+                progressBar.isInvisible = !isSearching
             }
         }
     }

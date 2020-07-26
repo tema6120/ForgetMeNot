@@ -156,7 +156,7 @@
 
     <dialog
             android:id="@+id/motivational_timer_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDialog"
             tools:layout="@layout/dialog_motivational_timer" />
 
     <fragment

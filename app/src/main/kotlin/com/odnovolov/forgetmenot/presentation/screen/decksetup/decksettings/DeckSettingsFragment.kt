@@ -1,8 +1,9 @@
-package com.odnovolov.forgetmenot.presentation.screen.decksettings
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings
 
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Looper
+import android.os.MessageQueue.IdleHandler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.uncover
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import kotlinx.coroutines.launch
 
@@ -35,6 +36,7 @@ class DeckSettingsFragment : BaseFragment() {
     private var cardReverseAdapter: ItemAdapter? = null
     private var isInflated = false
     private lateinit var diScope: DeckSettingsDiScope
+    private var idleHandler: IdleHandler? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +51,10 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun onViewInflated() {
-        isInflated = true
-        setupIfReady()
+        if (viewCoroutineScope != null) {
+            isInflated = true
+            setupIfReady()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,10 +74,11 @@ class DeckSettingsFragment : BaseFragment() {
         if (viewCoroutineScope == null || controller == null || !isInflated) return
         presetView.inject(diScope.presetController, diScope.presetViewModel)
         setupPrimary()
-        Looper.myQueue().addIdleHandler {
+        idleHandler = IdleHandler {
             setupSecondary()
             false
         }
+        Looper.myQueue().addIdleHandler(idleHandler!!)
     }
 
     private fun setupPrimary() {
@@ -223,6 +228,7 @@ class DeckSettingsFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        idleHandler?.let { idleHandler -> Looper.myQueue().removeIdleHandler(idleHandler) }
         isInflated = false
         testMethodAdapter = null
         cardReverseAdapter = null

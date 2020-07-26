@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.deckcontent
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.generateId
@@ -11,11 +11,10 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentController.Command
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentController.Command.*
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent.DeckContentController.Command
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent.DeckContentController.Command.*
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent.DeckContentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
-import com.odnovolov.forgetmenot.presentation.screen.search.SearchScreenState
 import java.io.IOException
 
 class DeckContentController(
@@ -51,7 +50,7 @@ class DeckContentController(
 
             SearchButtonClicked -> {
                 navigator.navigateToSearchFromDeckSetup {
-                    SearchDiScope.create(SearchScreenState())
+                    SearchDiScope()
                 }
             }
 

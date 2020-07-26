@@ -1,39 +1,39 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
-import com.odnovolov.forgetmenot.persistence.shortterm.SearchScreenStateProvider
+import com.odnovolov.forgetmenot.domain.interactor.searcher.Searcher
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 
-class SearchDiScope private constructor(
-    initialScreenState: SearchScreenState? = null
+class SearchDiScope(
+    initialSearchText: String = ""
 ) {
-    private val screenStateProvider = SearchScreenStateProvider(
-        AppDiScope.get().json,
-        AppDiScope.get().database
-    )
-
-    private val screenState: SearchScreenState =
-        initialScreenState ?: screenStateProvider.load()
+    private val searcher: Searcher =
+        if (DeckSetupDiScope.isOpen()) {
+            val deck = DeckSetupDiScope.shareDeck()
+            Searcher(deck)
+        } else {
+            val globalState = AppDiScope.get().globalState
+            Searcher(globalState)
+        }
 
     val controller = SearchController(
-        screenState,
+        searcher,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver,
-        screenStateProvider
+        AppDiScope.get().longTermStateSaver
     )
 
     val viewModel = SearchViewModel(
-        screenState,
-        AppDiScope.get().globalState
+        initialSearchText,
+        searcher.state
     )
 
     companion object : DiScopeManager<SearchDiScope>() {
-        fun create(screenState: SearchScreenState) = SearchDiScope(screenState)
-
         override fun recreateDiScope() = SearchDiScope()
 
         override fun onCloseDiScope(diScope: SearchDiScope) {
             diScope.controller.dispose()
+            diScope.searcher.dispose()
         }
     }
 }

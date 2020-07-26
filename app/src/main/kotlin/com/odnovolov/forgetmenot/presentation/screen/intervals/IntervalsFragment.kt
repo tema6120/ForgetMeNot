@@ -10,7 +10,7 @@ import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.AddIntervalButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.RemoveIntervalButtonClicked
 import kotlinx.android.synthetic.main.fragment_intervals.*

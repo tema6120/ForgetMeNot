@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.deckcontent
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck

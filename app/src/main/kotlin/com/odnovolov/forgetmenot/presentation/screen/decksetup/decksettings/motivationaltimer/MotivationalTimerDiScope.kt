@@ -1,9 +1,9 @@
-package com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer
 
 import com.odnovolov.forgetmenot.persistence.shortterm.MotivationalTimerDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
 
 class MotivationalTimerDiScope private constructor(
     initialDialogState: MotivationalTimerDialogState? = null

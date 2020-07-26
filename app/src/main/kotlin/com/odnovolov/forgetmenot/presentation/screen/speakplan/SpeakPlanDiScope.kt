@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.SpeakEventDialogStateProv
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
 
 class SpeakPlanDiScope private constructor(
     initialPresetDialogState: PresetDialogState? = null,

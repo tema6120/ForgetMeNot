@@ -88,6 +88,7 @@ class DeckSetupFragment : BaseFragment() {
 
     private fun setupViewPager() {
         deckOverviewViewPager.adapter = DeckSetupPagerAdapter(this)
+        deckOverviewViewPager.offscreenPageLimit = 1
         tabLayoutMediator = TabLayoutMediator(
             deckOverviewTabLayout,
             deckOverviewViewPager
@@ -139,6 +140,7 @@ class DeckSetupFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         tabLayoutMediator?.detach()
+        tabLayoutMediator = null
         deckOverviewViewPager.adapter = null
     }
 

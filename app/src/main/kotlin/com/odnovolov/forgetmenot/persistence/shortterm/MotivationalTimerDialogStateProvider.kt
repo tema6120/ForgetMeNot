@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.MotivationalTimerDialogStateProvider.SerializableState
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerDialogState
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDialogState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 

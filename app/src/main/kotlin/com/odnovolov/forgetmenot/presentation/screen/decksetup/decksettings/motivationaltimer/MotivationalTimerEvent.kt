@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer
 
 sealed class MotivationalTimerEvent {
     object TimeForAnswerSwitchToggled : MotivationalTimerEvent()

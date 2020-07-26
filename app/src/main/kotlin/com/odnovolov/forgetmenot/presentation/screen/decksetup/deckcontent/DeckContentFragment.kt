@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.deckcontent
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent
 
 import android.app.Activity
 import android.content.Intent
@@ -9,10 +9,11 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.TooltipCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.showToast
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentController.Command.*
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent.DeckContentController.Command.*
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent.DeckContentEvent.*
 import kotlinx.android.synthetic.main.fragment_deck_content.*
 import kotlinx.coroutines.launch
 
@@ -22,32 +23,50 @@ class DeckContentFragment : BaseFragment() {
     }
 
     private var controller: DeckContentController? = null
+    private lateinit var viewModel: DeckContentViewModel
     private var pendingEvent: OutputStreamOpened? = null
+    private var isInflated = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_deck_content, container, false)
+        return if (savedInstanceState == null) {
+            inflater.inflateAsync(R.layout.fragment_deck_content, ::onViewInflated)
+        } else {
+            inflater.inflate(R.layout.fragment_deck_content, container, false)
+        }
+    }
+
+    private fun onViewInflated() {
+        if (viewCoroutineScope != null) {
+            isInflated = true
+            setupIfReady()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
+        if (savedInstanceState != null) {
+            isInflated = true
+        }
         viewCoroutineScope!!.launch {
             val diScope = DeckContentDiScope.getAsync()
             controller = diScope.controller
-            val adapter = CardOverviewAdapter(diScope.controller)
-            cardsRecycler.adapter = adapter
-            diScope.viewModel.cards.observe(adapter::submitList)
-            controller!!.commands.observe(::executeCommand)
-            pendingEvent?.let(controller!!::dispatch)
-            pendingEvent = null
+            viewModel = diScope.viewModel
+            setupIfReady()
         }
     }
 
-    private fun setupView() {
+    private fun setupIfReady() {
+        if (viewCoroutineScope == null || controller == null || !isInflated) return
+        val adapter = CardOverviewAdapter(controller!!)
+        cardsRecycler.adapter = adapter
+        viewModel.cards.observe(adapter::submitList)
+        controller!!.commands.observe(::executeCommand)
+        pendingEvent?.let(controller!!::dispatch)
+        pendingEvent = null
         exportButton.run {
             setOnClickListener { controller?.dispatch(ExportButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
@@ -105,6 +124,11 @@ class DeckContentFragment : BaseFragment() {
                 controller!!.dispatch(event)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isInflated = false
     }
 
     override fun onDestroy() {

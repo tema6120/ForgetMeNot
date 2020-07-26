@@ -16,7 +16,6 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionF
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
-import com.odnovolov.forgetmenot.presentation.screen.search.SearchScreenState
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -111,8 +110,7 @@ class RepetitionViewController(
                             else -> ""
                         }
                     }
-                    val screenState = SearchScreenState(searchText)
-                    SearchDiScope.create(screenState)
+                    SearchDiScope(searchText)
                 }
             }
         }

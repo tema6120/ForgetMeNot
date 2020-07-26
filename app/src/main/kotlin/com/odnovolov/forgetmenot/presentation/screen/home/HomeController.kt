@@ -23,7 +23,6 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
-import com.odnovolov.forgetmenot.presentation.screen.search.SearchScreenState
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsDiScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
@@ -71,8 +70,7 @@ class HomeController(
 
             SearchInCardsButtonClicked -> {
                 navigator.navigateToSearchFromHome {
-                    val screenState = SearchScreenState(homeScreenState.searchText)
-                    SearchDiScope.create(screenState)
+                    SearchDiScope(homeScreenState.searchText)
                 }
             }
 

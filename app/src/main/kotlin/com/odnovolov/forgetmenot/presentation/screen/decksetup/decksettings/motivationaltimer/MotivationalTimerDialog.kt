@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer
 
 import android.app.Dialog
 import android.os.Bundle
@@ -10,8 +10,8 @@ import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.common.uncover
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksettings.motivationaltimer.MotivationalTimerEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerEvent.*
 import kotlinx.android.synthetic.main.dialog_motivational_timer.view.*
 import kotlinx.coroutines.launch
 

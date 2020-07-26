@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.deckcontent
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.deckcontent.DeckContentEvent.CardClicked
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent.DeckContentEvent.CardClicked
 import kotlinx.android.synthetic.main.item_card_overview.view.*
 
 class CardOverviewAdapter(

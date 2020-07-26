@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.search
+package com.odnovolov.forgetmenot.domain.interactor.searcher
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck

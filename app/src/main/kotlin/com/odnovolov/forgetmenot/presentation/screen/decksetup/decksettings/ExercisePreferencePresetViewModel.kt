@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.decksettings
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings
 
 import com.odnovolov.forgetmenot.domain.checkExercisePreferenceName
 import com.odnovolov.forgetmenot.domain.entity.Deck

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.deckcontent
+package com.odnovolov.forgetmenot.presentation.screen.decksetup.deckcontent
 
 import java.io.OutputStream
 

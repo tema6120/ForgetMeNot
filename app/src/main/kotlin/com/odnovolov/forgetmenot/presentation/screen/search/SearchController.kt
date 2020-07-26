@@ -6,9 +6,9 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
+import com.odnovolov.forgetmenot.domain.interactor.searcher.Searcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
@@ -17,10 +17,9 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScop
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.*
 
 class SearchController(
-    private val screenState: SearchScreenState,
+    private val searcher: Searcher,
     private val navigator: Navigator,
-    private val longTermStateSaver: LongTermStateSaver,
-    private val searchScreenStateProvider: ShortTermStateProvider<SearchScreenState>
+    private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<SearchEvent, Nothing>() {
     override fun handle(event: SearchEvent) {
         when (event) {
@@ -29,7 +28,7 @@ class SearchController(
             }
 
             is SearchTextChanged -> {
-                screenState.searchText = event.text
+                searcher.search(event.text)
             }
 
             is CardClicked -> {
@@ -128,6 +127,5 @@ class SearchController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
-        searchScreenStateProvider.save(screenState)
     }
 }

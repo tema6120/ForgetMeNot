@@ -19,7 +19,6 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
-import com.odnovolov.forgetmenot.presentation.screen.search.SearchScreenState
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
@@ -131,8 +130,7 @@ class ExerciseController(
                             else -> ""
                         }
                     }
-                    val screenState = SearchScreenState(searchText)
-                    SearchDiScope.create(screenState)
+                    SearchDiScope(searchText)
                 }
             }
 
