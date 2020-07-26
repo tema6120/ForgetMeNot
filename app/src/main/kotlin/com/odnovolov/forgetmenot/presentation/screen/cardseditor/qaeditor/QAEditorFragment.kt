@@ -90,17 +90,11 @@ class QAEditorFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         questionClearButton.run {
-            setOnClickListener {
-                questionEditText.text.clear()
-                questionEditText.requestFocus()
-            }
+            setOnClickListener { questionEditText.text.clear() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         answerClearButton.run {
-            setOnClickListener {
-                answerEditText.text.clear()
-                answerEditText.requestFocus()
-            }
+            setOnClickListener { answerEditText.text.clear() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
     }

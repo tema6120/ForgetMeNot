@@ -14,7 +14,8 @@ class FullscreenModeManager(
     private val decorView: View,
     private val contentView: View,
     private val window: Window,
-    navController: NavController
+    navController: NavController,
+    isInMultiWindow: Boolean
 ) {
     private val onGlobalLayoutListener = OnGlobalLayoutListener {
         val rect = Rect()
@@ -33,6 +34,14 @@ class FullscreenModeManager(
     }
 
     private var isFullscreenModeEnabled = false
+
+    var isInMultiWindow: Boolean = isInMultiWindow
+        set(value) {
+            if (field != value) {
+                field = value
+                update()
+            }
+        }
 
     init {
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -54,13 +63,17 @@ class FullscreenModeManager(
 
     fun setFullscreenMode(isEnabled: Boolean) {
         if (isFullscreenModeEnabled == isEnabled) return
-        if (isEnabled) {
+        isFullscreenModeEnabled = isEnabled
+        update()
+    }
+
+    private fun update() {
+        if (isFullscreenModeEnabled && !isInMultiWindow) {
             window.addFlags(LayoutParams.FLAG_FULLSCREEN)
             decorView.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
         } else {
             window.clearFlags(LayoutParams.FLAG_FULLSCREEN)
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
         }
-        isFullscreenModeEnabled = isEnabled
     }
 }

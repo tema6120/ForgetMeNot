@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor
 
-import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Context
 import android.widget.EditText
@@ -17,23 +16,19 @@ fun EditText.paste() {
     setText(
         StringBuilder(text).run {
             if (hasSelection()) {
-                replace(selStart, selEnd, clipboardText)
+                replace(selStart, selEnd, clipboardText.toString())
             } else {
                 insert(selStart, clipboardText)
             }
         }
     )
-    requestFocus()
     setSelection(cursorFinalPosition)
 }
 
-private fun EditText.getClipboardText(): String? {
+private fun EditText.getClipboardText(): CharSequence? {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     if (!clipboard.hasPrimaryClip()) return null
-    clipboard.primaryClipDescription?.let {
-        if (!it.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) return null
-    } ?: return null
-    return clipboard.primaryClip?.getItemAt(0)?.text.toString()
+    return clipboard.primaryClip?.getItemAt(0)?.coerceToText(context)
 }
 
 private val EditText.selStart get() = minOf(selectionStart, selectionEnd)

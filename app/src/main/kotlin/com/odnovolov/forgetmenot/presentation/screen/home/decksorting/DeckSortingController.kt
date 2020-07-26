@@ -16,8 +16,8 @@ class DeckSortingController(
         when (event) {
             is SortByButtonClicked -> {
                 with(deckReviewPreference) {
-                    deckSorting = if (event.criterion === deckSorting.criterion) {
-                        val newDirection = if (deckSorting.direction === Asc) Desc else Asc
+                    deckSorting = if (event.criterion == deckSorting.criterion) {
+                        val newDirection = if (deckSorting.direction == Asc) Desc else Asc
                         deckSorting.copy(direction = newDirection)
                     } else {
                         deckSorting.copy(criterion = event.criterion)

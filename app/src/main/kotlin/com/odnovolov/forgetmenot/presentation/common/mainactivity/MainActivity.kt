@@ -1,7 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.common.mainactivity
 
+import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.os.Handler
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -53,13 +57,26 @@ class MainActivity : AppCompatActivity() {
         initNavController()
         coroutineScope.launch {
             val diScope = MainActivityDiScope.getAsync()
+            val isInMultiWindowMode = if (VERSION.SDK_INT >= VERSION_CODES.N) {
+                isInMultiWindowMode
+            } else false
             fullscreenModeManager = FullscreenModeManager(
                 diScope.fullScreenPreference,
                 window.decorView,
                 findViewById(android.R.id.content),
                 window,
-                navController
+                navController,
+                isInMultiWindowMode
             )
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (VERSION.SDK_INT >= VERSION_CODES.N) {
+            Handler().post {
+                fullscreenModeManager.isInMultiWindow = isInMultiWindowMode
+            }
         }
     }
 
@@ -110,6 +127,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        fullscreenModeManager.setFullscreenMode(false)
         if (isFinishing || !isChangingConfigurations) {
             MainActivityDiScope.close()
         }
