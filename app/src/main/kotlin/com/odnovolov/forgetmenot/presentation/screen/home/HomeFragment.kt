@@ -32,11 +32,12 @@ class HomeFragment : BaseFragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
-    private lateinit var deckPreviewAdapter: DeckPreviewAdapter
     private lateinit var filterDialog: Dialog
     private lateinit var filterAdapter: ItemAdapter
     private var actionMode: ActionMode? = null
     private var resumePauseCoroutineScope: CoroutineScope? = null
+    private val fragmentCoroutineScope =
+        CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private lateinit var searchView: SearchView
     private var searchViewText: String? = null
     private var pendingEvent: OutputStreamOpened? = null
@@ -45,6 +46,20 @@ class HomeFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
             searchViewText = savedInstanceState.getString(STATE_KEY_SEARCH_VIEW_TEXT)
+        }
+        fragmentCoroutineScope.launch {
+            val diScope = HomeDiScope.getAsync() ?: return@launch
+            diScope.viewModel.hasSelectedDecks.observe(
+                fragmentCoroutineScope
+            ) { hasSelectedDecks: Boolean ->
+                if (hasSelectedDecks) {
+                    if (actionMode == null) {
+                        actionMode = requireActivity().startActionMode(actionModeCallback)
+                    }
+                } else {
+                    actionMode?.finish()
+                }
+            }
         }
     }
 
@@ -76,8 +91,7 @@ class HomeFragment : BaseFragment() {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
-            deckPreviewAdapter = diScope.deckPreviewAdapter
-            decksPreviewRecycler.adapter = deckPreviewAdapter
+            decksPreviewRecycler.adapter = diScope.deckPreviewAdapter
             observeViewModel()
             controller!!.commands.observe(onEach = ::executeCommand)
             pendingEvent?.let(controller!!::dispatch)
@@ -238,26 +252,22 @@ class HomeFragment : BaseFragment() {
         resumePauseCoroutineScope!!.launch {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             val viewModel = diScope.viewModel
-            deckPreviewAdapter = diScope.deckPreviewAdapter
             with(viewModel) {
-                decksPreview.observe(resumePauseCoroutineScope!!, deckPreviewAdapter::submitList)
+                decksPreview.observe(
+                    resumePauseCoroutineScope!!
+                ) { decksPreview: List<DeckPreview> ->
+                    diScope.deckPreviewAdapter.submitList(decksPreview)
+                    progressBar.visibility = View.GONE
+                }
                 deckSelectionCount.observe(
                     resumePauseCoroutineScope!!
-                ) { deckSelectionCount: DeckSelectionCount? ->
-                    if (deckSelectionCount == null) {
-                        actionMode?.finish()
-                    } else {
-                        if (actionMode == null) {
-                            actionMode = requireActivity().startActionMode(actionModeCallback)
-                        }
-                        val (cardsCount, decksCount) = deckSelectionCount
-                        actionMode!!.title =
-                            getString(
-                                R.string.deck_selection_action_mode_title,
-                                cardsCount,
-                                decksCount
-                            )
-                    }
+                ) { deckSelectionCount: DeckSelectionCount ->
+                    val (cardsCount, decksCount) = deckSelectionCount
+                    actionMode?.title = getString(
+                        R.string.deck_selection_action_mode_title,
+                        cardsCount,
+                        decksCount
+                    )
                 }
             }
         }
@@ -280,12 +290,11 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         decksPreviewRecycler.adapter = null
-        // sometimes deckSelectionCount.observe() doesn't keep up to get last value
-        actionMode?.finish()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        fragmentCoroutineScope.cancel()
         if (needToCloseDiScope()) {
             HomeDiScope.close()
         }

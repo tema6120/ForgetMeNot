@@ -9,8 +9,10 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class HomeViewModel(
@@ -19,8 +21,11 @@ class HomeViewModel(
     deckReviewPreference: DeckReviewPreference,
     controller: HomeController
 ) {
-    val displayOnlyWithTasks: Flow<Boolean> = deckReviewPreference
-        .flowOf(DeckReviewPreference::displayOnlyWithTasks)
+    val hasSelectedDecks: Flow<Boolean> =
+        homeScreenState.flowOf(HomeScreenState::selectedDeckIds).map { it.isNotEmpty() }
+
+    val displayOnlyWithTasks: Flow<Boolean> =
+        deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyWithTasks)
 
     val decksPreview: Flow<List<DeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
@@ -39,23 +44,9 @@ class HomeViewModel(
             .sortBy(deckSorting)
             .mapToDeckPreview(selectedDeckIds)
             .filterBy(displayOnlyWithTasks)
-    }.share()
-
-    val deckSelectionCount: Flow<DeckSelectionCount?> =
-        decksPreview.map { decksPreview: List<DeckPreview> ->
-            val selectedDecks = decksPreview
-                .filter { deckPreview -> deckPreview.isSelected }
-            if (selectedDecks.isEmpty()) {
-                null
-            } else {
-                val selectedCardsCount = selectedDecks.map { deckPreview ->
-                    with(deckPreview) { numberOfCardsReadyForExercise ?: totalCount - learnedCount }
-                }
-                    .sum()
-                val selectedDecksCount = selectedDecks.size
-                DeckSelectionCount(selectedCardsCount, selectedDecksCount)
-            }
-        }
+    }
+        .flowOn(Dispatchers.Default)
+        .share()
 
     private fun Collection<Deck>.filterBy(searchText: String): Collection<Deck> {
         return if (searchText.isEmpty()) this
@@ -116,6 +107,21 @@ class HomeViewModel(
             }
         } else this
     }
+
+    val deckSelectionCount: Flow<DeckSelectionCount> =
+        decksPreview.map { decksPreview: List<DeckPreview> ->
+            val selectedDecks = decksPreview.filter { deckPreview -> deckPreview.isSelected }
+            if (selectedDecks.isEmpty()) {
+                DeckSelectionCount(selectedCardsCount = 0, selectedDecksCount = 0)
+            } else {
+                val selectedCardsCount = selectedDecks.map { deckPreview ->
+                    with(deckPreview) { numberOfCardsReadyForExercise ?: totalCount - learnedCount }
+                }
+                    .sum()
+                val selectedDecksCount = selectedDecks.size
+                DeckSelectionCount(selectedCardsCount, selectedDecksCount)
+            }
+        }
 
     init {
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->
