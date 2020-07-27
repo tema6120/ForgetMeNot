@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.isInvisible
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
@@ -46,7 +47,7 @@ class SearchFragment : BaseFragment() {
     private fun initAdapter() {
         val adapter = SearchCardAdapter(controller!!)
         cardsRecycler.adapter = adapter
-        viewModel.cards.observe(adapter::submitList)
+        viewModel.cards.observe { cards: List<SearchCard> -> adapter.items = cards }
     }
 
     private fun setupView() {

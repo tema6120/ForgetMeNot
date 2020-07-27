@@ -8,17 +8,23 @@ import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.CardClicked
 import kotlinx.android.synthetic.main.item_card_overview.view.*
 
 class SearchCardAdapter(
     private val controller: SearchController
-) : ListAdapter<SearchCard, SimpleRecyclerViewHolder>(DiffCallback()) {
+) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
+    var items: List<SearchCard> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_card_overview, parent, false)
@@ -26,8 +32,16 @@ class SearchCardAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
-        val item: SearchCard = getItem(position)
+        val item: SearchCard = items[position]
         with(viewHolder.itemView) {
+            val param = cardView.layoutParams as ViewGroup.MarginLayoutParams
+            val marginTop: Int = if (position == 0) 80.dp else 16.dp
+            param.setMargins(
+                param.leftMargin,
+                marginTop,
+                param.rightMargin,
+                param.bottomMargin
+            )
             questionTextView.text =
                 highlight(item.card.question, item.questionMatchingRanges, context)
             questionTextView.isEnabled = !item.card.isLearned
@@ -56,11 +70,5 @@ class SearchCardAdapter(
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<SearchCard>() {
-        override fun areItemsTheSame(oldItem: SearchCard, newItem: SearchCard): Boolean =
-            oldItem.card.id == newItem.card.id
-
-        override fun areContentsTheSame(oldItem: SearchCard, newItem: SearchCard): Boolean =
-            oldItem == newItem
-    }
+    override fun getItemCount(): Int = items.size
 }
