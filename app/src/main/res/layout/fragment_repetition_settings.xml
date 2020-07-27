@@ -249,25 +249,17 @@
                         android:textColor="@color/textSecondary"
                         android:textSize="14sp" />
 
-                <FrameLayout
+                <TextView
                         android:id="@+id/lastAnswerFromButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
                         android:background="@drawable/background_last_answer_button"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:padding="8dp">
-
-                    <TextView
-                            android:id="@+id/lastAnswerFromTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textPrimary"
-                            android:textSize="14sp"
-                            tools:text="zero time" />
-
-                </FrameLayout>
+                        android:padding="8dp"
+                        android:textColor="@color/text_last_answer_button"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="zero time" />
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -278,25 +270,17 @@
                         android:textColor="@color/textSecondary"
                         android:textSize="14sp" />
 
-                <FrameLayout
+                <TextView
                         android:id="@+id/lastAnswerToButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
                         android:background="@drawable/background_last_answer_button"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:padding="8dp">
-
-                    <TextView
-                            android:id="@+id/lastAnswerToTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textPrimary"
-                            android:textSize="14sp"
-                            tools:text="now" />
-
-                </FrameLayout>
+                        android:padding="8dp"
+                        android:textColor="@color/text_last_answer_button"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="now" />
 
             </LinearLayout>
 

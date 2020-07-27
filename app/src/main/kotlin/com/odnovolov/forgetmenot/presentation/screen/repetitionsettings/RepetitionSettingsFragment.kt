@@ -175,7 +175,7 @@ class RepetitionSettingsFragment : BaseFragment() {
                 isLevelOfKnowledgeRangeListenerEnabled = true
             }
             lastAnswerFromTimeAgo.observe { lastAnswerFromTimeAgo: DisplayedInterval? ->
-                lastAnswerFromTextView.text =
+                lastAnswerFromButton.text =
                     if (lastAnswerFromTimeAgo == null) {
                         getString(R.string.zero_time).toLowerCase(Locale.ROOT)
                     } else {
@@ -185,7 +185,7 @@ class RepetitionSettingsFragment : BaseFragment() {
                     }
             }
             lastAnswerToTimeAgo.observe { lastAnswerToTimeAgo: DisplayedInterval? ->
-                lastAnswerToTextView.text =
+                lastAnswerToButton.text =
                     if (lastAnswerToTimeAgo == null) {
                         getString(R.string.now).toLowerCase(Locale.ROOT)
                     } else {
