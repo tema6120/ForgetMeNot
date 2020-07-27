@@ -38,7 +38,7 @@ class SpeakPlanFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupAddSpeakButton()
         viewCoroutineScope!!.launch {
-            val diScope = SpeakPlanDiScope.getAsync()
+            val diScope = SpeakPlanDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
             speakEventAdapter = SpeakEventAdapter(controller!!)

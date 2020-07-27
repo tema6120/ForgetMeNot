@@ -70,7 +70,7 @@ class SettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = SettingsDiScope.getAsync()
+            val diScope = SettingsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             observeViewModel(diScope.viewModel)
         }

@@ -70,7 +70,7 @@ class ExerciseFragment : BaseFragment() {
         setupView()
         initKeyEventInterceptor()
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.getAsync()
+            val diScope = ExerciseDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!)
             viewModel = diScope.viewModel
@@ -259,6 +259,16 @@ class ExerciseFragment : BaseFragment() {
                 val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
                 levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
                 levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
+                if (levelOfKnowledgePopup?.isShowing == true) {
+                    intervalsAdapter!!.intervalItems =
+                        intervalsAdapter!!.intervalItems.map { intervalItem: IntervalItem ->
+                            IntervalItem(
+                                levelOfKnowledge = intervalItem.levelOfKnowledge,
+                                waitingPeriod = intervalItem.waitingPeriod,
+                                isSelected = intervalItem.levelOfKnowledge == levelOfKnowledge
+                            )
+                    }
+                }
             }
             isLevelOfKnowledgeEditedManually.observe { isEdited: Boolean ->
                 with(levelOfKnowledgeTextView) {
@@ -377,7 +387,7 @@ class ExerciseFragment : BaseFragment() {
     private fun createWalkingModePopup() {
         val content = View.inflate(requireContext(), R.layout.popup_walking_mode, null)
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.getAsync()
+            val diScope = ExerciseDiScope.getAsync() ?: return@launch
             diScope.viewModel.isWalkingModeEnabled.observe(content.walkingModeSwitch::setChecked)
         }
         content.walkingModeSettingsButton.run {
@@ -492,7 +502,7 @@ class ExerciseFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.getAsync()
+            val diScope = ExerciseDiScope.getAsync() ?: return@launch
             diScope.controller.dispatch(FragmentResumed)
         }
         hideActionBar()
@@ -504,7 +514,7 @@ class ExerciseFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.getAsync()
+            val diScope = ExerciseDiScope.getAsync() ?: return@launch
             diScope.controller.dispatch(FragmentPaused)
         }
     }

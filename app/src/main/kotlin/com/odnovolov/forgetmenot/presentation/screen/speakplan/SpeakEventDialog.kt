@@ -31,7 +31,7 @@ class SpeakEventDialog : BaseDialogFragment() {
         setupView()
         val isRestoring = savedInstanceState != null
         viewCoroutineScope!!.launch(Dispatchers.Main) {
-            val diScope = SpeakPlanDiScope.getAsync()
+            val diScope = SpeakPlanDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             observeViewModel(diScope.viewModel, isRestoring)
         }

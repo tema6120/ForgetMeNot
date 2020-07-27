@@ -35,7 +35,7 @@ class SearchController(
                 when {
                     DeckSetupDiScope.isOpen() -> {
                         navigator.navigateToCardsEditorFromSearch {
-                            val deck = DeckSetupDiScope.get().screenState.relevantDeck
+                            val deck = DeckSetupDiScope.get()!!.screenState.relevantDeck
                             val editableCards: List<EditableCard> =
                                 deck.cards.map { card -> EditableCard(card, deck) }
                                     .plus(EditableCard(Card(generateId(), "", ""), deck))
@@ -52,7 +52,7 @@ class SearchController(
                     }
                     ExerciseDiScope.isOpen() -> {
                         navigator.navigateToCardsEditorFromSearch {
-                            val exercise: Exercise = ExerciseDiScope.get().exercise
+                            val exercise: Exercise = ExerciseDiScope.get()!!.exercise
                             val foundEditableCard = EditableCard(
                                 event.searchCard.card,
                                 event.searchCard.deck
@@ -80,7 +80,7 @@ class SearchController(
                     }
                     RepetitionDiScope.isOpen() -> {
                         navigator.navigateToCardsEditorFromSearch {
-                            val repetition: Repetition = RepetitionDiScope.get().repetition
+                            val repetition: Repetition = RepetitionDiScope.get()!!.repetition
                             val foundEditableCard = EditableCard(
                                 event.searchCard.card,
                                 event.searchCard.deck

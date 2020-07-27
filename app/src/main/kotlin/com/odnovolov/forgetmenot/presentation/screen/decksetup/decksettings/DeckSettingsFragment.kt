@@ -63,7 +63,7 @@ class DeckSettingsFragment : BaseFragment() {
             isInflated = true
         }
         viewCoroutineScope!!.launch {
-            diScope = DeckSettingsDiScope.getAsync()
+            diScope = DeckSettingsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
             setupIfReady()

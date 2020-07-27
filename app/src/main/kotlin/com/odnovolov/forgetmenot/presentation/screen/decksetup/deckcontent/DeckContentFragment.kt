@@ -52,7 +52,7 @@ class DeckContentFragment : BaseFragment() {
             isInflated = true
         }
         viewCoroutineScope!!.launch {
-            val diScope = DeckContentDiScope.getAsync()
+            val diScope = DeckContentDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
             setupIfReady()

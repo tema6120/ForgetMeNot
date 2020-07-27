@@ -22,10 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingDiScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     init {
@@ -56,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         )
         initNavController()
         coroutineScope.launch {
-            val diScope = MainActivityDiScope.getAsync()
+            val diScope = MainActivityDiScope.getAsync() ?: return@launch
             val isInMultiWindowMode = if (VERSION.SDK_INT >= VERSION_CODES.N) {
                 isInMultiWindowMode
             } else false
@@ -128,6 +125,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         fullscreenModeManager.setFullscreenMode(false)
+        coroutineScope.cancel()
         if (isFinishing || !isChangingConfigurations) {
             MainActivityDiScope.close()
         }

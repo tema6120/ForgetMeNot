@@ -113,14 +113,14 @@ class CardsEditorProvider(
                 when {
                     ExerciseDiScope.isOpen() -> {
                         CardsEditorForExercise(
-                            ExerciseDiScope.get().exercise,
+                            ExerciseDiScope.get()!!.exercise,
                             removedEditableCards,
                             cardsEditorState
                         )
                     }
                     RepetitionDiScope.isOpen() -> {
                         CardsEditorForRepetition(
-                            RepetitionDiScope.get().repetition,
+                            RepetitionDiScope.get()!!.repetition,
                             removedEditableCards,
                             cardsEditorState
                         )

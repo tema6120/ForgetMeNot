@@ -53,7 +53,7 @@ class RepetitionSettingsFragment : BaseFragment() {
             isInflated = true
         }
         viewCoroutineScope!!.launch {
-            diScope = RepetitionSettingsDiScope.getAsync()
+            diScope = RepetitionSettingsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             setupIfReady()
         }

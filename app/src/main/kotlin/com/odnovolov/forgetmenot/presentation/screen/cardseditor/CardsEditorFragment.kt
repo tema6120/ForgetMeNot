@@ -91,7 +91,7 @@ class CardsEditorFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = CardsEditorDiScope.getAsync()
+            val diScope = CardsEditorDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
             observeViewModel()

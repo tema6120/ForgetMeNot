@@ -18,7 +18,6 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingCommand.DismissBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingEvent.SortByButtonClicked
 import kotlinx.android.synthetic.main.bottom_sheet_deck_sorting.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
@@ -39,8 +38,8 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        viewScope!!.launch(Dispatchers.Main.immediate) {
-            val diScope = DeckSortingDiScope.getAsync()
+        viewScope!!.launch {
+            val diScope = DeckSortingDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             val viewModel = diScope.viewModel
             observeViewModel(viewModel)

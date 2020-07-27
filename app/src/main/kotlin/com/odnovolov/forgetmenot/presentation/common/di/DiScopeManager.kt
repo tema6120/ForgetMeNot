@@ -17,11 +17,7 @@ abstract class DiScopeManager<DiScope> {
 
     fun isOpen(): Boolean = diScope != null
 
-    suspend fun isOpenAsync(): Boolean {
-        return withContext(businessLogicThread) {
-            diScope != null
-        }
-    }
+    suspend fun isOpenAsync(): Boolean = withContext(businessLogicThread) { diScope != null }
 
     fun reopenIfClosed() {
         GlobalScope.launch(businessLogicThread) {
@@ -31,15 +27,9 @@ abstract class DiScopeManager<DiScope> {
         }
     }
 
-    suspend fun getAsync(): DiScope {
-        return diScope ?: withContext(businessLogicThread) {
-            diScope ?: error("DiScope is not opened")
-        }
-    }
+    suspend fun getAsync(): DiScope? = diScope ?: withContext(businessLogicThread) { diScope }
 
-    fun get(): DiScope {
-        return diScope ?: error("DiScope is not opened")
-    }
+    fun get(): DiScope? = diScope
 
     fun close() {
         GlobalScope.launch(businessLogicThread) {

@@ -47,7 +47,7 @@ class RepetitionFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = RepetitionDiScope.getAsync()
+            val diScope = RepetitionDiScope.getAsync() ?: return@launch
             controller = diScope.viewController
             val adapter = diScope.getRepetitionCardAdapter(viewCoroutineScope!!)
             repetitionViewPager.adapter = adapter
@@ -191,8 +191,8 @@ class RepetitionFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewCoroutineScope!!.launch {
-            val repetitionCardPosition =
-                RepetitionDiScope.getAsync().viewModel.repetitionCardPosition
+            val diScope = RepetitionDiScope.getAsync() ?: return@launch
+            val repetitionCardPosition = diScope.viewModel.repetitionCardPosition
             if (repetitionViewPager.currentItem != repetitionCardPosition) {
                 repetitionViewPager.setCurrentItem(repetitionCardPosition, false)
             }

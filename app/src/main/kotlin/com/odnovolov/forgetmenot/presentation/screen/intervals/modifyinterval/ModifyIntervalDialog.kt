@@ -34,7 +34,7 @@ class ModifyIntervalDialog : BaseDialogFragment() {
         setupView()
         val isRestoring = savedInstanceState != null
         viewCoroutineScope!!.launch(Dispatchers.Main) {
-            val diScope = ModifyIntervalDiScope.getAsync()
+            val diScope = ModifyIntervalDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             observeViewModel(diScope.viewModel, isRestoring)
         }

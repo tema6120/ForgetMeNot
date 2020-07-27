@@ -55,7 +55,7 @@ class RepetitionLapsDialog : BaseDialogFragment() {
     override fun onStart() {
         super.onStart()
         viewCoroutineScope!!.launch {
-            val diScope = RepetitionLapsDiScope.getAsync()
+            val diScope = RepetitionLapsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             observeViewModel(diScope.viewModel)
         }
