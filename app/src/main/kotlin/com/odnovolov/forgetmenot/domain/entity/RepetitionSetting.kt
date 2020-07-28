@@ -37,13 +37,14 @@ class RepetitionSetting(
 
     companion object {
         val Default by lazy {
+            val maxLevelOfKnowledge: Int = IntervalScheme.Default.intervals.last().levelOfKnowledge
             RepetitionSetting(
                 id = 0L,
                 name = "",
                 isAvailableForExerciseCardsIncluded = false,
                 isAwaitingCardsIncluded = true,
                 isLearnedCardsIncluded = false,
-                levelOfKnowledgeRange = 0..6,
+                levelOfKnowledgeRange = 0..maxLevelOfKnowledge,
                 lastAnswerFromTimeAgo = null,
                 lastAnswerToTimeAgo = null,
                 numberOfLaps = 1
