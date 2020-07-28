@@ -21,6 +21,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -59,6 +60,7 @@ class PresetView @JvmOverloads constructor(
         contentDescription = context.getString(R.string.description_save_preset)
         visibility = GONE
         setImageResource(R.drawable.ic_save_dark_24dp)
+        TooltipCompat.setTooltipText(this, contentDescription)
     }
 
     private val selectPresetButton = TextView(context, attrs, defStyleAttr, defStyleRes).apply {

@@ -63,18 +63,10 @@ class DeckContentFragment : BaseFragment() {
         if (viewCoroutineScope == null || controller == null || !isInflated) return
         val adapter = CardOverviewAdapter(controller!!)
         cardsRecycler.adapter = adapter
-        viewModel.cards.observe(adapter::submitList)
+        viewModel.cards.observe(adapter::submitItems)
         controller!!.commands.observe(::executeCommand)
         pendingEvent?.let(controller!!::dispatch)
         pendingEvent = null
-        exportButton.run {
-            setOnClickListener { controller?.dispatch(ExportButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
-        searchButton.run {
-            setOnClickListener { controller?.dispatch(SearchButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
         addCardButton.run {
             setOnClickListener { controller?.dispatch(AddCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
