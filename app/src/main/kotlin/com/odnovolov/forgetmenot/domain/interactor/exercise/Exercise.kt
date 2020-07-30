@@ -92,8 +92,18 @@ class Exercise(
     }
 
     fun setIsCardLearned(isLearned: Boolean) {
+        if (currentExerciseCard.base.card.isLearned == isLearned) return
         currentExerciseCard.base.card.isLearned = isLearned
-        if (isLearned) resetTimer() else startTimer()
+        if (isLearned) {
+            deleteCardsForRetesting()
+            resetTimer()
+        } else {
+            if (currentExerciseCard.base.isAnswerCorrect == false) {
+                updateLevelOfKnowledge()
+                addExerciseCardToRetestIfNeed()
+            }
+            startTimer()
+        }
     }
 
     fun speak() {
@@ -191,7 +201,13 @@ class Exercise(
                 exerciseCard.base.isLevelOfKnowledgeEditedManually = true
             }
             if (isIsLearnedChanged && currentPosition == position) {
-                resetTimer()
+                if (currentExerciseCard.base.card.isLearned) {
+                    deleteCardsForRetesting()
+                    resetTimer()
+                } else if (currentExerciseCard.base.isAnswerCorrect == false) {
+                    updateLevelOfKnowledge()
+                    addExerciseCardToRetestIfNeed()
+                }
             }
         }
         state.currentPosition = currentPosition
@@ -419,7 +435,7 @@ class Exercise(
         currentExerciseCard.base.isAnswerCorrect = true
         showQuestion()
         updateLevelOfKnowledge()
-        deleteAllRetestedCards()
+        deleteCardsForRetesting()
         updateLastAnsweredAt()
     }
 
@@ -467,8 +483,8 @@ class Exercise(
         }
     }
 
-    private fun deleteAllRetestedCards() {
-        if (hasExerciseCardToRetest()) {
+    private fun deleteCardsForRetesting() {
+        if (hasExerciseCardForRetesting()) {
             state.exerciseCards = state.exerciseCards
                 .filterIndexed { index, exerciseCard ->
                     exerciseCard.base.card.id != currentExerciseCard.base.card.id
@@ -479,7 +495,7 @@ class Exercise(
     }
 
     private fun addExerciseCardToRetestIfNeed() {
-        if (hasExerciseCardToRetest()) return
+        if (hasExerciseCardForRetesting()) return
         val baseExerciseCard = with(currentExerciseCard.base) {
             ExerciseCard.Base(
                 id = generateId(),
@@ -492,7 +508,7 @@ class Exercise(
                 isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
             )
         }
-        val retestedExerciseCard: ExerciseCard =
+        val retestingExerciseCard: ExerciseCard =
             when (currentExerciseCard.base.deck.exercisePreference.testMethod) {
                 TestMethod.Off -> OffTestExerciseCard(baseExerciseCard)
                 TestMethod.Manual -> ManualTestExerciseCard(baseExerciseCard)
@@ -514,10 +530,10 @@ class Exercise(
                     }
                 }
             }
-        state.exerciseCards += retestedExerciseCard
+        state.exerciseCards += retestingExerciseCard
     }
 
-    private fun hasExerciseCardToRetest(): Boolean {
+    private fun hasExerciseCardForRetesting(): Boolean {
         return state.exerciseCards
             .drop(state.currentPosition + 1)
             .any { it.base.card.id == currentExerciseCard.base.card.id }
