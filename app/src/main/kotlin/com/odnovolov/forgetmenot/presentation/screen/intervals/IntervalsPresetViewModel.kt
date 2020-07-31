@@ -59,4 +59,14 @@ class IntervalsPresetViewModel(
     override val presetInputCheckResult: Flow<NameCheckResult> = presetDialogState
         .flowOf(PresetDialogState::typedPresetName)
         .map { typedPresetName: String -> checkIntervalSchemeName(typedPresetName, globalState) }
+
+    override val deckNamesThatUsePreset: Flow<List<String>> = presetDialogState
+        .flowOf(PresetDialogState::idToDelete)
+        .map { sharedIntervalSchemeIdToDelete ->
+            globalState.decks
+                .filter { deck: Deck ->
+                    deck.exercisePreference.intervalScheme?.id == sharedIntervalSchemeIdToDelete
+                }
+                .map { deck: Deck -> deck.name }
+        }
 }

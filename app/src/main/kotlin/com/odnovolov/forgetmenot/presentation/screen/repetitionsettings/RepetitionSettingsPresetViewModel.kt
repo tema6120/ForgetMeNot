@@ -7,10 +7,7 @@ import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.Preset
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class RepetitionSettingsPresetViewModel(
     presetDialogState: PresetDialogState,
@@ -45,4 +42,6 @@ class RepetitionSettingsPresetViewModel(
     override val presetInputCheckResult: Flow<NameCheckResult> = presetDialogState
         .flowOf(PresetDialogState::typedPresetName)
         .map { typedPresetName: String -> checkRepetitionSettingName(typedPresetName, globalState) }
+
+    override val deckNamesThatUsePreset: Flow<List<String>> = flowOf(emptyList())
 }

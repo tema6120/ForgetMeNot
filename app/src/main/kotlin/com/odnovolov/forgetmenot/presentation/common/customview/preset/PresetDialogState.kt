@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 class PresetDialogState : FlowableState<PresetDialogState>() {
     var purpose: DialogPurpose? by me<DialogPurpose?>(null)
     var typedPresetName: String by me("")
+    var idToDelete: Long? by me<Long?>(null)
 }
 
 @Serializable

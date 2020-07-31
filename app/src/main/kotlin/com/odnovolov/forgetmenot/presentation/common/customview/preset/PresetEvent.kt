@@ -8,4 +8,5 @@ sealed class PresetEvent {
     object AddNewPresetButtonClicked : PresetEvent()
     class PresetNameInputChanged(val typedName: String) : PresetEvent()
     object PresetNamePositiveDialogButtonClicked : PresetEvent()
+    object RemovePresetPositiveDialogButtonClicked : PresetEvent()
 }

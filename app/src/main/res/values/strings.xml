@@ -225,4 +225,7 @@
     <string name="toast_hint_is_not_accessible">Hint is accessible when card is not answered</string>
     <string name="toast_deck_is_exported">Deck is exported</string>
     <string name="toast_error_while_exporting_deck">Error while exporting deck: \'%1$s\'</string>
+    <string name="title_remove_preset_dialog">Do you really want to delete this preset?</string>
+    <string name="top_dialog_text_remove_preset">This preset is used by these decks:</string>
+    <string name="bottom_dialog_text_remove_preset">If you delete this preset then the default preset will be used for them.</string>
 </resources>

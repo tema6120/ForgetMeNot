@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.speakplan
 
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.checkSpeakPlanName
@@ -10,6 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
 
 class SpeakPlanPresetController(
     private val deckSettingsState: DeckSettings.State,
@@ -32,7 +34,14 @@ class SpeakPlanPresetController(
     }
 
     override fun onDeletePresetButtonClicked(id: Long) {
-        speakPlanSettings.deleteSharedSpeakPlan(speakPlanId = id)
+        val isPresetInUse: Boolean = globalState.decks
+            .any { deck: Deck -> deck.exercisePreference.speakPlan.id == id }
+        if (isPresetInUse) {
+            presetDialogState.idToDelete = id
+            sendCommand(ShowRemovePresetDialog)
+        } else {
+            speakPlanSettings.deleteSharedSpeakPlan(speakPlanId = id)
+        }
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
@@ -51,5 +60,12 @@ class SpeakPlanPresetController(
                 speakPlanSettings.renameSpeakPlan(speakPlan, newPresetName)
             }
         }
+    }
+
+    override fun onRemovePresetPositiveDialogButtonClicked() {
+        presetDialogState.idToDelete?.let { id: Long ->
+            speakPlanSettings.deleteSharedSpeakPlan(speakPlanId = id)
+        }
+        presetDialogState.idToDelete = null
     }
 }

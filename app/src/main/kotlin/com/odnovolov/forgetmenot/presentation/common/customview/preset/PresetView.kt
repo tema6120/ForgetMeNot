@@ -28,12 +28,14 @@ import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetEvent.*
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowDialogWithText
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowPresetNameDialog
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import kotlinx.android.synthetic.main.dialog_input.view.*
+import kotlinx.android.synthetic.main.dialog_remove_preset.view.*
 import kotlinx.android.synthetic.main.popup_preset.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -102,10 +104,13 @@ class PresetView @JvmOverloads constructor(
     private lateinit var presetAdapter: PresetAdapter
     private lateinit var nameInputDialog: AlertDialog
     private lateinit var nameEditText: EditText
+    private lateinit var removePresetDialog: AlertDialog
+    private val affectedDeckNameAdapter = AffectedDeckNameAdapter()
     private var coroutineScope: CoroutineScope? = null
     private var controller: SkeletalPresetController? = null
     private lateinit var viewModel: SkeletalPresetViewModel
-    private var pendingDialogState: Bundle? = null
+    private var pendingNameInputDialogState: Bundle? = null
+    private var pendingRemovePresetDialogState: Bundle? = null
     private var pendingPopupState: Boolean? = null
 
     override fun onAttachedToWindow() {
@@ -165,23 +170,30 @@ class PresetView @JvmOverloads constructor(
                         .isEnabled = nameCheckResult == NameCheckResult.Ok
                 }
             }
+            deckNamesThatUsePreset.observe(coroutineScope!!) { deckNames: List<String> ->
+                affectedDeckNameAdapter.items = deckNames
+            }
         }
         controller!!.commands.observe(coroutineScope!!, ::executeCommand)
     }
 
     private fun executeCommand(command: SkeletalPresetController.Command) {
         when (command) {
-            is ShowDialogWithText -> {
+            is ShowPresetNameDialog -> {
                 nameInputDialog.show()
-                nameEditText.setText(command.text)
+                nameEditText.setText(command.presetName)
                 nameEditText.selectAll()
+            }
+            is ShowRemovePresetDialog -> {
+                removePresetDialog.show()
             }
         }
     }
 
     private fun initSecondaries() {
         initPopup()
-        initDialog()
+        initNameInputDialog()
+        initRemovePresetDialog()
         savePresetButton.setOnClickListener { controller?.dispatch(SavePresetButtonClicked) }
         selectPresetButton.setOnClickListener { showPopup() }
         restoreByPendingState()
@@ -216,7 +228,7 @@ class PresetView @JvmOverloads constructor(
         }
     }
 
-    private fun initDialog() {
+    private fun initNameInputDialog() {
         val contentView = View.inflate(context, R.layout.dialog_input, null)
         nameEditText = contentView.dialogInput
         nameEditText.observeText { text: String ->
@@ -233,6 +245,19 @@ class PresetView @JvmOverloads constructor(
         nameInputDialog.setOnShowListener { nameEditText.showSoftInput() }
     }
 
+    private fun initRemovePresetDialog() {
+        val contentView = View.inflate(context, R.layout.dialog_remove_preset, null)
+        contentView.removePresetRecycler.adapter = affectedDeckNameAdapter
+        removePresetDialog = AlertDialog.Builder(context)
+            .setTitle(R.string.title_remove_preset_dialog)
+            .setView(contentView)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                controller?.dispatch(RemovePresetPositiveDialogButtonClicked)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .create()
+    }
+
     private fun showPopup() {
         val location = IntArray(2)
         selectPresetButton.getLocationOnScreen(location)
@@ -242,9 +267,11 @@ class PresetView @JvmOverloads constructor(
     }
 
     private fun restoreByPendingState() {
-        pendingDialogState?.let(nameInputDialog::onRestoreInstanceState)
+        pendingNameInputDialogState?.let(nameInputDialog::onRestoreInstanceState)
+        pendingRemovePresetDialogState?.let(removePresetDialog::onRestoreInstanceState)
         pendingPopupState?.let { isVisible: Boolean -> if (isVisible) showPopup() }
-        pendingDialogState = null
+        pendingNameInputDialogState = null
+        pendingRemovePresetDialogState = null
         pendingPopupState = null
     }
 
@@ -252,7 +279,8 @@ class PresetView @JvmOverloads constructor(
         when (state) {
             is SavedState -> {
                 super.onRestoreInstanceState(state.superState)
-                pendingDialogState = state.dialogState
+                pendingNameInputDialogState = state.nameInputDialogState
+                pendingRemovePresetDialogState = state.removePresetDialogState
                 pendingPopupState = state.isPopupVisible
             }
             else -> super.onRestoreInstanceState(state)
@@ -261,7 +289,8 @@ class PresetView @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable? {
         return SavedState(super.onSaveInstanceState()).apply {
-            dialogState = nameInputDialog.onSaveInstanceState()
+            nameInputDialogState = nameInputDialog.onSaveInstanceState()
+            removePresetDialogState = removePresetDialog.onSaveInstanceState()
             isPopupVisible = popup.isShowing
         }
     }
@@ -281,20 +310,26 @@ class PresetView @JvmOverloads constructor(
     }
 
     class SavedState : BaseSavedState {
-        var dialogState: Bundle? = null
+        var nameInputDialogState: Bundle? = null
+        var removePresetDialogState: Bundle? = null
         var isPopupVisible: Boolean = false
 
         constructor(superState: Parcelable?) : super(superState)
 
         constructor(source: Parcel) : super(source) {
-            dialogState = source.readBundle(javaClass.classLoader)
-            isPopupVisible = source.readInt() == 1
+            val bundle = source.readBundle(javaClass.classLoader)
+            nameInputDialogState = bundle?.getBundle(NAME_INPUT_DIALOG_STATE_KEY)
+            removePresetDialogState = bundle?.getBundle(REMOVE_PRESET_DIALOG_STATE_KEY)
+            isPopupVisible = bundle?.getBoolean(IS_POPUP_VISIBLE_STATE_KEY) ?: false
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
-            out.writeBundle(dialogState)
-            out.writeInt(if (isPopupVisible) 1 else 0)
+            val bundle = Bundle()
+            bundle.putBundle(NAME_INPUT_DIALOG_STATE_KEY, nameInputDialogState)
+            bundle.putBundle(REMOVE_PRESET_DIALOG_STATE_KEY, removePresetDialogState)
+            bundle.putBoolean(IS_POPUP_VISIBLE_STATE_KEY, isPopupVisible)
+            out.writeBundle(bundle)
         }
 
         companion object {
@@ -304,6 +339,10 @@ class PresetView @JvmOverloads constructor(
                 override fun createFromParcel(source: Parcel) = SavedState(source)
                 override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
             }
+
+            private const val NAME_INPUT_DIALOG_STATE_KEY = "NAME_INPUT_DIALOG_STATE_KEY"
+            private const val REMOVE_PRESET_DIALOG_STATE_KEY = "NAME_INPUT_DIALOG_STATE_KEY"
+            private const val IS_POPUP_VISIBLE_STATE_KEY = "NAME_INPUT_DIALOG_STATE_KEY"
         }
     }
 }

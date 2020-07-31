@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings
 
 import com.odnovolov.forgetmenot.domain.checkExercisePreferenceName
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
@@ -9,6 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
 
 class ExercisePreferencePresetController(
     private val deckSettings: DeckSettings,
@@ -30,7 +32,14 @@ class ExercisePreferencePresetController(
     }
 
     override fun onDeletePresetButtonClicked(id: Long) {
-        deckSettings.deleteSharedExercisePreference(exercisePreferenceId = id)
+        val isPresetInUse: Boolean = globalState.decks
+            .any { deck: Deck -> deck.exercisePreference.id == id }
+        if (isPresetInUse) {
+            presetDialogState.idToDelete = id
+            sendCommand(ShowRemovePresetDialog)
+        } else {
+            deckSettings.deleteSharedExercisePreference(exercisePreferenceId = id)
+        }
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
@@ -50,5 +59,12 @@ class ExercisePreferencePresetController(
                 deckSettings.renameExercisePreference(exercisePreference, newPresetName)
             }
         }
+    }
+
+    override fun onRemovePresetPositiveDialogButtonClicked() {
+        presetDialogState.idToDelete?.let { id: Long ->
+            deckSettings.deleteSharedExercisePreference(exercisePreferenceId = id)
+        }
+        presetDialogState.idToDelete = null
     }
 }

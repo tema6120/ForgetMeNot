@@ -51,4 +51,7 @@ class RepetitionSettingsPresetController(
             }
         }
     }
+
+    override fun onRemovePresetPositiveDialogButtonClicked() {
+    }
 }

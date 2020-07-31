@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetEvent.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowDialogWithText
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowPresetNameDialog
 
 abstract class SkeletalPresetController(
     private val dialogState: PresetDialogState,
@@ -14,14 +14,15 @@ abstract class SkeletalPresetController(
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<PresetEvent, Command>() {
     sealed class Command {
-        class ShowDialogWithText(val text: String) : Command()
+        class ShowPresetNameDialog(val presetName: String) : Command()
+        object ShowRemovePresetDialog : Command()
     }
 
     override fun handle(event: PresetEvent) {
         when (event) {
             SavePresetButtonClicked -> {
                 dialogState.purpose = ToMakeIndividualPresetAsShared
-                sendCommand(ShowDialogWithText(""))
+                sendCommand(ShowPresetNameDialog(""))
             }
 
             is SetPresetButtonClicked -> {
@@ -31,7 +32,7 @@ abstract class SkeletalPresetController(
             is RenamePresetButtonClicked -> {
                 dialogState.purpose = ToRenameSharedPreset(event.id)
                 val currentName: String = getPresetName(event.id)
-                sendCommand(ShowDialogWithText(currentName))
+                sendCommand(ShowPresetNameDialog(currentName))
             }
 
             is DeletePresetButtonClicked -> {
@@ -40,7 +41,7 @@ abstract class SkeletalPresetController(
 
             AddNewPresetButtonClicked -> {
                 dialogState.purpose = ToCreateNewSharedPreset
-                sendCommand(ShowDialogWithText(""))
+                sendCommand(ShowPresetNameDialog(""))
             }
 
             is PresetNameInputChanged -> {
@@ -49,6 +50,10 @@ abstract class SkeletalPresetController(
 
             PresetNamePositiveDialogButtonClicked -> {
                 onPresetNamePositiveDialogButtonClicked()
+            }
+
+            RemovePresetPositiveDialogButtonClicked -> {
+                onRemovePresetPositiveDialogButtonClicked()
             }
         }
     }
@@ -60,6 +65,8 @@ abstract class SkeletalPresetController(
     protected abstract fun onDeletePresetButtonClicked(id: Long)
 
     protected abstract fun onPresetNamePositiveDialogButtonClicked()
+
+    protected abstract fun onRemovePresetPositiveDialogButtonClicked()
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()

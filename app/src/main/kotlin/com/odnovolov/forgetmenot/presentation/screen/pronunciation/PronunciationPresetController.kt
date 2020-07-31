@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.checkPronunciationName
@@ -10,6 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
 
 class PronunciationPresetController(
     private val deckSettingsState: DeckSettings.State,
@@ -32,7 +34,14 @@ class PronunciationPresetController(
     }
 
     override fun onDeletePresetButtonClicked(id: Long) {
-        pronunciationSettings.deleteSharedPronunciation(pronunciationId = id)
+        val isPresetInUse: Boolean = globalState.decks
+            .any { deck: Deck -> deck.exercisePreference.pronunciation.id == id }
+        if (isPresetInUse) {
+            presetDialogState.idToDelete = id
+            sendCommand(ShowRemovePresetDialog)
+        } else {
+            pronunciationSettings.deleteSharedPronunciation(pronunciationId = id)
+        }
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
@@ -51,5 +60,12 @@ class PronunciationPresetController(
                 pronunciationSettings.renamePronunciation(pronunciation, newPresetName)
             }
         }
+    }
+
+    override fun onRemovePresetPositiveDialogButtonClicked() {
+        presetDialogState.idToDelete?.let { id: Long ->
+            pronunciationSettings.deleteSharedPronunciation(pronunciationId = id)
+        }
+        presetDialogState.idToDelete = null
     }
 }

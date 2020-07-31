@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
 import com.odnovolov.forgetmenot.domain.checkIntervalSchemeName
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
@@ -10,6 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
 
 class IntervalsPresetController(
     private val deckSettingsState: DeckSettings.State,
@@ -32,7 +34,14 @@ class IntervalsPresetController(
     }
 
     override fun onDeletePresetButtonClicked(id: Long) {
-        intervalsSettings.deleteSharedIntervalScheme(intervalSchemeId = id)
+        val isPresetInUse: Boolean = globalState.decks
+            .any { deck: Deck -> deck.exercisePreference.intervalScheme?.id == id }
+        if (isPresetInUse) {
+            presetDialogState.idToDelete = id
+            sendCommand(ShowRemovePresetDialog)
+        } else {
+            intervalsSettings.deleteSharedIntervalScheme(intervalSchemeId = id)
+        }
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
@@ -51,5 +60,12 @@ class IntervalsPresetController(
                 intervalsSettings.renameIntervalScheme(intervalScheme, newPresetName)
             }
         }
+    }
+
+    override fun onRemovePresetPositiveDialogButtonClicked() {
+        presetDialogState.idToDelete?.let { id: Long ->
+            intervalsSettings.deleteSharedIntervalScheme(intervalSchemeId = id)
+        }
+        presetDialogState.idToDelete = null
     }
 }

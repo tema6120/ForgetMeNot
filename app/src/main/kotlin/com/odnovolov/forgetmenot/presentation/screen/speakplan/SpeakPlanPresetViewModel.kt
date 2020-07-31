@@ -49,4 +49,14 @@ class SpeakPlanPresetViewModel(
     override val presetInputCheckResult: Flow<NameCheckResult> = presetDialogState
         .flowOf(PresetDialogState::typedPresetName)
         .map { typedPresetName: String -> checkSpeakPlanName(typedPresetName, globalState) }
+
+    override val deckNamesThatUsePreset: Flow<List<String>> = presetDialogState
+        .flowOf(PresetDialogState::idToDelete)
+        .map { sharedSpeakPlanIdToDelete ->
+            globalState.decks
+                .filter { deck: Deck ->
+                    deck.exercisePreference.speakPlan.id == sharedSpeakPlanIdToDelete
+                }
+                .map { deck: Deck -> deck.name }
+        }
 }

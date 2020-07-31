@@ -49,4 +49,14 @@ class ExercisePreferencePresetViewModel(
         .map { typedPresetName: String ->
             checkExercisePreferenceName(typedPresetName, globalState)
         }
+
+    override val deckNamesThatUsePreset: Flow<List<String>> = presetDialogState
+        .flowOf(PresetDialogState::idToDelete)
+        .map { sharedExercisePreferenceIdToDelete ->
+            globalState.decks
+                .filter { deck: Deck ->
+                    deck.exercisePreference.id == sharedExercisePreferenceIdToDelete
+                }
+                .map { deck: Deck -> deck.name }
+        }
 }

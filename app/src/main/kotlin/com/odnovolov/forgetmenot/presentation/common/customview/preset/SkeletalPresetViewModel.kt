@@ -11,4 +11,6 @@ abstract class SkeletalPresetViewModel {
         get() = availablePresets.map { presets: List<Preset> -> presets.first { it.isSelected } }
 
     abstract val presetInputCheckResult: Flow<NameCheckResult>
+
+    abstract val deckNamesThatUsePreset: Flow<List<String>>
 }

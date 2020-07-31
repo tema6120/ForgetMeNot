@@ -51,4 +51,14 @@ class PronunciationPresetViewModel(
     override val presetInputCheckResult: Flow<NameCheckResult> = presetDialogState
         .flowOf(PresetDialogState::typedPresetName)
         .map { typedPresetName: String -> checkPronunciationName(typedPresetName, globalState) }
+
+    override val deckNamesThatUsePreset: Flow<List<String>> = presetDialogState
+        .flowOf(PresetDialogState::idToDelete)
+        .map { sharedPronunciationIdToDelete ->
+            globalState.decks
+                .filter { deck: Deck ->
+                    deck.exercisePreference.pronunciation.id == sharedPronunciationIdToDelete
+                }
+                .map { deck: Deck -> deck.name }
+        }
 }

@@ -18,18 +18,21 @@ class PresetDialogStateProvider(
     @Serializable
     data class SerializableState(
         val purpose: DialogPurpose?,
-        val typedPresetName: String
+        val typedPresetName: String,
+        val idToDelete: Long?
     )
 
     override val serializer = SerializableState.serializer()
 
     override fun toSerializable(state: PresetDialogState) = SerializableState(
         state.purpose,
-        state.typedPresetName
+        state.typedPresetName,
+        state.idToDelete
     )
 
     override fun toOriginal(serializableState: SerializableState) = PresetDialogState().apply {
         purpose = serializableState.purpose
         typedPresetName = serializableState.typedPresetName
+        idToDelete = serializableState.idToDelete
     }
 }
