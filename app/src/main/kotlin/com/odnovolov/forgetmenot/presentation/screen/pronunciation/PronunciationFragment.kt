@@ -64,6 +64,10 @@ class PronunciationFragment : BaseFragment() {
                 val whatIsPronounced: WhatIsPronounced = if (isPronounced) NOTHING else QUESTION
                 setupTestPronunciationButton(testPronunciationOfQuestionButton, whatIsPronounced)
             }
+            isQuestionPreparingToBePronounced.observe { isPreparing: Boolean ->
+                testPronunciationOfQuestionProgressBar.visibility =
+                    if (isPreparing) View.VISIBLE else View.INVISIBLE
+            }
             selectedQuestionLanguage.observe { selectedQuestionLanguage: Locale? ->
                 questionLanguageTextView.text = getSelectedLanguageText(selectedQuestionLanguage)
             }
@@ -74,6 +78,10 @@ class PronunciationFragment : BaseFragment() {
             isAnswerPronounced.observe { isPronounced: Boolean ->
                 val whatIsPronounced: WhatIsPronounced = if (isPronounced) NOTHING else ANSWER
                 setupTestPronunciationButton(testPronunciationOfAnswerButton, whatIsPronounced)
+            }
+            isAnswerPreparingToBePronounced.observe { isPreparing: Boolean ->
+                testPronunciationOfAnswerProgressBar.visibility =
+                    if (isPreparing) View.VISIBLE else View.INVISIBLE
             }
             selectedAnswerLanguage.observe { selectedAnswerLanguage: Locale? ->
                 answerLanguageTextView.text = getSelectedLanguageText(selectedAnswerLanguage)

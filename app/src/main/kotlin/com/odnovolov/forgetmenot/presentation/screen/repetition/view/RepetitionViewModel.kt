@@ -38,6 +38,9 @@ class RepetitionViewModel(
 
     val isSpeaking: Flow<Boolean> = speakerImplState.flowOf(SpeakerImpl.State::isSpeaking)
 
+    val isSpeakerPreparingToPronounce: Flow<Boolean> =
+        speakerImplState.flowOf(SpeakerImpl.State::isPreparingToPronounce)
+
     val isPlaying: Flow<Boolean> = repetitionState.flowOf(Repetition.State::isPlaying)
 
     val repetitionCardPosition: Int get() = repetitionState.repetitionCardPosition

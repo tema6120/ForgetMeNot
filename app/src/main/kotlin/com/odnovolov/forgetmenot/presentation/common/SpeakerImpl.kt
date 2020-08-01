@@ -24,6 +24,7 @@ class SpeakerImpl(
         var isInitialized: Boolean by me(false)
         var availableLanguages: Set<Locale> by me(emptySet())
         var isSpeaking: Boolean by me(false)
+        var isPreparingToPronounce: Boolean by me(false)
     }
 
     sealed class Event {
@@ -107,12 +108,14 @@ class SpeakerImpl(
         tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(utteranceId: String?) {
                 coroutineScope.launch {
+                    state.isPreparingToPronounce = false
                     state.isSpeaking = true
                 }
             }
 
             override fun onDone(utteranceId: String?) {
                 coroutineScope.launch {
+                    state.isPreparingToPronounce = false
                     state.isSpeaking = false
                     onSpeakingFinishedListener?.invoke()
                 }
@@ -120,6 +123,7 @@ class SpeakerImpl(
 
             override fun onError(utteranceId: String?) {
                 coroutineScope.launch {
+                    state.isPreparingToPronounce = false
                     state.isSpeaking = false
                 }
             }
@@ -136,6 +140,7 @@ class SpeakerImpl(
 
     override fun speak(text: String, language: Locale?) {
         coroutineScope.launch {
+            state.isPreparingToPronounce = true
             when {
                 !state.isInitialized -> {
                     delayedSpokenText = text
@@ -148,7 +153,12 @@ class SpeakerImpl(
                 }
                 else -> {
                     currentLanguage = language
-                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+                    val queueMode: Int = TextToSpeech.QUEUE_FLUSH
+                    val utteranceId = UUID.randomUUID().toString()
+                    val result: Int = tts.speak(text, queueMode, null, utteranceId)
+                    if (result == TextToSpeech.ERROR) {
+                        state.isPreparingToPronounce = false
+                    }
                 }
             }
         }

@@ -221,6 +221,9 @@ class ExerciseFragment : BaseFragment() {
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
+            isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
+                speakProgressBar.visibility = if (isPreparing) View.VISIBLE else View.INVISIBLE
+            }
             isWalkingModeEnabled.observe { isEnabled: Boolean ->
                 walkingModeButton.isActivated = isEnabled
                 (activity as MainActivity).keyEventInterceptor =
@@ -267,7 +270,7 @@ class ExerciseFragment : BaseFragment() {
                                 waitingPeriod = intervalItem.waitingPeriod,
                                 isSelected = intervalItem.levelOfKnowledge == levelOfKnowledge
                             )
-                    }
+                        }
                 }
             }
             isLevelOfKnowledgeEditedManually.observe { isEdited: Boolean ->

@@ -85,6 +85,18 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_volume_up_white_24dp" />
 
+            <ProgressBar
+                    android:id="@+id/speakProgressBar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:indeterminateTint="@android:color/white"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/speakButton"
+                    app:layout_constraintEnd_toEndOf="@+id/speakButton"
+                    app:layout_constraintStart_toStartOf="@+id/speakButton"
+                    app:layout_constraintTop_toTopOf="@+id/speakButton"
+                    tools:visibility="visible" />
+
             <ImageButton
                     android:id="@+id/editCardButton"
                     android:layout_width="48dp"

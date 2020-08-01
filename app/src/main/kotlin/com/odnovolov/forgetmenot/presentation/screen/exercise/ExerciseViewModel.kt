@@ -44,6 +44,9 @@ class ExerciseViewModel(
 
     val isSpeaking: Flow<Boolean> = speakerImplState.flowOf(SpeakerImpl.State::isSpeaking)
 
+    val isSpeakerPreparingToPronounce: Flow<Boolean> =
+        speakerImplState.flowOf(SpeakerImpl.State::isPreparingToPronounce)
+
     val hintStatus: Flow<HintStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             val isQuizTestExerciseCard: Boolean = exerciseCard is QuizTestExerciseCard

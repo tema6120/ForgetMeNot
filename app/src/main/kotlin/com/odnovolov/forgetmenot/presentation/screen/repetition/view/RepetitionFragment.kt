@@ -126,6 +126,9 @@ class RepetitionFragment : BaseFragment() {
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
+            isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
+                speakProgressBar.visibility = if (isPreparing) View.VISIBLE else View.INVISIBLE
+            }
             isPlaying.observe { isPlaying: Boolean ->
                 if (isPlaying) startService()
                 with(pauseResumeButton) {

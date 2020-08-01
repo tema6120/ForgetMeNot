@@ -54,6 +54,18 @@
                 app:layout_constraintTop_toTopOf="@+id/questionTitleTextView"
                 app:srcCompat="@drawable/ic_volume_up_dark_24dp" />
 
+        <ProgressBar
+                android:id="@+id/testPronunciationOfQuestionProgressBar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:indeterminateTint="@color/iconDark"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/testPronunciationOfQuestionButton"
+                app:layout_constraintEnd_toEndOf="@+id/testPronunciationOfQuestionButton"
+                app:layout_constraintStart_toStartOf="@+id/testPronunciationOfQuestionButton"
+                app:layout_constraintTop_toTopOf="@+id/testPronunciationOfQuestionButton"
+                tools:visibility="visible" />
+
         <TextView
                 android:id="@+id/questionLanguageTextView"
                 android:layout_width="0dp"
@@ -131,6 +143,17 @@
                 app:layout_constraintEnd_toEndOf="@+id/answerTitleTextView"
                 app:layout_constraintTop_toTopOf="@+id/answerTitleTextView"
                 app:srcCompat="@drawable/ic_volume_up_dark_24dp" />
+
+        <ProgressBar
+                android:id="@+id/testPronunciationOfAnswerProgressBar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:indeterminateTint="@color/iconDark"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/testPronunciationOfAnswerButton"
+                app:layout_constraintEnd_toEndOf="@+id/testPronunciationOfAnswerButton"
+                app:layout_constraintStart_toStartOf="@+id/testPronunciationOfAnswerButton"
+                app:layout_constraintTop_toTopOf="@+id/testPronunciationOfAnswerButton" />
 
         <TextView
                 android:id="@+id/answerLanguageTextView"
