@@ -12,7 +12,8 @@
     <string name="description_not_ask_button">Not ask anymore</string>
     <string name="description_ask_again_button">Ask again</string>
     <string name="description_speak_button">Speak</string>
-    <string name="description_stop_speak_button">Stop speak</string>
+    <string name="description_stop_speak_button">Stop speaking</string>
+    <string name="description_cannot_speak_button">Open speaking error description</string>
     <string name="description_edit_card_button">Edit card</string>
     <string name="description_hint_button">Hint</string>
     <string name="description_timer_button">Stop timer</string>
@@ -166,7 +167,7 @@
     <string name="ago">ago</string>
     <string name="title_action_start_repetition">START</string>
     <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
-    <string name="title_number_of_laps">Number of laps</string>
+    <string name="title_number_of_laps">Number of laps:</string>
     <plurals name="number_of_laps_with_args">
         <item quantity="one">%d lap</item>
         <item quantity="other">%d laps</item>
@@ -228,4 +229,11 @@
     <string name="title_remove_preset_dialog">Do you really want to delete this preset?</string>
     <string name="top_dialog_text_remove_preset">This preset is used by these decks:</string>
     <string name="bottom_dialog_text_remove_preset">If you delete this preset then the default preset will be used for them.</string>
+    <string name="title_speak_error_popup">Pronunciation is not available</string>
+    <string name="speak_error_description_failed_to_initialized">Failed to initialized TTS engine</string>
+    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Failed to initialized TTS engine (%1$s)</string>
+    <string name="speak_error_description_language_is_not_supported">Current TTS engine doesn\'t support %1$s</string>
+    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Current TTS engine (%1$s) doesn\'t support %2$s</string>
+    <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
+    <string name="error_message_failed_to_speak">Failed to speak</string>
 </resources>

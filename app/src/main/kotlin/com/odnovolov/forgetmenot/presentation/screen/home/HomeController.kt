@@ -69,6 +69,7 @@ class HomeController(
             }
 
             SearchInCardsButtonClicked -> {
+                homeScreenState.selectedDeckIds = emptyList()
                 navigator.navigateToSearchFromHome {
                     SearchDiScope(homeScreenState.searchText)
                 }
@@ -96,16 +97,15 @@ class HomeController(
             }
 
             is RepetitionModeMenuItemClicked -> {
-                startRepetitionSettings(listOf(event.deckId))
+                startRepetitionSettings(deckIds = listOf(event.deckId))
             }
 
             RepetitionModeMultiSelectMenuItemClicked -> {
-                val deckIds: List<Long> = homeScreenState.selectedDeckIds
-                homeScreenState.selectedDeckIds = emptyList()
-                startRepetitionSettings(deckIds)
+                startRepetitionSettings(homeScreenState.selectedDeckIds)
             }
 
             is SetupDeckMenuItemClicked -> {
+                homeScreenState.selectedDeckIds = emptyList()
                 navigator.navigateToDeckSetupFromHome {
                     val deck: Deck = globalState.decks.first { it.id == event.deckId }
                     val deckEditorState = DeckEditor.State(deck)
@@ -141,9 +141,7 @@ class HomeController(
             }
 
             StartExerciseMenuItemClicked -> {
-                val deckIds: List<Long> = homeScreenState.selectedDeckIds
-                homeScreenState.selectedDeckIds = emptyList()
-                startExercise(deckIds)
+                startExercise(homeScreenState.selectedDeckIds)
             }
 
             SelectAllDecksMenuItemClicked -> {
@@ -151,20 +149,18 @@ class HomeController(
             }
 
             RemoveDecksMenuItemClicked -> {
-                val deckIds = homeScreenState.selectedDeckIds
-                deckRemover.removeDecks(deckIds)
+                deckRemover.removeDecks(homeScreenState.selectedDeckIds)
                 homeScreenState.selectedDeckIds = emptyList()
             }
 
             ActionModeFinished -> {
-                if (homeScreenState.selectedDeckIds.isNotEmpty()) {
-                    homeScreenState.selectedDeckIds = emptyList()
-                }
+                homeScreenState.selectedDeckIds = emptyList()
             }
         }
     }
 
     private fun startRepetitionSettings(deckIds: List<Long>) {
+        homeScreenState.selectedDeckIds = emptyList()
         navigator.navigateToRepetitionSettings {
             val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
             val repetitionCreatorState = RepetitionStateCreator.State(decks)
@@ -174,6 +170,7 @@ class HomeController(
 
     private fun startExercise(deckIds: List<Long>) {
         if (exerciseStateCreator.hasAnyCardAvailableForExercise(deckIds)) {
+            homeScreenState.selectedDeckIds = emptyList()
             navigator.navigateToExercise {
                 val exerciseState: Exercise.State =
                     exerciseStateCreator.create(deckIds)

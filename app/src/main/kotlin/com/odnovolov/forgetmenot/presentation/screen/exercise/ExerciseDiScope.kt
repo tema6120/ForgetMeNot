@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
@@ -27,7 +28,13 @@ class ExerciseDiScope private constructor(
 
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
-        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
+        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
+        initialLanguage = exerciseState.exerciseCards[0].let { exerciseCard: ExerciseCard ->
+            val pronunciation = exerciseCard.base.deck.exercisePreference.pronunciation
+            if (exerciseCard.base.isReverse)
+                pronunciation.answerLanguage else
+                pronunciation.questionLanguage
+        }
     )
 
     val exercise = Exercise(
@@ -48,7 +55,7 @@ class ExerciseDiScope private constructor(
 
     val viewModel = ExerciseViewModel(
         exerciseState,
-        speakerImpl.state,
+        speakerImpl,
         AppDiScope.get().walkingModePreference,
         AppDiScope.get().globalState
     )
@@ -87,13 +94,6 @@ class ExerciseDiScope private constructor(
 
     companion object : DiScopeManager<ExerciseDiScope>() {
         fun create(initialExerciseState: Exercise.State) = ExerciseDiScope(initialExerciseState)
-
-        fun shareExercise(): Exercise {
-            if (diScope == null) {
-                diScope = recreateDiScope()
-            }
-            return diScope!!.exercise
-        }
 
         override fun recreateDiScope() = ExerciseDiScope()
 

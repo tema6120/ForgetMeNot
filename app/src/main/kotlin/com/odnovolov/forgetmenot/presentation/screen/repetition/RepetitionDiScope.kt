@@ -30,7 +30,13 @@ class RepetitionDiScope private constructor(
 
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
-        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
+        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
+        initialLanguage = repetitionState.repetitionCards[0].run {
+            val pronunciation = deck.exercisePreference.pronunciation
+            if (isReverse)
+                pronunciation.answerLanguage else
+                pronunciation.questionLanguage
+        }
     )
 
     val repetition = Repetition(
@@ -58,7 +64,7 @@ class RepetitionDiScope private constructor(
 
     val viewModel = RepetitionViewModel(
         repetitionState,
-        speakerImpl.state
+        speakerImpl
     )
 
     private val repetitionCardController = RepetitionCardController(

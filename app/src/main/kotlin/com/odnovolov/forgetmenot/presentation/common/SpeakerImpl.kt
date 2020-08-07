@@ -1,168 +1,386 @@
 package com.odnovolov.forgetmenot.presentation.common
 
 import android.content.Context
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.entity.Speaker
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent
+import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent.ActivityPaused
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent.ActivityResumed
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.TtsInitializationFailed
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus.*
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import java.util.*
+import kotlin.collections.ArrayList
 
 class SpeakerImpl(
     private val applicationContext: Context,
-    private val activityLifecycleEvents: Flow<ActivityLifecycleEvent>
+    private val activityLifecycleEvents: Flow<ActivityLifecycleEvent>,
+    private val initialLanguage: Locale? = null
 ) : Speaker {
     class State : FlowableState<State>() {
-        var isInitialized: Boolean by me(false)
+        var status: Status by me(Initialization)
+        var ttsEngine: String? by me(null)
+        var defaultLanguage: Locale by me(DEFAULT_LANGUAGE)
         var availableLanguages: Set<Locale> by me(emptySet())
+        var isPreparingToSpeak: Boolean by me(false)
         var isSpeaking: Boolean by me(false)
-        var isPreparingToPronounce: Boolean by me(false)
+    }
+
+    enum class Status {
+        Initialization,
+        FailedToInitialize,
+        Initialized,
+        Closed
     }
 
     sealed class Event {
-        object TtsInitializationFailed : Event()
+        object SpeakError : Event()
     }
+
+    enum class LanguageStatus {
+        Available,
+        NotSupported,
+        MissingData
+    }
+
+    private data class TtsWrapper(
+        val id: Long,
+        var tts: TextToSpeech,
+        var ttsEngine: String?,
+        var language: Locale?
+    ) {
+        var isInitialized: Boolean = false
+        var isSpeaking: Boolean = false
+        var languageStatus: LanguageStatus? = null
+        var lastUsedAt: Long = System.currentTimeMillis()
+    }
+
+    private class SpeakingTask(val text: String, val language: Locale?)
 
     val state = State()
     private val eventFlow = EventFlow<Event>()
     val events: Flow<Event> = eventFlow.get()
-    private val coroutineScope = CoroutineScope(newSingleThreadContext("SpeakerThread"))
-    private var defaultLanguage: Locale? = null
-    private var delayedSpokenText: String? = null
-    private var currentTtsEngine: String? = null
-    private var delayedLanguage: Locale? = null
+    private val speakerThreadContext = newSingleThreadContext("SpeakerThread")
+    private val coroutineScope = CoroutineScope(Job() + speakerThreadContext)
+    private var isConformedToCurrentTtsEngine = false
+    private val ttsPool: MutableList<TtsWrapper> = ArrayList()
+    private var needToRestartSpeakingTts = false
+    private var isAppBackground = false
+    private var speakingTask: SpeakingTask? = null
     private var onSpeakingFinishedListener: (() -> Unit)? = null
-    private var currentLanguage: Locale? = null
-        set(value) {
-            if (value == null && currentLanguage != defaultLanguage) {
-                tts.language = defaultLanguage
-                field = defaultLanguage
-            } else if (value != null && currentLanguage != value) {
-                tts.language = value
-                field = value
-            }
-        }
-
-    private val initListener = TextToSpeech.OnInitListener { status: Int ->
-        coroutineScope.launch {
-            state.isInitialized = true
-            currentTtsEngine = tts.defaultEngine
-            if (status == TextToSpeech.SUCCESS) {
-                setDefaultLanguage()
-                updateAvailableLanguages()
-                setProgressListener()
-                speakDelayedTextIfExists()
-            } else {
-                eventFlow.send(TtsInitializationFailed)
-            }
-        }
-    }
-
-    private lateinit var tts: TextToSpeech
+    private val channelsForObservingLanguageStatus: MutableList<Pair<Locale?, Channel<LanguageStatus?>>> =
+        ArrayList()
+    private val toneGenerator: ToneGenerator
+            by lazy { ToneGenerator(AudioManager.STREAM_MUSIC, 100) }
+    private var errorSoundJob: Job? = null
 
     init {
         coroutineScope.launch {
-            initTts()
+            registerNewTts(initialLanguage)
             observeActivityLifecycleEvents()
         }
     }
 
-    private fun initTts() {
-        state.isInitialized = false
-        tts = TextToSpeech(applicationContext, initListener)
+    private fun registerNewTts(language: Locale?): TtsWrapper {
+        val id: Long = generateId()
+        val tts = TextToSpeech(applicationContext) { status: Int -> onTtsInit(id, status) }
+        val ttsEngine: String? = tts.defaultEngine
+        setTtsEngine(ttsEngine)
+        val ttsWrapper = TtsWrapper(id, tts, ttsEngine, language)
+        ttsPool.add(ttsWrapper)
+        return ttsWrapper
+    }
+
+    private fun setTtsEngine(ttsEngine: String?) {
+        if (state.ttsEngine == ttsEngine) return
+        state.ttsEngine = ttsEngine
+        isConformedToCurrentTtsEngine = false
     }
 
     private fun observeActivityLifecycleEvents() {
         activityLifecycleEvents.observe(coroutineScope) { activityLifecycleEvent ->
-            if (activityLifecycleEvent is ActivityResumed && isTtsEngineChanged()) {
-                restartTts()
+            when (activityLifecycleEvent) {
+                is ActivityResumed -> {
+                    ttsPool.find { ttsWrapper -> ttsWrapper.isInitialized }
+                        ?.let { ttsWrapper ->
+                            setTtsEngine(ttsWrapper.tts.defaultEngine)
+                            if (state.ttsEngine != ttsWrapper.ttsEngine) {
+                                restartTtsWithOldTtsEngine()
+                            } else {
+                                ttsPool.forEach { it.updateLanguageStatus() }
+                                updateAvailableLanguages()
+                                updateDefaultLanguage()
+                            }
+                        }
+                    isAppBackground = false
+                }
+                is ActivityPaused -> {
+                    isAppBackground = true
+                }
             }
         }
     }
 
-    private fun setDefaultLanguage() {
-        defaultLanguage = try {
-            tts.defaultVoice?.locale
-        } catch (e: NullPointerException) {
-            null
+    private fun onTtsInit(id: Long, status: Int) {
+        coroutineScope.launch {
+            val ttsWrapper: TtsWrapper = ttsPool.first { it.id == id }
+            val isTtsEngineValid = validateTtsEngine(ttsWrapper)
+            if (!isTtsEngineValid) return@launch
+            if (status == TextToSpeech.SUCCESS) {
+                state.status = Initialized
+                ttsWrapper.isInitialized = true
+                if (!isConformedToCurrentTtsEngine) {
+                    conformToCurrentTtsEngine()
+                }
+                ttsWrapper.setProgressListener()
+                if (ttsWrapper.language != null) {
+                    ttsWrapper.updateLanguageStatus()
+                }
+                executeSpeakingTask()
+            } else {
+                state.status = FailedToInitialize
+                state.isPreparingToSpeak = false
+                speakingTask = null
+            }
         }
+    }
+
+    private fun validateTtsEngine(ttsWrapper: TtsWrapper): Boolean {
+        setTtsEngine(ttsWrapper.tts.defaultEngine)
+        if (ttsWrapper.ttsEngine != state.ttsEngine) {
+            ttsWrapper.restartTts()
+            return false
+        }
+        return true
+    }
+
+    private fun TtsWrapper.restartTts() {
+        tts.shutdown()
+        isInitialized = false
+        ttsEngine = tts.defaultEngine
+        tts = TextToSpeech(applicationContext) { status: Int -> onTtsInit(id, status) }
+    }
+
+    private fun conformToCurrentTtsEngine() {
+        updateAvailableLanguages()
+        updateDefaultLanguage()
+        restartTtsWithOldTtsEngine()
+        isConformedToCurrentTtsEngine = true
     }
 
     private fun updateAvailableLanguages() {
-        state.availableLanguages = try {
-            tts.availableLanguages
-        } catch (e: NullPointerException) {
-            emptySet()
+        ttsPool.find { ttsWrapper: TtsWrapper ->
+            ttsWrapper.isInitialized && ttsWrapper.ttsEngine == state.ttsEngine
+        }
+            ?.let { ttsWrapper: TtsWrapper ->
+                state.availableLanguages = try {
+                    ttsWrapper.tts.availableLanguages
+                } catch (e: NullPointerException) {
+                    emptySet()
+                }
+            }
+    }
+
+    private fun updateDefaultLanguage() {
+        ttsPool.find { ttsWrapper: TtsWrapper ->
+            ttsWrapper.isInitialized && ttsWrapper.ttsEngine == state.ttsEngine
+        }
+            ?.let { ttsWrapper: TtsWrapper ->
+                state.defaultLanguage = try {
+                    ttsWrapper.tts.defaultVoice?.locale
+                } catch (e: NullPointerException) {
+                    DEFAULT_LANGUAGE
+                } ?: DEFAULT_LANGUAGE
+            }
+        ensureObservationLanguageStatusOfDefaultLanguage()
+    }
+
+    private fun ensureObservationLanguageStatusOfDefaultLanguage() {
+        val isDefaultLanguageStatusObserved: Boolean =
+            channelsForObservingLanguageStatus.any { (language, _) -> language == null }
+        if (!isDefaultLanguageStatusObserved) return
+        val ttsWrapper: TtsWrapper = obtainTtsWrapper(state.defaultLanguage)
+        onLanguageStatusChanged(ttsWrapper)
+    }
+
+    private fun restartTtsWithOldTtsEngine() {
+        ttsPool.forEach { ttsWrapper: TtsWrapper ->
+            if (ttsWrapper.ttsEngine != state.ttsEngine) {
+                if (ttsWrapper.isSpeaking) {
+                    needToRestartSpeakingTts = true
+                } else {
+                    ttsWrapper.restartTts()
+                }
+            }
         }
     }
 
-    private fun setProgressListener() {
+    private fun TtsWrapper.setProgressListener() {
         tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(utteranceId: String?) {
                 coroutineScope.launch {
-                    state.isPreparingToPronounce = false
+                    state.isPreparingToSpeak = false
                     state.isSpeaking = true
+                    isSpeaking = true
                 }
             }
 
             override fun onDone(utteranceId: String?) {
                 coroutineScope.launch {
-                    state.isPreparingToPronounce = false
                     state.isSpeaking = false
+                    isSpeaking = false
                     onSpeakingFinishedListener?.invoke()
+                    if (needToRestartSpeakingTts) {
+                        restartTts()
+                        needToRestartSpeakingTts = false
+                    }
                 }
             }
 
             override fun onError(utteranceId: String?) {
                 coroutineScope.launch {
-                    state.isPreparingToPronounce = false
+                    state.isPreparingToSpeak = false
                     state.isSpeaking = false
+                    isSpeaking = false
+                    onSpeakingFinishedListener?.invoke()
                 }
             }
         })
     }
 
-    private fun speakDelayedTextIfExists() {
-        if (delayedSpokenText != null) {
-            speak(delayedSpokenText!!, delayedLanguage)
-            delayedSpokenText = null
-            delayedLanguage = null
+    override fun speak(text: String, language: Locale?) {
+        coroutineScope.launch {
+            if (state.status == FailedToInitialize || state.status == Closed) {
+                return@launch
+            }
+            state.isPreparingToSpeak = true
+            speakingTask = SpeakingTask(text, language)
+            executeSpeakingTask()
         }
     }
 
-    override fun speak(text: String, language: Locale?) {
-        coroutineScope.launch {
-            state.isPreparingToPronounce = true
-            when {
-                !state.isInitialized -> {
-                    delayedSpokenText = text
-                    delayedLanguage = language
+    private fun executeSpeakingTask() {
+        if (state.status != Initialized) return
+        val speakingTask: SpeakingTask = speakingTask ?: return
+        val specifiedLanguage: Locale = speakingTask.language ?: run {
+            if (isAppBackground) {
+                updateDefaultLanguage()
+            }
+            state.defaultLanguage
+        }
+        val ttsWrapper: TtsWrapper = obtainTtsWrapper(specifiedLanguage)
+        if (isAppBackground) {
+            val isTtsEngineValid = validateTtsEngine(ttsWrapper)
+            if (!isTtsEngineValid) return
+        }
+        if (ttsWrapper.isInitialized) {
+            stopSpeaking()
+            ttsWrapper.speak(speakingTask.text)
+            this.speakingTask = null
+        }
+    }
+
+    private fun obtainTtsWrapper(language: Locale): TtsWrapper {
+        return ttsPool.find { ttsWrapper: TtsWrapper -> ttsWrapper.language == language }
+            ?: ttsPool.find { ttsWrapper: TtsWrapper -> ttsWrapper.language == null }
+                ?.apply { setLanguage(language) }
+            ?: if (ttsPool.size < MAX_TTS_INSTANCES) {
+                registerNewTts(language)
+            } else {
+                val observedLanguages: List<Locale> = channelsForObservingLanguageStatus
+                    .map { (language: Locale?, _) -> language ?: state.defaultLanguage }
+                val lastUsedVacantTtsWrapper: TtsWrapper? =
+                    ttsPool.filter { ttsWrapper -> ttsWrapper.language !in observedLanguages }
+                        .minBy { ttsWrapper: TtsWrapper -> ttsWrapper.lastUsedAt }
+                lastUsedVacantTtsWrapper?.apply { setLanguage(language) }
+                    ?: registerNewTts(language)
+            }
+    }
+
+    private fun TtsWrapper.setLanguage(language: Locale) {
+        this.language = language
+        updateLanguageStatus()
+    }
+
+    private fun TtsWrapper.updateLanguageStatus() {
+        val result: Int = tts.setLanguage(language)
+        languageStatus = when (result) {
+            TextToSpeech.LANG_NOT_SUPPORTED -> NotSupported
+            TextToSpeech.LANG_MISSING_DATA -> MissingData
+            else -> Available
+        }
+        onLanguageStatusChanged(this)
+    }
+
+    private fun onLanguageStatusChanged(ttsWrapper: TtsWrapper) {
+        channelsForObservingLanguageStatus
+            .forEach { (language: Locale?, channel: Channel<LanguageStatus?>) ->
+                val specifiedLanguage: Locale = language ?: state.defaultLanguage
+                if (ttsWrapper.language == specifiedLanguage) {
+                    channel.offer(ttsWrapper.languageStatus)
                 }
-                isTtsEngineChanged() -> {
-                    delayedSpokenText = text
-                    delayedLanguage = language
-                    restartTts()
-                }
-                else -> {
-                    currentLanguage = language
-                    val queueMode: Int = TextToSpeech.QUEUE_FLUSH
-                    val utteranceId = UUID.randomUUID().toString()
-                    val result: Int = tts.speak(text, queueMode, null, utteranceId)
-                    if (result == TextToSpeech.ERROR) {
-                        state.isPreparingToPronounce = false
-                    }
-                }
+            }
+    }
+
+    private fun TtsWrapper.speak(text: String) {
+        lastUsedAt = System.currentTimeMillis()
+        if (languageStatus != Available) {
+            state.isPreparingToSpeak = false
+            playErrorSound()
+            eventFlow.send(SpeakError)
+        } else {
+            val queueMode: Int = TextToSpeech.QUEUE_FLUSH
+            val utteranceId: String = UUID.randomUUID().toString()
+            val result: Int = tts.speak(text, queueMode, null, utteranceId)
+            if (result == TextToSpeech.ERROR) {
+                state.isPreparingToSpeak = false
+                playErrorSound()
+                eventFlow.send(SpeakError)
+                updateLanguageStatus()
             }
         }
     }
+
+    private fun playErrorSound() {
+        errorSoundJob = coroutineScope.launch {
+            toneGenerator.startTone(ToneGenerator.TONE_CDMA_ABBR_REORDER, ERROR_SOUND_DURATION)
+            delay(ERROR_SOUND_DURATION.toLong())
+            if (isActive) {
+                onSpeakingFinishedListener?.invoke()
+                errorSoundJob = null
+            }
+        }
+    }
+
+    fun languageStatusOf(language: Locale?): Flow<LanguageStatus?> = flow {
+        val specifiedLanguage = language ?: state.defaultLanguage
+        val ttsWrapper = obtainTtsWrapper(specifiedLanguage)
+        emit(ttsWrapper.languageStatus)
+        val channel = Channel<LanguageStatus?>(Channel.CONFLATED)
+        val languageChannel: Pair<Locale?, Channel<LanguageStatus?>> = language to channel
+        channelsForObservingLanguageStatus.add(languageChannel)
+        try {
+            for (languageStatus: LanguageStatus? in channel) {
+                emit(languageStatus)
+            }
+        } finally {
+            channelsForObservingLanguageStatus.remove(languageChannel)
+        }
+    }
+        .distinctUntilChanged()
+        .flowOn(speakerThreadContext)
 
     override fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit) {
         coroutineScope.launch {
@@ -172,28 +390,42 @@ class SpeakerImpl(
 
     override fun stop() {
         coroutineScope.launch {
-            tts.stop()
-            state.isSpeaking = false
+            stopSpeaking()
+            state.isPreparingToSpeak = false
+            speakingTask = null
         }
     }
 
-    private fun isTtsEngineChanged() = state.isInitialized && currentTtsEngine != tts.defaultEngine
-
-    private fun restartTts() {
-        tts.stop()
+    private fun stopSpeaking() {
+        if (!state.isSpeaking) return
+        ttsPool.find { ttsWrapper: TtsWrapper -> ttsWrapper.isSpeaking }
+            ?.let { ttsWrapper: TtsWrapper ->
+                ttsWrapper.tts.stop()
+                ttsWrapper.isSpeaking = false
+            }
         state.isSpeaking = false
-        tts.shutdown()
-        initTts()
+        errorSoundJob?.cancel()
+        errorSoundJob = null
     }
 
     fun shutdown() {
         coroutineScope.launch {
-            tts.stop()
-            state.isSpeaking = false
-            tts.shutdown()
-            state.isInitialized = false
-            state.availableLanguages = emptySet()
+            stopSpeaking()
+            speakingTask = null
+            ttsPool.forEach { it.tts.shutdown() }
+            ttsPool.clear()
+            with(state) {
+                status = Closed
+                availableLanguages = emptySet()
+                isPreparingToSpeak = false
+            }
             coroutineScope.cancel()
         }
+    }
+
+    private companion object {
+        val DEFAULT_LANGUAGE: Locale = Locale.ENGLISH
+        const val ERROR_SOUND_DURATION = 500
+        const val MAX_TTS_INSTANCES: Int = 4
     }
 }

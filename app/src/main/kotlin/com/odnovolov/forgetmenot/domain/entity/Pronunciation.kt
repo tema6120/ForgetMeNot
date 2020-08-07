@@ -38,7 +38,7 @@ class Pronunciation(
                 questionAutoSpeak = false,
                 answerLanguage = null,
                 answerAutoSpeak = false,
-                speakTextInBrackets = true
+                speakTextInBrackets = false
             )
         }
     }

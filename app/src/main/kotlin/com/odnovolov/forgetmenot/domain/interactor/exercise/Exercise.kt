@@ -115,8 +115,8 @@ class Exercise(
         }
     }
 
-    private fun hasAnswerSelection(): Boolean = state.answerSelection.isNotEmpty()
     private fun hasQuestionSelection(): Boolean = state.questionSelection.isNotEmpty()
+    private fun hasAnswerSelection(): Boolean = state.answerSelection.isNotEmpty()
 
     private fun speakQuestionSelection() {
         speak(

@@ -26,7 +26,7 @@ class PronunciationViewModel(
         }
 
     val isQuestionPreparingToBePronounced: Flow<Boolean> = speakerImpl.state
-        .flowOf(SpeakerImpl.State::isPreparingToPronounce)
+        .flowOf(SpeakerImpl.State::isPreparingToSpeak)
         .map { isPreparing: Boolean ->
             isPreparing && pronunciationScreenState.whatIsPronounced == QUESTION
         }
@@ -38,7 +38,7 @@ class PronunciationViewModel(
         }
 
     val isAnswerPreparingToBePronounced: Flow<Boolean> = speakerImpl.state
-        .flowOf(SpeakerImpl.State::isPreparingToPronounce)
+        .flowOf(SpeakerImpl.State::isPreparingToSpeak)
         .map { isPreparing: Boolean ->
             isPreparing && pronunciationScreenState.whatIsPronounced == ANSWER
         }

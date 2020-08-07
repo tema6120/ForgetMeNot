@@ -7,23 +7,29 @@ import android.os.Handler
 import android.view.*
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionCard
 import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionService
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.*
 import kotlinx.android.synthetic.main.fragment_repetition.*
+import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.coroutines.launch
 
 class RepetitionFragment : BaseFragment() {
@@ -32,8 +38,13 @@ class RepetitionFragment : BaseFragment() {
     }
 
     private var controller: RepetitionViewController? = null
+    private lateinit var viewModel: RepetitionViewModel
     private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
+    private val speakErrorPopup: PopupWindow by lazy { createSpeakErrorPopup() }
+    private val speakErrorToast: Toast by lazy {
+        Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,9 +60,9 @@ class RepetitionFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = RepetitionDiScope.getAsync() ?: return@launch
             controller = diScope.viewController
-            val adapter = diScope.getRepetitionCardAdapter(viewCoroutineScope!!)
-            repetitionViewPager.adapter = adapter
-            observeViewModel(diScope.viewModel, adapter)
+            viewModel = diScope.viewModel
+            repetitionViewPager.adapter = diScope.getRepetitionCardAdapter(viewCoroutineScope!!)
+            observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }
     }
@@ -72,8 +83,9 @@ class RepetitionFragment : BaseFragment() {
         }
     }
 
-    private fun observeViewModel(viewModel: RepetitionViewModel, adapter: RepetitionCardAdapter) {
+    private fun observeViewModel() {
         with(viewModel) {
+            val adapter = repetitionViewPager.adapter as RepetitionCardAdapter
             repetitionCards.observe { repetitionCards: List<RepetitionCard> ->
                 adapter.items = repetitionCards
             }
@@ -104,30 +116,39 @@ class RepetitionFragment : BaseFragment() {
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
-            isSpeaking.observe { isSpeaking: Boolean ->
+            speakingStatus.observe { speakingStatus: SpeakingStatus ->
                 with(speakButton) {
                     setImageResource(
-                        if (isSpeaking)
-                            R.drawable.ic_volume_off_white_24dp else
-                            R.drawable.ic_volume_up_white_24dp
+                        when (speakingStatus) {
+                            Speaking -> R.drawable.ic_volume_off_white_24dp
+                            NotSpeaking -> R.drawable.ic_volume_up_white_24dp
+                            CannotSpeak -> R.drawable.ic_volume_error_24
+                        }
                     )
                     setOnClickListener {
-                        controller?.dispatch(
-                            if (isSpeaking)
-                                StopSpeakButtonClicked else
-                                SpeakButtonClicked
-                        )
+                        when (speakingStatus) {
+                            Speaking -> controller?.dispatch(StopSpeakButtonClicked)
+                            NotSpeaking -> controller?.dispatch(SpeakButtonClicked)
+                            CannotSpeak -> showSpeakErrorPopup()
+                        }
                     }
                     contentDescription = getString(
-                        if (isSpeaking)
-                            R.string.description_stop_speak_button else
-                            R.string.description_speak_button
+                        when (speakingStatus) {
+                            Speaking -> R.string.description_stop_speak_button
+                            NotSpeaking -> R.string.description_speak_button
+                            CannotSpeak -> R.string.description_cannot_speak_button
+                        }
                     )
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
             }
             isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
                 speakProgressBar.visibility = if (isPreparing) View.VISIBLE else View.INVISIBLE
+            }
+            speakerEvents.observe { event: SpeakerImpl.Event ->
+                when (event) {
+                    SpeakError -> speakErrorToast.show()
+                }
             }
             isPlaying.observe { isPlaying: Boolean ->
                 if (isPlaying) startService()
@@ -224,7 +245,7 @@ class RepetitionFragment : BaseFragment() {
                 ColorDrawable(
                     ContextCompat.getColor(
                         requireContext(),
-                        color.exercise_control_panel_popup_background
+                        R.color.exercise_control_panel_popup_background
                     )
                 )
             )
@@ -232,6 +253,93 @@ class RepetitionFragment : BaseFragment() {
             isOutsideTouchable = true
             isFocusable = true
         }
+    }
+
+    private fun createSpeakErrorPopup(): PopupWindow {
+        val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
+            goToTtsSettingsButton.setOnClickListener {
+                navigateToTtsSettings()
+                speakErrorPopup.dismiss()
+            }
+        }
+        return PopupWindow(context).apply {
+            width = WindowManager.LayoutParams.WRAP_CONTENT
+            height = WindowManager.LayoutParams.WRAP_CONTENT
+            contentView = content
+            setBackgroundDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.exercise_control_panel_popup_background
+                    )
+                )
+            )
+            elevation = 20f
+            isOutsideTouchable = true
+            isFocusable = true
+        }
+    }
+
+    private fun getSpeakErrorDescription(): String? {
+        val reasonForInabilityToSpeak: ReasonForInabilityToSpeak? =
+            viewModel.reasonForInabilityToSpeak.firstBlocking()
+        return when (reasonForInabilityToSpeak) {
+            null -> null
+            is FailedToInitializeSpeaker -> {
+                if (reasonForInabilityToSpeak.ttsEngine == null) {
+                    getString(R.string.speak_error_description_failed_to_initialized)
+                } else {
+                    getString(
+                        R.string.speak_error_description_failed_to_initialized_with_specifying_tts_engine,
+                        reasonForInabilityToSpeak.ttsEngine
+                    )
+                }
+            }
+            is LanguageIsNotSupported -> {
+                if (reasonForInabilityToSpeak.ttsEngine == null) {
+                    getString(
+                        R.string.speak_error_description_language_is_not_supported,
+                        reasonForInabilityToSpeak.language.displayLanguage
+                    )
+                } else {
+                    getString(
+                        R.string.speak_error_description_language_is_not_supported_with_specifying_tts_engine,
+                        reasonForInabilityToSpeak.ttsEngine,
+                        reasonForInabilityToSpeak.language.displayLanguage
+                    )
+                }
+            }
+            is MissingDataForLanguage -> {
+                getString(
+                    R.string.speak_error_description_missing_data_for_language,
+                    reasonForInabilityToSpeak.language.displayLanguage
+                )
+            }
+        }
+    }
+
+    private fun showSpeakErrorPopup() {
+        speakErrorPopup.contentView.speakErrorDescriptionTextView.text = getSpeakErrorDescription()
+        val content: View = speakErrorPopup.contentView
+        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+        val speakButtonLocation = IntArray(2).also { speakButton.getLocationOnScreen(it) }
+        val x: Int = 8.dp
+        val y: Int = speakButtonLocation[1] + speakButton.height - 8.dp - content.measuredHeight
+        speakErrorPopup.showAtLocation(
+            speakButton.rootView,
+            Gravity.NO_GRAVITY,
+            x,
+            y
+        )
+    }
+
+    private fun navigateToTtsSettings() {
+        startActivity(
+            Intent().apply {
+                action = "com.android.settings.TTS_SETTINGS"
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+        )
     }
 
     override fun onDestroyView() {

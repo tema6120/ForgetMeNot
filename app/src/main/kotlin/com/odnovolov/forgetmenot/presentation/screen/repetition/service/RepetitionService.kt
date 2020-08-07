@@ -51,7 +51,7 @@ class RepetitionService : BaseService() {
                 ACTION_RESUME -> controller.dispatch(ResumeNotificationActionClicked)
             }
         }
-        return START_NOT_STICKY
+        return START_STICKY
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
