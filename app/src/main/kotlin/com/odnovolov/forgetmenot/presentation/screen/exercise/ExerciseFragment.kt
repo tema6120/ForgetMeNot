@@ -504,7 +504,7 @@ class ExerciseFragment : BaseFragment() {
                     )
                 )
             )
-            elevation = 20f
+            elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
         }
@@ -534,7 +534,7 @@ class ExerciseFragment : BaseFragment() {
                     )
                 )
             )
-            elevation = 20f
+            elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
         }
@@ -561,7 +561,7 @@ class ExerciseFragment : BaseFragment() {
                     )
                 )
             )
-            elevation = 20f
+            elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
         }
@@ -586,7 +586,7 @@ class ExerciseFragment : BaseFragment() {
                     )
                 )
             )
-            elevation = 20f
+            elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
         }

@@ -40,6 +40,7 @@ fun Locale.toFlagEmoji(): String? {
 }
 
 val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+val Float.dp: Float get() = (this * Resources.getSystem().displayMetrics.density)
 
 fun EditText.observeText(onTextChanged: (newText: String) -> Unit) {
     addTextChangedListener(object : TextWatcher {

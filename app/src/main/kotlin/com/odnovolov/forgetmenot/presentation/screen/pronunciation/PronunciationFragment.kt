@@ -237,7 +237,7 @@ class PronunciationFragment : BaseFragment() {
                     )
                 )
             )
-            elevation = 20f
+            elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
         }
@@ -306,17 +306,18 @@ class PronunciationFragment : BaseFragment() {
         height = WindowManager.LayoutParams.WRAP_CONTENT
         contentView = View.inflate(requireContext(), R.layout.popup_available_languages, null)
         setBackgroundDrawable(ColorDrawable(Color.WHITE))
-        elevation = 20f
+        elevation = 20f.dp
         isOutsideTouchable = true
         isFocusable = true
     }
 
     private fun showLanguagePopup(popupWindow: PopupWindow, anchor: View) {
         popupWindow.width = anchor.width
-        val location = IntArray(2)
-        anchor.getLocationOnScreen(location)
-        val x = location[0]
-        val y = location[1]
+        val content: View = popupWindow.contentView
+        content.measure(anchor.width, MeasureSpec.UNSPECIFIED)
+        val anchorLocation = IntArray(2).also { anchor.getLocationOnScreen(it) }
+        val x = anchorLocation[0]
+        val y = anchorLocation[1] + anchor.height / 2 - content.measuredHeight / 2
         popupWindow.showAtLocation(rootView, Gravity.NO_GRAVITY, x, y)
     }
 

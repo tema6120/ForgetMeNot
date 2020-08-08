@@ -204,7 +204,7 @@ class PresetView @JvmOverloads constructor(
             width = 256.dp
             height = WindowManager.LayoutParams.WRAP_CONTENT
             setBackgroundDrawable(ColorDrawable(Color.WHITE))
-            elevation = 20f
+            elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
             softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN

@@ -1,13 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.speakplan
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
 import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
@@ -43,26 +48,34 @@ class SpeakEventAdapter(
         notifyItemMoved(fromPosition, toPosition)
     }
 
-    fun notifyDraggingStopped() {
-        isDragging = false
-        pendingItems?.let(::setItems)
-        pendingItems = null
-    }
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_speak_event, parent, false)
         val viewHolder = SimpleRecyclerViewHolder(view)
         view.dragHandleButton.setOnTouchListener { _, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    isDragging = true
-                    itemTouchHelper.startDrag(viewHolder)
-                }
+            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                itemTouchHelper.startDrag(viewHolder)
             }
             false
         }
         return viewHolder
+    }
+
+    fun onStartDragging(viewHolder: ViewHolder) {
+        isDragging = true
+        updateDraggingView(viewHolder.itemView)
+    }
+
+    fun onStopDragging(viewHolder: ViewHolder) {
+        isDragging = false
+        pendingItems?.let(::setItems)
+        pendingItems = null
+        updateDraggingView(viewHolder.itemView)
+    }
+
+    private fun updateDraggingView(draggingView: View) {
+        draggingView.background = if (isDragging) ColorDrawable(Color.WHITE) else null
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {

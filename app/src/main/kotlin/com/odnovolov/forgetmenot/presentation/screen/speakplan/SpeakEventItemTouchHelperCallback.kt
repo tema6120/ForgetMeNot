@@ -18,6 +18,13 @@ class SpeakEventItemTouchHelperCallback(
         return makeMovementFlags(dragFlags, swipeFlags)
     }
 
+    override fun onSelectedChanged(viewHolder: ViewHolder?, actionState: Int) {
+        super.onSelectedChanged(viewHolder, actionState)
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+            adapter.onStartDragging(viewHolder!!)
+        }
+    }
+
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: ViewHolder,
@@ -35,7 +42,7 @@ class SpeakEventItemTouchHelperCallback(
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-        adapter.notifyDraggingStopped()
+        adapter.onStopDragging(viewHolder)
     }
 
     override fun isLongPressDragEnabled() = false

@@ -249,7 +249,7 @@ class RepetitionFragment : BaseFragment() {
                     )
                 )
             )
-            elevation = 20f
+            elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
         }
@@ -274,7 +274,7 @@ class RepetitionFragment : BaseFragment() {
                     )
                 )
             )
-            elevation = 20f
+            elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
         }
