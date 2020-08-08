@@ -49,7 +49,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_test_pronunciation_of_question_button"
+                android:contentDescription="@string/description_test_pronunciation_button"
                 app:layout_constraintEnd_toEndOf="@+id/questionTitleTextView"
                 app:layout_constraintTop_toTopOf="@+id/questionTitleTextView"
                 app:srcCompat="@drawable/ic_volume_up_dark_24dp" />
@@ -139,7 +139,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_test_pronunciation_of_answer_button"
+                android:contentDescription="@string/description_test_pronunciation_button"
                 app:layout_constraintEnd_toEndOf="@+id/answerTitleTextView"
                 app:layout_constraintTop_toTopOf="@+id/answerTitleTextView"
                 app:srcCompat="@drawable/ic_volume_up_dark_24dp" />

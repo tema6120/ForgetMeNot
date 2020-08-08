@@ -96,9 +96,7 @@ class ExerciseViewModel(
             .share()
 
     private val languageStatus: Flow<LanguageStatus?> = speakerLanguage
-        .flatMapLatest { language: Locale? ->
-            speakerImpl.languageStatusOf(language)
-        }
+        .flatMapLatest { language: Locale? -> speakerImpl.languageStatusOf(language) }
         .share()
 
     val speakingStatus: Flow<SpeakingStatus> = combine(

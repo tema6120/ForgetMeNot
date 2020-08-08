@@ -29,8 +29,7 @@
     <string name="description_speak_icon">Speak icon</string>
     <string name="description_rename_icon">Rename icon</string>
     <string name="description_navigate_icon">Navigate icon</string>
-    <string name="description_test_pronunciation_of_question_button">Test pronunciation of question</string>
-    <string name="description_test_pronunciation_of_answer_button">Test pronunciation of answer</string>
+    <string name="description_test_pronunciation_button">Test pronunciation</string>
     <string name="description_add_card_button">Add card</string>
     <string name="description_paste_button">Paste</string>
     <string name="description_clear_button">Clear</string>

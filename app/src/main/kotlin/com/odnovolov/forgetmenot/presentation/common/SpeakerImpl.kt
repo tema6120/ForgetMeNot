@@ -139,11 +139,11 @@ class SpeakerImpl(
             val isTtsEngineValid = validateTtsEngine(ttsWrapper)
             if (!isTtsEngineValid) return@launch
             if (status == TextToSpeech.SUCCESS) {
-                state.status = Initialized
                 ttsWrapper.isInitialized = true
                 if (!isConformedToCurrentTtsEngine) {
                     conformToCurrentTtsEngine()
                 }
+                state.status = Initialized
                 ttsWrapper.setProgressListener()
                 if (ttsWrapper.language != null) {
                     ttsWrapper.updateLanguageStatus()
@@ -169,6 +169,7 @@ class SpeakerImpl(
     private fun TtsWrapper.restartTts() {
         tts.shutdown()
         isInitialized = false
+        updateLanguageStatus()
         ttsEngine = tts.defaultEngine
         tts = TextToSpeech(applicationContext) { status: Int -> onTtsInit(id, status) }
     }
@@ -315,11 +316,14 @@ class SpeakerImpl(
     }
 
     private fun TtsWrapper.updateLanguageStatus() {
-        val result: Int = tts.setLanguage(language)
-        languageStatus = when (result) {
-            TextToSpeech.LANG_NOT_SUPPORTED -> NotSupported
-            TextToSpeech.LANG_MISSING_DATA -> MissingData
-            else -> Available
+        languageStatus = if (isInitialized) {
+            when (tts.setLanguage(language)) {
+                TextToSpeech.LANG_NOT_SUPPORTED -> NotSupported
+                TextToSpeech.LANG_MISSING_DATA -> MissingData
+                else -> Available
+            }
+        } else {
+            null
         }
         onLanguageStatusChanged(this)
     }
