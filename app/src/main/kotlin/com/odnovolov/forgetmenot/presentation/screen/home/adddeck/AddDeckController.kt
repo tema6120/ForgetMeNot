@@ -17,6 +17,8 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
@@ -40,6 +42,10 @@ class AddDeckController(
 
     override fun handle(event: AddDeckEvent) {
         when (event) {
+            HelpLoadFromFileButtonClicked -> {
+                navigator.navigateToHelp { HelpDiScope(HelpArticle.ImportOfDeck) }
+            }
+
             CreateDeckButtonClicked -> {
                 screenState.howToAdd = CREATE
             }

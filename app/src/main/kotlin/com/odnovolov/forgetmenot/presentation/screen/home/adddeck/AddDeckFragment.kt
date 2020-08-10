@@ -78,6 +78,10 @@ class AddDeckFragment : BaseFragment() {
                 showFileChooser()
                 addDeckDialog.dismiss()
             }
+            helpLoadFromFileButton.setOnClickListener {
+                controller?.dispatch(HelpLoadFromFileButtonClicked)
+                addDeckDialog.dismiss()
+            }
             createDeckButton.setOnClickListener {
                 controller?.dispatch(CreateDeckButtonClicked)
                 addDeckDialog.dismiss()

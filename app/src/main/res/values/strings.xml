@@ -252,4 +252,8 @@
     <string name="help_article_title_presets">Presets</string>
     <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
     <string name="help_article_title_advice_on_studying">Advice on studying</string>
+    <string name="article_import_of_deck_paragraph_1">1. Create text file on your computer in this format:</string>
+    <string name="example_of_text_file_for_creating_deck">Q:\nWhat city was the first capital of the United States?\nA:\nNew York City\n\n\n\nQ:\nWho first discovered America?\nA:\nLeif Erikson\n\n\n\nQ:\nWho invented the first car?\nA:\nKarl Benz\n\n\n\nQ:\nWhen did the Revolutionary War end?\nA:\nSeptember 3, 1783</string>
+    <string name="example_file_name">American history.txt</string>
+    <string name="article_import_of_deck_paragraph_2">2. Save this file with encoding UTF-8.\n\n3. Put it on your device disk or Google Drive.\n\n3. Choose \'Load from file\' in ForgetMeNot.\n\n4. Select this file.</string>
 </resources>
