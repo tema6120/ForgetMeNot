@@ -8,9 +8,11 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.*
+import com.odnovolov.forgetmenot.persistence.longterm.helpscreenstate.HelpScreenStatePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +52,7 @@ class LongTermStateSaverImpl(
             put(DeckReviewPreference::class, DeckReviewPreferencePropertyChangeHandler(database))
             put(WalkingModePreference::class, WalkingModePreferencePropertyChangeHandler(database))
             put(FullscreenPreference::class, FullscreenPreferencePropertyChangeHandler(database))
+            put(HelpScreenState::class, HelpScreenStatePropertyChangeHandler(database))
         }
 
     override fun saveStateByRegistry() {

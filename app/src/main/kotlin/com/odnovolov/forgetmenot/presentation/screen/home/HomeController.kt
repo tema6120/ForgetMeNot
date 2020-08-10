@@ -18,6 +18,7 @@ import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -82,6 +83,11 @@ class HomeController(
             SettingsButtonClicked -> {
                 homeScreenState.selectedDeckIds = emptyList()
                 navigator.navigateToSettings { SettingsDiScope() }
+            }
+
+            HelpButtonClicked -> {
+                homeScreenState.selectedDeckIds = emptyList()
+                navigator.navigateToHelp { HelpDiScope() }
             }
 
             is DeckButtonClicked -> {

@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.common
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -177,6 +178,9 @@ fun Fragment.hideActionBar() {
     (activity as MainActivity).supportActionBar?.run {
         setShowHideAnimationEnabled(false)
         hide()
+        Handler().post {
+            hide()
+        }
     }
 }
 

@@ -34,6 +34,10 @@
                 android:id="@+id/action_home_screen_to_settings_screen"
                 app:destination="@id/settings_screen" />
 
+        <action
+                android:id="@+id/action_home_screen_to_help_screen"
+                app:destination="@id/help_screen" />
+
     </fragment>
 
     <fragment
@@ -193,6 +197,12 @@
             android:name="com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsFragment"
             android:label="@string/label_walking_mode_settings_screen"
             tools:layout="@layout/fragment_walking_mode_settings" />
+
+    <fragment
+            android:id="@+id/help_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.help.HelpFragment"
+            android:label="@string/label_help_screen"
+            tools:layout="@layout/fragment_help" />
 
     <fragment
             android:id="@+id/repetition_settings_screen"

@@ -1,0 +1,74 @@
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp"
+                android:orientation="horizontal"
+                android:theme="@style/AppTheme.AppBarOverlay">
+
+            <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_back_button"
+                    android:tint="@android:color/white"
+                    app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+
+            <TextView
+                    android:id="@+id/articleTitleTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:text="@string/label_help_screen"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            <ImageButton
+                    android:id="@+id/showTableOfContentsButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_show_table_of_contents_button"
+                    android:tint="@android:color/white"
+                    app:srcCompat="@drawable/ic_baseline_format_list_bulleted_24" />
+
+        </LinearLayout>
+
+        <FrameLayout
+                android:id="@+id/articleFrame"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tableOfContentsRecycler"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/background_window"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/item_help_article" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

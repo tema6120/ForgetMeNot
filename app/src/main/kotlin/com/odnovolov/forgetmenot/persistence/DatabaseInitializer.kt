@@ -54,6 +54,9 @@ object DatabaseInitializer {
                 testMethodAdapter = EnumColumnAdapter(),
                 cardReverseAdapter = EnumColumnAdapter()
             ),
+            HelpScreenStateDb.Adapter(
+                currentHelpArticeAdapter = EnumColumnAdapter()
+            ),
             IntervalDb.Adapter(
                 valueAdapter = dateTimeSpanAdapter
             ),

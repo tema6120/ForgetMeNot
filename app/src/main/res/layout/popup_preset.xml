@@ -20,10 +20,10 @@
                 android:id="@+id/addPresetButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:padding="8dp"
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_add_new_preset"
+                android:padding="8dp"
                 app:srcCompat="@drawable/ic_add_dark_24dp" />
 
     </LinearLayout>

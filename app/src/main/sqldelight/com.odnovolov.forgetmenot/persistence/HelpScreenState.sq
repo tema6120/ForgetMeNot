@@ -1,0 +1,13 @@
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle;
+
+CREATE TABLE HelpScreenStateDb (
+    currentHelpArtice TEXT AS HelpArticle NOT NULL
+);
+
+INSERT INTO HelpScreenStateDb VALUES ('AboutForgetMeNot');
+
+selectAll:
+SELECT * FROM HelpScreenStateDb;
+
+updateCurrentHelpArtice:
+UPDATE HelpScreenStateDb SET currentHelpArtice = ?;

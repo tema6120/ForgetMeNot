@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
@@ -148,6 +149,11 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToWalkingModeSettings() {
         navigate(R.id.action_settings_screen_to_walking_mode_settings_screen)
+    }
+
+    fun navigateToHelp(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_home_screen_to_help_screen)
     }
 
     fun navigateUp() {

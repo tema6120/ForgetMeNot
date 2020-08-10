@@ -7,6 +7,7 @@ sealed class HomeEvent {
     object SearchInCardsButtonClicked : HomeEvent()
     object DisplayOnlyWithTasksCheckboxClicked : HomeEvent()
     object SettingsButtonClicked : HomeEvent()
+    object HelpButtonClicked : HomeEvent()
     class DeckButtonClicked(val deckId: Long) : HomeEvent()
     class DeckButtonLongClicked(val deckId: Long) : HomeEvent()
     class RepetitionModeMenuItemClicked(val deckId: Long) : HomeEvent()

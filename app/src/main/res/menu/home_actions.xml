@@ -33,4 +33,10 @@
             android:title="@string/title_action_settings"
             app:showAsAction="ifRoom" />
 
+    <item
+            android:id="@+id/action_help"
+            android:icon="@drawable/ic_baseline_help_outline_24"
+            android:title="@string/title_action_help"
+            app:showAsAction="ifRoom" />
+
 </menu>

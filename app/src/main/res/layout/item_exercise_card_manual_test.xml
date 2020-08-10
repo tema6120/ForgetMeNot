@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:descendantFocusability="beforeDescendants"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -15,7 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <include layout="@layout/question"/>
+            <include layout="@layout/question" />
 
             <View
                     android:id="@+id/divider"
@@ -101,9 +101,9 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:text="@string/text_remember_button"
-                    android:textStyle="bold"
                     android:textColor="@color/text_exercise_button_selector"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/verticalDivider"
                     app:layout_constraintStart_toStartOf="parent"
@@ -127,9 +127,9 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:text="@string/text_not_remember_button"
-                    android:textStyle="bold"
                     android:textColor="@color/text_exercise_button_selector"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/verticalDivider"

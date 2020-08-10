@@ -222,7 +222,6 @@ class RepetitionFragment : BaseFragment() {
             }
         }
         hideActionBar()
-        Handler().post { hideActionBar() }
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {

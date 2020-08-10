@@ -242,6 +242,10 @@ class HomeFragment : BaseFragment() {
                 controller?.dispatch(SettingsButtonClicked)
                 true
             }
+            R.id.action_help -> {
+                controller?.dispatch(HelpButtonClicked)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
