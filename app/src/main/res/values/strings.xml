@@ -256,4 +256,24 @@
     <string name="example_of_text_file_for_creating_deck">Q:\nWhat city was the first capital of the United States?\nA:\nNew York City\n\n\n\nQ:\nWho first discovered America?\nA:\nLeif Erikson\n\n\n\nQ:\nWho invented the first car?\nA:\nKarl Benz\n\n\n\nQ:\nWhen did the Revolutionary War end?\nA:\nSeptember 3, 1783</string>
     <string name="example_file_name">American history.txt</string>
     <string name="article_import_of_deck_paragraph_2">2. Save this file with encoding UTF-8.\n\n3. Put it on your device disk or Google Drive.\n\n3. Choose \'Load from file\' in ForgetMeNot.\n\n4. Select this file.</string>
+    <string name="article_test_methods_paragraph_1">Test methods define how the answer will be tested. There are 4 options:</string>
+    <string name="article_test_methods_off_section_title">1. Off</string>
+    <string name="question_example_off_test_method">Всі діти в цьому класі дуже ввічливі.</string>
+    <string name="answer_example_off_test_method">All the children in this class are very polite.</string>
+    <string name="article_test_methods_off_section_description">It may be used for decks with which you do not plan to work for a long time. For example, it might be a deck that contains sentences in the native and target language and you want to translate once without further repetition.</string>
+    <string name="article_test_methods_manual_section_title">2. Manual</string>
+    <string name="question_example_manual_test_method">mime\n\n\\verb\\</string>
+    <string name="answer_example_manual_test_method">[maɪm]\n\nuse gesture and movement without words in the acting of a play or role</string>
+    <string name="article_test_methods_manual_section_description">Basic test method. You decide whether you remember the answer or not. The main advantage is the efficiency of memorization.</string>
+    <string name="article_test_methods_quiz_section_title">3. Quiz</string>
+    <string name="question_example_quiz_test_method">окунь</string>
+    <string name="answer_example_quiz_test_method_variant1">herring</string>
+    <string name="answer_example_quiz_test_method_variant2">trout</string>
+    <string name="answer_example_quiz_test_method_variant3">salmon</string>
+    <string name="answer_example_quiz_test_method_variant4">bass</string>
+    <string name="article_test_methods_quiz_section_description">In this mode, you need to choose the correct variant from the four offered. Variants are taken from the deck to which the card belongs. Therefore, if you are going to use this test method, it is important to create a deck where variants are appropriate. For example, it could be a \'word-translation\' deck with the same parts of speech. This is a more playful form of testing, so it\'s great for kids. The disadvantage is the average memory efficiency, as variants are an significant clue.</string>
+    <string name="article_test_methods_entry_section_title">4. Entry</string>
+    <string name="question_example_entry_test_method">Past participle form of \'bring\'</string>
+    <string name="answer_example_entry_test_method">brought</string>
+    <string name="article_test_methods_entry_section_description">This method will be useful if you want to improve the spelling of words. It can be used as a dictation. To do this, create a deck where the question and answer will be the same, turn off the question display, select the language and enable the auto-pronunciation of the question in the deck settings.</string>
 </resources>

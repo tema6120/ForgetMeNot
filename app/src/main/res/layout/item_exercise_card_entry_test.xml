@@ -26,7 +26,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                     android:id="@+id/hintScrollView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -48,7 +48,7 @@
                         android:textIsSelectable="true"
                         android:textSize="18sp" />
 
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
             <View
                     android:id="@+id/hintDivider"
@@ -62,7 +62,7 @@
                     app:layout_constraintTop_toBottomOf="@id/hintScrollView"
                     app:layout_constraintVertical_chainStyle="spread_inside" />
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                     android:id="@+id/answerInputScrollView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -87,7 +87,7 @@
                         android:textColorHint="@color/text_curtain_selector"
                         android:textSize="18sp" />
 
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
             <View
                     android:id="@+id/checkDivider"
@@ -113,7 +113,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                     android:id="@+id/answerScrollView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -153,7 +153,7 @@
 
                 </LinearLayout>
 
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

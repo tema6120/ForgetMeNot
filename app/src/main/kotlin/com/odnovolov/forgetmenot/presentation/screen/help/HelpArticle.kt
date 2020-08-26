@@ -2,14 +2,17 @@ package com.odnovolov.forgetmenot.presentation.screen.help
 
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.screen.help.article.*
+import com.odnovolov.forgetmenot.presentation.screen.help.article.SimpleHelpArticleFragment
+import com.odnovolov.forgetmenot.presentation.screen.help.article.TestMethodsArticleFragment
 
 enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
     AboutForgetMeNot(R.string.help_article_title_about_forgetmenot, { Fragment() }),
-    ImportOfDeck(R.string.help_article_title_import_of_deck, { ImportOfDeckArticleFragment() }),
+    ImportOfDeck(
+        R.string.help_article_title_import_of_deck,
+        { SimpleHelpArticleFragment.create(R.layout.article_import_of_deck) }),
     HomeScreen(R.string.help_article_title_home_screen, { Fragment() }),
     Exercise(R.string.help_article_title_exercise, { Fragment() }),
-    TestMethods(R.string.help_article_title_test_methods, { Fragment() }),
+    TestMethods(R.string.help_article_title_test_methods, { TestMethodsArticleFragment() }),
     LevelOfKnowledgeAndIntervals(
         R.string.help_article_title_level_of_knowledge_and_intervals,
         { Fragment() }),
