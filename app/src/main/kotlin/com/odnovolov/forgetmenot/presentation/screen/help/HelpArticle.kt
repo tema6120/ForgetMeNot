@@ -17,7 +17,9 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
     LevelOfKnowledgeAndIntervals(
         R.string.help_article_title_level_of_knowledge_and_intervals,
         { Fragment() }),
-    Pronunciation(R.string.help_article_title_pronunciation, { Fragment() }),
+    Pronunciation(
+        R.string.help_article_title_pronunciation,
+        { SimpleHelpArticleFragment.create(R.layout.article_pronunciation) }),
     QuestionDisplay(
         R.string.help_article_title_question_display,
         { QuestionDisplayArticleFragment() }),
