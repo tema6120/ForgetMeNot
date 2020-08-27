@@ -26,7 +26,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.core.widget.NestedScrollView
+            <ScrollView
                     android:id="@+id/hintScrollView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -48,7 +48,7 @@
                         android:textSize="18sp"
                         tools:text="■■■■■ ■■■ are ■■■■ ■■ ■■■■ ■■■■." />
 
-            </androidx.core.widget.NestedScrollView>
+            </ScrollView>
 
             <View
                     android:id="@+id/hintDivider"
@@ -78,7 +78,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hintDivider" />
 
-            <androidx.core.widget.NestedScrollView
+            <ScrollView
                     android:id="@+id/answerScrollView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -99,7 +99,7 @@
                         android:textSize="18sp"
                         tools:text="These men are used to hard work." />
 
-            </androidx.core.widget.NestedScrollView>
+            </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

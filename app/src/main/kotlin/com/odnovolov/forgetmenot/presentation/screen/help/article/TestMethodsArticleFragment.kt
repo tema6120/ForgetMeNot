@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
 import kotlinx.android.synthetic.main.article_test_methods.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
@@ -42,8 +44,8 @@ class TestMethodsArticleFragment : Fragment() {
             questionTextView.setText(R.string.question_example_off_test_method)
             offAnswerTextView.setText(R.string.answer_example_off_test_method)
             showAnswerButton.setOnClickListener {
-                showAnswerButton.visibility = View.GONE
-                offAnswerScrollView.visibility = View.VISIBLE
+                showAnswerButton.isVisible = false
+                offAnswerScrollView.isVisible = true
             }
         }
     }
@@ -53,12 +55,12 @@ class TestMethodsArticleFragment : Fragment() {
             questionTextView.setText(R.string.question_example_manual_test_method)
             manualAnswerTextView.setText(R.string.answer_example_manual_test_method)
             rememberButton.setOnClickListener {
-                manualAnswerScrollView.visibility = View.VISIBLE
+                manualAnswerScrollView.isVisible = true
                 rememberButton.isSelected = true
                 notRememberButton.isSelected = false
             }
             notRememberButton.setOnClickListener {
-                manualAnswerScrollView.visibility = View.VISIBLE
+                manualAnswerScrollView.isVisible = true
                 rememberButton.isSelected = false
                 notRememberButton.isSelected = true
             }
@@ -103,17 +105,20 @@ class TestMethodsArticleFragment : Fragment() {
             questionTextView.setText(R.string.question_example_entry_test_method)
             correctAnswerTextView.text = correctAnswer
             checkButton.setOnClickListener {
-                answerEditText.visibility = View.GONE
-                answerEditText.isEnabled = false
-                checkButton.visibility = View.GONE
-                checkDivider.visibility = View.GONE
-                entryAnswerScrollView.visibility = View.VISIBLE
+                answerEditText.run {
+                    isVisible = false
+                    isEnabled = false
+                    hideSoftInput()
+                }
+                checkButton.isVisible = false
+                checkDivider.isVisible = false
+                entryAnswerScrollView.isVisible = true
                 val userAnswer: String? = answerEditText.text?.toString()?.trim()
                 if (userAnswer != correctAnswer) {
                     wrongAnswerTextView.run {
                         paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                         text = userAnswer
-                        visibility = View.VISIBLE
+                        isVisible = true
                     }
                 }
             }

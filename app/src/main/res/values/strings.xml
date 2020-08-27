@@ -276,4 +276,7 @@
     <string name="question_example_entry_test_method">Past participle form of \'bring\'</string>
     <string name="answer_example_entry_test_method">brought</string>
     <string name="article_test_methods_entry_section_description">This method will be useful if you want to improve the spelling of words. It can be used as a dictation. To do this, create a deck where the question and answer will be the same, turn off the question display, select the language and enable the auto-pronunciation of the question in the deck settings.</string>
+    <string name="article_question_display_paragraph_1">You can turn off the question display. In this case, it is supposed that you will get the question via voice playback. This will help improve your listening skills when learning a foreign language. Together with this, it is appropriate to enable the automatic pronunciation of the question. If you still want to see the question, just click on \'Show question\'.</string>
+    <string name="question_in_question_display_article">Je demande à voir un avocat!</string>
+    <string name="answer_in_question_display_article">I demand to see an avocado!</string>
 </resources>

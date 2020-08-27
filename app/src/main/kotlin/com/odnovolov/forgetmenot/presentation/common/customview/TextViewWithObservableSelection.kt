@@ -20,7 +20,7 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
             if (field != value) {
                 field = value
                 selectedRangeObserver?.invoke(field.startIndex, field.endIndex)
-                selectedTextObserver?.invoke(selectedText())
+                selectedTextObserver?.invoke(selectedText)
             }
         }
 
@@ -33,11 +33,11 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
     private var selectedTextObserver: ((String) -> Unit)? = null
         set(value) {
             field = value
-            field?.invoke(selectedText())
+            field?.invoke(selectedText)
         }
 
-    private fun selectedText(): String {
-        return if (text.isNullOrEmpty()) ""
+    val selectedText: String get() {
+        return if (text.isNullOrEmpty() || selectedRange == SelectedRange.EMPTY) ""
         else text.toString().substring(selectedRange.startIndex, selectedRange.endIndex)
     }
 

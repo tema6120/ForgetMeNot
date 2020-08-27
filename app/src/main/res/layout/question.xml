@@ -2,7 +2,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
             android:id="@+id/questionScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -23,7 +23,7 @@
                 android:textSize="20sp"
                 tools:text="Эти люди привычны к тяжелой работе." />
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <TextView
             android:id="@+id/showQuestionButton"

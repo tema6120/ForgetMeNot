@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.help
 
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.screen.help.article.QuestionDisplayArticleFragment
 import com.odnovolov.forgetmenot.presentation.screen.help.article.SimpleHelpArticleFragment
 import com.odnovolov.forgetmenot.presentation.screen.help.article.TestMethodsArticleFragment
 
@@ -17,7 +18,9 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
         R.string.help_article_title_level_of_knowledge_and_intervals,
         { Fragment() }),
     Pronunciation(R.string.help_article_title_pronunciation, { Fragment() }),
-    QuestionDisplay(R.string.help_article_title_question_display, { Fragment() }),
+    QuestionDisplay(
+        R.string.help_article_title_question_display,
+        { QuestionDisplayArticleFragment() }),
     MotivationalTimer(R.string.help_article_title_motivational_timer, { Fragment() }),
     WalkingMode(R.string.help_article_title_walking_mode, { Fragment() }),
     Repetition(R.string.help_article_title_repetition, { Fragment() }),
