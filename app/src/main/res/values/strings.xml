@@ -283,4 +283,24 @@
     <string name="article_pronunciation_paragraph_2">You can also choose to automatically pronounce the question or answer. This is always useful when learning languages.</string>
     <string name="article_pronunciation_paragraph_3">If \'Speak text in brackets\' is disabled, then the application will not speak the text framed in brackets () {} [] &lt;&gt;. So you can add any additional information in brackets, for example, transcription of words, synonyms, words with which you often confuse translation.</string>
     <string name="article_pronunciation_paragraph_4">To pronounce some part of the text, just highlight it and click the pronunciation icon.</string>
+    <string name="article_walking_mode">\'Walking mode\' is a special mode of exercise where you
+        can answer questions without looking at the screen. Control is carried out using
+        <annotation linkTo="walking_mode_settings">gestures of the volume buttons</annotation>.
+        Each action is accompanied with pronunciation, for example, when you go to the next card,
+        a question will be pronounced, when you answer (remember/not remember), the answer will be
+        pronounced.
+
+        \n\nThis mode can be used when you walk to somewhere and you want to make good use of time.
+        That\'s where it got its name from.
+
+        \n\n⚠️ Precautions:
+
+        \n\n- the screen must be keep on. This is due to the Android operating system: applications
+        can use the volume keys only when it is in the foreground.
+
+        \n\n- \'Quiz\' and \'Entry\' test methods are inappropriate to use in this mode and
+        therefore forcibly switch to the \'Manual\' test method.
+
+        \n\n- auto-pronunciation of questions and answers is turned on. Don\'t forget to specify
+        the correct languages ​​in the deck pronunciation settings.</string>
 </resources>

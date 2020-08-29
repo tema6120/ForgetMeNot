@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.screen.help.article.QuestionDisplayArticleFragment
 import com.odnovolov.forgetmenot.presentation.screen.help.article.SimpleHelpArticleFragment
 import com.odnovolov.forgetmenot.presentation.screen.help.article.TestMethodsArticleFragment
+import com.odnovolov.forgetmenot.presentation.screen.help.article.WalkingModeHelpArticleFragment
 
 enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
     AboutForgetMeNot(R.string.help_article_title_about_forgetmenot, { Fragment() }),
@@ -23,8 +24,10 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
     QuestionDisplay(
         R.string.help_article_title_question_display,
         { QuestionDisplayArticleFragment() }),
-    MotivationalTimer(R.string.help_article_title_motivational_timer, { Fragment() }),
-    WalkingMode(R.string.help_article_title_walking_mode, { Fragment() }),
+    MotivationalTimer(
+        R.string.help_article_title_motivational_timer,
+        { SimpleHelpArticleFragment.create(R.layout.article_walking_mode) }),
+    WalkingMode(R.string.help_article_title_walking_mode, { WalkingModeHelpArticleFragment() }),
     Repetition(R.string.help_article_title_repetition, { Fragment() }),
     Presets(R.string.help_article_title_presets, { Fragment() }),
     AdviceOnCompilingDeck(R.string.help_article_title_advice_on_compiling_deck, { Fragment() }),

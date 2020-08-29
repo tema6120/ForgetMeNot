@@ -156,6 +156,10 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_home_screen_to_help_screen)
     }
 
+    fun navigateToWalkingModeSettingsFromWalkingModeArticle() {
+        navigate(R.id.action_help_screen_to_walking_mode_settings_screen)
+    }
+
     fun navigateUp() {
         GlobalScope.launch(Dispatchers.Main.immediate) {
             try {
