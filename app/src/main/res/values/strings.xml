@@ -303,4 +303,30 @@
 
         \n\n- auto-pronunciation of questions and answers is turned on. Don\'t forget to specify
         the correct languages ​​in the deck pronunciation settings.</string>
+    <string name="article_advice_on_compiling_deck">1. Try to keep your cards as short as possible.
+        It is better to create several than to put everything into one. For example, if you create
+        a card for memorizing a foreign word, then it should describe only one interpretation of
+        it, which can be expressed in no more than 3 words. You can add additional information in
+        parentheses, but the answer itself should be short.
+
+        \n\n2. Create decks taking into account the settings that you are going to apply to them.
+
+        \n\n\t- For \'Quiz\' test method, variants are taken from this deck. Therefore, the
+        cards should contain answers that fit to be variants.
+
+        \n\n\t- In the pronunciation settings of a deck, you can specify a language for questions
+        and another language for answers. Therefore, you need to create deck where one language is
+        used for questions, and also one language is used for answers.
+
+        \n\n\t- If you want to use \'Card reverse\', then create such a card so that an answer can
+        look like a question.
+
+        \n\n3. If you are creating the deck as a file on your computer, you can download
+        <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">this template file</a>.
+        All you need to do is replace \'question\' with your question and \'answer\' with your
+        answer. Use Copy/Paste to speed up composing. If you are creating a deck on a device, try
+        to use multi-window mode.
+
+        \n\n4. Think of the deck compiling as part of the learning process. Try to learn everything
+        on the fly.</string>
 </resources>
