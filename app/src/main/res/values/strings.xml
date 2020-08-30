@@ -303,6 +303,14 @@
 
         \n\n- auto-pronunciation of questions and answers is turned on. Don\'t forget to specify
         the correct languages ​​in the deck pronunciation settings.</string>
+    <string name="article_repetition">Repetition is a mode in which questions and answers are
+        pronounced in turn. It can be compared to an audio player, but instead of tracks, questions
+        and answers are played. This mode is suitable when you are doing something, but could
+        listen simultaneously, for example, when preparing food.
+
+        \n\nFor each deck, you can customize the pronunciation plan. For example, to pronounce a
+        question twice, or to increase the interval between question and answer so that you have
+        enough time to remember the answer before you hear it.</string>
     <string name="article_presets">Preset is a set of controls created in advance that can be
         reused. Presets are needed to avoid the routine of settings decks or \'Repetition mode\'.
 

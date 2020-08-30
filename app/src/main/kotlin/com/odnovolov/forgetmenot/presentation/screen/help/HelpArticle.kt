@@ -25,7 +25,9 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
         R.string.help_article_title_motivational_timer,
         { Fragment() }),
     WalkingMode(R.string.help_article_title_walking_mode, { WalkingModeHelpArticleFragment() }),
-    Repetition(R.string.help_article_title_repetition, { Fragment() }),
+    Repetition(
+        R.string.help_article_title_repetition,
+        { SimpleHelpArticleFragment.create(R.layout.article_repetition) }),
     Presets(
         R.string.help_article_title_presets,
         { SimpleHelpArticleFragment.create(R.layout.article_presets) }),
