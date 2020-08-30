@@ -26,7 +26,9 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
         { Fragment() }),
     WalkingMode(R.string.help_article_title_walking_mode, { WalkingModeHelpArticleFragment() }),
     Repetition(R.string.help_article_title_repetition, { Fragment() }),
-    Presets(R.string.help_article_title_presets, { Fragment() }),
+    Presets(
+        R.string.help_article_title_presets,
+        { SimpleHelpArticleFragment.create(R.layout.article_presets) }),
     AdviceOnCompilingDeck(
         R.string.help_article_title_advice_on_compiling_deck,
         { AdviceOnCompilingDeckHelpArticleFragment() }),

@@ -303,6 +303,17 @@
 
         \n\n- auto-pronunciation of questions and answers is turned on. Don\'t forget to specify
         the correct languages ​​in the deck pronunciation settings.</string>
+    <string name="article_presets">Preset is a set of controls created in advance that can be
+        reused. Presets are needed to avoid the routine of settings decks or \'Repetition mode\'.
+
+        \n\nWhat preset names mean:
+
+        \n\n\tDefault - standard unchangeable settings.
+
+        \n\n\tIndividual - no preset is applied.
+
+        \n\n\t\'Your preset name\' - a saved preset that can be shared. Any change of this preset
+        will affect each deck to which it is applied.</string>
     <string name="article_advice_on_compiling_deck">1. Try to keep your cards as short as possible.
         It is better to create several than to put everything into one. For example, if you create
         a card for memorizing a foreign word, then it should describe only one interpretation of
