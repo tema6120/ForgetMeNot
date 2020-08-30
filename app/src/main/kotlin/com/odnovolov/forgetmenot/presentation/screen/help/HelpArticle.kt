@@ -2,11 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.help
 
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.screen.help.article.QuestionDisplayArticleFragment
-import com.odnovolov.forgetmenot.presentation.screen.help.article.SimpleHelpArticleFragment
-import com.odnovolov.forgetmenot.presentation.screen.help.article.TestMethodsArticleFragment
-import com.odnovolov.forgetmenot.presentation.screen.help.article.WalkingModeHelpArticleFragment
-import com.odnovolov.forgetmenot.presentation.screen.help.article.AdviceOnCompilingDeckHelpArticleFragment
+import com.odnovolov.forgetmenot.presentation.screen.help.article.*
 
 enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
     AboutForgetMeNot(R.string.help_article_title_about_forgetmenot, { Fragment() }),
@@ -34,5 +30,7 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
     AdviceOnCompilingDeck(
         R.string.help_article_title_advice_on_compiling_deck,
         { AdviceOnCompilingDeckHelpArticleFragment() }),
-    AdviceOnStudying(R.string.help_article_title_advice_on_studying, { Fragment() }),
+    AdviceOnStudying(
+        R.string.help_article_title_advice_on_studying,
+        { SimpleHelpArticleFragment.create(R.layout.article_advice_on_studying) }),
 }
