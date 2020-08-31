@@ -43,8 +43,8 @@ class MotivationalTimerHelpArticleFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        questionTextView.setText(R.string.question_in_motivational_timer)
-        answerTextView.setText(R.string.answer_in_motivational_timer)
+        questionTextView.setText(R.string.question_in_motivational_timer_article)
+        answerTextView.setText(R.string.answer_in_motivational_timer_article)
         showAnswerButton.setOnClickListener {
             stopTimer()
             showAnswer()

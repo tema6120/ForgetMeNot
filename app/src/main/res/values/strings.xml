@@ -276,6 +276,30 @@
     <string name="question_example_entry_test_method">Past participle form of \'bring\'</string>
     <string name="answer_example_entry_test_method">brought</string>
     <string name="article_test_methods_entry_section_description">This method will be useful if you want to improve the spelling of words. It can be used as a dictation. To do this, create a deck where the question and answer will be the same, turn off the question display, select the language and enable the auto-pronunciation of the question in the deck settings.</string>
+    <string name="article_level_of_knowledge_and_intervals_paragraph1">Each card is characterized
+        by the level of knowledge. Each answer in the exercise affects the level of knowledge in
+        the following way:
+
+        \n\n\t- decreases by one for each wrong answer, but not less than zero
+
+        \n\n\t- increases by one with the correct answer, but only if the card is answered for the
+        first time in this exercise session
+
+        \n\n\t- does not change if the answer is correct, but this card was sent for retesting,
+        due to an incorrect answer the previous time</string>
+    <string name="question_in_level_of_knowledge_and_intervals_article">цинк</string>
+    <string name="answer_in_level_of_knowledge_and_intervals_article">zinc</string>
+    <string name="article_level_of_knowledge_and_intervals_paragraph2">The level of knowledge is
+        directly related to intervals, which is applied to the deck of cards. The intervals affect
+        when the card is available for the exercise next time after responding. Usually, the higher
+        the level of knowledge, the longer the interval. That is, the intervals are needed so that
+        you deal more with poorly-studied cards and less with well-studied ones.
+
+        \n\nPerhaps, for some reason, you want to change the level of knowledge. Just tap on the
+        level of study icon and choose the one you want. Usually, when you change the level of
+        knowledge, you would like to clarify how long it will take to be this card questioned again.
+        If you manually changed the level of knowledge, the standard scheme would not apply to this
+        card for this exercise session.</string>
     <string name="article_question_display_paragraph_1">You can turn off the question display. In this case, it is supposed that you will get the question via voice playback. This will help improve your listening skills when learning a foreign language. Together with this, it is appropriate to enable the automatic pronunciation of the question. If you still want to see the question, just click on \'Show question\'.</string>
     <string name="question_in_question_display_article">Je demande à voir un avocat!</string>
     <string name="answer_in_question_display_article">I demand to see an avocado!</string>
@@ -286,8 +310,8 @@
         that you have lost concentration, and the motivational timer will act as a reminder of
         this. If you are thinking of the answer and feel that you don\'t have enough time, just tap
         on the timer icon to stop timer.</string>
-    <string name="question_in_motivational_timer">How much is 0.0193 km in decimetres?</string>
-    <string name="answer_in_motivational_timer">193</string>
+    <string name="question_in_motivational_timer_article">How much is 0.0193 km in decimetres?</string>
+    <string name="answer_in_motivational_timer_article">193</string>
     <string name="article_pronunciation_paragraph_1">This app supports the pronunciation of text through Text-to-speech API provided by Android OS. For each deck, you can choose the language in which to pronounce the question, and the language in which to pronounce the answer. Therefore, it is important to use one language for questions and one language for answers when creating a deck. If you want to have cards with different languages of questions and answers, then you need to create separate decks. It is recommended to always indicate languages.</string>
     <string name="article_pronunciation_paragraph_2">You can also choose to automatically pronounce the question or answer. This is always useful when learning languages.</string>
     <string name="article_pronunciation_paragraph_3">If \'Speak text in brackets\' is disabled, then the application will not speak the text framed in brackets () {} [] &lt;&gt;. So you can add any additional information in brackets, for example, transcription of words, synonyms, words with which you often confuse translation.</string>

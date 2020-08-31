@@ -11,10 +11,12 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
         { SimpleHelpArticleFragment.create(R.layout.article_import_of_deck) }),
     HomeScreen(R.string.help_article_title_home_screen, { Fragment() }),
     Exercise(R.string.help_article_title_exercise, { Fragment() }),
-    TestMethods(R.string.help_article_title_test_methods, { TestMethodsArticleFragment() }),
+    TestMethods(
+        R.string.help_article_title_test_methods,
+        { TestMethodsArticleFragment() }),
     LevelOfKnowledgeAndIntervals(
         R.string.help_article_title_level_of_knowledge_and_intervals,
-        { Fragment() }),
+        { LevelOfKnowledgeAndIntervalsHelpArticleFragment() }),
     Pronunciation(
         R.string.help_article_title_pronunciation,
         { SimpleHelpArticleFragment.create(R.layout.article_pronunciation) }),

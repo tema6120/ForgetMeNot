@@ -434,8 +434,8 @@ class Exercise(
         incrementLapIfCardIsAnsweredForTheFirstTime()
         currentExerciseCard.base.isAnswerCorrect = true
         showQuestion()
-        updateLevelOfKnowledge()
         deleteCardsForRetesting()
+        updateLevelOfKnowledge()
         updateLastAnsweredAt()
     }
 
@@ -445,8 +445,8 @@ class Exercise(
         incrementLapIfCardIsAnsweredForTheFirstTime()
         currentExerciseCard.base.isAnswerCorrect = false
         showQuestion()
-        updateLevelOfKnowledge()
         addExerciseCardToRetestIfNeed()
+        updateLevelOfKnowledge()
         updateLastAnsweredAt()
     }
 
@@ -459,27 +459,6 @@ class Exercise(
             .not()
         if (isAnsweredForTheFirstTime) {
             currentExerciseCard.base.card.lap++
-        }
-    }
-
-    private fun updateLevelOfKnowledge() {
-        if (currentExerciseCard.base.isLevelOfKnowledgeEditedManually) return
-        var numberOfCorrect = 0
-        var numberOfWrong = 0
-        state.exerciseCards.forEach {
-            if (it.base.card.id == currentExerciseCard.base.card.id) {
-                when (it.base.isAnswerCorrect) {
-                    true -> numberOfCorrect++
-                    false -> numberOfWrong++
-                }
-            }
-        }
-        if (numberOfWrong > 0) {
-            currentExerciseCard.base.card.levelOfKnowledge =
-                maxOf(0, currentExerciseCard.base.initialLevelOfKnowledge - numberOfWrong)
-        } else if (numberOfCorrect > 0) {
-            currentExerciseCard.base.card.levelOfKnowledge =
-                currentExerciseCard.base.initialLevelOfKnowledge + 1
         }
     }
 
@@ -537,6 +516,26 @@ class Exercise(
         return state.exerciseCards
             .drop(state.currentPosition + 1)
             .any { it.base.card.id == currentExerciseCard.base.card.id }
+    }
+
+    private fun updateLevelOfKnowledge() {
+        if (currentExerciseCard.base.isLevelOfKnowledgeEditedManually) return
+        var numberOfCorrect = 0
+        var numberOfWrong = 0
+        for (exerciseCard in state.exerciseCards) {
+            if (exerciseCard.base.card.id != currentExerciseCard.base.card.id) continue
+            when (exerciseCard.base.isAnswerCorrect) {
+                true -> numberOfCorrect++
+                false -> numberOfWrong++
+            }
+        }
+        with (currentExerciseCard.base) {
+            card.levelOfKnowledge = when {
+                numberOfWrong > 0 -> maxOf(0, initialLevelOfKnowledge - numberOfWrong)
+                numberOfCorrect > 0 -> initialLevelOfKnowledge + 1
+                else -> return
+            }
+        }
     }
 
     private fun updateLastAnsweredAt() {
