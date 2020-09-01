@@ -1,4 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#24A70060" />
+    <solid android:color="@color/background_task_indicator" />
     <corners android:radius="16dp" />
 </shape>

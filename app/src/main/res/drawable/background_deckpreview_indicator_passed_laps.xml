@@ -1,4 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#2405A1DC" />
+    <solid android:color="@color/background_passed_laps_indicator" />
     <corners android:radius="16dp" />
 </shape>

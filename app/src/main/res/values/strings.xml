@@ -239,8 +239,8 @@
     <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
     <string name="error_message_failed_to_speak">Failed to speak</string>
     <string name="help_article_title_about_forgetmenot">About ForgetMeNot</string>
+    <string name="help_article_title_deck_summary">Deck summary</string>
     <string name="help_article_title_import_of_deck">Import of deck</string>
-    <string name="help_article_title_home_screen">Home screen</string>
     <string name="help_article_title_exercise">Exercise</string>
     <string name="help_article_title_test_methods">Test methods</string>
     <string name="help_article_title_level_of_knowledge_and_intervals">Level of knowledge and intervals</string>
@@ -252,6 +252,18 @@
     <string name="help_article_title_presets">Presets</string>
     <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
     <string name="help_article_title_advice_on_studying">Advice on studying</string>
+    <string name="article_deck_summary_paragraph_1">A deck is a set of cards to which a specific
+        setting is applied. The card contains a question and an answer. Each card is characterized
+        by a level of knowledge that can be changed during the test. Home screen displays all your
+        decks with brief information.</string>
+    <string name="deck_name_example_in_deck_summary_article">My deck name</string>
+    <string name="passed_laps_indicator_explanation">number of passed laps</string>
+    <string name="learned_cards_indicator_explanation">number of learned cards</string>
+    <string name="all_cards_indicator_explanation">number of all cards</string>
+    <string name="task_indicator_explanation">number of cards available for exercise according to intervals</string>
+    <string name="article_deck_summary_paragraph_2">From the home screen, you can start an exercise
+        or repetition. You can work with several decks at once using the selection of decks. To go
+        into selection mode, just hold down on the deck.</string>
     <string name="article_import_of_deck_paragraph_1">1. Create text file on your computer in this format:</string>
     <string name="example_of_text_file_for_creating_deck">Q:\nWhat city was the first capital of the United States?\nA:\nNew York City\n\n\n\nQ:\nWho first discovered America?\nA:\nLeif Erikson\n\n\n\nQ:\nWho invented the first car?\nA:\nKarl Benz\n\n\n\nQ:\nWhen did the Revolutionary War end?\nA:\nSeptember 3, 1783</string>
     <string name="example_file_name">American history.txt</string>
