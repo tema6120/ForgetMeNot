@@ -252,6 +252,9 @@
     <string name="help_article_title_presets">Presets</string>
     <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
     <string name="help_article_title_advice_on_studying">Advice on studying</string>
+    <string name="article_about_forgetmenot">ForgetMeNot is an application for memorizing
+        information using flashcards. Intervals are used for memorization efficiency. This app
+        supports the pronunciation of the text.</string>
     <string name="article_deck_summary_paragraph_1">A deck is a set of cards to which a specific
         setting is applied. The card contains a question and an answer. Each card is characterized
         by a level of knowledge that can be changed during the test. Home screen displays all your
@@ -391,8 +394,8 @@
         answer. Use Copy/Paste to speed up composing. If you are creating a deck on a device, try
         to use multi-window mode.
 
-        \n\n4. Think of the deck compiling as part of the learning process. Try to learn everything
-        on the fly.</string>
+        \n\n4. Think of the deck compiling as part of the learning process. Try to remember
+        everything on the fly.</string>
     <string name="article_advice_on_studying">1. Don\'t memorize an answer word for word. The main
         thing is that you have an understanding of the answer. Always visualize the question being
         asked.

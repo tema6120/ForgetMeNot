@@ -5,7 +5,9 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.screen.help.article.*
 
 enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
-    AboutForgetMeNot(R.string.help_article_title_about_forgetmenot, { Fragment() }),
+    AboutForgetMeNot(
+        R.string.help_article_title_about_forgetmenot,
+        { SimpleHelpArticleFragment.create(R.layout.article_about_forgetmenot) }),
     DeckSummary(
         R.string.help_article_title_deck_summary,
         { DeckSummaryHelpArticleFragment() }),
