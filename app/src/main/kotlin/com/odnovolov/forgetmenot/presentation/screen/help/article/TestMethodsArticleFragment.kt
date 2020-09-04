@@ -35,7 +35,7 @@ class TestMethodsArticleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupOffTestExerciseCard()
         setupManualTestExerciseCard()
-        setupQuizTextExerciseCard()
+        setupQuizTestExerciseCard()
         setupEntryTestExerciseCard()
     }
 
@@ -67,7 +67,7 @@ class TestMethodsArticleFragment : Fragment() {
         }
     }
 
-    private fun setupQuizTextExerciseCard() {
+    private fun setupQuizTestExerciseCard() {
         with(quizTestExerciseCardExample) {
             questionTextView.setText(R.string.question_example_quiz_test_method)
             variant1Button.setText(R.string.answer_example_quiz_test_method_variant1)

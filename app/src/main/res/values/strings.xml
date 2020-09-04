@@ -271,6 +271,57 @@
     <string name="example_of_text_file_for_creating_deck">Q:\nWhat city was the first capital of the United States?\nA:\nNew York City\n\n\n\nQ:\nWho first discovered America?\nA:\nLeif Erikson\n\n\n\nQ:\nWho invented the first car?\nA:\nKarl Benz\n\n\n\nQ:\nWhen did the Revolutionary War end?\nA:\nSeptember 3, 1783</string>
     <string name="example_file_name">American history.txt</string>
     <string name="article_import_of_deck_paragraph_2">2. Save this file with encoding UTF-8.\n\n3. Put it on your device disk or Google Drive.\n\n3. Choose \'Load from file\' in ForgetMeNot.\n\n4. Select this file.</string>
+    <string name="article_exercise_paragraph_1">In the exercise, you should answer questions. For
+        each deck, you can specify unique settings, which can significantly change the examination
+        manner:
+
+        \n\n\t- show cards in random order or not (Random order)
+        \n\n\t- how to check the answer (Test method)
+        \n\n\t- present the question visually or orally (Question display, Pronunciation)
+        \n\n\t- whether to pronounce question or answer automatically (Pronunciation)
+        \n\n\t- whether it is necessary to reverse an question and an answer. Of course, it might
+        be needed if they are interchangeable. (Card Reverse)
+        \n\n\t- is there a time limit for response (Motivational timer)
+
+        \n\nRegardless of test method, the answer may be either correct or wrong. If the answer is
+        wrong, the card will be asked again until the answer is correct. It is needed in order to
+        make sure that you commit the answer to memory.</string>
+    <string name="question1_in_exercise_article">Un sombrero</string>
+    <string name="answer1_in_exercise_article">Hat</string>
+    <string name="question2_in_exercise_article">Unos guantes</string>
+    <string name="answer2_in_exercise_article">Gloves</string>
+    <string name="question3_in_exercise_article">Un abrigo</string>
+    <string name="answer3_in_exercise_article">Coat</string>
+    <string name="article_exercise_paragraph_2">Your answers influence the level of knowledge of
+        the card. If intervals is enabled in the deck settings, the level of knowledge determines
+        when the card will be asked again.
+
+        \n\nIf you know the question well and you don\'t want this card ever to be asked again or
+        you don\'t want to study the card, click the \'Do not ask again\' icon. This card will be
+        marked as learned.</string>
+    <string name="question4_in_exercise_article">What\'s your name?</string>
+    <string name="answer4_in_exercise_article">¿Cómo te llamas?</string>
+    <string name="question5_in_exercise_article">Buenos días</string>
+    <string name="answer5_in_exercise_article">Good morning</string>
+    <string name="variant2_in_exercise_article">Good afternoon</string>
+    <string name="variant3_in_exercise_article">Good evening</string>
+    <string name="variant4_in_exercise_article">Good night</string>
+    <string name="article_exercise_paragraph_3">You can edit the card just in the exercise. It
+        might be needed not only for correcting mistakes on the card, but also for improving the
+        card if it is difficult to remember. You may also use search if you confused
+        answers.
+
+        \n\nThere are two types of hints available in the exercise:
+
+        \n\n\t- \'As quiz\'. Four variants will be provided to choose. The variants are taken from
+        the deck to which the card belongs. This hint can make it a lot easier to answer if the
+        deck is not designed for \'Quiz\' test method.
+        \n\n\t- \'Mask letters\'. This hint can be applied many times. The first time you turn to
+        the hint, all letters will be replaced with a masked character ■. You can see how many
+        words are in the answer, how many letters are in each word. If this is not enough, you can
+        unmask part of the answer. Just select a fragment and click on the hint icon.</string>
+    <string name="article_exercise_paragraph_4">You can also do the exercise without looking at the
+        screen in \'Walking mode\'.</string>
     <string name="article_test_methods_paragraph_1">Test methods define how the answer will be tested. There are 4 options:</string>
     <string name="article_test_methods_off_section_title">1. Off</string>
     <string name="question_example_off_test_method">Всі діти в цьому класі дуже ввічливі.</string>

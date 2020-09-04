@@ -14,7 +14,9 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
     ImportOfDeck(
         R.string.help_article_title_import_of_deck,
         { SimpleHelpArticleFragment.create(R.layout.article_import_of_deck) }),
-    Exercise(R.string.help_article_title_exercise, { Fragment() }),
+    Exercise(
+        R.string.help_article_title_exercise,
+        { ExerciseHelpArticleFragment() }),
     TestMethods(
         R.string.help_article_title_test_methods,
         { TestMethodsArticleFragment() }),
