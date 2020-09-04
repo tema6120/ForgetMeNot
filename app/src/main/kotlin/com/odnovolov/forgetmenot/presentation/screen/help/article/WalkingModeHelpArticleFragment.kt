@@ -8,10 +8,10 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
-import kotlinx.android.synthetic.main.article_walking_mode.*
 
 class WalkingModeHelpArticleFragment : Fragment() {
     private val navigator by lazy { AppDiScope.get().navigator }
@@ -46,7 +46,9 @@ class WalkingModeHelpArticleFragment : Fragment() {
             articleText.getSpanEnd(annotation),
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        articleContentTextView.text = spannableString
-        articleContentTextView.movementMethod = LinkMovementMethod.getInstance()
+        (view as TextView).run {
+            text = spannableString
+            movementMethod = LinkMovementMethod.getInstance()
+        }
     }
 }

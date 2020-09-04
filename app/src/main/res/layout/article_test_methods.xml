@@ -1,158 +1,79 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+            android:id="@+id/paragraph1"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_paragraph_1" />
+
+    <TextView
+            android:id="@+id/off_section_title"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_off_section_title"
+            android:textStyle="bold" />
+
+    <include
+            android:id="@+id/offTestExerciseCardExample"
+            layout="@layout/item_exercise_card_off_test"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="400dp" />
 
-        <TextView
-                android:id="@+id/article_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/help_article_title_test_methods"
-                android:textColor="@color/textPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+    <TextView
+            android:id="@+id/off_section_description"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_off_section_description" />
 
-        <TextView
-                android:id="@+id/paragraph1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_paragraph_1"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp" />
+    <TextView
+            android:id="@+id/manual_section_title"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_manual_section_title"
+            android:textStyle="bold" />
 
-        <TextView
-                android:id="@+id/off_section_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_off_section_title"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+    <include
+            android:id="@+id/manualTestExerciseCardExample"
+            layout="@layout/item_exercise_card_manual_test"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
 
-        <include
-                android:id="@+id/offTestExerciseCardExample"
-                layout="@layout/item_exercise_card_off_test"
-                android:layout_width="match_parent"
-                android:layout_height="400dp" />
+    <TextView
+            android:id="@+id/manual_section_description"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_manual_section_description" />
 
-        <TextView
-                android:id="@+id/off_section_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_off_section_description"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp" />
+    <TextView
+            android:id="@+id/quiz_section_title"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_quiz_section_title"
+            android:textStyle="bold" />
 
-        <TextView
-                android:id="@+id/manual_section_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_manual_section_title"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+    <include
+            android:id="@+id/quizTestExerciseCardExample"
+            layout="@layout/item_exercise_card_quiz_test"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
 
-        <include
-                android:id="@+id/manualTestExerciseCardExample"
-                layout="@layout/item_exercise_card_manual_test"
-                android:layout_width="match_parent"
-                android:layout_height="400dp" />
+    <TextView
+            android:id="@+id/quiz_section_description"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_quiz_section_description" />
 
-        <TextView
-                android:id="@+id/manual_section_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_manual_section_description"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp" />
+    <TextView
+            android:id="@+id/entry_section_title"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_entry_section_title"
+            android:textStyle="bold" />
 
-        <TextView
-                android:id="@+id/quiz_section_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_quiz_section_title"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+    <include
+            android:id="@+id/entryTestExerciseCardExample"
+            layout="@layout/item_exercise_card_entry_test"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
 
-        <include
-                android:id="@+id/quizTestExerciseCardExample"
-                layout="@layout/item_exercise_card_quiz_test"
-                android:layout_width="match_parent"
-                android:layout_height="400dp" />
+    <TextView
+            android:id="@+id/entry_section_description"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_test_methods_entry_section_description" />
 
-        <TextView
-                android:id="@+id/quiz_section_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_quiz_section_description"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp" />
-
-        <TextView
-                android:id="@+id/entry_section_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_entry_section_title"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-        <include
-                android:id="@+id/entryTestExerciseCardExample"
-                layout="@layout/item_exercise_card_entry_test"
-                android:layout_width="match_parent"
-                android:layout_height="400dp" />
-
-        <TextView
-                android:id="@+id/entry_section_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_test_methods_entry_section_description"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp" />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

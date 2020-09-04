@@ -67,6 +67,7 @@ class HelpFragment : BaseFragment() {
                 childFragmentManager.beginTransaction()
                     .replace(R.id.articleFrame, currentHelpArticle.createFragment())
                     .commit()
+                articleTitleTextView.setText(currentHelpArticle.titleId)
             }
         }
     }

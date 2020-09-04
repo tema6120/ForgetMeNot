@@ -29,7 +29,6 @@
                     app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
             <TextView
-                    android:id="@+id/articleTitleTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -54,11 +53,36 @@
 
         </LinearLayout>
 
-        <FrameLayout
-                android:id="@+id/articleFrame"
+        <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/articleTitleTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/help_article_title_walking_mode"
+                        android:textColor="@color/textPrimary"
+                        android:textIsSelectable="true"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                <FrameLayout
+                        android:id="@+id/articleFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 

@@ -1,36 +1,5 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        <TextView
-                android:id="@+id/article_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/help_article_title_walking_mode"
-                android:textColor="@color/textPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        <TextView
-                android:id="@+id/articleContentTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/textSecondary"
-                android:textIsSelectable="true"
-                android:textSize="14sp"
-                tools:text="@string/article_walking_mode" />
-
-    </LinearLayout>
-
-</ScrollView>
+        style="@style/ArticleParagraph"
+        android:text="@string/article_advice_on_studying"
+        tools:text="@string/article_walking_mode" />

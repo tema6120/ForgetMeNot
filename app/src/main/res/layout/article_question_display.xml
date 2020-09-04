@@ -1,77 +1,54 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+            android:id="@+id/articleContentTextView"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_question_display_paragraph_1" />
+
+    <include
+            android:id="@+id/offTestExerciseCardExample"
+            layout="@layout/item_exercise_card_off_test"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="400dp" />
 
-        <TextView
-                android:id="@+id/article_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/help_article_title_question_display"
-                android:textColor="@color/textPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/controlPanel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-                android:id="@+id/paragraph1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_question_display_paragraph_1"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp" />
+        <ImageButton
+                android:id="@+id/speakButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_speak_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_volume_up_white_24dp" />
 
-        <include
-                android:id="@+id/offTestExerciseCardExample"
-                layout="@layout/item_exercise_card_off_test"
-                android:layout_width="match_parent"
-                android:layout_height="400dp" />
+        <ProgressBar
+                android:id="@+id/speakProgressBar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:indeterminateTint="@android:color/white"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/speakButton"
+                app:layout_constraintEnd_toEndOf="@+id/speakButton"
+                app:layout_constraintStart_toStartOf="@+id/speakButton"
+                app:layout_constraintTop_toTopOf="@+id/speakButton"
+                tools:visibility="visible" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/controlPanel"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/colorPrimary"
-                android:theme="@style/AppTheme.AppBarOverlay">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageButton
-                    android:id="@+id/speakButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_speak_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_volume_up_white_24dp" />
-
-            <ProgressBar
-                    android:id="@+id/speakProgressBar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:indeterminateTint="@android:color/white"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@+id/speakButton"
-                    app:layout_constraintEnd_toEndOf="@+id/speakButton"
-                    app:layout_constraintStart_toStartOf="@+id/speakButton"
-                    app:layout_constraintTop_toTopOf="@+id/speakButton"
-                    tools:visibility="visible" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

@@ -1,147 +1,99 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+            android:id="@+id/paragraph1"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_exercise_paragraph_1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-        <TextView
-                android:id="@+id/article_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/help_article_title_exercise"
-                android:textColor="@color/textPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+    <TextView
+            android:id="@+id/paragraph2"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_exercise_paragraph_2" />
 
-        <TextView
-                android:id="@+id/paragraph1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_exercise_paragraph_1"
-                android:textColor="@color/textSecondary"
-                android:textIsSelectable="true"
-                android:textSize="14sp" />
+    <include
+            android:id="@+id/learnedCardExample"
+            layout="@layout/item_exercise_card_off_test"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/controlPanelOfLearnedCardExample"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-                android:id="@+id/paragraph2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_exercise_paragraph_2"
-                android:textColor="@color/textSecondary"
-                android:textIsSelectable="true"
-                android:textSize="14sp" />
+        <ImageButton
+                android:id="@+id/notAskButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_not_ask_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_block_white_24dp" />
 
-        <include
-                android:id="@+id/learnedCardExample"
-                layout="@layout/item_exercise_card_off_test"
-                android:layout_width="match_parent"
-                android:layout_height="400dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/controlPanelOfLearnedCardExample"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/colorPrimary"
-                android:theme="@style/AppTheme.AppBarOverlay">
+    <TextView
+            android:id="@+id/paragraph3"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_exercise_paragraph_3" />
 
-            <ImageButton
-                    android:id="@+id/notAskButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_not_ask_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_block_white_24dp" />
+    <include
+            android:id="@+id/maskedLettersHintExample"
+            layout="@layout/item_exercise_card_off_test"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+            android:id="@+id/quizHintExample"
+            layout="@layout/item_exercise_card_quiz_test"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:visibility="gone" />
 
-        <TextView
-                android:id="@+id/paragraph3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_exercise_paragraph_3"
-                android:textColor="@color/textSecondary"
-                android:textIsSelectable="true"
-                android:textSize="14sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/controlPanelOfHintExample"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <include
-                android:id="@+id/maskedLettersHintExample"
-                layout="@layout/item_exercise_card_off_test"
-                android:layout_width="match_parent"
-                android:layout_height="400dp" />
+        <ImageButton
+                android:id="@+id/hintButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_hint_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
+                tools:visibility="visible" />
 
-        <include
-                android:id="@+id/quizHintExample"
-                layout="@layout/item_exercise_card_quiz_test"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:visibility="gone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/controlPanelOfHintExample"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/colorPrimary"
-                android:theme="@style/AppTheme.AppBarOverlay">
+    <TextView
+            android:id="@+id/paragraph4"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_exercise_paragraph_4" />
 
-            <ImageButton
-                    android:id="@+id/hintButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_hint_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
-                    tools:visibility="visible" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-                android:id="@+id/paragraph4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_exercise_paragraph_4"
-                android:textColor="@color/textSecondary"
-                android:textIsSelectable="true"
-                android:textSize="14sp" />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

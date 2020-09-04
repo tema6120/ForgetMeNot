@@ -1,96 +1,60 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+            android:id="@+id/paragraph1"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_level_of_knowledge_and_intervals_paragraph1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/controlPanel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
         <TextView
-                android:id="@+id/article_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/help_article_title_level_of_knowledge_and_intervals"
-                android:textColor="@color/textPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:id="@+id/levelOfKnowledgeTextView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="9dp"
+                android:gravity="center"
+                android:textColor="@color/text_level_of_knowledge"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@drawable/background_level_of_knowledge_satisfactory"
+                tools:text="3" />
 
-        <TextView
-                android:id="@+id/paragraph1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_level_of_knowledge_and_intervals_paragraph1"
-                android:textColor="@color/textSecondary"
-                android:textIsSelectable="true"
-                android:textSize="14sp" />
+        <View
+                android:id="@+id/levelOfKnowledgeButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_level_of_knowledge_button"
+                app:layout_constraintBottom_toBottomOf="@+id/levelOfKnowledgeTextView"
+                app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
+                app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
+                app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView" />
 
-        <include layout="@layout/divider" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+    <TextView
+            android:id="@+id/paragraph2"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_level_of_knowledge_and_intervals_paragraph2" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/controlPanel"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/colorPrimary"
-                android:theme="@style/AppTheme.AppBarOverlay">
-
-            <TextView
-                    android:id="@+id/levelOfKnowledgeTextView"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="9dp"
-                    android:gravity="center"
-                    android:textColor="@color/text_level_of_knowledge"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:background="@drawable/background_level_of_knowledge_satisfactory"
-                    tools:text="3" />
-
-            <View
-                    android:id="@+id/levelOfKnowledgeButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_level_of_knowledge_button"
-                    app:layout_constraintBottom_toBottomOf="@+id/levelOfKnowledgeTextView"
-                    app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
-                    app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
-                    app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <include layout="@layout/divider" />
-
-        <TextView
-                android:id="@+id/paragraph2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/article_level_of_knowledge_and_intervals_paragraph2"
-                android:textColor="@color/textSecondary"
-                android:textIsSelectable="true"
-                android:textSize="14sp" />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
