@@ -16,7 +16,7 @@ class HelpController(
 
     override fun handle(event: HelpEvent) {
         when (event) {
-            is ArticleClickedInTableOfContents -> {
+            is ArticleSelected -> {
                 sendCommand(OpenArticle(event.helpArticle, needToClearBackStack = true))
             }
 

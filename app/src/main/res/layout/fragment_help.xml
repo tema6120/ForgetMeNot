@@ -25,6 +25,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_back_button"
                     android:tint="@android:color/white"
@@ -40,7 +41,7 @@
                     android:padding="16dp"
                     android:text="@string/label_help_screen"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
             <ImageButton
@@ -86,6 +87,56 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <include layout="@layout/divider" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:id="@+id/previousArticleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawablePadding="8dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_baseline_chevron_left_24"
+                    tools:text="@string/help_article_title_motivational_timer" />
+
+            <View
+                    android:id="@+id/verticalDivider"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/listDivider" />
+
+            <TextView
+                    android:id="@+id/nextArticleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawablePadding="8dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_baseline_chevron_right_24"
+                    tools:text="@string/help_article_title_repetition" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
