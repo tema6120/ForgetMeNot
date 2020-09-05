@@ -162,6 +162,20 @@ fun LayoutInflater.inflateAsync(
     return frameLayout
 }
 
+fun LayoutInflater.inflateAsync(
+    layoutResId: Int,
+    onInflated: (rootView: FrameLayout, inflatedView: View) -> Unit
+): FrameLayout {
+    val frameLayout = FrameLayout(context)
+    GlobalScope.launch(Dispatchers.IO) {
+        val view = inflate(layoutResId, frameLayout, false)
+        withContext(Dispatchers.Main.immediate) {
+            onInflated(frameLayout, view)
+        }
+    }
+    return frameLayout
+}
+
 inline fun catchAndLogException(block: () -> Unit) {
     try {
         block()

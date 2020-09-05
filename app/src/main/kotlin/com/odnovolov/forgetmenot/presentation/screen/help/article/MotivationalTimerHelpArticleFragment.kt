@@ -1,19 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
 import android.graphics.Color
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
-import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.showToast
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.MotivationalTimer
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import kotlinx.android.synthetic.main.article_motivational_timer.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
 import kotlinx.android.synthetic.main.question.*
@@ -22,11 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class MotivationalTimerHelpArticleFragment : BaseFragment() {
-    init {
-        HelpDiScope.reopenIfClosed()
-    }
-
+class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     private class State : FlowableState<State>() {
         var timeLeft: Int by me(DEFAULT_TIME_FOR_ANSWER)
         var isExpired: Boolean by me(false)
@@ -34,22 +23,10 @@ class MotivationalTimerHelpArticleFragment : BaseFragment() {
 
     private val state = State()
     private var timerJob: Job? = null
+    override val layoutRes: Int get() = R.layout.article_motivational_timer
+    override val helpArticle: HelpArticle get() = HelpArticle.MotivationalTimer
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.article_motivational_timer, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupView()
-        observeState()
-    }
-
-    private fun setupView() {
+    override fun setupView() {
         questionTextView.setText(R.string.question_in_motivational_timer_article)
         answerTextView.setText(R.string.answer_in_motivational_timer_article)
         showAnswerButton.setOnClickListener {
@@ -58,6 +35,10 @@ class MotivationalTimerHelpArticleFragment : BaseFragment() {
         }
         timerButton.setOnClickListener {
             stopTimer()
+        }
+        observeState()
+        if (state.timeLeft > 0) {
+            startTimer()
         }
     }
 
@@ -94,11 +75,7 @@ class MotivationalTimerHelpArticleFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewCoroutineScope!!.launch {
-            val diScope = HelpDiScope.getAsync() ?: return@launch
-            diScope.controller.dispatch(ArticleOpened(MotivationalTimer))
-        }
-        if (state.timeLeft > 0) {
+        if (state.timeLeft > 0 && viewCoroutineScope != null) {
             startTimer()
         }
     }

@@ -1,31 +1,21 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
-import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.QuestionDisplay
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import kotlinx.android.synthetic.main.article_question_display.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
 import kotlinx.android.synthetic.main.question.*
-import kotlinx.coroutines.launch
 import java.util.*
 
-class QuestionDisplayArticleFragment : BaseFragment() {
-    init {
-        HelpDiScope.reopenIfClosed()
-    }
-
+class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
+    override val layoutRes: Int get() = R.layout.article_question_display
+    override val helpArticle: HelpArticle get() = HelpArticle.QuestionDisplay
     private val speaker = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
@@ -35,16 +25,7 @@ class QuestionDisplayArticleFragment : BaseFragment() {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.article_question_display, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupView() {
         questionTextView.setText(R.string.question_in_question_display_article)
         answerTextView.setText(R.string.answer_in_question_display_article)
         showQuestionButton.run {
@@ -94,14 +75,6 @@ class QuestionDisplayArticleFragment : BaseFragment() {
                 speaker.speak(questionTextView.text.toString(), QUESTION_LANGUAGE)
             else ->
                 speaker.speak(answerTextView.text.toString(), ANSWER_LANGUAGE)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewCoroutineScope!!.launch {
-            val diScope = HelpDiScope.getAsync() ?: return@launch
-            diScope.controller.dispatch(ArticleOpened(QuestionDisplay))
         }
     }
 

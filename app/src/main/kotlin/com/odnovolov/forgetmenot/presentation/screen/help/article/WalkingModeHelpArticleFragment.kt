@@ -1,38 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.WalkingMode
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
-import kotlinx.coroutines.launch
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import kotlinx.android.synthetic.main.article.*
 
-class WalkingModeHelpArticleFragment : BaseFragment() {
-    init {
-        HelpDiScope.reopenIfClosed()
-    }
-
+class WalkingModeHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi() {
+    override val layoutRes: Int get() = R.layout.article
+    override val helpArticle: HelpArticle get() = HelpArticle.WalkingMode
     private val navigator by lazy { AppDiScope.get().navigator }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.article_walking_mode, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view as TextView
-        view.setTextWithClickableAnnotations(
+    override fun setupView() {
+        articleContentTextView.setTextWithClickableAnnotations(
             stringId = R.string.article_walking_mode,
             onAnnotationClick = { annotationValue: String ->
                 when (annotationValue) {
@@ -40,13 +20,5 @@ class WalkingModeHelpArticleFragment : BaseFragment() {
                         navigator.navigateToWalkingModeSettingsFromWalkingModeArticle()
                 }
             })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewCoroutineScope!!.launch {
-            val diScope = HelpDiScope.getAsync() ?: return@launch
-            diScope.controller.dispatch(ArticleOpened(WalkingMode))
-        }
     }
 }

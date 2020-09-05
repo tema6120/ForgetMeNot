@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.Stopwatch
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.hideActionBar
@@ -16,6 +18,7 @@ import com.odnovolov.forgetmenot.presentation.screen.help.HelpController.Command
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleClickedInTableOfContents
 import kotlinx.android.synthetic.main.fragment_help.*
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 
 class HelpFragment : BaseFragment() {
     init {
@@ -25,6 +28,7 @@ class HelpFragment : BaseFragment() {
     private var controller: HelpController? = null
     private lateinit var viewModel: HelpViewModel
     private var needToResetScrollView = false
+    private var pendingActions: MutableList<() -> Unit> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +73,16 @@ class HelpFragment : BaseFragment() {
         showTableOfContentsButton.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.END)
         }
+        drawerLayout.addDrawerListener(object : DrawerListener {
+            override fun onDrawerClosed(drawerView: View) {
+                for (action in pendingActions) action()
+                pendingActions.clear()
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {}
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerOpened(drawerView: View) {}
+        })
     }
 
     private fun initAdapter() {
@@ -102,6 +116,14 @@ class HelpFragment : BaseFragment() {
         if (needToResetScrollView) {
             articleScrollView.scrollTo(0, 0)
             needToResetScrollView = false
+        }
+    }
+
+    fun doWhenDrawerClosed(action: () -> Unit) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            pendingActions.add(action)
+        } else {
+            action()
         }
     }
 

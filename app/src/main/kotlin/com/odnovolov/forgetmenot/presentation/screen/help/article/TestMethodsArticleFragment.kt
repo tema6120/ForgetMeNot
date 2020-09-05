@@ -1,46 +1,29 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
 import android.graphics.Paint
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.TestMethods
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import kotlinx.android.synthetic.main.article_test_methods.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.question.view.*
-import kotlinx.coroutines.launch
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.answerScrollView as entryAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerScrollView as manualAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerTextView as manualAnswerTextView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerScrollView as offAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerTextView as offAnswerTextView
 
-class TestMethodsArticleFragment : BaseFragment() {
-    init {
-        HelpDiScope.reopenIfClosed()
-    }
+class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
+    override val layoutRes: Int get() = R.layout.article_test_methods
+    override val helpArticle: HelpArticle get() = HelpArticle.TestMethods
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.article_test_methods, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupView() {
         setupOffTestExerciseCard()
         setupManualTestExerciseCard()
         setupQuizTestExerciseCard()
@@ -130,14 +113,6 @@ class TestMethodsArticleFragment : BaseFragment() {
                     }
                 }
             }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewCoroutineScope!!.launch {
-            val diScope = HelpDiScope.getAsync() ?: return@launch
-            diScope.controller.dispatch(ArticleOpened(TestMethods))
         }
     }
 }

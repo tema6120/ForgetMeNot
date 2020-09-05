@@ -1,3 +1,5 @@
-<TextView xmlns:tools="http://schemas.android.com/tools"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/articleContentTextView"
         style="@style/ArticleParagraph"
         tools:text="@string/article_about_forgetmenot" />

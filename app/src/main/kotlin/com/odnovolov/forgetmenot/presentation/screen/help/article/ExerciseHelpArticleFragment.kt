@@ -1,44 +1,33 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
-import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
-import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
 import com.odnovolov.forgetmenot.presentation.common.showToast
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.*
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpController
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleLinkClicked
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.*
+import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.Card
+import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
 import kotlinx.android.synthetic.main.article_exercise.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.popup_choose_hint.view.*
 import kotlinx.android.synthetic.main.question.view.*
-import kotlinx.coroutines.launch
+import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
 
-class ExerciseHelpArticleFragment : BaseFragment() {
-    init {
-        HelpDiScope.reopenIfClosed()
-    }
-
+class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     private class Example2State : FlowableState<Example2State>() {
         var isLearned by me(false)
     }
@@ -47,13 +36,14 @@ class ExerciseHelpArticleFragment : BaseFragment() {
         var hint: String? by me(null)
     }
 
-    private var controller: HelpController? = null
+    override val layoutRes: Int get() = R.layout.article_exercise
+    override val helpArticle: HelpArticle get() = HelpArticle.Exercise
     private val example2State = Example2State()
     private val example3State = Example3State()
     private val exercise by lazy(::createExercise)
     private val chooseHintPopup: PopupWindow by lazy(::createChooseHintPopup)
 
-    private fun createExercise(): ExampleExerciseToDemonstrateCardsRetesting {
+    private fun createExercise(): ExampleExercise {
         fun createExerciseCard(questionId: Int, answerId: Int): ExerciseCard {
             val card = Card(
                 id = generateId(),
@@ -81,29 +71,16 @@ class ExerciseHelpArticleFragment : BaseFragment() {
                 R.string.answer3_in_exercise_article
             )
         )
-        return ExampleExerciseToDemonstrateCardsRetesting(
-            state = ExampleExerciseToDemonstrateCardsRetesting.State(exerciseCards)
+        return ExampleExercise(
+            state = ExampleExercise.State(exerciseCards)
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.article_exercise, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupView() {
         setTextAndMakeLinks()
         setupExampleOfRetestingCards()
         setupExampleOfLearnedCard()
         setupExampleOfHints()
-        viewCoroutineScope!!.launch {
-            val diScope = HelpDiScope.getAsync() ?: return@launch
-            controller = diScope.controller
-        }
     }
 
     private fun setTextAndMakeLinks() {
@@ -125,12 +102,12 @@ class ExerciseHelpArticleFragment : BaseFragment() {
         controller?.dispatch(
             ArticleLinkClicked(
                 when (annotationValue) {
-                    "test_method" -> TestMethods
-                    "question_display" -> QuestionDisplay
-                    "pronunciation" -> Pronunciation
-                    "motivational_timer" -> MotivationalTimer
-                    "level_of_knowledge" -> LevelOfKnowledgeAndIntervals
-                    "walking_mode" -> WalkingMode
+                    "test_method" -> HelpArticle.TestMethods
+                    "question_display" -> HelpArticle.QuestionDisplay
+                    "pronunciation" -> HelpArticle.Pronunciation
+                    "motivational_timer" -> HelpArticle.MotivationalTimer
+                    "level_of_knowledge" -> HelpArticle.LevelOfKnowledgeAndIntervals
+                    "walking_mode" -> HelpArticle.WalkingMode
                     else -> return
                 }
             )
@@ -142,7 +119,7 @@ class ExerciseHelpArticleFragment : BaseFragment() {
         recycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recycler.adapter = adapter
-        exercise.state.flowOf(State::exerciseCards).observe(adapter::submitList)
+        exercise.state.flowOf(ExampleExercise.State::exerciseCards).observe(adapter::submitList)
     }
 
     private fun setupExampleOfLearnedCard() {
@@ -237,7 +214,7 @@ class ExerciseHelpArticleFragment : BaseFragment() {
                 ColorDrawable(
                     ContextCompat.getColor(
                         requireContext(),
-                        color.exercise_control_panel_popup_background
+                        R.color.exercise_control_panel_popup_background
                     )
                 )
             )
@@ -288,14 +265,6 @@ class ExerciseHelpArticleFragment : BaseFragment() {
             selectedButton.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.wrong_answer_selector)
             selectedButton.isSelected = true
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewCoroutineScope!!.launch {
-            val diScope = HelpDiScope.getAsync() ?: return@launch
-            diScope.controller.dispatch(ArticleOpened(Exercise))
         }
     }
 }
