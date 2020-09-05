@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.hideActionBar
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.BackButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.HelpArticleSelected
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpController.Command.OpenArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleClickedInTableOfContents
 import kotlinx.android.synthetic.main.fragment_help.*
 import kotlinx.coroutines.launch
 
@@ -21,6 +24,7 @@ class HelpFragment : BaseFragment() {
 
     private var controller: HelpController? = null
     private lateinit var viewModel: HelpViewModel
+    private var needToResetScrollView = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,13 +42,29 @@ class HelpFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             initAdapter()
-            observeViewModel()
+            observeViewModel(isFirstCreated = savedInstanceState == null)
+            controller!!.commands.observe(::executeCommand)
+        }
+    }
+
+    private fun observeViewModel(isFirstCreated: Boolean) {
+        if (isFirstCreated) {
+            openArticle(viewModel.currentArticle.firstBlocking(), needToClearBackStack = true)
+        }
+        viewModel.currentArticle.observe { article: HelpArticle ->
+            articleTitleTextView.setText(article.titleId)
+        }
+    }
+
+    private fun executeCommand(command: HelpController.Command) {
+        when (command) {
+            is OpenArticle -> openArticle(command.article, command.needToClearBackStack)
         }
     }
 
     private fun setupView() {
         backButton.setOnClickListener {
-            controller?.dispatch(BackButtonClicked)
+            requireActivity().onBackPressed()
         }
         showTableOfContentsButton.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.END)
@@ -54,22 +74,22 @@ class HelpFragment : BaseFragment() {
     private fun initAdapter() {
         val onItemSelected: (HelpArticle) -> Unit = { helpArticle: HelpArticle ->
             drawerLayout.closeDrawer(GravityCompat.END)
-            controller?.dispatch(HelpArticleSelected(helpArticle))
+            controller?.dispatch(ArticleClickedInTableOfContents(helpArticle))
         }
         val adapter = HelpArticleAdapter(onItemSelected)
         tableOfContentsRecycler.adapter = adapter
-        viewModel.helpArticleItems.observe(adapter::submitList)
+        viewModel.articleItems.observe(adapter::submitList)
     }
 
-    private fun observeViewModel() {
-        with(viewModel) {
-            currentHelpArticle.observe { currentHelpArticle: HelpArticle ->
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.articleFrame, currentHelpArticle.createFragment())
-                    .commit()
-                articleTitleTextView.setText(currentHelpArticle.titleId)
-            }
+    private fun openArticle(helpArticle: HelpArticle, needToClearBackStack: Boolean) {
+        if (needToClearBackStack) {
+            childFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
+        childFragmentManager.beginTransaction()
+            .replace(R.id.articleFrame, helpArticle.createFragment())
+            .apply { if (!needToClearBackStack) addToBackStack(null) }
+            .commit()
+        needToResetScrollView = true
     }
 
     override fun onResume() {
@@ -77,9 +97,12 @@ class HelpFragment : BaseFragment() {
         hideActionBar()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        tableOfContentsRecycler.adapter = null
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+        if (needToResetScrollView) {
+            articleScrollView.scrollTo(0, 0)
+            needToResetScrollView = false
+        }
     }
 
     override fun onDestroy() {

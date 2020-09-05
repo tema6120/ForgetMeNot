@@ -6,11 +6,13 @@
         android:layout_height="match_parent">
 
     <LinearLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
         <LinearLayout
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
@@ -54,11 +56,13 @@
         </LinearLayout>
 
         <ScrollView
+                android:id="@+id/articleScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
             <LinearLayout
+                    android:id="@+id/article"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -68,17 +72,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="@string/help_article_title_walking_mode"
                         android:textColor="@color/textPrimary"
                         android:textIsSelectable="true"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="@string/help_article_title_walking_mode" />
 
                 <FrameLayout
                         android:id="@+id/articleFrame"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_height="wrap_content" />
 
             </LinearLayout>
 

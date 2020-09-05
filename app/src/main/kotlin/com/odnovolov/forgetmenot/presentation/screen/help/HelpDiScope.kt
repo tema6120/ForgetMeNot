@@ -19,7 +19,6 @@ class HelpDiScope(
 
     val controller = HelpController(
         screenState,
-        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 

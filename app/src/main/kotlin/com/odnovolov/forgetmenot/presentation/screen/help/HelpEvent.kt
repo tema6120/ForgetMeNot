@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.help
 
 sealed class HelpEvent {
-    object BackButtonClicked : HelpEvent()
-    class HelpArticleSelected(val helpArticle: HelpArticle) : HelpEvent()
+    class ArticleClickedInTableOfContents(val helpArticle: HelpArticle) : HelpEvent()
+    class ArticleLinkClicked(val helpArticle: HelpArticle) : HelpEvent()
+    class ArticleOpened(val helpArticle: HelpArticle) : HelpEvent()
 }

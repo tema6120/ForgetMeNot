@@ -11,6 +11,9 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.showToast
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.MotivationalTimer
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
 import kotlinx.android.synthetic.main.article_motivational_timer.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
 import kotlinx.android.synthetic.main.question.*
@@ -20,6 +23,10 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class MotivationalTimerHelpArticleFragment : BaseFragment() {
+    init {
+        HelpDiScope.reopenIfClosed()
+    }
+
     private class State : FlowableState<State>() {
         var timeLeft: Int by me(DEFAULT_TIME_FOR_ANSWER)
         var isExpired: Boolean by me(false)
@@ -87,6 +94,10 @@ class MotivationalTimerHelpArticleFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        viewCoroutineScope!!.launch {
+            val diScope = HelpDiScope.getAsync() ?: return@launch
+            diScope.controller.dispatch(ArticleOpened(MotivationalTimer))
+        }
         if (state.timeLeft > 0) {
             startTimer()
         }

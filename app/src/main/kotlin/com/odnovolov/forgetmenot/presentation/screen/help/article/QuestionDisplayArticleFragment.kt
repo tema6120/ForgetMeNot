@@ -12,12 +12,20 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.QuestionDisplay
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
 import kotlinx.android.synthetic.main.article_question_display.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
 import kotlinx.android.synthetic.main.question.*
+import kotlinx.coroutines.launch
 import java.util.*
 
 class QuestionDisplayArticleFragment : BaseFragment() {
+    init {
+        HelpDiScope.reopenIfClosed()
+    }
+
     private val speaker = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
@@ -86,6 +94,14 @@ class QuestionDisplayArticleFragment : BaseFragment() {
                 speaker.speak(questionTextView.text.toString(), QUESTION_LANGUAGE)
             else ->
                 speaker.speak(answerTextView.text.toString(), ANSWER_LANGUAGE)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewCoroutineScope!!.launch {
+            val diScope = HelpDiScope.getAsync() ?: return@launch
+            diScope.controller.dispatch(ArticleOpened(QuestionDisplay))
         }
     }
 

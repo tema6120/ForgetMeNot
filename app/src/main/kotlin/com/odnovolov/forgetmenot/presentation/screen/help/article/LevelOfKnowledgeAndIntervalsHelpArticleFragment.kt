@@ -21,11 +21,19 @@ import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.LevelOfKnowledgeAndIntervals
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.Card
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
 import kotlinx.android.synthetic.main.article_level_of_knowledge_and_intervals.*
+import kotlinx.coroutines.launch
 
 class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseFragment() {
+    init {
+        HelpDiScope.reopenIfClosed()
+    }
+
     private val exercise by lazy {
         val card = Card(
             id = generateId(),
@@ -136,5 +144,13 @@ class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseFragment() {
             x,
             y
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewCoroutineScope!!.launch {
+            val diScope = HelpDiScope.getAsync() ?: return@launch
+            diScope.controller.dispatch(ArticleOpened(LevelOfKnowledgeAndIntervals))
+        }
     }
 }

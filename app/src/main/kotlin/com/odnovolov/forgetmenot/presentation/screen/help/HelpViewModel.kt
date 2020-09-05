@@ -6,10 +6,9 @@ import kotlinx.coroutines.flow.map
 class HelpViewModel(
     helpScreenState: HelpScreenState
 ) {
-    val currentHelpArticle: Flow<HelpArticle> = helpScreenState
-        .flowOf(HelpScreenState::currentArticle)
+    val currentArticle: Flow<HelpArticle> = helpScreenState.flowOf(HelpScreenState::currentArticle)
 
-    val helpArticleItems: Flow<List<HelpArticleItem>> = currentHelpArticle
+    val articleItems: Flow<List<HelpArticleItem>> = currentArticle
         .map { currentHelpArticle: HelpArticle ->
             HelpArticle.values()
                 .map { helpArticle: HelpArticle ->

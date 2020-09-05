@@ -7,22 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.TestMethods
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
 import kotlinx.android.synthetic.main.article_test_methods.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.question.view.*
+import kotlinx.coroutines.launch
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.answerScrollView as entryAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerScrollView as manualAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerTextView as manualAnswerTextView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerScrollView as offAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerTextView as offAnswerTextView
 
-class TestMethodsArticleFragment : Fragment() {
+class TestMethodsArticleFragment : BaseFragment() {
+    init {
+        HelpDiScope.reopenIfClosed()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -122,6 +130,14 @@ class TestMethodsArticleFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewCoroutineScope!!.launch {
+            val diScope = HelpDiScope.getAsync() ?: return@launch
+            diScope.controller.dispatch(ArticleOpened(TestMethods))
         }
     }
 }

@@ -8,7 +8,7 @@
     <TextView
             android:id="@+id/paragraph1"
             style="@style/ArticleParagraph"
-            android:text="@string/article_exercise_paragraph_1" />
+            tools:text="@string/article_exercise_paragraph_1" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -18,7 +18,7 @@
     <TextView
             android:id="@+id/paragraph2"
             style="@style/ArticleParagraph"
-            android:text="@string/article_exercise_paragraph_2" />
+            tools:text="@string/article_exercise_paragraph_2" />
 
     <include
             android:id="@+id/learnedCardExample"
@@ -94,6 +94,6 @@
     <TextView
             android:id="@+id/paragraph4"
             style="@style/ArticleParagraph"
-            android:text="@string/article_exercise_paragraph_4" />
+            tools:text="@string/article_exercise_paragraph_4" />
 
 </LinearLayout>

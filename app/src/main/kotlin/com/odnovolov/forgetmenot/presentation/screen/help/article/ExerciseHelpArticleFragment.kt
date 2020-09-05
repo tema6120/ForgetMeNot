@@ -19,15 +19,26 @@ import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.dp
+import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
 import com.odnovolov.forgetmenot.presentation.common.showToast
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.*
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpController
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleLinkClicked
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.*
 import kotlinx.android.synthetic.main.article_exercise.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.popup_choose_hint.view.*
 import kotlinx.android.synthetic.main.question.view.*
+import kotlinx.coroutines.launch
 
 class ExerciseHelpArticleFragment : BaseFragment() {
+    init {
+        HelpDiScope.reopenIfClosed()
+    }
+
     private class Example2State : FlowableState<Example2State>() {
         var isLearned by me(false)
     }
@@ -36,6 +47,7 @@ class ExerciseHelpArticleFragment : BaseFragment() {
         var hint: String? by me(null)
     }
 
+    private var controller: HelpController? = null
     private val example2State = Example2State()
     private val example3State = Example3State()
     private val exercise by lazy(::createExercise)
@@ -84,9 +96,45 @@ class ExerciseHelpArticleFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTextAndMakeLinks()
         setupExampleOfRetestingCards()
         setupExampleOfLearnedCard()
         setupExampleOfHints()
+        viewCoroutineScope!!.launch {
+            val diScope = HelpDiScope.getAsync() ?: return@launch
+            controller = diScope.controller
+        }
+    }
+
+    private fun setTextAndMakeLinks() {
+        paragraph1.setTextWithClickableAnnotations(
+            stringId = R.string.article_exercise_paragraph_1,
+            onAnnotationClick = ::dispatchArticleLinkClicked
+        )
+        paragraph2.setTextWithClickableAnnotations(
+            stringId = R.string.article_exercise_paragraph_2,
+            onAnnotationClick = ::dispatchArticleLinkClicked
+        )
+        paragraph4.setTextWithClickableAnnotations(
+            stringId = R.string.article_exercise_paragraph_4,
+            onAnnotationClick = ::dispatchArticleLinkClicked
+        )
+    }
+
+    private fun dispatchArticleLinkClicked(annotationValue: String) {
+        controller?.dispatch(
+            ArticleLinkClicked(
+                when (annotationValue) {
+                    "test_method" -> TestMethods
+                    "question_display" -> QuestionDisplay
+                    "pronunciation" -> Pronunciation
+                    "motivational_timer" -> MotivationalTimer
+                    "level_of_knowledge" -> LevelOfKnowledgeAndIntervals
+                    "walking_mode" -> WalkingMode
+                    else -> return
+                }
+            )
+        )
     }
 
     private fun setupExampleOfRetestingCards() {
@@ -240,6 +288,14 @@ class ExerciseHelpArticleFragment : BaseFragment() {
             selectedButton.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.wrong_answer_selector)
             selectedButton.isSelected = true
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewCoroutineScope!!.launch {
+            val diScope = HelpDiScope.getAsync() ?: return@launch
+            diScope.controller.dispatch(ArticleOpened(Exercise))
         }
     }
 }

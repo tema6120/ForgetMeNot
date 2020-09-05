@@ -1,19 +1,24 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
 import android.os.Bundle
-import android.text.*
-import android.text.Annotation
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
+import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.WalkingMode
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
+import kotlinx.coroutines.launch
 
-class WalkingModeHelpArticleFragment : Fragment() {
+class WalkingModeHelpArticleFragment : BaseFragment() {
+    init {
+        HelpDiScope.reopenIfClosed()
+    }
+
     private val navigator by lazy { AppDiScope.get().navigator }
 
     override fun onCreateView(
@@ -26,29 +31,22 @@ class WalkingModeHelpArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val articleText = getText(R.string.article_walking_mode) as SpannedString
-        val spannableString = SpannableString(articleText)
-        val annotation: Annotation =
-            articleText.getSpans(0, articleText.length, Annotation::class.java).first()
-        val clickableSpan: ClickableSpan = object : ClickableSpan() {
-            override fun onClick(textView: View) {
-                navigator.navigateToWalkingModeSettingsFromWalkingModeArticle()
-            }
+        view as TextView
+        view.setTextWithClickableAnnotations(
+            stringId = R.string.article_walking_mode,
+            onAnnotationClick = { annotationValue: String ->
+                when (annotationValue) {
+                    "walking_mode_settings" ->
+                        navigator.navigateToWalkingModeSettingsFromWalkingModeArticle()
+                }
+            })
+    }
 
-            override fun updateDrawState(textPaint: TextPaint) {
-                super.updateDrawState(textPaint)
-                textPaint.isUnderlineText = true
-            }
-        }
-        spannableString.setSpan(
-            clickableSpan,
-            articleText.getSpanStart(annotation),
-            articleText.getSpanEnd(annotation),
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        (view as TextView).run {
-            text = spannableString
-            movementMethod = LinkMovementMethod.getInstance()
+    override fun onResume() {
+        super.onResume()
+        viewCoroutineScope!!.launch {
+            val diScope = HelpDiScope.getAsync() ?: return@launch
+            diScope.controller.dispatch(ArticleOpened(WalkingMode))
         }
     }
 }

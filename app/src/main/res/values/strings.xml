@@ -257,16 +257,18 @@
         supports the pronunciation of the text.</string>
     <string name="article_deck_summary_paragraph_1">A deck is a set of cards to which a specific
         setting is applied. The card contains a question and an answer. Each card is characterized
-        by a level of knowledge that can be changed during the test. Home screen displays all your
-        decks with brief information.</string>
+        by <annotation clickable="level_of_knowledge">a level of knowledge</annotation> that shifts
+        during the test. Home screen displays all your decks with brief information.</string>
     <string name="deck_name_example_in_deck_summary_article">My deck name</string>
     <string name="passed_laps_indicator_explanation">number of passed laps</string>
     <string name="learned_cards_indicator_explanation">number of learned cards</string>
     <string name="all_cards_indicator_explanation">number of all cards</string>
     <string name="task_indicator_explanation">number of cards available for exercise according to intervals</string>
-    <string name="article_deck_summary_paragraph_2">From the home screen, you can start an exercise
-        or repetition. You can work with several decks at once using the selection of decks. To go
-        into selection mode, just hold down on the deck.</string>
+    <string name="article_deck_summary_paragraph_2">From the home screen, you can start
+        <annotation clickable="exercise">\'Exercise\'</annotation> or
+        <annotation clickable="repetition">\'Repetition\'</annotation>. You can work with several
+        decks at once using the selection of decks. To go into selection mode, just hold down on
+        the deck.</string>
     <string name="article_import_of_deck_paragraph_1">1. Create text file on your computer in this format:</string>
     <string name="example_of_text_file_for_creating_deck">Q:
         \nWhat city was the first capital of the United States?
@@ -297,25 +299,32 @@
         manner:
 
         \n\n\t- show cards in random order or not (Random order)
-        \n\n\t- how to check the answer (Test method)
-        \n\n\t- present the question visually or orally (Question display, Pronunciation)
-        \n\n\t- whether to pronounce question or answer automatically (Pronunciation)
+        \n\n\t- how to check the answer
+        (<annotation clickable="test_method">Test method</annotation>)
+        \n\n\t- present the question visually or orally
+        (<annotation clickable="question_display">Question display</annotation>,
+        <annotation clickable="pronunciation">Pronunciation</annotation>)
+        \n\n\t- whether to pronounce question or answer automatically
+        (<annotation clickable="pronunciation">Pronunciation</annotation>)
         \n\n\t- whether it is necessary to reverse an question and an answer. Of course, it might
         be needed if they are interchangeable. (Card Reverse)
-        \n\n\t- is there a time limit for response (Motivational timer)
+        \n\n\t- is there a time limit for response
+        (<annotation clickable="motivational_timer">Motivational timer</annotation>)
 
-        \n\nRegardless of test method, the answer may be either correct or wrong. If the answer is
-        wrong, the card will be asked again until the answer is correct. It is needed in order to
-        make sure that you commit the answer to memory.</string>
+        \n\nRegardless of <annotation clickable="test_method">test method</annotation>, the answer
+        may be either correct or wrong. If the answer is wrong, the card will be asked again until
+        the answer is correct. It is needed in order to make sure that you commit the answer to
+        memory.</string>
     <string name="question1_in_exercise_article">Un sombrero</string>
     <string name="answer1_in_exercise_article">Hat</string>
     <string name="question2_in_exercise_article">Unos guantes</string>
     <string name="answer2_in_exercise_article">Gloves</string>
     <string name="question3_in_exercise_article">Un abrigo</string>
     <string name="answer3_in_exercise_article">Coat</string>
-    <string name="article_exercise_paragraph_2">Your answers influence the level of knowledge of
-        the card. If intervals is enabled in the deck settings, the level of knowledge determines
-        when the card will be asked again.
+    <string name="article_exercise_paragraph_2">Your answers influence
+        <annotation clickable="level_of_knowledge">the level of knowledge</annotation> of the card.
+        If intervals are enabled in the deck settings, the level of knowledge determines when the
+        card will be asked again.
 
         \n\nIf you know the question well and you don\'t want this card ever to be asked again or
         you don\'t want to study the card, click the \'Do not ask again\' icon. This card will be
@@ -342,7 +351,7 @@
         words are in the answer, how many letters are in each word. If this is not enough, you can
         unmask part of the answer. Just select a fragment and click on the hint icon.</string>
     <string name="article_exercise_paragraph_4">You can also do the exercise without looking at the
-        screen in \'Walking mode\'.</string>
+        screen in <annotation clickable="walking_mode">\'Walking mode\'</annotation>.</string>
     <string name="article_test_methods_paragraph_1">Test methods define how the answer will be
         tested. There are 4 options:</string>
     <string name="article_test_methods_off_section_title">1. Off</string>
@@ -439,7 +448,7 @@
         icon.</string>
     <string name="article_walking_mode">\'Walking mode\' is a special mode of exercise where you
         can answer questions without looking at the screen. Control is carried out using
-        <annotation linkTo="walking_mode_settings">gestures of the volume buttons</annotation>.
+        <annotation clickable="walking_mode_settings">gestures of the volume buttons</annotation>.
         Each action is accompanied with pronunciation, for example, when you go to the next card,
         a question will be pronounced, when you answer (remember/not remember), the answer will be
         pronounced.
@@ -509,7 +518,8 @@
         \n\n2. If you are learning a foreign language, speak answers aloud. This will help you not
         only to pronounce words correctly, but also to focus on your studies.
 
-        \n\n3. Use tools that help you focus on your studies. Use \'Motivational timer\', turn on
+        \n\n3. Use tools that help you focus on your studies. Use
+        <annotation clickable="motivational_timer">\'Motivational timer\'</annotation>, turn on
         full screen mode, activate the \'Do not disturb\' mode in the device settings.
 
         \n\n4. If the question is bad for you to remember, edit the card, rephrase the question,

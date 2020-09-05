@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
+import android.text.*
+import android.text.Annotation
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -190,4 +192,34 @@ fun Fragment.showActionBar() {
         setShowHideAnimationEnabled(false)
         show()
     }
+}
+
+fun TextView.setTextWithClickableAnnotations(
+    stringId: Int,
+    onAnnotationClick: (annotationValue: String) -> Unit
+) {
+    val spannedString = context.getText(stringId) as SpannedString
+    val spannableString = SpannableString(spannedString)
+    spannedString.getSpans(0, spannedString.length, Annotation::class.java)
+        .filter { annotation: Annotation -> annotation.key == "clickable" }
+        .forEach { annotation: Annotation ->
+            val clickableSpan: ClickableSpan = object : ClickableSpan() {
+                override fun onClick(textView: View) {
+                    onAnnotationClick(annotation.value)
+                }
+
+                override fun updateDrawState(textPaint: TextPaint) {
+                    super.updateDrawState(textPaint)
+                    textPaint.isUnderlineText = true
+                }
+            }
+            spannableString.setSpan(
+                clickableSpan,
+                spannedString.getSpanStart(annotation),
+                spannedString.getSpanEnd(annotation),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+    text = spannableString
+    movementMethod = LinkMovementMethod.getInstance()
 }

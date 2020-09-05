@@ -13,13 +13,13 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="@string/article_deck_summary_paragraph_1"
             android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/article_deck_summary_paragraph_1" />
 
     <View
             android:id="@+id/topDivider"
@@ -293,12 +293,12 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="@string/article_deck_summary_paragraph_2"
             android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passedLapsExplanationTextView" />
+            app:layout_constraintTop_toBottomOf="@id/passedLapsExplanationTextView"
+            tools:text="@string/article_deck_summary_paragraph_2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

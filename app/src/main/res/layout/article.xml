@@ -1,0 +1,3 @@
+<TextView xmlns:tools="http://schemas.android.com/tools"
+        style="@style/ArticleParagraph"
+        tools:text="@string/article_about_forgetmenot" />
