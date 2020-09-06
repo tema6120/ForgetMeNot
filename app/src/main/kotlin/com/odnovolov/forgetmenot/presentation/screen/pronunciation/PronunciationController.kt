@@ -4,7 +4,10 @@ import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState.WhatIsPronounced.ANSWER
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState.WhatIsPronounced.QUESTION
@@ -15,10 +18,17 @@ class PronunciationController(
     private val deckSettingsState: DeckSettings.State,
     private val pronunciationScreenState: PronunciationScreenState,
     private val speaker: Speaker,
+    private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<PronunciationEvent, Nothing>() {
     override fun handle(event: PronunciationEvent) {
         when (event) {
+            HelpButtonClicked -> {
+                navigator.navigateToHelpFromPronunciation {
+                    HelpDiScope(HelpArticle.Pronunciation)
+                }
+            }
+
             TestPronunciationOfQuestionButtonClicked -> {
                 pronunciationScreenState.whatIsPronounced = QUESTION
                 val randomQuestion: String =

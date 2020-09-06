@@ -53,6 +53,7 @@
     <string name="action_select_all_decks">Select all decks</string>
     <string name="action_remove_decks">Remove decks</string>
     <string name="action_rename_deck">Rename deck</string>
+    <string name="action_help">Help</string>
     <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
     <string name="sort_by_name">Name</string>
     <string name="sort_by_time_created">Time created</string>

@@ -12,4 +12,5 @@ sealed class RepetitionFragmentEvent {
     object PauseButtonClicked : RepetitionFragmentEvent()
     object ResumeButtonClicked : RepetitionFragmentEvent()
     object SearchButtonClicked : RepetitionFragmentEvent()
+    object HelpButtonClicked : RepetitionFragmentEvent()
 }

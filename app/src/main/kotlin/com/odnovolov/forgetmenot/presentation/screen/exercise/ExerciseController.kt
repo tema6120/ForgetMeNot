@@ -18,6 +18,8 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
@@ -139,12 +141,20 @@ class ExerciseController(
             }
 
             WalkingModeHelpButtonClicked -> {
-
+                navigator.navigateToHelpFromExercise {
+                    HelpDiScope(HelpArticle.WalkingMode)
+                }
             }
 
             WalkingModeSwitchToggled -> {
                 val enabled = !globalState.isWalkingModeEnabled
                 exercise.setWalkingModeEnabled(enabled)
+            }
+
+            HelpButtonClicked -> {
+                navigator.navigateToHelpFromExercise {
+                    HelpDiScope(HelpArticle.Exercise)
+                }
             }
 
             FragmentResumed -> {
@@ -153,6 +163,7 @@ class ExerciseController(
 
             FragmentPaused -> {
                 exercise.resetTimer()
+                exercise.stopSpeaking()
             }
 
             is KeyGestureDetected -> {

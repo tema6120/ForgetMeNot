@@ -124,6 +124,10 @@ class ExerciseFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(SearchButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
+        helpButton.run {
+            setOnClickListener { controller?.dispatch(HelpButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
     }
 
     private fun showWalkingModePopup() {
@@ -484,7 +488,6 @@ class ExerciseFragment : BaseFragment() {
             setOnClickListener {
                 walkingModePopup?.dismiss()
                 controller?.dispatch(WalkingModeHelpButtonClicked)
-                showToast("Not implemented yet")
             }
             TooltipCompat.setTooltipText(this, contentDescription)
         }

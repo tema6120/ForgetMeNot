@@ -19,6 +19,7 @@ sealed class ExerciseEvent {
     object WalkingModeSettingsButtonClicked : ExerciseEvent()
     object WalkingModeHelpButtonClicked : ExerciseEvent()
     object WalkingModeSwitchToggled : ExerciseEvent()
+    object HelpButtonClicked : ExerciseEvent()
     object FragmentResumed : ExerciseEvent()
     object FragmentPaused : ExerciseEvent()
     class KeyGestureDetected(val keyGesture: KeyGesture) : ExerciseEvent()

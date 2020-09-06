@@ -3,9 +3,9 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
 
 class PronunciationDiScope private constructor(
@@ -52,6 +52,7 @@ class PronunciationDiScope private constructor(
         DeckSettingsDiScope.shareDeckSettings().state,
         pronunciationScreenState,
         speakerImpl,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 

@@ -7,6 +7,8 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToAddNewInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToChangeInterval
@@ -22,6 +24,12 @@ class IntervalsController(
 ) : BaseController<IntervalsEvent, Nothing>() {
     override fun handle(event: IntervalsEvent) {
         when (event) {
+            HelpButtonClicked -> {
+                navigator.navigateToHelpFromIntervals {
+                    HelpDiScope(HelpArticle.LevelOfKnowledgeAndIntervals)
+                }
+            }
+
             is ModifyIntervalButtonClicked -> {
                 navigator.showModifyIntervalDialog {
                     val interval: Interval = deckSettingsState.deck.exercisePreference

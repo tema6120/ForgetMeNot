@@ -155,6 +155,17 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/walking_mode_button_selector" />
 
+            <ImageButton
+                    android:id="@+id/helpButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_help_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/walkingModeButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </HorizontalScrollView>

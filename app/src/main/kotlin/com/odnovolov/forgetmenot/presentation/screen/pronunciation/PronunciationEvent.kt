@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 import java.util.*
 
 sealed class PronunciationEvent {
+    object HelpButtonClicked : PronunciationEvent()
     object TestPronunciationOfQuestionButtonClicked : PronunciationEvent()
     object StopSpeakButtonClicked : PronunciationEvent()
     class QuestionLanguageSelected(val language: Locale?) : PronunciationEvent()

@@ -8,8 +8,8 @@ import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
@@ -53,6 +53,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_exercise_screen_to_walking_mode_settings_screen)
     }
 
+    fun navigateToHelpFromExercise(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_exercise_screen_to_help_screen)
+    }
+
     fun navigateToCardsEditorFromHome(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_cards_editor_screen)
@@ -78,9 +83,19 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_show_modify_interval_dialog)
     }
 
+    fun navigateToHelpFromIntervals(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_intervals_screen_to_help_screen)
+    }
+
     fun navigateToPronunciation(createDiScope: () -> PronunciationDiScope) {
         PronunciationDiScope.open(createDiScope)
         navigate(R.id.action_deck_setup_screen_to_pronunciation_screen)
+    }
+
+    fun navigateToHelpFromPronunciation(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_pronunciation_screen_to_help_screen)
     }
 
     fun navigateToSpeakPlan(createDiScope: () -> SpeakPlanDiScope) {
@@ -90,6 +105,11 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun showSpeakEventDialog() {
         navigate(R.id.action_show_speak_event_dialog)
+    }
+
+    fun navigateToHelpFromSpeakPlan(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_speak_plan_screen_to_help_screen)
     }
 
     fun showMotivationalTimerDialog(createDiScope: () -> MotivationalTimerDiScope) {
@@ -142,6 +162,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_repetition_screen_to_search_screen)
     }
 
+    fun navigateToHelpFromRepetition(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_repetition_screen_to_help_screen)
+    }
+
     fun navigateToSettings(createDiScope: () -> SettingsDiScope) {
         SettingsDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_settings_screen)
@@ -151,7 +176,7 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_settings_screen_to_walking_mode_settings_screen)
     }
 
-    fun navigateToHelp(createDiScope: () -> HelpDiScope) {
+    fun navigateToHelpFromHome(createDiScope: () -> HelpDiScope) {
         HelpDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_help_screen)
     }

@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.speakplan
 
 sealed class SpeakPlanUiEvent {
+    object HelpButtonClicked : SpeakPlanUiEvent()
     class SpeakEventButtonClicked(val position: Int) : SpeakPlanUiEvent()
     class RemoveSpeakEventButtonClicked(val position: Int) : SpeakPlanUiEvent()
     object AddSpeakEventButtonClicked : SpeakPlanUiEvent()

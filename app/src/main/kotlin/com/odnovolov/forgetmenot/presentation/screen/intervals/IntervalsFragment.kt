@@ -1,18 +1,16 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.AddIntervalButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.RemoveIntervalButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*
 import kotlinx.android.synthetic.main.fragment_intervals.*
 import kotlinx.coroutines.launch
 
@@ -29,6 +27,7 @@ class IntervalsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_intervals, container, false)
     }
 
@@ -73,6 +72,25 @@ class IntervalsFragment : BaseFragment() {
         excellentLevelOfKnowledgeTextView.setBackgroundResource(
             getBackgroundResForLevelOfKnowledge(excellentLevelOfKnowledge)
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.help, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_help -> {
+                controller?.dispatch(HelpButtonClicked)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showActionBar()
     }
 
     override fun onDestroyView() {

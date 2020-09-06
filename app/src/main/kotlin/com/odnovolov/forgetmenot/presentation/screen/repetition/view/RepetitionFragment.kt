@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.repetition.view
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.view.*
 import android.view.View.MeasureSpec
 import android.widget.PopupWindow
@@ -79,6 +78,10 @@ class RepetitionFragment : BaseFragment() {
         }
         searchButton.run {
             setOnClickListener { controller?.dispatch(SearchButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+        helpButton.run {
+            setOnClickListener { controller?.dispatch(HelpButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
     }

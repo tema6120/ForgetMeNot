@@ -87,7 +87,7 @@ class HomeController(
 
             HelpButtonClicked -> {
                 homeScreenState.selectedDeckIds = emptyList()
-                navigator.navigateToHelp { HelpDiScope() }
+                navigator.navigateToHelpFromHome { HelpDiScope() }
             }
 
             is DeckButtonClicked -> {

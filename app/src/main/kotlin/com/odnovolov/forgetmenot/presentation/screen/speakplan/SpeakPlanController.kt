@@ -9,6 +9,8 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.catchAndLogException
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.DialogPurpose.ToAddNewSpeakEvent
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.DialogPurpose.ToChangeSpeakEventAtPosition
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanController.Command
@@ -36,6 +38,12 @@ class SpeakPlanController(
 
     override fun handle(event: SpeakPlanUiEvent) {
         when (event) {
+            HelpButtonClicked -> {
+                navigator.navigateToHelpFromSpeakPlan {
+                    HelpDiScope(HelpArticle.Repetition)
+                }
+            }
+
             is SpeakEventButtonClicked -> {
                 onSpeakEventButtonClicked(event.position)
             }

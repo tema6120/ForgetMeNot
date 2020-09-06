@@ -12,6 +12,8 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionViewController.Command.*
@@ -111,6 +113,13 @@ class RepetitionViewController(
                         }
                     }
                     SearchDiScope(searchText)
+                }
+            }
+
+            HelpButtonClicked -> {
+                repetition.pause()
+                navigator.navigateToHelpFromRepetition {
+                    HelpDiScope(HelpArticle.Repetition)
                 }
             }
         }

@@ -72,6 +72,10 @@
                 android:id="@+id/action_exercise_screen_to_walking_mode_settings_screen"
                 app:destination="@id/walking_mode_settings_screen" />
 
+        <action
+                android:id="@+id/action_exercise_screen_to_help_screen"
+                app:destination="@id/help_screen" />
+
     </fragment>
 
     <fragment
@@ -115,13 +119,23 @@
                 android:id="@+id/action_deck_setup_screen_to_cards_editor_screen"
                 app:destination="@+id/cards_editor_screen" />
 
+        <action
+                android:id="@+id/action_deck_setup_screen_to_help_screen"
+                app:destination="@id/help_screen" />
+
     </fragment>
 
     <fragment
             android:id="@+id/pronunciation_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationFragment"
             android:label="@string/label_pronunciation_screen"
-            tools:layout="@layout/fragment_pronunciation" />
+            tools:layout="@layout/fragment_pronunciation">
+
+        <action
+                android:id="@+id/action_pronunciation_screen_to_help_screen"
+                app:destination="@id/help_screen" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/intervals_screen"
@@ -132,6 +146,10 @@
         <action
                 android:id="@+id/action_show_modify_interval_dialog"
                 app:destination="@+id/modify_interval_dialog" />
+
+        <action
+                android:id="@+id/action_intervals_screen_to_help_screen"
+                app:destination="@id/help_screen" />
 
     </fragment>
 
@@ -149,6 +167,10 @@
         <action
                 android:id="@+id/action_show_speak_event_dialog"
                 app:destination="@+id/speak_event_dialog" />
+
+        <action
+                android:id="@+id/action_speak_plan_screen_to_help_screen"
+                app:destination="@id/help_screen" />
 
     </fragment>
 
@@ -173,6 +195,10 @@
                 app:destination="@+id/deck_setup_screen"
                 app:popUpTo="@+id/cards_editor_screen"
                 app:popUpToInclusive="true" />
+
+        <action
+                android:id="@+id/action_cards_editor_screen_to_help_screen"
+                app:destination="@id/help_screen" />
 
     </fragment>
 
@@ -255,6 +281,10 @@
         <action
                 android:id="@+id/action_repetition_screen_to_search_screen"
                 app:destination="@+id/search_screen" />
+
+        <action
+                android:id="@+id/action_repetition_screen_to_help_screen"
+                app:destination="@id/help_screen" />
 
     </fragment>
 
