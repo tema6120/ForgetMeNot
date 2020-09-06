@@ -39,6 +39,10 @@ abstract class SkeletalPresetController(
                 onDeletePresetButtonClicked(event.id)
             }
 
+            HelpButtonClicked -> {
+                onHelpButtonClicked()
+            }
+
             AddNewPresetButtonClicked -> {
                 dialogState.purpose = ToCreateNewSharedPreset
                 sendCommand(ShowPresetNameDialog(""))
@@ -67,6 +71,8 @@ abstract class SkeletalPresetController(
     protected abstract fun onPresetNamePositiveDialogButtonClicked()
 
     protected abstract fun onRemovePresetPositiveDialogButtonClicked()
+
+    protected abstract fun onHelpButtonClicked()
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()

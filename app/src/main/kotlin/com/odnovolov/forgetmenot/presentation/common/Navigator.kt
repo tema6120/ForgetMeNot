@@ -117,6 +117,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_show_motivational_timer_dialog)
     }
 
+    fun navigateToHelpFromDeckSetup(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_deck_setup_screen_to_help_screen)
+    }
+
     fun navigateToSearchFromDeckSetup(createDiScope: () -> SearchDiScope) {
         SearchDiScope.open(createDiScope)
         navigate(R.id.action_deck_setup_screen_to_search_screen)
@@ -135,6 +140,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToRepetitionSettings(createDiScope: () -> RepetitionSettingsDiScope) {
         RepetitionSettingsDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_repetition_settings_screen)
+    }
+
+    fun navigateToHelpFromRepetitionSettings(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_repetition_settings_screen_to_help_screen)
     }
 
     fun showLastAnswerFilterDialog(createDiScope: () -> LastAnswerFilterDiScope) {

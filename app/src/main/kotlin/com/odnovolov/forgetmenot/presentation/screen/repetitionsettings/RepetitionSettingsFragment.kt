@@ -6,12 +6,9 @@ import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.common.inflateAsync
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.showToast
-import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_repetition_settings.*
@@ -258,6 +255,11 @@ class RepetitionSettingsFragment : BaseFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showActionBar()
     }
 
     override fun onDestroyView() {

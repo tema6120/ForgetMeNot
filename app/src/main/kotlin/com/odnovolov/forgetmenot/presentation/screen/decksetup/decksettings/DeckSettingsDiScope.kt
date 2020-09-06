@@ -32,6 +32,7 @@ class DeckSettingsDiScope private constructor(
         deckSettings,
         presetDialogState,
         AppDiScope.get().globalState,
+        AppDiScope.get().navigator,
         presetDialogStateProvider,
         AppDiScope.get().longTermStateSaver
     )

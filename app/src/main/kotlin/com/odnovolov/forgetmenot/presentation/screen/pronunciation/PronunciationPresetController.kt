@@ -7,17 +7,21 @@ import com.odnovolov.forgetmenot.domain.entity.checkPronunciationName
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 
 class PronunciationPresetController(
     private val deckSettingsState: DeckSettings.State,
     private val pronunciationSettings: PronunciationSettings,
     private val presetDialogState: PresetDialogState,
     private val globalState: GlobalState,
+    private val navigator: Navigator,
     longTermStateSaver: LongTermStateSaver,
     presetDialogStateProvider: ShortTermStateProvider<PresetDialogState>
 ) : SkeletalPresetController(
@@ -67,5 +71,11 @@ class PronunciationPresetController(
             pronunciationSettings.deleteSharedPronunciation(pronunciationId = id)
         }
         presetDialogState.idToDelete = null
+    }
+
+    override fun onHelpButtonClicked() {
+        navigator.navigateToHelpFromPronunciation {
+            HelpDiScope(HelpArticle.Presets)
+        }
     }
 }

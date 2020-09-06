@@ -3,9 +3,9 @@ package com.odnovolov.forgetmenot.presentation.screen.speakplan
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.SpeakPlanSettings
 import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.SpeakEventDialogStateProvider
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
 
 class SpeakPlanDiScope private constructor(
@@ -39,6 +39,7 @@ class SpeakPlanDiScope private constructor(
         speakPlanSettings,
         presetDialogState,
         AppDiScope.get().globalState,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         presetDialogStateProvider
     )

@@ -249,6 +249,10 @@
                 app:popUpToInclusive="true" />
 
         <action
+                android:id="@+id/action_repetition_settings_screen_to_help_screen"
+                app:destination="@+id/help_screen" />
+
+        <action
                 android:id="@+id/action_show_last_answer_filter_dialog"
                 app:destination="@+id/last_answer_filter_dialog" />
 

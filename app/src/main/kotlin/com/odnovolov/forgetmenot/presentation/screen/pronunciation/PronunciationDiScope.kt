@@ -37,6 +37,7 @@ class PronunciationDiScope private constructor(
         pronunciationSettings,
         presetDialogState,
         AppDiScope.get().globalState,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         presetDialogStateProvider
     )

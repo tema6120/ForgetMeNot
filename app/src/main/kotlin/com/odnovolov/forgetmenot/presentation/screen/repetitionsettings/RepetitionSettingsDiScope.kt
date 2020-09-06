@@ -4,9 +4,9 @@ import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.RepetitionCreatorStateProvider
+import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 
 class RepetitionSettingsDiScope private constructor(
     initialRepetitionCreatorState: RepetitionStateCreator.State? = null,
@@ -43,6 +43,7 @@ class RepetitionSettingsDiScope private constructor(
         repetitionSettings,
         presetDialogState,
         AppDiScope.get().globalState,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         presetDialogStateProvider
     )

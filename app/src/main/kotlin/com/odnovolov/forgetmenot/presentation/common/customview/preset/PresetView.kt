@@ -208,7 +208,6 @@ class PresetView @JvmOverloads constructor(
             isOutsideTouchable = true
             isFocusable = true
             softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-            contentView = View.inflate(context, R.layout.popup_preset, null)
             presetAdapter = PresetAdapter(
                 onSetPresetButtonClick = { id: Long? ->
                     controller?.dispatch(SetPresetButtonClicked(id))
@@ -221,9 +220,15 @@ class PresetView @JvmOverloads constructor(
                     controller?.dispatch(DeletePresetButtonClicked(id))
                 }
             )
-            contentView.presetRecyclerView.adapter = presetAdapter
-            contentView.addPresetButton.setOnClickListener {
-                controller?.dispatch(AddNewPresetButtonClicked)
+            contentView = View.inflate(context, R.layout.popup_preset, null).apply {
+                presetRecyclerView.adapter = presetAdapter
+                presetHelpButton.setOnClickListener {
+                    controller?.dispatch(HelpButtonClicked)
+                    popup.dismiss()
+                }
+                addPresetButton.setOnClickListener {
+                    controller?.dispatch(AddNewPresetButtonClicked)
+                }
             }
         }
     }
