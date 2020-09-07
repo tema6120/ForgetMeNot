@@ -22,6 +22,8 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEven
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 
 class CardsEditorController(
     private val cardsEditor: CardsEditor,
@@ -70,8 +72,18 @@ class CardsEditorController(
                 cardsEditor.restoreLastRemovedCard()
             }
 
+            HelpButtonClicked -> {
+                navigator.navigateToHelpFromCardsEditor {
+                    HelpDiScope(HelpArticle.AdviceOnCompilingDeck)
+                }
+            }
+
             CancelButtonClicked -> {
-                navigator.navigateUp()
+                if (cardsEditor.areCardsEdited()) {
+                    sendCommand(AskUserToConfirmExit)
+                } else {
+                    navigator.navigateUp()
+                }
             }
 
             DoneButtonClicked -> {

@@ -63,14 +63,19 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_home_screen_to_cards_editor_screen)
     }
 
-    fun navigateToDeckSetupFromHome(createDeckSetupDiScope: () -> DeckSetupDiScope) {
-        DeckSetupDiScope.open(createDeckSetupDiScope)
+    fun navigateToDeckSetupFromHome(createDiScope: () -> DeckSetupDiScope) {
+        DeckSetupDiScope.open(createDiScope)
         navigate(R.id.action_home_screen_to_deck_setup_screen)
     }
 
-    fun navigateToDeckSetupFromCardsEditor(createDeckSetupDiScope: () -> DeckSetupDiScope) {
-        DeckSetupDiScope.open(createDeckSetupDiScope)
+    fun navigateToDeckSetupFromCardsEditor(createDiScope: () -> DeckSetupDiScope) {
+        DeckSetupDiScope.open(createDiScope)
         navigate(R.id.action_cards_editor_screen_to_deck_setup_screen)
+    }
+
+    fun navigateToHelpFromCardsEditor(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_cards_editor_screen_to_help_screen)
     }
 
     fun navigateToIntervals(createDiScope: () -> IntervalsDiScope) {

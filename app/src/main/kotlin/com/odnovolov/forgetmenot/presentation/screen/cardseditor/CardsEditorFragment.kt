@@ -110,6 +110,10 @@ class CardsEditorFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(RemoveCardButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
+        helpButton.run {
+            setOnClickListener { controller?.dispatch(HelpButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
         cancelButton.run {
             setOnClickListener { controller?.dispatch(CancelButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
@@ -140,6 +144,7 @@ class CardsEditorFragment : BaseFragment() {
                         isVisible = true
                     }
                 }
+                levelOfKnowledgeButton.isVisible = levelOfKnowledge != null
             }
             isCurrentEditableCardLearned.observe { isLearned: Boolean? ->
                 with(notAskButton) {
@@ -168,9 +173,10 @@ class CardsEditorFragment : BaseFragment() {
                     }
                 }
             }
-            isCurrentCardRemovable.observe { isVisible: Boolean ->
+            isRemoveCardButtonVisible.observe { isVisible: Boolean ->
                 removeCardButton.isVisible = isVisible
             }
+            helpButton.isVisible = isHelpButtonVisible
         }
     }
 

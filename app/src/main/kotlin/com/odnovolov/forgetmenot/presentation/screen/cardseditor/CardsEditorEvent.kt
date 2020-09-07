@@ -8,6 +8,7 @@ sealed class CardsEditorEvent {
     object AskAgainButtonClicked : CardsEditorEvent()
     object RemoveCardButtonClicked : CardsEditorEvent()
     object RestoreLastRemovedCardButtonClicked : CardsEditorEvent()
+    object HelpButtonClicked : CardsEditorEvent()
     object CancelButtonClicked : CardsEditorEvent()
     object DoneButtonClicked : CardsEditorEvent()
     object BackButtonClicked : CardsEditorEvent()

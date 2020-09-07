@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForDeckCreation
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import kotlinx.coroutines.flow.*
 
@@ -25,17 +26,27 @@ class CardsEditorViewModel(
         .share()
 
     val levelOfKnowledgeForCurrentCard: Flow<Int?> =
-        currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
-            editableCard?.flowOf(EditableCard::levelOfKnowledge) ?: flowOf(null)
+        if (cardsEditor is CardsEditorForDeckCreation) {
+            flowOf(null)
+        } else {
+            currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
+                editableCard?.flowOf(EditableCard::levelOfKnowledge) ?: flowOf(null)
+            }
         }
 
     val isCurrentEditableCardLearned: Flow<Boolean?> =
-        currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
-            editableCard?.flowOf(EditableCard::isLearned) ?: flowOf(null)
+        if (cardsEditor is CardsEditorForDeckCreation) {
+            flowOf(null)
+        } else {
+            currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
+                editableCard?.flowOf(EditableCard::isLearned) ?: flowOf(null)
+            }
         }
 
-    val isCurrentCardRemovable: Flow<Boolean> = combine(
+    val isRemoveCardButtonVisible: Flow<Boolean> = combine(
         cardsEditor.state.flowOf(CardsEditor.State::editableCards),
         cardsEditor.state.flowOf(CardsEditor.State::currentPosition)
     ) { _, _ -> cardsEditor.isCurrentCardRemovable() }
+
+    val isHelpButtonVisible: Boolean = cardsEditor is CardsEditorForDeckCreation
 }
