@@ -41,11 +41,11 @@
                         android:textSize="16sp" />
 
                 <TextView
-                        android:id="@+id/randomOrderDescription"
+                        android:id="@+id/selectedRandomOrderTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/description_random_order"
-                        android:textColor="@color/textSecondary" />
+                        android:textColor="@color/textSecondary"
+                        tools:text="On" />
 
             </LinearLayout>
 
@@ -74,23 +74,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:padding="16dp">
 
-            <TextView
-                    android:id="@+id/testMethodTitle"
-                    android:layout_width="match_parent"
+            <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_test_method"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp" />
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
 
-            <TextView
-                    android:id="@+id/selectedTestMethodTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textSecondary"
-                    tools:text="Manual" />
+                <TextView
+                        android:id="@+id/testMethodTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_test_method"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+
+                <TextView
+                        android:id="@+id/selectedTestMethodTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textSecondary"
+                        tools:text="Manual" />
+
+            </LinearLayout>
+
+            <ImageButton
+                    android:id="@+id/testMethodHelpButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/description_help_button"
+                    android:focusable="true"
+                    android:tint="@color/iconDark"
+                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -104,19 +129,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
             <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
                 <TextView
                         android:id="@+id/intervalsTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_intervals_title"
                         android:textColor="@color/textPrimary"
@@ -124,20 +148,36 @@
 
                 <TextView
                         android:id="@+id/selectedIntervalsTextView"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textSecondary"
                         tools:text="Default" />
 
             </LinearLayout>
 
+            <ImageButton
+                    android:id="@+id/intervalsHelpButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/description_help_button"
+                    android:focusable="true"
+                    android:tint="@color/iconDark"
+                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
             <ImageView
                     android:id="@+id/navigateToIntervalsScreenIcon"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/description_navigate_icon"
-                    android:padding="16dp"
                     app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
 
         </LinearLayout>
@@ -152,19 +192,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
             <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
                 <TextView
                         android:id="@+id/pronunciationTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_pronunciation"
                         android:textColor="@color/textPrimary"
@@ -172,20 +211,36 @@
 
                 <TextView
                         android:id="@+id/selectedPronunciationTextView"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textSecondary"
                         tools:text="'Answer in English'" />
 
             </LinearLayout>
 
+            <ImageButton
+                    android:id="@+id/pronunciationHelpButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/description_help_button"
+                    android:focusable="true"
+                    android:tint="@color/iconDark"
+                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
             <ImageView
                     android:id="@+id/navigateToPronunciationScreenIcon"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/description_navigate_icon"
-                    android:padding="16dp"
                     app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
 
         </LinearLayout>
@@ -200,32 +255,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
             <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
                 <TextView
                         android:id="@+id/displayQuestionTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/title_display_question"
                         android:textColor="@color/textPrimary"
                         android:textSize="16sp" />
 
                 <TextView
-                        android:id="@+id/displayQuestionDescription"
-                        android:layout_width="match_parent"
+                        android:id="@+id/selectedQuestionDisplayTextView"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/description_display_question"
-                        android:textColor="@color/textSecondary" />
+                        android:textColor="@color/textSecondary"
+                        tools:text="On" />
 
             </LinearLayout>
+
+            <ImageButton
+                    android:id="@+id/questionDisplayHelpButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/description_help_button"
+                    android:focusable="true"
+                    android:tint="@color/iconDark"
+                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
             <Switch
                     android:id="@+id/displayQuestionSwitch"
@@ -235,7 +306,6 @@
                     android:background="@null"
                     android:clickable="false"
                     android:focusable="false"
-                    android:padding="16dp"
                     android:visibility="invisible"
                     tools:checked="true"
                     tools:visibility="visible" />
@@ -282,19 +352,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
             <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
                 <TextView
                         android:id="@+id/speakPlanTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_speak_plan_title"
                         android:textColor="@color/textPrimary"
@@ -302,20 +371,36 @@
 
                 <TextView
                         android:id="@+id/selectedSpeakPlanTextView"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textSecondary"
                         tools:text="Default" />
 
             </LinearLayout>
 
+            <ImageButton
+                    android:id="@+id/speakPlanHelpButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/description_help_button"
+                    android:focusable="true"
+                    android:tint="@color/iconDark"
+                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
             <ImageView
                     android:id="@+id/navigateToSpeakPlanScreenIcon"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/description_navigate_icon"
-                    android:padding="16dp"
                     app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
 
         </LinearLayout>
@@ -330,23 +415,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:padding="16dp">
 
-            <TextView
-                    android:id="@+id/timeForAnswerTitle"
-                    android:layout_width="match_parent"
+            <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_time_for_answer"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp" />
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
 
-            <TextView
-                    android:id="@+id/selectedTimeForAnswerTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textSecondary"
-                    tools:text="Off" />
+                <TextView
+                        android:id="@+id/timeForAnswerTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_time_for_answer"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+
+                <TextView
+                        android:id="@+id/selectedTimeForAnswerTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textSecondary"
+                        tools:text="Off" />
+
+            </LinearLayout>
+
+            <ImageButton
+                    android:id="@+id/motivationalTimerHelpButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/description_help_button"
+                    android:focusable="true"
+                    android:tint="@color/iconDark"
+                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
         </LinearLayout>
 

@@ -60,7 +60,6 @@
     <string name="sort_by_time_last_opened">Time last opened</string>
     <string name="title_deck_settings_toolbar">Deck Settings</string>
     <string name="text_random_order">Random order</string>
-    <string name="description_random_order">Shuffle cards in a purposeless fashion</string>
     <string name="label_deck_setup_screen">Deck Setup</string>
     <string name="text_pronunciation">Pronunciation</string>
     <string name="label_pronunciation_screen">Pronunciation</string>
@@ -77,6 +76,7 @@
     <string name="text_question_title_textview">Question</string>
     <string name="text_auto_speak_switch">Auto speak</string>
     <string name="text_answer_title_textview">Answer</string>
+    <string name="on">On</string>
     <string name="off">Off</string>
     <string name="default_name">Default</string>
     <string name="individual_name">Individual</string>
@@ -108,7 +108,6 @@
     <string name="dialog_title_modify_interval">Interval</string>
     <string name="title_interval_scheme_name_input_dialog">Enter pronunciation name</string>
     <string name="title_display_question">Display question</string>
-    <string name="description_display_question">Turn it off if you want to improve listening</string>
     <string name="title_card_reverse">Card Reverse</string>
     <string name="card_reverse_label_off">Off</string>
     <string name="card_reverse_label_on">On</string>

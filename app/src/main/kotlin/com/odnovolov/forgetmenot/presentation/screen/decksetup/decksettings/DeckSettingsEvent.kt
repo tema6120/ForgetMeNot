@@ -12,4 +12,10 @@ sealed class DeckSettingsEvent {
     class SelectedCardReverse(val cardReverse: CardReverse) : DeckSettingsEvent()
     object SpeakPlanButtonClicked : DeckSettingsEvent()
     object TimeForAnswerButtonClicked : DeckSettingsEvent()
+    object TestMethodHelpButtonClicked : DeckSettingsEvent()
+    object IntervalsHelpButtonClicked : DeckSettingsEvent()
+    object PronunciationHelpButtonClicked : DeckSettingsEvent()
+    object QuestionDisplayHelpButtonClicked : DeckSettingsEvent()
+    object SpeakPlanHelpButtonClicked : DeckSettingsEvent()
+    object MotivationalTimerHelpButtonClicked : DeckSettingsEvent()
 }

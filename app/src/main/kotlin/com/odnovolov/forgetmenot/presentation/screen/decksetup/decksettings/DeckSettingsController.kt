@@ -8,6 +8,8 @@ import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDia
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDialogState
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialogState
@@ -66,6 +68,42 @@ class DeckSettingsController(
                         timeInput = if (timeForAnswer == 0) "15" else timeForAnswer.toString()
                     )
                     MotivationalTimerDiScope.create(dialogState)
+                }
+            }
+
+            TestMethodHelpButtonClicked -> {
+                navigator.navigateToHelpFromDeckSetup {
+                    HelpDiScope(HelpArticle.TestMethods)
+                }
+            }
+
+            IntervalsHelpButtonClicked -> {
+                navigator.navigateToHelpFromDeckSetup {
+                    HelpDiScope(HelpArticle.LevelOfKnowledgeAndIntervals)
+                }
+            }
+
+            PronunciationHelpButtonClicked -> {
+                navigator.navigateToHelpFromDeckSetup {
+                    HelpDiScope(HelpArticle.Pronunciation)
+                }
+            }
+
+            QuestionDisplayHelpButtonClicked -> {
+                navigator.navigateToHelpFromDeckSetup {
+                    HelpDiScope(HelpArticle.QuestionDisplay)
+                }
+            }
+
+            SpeakPlanHelpButtonClicked -> {
+                navigator.navigateToHelpFromDeckSetup {
+                    HelpDiScope(HelpArticle.Repetition)
+                }
+            }
+
+            MotivationalTimerHelpButtonClicked -> {
+                navigator.navigateToHelpFromDeckSetup {
+                    HelpDiScope(HelpArticle.MotivationalTimer)
                 }
             }
         }

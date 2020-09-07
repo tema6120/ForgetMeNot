@@ -26,7 +26,7 @@ import kotlin.collections.ArrayList
 class SpeakEventAdapter(
     private val controller: SpeakPlanController
 ) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
-    lateinit var itemTouchHelper: ItemTouchHelper
+    var itemTouchHelper: ItemTouchHelper? = null
     private var isDragging = false
     private var mutableItems: MutableList<SpeakEventItem> = ArrayList()
         set(value) {
@@ -55,7 +55,7 @@ class SpeakEventAdapter(
         val viewHolder = SimpleRecyclerViewHolder(view)
         view.dragHandleButton.setOnTouchListener { _, event ->
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                itemTouchHelper.startDrag(viewHolder)
+                itemTouchHelper?.startDrag(viewHolder)
             }
             false
         }

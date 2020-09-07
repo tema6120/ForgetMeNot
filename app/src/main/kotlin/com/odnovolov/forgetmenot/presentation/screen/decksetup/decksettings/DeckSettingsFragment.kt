@@ -7,6 +7,7 @@ import android.os.MessageQueue.IdleHandler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.isDefault
@@ -16,6 +17,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.uncover
@@ -82,10 +84,22 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun setupPrimary() {
+        requireView().viewTreeObserver.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    requireView().viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    setMaxWidthForText()
+                }
+            })
         with(viewModel) {
             randomOrder.observe { randomOrder: Boolean ->
                 randomOrderSwitch.isChecked = randomOrder
                 randomOrderSwitch.uncover()
+                selectedRandomOrderTextView.text = getString(
+                    if (randomOrder)
+                        R.string.on else
+                        R.string.off
+                )
             }
             selectedTestMethod.observe { selectedTestMethod ->
                 selectedTestMethodTextView.text = when (selectedTestMethod) {
@@ -113,6 +127,11 @@ class DeckSettingsFragment : BaseFragment() {
             isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
                 displayQuestionSwitch.isChecked = isQuestionDisplayed
                 displayQuestionSwitch.uncover()
+                selectedQuestionDisplayTextView.text = getString(
+                    if (isQuestionDisplayed)
+                        R.string.on else
+                        R.string.off
+                )
             }
             selectedCardReverse.observe { selectedCardReverse: CardReverse ->
                 selectedCardReverseTextView.text =
@@ -137,6 +156,23 @@ class DeckSettingsFragment : BaseFragment() {
                         getString(R.string.selected_time_for_answer, timeForAnswer)
             }
         }
+    }
+
+    private fun setMaxWidthForText() {
+        val rootViewWidth = requireView().width
+        testMethodTitle.maxWidth = rootViewWidth - 72.dp
+        selectedTestMethodTextView.maxWidth = rootViewWidth - 72.dp
+        intervalsTitle.maxWidth = rootViewWidth - 96.dp
+        selectedIntervalsTextView.maxWidth = rootViewWidth - 96.dp
+        pronunciationTitle.maxWidth = rootViewWidth - 96.dp
+        selectedPronunciationTextView.maxWidth = rootViewWidth - 96.dp
+        displayQuestionTitle.maxWidth = rootViewWidth - 72.dp - displayQuestionSwitch.width
+        selectedQuestionDisplayTextView.maxWidth =
+            rootViewWidth - 72.dp - displayQuestionSwitch.width
+        speakPlanTitle.maxWidth = rootViewWidth - 96.dp
+        selectedSpeakPlanTextView.maxWidth = rootViewWidth - 96.dp
+        timeForAnswerTitle.maxWidth = rootViewWidth - 72.dp
+        selectedTimeForAnswerTextView.maxWidth = rootViewWidth - 72.dp
     }
 
     private fun setupSecondary() {
@@ -179,16 +215,48 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun setupListeners() {
-        randomButton.setOnClickListener { controller?.dispatch(RandomOrderSwitchToggled) }
-        testMethodButton.setOnClickListener { chooseTestMethodDialog.show() }
-        intervalsButton.setOnClickListener { controller?.dispatch(IntervalsButtonClicked) }
-        pronunciationButton.setOnClickListener { controller?.dispatch(PronunciationButtonClicked) }
+        randomButton.setOnClickListener {
+            controller?.dispatch(RandomOrderSwitchToggled)
+        }
+        testMethodButton.setOnClickListener {
+            chooseTestMethodDialog.show()
+        }
+        intervalsButton.setOnClickListener {
+            controller?.dispatch(IntervalsButtonClicked)
+        }
+        pronunciationButton.setOnClickListener {
+            controller?.dispatch(PronunciationButtonClicked)
+        }
         displayQuestionButton.setOnClickListener {
             controller?.dispatch(DisplayQuestionSwitchToggled)
         }
-        cardReverseButton.setOnClickListener { chooseCardReverseDialog.show() }
-        speakPlanButton.setOnClickListener { controller?.dispatch(SpeakPlanButtonClicked) }
-        timeForAnswerButton.setOnClickListener { controller?.dispatch(TimeForAnswerButtonClicked) }
+        cardReverseButton.setOnClickListener {
+            chooseCardReverseDialog.show()
+        }
+        speakPlanButton.setOnClickListener {
+            controller?.dispatch(SpeakPlanButtonClicked)
+        }
+        timeForAnswerButton.setOnClickListener {
+            controller?.dispatch(TimeForAnswerButtonClicked)
+        }
+        testMethodHelpButton.setOnClickListener {
+            controller?.dispatch(TestMethodHelpButtonClicked)
+        }
+        intervalsHelpButton.setOnClickListener {
+            controller?.dispatch(IntervalsHelpButtonClicked)
+        }
+        pronunciationHelpButton.setOnClickListener {
+            controller?.dispatch(PronunciationHelpButtonClicked)
+        }
+        questionDisplayHelpButton.setOnClickListener {
+            controller?.dispatch(QuestionDisplayHelpButtonClicked)
+        }
+        speakPlanHelpButton.setOnClickListener {
+            controller?.dispatch(SpeakPlanHelpButtonClicked)
+        }
+        motivationalTimerHelpButton.setOnClickListener {
+            controller?.dispatch(MotivationalTimerHelpButtonClicked)
+        }
     }
 
     private fun observeViewModelSecondary() {

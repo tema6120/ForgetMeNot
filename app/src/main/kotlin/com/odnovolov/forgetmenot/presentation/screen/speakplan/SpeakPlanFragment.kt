@@ -102,6 +102,7 @@ class SpeakPlanFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         speakPlanRecyclerView.adapter = null
+        speakEventAdapter.itemTouchHelper = null
     }
 
     override fun onDestroy() {
