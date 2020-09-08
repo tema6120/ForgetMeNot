@@ -1,8 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.view.View.MeasureSpec
@@ -231,12 +229,7 @@ class PronunciationFragment : BaseFragment() {
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = content
             setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true
@@ -306,7 +299,9 @@ class PronunciationFragment : BaseFragment() {
         width = WindowManager.LayoutParams.WRAP_CONTENT
         height = WindowManager.LayoutParams.WRAP_CONTENT
         contentView = View.inflate(requireContext(), R.layout.popup_available_languages, null)
-        setBackgroundDrawable(ColorDrawable(Color.WHITE))
+        setBackgroundDrawable(
+            ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_light)
+        )
         elevation = 20f.dp
         isOutsideTouchable = true
         isFocusable = true

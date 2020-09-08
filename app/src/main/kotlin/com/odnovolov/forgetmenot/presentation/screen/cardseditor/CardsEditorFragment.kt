@@ -74,12 +74,7 @@ class CardsEditorFragment : BaseFragment() {
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = recycler
             setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true

@@ -4,7 +4,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        tools:background="@color/exercise_control_panel_popup_background">
+        tools:background="@color/background_dark_popup">
 
     <TextView
             android:id="@+id/titleTextView"

@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
-import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.View.MeasureSpec
@@ -211,12 +210,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             height = content.measuredHeight
             contentView = content
             setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true

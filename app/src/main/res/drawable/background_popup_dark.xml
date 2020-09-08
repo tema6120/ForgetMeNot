@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/background_dark_popup" />
+    <corners android:radius="4dp" />
+</shape>

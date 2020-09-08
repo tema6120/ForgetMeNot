@@ -3,7 +3,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:background="@color/exercise_control_panel_popup_background">
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        tools:background="@color/background_dark_popup">
 
     <TextView
             android:id="@+id/hintAsQuizButton"
@@ -16,7 +18,11 @@
             android:textSize="18sp"
             android:theme="@style/AppTheme.AppBarOverlay" />
 
-    <include layout="@layout/divider" />
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:theme="@style/AppTheme.AppBarOverlay" />
 
     <TextView
             android:id="@+id/maskLettersButton"

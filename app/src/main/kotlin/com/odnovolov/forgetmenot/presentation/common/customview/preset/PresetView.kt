@@ -1,9 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.common.customview.preset
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Looper
 import android.os.Parcel
@@ -203,7 +201,9 @@ class PresetView @JvmOverloads constructor(
         popup = PopupWindow(context).apply {
             width = 256.dp
             height = WindowManager.LayoutParams.WRAP_CONTENT
-            setBackgroundDrawable(ColorDrawable(Color.WHITE))
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(context, R.drawable.background_popup_light)
+            )
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true

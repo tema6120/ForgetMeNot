@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.help.article
 
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.View.MeasureSpec
@@ -13,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.generateId
@@ -98,12 +96,7 @@ class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentF
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = recycler
             setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        color.exercise_control_panel_popup_background
-                    )
-                )
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true

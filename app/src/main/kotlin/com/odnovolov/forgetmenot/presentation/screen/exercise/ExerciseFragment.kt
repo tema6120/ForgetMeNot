@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 import android.content.Intent
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -500,12 +499,7 @@ class ExerciseFragment : BaseFragment() {
             height = content.measuredHeight
             contentView = content
             setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true
@@ -530,12 +524,7 @@ class ExerciseFragment : BaseFragment() {
             height = content.measuredHeight
             contentView = content
             setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true
@@ -557,12 +546,7 @@ class ExerciseFragment : BaseFragment() {
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = recycler
             setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true
@@ -582,12 +566,7 @@ class ExerciseFragment : BaseFragment() {
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = content
             setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.exercise_control_panel_popup_background
-                    )
-                )
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true

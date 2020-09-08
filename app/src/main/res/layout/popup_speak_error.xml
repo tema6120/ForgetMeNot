@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:background="@color/exercise_control_panel_popup_background">
+        tools:background="@color/background_dark_popup">
 
     <ImageView
             android:id="@+id/errorIcon"
