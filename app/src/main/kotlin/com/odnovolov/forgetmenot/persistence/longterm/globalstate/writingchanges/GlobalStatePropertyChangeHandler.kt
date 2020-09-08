@@ -85,18 +85,21 @@ class GlobalStatePropertyChangeHandler(
                     )
                 }
             }
-            GlobalState::sharedSpeakPlans -> {
+            GlobalState::sharedPronunciationPlans -> {
                 if (change !is CollectionChange) return
 
-                val removedSharedSpeakPlans = change.removedItems as Collection<SpeakPlan>
-                removedSharedSpeakPlans.forEach { speakPlan: SpeakPlan ->
-                    database.sharedSpeakPlanQueries.delete(speakPlan.id)
+                val removedSharedPronunciationPlans =
+                    change.removedItems as Collection<PronunciationPlan>
+                removedSharedPronunciationPlans.forEach { pronunciationPlan: PronunciationPlan ->
+                    database.sharedPronunciationPlanQueries.delete(pronunciationPlan.id)
                 }
 
-                val addedSharedSpeakPlans = change.addedItems as Collection<SpeakPlan>
-                addedSharedSpeakPlans.forEach { speakPlan: SpeakPlan ->
-                    database.sharedSpeakPlanQueries.insert(speakPlan.id)
-                    exercisePreferencePropertyChangeHandler.insertSpeakPlanIfNotExists(speakPlan)
+                val addedSharedPronunciationPlans =
+                    change.addedItems as Collection<PronunciationPlan>
+                addedSharedPronunciationPlans.forEach { pronunciationPlan: PronunciationPlan ->
+                    database.sharedPronunciationPlanQueries.insert(pronunciationPlan.id)
+                    exercisePreferencePropertyChangeHandler
+                        .insertPronunciationPlanIfNotExists(pronunciationPlan)
                 }
             }
             GlobalState::sharedRepetitionSettings -> {

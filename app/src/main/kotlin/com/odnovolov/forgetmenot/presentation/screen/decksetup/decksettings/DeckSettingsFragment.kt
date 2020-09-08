@@ -128,8 +128,8 @@ class DeckSettingsFragment : BaseFragment() {
                 }
             }
             isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
-                displayQuestionSwitch.isChecked = isQuestionDisplayed
-                displayQuestionSwitch.uncover()
+                questionDisplaySwitch.isChecked = isQuestionDisplayed
+                questionDisplaySwitch.uncover()
                 selectedQuestionDisplayTextView.text = getString(
                     if (isQuestionDisplayed)
                         R.string.on else
@@ -145,11 +145,11 @@ class DeckSettingsFragment : BaseFragment() {
                             getString(R.string.card_reverse_label_every_other_lap)
                     }
             }
-            speakPlan.observe { speakPlan: SpeakPlan ->
-                selectedSpeakPlanTextView.text = when {
-                    speakPlan.isDefault() -> getString(R.string.default_name)
-                    speakPlan.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${speakPlan.name}'"
+            pronunciationPlan.observe { pronunciationPlan: PronunciationPlan ->
+                selectedPronunciationPlanTextView.text = when {
+                    pronunciationPlan.isDefault() -> getString(R.string.default_name)
+                    pronunciationPlan.isIndividual() -> getString(R.string.individual_name)
+                    else -> "'${pronunciationPlan.name}'"
                 }
             }
             timeForAnswer.observe { timeForAnswer: Int ->
@@ -169,11 +169,11 @@ class DeckSettingsFragment : BaseFragment() {
         selectedIntervalsTextView.maxWidth = rootViewWidth - 96.dp
         pronunciationTitle.maxWidth = rootViewWidth - 96.dp
         selectedPronunciationTextView.maxWidth = rootViewWidth - 96.dp
-        displayQuestionTitle.maxWidth = rootViewWidth - 72.dp - displayQuestionSwitch.width
+        questionDisplayTitle.maxWidth = rootViewWidth - 72.dp - questionDisplaySwitch.width
         selectedQuestionDisplayTextView.maxWidth =
-            rootViewWidth - 72.dp - displayQuestionSwitch.width
-        speakPlanTitle.maxWidth = rootViewWidth - 96.dp
-        selectedSpeakPlanTextView.maxWidth = rootViewWidth - 96.dp
+            rootViewWidth - 72.dp - questionDisplaySwitch.width
+        pronunciationPlanTitle.maxWidth = rootViewWidth - 96.dp
+        selectedPronunciationPlanTextView.maxWidth = rootViewWidth - 96.dp
         timeForAnswerTitle.maxWidth = rootViewWidth - 72.dp
         selectedTimeForAnswerTextView.maxWidth = rootViewWidth - 72.dp
     }
@@ -237,8 +237,8 @@ class DeckSettingsFragment : BaseFragment() {
         cardReverseButton.setOnClickListener {
             chooseCardReverseDialog.show()
         }
-        speakPlanButton.setOnClickListener {
-            controller?.dispatch(SpeakPlanButtonClicked)
+        pronunciationPlanButton.setOnClickListener {
+            controller?.dispatch(PronunciationPlanButtonClicked)
         }
         timeForAnswerButton.setOnClickListener {
             controller?.dispatch(TimeForAnswerButtonClicked)
@@ -255,8 +255,8 @@ class DeckSettingsFragment : BaseFragment() {
         questionDisplayHelpButton.setOnClickListener {
             controller?.dispatch(QuestionDisplayHelpButtonClicked)
         }
-        speakPlanHelpButton.setOnClickListener {
-            controller?.dispatch(SpeakPlanHelpButtonClicked)
+        pronunciationPlanHelpButton.setOnClickListener {
+            controller?.dispatch(PronunciationPlanHelpButtonClicked)
         }
         motivationalTimerHelpButton.setOnClickListener {
             controller?.dispatch(MotivationalTimerHelpButtonClicked)

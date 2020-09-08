@@ -11,7 +11,7 @@ class ExercisePreference(
     pronunciation: Pronunciation,
     isQuestionDisplayed: Boolean,
     cardReverse: CardReverse,
-    speakPlan: SpeakPlan,
+    pronunciationPlan: PronunciationPlan,
     timeForAnswer: Int
 ) : RegistrableFlowableState<ExercisePreference>() {
     var name: String by me(name)
@@ -21,7 +21,7 @@ class ExercisePreference(
     var pronunciation: Pronunciation by me(pronunciation)
     var isQuestionDisplayed: Boolean by me(isQuestionDisplayed)
     var cardReverse: CardReverse by me(cardReverse)
-    var speakPlan: SpeakPlan by me(speakPlan)
+    var pronunciationPlan: PronunciationPlan by me(pronunciationPlan)
     var timeForAnswer: Int by me(timeForAnswer)
 
     override fun copy() = ExercisePreference(
@@ -33,7 +33,7 @@ class ExercisePreference(
         pronunciation.copy(),
         isQuestionDisplayed,
         cardReverse,
-        speakPlan.copy(),
+        pronunciationPlan.copy(),
         timeForAnswer
     )
 
@@ -48,7 +48,7 @@ class ExercisePreference(
                 pronunciation = Pronunciation.Default,
                 isQuestionDisplayed = true,
                 cardReverse = CardReverse.Off,
-                speakPlan = SpeakPlan.Default,
+                pronunciationPlan = PronunciationPlan.Default,
                 timeForAnswer = 0 // that means 'do not use timer'
             )
         }

@@ -6,7 +6,7 @@
         android:elevation="10.dp">
 
     <View
-            android:id="@+id/speakEventButton"
+            android:id="@+id/pronunciationEventButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?selectableItemBackground"
@@ -71,7 +71,7 @@
             app:layout_constraintTop_toBottomOf="@id/speakIcon" />
 
     <TextView
-            android:id="@+id/speakEventTextView"
+            android:id="@+id/pronunciationEventTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
@@ -82,7 +82,7 @@
             android:maxLines="1"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/removeSpeakEventButton"
+            app:layout_constraintEnd_toStartOf="@+id/removePronunciationEventButton"
             app:layout_constraintStart_toEndOf="@id/timeLineTop"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Speak question"
@@ -90,12 +90,12 @@
             tools:textStyle="bold" />
 
     <ImageButton
-            android:id="@+id/removeSpeakEventButton"
+            android:id="@+id/removePronunciationEventButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="16dp"
             android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="@string/description_remove_speak_event_button"
+            android:contentDescription="@string/description_remove_pronunciation_event_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

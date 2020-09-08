@@ -55,7 +55,7 @@ fun Card.toCardDb(
 fun ExercisePreferenceDb.toExercisePreference(
     intervalScheme: IntervalScheme?,
     pronunciation: Pronunciation,
-    speakPlan: SpeakPlan
+    pronunciationPlan: PronunciationPlan
 ) = ExercisePreference(
     id,
     name,
@@ -65,7 +65,7 @@ fun ExercisePreferenceDb.toExercisePreference(
     pronunciation,
     isQuestionDisplayed,
     cardReverse,
-    speakPlan,
+    pronunciationPlan,
     timeForAnswer
 )
 
@@ -78,7 +78,7 @@ fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = Exercise
     pronunciation.id,
     isQuestionDisplayed,
     cardReverse,
-    speakPlan.id,
+    pronunciationPlan.id,
     timeForAnswer
 )
 
@@ -130,16 +130,16 @@ fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb.Impl(
     speakTextInBrackets
 )
 
-fun SpeakPlanDb.toSpeakPlan() = SpeakPlan(
+fun PronunciationPlanDb.toPronunciationPlan() = PronunciationPlan(
     id,
     name,
-    speakEvents
+    pronunciationEvents
 )
 
-fun SpeakPlan.toSpeakPlanDb(): SpeakPlanDb = SpeakPlanDb.Impl(
+fun PronunciationPlan.toPronunciationPlanDb(): PronunciationPlanDb = PronunciationPlanDb.Impl(
     id,
     name,
-    speakEvents
+    pronunciationEvents
 )
 
 fun DeckReviewPreferenceDb.toDeckReviewPreference() = DeckReviewPreference(
@@ -173,7 +173,7 @@ fun RepetitionSettingDb.toRepetitionSetting() = RepetitionSetting(
 )
 
 fun FullscreenPreferenceDb.toFullscreenPreference() = FullscreenPreference(
-    isEnabledInDashboardAndSettings,
+    isEnabledInHomeAndSettings,
     isEnabledInExercise,
     isEnabledInRepetition
 )

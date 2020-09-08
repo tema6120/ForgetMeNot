@@ -100,8 +100,8 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
-                android:id="@+id/action_deck_setup_screen_to_speak_plan_screen"
-                app:destination="@id/speak_plan_screen"
+                android:id="@+id/action_deck_setup_screen_to_pronunciation_plan_screen"
+                app:destination="@id/pronunciation_plan_screen"
                 app:enterAnim="@anim/slide_in_right"
                 app:exitAnim="@anim/slide_out_left"
                 app:popEnterAnim="@anim/slide_in_left"
@@ -159,25 +159,25 @@
             tools:layout="@layout/dialog_modify_interval" />
 
     <fragment
-            android:id="@+id/speak_plan_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanFragment"
-            android:label="@string/label_speak_plan_screen"
-            tools:layout="@layout/fragment_speak_plan">
+            android:id="@+id/pronunciation_plan_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanFragment"
+            android:label="@string/label_pronunciation_plan_screen"
+            tools:layout="@layout/fragment_pronunciation_plan">
 
         <action
-                android:id="@+id/action_show_speak_event_dialog"
-                app:destination="@+id/speak_event_dialog" />
+                android:id="@+id/action_show_pronunciation_event_dialog"
+                app:destination="@+id/pronunciation_event_dialog" />
 
         <action
-                android:id="@+id/action_speak_plan_screen_to_help_screen"
+                android:id="@+id/action_pronunciation_plan_screen_to_help_screen"
                 app:destination="@id/help_screen" />
 
     </fragment>
 
     <dialog
-            android:id="@+id/speak_event_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialog"
-            tools:layout="@layout/dialog_speak_event" />
+            android:id="@+id/pronunciation_event_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationEventDialog"
+            tools:layout="@layout/dialog_pronunciation_event" />
 
     <dialog
             android:id="@+id/motivational_timer_dialog"

@@ -21,7 +21,7 @@ import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.Rep
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanDiScope
+import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -103,18 +103,18 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_pronunciation_screen_to_help_screen)
     }
 
-    fun navigateToSpeakPlan(createDiScope: () -> SpeakPlanDiScope) {
-        SpeakPlanDiScope.open(createDiScope)
-        navigate(R.id.action_deck_setup_screen_to_speak_plan_screen)
+    fun navigateToPronunciationPlan(createDiScope: () -> PronunciationPlanDiScope) {
+        PronunciationPlanDiScope.open(createDiScope)
+        navigate(R.id.action_deck_setup_screen_to_pronunciation_plan_screen)
     }
 
-    fun showSpeakEventDialog() {
-        navigate(R.id.action_show_speak_event_dialog)
+    fun showPronunciationEventDialog() {
+        navigate(R.id.action_show_pronunciation_event_dialog)
     }
 
-    fun navigateToHelpFromSpeakPlan(createDiScope: () -> HelpDiScope) {
+    fun navigateToHelpFromPronunciationPlan(createDiScope: () -> HelpDiScope) {
         HelpDiScope.open(createDiScope)
-        navigate(R.id.action_speak_plan_screen_to_help_screen)
+        navigate(R.id.action_pronunciation_plan_screen_to_help_screen)
     }
 
     fun showMotivationalTimerDialog(createDiScope: () -> MotivationalTimerDiScope) {

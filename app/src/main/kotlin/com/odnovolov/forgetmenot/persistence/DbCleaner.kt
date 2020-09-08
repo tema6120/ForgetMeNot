@@ -17,7 +17,7 @@ class DbCleaner private constructor(
             database.exercisePreferenceQueries.deleteUnused()
             database.intervalSchemeQueries.deleteUnused()
             database.pronunciationQueries.deleteUnused()
-            database.speakPlanQueries.deleteUnused()
+            database.pronunciationPlanQueries.deleteUnused()
             database.repetitionSettingQueries.deleteUnused()
         }
         sqliteDriver.executeQuery(null, "VACUUM", 0)

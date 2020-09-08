@@ -164,9 +164,9 @@ class WalkingModeSettingsFragment : BaseFragment() {
         NO_ACTION -> R.string.key_gesture_action_no_action
         MOVE_TO_NEXT_CARD -> R.string.key_gesture_action_move_to_next_card
         MOVE_TO_PREVIOUS_CARD -> R.string.key_gesture_action_move_to_previous_card
-        SET_CARD_AS_REMEMBER -> R.string.key_gesture_action_set_card_as_remember
-        SET_CARD_AS_NOT_REMEMBER -> R.string.key_gesture_action_set_card_as_not_remember
-        SET_CARD_AS_LEARNED -> R.string.key_gesture_action_set_card_as_learned
+        MARK_AS_REMEMBER -> R.string.key_gesture_action_mark_as_remember
+        MARK_AS_NOT_REMEMBER -> R.string.key_gesture_action_mark_as_not_remember
+        MARK_CARD_AS_LEARNED -> R.string.key_gesture_action_mark_card_as_learned
         SPEAK_QUESTION -> R.string.key_gesture_action_speak_question
         SPEAK_ANSWER -> R.string.key_gesture_action_speak_answer
     }

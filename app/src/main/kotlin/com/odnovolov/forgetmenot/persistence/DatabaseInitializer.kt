@@ -68,12 +68,12 @@ object DatabaseInitializer {
                 questionLanguageAdapter = localeAdapter,
                 answerLanguageAdapter = localeAdapter
             ),
+            PronunciationPlanDb.Adapter(
+                pronunciationEventsAdapter = pronunciationEventsAdapter
+            ),
             RepetitionSettingDb.Adapter(
                 lastAnswerFromTimeAgoAdapter = dateTimeSpanAdapter,
                 lastAnswerToTimeAgoAdapter = dateTimeSpanAdapter
-            ),
-            SpeakPlanDb.Adapter(
-                speakEventsAdapter = speakEventsAdapter
             )
         )
     }

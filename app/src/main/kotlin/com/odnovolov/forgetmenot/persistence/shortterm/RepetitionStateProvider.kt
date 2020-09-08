@@ -56,7 +56,7 @@ class RepetitionStateProvider(
         return SerializableState(
             serializableRepetitionCards,
             state.repetitionCardPosition,
-            state.speakEventPosition,
+            state.pronunciationEventPosition,
             state.isPlaying,
             state.numberOfLaps,
             state.currentLap

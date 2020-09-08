@@ -1,13 +1,13 @@
-package com.odnovolov.forgetmenot.presentation.screen.speakplan
+package com.odnovolov.forgetmenot.presentation.screen.pronunciationplan
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanUiEvent.SpeakEventItemsMoved
+import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.PronunciationEventItemsMoved
 
-class SpeakEventItemTouchHelperCallback(
-    private val controller: SpeakPlanController,
-    private val adapter: SpeakEventAdapter
+class PronunciationEventItemTouchHelperCallback(
+    private val controller: PronunciationPlanController,
+    private val adapter: PronunciationEventAdapter
 ) : ItemTouchHelper.Callback() {
     private val lastFromPosition = -1
     private val lastToPosition = -1
@@ -36,7 +36,7 @@ class SpeakEventItemTouchHelperCallback(
             return false
         }
         adapter.onItemMove(fromPosition, toPosition)
-        controller.dispatch(SpeakEventItemsMoved(fromPosition, toPosition))
+        controller.dispatch(PronunciationEventItemsMoved(fromPosition, toPosition))
         return true
     }
 

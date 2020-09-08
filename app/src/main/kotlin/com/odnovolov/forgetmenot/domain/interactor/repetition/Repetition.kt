@@ -2,9 +2,9 @@ package com.odnovolov.forgetmenot.domain.interactor.repetition
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
-import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
-import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
-import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.Delay
+import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
+import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
+import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.Delay
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.interactor.exercise.TextInBracketsRemover
 import kotlinx.coroutines.*
@@ -19,7 +19,7 @@ class Repetition(
     class State(
         repetitionCards: List<RepetitionCard>,
         repetitionCardPosition: Int = 0,
-        speakEventPosition: Int = 0,
+        pronunciationEventPosition: Int = 0,
         isPlaying: Boolean = true,
         numberOfLaps: Int,
         currentLap: Int = 0,
@@ -28,7 +28,7 @@ class Repetition(
     ) : FlowableState<State>() {
         val repetitionCards: List<RepetitionCard> by me(repetitionCards)
         var repetitionCardPosition: Int by me(repetitionCardPosition)
-        var speakEventPosition: Int by me(speakEventPosition)
+        var pronunciationEventPosition: Int by me(pronunciationEventPosition)
         var isPlaying: Boolean by me(isPlaying)
         val numberOfLaps: Int by me(numberOfLaps)
         var currentLap: Int by me(currentLap)
@@ -41,21 +41,21 @@ class Repetition(
 
     private lateinit var currentPronunciation: Pronunciation
 
-    private val currentSpeakPlan
-        get() = currentRepetitionCard.deck.exercisePreference.speakPlan
+    private val currentPronunciationPlan
+        get() = currentRepetitionCard.deck.exercisePreference.pronunciationPlan
 
-    private val currentSpeakEvent: SpeakEvent
-        get() = currentSpeakPlan.speakEvents[state.speakEventPosition]
+    private val currentPronunciationEvent: PronunciationEvent
+        get() = currentPronunciationPlan.pronunciationEvents[state.pronunciationEventPosition]
 
     private val textInBracketsRemover by lazy { TextInBracketsRemover() }
 
     private var delayJob: Job? = null
 
     init {
-        speaker.setOnSpeakingFinished { tryToExecuteNextSpeakEvent() }
+        speaker.setOnSpeakingFinished { tryToExecuteNextPronunciationEvent() }
         updateCurrentPronunciation()
         if (state.isPlaying) {
-            executeSpeakEvent()
+            executePronunciationEvent()
         }
     }
 
@@ -66,7 +66,7 @@ class Repetition(
         pause()
         state.repetitionCardPosition = position
         updateCurrentPronunciation()
-        state.speakEventPosition = 0
+        state.pronunciationEventPosition = 0
     }
 
     private fun updateCurrentPronunciation() {
@@ -179,11 +179,11 @@ class Repetition(
     fun resume() {
         if (state.isPlaying) return
         state.isPlaying = true
-        executeSpeakEvent()
+        executePronunciationEvent()
     }
 
-    private fun executeSpeakEvent() {
-        when (val speakEvent = currentSpeakEvent) {
+    private fun executePronunciationEvent() {
+        when (val pronunciationEvent = currentPronunciationEvent) {
             SpeakQuestion -> {
                 speakQuestion()
             }
@@ -193,35 +193,35 @@ class Repetition(
             }
             is Delay -> {
                 delayJob = launch {
-                    delay(speakEvent.timeSpan.millisecondsLong)
+                    delay(pronunciationEvent.timeSpan.millisecondsLong)
                     if (isActive) {
-                        tryToExecuteNextSpeakEvent()
+                        tryToExecuteNextPronunciationEvent()
                     }
                 }
             }
         }
     }
 
-    private fun tryToExecuteNextSpeakEvent() {
+    private fun tryToExecuteNextPronunciationEvent() {
         if (!state.isPlaying) return
-        val success: Boolean = switchToNextSpeakEvent()
+        val success: Boolean = switchToNextPronunciationEvent()
         if (success) {
-            executeSpeakEvent()
+            executePronunciationEvent()
         } else {
             state.isPlaying = false
         }
     }
 
-    private fun switchToNextSpeakEvent(): Boolean {
+    private fun switchToNextPronunciationEvent(): Boolean {
         return when {
-            hasOneMoreSpeakEventForCurrentRepetitionCard() -> {
-                state.speakEventPosition++
+            hasOneMorePronunciationEventForCurrentRepetitionCard() -> {
+                state.pronunciationEventPosition++
                 true
             }
             hasOneMoreRepetitionCard() -> {
                 state.repetitionCardPosition++
                 updateCurrentPronunciation()
-                state.speakEventPosition = 0
+                state.pronunciationEventPosition = 0
                 true
             }
             hasOneMoreLap() -> {
@@ -232,7 +232,7 @@ class Repetition(
                 }
                 state.repetitionCardPosition = 0
                 updateCurrentPronunciation()
-                state.speakEventPosition = 0
+                state.pronunciationEventPosition = 0
                 state.currentLap++
                 true
             }
@@ -240,8 +240,8 @@ class Repetition(
         }
     }
 
-    private fun hasOneMoreSpeakEventForCurrentRepetitionCard(): Boolean =
-        state.speakEventPosition + 1 < currentSpeakPlan.speakEvents.size
+    private fun hasOneMorePronunciationEventForCurrentRepetitionCard(): Boolean =
+        state.pronunciationEventPosition + 1 < currentPronunciationPlan.pronunciationEvents.size
 
     private fun hasOneMoreRepetitionCard(): Boolean =
         state.repetitionCardPosition + 1 < state.repetitionCards.size

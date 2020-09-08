@@ -14,8 +14,8 @@ import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakEventDialogState
-import com.odnovolov.forgetmenot.presentation.screen.speakplan.SpeakPlanDiScope
+import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationEventDialogState
+import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 
 class DeckSettingsController(
     private val deckSettings: DeckSettings,
@@ -65,9 +65,12 @@ class DeckSettingsController(
                 deckSettings.setCardReverse(event.cardReverse)
             }
 
-            SpeakPlanButtonClicked -> {
-                navigator.navigateToSpeakPlan {
-                    SpeakPlanDiScope.create(PresetDialogState(), SpeakEventDialogState())
+            PronunciationPlanButtonClicked -> {
+                navigator.navigateToPronunciationPlan {
+                    PronunciationPlanDiScope.create(
+                        PresetDialogState(),
+                        PronunciationEventDialogState()
+                    )
                 }
             }
 
@@ -106,7 +109,7 @@ class DeckSettingsController(
                 }
             }
 
-            SpeakPlanHelpButtonClicked -> {
+            PronunciationPlanHelpButtonClicked -> {
                 navigator.navigateToHelpFromDeckSetup {
                     HelpDiScope(HelpArticle.Repetition)
                 }

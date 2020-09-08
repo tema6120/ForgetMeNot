@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.persistence
 
-import com.odnovolov.forgetmenot.domain.entity.SpeakEvent
-import com.odnovolov.forgetmenot.domain.entity.SpeakEvent.*
+import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
+import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 import com.soywiz.klock.*
 import com.squareup.sqldelight.ColumnAdapter
@@ -52,18 +52,18 @@ val deckSortingAdapter = object : ColumnAdapter<DeckSorting, String> {
     }
 }
 
-val speakEventsAdapter = object : ColumnAdapter<List<SpeakEvent>, String> {
-    override fun encode(value: List<SpeakEvent>): String {
-        return value.joinToString { speakEvent: SpeakEvent ->
-            when (speakEvent) {
+val pronunciationEventsAdapter = object : ColumnAdapter<List<PronunciationEvent>, String> {
+    override fun encode(value: List<PronunciationEvent>): String {
+        return value.joinToString { pronunciationEvent: PronunciationEvent ->
+            when (pronunciationEvent) {
                 SpeakQuestion -> "SPEAK_QUESTION"
                 SpeakAnswer -> "SPEAK_ANSWER"
-                is Delay -> speakEvent.timeSpan.seconds.toInt().toString()
+                is Delay -> pronunciationEvent.timeSpan.seconds.toInt().toString()
             }
         }
     }
 
-    override fun decode(databaseValue: String): List<SpeakEvent> {
+    override fun decode(databaseValue: String): List<PronunciationEvent> {
         return databaseValue.split(", ")
             .map { chunk: String ->
                 when (chunk) {

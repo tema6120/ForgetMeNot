@@ -42,9 +42,9 @@ class DeckSettingsViewModel(
             exercisePreference.flowOf(ExercisePreference::cardReverse)
         }
 
-    val speakPlan: Flow<SpeakPlan> = currentExercisePreference
+    val pronunciationPlan: Flow<PronunciationPlan> = currentExercisePreference
         .flatMapLatest { exercisePreference: ExercisePreference ->
-            exercisePreference.flowOf(ExercisePreference::speakPlan)
+            exercisePreference.flowOf(ExercisePreference::pronunciationPlan)
         }
 
     val timeForAnswer: Flow<Int> = currentExercisePreference

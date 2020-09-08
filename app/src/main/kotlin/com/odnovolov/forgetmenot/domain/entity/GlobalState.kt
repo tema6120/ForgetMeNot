@@ -9,7 +9,7 @@ class GlobalState(
     sharedExercisePreferences: CopyableCollection<ExercisePreference>,
     sharedIntervalSchemes: CopyableCollection<IntervalScheme>,
     sharedPronunciations: CopyableCollection<Pronunciation>,
-    sharedSpeakPlans: CopyableCollection<SpeakPlan>,
+    sharedPronunciationPlans: CopyableCollection<PronunciationPlan>,
     sharedRepetitionSettings: CopyableCollection<RepetitionSetting>,
     currentRepetitionSetting: RepetitionSetting,
     isWalkingModeEnabled: Boolean
@@ -25,8 +25,8 @@ class GlobalState(
     var sharedPronunciations: CopyableCollection<Pronunciation>
             by me(sharedPronunciations, CollectionChange::class)
 
-    var sharedSpeakPlans: CopyableCollection<SpeakPlan>
-            by me(sharedSpeakPlans, CollectionChange::class)
+    var sharedPronunciationPlans: CopyableCollection<PronunciationPlan>
+            by me(sharedPronunciationPlans, CollectionChange::class)
 
     var sharedRepetitionSettings: CopyableCollection<RepetitionSetting>
             by me(sharedRepetitionSettings, CollectionChange::class)
@@ -40,7 +40,7 @@ class GlobalState(
         sharedExercisePreferences.copy(),
         sharedIntervalSchemes.copy(),
         sharedPronunciations.copy(),
-        sharedSpeakPlans.copy(),
+        sharedPronunciationPlans.copy(),
         sharedRepetitionSettings.copy(),
         currentRepetitionSetting.copy(),
         isWalkingModeEnabled

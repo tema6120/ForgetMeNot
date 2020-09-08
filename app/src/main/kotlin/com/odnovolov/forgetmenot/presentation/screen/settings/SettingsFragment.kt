@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.string
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
@@ -50,8 +49,8 @@ class SettingsFragment : BaseFragment() {
                 item as FullscreenPreferenceItem
                 controller?.dispatch(
                     when (item.property) {
-                        FullscreenPreference::isEnabledInDashboardAndSettings ->
-                            FullscreenInDashboardAndSettingsCheckboxClicked
+                        FullscreenPreference::isEnabledInHomeAndSettings ->
+                            FullscreenInHomeAndSettingsCheckboxClicked
                         FullscreenPreference::isEnabledInExercise ->
                             FullscreenInExerciseCheckboxClicked
                         FullscreenPreference::isEnabledInRepetition ->
@@ -90,13 +89,13 @@ class SettingsFragment : BaseFragment() {
         with(viewModel) {
             fullscreenPreference.observe { fullscreenPreference: FullscreenPreference ->
                 (requireActivity() as MainActivity).fullscreenModeManager
-                    .setFullscreenMode(fullscreenPreference.isEnabledInDashboardAndSettings)
+                    .setFullscreenMode(fullscreenPreference.isEnabledInHomeAndSettings)
 
                 val items = listOf(
                     FullscreenPreferenceItem(
-                        property = FullscreenPreference::isEnabledInDashboardAndSettings,
-                        text = getString(R.string.item_text_fullscreen_in_dashboard_and_settings),
-                        isSelected = fullscreenPreference.isEnabledInDashboardAndSettings
+                        property = FullscreenPreference::isEnabledInHomeAndSettings,
+                        text = getString(R.string.item_text_fullscreen_in_home_and_settings),
+                        isSelected = fullscreenPreference.isEnabledInHomeAndSettings
                     ),
                     FullscreenPreferenceItem(
                         property = FullscreenPreference::isEnabledInExercise,
@@ -113,12 +112,12 @@ class SettingsFragment : BaseFragment() {
 
                 fullscreenSettingsDescription.text = with(fullscreenPreference) {
                     when {
-                        isEnabledInDashboardAndSettings
+                        isEnabledInHomeAndSettings
                                 && isEnabledInExercise
-                                && isEnabledInRepetition -> getString(string.everywhere)
-                        !isEnabledInDashboardAndSettings
+                                && isEnabledInRepetition -> getString(R.string.everywhere)
+                        !isEnabledInHomeAndSettings
                                 && !isEnabledInExercise
-                                && !isEnabledInRepetition -> getString(string.nowhere)
+                                && !isEnabledInRepetition -> getString(R.string.nowhere)
                         else -> {
                             items.filter { item: Item -> item.isSelected }
                                 .joinToString { item: Item ->

@@ -1,0 +1,12 @@
+CREATE TABLE SharedPronunciationPlanDb (
+    pronunciationPlanId INTEGER PRIMARY KEY
+);
+
+insert:
+INSERT INTO SharedPronunciationPlanDb(pronunciationPlanId) VALUES (?);
+
+selectAll:
+SELECT * FROM SharedPronunciationPlanDb;
+
+delete:
+DELETE FROM SharedPronunciationPlanDb WHERE pronunciationPlanId = ?;

@@ -17,9 +17,9 @@ class SettingsController(
                 navigator.navigateToWalkingModeSettings()
             }
 
-            FullscreenInDashboardAndSettingsCheckboxClicked -> {
+            FullscreenInHomeAndSettingsCheckboxClicked -> {
                 with(fullscreenPreference) {
-                    isEnabledInDashboardAndSettings = !isEnabledInDashboardAndSettings
+                    isEnabledInHomeAndSettings = !isEnabledInHomeAndSettings
                 }
             }
 

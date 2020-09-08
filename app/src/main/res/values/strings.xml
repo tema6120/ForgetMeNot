@@ -24,8 +24,8 @@
     <string name="description_cancel_button">Cancel</string>
     <string name="description_reverse_card_button">Reverse card</string>
     <string name="description_drag_handle_button">Drag handle</string>
-    <string name="description_remove_speak_event_button">Remove speak event</string>
-    <string name="description_add_speak_event_button">Add speak event</string>
+    <string name="description_remove_pronunciation_event_button">Remove pronunciation event</string>
+    <string name="description_add_pronunciation_event_button">Add pronunciation event</string>
     <string name="description_speak_icon">Speak icon</string>
     <string name="description_rename_icon">Rename icon</string>
     <string name="description_navigate_icon">Navigate icon</string>
@@ -64,7 +64,7 @@
     <string name="text_pronunciation">Pronunciation</string>
     <string name="label_pronunciation_screen">Pronunciation</string>
     <string name="label_intervals_screen">Intervals</string>
-    <string name="label_speak_plan_screen">Speak plan</string>
+    <string name="label_pronunciation_plan_screen">Pronunciation plan</string>
     <string name="label_cards_editor_screen">Cards editor</string>
     <string name="label_settings_screen">Settings</string>
     <string name="label_walking_mode_settings_screen">Walking mode settings</string>
@@ -107,7 +107,7 @@
     <string name="hint_answer_edittext">Enter the answer</string>
     <string name="dialog_title_modify_interval">Interval</string>
     <string name="title_interval_scheme_name_input_dialog">Enter pronunciation name</string>
-    <string name="title_display_question">Display question</string>
+    <string name="title_question_display">Question display</string>
     <string name="title_card_reverse">Card Reverse</string>
     <string name="card_reverse_label_off">Off</string>
     <string name="card_reverse_label_on">On</string>
@@ -139,9 +139,9 @@
     <string name="key_gesture_action_no_action">No action</string>
     <string name="key_gesture_action_move_to_next_card">Move to next card</string>
     <string name="key_gesture_action_move_to_previous_card">Move to previous card</string>
-    <string name="key_gesture_action_set_card_as_remember">Set card as \'Remember\'</string>
-    <string name="key_gesture_action_set_card_as_not_remember">Set card as \'Not remember\'</string>
-    <string name="key_gesture_action_set_card_as_learned">Set card as \'Learned\'</string>
+    <string name="key_gesture_action_mark_as_remember">Mark as \'Remember\'</string>
+    <string name="key_gesture_action_mark_as_not_remember">Mark as \'Not remember\'</string>
+    <string name="key_gesture_action_mark_card_as_learned">Mark card as \'Learned\'</string>
     <string name="key_gesture_action_speak_question">Speak question</string>
     <string name="key_gesture_action_speak_answer">Speak answer</string>
     <string name="repetition_notification_channel_name">Repetition</string>
@@ -183,18 +183,18 @@
         <item quantity="one">card matches\nthe filter</item>
         <item quantity="other">cards match\nthe filter</item>
     </plurals>
-    <string name="text_speak_plan_title">Speak plan for Repetition</string>
-    <string name="speak_event_speak_question">Speak question</string>
-    <string name="speak_event_speak_answer">Speak answer</string>
-    <string name="speak_event_delay_with_args">Delay %d sec.</string>
-    <string name="speak_event_delay">Delay</string>
+    <string name="text_pronunciation_plan_title">Pronunciation plan for Repetition</string>
+    <string name="pronunciation_event_speak_question">Speak question</string>
+    <string name="pronunciation_event_speak_answer">Speak answer</string>
+    <string name="pronunciation_event_delay_with_args">Delay %d sec.</string>
+    <string name="pronunciation_event_delay">Delay</string>
     <string name="sec">sec.</string>
-    <string name="title_dialog_speak_event">Speak event</string>
+    <string name="title_dialog_pronunciation_event">Choose event</string>
     <string name="error_message_cannot_change_last_speak_question">Cannot change last \'Speak Question\' event</string>
     <string name="error_message_cannot_change_last_speak_answer">Cannot change last \'Speak Answer\' event</string>
     <string name="title_preset_name_input_dialog">Preset name</string>
     <string name="title_fullscreen_mode_dialog">Fullscreen mode</string>
-    <string name="item_text_fullscreen_in_dashboard_and_settings"><![CDATA[In Dashboard & Settings]]></string>
+    <string name="item_text_fullscreen_in_home_and_settings"><![CDATA[In Home screen & Settings]]></string>
     <string name="item_text_fullscreen_in_exercise">In Exercise</string>
     <string name="item_text_fullscreen_in_repetition">In Repetition</string>
     <string name="everywhere">Everywhere</string>

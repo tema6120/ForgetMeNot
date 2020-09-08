@@ -47,7 +47,7 @@ class LongTermStateSaverImpl(
             put(IntervalScheme::class, IntervalSchemePropertyChangeHandler(database))
             put(Interval::class, IntervalPropertyChangeHandler(database))
             put(Pronunciation::class, PronunciationPropertyChangeHandler(database))
-            put(SpeakPlan::class, SpeakPlanPropertyChangeHandler(database))
+            put(PronunciationPlan::class, PronunciationPlanPropertyChangeHandler(database))
             put(RepetitionSetting::class, RepetitionSettingPropertyChangeHandler(database))
             put(DeckReviewPreference::class, DeckReviewPreferencePropertyChangeHandler(database))
             put(WalkingModePreference::class, WalkingModePreferencePropertyChangeHandler(database))

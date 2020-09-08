@@ -224,9 +224,9 @@ class ExerciseController(
             NO_ACTION -> return
             MOVE_TO_NEXT_CARD -> sendCommand(MoveToNextPosition)
             MOVE_TO_PREVIOUS_CARD -> sendCommand(MoveToPreviousPosition)
-            SET_CARD_AS_REMEMBER -> exercise.answer(Remember)
-            SET_CARD_AS_NOT_REMEMBER -> exercise.answer(NotRemember)
-            SET_CARD_AS_LEARNED -> {
+            MARK_AS_REMEMBER -> exercise.answer(Remember)
+            MARK_AS_NOT_REMEMBER -> exercise.answer(NotRemember)
+            MARK_CARD_AS_LEARNED -> {
                 exercise.setIsCardLearned(true)
                 sendCommand(MoveToNextPosition)
             }

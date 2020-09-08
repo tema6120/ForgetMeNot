@@ -54,7 +54,7 @@ class FullscreenModeManager(
                         setFullscreenMode(isEnabledInRepetition)
                     }
                     else -> {
-                        setFullscreenMode(isEnabledInDashboardAndSettings)
+                        setFullscreenMode(isEnabledInHomeAndSettings)
                     }
                 }
             }

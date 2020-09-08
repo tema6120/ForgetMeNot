@@ -1,42 +1,42 @@
-package com.odnovolov.forgetmenot.presentation.screen.speakplan
+package com.odnovolov.forgetmenot.presentation.screen.pronunciationplan
 
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.SpeakPlanSettings
+import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationPlanSettings
 import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider
-import com.odnovolov.forgetmenot.persistence.shortterm.SpeakEventDialogStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.PronunciationEventDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
 
-class SpeakPlanDiScope private constructor(
+class PronunciationPlanDiScope private constructor(
     initialPresetDialogState: PresetDialogState? = null,
-    initialSpeakEventDialogState: SpeakEventDialogState? = null
+    initialPronunciationEventDialogState: PronunciationEventDialogState? = null
 ) {
     private val presetDialogStateProvider = PresetDialogStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        key = "SpeakPlan Preset State"
+        key = "PronunciationPlan Preset State"
     )
 
     private val presetDialogState: PresetDialogState =
         initialPresetDialogState ?: presetDialogStateProvider.load()
 
-    private val speakEventDialogStateProvider = SpeakEventDialogStateProvider(
+    private val pronunciationEventDialogStateProvider = PronunciationEventDialogStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database
     )
 
-    private val speakEventDialogState: SpeakEventDialogState =
-        initialSpeakEventDialogState ?: speakEventDialogStateProvider.load()
+    private val pronunciationEventDialogState: PronunciationEventDialogState =
+        initialPronunciationEventDialogState ?: pronunciationEventDialogStateProvider.load()
 
-    private val speakPlanSettings = SpeakPlanSettings(
+    private val pronunciationPlanSettings = PronunciationPlanSettings(
         DeckSettingsDiScope.shareDeckSettings(),
         AppDiScope.get().globalState
     )
 
-    val presetController = SpeakPlanPresetController(
+    val presetController = PronunciationPlanPresetController(
         DeckSettingsDiScope.shareDeckSettings().state,
-        speakPlanSettings,
+        pronunciationPlanSettings,
         presetDialogState,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
@@ -44,38 +44,38 @@ class SpeakPlanDiScope private constructor(
         presetDialogStateProvider
     )
 
-    val presetViewModel = SpeakPlanPresetViewModel(
+    val presetViewModel = PronunciationPlanPresetViewModel(
         DeckSettingsDiScope.shareDeckSettings().state,
         presetDialogState,
         AppDiScope.get().globalState
     )
 
-    val controller = SpeakPlanController(
+    val controller = PronunciationPlanController(
         DeckSettingsDiScope.shareDeckSettings().state,
-        speakPlanSettings,
-        speakEventDialogState,
+        pronunciationPlanSettings,
+        pronunciationEventDialogState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
-        speakEventDialogStateProvider
+        pronunciationEventDialogStateProvider
     )
 
-    val viewModel = SpeakPlanViewModel(
+    val viewModel = PronunciationPlanViewModel(
         DeckSettingsDiScope.shareDeckSettings().state,
-        speakEventDialogState
+        pronunciationEventDialogState
     )
 
-    companion object : DiScopeManager<SpeakPlanDiScope>() {
+    companion object : DiScopeManager<PronunciationPlanDiScope>() {
         fun create(
             initialPresetDialogState: PresetDialogState,
-            initialSpeakEventDialogState: SpeakEventDialogState
-        ) = SpeakPlanDiScope(
+            initialPronunciationEventDialogState: PronunciationEventDialogState
+        ) = PronunciationPlanDiScope(
             initialPresetDialogState,
-            initialSpeakEventDialogState
+            initialPronunciationEventDialogState
         )
 
-        override fun recreateDiScope() = SpeakPlanDiScope()
+        override fun recreateDiScope() = PronunciationPlanDiScope()
 
-        override fun onCloseDiScope(diScope: SpeakPlanDiScope) {
+        override fun onCloseDiScope(diScope: PronunciationPlanDiScope) {
             diScope.controller.dispose()
         }
     }

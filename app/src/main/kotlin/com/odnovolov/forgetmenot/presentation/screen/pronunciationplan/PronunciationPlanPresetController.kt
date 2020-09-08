@@ -1,11 +1,11 @@
-package com.odnovolov.forgetmenot.presentation.screen.speakplan
+package com.odnovolov.forgetmenot.presentation.screen.pronunciationplan
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.domain.entity.checkSpeakPlanName
+import com.odnovolov.forgetmenot.domain.entity.checkPronunciationPlanName
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.SpeakPlanSettings
+import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationPlanSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -16,9 +16,9 @@ import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalP
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 
-class SpeakPlanPresetController(
+class PronunciationPlanPresetController(
     private val deckSettingsState: DeckSettings.State,
-    private val speakPlanSettings: SpeakPlanSettings,
+    private val pronunciationPlanSettings: PronunciationPlanSettings,
     private val presetDialogState: PresetDialogState,
     private val globalState: GlobalState,
     private val navigator: Navigator,
@@ -30,51 +30,52 @@ class SpeakPlanPresetController(
     longTermStateSaver
 ) {
     override fun onSetPresetButtonClicked(id: Long?) {
-        speakPlanSettings.setSpeakPlan(speakPlanId = id!!)
+        pronunciationPlanSettings.setPronunciationPlan(pronunciationPlanId = id!!)
     }
 
     override fun getPresetName(id: Long): String {
-        return globalState.sharedSpeakPlans.first { it.id == id }.name
+        return globalState.sharedPronunciationPlans.first { it.id == id }.name
     }
 
     override fun onDeletePresetButtonClicked(id: Long) {
         val isPresetInUse: Boolean = globalState.decks
-            .any { deck: Deck -> deck.exercisePreference.speakPlan.id == id }
+            .any { deck: Deck -> deck.exercisePreference.pronunciationPlan.id == id }
         if (isPresetInUse) {
             presetDialogState.idToDelete = id
             sendCommand(ShowRemovePresetDialog)
         } else {
-            speakPlanSettings.deleteSharedSpeakPlan(speakPlanId = id)
+            pronunciationPlanSettings.deleteSharedPronunciationPlan(pronunciationPlanId = id)
         }
     }
 
     override fun onPresetNamePositiveDialogButtonClicked() {
         val newPresetName: String = presetDialogState.typedPresetName
-        if (checkSpeakPlanName(newPresetName, globalState) != NameCheckResult.Ok) return
+        if (checkPronunciationPlanName(newPresetName, globalState) != NameCheckResult.Ok) return
         when (val purpose = presetDialogState.purpose) {
             ToMakeIndividualPresetAsShared -> {
-                val speakPlan = deckSettingsState.deck.exercisePreference.speakPlan
-                speakPlanSettings.renameSpeakPlan(speakPlan, newPresetName)
+                val pronunciationPlan = deckSettingsState.deck.exercisePreference.pronunciationPlan
+                pronunciationPlanSettings.renamePronunciationPlan(pronunciationPlan, newPresetName)
             }
             ToCreateNewSharedPreset -> {
-                speakPlanSettings.createNewSharedSpeakPlan(newPresetName)
+                pronunciationPlanSettings.createNewSharedPronunciationPlan(newPresetName)
             }
             is ToRenameSharedPreset -> {
-                val speakPlan = globalState.sharedSpeakPlans.first { it.id == purpose.id }
-                speakPlanSettings.renameSpeakPlan(speakPlan, newPresetName)
+                val pronunciationPlan =
+                    globalState.sharedPronunciationPlans.first { it.id == purpose.id }
+                pronunciationPlanSettings.renamePronunciationPlan(pronunciationPlan, newPresetName)
             }
         }
     }
 
     override fun onRemovePresetPositiveDialogButtonClicked() {
         presetDialogState.idToDelete?.let { id: Long ->
-            speakPlanSettings.deleteSharedSpeakPlan(speakPlanId = id)
+            pronunciationPlanSettings.deleteSharedPronunciationPlan(pronunciationPlanId = id)
         }
         presetDialogState.idToDelete = null
     }
 
     override fun onHelpButtonClicked() {
-        navigator.navigateToHelpFromSpeakPlan {
+        navigator.navigateToHelpFromPronunciationPlan {
             HelpDiScope(HelpArticle.Presets)
         }
     }

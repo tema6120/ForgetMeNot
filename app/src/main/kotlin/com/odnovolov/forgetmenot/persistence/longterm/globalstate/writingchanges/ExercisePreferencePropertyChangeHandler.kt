@@ -7,7 +7,7 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.toIntervalSchemeDb
 import com.odnovolov.forgetmenot.persistence.toPronunciationDb
-import com.odnovolov.forgetmenot.persistence.toSpeakPlanDb
+import com.odnovolov.forgetmenot.persistence.toPronunciationPlanDb
 
 class ExercisePreferencePropertyChangeHandler(
     private val database: Database,
@@ -51,10 +51,10 @@ class ExercisePreferencePropertyChangeHandler(
                 val cardReverse = change.newValue as CardReverse
                 queries.updateCardReverse(cardReverse, exercisePreferenceId)
             }
-            ExercisePreference::speakPlan -> {
-                val linkedSpeakPlan = change.newValue as SpeakPlan
-                insertSpeakPlanIfNotExists(linkedSpeakPlan)
-                queries.updateSpeakPlanId(linkedSpeakPlan.id, exercisePreferenceId)
+            ExercisePreference::pronunciationPlan -> {
+                val linkedPronunciationPlan = change.newValue as PronunciationPlan
+                insertPronunciationPlanIfNotExists(linkedPronunciationPlan)
+                queries.updatePronunciationPlanId(linkedPronunciationPlan.id, exercisePreferenceId)
             }
             ExercisePreference::timeForAnswer -> {
                 val timeForAnswer = change.newValue as Int
@@ -85,12 +85,12 @@ class ExercisePreferencePropertyChangeHandler(
         }
     }
 
-    fun insertSpeakPlanIfNotExists(speakPlan: SpeakPlan) {
-        val exists: Boolean = speakPlan.isDefault()
-                || database.speakPlanQueries.exists(speakPlan.id).executeAsOne()
+    fun insertPronunciationPlanIfNotExists(pronunciationPlan: PronunciationPlan) {
+        val exists: Boolean = pronunciationPlan.isDefault()
+                || database.pronunciationPlanQueries.exists(pronunciationPlan.id).executeAsOne()
         if (!exists) {
-            val speakPlanDb = speakPlan.toSpeakPlanDb()
-            database.speakPlanQueries.insert(speakPlanDb)
+            val pronunciationPlanDb = pronunciationPlan.toPronunciationPlanDb()
+            database.pronunciationPlanQueries.insert(pronunciationPlanDb)
         }
     }
 }

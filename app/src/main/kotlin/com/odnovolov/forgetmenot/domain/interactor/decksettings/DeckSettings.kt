@@ -187,18 +187,18 @@ class DeckSettings(
         )
     }
 
-    fun setSpeakPlan(speakPlan: SpeakPlan) {
+    fun setPronunciationPlan(pronunciationPlan: PronunciationPlan) {
         updateExercisePreference(
-            isValueChanged = currentExercisePreference.speakPlan != speakPlan,
+            isValueChanged = currentExercisePreference.pronunciationPlan != pronunciationPlan,
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
                     name = "",
-                    speakPlan = speakPlan
+                    pronunciationPlan = pronunciationPlan
                 )
             },
             updateCurrentExercisePreference = {
-                currentExercisePreference.speakPlan = speakPlan
+                currentExercisePreference.pronunciationPlan = pronunciationPlan
             }
         )
     }
@@ -261,7 +261,7 @@ class DeckSettings(
         pronunciation: Pronunciation = this.pronunciation,
         isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
         cardReverse: CardReverse = this.cardReverse,
-        speakPlan: SpeakPlan = this.speakPlan,
+        pronunciationPlan: PronunciationPlan = this.pronunciationPlan,
         timeForAnswer: Int = this.timeForAnswer
     ) = ExercisePreference(
         id,
@@ -272,7 +272,7 @@ class DeckSettings(
         pronunciation,
         isQuestionDisplayed,
         cardReverse,
-        speakPlan,
+        pronunciationPlan,
         timeForAnswer
     )
 

@@ -265,10 +265,10 @@
                     android:orientation="vertical">
 
                 <TextView
-                        android:id="@+id/displayQuestionTitle"
+                        android:id="@+id/questionDisplayTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/title_display_question"
+                        android:text="@string/title_question_display"
                         android:textColor="@color/textPrimary"
                         android:textSize="16sp" />
 
@@ -299,7 +299,7 @@
                     android:layout_weight="1" />
 
             <Switch
-                    android:id="@+id/displayQuestionSwitch"
+                    android:id="@+id/questionDisplaySwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -348,7 +348,7 @@
                 android:background="?android:listDivider" />
 
         <LinearLayout
-                android:id="@+id/speakPlanButton"
+                android:id="@+id/pronunciationPlanButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
@@ -362,15 +362,15 @@
                     android:orientation="vertical">
 
                 <TextView
-                        android:id="@+id/speakPlanTitle"
+                        android:id="@+id/pronunciationPlanTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/text_speak_plan_title"
+                        android:text="@string/text_pronunciation_plan_title"
                         android:textColor="@color/textPrimary"
                         android:textSize="16sp" />
 
                 <TextView
-                        android:id="@+id/selectedSpeakPlanTextView"
+                        android:id="@+id/selectedPronunciationPlanTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textSecondary"
@@ -379,7 +379,7 @@
             </LinearLayout>
 
             <ImageButton
-                    android:id="@+id/speakPlanHelpButton"
+                    android:id="@+id/pronunciationPlanHelpButton"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -396,7 +396,7 @@
                     android:layout_weight="1" />
 
             <ImageView
-                    android:id="@+id/navigateToSpeakPlanScreenIcon"
+                    android:id="@+id/navigateToPronunciationPlanScreenIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"

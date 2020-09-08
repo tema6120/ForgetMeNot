@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/textSecondary"
                         android:textSize="14sp"
-                        tools:text="@string/key_gesture_action_set_card_as_remember" />
+                        tools:text="@string/key_gesture_action_mark_as_remember" />
 
             </LinearLayout>
 
@@ -185,7 +185,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/textSecondary"
                         android:textSize="14sp"
-                        tools:text="@string/key_gesture_action_set_card_as_not_remember" />
+                        tools:text="@string/key_gesture_action_mark_as_not_remember" />
 
             </LinearLayout>
 
