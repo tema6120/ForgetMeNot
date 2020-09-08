@@ -26,7 +26,7 @@ class SpeakEventDialog : BaseDialogFragment() {
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        onCreateDialog()
+        super.onCreateDialog()
         rootView = View.inflate(requireContext(), R.layout.dialog_speak_event, null)
         setupView()
         val isRestoring = savedInstanceState != null
@@ -94,7 +94,7 @@ class SpeakEventDialog : BaseDialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (rootView.delayEditText.isEnabled) {
+        if (controller != null && rootView.delayRadioButton.isChecked && isPortraitOrientation()) {
             rootView.delayEditText.showSoftInput()
         }
     }
