@@ -465,7 +465,9 @@
         therefore forcibly switch to the \'Manual\' test method.
 
         \n\n- auto-pronunciation of questions and answers is turned on. Don\'t forget to specify
-        the correct languages ​​in the deck pronunciation settings.</string>
+        the correct languages ​​in the deck pronunciation settings.
+
+        \n\n- \'Motivational timer\' is turned off.</string>
     <string name="article_repetition">Repetition is a mode in which questions and answers are
         pronounced in turn. It can be compared to an audio player, but instead of tracks, questions
         and answers are played. This mode is suitable when you are doing something, but could
@@ -527,4 +529,7 @@
         find the confusing card.
 
         \n\n5. Make it a rule that once a day you should not have any tasks left to study.</string>
+    <string name="message_do_not_forget_to_turn_on_auto_speak_of_question">Since you have disabled
+        \'Question display\', you are going to perceive the question aurally. So, don\'t forget
+        to enable \'Auto speak\' of question to make exercise more comfortable.</string>
 </resources>

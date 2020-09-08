@@ -24,9 +24,9 @@ import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
+import kotlinx.android.synthetic.main.dialog_add_deck.view.*
 import kotlinx.android.synthetic.main.dialog_deck_name_input.view.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
-import kotlinx.android.synthetic.main.popup_add_deck.view.*
 import kotlinx.coroutines.launch
 
 class AddDeckFragment : BaseFragment() {
@@ -73,7 +73,7 @@ class AddDeckFragment : BaseFragment() {
     }
 
     private fun createAddDeckDialog() {
-        val dialogView = View.inflate(requireContext(), R.layout.popup_add_deck, null).apply {
+        val dialogView = View.inflate(requireContext(), R.layout.dialog_add_deck, null).apply {
             loadFromFileButton.setOnClickListener {
                 showFileChooser()
                 addDeckDialog.dismiss()

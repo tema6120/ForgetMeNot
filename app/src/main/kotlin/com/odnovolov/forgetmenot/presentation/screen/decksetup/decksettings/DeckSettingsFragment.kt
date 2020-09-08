@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.isDefault
@@ -21,6 +22,7 @@ import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.uncover
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsController.Command.ShowAutoSpeakOfQuestionIsOffMessage
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import kotlinx.coroutines.launch
@@ -39,6 +41,7 @@ class DeckSettingsFragment : BaseFragment() {
     private var isInflated = false
     private lateinit var diScope: DeckSettingsDiScope
     private var idleHandler: IdleHandler? = null
+    private val autoSpeakIsOffDialog: Dialog by lazy(::createAutoSpeakIsOffDialog)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -180,6 +183,7 @@ class DeckSettingsFragment : BaseFragment() {
         initChooseCardReverseDialog()
         setupListeners()
         observeViewModelSecondary()
+        controller!!.commands.observe(::executeCommand)
     }
 
     private fun initChooseTestMethodDialog() {
@@ -292,6 +296,20 @@ class DeckSettingsFragment : BaseFragment() {
                 cardReverseAdapter?.submitList(items)
             }
         }
+    }
+
+    private fun executeCommand(command: DeckSettingsController.Command) {
+        when (command) {
+            ShowAutoSpeakOfQuestionIsOffMessage -> autoSpeakIsOffDialog.show()
+        }
+    }
+
+    private fun createAutoSpeakIsOffDialog(): Dialog {
+        return AlertDialog.Builder(requireContext())
+            .setView(R.layout.dialog_auto_speak_is_off)
+            .setPositiveButton(android.R.string.ok, null)
+            .create()
+            .also { dialog -> dialogTimeCapsule.register("dialog_auto_speak_is_off", dialog) }
     }
 
     override fun onDestroyView() {

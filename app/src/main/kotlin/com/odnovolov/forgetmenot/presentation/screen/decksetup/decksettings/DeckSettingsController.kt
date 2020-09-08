@@ -5,6 +5,8 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsController.Command
+import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsController.Command.ShowAutoSpeakOfQuestionIsOffMessage
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDialogState
@@ -19,7 +21,11 @@ class DeckSettingsController(
     private val deckSettings: DeckSettings,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
-) : BaseController<DeckSettingsEvent, Nothing>() {
+) : BaseController<DeckSettingsEvent, Command>() {
+    sealed class Command {
+        object ShowAutoSpeakOfQuestionIsOffMessage : Command()
+    }
+
     private val currentExercisePreference get() = deckSettings.state.deck.exercisePreference
 
     override fun handle(event: DeckSettingsEvent) {
@@ -48,6 +54,11 @@ class DeckSettingsController(
             DisplayQuestionSwitchToggled -> {
                 val newIsQuestionDisplayed = !currentExercisePreference.isQuestionDisplayed
                 deckSettings.setIsQuestionDisplayed(newIsQuestionDisplayed)
+                if (!newIsQuestionDisplayed
+                    && !deckSettings.state.deck.exercisePreference.pronunciation.questionAutoSpeak
+                ) {
+                    sendCommand(ShowAutoSpeakOfQuestionIsOffMessage)
+                }
             }
 
             is SelectedCardReverse -> {
