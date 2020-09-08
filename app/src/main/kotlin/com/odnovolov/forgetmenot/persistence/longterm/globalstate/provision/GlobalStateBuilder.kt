@@ -85,10 +85,12 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                         pronunciations.first { it.id == exercisePreferencesDb.pronunciationId }
                     }
                 val pronunciationPlan: PronunciationPlan =
-                    if (exercisePreferencesDb.pronunciationId == PronunciationPlan.Default.id) {
+                    if (exercisePreferencesDb.pronunciationPlanId == PronunciationPlan.Default.id) {
                         PronunciationPlan.Default
                     } else {
-                        pronunciationPlans.first { it.id == exercisePreferencesDb.pronunciationId }
+                        pronunciationPlans.first {
+                            it.id == exercisePreferencesDb.pronunciationPlanId
+                        }
                     }
                 exercisePreferencesDb.toExercisePreference(
                     intervalScheme, pronunciation, pronunciationPlan
