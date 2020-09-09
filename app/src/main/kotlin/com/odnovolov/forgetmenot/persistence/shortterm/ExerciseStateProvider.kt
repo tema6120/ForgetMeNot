@@ -137,7 +137,7 @@ class ExerciseStateProvider(
                     )
                 }
                 when (serializableExerciseCard.testMethod) {
-                    Off -> OffTestExerciseCard(baseExerciseCard) as ExerciseCard
+                    Off -> OffTestExerciseCard(baseExerciseCard)
                     Manual -> ManualTestExerciseCard(baseExerciseCard)
                     Quiz -> {
                         val quizAddition: QuizAddition = serializableState.quizAdditions

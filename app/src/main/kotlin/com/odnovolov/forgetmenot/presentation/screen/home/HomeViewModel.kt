@@ -76,7 +76,7 @@ class HomeViewModel(
         return map { deck: Deck ->
             val passedLaps: Int? = deck.cards
                 .filter { !it.isLearned }
-                .minBy { it.lap }
+                .minByOrNull { it.lap }
                 ?.lap
             val learnedCount = deck.cards.count { it.isLearned }
             val numberOfCardsReadyForExercise =

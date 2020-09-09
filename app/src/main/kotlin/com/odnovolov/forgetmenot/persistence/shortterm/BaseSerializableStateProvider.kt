@@ -23,7 +23,7 @@ abstract class BaseSerializableStateProvider<State, SerializableState>(
     final override fun load(): State {
         val jsonData: String = queries.selectJsonData(key).executeAsOneOrNull()
             ?: throw NoSuchElementException("jsonData by key '$key' was not found")
-        val serializableState: SerializableState = json.parse(serializer, jsonData)
+        val serializableState: SerializableState = Json.decodeFromString(serializer, jsonData)
         return toOriginal(serializableState)
     }
 
@@ -34,7 +34,7 @@ abstract class BaseSerializableStateProvider<State, SerializableState>(
         if (serializable != savedSerializable) {
             GlobalScope.launch(Dispatchers.IO) {
                 savedSerializable = serializable
-                val jsonData: String = json.stringify(serializer, savedSerializable!!)
+                val jsonData: String = json.encodeToString(serializer, savedSerializable!!)
                 val serializableDb = SerializableDb.Impl(key, jsonData)
                 queries.replace(serializableDb)
             }

@@ -100,7 +100,7 @@ fun isCardAvailableForExercise(testingCard: Card, intervalScheme: IntervalScheme
             val intervals: List<Interval> = intervalScheme.intervals
             val interval: Interval = intervals.find {
                 it.levelOfKnowledge == testingCard.levelOfKnowledge
-            } ?: intervals.maxBy { it.levelOfKnowledge }!!
+            } ?: intervals.maxByOrNull { it.levelOfKnowledge }!!
             testingCard.lastAnsweredAt!! + interval.value < DateTime.now()
         }
     }

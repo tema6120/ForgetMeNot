@@ -66,7 +66,7 @@ class IntervalsFragment : BaseFragment() {
     }
 
     private fun updateExcellentLevelOfKnowledgeTextView(intervals: List<Interval>) {
-        val maxLevelOfKnowledge: Int = intervals.map { it.levelOfKnowledge }.max() ?: -1
+        val maxLevelOfKnowledge: Int = intervals.map { it.levelOfKnowledge }.maxOrNull() ?: -1
         val excellentLevelOfKnowledge: Int = maxLevelOfKnowledge + 1
         excellentLevelOfKnowledgeTextView.text = excellentLevelOfKnowledge.toString()
         excellentLevelOfKnowledgeTextView.setBackgroundResource(

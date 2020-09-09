@@ -408,10 +408,10 @@
         you deal more with poorly-studied cards and less with well-studied ones.
 
         \n\nPerhaps, for some reason, you want to change the level of knowledge. Just tap on the
-        level of study icon and choose the one you want. Usually, when you change the level of
-        knowledge, you would like to clarify how long it will take to be this card questioned again.
-        If you manually changed the level of knowledge, the standard scheme would not apply to this
-        card for this exercise session.</string>
+        \'Level of knowledge\' icon and choose the one you want. Usually, when you change the level
+        of knowledge, you would like to clarify how long it will take to be this card questioned
+        again. If you manually changed the level of knowledge, the standard scheme would not apply
+        to this card for this exercise session.</string>
     <string name="article_question_display_paragraph_1">You can turn off the question display. In
         this case, it is supposed that you will get the question via voice playback. This will help
         improve your listening skills when learning a foreign language. Together with this, it is

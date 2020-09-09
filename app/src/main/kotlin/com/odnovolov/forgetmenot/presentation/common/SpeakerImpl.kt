@@ -304,7 +304,7 @@ class SpeakerImpl(
                     .map { (language: Locale?, _) -> language ?: state.defaultLanguage }
                 val lastUsedVacantTtsWrapper: TtsWrapper? =
                     ttsPool.filter { ttsWrapper -> ttsWrapper.language !in observedLanguages }
-                        .minBy { ttsWrapper: TtsWrapper -> ttsWrapper.lastUsedAt }
+                        .minByOrNull { ttsWrapper: TtsWrapper -> ttsWrapper.lastUsedAt }
                 lastUsedVacantTtsWrapper?.apply { setLanguage(language) }
                     ?: registerNewTts(language)
             }

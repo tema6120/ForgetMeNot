@@ -41,20 +41,20 @@ class RepetitionSettingsViewModel(
         val maxLokFromCards: Int = globalState.decks
             .flatMap { deck -> deck.cards }
             .map { card -> card.levelOfKnowledge }
-            .max() ?: 0
+            .maxOrNull() ?: 0
         val maxLokFromSharedIntervals: Int = globalState.sharedIntervalSchemes
             .flatMap { intervalScheme -> intervalScheme.intervals }
             .map { interval -> interval.levelOfKnowledge }
-            .max() ?: 0
+            .maxOrNull() ?: 0
         val maxLokFromDeckIntervals: Int = globalState.decks
             .flatMap { deck ->
                 deck.exercisePreference.intervalScheme?.intervals ?: emptyList<Interval>()
             }
             .map { interval -> interval.levelOfKnowledge }
-            .max() ?: 0
+            .maxOrNull() ?: 0
         val maxLokFromSharedRepetitionSettings: Int = globalState.sharedRepetitionSettings
             .map { repetitionSetting -> repetitionSetting.levelOfKnowledgeRange.last }
-            .max() ?: 0
+            .maxOrNull() ?: 0
         val maxLokFromCurrentRepetitionSetting: Int =
             globalState.currentRepetitionSetting.levelOfKnowledgeRange.last
         val maxLevelOfKnowledge: Int = arrayOf(
@@ -63,7 +63,7 @@ class RepetitionSettingsViewModel(
             maxLokFromDeckIntervals,
             maxLokFromSharedRepetitionSettings,
             maxLokFromCurrentRepetitionSetting
-        ).max()!!
+        ).maxOrNull()!!
         0..maxLevelOfKnowledge
     }
 

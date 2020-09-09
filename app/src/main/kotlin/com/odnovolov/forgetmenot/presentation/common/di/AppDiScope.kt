@@ -11,7 +11,6 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.Walking
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 class AppDiScope(
     val app: App,
@@ -29,7 +28,7 @@ class AppDiScope(
 
     val longTermStateSaver: LongTermStateSaver = LongTermStateSaverImpl(database)
 
-    val json = Json(JsonConfiguration.Stable)
+    val json = Json
 
     companion object {
         private lateinit var instance: AppDiScope
