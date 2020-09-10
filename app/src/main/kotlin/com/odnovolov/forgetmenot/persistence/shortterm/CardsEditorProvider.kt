@@ -73,12 +73,18 @@ class CardsEditorProvider(
             .flatMap { deck -> deck.cards }
             .associateBy { card -> card.id }
         val editableCards: List<EditableCard> = serializableState.serializableEditableCards
-            .map { serializableEditableCards: SerializableEditableCard ->
-                val card: Card = cardIdCardMap[serializableEditableCards.cardId]
-                    ?: Card(serializableEditableCards.cardId, "", "")
+            .map { serializableEditableCard: SerializableEditableCard ->
+                val card: Card = cardIdCardMap[serializableEditableCard.cardId]
+                    ?: Card(serializableEditableCard.cardId, "", "")
+                val deck: Deck? =
+                    serializableEditableCard.deckId?.let { deckIdDeckMap.getValue(it) }
                 EditableCard(
                     card,
-                    serializableEditableCards.deckId?.let { deckIdDeckMap.getValue(it) }
+                    deck,
+                    serializableEditableCard.question,
+                    serializableEditableCard.answer,
+                    serializableEditableCard.isLearned,
+                    serializableEditableCard.levelOfKnowledge
                 )
             }
         val cardsEditorState = CardsEditor.State(
@@ -103,10 +109,17 @@ class CardsEditorProvider(
             is SerializableStateForEditingSpecificCards -> {
                 val removedEditableCards: MutableList<EditableCard> =
                     serializableState.removedSerializableEditableCards
-                        .map { serializableEditableCards: SerializableEditableCard ->
+                        .map { serializableEditableCard: SerializableEditableCard ->
+                            val card: Card = cardIdCardMap.getValue(serializableEditableCard.cardId)
+                            val deck: Deck? =
+                                serializableEditableCard.deckId?.let { deckIdDeckMap.getValue(it) }
                             EditableCard(
-                                cardIdCardMap.getValue(serializableEditableCards.cardId),
-                                serializableEditableCards.deckId?.let { deckIdDeckMap.getValue(it) }
+                                card,
+                                deck,
+                                serializableEditableCard.question,
+                                serializableEditableCard.answer,
+                                serializableEditableCard.isLearned,
+                                serializableEditableCard.levelOfKnowledge
                             )
                         }
                         .toMutableList()
