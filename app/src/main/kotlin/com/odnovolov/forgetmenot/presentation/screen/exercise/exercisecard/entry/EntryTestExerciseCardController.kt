@@ -13,7 +13,6 @@ class EntryTestExerciseCardController(
     private val longTermStateSaver: LongTermStateSaver,
     private val exerciseStateProvider: ShortTermStateProvider<State>
 ) : BaseController<EntryTestExerciseCardEvent, Nothing>() {
-    private var answerInput: String? = null
     override val autoSave = false
 
     override fun handle(event: EntryTestExerciseCardEvent) {
@@ -28,7 +27,8 @@ class EntryTestExerciseCardController(
             }
 
             is AnswerInputChanged -> {
-                answerInput = event.text
+                exercise.setUserInput(event.text)
+                saveState()
             }
 
             is HintSelectionChanged -> {
@@ -36,7 +36,7 @@ class EntryTestExerciseCardController(
             }
 
             CheckButtonClicked -> {
-                exercise.answer(Entry(answerInput))
+                exercise.answer(Entry)
                 saveState()
             }
 

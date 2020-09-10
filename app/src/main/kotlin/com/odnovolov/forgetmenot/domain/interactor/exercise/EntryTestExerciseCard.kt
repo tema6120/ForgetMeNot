@@ -4,8 +4,8 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
 
 class EntryTestExerciseCard(
     base: ExerciseCard.Base,
-    userAnswer: String? = null
+    userInput: String? = null
 ) : FlowableState<EntryTestExerciseCard>(), ExerciseCard {
     override val base: ExerciseCard.Base by me(base)
-    var userAnswer: String? by me(userAnswer)
+    var userInput: String? by me(userInput)
 }

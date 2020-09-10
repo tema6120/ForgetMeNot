@@ -11,8 +11,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 
 class EntryTestExerciseCardViewModel(
-    exerciseCard: EntryTestExerciseCard
+    private val exerciseCard: EntryTestExerciseCard
 ) : ExerciseCardViewModel(exerciseCard) {
+    val userInput: String get() = exerciseCard.userInput ?: ""
+
     val hint: Flow<String?> = exerciseCard.base.flowOf(ExerciseCard.Base::hint)
 
     val answerStatus: Flow<AnswerStatus> = combine(
@@ -34,7 +36,7 @@ class EntryTestExerciseCardViewModel(
     }
 
     val wrongAnswer: Flow<String?> = combine(
-        exerciseCard.flowOf(EntryTestExerciseCard::userAnswer),
+        exerciseCard.flowOf(EntryTestExerciseCard::userInput),
         exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
     ) { userAnswer: String?, isAnswerCorrect: Boolean? ->
         when (isAnswerCorrect) {

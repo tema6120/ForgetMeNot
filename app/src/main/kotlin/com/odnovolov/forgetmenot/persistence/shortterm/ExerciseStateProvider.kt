@@ -54,7 +54,7 @@ class ExerciseStateProvider(
     @Serializable
     data class EntryAddition(
         val id: Long,
-        val userAnswer: String?
+        val userInput: String?
     )
 
     override val serializer = SerializableExerciseState.serializer()
@@ -81,7 +81,7 @@ class ExerciseStateProvider(
                 is EntryTestExerciseCard -> {
                     val entryAddition = EntryAddition(
                         id = exerciseCard.base.id,
-                        userAnswer = exerciseCard.userAnswer
+                        userInput = exerciseCard.userInput
                     )
                     entryAdditions.add(entryAddition)
                     Entry
@@ -157,7 +157,7 @@ class ExerciseStateProvider(
                     Entry -> {
                         val entryAddition: EntryAddition = serializableState.entryAdditions
                             .first { it.id == serializableExerciseCard.id }
-                        EntryTestExerciseCard(baseExerciseCard, entryAddition.userAnswer)
+                        EntryTestExerciseCard(baseExerciseCard, entryAddition.userInput)
                     }
                 }
             }

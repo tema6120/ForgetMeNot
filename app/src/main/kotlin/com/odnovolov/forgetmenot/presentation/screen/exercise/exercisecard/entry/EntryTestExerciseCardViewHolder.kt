@@ -63,6 +63,7 @@ class EntryTestExerciseCardViewHolder(
                     questionTextView.text = question
                     questionTextView.fixTextSelection()
                 }
+                answerEditText.setText(userInput)
                 answerStatus.observe(coroutineScope) { answerStatus: AnswerStatus ->
                     answerInputScrollView.isVisible = answerStatus != Answered
                     hintScrollView.isVisible = answerStatus == UnansweredWithHint
@@ -102,7 +103,6 @@ class EntryTestExerciseCardViewHolder(
                     wrongAnswerTextView.isEnabled = isEnabled
                     correctAnswerTextView.isEnabled = isEnabled
                 }
-                answerEditText.setText("")
                 questionScrollView.scrollTo(0, 0)
                 answerInputScrollView.scrollTo(0, 0)
                 hintScrollView.scrollTo(0, 0)

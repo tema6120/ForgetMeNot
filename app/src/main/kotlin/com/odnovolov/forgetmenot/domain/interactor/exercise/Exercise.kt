@@ -194,7 +194,7 @@ class Exercise(
             if (isActualAnswerChanged) {
                 exerciseCard.base.hint = null
                 if (exerciseCard is EntryTestExerciseCard && exerciseCard.isAnswered) {
-                    checkEntry(exerciseCard.userAnswer)
+                    checkEntry()
                 }
             }
             if (isLevelOfKnowledgeChanged) {
@@ -384,6 +384,15 @@ class Exercise(
         }
     }
 
+    fun setUserInput(userInput: String?) {
+        currentExerciseCard.let { currentExerciseCard: ExerciseCard ->
+            if (currentExerciseCard !is EntryTestExerciseCard || currentExerciseCard.isAnswered) {
+                return
+            }
+            currentExerciseCard.userInput = userInput
+        }
+    }
+
     fun answer(answer: Answer) {
         if (!isAnswerRelevant(answer)) return
         stopTimer()
@@ -391,7 +400,7 @@ class Exercise(
             Show, Remember -> setAnswerAsCorrect()
             NotRemember -> setAnswerAsWrong()
             is Variant -> checkVariant(answer.variantIndex)
-            is Entry -> checkEntry(answer.userAnswer)
+            Entry -> checkEntry()
         }
     }
 
@@ -400,7 +409,7 @@ class Exercise(
             Show, Remember, NotRemember -> currentExerciseCard is OffTestExerciseCard
                     || currentExerciseCard is ManualTestExerciseCard
             is Variant -> currentExerciseCard is QuizTestExerciseCard
-            is Entry -> currentExerciseCard is EntryTestExerciseCard
+            Entry -> currentExerciseCard is EntryTestExerciseCard
         }
     }
 
@@ -416,13 +425,12 @@ class Exercise(
         else setAnswerAsWrong()
     }
 
-    private fun checkEntry(userAnswer: String?) {
+    private fun checkEntry() {
         val entryExerciseCard = currentExerciseCard as EntryTestExerciseCard
-        entryExerciseCard.userAnswer = userAnswer
         val correctAnswer = with(entryExerciseCard.base) {
             if (isReverse) card.question else card.answer
         }
-        val isUserAnswerCorrect = userAnswer?.trim() == correctAnswer.trim()
+        val isUserAnswerCorrect = entryExerciseCard.userInput?.trim() == correctAnswer.trim()
         if (isUserAnswerCorrect)
             setAnswerAsCorrect() else
             setAnswerAsWrong()
@@ -529,7 +537,7 @@ class Exercise(
                 false -> numberOfWrong++
             }
         }
-        with (currentExerciseCard.base) {
+        with(currentExerciseCard.base) {
             card.levelOfKnowledge = when {
                 numberOfWrong > 0 -> maxOf(0, initialLevelOfKnowledge - numberOfWrong)
                 numberOfCorrect > 0 -> initialLevelOfKnowledge + 1
@@ -547,6 +555,6 @@ class Exercise(
         object Remember : Answer()
         object NotRemember : Answer()
         class Variant(val variantIndex: Int) : Answer()
-        class Entry(val userAnswer: String?) : Answer()
+        object Entry : Answer()
     }
 }
