@@ -71,12 +71,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_more_expand_more_with_inset"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="16dp"
                 android:textColor="@color/textPrimary"
                 android:textSize="20sp"
+                app:drawableEndCompat="@drawable/ic_more_expand_more_with_inset"
                 app:layout_constraintBottom_toTopOf="@+id/questionAutoSpeakButton"
                 app:layout_constraintEnd_toEndOf="@+id/questionTitleTextView"
                 app:layout_constraintStart_toStartOf="@+id/questionTitleTextView"
@@ -94,7 +94,7 @@
                 app:layout_constraintStart_toStartOf="@+id/questionLanguageTextView"
                 app:layout_constraintTop_toBottomOf="@+id/questionLanguageTextView">
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/questionAutoSpeakSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,12 +160,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_more_expand_more_with_inset"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="16dp"
                 android:textColor="@color/textPrimary"
                 android:textSize="20sp"
+                app:drawableEndCompat="@drawable/ic_more_expand_more_with_inset"
                 app:layout_constraintEnd_toEndOf="@+id/answerTitleTextView"
                 app:layout_constraintStart_toStartOf="@+id/answerTitleTextView"
                 app:layout_constraintTop_toTopOf="@id/questionLanguageTextView"
@@ -181,7 +181,7 @@
                 app:layout_constraintStart_toStartOf="@+id/answerLanguageTextView"
                 app:layout_constraintTop_toTopOf="@id/questionAutoSpeakButton">
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/answerAutoSpeakSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
                 app:layout_constraintStart_toStartOf="@+id/questionAutoSpeakButton"
                 app:layout_constraintTop_toBottomOf="@id/questionAutoSpeakButton">
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/speakTextInBracketsSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

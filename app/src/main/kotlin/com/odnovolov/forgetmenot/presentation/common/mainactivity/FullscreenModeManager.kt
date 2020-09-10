@@ -1,9 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.common.mainactivity
 
 import android.graphics.Rect
+import android.os.Build
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.Window
+import android.view.WindowInsets
 import android.view.WindowManager.LayoutParams
 import androidx.navigation.NavController
 import com.odnovolov.forgetmenot.R
@@ -69,10 +71,18 @@ class FullscreenModeManager(
 
     private fun update() {
         if (isFullscreenModeEnabled && !isInMultiWindow) {
-            window.addFlags(LayoutParams.FLAG_FULLSCREEN)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.insetsController?.hide(WindowInsets.Type.statusBars())
+            } else {
+                window.addFlags(LayoutParams.FLAG_FULLSCREEN)
+            }
             decorView.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
         } else {
-            window.clearFlags(LayoutParams.FLAG_FULLSCREEN)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.insetsController?.show(WindowInsets.Type.statusBars())
+            } else {
+                window.clearFlags(LayoutParams.FLAG_FULLSCREEN)
+            }
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
         }
     }

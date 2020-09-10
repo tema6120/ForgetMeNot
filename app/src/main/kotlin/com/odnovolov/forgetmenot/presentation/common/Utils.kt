@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.os.Handler
+import android.os.Looper
 import android.text.*
 import android.text.Annotation
 import android.text.method.LinkMovementMethod
@@ -194,7 +195,7 @@ fun Fragment.hideActionBar() {
     (activity as MainActivity).supportActionBar?.run {
         setShowHideAnimationEnabled(false)
         hide()
-        Handler().post {
+        Handler(Looper.getMainLooper()).post {
             hide()
         }
     }

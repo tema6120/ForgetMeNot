@@ -31,7 +31,7 @@
     <color name="time_line">#cccccc</color>
     <color name="background_expired_card">#FFE7E3</color>
     <color name="background_card_editor_toolbar">#F5F5F5</color>
-    <color name="background_window">#F9F9F9</color>
+    <color name="background_window">#F7F7F7</color>
     <color name="text_last_answer_button">#3580FF</color>
     <color name="background_last_answer_button">#333580FF</color>
     <color name="text_passed_laps">#05a1dc</color>

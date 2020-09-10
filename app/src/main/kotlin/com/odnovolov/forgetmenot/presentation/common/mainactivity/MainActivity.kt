@@ -1,11 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.common.mainactivity
 
 import android.content.res.Configuration
-import android.graphics.drawable.ColorDrawable
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -43,14 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        window.setBackgroundDrawable(
-            ColorDrawable(
-                ContextCompat.getColor(
-                    this,
-                    R.color.background_window
-                )
-            )
-        )
+        window.decorView.setBackgroundColor(ContextCompat.getColor(this, R.color.background_window))
         initNavController()
         coroutineScope.launch {
             val diScope = MainActivityDiScope.getAsync() ?: return@launch
@@ -71,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (VERSION.SDK_INT >= VERSION_CODES.N) {
-            Handler().post {
+            Handler(Looper.getMainLooper()).post {
                 fullscreenModeManager.isInMultiWindow = isInMultiWindowMode
             }
         }

@@ -21,4 +21,10 @@
         <service android:name="com.odnovolov.forgetmenot.presentation.screen.repetition.service.RepetitionService" />
     </application>
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
 </manifest>

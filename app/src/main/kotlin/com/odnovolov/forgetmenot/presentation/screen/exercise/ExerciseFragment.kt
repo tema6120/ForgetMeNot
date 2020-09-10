@@ -92,7 +92,7 @@ class ExerciseFragment : BaseFragment() {
         // Therefore, we init secondary things (dialogs, popups) late
         Looper.myQueue().addIdleHandler {
             // give window of 500 ms so as not to delay adding ViewPager's views (they are inflated asynchronously)
-            Handler().postDelayed(::initSecondaryThings, 500)
+            Handler(Looper.getMainLooper()).postDelayed(::initSecondaryThings, 500)
             false
         }
     }
