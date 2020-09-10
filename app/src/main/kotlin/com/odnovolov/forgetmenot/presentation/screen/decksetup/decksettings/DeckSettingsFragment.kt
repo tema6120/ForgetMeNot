@@ -34,9 +34,9 @@ class DeckSettingsFragment : BaseFragment() {
 
     private var controller: DeckSettingsController? = null
     private lateinit var viewModel: DeckSettingsViewModel
-    private lateinit var chooseTestMethodDialog: Dialog
+    private lateinit var testMethodDialog: Dialog
     private var testMethodAdapter: ItemAdapter? = null
-    private lateinit var chooseCardReverseDialog: Dialog
+    private lateinit var cardReverseDialog: Dialog
     private var cardReverseAdapter: ItemAdapter? = null
     private var isInflated = false
     private lateinit var diScope: DeckSettingsDiScope
@@ -187,35 +187,35 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun initChooseTestMethodDialog() {
-        chooseTestMethodDialog = ChoiceDialogCreator.create(
+        testMethodDialog = ChoiceDialogCreator.create(
             context = requireContext(),
-            title = getString(R.string.title_choose_test_method_dialog),
+            title = getString(R.string.title_test_method_dialog),
             itemForm = AsRadioButton,
             onItemClick = { item: Item ->
                 item as TestMethodItem
                 val chosenTestMethod = item.testMethod
-                controller?.dispatch(SelectedTestMethod(chosenTestMethod))
-                chooseTestMethodDialog.dismiss()
+                controller?.dispatch(TestMethodIsSelected(chosenTestMethod))
+                testMethodDialog.dismiss()
             },
             takeAdapter = { testMethodAdapter = it }
         )
-        dialogTimeCapsule.register("chooseTestMethodDialog", chooseTestMethodDialog)
+        dialogTimeCapsule.register("testMethodDialog", testMethodDialog)
     }
 
     private fun initChooseCardReverseDialog() {
-        chooseCardReverseDialog = ChoiceDialogCreator.create(
+        cardReverseDialog = ChoiceDialogCreator.create(
             context = requireContext(),
-            title = getString(R.string.title_choose_card_reverse_dialog),
+            title = getString(R.string.title_card_reverse_dialog),
             itemForm = AsRadioButton,
             onItemClick = { item: Item ->
                 item as CardReverseItem
                 val chosenCardReverse = item.cardReverse
-                controller?.dispatch(SelectedCardReverse(chosenCardReverse))
-                chooseCardReverseDialog.dismiss()
+                controller?.dispatch(CardReverseIsSelected(chosenCardReverse))
+                cardReverseDialog.dismiss()
             },
             takeAdapter = { cardReverseAdapter = it }
         )
-        dialogTimeCapsule.register("chooseCardReverseDialog", chooseCardReverseDialog)
+        dialogTimeCapsule.register("cardReverseDialog", cardReverseDialog)
     }
 
     private fun setupListeners() {
@@ -223,7 +223,7 @@ class DeckSettingsFragment : BaseFragment() {
             controller?.dispatch(RandomOrderSwitchToggled)
         }
         testMethodButton.setOnClickListener {
-            chooseTestMethodDialog.show()
+            testMethodDialog.show()
         }
         intervalsButton.setOnClickListener {
             controller?.dispatch(IntervalsButtonClicked)
@@ -235,7 +235,7 @@ class DeckSettingsFragment : BaseFragment() {
             controller?.dispatch(DisplayQuestionSwitchToggled)
         }
         cardReverseButton.setOnClickListener {
-            chooseCardReverseDialog.show()
+            cardReverseDialog.show()
         }
         pronunciationPlanButton.setOnClickListener {
             controller?.dispatch(PronunciationPlanButtonClicked)

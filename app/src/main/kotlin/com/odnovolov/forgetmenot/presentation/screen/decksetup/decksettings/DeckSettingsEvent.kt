@@ -5,11 +5,11 @@ import com.odnovolov.forgetmenot.domain.entity.TestMethod
 
 sealed class DeckSettingsEvent {
     object RandomOrderSwitchToggled : DeckSettingsEvent()
-    class SelectedTestMethod(val testMethod: TestMethod) : DeckSettingsEvent()
+    class TestMethodIsSelected(val testMethod: TestMethod) : DeckSettingsEvent()
     object IntervalsButtonClicked : DeckSettingsEvent()
     object PronunciationButtonClicked : DeckSettingsEvent()
     object DisplayQuestionSwitchToggled : DeckSettingsEvent()
-    class SelectedCardReverse(val cardReverse: CardReverse) : DeckSettingsEvent()
+    class CardReverseIsSelected(val cardReverse: CardReverse) : DeckSettingsEvent()
     object PronunciationPlanButtonClicked : DeckSettingsEvent()
     object TimeForAnswerButtonClicked : DeckSettingsEvent()
     object TestMethodHelpButtonClicked : DeckSettingsEvent()

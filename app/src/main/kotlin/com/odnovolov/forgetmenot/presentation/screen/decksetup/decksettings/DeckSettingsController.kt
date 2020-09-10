@@ -35,7 +35,7 @@ class DeckSettingsController(
                 deckSettings.setRandomOrder(newRandomOrder)
             }
 
-            is SelectedTestMethod -> {
+            is TestMethodIsSelected -> {
                 deckSettings.setTestMethod(event.testMethod)
             }
 
@@ -61,7 +61,7 @@ class DeckSettingsController(
                 }
             }
 
-            is SelectedCardReverse -> {
+            is CardReverseIsSelected -> {
                 deckSettings.setCardReverse(event.cardReverse)
             }
 

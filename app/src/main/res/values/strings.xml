@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">ForgetMeNot</string>
     <string name="add_new_deck">Add new deck</string>
-    <string name="enter_deck_name">Enter deck name</string>
     <string name="deck_option">Deck option</string>
     <string name="title_remove_deck_menu_item">Remove</string>
     <string name="title_setup_deck_menu_item">Setup</string>
@@ -82,8 +81,6 @@
     <string name="individual_name">Individual</string>
     <string name="description_save_pronunciation">Save pronunciation</string>
     <string name="description_save_intervals">Save intervals</string>
-    <string name="title_pronunciation_name_input_dialog">Enter pronunciation name</string>
-    <string name="title_exercise_preference_name_input_dialog">Enter exercise preference name</string>
     <string name="error_message_empty_name">Name cannot be empty</string>
     <string name="error_message_occupied_name">This name is occupied</string>
     <string name="description_rename_preset_button">Rename preset</string>
@@ -91,7 +88,7 @@
     <string name="description_add_new_preset">Add new preset</string>
     <string name="description_save_preset">Save preset</string>
     <string name="title_test_method">Test method</string>
-    <string name="title_choose_test_method_dialog">Choose test method</string>
+    <string name="title_test_method_dialog">Test method</string>
     <string name="test_method_label_off">Off</string>
     <string name="test_method_label_manual">Manual</string>
     <string name="test_method_label_quiz">Quiz</string>
@@ -106,14 +103,13 @@
     <string name="hint_question_edittext">Enter a question</string>
     <string name="hint_answer_edittext">Enter the answer</string>
     <string name="dialog_title_modify_interval">Interval</string>
-    <string name="title_interval_scheme_name_input_dialog">Enter pronunciation name</string>
     <string name="title_question_display">Question display</string>
     <string name="title_card_reverse">Card Reverse</string>
     <string name="card_reverse_label_off">Off</string>
     <string name="card_reverse_label_on">On</string>
     <string name="card_reverse_label_every_other_lap">Every other lap</string>
-    <string name="title_choose_card_reverse_dialog">Choose card reverse</string>
-    <string name="title_rename_deck_dialog">Enter deck name</string>
+    <string name="title_card_reverse_dialog">Card reverse</string>
+    <string name="title_deck_name_dialog">Deck name</string>
     <string name="text_speak_text_in_brackets">Speak text in brackets</string>
     <string name="toast_text_intervals_are_off">Intervals are off for this card</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>

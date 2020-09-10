@@ -49,7 +49,7 @@ class DeckSetupFragment : BaseFragment() {
             controller?.dispatch(RenameDeckDialogTextChanged(text))
         }
         renameDeckDialog = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.title_rename_deck_dialog)
+            .setTitle(R.string.title_deck_name_dialog)
             .setView(contentView)
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 controller?.dispatch(RenameDeckDialogPositiveButtonClicked)
