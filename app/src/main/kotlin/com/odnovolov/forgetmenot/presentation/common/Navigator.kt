@@ -187,8 +187,13 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_home_screen_to_settings_screen)
     }
 
-    fun navigateToWalkingModeSettings() {
+    fun navigateToWalkingModeSettingsFromSettings() {
         navigate(R.id.action_settings_screen_to_walking_mode_settings_screen)
+    }
+
+    fun navigateToHelpFromSettings(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.action_settings_screen_to_help_screen)
     }
 
     fun navigateToHelpFromHome(createDiScope: () -> HelpDiScope) {

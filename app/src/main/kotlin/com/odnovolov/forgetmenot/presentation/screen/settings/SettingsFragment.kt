@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import androidx.appcompat.widget.TooltipCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivityDiScope
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.launch
@@ -76,8 +80,21 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        requireView().viewTreeObserver.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    requireView().viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    val rootViewWidth = requireView().width
+                    walkingModeSettingsTitle.maxWidth = rootViewWidth - 96.dp
+                    walkingModeSettingsDescription.maxWidth = rootViewWidth - 96.dp
+                }
+            })
         walkingModeSettingsButton.setOnClickListener {
             controller?.dispatch(WalkingModeSettingsButton)
+        }
+        walkingModeHelpButton.run {
+            setOnClickListener { controller?.dispatch(WalkingModeHelpButton) }
+            TooltipCompat.setTooltipText(this, contentDescription)
         }
         fullscreenSettingsSettingsButton.setOnClickListener {
             fullscreenModeDialog.show()
@@ -128,6 +145,11 @@ class SettingsFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showActionBar()
     }
 
     override fun onDestroy() {

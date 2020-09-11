@@ -4,112 +4,96 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/walkingModeSettingsTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/text_walking_mode_title"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@id/navigateToWalkingModeSettingsScreenIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-                android:id="@+id/walkingModeSettingsDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:text="@string/text_walking_mode_settings_description"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toStartOf="@id/navigateToWalkingModeSettingsScreenIcon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/walkingModeSettingsTitle" />
-
-        <ImageView
-                android:id="@+id/navigateToWalkingModeSettingsScreenIcon"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:padding="16dp"
-                app:layout_constraintBottom_toBottomOf="@id/walkingModeSettingsDescription"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/walkingModeSettingsTitle"
-                app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
-
-        <View
+        <LinearLayout
                 android:id="@+id/walkingModeSettingsButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                app:layout_constraintBottom_toBottomOf="@id/walkingModeSettingsDescription"
-                app:layout_constraintEnd_toEndOf="@id/navigateToWalkingModeSettingsScreenIcon"
-                app:layout_constraintStart_toStartOf="@id/walkingModeSettingsTitle"
-                app:layout_constraintTop_toTopOf="@id/walkingModeSettingsTitle" />
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-        <View
-                android:id="@+id/divider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/walkingModeSettingsButton" />
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/fullscreenSettingsTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/text_fullscreen_settings_title"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider" />
+                <TextView
+                        android:id="@+id/walkingModeSettingsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_walking_mode_title"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
 
-        <TextView
-                android:id="@+id/fullscreenSettingsDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:textColor="@color/textSecondary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fullscreenSettingsTitle"
-                tools:text="Everywhere" />
+                <TextView
+                        android:id="@+id/walkingModeSettingsDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_walking_mode_settings_description"
+                        android:textColor="@color/textSecondary" />
 
-        <View
+            </LinearLayout>
+
+            <ImageButton
+                    android:id="@+id/walkingModeHelpButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_help_button"
+                    android:tint="@color/iconDark"
+                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+            <ImageView
+                    android:id="@+id/navigateToWalkingModeSettingsScreenIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/description_navigate_icon"
+                    app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divider" />
+
+        <LinearLayout
                 android:id="@+id/fullscreenSettingsSettingsButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                app:layout_constraintBottom_toBottomOf="@id/fullscreenSettingsDescription"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/fullscreenSettingsTitle" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <View
-                android:id="@+id/divider2"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fullscreenSettingsSettingsButton" />
+            <TextView
+                    android:id="@+id/fullscreenSettingsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_fullscreen_settings_title"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                    android:id="@+id/fullscreenSettingsDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSecondary"
+                    tools:text="Everywhere" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divider" />
+
+    </LinearLayout>
 
 </ScrollView>

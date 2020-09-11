@@ -216,6 +216,10 @@
                 app:popEnterAnim="@anim/slide_in_left"
                 app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+                android:id="@+id/action_settings_screen_to_help_screen"
+                app:destination="@+id/help_screen" />
+
     </fragment>
 
     <fragment

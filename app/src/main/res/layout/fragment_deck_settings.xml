@@ -106,9 +106,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
                     android:contentDescription="@string/description_help_button"
-                    android:focusable="true"
                     android:tint="@color/iconDark"
                     app:srcCompat="@drawable/ic_baseline_help_outline_24" />
 
@@ -161,9 +159,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
                     android:contentDescription="@string/description_help_button"
-                    android:focusable="true"
                     android:tint="@color/iconDark"
                     app:srcCompat="@drawable/ic_baseline_help_outline_24" />
 
@@ -224,9 +220,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
                     android:contentDescription="@string/description_help_button"
-                    android:focusable="true"
                     android:tint="@color/iconDark"
                     app:srcCompat="@drawable/ic_baseline_help_outline_24" />
 
@@ -287,9 +281,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
                     android:contentDescription="@string/description_help_button"
-                    android:focusable="true"
                     android:tint="@color/iconDark"
                     app:srcCompat="@drawable/ic_baseline_help_outline_24" />
 
@@ -384,9 +376,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
                     android:contentDescription="@string/description_help_button"
-                    android:focusable="true"
                     android:tint="@color/iconDark"
                     app:srcCompat="@drawable/ic_baseline_help_outline_24" />
 
@@ -447,9 +437,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
                     android:contentDescription="@string/description_help_button"
-                    android:focusable="true"
                     android:tint="@color/iconDark"
                     app:srcCompat="@drawable/ic_baseline_help_outline_24" />
 
