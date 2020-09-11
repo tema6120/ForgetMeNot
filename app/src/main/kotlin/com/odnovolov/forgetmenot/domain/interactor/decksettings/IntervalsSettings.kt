@@ -3,14 +3,11 @@ package com.odnovolov.forgetmenot.domain.interactor.decksettings
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.checkIntervalSchemeName
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings.Event.DeniedIntervalSchemeCreation
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings.Event.DeniedIntervalSchemeRenaming
-import com.odnovolov.forgetmenot.domain.isDefault
-import com.odnovolov.forgetmenot.domain.isIndividual
 import com.soywiz.klock.DateTimeSpan
 import kotlinx.coroutines.flow.Flow
 
@@ -25,10 +22,10 @@ class IntervalsSettings(
 
     private val eventFlow = EventFlow<Event>()
     val events: Flow<Event> = eventFlow.get()
-    
+
     private val exercisePreference: ExercisePreference
         get() = deckSettings.state.deck.exercisePreference
-    
+
     fun setIntervalScheme(intervalSchemeId: Long?) {
         when (intervalSchemeId) {
             deckSettings.state.deck.exercisePreference.intervalScheme?.id -> return
@@ -41,7 +38,7 @@ class IntervalsSettings(
             }
         }
     }
-    
+
     fun createNewSharedIntervalScheme(name: String) {
         when (checkIntervalSchemeName(name, globalState)) {
             Ok -> createNewSharedIntervalSchemeAndSetToCurrentExercisePreference(name)

@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
-import com.odnovolov.forgetmenot.domain.checkIntervalSchemeName
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.Preset

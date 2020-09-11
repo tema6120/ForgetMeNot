@@ -52,3 +52,16 @@ class RepetitionSetting(
         }
     }
 }
+
+fun RepetitionSetting.isDefault(): Boolean = this.id == RepetitionSetting.Default.id
+
+fun RepetitionSetting.isIndividual(): Boolean = !isDefault() && name.isEmpty()
+
+fun checkRepetitionSettingName(testingName: String, globalState: GlobalState): NameCheckResult {
+    return when {
+        testingName.isEmpty() -> NameCheckResult.Empty
+        globalState.sharedRepetitionSettings.any { it.name == testingName } ->
+            NameCheckResult.Occupied
+        else -> NameCheckResult.Ok
+    }
+}

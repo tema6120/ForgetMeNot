@@ -1,9 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
-import com.odnovolov.forgetmenot.domain.checkIntervalSchemeName
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.checkIntervalSchemeName
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver

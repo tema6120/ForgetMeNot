@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
-import com.odnovolov.forgetmenot.domain.checkRepetitionSettingName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.checkRepetitionSettingName
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator

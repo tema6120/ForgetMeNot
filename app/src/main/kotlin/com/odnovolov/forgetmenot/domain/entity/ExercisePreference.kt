@@ -54,3 +54,16 @@ class ExercisePreference(
         }
     }
 }
+
+fun ExercisePreference.isDefault(): Boolean = this.id == ExercisePreference.Default.id
+
+fun ExercisePreference.isIndividual(): Boolean = !isDefault() && name.isEmpty()
+
+fun checkExercisePreferenceName(testingName: String, globalState: GlobalState): NameCheckResult {
+    return when {
+        testingName.isEmpty() -> NameCheckResult.Empty
+        globalState.sharedExercisePreferences.any { it.name == testingName } ->
+            NameCheckResult.Occupied
+        else -> NameCheckResult.Ok
+    }
+}

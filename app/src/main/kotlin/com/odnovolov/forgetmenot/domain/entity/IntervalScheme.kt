@@ -36,3 +36,15 @@ class IntervalScheme(
         }
     }
 }
+
+fun IntervalScheme.isDefault(): Boolean = this.id == IntervalScheme.Default.id
+
+fun IntervalScheme.isIndividual(): Boolean = !isDefault() && name.isEmpty()
+
+fun checkIntervalSchemeName(testingName: String, globalState: GlobalState): NameCheckResult {
+    return when {
+        testingName.isEmpty() -> NameCheckResult.Empty
+        globalState.sharedIntervalSchemes.any { it.name == testingName } -> NameCheckResult.Occupied
+        else -> NameCheckResult.Ok
+    }
+}

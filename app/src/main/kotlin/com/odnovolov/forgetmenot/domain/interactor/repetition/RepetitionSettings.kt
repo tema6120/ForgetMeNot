@@ -1,13 +1,9 @@
 package com.odnovolov.forgetmenot.domain.interactor.repetition
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.checkRepetitionSettingName
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.isDefault
-import com.odnovolov.forgetmenot.domain.isIndividual
 import com.soywiz.klock.DateTimeSpan
 
 class RepetitionSettings(

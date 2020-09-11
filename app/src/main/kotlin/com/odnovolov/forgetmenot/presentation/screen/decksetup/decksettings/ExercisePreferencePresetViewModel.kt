@@ -1,10 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings
 
-import com.odnovolov.forgetmenot.domain.checkExercisePreferenceName
-import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.Preset
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState

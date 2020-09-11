@@ -1,9 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
-import com.odnovolov.forgetmenot.domain.checkRepetitionSettingName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
+import com.odnovolov.forgetmenot.domain.entity.checkRepetitionSettingName
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.Preset
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetViewModel

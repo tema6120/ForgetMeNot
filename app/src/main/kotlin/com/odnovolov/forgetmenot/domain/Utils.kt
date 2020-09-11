@@ -13,51 +13,6 @@ fun TimeSpan.toDateTimeSpan(): DateTimeSpan = DateTimeSpan(MonthSpan(0), this)
 
 fun generateId(): Long = SUID.id()
 
-fun ExercisePreference.isDefault(): Boolean = this.id == ExercisePreference.Default.id
-
-fun ExercisePreference.isIndividual(): Boolean = !isDefault() && name.isEmpty()
-
-fun IntervalScheme.isDefault(): Boolean = this.id == IntervalScheme.Default.id
-
-fun IntervalScheme.isIndividual(): Boolean = !isDefault() && name.isEmpty()
-
-fun RepetitionSetting.isDefault(): Boolean = this.id == RepetitionSetting.Default.id
-
-fun RepetitionSetting.isIndividual(): Boolean = !isDefault() && name.isEmpty()
-
-fun checkDeckName(testingName: String, globalState: GlobalState): NameCheckResult {
-    return when {
-        testingName.isEmpty() -> NameCheckResult.Empty
-        globalState.decks.any { it.name == testingName } -> NameCheckResult.Occupied
-        else -> NameCheckResult.Ok
-    }
-}
-
-fun checkExercisePreferenceName(testingName: String, globalState: GlobalState): NameCheckResult {
-    return when {
-        testingName.isEmpty() -> NameCheckResult.Empty
-        globalState.sharedExercisePreferences.any { it.name == testingName } ->
-            NameCheckResult.Occupied
-        else -> NameCheckResult.Ok
-    }
-}
-
-fun checkIntervalSchemeName(testingName: String, globalState: GlobalState): NameCheckResult {
-    return when {
-        testingName.isEmpty() -> NameCheckResult.Empty
-        globalState.sharedIntervalSchemes.any { it.name == testingName } -> NameCheckResult.Occupied
-        else -> NameCheckResult.Ok
-    }
-}
-
-fun checkRepetitionSettingName(testingName: String, globalState: GlobalState): NameCheckResult {
-    return when {
-        testingName.isEmpty() -> NameCheckResult.Empty
-        globalState.sharedRepetitionSettings.any { it.name == testingName } -> NameCheckResult.Occupied
-        else -> NameCheckResult.Ok
-    }
-}
-
 // shuffle items but preserve inner list order
 fun <T> List<List<T>>.flattenWithShallowShuffling(): List<T> {
     val totalSize = this.sumBy { it.size }

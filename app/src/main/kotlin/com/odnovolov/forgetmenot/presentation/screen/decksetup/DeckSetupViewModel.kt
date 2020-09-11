@@ -1,9 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksetup
 
-import com.odnovolov.forgetmenot.domain.checkDeckName
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.checkDeckName
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

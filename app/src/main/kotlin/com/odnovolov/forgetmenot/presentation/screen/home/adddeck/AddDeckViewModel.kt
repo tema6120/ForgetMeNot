@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
-import com.odnovolov.forgetmenot.domain.checkDeckName
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.entity.checkDeckName
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.State.Stage
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState.HowToAdd

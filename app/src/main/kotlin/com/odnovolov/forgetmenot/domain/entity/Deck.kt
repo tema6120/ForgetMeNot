@@ -27,3 +27,11 @@ class Deck(
         exercisePreference.copy()
     )
 }
+
+fun checkDeckName(testingName: String, globalState: GlobalState): NameCheckResult {
+    return when {
+        testingName.isEmpty() -> NameCheckResult.Empty
+        globalState.decks.any { it.name == testingName } -> NameCheckResult.Occupied
+        else -> NameCheckResult.Ok
+    }
+}
