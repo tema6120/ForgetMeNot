@@ -77,6 +77,7 @@ class ExerciseController(
             }
 
             EditCardButtonClicked -> {
+                exercise.stopSpeaking()
                 navigator.navigateToCardsEditorFromExercise {
                     val editableCard = EditableCard(
                         exercise.currentExerciseCard.base.card,
@@ -124,6 +125,7 @@ class ExerciseController(
             }
 
             SearchButtonClicked -> {
+                exercise.stopSpeaking()
                 navigator.navigateToSearchFromExercise {
                     val searchText = with(exercise.state) {
                         when {
@@ -137,10 +139,12 @@ class ExerciseController(
             }
 
             WalkingModeSettingsButtonClicked -> {
+                exercise.stopSpeaking()
                 navigator.navigateToWalkingModeSettingsFromExercise()
             }
 
             WalkingModeHelpButtonClicked -> {
+                exercise.stopSpeaking()
                 navigator.navigateToHelpFromExercise {
                     HelpDiScope(HelpArticle.WalkingMode)
                 }
@@ -152,6 +156,7 @@ class ExerciseController(
             }
 
             HelpButtonClicked -> {
+                exercise.stopSpeaking()
                 navigator.navigateToHelpFromExercise {
                     HelpDiScope(HelpArticle.Exercise)
                 }
@@ -163,7 +168,6 @@ class ExerciseController(
 
             FragmentPaused -> {
                 exercise.resetTimer()
-                exercise.stopSpeaking()
             }
 
             is KeyGestureDetected -> {
