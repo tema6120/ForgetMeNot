@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 import java.util.*
 
 class Pronunciation(
@@ -11,13 +11,13 @@ class Pronunciation(
     answerLanguage: Locale?,
     answerAutoSpeak: Boolean,
     speakTextInBrackets: Boolean
-) : RegistrableFlowableState<Pronunciation>() {
-    var name: String by me(name)
-    var questionLanguage: Locale? by me(questionLanguage)
-    var questionAutoSpeak: Boolean by me(questionAutoSpeak)
-    var answerLanguage: Locale? by me(answerLanguage)
-    var answerAutoSpeak: Boolean by me(answerAutoSpeak)
-    var speakTextInBrackets: Boolean by me(speakTextInBrackets)
+) : FlowMakerWithRegistry<Pronunciation>() {
+    var name: String by flowMaker(name)
+    var questionLanguage: Locale? by flowMaker(questionLanguage)
+    var questionAutoSpeak: Boolean by flowMaker(questionAutoSpeak)
+    var answerLanguage: Locale? by flowMaker(answerLanguage)
+    var answerAutoSpeak: Boolean by flowMaker(answerAutoSpeak)
+    var speakTextInBrackets: Boolean by flowMaker(speakTextInBrackets)
 
     override fun copy() = Pronunciation(
         id,

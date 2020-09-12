@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.common.entity
 
 import android.content.Context
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.toDateTimeSpan
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit.*
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit.Months
@@ -11,9 +11,9 @@ import com.soywiz.klock.*
 class DisplayedInterval(
     value: Int?,
     intervalUnit: IntervalUnit
-): FlowableState<DisplayedInterval>() {
-    var value: Int? by me(value)
-    var intervalUnit: IntervalUnit by me(intervalUnit)
+): FlowMaker<DisplayedInterval>() {
+    var value: Int? by flowMaker(value)
+    var intervalUnit: IntervalUnit by flowMaker(intervalUnit)
 
     fun isValid(): Boolean = value.let { value -> value != null && value > 0 }
 

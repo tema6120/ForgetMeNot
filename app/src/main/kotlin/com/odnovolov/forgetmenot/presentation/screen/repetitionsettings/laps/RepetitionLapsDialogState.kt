@@ -1,11 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 
 class RepetitionLapsDialogState(
     isInfinitely: Boolean,
     numberOfLapsInput: String
-) : FlowableState<RepetitionLapsDialogState>() {
-    var isInfinitely: Boolean by me(isInfinitely)
-    var numberOfLapsInput: String by me(numberOfLapsInput)
+) : FlowMaker<RepetitionLapsDialogState>() {
+    var isInfinitely: Boolean by flowMaker(isInfinitely)
+    var numberOfLapsInput: String by flowMaker(numberOfLapsInput)
 }

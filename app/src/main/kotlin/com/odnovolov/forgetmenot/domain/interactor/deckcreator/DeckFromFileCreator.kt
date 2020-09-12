@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.domain.interactor.deckcreator
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
@@ -20,9 +20,9 @@ class DeckFromFileCreator(
     val state: State,
     private val globalState: GlobalState
 ) {
-    class State : FlowableState<State>() {
-        var stage: Stage by me(Idle)
-        var cardPrototypes: List<CardPrototype>? by me<List<CardPrototype>?>(null)
+    class State : FlowMaker<State>() {
+        var stage: Stage by flowMaker(Idle)
+        var cardPrototypes: List<CardPrototype>? by flowMaker<List<CardPrototype>?>(null)
 
         enum class Stage {
             Idle,

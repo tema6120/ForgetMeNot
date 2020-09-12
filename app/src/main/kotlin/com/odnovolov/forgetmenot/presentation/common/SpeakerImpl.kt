@@ -6,7 +6,7 @@ import android.media.ToneGenerator
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent
@@ -29,13 +29,13 @@ class SpeakerImpl(
     private val activityLifecycleEvents: Flow<ActivityLifecycleEvent>,
     private val initialLanguage: Locale? = null
 ) : Speaker {
-    class State : FlowableState<State>() {
-        var status: Status by me(Initialization)
-        var ttsEngine: String? by me(null)
-        var defaultLanguage: Locale by me(DEFAULT_LANGUAGE)
-        var availableLanguages: Set<Locale> by me(emptySet())
-        var isPreparingToSpeak: Boolean by me(false)
-        var isSpeaking: Boolean by me(false)
+    class State : FlowMaker<State>() {
+        var status: Status by flowMaker(Initialization)
+        var ttsEngine: String? by flowMaker(null)
+        var defaultLanguage: Locale by flowMaker(DEFAULT_LANGUAGE)
+        var availableLanguages: Set<Locale> by flowMaker(emptySet())
+        var isPreparingToSpeak: Boolean by flowMaker(false)
+        var isSpeaking: Boolean by flowMaker(false)
     }
 
     enum class Status {

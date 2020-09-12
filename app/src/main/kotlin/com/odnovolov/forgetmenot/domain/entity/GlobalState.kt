@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.domain.entity
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
-import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 
 class GlobalState(
     decks: CopyableCollection<Deck>,
@@ -13,27 +13,27 @@ class GlobalState(
     sharedRepetitionSettings: CopyableCollection<RepetitionSetting>,
     currentRepetitionSetting: RepetitionSetting,
     isWalkingModeEnabled: Boolean
-) : RegistrableFlowableState<GlobalState>() {
-    var decks: CopyableCollection<Deck> by me(decks, CollectionChange::class)
+) : FlowMakerWithRegistry<GlobalState>() {
+    var decks: CopyableCollection<Deck> by flowMaker(decks, CollectionChange::class)
 
     var sharedExercisePreferences: CopyableCollection<ExercisePreference>
-            by me(sharedExercisePreferences, CollectionChange::class)
+            by flowMaker(sharedExercisePreferences, CollectionChange::class)
 
     var sharedIntervalSchemes: CopyableCollection<IntervalScheme>
-            by me(sharedIntervalSchemes, CollectionChange::class)
+            by flowMaker(sharedIntervalSchemes, CollectionChange::class)
 
     var sharedPronunciations: CopyableCollection<Pronunciation>
-            by me(sharedPronunciations, CollectionChange::class)
+            by flowMaker(sharedPronunciations, CollectionChange::class)
 
     var sharedPronunciationPlans: CopyableCollection<PronunciationPlan>
-            by me(sharedPronunciationPlans, CollectionChange::class)
+            by flowMaker(sharedPronunciationPlans, CollectionChange::class)
 
     var sharedRepetitionSettings: CopyableCollection<RepetitionSetting>
-            by me(sharedRepetitionSettings, CollectionChange::class)
+            by flowMaker(sharedRepetitionSettings, CollectionChange::class)
 
-    var currentRepetitionSetting: RepetitionSetting by me(currentRepetitionSetting)
+    var currentRepetitionSetting: RepetitionSetting by flowMaker(currentRepetitionSetting)
 
-    var isWalkingModeEnabled: Boolean by me(isWalkingModeEnabled)
+    var isWalkingModeEnabled: Boolean by flowMaker(isWalkingModeEnabled)
 
     override fun copy() = GlobalState(
         decks.copy(),

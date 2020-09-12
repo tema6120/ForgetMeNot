@@ -4,7 +4,7 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import kotlinx.android.synthetic.main.article_motivational_timer.*
@@ -16,9 +16,9 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
-    private class State : FlowableState<State>() {
-        var timeLeft: Int by me(DEFAULT_TIME_FOR_ANSWER)
-        var isExpired: Boolean by me(false)
+    private class State : FlowMaker<State>() {
+        var timeLeft: Int by flowMaker(DEFAULT_TIME_FOR_ANSWER)
+        var isExpired: Boolean by flowMaker(false)
     }
 
     private val state = State()

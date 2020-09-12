@@ -1,8 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
-import com.odnovolov.forgetmenot.presentation.common.Stopwatch
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.Exercise
@@ -11,8 +10,8 @@ import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleLinkC
 import kotlinx.android.synthetic.main.article_deck_summary.*
 
 class DeckSummaryHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
-    private class State : FlowableState<State>() {
-        var isSelected: Boolean by me(false)
+    private class State : FlowMaker<State>() {
+        var isSelected: Boolean by flowMaker(false)
     }
 
     private val state = State()

@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 import com.soywiz.klock.DateTimeSpan
 
 class RepetitionSetting(
@@ -13,15 +13,15 @@ class RepetitionSetting(
     lastAnswerFromTimeAgo: DateTimeSpan?,
     lastAnswerToTimeAgo: DateTimeSpan?,
     numberOfLaps: Int
-) : RegistrableFlowableState<RepetitionSetting>() {
-    var name: String by me(name)
-    var isAvailableForExerciseCardsIncluded: Boolean by me(isAvailableForExerciseCardsIncluded)
-    var isAwaitingCardsIncluded: Boolean by me(isAwaitingCardsIncluded)
-    var isLearnedCardsIncluded: Boolean by me(isLearnedCardsIncluded)
-    var levelOfKnowledgeRange: IntRange by me(levelOfKnowledgeRange)
-    var lastAnswerFromTimeAgo: DateTimeSpan? by me(lastAnswerFromTimeAgo) // null means zero time
-    var lastAnswerToTimeAgo: DateTimeSpan? by me(lastAnswerToTimeAgo) // null means now
-    var numberOfLaps: Int by me(numberOfLaps)
+) : FlowMakerWithRegistry<RepetitionSetting>() {
+    var name: String by flowMaker(name)
+    var isAvailableForExerciseCardsIncluded: Boolean by flowMaker(isAvailableForExerciseCardsIncluded)
+    var isAwaitingCardsIncluded: Boolean by flowMaker(isAwaitingCardsIncluded)
+    var isLearnedCardsIncluded: Boolean by flowMaker(isLearnedCardsIncluded)
+    var levelOfKnowledgeRange: IntRange by flowMaker(levelOfKnowledgeRange)
+    var lastAnswerFromTimeAgo: DateTimeSpan? by flowMaker(lastAnswerFromTimeAgo) // null means zero time
+    var lastAnswerToTimeAgo: DateTimeSpan? by flowMaker(lastAnswerToTimeAgo) // null means now
+    var numberOfLaps: Int by flowMaker(numberOfLaps)
 
     override fun copy() = RepetitionSetting(
         id,

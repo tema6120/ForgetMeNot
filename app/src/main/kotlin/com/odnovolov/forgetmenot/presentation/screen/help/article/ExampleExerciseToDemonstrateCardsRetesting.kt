@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.help.article
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.generateId
 
 class ExampleExerciseToDemonstrateCardsRetesting(
@@ -8,18 +8,18 @@ class ExampleExerciseToDemonstrateCardsRetesting(
 ) {
     class State(
         exerciseCards: List<ExerciseCard>
-    ) : FlowableState<State>() {
-        var exerciseCards: List<ExerciseCard> by me(exerciseCards)
+    ) : FlowMaker<State>() {
+        var exerciseCards: List<ExerciseCard> by flowMaker(exerciseCards)
     }
 
     class ExerciseCard(
         id: Long = generateId(),
         card: Card,
         isAnswerCorrect: Boolean? = null
-    ) : FlowableState<ExerciseCard>() {
-        val id: Long by me(id)
-        val card: Card by me(card)
-        var isAnswerCorrect: Boolean? by me(isAnswerCorrect)
+    ) : FlowMaker<ExerciseCard>() {
+        val id: Long by flowMaker(id)
+        val card: Card by flowMaker(card)
+        var isAnswerCorrect: Boolean? by flowMaker(isAnswerCorrect)
     }
 
     class Card(
@@ -29,13 +29,13 @@ class ExampleExerciseToDemonstrateCardsRetesting(
         levelOfKnowledge: Int,
         initialLevelOfKnowledge: Int = levelOfKnowledge,
         isLevelOfKnowledgeEditedManually: Boolean = false
-    ) : FlowableState<Card>() {
-        val id: Long by me(id)
-        val question: String by me(question)
-        val answer: String by me(answer)
-        var levelOfKnowledge: Int by me(levelOfKnowledge)
-        val initialLevelOfKnowledge: Int by me(initialLevelOfKnowledge)
-        var isLevelOfKnowledgeEditedManually: Boolean by me(isLevelOfKnowledgeEditedManually)
+    ) : FlowMaker<Card>() {
+        val id: Long by flowMaker(id)
+        val question: String by flowMaker(question)
+        val answer: String by flowMaker(answer)
+        var levelOfKnowledge: Int by flowMaker(levelOfKnowledge)
+        val initialLevelOfKnowledge: Int by flowMaker(initialLevelOfKnowledge)
+        var isLevelOfKnowledgeEditedManually: Boolean by flowMaker(isLevelOfKnowledgeEditedManually)
     }
 
     fun setLevelOfKnowledge(levelOfKnowledge: Int, exerciseCard: ExerciseCard) {

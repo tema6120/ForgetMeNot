@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 import com.soywiz.klock.DateTime
 
 class Card(
@@ -11,13 +11,13 @@ class Card(
     isLearned: Boolean = false,
     levelOfKnowledge: Int = 0,
     lastAnsweredAt: DateTime? = null
-) : RegistrableFlowableState<Card>() {
-    var question: String by me(question)
-    var answer: String by me(answer)
-    var lap: Int by me(lap)
-    var isLearned: Boolean by me(isLearned)
-    var levelOfKnowledge: Int by me(levelOfKnowledge)
-    var lastAnsweredAt: DateTime? by me(lastAnsweredAt)
+) : FlowMakerWithRegistry<Card>() {
+    var question: String by flowMaker(question)
+    var answer: String by flowMaker(answer)
+    var lap: Int by flowMaker(lap)
+    var isLearned: Boolean by flowMaker(isLearned)
+    var levelOfKnowledge: Int by flowMaker(levelOfKnowledge)
+    var lastAnsweredAt: DateTime? by flowMaker(lastAnsweredAt)
 
     override fun copy() =
         Card(id, question, answer, lap, isLearned, levelOfKnowledge, lastAnsweredAt)

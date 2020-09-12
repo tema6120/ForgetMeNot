@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.domain.entity
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
-import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 import com.soywiz.klock.DateTime
 
 class Deck(
@@ -11,12 +11,12 @@ class Deck(
     lastOpenedAt: DateTime? = null,
     cards: CopyableList<Card>,
     exercisePreference: ExercisePreference = ExercisePreference.Default
-) : RegistrableFlowableState<Deck>() {
-    var name: String by me(name)
-    val createdAt: DateTime by me(createdAt)
-    var lastOpenedAt: DateTime? by me(lastOpenedAt)
-    var cards: CopyableList<Card> by me(cards)
-    var exercisePreference: ExercisePreference by me(exercisePreference)
+) : FlowMakerWithRegistry<Deck>() {
+    var name: String by flowMaker(name)
+    val createdAt: DateTime by flowMaker(createdAt)
+    var lastOpenedAt: DateTime? by flowMaker(lastOpenedAt)
+    var cards: CopyableList<Card> by flowMaker(cards)
+    var exercisePreference: ExercisePreference by flowMaker(exercisePreference)
 
     override fun copy() = Deck(
         id,

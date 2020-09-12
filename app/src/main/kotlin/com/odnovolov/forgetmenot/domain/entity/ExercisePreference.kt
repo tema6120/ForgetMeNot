@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 
 class ExercisePreference(
     override val id: Long,
@@ -13,16 +13,16 @@ class ExercisePreference(
     cardReverse: CardReverse,
     pronunciationPlan: PronunciationPlan,
     timeForAnswer: Int
-) : RegistrableFlowableState<ExercisePreference>() {
-    var name: String by me(name)
-    var randomOrder: Boolean by me(randomOrder)
-    var testMethod: TestMethod by me(testMethod)
-    var intervalScheme: IntervalScheme? by me(intervalScheme)
-    var pronunciation: Pronunciation by me(pronunciation)
-    var isQuestionDisplayed: Boolean by me(isQuestionDisplayed)
-    var cardReverse: CardReverse by me(cardReverse)
-    var pronunciationPlan: PronunciationPlan by me(pronunciationPlan)
-    var timeForAnswer: Int by me(timeForAnswer)
+) : FlowMakerWithRegistry<ExercisePreference>() {
+    var name: String by flowMaker(name)
+    var randomOrder: Boolean by flowMaker(randomOrder)
+    var testMethod: TestMethod by flowMaker(testMethod)
+    var intervalScheme: IntervalScheme? by flowMaker(intervalScheme)
+    var pronunciation: Pronunciation by flowMaker(pronunciation)
+    var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
+    var cardReverse: CardReverse by flowMaker(cardReverse)
+    var pronunciationPlan: PronunciationPlan by flowMaker(pronunciationPlan)
+    var timeForAnswer: Int by flowMaker(timeForAnswer)
 
     override fun copy() = ExercisePreference(
         id,

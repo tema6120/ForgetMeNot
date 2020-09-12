@@ -1,12 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.common.customview.preset
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import kotlinx.serialization.Serializable
 
-class PresetDialogState : FlowableState<PresetDialogState>() {
-    var purpose: DialogPurpose? by me<DialogPurpose?>(null)
-    var typedPresetName: String by me("")
-    var idToDelete: Long? by me<Long?>(null)
+class PresetDialogState : FlowMaker<PresetDialogState>() {
+    var purpose: DialogPurpose? by flowMaker<DialogPurpose?>(null)
+    var typedPresetName: String by flowMaker("")
+    var idToDelete: Long? by flowMaker<Long?>(null)
 }
 
 @Serializable

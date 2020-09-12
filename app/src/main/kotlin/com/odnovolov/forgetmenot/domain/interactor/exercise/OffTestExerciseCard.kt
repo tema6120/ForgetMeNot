@@ -1,9 +1,9 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 
 class OffTestExerciseCard(
     base: ExerciseCard.Base
-) : FlowableState<OffTestExerciseCard>(), ExerciseCard {
-    override val base: ExerciseCard.Base by me(base)
+) : FlowMaker<OffTestExerciseCard>(), ExerciseCard {
+    override val base: ExerciseCard.Base by flowMaker(base)
 }

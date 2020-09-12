@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
@@ -21,12 +21,12 @@ class Exercise(
         questionSelection: String = "",
         answerSelection: String = "",
         hintSelection: HintSelection = HintSelection(0, 0)
-    ) : FlowableState<State>() {
-        var exerciseCards: List<ExerciseCard> by me(exerciseCards)
-        var currentPosition: Int by me(currentPosition)
-        var questionSelection: String by me(questionSelection)
-        var answerSelection: String by me(answerSelection)
-        var hintSelection: HintSelection by me(hintSelection)
+    ) : FlowMaker<State>() {
+        var exerciseCards: List<ExerciseCard> by flowMaker(exerciseCards)
+        var currentPosition: Int by flowMaker(currentPosition)
+        var questionSelection: String by flowMaker(questionSelection)
+        var answerSelection: String by flowMaker(answerSelection)
+        var hintSelection: HintSelection by flowMaker(hintSelection)
     }
 
     val currentExerciseCard: ExerciseCard get() = state.exerciseCards[state.currentPosition]

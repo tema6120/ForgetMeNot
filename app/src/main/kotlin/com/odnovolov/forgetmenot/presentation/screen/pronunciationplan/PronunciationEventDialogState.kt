@@ -1,12 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciationplan
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import kotlinx.serialization.Serializable
 
-class PronunciationEventDialogState : FlowableState<PronunciationEventDialogState>() {
-    var dialogPurpose: DialogPurpose? by me<DialogPurpose?>(null)
-    var selectedRadioButton: PronunciationEventType? by me<PronunciationEventType?>(null)
-    var delayInput: String by me("2")
+class PronunciationEventDialogState : FlowMaker<PronunciationEventDialogState>() {
+    var dialogPurpose: DialogPurpose? by flowMaker<DialogPurpose?>(null)
+    var selectedRadioButton: PronunciationEventType? by flowMaker<PronunciationEventType?>(null)
+    var delayInput: String by flowMaker("2")
 }
 
 @Serializable

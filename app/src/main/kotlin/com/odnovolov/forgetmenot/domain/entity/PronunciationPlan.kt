@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.domain.entity
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
-import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.soywiz.klock.seconds
 
@@ -9,9 +9,9 @@ class PronunciationPlan(
     override val id: Long,
     name: String,
     pronunciationEvents: List<PronunciationEvent>
-) : RegistrableFlowableState<PronunciationPlan>() {
-    var name: String by me(name)
-    var pronunciationEvents: List<PronunciationEvent> by me(
+) : FlowMakerWithRegistry<PronunciationPlan>() {
+    var name: String by flowMaker(name)
+    var pronunciationEvents: List<PronunciationEvent> by flowMaker(
         pronunciationEvents,
         preferredChangeClass = PropertyValueChange::class
     )

@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.interactor.searcher
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
@@ -69,8 +69,8 @@ class Searcher {
         coroutineScope.cancel()
     }
 
-    class State : FlowableState<State>() {
-        var isSearching: Boolean by me(false)
-        var searchResult: List<SearchCard> by me(emptyList())
+    class State : FlowMaker<State>() {
+        var isSearching: Boolean by flowMaker(false)
+        var searchResult: List<SearchCard> by flowMaker(emptyList())
     }
 }

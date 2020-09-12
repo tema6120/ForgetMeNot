@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.interactor.repetition
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
@@ -25,15 +25,15 @@ class Repetition(
         currentLap: Int = 0,
         questionSelection: String = "",
         answerSelection: String = ""
-    ) : FlowableState<State>() {
-        val repetitionCards: List<RepetitionCard> by me(repetitionCards)
-        var repetitionCardPosition: Int by me(repetitionCardPosition)
-        var pronunciationEventPosition: Int by me(pronunciationEventPosition)
-        var isPlaying: Boolean by me(isPlaying)
-        val numberOfLaps: Int by me(numberOfLaps)
-        var currentLap: Int by me(currentLap)
-        var questionSelection: String by me(questionSelection)
-        var answerSelection: String by me(answerSelection)
+    ) : FlowMaker<State>() {
+        val repetitionCards: List<RepetitionCard> by flowMaker(repetitionCards)
+        var repetitionCardPosition: Int by flowMaker(repetitionCardPosition)
+        var pronunciationEventPosition: Int by flowMaker(pronunciationEventPosition)
+        var isPlaying: Boolean by flowMaker(isPlaying)
+        val numberOfLaps: Int by flowMaker(numberOfLaps)
+        var currentLap: Int by flowMaker(currentLap)
+        var questionSelection: String by flowMaker(questionSelection)
+        var answerSelection: String by flowMaker(answerSelection)
     }
 
     val currentRepetitionCard: RepetitionCard

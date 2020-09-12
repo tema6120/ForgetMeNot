@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Deck
 
-class HomeScreenState : FlowableState<HomeScreenState>() {
-    var searchText: String by me("")
-    var selectedDeckIds: List<Long> by me(emptyList())
-    var exportedDeck: Deck? by me<Deck?>(null)
+class HomeScreenState : FlowMaker<HomeScreenState>() {
+    var searchText: String by flowMaker("")
+    var selectedDeckIds: List<Long> by flowMaker(emptyList())
+    var exportedDeck: Deck? by flowMaker<Deck?>(null)
 }

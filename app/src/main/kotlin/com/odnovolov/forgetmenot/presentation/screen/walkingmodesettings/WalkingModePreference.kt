@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.RegistrableFlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 
@@ -13,8 +13,8 @@ class WalkingModePreference(
         VOLUME_DOWN_DOUBLE_PRESS to MOVE_TO_PREVIOUS_CARD,
         VOLUME_DOWN_LONG_PRESS to SPEAK_ANSWER
     )
-) : RegistrableFlowableState<WalkingModePreference>() {
-    var keyGestureMap: Map<KeyGesture, KeyGestureAction> by me(keyGestureMap)
+) : FlowMakerWithRegistry<WalkingModePreference>() {
+    var keyGestureMap: Map<KeyGesture, KeyGestureAction> by flowMaker(keyGestureMap)
 
     override fun copy() = WalkingModePreference(keyGestureMap)
 }

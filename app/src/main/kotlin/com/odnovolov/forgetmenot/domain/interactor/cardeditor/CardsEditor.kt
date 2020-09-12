@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 
 abstract class CardsEditor(
     val state: State
@@ -8,9 +8,9 @@ abstract class CardsEditor(
     class State(
         editableCards: List<EditableCard>,
         currentPosition: Int = 0
-    ) : FlowableState<State>() {
-        var editableCards: List<EditableCard> by me(editableCards)
-        var currentPosition: Int by me(currentPosition)
+    ) : FlowMaker<State>() {
+        var editableCards: List<EditableCard> by flowMaker(editableCards)
+        var currentPosition: Int by flowMaker(currentPosition)
     }
 
     val currentEditableCard: EditableCard get() = state.editableCards[state.currentPosition]

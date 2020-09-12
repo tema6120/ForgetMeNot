@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowableState
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
 import com.odnovolov.forgetmenot.presentation.common.dp
@@ -27,12 +27,12 @@ import kotlinx.android.synthetic.main.question.view.*
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
 
 class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
-    private class Example2State : FlowableState<Example2State>() {
-        var isLearned by me(false)
+    private class Example2State : FlowMaker<Example2State>() {
+        var isLearned by flowMaker(false)
     }
 
-    private class Example3State : FlowableState<Example3State>() {
-        var hint: String? by me(null)
+    private class Example3State : FlowMaker<Example3State>() {
+        var hint: String? by flowMaker(null)
     }
 
     override val layoutRes: Int get() = R.layout.article_exercise
