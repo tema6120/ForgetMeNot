@@ -21,8 +21,8 @@ Features
 * 'Walking mode' that enables you do the exercise without looking at the screen.
 * 'Repetition mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
 
-Screen records
---------------
+Screenshots
+-----------
 
 | Home screen                                                | Exercise                                             |
 |:----------------------------------------------------------:|:----------------------------------------------------:|
@@ -35,6 +35,11 @@ Screen records
 | Pronunciation settings                                                           | Cards editor                                                 |
 |:--------------------------------------------------------------------------------:|:------------------------------------------------------------:|
 | ![Pronunciation settings](/.github/readme/screenshot_pronunciation_settings.png) | ![Cards editor](/.github/readme/screenshot_cards_editor.png) |
+
+Architecture
+------------
+
+See the dedicated page [here](/.github/readme/ARCHITECTURE.md).
 
 Libraries Used
 --------------
