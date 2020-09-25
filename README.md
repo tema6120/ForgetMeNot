@@ -5,6 +5,13 @@ ForgetMeNot
 
 ForgetMeNot is an Android app for memorizing information via flashcards. Simplicity, usability, speed were taken into account in the process of developing this educational program. This app provides excellent conditions for achieving high efficiency of memorization.
 
+Download
+--------
+
+[<img src="https://raw.githubusercontent.com/tema6120/ForgetMeNot/master/.github/readme/direct_apk_download.png"
+      alt="Get direct apk"
+      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.0/ForgetMeNot_v1.0.apk)
+
 Features
 --------
 
