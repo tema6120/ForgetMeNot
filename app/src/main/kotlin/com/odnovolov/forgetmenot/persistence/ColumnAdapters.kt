@@ -37,7 +37,6 @@ val dateTimeSpanAdapter = object : ColumnAdapter<DateTimeSpan, String> {
     }
 }
 
-// todo: use two EnumColumnAdapter() instead this
 val deckSortingAdapter = object : ColumnAdapter<DeckSorting, String> {
     override fun encode(value: DeckSorting): String {
         return "${value.criterion} ${value.direction}"
