@@ -1,0 +1,35 @@
+ForgetMeNot is an app for memorizing information via flashcards. Simplicity, usability, speed were taken into account in the process of developing this educational program. This app provides excellent conditions for achieving high efficiency of memorization.
+
+
+The features that are supported are:
+
+    - Import/export of decks.
+    - Intervals (Spaced repetition). You can specified your own interval scheme for each deck.
+    - Several test methods. There are 'Off', 'Manual', 'Quiz', 'Entry'.
+    - Pronunciation of the text via TTS. You can choose languages for questions and answers, enable autospeaking of them.
+    - Hiding the text of a question to stimulate improvement of listening skills that is very useful in foreign language learning.
+    - Card reversing.
+    - Hints in the form of masking letters or quiz.
+    - 'Motivational timer' that will make you concentrate on your studies (optionally).
+    - Saving settings of deck as presets and reusing them in order to avoid routine work on settings.
+    - Editing and searching cards right in the exercise.
+    - 'Walking mode' that enables you do the exercise without looking at the screen.
+    - 'Repetition mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
+
+
+What makes ForgetMeNot so efficient for memorizing:
+
+    - No amount of advertising. You can handle a lot of cards in a short time due to the simplicity and convenience of the user interface. Nothing prevents you from studying.
+    - The exercise is designed so that you must eventually grasp the answer. If your answer is wrong, the card is postponed to the end of the list until you answer correct.
+    - Intervals (Spaced repetition). Spaced repetition reduces the forgetting that occurs when material is not encountered for a significant time period. It also involves actively recalling learned material, which supports learning.
+    - Possibility to edit a card just in the exercise. This allows you not only to correct mistakes, but also to rebuild cards if they are difficult to remember. For example, you can add an additional association in parentheses.
+    - Voice accompaniment. This is especially helpful when learning languages because it improves listening skills, helps to focus on studying and favors memorization. You can even set up a deck to perceive a question exceptionally by ear.
+    - Modes that allow you to practice not only in your free time. 'Walking mode' enables you do the exercise during walking. 'Repetition mode' lets you listen to questions and answers when your hands and eyes are busy, but your ears are free : )
+    - Focusing aids. 'Motivational timer' reminds you when you've lost your attention. Full screen mode hides the status bar, which might be an additional source of distraction.
+
+But in addition I'd like to quote Tryon Edwards:
+    "The secret of a good memory is attention, and attention to a subject depends upon our interest in it. We rarely forget that which has made a deep impression on our minds."
+
+
+ForgetMeNot is free and open-source software.
+https://github.com/tema6120/ForgetMeNot
