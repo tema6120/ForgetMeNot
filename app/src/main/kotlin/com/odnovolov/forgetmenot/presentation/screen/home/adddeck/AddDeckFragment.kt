@@ -75,22 +75,34 @@ class AddDeckFragment : BaseFragment() {
     private fun createAddDeckDialog() {
         val dialogView = View.inflate(requireContext(), R.layout.dialog_add_deck, null).apply {
             loadFromFileButton.setOnClickListener {
-                showFileChooser()
                 addDeckDialog.dismiss()
+                showFileChooser()
             }
             helpLoadFromFileButton.setOnClickListener {
-                controller?.dispatch(HelpLoadFromFileButtonClicked)
                 addDeckDialog.dismiss()
+                controller?.dispatch(HelpLoadFromFileButtonClicked)
+            }
+            visitCatalogButton.setOnClickListener {
+                addDeckDialog.dismiss()
+                openDeckCatalogInAnotherApp()
             }
             createDeckButton.setOnClickListener {
-                controller?.dispatch(CreateDeckButtonClicked)
                 addDeckDialog.dismiss()
+                controller?.dispatch(CreateDeckButtonClicked)
             }
         }
         addDeckDialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
             .create()
         dialogTimeCapsule.register("addDeckDialog", addDeckDialog)
+    }
+
+    private fun openDeckCatalogInAnotherApp() {
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(DECK_CATALOG_PAGE)
+        )
+        startActivity(webIntent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -205,5 +217,7 @@ class AddDeckFragment : BaseFragment() {
 
     companion object {
         const val GET_CONTENT_REQUEST_CODE = 39
+        const val DECK_CATALOG_PAGE =
+            "https://drive.google.com/drive/folders/1sjHdkcChH2CvUi3jmhf--PNeVmA_716W?usp=sharing"
     }
 }
