@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings
 
+import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -76,10 +77,14 @@ class DeckSettingsController(
 
             TimeForAnswerButtonClicked -> {
                 navigator.showMotivationalTimerDialog {
-                    val timeForAnswer: Int = currentExercisePreference.timeForAnswer
+                    val timeForAnswer = currentExercisePreference.timeForAnswer
+                    val isTimerEnabled = timeForAnswer != NOT_TO_USE_TIMER
+                    val timeInput: String =
+                        if (timeForAnswer == NOT_TO_USE_TIMER) "15"
+                        else timeForAnswer.toString()
                     val dialogState = MotivationalTimerDialogState(
-                        isTimerEnabled = timeForAnswer != 0,
-                        timeInput = if (timeForAnswer == 0) "15" else timeForAnswer.toString()
+                        isTimerEnabled,
+                        timeInput
                     )
                     MotivationalTimerDiScope.create(dialogState)
                 }

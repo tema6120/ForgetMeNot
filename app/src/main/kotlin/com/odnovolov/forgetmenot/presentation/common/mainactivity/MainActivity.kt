@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
 import com.odnovolov.forgetmenot.persistence.DbCleaner
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder.Event.AppStarted
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckDiScope
@@ -47,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         initNavController()
         coroutineScope.launch {
             val diScope = MainActivityDiScope.getAsync() ?: return@launch
+            if (savedInstanceState == null) {
+                diScope.initialDecksAdder.dispatch(AppStarted)
+            }
             val isInMultiWindowMode = if (VERSION.SDK_INT >= VERSION_CODES.N) {
                 isInMultiWindowMode
             } else false

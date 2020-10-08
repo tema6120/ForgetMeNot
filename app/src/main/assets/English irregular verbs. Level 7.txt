@@ -1,0 +1,545 @@
+Q:
+knit [nɪt]
+
+\Simple Past\
+A:
+knitted [ˈnɪtɪd],
+knit [nɪt]
+
+
+
+Q:
+knit [nɪt]
+
+\Past Participle\
+A:
+knitted [ˈnɪtɪd],
+knit [nɪt]
+
+
+
+Q:
+spoil [spɔɪl]
+
+\Simple Past\
+A:
+spoiled [spɔːɪld],
+spoilt [spɔɪlt]
+
+
+
+Q:
+spoil [spɔɪl]
+
+\Past Participle\
+A:
+spoiled [spɔːɪld],
+spoilt [spɔɪlt]
+
+
+
+Q:
+forbid [fə'bɪd] [fɔː'bɪd]
+
+\Simple Past\
+A:
+forbade [fə'beɪd] [fɔː'beɪd]
+
+
+
+Q:
+forbid [fə'bɪd] [fɔː'bɪd]
+
+\Past Participle\
+A:
+forbidden [fə'bɪd(ə)n] [fɔː'bɪd(ə)n]
+
+
+
+Q:
+tread [tred]
+
+\Simple Past\
+A:
+trod [trɔd]
+
+
+
+Q:
+tread [tred]
+
+\Past Participle\
+A:
+trodden ['trɔd(ə)n],
+trod [trɔd]
+
+
+
+Q:
+spill [spɪl]
+
+\Simple Past\
+A:
+spilled [spɪld],
+spilt [spɪlt]
+
+
+
+Q:
+spill [spɪl]
+
+\Past Participle\
+A:
+spilled [spɪld],
+spilt [spɪlt]
+
+
+
+Q:
+plead [pliːd]
+
+\Simple Past\
+A:
+pleaded [ˈpliːdɪd],
+pled [pled]
+
+
+
+Q:
+plead [pliːd]
+
+\Past Participle\
+A:
+pleaded [ˈpliːdɪd],
+pled [pled]
+
+
+
+Q:
+slit [slɪt]
+
+\Simple Past\
+A:
+slit [slɪt]
+
+
+
+Q:
+slit [slɪt]
+
+\Past Participle\
+A:
+slit [slɪt]
+
+
+
+Q:
+sting [stɪŋ]
+
+\Simple Past\
+A:
+stung [stʌŋ]
+
+
+
+Q:
+sting [stɪŋ]
+
+\Past Participle\
+A:
+stung [stʌŋ]
+
+
+
+Q:
+weave [wiːv]
+
+\Simple Past\
+A:
+wove [wəuv],
+weaved [wiːvd]
+
+
+
+Q:
+weave
+
+\Past Participle\
+A:
+woven ['wəuv(ə)n],
+weaved [wiːvd]
+
+
+
+Q:
+sow [səu]
+
+\Simple Past\
+A:
+sowed [səʊd]
+
+
+
+Q:
+sow [səu]
+
+\Past Participle\
+A:
+sown [səun],
+sowed [səʊd]
+
+
+
+Q:
+uphold [ʌp'həuld]
+
+\Simple Past\
+A:
+upheld [ʌp'held]
+
+
+
+Q:
+uphold [ʌp'həuld]
+
+\Past Participle\
+A:
+upheld [ʌp'held]
+
+
+
+Q:
+stride [straɪd]
+
+\Simple Past\
+A:
+strode [strəud]
+
+
+
+Q:
+stride [straɪd]
+
+\Past Participle\
+A:
+stridden ['strɪd(ə)n]
+
+
+
+Q:
+cling [klɪŋ]
+
+\Simple Past\
+A:
+clung [klʌŋ]
+
+
+
+Q:
+cling [klɪŋ]
+
+\Past Participle\
+A:
+clung [klʌŋ]
+
+
+
+Q:
+bleed [bliːd]
+
+\Simple Past\
+A:
+bled [bled]
+
+
+
+Q:
+bleed [bliːd]
+
+\Past Participle\
+A:
+bled [bled]
+
+
+
+Q:
+grind [graɪnd]
+
+\Simple Past\
+A:
+ground [graund]
+
+
+
+Q:
+grind [graɪnd]
+
+\Past Participle\
+A:
+ground [graund]
+
+
+
+Q:
+sew [səu] (mend)
+
+\Simple Past\
+A:
+sewed [səʊd]
+
+
+
+Q:
+sew [səu] (mend)
+
+\Past Participle\
+A:
+sewn [səun],
+sewed [səʊd]
+
+
+
+Q:
+sneak [sniːk]
+
+\Simple Past\
+A:
+sneaked [sniːkt],
+snuck [snʌk]
+
+
+
+Q:
+sneak [sniːk]
+
+\Past Participle\
+A:
+sneaked [sniːkt],
+snuck [snʌk]
+
+
+
+Q:
+shave [ʃeɪv]
+
+\Simple Past\
+A:
+shaved [ʃeɪvd]
+
+
+
+Q:
+shave [ʃeɪv]
+
+\Past Participle\
+A:
+shaved [ʃeɪvd],
+shaven [ˈʃeɪvn]
+
+
+
+Q:
+sling [slɪŋ]
+
+\Simple Past\
+A:
+slung [slʌŋ]
+
+
+
+Q:
+sling [slɪŋ]
+
+\Past Participle\
+A:
+slung [slʌŋ]
+
+
+
+Q:
+kneel [niːl]
+
+\Simple Past\
+A:
+knelt [nelt],
+kneeled [niːld]
+
+
+
+Q:
+kneel [niːl]
+
+\Past Participle\
+A:
+knelt [nelt],
+kneeled [niːld]
+
+
+
+Q:
+fling [flɪŋ]
+
+\Simple Past\
+A:
+flung [flʌŋ]
+
+
+
+Q:
+fling [flɪŋ]
+
+\Past Participle\
+A:
+flung [flʌŋ]
+
+
+
+Q:
+slay [sleɪ] (kill)
+
+\Simple Past\
+A:
+slew [sluː],
+slayed [sleɪd]
+
+
+
+Q:
+slay [sleɪ] (kill)
+
+\Past Participle\
+A:
+slain [sleɪn],
+slayed [sleɪd]
+
+
+
+Q:
+forsake [fə'seɪk]
+
+\Simple Past\
+A:
+forsook [fə'suːk]
+
+
+
+Q:
+forsake [fə'seɪk]
+
+\Past Participle\
+A:
+forsaken [fə'seɪk(ə)n]
+
+
+
+Q:
+stink [stɪŋk]
+
+\Simple Past\
+A:
+stunk [stʌŋk],
+stank [stæŋk]
+
+
+
+Q:
+stink [stɪŋk]
+
+\Past Participle\
+A:
+stunk [stʌŋk]
+
+
+
+Q:
+mow [məu]
+
+\Simple Past\
+A:
+mowed [məʊd]
+
+
+
+Q:
+mow [məu]
+
+\Past Participle\
+A:
+mowed [məʊd],
+mown [məun]
+
+
+
+Q:
+wring [rɪŋ]
+
+\Simple Past\
+A:
+wrung [rʌŋ]
+
+
+
+Q:
+wring [rɪŋ]
+
+\Past Participle\
+A:
+wrung [rʌŋ]
+
+
+
+Q:
+strew [struː]
+
+\Simple Past\
+A:
+strewed [struːd]
+
+
+
+Q:
+strew [struː]
+
+\Past Participle\
+A:
+strewn [struːn],
+strewed [struːd]
+
+
+
+Q:
+slink [slɪŋk]
+
+\Simple Past\
+A:
+slinked [slɪŋkt],
+slunk [slʌŋk]
+
+
+
+Q:
+slink [slɪŋk]
+
+\Past Participle\
+A:
+slinked [slɪŋkt],
+slunk [slʌŋk]
+
+
+
+Q:
+bid [bɪd] (farewell)
+
+\Simple Past\
+A:
+bid [bɪd],
+bade [beɪd]
+
+
+
+Q:
+bid [bɪd] (farewell)
+
+\Past Participle\
+A:
+bidden ['bɪdn]

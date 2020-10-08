@@ -1,0 +1,468 @@
+Q:
+hang [hæŋ]
+
+\Simple Past\
+A:
+hung [hʌŋ]
+
+
+
+Q:
+hang [hæŋ]
+
+\Past Participle\
+A:
+hung [hʌŋ]
+
+
+
+Q:
+shoot [ʃuːt]
+
+\Simple Past\
+A:
+shot [ʃɔt]
+
+
+
+Q:
+shoot [ʃuːt]
+
+\Past Participle\
+A:
+shot [ʃɔt]
+
+
+
+Q:
+burn [bɜːn]
+
+\Simple Past\
+A:
+burned [bɜːnd],
+burnt [bɜːnt]
+
+
+
+Q:
+burn [bɜːn]
+
+\Past Participle\
+A:
+burned [bɜːnd],
+burnt [bɜːnt]
+
+
+
+Q:
+slide [slaɪd]
+
+\Simple Past\
+A:
+slid [slɪd]
+
+
+
+Q:
+slide [slaɪd]
+
+\Past Participle\
+A:
+slid [slɪd]
+
+
+
+Q:
+spin [spɪn]
+
+\Simple Past\
+A:
+spun [spʌn]
+
+
+
+Q:
+spin [spɪn]
+
+\Past Participle\
+A:
+spun [spʌn]
+
+
+
+Q:
+upset [ʌp'set]
+
+\Simple Past\
+A:
+upset [ʌp'set]
+
+
+
+Q:
+upset [ʌp'set]
+
+\Past Participle\
+A:
+upset [ʌp'set]
+
+
+
+Q:
+thrust [θrʌst]
+
+\Simple Past\
+A:
+thrust [θrʌst]
+
+
+
+Q:
+thrust [θrʌst]
+
+\Past Participle\
+A:
+thrust [θrʌst]
+
+
+
+Q:
+bid [bɪd] (offer amount)
+
+\Simple Past\
+A:
+bid [bɪd]
+
+
+
+Q:
+bid [bɪd] (offer amount)
+
+\Past Participle\
+A:
+bid [bɪd]
+
+
+
+Q:
+shake [ʃeɪk]
+
+\Simple Past\
+A:
+shook [ʃuk]
+
+
+
+Q:
+shake [ʃeɪk]
+
+\Past Participle\
+A:
+shaken ['ʃeɪk(ə)n]
+
+
+
+Q:
+bet [bet]
+
+\Simple Past\
+A:
+bet [bet],
+betted [ˈbɛtɪd]
+
+
+
+Q:
+bet [bet]
+
+\Past Participle\
+A:
+bet [bet],
+betted [ˈbɛtɪd]
+
+
+
+Q:
+shed [ʃed]
+
+\Simple Past\
+A:
+shed [ʃed]
+
+
+
+Q:
+shed [ʃed]
+
+\Past Participle\
+A:
+shed [ʃed]
+
+
+
+Q:
+broadcast ['brɔːdkɑːst]
+
+\Simple Past\
+A:
+broadcast ['brɔːdkɑːst],
+broadcasted [ˈbrɔːdkɑːstɪd]
+
+
+
+Q:
+broadcast ['brɔːdkɑːst]
+
+\Past Participle\
+A:
+broadcast ['brɔːdkɑːst],
+broadcasted [ˈbrɔːdkɑːstɪd]
+
+
+
+Q:
+rid [rɪd]
+
+\Simple Past\
+A:
+rid [rɪd]
+
+
+
+Q:
+rid [rɪd]
+
+\Past Participle\
+A:
+rid [rɪd]
+
+
+
+Q:
+shit [ʃɪt]
+
+\Simple Past\
+A:
+shit [ʃɪt],
+shat [ʃæt],
+shitted [ˈʃɪtɪd]
+
+
+
+Q:
+shit [ʃɪt]
+
+\Past Participle\
+A:
+shit [ʃɪt],
+shat [ʃæt],
+shitted [ˈʃɪtɪd]
+
+
+
+Q:
+forgive [fə'gɪv]
+
+\Simple Past\
+A:
+forgave [fə'geɪv]
+
+
+
+Q:
+forgive [fə'gɪv]
+
+\Past Participle\
+A:
+forgiven [fə'gɪv(ə)n]
+
+
+
+Q:
+sink [sɪŋk]
+
+\Simple Past\
+A:
+sank [sæŋk],
+sunk [sʌŋk]
+
+
+
+Q:
+sink [sɪŋk]
+
+\Past Participle\
+A:
+sunk [sʌŋk]
+
+
+
+Q:
+tear [teə]
+
+\Simple Past\
+A:
+tore [tɔː]
+
+
+
+Q:
+tear [teə]
+
+\Past Participle\
+A:
+torn [tɔːn]
+
+
+
+Q:
+lean [liːn]
+
+\Simple Past\
+A:
+leaned [liːnd],
+leant [lent]
+
+
+
+Q:
+lean [liːn]
+
+\Past Participle\
+A:
+leaned [liːnd],
+leant [lent]
+
+
+
+Q:
+swing [swɪŋ]
+
+\Simple Past\
+A:
+swung [swʌŋ]
+
+
+
+Q:
+swing [swɪŋ]
+
+\Past Participle\
+A:
+swung [swʌŋ]
+
+
+
+Q:
+spell [spel]
+
+\Simple Past\
+A:
+spelled [speld],
+spelt [spelt]
+
+
+
+Q:
+spell [spel]
+
+\Past Participle\
+A:
+spelled [speld],
+spelt [spelt]
+
+
+
+Q:
+awake [ə'weɪk]
+
+\Simple Past\
+A:
+awakened [əˈweɪkənd],
+awoke [ə'wəuk]
+
+
+
+Q:
+awake [ə'weɪk]
+
+\Past Participle\
+A:
+awakened [əˈweɪkənd],
+awoken [ə'wəukən]
+
+
+
+Q:
+sweat [swet]
+
+\Simple Past\
+A:
+sweat [swet],
+sweated [ˈswɛtɪd]
+
+
+
+Q:
+sweat
+
+\Past Participle\
+A:
+sweat [swet],
+sweated [ˈswɛtɪd]
+
+
+
+Q:
+bind [baɪnd]
+
+\Simple Past\
+A:
+bound [baund]
+
+
+
+Q:
+bind [baɪnd]
+
+\Past Participle\
+A:
+bound [baund]
+
+
+
+Q:
+bend [bend]
+
+\Simple Past\
+A:
+bent [bent]
+
+
+
+Q:
+bend [bend]
+
+\Past Participle\
+A:
+bent [bent]
+
+
+
+Q:
+quit [kwɪt]
+
+\Simple Past\
+A:
+quit [kwɪt],
+quitted [ˈkwɪtɪd]
+
+
+
+Q:
+quit [kwɪt]
+
+\Past Participle\
+A:
+quit [kwɪt],
+quitted [ˈkwɪtɪd]

@@ -1,0 +1,452 @@
+Q:
+be [biː]
+
+\Simple Past\
+A:
+was [wɔz],
+were [wɜː]
+
+
+
+Q:
+be [biː]
+
+\Past Participle\
+A:
+been [biːn]
+
+
+
+Q:
+have [hæv]
+
+\Simple Past\
+A:
+had [hæd]
+
+
+
+Q:
+have [hæv]
+
+\Past Participle\
+A:
+had [hæd]
+
+
+
+Q:
+do [duː]
+
+\Simple Past\
+A:
+did [dɪd]
+
+
+
+Q:
+do [duː]
+
+\Past Participle\
+A:
+done [dʌn]
+
+
+
+Q:
+see [siː]
+
+\Simple Past\
+A:
+saw [sɔː]
+
+
+
+Q:
+see [siː]
+
+\Past Participle\
+A:
+seen [siːn]
+
+
+
+Q:
+make [meɪk]
+
+\Simple Past\
+A:
+made [meɪd]
+
+
+
+Q:
+make [meɪk]
+
+\Past Participle\
+A:
+made [meɪd]
+
+
+
+Q:
+know [nəu]
+
+\Simple Past\
+A:
+knew [njuː]
+
+
+
+Q:
+know [nəu]
+
+\Past Participle\
+A:
+known [nəun]
+
+
+
+Q:
+get [get]
+
+\Simple Past\
+A:
+got [gɔt]
+
+
+
+Q:
+get [get]
+
+\Past Participle\
+A:
+got [gɔt]
+
+
+
+Q:
+take [teɪk]
+
+\Simple Past\
+A:
+took [tuk]
+
+
+
+Q:
+take [teɪk]
+
+\Past Participle\
+A:
+taken ['teɪk(ə)n]
+
+
+
+Q:
+go [gəu]
+
+\Simple Past\
+A:
+went [went]
+
+
+
+Q:
+go [gəu]
+
+\Past Participle\
+A:
+gone [gɔn]
+
+
+
+Q:
+come [kʌm]
+
+\Simple Past\
+A:
+came [keɪm]
+
+
+
+Q:
+come [kʌm]
+
+\Past Participle\
+A:
+come [kʌm]
+
+
+
+Q:
+think [θɪŋk]
+
+\Simple Past\
+A:
+thought [θɔːt]
+
+
+
+Q:
+think [θɪŋk]
+
+\Past Participle\
+A:
+thought [θɔːt]
+
+
+
+Q:
+set [set]
+
+\Simple Past\
+A:
+set [set]
+
+
+
+Q:
+set [set]
+
+\Past Participle\
+A:
+set [set]
+
+
+
+Q:
+say [seɪ]
+
+\Simple Past\
+A:
+said [sed]
+
+
+
+Q:
+say [seɪ]
+
+\Past Participle\
+A:
+said [sed]
+
+
+
+Q:
+find [faɪnd]
+
+\Simple Past\
+A:
+found [faund]
+
+
+
+Q:
+find [faɪnd]
+
+\Past Participle\
+A:
+found [faund]
+
+
+
+Q:
+let [let]
+
+\Simple Past\
+A:
+let [let]
+
+
+
+Q:
+let [let]
+
+\Past Participle\
+A:
+let [let]
+
+
+
+Q:
+give [gɪv]
+
+\Simple Past\
+A:
+gave [geɪv]
+
+
+
+Q:
+give [gɪv]
+
+\Past Participle\
+A:
+given [gɪv(ə)n]
+
+
+
+Q:
+put [put]
+
+\Simple Past\
+A:
+put [put]
+
+
+
+Q:
+put [put]
+
+\Past Participle\
+A:
+put [put]
+
+
+
+Q:
+become [bɪ'kʌm]
+
+\Simple Past\
+A:
+became [bɪ'keɪm]
+
+
+
+Q:
+become [bɪ'kʌm]
+
+\Past Participle\
+A:
+become [bɪ'kʌm]
+
+
+
+Q:
+light [laɪt]
+
+\Simple Past\
+A:
+lit [lɪt],
+lighted [ˈlaɪtɪd]
+
+
+
+Q:
+light [laɪt]
+
+\Past Participle\
+A:
+lit [lɪt],
+lighted [ˈlaɪtɪd]
+
+
+
+Q:
+show [ʃəu]
+
+\Simple Past\
+A:
+showed [ʃəʊd]
+
+
+
+Q:
+show [ʃəu]
+
+\Past Participle\
+A:
+shown [ʃəun],
+showed [ʃəʊd]
+
+
+
+Q:
+tell [tel]
+
+\Simple Past\
+A:
+told [təuld]
+
+
+
+Q:
+tell [tel]
+
+\Past Participle\
+A:
+told [təuld]
+
+
+
+Q:
+saw [sɔː]
+
+\Simple Past\
+A:
+sawed [sɔːd]
+
+
+
+Q:
+saw [sɔː]
+
+\Past Participle\
+A:
+sawed [sɔːd],
+sawn [sɔːn]
+
+
+
+Q:
+keep [kiːp]
+
+\Simple Past\
+A:
+kept [kept]
+
+
+
+Q:
+keep [kiːp]
+
+\Past Participle\
+A:
+kept [kept]
+
+
+
+Q:
+mean [miːn]
+
+\Simple Past\
+A:
+meant [ment]
+
+
+
+Q:
+mean [miːn]
+
+\Past Participle\
+A:
+meant [ment]
+
+
+
+Q:
+read [riːd]
+
+\Simple Past\
+A:
+read [red]
+
+
+
+Q:
+read [riːd]
+
+\Past Participle\
+A:
+read [red]

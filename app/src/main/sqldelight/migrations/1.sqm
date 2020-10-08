@@ -1,0 +1,5 @@
+CREATE TABLE InitialDecksAdderStateDb (
+    areInitialDecksAdded INTEGER AS Boolean NOT NULL
+);
+
+INSERT INTO InitialDecksAdderStateDb VALUES (0);

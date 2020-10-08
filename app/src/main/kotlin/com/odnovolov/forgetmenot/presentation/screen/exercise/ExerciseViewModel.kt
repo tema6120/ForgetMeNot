@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
@@ -173,7 +174,8 @@ class ExerciseViewModel(
 
     val timeLeft: Flow<Int?> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            val isTimerEnabled = exerciseCard.base.deck.exercisePreference.timeForAnswer > 0
+            val isTimerEnabled =
+                exerciseCard.base.deck.exercisePreference.timeForAnswer != NOT_TO_USE_TIMER
             combine(
                 exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
                 exerciseCard.base.card.flowOf(Card::isLearned),

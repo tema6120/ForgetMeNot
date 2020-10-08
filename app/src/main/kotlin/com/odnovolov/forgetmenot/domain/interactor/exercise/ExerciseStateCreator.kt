@@ -1,9 +1,6 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
-import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.entity.CardReverse
-import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
 import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId

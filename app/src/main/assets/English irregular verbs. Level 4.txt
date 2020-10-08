@@ -1,0 +1,455 @@
+Q:
+forget [fə'get]
+
+\Simple Past\
+A:
+forgot [fə'gɔt]
+
+
+
+Q:
+forget [fə'get]
+
+\Past Participle\
+A:
+forgotten [fə'gɔt(ə)n]
+
+
+
+Q:
+win [wɪn]
+
+\Simple Past\
+A:
+won [wʌn]
+
+
+
+Q:
+win [wɪn]
+
+\Past Participle\
+A:
+won [wʌn]
+
+
+
+Q:
+string [strɪŋ]
+
+\Simple Past\
+A:
+strung [strʌŋ]
+
+
+
+Q:
+string [strɪŋ]
+
+\Past Participle\
+A:
+strung [strʌŋ]
+
+
+
+Q:
+teach [tiːʧ]
+
+\Simple Past\
+A:
+taught [tɔːt]
+
+
+
+Q:
+teach [tiːʧ]
+
+\Past Participle\
+A:
+taught [tɔːt]
+
+
+
+Q:
+catch [kæʧ]
+
+\Simple Past\
+A:
+caught [kɔːt]
+
+
+
+Q:
+catch [kæʧ]
+
+\Past Participle\
+A:
+caught [kɔːt]
+
+
+
+Q:
+wear [weə]
+
+\Simple Past\
+A:
+wore [wɔː]
+
+
+
+Q:
+wear [weə]
+
+\Past Participle\
+A:
+worn [wɔːn]
+
+
+
+Q:
+hurt [hɜːt]
+
+\Simple Past\
+A:
+hurt [hɜːt]
+
+
+
+Q:
+hurt [hɜːt]
+
+\Past Participle\
+A:
+hurt [hɜːt]
+
+
+
+Q:
+strike [straɪk]
+
+\Simple Past\
+A:
+struck [strʌk]
+
+
+
+Q:
+strike [straɪk]
+
+\Past Participle\
+A:
+struck [strʌk],
+stricken ['strɪk(ə)n]
+
+
+
+Q:
+beat [biːt]
+
+\Simple Past\
+A:
+beat [biːt]
+
+
+
+Q:
+beat [biːt]
+
+\Past Participle\
+A:
+beaten ['biːtn],
+beat [biːt]
+
+
+
+Q:
+arise [ə'raɪz]
+
+\Simple Past\
+A:
+arose [ə'rəuz]
+
+
+
+Q:
+arise [ə'raɪz]
+
+\Past Participle\
+A:
+arisen [ə'rɪz(ə)n]
+
+
+
+Q:
+shut [ʃʌt]
+
+\Simple Past\
+A:
+shut [ʃʌt]
+
+
+
+Q:
+shut [ʃʌt]
+
+\Past Participle\
+A:
+shut [ʃʌt]
+
+
+
+Q:
+fly [flaɪ]
+
+\Simple Past\
+A:
+flew [fluː]
+
+
+
+Q:
+fly [flaɪ]
+
+\Past Participle\
+A:
+flown [fləun]
+
+
+
+Q:
+wet [wet]
+
+\Simple Past\
+A:
+wet [wet],
+wetted [ˈwɛtɪd]
+
+
+
+Q:
+wet [wet]
+
+\Past Participle\
+A:
+wet [wet],
+wetted [ˈwɛtɪd]
+
+
+
+Q:
+split [splɪt]
+
+\Simple Past\
+A:
+split [splɪt]
+
+
+
+Q:
+split [splɪt]
+
+\Past Participle\
+A:
+split [splɪt]
+
+
+
+Q:
+ride [raɪd]
+
+\Simple Past\
+A:
+rode [rəud]
+
+
+
+Q:
+ride [raɪd]
+
+\Past Participle\
+A:
+ridden ['rɪd(ə)n]
+
+
+
+Q:
+overcome [ˌəuvə'kʌm]
+
+\Simple Past\
+A:
+overcame [ˌəuvə'keɪm]
+
+
+
+Q:
+overcome [ˌəuvə'kʌm]
+
+\Past Participle\
+A:
+overcome [ˌəuvə'kʌm]
+
+
+
+Q:
+feed [fiːd]
+
+\Simple Past\
+A:
+fed [fed]
+
+
+
+Q:
+feed [fiːd]
+
+\Past Participle\
+A:
+fed [fed]
+
+
+
+Q:
+throw [θrəu]
+
+\Simple Past\
+A:
+threw
+
+
+
+Q:
+throw [θruː]
+
+\Past Participle\
+A:
+thrown [θrəun]
+
+
+
+Q:
+stick [stɪk]
+
+\Simple Past\
+A:
+stuck [stʌk]
+
+
+
+Q:
+stick [stɪk]
+
+\Past Participle\
+A:
+stuck [stʌk]
+
+
+
+Q:
+blow [bləu]
+
+\Simple Past\
+A:
+blew [bluː]
+
+
+
+Q:
+blow [bləu]
+
+\Past Participle\
+A:
+blown [bləun]
+
+
+
+Q:
+smell [smel]
+
+\Simple Past\
+A:
+smelled [smɛld],
+smelt [smelt]
+
+
+
+Q:
+smell [smel]
+
+\Past Participle\
+A:
+smelled [smɛld],
+smelt [smelt]
+
+
+
+Q:
+hide [haɪd]
+
+\Simple Past\
+A:
+hid [hɪd]
+
+
+
+Q:
+hide [haɪd]
+
+\Past Participle\
+A:
+hidden ['hɪd(ə)n]
+
+
+
+Q:
+wake [weɪk]
+
+\Simple Past\
+A:
+woke [wəuk],
+waked [weɪkt]
+
+
+
+Q:
+wake [weɪk]
+
+\Past Participle\
+A:
+woken ['wəuk(ə)n],
+waked [weɪkt]
+
+
+
+Q:
+sing [sɪŋ]
+
+\Simple Past\
+A:
+sang [sæŋ]
+
+
+
+Q:
+sing [sɪŋ]
+
+\Past Participle\
+A:
+sung [sʌŋ]
+
+
+
+Q:
+burst [bɜːst]
+
+\Simple Past\
+A:
+burst [bɜːst]
+
+
+
+Q:
+burst [bɜːst]
+
+\Past Participle\
+A:
+burst [bɜːst]

@@ -490,7 +490,7 @@ class Exercise(
                 deck = deck,
                 isReverse = isReverse,
                 isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
-                timeLeft = if (isWalkingMode) 0 else deck.exercisePreference.timeForAnswer,
+                timeLeft = if (isWalkingMode) NOT_TO_USE_TIMER else deck.exercisePreference.timeForAnswer,
                 initialLevelOfKnowledge = initialLevelOfKnowledge,
                 isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
             )

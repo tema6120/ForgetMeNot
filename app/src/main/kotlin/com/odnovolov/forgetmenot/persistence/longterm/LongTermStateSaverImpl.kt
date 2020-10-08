@@ -9,9 +9,11 @@ import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckR
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.*
 import com.odnovolov.forgetmenot.persistence.longterm.helpscreenstate.HelpScreenStatePropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.initialdecksadderstate.InitialDecksAdderStatePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
@@ -53,6 +55,7 @@ class LongTermStateSaverImpl(
             put(WalkingModePreference::class, WalkingModePreferencePropertyChangeHandler(database))
             put(FullscreenPreference::class, FullscreenPreferencePropertyChangeHandler(database))
             put(HelpScreenState::class, HelpScreenStatePropertyChangeHandler(database))
+            put(InitialDecksAdder.State::class, InitialDecksAdderStatePropertyChangeHandler(database))
         }
 
     override fun saveStateByRegistry() {

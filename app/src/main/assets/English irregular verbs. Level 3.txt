@@ -1,0 +1,456 @@
+Q:
+spring [sprɪŋ]
+
+\Simple Past\
+A:
+sprang [spræŋ],
+sprung [sprʌŋ]
+
+
+
+Q:
+spring [sprɪŋ]
+
+\Past Participle\
+A:
+sprung [sprʌŋ]
+
+
+
+Q:
+speed [spiːd]
+
+\Simple Past\
+A:
+sped [sped],
+speeded [ˈspiːdɪd]
+
+
+
+Q:
+speed [spiːd]
+
+\Past Participle\
+A:
+sped [sped],
+speeded [ˈspiːdɪd]
+
+
+
+Q:
+wind [waɪnd]
+
+\Simple Past\
+A:
+wound [waund]
+
+
+
+Q:
+wind [waɪnd]
+
+\Past Participle\
+A:
+wound [waund]
+
+
+
+Q:
+spread [spred]
+
+\Simple Past\
+A:
+spread [spred]
+
+
+
+Q:
+spread [spred]
+
+\Past Participle\
+A:
+spread [spred]
+
+
+
+Q:
+fit [fɪt]
+
+\Simple Past\
+A:
+fit [fɪt],
+fitted [ˈfɪtɪd]
+
+
+
+Q:
+fit [fɪt]
+
+\Past Participle\
+A:
+fit [fɪt],
+fitted [ˈfɪtɪd]
+
+
+
+Q:
+build [bɪld]
+
+\Simple Past\
+A:
+built [bɪlt]
+
+
+
+Q:
+build [bɪld]
+
+\Past Participle\
+A:
+built [bɪlt]
+
+
+
+Q:
+send [send]
+
+\Simple Past\
+A:
+sent [sent]
+
+
+
+Q:
+send [send]
+
+\Past Participle\
+A:
+sent [sent]
+
+
+
+Q:
+bear [beə]
+
+\Simple Past\
+A:
+bore [bɔː]
+
+
+
+Q:
+bear [beə]
+
+\Past Participle\
+A:
+born [bɔː],
+borne [bɔːn]
+
+
+
+Q:
+buy [baɪ]
+
+\Simple Past\
+A:
+bought [bɔːt]
+
+
+
+Q:
+buy [baɪ]
+
+\Past Participle\
+A:
+bought [bɔːt]
+
+
+
+Q:
+eat [iːt]
+
+\Simple Past\
+A:
+ate [et] [eɪt]
+
+
+
+Q:
+eat [iːt]
+
+\Past Participle\
+A:
+eaten ['iːt(ə)n]
+
+
+
+Q:
+fight [faɪt]
+
+\Simple Past\
+A:
+fought [fɔːt]
+
+
+
+Q:
+fight [faɪt]
+
+\Past Participle\
+A:
+fought [fɔːt]
+
+
+
+Q:
+draw [drɔː]
+
+\Simple Past\
+A:
+drew [druː]
+
+
+
+Q:
+draw [drɔː]
+
+\Past Participle\
+A:
+drawn [drɔːn]
+
+
+
+Q:
+seek [siːk]
+
+\Simple Past\
+A:
+sought [sɔːt]
+
+
+
+Q:
+seek [siːk]
+
+\Past Participle\
+A:
+sought [sɔːt]
+
+
+
+Q:
+sit [sɪt]
+
+\Simple Past\
+A:
+sat [sæt]
+
+
+
+Q:
+sit [sɪt]
+
+\Past Participle\
+A:
+sat [sæt]
+
+
+
+Q:
+lie [laɪ] (to rest in a horizontal position on a surface)
+
+\Simple Past\
+A:
+lay [leɪ]
+
+
+
+Q:
+lie [laɪ] (to rest in a horizontal position on a surface)
+
+\Past Participle\
+A:
+lain [leɪn]
+
+
+
+Q:
+hit [hɪt]
+
+\Simple Past\
+A:
+hit [hɪt]
+
+
+
+Q:
+hit [hɪt]
+
+\Past Participle\
+A:
+hit [hɪt]
+
+
+
+Q:
+dream [driːm]
+
+\Simple Past\
+A:
+dreamed [driːmd],
+dreamt [dremt]
+
+
+
+Q:
+dream
+
+\Past Participle\
+A:
+dreamed [driːmd],
+dreamt [dremt]
+
+
+
+Q:
+prove [pruːv]
+
+\Simple Past\
+A:
+proved [pruːvd]
+
+
+
+Q:
+prove [pruːv]
+
+\Past Participle\
+A:
+proven ['pruːv(ə)n],
+proved [pruːvd]
+
+
+
+Q:
+grow [grəu]
+
+\Simple Past\
+A:
+grew [gruː]
+
+
+
+Q:
+grow [grəu]
+
+\Past Participle\
+A:
+grown [grəun]
+
+
+
+Q:
+drink [drɪŋk]
+
+\Simple Past\
+A:
+drank [dræŋk]
+
+
+
+Q:
+drink [drɪŋk]
+
+\Past Participle\
+A:
+drunk [drʌŋk]
+
+
+
+Q:
+cast [kɑːst]
+
+\Simple Past\
+A:
+cast [kɑːst]
+
+
+
+Q:
+cast [kɑːst]
+
+\Past Participle\
+A:
+cast [kɑːst]
+
+
+
+Q:
+ring [rɪŋ]
+
+\Simple Past\
+A:
+rang [ræŋ]
+
+
+
+Q:
+ring [rɪŋ]
+
+\Past Participle\
+A:
+rung [rʌŋ]
+
+
+
+Q:
+lose [luːz]
+
+\Simple Past\
+A:
+lost [lɔst]
+
+
+
+Q:
+lose [luːz]
+
+\Past Participle\
+A:
+lost [lɔst]
+
+
+
+Q:
+spend [spend]
+
+\Simple Past\
+A:
+spent [spent]
+
+
+
+Q:
+spend [spend]
+
+\Past Participle\
+A:
+spent [spent]
+
+
+
+Q:
+sell [sel]
+
+\Simple Past\
+A:
+sold [səuld]
+
+
+
+Q:
+sell [sel]
+
+\Past Participle\
+A:
+sold [səuld]

@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
 class AddDeckDiScope private constructor(
     initialDeckAdderState: DeckFromFileCreator.State? = null,
-    initialscreenState: AddDeckScreenState? = null
+    initialScreenState: AddDeckScreenState? = null
 ) {
     private val deckFromFileCreatorStateProvider = DeckFromFileCreatorStateProvider(
         AppDiScope.get().json,
@@ -34,7 +34,7 @@ class AddDeckDiScope private constructor(
     )
 
     private val screenState: AddDeckScreenState =
-        initialscreenState ?: screenStateProvider.load()
+        initialScreenState ?: screenStateProvider.load()
 
     val controller = AddDeckController(
         screenState,

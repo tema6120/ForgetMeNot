@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 abstract class BaseController<Event, Command> {
     protected val coroutineScope = CoroutineScope(Job() + businessLogicThread)
-    private val commandFlow = EventFlow<Command>()
-    val commands: Flow<Command> = commandFlow.get()
+    private val commandFlow by lazy { EventFlow<Command>() }
+    val commands: Flow<Command> get() = commandFlow.get()
     protected open val autoSave = true
 
     init {

@@ -1,0 +1,465 @@
+Q:
+bite [baɪt]
+
+\Simple Past\
+A:
+bit [bɪt]
+
+
+
+Q:
+bite [baɪt]
+
+\Past Participle\
+A:
+bitten ['bɪtn]
+
+
+
+Q:
+shear [ʃɪə]
+
+\Simple Past\
+A:
+sheared [ʃɪəd]
+
+
+
+Q:
+shear [ʃɪə]
+
+\Past Participle\
+A:
+sheared [ʃɪəd],
+shorn [ʃɔːn]
+
+
+
+Q:
+withdraw [wɪð'drɔː]
+
+\Simple Past\
+A:
+withdrew [wɪð'druː]
+
+
+
+Q:
+withdraw [wɪð'drɔː]
+
+\Past Participle\
+A:
+withdrawn [wɪð'drɔːn]
+
+
+
+Q:
+lend [lend]
+
+\Simple Past\
+A:
+lent [lent]
+
+
+
+Q:
+lend [lend]
+
+\Past Participle\
+A:
+lent [lent]
+
+
+
+Q:
+leap [liːp]
+
+\Simple Past\
+A:
+leaped [liːpt],
+leapt [lept]
+
+
+
+Q:
+leap [liːp]
+
+\Past Participle\
+A:
+leaped [liːpt],
+leapt [lept]
+
+
+
+Q:
+steal [stiːl]
+
+\Simple Past\
+A:
+stole [stəul]
+
+
+
+Q:
+steal [stiːl]
+
+\Past Participle\
+A:
+stolen ['stəulən]
+
+
+
+Q:
+breed [briːd]
+
+\Simple Past\
+A:
+bred [bred]
+
+
+
+Q:
+breed [briːd]
+
+\Past Participle\
+A:
+bred [bred]
+
+
+
+Q:
+dig [dɪg]
+
+\Simple Past\
+A:
+dug [dʌg]
+
+
+
+Q:
+dig [dɪg]
+
+\Past Participle\
+A:
+dug [dʌg]
+
+
+
+Q:
+swear [sweə]
+
+\Simple Past\
+A:
+swore [swɔː]
+
+
+
+Q:
+swear [sweə]
+
+\Past Participle\
+A:
+sworn [swɔːn]
+
+
+
+Q:
+swim [swɪm]
+
+\Simple Past\
+A:
+swam [swæm]
+
+
+
+Q:
+swim [swɪm]
+
+\Past Participle\
+A:
+swum [swʌm]
+
+
+
+Q:
+sweep [swiːp]
+
+\Simple Past\
+A:
+swept [swept]
+
+
+
+Q:
+sweep [swiːp]
+
+\Past Participle\
+A:
+swept [swept]
+
+
+
+Q:
+dwell [dwel]
+
+\Simple Past\
+A:
+dwelt [dwelt],
+dwelled [dwɛld]
+
+
+
+Q:
+dwell [dwel]
+
+\Past Participle\
+A:
+dwelt,
+dwelled [dwɛld]
+
+
+
+Q:
+forecast ['fɔːkɑːst]
+
+\Simple Past\
+A:
+forecast ['fɔːkɑːst]
+
+
+
+Q:
+forecast ['fɔːkɑːst]
+
+\Past Participle\
+A:
+forecast ['fɔːkɑːst]
+
+
+
+Q:
+shine [ʃaɪn]
+
+\Simple Past\
+A:
+shined [ʃaɪnd],
+shone [ʃɔn]
+
+
+
+Q:
+shine [ʃaɪn]
+
+\Past Participle\
+A:
+shined [ʃaɪnd],
+shone [ʃɔn]
+
+
+
+Q:
+strive [straɪv]
+
+\Simple Past\
+A:
+strove [strəuv],
+strived [straɪvd]
+
+
+
+Q:
+strive [straɪv]
+
+\Past Participle\
+A:
+striven ['strɪv(ə)n],
+strived [straɪvd]
+
+
+
+Q:
+freeze [friːz]
+
+\Simple Past\
+A:
+froze [frəuz]
+
+
+
+Q:
+freeze [friːz]
+
+\Past Participle\
+A:
+frozen ['frəuz(ə)n]
+
+
+
+Q:
+dive
+
+\Simple Past\
+A:
+dived [daɪvd],
+dove [dəuv]
+
+
+
+Q:
+dive
+
+\Past Participle\
+A:
+dived [daɪvd]
+
+
+
+Q:
+flee [fliː]
+
+\Simple Past\
+A:
+fled [fled]
+
+
+
+Q:
+flee [fliː]
+
+\Past Participle\
+A:
+fled [fled]
+
+
+
+Q:
+creep [kriːp]
+
+\Simple Past\
+A:
+crept [krept]
+
+
+
+Q:
+creep [kriːp]
+
+\Past Participle\
+A:
+crept [krept]
+
+
+
+Q:
+swell [swel]
+
+\Simple Past\
+A:
+swelled [swɛld]
+
+
+
+Q:
+swell [swel]
+
+\Past Participle\
+A:
+swollen ['swəulən],
+swelled [swɛld]
+
+
+
+Q:
+bust [bʌst]
+
+\Simple Past\
+A:
+busted [ˈbʌstɪd],
+bust [bʌst]
+
+
+
+Q:
+bust
+
+\Past Participle\
+A:
+busted [ˈbʌstɪd],
+bust [bʌst]
+
+
+
+Q:
+spit [spɪt] (eject saliva)
+
+\Simple Past\
+A:
+spit [spɪt],
+spat [spæt]
+
+
+
+Q:
+spit [spɪt] (eject saliva)
+
+\Past Participle\
+A:
+spit [spɪt],
+spat [spæt]
+
+
+
+Q:
+weep [wiːp]
+
+\Simple Past\
+A:
+wept [wept]
+
+
+
+Q:
+weep [wiːp]
+
+\Past Participle\
+A:
+wept [wept]
+
+
+
+Q:
+shrink [ʃrɪŋk]
+
+\Simple Past\
+A:
+shrank [ʃræŋk],
+shrunk [ʃrʌŋk]
+
+
+
+Q:
+shrink [ʃrɪŋk]
+
+\Past Participle\
+A:
+shrunk [ʃrʌŋk]
+
+
+
+Q:
+wed [wed]
+
+\Simple Past\
+A:
+wed [wed],
+wedded [ˈwɛdɪd]
+
+
+
+Q:
+wed [wed]
+
+\Past Participle\
+A:
+wed [wed],
+wedded [ˈwɛdɪd]

@@ -1,0 +1,449 @@
+Q:
+feel [fiːl]
+
+\Simple Past\
+A:
+felt [felt]
+
+
+
+Q:
+feel [fiːl]
+
+\Past Participle\
+A:
+felt [felt]
+
+
+
+Q:
+cost [kɔst]
+
+\Simple Past\
+A:
+cost [kɔst]
+
+
+
+Q:
+cost [kɔst]
+
+\Past Participle\
+A:
+cost [kɔst]
+
+
+
+Q:
+understand [ˌʌndə'stænd]
+
+\Simple Past\
+A:
+understood [ˌʌndə'stud]
+
+
+
+Q:
+understand [ˌʌndə'stænd]
+
+\Past Participle\
+A:
+understood [ˌʌndə'stud]
+
+
+
+Q:
+run [rʌn]
+
+\Simple Past\
+A:
+ran [ræn]
+
+
+
+Q:
+run [rʌn]
+
+\Past Participle\
+A:
+run [rʌn]
+
+
+
+Q:
+leave [liːv]
+
+\Simple Past\
+A:
+left [left]
+
+
+
+Q:
+leave [liːv]
+
+\Past Participle\
+A:
+left [left]
+
+
+
+Q:
+lead [liːd]
+
+\Simple Past\
+A:
+led [led]
+
+
+
+Q:
+lead [liːd]
+
+\Past Participle\
+A:
+led [led]
+
+
+
+Q:
+pay [peɪ]
+
+\Simple Past\
+A:
+paid [peɪd]
+
+
+
+Q:
+pay [peɪ]
+
+\Past Participle\
+A:
+paid [peɪd]
+
+
+
+Q:
+bring [brɪŋ]
+
+\Simple Past\
+A:
+brought [brɔːt]
+
+
+
+Q:
+bring [brɪŋ]
+
+\Past Participle\
+A:
+brought [brɔːt]
+
+
+
+Q:
+cut [kʌt]
+
+\Simple Past\
+A:
+cut [kʌt]
+
+
+
+Q:
+cut [kʌt]
+
+\Past Participle\
+A:
+cut [kʌt]
+
+
+
+Q:
+hold [həuld]
+
+\Simple Past\
+A:
+held [held]
+
+
+
+Q:
+hold [həuld]
+
+\Past Participle\
+A:
+held [held]
+
+
+
+Q:
+hear [hɪə]
+
+\Simple Past\
+A:
+heard [hɜːd]
+
+
+
+Q:
+hear [hɪə]
+
+\Past Participle\
+A:
+heard [hɜːd]
+
+
+
+Q:
+write [raɪt]
+
+\Simple Past\
+A:
+wrote [rəut]
+
+
+
+Q:
+write [raɪt]
+
+\Past Participle\
+A:
+written ['rɪt(ə)n]
+
+
+
+Q:
+deal [diːl]
+
+\Simple Past\
+A:
+dealt [delt]
+
+
+
+Q:
+deal [diːl]
+
+\Past Participle\
+A:
+dealt [delt]
+
+
+
+Q:
+fall [fɔːl]
+
+\Simple Past\
+A:
+fell [fel]
+
+
+
+Q:
+fall [fɔːl]
+
+\Past Participle\
+A:
+fallen ['fɔːlən]
+
+
+
+Q:
+meet [miːt]
+
+\Simple Past\
+A:
+met [met]
+
+
+
+Q:
+meet [miːt]
+
+\Past Participle\
+A:
+met [met]
+
+
+
+Q:
+speak [spiːk]
+
+\Simple Past\
+A:
+spoke [spəuk]
+
+
+
+Q:
+speak [spiːk]
+
+\Past Participle\
+A:
+spoken ['spəuk(ə)n]
+
+
+
+Q:
+learn [lɜːn]
+
+\Simple Past\
+A:
+learned [lɜːnt],
+learnt [lɜːnt]
+
+
+
+Q:
+learn [lɜːn]
+
+\Past Participle\
+A:
+learned [lɜːnt],
+learnt [lɜːnt]
+
+
+
+Q:
+stand [stænd]
+
+\Simple Past\
+A:
+stood [stuːd]
+
+
+
+Q:
+stand [stænd]
+
+\Past Participle\
+A:
+stood [stuːd]
+
+
+
+Q:
+rise [raɪz]
+
+\Simple Past\
+A:
+rose [rəuz]
+
+
+
+Q:
+rise [raɪz]
+
+\Past Participle\
+A:
+risen ['rɪz(ə)n]
+
+
+
+Q:
+begin [bɪ'gɪn]
+
+\Simple Past\
+A:
+began [bɪ'gæn]
+
+
+
+Q:
+begin [bɪ'gɪn]
+
+\Past Participle\
+A:
+begun [bɪ'gʌn]
+
+
+
+Q:
+lay [leɪ]
+
+\Simple Past\
+A:
+laid [leɪd]
+
+
+
+Q:
+lay [leɪ]
+
+\Past Participle\
+A:
+laid [leɪd]
+
+
+
+Q:
+choose [ʧuːz]
+
+\Simple Past\
+A:
+chose [ʧəuz]
+
+
+
+Q:
+choose [ʧuːz]
+
+\Past Participle\
+A:
+chosen ['ʧəuz(ə)n]
+
+
+
+Q:
+sleep [sliːp]
+
+\Simple Past\
+A:
+slept [slept]
+
+
+
+Q:
+sleep [sliːp]
+
+\Past Participle\
+A:
+slept [slept]
+
+
+
+Q:
+drive [draɪv]
+
+\Simple Past\
+A:
+drove [drəuv]
+
+
+
+Q:
+drive [draɪv]
+
+\Past Participle\
+A:
+driven ['drɪv(ə)n]
+
+
+
+Q:
+break [breɪk]
+
+\Simple Past\
+A:
+broke [brəuk]
+
+
+
+Q:
+break [breɪk]
+
+\Past Participle\
+A:
+broken ['brəuk(ə)n]

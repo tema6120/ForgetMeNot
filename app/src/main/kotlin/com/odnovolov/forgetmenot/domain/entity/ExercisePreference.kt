@@ -49,11 +49,13 @@ class ExercisePreference(
                 isQuestionDisplayed = true,
                 cardReverse = CardReverse.Off,
                 pronunciationPlan = PronunciationPlan.Default,
-                timeForAnswer = 0 // that means 'do not use timer'
+                timeForAnswer = NOT_TO_USE_TIMER
             )
         }
     }
 }
+
+const val NOT_TO_USE_TIMER = 0
 
 fun ExercisePreference.isDefault(): Boolean = this.id == ExercisePreference.Default.id
 

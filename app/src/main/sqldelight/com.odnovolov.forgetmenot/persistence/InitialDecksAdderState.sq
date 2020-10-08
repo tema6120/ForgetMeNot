@@ -1,0 +1,11 @@
+CREATE TABLE InitialDecksAdderStateDb (
+    areInitialDecksAdded INTEGER AS Boolean NOT NULL
+);
+
+INSERT INTO InitialDecksAdderStateDb VALUES (0);
+
+selectAll:
+SELECT * FROM InitialDecksAdderStateDb;
+
+updateAreInitialDecksAdded:
+UPDATE InitialDecksAdderStateDb SET areInitialDecksAdded = ?;

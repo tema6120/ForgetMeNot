@@ -91,12 +91,12 @@ class DeckFromFileCreator(
     }
 
     sealed class Result {
-        class Success(val deck: Deck) : Result()
-        class Failure(val failureCause: FailureCause) : Result()
+        data class Success(val deck: Deck) : Result()
+        data class Failure(val failureCause: FailureCause) : Result()
 
         sealed class FailureCause {
-            class ParsingError(val exception: IllegalCardFormatException) : FailureCause()
-            class DeckNameIsOccupied(val occupiedName: String) : FailureCause()
+            data class ParsingError(val exception: IllegalCardFormatException) : FailureCause()
+            data class DeckNameIsOccupied(val occupiedName: String) : FailureCause()
             object DeckNameIsEmpty : FailureCause()
         }
     }
