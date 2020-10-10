@@ -13,7 +13,7 @@ Download
       height="80">](https://play.google.com/store/apps/details?id=com.odnovolov.forgetmenot)
 [<img src="https://raw.githubusercontent.com/tema6120/ForgetMeNot/master/.github/readme/direct_apk_download.png"
       alt="Get direct apk"
-      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.0.1/ForgetMeNot_v1.0.1.apk)
+      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.1/ForgetMeNot_v1.1.apk)
 
 Features
 --------
