@@ -1,0 +1,3 @@
+- added starting decks
+- deck catalog on Google Drive can be visited by app
+- fixed launching issues
