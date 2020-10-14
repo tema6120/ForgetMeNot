@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.dialog_add_deck.view.*
 import kotlinx.android.synthetic.main.dialog_deck_name_input.view.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
 import kotlinx.coroutines.launch
+import java.io.FileNotFoundException
 
 class AddDeckFragment : BaseFragment() {
     init {
@@ -175,7 +176,15 @@ class AddDeckFragment : BaseFragment() {
         }
         val uri = intent.data
         val contentResolver = context?.contentResolver
-        val inputStream = uri?.let { contentResolver?.openInputStream(uri) }
+        val inputStream = uri?.let {
+            try {
+                contentResolver?.openInputStream(uri)
+            } catch (e: FileNotFoundException) {
+                val errorMessage: String = getString(R.string. error_loading_file, e.message)
+                showToast(errorMessage)
+                return
+            }
+        }
         if (uri == null || contentResolver == null || inputStream == null) return
         val fileName = getFileNameFromUri(uri, contentResolver)
         val event = ContentReceived(inputStream, fileName)
