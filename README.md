@@ -11,6 +11,9 @@ Download
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
       alt="Get it on Google Play"
       height="80">](https://play.google.com/store/apps/details?id=com.odnovolov.forgetmenot)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="80">](https://f-droid.org/ru/packages/com.odnovolov.forgetmenot/)
 [<img src="https://raw.githubusercontent.com/tema6120/ForgetMeNot/master/.github/readme/direct_apk_download.png"
       alt="Get direct apk"
       height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.1/ForgetMeNot_v1.1.apk)
