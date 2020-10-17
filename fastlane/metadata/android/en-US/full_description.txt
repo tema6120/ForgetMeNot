@@ -15,6 +15,7 @@ The features that are supported are:
     - Editing and searching cards right in the exercise.
     - 'Walking mode' that enables you do the exercise without looking at the screen.
     - 'Repetition mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
+    - Catalog of pre-made decks. The catalog is constantly growing and already contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
 
 
 What makes ForgetMeNot so efficient for memorizing:

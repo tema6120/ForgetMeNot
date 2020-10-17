@@ -106,4 +106,4 @@ The advantages of this approach:
 
 * no restrictions on the type or size of data passed between screens (unlike [Safe Args](https://developer.android.com/guide/navigation/navigation-pass-data#supported_argument_types)).
 * `Fragment`s do not participate in the data transfer process. In my opinion, this is not what they should do.
-* we parallelize the navigation process. On the UI Thread, we immediately ask `NavController` to navigate to another screen while on `businessLogicThread` we run the code for creating `DiScope` instance of the next screen. It speeds up speeds up the opening of a new screen, data and dependencies preparation.
+* we parallelize the navigation process. On the UI Thread, we immediately ask `NavController` to navigate to another screen while on `businessLogicThread` we run the code for creating `DiScope` instance of the next screen. It speeds up the opening of a new screen, data and dependencies preparation.

@@ -49,6 +49,11 @@ Screenshots
 |:--------------------------------------------------------------------------------:|:------------------------------------------------------------:|
 | ![Pronunciation settings](/.github/readme/screenshot_pronunciation_settings.png) | ![Cards editor](/.github/readme/screenshot_cards_editor.png) |
 
+Video
+-----
+
+[![https://www.youtube.com/watch?v=pxLL2P17UH8](/.github/readme/youtube_preview.png)](https://www.youtube.com/watch?v=pxLL2P17UH8)
+
 Architecture
 ------------
 
