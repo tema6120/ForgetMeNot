@@ -530,4 +530,8 @@
         \'Question display\', you are going to perceive the question aurally. So, don\'t forget
         to enable \'Auto speak\' of question to make exercise more comfortable.</string>
     <string name="error_loading_file">Error loading file: %1$s</string>
+    <string name="average_laps">Avg. laps</string>
+    <string name="learned">Learned</string>
+    <string name="task">Task</string>
+    <string name="last_opened">Last opened</string>
 </resources>

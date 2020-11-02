@@ -36,15 +36,11 @@ class DeckPreviewAdapter(
             deckOptionButton.setOnClickListener { view: View ->
                 showOptionMenu(view, deckPreview.deckId)
             }
-            passedLapsIndicatorTextView.text = deckPreview.passedLaps.toString()
+            avgLapsValueTextView.text = "%.1f".format(deckPreview.averageLaps)
             val progress = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
-            progressIndicatorTextView.text = progress
-            if (deckPreview.numberOfCardsReadyForExercise == null) {
-                taskIndicatorTextView.visibility = View.GONE
-            } else {
-                taskIndicatorTextView.text = deckPreview.numberOfCardsReadyForExercise.toString()
-                taskIndicatorTextView.visibility = View.VISIBLE
-            }
+            learnedValueTextView.text = progress
+            taskValueTextView.text = deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
+            lastOpenedValueTextView.text = deckPreview.lastOpened?.format("MMM d") ?: "-"
             isSelected = deckPreview.isSelected
         }
     }

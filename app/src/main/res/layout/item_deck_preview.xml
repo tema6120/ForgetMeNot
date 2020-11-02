@@ -3,6 +3,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/background_deck_preview"
         android:orientation="vertical"
         tools:context="presentation.screen.home.HomeFragment">
@@ -17,17 +21,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+            android:id="@+id/deckIndicator"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/deck_indicator"
+            android:backgroundTint="@color/iconDark"
+            app:layout_constraintBottom_toBottomOf="@id/deckNameTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/deckNameTextView" />
+
     <TextView
             android:id="@+id/deckNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:fontFamily="@font/varela"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/deckOptionButton"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/deckIndicator"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Idioms 23" />
 
@@ -39,74 +55,132 @@
             android:layout_marginEnd="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/deck_option"
+            android:tint="@color/iconDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_more_vert_dark_24dp" />
-
-    <TextView
-            android:id="@+id/passedLapsIndicatorTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/background_deckpreview_indicator_passed_laps"
-            android:maxLines="1"
-            android:paddingLeft="12dp"
-            android:paddingTop="2dp"
-            android:paddingRight="12dp"
-            android:paddingBottom="2dp"
-            android:textColor="#05a1dc"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/deckNameTextView"
-            app:layout_constraintTop_toBottomOf="@+id/deckNameTextView"
-            tools:text="2" />
-
-    <TextView
-            android:id="@+id/progressIndicatorTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/background_deckpreview_indicator_progress"
-            android:maxLines="1"
-            android:paddingLeft="12dp"
-            android:paddingTop="2dp"
-            android:paddingRight="12dp"
-            android:paddingBottom="2dp"
-            android:textColor="#00bda6"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/passedLapsIndicatorTextView"
-            app:layout_constraintTop_toTopOf="@+id/passedLapsIndicatorTextView"
-            tools:text="12/50" />
-
-    <TextView
-            android:id="@+id/taskIndicatorTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/background_deckpreview_indicator_task"
-            android:maxLines="1"
-            android:paddingLeft="12dp"
-            android:paddingTop="2dp"
-            android:paddingRight="12dp"
-            android:paddingBottom="2dp"
-            android:textColor="#A70060"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/progressIndicatorTextView"
-            app:layout_constraintTop_toTopOf="@+id/progressIndicatorTextView"
-            tools:text="24"
-            tools:visibility="visible" />
+            app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
 
     <View
             android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
             android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toStartOf="@id/deckOptionButton"
+            app:layout_constraintStart_toStartOf="@id/deckNameTextView"
+            app:layout_constraintTop_toBottomOf="@id/deckNameTextView" />
+
+    <TextView
+            android:id="@+id/avgLapsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/average_laps"
+            android:textAllCaps="true"
+            android:textColor="@color/textSecondary"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toStartOf="@+id/learnedTextView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <TextView
+            android:id="@+id/avgLapsValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:maxLines="1"
+            android:textColor="@color/textPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/avgLapsTextView"
+            app:layout_constraintTop_toBottomOf="@+id/avgLapsTextView"
+            tools:text="3.6" />
+
+    <TextView
+            android:id="@+id/learnedTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/learned"
+            android:textAllCaps="true"
+            android:textColor="@color/textSecondary"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toStartOf="@+id/taskTextView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/avgLapsTextView"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <TextView
+            android:id="@+id/learnedValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/textPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/learnedTextView"
+            app:layout_constraintTop_toBottomOf="@+id/learnedTextView"
+            tools:text="12/50" />
+
+    <TextView
+            android:id="@+id/taskTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/task"
+            android:textAllCaps="true"
+            android:textColor="@color/textSecondary"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toStartOf="@+id/lastOpenedTextView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/learnedTextView"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <TextView
+            android:id="@+id/taskValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/textPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/taskTextView"
+            app:layout_constraintTop_toBottomOf="@+id/taskTextView"
+            tools:text="24" />
+
+    <TextView
+            android:id="@+id/lastOpenedTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:text="@string/last_opened"
+            android:textAllCaps="true"
+            android:textColor="@color/textSecondary"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passedLapsIndicatorTextView" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/taskTextView"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <TextView
+            android:id="@+id/lastOpenedValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/textPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/lastOpenedTextView"
+            app:layout_constraintTop_toBottomOf="@+id/lastOpenedTextView"
+            tools:text="Nov 2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

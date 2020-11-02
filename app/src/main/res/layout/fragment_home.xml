@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
+        android:background="@color/background_home_screen"
         android:orientation="vertical"
         tools:context="presentation.screen.home.HomeFragment">
 

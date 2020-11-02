@@ -74,10 +74,9 @@ class HomeViewModel(
 
     private fun List<Deck>.mapToDeckPreview(selectedDeckIds: List<Long>): List<DeckPreview> {
         return map { deck: Deck ->
-            val passedLaps: Int? = deck.cards
-                .filter { !it.isLearned }
-                .minByOrNull { it.lap }
-                ?.lap
+            val averageLaps: Double = deck.cards
+                .map { it.lap }
+                .average()
             val learnedCount = deck.cards.count { it.isLearned }
             val numberOfCardsReadyForExercise =
                 if (deck.exercisePreference.intervalScheme == null) {
@@ -91,10 +90,11 @@ class HomeViewModel(
             DeckPreview(
                 deckId = deck.id,
                 deckName = deck.name,
-                passedLaps = passedLaps,
+                averageLaps = averageLaps,
                 learnedCount = learnedCount,
                 totalCount = deck.cards.size,
                 numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
+                lastOpened = deck.lastOpenedAt,
                 isSelected = isSelected
             )
         }

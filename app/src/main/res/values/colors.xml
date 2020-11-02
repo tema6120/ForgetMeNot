@@ -40,4 +40,5 @@
     <color name="background_passed_laps_indicator">#2405A1DC</color>
     <color name="background_progress_indicator">#2400BDA6</color>
     <color name="background_task_indicator">#24A70060</color>
+    <color name="background_home_screen">#E9EFF8</color>
 </resources>
