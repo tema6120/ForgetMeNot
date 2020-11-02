@@ -14,6 +14,12 @@ Download
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/ru/packages/com.odnovolov.forgetmenot/)
+[<img src=".github/readme/amazon_badge.png"
+      alt="Available at Amazon Appstore"
+      height="80">](https://www.amazon.com/gp/product/B08LBKX8ZR)
+[<img src=".github/readme/huawei_badge.png"
+      alt="Explore it on AppGallery"
+      height="80">](https://appgallery.huawei.com/#/app/C103089961)
 [<img src="https://raw.githubusercontent.com/tema6120/ForgetMeNot/master/.github/readme/direct_apk_download.png"
       alt="Get direct apk"
       height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.1/ForgetMeNot_v1.1.apk)
@@ -33,6 +39,7 @@ Features
 * Editing and searching cards right in the exercise.
 * 'Walking mode' that enables you do the exercise without looking at the screen.
 * 'Repetition mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
+* Catalog of pre-made decks. The catalog is constantly growing and already contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
 
 Screenshots
 -----------
