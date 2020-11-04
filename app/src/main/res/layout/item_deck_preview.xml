@@ -38,14 +38,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/varela"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="@font/comfortaa"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/deckOptionButton"
             app:layout_constraintStart_toEndOf="@+id/deckIndicator"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Idioms 23" />
+            tools:text="Английский №8" />
 
     <ImageButton
             android:id="@+id/deckOptionButton"
@@ -65,9 +66,8 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toStartOf="@id/deckOptionButton"
+            app:layout_constraintEnd_toEndOf="@id/deckNameTextView"
             app:layout_constraintStart_toStartOf="@id/deckNameTextView"
             app:layout_constraintTop_toBottomOf="@id/deckNameTextView" />
 

@@ -6,21 +6,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.common.showActionBar
-import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
+import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
@@ -100,19 +100,48 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        searchInCardsButton.setOnClickListener {
-            controller?.dispatch(SearchInCardsButtonClicked)
+        addCardsButton.setOnClickListener {
+            (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
+                .addDeck()
+        }
+        filterButton.setOnClickListener {
+            filterDialog.show()
+        }
+        sortingButton.setOnClickListener {
+            DeckSortingBottomSheet().show(childFragmentManager, "DeckSortingBottomSheet Tag")
         }
     }
 
     private fun observeViewModel() {
         with(viewModel) {
-            displayOnlyWithTasks.observe { displayOnlyWithTasks: Boolean ->
+            displayOnlyWithTasks.observe { displayOnlyDecksAvailableForExercise: Boolean ->
+                deckListTitleTextView.text = getString(
+                    if (displayOnlyDecksAvailableForExercise)
+                        R.string.deck_list_title_decks_available_for_exercise else
+                        R.string.deck_list_title_all_decks
+                )
+
                 val item = object : Item {
                     override val text = getString(R.string.filter_display_only_with_tasks)
-                    override val isSelected = displayOnlyWithTasks
+                    override val isSelected = displayOnlyDecksAvailableForExercise
                 }
                 filterAdapter.submitList(listOf(item))
+            }
+            deckSorting.observe { deckSorting: DeckSorting ->
+                sortingButton.text = getString(
+                    when (deckSorting.criterion) {
+                        Name -> R.string.sort_by_name
+                        CreatedAt -> R.string.sort_by_time_created
+                        LastOpenedAt -> R.string.sort_by_time_last_opened
+                    }
+                )
+                val directionIconId: Int = when (deckSorting.direction) {
+                    Asc -> R.drawable.ic_arrow_upward
+                    Desc -> R.drawable.ic_arrow_downward
+                }
+                sortingButton.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_sorting, 0, directionIconId, 0
+                )
             }
         }
     }
@@ -188,14 +217,12 @@ class HomeFragment : BaseFragment() {
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
                 setMenuItemsVisibility(false)
-                searchInCardsButton.isVisible = true
                 return true
             }
 
             override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
                 setMenuItemsVisibility(true)
                 requireActivity().invalidateOptionsMenu()
-                searchInCardsButton.isVisible = false
                 return true
             }
 
@@ -275,7 +302,7 @@ class HomeFragment : BaseFragment() {
                 }
             }
         }
-        showActionBar()
+        hideActionBar()
     }
 
     override fun onPause() {

@@ -95,8 +95,8 @@ class DeckSortingBottomSheet : BaseBottomSheetDialogFragment() {
     private fun setupSortingButton(textView: TextView, direction: Direction?) {
         val resId = when (direction) {
             null -> R.drawable.transparent_24dp
-            Asc -> R.drawable.ic_arrow_upward_dark_24dp
-            Desc -> R.drawable.ic_arrow_downward_dark_24dp
+            Asc -> R.drawable.ic_arrow_upward
+            Desc -> R.drawable.ic_arrow_downward
         }
         textView.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
         textView.isSelected = direction != null

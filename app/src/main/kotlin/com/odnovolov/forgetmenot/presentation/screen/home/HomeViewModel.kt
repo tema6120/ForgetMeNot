@@ -27,6 +27,9 @@ class HomeViewModel(
     val displayOnlyWithTasks: Flow<Boolean> =
         deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyWithTasks)
 
+    val deckSorting: Flow<DeckSorting> =
+        deckReviewPreference.flowOf(DeckReviewPreference::deckSorting)
+
     val decksPreview: Flow<List<DeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
         homeScreenState.flowOf(HomeScreenState::searchText),

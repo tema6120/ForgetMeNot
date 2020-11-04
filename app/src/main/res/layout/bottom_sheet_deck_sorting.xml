@@ -23,7 +23,7 @@
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/sort_by_name"
+            android:text="@string/deck_sorting_name"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             tools:drawableStart="@drawable/transparent_24dp" />
@@ -38,7 +38,7 @@
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/sort_by_time_created"
+            android:text="@string/deck_sorting_time_created"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             tools:drawableStart="@drawable/transparent_24dp" />
@@ -53,10 +53,10 @@
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/sort_by_time_last_opened"
+            android:text="@string/deck_sorting_by_time_last_opened"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             tools:background="@color/selected_item_background"
-            tools:drawableStart="@drawable/ic_arrow_downward_dark_24dp" />
+            tools:drawableStart="@drawable/ic_arrow_downward" />
 
 </LinearLayout>

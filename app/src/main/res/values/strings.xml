@@ -54,9 +54,12 @@
     <string name="action_rename_deck">Rename deck</string>
     <string name="action_help">Help</string>
     <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
-    <string name="sort_by_name">Name</string>
-    <string name="sort_by_time_created">Time created</string>
-    <string name="sort_by_time_last_opened">Time last opened</string>
+    <string name="deck_sorting_name">Name</string>
+    <string name="deck_sorting_time_created">Time created</string>
+    <string name="deck_sorting_by_time_last_opened">Time last opened</string>
+    <string name="sort_by_name">By name</string>
+    <string name="sort_by_time_created">By time created</string>
+    <string name="sort_by_time_last_opened">By time last opened</string>
     <string name="title_deck_settings_toolbar">Deck Settings</string>
     <string name="text_random_order">Random order</string>
     <string name="label_deck_setup_screen">Deck Setup</string>
@@ -534,4 +537,8 @@
     <string name="learned">Learned</string>
     <string name="task">Task</string>
     <string name="last_opened">Last opened</string>
+    <string name="text_filter_button">Filters</string>
+    <string name="deck_list_title_all_decks">All decks</string>
+    <string name="deck_list_title_decks_available_for_exercise">Decks available for exercise</string>
+    <string name="text_add_cards_button">Add cards</string>
 </resources>
