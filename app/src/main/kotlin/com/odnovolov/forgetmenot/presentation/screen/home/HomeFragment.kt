@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
@@ -23,6 +24,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_navigation_drawer.*
 import kotlinx.coroutines.*
 
 class HomeFragment : BaseFragment() {
@@ -100,6 +102,10 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        decksIcon.isSelected = true
+        drawerButton.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
         addCardsButton.setOnClickListener {
             (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
                 .addDeck()
@@ -154,7 +160,7 @@ class HomeFragment : BaseFragment() {
             is ShowDeckRemovingMessage -> {
                 Snackbar
                     .make(
-                        homeFragmentRootView,
+                        homeFragmentContent,
                         resources.getQuantityString(
                             R.plurals.numberOfDecksRemoved,
                             command.numberOfDecksRemoved,

@@ -92,9 +92,9 @@ class HelpFragment : BaseFragment() {
             requireActivity().onBackPressed()
         }
         showTableOfContentsButton.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.END)
+            helpDrawerLayout.openDrawer(GravityCompat.END)
         }
-        drawerLayout.addDrawerListener(object : DrawerListener {
+        helpDrawerLayout.addDrawerListener(object : DrawerListener {
             override fun onDrawerClosed(drawerView: View) {
                 for (action in pendingActions) action()
                 pendingActions.clear()
@@ -108,7 +108,7 @@ class HelpFragment : BaseFragment() {
 
     private fun initAdapter() {
         val onItemSelected: (HelpArticle) -> Unit = { helpArticle: HelpArticle ->
-            drawerLayout.closeDrawer(GravityCompat.END)
+            helpDrawerLayout.closeDrawer(GravityCompat.END)
             controller?.dispatch(ArticleSelected(helpArticle))
         }
         val adapter = HelpArticleAdapter(onItemSelected)
@@ -141,7 +141,7 @@ class HelpFragment : BaseFragment() {
     }
 
     fun doWhenDrawerClosed(action: () -> Unit) {
-        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+        if (helpDrawerLayout.isDrawerOpen(GravityCompat.END)) {
             pendingActions.add(action)
         } else {
             action()
