@@ -1,182 +1,168 @@
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/drawerLayout"
+        android:id="@+id/homeFragmentContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="presentation.screen.home.HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/homeFragmentContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background_home_screen"
-            tools:context="presentation.screen.home.HomeFragment">
+    <LinearLayout
+            android:id="@+id/searchFrame"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/rectangle_white_corner_radius_4dp"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-                android:id="@+id/searchFrame"
-                android:layout_width="0dp"
+        <ImageButton
+                android:id="@+id/drawerButton"
+                android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/rectangle_white_corner_radius_4dp"
-                android:descendantFocusability="beforeDescendants"
-                android:focusableInTouchMode="true"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:background="@drawable/ripple_borderless_colored"
+                app:srcCompat="@drawable/ic_drawer_colored" />
 
-            <ImageButton
-                    android:id="@+id/drawerButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/ripple_borderless_colored"
-                    app:srcCompat="@drawable/ic_drawer_colored" />
-
-            <EditText
-                    android:id="@+id/searchEditText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="@string/hint_search_edittext"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
-
-            <ImageButton
-                    android:id="@+id/pasteButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/ripple_borderless_colored"
-                    android:contentDescription="@string/description_paste_button"
-                    app:srcCompat="@drawable/ic_paste_colored" />
-
-        </LinearLayout>
-
-        <TextView
-                android:id="@+id/deckListTitleTextView"
+        <EditText
+                android:id="@+id/searchEditText"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
-                android:fontFamily="@font/jura"
-                android:textColor="@color/text_color_deck_list_title"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@id/addCardsButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/searchFrame"
-                tools:text="@string/deck_list_title_decks_available_for_exercise" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/hint_search_edittext"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
 
-        <TextView
-                android:id="@+id/addCardsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/background_add_cards_button"
-                android:drawablePadding="2dp"
-                android:fontFamily="@font/jura"
-                android:paddingStart="16dp"
-                android:paddingTop="6dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="6dp"
-                android:text="@string/text_add_cards_button"
-                android:textAllCaps="true"
-                android:textColor="@color/colorAccent"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:drawableStartCompat="@drawable/ic_add_colored"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/deckListTitleTextView" />
+        <ImageButton
+                android:id="@+id/pasteButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/ripple_borderless_colored"
+                android:contentDescription="@string/description_paste_button"
+                app:srcCompat="@drawable/ic_paste_colored" />
 
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="deckListTitleTextView,addCardsButton" />
+    </LinearLayout>
 
-        <TextView
-                android:id="@+id/filterButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/ripple_corner_radius_4dp"
-                android:drawablePadding="4dp"
-                android:padding="8dp"
-                android:text="@string/text_filter_button"
-                android:textColor="@color/textSecondary"
-                android:textSize="16sp"
-                app:drawableStartCompat="@drawable/ic_filter"
-                app:layout_constraintStart_toStartOf="@id/deckListTitleTextView"
-                app:layout_constraintTop_toBottomOf="@id/barrier" />
+    <TextView
+            android:id="@+id/deckListTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/jura"
+            android:textColor="@color/text_color_deck_list_title"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@id/addCardsButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchFrame"
+            tools:text="@string/deck_list_title_decks_available_for_exercise" />
 
-        <TextView
-                android:id="@+id/sortingButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/ripple_corner_radius_4dp"
-                android:drawablePadding="4dp"
-                android:padding="8dp"
-                android:textColor="@color/textSecondary"
-                android:textSize="16sp"
-                app:drawableStartCompat="@drawable/ic_sorting"
-                app:layout_constraintEnd_toEndOf="@id/addCardsButton"
-                app:layout_constraintTop_toBottomOf="@id/barrier"
-                tools:drawableEndCompat="@drawable/ic_arrow_upward"
-                tools:text="By time last tested" />
+    <TextView
+            android:id="@+id/addCardsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/background_add_cards_button"
+            android:drawablePadding="2dp"
+            android:fontFamily="@font/jura"
+            android:paddingStart="16dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="6dp"
+            android:text="@string/text_add_cards_button"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_add_colored"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/deckListTitleTextView" />
 
-        <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="filterButton,sortingButton" />
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="deckListTitleTextView,addCardsButton" />
+
+    <TextView
+            android:id="@+id/filterButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/ripple_corner_radius_4dp"
+            android:drawablePadding="4dp"
+            android:padding="8dp"
+            android:text="@string/text_filter_button"
+            android:textColor="@color/textSecondary"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/ic_filter"
+            app:layout_constraintStart_toStartOf="@id/deckListTitleTextView"
+            app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+    <TextView
+            android:id="@+id/sortingButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/ripple_corner_radius_4dp"
+            android:drawablePadding="4dp"
+            android:padding="8dp"
+            android:textColor="@color/textSecondary"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/ic_sorting"
+            app:layout_constraintEnd_toEndOf="@id/addCardsButton"
+            app:layout_constraintTop_toBottomOf="@id/barrier"
+            tools:drawableEndCompat="@drawable/ic_arrow_upward"
+            tools:text="By time last tested" />
+
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="filterButton,sortingButton" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/decksPreviewRecycler"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layoutManager="LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier2"
-                tools:listitem="@layout/item_deck_preview" />
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/decksPreviewRecycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier2"
+            tools:listitem="@layout/item_deck_preview" />
 
-        <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/decksPreviewRecycler"
-                app:layout_constraintEnd_toEndOf="@id/decksPreviewRecycler"
-                app:layout_constraintStart_toStartOf="@id/decksPreviewRecycler"
-                app:layout_constraintTop_toTopOf="@id/decksPreviewRecycler" />
+    <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/decksPreviewRecycler"
+            app:layout_constraintEnd_toEndOf="@id/decksPreviewRecycler"
+            app:layout_constraintStart_toStartOf="@id/decksPreviewRecycler"
+            app:layout_constraintTop_toTopOf="@id/decksPreviewRecycler" />
 
-        <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/addDeckFragment"
-                android:name="com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:tag="AddDeckFragment"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/addDeckFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="AddDeckFragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <include
-            layout="@layout/fragment_navigation_drawer"
-            android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start" />
-
-</androidx.drawerlayout.widget.DrawerLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

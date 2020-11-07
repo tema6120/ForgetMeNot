@@ -23,8 +23,9 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
+import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_navigation_drawer.*
+import kotlinx.android.synthetic.main.fragment_nav_host.*
 import kotlinx.coroutines.*
 
 class HomeFragment : BaseFragment() {
@@ -102,9 +103,9 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        decksIcon.isSelected = true
         drawerButton.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
+            (parentFragment as NavHostFragment)
+                .drawerLayout.openDrawer(GravityCompat.START)
         }
         addCardsButton.setOnClickListener {
             (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)

@@ -36,7 +36,7 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToExercise(createDiScope: () -> ExerciseDiScope) {
         ExerciseDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_exercise_screen)
+        navigate(R.id.nav_host_to_exercise)
     }
 
     fun navigateToCardsEditorFromExercise(createDiScope: () -> CardsEditorDiScope) {
@@ -60,12 +60,12 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToCardsEditorFromHome(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_cards_editor_screen)
+        navigate(R.id.nav_host_to_cards_editor)
     }
 
     fun navigateToDeckSetupFromHome(createDiScope: () -> DeckSetupDiScope) {
         DeckSetupDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_deck_setup_screen)
+        navigate(R.id.nav_host_to_deck_setup)
     }
 
     fun navigateToDeckSetupFromCardsEditor(createDiScope: () -> DeckSetupDiScope) {
@@ -144,7 +144,7 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToRepetitionSettings(createDiScope: () -> RepetitionSettingsDiScope) {
         RepetitionSettingsDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_repetition_settings_screen)
+        navigate(R.id.nav_host_to_repetition_settings)
     }
 
     fun navigateToHelpFromRepetitionSettings(createDiScope: () -> HelpDiScope) {
@@ -227,7 +227,7 @@ class Navigator : ActivityLifecycleCallbacks {
 
     override fun onActivityStarted(activity: Activity) {
         if (activity is MainActivity && navController == null) {
-            navController = activity.findNavController(R.id.navHostFragment)
+            navController = activity.findNavController(R.id.mainActivityHostFragment)
         }
     }
 

@@ -2,7 +2,30 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@+id/home_screen">
+        app:startDestination="@+id/nav_host">
+
+    <fragment
+            android:id="@+id/nav_host"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment"
+            tools:layout="@layout/fragment_nav_host">
+
+        <action
+                android:id="@+id/nav_host_to_exercise"
+                app:destination="@id/exercise_screen" />
+
+        <action
+                android:id="@+id/nav_host_to_cards_editor"
+                app:destination="@id/cards_editor_screen" />
+
+        <action
+                android:id="@+id/nav_host_to_deck_setup"
+                app:destination="@id/deck_setup_screen" />
+
+        <action
+                android:id="@+id/nav_host_to_repetition_settings"
+                app:destination="@id/repetition_settings_screen" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/home_screen"
@@ -13,22 +36,6 @@
         <action
                 android:id="@+id/action_home_screen_to_search_screen"
                 app:destination="@id/search_screen" />
-
-        <action
-                android:id="@+id/action_home_screen_to_exercise_screen"
-                app:destination="@id/exercise_screen" />
-
-        <action
-                android:id="@+id/action_home_screen_to_repetition_settings_screen"
-                app:destination="@id/repetition_settings_screen" />
-
-        <action
-                android:id="@+id/action_home_screen_to_cards_editor_screen"
-                app:destination="@id/cards_editor_screen" />
-
-        <action
-                android:id="@+id/action_home_screen_to_deck_setup_screen"
-                app:destination="@id/deck_setup_screen" />
 
         <action
                 android:id="@+id/action_home_screen_to_settings_screen"

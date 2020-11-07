@@ -8,12 +8,10 @@ import android.os.Handler
 import android.os.Looper
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
 import com.odnovolov.forgetmenot.persistence.DbCleaner
@@ -44,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        window.decorView.setBackgroundColor(ContextCompat.getColor(this, R.color.background_window))
         initNavController()
         coroutineScope.launch {
             val diScope = MainActivityDiScope.getAsync() ?: return@launch
@@ -86,9 +83,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavController() {
-        navController = findNavController(R.id.navHostFragment)
+        navController = findNavController(R.id.mainActivityHostFragment)
         appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
