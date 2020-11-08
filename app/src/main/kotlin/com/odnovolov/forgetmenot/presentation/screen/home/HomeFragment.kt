@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
@@ -15,6 +18,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.Item.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
@@ -26,6 +30,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
+import kotlinx.android.synthetic.main.item_deck_preview_header.view.*
 import kotlinx.coroutines.*
 
 class HomeFragment : BaseFragment() {
@@ -44,6 +49,7 @@ class HomeFragment : BaseFragment() {
     private lateinit var searchView: SearchView
     private var searchViewText: String? = null
     private var pendingEvent: OutputStreamOpened? = null
+    private lateinit var deckPreviewAdapter: DeckPreviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +100,7 @@ class HomeFragment : BaseFragment() {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
-            decksPreviewRecycler.adapter = diScope.deckPreviewAdapter
+            initDeckPreviewAdapter()
             observeViewModel()
             controller!!.commands.observe(onEach = ::executeCommand)
             pendingEvent?.let(controller!!::dispatch)
@@ -102,7 +108,43 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun initDeckPreviewAdapter() {
+        val setupHeader: (View) -> Unit = { header: View ->
+            header.filterButton.setOnClickListener {
+                filterDialog.show()
+            }
+            header.sortingButton.setOnClickListener {
+                DeckSortingBottomSheet()
+                    .show(childFragmentManager, "DeckSortingBottomSheet Tag")
+            }
+            viewModel.deckSorting.observe { deckSorting: DeckSorting ->
+                header.sortingButton.text = getString(
+                    when (deckSorting.criterion) {
+                        Name -> R.string.sort_by_name
+                        CreatedAt -> R.string.sort_by_time_created
+                        LastOpenedAt -> R.string.sort_by_time_last_opened
+                    }
+                )
+                val directionIconId: Int = when (deckSorting.direction) {
+                    Asc -> R.drawable.ic_arrow_upward
+                    Desc -> R.drawable.ic_arrow_downward
+                }
+                header.sortingButton.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_sorting, 0, directionIconId, 0
+                )
+            }
+        }
+        deckPreviewAdapter = DeckPreviewAdapter(controller!!, setupHeader)
+        decksPreviewRecycler.adapter = deckPreviewAdapter
+    }
+
     private fun setupView() {
+        decksPreviewRecycler.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val canScrollUp = decksPreviewRecycler.canScrollVertically(-1)
+                divider.isVisible = canScrollUp
+            }
+        })
         drawerButton.setOnClickListener {
             (parentFragment as NavHostFragment)
                 .drawerLayout.openDrawer(GravityCompat.START)
@@ -110,12 +152,6 @@ class HomeFragment : BaseFragment() {
         addCardsButton.setOnClickListener {
             (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
                 .addDeck()
-        }
-        filterButton.setOnClickListener {
-            filterDialog.show()
-        }
-        sortingButton.setOnClickListener {
-            DeckSortingBottomSheet().show(childFragmentManager, "DeckSortingBottomSheet Tag")
         }
     }
 
@@ -133,22 +169,6 @@ class HomeFragment : BaseFragment() {
                     override val isSelected = displayOnlyDecksAvailableForExercise
                 }
                 filterAdapter.submitList(listOf(item))
-            }
-            deckSorting.observe { deckSorting: DeckSorting ->
-                sortingButton.text = getString(
-                    when (deckSorting.criterion) {
-                        Name -> R.string.sort_by_name
-                        CreatedAt -> R.string.sort_by_time_created
-                        LastOpenedAt -> R.string.sort_by_time_last_opened
-                    }
-                )
-                val directionIconId: Int = when (deckSorting.direction) {
-                    Asc -> R.drawable.ic_arrow_upward
-                    Desc -> R.drawable.ic_arrow_downward
-                }
-                sortingButton.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_sorting, 0, directionIconId, 0
-                )
             }
         }
     }
@@ -294,7 +314,7 @@ class HomeFragment : BaseFragment() {
                 decksPreview.observe(
                     resumePauseCoroutineScope!!
                 ) { decksPreview: List<DeckPreview> ->
-                    diScope.deckPreviewAdapter.submitList(decksPreview)
+                    deckPreviewAdapter.submitItems(decksPreview)
                     progressBar.visibility = View.GONE
                 }
                 deckSelectionCount.observe(

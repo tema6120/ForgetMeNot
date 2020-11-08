@@ -46,8 +46,6 @@ class HomeDiScope private constructor(
         controller
     )
 
-    val deckPreviewAdapter = DeckPreviewAdapter(controller)
-
     companion object : DiScopeManager<HomeDiScope>() {
         fun create(initialHomeScreenState: HomeScreenState) = HomeDiScope(initialHomeScreenState)
 
