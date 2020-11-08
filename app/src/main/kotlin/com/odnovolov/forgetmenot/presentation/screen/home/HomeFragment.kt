@@ -6,10 +6,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.TooltipCompat
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.google.android.material.appbar.AppBarLayout.Behavior
+import com.google.android.material.appbar.AppBarLayout.LayoutParams
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
@@ -18,6 +23,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.Item.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -139,24 +145,78 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        drawerButton.setOnClickListener {
+            (parentFragment as NavHostFragment)
+                .drawerLayout.openDrawer(GravityCompat.START)
+        }
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            searchFrame.isSelected = hasFocus
+            updateDrawerButton(isSearchActivated = hasFocus)
+            updateSearchFrameScrollBehavior(isSearchActivated = hasFocus)
+            setLockModeOfDrawerLayout(isLocked = hasFocus)
+        }
+        searchEditText.observeText { newText: String ->
+            controller?.dispatch(SearchTextChanged(newText))
+        }
+        addCardsButton.setOnClickListener {
+            (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
+                .addDeck()
+        }
         decksPreviewRecycler.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val canScrollUp = decksPreviewRecycler.canScrollVertically(-1)
                 divider.isVisible = canScrollUp
             }
         })
+    }
+
+    private fun updateDrawerButton(isSearchActivated: Boolean) {
+        drawerButton.setImageResource(
+            if (isSearchActivated)
+                R.drawable.ic_arrow_back_colored else
+                R.drawable.ic_drawer_colored
+        )
         drawerButton.setOnClickListener {
-            (parentFragment as NavHostFragment)
-                .drawerLayout.openDrawer(GravityCompat.START)
+            if (isSearchActivated) {
+                searchEditText.hideSoftInput()
+                searchEditText.text.clear()
+                searchEditText.clearFocus()
+            } else {
+                (parentFragment as NavHostFragment)
+                    .drawerLayout.openDrawer(GravityCompat.START)
+            }
         }
-        addCardsButton.setOnClickListener {
-            (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
-                .addDeck()
+    }
+
+    private fun updateSearchFrameScrollBehavior(isSearchActivated: Boolean) {
+        val params = searchFrame.layoutParams as LayoutParams
+        val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        if (isSearchActivated) {
+            params.scrollFlags = 0
+            appBarLayoutParams.behavior = null
+            appBarLayout.layoutParams = appBarLayoutParams
+        } else {
+            params.scrollFlags =
+                LayoutParams.SCROLL_FLAG_SCROLL or
+                        LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+            appBarLayoutParams.behavior = Behavior()
+            appBarLayout.layoutParams = appBarLayoutParams
         }
+    }
+
+    private fun setLockModeOfDrawerLayout(isLocked: Boolean) {
+        (parentFragment as NavHostFragment).drawerLayout.setDrawerLockMode(
+            if (isLocked)
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED else
+                DrawerLayout.LOCK_MODE_UNLOCKED
+        )
     }
 
     private fun observeViewModel() {
         with(viewModel) {
+            isSearchTextEmpty.observe { isSearchTextEmpty: Boolean ->
+                updatePasteButton(isSearchTextEmpty)
+            }
             displayOnlyWithTasks.observe { displayOnlyDecksAvailableForExercise: Boolean ->
                 deckListTitleTextView.text = getString(
                     if (displayOnlyDecksAvailableForExercise)
@@ -170,6 +230,31 @@ class HomeFragment : BaseFragment() {
                 }
                 filterAdapter.submitList(listOf(item))
             }
+        }
+    }
+
+    private fun updatePasteButton(isSearchTextEmpty: Boolean) {
+        with(pasteButton) {
+            setImageResource(
+                if (isSearchTextEmpty)
+                    R.drawable.ic_paste_colored else
+                    R.drawable.ic_clear_colored
+            )
+            setOnClickListener {
+                if (isSearchTextEmpty) {
+                    searchEditText.paste()
+                    searchEditText.requestFocus()
+                } else {
+                    searchEditText.text.clear()
+                    searchEditText.showSoftInput()
+                }
+            }
+            contentDescription = getString(
+                if (isSearchTextEmpty)
+                    R.string.description_paste_button else
+                    R.string.description_clear_button
+            )
+            TooltipCompat.setTooltipText(this, contentDescription)
         }
     }
 

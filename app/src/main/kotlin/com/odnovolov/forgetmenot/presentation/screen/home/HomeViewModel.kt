@@ -11,10 +11,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class HomeViewModel(
     homeScreenState: HomeScreenState,
@@ -22,8 +19,15 @@ class HomeViewModel(
     deckReviewPreference: DeckReviewPreference,
     controller: HomeController
 ) {
+    val isSearchTextEmpty: Flow<Boolean> =
+        homeScreenState.flowOf(HomeScreenState::searchText)
+            .map { it.isEmpty() }
+            .distinctUntilChanged()
+
     val hasSelectedDecks: Flow<Boolean> =
-        homeScreenState.flowOf(HomeScreenState::selectedDeckIds).map { it.isNotEmpty() }
+        homeScreenState.flowOf(HomeScreenState::selectedDeckIds)
+            .map { it.isNotEmpty() }
+            .distinctUntilChanged()
 
     val displayOnlyWithTasks: Flow<Boolean> =
         deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyWithTasks)
