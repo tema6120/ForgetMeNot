@@ -8,6 +8,7 @@ import android.os.Looper
 import android.text.*
 import android.text.Annotation
 import android.text.method.LinkMovementMethod
+import android.text.style.BackgroundColorSpan
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
@@ -237,4 +239,21 @@ fun TextView.setTextWithClickableAnnotations(
         }
     text = spannableString
     movementMethod = LinkMovementMethod.getInstance()
+}
+
+fun String.highlight(
+    ranges: List<IntRange>,
+    context: Context
+): SpannableString {
+    val highlightedColor = ContextCompat.getColor(context, R.color.selected_item_background)
+    return SpannableString(this).apply {
+        ranges.forEach { selection: IntRange ->
+            setSpan(
+                BackgroundColorSpan(highlightedColor),
+                selection.first,
+                selection.last,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+    }
 }

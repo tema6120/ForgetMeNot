@@ -50,7 +50,7 @@ class HomeViewModel(
         decks
             .filterBy(searchText)
             .sortBy(deckSorting)
-            .mapToDeckPreview(selectedDeckIds)
+            .mapToDeckPreview(selectedDeckIds, searchText)
             .filterBy(displayOnlyWithTasks)
     }
         .flowOn(Dispatchers.Default)
@@ -80,8 +80,12 @@ class HomeViewModel(
         }
     }
 
-    private fun List<Deck>.mapToDeckPreview(selectedDeckIds: List<Long>): List<DeckPreview> {
+    private fun List<Deck>.mapToDeckPreview(
+        selectedDeckIds: List<Long>,
+        searchText: String
+    ): List<DeckPreview> {
         return map { deck: Deck ->
+            val searchMatchingRanges: List<IntRange>? = findMatchingRange(deck.name, searchText)
             val averageLaps: Double = deck.cards
                 .map { it.lap }
                 .average()
@@ -98,6 +102,7 @@ class HomeViewModel(
             DeckPreview(
                 deckId = deck.id,
                 deckName = deck.name,
+                searchMatchingRanges = searchMatchingRanges,
                 averageLaps = averageLaps,
                 learnedCount = learnedCount,
                 totalCount = deck.cards.size,
@@ -106,6 +111,19 @@ class HomeViewModel(
                 isSelected = isSelected
             )
         }
+    }
+
+    private fun findMatchingRange(source: String, search: String): List<IntRange>? {
+        if (search.isEmpty()) return null
+        var start = source.indexOf(search, ignoreCase = true)
+        if (start < 0) return null
+        val result = ArrayList<IntRange>()
+        while (start >= 0) {
+            val end = start + search.length
+            result += start..end
+            start = source.indexOf(search, startIndex = end, ignoreCase = true)
+        }
+        return result
     }
 
     private fun List<DeckPreview>.filterBy(displayOnlyWithTasks: Boolean): List<DeckPreview> {

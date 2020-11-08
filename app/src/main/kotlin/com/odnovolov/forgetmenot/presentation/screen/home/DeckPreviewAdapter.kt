@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.common.highlight
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.Item
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.Item.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -25,6 +26,7 @@ class DeckPreviewAdapter(
         data class DeckPreview(
             val deckId: Long,
             val deckName: String,
+            val searchMatchingRanges: List<IntRange>?,
             val averageLaps: Double,
             val learnedCount: Int,
             val totalCount: Int,
@@ -75,7 +77,12 @@ class DeckPreviewAdapter(
                 controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
                 true
             }
-            deckNameTextView.text = deckPreview.deckName
+            deckNameTextView.text = if (deckPreview.searchMatchingRanges != null) {
+                deckPreview.deckName
+                    .highlight(deckPreview.searchMatchingRanges, context)
+            } else {
+                deckPreview.deckName
+            }
             deckOptionButton.setOnClickListener { view: View ->
                 showOptionMenu(view, deckPreview.deckId)
             }
