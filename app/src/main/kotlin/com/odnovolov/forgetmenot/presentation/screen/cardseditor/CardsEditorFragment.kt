@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import android.app.Dialog
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.view.View.MeasureSpec

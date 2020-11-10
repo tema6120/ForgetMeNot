@@ -40,8 +40,9 @@ class NavHostFragment : BaseFragment() {
         if (childFragmentManager.fragments.isEmpty()) {
             childFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, HomeFragment())
-                .commit()
+                .commitNow()
         }
+        updateDrawerItems()
         childFragmentManager.addOnBackStackChangedListener {
             updateDrawerItems()
         }
@@ -137,15 +138,17 @@ class NavHostFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+        (activity as MainActivity)
+            .registerBackPressInterceptor(backPressInterceptorForClosingDrawer)
     }
 
     override fun onPause() {
         super.onPause()
-        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+        (activity as MainActivity)
+            .unregisterBackPressInterceptor(backPressInterceptorForClosingDrawer)
     }
 
-    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
+    private val backPressInterceptorForClosingDrawer = object : MainActivity.BackPressInterceptor {
         override fun onBackPressed(): Boolean {
             return if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)

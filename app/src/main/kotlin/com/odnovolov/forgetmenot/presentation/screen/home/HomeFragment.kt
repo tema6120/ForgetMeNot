@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -114,14 +115,18 @@ class HomeFragment : BaseFragment() {
         )
         drawerButton.setOnClickListener {
             if (isSearchMode) {
-                searchEditText.hideSoftInput()
-                searchEditText.text.clear()
-                searchEditText.clearFocus()
+                cancelSearch()
             } else {
                 (parentFragment as NavHostFragment)
                     .drawerLayout.openDrawer(GravityCompat.START)
             }
         }
+    }
+
+    private fun cancelSearch() {
+        searchEditText.hideSoftInput()
+        searchEditText.text.clear()
+        searchEditText.clearFocus()
     }
 
     private fun updateSearchFrameScrollBehavior(isSearchMode: Boolean) {
@@ -155,8 +160,8 @@ class HomeFragment : BaseFragment() {
             searchTabLayout,
             homePager
         ) { tab, position ->
-            val customTab: TextView = LayoutInflater.from(requireContext())
-                .inflate(R.layout.tab, null) as TextView
+            val customTab: TextView =
+                View.inflate(requireContext(), R.layout.tab, null) as TextView
             customTab.text = getString(
                 when (position) {
                     0 -> R.string.tab_decks
@@ -291,8 +296,31 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptorForCancelSearch)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity)
+            .unregisterBackPressInterceptor(backPressInterceptorForCancelSearch)
+    }
+
+    private val backPressInterceptorForCancelSearch = object : MainActivity.BackPressInterceptor {
+        override fun onBackPressed(): Boolean {
+            return if (searchEditText.hasFocus()) {
+                cancelSearch()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        homePager.adapter = null
         pagerAdapter = null
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
