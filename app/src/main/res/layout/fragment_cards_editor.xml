@@ -4,7 +4,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="presentation.screen.exercise.ExerciseFragment">
+        android:fitsSystemWindows="true"
+        tools:context="presentation.screen.cardseditor.CardsEditorFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"

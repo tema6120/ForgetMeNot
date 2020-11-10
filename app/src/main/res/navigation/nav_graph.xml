@@ -34,10 +34,6 @@
             tools:layout="@layout/fragment_home">
 
         <action
-                android:id="@+id/action_home_screen_to_search_screen"
-                app:destination="@id/search_screen" />
-
-        <action
                 android:id="@+id/action_home_screen_to_settings_screen"
                 app:destination="@id/settings_screen" />
 

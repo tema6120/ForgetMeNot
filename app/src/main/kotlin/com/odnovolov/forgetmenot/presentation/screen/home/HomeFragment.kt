@@ -10,7 +10,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout.Behavior
 import com.google.android.material.appbar.AppBarLayout.LayoutParams
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +24,8 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.pasteButton
+import kotlinx.android.synthetic.main.fragment_home.searchEditText
 import kotlinx.android.synthetic.main.fragment_nav_host.*
 import kotlinx.coroutines.*
 
@@ -40,7 +41,6 @@ class HomeFragment : BaseFragment() {
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var pendingEvent: OutputStreamOpened? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
-    private var pagerAdapter: HomePagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,8 +154,7 @@ class HomeFragment : BaseFragment() {
 
     private fun setupViewPager() {
         homePager.offscreenPageLimit = 1
-        pagerAdapter = HomePagerAdapter(this)
-        homePager.adapter = pagerAdapter
+        homePager.adapter = HomePagerAdapter(this)
         tabLayoutMediator = TabLayoutMediator(
             searchTabLayout,
             homePager
@@ -224,11 +223,10 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun updateFoundCardsFragmentVisibility(isFragmentVisible: Boolean) {
-        (homePager.getChildAt(0) as RecyclerView).overScrollMode =
-            if (isFragmentVisible)
-                View.OVER_SCROLL_IF_CONTENT_SCROLLS else
-                View.OVER_SCROLL_NEVER
-        pagerAdapter?.isFoundCardsFragmentEnabled = isFragmentVisible
+        homePager.isUserInputEnabled = isFragmentVisible
+        if (!isFragmentVisible) {
+            homePager.setCurrentItem(0, true)
+        }
     }
 
     private fun executeCommand(command: HomeController.Command) {
@@ -299,12 +297,16 @@ class HomeFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptorForCancelSearch)
+        if (searchEditText.text.isNotEmpty()) {
+            searchEditText.requestFocus()
+        }
     }
 
     override fun onPause() {
         super.onPause()
         (activity as MainActivity)
             .unregisterBackPressInterceptor(backPressInterceptorForCancelSearch)
+        searchEditText.hideSoftInput()
     }
 
     private val backPressInterceptorForCancelSearch = object : MainActivity.BackPressInterceptor {
@@ -321,7 +323,6 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         homePager.adapter = null
-        pagerAdapter = null
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
     }

@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import java.io.OutputStream
 
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
-    object SearchInCardsButtonClicked : HomeEvent()
     object DisplayOnlyWithTasksCheckboxClicked : HomeEvent()
     object SettingsButtonClicked : HomeEvent()
     object HelpButtonClicked : HomeEvent()
@@ -21,4 +21,5 @@ sealed class HomeEvent {
     object SelectAllDecksMenuItemClicked : HomeEvent()
     object RemoveDecksMenuItemClicked : HomeEvent()
     object ActionModeFinished : HomeEvent()
+    class FoundCardClicked(val searchCard: SearchCard) : HomeEvent()
 }

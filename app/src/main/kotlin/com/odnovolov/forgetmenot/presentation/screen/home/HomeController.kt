@@ -2,6 +2,9 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
@@ -16,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
@@ -24,7 +28,6 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsDiScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
@@ -70,13 +73,6 @@ class HomeController(
             is SearchTextChanged -> {
                 homeScreenState.searchText = event.searchText
                 cardsSearcher.search(event.searchText)
-            }
-
-            SearchInCardsButtonClicked -> {
-                homeScreenState.selectedDeckIds = emptyList()
-                navigator.navigateToSearchFromHome {
-                    SearchDiScope(homeScreenState.searchText)
-                }
             }
 
             DisplayOnlyWithTasksCheckboxClicked -> {
@@ -164,6 +160,22 @@ class HomeController(
 
             ActionModeFinished -> {
                 homeScreenState.selectedDeckIds = emptyList()
+            }
+
+            is FoundCardClicked -> {
+                homeScreenState.selectedDeckIds = emptyList()
+                navigator.navigateToCardsEditorFromNavHost {
+                    val editableCard = EditableCard(
+                        event.searchCard.card,
+                        event.searchCard.deck
+                    )
+                    val editableCards: List<EditableCard> = listOf(editableCard)
+                    val cardsEditorState = State(editableCards)
+                    val cardsEditor = CardsEditorForEditingSpecificCards(
+                        state = cardsEditorState
+                    )
+                    CardsEditorDiScope.create(cardsEditor)
+                }
             }
         }
     }

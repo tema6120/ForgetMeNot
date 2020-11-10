@@ -99,7 +99,7 @@ class AddDeckController(
                             // asynchronous behavior issue
                             return
                         }
-                        navigator.navigateToCardsEditorFromHome {
+                        navigator.navigateToCardsEditorFromNavHost {
                             CardsEditorDiScope.create(cardsEditor)
                         }
                         screenState.howToAdd = null

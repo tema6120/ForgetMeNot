@@ -29,11 +29,6 @@ import kotlinx.coroutines.launch
 class Navigator : ActivityLifecycleCallbacks {
     private var navController: NavController? = null
 
-    fun navigateToSearchFromHome(createDiScope: () -> SearchDiScope) {
-        SearchDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_search_screen)
-    }
-
     fun navigateToExercise(createDiScope: () -> ExerciseDiScope) {
         ExerciseDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_exercise)
@@ -58,7 +53,7 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_exercise_screen_to_help_screen)
     }
 
-    fun navigateToCardsEditorFromHome(createDiScope: () -> CardsEditorDiScope) {
+    fun navigateToCardsEditorFromNavHost(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_cards_editor)
     }

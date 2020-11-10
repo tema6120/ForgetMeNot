@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.FoundCardClicked
 import kotlinx.android.synthetic.main.fragment_found_cards.*
 import kotlinx.coroutines.launch
 
@@ -21,7 +22,6 @@ class FoundCardsFragment : BaseFragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
-    private lateinit var adapter: FoundCardAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,11 +53,10 @@ class FoundCardsFragment : BaseFragment() {
     }
 
     private fun initAdapter() {
-        val onCardClicked: (SearchCard) -> Unit = {
-
+        val onCardClicked: (SearchCard) -> Unit = { searchCard: SearchCard ->
+            controller?.dispatch(FoundCardClicked(searchCard))
         }
-        adapter = FoundCardAdapter(onCardClicked)
-        cardsRecycler.adapter = adapter
+        cardsRecycler.adapter = FoundCardAdapter(onCardClicked)
     }
 
     private fun observeViewModel() {
@@ -67,11 +66,16 @@ class FoundCardsFragment : BaseFragment() {
                 searchingCardsProgressBar.isInvisible = !isSearching
             }
             foundCards.observe { cards: List<SearchCard> ->
-                adapter.items = cards
+                (cardsRecycler.adapter as  FoundCardAdapter).items = cards
             }
             cardsNotFound.observe { cardsNotFound: Boolean ->
                 emptyTextView.isVisible = cardsNotFound
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cardsRecycler.adapter = null
     }
 }
