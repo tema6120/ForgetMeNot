@@ -1,42 +1,30 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.appbar.AppBarLayout.Behavior
 import com.google.android.material.appbar.AppBarLayout.LayoutParams
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
-import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
-import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.Item.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
-import kotlinx.android.synthetic.main.item_deck_preview_header.view.*
 import kotlinx.coroutines.*
 
 class HomeFragment : BaseFragment() {
@@ -46,22 +34,15 @@ class HomeFragment : BaseFragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
-    private lateinit var filterDialog: Dialog
-    private lateinit var filterAdapter: ItemAdapter
     private var actionMode: ActionMode? = null
-    private var resumePauseCoroutineScope: CoroutineScope? = null
     private val fragmentCoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private lateinit var searchView: SearchView
-    private var searchViewText: String? = null
     private var pendingEvent: OutputStreamOpened? = null
-    private lateinit var deckPreviewAdapter: DeckPreviewAdapter
+    private var tabLayoutMediator: TabLayoutMediator? = null
+    private var pagerAdapter: HomePagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            searchViewText = savedInstanceState.getString(STATE_KEY_SEARCH_VIEW_TEXT)
-        }
         fragmentCoroutineScope.launch {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             diScope.viewModel.hasSelectedDecks.observe(
@@ -83,20 +64,7 @@ class HomeFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
-        initFilterDialog()
         return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    private fun initFilterDialog() {
-        filterDialog = ChoiceDialogCreator.create(
-            context = requireContext(),
-            title = getString(R.string.title_deckpreview_filter_dialog),
-            itemForm = AsCheckBox,
-            onItemClick = { controller?.dispatch(DisplayOnlyWithTasksCheckboxClicked) },
-            takeAdapter = { filterAdapter = it }
-        )
-        dialogTimeCapsule.register("filterDialog", filterDialog)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -106,42 +74,11 @@ class HomeFragment : BaseFragment() {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
-            initDeckPreviewAdapter()
             observeViewModel()
             controller!!.commands.observe(onEach = ::executeCommand)
             pendingEvent?.let(controller!!::dispatch)
             pendingEvent = null
         }
-    }
-
-    private fun initDeckPreviewAdapter() {
-        val setupHeader: (View) -> Unit = { header: View ->
-            header.filterButton.setOnClickListener {
-                filterDialog.show()
-            }
-            header.sortingButton.setOnClickListener {
-                DeckSortingBottomSheet()
-                    .show(childFragmentManager, "DeckSortingBottomSheet Tag")
-            }
-            viewModel.deckSorting.observe { deckSorting: DeckSorting ->
-                header.sortingButton.text = getString(
-                    when (deckSorting.criterion) {
-                        Name -> R.string.sort_by_name
-                        CreatedAt -> R.string.sort_by_time_created
-                        LastOpenedAt -> R.string.sort_by_time_last_opened
-                    }
-                )
-                val directionIconId: Int = when (deckSorting.direction) {
-                    Asc -> R.drawable.ic_arrow_upward
-                    Desc -> R.drawable.ic_arrow_downward
-                }
-                header.sortingButton.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_sorting, 0, directionIconId, 0
-                )
-            }
-        }
-        deckPreviewAdapter = DeckPreviewAdapter(controller!!, setupHeader)
-        decksPreviewRecycler.adapter = deckPreviewAdapter
     }
 
     private fun setupView() {
@@ -150,10 +87,7 @@ class HomeFragment : BaseFragment() {
                 .drawerLayout.openDrawer(GravityCompat.START)
         }
         searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            searchFrame.isSelected = hasFocus
-            updateDrawerButton(isSearchActivated = hasFocus)
-            updateSearchFrameScrollBehavior(isSearchActivated = hasFocus)
-            setLockModeOfDrawerLayout(isLocked = hasFocus)
+            setSearchMode(hasFocus)
         }
         searchEditText.observeText { newText: String ->
             controller?.dispatch(SearchTextChanged(newText))
@@ -162,22 +96,24 @@ class HomeFragment : BaseFragment() {
             (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
                 .addDeck()
         }
-        decksPreviewRecycler.addOnScrollListener(object : OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val canScrollUp = decksPreviewRecycler.canScrollVertically(-1)
-                divider.isVisible = canScrollUp
-            }
-        })
+        setupViewPager()
     }
 
-    private fun updateDrawerButton(isSearchActivated: Boolean) {
+    private fun setSearchMode(isSearchMode: Boolean) {
+        searchFrame.isSelected = isSearchMode
+        updateDrawerButton(isSearchMode)
+        updateSearchFrameScrollBehavior(isSearchMode)
+        setLockModeOfDrawerLayout(isLocked = isSearchMode)
+    }
+
+    private fun updateDrawerButton(isSearchMode: Boolean) {
         drawerButton.setImageResource(
-            if (isSearchActivated)
+            if (isSearchMode)
                 R.drawable.ic_arrow_back_colored else
                 R.drawable.ic_drawer_colored
         )
         drawerButton.setOnClickListener {
-            if (isSearchActivated) {
+            if (isSearchMode) {
                 searchEditText.hideSoftInput()
                 searchEditText.text.clear()
                 searchEditText.clearFocus()
@@ -188,17 +124,16 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun updateSearchFrameScrollBehavior(isSearchActivated: Boolean) {
+    private fun updateSearchFrameScrollBehavior(isSearchMode: Boolean) {
         val params = searchFrame.layoutParams as LayoutParams
         val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
-        if (isSearchActivated) {
+        if (isSearchMode) {
             params.scrollFlags = 0
             appBarLayoutParams.behavior = null
             appBarLayout.layoutParams = appBarLayoutParams
         } else {
             params.scrollFlags =
-                LayoutParams.SCROLL_FLAG_SCROLL or
-                        LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                LayoutParams.SCROLL_FLAG_SCROLL or LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
             appBarLayoutParams.behavior = Behavior()
             appBarLayout.layoutParams = appBarLayoutParams
         }
@@ -212,50 +147,83 @@ class HomeFragment : BaseFragment() {
         )
     }
 
+    private fun setupViewPager() {
+        homePager.offscreenPageLimit = 1
+        pagerAdapter = HomePagerAdapter(this)
+        homePager.adapter = pagerAdapter
+        tabLayoutMediator = TabLayoutMediator(
+            searchTabLayout,
+            homePager
+        ) { tab, position ->
+            val customTab: TextView = LayoutInflater.from(requireContext())
+                .inflate(R.layout.tab, null) as TextView
+            customTab.text = getString(
+                when (position) {
+                    0 -> R.string.tab_decks
+                    1 -> R.string.tab_cards
+                    else -> throw IllegalArgumentException("position must be in 0..1")
+                }
+            )
+            tab.customView = customTab
+        }.apply {
+            attach()
+        }
+    }
+
     private fun observeViewModel() {
         with(viewModel) {
-            isSearchTextEmpty.observe { isSearchTextEmpty: Boolean ->
-                updatePasteButton(isSearchTextEmpty)
-            }
             displayOnlyWithTasks.observe { displayOnlyDecksAvailableForExercise: Boolean ->
                 deckListTitleTextView.text = getString(
                     if (displayOnlyDecksAvailableForExercise)
                         R.string.deck_list_title_decks_available_for_exercise else
                         R.string.deck_list_title_all_decks
                 )
-
-                val item = object : Item {
-                    override val text = getString(R.string.filter_display_only_with_tasks)
-                    override val isSelected = displayOnlyDecksAvailableForExercise
-                }
-                filterAdapter.submitList(listOf(item))
+            }
+            hasSearchText.observe { hasSearchText: Boolean ->
+                updatePasteButton(hasSearchText)
+                updateTabsVisibility(areTabsVisible = hasSearchText)
+                updateFoundCardsFragmentVisibility(isFragmentVisible = hasSearchText)
             }
         }
     }
 
-    private fun updatePasteButton(isSearchTextEmpty: Boolean) {
+    private fun updatePasteButton(hasSearchText: Boolean) {
         with(pasteButton) {
             setImageResource(
-                if (isSearchTextEmpty)
-                    R.drawable.ic_paste_colored else
-                    R.drawable.ic_clear_colored
+                if (hasSearchText)
+                    R.drawable.ic_clear_colored else
+                    R.drawable.ic_paste_colored
             )
             setOnClickListener {
-                if (isSearchTextEmpty) {
-                    searchEditText.paste()
-                    searchEditText.requestFocus()
-                } else {
+                if (hasSearchText) {
                     searchEditText.text.clear()
                     searchEditText.showSoftInput()
+                } else {
+                    searchEditText.paste()
+                    searchEditText.requestFocus()
                 }
             }
             contentDescription = getString(
-                if (isSearchTextEmpty)
-                    R.string.description_paste_button else
-                    R.string.description_clear_button
+                if (hasSearchText)
+                    R.string.description_clear_button else
+                    R.string.description_paste_button
             )
             TooltipCompat.setTooltipText(this, contentDescription)
         }
+    }
+
+    private fun updateTabsVisibility(areTabsVisible: Boolean) {
+        deckListTitleTextView.isVisible = !areTabsVisible
+        addCardsButton.isVisible = !areTabsVisible
+        searchTabLayout.isVisible = areTabsVisible
+    }
+
+    private fun updateFoundCardsFragmentVisibility(isFragmentVisible: Boolean) {
+        (homePager.getChildAt(0) as RecyclerView).overScrollMode =
+            if (isFragmentVisible)
+                View.OVER_SCROLL_IF_CONTENT_SCROLLS else
+                View.OVER_SCROLL_NEVER
+        pagerAdapter?.isFoundCardsFragmentEnabled = isFragmentVisible
     }
 
     private fun executeCommand(command: HomeController.Command) {
@@ -323,116 +291,11 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.home_actions, menu)
-        val searchItem = menu.findItem(R.id.action_search)
-        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
-                setMenuItemsVisibility(false)
-                return true
-            }
-
-            override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
-                setMenuItemsVisibility(true)
-                requireActivity().invalidateOptionsMenu()
-                return true
-            }
-
-            fun setMenuItemsVisibility(visible: Boolean) {
-                for (i in 0 until menu.size()) {
-                    val item = menu.getItem(i)
-                    if (item !== searchItem)
-                        item.isVisible = visible
-                }
-            }
-        })
-        searchView = searchItem.actionView as SearchView
-        if (!searchViewText.isNullOrEmpty()) {
-            searchItem.expandActionView()
-            searchView.setQuery(searchViewText, false)
-            searchView.requestFocus()
-        }
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String) = false
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                controller?.dispatch(SearchTextChanged(newText))
-                return true
-            }
-        })
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_add_deck -> {
-                (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
-                    .addDeck()
-                true
-            }
-            R.id.action_sort_by -> {
-                DeckSortingBottomSheet().show(childFragmentManager, "DeckSortingBottomSheet Tag")
-                true
-            }
-            R.id.action_filter -> {
-                filterDialog.show()
-                true
-            }
-            R.id.action_settings -> {
-                controller?.dispatch(SettingsButtonClicked)
-                true
-            }
-            R.id.action_help -> {
-                controller?.dispatch(HelpButtonClicked)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-        resumePauseCoroutineScope!!.launch {
-            val diScope = HomeDiScope.getAsync() ?: return@launch
-            val viewModel = diScope.viewModel
-            with(viewModel) {
-                decksPreview.observe(
-                    resumePauseCoroutineScope!!
-                ) { decksPreview: List<DeckPreview> ->
-                    deckPreviewAdapter.submitItems(decksPreview)
-                    progressBar.visibility = View.GONE
-                }
-                deckSelectionCount.observe(
-                    resumePauseCoroutineScope!!
-                ) { deckSelectionCount: DeckSelectionCount ->
-                    val (cardsCount, decksCount) = deckSelectionCount
-                    actionMode?.title = getString(
-                        R.string.deck_selection_action_mode_title,
-                        cardsCount,
-                        decksCount
-                    )
-                }
-            }
-        }
-        hideActionBar()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        resumePauseCoroutineScope!!.cancel()
-        resumePauseCoroutineScope = null
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (::searchView.isInitialized) {
-            outState.putString(STATE_KEY_SEARCH_VIEW_TEXT, searchView.query.toString())
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
-        decksPreviewRecycler.adapter = null
+        pagerAdapter = null
+        tabLayoutMediator?.detach()
+        tabLayoutMediator = null
     }
 
     override fun onDestroy() {
@@ -482,7 +345,6 @@ class HomeFragment : BaseFragment() {
     }
 
     companion object {
-        const val STATE_KEY_SEARCH_VIEW_TEXT = "searchViewText"
         const val CREATE_FILE_REQUEST_CODE = 40
     }
 }

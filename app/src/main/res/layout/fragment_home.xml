@@ -42,6 +42,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="@string/hint_search_edittext"
+                    android:imeOptions="actionNone"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
@@ -62,16 +63,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="12dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="12dp"
-                android:paddingBottom="8dp">
+                android:paddingEnd="12dp">
 
             <TextView
                     android:id="@+id/deckListTitleTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
+                    android:layout_marginBottom="8dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/jura"
                     android:maxLines="3"
@@ -82,6 +82,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/deck_list_title_decks_available_for_exercise" />
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.55" />
 
             <TextView
                     android:id="@+id/addCardsButton"
@@ -108,52 +115,29 @@
                     app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline"
+            <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/searchTabLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.55" />
+                    android:background="@null"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicator="@drawable/tab_indicator"
+                    app:tabIndicatorColor="@color/colorAccent"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/colorAccent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/homePager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/decksPreviewRecycler"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layoutManager="LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_deck_preview" />
-
-        <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/decksPreviewRecycler"
-                app:layout_constraintEnd_toEndOf="@id/decksPreviewRecycler"
-                app:layout_constraintStart_toStartOf="@id/decksPreviewRecycler"
-                app:layout_constraintTop_toTopOf="@id/decksPreviewRecycler" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/addDeckFragment"

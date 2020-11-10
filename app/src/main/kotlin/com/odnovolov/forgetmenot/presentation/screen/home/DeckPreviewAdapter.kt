@@ -9,51 +9,23 @@ import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.highlight
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.Item
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.Item.DeckPreview
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
-import com.soywiz.klock.DateTime
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DeckPreviewAdapter(
     private val controller: HomeController,
     private val setupHeader: (View) -> Unit
-) : ListAdapter<Item, SimpleRecyclerViewHolder>(DiffCallback()) {
-
-    sealed class Item {
-        object Header : Item()
-
-        data class DeckPreview(
-            val deckId: Long,
-            val deckName: String,
-            val searchMatchingRanges: List<IntRange>?,
-            val averageLaps: Double,
-            val learnedCount: Int,
-            val totalCount: Int,
-            val numberOfCardsReadyForExercise: Int?,
-            val lastOpened: DateTime?,
-            val isSelected: Boolean
-        ) : Item()
-    }
-
+) : ListAdapter<DeckListItem, SimpleRecyclerViewHolder>(DiffCallback()) {
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_ITEM = 1
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position == 0) TYPE_HEADER else TYPE_ITEM
-    }
-
-    /*@ExperimentalStdlibApi*/
-    @OptIn(ExperimentalStdlibApi::class)
-    fun submitItems(items: List<DeckPreview>) {
-        val realItems = buildList {
-            add(Item.Header)
-            addAll(items)
-        }
-        super.submitList(realItems)
-    }
+    override fun getItemViewType(position: Int): Int =
+        if (getItem(position) == DeckListItem.Header)
+            TYPE_HEADER else
+            TYPE_ITEM
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -68,8 +40,9 @@ class DeckPreviewAdapter(
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
         with(viewHolder.itemView) {
-            if (position == 0) return
-            val deckPreview: DeckPreview = getItem(position) as DeckPreview
+            val deckListItem = getItem(position)
+            if (deckListItem == DeckListItem.Header) return
+            val deckPreview = deckListItem as DeckPreview
             deckButton.setOnClickListener {
                 controller.dispatch(DeckButtonClicked(deckPreview.deckId))
             }
@@ -123,8 +96,8 @@ class DeckPreviewAdapter(
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Item>() {
-        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<DeckListItem>() {
+        override fun areItemsTheSame(oldItem: DeckListItem, newItem: DeckListItem): Boolean {
             return when {
                 oldItem === newItem -> true
                 oldItem is DeckPreview && newItem is DeckPreview -> {
@@ -134,7 +107,7 @@ class DeckPreviewAdapter(
             }
         }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+        override fun areContentsTheSame(oldItem: DeckListItem, newItem: DeckListItem): Boolean {
             return oldItem == newItem
         }
     }

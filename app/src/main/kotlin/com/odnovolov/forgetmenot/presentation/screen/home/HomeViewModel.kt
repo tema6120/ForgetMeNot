@@ -4,8 +4,10 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.Item.DeckPreview
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
@@ -17,11 +19,12 @@ class HomeViewModel(
     homeScreenState: HomeScreenState,
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
-    controller: HomeController
+    controller: HomeController,
+    searcherState: CardsSearcher.State
 ) {
-    val isSearchTextEmpty: Flow<Boolean> =
+    val hasSearchText: Flow<Boolean> =
         homeScreenState.flowOf(HomeScreenState::searchText)
-            .map { it.isEmpty() }
+            .map { it.isNotEmpty() }
             .distinctUntilChanged()
 
     val hasSelectedDecks: Flow<Boolean> =
@@ -35,7 +38,7 @@ class HomeViewModel(
     val deckSorting: Flow<DeckSorting> =
         deckReviewPreference.flowOf(DeckReviewPreference::deckSorting)
 
-    val decksPreview: Flow<List<DeckPreview>> = combine(
+    private val decksPreview: Flow<List<DeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
         homeScreenState.flowOf(HomeScreenState::searchText),
         homeScreenState.flowOf(HomeScreenState::selectedDeckIds),
@@ -51,7 +54,7 @@ class HomeViewModel(
             .filterBy(searchText)
             .sortBy(deckSorting)
             .mapToDeckPreview(selectedDeckIds, searchText)
-            .filterBy(displayOnlyWithTasks)
+            .run { if (searchText.isEmpty()) filterBy(displayOnlyWithTasks) else this }
     }
         .flowOn(Dispatchers.Default)
         .share()
@@ -148,6 +151,39 @@ class HomeViewModel(
                 DeckSelectionCount(selectedCardsCount, selectedDecksCount)
             }
         }
+
+    @OptIn(ExperimentalStdlibApi::class)
+    val deckListItem: Flow<List<DeckListItem>> = combine(
+        decksPreview,
+        hasSearchText
+    ) { decksPreview: List<DeckPreview>, hasSearchText: Boolean ->
+        if (hasSearchText) {
+            decksPreview
+        } else {
+            buildList {
+                add(DeckListItem.Header)
+                addAll(decksPreview)
+            }
+        }
+    }
+
+    val decksNotFound: Flow<Boolean> = combine(
+        hasSearchText,
+        decksPreview
+    ) { hasSearchText: Boolean, decksPreview: List<DeckPreview> ->
+        hasSearchText && decksPreview.isEmpty()
+    }
+
+    val isSearching: Flow<Boolean> = searcherState.flowOf(CardsSearcher.State::isSearching)
+
+    val foundCards: Flow<List<SearchCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
+
+    val cardsNotFound: Flow<Boolean> = combine(
+        hasSearchText,
+        foundCards
+    ) { hasSearchText: Boolean, foundCards: List<SearchCard> ->
+        hasSearchText && foundCards.isEmpty()
+    }
 
     init {
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->

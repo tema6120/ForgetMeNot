@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -27,12 +28,17 @@ class HomeDiScope private constructor(
 
     private val exerciseStateCreator = ExerciseStateCreator(AppDiScope.get().globalState)
 
+    private val cardsSearcher = CardsSearcher(
+        AppDiScope.get().globalState
+    )
+
     val controller = HomeController(
         homeScreenState,
         deckReviewPreference,
         DeckExporter(),
         deckRemover,
         exerciseStateCreator,
+        cardsSearcher,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
@@ -43,7 +49,8 @@ class HomeDiScope private constructor(
         homeScreenState,
         AppDiScope.get().globalState,
         deckReviewPreference,
-        controller
+        controller,
+        cardsSearcher.state
     )
 
     companion object : DiScopeManager<HomeDiScope>() {
@@ -57,6 +64,7 @@ class HomeDiScope private constructor(
 
         override fun onCloseDiScope(diScope: HomeDiScope) {
             diScope.controller.dispose()
+            diScope.cardsSearcher.dispose()
         }
     }
 }

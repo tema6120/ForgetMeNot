@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
-import com.odnovolov.forgetmenot.domain.interactor.searcher.Searcher
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
@@ -8,24 +8,24 @@ import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 class SearchDiScope(
     initialSearchText: String = ""
 ) {
-    private val searcher: Searcher =
+    private val cardsSearcher: CardsSearcher =
         if (DeckSetupDiScope.isOpen()) {
             val deck = DeckSetupDiScope.shareDeck()
-            Searcher(deck)
+            CardsSearcher(deck)
         } else {
             val globalState = AppDiScope.get().globalState
-            Searcher(globalState)
+            CardsSearcher(globalState)
         }
 
     val controller = SearchController(
-        searcher,
+        cardsSearcher,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 
     val viewModel = SearchViewModel(
         initialSearchText,
-        searcher.state
+        cardsSearcher.state
     )
 
     companion object : DiScopeManager<SearchDiScope>() {
@@ -33,7 +33,7 @@ class SearchDiScope(
 
         override fun onCloseDiScope(diScope: SearchDiScope) {
             diScope.controller.dispose()
-            diScope.searcher.dispose()
+            diScope.cardsSearcher.dispose()
         }
     }
 }

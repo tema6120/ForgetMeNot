@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import kotlinx.coroutines.*
 
-class Searcher {
+class CardsSearcher {
     constructor(globalState: GlobalState) {
         allCards = globalState.decks.flatMap { deck: Deck -> decomposeDeck(deck) }
     }

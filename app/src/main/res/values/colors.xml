@@ -41,4 +41,7 @@
     <color name="background_progress_indicator">#2400BDA6</color>
     <color name="background_task_indicator">#24A70060</color>
     <color name="text_color_deck_list_title">#404040</color>
+    <color name="tab_text_selected">#404040</color>
+    <color name="tab_text_unselected">#66404040</color>
+    <color name="text_no_search_result">#40404040</color>
 </resources>

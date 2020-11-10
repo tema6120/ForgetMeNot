@@ -10,6 +10,7 @@
             android:layout_height="wrap_content"
             android:elevation="4dp"
             app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicator="@drawable/tab_indicator"
             app:tabSelectedTextColor="@color/colorAccent" />
 
     <androidx.viewpager2.widget.ViewPager2

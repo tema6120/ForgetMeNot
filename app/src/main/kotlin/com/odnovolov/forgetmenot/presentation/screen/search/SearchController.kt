@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
-import com.odnovolov.forgetmenot.domain.interactor.searcher.Searcher
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -17,7 +17,7 @@ import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScop
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.*
 
 class SearchController(
-    private val searcher: Searcher,
+    private val searcher: CardsSearcher,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<SearchEvent, Nothing>() {

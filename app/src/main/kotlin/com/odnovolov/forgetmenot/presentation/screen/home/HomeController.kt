@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -36,6 +37,7 @@ class HomeController(
     private val deckExporter: DeckExporter,
     private val deckRemover: DeckRemover,
     private val exerciseStateCreator: ExerciseStateCreator,
+    private val cardsSearcher: CardsSearcher,
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
@@ -67,6 +69,7 @@ class HomeController(
         when (event) {
             is SearchTextChanged -> {
                 homeScreenState.searchText = event.searchText
+                cardsSearcher.search(event.searchText)
             }
 
             SearchInCardsButtonClicked -> {

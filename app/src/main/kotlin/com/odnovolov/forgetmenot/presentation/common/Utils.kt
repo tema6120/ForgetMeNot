@@ -130,7 +130,7 @@ fun View.uncover() {
 
 inline fun <T> Flow<T>.observe(
     coroutineScope: CoroutineScope,
-    crossinline onEach: (value: T) -> Unit
+    crossinline onEach: (value: T) -> Unit = {}
 ) {
     coroutineScope.launch {
         collect {
