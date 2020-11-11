@@ -8,15 +8,15 @@ import kotlinx.coroutines.*
 
 class CardsSearcher {
     constructor(globalState: GlobalState) {
-        allCards = globalState.decks.flatMap { deck: Deck -> decomposeDeck(deck) }
+        getAllCards = { globalState.decks.flatMap { deck: Deck -> decomposeDeck(deck) } }
     }
 
     constructor(deck: Deck) {
-        allCards = decomposeDeck(deck)
+        getAllCards = { decomposeDeck(deck) }
     }
 
     val state = State()
-    private val allCards: List<Pair<Card, Deck>>
+    private val getAllCards: () -> List<Pair<Card, Deck>>
     private val coroutineScope = CoroutineScope(newSingleThreadContext("SearchThread"))
     private var searchJob: Job? = null
 
@@ -34,7 +34,7 @@ class CardsSearcher {
             }
             state.isSearching = true
             val searchResult: MutableList<SearchCard> = ArrayList()
-            allCards.forEach { (card: Card, deck: Deck) ->
+            getAllCards().forEach { (card: Card, deck: Deck) ->
                 val questionMatchingRanges: List<IntRange> = findMatchingRange(card.question, text)
                 val answerMatchingRanges: List<IntRange> = findMatchingRange(card.answer, text)
                 if (questionMatchingRanges.isNotEmpty() || answerMatchingRanges.isNotEmpty()) {

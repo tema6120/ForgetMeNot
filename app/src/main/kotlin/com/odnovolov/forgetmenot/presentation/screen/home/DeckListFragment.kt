@@ -119,6 +119,7 @@ class DeckListFragment : BaseFragment() {
             }
             decksNotFound.observe { decksNotFound: Boolean ->
                 emptyTextView.isVisible = decksNotFound
+                progressBar.visibility = View.GONE
             }
         }
     }

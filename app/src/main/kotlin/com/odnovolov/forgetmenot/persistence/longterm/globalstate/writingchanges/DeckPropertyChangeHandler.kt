@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges
 
+import android.util.Log
+import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.ListChange
@@ -38,9 +40,24 @@ class DeckPropertyChangeHandler(
                 change.removedItemsAt.forEach { ordinal: Int ->
                     database.cardQueries.delete(deckId, ordinal)
                 }
-                change.movedItemsAt.forEach { (oldOrdinal: Int, newOrdinal: Int) ->
-                    database.cardQueries.updateOrdinal(newOrdinal, deckId, oldOrdinal)
-                }
+                change.movedItemsAt
+                    .mapNotNull { (oldOrdinal: Int, newOrdinal: Int) ->
+                        val cardId: Long = try {
+                            database.cardQueries
+                                .selectIdByDeckIdAndOrdinal(deckId, oldOrdinal)
+                                .executeAsOne()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            if (BuildConfig.DEBUG) {
+                                Log.w("db", "CANNOT UPDATE ordinal: ${e.message}")
+                            }
+                            return@mapNotNull null
+                        }
+                        cardId to newOrdinal
+                    }
+                    .forEach { (cardId: Long, newOrdinal: Int) ->
+                        database.cardQueries.updateOrdinal(newOrdinal, cardId)
+                    }
                 (change.addedItems as Map<Int, Card>).forEach { (ordinal, card) ->
                     val cardDb = card.toCardDb(deckId, ordinal)
                     database.cardQueries.insert(cardDb)

@@ -20,8 +20,11 @@ INSERT INTO CardDb VALUES ?;
 selectAll:
 SELECT * FROM CardDb ORDER BY ordinal;
 
+selectIdByDeckIdAndOrdinal:
+SELECT id FROM CardDb WHERE deckId = ? AND ordinal = ?;
+
 updateOrdinal:
-UPDATE CardDb SET ordinal = ? WHERE deckId = ? AND ordinal = ?;
+UPDATE CardDb SET ordinal = ? WHERE id = ?;
 
 updateQuestion:
 UPDATE CardDb SET question = ? WHERE id = ?;
