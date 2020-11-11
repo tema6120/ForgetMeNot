@@ -61,7 +61,7 @@ class FoundCardsFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            isSearching.observe { isSearching: Boolean ->
+            areCardsBeingSearched.observe { isSearching: Boolean ->
                 cardsRecycler.isInvisible = isSearching
                 searchingCardsProgressBar.isInvisible = !isSearching
             }

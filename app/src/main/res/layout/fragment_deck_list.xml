@@ -45,6 +45,8 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="gone"
+            app:drawableTint="@color/text_no_search_result"
+            app:drawableTopCompat="@drawable/ic_round_search_24"
             app:layout_constraintBottom_toBottomOf="@id/decksPreviewRecycler"
             app:layout_constraintEnd_toEndOf="@id/decksPreviewRecycler"
             app:layout_constraintStart_toStartOf="@id/decksPreviewRecycler"

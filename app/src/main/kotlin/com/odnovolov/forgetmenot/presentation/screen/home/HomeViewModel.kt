@@ -174,15 +174,16 @@ class HomeViewModel(
         hasSearchText && decksPreview.isEmpty()
     }
 
-    val isSearching: Flow<Boolean> = searcherState.flowOf(CardsSearcher.State::isSearching)
+    val areCardsBeingSearched: Flow<Boolean> = searcherState.flowOf(CardsSearcher.State::isSearching)
 
     val foundCards: Flow<List<SearchCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
 
     val cardsNotFound: Flow<Boolean> = combine(
         hasSearchText,
+        areCardsBeingSearched,
         foundCards
-    ) { hasSearchText: Boolean, foundCards: List<SearchCard> ->
-        hasSearchText && foundCards.isEmpty()
+    ) { hasSearchText: Boolean, areCardsBeingSearched: Boolean, foundCards: List<SearchCard> ->
+        hasSearchText && !areCardsBeingSearched && foundCards.isEmpty()
     }
 
     init {

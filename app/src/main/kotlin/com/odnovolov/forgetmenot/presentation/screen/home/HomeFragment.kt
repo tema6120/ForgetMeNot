@@ -298,7 +298,9 @@ class HomeFragment : BaseFragment() {
         super.onResume()
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptorForCancelSearch)
         if (searchEditText.text.isNotEmpty()) {
-            searchEditText.requestFocus()
+            searchEditText.post {
+                searchEditText.requestFocus()
+            }
         }
     }
 
