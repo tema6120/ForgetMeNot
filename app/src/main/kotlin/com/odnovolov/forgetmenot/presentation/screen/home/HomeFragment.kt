@@ -15,10 +15,12 @@ import com.google.android.material.appbar.AppBarLayout.LayoutParams
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
@@ -28,6 +30,7 @@ import kotlinx.android.synthetic.main.fragment_home.pasteButton
 import kotlinx.android.synthetic.main.fragment_home.searchEditText
 import kotlinx.android.synthetic.main.fragment_nav_host.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 class HomeFragment : BaseFragment() {
     init {
@@ -41,6 +44,7 @@ class HomeFragment : BaseFragment() {
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var pendingEvent: OutputStreamOpened? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
+    private var isSearchingAfterPasteButtonClicked: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +96,7 @@ class HomeFragment : BaseFragment() {
         }
         searchEditText.observeText { newText: String ->
             controller?.dispatch(SearchTextChanged(newText))
+            isSearchingAfterPasteButtonClicked = false
         }
         addCardsButton.setOnClickListener {
             (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
@@ -188,6 +193,17 @@ class HomeFragment : BaseFragment() {
                 updateTabsVisibility(areTabsVisible = hasSearchText)
                 updateFoundCardsFragmentVisibility(isFragmentVisible = hasSearchText)
             }
+            combine(decksPreview, foundCards) { foundDecks: List<DeckPreview>,
+                                                foundCards: List<SearchCard>
+                ->
+                if (isSearchingAfterPasteButtonClicked
+                    && foundDecks.isEmpty()
+                    && foundCards.isNotEmpty()
+                    && homePager.isUserInputEnabled
+                ) {
+                    homePager.setCurrentItem(1, true)
+                }
+            }.observe()
         }
     }
 
@@ -205,6 +221,7 @@ class HomeFragment : BaseFragment() {
                 } else {
                     searchEditText.paste()
                     searchEditText.requestFocus()
+                    isSearchingAfterPasteButtonClicked = true
                 }
             }
             contentDescription = getString(

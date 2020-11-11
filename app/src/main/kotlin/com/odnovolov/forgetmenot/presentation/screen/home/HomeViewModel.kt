@@ -38,7 +38,7 @@ class HomeViewModel(
     val deckSorting: Flow<DeckSorting> =
         deckReviewPreference.flowOf(DeckReviewPreference::deckSorting)
 
-    private val decksPreview: Flow<List<DeckPreview>> = combine(
+    val decksPreview: Flow<List<DeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
         homeScreenState.flowOf(HomeScreenState::searchText),
         homeScreenState.flowOf(HomeScreenState::selectedDeckIds),
@@ -174,7 +174,8 @@ class HomeViewModel(
         hasSearchText && decksPreview.isEmpty()
     }
 
-    val areCardsBeingSearched: Flow<Boolean> = searcherState.flowOf(CardsSearcher.State::isSearching)
+    val areCardsBeingSearched: Flow<Boolean> =
+        searcherState.flowOf(CardsSearcher.State::isSearching)
 
     val foundCards: Flow<List<SearchCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
 
