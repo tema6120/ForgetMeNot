@@ -4,7 +4,7 @@
     <item
             android:id="@+id/action_start_exercise"
             android:icon="@drawable/ic_study_white_24dp"
-            android:title="@string/action_start_exercise"
+            android:title="@string/start_exercise"
             app:showAsAction="ifRoom" />
 
     <item

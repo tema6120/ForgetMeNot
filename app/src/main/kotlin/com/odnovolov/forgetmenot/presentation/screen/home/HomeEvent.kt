@@ -6,20 +6,31 @@ import java.io.OutputStream
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
     object DisplayOnlyWithTasksCheckboxClicked : HomeEvent()
-    object SettingsButtonClicked : HomeEvent()
-    object HelpButtonClicked : HomeEvent()
+    class FileForExportDeckIsReady(val outputStream: OutputStream) : HomeEvent()
+    object DecksRemovedSnackbarCancelButtonClicked : HomeEvent()
+
+    // Selection toolbar:
+    object SelectionCancelled : HomeEvent()
+    object SelectAllDecksButtonClicked : HomeEvent()
+    object RemoveDecksButtonClicked : HomeEvent()
+
+    // Deck item:
     class DeckButtonClicked(val deckId: Long) : HomeEvent()
     class DeckButtonLongClicked(val deckId: Long) : HomeEvent()
-    class RepetitionModeMenuItemClicked(val deckId: Long) : HomeEvent()
-    object RepetitionModeMultiSelectMenuItemClicked : HomeEvent()
-    class SetupDeckMenuItemClicked(val deckId: Long) : HomeEvent()
-    class ExportMenuItemClicked(val deckId: Long) : HomeEvent()
-    class OutputStreamOpened(val outputStream: OutputStream) : HomeEvent()
-    class RemoveDeckMenuItemClicked(val deckId: Long) : HomeEvent()
-    object DecksRemovedSnackbarCancelActionClicked : HomeEvent()
-    object StartExerciseMenuItemClicked : HomeEvent()
-    object SelectAllDecksMenuItemClicked : HomeEvent()
-    object RemoveDecksMenuItemClicked : HomeEvent()
-    object ActionModeFinished : HomeEvent()
+    class DeckSelectorClicked(val deckId: Long) : HomeEvent()
+
+    // Deck options:
+    class StartExerciseDeckOptionSelected(val deckId: Long) : HomeEvent()
+    class AutoplayDeckOptionSelected(val deckId: Long) : HomeEvent()
+    class ShowCardsDeckOptionSelected(val deckId: Long) : HomeEvent()
+    class SetupDeckOptionSelected(val deckId: Long) : HomeEvent()
+    class ExportDeckOptionSelected(val deckId: Long) : HomeEvent()
+    class RemoveDeckOptionSelected(val deckId: Long) : HomeEvent()
+
+    // Bottom buttons:
+    object AutoplayButtonClicked : HomeEvent()
+    object ExerciseButtonClicked : HomeEvent()
+
+    // Card item:
     class FoundCardClicked(val searchCard: SearchCard) : HomeEvent()
 }

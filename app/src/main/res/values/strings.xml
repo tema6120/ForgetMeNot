@@ -43,12 +43,14 @@
     <string name="description_search_in_cards_button">Search in cards</string>
     <string name="description_export_button">Export to file</string>
     <string name="description_search_button">Search</string>
+    <string name="description_drawer_button">Open navigation menu</string>
+    <string name="description_back_button2">Back</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
-    <string name="action_sort_by">Sort by</string>
+    <string name="action_sort_by">Sort by</string>`
     <string name="action_filter">Filter</string>
-    <string name="action_start_exercise">Start exercise</string>
+    <string name="start_exercise">Start exercise</string>
     <string name="action_select_all_decks">Select all decks</string>
     <string name="action_remove_decks">Remove decks</string>
     <string name="action_rename_deck">Rename deck</string>
@@ -553,4 +555,15 @@
     <string name="tab_cards">Cards</string>
     <string name="no_matching_decks">No matching decks</string>
     <string name="no_matching_cards">No matching cards</string>
+    <string name="description_cancel_selection">Cancel selection</string>
+    <string name="description_select_all">Select all</string>
+    <string name="description_remove_decks">Remove decks</string>
+    <string name="description_more_options">More options</string>
+    <string name="text_autoplay_button">Autoplay</string>
+    <string name="text_exercise_button">Exercise</string>
+    <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
+    <plurals name="number_of_selected_decks">
+        <item quantity="one">%d deck</item>
+        <item quantity="other">%d decks</item>
+    </plurals>
 </resources>

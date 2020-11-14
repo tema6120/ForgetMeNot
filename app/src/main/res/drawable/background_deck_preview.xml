@@ -1,5 +1,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/selected_item_background" android:state_selected="true" />
+    <item android:state_selected="true">
+        <shape>
+            <corners android:radius="4dp" />
+            <solid android:color="@android:color/white" />
+            <stroke android:width="1.5dp" android:color="@color/colorAccent" />
+        </shape>
+    </item>
     <item>
         <shape>
             <corners android:radius="4dp" />

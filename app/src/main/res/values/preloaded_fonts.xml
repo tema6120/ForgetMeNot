@@ -3,5 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/comfortaa</item>
         <item>@font/jura</item>
+        <item>@font/nunito_bold</item>
+        <item>@font/nunito_extrabold</item>
     </array>
 </resources>

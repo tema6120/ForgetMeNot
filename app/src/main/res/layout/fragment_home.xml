@@ -32,7 +32,9 @@
                     android:id="@+id/drawerButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
                     android:background="@drawable/ripple_borderless_colored"
+                    android:contentDescription="@string/description_drawer_button"
                     app:srcCompat="@drawable/ic_drawer_colored" />
 
             <EditText
@@ -53,6 +55,7 @@
                     android:id="@+id/pasteButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
                     android:background="@drawable/ripple_borderless_colored"
                     android:contentDescription="@string/description_paste_button"
                     app:srcCompat="@drawable/ic_paste_colored" />
@@ -60,6 +63,7 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="12dp"
@@ -131,13 +135,139 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+                android:id="@+id/selectionToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorAccent"
+                android:elevation="4dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_scrollFlags="noScroll"
+                tools:visibility="visible">
+
+            <ImageButton
+                    android:id="@+id/cancelSelectionButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_cancel_selection"
+                    app:srcCompat="@drawable/ic_round_clear_24" />
+
+            <TextView
+                    android:id="@+id/numberOfSelectedDecksTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunito_bold"
+                    android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    tools:text="43 decks" />
+
+            <ImageButton
+                    android:id="@+id/selectAllButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_select_all"
+                    app:srcCompat="@drawable/ic_round_select_all_24" />
+
+            <ImageButton
+                    android:id="@+id/removeDecksButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_remove_decks"
+                    app:srcCompat="@drawable/ic_round_delete_outline_24" />
+
+            <ImageButton
+                    android:id="@+id/selectionOptionsButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_more_options"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_round_more_vert_24"
+                    tools:visibility="visible" />
+
+        </LinearLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/homePager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:layout="@layout/fragment_deck_list" />
+
+    <LinearLayout
+            android:id="@+id/bottomButtonsRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            app:layout_behavior="com.odnovolov.forgetmenot.presentation.common.MoveUpwardBehavior">
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/autoplayButton"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:gravity="center"
+                android:outlineAmbientShadowColor="@color/colorAccent"
+                android:outlineSpotShadowColor="@color/colorAccent"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@string/text_autoplay_button"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                app:backgroundTint="@android:color/white"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_play"
+                app:iconGravity="textStart"
+                app:iconPadding="2dp"
+                app:iconSize="16dp"
+                app:iconTint="@color/colorAccent"
+                app:rippleColor="@color/colorAccent"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/exerciseButton"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:gravity="center"
+                android:outlineAmbientShadowColor="@color/colorAccent"
+                android:outlineSpotShadowColor="@color/colorAccent"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@string/text_exercise_button"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:backgroundTint="@color/colorAccent"
+                app:cornerRadius="16dp" />
+
+    </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/addDeckFragment"

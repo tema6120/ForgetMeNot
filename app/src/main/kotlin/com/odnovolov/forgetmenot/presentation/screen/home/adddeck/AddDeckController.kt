@@ -43,7 +43,7 @@ class AddDeckController(
     override fun handle(event: AddDeckEvent) {
         when (event) {
             HelpLoadFromFileButtonClicked -> {
-                navigator.navigateToHelpFromHome {
+                navigator.navigateToHelpFromNavHost {
                     HelpDiScope(HelpArticle.ImportOfDeck)
                 }
             }
@@ -115,7 +115,7 @@ class AddDeckController(
     }
 
     private fun navigateToDeckSetup(deck: Deck) {
-        navigator.navigateToDeckSetupFromHome {
+        navigator.navigateToDeckSetupFromNavHost {
             val deckEditorState = State(deck)
             DeckSetupDiScope.create(
                 DeckSetupScreenState(deck),

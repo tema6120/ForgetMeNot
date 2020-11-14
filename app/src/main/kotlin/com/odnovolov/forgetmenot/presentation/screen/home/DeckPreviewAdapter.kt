@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
@@ -20,20 +21,29 @@ class DeckPreviewAdapter(
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_ITEM = 1
+        private const val TYPE_FOOTER = 2
     }
 
     override fun getItemViewType(position: Int): Int =
-        if (getItem(position) == DeckListItem.Header)
-            TYPE_HEADER else
-            TYPE_ITEM
+        when (getItem(position)) {
+            DeckListItem.Header -> TYPE_HEADER
+            DeckListItem.Footer -> TYPE_FOOTER
+            else -> TYPE_ITEM
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = if (viewType == TYPE_HEADER) {
-            layoutInflater.inflate(R.layout.item_deck_preview_header, parent, false)
-                .also(setupHeader)
-        } else {
-            layoutInflater.inflate(R.layout.item_deck_preview, parent, false)
+        val view = when (viewType) {
+            TYPE_HEADER -> {
+                layoutInflater.inflate(R.layout.item_deck_preview_header, parent, false)
+                    .also(setupHeader)
+            }
+            TYPE_FOOTER -> {
+                layoutInflater.inflate(R.layout.item_deck_preview_footer, parent, false)
+            }
+            else -> {
+                layoutInflater.inflate(R.layout.item_deck_preview, parent, false)
+            }
         }
         return SimpleRecyclerViewHolder(view)
     }
@@ -41,7 +51,9 @@ class DeckPreviewAdapter(
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
         with(viewHolder.itemView) {
             val deckListItem = getItem(position)
-            if (deckListItem == DeckListItem.Header) return
+            when(deckListItem) {
+                DeckListItem.Header, DeckListItem.Footer -> return
+            }
             val deckPreview = deckListItem as DeckPreview
             deckButton.setOnClickListener {
                 controller.dispatch(DeckButtonClicked(deckPreview.deckId))
@@ -59,12 +71,17 @@ class DeckPreviewAdapter(
             deckOptionButton.setOnClickListener { view: View ->
                 showOptionMenu(view, deckPreview.deckId)
             }
+            deckSelector.setOnClickListener {
+                controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
+            }
             avgLapsValueTextView.text = "%.1f".format(deckPreview.averageLaps)
             val progress = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
             learnedValueTextView.text = progress
             taskValueTextView.text = deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
             lastOpenedValueTextView.text = deckPreview.lastOpened?.format("MMM d") ?: "-"
-            isSelected = deckPreview.isSelected
+            isSelected = deckPreview.isSelected == true
+            deckOptionButton.isVisible = deckPreview.isSelected == null
+            deckSelector.isVisible = deckPreview.isSelected != null
         }
     }
 
@@ -73,20 +90,24 @@ class DeckPreviewAdapter(
             inflate(R.menu.deck_preview_actions)
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
+                    R.id.startExerciseMenuItem -> {
+                        controller.dispatch(StartExerciseDeckOptionSelected(deckId))
+                        true
+                    }
                     R.id.repetitionModeMenuItem -> {
-                        controller.dispatch(RepetitionModeMenuItemClicked(deckId))
+                        controller.dispatch(AutoplayDeckOptionSelected(deckId))
                         true
                     }
                     R.id.setupDeckMenuItem -> {
-                        controller.dispatch(SetupDeckMenuItemClicked(deckId))
+                        controller.dispatch(SetupDeckOptionSelected(deckId))
                         true
                     }
                     R.id.exportMenuItem -> {
-                        controller.dispatch(ExportMenuItemClicked(deckId))
+                        controller.dispatch(ExportDeckOptionSelected(deckId))
                         true
                     }
                     R.id.removeDeckMenuItem -> {
-                        controller.dispatch(RemoveDeckMenuItemClicked(deckId))
+                        controller.dispatch(RemoveDeckOptionSelected(deckId))
                         true
                     }
                     else -> false

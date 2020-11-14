@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider.SerializableHomeScreenState
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSelection
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -20,7 +21,7 @@ class HomeScreenStateProvider(
     @Serializable
     data class SerializableHomeScreenState(
         val searchText: String,
-        val selectedDeckIds: List<Long>,
+        val deckSelection: DeckSelection?,
         val exportedDeckId: Long?
     )
 
@@ -28,7 +29,7 @@ class HomeScreenStateProvider(
 
     override fun toSerializable(state: HomeScreenState) = SerializableHomeScreenState(
         state.searchText,
-        state.selectedDeckIds,
+        state.deckSelection,
         state.exportedDeck?.id
     )
 
@@ -38,7 +39,7 @@ class HomeScreenStateProvider(
         }
         return HomeScreenState().apply {
             searchText = serializableState.searchText
-            selectedDeckIds = serializableState.selectedDeckIds
+            deckSelection = serializableState.deckSelection
             exportedDeck = exportDeck
         }
     }

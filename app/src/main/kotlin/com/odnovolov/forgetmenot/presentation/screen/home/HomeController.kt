@@ -23,12 +23,10 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsDiScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -79,53 +77,7 @@ class HomeController(
                 with(deckReviewPreference) { displayOnlyWithTasks = !displayOnlyWithTasks }
             }
 
-            SettingsButtonClicked -> {
-                homeScreenState.selectedDeckIds = emptyList()
-                navigator.navigateToSettings { SettingsDiScope() }
-            }
-
-            HelpButtonClicked -> {
-                homeScreenState.selectedDeckIds = emptyList()
-                navigator.navigateToHelpFromHome { HelpDiScope() }
-            }
-
-            is DeckButtonClicked -> {
-                if (homeScreenState.selectedDeckIds.isNotEmpty()) {
-                    toggleDeckSelection(event.deckId)
-                } else {
-                    startExercise(deckIds = listOf(event.deckId))
-                }
-            }
-
-            is DeckButtonLongClicked -> {
-                toggleDeckSelection(event.deckId)
-            }
-
-            is RepetitionModeMenuItemClicked -> {
-                startRepetitionSettings(deckIds = listOf(event.deckId))
-            }
-
-            RepetitionModeMultiSelectMenuItemClicked -> {
-                startRepetitionSettings(homeScreenState.selectedDeckIds)
-            }
-
-            is SetupDeckMenuItemClicked -> {
-                homeScreenState.selectedDeckIds = emptyList()
-                navigator.navigateToDeckSetupFromHome {
-                    val deck: Deck = globalState.decks.first { it.id == event.deckId }
-                    val deckEditorState = DeckEditor.State(deck)
-                    DeckSetupDiScope.create(DeckSetupScreenState(deck), deckEditorState)
-                }
-            }
-
-            is ExportMenuItemClicked -> {
-                val deck: Deck = globalState.decks.first { it.id == event.deckId }
-                homeScreenState.exportedDeck = deck
-                val fileName = deck.name
-                sendCommand(ShowCreateFileDialog(fileName))
-            }
-
-            is OutputStreamOpened -> {
+            is FileForExportDeckIsReady -> {
                 try {
                     deckExporter.export(
                         deck = homeScreenState.exportedDeck ?: return,
@@ -137,33 +89,108 @@ class HomeController(
                 }
             }
 
-            is RemoveDeckMenuItemClicked -> {
-                deckRemover.removeDeck(event.deckId)
-            }
-
-            DecksRemovedSnackbarCancelActionClicked -> {
+            DecksRemovedSnackbarCancelButtonClicked -> {
                 deckRemover.restoreDecks()
             }
 
-            StartExerciseMenuItemClicked -> {
-                startExercise(homeScreenState.selectedDeckIds)
+            SelectionCancelled -> {
+                homeScreenState.deckSelection = null
             }
 
-            SelectAllDecksMenuItemClicked -> {
-                homeScreenState.selectedDeckIds = displayedDeckIds.firstBlocking()
+            SelectAllDecksButtonClicked -> {
+                val allDisplayedDeckIds: List<Long> = displayedDeckIds.firstBlocking()
+                homeScreenState.deckSelection =
+                    homeScreenState.deckSelection?.copy(selectedDeckIds = allDisplayedDeckIds)
             }
 
-            RemoveDecksMenuItemClicked -> {
-                deckRemover.removeDecks(homeScreenState.selectedDeckIds)
-                homeScreenState.selectedDeckIds = emptyList()
+            RemoveDecksButtonClicked -> {
+                val deckIdsToRemove: List<Long> =
+                    homeScreenState.deckSelection?.selectedDeckIds ?: return
+                deckRemover.removeDecks(deckIdsToRemove)
+                homeScreenState.deckSelection = null
             }
 
-            ActionModeFinished -> {
-                homeScreenState.selectedDeckIds = emptyList()
+            is DeckButtonClicked -> {
+                if (homeScreenState.deckSelection != null) {
+                    toggleDeckSelection(event.deckId)
+                } else {
+                    navigateToDeckSetup(event.deckId)
+                }
+            }
+
+            is DeckButtonLongClicked -> {
+                toggleDeckSelection(event.deckId)
+            }
+
+            is DeckSelectorClicked -> {
+                toggleDeckSelection(event.deckId)
+            }
+
+            is StartExerciseDeckOptionSelected -> {
+                startExercise(deckIds = listOf(event.deckId))
+            }
+
+            is AutoplayDeckOptionSelected -> {
+                navigateToAutoplaySettings(deckIds = listOf(event.deckId))
+            }
+
+            is ShowCardsDeckOptionSelected -> {
+                navigateToDeckSetup(event.deckId)
+            }
+
+            is SetupDeckOptionSelected -> {
+                navigateToDeckSetup(event.deckId)
+            }
+
+            is ExportDeckOptionSelected -> {
+                val deck: Deck = globalState.decks.first { it.id == event.deckId }
+                homeScreenState.exportedDeck = deck
+                val fileName = deck.name
+                sendCommand(ShowCreateFileDialog(fileName))
+            }
+
+            is RemoveDeckOptionSelected -> {
+                deckRemover.removeDeck(event.deckId)
+            }
+
+            AutoplayButtonClicked -> {
+                homeScreenState.deckSelection?.let { deckSelection: DeckSelection ->
+                    if (deckSelection.selectedDeckIds.isEmpty()
+                        || deckSelection.purpose !in listOf(
+                            DeckSelection.Purpose.General,
+                            DeckSelection.Purpose.ForAutoplay)
+                    ) {
+                        return
+                    }
+                    navigateToAutoplaySettings(deckSelection.selectedDeckIds)
+                } ?: kotlin.run {
+                    homeScreenState.deckSelection = DeckSelection(
+                        selectedDeckIds = emptyList(),
+                        purpose = DeckSelection.Purpose.ForAutoplay
+                    )
+                }
+            }
+
+            ExerciseButtonClicked -> {
+                homeScreenState.deckSelection?.let { deckSelection: DeckSelection ->
+                    if (deckSelection.selectedDeckIds.isEmpty()
+                        || deckSelection.purpose !in listOf(
+                            DeckSelection.Purpose.General,
+                            DeckSelection.Purpose.ForExercise)
+                    ) {
+                        return
+                    }
+                    startExercise(deckSelection.selectedDeckIds)
+                } ?: kotlin.run {
+                    homeScreenState.deckSelection = DeckSelection(
+                        selectedDeckIds = emptyList(),
+                        purpose = DeckSelection.Purpose.ForExercise
+                    )
+                }
             }
 
             is FoundCardClicked -> {
-                homeScreenState.selectedDeckIds = emptyList()
+                homeScreenState.deckSelection = null
                 navigator.navigateToCardsEditorFromNavHost {
                     val editableCard = EditableCard(
                         event.searchCard.card,
@@ -180,9 +207,40 @@ class HomeController(
         }
     }
 
-    private fun startRepetitionSettings(deckIds: List<Long>) {
-        homeScreenState.selectedDeckIds = emptyList()
-        navigator.navigateToRepetitionSettings {
+    private fun navigateToDeckSetup(deckId: Long) {
+        homeScreenState.deckSelection = null
+        navigator.navigateToDeckSetupFromNavHost {
+            val deck: Deck = globalState.decks.first { it.id == deckId }
+            val deckEditorState = DeckEditor.State(deck)
+            DeckSetupDiScope.create(DeckSetupScreenState(deck), deckEditorState)
+        }
+    }
+
+    private fun toggleDeckSelection(deckId: Long) {
+        homeScreenState.deckSelection?.let { deckSelection: DeckSelection ->
+            val newSelectedDeckIds =
+                if (deckId in deckSelection.selectedDeckIds)
+                    deckSelection.selectedDeckIds - deckId else
+                    deckSelection.selectedDeckIds + deckId
+            if (newSelectedDeckIds.isEmpty()
+                && deckSelection.purpose == DeckSelection.Purpose.General
+            ) {
+                homeScreenState.deckSelection = null
+            } else {
+                homeScreenState.deckSelection =
+                    deckSelection.copy(selectedDeckIds = newSelectedDeckIds)
+            }
+        } ?: kotlin.run {
+            homeScreenState.deckSelection = DeckSelection(
+                selectedDeckIds = listOf(deckId),
+                purpose = DeckSelection.Purpose.General
+            )
+        }
+    }
+
+    private fun navigateToAutoplaySettings(deckIds: List<Long>) {
+        homeScreenState.deckSelection = null
+        navigator.navigateToAutoplaySettings {
             val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
             val repetitionCreatorState = RepetitionStateCreator.State(decks)
             RepetitionSettingsDiScope.create(repetitionCreatorState, PresetDialogState())
@@ -191,24 +249,13 @@ class HomeController(
 
     private fun startExercise(deckIds: List<Long>) {
         if (exerciseStateCreator.hasAnyCardAvailableForExercise(deckIds)) {
-            homeScreenState.selectedDeckIds = emptyList()
+            homeScreenState.deckSelection = null
             navigator.navigateToExercise {
-                val exerciseState: Exercise.State =
-                    exerciseStateCreator.create(deckIds)
+                val exerciseState: Exercise.State = exerciseStateCreator.create(deckIds)
                 ExerciseDiScope.create(exerciseState)
             }
         } else {
             sendCommand(ShowNoCardIsReadyForExerciseMessage)
-        }
-    }
-
-    private fun toggleDeckSelection(deckId: Long) {
-        with(homeScreenState) {
-            selectedDeckIds = if (deckId in selectedDeckIds) {
-                selectedDeckIds - deckId
-            } else {
-                selectedDeckIds + deckId
-            }
         }
     }
 

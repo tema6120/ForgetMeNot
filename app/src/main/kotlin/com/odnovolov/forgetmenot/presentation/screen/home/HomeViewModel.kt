@@ -4,8 +4,8 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
+import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
@@ -27,10 +27,7 @@ class HomeViewModel(
             .map { it.isNotEmpty() }
             .distinctUntilChanged()
 
-    val hasSelectedDecks: Flow<Boolean> =
-        homeScreenState.flowOf(HomeScreenState::selectedDeckIds)
-            .map { it.isNotEmpty() }
-            .distinctUntilChanged()
+    val deckSelection: Flow<DeckSelection?> = homeScreenState.flowOf(HomeScreenState::deckSelection)
 
     val displayOnlyWithTasks: Flow<Boolean> =
         deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyWithTasks)
@@ -41,19 +38,19 @@ class HomeViewModel(
     val decksPreview: Flow<List<DeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
         homeScreenState.flowOf(HomeScreenState::searchText),
-        homeScreenState.flowOf(HomeScreenState::selectedDeckIds),
+        homeScreenState.flowOf(HomeScreenState::deckSelection),
         deckReviewPreference.flowOf(DeckReviewPreference::deckSorting),
         displayOnlyWithTasks
     ) { decks: Collection<Deck>,
         searchText: String,
-        selectedDeckIds: List<Long>,
+        deckSelection: DeckSelection?,
         deckSorting: DeckSorting,
         displayOnlyWithTasks: Boolean
         ->
         decks
             .filterBy(searchText)
             .sortBy(deckSorting)
-            .mapToDeckPreview(selectedDeckIds, searchText)
+            .mapToDeckPreview(deckSelection, searchText)
             .run { if (searchText.isEmpty()) filterBy(displayOnlyWithTasks) else this }
     }
         .flowOn(Dispatchers.Default)
@@ -84,7 +81,7 @@ class HomeViewModel(
     }
 
     private fun List<Deck>.mapToDeckPreview(
-        selectedDeckIds: List<Long>,
+        deckSelection: DeckSelection?,
         searchText: String
     ): List<DeckPreview> {
         return map { deck: Deck ->
@@ -101,7 +98,9 @@ class HomeViewModel(
                         isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
                     }
                 }
-            val isSelected = deck.id in selectedDeckIds
+            val isSelected = deckSelection?.let { deckSelection: DeckSelection ->
+                deck.id in deckSelection.selectedDeckIds
+            }
             DeckPreview(
                 deckId = deck.id,
                 deckName = deck.name,
@@ -137,33 +136,45 @@ class HomeViewModel(
         } else this
     }
 
-    val deckSelectionCount: Flow<DeckSelectionCount> =
-        decksPreview.map { decksPreview: List<DeckPreview> ->
-            val selectedDecks = decksPreview.filter { deckPreview -> deckPreview.isSelected }
-            if (selectedDecks.isEmpty()) {
-                DeckSelectionCount(selectedCardsCount = 0, selectedDecksCount = 0)
-            } else {
-                val selectedCardsCount = selectedDecks.map { deckPreview ->
-                    with(deckPreview) { numberOfCardsReadyForExercise ?: totalCount - learnedCount }
-                }
-                    .sum()
-                val selectedDecksCount = selectedDecks.size
-                DeckSelectionCount(selectedCardsCount, selectedDecksCount)
-            }
-        }
-
     @OptIn(ExperimentalStdlibApi::class)
     val deckListItem: Flow<List<DeckListItem>> = combine(
         decksPreview,
-        hasSearchText
-    ) { decksPreview: List<DeckPreview>, hasSearchText: Boolean ->
-        if (hasSearchText) {
+        hasSearchText,
+        deckSelection
+    ) { decksPreview: List<DeckPreview>,
+        hasSearchText: Boolean,
+        deckSelection: DeckSelection?
+        ->
+        if (decksPreview.isEmpty()) {
             decksPreview
         } else {
             buildList {
-                add(DeckListItem.Header)
+                if (!hasSearchText && deckSelection == null) {
+                    add(DeckListItem.Header)
+                }
                 addAll(decksPreview)
+                if (!hasSearchText || deckSelection != null) {
+                    add(DeckListItem.Footer)
+                }
             }
+        }
+    }
+
+    val numberOfSelectedCardsAvailableForExercise: Flow<Int?> = combine(
+        decksPreview,
+        deckSelection
+    ) { decksPreview: List<DeckPreview>, deckSelection: DeckSelection? ->
+        if (deckSelection == null || deckSelection.purpose == DeckSelection.Purpose.ForAutoplay) {
+            null
+        } else {
+            decksPreview
+                .filter { deckPreview -> deckPreview.isSelected == true }
+                .map { deckPreview ->
+                    with(deckPreview) {
+                        numberOfCardsReadyForExercise ?: totalCount - learnedCount
+                    }
+                }
+                .sum()
         }
     }
 
@@ -176,6 +187,36 @@ class HomeViewModel(
 
     val areCardsBeingSearched: Flow<Boolean> =
         searcherState.flowOf(CardsSearcher.State::isSearching)
+
+    val isExerciseButtonVisible: Flow<Boolean> = combine(
+        deckSelection,
+        hasSearchText
+    ) { deckSelection: DeckSelection?, hasSearchText: Boolean ->
+        if (deckSelection == null) {
+            !hasSearchText
+        } else {
+            when (deckSelection.purpose) {
+                DeckSelection.Purpose.General,
+                DeckSelection.Purpose.ForExercise -> true
+                else -> false
+            }
+        }
+    }
+
+    val isAutoplayButtonVisible: Flow<Boolean> = combine(
+        deckSelection,
+        hasSearchText
+    ) { deckSelection: DeckSelection?, hasSearchText: Boolean ->
+        if (deckSelection == null) {
+            !hasSearchText
+        } else {
+            when (deckSelection.purpose) {
+                DeckSelection.Purpose.General,
+                DeckSelection.Purpose.ForAutoplay -> true
+                else -> false
+            }
+        }
+    }
 
     val foundCards: Flow<List<SearchCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
 

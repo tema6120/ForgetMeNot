@@ -2,16 +2,19 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.appbar.AppBarLayout.Behavior
-import com.google.android.material.appbar.AppBarLayout.LayoutParams
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
@@ -39,30 +42,9 @@ class HomeFragment : BaseFragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
-    private var actionMode: ActionMode? = null
-    private val fragmentCoroutineScope =
-        CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private var pendingEvent: OutputStreamOpened? = null
+    private var pendingEvent: FileForExportDeckIsReady? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var isSearchingAfterPasteButtonClicked: Boolean = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        fragmentCoroutineScope.launch {
-            val diScope = HomeDiScope.getAsync() ?: return@launch
-            diScope.viewModel.hasSelectedDecks.observe(
-                fragmentCoroutineScope
-            ) { hasSelectedDecks: Boolean ->
-                if (hasSelectedDecks) {
-                    if (actionMode == null) {
-                        actionMode = requireActivity().startActionMode(actionModeCallback)
-                    }
-                } else {
-                    actionMode?.finish()
-                }
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,74 +69,59 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        setupSearchFrame()
+        setupAddCardsButton()
+        setupSelectionToolbar()
+        setupViewPager()
+        setupBottomButtons()
+    }
+
+    private fun setupSearchFrame() {
         drawerButton.setOnClickListener {
-            (parentFragment as NavHostFragment)
-                .drawerLayout.openDrawer(GravityCompat.START)
+            openDrawer()
         }
         searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            setSearchMode(hasFocus)
+            searchFrame.isSelected = hasFocus
+            updateDrawerButton()
+            updateDrawerLayoutLockMode()
+            updateSearchFrameScrollFlags()
+            updateAppbarScrollBehavior()
+            if (!hasFocus) {
+                searchEditText.hideSoftInput()
+            }
         }
         searchEditText.observeText { newText: String ->
             controller?.dispatch(SearchTextChanged(newText))
             isSearchingAfterPasteButtonClicked = false
         }
+    }
+
+    private fun setupAddCardsButton() {
         addCardsButton.setOnClickListener {
             (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
                 .addDeck()
         }
-        setupViewPager()
     }
 
-    private fun setSearchMode(isSearchMode: Boolean) {
-        searchFrame.isSelected = isSearchMode
-        updateDrawerButton(isSearchMode)
-        updateSearchFrameScrollBehavior(isSearchMode)
-        setLockModeOfDrawerLayout(isLocked = isSearchMode)
-    }
-
-    private fun updateDrawerButton(isSearchMode: Boolean) {
-        drawerButton.setImageResource(
-            if (isSearchMode)
-                R.drawable.ic_arrow_back_colored else
-                R.drawable.ic_drawer_colored
-        )
-        drawerButton.setOnClickListener {
-            if (isSearchMode) {
-                cancelSearch()
-            } else {
-                (parentFragment as NavHostFragment)
-                    .drawerLayout.openDrawer(GravityCompat.START)
-            }
+    private fun setupBottomButtons() {
+        autoplayButton.setOnClickListener {
+            controller?.dispatch(AutoplayButtonClicked)
+        }
+        exerciseButton.setOnClickListener {
+            controller?.dispatch(ExerciseButtonClicked)
         }
     }
 
-    private fun cancelSearch() {
-        searchEditText.hideSoftInput()
-        searchEditText.text.clear()
-        searchEditText.clearFocus()
-    }
-
-    private fun updateSearchFrameScrollBehavior(isSearchMode: Boolean) {
-        val params = searchFrame.layoutParams as LayoutParams
-        val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
-        if (isSearchMode) {
-            params.scrollFlags = 0
-            appBarLayoutParams.behavior = null
-            appBarLayout.layoutParams = appBarLayoutParams
-        } else {
-            params.scrollFlags =
-                LayoutParams.SCROLL_FLAG_SCROLL or LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-            appBarLayoutParams.behavior = Behavior()
-            appBarLayout.layoutParams = appBarLayoutParams
+    private fun setupSelectionToolbar() {
+        cancelSelectionButton.setOnClickListener {
+            controller?.dispatch(SelectionCancelled)
         }
-    }
-
-    private fun setLockModeOfDrawerLayout(isLocked: Boolean) {
-        (parentFragment as NavHostFragment).drawerLayout.setDrawerLockMode(
-            if (isLocked)
-                DrawerLayout.LOCK_MODE_LOCKED_CLOSED else
-                DrawerLayout.LOCK_MODE_UNLOCKED
-        )
+        selectAllButton.setOnClickListener {
+            controller?.dispatch(SelectAllDecksButtonClicked)
+        }
+        removeDecksButton.setOnClickListener {
+            controller?.dispatch(RemoveDecksButtonClicked)
+        }
     }
 
     private fun setupViewPager() {
@@ -181,6 +148,34 @@ class HomeFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
+            hasSearchText.observe { hasSearchText: Boolean ->
+                deckListTitleTextView.isVisible = !hasSearchText
+                addCardsButton.isVisible = !hasSearchText
+                searchTabLayout.isVisible = hasSearchText
+                updatePasteButton(hasSearchText)
+                updateViewPagerLocking()
+            }
+            deckSelection.observe { deckSelection: DeckSelection? ->
+                selectionToolbar.isVisible = deckSelection != null
+                updateSearchFrameScrollFlags()
+                searchFrame.isVisible = deckSelection == null
+                headline.isVisible = deckSelection == null
+                if (searchFrame.isVisible && searchEditText.text.isNotEmpty()) {
+                    searchEditText.requestFocus()
+                }
+                deckSelection?.let { selection: DeckSelection ->
+                    numberOfSelectedDecksTextView.text = resources.getQuantityString(
+                        R.plurals.number_of_selected_decks,
+                        selection.selectedDeckIds.size,
+                        selection.selectedDeckIds.size
+                    )
+                }
+                removeDecksButton.isVisible = deckSelection != null
+                        && deckSelection.purpose == DeckSelection.Purpose.General
+                updateStatusBarColor(deckSelection != null)
+                updateDrawerLayoutLockMode()
+                updateViewPagerLocking()
+            }
             displayOnlyWithTasks.observe { displayOnlyDecksAvailableForExercise: Boolean ->
                 deckListTitleTextView.text = getString(
                     if (displayOnlyDecksAvailableForExercise)
@@ -188,10 +183,17 @@ class HomeFragment : BaseFragment() {
                         R.string.deck_list_title_all_decks
                 )
             }
-            hasSearchText.observe { hasSearchText: Boolean ->
-                updatePasteButton(hasSearchText)
-                updateTabsVisibility(areTabsVisible = hasSearchText)
-                updateFoundCardsFragmentVisibility(isFragmentVisible = hasSearchText)
+            isExerciseButtonVisible.observe {isVisible: Boolean ->
+                exerciseButton.isVisible = isVisible
+            }
+            isAutoplayButtonVisible.observe {isVisible: Boolean ->
+                autoplayButton.isVisible = isVisible
+            }
+            numberOfSelectedCardsAvailableForExercise.observe { cardsCount: Int? ->
+                exerciseButton.text =
+                    if (cardsCount == null)
+                        getString(R.string.text_exercise_button) else
+                        getString(R.string.text_exercise_button_with_cards_count, cardsCount)
             }
             combine(decksPreview, foundCards) { foundDecks: List<DeckPreview>,
                                                 foundCards: List<SearchCard>
@@ -233,15 +235,10 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun updateTabsVisibility(areTabsVisible: Boolean) {
-        deckListTitleTextView.isVisible = !areTabsVisible
-        addCardsButton.isVisible = !areTabsVisible
-        searchTabLayout.isVisible = areTabsVisible
-    }
-
-    private fun updateFoundCardsFragmentVisibility(isFragmentVisible: Boolean) {
-        homePager.isUserInputEnabled = isFragmentVisible
-        if (!isFragmentVisible) {
+    private fun updateViewPagerLocking() {
+        val isLocked: Boolean = selectionToolbar.isVisible || !searchTabLayout.isVisible
+        homePager.isUserInputEnabled = !isLocked
+        if (isLocked) {
             homePager.setCurrentItem(0, true)
         }
     }
@@ -264,7 +261,7 @@ class HomeFragment : BaseFragment() {
                     )
                     .setAction(
                         R.string.snackbar_action_cancel,
-                        { controller?.dispatch(DecksRemovedSnackbarCancelActionClicked) }
+                        { controller?.dispatch(DecksRemovedSnackbarCancelButtonClicked) }
                     )
                     .show()
             }
@@ -302,7 +299,7 @@ class HomeFragment : BaseFragment() {
         val uri = intent.data ?: return
         val outputStream = requireContext().contentResolver?.openOutputStream(uri)
         if (outputStream != null) {
-            val event = OutputStreamOpened(outputStream)
+            val event = FileForExportDeckIsReady(outputStream)
             if (controller == null) {
                 pendingEvent = event
             } else {
@@ -313,7 +310,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptorForCancelSearch)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
         if (searchEditText.text.isNotEmpty()) {
             searchEditText.post {
                 searchEditText.requestFocus()
@@ -323,20 +320,121 @@ class HomeFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        (activity as MainActivity)
-            .unregisterBackPressInterceptor(backPressInterceptorForCancelSearch)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
         searchEditText.hideSoftInput()
     }
 
-    private val backPressInterceptorForCancelSearch = object : MainActivity.BackPressInterceptor {
+    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
         override fun onBackPressed(): Boolean {
-            return if (searchEditText.hasFocus()) {
-                cancelSearch()
-                true
-            } else {
-                false
+            return when {
+                selectionToolbar.isVisible -> {
+                    controller?.dispatch(SelectionCancelled)
+                    true
+                }
+                searchEditText.hasFocus() -> {
+                    cancelSearch()
+                    true
+                }
+                else -> {
+                    false
+                }
             }
         }
+    }
+
+    private fun cancelSearch() {
+        searchEditText.hideSoftInput()
+        searchEditText.text.clear()
+        searchEditText.clearFocus()
+    }
+
+    private fun updateDrawerLayoutLockMode() {
+        val isLocked: Boolean = searchEditText.hasFocus() || selectionToolbar.isVisible
+        (parentFragment as NavHostFragment).drawerLayout.setDrawerLockMode(
+            if (isLocked)
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED else
+                DrawerLayout.LOCK_MODE_UNLOCKED
+        )
+    }
+
+    private fun updateSearchFrameScrollFlags() {
+        val searchFrameLayoutParams = searchFrame.layoutParams as AppBarLayout.LayoutParams
+        searchFrameLayoutParams.scrollFlags =
+            if (searchEditText.hasFocus() || selectionToolbar.isVisible) {
+                0
+            } else {
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+            }
+    }
+
+    private fun updateAppbarScrollBehavior() {
+        val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        appBarLayoutParams.behavior =
+            if (searchEditText.hasFocus()) {
+                null
+            } else {
+                AppBarLayout.Behavior()
+            }
+    }
+
+    private fun updateStatusBarColor(isSelectionMode: Boolean) {
+        requireActivity().window.statusBarColor =
+            if (isSelectionMode) {
+                ContextCompat.getColor(requireContext(), R.color.colorAccent)
+            } else {
+                Color.TRANSPARENT
+            }
+        if (VERSION.SDK_INT >= VERSION_CODES.M) {
+            val visibility = if (isSelectionMode) {
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            } else {
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+            requireActivity().window.decorView.systemUiVisibility = visibility
+        } else {
+            if (isSelectionMode) {
+                requireActivity().window.clearFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                )
+            } else {
+                requireActivity().window.addFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                )
+            }
+        }
+    }
+
+    private fun updateDrawerButton() {
+        val isSearchMode: Boolean = searchEditText.hasFocus()
+        with(drawerButton) {
+            setImageResource(
+                if (isSearchMode)
+                    R.drawable.ic_arrow_back_colored else
+                    R.drawable.ic_drawer_colored
+            )
+            setOnClickListener {
+                if (isSearchMode) {
+                    cancelSearch()
+                } else {
+                    openDrawer()
+                }
+            }
+            contentDescription = getString(
+                if (isSearchMode)
+                    R.string.description_back_button2 else
+                    R.string.description_drawer_button
+            )
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
+    }
+
+    private fun openDrawer() {
+        (parentFragment as NavHostFragment)
+            .drawerLayout.openDrawer(GravityCompat.START)
     }
 
     override fun onDestroyView() {
@@ -348,47 +446,8 @@ class HomeFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        fragmentCoroutineScope.cancel()
         if (needToCloseDiScope()) {
             HomeDiScope.close()
-        }
-    }
-
-    private val actionModeCallback = object : ActionMode.Callback {
-        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-            mode.menuInflater.inflate(R.menu.deck_selection_actions, menu)
-            return true
-        }
-
-        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-            return false
-        }
-
-        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-            return when (item.itemId) {
-                R.id.action_start_exercise -> {
-                    controller?.dispatch(StartExerciseMenuItemClicked)
-                    true
-                }
-                R.id.action_select_all_decks -> {
-                    controller?.dispatch(SelectAllDecksMenuItemClicked)
-                    true
-                }
-                R.id.action_repetition_mode -> {
-                    controller?.dispatch(RepetitionModeMultiSelectMenuItemClicked)
-                    true
-                }
-                R.id.action_remove_decks -> {
-                    controller?.dispatch(RemoveDecksMenuItemClicked)
-                    true
-                }
-                else -> false
-            }
-        }
-
-        override fun onDestroyActionMode(mode: ActionMode) {
-            controller?.dispatch(ActionModeFinished)
-            actionMode = null
         }
     }
 

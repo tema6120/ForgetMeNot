@@ -58,7 +58,7 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_cards_editor)
     }
 
-    fun navigateToDeckSetupFromHome(createDiScope: () -> DeckSetupDiScope) {
+    fun navigateToDeckSetupFromNavHost(createDiScope: () -> DeckSetupDiScope) {
         DeckSetupDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_deck_setup)
     }
@@ -137,7 +137,7 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_deck_setup_screen_to_cards_editor_screen)
     }
 
-    fun navigateToRepetitionSettings(createDiScope: () -> RepetitionSettingsDiScope) {
+    fun navigateToAutoplaySettings(createDiScope: () -> RepetitionSettingsDiScope) {
         RepetitionSettingsDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_repetition_settings)
     }
@@ -177,11 +177,6 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_repetition_screen_to_help_screen)
     }
 
-    fun navigateToSettings(createDiScope: () -> SettingsDiScope) {
-        SettingsDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_settings_screen)
-    }
-
     fun navigateToWalkingModeSettingsFromSettings() {
         navigate(R.id.action_settings_screen_to_walking_mode_settings_screen)
     }
@@ -191,9 +186,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_settings_screen_to_help_screen)
     }
 
-    fun navigateToHelpFromHome(createDiScope: () -> HelpDiScope) {
+    fun navigateToHelpFromNavHost(createDiScope: () -> HelpDiScope) {
         HelpDiScope.open(createDiScope)
-        navigate(R.id.action_home_screen_to_help_screen)
+        navigate(R.id.nav_host_to_help)
     }
 
     fun navigateToWalkingModeSettingsFromWalkingModeArticle() {
