@@ -127,20 +127,20 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             answerTextView.setText(R.string.answer4_in_exercise_article)
             showAnswerButton.isVisible = false
             answerScrollView.isVisible = true
-            notAskButton.setOnClickListener {
+            markAsLearnedButton.setOnClickListener {
                 example2State.isLearned = !example2State.isLearned
             }
             example2State.flowOf(Example2State::isLearned).observe { isLearned: Boolean ->
-                with(notAskButton) {
+                with(markAsLearnedButton) {
                     setImageResource(
                         if (isLearned)
-                            R.drawable.ic_baseline_replay_white_24 else
-                            R.drawable.ic_block_white_24dp
+                            R.drawable.ic_mark_as_unlearned else
+                            R.drawable.ic_mark_as_learned
                     )
                     contentDescription = getString(
                         if (isLearned)
-                            R.string.description_ask_again_button else
-                            R.string.description_not_ask_button
+                            R.string.description_mark_as_unlearned_button else
+                            R.string.description_mark_as_learned_button
                     )
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }

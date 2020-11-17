@@ -49,15 +49,15 @@
                     app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView" />
 
             <ImageButton
-                    android:id="@+id/notAskButton"
+                    android:id="@+id/markAsLearnedButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_not_ask_button"
+                    android:contentDescription="@string/description_mark_as_learned_button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/levelOfKnowledgeButton"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_block_white_24dp" />
+                    app:srcCompat="@drawable/ic_mark_as_learned" />
 
             <ImageButton
                     android:id="@+id/speakButton"
@@ -66,7 +66,7 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_speak_button"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/notAskButton"
+                    app:layout_constraintStart_toEndOf="@id/markAsLearnedButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_volume_up_white_24dp" />
 

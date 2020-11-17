@@ -61,7 +61,6 @@ class ExerciseController(
 
             NotAskButtonClicked -> {
                 exercise.setIsCardLearned(true)
-                sendCommand(MoveToNextPosition)
             }
 
             AskAgainButtonClicked -> {

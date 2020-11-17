@@ -8,8 +8,8 @@
     <string name="label_exercise_screen">Exercise</string>
     <string name="text_show_question_textview">Show question</string>
     <string name="text_show_answer_textview">Show answer</string>
-    <string name="description_not_ask_button">Not ask anymore</string>
-    <string name="description_ask_again_button">Ask again</string>
+    <string name="description_mark_as_learned_button">Mark as learned</string>
+    <string name="description_mark_as_unlearned_button">Mark as unlearned</string>
     <string name="description_speak_button">Speak</string>
     <string name="description_stop_speak_button">Stop speaking</string>
     <string name="description_cannot_speak_button">Open speaking error description</string>
