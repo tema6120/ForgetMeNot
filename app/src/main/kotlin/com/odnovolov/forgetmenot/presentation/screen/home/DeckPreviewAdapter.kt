@@ -51,7 +51,7 @@ class DeckPreviewAdapter(
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
         with(viewHolder.itemView) {
             val deckListItem = getItem(position)
-            when(deckListItem) {
+            when (deckListItem) {
                 DeckListItem.Header, DeckListItem.Footer -> return
             }
             val deckPreview = deckListItem as DeckPreview
@@ -74,11 +74,10 @@ class DeckPreviewAdapter(
             deckSelector.setOnClickListener {
                 controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
             }
-            avgLapsValueTextView.text = "%.1f".format(deckPreview.averageLaps)
-            val progress = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
-            learnedValueTextView.text = progress
+            avgLapsValueTextView.text = deckPreview.averageLaps
+            learnedValueTextView.text = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
             taskValueTextView.text = deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
-            lastOpenedValueTextView.text = deckPreview.lastOpened?.format("MMM d") ?: "-"
+            lastOpenedValueTextView.text = deckPreview.lastOpenedAt
             isSelected = deckPreview.isSelected == true
             deckOptionButton.isVisible = deckPreview.isSelected == null
             deckSelector.isVisible = deckPreview.isSelected != null

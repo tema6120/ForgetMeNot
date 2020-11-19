@@ -6,13 +6,17 @@ import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateMarginsRelative
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
@@ -29,11 +33,9 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.pasteButton
-import kotlinx.android.synthetic.main.fragment_home.searchEditText
 import kotlinx.android.synthetic.main.fragment_nav_host.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragment() {
     init {
@@ -163,6 +165,7 @@ class HomeFragment : BaseFragment() {
                 if (searchFrame.isVisible && searchEditText.text.isNotEmpty()) {
                     searchEditText.requestFocus()
                 }
+                updateExerciseButtonLayoutParams(deckSelection)
                 deckSelection?.let { selection: DeckSelection ->
                     numberOfSelectedDecksTextView.text = resources.getQuantityString(
                         R.plurals.number_of_selected_decks,
@@ -183,18 +186,43 @@ class HomeFragment : BaseFragment() {
                         R.string.deck_list_title_all_decks
                 )
             }
-            isExerciseButtonVisible.observe {isVisible: Boolean ->
-                exerciseButton.isVisible = isVisible
+            autoplayButtonState.observe { buttonState: ButtonState ->
+                autoplayButton.isVisible = buttonState != ButtonState.Invisible
+                autoplayButton.isEnabled = buttonState != ButtonState.Inactive
+                autoplayButton.text =
+                    getString(
+                        if (buttonState == ButtonState.Inactive)
+                            R.string.text_autoplay_button_unable else
+                            R.string.text_autoplay_button
+                    )
+                autoplayButton.icon =
+                    if (buttonState == ButtonState.Inactive) {
+                        null
+                    } else {
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_play)
+                    }
             }
-            isAutoplayButtonVisible.observe {isVisible: Boolean ->
-                autoplayButton.isVisible = isVisible
+            exerciseButtonState.observe { buttonState: ButtonState ->
+                exerciseButton.isVisible = buttonState != ButtonState.Invisible
+                exerciseButton.isEnabled = buttonState != ButtonState.Inactive
             }
-            numberOfSelectedCardsAvailableForExercise.observe { cardsCount: Int? ->
+            combine(
+                exerciseButtonState,
+                numberOfSelectedCardsAvailableForExercise
+            ) { buttonState: ButtonState, cardsCount: Int? ->
                 exerciseButton.text =
-                    if (cardsCount == null)
-                        getString(R.string.text_exercise_button) else
-                        getString(R.string.text_exercise_button_with_cards_count, cardsCount)
-            }
+                    when {
+                        buttonState == ButtonState.Inactive ->
+                            getString(R.string.text_exercise_button_unable)
+                        cardsCount != null ->
+                            getString(
+                                R.string.text_exercise_button_with_cards_count,
+                                cardsCount
+                            )
+                        else ->
+                            getString(R.string.text_exercise_button)
+                    }
+            }.observe()
             combine(decksPreview, foundCards) { foundDecks: List<DeckPreview>,
                                                 foundCards: List<SearchCard>
                 ->
@@ -207,6 +235,20 @@ class HomeFragment : BaseFragment() {
                 }
             }.observe()
         }
+    }
+
+    private fun updateExerciseButtonLayoutParams(deckSelection: DeckSelection?) {
+        val marginStart: Int =
+            if (deckSelection != null
+                && deckSelection.purpose == DeckSelection.Purpose.ForExercise
+            ) {
+                20.dp
+            } else {
+                0
+            }
+        val layoutParams = exerciseButton.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.updateMarginsRelative(start = marginStart)
+        exerciseButton.layoutParams = layoutParams
     }
 
     private fun updatePasteButton(hasSearchText: Boolean) {

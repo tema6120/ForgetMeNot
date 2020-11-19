@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortin
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
+import com.soywiz.klock.DateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
@@ -22,98 +23,124 @@ class HomeViewModel(
     controller: HomeController,
     searcherState: CardsSearcher.State
 ) {
-    val hasSearchText: Flow<Boolean> =
-        homeScreenState.flowOf(HomeScreenState::searchText)
-            .map { it.isNotEmpty() }
-            .distinctUntilChanged()
+    private data class RawDeckPreview(
+        val deckId: Long,
+        val deckName: String,
+        val createdAt: DateTime,
+        val averageLaps: String,
+        val learnedCount: Int,
+        val totalCount: Int,
+        val numberOfCardsReadyForExercise: Int?,
+        val lastOpenedAt: String
+    ) {
+        fun toDeckPreview(searchMatchingRanges: List<IntRange>?) = DeckPreview(
+            deckId,
+            deckName,
+            searchMatchingRanges,
+            averageLaps,
+            learnedCount,
+            totalCount,
+            numberOfCardsReadyForExercise,
+            lastOpenedAt,
+            isSelected = null
+        )
+    }
 
-    val deckSelection: Flow<DeckSelection?> = homeScreenState.flowOf(HomeScreenState::deckSelection)
-
-    val displayOnlyWithTasks: Flow<Boolean> =
-        deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyWithTasks)
+    private val rawDecksPreview: Flow<List<RawDeckPreview>> = globalState.flowOf(GlobalState::decks)
+        .map { decks: Collection<Deck> ->
+            decks.map { deck: Deck ->
+                val averageLaps: String = deck.cards
+                    .map { it.lap }
+                    .average()
+                    .let { avgLaps: Double -> "%.1f".format(avgLaps) }
+                val learnedCount = deck.cards.count { it.isLearned }
+                val numberOfCardsReadyForExercise =
+                    if (deck.exercisePreference.intervalScheme == null) {
+                        null
+                    } else {
+                        deck.cards.count { card: Card ->
+                            isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
+                        }
+                    }
+                val lastOpenedAt: String = deck.lastOpenedAt?.format("MMM d") ?: "-"
+                RawDeckPreview(
+                    deckId = deck.id,
+                    deckName = deck.name,
+                    createdAt = deck.createdAt,
+                    averageLaps = averageLaps,
+                    learnedCount = learnedCount,
+                    totalCount = deck.cards.size,
+                    numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
+                    lastOpenedAt = lastOpenedAt
+                )
+            }
+        }
+        .share()
 
     val deckSorting: Flow<DeckSorting> =
         deckReviewPreference.flowOf(DeckReviewPreference::deckSorting)
 
-    val decksPreview: Flow<List<DeckPreview>> = combine(
-        globalState.flowOf(GlobalState::decks),
-        homeScreenState.flowOf(HomeScreenState::searchText),
-        homeScreenState.flowOf(HomeScreenState::deckSelection),
-        deckReviewPreference.flowOf(DeckReviewPreference::deckSorting),
-        displayOnlyWithTasks
-    ) { decks: Collection<Deck>,
-        searchText: String,
-        deckSelection: DeckSelection?,
-        deckSorting: DeckSorting,
-        displayOnlyWithTasks: Boolean
-        ->
-        decks
-            .filterBy(searchText)
-            .sortBy(deckSorting)
-            .mapToDeckPreview(deckSelection, searchText)
-            .run { if (searchText.isEmpty()) filterBy(displayOnlyWithTasks) else this }
-    }
-        .flowOn(Dispatchers.Default)
-        .share()
-
-    private fun Collection<Deck>.filterBy(searchText: String): Collection<Deck> {
-        return if (searchText.isEmpty()) this
-        else this.filter { it.name.contains(searchText, ignoreCase = true) }
-    }
-
-    private fun Collection<Deck>.sortBy(deckSorting: DeckSorting): List<Deck> {
-        return when (deckSorting.direction) {
+    private val sortedDecksPreview: Flow<List<RawDeckPreview>> = combine(
+        rawDecksPreview,
+        deckSorting
+    ) { rawDecksPreview: List<RawDeckPreview>, deckSorting: DeckSorting ->
+        when (deckSorting.direction) {
             Asc -> {
                 when (deckSorting.criterion) {
-                    Name -> sortedBy { it.name }
-                    CreatedAt -> sortedBy { it.createdAt }
-                    LastOpenedAt -> sortedBy { it.lastOpenedAt }
+                    Name -> rawDecksPreview.sortedBy { it.deckName }
+                    CreatedAt -> rawDecksPreview.sortedBy { it.createdAt }
+                    LastOpenedAt -> rawDecksPreview.sortedBy { it.lastOpenedAt }
                 }
             }
             Desc -> {
                 when (deckSorting.criterion) {
-                    Name -> sortedByDescending { it.name }
-                    CreatedAt -> sortedByDescending { it.createdAt }
-                    LastOpenedAt -> sortedByDescending { it.lastOpenedAt }
+                    Name -> rawDecksPreview.sortedByDescending { it.deckName }
+                    CreatedAt -> rawDecksPreview.sortedByDescending { it.createdAt }
+                    LastOpenedAt -> rawDecksPreview.sortedByDescending { it.lastOpenedAt }
                 }
             }
         }
     }
+        .share()
 
-    private fun List<Deck>.mapToDeckPreview(
-        deckSelection: DeckSelection?,
+    val displayOnlyWithTasks: Flow<Boolean> =
+        deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyWithTasks)
+
+    private val searchText: Flow<String> = homeScreenState.flowOf(HomeScreenState::searchText)
+
+    private val filteredDecksPreview: Flow<List<DeckPreview>> = combine(
+        sortedDecksPreview,
+        displayOnlyWithTasks,
+        searchText
+    ) { sortedDecksPreview: List<RawDeckPreview>,
+        displayOnlyWithTasks: Boolean,
         searchText: String
-    ): List<DeckPreview> {
-        return map { deck: Deck ->
-            val searchMatchingRanges: List<IntRange>? = findMatchingRange(deck.name, searchText)
-            val averageLaps: Double = deck.cards
-                .map { it.lap }
-                .average()
-            val learnedCount = deck.cards.count { it.isLearned }
-            val numberOfCardsReadyForExercise =
-                if (deck.exercisePreference.intervalScheme == null) {
-                    null
-                } else {
-                    deck.cards.count { card: Card ->
-                        isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
+        ->
+        if (searchText.isEmpty()) {
+            sortedDecksPreview.run {
+                if (displayOnlyWithTasks) {
+                    filter { rawDeckPreview: RawDeckPreview ->
+                        rawDeckPreview.numberOfCardsReadyForExercise == null
+                                || rawDeckPreview.numberOfCardsReadyForExercise > 0
                     }
+                } else {
+                    this
                 }
-            val isSelected = deckSelection?.let { deckSelection: DeckSelection ->
-                deck.id in deckSelection.selectedDeckIds
             }
-            DeckPreview(
-                deckId = deck.id,
-                deckName = deck.name,
-                searchMatchingRanges = searchMatchingRanges,
-                averageLaps = averageLaps,
-                learnedCount = learnedCount,
-                totalCount = deck.cards.size,
-                numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
-                lastOpened = deck.lastOpenedAt,
-                isSelected = isSelected
-            )
+                .map { rawDeckPreview: RawDeckPreview ->
+                    rawDeckPreview.toDeckPreview(searchMatchingRanges = null)
+                }
+        } else {
+            sortedDecksPreview
+                .mapNotNull { rawDeckPreview: RawDeckPreview ->
+                    val searchMatchingRanges: List<IntRange> =
+                        findMatchingRange(rawDeckPreview.deckName, searchText)
+                            ?: return@mapNotNull null
+                    rawDeckPreview.toDeckPreview(searchMatchingRanges)
+                }
         }
     }
+        .share()
 
     private fun findMatchingRange(source: String, search: String): List<IntRange>? {
         if (search.isEmpty()) return null
@@ -128,13 +155,30 @@ class HomeViewModel(
         return result
     }
 
-    private fun List<DeckPreview>.filterBy(displayOnlyWithTasks: Boolean): List<DeckPreview> {
-        return if (displayOnlyWithTasks) {
-            filter {
-                it.numberOfCardsReadyForExercise == null || it.numberOfCardsReadyForExercise > 0
+    val deckSelection: Flow<DeckSelection?> = homeScreenState.flowOf(HomeScreenState::deckSelection)
+        .share()
+
+    val decksPreview: Flow<List<DeckPreview>> = combine(
+        filteredDecksPreview,
+        deckSelection
+    ) { filteredDecksPreview: List<DeckPreview>,
+        deckSelection: DeckSelection? ->
+        if (deckSelection == null) {
+            filteredDecksPreview
+        } else {
+            filteredDecksPreview.map { deckPreview: DeckPreview ->
+                val isSelected = deckPreview.deckId in deckSelection.selectedDeckIds
+                deckPreview.copy(isSelected = isSelected)
             }
-        } else this
+        }
     }
+        .share()
+        .flowOn(Dispatchers.Default)
+
+    val hasSearchText: Flow<Boolean> =
+        homeScreenState.flowOf(HomeScreenState::searchText)
+            .map { it.isNotEmpty() }
+            .distinctUntilChanged()
 
     @OptIn(ExperimentalStdlibApi::class)
     val deckListItem: Flow<List<DeckListItem>> = combine(
@@ -149,7 +193,7 @@ class HomeViewModel(
             decksPreview
         } else {
             buildList {
-                if (!hasSearchText && deckSelection == null) {
+                if (!hasSearchText) {
                     add(DeckListItem.Header)
                 }
                 addAll(decksPreview)
@@ -159,6 +203,8 @@ class HomeViewModel(
             }
         }
     }
+        .distinctUntilChanged()
+        .flowOn(Dispatchers.Default)
 
     val numberOfSelectedCardsAvailableForExercise: Flow<Int?> = combine(
         decksPreview,
@@ -177,6 +223,8 @@ class HomeViewModel(
                 .sum()
         }
     }
+        .distinctUntilChanged()
+        .flowOn(Dispatchers.Default)
 
     val decksNotFound: Flow<Boolean> = combine(
         hasSearchText,
@@ -184,39 +232,68 @@ class HomeViewModel(
     ) { hasSearchText: Boolean, decksPreview: List<DeckPreview> ->
         hasSearchText && decksPreview.isEmpty()
     }
+        .distinctUntilChanged()
 
     val areCardsBeingSearched: Flow<Boolean> =
         searcherState.flowOf(CardsSearcher.State::isSearching)
 
-    val isExerciseButtonVisible: Flow<Boolean> = combine(
+    val exerciseButtonState: Flow<ButtonState> = combine(
         deckSelection,
         hasSearchText
     ) { deckSelection: DeckSelection?, hasSearchText: Boolean ->
         if (deckSelection == null) {
-            !hasSearchText
+            if (hasSearchText) {
+                ButtonState.Invisible
+            } else {
+                ButtonState.Visible
+            }
         } else {
-            when (deckSelection.purpose) {
-                DeckSelection.Purpose.General,
-                DeckSelection.Purpose.ForExercise -> true
-                else -> false
+            when {
+                deckSelection.purpose == DeckSelection.Purpose.ForExercise
+                        && deckSelection.selectedDeckIds.isEmpty() -> {
+                    ButtonState.Inactive
+                }
+                deckSelection.purpose == DeckSelection.Purpose.ForExercise
+                        || deckSelection.purpose == DeckSelection.Purpose.General -> {
+                    ButtonState.Visible
+                }
+                else -> {
+                    ButtonState.Invisible
+                }
             }
         }
     }
+        .distinctUntilChanged()
+        .flowOn(Dispatchers.Default)
 
-    val isAutoplayButtonVisible: Flow<Boolean> = combine(
+    val autoplayButtonState: Flow<ButtonState> = combine(
         deckSelection,
         hasSearchText
     ) { deckSelection: DeckSelection?, hasSearchText: Boolean ->
         if (deckSelection == null) {
-            !hasSearchText
+            if (hasSearchText) {
+                ButtonState.Invisible
+            } else {
+                ButtonState.Visible
+            }
         } else {
-            when (deckSelection.purpose) {
-                DeckSelection.Purpose.General,
-                DeckSelection.Purpose.ForAutoplay -> true
-                else -> false
+            when {
+                deckSelection.purpose == DeckSelection.Purpose.ForAutoplay
+                        && deckSelection.selectedDeckIds.isEmpty() -> {
+                    ButtonState.Inactive
+                }
+                deckSelection.purpose == DeckSelection.Purpose.ForAutoplay
+                        || deckSelection.purpose == DeckSelection.Purpose.General -> {
+                    ButtonState.Visible
+                }
+                else -> {
+                    ButtonState.Invisible
+                }
             }
         }
     }
+        .distinctUntilChanged()
+        .flowOn(Dispatchers.Default)
 
     val foundCards: Flow<List<SearchCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
 
@@ -227,6 +304,8 @@ class HomeViewModel(
     ) { hasSearchText: Boolean, areCardsBeingSearched: Boolean, foundCards: List<SearchCard> ->
         hasSearchText && !areCardsBeingSearched && foundCards.isEmpty()
     }
+        .distinctUntilChanged()
+        .flowOn(Dispatchers.Default)
 
     init {
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->

@@ -13,12 +13,9 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
-import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
-import com.odnovolov.forgetmenot.presentation.common.Navigator
-import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
@@ -158,7 +155,8 @@ class HomeController(
                     if (deckSelection.selectedDeckIds.isEmpty()
                         || deckSelection.purpose !in listOf(
                             DeckSelection.Purpose.General,
-                            DeckSelection.Purpose.ForAutoplay)
+                            DeckSelection.Purpose.ForAutoplay
+                        )
                     ) {
                         return
                     }
@@ -176,7 +174,8 @@ class HomeController(
                     if (deckSelection.selectedDeckIds.isEmpty()
                         || deckSelection.purpose !in listOf(
                             DeckSelection.Purpose.General,
-                            DeckSelection.Purpose.ForExercise)
+                            DeckSelection.Purpose.ForExercise
+                        )
                     ) {
                         return
                     }
@@ -239,21 +238,21 @@ class HomeController(
     }
 
     private fun navigateToAutoplaySettings(deckIds: List<Long>) {
-        homeScreenState.deckSelection = null
         navigator.navigateToAutoplaySettings {
             val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
             val repetitionCreatorState = RepetitionStateCreator.State(decks)
             RepetitionSettingsDiScope.create(repetitionCreatorState, PresetDialogState())
         }
+        homeScreenState.deckSelection = null
     }
 
     private fun startExercise(deckIds: List<Long>) {
         if (exerciseStateCreator.hasAnyCardAvailableForExercise(deckIds)) {
-            homeScreenState.deckSelection = null
             navigator.navigateToExercise {
                 val exerciseState: Exercise.State = exerciseStateCreator.create(deckIds)
                 ExerciseDiScope.create(exerciseState)
             }
+            homeScreenState.deckSelection = null
         } else {
             sendCommand(ShowNoCardIsReadyForExerciseMessage)
         }

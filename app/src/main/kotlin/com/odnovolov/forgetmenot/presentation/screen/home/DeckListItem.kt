@@ -1,7 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.soywiz.klock.DateTime
-
 sealed class DeckListItem {
     object Header : DeckListItem()
 
@@ -9,11 +7,11 @@ sealed class DeckListItem {
         val deckId: Long,
         val deckName: String,
         val searchMatchingRanges: List<IntRange>?,
-        val averageLaps: Double,
+        val averageLaps: String,
         val learnedCount: Int,
         val totalCount: Int,
         val numberOfCardsReadyForExercise: Int?,
-        val lastOpened: DateTime?,
+        val lastOpenedAt: String,
         val isSelected: Boolean?
     ) : DeckListItem()
 

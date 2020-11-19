@@ -210,22 +210,18 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:layout="@layout/fragment_deck_list" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottomButtonsRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:orientation="horizontal"
             app:layout_behavior="com.odnovolov.forgetmenot.presentation.common.MoveUpwardBehavior">
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/autoplayButton"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="1"
+                android:layout_margin="20dp"
                 android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
                 android:outlineAmbientShadowColor="@color/colorAccent"
@@ -233,7 +229,7 @@
                 android:stateListAnimator="@animator/material_button"
                 android:text="@string/text_autoplay_button"
                 android:textAllCaps="false"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/text_autoplay_button"
                 android:textSize="16sp"
                 app:backgroundTint="@android:color/white"
                 app:cornerRadius="16dp"
@@ -242,19 +238,22 @@
                 app:iconPadding="2dp"
                 app:iconSize="16dp"
                 app:iconTint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/exerciseButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="250dp"
                 app:rippleColor="@color/colorAccent"
-                app:strokeColor="@color/colorAccent"
+                app:strokeColor="@color/exercise_button_stroke"
                 app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/exerciseButton"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_weight="1"
                 android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
                 android:outlineAmbientShadowColor="@color/colorAccent"
@@ -262,12 +261,19 @@
                 android:stateListAnimator="@animator/material_button"
                 android:text="@string/text_exercise_button"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_exercise_button"
                 android:textSize="16sp"
-                app:backgroundTint="@color/colorAccent"
-                app:cornerRadius="16dp" />
+                app:backgroundTint="@color/exercise_button_background_tint"
+                app:cornerRadius="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/autoplayButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="250dp"
+                app:strokeColor="@color/exercise_button_stroke"
+                app:strokeWidth="2dp" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/addDeckFragment"

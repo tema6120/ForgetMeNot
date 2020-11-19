@@ -560,8 +560,10 @@
     <string name="description_remove_decks">Remove decks</string>
     <string name="description_more_options">More options</string>
     <string name="text_autoplay_button">Autoplay</string>
+    <string name="text_autoplay_button_unable">Choose decks for autoplay</string>
     <string name="text_exercise_button">Exercise</string>
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
+    <string name="text_exercise_button_unable">Choose decks for exercise</string>
     <plurals name="number_of_selected_decks">
         <item quantity="one">%d deck</item>
         <item quantity="other">%d decks</item>
