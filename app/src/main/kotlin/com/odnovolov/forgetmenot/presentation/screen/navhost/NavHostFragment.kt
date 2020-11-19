@@ -1,12 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.navhost
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.LinearLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
@@ -127,12 +125,9 @@ class NavHostFragment : BaseFragment() {
         val currentChildFragmentClass = getCurrentChildFragmentClass() ?: return
         NavigationDestination.values().forEach { navigationDestination: NavigationDestination ->
             val isSelected = currentChildFragmentClass == navigationDestination.fragmentClass
-            val icon: ImageView = requireView().findViewById(navigationDestination.itemIconId)
-            icon.isSelected = isSelected
-            val textView: TextView =
-                requireView().findViewById(navigationDestination.itemTextViewId)
-            val typeFace: Int = if (isSelected) Typeface.BOLD else Typeface.NORMAL
-            textView.setTypeface(null, typeFace)
+            val itemButton: LinearLayout =
+                requireView().findViewById(navigationDestination.itemButtonId)
+            itemButton.isSelected = isSelected
         }
     }
 
@@ -162,29 +157,21 @@ class NavHostFragment : BaseFragment() {
     private enum class NavigationDestination(
         val fragmentClass: KClass<out Fragment>,
         val itemButtonId: Int,
-        val itemIconId: Int,
-        val itemTextViewId: Int,
         val createFragment: () -> Fragment
     ) {
         Decks(
             HomeFragment::class,
             R.id.decksDrawerItem,
-            R.id.decksIcon,
-            R.id.decksTextView,
             ::HomeFragment
         ),
         Settings(
             SettingsFragment::class,
             R.id.settingsDrawerItem,
-            R.id.settingsIcon,
-            R.id.settingsTextView,
             ::SettingsFragment
         ),
         Help(
             HelpFragment::class,
             R.id.helpDrawerItem,
-            R.id.helpIcon,
-            R.id.helpTextView,
             ::HelpFragment
         )
     }

@@ -24,7 +24,7 @@
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp"
                     android:text="@string/app_name"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/text_drawer_item"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -36,17 +36,19 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="24dp"
-                    android:background="@color/colorAccent" />
+                    android:background="@color/text_drawer_item" />
 
             <LinearLayout
                     android:id="@+id/decksDrawerItem"
                     style="@style/DrawerItem">
 
+                <View style="@style/DrawerIndicator" />
+
                 <ImageView
                         android:id="@+id/decksIcon"
                         style="@style/DrawerItemIcon"
                         android:contentDescription="@string/drawer_item_decks"
-                        app:srcCompat="@drawable/ic_twotone_content_copy_24" />
+                        app:srcCompat="@drawable/ic_round_view_carousel_24" />
 
                 <TextView
                         android:id="@+id/decksTextView"
@@ -61,11 +63,13 @@
                     android:id="@+id/deckGroupsDrawerItem"
                     style="@style/DrawerItem">
 
+                <View style="@style/DrawerIndicator" />
+
                 <ImageView
                         android:id="@+id/deckGroupsIcon"
                         style="@style/DrawerItemIcon"
                         android:contentDescription="@string/drawer_item_deck_groups"
-                        app:srcCompat="@drawable/ic_twotone_group_work_24" />
+                        app:srcCompat="@drawable/ic_round_group_work_24" />
 
                 <TextView
                         android:id="@+id/deckGroupsTextView"
@@ -78,11 +82,13 @@
                     android:id="@+id/statisticsDrawerItem"
                     style="@style/DrawerItem">
 
+                <View style="@style/DrawerIndicator" />
+
                 <ImageView
                         android:id="@+id/statisticsIcon"
                         style="@style/DrawerItemIcon"
                         android:contentDescription="@string/drawer_item_statistics"
-                        app:srcCompat="@drawable/ic_twotone_emoji_events_24" />
+                        app:srcCompat="@drawable/ic_round_emoji_events_24" />
 
                 <TextView
                         android:id="@+id/statisticsTextView"
@@ -95,11 +101,13 @@
                     android:id="@+id/settingsDrawerItem"
                     style="@style/DrawerItem">
 
+                <View style="@style/DrawerIndicator" />
+
                 <ImageView
                         android:id="@+id/settingsIcon"
                         style="@style/DrawerItemIcon"
                         android:contentDescription="@string/drawer_item_settings"
-                        app:srcCompat="@drawable/ic_twotone_settings_24" />
+                        app:srcCompat="@drawable/ic_round_settings_24" />
 
                 <TextView
                         android:id="@+id/settingsTextView"
@@ -112,11 +120,13 @@
                     android:id="@+id/supportAppDrawerItem"
                     style="@style/DrawerItem">
 
+                <View style="@style/DrawerIndicator" />
+
                 <ImageView
                         android:id="@+id/supportAppIcon"
                         style="@style/DrawerItemIcon"
                         android:contentDescription="@string/drawer_item_support_app"
-                        app:srcCompat="@drawable/ic_twotone_grade_24" />
+                        app:srcCompat="@drawable/ic_round_grade_24" />
 
                 <TextView
                         android:id="@+id/supportAppTextView"
@@ -129,11 +139,13 @@
                     android:id="@+id/helpDrawerItem"
                     style="@style/DrawerItem">
 
+                <View style="@style/DrawerIndicator" />
+
                 <ImageView
                         android:id="@+id/helpIcon"
                         style="@style/DrawerItemIcon"
                         android:contentDescription="@string/drawer_item_help"
-                        app:srcCompat="@drawable/ic_twotone_help_24" />
+                        app:srcCompat="@drawable/ic_round_help_24" />
 
                 <TextView
                         android:id="@+id/helpTextView"
@@ -146,11 +158,13 @@
                     android:id="@+id/aboutDrawerItem"
                     style="@style/DrawerItem">
 
+                <View style="@style/DrawerIndicator" />
+
                 <ImageView
                         android:id="@+id/aboutIcon"
                         style="@style/DrawerItemIcon"
                         android:contentDescription="@string/drawer_item_about"
-                        app:srcCompat="@drawable/ic_twotone_card_travel_24" />
+                        app:srcCompat="@drawable/ic_round_work_24" />
 
                 <TextView
                         android:id="@+id/aboutTextView"

@@ -35,23 +35,30 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
-        <item name="android:paddingStart">24dp</item>
-        <item name="android:paddingEnd">24dp</item>
         <item name="android:background">@drawable/ripple_rectangular_colored</item>
     </style>
 
+    <style name="DrawerIndicator">
+        <item name="android:layout_width">6dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/drawer_item_indicator</item>
+    </style>
+
     <style name="DrawerItemIcon">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:background">@drawable/background_drawer_item_icon</item>
-        <item name="android:padding">12dp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="tint">@color/drawer_icon</item>
     </style>
 
     <style name="DrawerItemText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:textColor">@color/text_main_drawer_item</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 </resources>
