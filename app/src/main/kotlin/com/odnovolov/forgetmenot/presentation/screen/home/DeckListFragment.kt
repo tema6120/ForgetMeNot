@@ -104,7 +104,12 @@ class DeckListFragment : BaseFragment() {
                 )
             }
         }
-        deckPreviewAdapter = DeckPreviewAdapter(controller!!, setupHeader)
+        deckPreviewAdapter = DeckPreviewAdapter(
+            controller!!,
+            setupHeader,
+            viewModel.deckSelection,
+            viewCoroutineScope!!
+        )
         decksPreviewRecycler.adapter = deckPreviewAdapter
     }
 

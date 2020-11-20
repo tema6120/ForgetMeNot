@@ -7,17 +7,25 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.highlight
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class DeckPreviewAdapter(
     private val controller: HomeController,
-    private val setupHeader: (View) -> Unit
-) : ListAdapter<DeckListItem, SimpleRecyclerViewHolder>(DiffCallback()) {
+    private val setupHeader: (View) -> Unit,
+    private val deckSelectionFlow: Flow<DeckSelection?>,
+    private val coroutineScope: CoroutineScope
+) : ListAdapter<DeckListItem, ViewHolder>(DiffCallback()) {
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_ITEM = 1
@@ -31,7 +39,7 @@ class DeckPreviewAdapter(
             else -> TYPE_ITEM
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = when (viewType) {
             TYPE_HEADER -> {
@@ -45,42 +53,50 @@ class DeckPreviewAdapter(
                 layoutInflater.inflate(R.layout.item_deck_preview, parent, false)
             }
         }
-        return SimpleRecyclerViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
-        with(viewHolder.itemView) {
-            val deckListItem = getItem(position)
-            when (deckListItem) {
-                DeckListItem.Header, DeckListItem.Footer -> return
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        val itemView = viewHolder.itemView
+        val deckListItem = getItem(position)
+        when (deckListItem) {
+            DeckListItem.Header, DeckListItem.Footer -> return
+        }
+        val deckPreview = deckListItem as DeckPreview
+        itemView.deckButton.setOnClickListener {
+            controller.dispatch(DeckButtonClicked(deckPreview.deckId))
+        }
+        itemView.deckButton.setOnLongClickListener {
+            controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
+            true
+        }
+        itemView.deckNameTextView.text = if (deckPreview.searchMatchingRanges != null) {
+            deckPreview.deckName
+                .highlight(deckPreview.searchMatchingRanges, itemView.context)
+        } else {
+            deckPreview.deckName
+        }
+        itemView.deckOptionButton.setOnClickListener { view: View ->
+            showOptionMenu(view, deckPreview.deckId)
+        }
+        itemView.deckSelector.setOnClickListener {
+            controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
+        }
+        itemView.avgLapsValueTextView.text = deckPreview.averageLaps
+        itemView.learnedValueTextView.text = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
+        itemView.taskValueTextView.text =
+            deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
+        itemView.lastOpenedValueTextView.text = deckPreview.lastOpenedAt
+        viewHolder.selectionObserving?.cancel()
+        viewHolder.selectionObserving = coroutineScope.launch {
+            deckSelectionFlow.collect { deckSelection: DeckSelection? ->
+                val isItemSelected: Boolean? = deckSelection?.run {
+                    deckListItem.deckId in selectedDeckIds
+                }
+                itemView.isSelected = isItemSelected == true
+                itemView.deckOptionButton.isVisible = isItemSelected == null
+                itemView.deckSelector.isVisible = isItemSelected != null
             }
-            val deckPreview = deckListItem as DeckPreview
-            deckButton.setOnClickListener {
-                controller.dispatch(DeckButtonClicked(deckPreview.deckId))
-            }
-            deckButton.setOnLongClickListener {
-                controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
-                true
-            }
-            deckNameTextView.text = if (deckPreview.searchMatchingRanges != null) {
-                deckPreview.deckName
-                    .highlight(deckPreview.searchMatchingRanges, context)
-            } else {
-                deckPreview.deckName
-            }
-            deckOptionButton.setOnClickListener { view: View ->
-                showOptionMenu(view, deckPreview.deckId)
-            }
-            deckSelector.setOnClickListener {
-                controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
-            }
-            avgLapsValueTextView.text = deckPreview.averageLaps
-            learnedValueTextView.text = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
-            taskValueTextView.text = deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
-            lastOpenedValueTextView.text = deckPreview.lastOpenedAt
-            isSelected = deckPreview.isSelected == true
-            deckOptionButton.isVisible = deckPreview.isSelected == null
-            deckSelector.isVisible = deckPreview.isSelected != null
         }
     }
 
@@ -115,6 +131,8 @@ class DeckPreviewAdapter(
             show()
         }
     }
+
+    class ViewHolder(view: View, var selectionObserving: Job? = null) : RecyclerView.ViewHolder(view)
 
     class DiffCallback : DiffUtil.ItemCallback<DeckListItem>() {
         override fun areItemsTheSame(oldItem: DeckListItem, newItem: DeckListItem): Boolean {

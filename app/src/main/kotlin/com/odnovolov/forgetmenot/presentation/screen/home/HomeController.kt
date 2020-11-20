@@ -238,12 +238,12 @@ class HomeController(
     }
 
     private fun navigateToAutoplaySettings(deckIds: List<Long>) {
+        homeScreenState.deckSelection = null
         navigator.navigateToAutoplaySettings {
             val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
             val repetitionCreatorState = RepetitionStateCreator.State(decks)
             RepetitionSettingsDiScope.create(repetitionCreatorState, PresetDialogState())
         }
-        homeScreenState.deckSelection = null
     }
 
     private fun startExercise(deckIds: List<Long>) {

@@ -41,8 +41,7 @@ class HomeViewModel(
             learnedCount,
             totalCount,
             numberOfCardsReadyForExercise,
-            lastOpenedAt,
-            isSelected = null
+            lastOpenedAt
         )
     }
 
@@ -108,7 +107,7 @@ class HomeViewModel(
 
     private val searchText: Flow<String> = homeScreenState.flowOf(HomeScreenState::searchText)
 
-    private val filteredDecksPreview: Flow<List<DeckPreview>> = combine(
+    val decksPreview: Flow<List<DeckPreview>> = combine(
         sortedDecksPreview,
         displayOnlyWithTasks,
         searchText
@@ -158,23 +157,6 @@ class HomeViewModel(
     val deckSelection: Flow<DeckSelection?> = homeScreenState.flowOf(HomeScreenState::deckSelection)
         .share()
 
-    val decksPreview: Flow<List<DeckPreview>> = combine(
-        filteredDecksPreview,
-        deckSelection
-    ) { filteredDecksPreview: List<DeckPreview>,
-        deckSelection: DeckSelection? ->
-        if (deckSelection == null) {
-            filteredDecksPreview
-        } else {
-            filteredDecksPreview.map { deckPreview: DeckPreview ->
-                val isSelected = deckPreview.deckId in deckSelection.selectedDeckIds
-                deckPreview.copy(isSelected = isSelected)
-            }
-        }
-    }
-        .share()
-        .flowOn(Dispatchers.Default)
-
     val hasSearchText: Flow<Boolean> =
         homeScreenState.flowOf(HomeScreenState::searchText)
             .map { it.isNotEmpty() }
@@ -214,7 +196,7 @@ class HomeViewModel(
             null
         } else {
             decksPreview
-                .filter { deckPreview -> deckPreview.isSelected == true }
+                .filter { deckPreview -> deckPreview.deckId in deckSelection.selectedDeckIds }
                 .map { deckPreview ->
                     with(deckPreview) {
                         numberOfCardsReadyForExercise ?: totalCount - learnedCount
