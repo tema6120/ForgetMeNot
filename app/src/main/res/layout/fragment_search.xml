@@ -1,80 +1,97 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cardsRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_card_overview" />
-
-    <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+            android:id="@+id/searchFrame"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/background_search_edittext"
-            android:elevation="4dp">
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/background_search_frame"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
         <ImageButton
                 android:id="@+id/backButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ripple_borderless_colored"
                 android:contentDescription="@string/description_back_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+                app:srcCompat="@drawable/ic_arrow_back_colored" />
 
         <EditText
                 android:id="@+id/searchEditText"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@null"
+                android:hint="@string/hint_search_edittext"
+                android:imeOptions="actionNone"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/pasteButton"
-                app:layout_constraintStart_toEndOf="@id/backButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:paddingEnd="8dp" />
 
         <ImageButton
-                android:id="@+id/pasteButton"
+                android:id="@+id/pasteClearButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ripple_borderless_colored"
                 android:contentDescription="@string/description_paste_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/clearButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_content_paste_24px" />
+                app:srcCompat="@drawable/ic_paste_colored" />
 
-        <ImageButton
-                android:id="@+id/clearButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_clear_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_clear_24" />
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="gone" />
 
-</FrameLayout>
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cardsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_card_overview" />
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        <TextView
+                android:id="@+id/emptyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/no_matching_cards"
+                android:textColor="@color/text_no_search_result"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:drawableTint="@color/text_no_search_result"
+                app:drawableTopCompat="@drawable/ic_round_search_24" />
+
+    </FrameLayout>
+
+</LinearLayout>

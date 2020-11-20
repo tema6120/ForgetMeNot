@@ -23,10 +23,6 @@ class SearchController(
 ) : BaseController<SearchEvent, Nothing>() {
     override fun handle(event: SearchEvent) {
         when (event) {
-            BackButtonClicked -> {
-                navigator.navigateUp()
-            }
-
             is SearchTextChanged -> {
                 searcher.search(event.text)
             }

@@ -25,6 +25,7 @@ class CardsSearcher {
     }
 
     fun search(text: String) {
+        state.searchText = text
         searchJob?.cancel()
         searchJob = coroutineScope.launch {
             state.searchResult = emptyList()
@@ -70,6 +71,7 @@ class CardsSearcher {
     }
 
     class State : FlowMaker<State>() {
+        var searchText: String by flowMaker("")
         var isSearching: Boolean by flowMaker(false)
         var searchResult: List<SearchCard> by flowMaker(emptyList())
     }

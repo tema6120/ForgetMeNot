@@ -30,14 +30,6 @@ class SearchCardAdapter(
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
         val item: SearchCard = items[position]
         with(viewHolder.itemView) {
-            val param = cardView.layoutParams as ViewGroup.MarginLayoutParams
-            val marginTop: Int = if (position == 0) 80.dp else 16.dp
-            param.setMargins(
-                param.leftMargin,
-                marginTop,
-                param.rightMargin,
-                param.bottomMargin
-            )
             questionTextView.text = item.card.question
                 .highlight(item.questionMatchingRanges, context)
             questionTextView.isEnabled = !item.card.isLearned
