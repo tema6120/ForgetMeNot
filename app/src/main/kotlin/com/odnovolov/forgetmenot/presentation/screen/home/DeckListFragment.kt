@@ -36,6 +36,7 @@ class DeckListFragment : BaseFragment() {
     private var filterDialog: Dialog? = null
     private lateinit var filterAdapter: ItemAdapter
     private var resumePauseCoroutineScope: CoroutineScope? = null
+    var scrollListener: ((dy: Int) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,6 +75,7 @@ class DeckListFragment : BaseFragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val canScrollUp = decksPreviewRecycler.canScrollVertically(-1)
                 divider.isVisible = canScrollUp
+                scrollListener?.invoke(dy)
             }
         })
     }

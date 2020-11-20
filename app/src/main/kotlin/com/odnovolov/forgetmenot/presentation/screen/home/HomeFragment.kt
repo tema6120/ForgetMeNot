@@ -6,10 +6,7 @@ import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -17,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.*
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
@@ -34,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 class HomeFragment : BaseFragment() {
     init {
@@ -45,6 +44,7 @@ class HomeFragment : BaseFragment() {
     private var pendingEvent: FileForExportDeckIsReady? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var isSearchingAfterPasteButtonClicked: Boolean = false
+    private var appbarLayoutOffset: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +72,7 @@ class HomeFragment : BaseFragment() {
         setupSearchFrame()
         setupAddCardsButton()
         setupSelectionToolbar()
+        observeAppbarOffset()
         setupViewPager()
         setupBottomButtons()
     }
@@ -124,6 +125,12 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun observeAppbarOffset() {
+        appBarLayout.addOnOffsetChangedListener(
+            OnOffsetChangedListener { _, verticalOffset -> appbarLayoutOffset = verticalOffset }
+        )
+    }
+
     private fun setupViewPager() {
         homePager.offscreenPageLimit = 1
         homePager.adapter = HomePagerAdapter(this)
@@ -156,6 +163,7 @@ class HomeFragment : BaseFragment() {
                 updateViewPagerLocking()
             }
             deckSelection.observe { deckSelection: DeckSelection? ->
+                preventDeckItemsJumping(deckSelection)
                 selectionToolbar.isVisible = deckSelection != null
                 updateSearchFrameScrollFlags()
                 searchFrame.isVisible = deckSelection == null
@@ -235,6 +243,33 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun preventDeckItemsJumping(deckSelection: DeckSelection?) {
+        if (!selectionToolbar.isVisible && deckSelection != null) {
+            antiJumpingView.isVisible = true
+            val appBarRealHeight: Int = appBarLayout.height + appbarLayoutOffset
+            val gap = appBarRealHeight - 48.dp
+            antiJumpingView.updateLayoutParams {
+                height = gap
+            }
+            val deckListFragment =
+                childFragmentManager.findFragmentByTag("f0") as DeckListFragment
+            deckListFragment.scrollListener = { dy: Int ->
+                antiJumpingView.updateLayoutParams {
+                    height -= abs(dy)
+                }
+                if (antiJumpingView.height <= 0) {
+                    antiJumpingView.isVisible = false
+                    deckListFragment.scrollListener = null
+                }
+            }
+        } else if (selectionToolbar.isVisible && deckSelection == null) {
+            antiJumpingView.isVisible = false
+            val deckListFragment =
+                childFragmentManager.findFragmentByTag("f0") as DeckListFragment
+            deckListFragment.scrollListener = null
+        }
+    }
+
     private fun updateExerciseButtonLayoutParams(deckSelection: DeckSelection?) {
         val marginStart: Int =
             if (deckSelection != null
@@ -291,7 +326,7 @@ class HomeFragment : BaseFragment() {
             is ShowDeckRemovingMessage -> {
                 Snackbar
                     .make(
-                        homeFragmentContent,
+                        homeRootView,
                         resources.getQuantityString(
                             R.plurals.numberOfDecksRemoved,
                             command.numberOfDecksRemoved,

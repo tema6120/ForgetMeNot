@@ -1,7 +1,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/homeFragmentContent"
+        android:id="@+id/homeRootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="presentation.screen.home.HomeFragment">
@@ -66,6 +66,7 @@
                 android:id="@+id/headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp">
 
@@ -140,7 +141,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@color/colorAccent"
-                android:elevation="4dp"
                 android:orientation="horizontal"
                 android:visibility="gone"
                 app:layout_scrollFlags="noScroll"
@@ -200,6 +200,12 @@
                     tools:visibility="visible" />
 
         </LinearLayout>
+
+        <View
+                android:id="@+id/antiJumpingView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="gone" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
