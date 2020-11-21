@@ -57,8 +57,24 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">32dp</item>
         <item name="android:layout_marginEnd">32dp</item>
-        <item name="android:textColor">@color/text_main_drawer_item</item>
+        <item name="android:textColor">@color/item_selector</item>
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
+    </style>
+
+    <style name="SortingItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textColor">@color/item_selector</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="PopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_show_from_top_right</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 </resources>

@@ -45,6 +45,6 @@
     <color name="tab_text_unselected">#66404040</color>
     <color name="text_no_search_result">#33404040</color>
     <color name="text_disabled">#42000000</color>
-    <color name="text_drawer_item">#4B5875</color>
-    <color name="text_drawer_item_unselected">#664B5875</color>
+    <color name="item_selected">#4B5875</color>
+    <color name="item_unselected">#664B5875</color>
 </resources>

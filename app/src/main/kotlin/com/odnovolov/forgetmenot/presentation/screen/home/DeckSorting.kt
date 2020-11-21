@@ -1,7 +1,7 @@
-package com.odnovolov.forgetmenot.presentation.screen.home.decksorting
+package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.LastOpenedAt
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.LastOpenedAt
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 
 data class DeckSorting(
     val criterion: Criterion,

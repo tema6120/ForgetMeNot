@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.persistence
 
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting
 import com.soywiz.klock.*
 import com.squareup.sqldelight.ColumnAdapter
 import java.util.*

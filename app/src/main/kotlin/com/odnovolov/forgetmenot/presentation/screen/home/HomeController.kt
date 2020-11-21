@@ -23,6 +23,8 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
@@ -105,6 +107,24 @@ class HomeController(
                     homeScreenState.deckSelection?.selectedDeckIds ?: return
                 deckRemover.removeDecks(deckIdsToRemove)
                 homeScreenState.deckSelection = null
+            }
+
+            SortingDirectionButtonClicked -> {
+                with(deckReviewPreference) {
+                    val newDirection = if (deckSorting.direction == Asc) Desc else Asc
+                    deckSorting = deckSorting.copy(direction = newDirection)
+                }
+            }
+
+            is SortByButtonClicked -> {
+                with(deckReviewPreference) {
+                    deckSorting = if (event.criterion == deckSorting.criterion) {
+                        val newDirection = if (deckSorting.direction == Asc) Desc else Asc
+                        deckSorting.copy(direction = newDirection)
+                    } else {
+                        deckSorting.copy(criterion = event.criterion)
+                    }
+                }
             }
 
             is DeckButtonClicked -> {

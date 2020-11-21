@@ -58,10 +58,10 @@
     <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
     <string name="deck_sorting_name">Name</string>
     <string name="deck_sorting_time_created">Time created</string>
-    <string name="deck_sorting_by_time_last_opened">Time last opened</string>
+    <string name="deck_sorting_by_time_last_tested">Time last tested</string>
     <string name="sort_by_name">By name</string>
     <string name="sort_by_time_created">By time created</string>
-    <string name="sort_by_time_last_opened">By time last opened</string>
+    <string name="sort_by_time_last_tested">By time last tested</string>
     <string name="title_deck_settings_toolbar">Deck Settings</string>
     <string name="text_random_order">Random order</string>
     <string name="label_deck_setup_screen">Deck Setup</string>
@@ -564,6 +564,8 @@
     <string name="text_exercise_button">Exercise</string>
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
     <string name="text_exercise_button_unable">Choose decks for exercise</string>
+    <string name="description_close">close</string>
+    <string name="description_change_sorting_direction">Change sorting direction</string>
     <plurals name="number_of_selected_decks">
         <item quantity="one">%d deck</item>
         <item quantity="other">%d decks</item>

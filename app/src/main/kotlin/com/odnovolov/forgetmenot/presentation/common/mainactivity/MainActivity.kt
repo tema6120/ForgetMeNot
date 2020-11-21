@@ -21,7 +21,6 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSortingDiScope
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
@@ -81,7 +80,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun openFirstScreenDiScopes() {
         HomeDiScope.open { HomeDiScope.create(HomeScreenState()) }
-        DeckSortingDiScope.open { DeckSortingDiScope() }
         AddDeckDiScope.open {
             AddDeckDiScope.create(
                 DeckFromFileCreator.State(),

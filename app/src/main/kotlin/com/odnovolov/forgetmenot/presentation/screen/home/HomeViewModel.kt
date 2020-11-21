@@ -8,10 +8,9 @@ import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Criterion.*
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Asc
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting.Direction.Desc
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting
 
 class DeckReviewPreferencePropertyChangeHandler(
     database: Database

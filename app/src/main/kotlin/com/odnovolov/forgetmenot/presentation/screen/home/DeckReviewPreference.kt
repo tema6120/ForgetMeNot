@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
-import com.odnovolov.forgetmenot.presentation.screen.home.decksorting.DeckSorting
 
 class DeckReviewPreference(
     deckSorting: DeckSorting = DeckSorting.Default,
