@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
@@ -139,6 +140,7 @@ class HomeViewModel(
         }
     }
         .share()
+        .flowOn(businessLogicThread)
 
     private fun findMatchingRange(source: String, search: String): List<IntRange>? {
         if (search.isEmpty()) return null
@@ -185,7 +187,7 @@ class HomeViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(Dispatchers.Default)
+        .flowOn(businessLogicThread)
 
     val numberOfSelectedCardsAvailableForExercise: Flow<Int?> = combine(
         decksPreview,
@@ -205,7 +207,7 @@ class HomeViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(Dispatchers.Default)
+        .flowOn(businessLogicThread)
 
     val decksNotFound: Flow<Boolean> = combine(
         hasSearchText,
@@ -245,7 +247,6 @@ class HomeViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(Dispatchers.Default)
 
     val autoplayButtonState: Flow<ButtonState> = combine(
         deckSelection,
@@ -274,7 +275,6 @@ class HomeViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(Dispatchers.Default)
 
     val foundCards: Flow<List<SearchCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
 
@@ -286,7 +286,6 @@ class HomeViewModel(
         hasSearchText && !areCardsBeingSearched && foundCards.isEmpty()
     }
         .distinctUntilChanged()
-        .flowOn(Dispatchers.Default)
 
     init {
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->

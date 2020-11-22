@@ -1,29 +1,15 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true">
-        <layer-list>
-            <item>
-                <shape>
-                    <corners android:radius="4dp" />
-                    <solid android:color="@android:color/white" />
-                    <stroke android:width="1.5dp" android:color="@color/colorAccent" />
-                </shape>
-            </item>
-            <item>
-                <ripple android:color="@color/colorControlHighlight" />
-            </item>
-        </layer-list>
+        <shape>
+            <corners android:radius="4dp" />
+            <solid android:color="@android:color/white" />
+            <stroke android:width="1.5dp" android:color="@color/colorAccent" />
+        </shape>
     </item>
     <item>
-        <layer-list>
-            <item>
-                <shape>
-                    <corners android:radius="4dp" />
-                    <solid android:color="@android:color/white" />
-                </shape>
-            </item>
-            <item>
-                <ripple android:color="@color/colorControlHighlight" />
-            </item>
-        </layer-list>
+        <shape>
+            <corners android:radius="4dp" />
+            <solid android:color="@android:color/white" />
+        </shape>
     </item>
 </selector>

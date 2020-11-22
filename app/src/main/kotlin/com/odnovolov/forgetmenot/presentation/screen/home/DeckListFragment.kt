@@ -155,12 +155,7 @@ class DeckListFragment : BaseFragment() {
                 updateSortingPopup(deckSorting)
             }
         }
-        deckPreviewAdapter = DeckPreviewAdapter(
-            controller!!,
-            setupHeader,
-            viewModel.deckSelection,
-            viewCoroutineScope!!
-        )
+        deckPreviewAdapter = DeckPreviewAdapter(controller!!, setupHeader)
         decksPreviewRecycler.adapter = deckPreviewAdapter
     }
 
@@ -231,6 +226,9 @@ class DeckListFragment : BaseFragment() {
             decksNotFound.observe { decksNotFound: Boolean ->
                 emptyTextView.isVisible = decksNotFound
                 progressBar.visibility = View.GONE
+            }
+            deckSelection.observe { deckSelection: DeckSelection? ->
+                deckPreviewAdapter.deckSelection = deckSelection
             }
         }
     }

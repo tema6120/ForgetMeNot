@@ -7,25 +7,36 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.highlight
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class DeckPreviewAdapter(
     private val controller: HomeController,
-    private val setupHeader: (View) -> Unit,
-    private val deckSelectionFlow: Flow<DeckSelection?>,
-    private val coroutineScope: CoroutineScope
-) : ListAdapter<DeckListItem, ViewHolder>(DiffCallback()) {
+    private val setupHeader: (View) -> Unit
+) : ListAdapter<DeckListItem, SimpleRecyclerViewHolder>(DiffCallback()) {
+    var deckSelection: DeckSelection? = null
+        set(value) {
+            field = value
+            itemViewDeckIdMap.forEach { (itemView: View, deckId: Long) ->
+                updateDeckItemSelectionState(itemView, deckId)
+            }
+        }
+
+    private var itemViewDeckIdMap = HashMap<View, Long>()
+
+    private fun updateDeckItemSelectionState(itemView: View, deckId: Long) {
+        val isItemSelected: Boolean? = deckSelection?.run {
+            deckId in selectedDeckIds
+        }
+        itemView.isSelected = isItemSelected == true
+        itemView.deckOptionButton.isVisible = isItemSelected == null
+        itemView.deckSelector.isVisible = isItemSelected != null
+    }
+
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_ITEM = 1
@@ -39,7 +50,7 @@ class DeckPreviewAdapter(
             else -> TYPE_ITEM
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = when (viewType) {
             TYPE_HEADER -> {
@@ -53,16 +64,16 @@ class DeckPreviewAdapter(
                 layoutInflater.inflate(R.layout.item_deck_preview, parent, false)
             }
         }
-        return ViewHolder(view)
+        return SimpleRecyclerViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val itemView = viewHolder.itemView
+    override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
         val deckListItem = getItem(position)
         when (deckListItem) {
             DeckListItem.Header, DeckListItem.Footer -> return
         }
         val deckPreview = deckListItem as DeckPreview
+        val itemView = viewHolder.itemView
         itemView.deckButton.setOnClickListener {
             controller.dispatch(DeckButtonClicked(deckPreview.deckId))
         }
@@ -83,21 +94,13 @@ class DeckPreviewAdapter(
             controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
         }
         itemView.avgLapsValueTextView.text = deckPreview.averageLaps
-        itemView.learnedValueTextView.text = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
+        itemView.learnedValueTextView.text =
+            "${deckPreview.learnedCount}/${deckPreview.totalCount}"
         itemView.taskValueTextView.text =
             deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
         itemView.lastOpenedValueTextView.text = deckPreview.lastOpenedAt
-        viewHolder.selectionObserving?.cancel()
-        viewHolder.selectionObserving = coroutineScope.launch {
-            deckSelectionFlow.collect { deckSelection: DeckSelection? ->
-                val isItemSelected: Boolean? = deckSelection?.run {
-                    deckListItem.deckId in selectedDeckIds
-                }
-                itemView.isSelected = isItemSelected == true
-                itemView.deckOptionButton.isVisible = isItemSelected == null
-                itemView.deckSelector.isVisible = isItemSelected != null
-            }
-        }
+        updateDeckItemSelectionState(itemView, deckPreview.deckId)
+        itemViewDeckIdMap.put(itemView, deckPreview.deckId)
     }
 
     private fun showOptionMenu(anchor: View, deckId: Long) {
@@ -131,8 +134,6 @@ class DeckPreviewAdapter(
             show()
         }
     }
-
-    class ViewHolder(view: View, var selectionObserving: Job? = null) : RecyclerView.ViewHolder(view)
 
     class DiffCallback : DiffUtil.ItemCallback<DeckListItem>() {
         override fun areItemsTheSame(oldItem: DeckListItem, newItem: DeckListItem): Boolean {

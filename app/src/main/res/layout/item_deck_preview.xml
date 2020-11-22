@@ -1,7 +1,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/deckButton"
+        android:id="@+id/item_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -11,6 +11,17 @@
         android:background="@drawable/background_deck_preview"
         android:orientation="vertical"
         tools:context="presentation.screen.home.HomeFragment">
+
+    <View
+            android:id="@+id/deckButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ripple"
+            app:layout_constraintBottom_toBottomOf="@+id/item_root"
+            app:layout_constraintEnd_toEndOf="@+id/item_root"
+            app:layout_constraintStart_toStartOf="@+id/item_root"
+            app:layout_constraintTop_toTopOf="@+id/item_root" />
+
 
     <View
             android:id="@+id/deckIndicator"
