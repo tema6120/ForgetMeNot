@@ -4,10 +4,10 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegi
 
 class DeckReviewPreference(
     deckSorting: DeckSorting = DeckSorting.Default,
-    displayOnlyWithTasks: Boolean = false
+    displayOnlyDecksAvailableForExercise: Boolean = false
 ) : FlowMakerWithRegistry<DeckReviewPreference>() {
     var deckSorting: DeckSorting by flowMaker(deckSorting)
-    var displayOnlyWithTasks: Boolean by flowMaker(displayOnlyWithTasks)
+    var displayOnlyDecksAvailableForExercise: Boolean by flowMaker(displayOnlyDecksAvailableForExercise)
 
-    override fun copy() = DeckReviewPreference(deckSorting, displayOnlyWithTasks)
+    override fun copy() = DeckReviewPreference(deckSorting, displayOnlyDecksAvailableForExercise)
 }

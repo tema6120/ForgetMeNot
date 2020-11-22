@@ -42,13 +42,13 @@ class AddDeckController(
 
     override fun handle(event: AddDeckEvent) {
         when (event) {
-            HelpLoadFromFileButtonClicked -> {
+            HelpImportFileButtonClicked -> {
                 navigator.navigateToHelpFromNavHost {
                     HelpDiScope(HelpArticle.ImportOfDeck)
                 }
             }
 
-            CreateDeckButtonClicked -> {
+            AddCardsHereButtonClicked -> {
                 screenState.howToAdd = CREATE
             }
 

@@ -100,7 +100,7 @@ class HomeFragment : BaseFragment() {
     private fun setupAddCardsButton() {
         addCardsButton.setOnClickListener {
             (childFragmentManager.findFragmentByTag("AddDeckFragment") as AddDeckFragment)
-                .addDeck()
+                .showAddCardsPopup(anchor = addCardsButton)
         }
     }
 
@@ -185,7 +185,7 @@ class HomeFragment : BaseFragment() {
                 updateDrawerLayoutLockMode()
                 updateViewPagerLocking()
             }
-            displayOnlyWithTasks.observe { displayOnlyDecksAvailableForExercise: Boolean ->
+            displayOnlyDecksAvailableForExercise.observe { displayOnlyDecksAvailableForExercise: Boolean ->
                 deckListTitleTextView.text = getString(
                     if (displayOnlyDecksAvailableForExercise)
                         R.string.deck_list_title_decks_available_for_exercise else

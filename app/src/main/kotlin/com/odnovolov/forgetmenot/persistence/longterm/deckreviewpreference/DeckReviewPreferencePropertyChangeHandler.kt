@@ -19,7 +19,7 @@ class DeckReviewPreferencePropertyChangeHandler(
                 val deckSorting = change.newValue as DeckSorting
                 queries.updateDeckSorting(deckSorting)
             }
-            DeckReviewPreference::displayOnlyWithTasks -> {
+            DeckReviewPreference::displayOnlyDecksAvailableForExercise -> {
                 val displayOnlyWithTasks = change.newValue as Boolean
                 queries.updateDisplayOnlyWithTasks(displayOnlyWithTasks)
             }

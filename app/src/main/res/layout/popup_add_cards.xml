@@ -1,0 +1,148 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_popup_light"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_extrabold"
+            android:padding="16dp"
+            android:text="@string/text_add_cards_button"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+            android:id="@+id/importFileButton"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:background="@drawable/ripple_rectangular_colored"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <ImageView
+            android:id="@+id/importFileIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ring"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/importFileButton"
+            app:layout_constraintStart_toStartOf="@+id/importFileButton"
+            app:layout_constraintTop_toTopOf="@+id/importFileButton"
+            app:srcCompat="@drawable/ic_round_description_24" />
+
+    <TextView
+            android:id="@+id/importFileTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/text_import_file_button"
+            android:textColor="@color/item_add_cards"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/importFileButton"
+            app:layout_constraintStart_toEndOf="@+id/importFileIcon"
+            app:layout_constraintTop_toTopOf="@+id/importFileButton" />
+
+    <ImageButton
+            android:id="@+id/helpImportFileButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_help_button"
+            app:layout_constraintBottom_toBottomOf="@+id/importFileButton"
+            app:layout_constraintEnd_toEndOf="@+id/importFileButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/importFileTextView"
+            app:layout_constraintTop_toTopOf="@+id/importFileButton"
+            app:srcCompat="@drawable/ic_round_help_outline_24"
+            app:tint="@color/item_add_cards" />
+
+    <View
+            android:id="@+id/browseCatalogButton"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:background="@drawable/ripple_rectangular_colored"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/importFileButton" />
+
+    <ImageView
+            android:id="@+id/browseCatalogIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ring"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/browseCatalogButton"
+            app:layout_constraintStart_toStartOf="@+id/browseCatalogButton"
+            app:layout_constraintTop_toTopOf="@+id/browseCatalogButton"
+            app:srcCompat="@drawable/ic_round_cloud_download_24" />
+
+    <TextView
+            android:id="@+id/browseCatalogTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/text_browse_catalog_button"
+            android:textColor="@color/item_add_cards"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/browseCatalogButton"
+            app:layout_constraintEnd_toEndOf="@+id/browseCatalogButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/browseCatalogIcon"
+            app:layout_constraintTop_toTopOf="@+id/browseCatalogButton" />
+
+    <View
+            android:id="@+id/createCardsHereButton"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:background="@drawable/ripple_rectangular_colored"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/browseCatalogButton" />
+
+    <ImageView
+            android:id="@+id/createCardsHereIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ring"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/createCardsHereButton"
+            app:layout_constraintStart_toStartOf="@+id/createCardsHereButton"
+            app:layout_constraintTop_toTopOf="@+id/createCardsHereButton"
+            app:srcCompat="@drawable/ic_round_create_24" />
+
+    <TextView
+            android:id="@+id/createCardsHereTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/text_create_cards_here_button"
+            android:textColor="@color/item_add_cards"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/createCardsHereButton"
+            app:layout_constraintEnd_toEndOf="@+id/createCardsHereButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/createCardsHereIcon"
+            app:layout_constraintTop_toTopOf="@+id/createCardsHereButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

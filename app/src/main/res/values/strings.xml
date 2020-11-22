@@ -55,7 +55,7 @@
     <string name="action_remove_decks">Remove decks</string>
     <string name="action_rename_deck">Rename deck</string>
     <string name="action_help">Help</string>
-    <string name="heading_deck_sorting_bottom_sheet">Sort by</string>
+    <string name="title_deck_sorting_popup">Sort by</string>
     <string name="deck_sorting_name">Name</string>
     <string name="deck_sorting_time_created">Time created</string>
     <string name="deck_sorting_by_time_last_tested">Time last tested</string>
@@ -103,8 +103,6 @@
     <string name="text_check_button">Check</string>
     <string name="text_intervals_title">Intervals</string>
     <string name="close">close</string>
-    <string name="title_deckpreview_filter_dialog">Filter</string>
-    <string name="filter_display_only_with_tasks">Display only with tasks</string>
     <string name="hint_question_edittext">Enter a question</string>
     <string name="hint_answer_edittext">Enter the answer</string>
     <string name="dialog_title_modify_interval">Interval</string>
@@ -207,9 +205,9 @@
     <string name="message_no_paste_data">Clipboard doesn\'t contain text</string>
     <string name="card_is_removed">Card is removed</string>
     <string name="toast_fill_in_the_card">Fill in the card</string>
-    <string name="text_load_from_file_button">Load from file</string>
-    <string name="text_visit_catalog_button">Visit deck catalog</string>
-    <string name="text_create_deck_button">Create</string>
+    <string name="text_import_file_button">Import file</string>
+    <string name="text_browse_catalog_button">Browse catalog</string>
+    <string name="text_create_cards_here_button">Create cards here</string>
     <string name="title_exit_dialog">Are you sure you want to quit?</string>
     <string name="message_changes_will_be_lost">Your changes will be lost if you don\'t save them.</string>
     <string name="yes">Yes</string>
@@ -570,4 +568,6 @@
         <item quantity="one">%d deck</item>
         <item quantity="other">%d decks</item>
     </plurals>
+    <string name="title_deck_filters">Filters</string>
+    <string name="deck_filter_only_decks_available_for_exercise">Only decks available for exercise</string>
 </resources>

@@ -5,7 +5,6 @@ import java.io.OutputStream
 
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
-    object DisplayOnlyWithTasksCheckboxClicked : HomeEvent()
     class FileForExportDeckIsReady(val outputStream: OutputStream) : HomeEvent()
     object DecksRemovedSnackbarCancelButtonClicked : HomeEvent()
 
@@ -13,6 +12,9 @@ sealed class HomeEvent {
     object SelectionCancelled : HomeEvent()
     object SelectAllDecksButtonClicked : HomeEvent()
     object RemoveDecksButtonClicked : HomeEvent()
+
+    // Filters:
+    object DecksAvailableForExerciseCheckboxClicked : HomeEvent()
 
     // Sorting:
     object SortingDirectionButtonClicked : HomeEvent()

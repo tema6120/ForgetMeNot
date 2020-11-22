@@ -1,30 +1,30 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showSoftInput
-import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
-import kotlinx.android.synthetic.main.dialog_add_deck.view.*
+import kotlinx.android.synthetic.main.popup_add_cards.view.*
 import kotlinx.android.synthetic.main.dialog_deck_name_input.view.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
 import kotlinx.coroutines.launch
@@ -39,17 +39,54 @@ class AddDeckFragment : BaseFragment() {
     private lateinit var deckNameInputDialog: AlertDialog
     private lateinit var deckNameDialogEditText: EditText
     private var pendingEvent: ContentReceived? = null
-    private lateinit var addDeckDialog: Dialog
+    private var addCardsPopup: PopupWindow? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
+        initAddCardsPopup()
         createDeckNameInputDialog()
-        createAddDeckDialog()
         return inflater.inflate(R.layout.fragment_adddeck, container, false)
+    }
+
+    private fun initAddCardsPopup() {
+        val content = View.inflate(requireContext(), R.layout.popup_add_cards, null)
+            .apply {
+                importFileButton.setOnClickListener {
+                    addCardsPopup?.dismiss()
+                    showFileChooser()
+                }
+                helpImportFileButton.setOnClickListener {
+                    addCardsPopup?.dismiss()
+                    controller?.dispatch(HelpImportFileButtonClicked)
+                }
+                browseCatalogButton.setOnClickListener {
+                    addCardsPopup?.dismiss()
+                    openDeckCatalogInAnotherApp()
+                }
+                createCardsHereButton.setOnClickListener {
+                    addCardsPopup?.dismiss()
+                    controller?.dispatch(AddCardsHereButtonClicked)
+                }
+            }
+        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+        addCardsPopup = PopupWindow(context).apply {
+            width = content.measuredWidth
+            height = content.measuredHeight
+            contentView = content
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.background_popup_light
+                )
+            )
+            elevation = 20f.dp
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.RightPopupAnimation
+        }
     }
 
     private fun createDeckNameInputDialog() {
@@ -71,31 +108,6 @@ class AddDeckFragment : BaseFragment() {
             .create()
             .apply { setOnShowListener { deckNameDialogEditText.showSoftInput() } }
         dialogTimeCapsule.register("deckNameInputDialog", deckNameInputDialog)
-    }
-
-    private fun createAddDeckDialog() {
-        val dialogView = View.inflate(requireContext(), R.layout.dialog_add_deck, null).apply {
-            loadFromFileButton.setOnClickListener {
-                addDeckDialog.dismiss()
-                showFileChooser()
-            }
-            helpLoadFromFileButton.setOnClickListener {
-                addDeckDialog.dismiss()
-                controller?.dispatch(HelpLoadFromFileButtonClicked)
-            }
-            visitCatalogButton.setOnClickListener {
-                addDeckDialog.dismiss()
-                openDeckCatalogInAnotherApp()
-            }
-            createDeckButton.setOnClickListener {
-                addDeckDialog.dismiss()
-                controller?.dispatch(CreateDeckButtonClicked)
-            }
-        }
-        addDeckDialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .create()
-        dialogTimeCapsule.register("addDeckDialog", addDeckDialog)
     }
 
     private fun openDeckCatalogInAnotherApp() {
@@ -155,8 +167,11 @@ class AddDeckFragment : BaseFragment() {
     }
 
     // it is called from parent fragment
-    fun addDeck() {
-        addDeckDialog.show()
+    fun showAddCardsPopup(anchor: View) {
+        val anchorLocation = IntArray(2).also(anchor::getLocationOnScreen)
+        val x: Int = anchorLocation[0] + anchor.width - addCardsPopup!!.width
+        val y: Int = anchorLocation[1]
+        addCardsPopup?.showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, x, y)
     }
 
     private fun showFileChooser() {

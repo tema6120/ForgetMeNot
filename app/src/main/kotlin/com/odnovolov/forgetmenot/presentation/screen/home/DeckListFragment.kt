@@ -1,12 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import android.app.Dialog
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.MeasureSpec
-import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
@@ -17,13 +13,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.drawable
-import com.odnovolov.forgetmenot.R.string
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
-import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
-import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
-import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
@@ -32,7 +22,9 @@ import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.fragment_deck_list.*
 import kotlinx.android.synthetic.main.item_deck_preview_header.view.*
+import kotlinx.android.synthetic.main.popup_deck_filters.view.*
 import kotlinx.android.synthetic.main.popup_deck_sorting.view.*
+import kotlinx.android.synthetic.main.popup_deck_sorting.view.closeButton
 import kotlinx.coroutines.*
 
 class DeckListFragment : BaseFragment() {
@@ -43,9 +35,8 @@ class DeckListFragment : BaseFragment() {
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
     private lateinit var deckPreviewAdapter: DeckPreviewAdapter
-    private var filterDialog: Dialog? = null
+    private var filtersPopup: PopupWindow? = null
     private var sortingPopup: PopupWindow? = null
-    private lateinit var filterAdapter: ItemAdapter
     private var resumePauseCoroutineScope: CoroutineScope? = null
     var scrollListener: ((dy: Int) -> Unit)? = null
 
@@ -54,9 +45,37 @@ class DeckListFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initFilterDialog()
+        initFiltersPopup()
         initSortingPopup()
         return inflater.inflate(R.layout.fragment_deck_list, container, false)
+    }
+
+    private fun initFiltersPopup() {
+        val content = View.inflate(requireContext(), R.layout.popup_deck_filters, null)
+            .apply {
+                closeButton.setOnClickListener {
+                    filtersPopup?.dismiss()
+                }
+                TooltipCompat.setTooltipText(closeButton, closeButton.contentDescription)
+                availableForExerciseButton.setOnClickListener {
+                    controller?.dispatch(DecksAvailableForExerciseCheckboxClicked)
+                }
+            }
+        filtersPopup = PopupWindow(context).apply {
+            width = 250.dp
+            height = WindowManager.LayoutParams.WRAP_CONTENT
+            contentView = content
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.background_popup_light
+                )
+            )
+            elevation = 20f.dp
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.LeftPopupAnimation
+        }
     }
 
     private fun initSortingPopup() {
@@ -97,19 +116,8 @@ class DeckListFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
-            animationStyle = R.style.PopupAnimation
+            animationStyle = R.style.RightPopupAnimation
         }
-    }
-
-    private fun initFilterDialog() {
-        filterDialog = ChoiceDialogCreator.create(
-            context = requireContext(),
-            title = getString(R.string.title_deckpreview_filter_dialog),
-            itemForm = AsCheckBox,
-            onItemClick = { controller?.dispatch(DisplayOnlyWithTasksCheckboxClicked) },
-            takeAdapter = { filterAdapter = it }
-        )
-        dialogTimeCapsule.register("filterDialog", filterDialog!!)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -137,7 +145,7 @@ class DeckListFragment : BaseFragment() {
     private fun initDeckPreviewAdapter() {
         val setupHeader: (View) -> Unit = { header: View ->
             header.filterButton.setOnClickListener {
-                filterDialog?.show()
+                showFiltersPopup(anchor = header.filterButton)
             }
             header.sortingButton.setOnClickListener {
                 showSortingPopup(anchor = header.sortingButton)
@@ -156,23 +164,37 @@ class DeckListFragment : BaseFragment() {
         decksPreviewRecycler.adapter = deckPreviewAdapter
     }
 
+    private fun showFiltersPopup(anchor: View) {
+        val anchorLocation = IntArray(2).also(anchor::getLocationOnScreen)
+        val x: Int = anchorLocation[0]
+        val y: Int = anchorLocation[1]
+        filtersPopup!!.showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, x, y)
+    }
+
+    private fun showSortingPopup(anchor: View) {
+        val anchorLocation = IntArray(2).also(anchor::getLocationOnScreen)
+        val x: Int = anchorLocation[0] + anchor.width - sortingPopup!!.width
+        val y: Int = anchorLocation[1]
+        sortingPopup!!.showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, x, y)
+    }
+
     private fun updateSortingButton(
         sortingButton: TextView,
         deckSorting: DeckSorting
     ) {
         sortingButton.text = getString(
             when (deckSorting.criterion) {
-                Name -> string.sort_by_name
-                CreatedAt -> string.sort_by_time_created
-                LastOpenedAt -> string.sort_by_time_last_tested
+                Name -> R.string.sort_by_name
+                CreatedAt -> R.string.sort_by_time_created
+                LastOpenedAt -> R.string.sort_by_time_last_tested
             }
         )
         val directionIconId: Int = when (deckSorting.direction) {
-            Asc -> drawable.ic_round_arrow_upward_16
-            Desc -> drawable.ic_round_arrow_downward_16
+            Asc -> R.drawable.ic_round_arrow_upward_16
+            Desc -> R.drawable.ic_round_arrow_downward_16
         }
         sortingButton.setCompoundDrawablesWithIntrinsicBounds(
-            drawable.ic_sorting, 0, directionIconId, 0
+            R.drawable.ic_sorting, 0, directionIconId, 0
         )
     }
 
@@ -199,21 +221,12 @@ class DeckListFragment : BaseFragment() {
         }
     }
 
-    private fun showSortingPopup(anchor: View) {
-        val anchorLocation = IntArray(2).also(anchor::getLocationOnScreen)
-        val x: Int = anchorLocation[0] + anchor.width - sortingPopup!!.width
-        val y: Int = anchorLocation[1]
-        sortingPopup!!.showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, x, y)
-    }
-
     private fun observeViewModel() {
         with(viewModel) {
-            displayOnlyWithTasks.observe { displayOnlyDecksAvailableForExercise: Boolean ->
-                val item = object : Item {
-                    override val text = getString(R.string.filter_display_only_with_tasks)
-                    override val isSelected = displayOnlyDecksAvailableForExercise
+            displayOnlyDecksAvailableForExercise.observe { displayOnlyDecksAvailableForExercise: Boolean ->
+                filtersPopup?.contentView?.run {
+                    availableForExerciseCheckBox.isChecked = displayOnlyDecksAvailableForExercise
                 }
-                filterAdapter.submitList(listOf(item))
             }
             decksNotFound.observe { decksNotFound: Boolean ->
                 emptyTextView.isVisible = decksNotFound
@@ -245,8 +258,8 @@ class DeckListFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        filterDialog = null
         decksPreviewRecycler.adapter = null
+        filtersPopup = null
         sortingPopup = null
     }
 }

@@ -101,14 +101,14 @@ class HomeViewModel(
     }
         .share()
 
-    val displayOnlyWithTasks: Flow<Boolean> =
-        deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyWithTasks)
+    val displayOnlyDecksAvailableForExercise: Flow<Boolean> =
+        deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyDecksAvailableForExercise)
 
     private val searchText: Flow<String> = homeScreenState.flowOf(HomeScreenState::searchText)
 
     val decksPreview: Flow<List<DeckPreview>> = combine(
         sortedDecksPreview,
-        displayOnlyWithTasks,
+        displayOnlyDecksAvailableForExercise,
         searchText
     ) { sortedDecksPreview: List<RawDeckPreview>,
         displayOnlyWithTasks: Boolean,

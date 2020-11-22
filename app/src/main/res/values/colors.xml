@@ -47,4 +47,5 @@
     <color name="text_disabled">#42000000</color>
     <color name="item_selected">#4B5875</color>
     <color name="item_unselected">#664B5875</color>
+    <color name="item_add_cards">#330000</color>
 </resources>

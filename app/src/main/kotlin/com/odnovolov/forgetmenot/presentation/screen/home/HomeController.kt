@@ -72,10 +72,6 @@ class HomeController(
                 cardsSearcher.search(event.searchText)
             }
 
-            DisplayOnlyWithTasksCheckboxClicked -> {
-                with(deckReviewPreference) { displayOnlyWithTasks = !displayOnlyWithTasks }
-            }
-
             is FileForExportDeckIsReady -> {
                 try {
                     deckExporter.export(
@@ -107,6 +103,12 @@ class HomeController(
                     homeScreenState.deckSelection?.selectedDeckIds ?: return
                 deckRemover.removeDecks(deckIdsToRemove)
                 homeScreenState.deckSelection = null
+            }
+
+            DecksAvailableForExerciseCheckboxClicked -> {
+                with(deckReviewPreference) {
+                    displayOnlyDecksAvailableForExercise = !displayOnlyDecksAvailableForExercise
+                }
             }
 
             SortingDirectionButtonClicked -> {
