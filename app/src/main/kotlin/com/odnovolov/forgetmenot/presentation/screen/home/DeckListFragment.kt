@@ -39,6 +39,7 @@ class DeckListFragment : BaseFragment() {
     private var sortingPopup: PopupWindow? = null
     private var resumePauseCoroutineScope: CoroutineScope? = null
     var scrollListener: ((dy: Int) -> Unit)? = null
+    private var filterButton: View? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -144,6 +145,7 @@ class DeckListFragment : BaseFragment() {
 
     private fun initDeckPreviewAdapter() {
         val setupHeader: (View) -> Unit = { header: View ->
+            filterButton = header.filterButton
             header.filterButton.setOnClickListener {
                 showFiltersPopup(anchor = header.filterButton)
             }
@@ -229,6 +231,7 @@ class DeckListFragment : BaseFragment() {
             }
             deckSelection.observe { deckSelection: DeckSelection? ->
                 deckPreviewAdapter.deckSelection = deckSelection
+                filterButton?.isVisible = deckSelection == null
             }
         }
     }
@@ -259,5 +262,6 @@ class DeckListFragment : BaseFragment() {
         decksPreviewRecycler.adapter = null
         filtersPopup = null
         sortingPopup = null
+        filterButton = null
     }
 }

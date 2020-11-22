@@ -140,7 +140,7 @@ class HomeViewModel(
         }
     }
         .share()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     private fun findMatchingRange(source: String, search: String): List<IntRange>? {
         if (search.isEmpty()) return null
@@ -187,7 +187,7 @@ class HomeViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val numberOfSelectedCardsAvailableForExercise: Flow<Int?> = combine(
         decksPreview,
@@ -207,7 +207,7 @@ class HomeViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val decksNotFound: Flow<Boolean> = combine(
         hasSearchText,
