@@ -63,7 +63,7 @@ class DeckListFragment : BaseFragment() {
                 }
             }
         filtersPopup = PopupWindow(context).apply {
-            width = 250.dp
+            width = 260.dp
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = content
             setBackgroundDrawable(

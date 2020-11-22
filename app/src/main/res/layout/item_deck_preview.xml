@@ -1,7 +1,7 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/item_root"
+        android:id="@+id/deckButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -12,196 +12,190 @@
         android:orientation="vertical"
         tools:context="presentation.screen.home.HomeFragment">
 
-    <View
-            android:id="@+id/deckButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/ripple"
-            app:layout_constraintBottom_toBottomOf="@+id/item_root"
-            app:layout_constraintEnd_toEndOf="@+id/item_root"
-            app:layout_constraintStart_toStartOf="@+id/item_root"
-            app:layout_constraintTop_toTopOf="@+id/item_root" />
+            android:orientation="vertical"
+            tools:context="presentation.screen.home.HomeFragment">
 
-    <View
-            android:id="@+id/deckIndicator"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/deck_indicator"
-            android:backgroundTint="@color/iconDark"
-            app:layout_constraintBottom_toBottomOf="@id/deckNameTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/deckNameTextView" />
+        <TextView
+                android:id="@+id/deckNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="56dp"
+                android:layout_marginBottom="8dp"
+                android:drawablePadding="12dp"
+                android:fontFamily="@font/comfortaa"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/deck_indicator"
+                app:drawableTint="@color/iconDark"
+                tools:text="Английский №8" />
 
-    <TextView
-            android:id="@+id/deckNameTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="4dp"
-            android:fontFamily="@font/comfortaa"
-            android:textColor="@color/textPrimary"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/barrier"
-            app:layout_constraintStart_toEndOf="@+id/deckIndicator"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Английский №8" />
+        <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="52dp"
+                android:background="?android:attr/listDivider" />
 
-    <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="deckOptionButton,deckSelector" />
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/avgLapsTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/average_laps"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="10sp" />
+
+                <TextView
+                        android:id="@+id/avgLapsValueTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="3.6" />
+
+            </LinearLayout>
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/learnedTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/learned"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="10sp" />
+
+                <TextView
+                        android:id="@+id/learnedValueTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/learnedTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/learnedTextView"
+                        tools:text="12/50" />
+
+            </LinearLayout>
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/taskTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/task"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="10sp" />
+
+                <TextView
+                        android:id="@+id/taskValueTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="24" />
+
+
+            </LinearLayout>
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/lastTestedTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/last_tested"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="10sp" />
+
+                <TextView
+                        android:id="@+id/lastTestedValueTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="Nov 2" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ImageButton
             android:id="@+id/deckOptionButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="top|end"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/deck_option"
             android:tint="@color/iconDark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
 
     <ImageButton
             android:id="@+id/deckSelector"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="top|end"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/deck_option"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/deck_selector" />
 
-    <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="@id/deckNameTextView"
-            app:layout_constraintStart_toStartOf="@id/deckNameTextView"
-            app:layout_constraintTop_toBottomOf="@id/deckNameTextView" />
-
-    <TextView
-            android:id="@+id/avgLapsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:maxLines="1"
-            android:text="@string/average_laps"
-            android:textAllCaps="true"
-            android:textColor="@color/textSecondary"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toStartOf="@+id/learnedTextView"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="@+id/divider"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
-
-    <TextView
-            android:id="@+id/avgLapsValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:maxLines="1"
-            android:textColor="@color/textPrimary"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/avgLapsTextView"
-            app:layout_constraintTop_toBottomOf="@+id/avgLapsTextView"
-            tools:text="3.6" />
-
-    <TextView
-            android:id="@+id/learnedTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:maxLines="1"
-            android:text="@string/learned"
-            android:textAllCaps="true"
-            android:textColor="@color/textSecondary"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toStartOf="@+id/taskTextView"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/avgLapsTextView"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
-
-    <TextView
-            android:id="@+id/learnedValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textColor="@color/textPrimary"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/learnedTextView"
-            app:layout_constraintTop_toBottomOf="@+id/learnedTextView"
-            tools:text="12/50" />
-
-    <TextView
-            android:id="@+id/taskTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:maxLines="1"
-            android:text="@string/task"
-            android:textAllCaps="true"
-            android:textColor="@color/textSecondary"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toStartOf="@+id/lastOpenedTextView"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/learnedTextView"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
-
-    <TextView
-            android:id="@+id/taskValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textColor="@color/textPrimary"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/taskTextView"
-            app:layout_constraintTop_toBottomOf="@+id/taskTextView"
-            tools:text="24" />
-
-    <TextView
-            android:id="@+id/lastOpenedTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:maxLines="1"
-            android:text="@string/last_opened"
-            android:textAllCaps="true"
-            android:textColor="@color/textSecondary"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/taskTextView"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
-
-    <TextView
-            android:id="@+id/lastOpenedValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textColor="@color/textPrimary"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/lastOpenedTextView"
-            app:layout_constraintTop_toBottomOf="@+id/lastOpenedTextView"
-            tools:text="Nov 2" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

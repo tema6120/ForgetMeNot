@@ -536,7 +536,7 @@
     <string name="average_laps">Avg. laps</string>
     <string name="learned">Learned</string>
     <string name="task">Task</string>
-    <string name="last_opened">Last opened</string>
+    <string name="last_tested">Last tested</string>
     <string name="text_filter_button">Filters</string>
     <string name="deck_list_title_all_decks">All decks</string>
     <string name="deck_list_title_decks_available_for_exercise">Decks available for exercise</string>

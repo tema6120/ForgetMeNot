@@ -243,6 +243,7 @@
                 app:iconGravity="textStart"
                 app:iconPadding="2dp"
                 app:iconSize="16dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:iconTint="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/exerciseButton"

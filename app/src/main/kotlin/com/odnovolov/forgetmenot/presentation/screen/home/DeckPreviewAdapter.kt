@@ -97,7 +97,7 @@ class DeckPreviewAdapter(
             "${deckPreview.learnedCount}/${deckPreview.totalCount}"
         itemView.taskValueTextView.text =
             deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
-        itemView.lastOpenedValueTextView.text = deckPreview.lastOpenedAt
+        itemView.lastTestedValueTextView.text = deckPreview.lastOpenedAt
         updateDeckItemSelectionState(itemView, deckPreview.deckId)
         itemViewDeckIdMap[itemView] = deckPreview.deckId
     }
