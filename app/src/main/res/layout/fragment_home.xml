@@ -239,7 +239,7 @@
                 android:textSize="16sp"
                 app:backgroundTint="@android:color/white"
                 app:cornerRadius="16dp"
-                app:icon="@drawable/ic_play"
+                app:icon="@drawable/ic_play_24"
                 app:iconGravity="textStart"
                 app:iconPadding="2dp"
                 app:iconSize="16dp"

@@ -45,6 +45,7 @@ class HomeController(
 ) : BaseController<HomeEvent, Command>() {
     sealed class Command {
         object ShowNoCardIsReadyForExerciseMessage : Command()
+        object ShowDeckOption : Command()
         class ShowDeckRemovingMessage(val numberOfDecksRemoved: Int) : Command()
         class ShowCreateFileDialog(val fileName: String) : Command()
         object ShowDeckIsExportedMessage : Command()
@@ -75,7 +76,7 @@ class HomeController(
             is FileForExportDeckIsReady -> {
                 try {
                     deckExporter.export(
-                        deck = homeScreenState.exportedDeck ?: return,
+                        deck = homeScreenState.deckForDeckOptionMenu ?: return,
                         outputStream = event.outputStream
                     )
                     sendCommand(ShowDeckIsExportedMessage)
@@ -145,31 +146,35 @@ class HomeController(
                 toggleDeckSelection(event.deckId)
             }
 
-            is StartExerciseDeckOptionSelected -> {
-                startExercise(deckIds = listOf(event.deckId))
-            }
-
-            is AutoplayDeckOptionSelected -> {
-                navigateToAutoplaySettings(deckIds = listOf(event.deckId))
-            }
-
-            is ShowCardsDeckOptionSelected -> {
-                navigateToDeckSetup(event.deckId)
-            }
-
-            is SetupDeckOptionSelected -> {
-                navigateToDeckSetup(event.deckId)
-            }
-
-            is ExportDeckOptionSelected -> {
+            is DeckOptionButtonClicked -> {
                 val deck: Deck = globalState.decks.first { it.id == event.deckId }
-                homeScreenState.exportedDeck = deck
-                val fileName = deck.name
+                homeScreenState.deckForDeckOptionMenu = deck
+                sendCommand(ShowDeckOption)
+            }
+
+            StartExerciseDeckOptionSelected -> {
+                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                startExercise(deckIds = listOf(deckId))
+            }
+
+            AutoplayDeckOptionSelected -> {
+                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                navigateToAutoplaySettings(deckIds = listOf(deckId))
+            }
+
+            SetupDeckOptionSelected -> {
+                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                navigateToDeckSetup(deckId)
+            }
+
+            ExportDeckOptionSelected -> {
+                val fileName = homeScreenState.deckForDeckOptionMenu?.name ?: return
                 sendCommand(ShowCreateFileDialog(fileName))
             }
 
-            is RemoveDeckOptionSelected -> {
-                deckRemover.removeDeck(event.deckId)
+            RemoveDeckOptionSelected -> {
+                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                deckRemover.removeDeck(deckId)
             }
 
             AutoplayButtonClicked -> {

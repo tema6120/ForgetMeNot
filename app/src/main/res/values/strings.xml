@@ -570,4 +570,9 @@
     </plurals>
     <string name="title_deck_filters">Filters</string>
     <string name="deck_filter_only_decks_available_for_exercise">Only decks available for exercise</string>
+    <string name="deck_option_start_exercise">Start exercise</string>
+    <string name="deck_option_autoplay">Autoplay</string>
+    <string name="deck_option_setup">Setup</string>
+    <string name="deck_option_export">Export</string>
+    <string name="deck_option_remove">Remove</string>
 </resources>

@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -87,8 +86,8 @@ class DeckPreviewAdapter(
         } else {
             deckPreview.deckName
         }
-        itemView.deckOptionButton.setOnClickListener { view: View ->
-            showOptionMenu(view, deckPreview.deckId)
+        itemView.deckOptionButton.setOnClickListener {
+            controller.dispatch(DeckOptionButtonClicked(deckPreview.deckId))
         }
         itemView.deckSelector.setOnClickListener {
             controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
@@ -100,39 +99,7 @@ class DeckPreviewAdapter(
             deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
         itemView.lastOpenedValueTextView.text = deckPreview.lastOpenedAt
         updateDeckItemSelectionState(itemView, deckPreview.deckId)
-        itemViewDeckIdMap.put(itemView, deckPreview.deckId)
-    }
-
-    private fun showOptionMenu(anchor: View, deckId: Long) {
-        PopupMenu(anchor.context, anchor).apply {
-            inflate(R.menu.deck_preview_actions)
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.startExerciseMenuItem -> {
-                        controller.dispatch(StartExerciseDeckOptionSelected(deckId))
-                        true
-                    }
-                    R.id.repetitionModeMenuItem -> {
-                        controller.dispatch(AutoplayDeckOptionSelected(deckId))
-                        true
-                    }
-                    R.id.setupDeckMenuItem -> {
-                        controller.dispatch(SetupDeckOptionSelected(deckId))
-                        true
-                    }
-                    R.id.exportMenuItem -> {
-                        controller.dispatch(ExportDeckOptionSelected(deckId))
-                        true
-                    }
-                    R.id.removeDeckMenuItem -> {
-                        controller.dispatch(RemoveDeckOptionSelected(deckId))
-                        true
-                    }
-                    else -> false
-                }
-            }
-            show()
-        }
+        itemViewDeckIdMap[itemView] = deckPreview.deckId
     }
 
     class DiffCallback : DiffUtil.ItemCallback<DeckListItem>() {

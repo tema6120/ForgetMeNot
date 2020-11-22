@@ -8,6 +8,7 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/background_window</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.YourApp.LargeComponent</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark"/>
@@ -81,5 +82,25 @@
     <style name="LeftPopupAnimation">
         <item name="android:windowEnterAnimation">@anim/popup_show_from_top_left</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
+    <style name="DeckOptionItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">32dp</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/ripple_rectangular_colored</item>
+        <item name="drawableTint">@color/textSecondary</item>
+    </style>
+
+    <style name="ShapeAppearance.YourApp.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 </resources>

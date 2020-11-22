@@ -205,7 +205,7 @@ class HomeFragment : BaseFragment() {
                     if (buttonState == ButtonState.Inactive) {
                         null
                     } else {
-                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_play)
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_play_24)
                     }
             }
             exerciseButtonState.observe { buttonState: ButtonState ->
@@ -322,6 +322,9 @@ class HomeFragment : BaseFragment() {
         when (command) {
             ShowNoCardIsReadyForExerciseMessage -> {
                 showToast(R.string.toast_text_no_cards_ready_for_exercise)
+            }
+            ShowDeckOption -> {
+                DeckOptionsBottomSheet().show(childFragmentManager, "DeckOptionsBottomSheet")
             }
             is ShowDeckRemovingMessage -> {
                 Snackbar

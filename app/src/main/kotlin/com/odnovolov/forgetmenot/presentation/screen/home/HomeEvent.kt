@@ -26,12 +26,12 @@ sealed class HomeEvent {
     class DeckSelectorClicked(val deckId: Long) : HomeEvent()
 
     // Deck options:
-    class StartExerciseDeckOptionSelected(val deckId: Long) : HomeEvent()
-    class AutoplayDeckOptionSelected(val deckId: Long) : HomeEvent()
-    class ShowCardsDeckOptionSelected(val deckId: Long) : HomeEvent()
-    class SetupDeckOptionSelected(val deckId: Long) : HomeEvent()
-    class ExportDeckOptionSelected(val deckId: Long) : HomeEvent()
-    class RemoveDeckOptionSelected(val deckId: Long) : HomeEvent()
+    class DeckOptionButtonClicked(val deckId: Long) : HomeEvent()
+    object StartExerciseDeckOptionSelected : HomeEvent()
+    object AutoplayDeckOptionSelected : HomeEvent()
+    object SetupDeckOptionSelected : HomeEvent()
+    object ExportDeckOptionSelected : HomeEvent()
+    object RemoveDeckOptionSelected : HomeEvent()
 
     // Bottom buttons:
     object AutoplayButtonClicked : HomeEvent()

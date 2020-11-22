@@ -8,15 +8,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
 open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
-    var viewScope: CoroutineScope? = null
+    var viewCoroutineScope: CoroutineScope? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        viewCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }
 
-    fun <T> Flow<T>.observe(onEach: (value: T) -> Unit) {
-        viewScope!!.launch {
+    inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit = {}) {
+        viewCoroutineScope!!.launch {
             collect {
                 if (isActive) {
                     onEach(it)
@@ -26,7 +26,8 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
-        viewScope!!.cancel()
+        viewCoroutineScope!!.cancel()
+        viewCoroutineScope = null
         super.onDestroyView()
     }
 }

@@ -22,7 +22,7 @@ class HomeScreenStateProvider(
     data class SerializableHomeScreenState(
         val searchText: String,
         val deckSelection: DeckSelection?,
-        val exportedDeckId: Long?
+        val DeckIdForDeckOptionMenu: Long?
     )
 
     override val serializer = SerializableHomeScreenState.serializer()
@@ -30,17 +30,17 @@ class HomeScreenStateProvider(
     override fun toSerializable(state: HomeScreenState) = SerializableHomeScreenState(
         state.searchText,
         state.deckSelection,
-        state.exportedDeck?.id
+        state.deckForDeckOptionMenu?.id
     )
 
     override fun toOriginal(serializableState: SerializableHomeScreenState): HomeScreenState {
-        val exportDeck: Deck? = serializableState.exportedDeckId?.let { exportedDeckId: Long ->
+        val deck: Deck? = serializableState.DeckIdForDeckOptionMenu?.let { exportedDeckId: Long ->
             globalState.decks.first { deck -> deck.id == exportedDeckId }
         }
         return HomeScreenState().apply {
             searchText = serializableState.searchText
             deckSelection = serializableState.deckSelection
-            exportedDeck = exportDeck
+            deckForDeckOptionMenu = deck
         }
     }
 }

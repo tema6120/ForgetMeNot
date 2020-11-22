@@ -1,0 +1,109 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:background="@android:color/white">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <View
+                android:id="@+id/deckIndicator"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="32dp"
+                android:background="@drawable/deck_indicator"
+                android:backgroundTint="@color/iconDark" />
+
+        <TextView
+                android:id="@+id/deckNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/comfortaa"
+                android:padding="16dp"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Английский №8" />
+
+    </LinearLayout>
+
+    <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/startExerciseDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_start_exercise"
+                    app:drawableStartCompat="@drawable/ic_round_school_20" />
+
+            <TextView
+                    android:id="@+id/autoplayDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_autoplay"
+                    app:drawableStartCompat="@drawable/ic_play_20" />
+
+            <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="84dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/divider" />
+
+            <TextView
+                    android:id="@+id/setupDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_setup"
+                    app:drawableStartCompat="@drawable/ic_round_build_20" />
+
+            <View
+                    android:id="@+id/divider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="84dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/divider" />
+
+            <TextView
+                    android:id="@+id/exportDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_export"
+                    app:drawableStartCompat="@drawable/ic_round_unarchive_20" />
+
+            <TextView
+                    android:id="@+id/removeDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_remove"
+                    app:drawableStartCompat="@drawable/ic_round_delete_20" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -22,7 +22,6 @@
             app:layout_constraintStart_toStartOf="@+id/item_root"
             app:layout_constraintTop_toTopOf="@+id/item_root" />
 
-
     <View
             android:id="@+id/deckIndicator"
             android:layout_width="8dp"

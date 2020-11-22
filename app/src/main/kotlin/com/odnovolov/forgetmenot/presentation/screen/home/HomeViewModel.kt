@@ -209,6 +209,10 @@ class HomeViewModel(
         .distinctUntilChanged()
         .flowOn(Dispatchers.Default)
 
+    val deckNameInDeckOptionMenu: Flow<String?> =
+        homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu)
+            .map { deck: Deck? -> deck?.name }
+
     val decksNotFound: Flow<Boolean> = combine(
         hasSearchText,
         decksPreview
