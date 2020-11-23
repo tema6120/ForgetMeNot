@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.about.AboutFragment
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsFragment
@@ -173,6 +174,11 @@ class NavHostFragment : BaseFragment() {
             HelpFragment::class,
             R.id.helpDrawerItem,
             ::HelpFragment
+        ),
+        About(
+            AboutFragment::class,
+            R.id.aboutDrawerItem,
+            ::AboutFragment
         )
     }
 }

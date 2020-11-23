@@ -575,4 +575,42 @@
     <string name="deck_option_setup">Setup</string>
     <string name="deck_option_export">Export</string>
     <string name="deck_option_remove">Remove</string>
+    <string name="decksription_app_logo">App logo</string>
+    <string name="app_slogan">won\'t let you forget anything</string>
+    <string name="developer_story">More than a year ago, when I started learning a foreign
+        language, I decided to use flashcards to memorize words. Having tried dozens of different
+        apps on Google Play, none of them satisfied me completely. So I decided to create my own
+        one.
+
+        \n\nFirst of all, I wanted my application to have a clean UI so that I could fully focus
+        on my studies. My app had to be convenient and super fast so that I could repeat at least
+        10 words per minute. Also, my requirements included support for spaced repetitions,
+        pronunciation, importing cards from a file (because a deck can created on a computer quite
+        quickly using copy-paste).
+
+        \n\nAfter implementing the pronunciation, I realized that with this, I can greatly expand
+        the possibilities of the learning process. First, I can hide the text of the question to
+        perceive the text not visually, but aurally. It would be a good contributor to improving my
+        listening skills. Second, during some activities, I could repeat the material at the same
+        time, if the application could switch cards itself. Third, (it\'s somewhat unusual function)
+        I could answer the questions when I walk somewhere, not looking at the screen by
+        controlling the application with the volume buttons. Well it\'s done.
+
+        \n\nFurthermore, I implemented some simple but important features, for example, editing card
+        on the go, card reversing, reusing deck settings and many others. There are also additional
+        options to help you focus on your studies, such as \'Full Screen Mode\' and \'Motivational
+        timer\'.
+
+        \n\nAm I satisfied with the program now? Not exactly. There are a few more ideas for
+        improvement. But I think that at this stage it looks quite attractive and can suit many
+        people who study languages and not only.
+
+        \n\nI am not in any way pursuing commercial goals. My app is completely free and open
+        source. I\'d like to know what you think about my app!</string>
+    <string name="text_support_app_button">Support app</string>
+    <string name="about_item_developer">Odnovolov Artem</string>
+    <string name="about_item_source_code">Source code</string>
+    <string name="about_item_privacy_policy">Privacy policy</string>
+    <string name="developer_story_title">Developer story</string>
+    <string name="title_about_screen">About</string>
 </resources>

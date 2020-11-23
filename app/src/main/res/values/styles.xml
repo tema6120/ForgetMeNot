@@ -103,4 +103,21 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
     </style>
+
+    <style name="AboutItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">32dp</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/ripple_rectangular_colored</item>
+        <item name="drawableTint">@color/textSecondary</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
 </resources>
