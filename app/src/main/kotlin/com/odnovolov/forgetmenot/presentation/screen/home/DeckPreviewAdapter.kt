@@ -1,8 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -97,9 +99,29 @@ class DeckPreviewAdapter(
             "${deckPreview.learnedCount}/${deckPreview.totalCount}"
         itemView.taskValueTextView.text =
             deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
+        itemView.taskValueTextView.setTextColor(
+            getTaskColor(deckPreview.numberOfCardsReadyForExercise, itemView.context)
+        )
         itemView.lastTestedValueTextView.text = deckPreview.lastOpenedAt
         updateDeckItemSelectionState(itemView, deckPreview.deckId)
         itemViewDeckIdMap[itemView] = deckPreview.deckId
+    }
+
+    private var colorNotHasTask: Int? = null
+    private var colorHasTask: Int? = null
+
+    private fun getTaskColor(numberOfCardsReadyForExercise: Int?, context: Context): Int {
+        return if (numberOfCardsReadyForExercise == null || numberOfCardsReadyForExercise == 0) {
+            if (colorNotHasTask == null) {
+                colorNotHasTask = ContextCompat.getColor(context, R.color.textPrimary)
+            }
+            colorNotHasTask!!
+        } else {
+            if (colorHasTask == null) {
+                colorHasTask = ContextCompat.getColor(context, R.color.text_task)
+            }
+            colorHasTask!!
+        }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<DeckListItem>() {

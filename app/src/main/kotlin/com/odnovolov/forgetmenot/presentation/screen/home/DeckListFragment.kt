@@ -137,7 +137,9 @@ class DeckListFragment : BaseFragment() {
         decksPreviewRecycler.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val canScrollUp = decksPreviewRecycler.canScrollVertically(-1)
-                divider.isVisible = canScrollUp
+                if (divider.isVisible != canScrollUp) {
+                    divider.isVisible = canScrollUp
+                }
                 scrollListener?.invoke(dy)
             }
         })
