@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AsyncFrameLayout @JvmOverloads constructor(
+    layoutParams: ViewGroup.LayoutParams,
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -22,7 +23,7 @@ class AsyncFrameLayout @JvmOverloads constructor(
     defStyleRes
 ) {
     init {
-        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        setLayoutParams(layoutParams)
     }
 
     private var isInflated = false

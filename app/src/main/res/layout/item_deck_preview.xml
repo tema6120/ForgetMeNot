@@ -9,7 +9,6 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/background_deck_preview"
-        android:orientation="vertical"
         tools:context="presentation.screen.home.HomeFragment">
 
     <LinearLayout
@@ -19,6 +18,7 @@
             android:orientation="vertical"
             tools:context="presentation.screen.home.HomeFragment">
 
+        <!-- with async inflation, parameter 'fontFamily' causes InflateException -->
         <TextView
                 android:id="@+id/deckNameTextView"
                 android:layout_width="match_parent"
@@ -28,12 +28,12 @@
                 android:layout_marginEnd="56dp"
                 android:layout_marginBottom="8dp"
                 android:drawablePadding="12dp"
-                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:drawableStartCompat="@drawable/deck_indicator"
                 app:drawableTint="@color/iconDark"
+                tools:fontFamily="@font/comfortaa"
                 tools:text="Английский №8" />
 
         <View
@@ -54,15 +54,13 @@
                 android:shrinkColumns="*"
                 android:stretchColumns="0,1,2">
 
-            <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <TableRow android:id="@+id/row_1">
 
                 <TextView
                         android:id="@+id/avgLapsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
+                        android:paddingEnd="8dp"
                         android:text="@string/average_laps"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
@@ -72,7 +70,7 @@
                         android:id="@+id/learnedTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
+                        android:paddingEnd="8dp"
                         android:text="@string/learned"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
@@ -82,7 +80,7 @@
                         android:id="@+id/taskTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
+                        android:paddingEnd="8dp"
                         android:text="@string/task"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
@@ -99,15 +97,13 @@
 
             </TableRow>
 
-            <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <TableRow android:id="@+id/row_2">
 
                 <TextView
                         android:id="@+id/avgLapsValueTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
+                        android:paddingEnd="8dp"
                         android:textColor="@color/textPrimary"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -117,19 +113,17 @@
                         android:id="@+id/learnedValueTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
+                        android:paddingEnd="8dp"
                         android:textColor="@color/textPrimary"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@+id/learnedTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/learnedTextView"
                         tools:text="12/50" />
 
                 <TextView
                         android:id="@+id/taskValueTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
+                        android:paddingEnd="8dp"
                         android:textColor="@color/text_task"
                         android:textSize="12sp"
                         android:textStyle="bold"

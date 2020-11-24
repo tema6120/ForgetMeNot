@@ -2,6 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
@@ -42,7 +44,9 @@ class ExerciseCardAdapter(
         viewType: Int
     ): ExerciseCardViewHolder<ExerciseCard> {
         val layoutId: Int = viewType
-        val itemView = AsyncFrameLayout(parent.context)
+
+        val layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        val itemView = AsyncFrameLayout(layoutParams, parent.context)
         itemView.inflateAsync(layoutId)
         return when (layoutId) {
             R.layout.item_exercise_card_off_test -> {

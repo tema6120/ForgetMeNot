@@ -1,16 +1,22 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.highlight
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
@@ -62,7 +68,18 @@ class DeckPreviewAdapter(
                 layoutInflater.inflate(R.layout.item_deck_preview_footer, parent, false)
             }
             else -> {
-                layoutInflater.inflate(R.layout.item_deck_preview, parent, false)
+                val layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                AsyncFrameLayout(layoutParams, parent.context).apply {
+                    inflateAsync(R.layout.item_deck_preview)
+                    invokeWhenInflated {
+                        // with async inflation, parameter 'fontFamily' in xml causes InflateException
+                        // so we set font on ui thread programmatically
+                        deckNameTextView.setTypeface(
+                            ResourcesCompat.getFont(context, R.font.comfortaa),
+                            Typeface.BOLD
+                        )
+                    }
+                }
             }
         }
         return SimpleRecyclerViewHolder(view)
@@ -74,37 +91,39 @@ class DeckPreviewAdapter(
             DeckListItem.Header, DeckListItem.Footer -> return
         }
         val deckPreview = deckListItem as DeckPreview
-        val itemView = viewHolder.itemView
-        itemView.deckButton.setOnClickListener {
-            controller.dispatch(DeckButtonClicked(deckPreview.deckId))
+        (viewHolder.itemView as AsyncFrameLayout).invokeWhenInflated {
+            val itemView = viewHolder.itemView
+            itemView.deckButton.setOnClickListener {
+                controller.dispatch(DeckButtonClicked(deckPreview.deckId))
+            }
+            itemView.deckButton.setOnLongClickListener {
+                controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
+                true
+            }
+            itemView.deckNameTextView.text = if (deckPreview.searchMatchingRanges != null) {
+                deckPreview.deckName
+                    .highlight(deckPreview.searchMatchingRanges, itemView.context)
+            } else {
+                deckPreview.deckName
+            }
+            itemView.deckOptionButton.setOnClickListener {
+                controller.dispatch(DeckOptionButtonClicked(deckPreview.deckId))
+            }
+            itemView.deckSelector.setOnClickListener {
+                controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
+            }
+            itemView.avgLapsValueTextView.text = deckPreview.averageLaps
+            itemView.learnedValueTextView.text =
+                "${deckPreview.learnedCount}/${deckPreview.totalCount}"
+            itemView.taskValueTextView.text =
+                deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
+            itemView.taskValueTextView.setTextColor(
+                getTaskColor(deckPreview.numberOfCardsReadyForExercise, itemView.context)
+            )
+            itemView.lastTestedValueTextView.text = deckPreview.lastOpenedAt
+            updateDeckItemSelectionState(itemView, deckPreview.deckId)
+            itemViewDeckIdMap[itemView] = deckPreview.deckId
         }
-        itemView.deckButton.setOnLongClickListener {
-            controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
-            true
-        }
-        itemView.deckNameTextView.text = if (deckPreview.searchMatchingRanges != null) {
-            deckPreview.deckName
-                .highlight(deckPreview.searchMatchingRanges, itemView.context)
-        } else {
-            deckPreview.deckName
-        }
-        itemView.deckOptionButton.setOnClickListener {
-            controller.dispatch(DeckOptionButtonClicked(deckPreview.deckId))
-        }
-        itemView.deckSelector.setOnClickListener {
-            controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
-        }
-        itemView.avgLapsValueTextView.text = deckPreview.averageLaps
-        itemView.learnedValueTextView.text =
-            "${deckPreview.learnedCount}/${deckPreview.totalCount}"
-        itemView.taskValueTextView.text =
-            deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
-        itemView.taskValueTextView.setTextColor(
-            getTaskColor(deckPreview.numberOfCardsReadyForExercise, itemView.context)
-        )
-        itemView.lastTestedValueTextView.text = deckPreview.lastOpenedAt
-        updateDeckItemSelectionState(itemView, deckPreview.deckId)
-        itemViewDeckIdMap[itemView] = deckPreview.deckId
     }
 
     private var colorNotHasTask: Int? = null
