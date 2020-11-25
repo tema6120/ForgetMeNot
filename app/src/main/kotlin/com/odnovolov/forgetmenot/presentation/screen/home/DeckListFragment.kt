@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
@@ -137,8 +138,8 @@ class DeckListFragment : BaseFragment() {
         decksPreviewRecycler.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val canScrollUp = decksPreviewRecycler.canScrollVertically(-1)
-                if (divider.isVisible != canScrollUp) {
-                    divider.isVisible = canScrollUp
+                if (divider.isInvisible == canScrollUp) {
+                    divider.isInvisible = !canScrollUp
                 }
                 scrollListener?.invoke(dy)
             }

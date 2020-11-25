@@ -1,0 +1,173 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
+            <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/background_white_button"
+                    android:contentDescription="@string/description_back_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_back_colored" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:text="@string/title_support_app_screen"
+                    android:textColor="@color/item_selected"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <LinearLayout style="@style/SupportAppItem">
+
+            <TextView
+                    style="@style/CTA"
+                    android:text="@string/cta_rate_the_app_on_google_play" />
+
+            <TextView
+                    style="@style/CTA_Description"
+                    android:text="@string/cta_rate_the_app_on_google_play_description" />
+
+            <TextView
+                    android:id="@+id/rateUsButton"
+                    style="@style/SupportAppButton"
+                    android:text="@string/text_rate_us_button" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/SupportAppItem">
+
+            <TextView
+                    style="@style/CTA"
+                    android:text="@string/cta_give_us_feedback" />
+
+            <TextView
+                    style="@style/CTA_Description"
+                    android:text="@string/cta_give_us_feedback_description" />
+
+            <TextView
+                    android:id="@+id/writeReviewOnGooglePlayButton"
+                    style="@style/SupportAppButton"
+                    android:text="@string/text_write_review_on_google_play_button" />
+
+            <TextView
+                    android:id="@+id/submitNewIssueOnGithubButton"
+                    style="@style/SupportAppButton"
+                    android:text="@string/text_submit_new_issue_on_github_button" />
+
+            <TextView
+                    android:id="@+id/sendEmailToAuthorButton"
+                    style="@style/SupportAppButton"
+                    android:text="@string/text_send_email_to_author_button" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/SupportAppItem">
+
+            <TextView
+                    style="@style/CTA"
+                    android:text="@string/cta_help_us_with_translation" />
+
+            <TextView
+                    style="@style/CTA_Description"
+                    android:text="@string/cta_help_us_with_translation_description" />
+
+            <TextView
+                    android:id="@+id/helpTranslateButton"
+                    style="@style/SupportAppButton"
+                    android:text="@string/text_help_translate_button" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/SupportAppItem">
+
+            <TextView
+                    style="@style/CTA"
+                    android:text="@string/cta_share_with_friends" />
+
+            <TextView
+                    style="@style/CTA_Description"
+                    android:text="@string/cta_share_with_friends_description" />
+
+            <TextView
+                    android:id="@+id/shareWithFrindsButton"
+                    style="@style/SupportAppButton"
+                    android:text="@string/text_share_with_friends_button" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/SupportAppItem">
+
+            <TextView
+                    style="@style/CTA"
+                    android:text="@string/cta_join_us_on_social_media" />
+
+            <TextView
+                    style="@style/CTA_Description"
+                    android:text="@string/cta_join_us_on_social_media_description" />
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                <ImageButton
+                        android:id="@+id/facebookButton"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/description_facebook_button"
+                        app:srcCompat="@drawable/ic_sm_facebook_32" />
+
+                <ImageButton
+                        android:id="@+id/instagramButton"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/description_instagram_button"
+                        app:srcCompat="@drawable/ic_sm_instagram_32" />
+
+                <ImageButton
+                        android:id="@+id/twitterButton"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/description_twitter_button"
+                        app:srcCompat="@drawable/ic_sm_twitter_32" />
+
+                <ImageButton
+                        android:id="@+id/youtubeButton"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/description_youtube_button"
+                        app:srcCompat="@drawable/ic_sm_youtube_32" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

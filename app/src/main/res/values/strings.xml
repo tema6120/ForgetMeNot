@@ -613,4 +613,36 @@
     <string name="about_item_privacy_policy">Privacy policy</string>
     <string name="developer_story_title">Developer story</string>
     <string name="title_about_screen">About</string>
+    <string name="title_support_app_screen">Support app</string>
+    <string name="cta_rate_the_app_on_google_play">Rate the app on Google Play</string>
+    <string name="cta_rate_the_app_on_google_play_description">App rating affect people\'s decision
+        to download app. Positive rating can help us reach more users. With higher downloads, we
+        will be able to receive feedback from a number of different perspectives which will help us
+        in making ForgetNeNot better than ever.</string>
+    <string name="text_rate_us_button">Rate us</string>
+    <string name="cta_give_us_feedback">Give us feedback</string>
+    <string name="cta_give_us_feedback_description">Tell us what\'s working, and what\'s not. We
+        want to provide you with the best experience, so your feedback is very valuable. Let us
+        know how we can do better.</string>
+    <string name="text_write_review_on_google_play_button">Write review on Google Play</string>
+    <string name="text_submit_new_issue_on_github_button">Submit new issue on Github</string>
+    <string name="text_send_email_to_author_button">Send email to author</string>
+    <string name="cta_help_us_with_translation">Help us with translation</string>
+    <string name="cta_help_us_with_translation_description">Translation is necessary for users who
+        speak others languages to enjoy the app. Also, localization enables the app to be more
+        accessible and useful to a wider audience.</string>
+    <string name="text_help_translate_button">Help translate</string>
+    <string name="cta_share_with_friends">Share with friends</string>
+    <string name="cta_share_with_friends_description">Your friends might need the app. Share your
+        experience with them.</string>
+    <string name="text_share_with_friends_button">Share with friends</string>
+    <string name="share_with">Share with</string>
+    <string name="text_share_with_friends">Remember everything with flashcards.</string>
+    <string name="cta_join_us_on_social_media">Join us on Social Media</string>
+    <string name="cta_join_us_on_social_media_description">Get the latest news, share interesting
+        articles, ask questions. Connect, follow and have conversation with us</string>
+    <string name="description_facebook_button">Facebook</string>
+    <string name="description_instagram_button">Instagram</string>
+    <string name="description_twitter_button">Twitter</string>
+    <string name="description_youtube_button">Youtube</string>
 </resources>

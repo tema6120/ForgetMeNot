@@ -8,10 +8,11 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/background_window</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.YourApp.LargeComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.YourApp.LargeComponent
+        </item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/accent_selector</item>
@@ -120,4 +121,53 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
+
+    <!-- Support app screen -->
+
+    <style name="SupportAppItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/white_rectangle_4dp_corner_radius</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="CTA">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/nunito_extrabold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="CTA_Description">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="SupportAppButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:background">@drawable/background_button_on_support_app_screen</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/item_selected</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <!-- End support app screen -->
+
 </resources>

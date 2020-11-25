@@ -17,6 +17,7 @@ import com.odnovolov.forgetmenot.presentation.screen.about.AboutFragment
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsFragment
+import com.odnovolov.forgetmenot.presentation.screen.supportapp.SupportAppFragment
 import kotlinx.android.synthetic.main.fragment_nav_host.*
 import kotlinx.android.synthetic.main.main_drawer.*
 import kotlin.reflect.KClass
@@ -71,44 +72,34 @@ class NavHostFragment : BaseFragment() {
         NavigationDestination.values().forEach { navigationDestination: NavigationDestination ->
             val button: View = requireView().findViewById(navigationDestination.itemButtonId)
             button.setOnClickListener {
-                scheduleFragmentReplacement(navigationDestination)
+                actionOnDrawerClosed = { navigateTo(navigationDestination) }
                 drawerLayout.closeDrawer(GravityCompat.START)
             }
         }
     }
 
-    private fun scheduleFragmentReplacement(
-        navigationDestination: NavigationDestination
-    ) {
+    fun navigateTo(navigationDestination: NavigationDestination) {
         val currentChildFragmentClass = getCurrentChildFragmentClass()
-        actionOnDrawerClosed = when {
-            currentChildFragmentClass == navigationDestination.fragmentClass -> {
-                null
-            }
+        when {
+            currentChildFragmentClass == navigationDestination.fragmentClass -> return
             currentChildFragmentClass == HomeFragment::class -> {
-                {
-                    childFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, navigationDestination.createFragment())
-                        .addToBackStack(null)
-                        .commit()
-                    updateDrawerItems()
-                }
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, navigationDestination.createFragment())
+                    .addToBackStack(null)
+                    .commit()
+                updateDrawerItems()
             }
             navigationDestination.fragmentClass == HomeFragment::class -> {
-                {
-                    childFragmentManager.popBackStack()
-                    updateDrawerItems()
-                }
+                childFragmentManager.popBackStack()
+                updateDrawerItems()
             }
             else -> {
-                {
-                    childFragmentManager.popBackStack()
-                    childFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, navigationDestination.createFragment())
-                        .addToBackStack(null)
-                        .commit()
-                    updateDrawerItems()
-                }
+                childFragmentManager.popBackStack()
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, navigationDestination.createFragment())
+                    .addToBackStack(null)
+                    .commit()
+                updateDrawerItems()
             }
         }
     }
@@ -155,7 +146,7 @@ class NavHostFragment : BaseFragment() {
         }
     }
 
-    private enum class NavigationDestination(
+    enum class NavigationDestination(
         val fragmentClass: KClass<out Fragment>,
         val itemButtonId: Int,
         val createFragment: () -> Fragment
@@ -169,6 +160,11 @@ class NavHostFragment : BaseFragment() {
             SettingsFragment::class,
             R.id.settingsDrawerItem,
             ::SettingsFragment
+        ),
+        SupportApp(
+            SupportAppFragment::class,
+            R.id.supportAppDrawerItem,
+            ::SupportAppFragment
         ),
         Help(
             HelpFragment::class,
