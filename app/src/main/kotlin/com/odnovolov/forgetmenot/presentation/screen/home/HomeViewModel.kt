@@ -7,7 +7,6 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
-import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
@@ -31,7 +30,7 @@ class HomeViewModel(
         val learnedCount: Int,
         val totalCount: Int,
         val numberOfCardsReadyForExercise: Int?,
-        val lastOpenedAt: String
+        val lastOpenedAt: DateTime?
     ) {
         fun toDeckPreview(searchMatchingRanges: List<IntRange>?) = DeckPreview(
             deckId,
@@ -41,7 +40,7 @@ class HomeViewModel(
             learnedCount,
             totalCount,
             numberOfCardsReadyForExercise,
-            lastOpenedAt
+            lastOpenedAt?.format("MMM d") ?: "-"
         )
     }
 
@@ -61,7 +60,6 @@ class HomeViewModel(
                             isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
                         }
                     }
-                val lastOpenedAt: String = deck.lastOpenedAt?.format("MMM d") ?: "-"
                 RawDeckPreview(
                     deckId = deck.id,
                     deckName = deck.name,
@@ -70,7 +68,7 @@ class HomeViewModel(
                     learnedCount = learnedCount,
                     totalCount = deck.cards.size,
                     numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
-                    lastOpenedAt = lastOpenedAt
+                    lastOpenedAt = deck.lastOpenedAt
                 )
             }
         }
