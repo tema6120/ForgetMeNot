@@ -11,9 +11,13 @@
     <color name="selected_item_background">#60FF8C00</color>
     <color name="selected_item_background_disabled">#1AFF8C00</color>
     <color name="correct_answer">#0cc3a9</color>
-    <color name="correct_answer_disabled">#290cc3a9</color>
+    <color name="correct_answer_background">#F5D1EFEA</color>
+    <color name="correct_answer_background_disabled">#F5F0FBFA</color>
+    <color name="text_correct_answer_disabled">#C3F0EA</color>
     <color name="wrong_answer">#f1523d</color>
-    <color name="wrong_answer_disabled">#29f1523d</color>
+    <color name="wrong_answer_background">#F5FDE3E0</color>
+    <color name="wrong_answer_background_disabled">#F5FFF5F4</color>
+    <color name="text_wrong_answer_disabled">#FBD4CE</color>
     <color name="text_level_of_knowledge">#FFF</color>
     <color name="textPrimary">#DE000000</color>
     <color name="textSecondary">#99000000</color>
@@ -49,3 +53,6 @@
     <color name="item_unselected">#664B5875</color>
     <color name="item_add_cards">#330000</color>
 </resources>
+<!--
+<color name="correct_answer_background">#F5D1EFEA</color>
+<color name="wrong_answer_background">#F5FDE3E0</color>-->

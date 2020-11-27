@@ -7,135 +7,192 @@
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp">
+            style="@style/ExerciseCardStyle">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <include layout="@layout/question" />
-
-            <View
-                    android:id="@+id/divider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="?android:listDivider"
-                    app:layout_constraintBottom_toTopOf="@id/divider2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                    android:id="@+id/curtainView"
-                    android:layout_width="0dp"
+            <FrameLayout
+                    android:id="@+id/question_frame"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:background="@color/curtain"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toTopOf="@id/divider2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider"
-                    tools:visibility="visible" />
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent">
 
-            <ScrollView
-                    android:id="@+id/hintScrollView"
-                    android:layout_width="0dp"
+                <ScrollView
+                        android:id="@+id/questionScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/questionTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:textColor="@color/text_secondary_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="20sp"
+                            tools:text="Эти люди привычны к тяжелой работе." />
+
+                </ScrollView>
+
+                <TextView
+                        android:id="@+id/showQuestionButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/curtain"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:text="@string/text_show_question_button"
+                        android:textColor="@color/text_curtain_selector"
+                        android:textSize="18sp"
+                        android:visibility="gone" />
+
+                <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="bottom"
+                        android:background="?android:listDivider" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                    android:id="@+id/answer_frame"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:fillViewport="true"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@id/divider2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider">
+                    android:layout_weight="1">
+
+                <ScrollView
+                        android:id="@+id/answerScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toTopOf="@id/divider2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/divider">
+
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/answerTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="16dp"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="80dp"
+                            android:textColor="@color/text_secondary_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="18sp" />
+
+                </ScrollView>
+
+                <ScrollView
+                        android:id="@+id/hintScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toTopOf="@id/divider2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/divider">
 
                 <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                         android:id="@+id/hintTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="80dp"
                         android:textColor="@color/text_secondary_selector"
                         android:textIsSelectable="true"
                         android:textSize="18sp" />
 
-            </ScrollView>
+                </ScrollView>
 
-            <ScrollView
-                    android:id="@+id/answerScrollView"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:fillViewport="true"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@id/divider2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider">
+                <View
+                        android:id="@+id/curtainView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/curtain"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toTopOf="@id/divider2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/divider"
+                        tools:visibility="visible" />
 
-                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                        android:id="@+id/answerTextView"
+                <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:textColor="@color/text_secondary_selector"
-                        android:textIsSelectable="true"
-                        android:textSize="18sp" />
+                        android:layout_gravity="bottom"
+                        android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-            </ScrollView>
+                    <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/rememberButton"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/background_remember_button"
+                            android:gravity="center"
+                            android:fontFamily="@font/nunito_extrabold"
+                            android:text="@string/text_remember_button"
+                            android:textColor="@color/text_remember_button"
+                            android:outlineAmbientShadowColor="@color/correct_answer"
+                            android:outlineSpotShadowColor="@color/correct_answer"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/notRememberButton"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintWidth_max="250dp"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            android:textSize="16sp"
+                            android:textAllCaps="false" />
 
-            <View
-                    android:id="@+id/divider2"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="50dp"
-                    android:background="?android:listDivider"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/notRememberButton"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:layout_marginStart="12dp"
+                            android:outlineAmbientShadowColor="@color/wrong_answer"
+                            android:outlineSpotShadowColor="@color/wrong_answer"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/background_not_remember_button"
+                            android:gravity="center"
+                            android:textAllCaps="false"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/rememberButton"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintWidth_max="250dp"
+                            android:fontFamily="@font/nunito_extrabold"
+                            android:text="@string/text_not_remember_button"
+                            android:textColor="@color/text_not_remember_button"
+                            android:textSize="16sp" />
 
-            <TextView
-                    android:id="@+id/rememberButton"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/correct_answer_selector"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:text="@string/text_remember_button"
-                    android:textColor="@color/text_exercise_button_selector"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/verticalDivider"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider2" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                    android:id="@+id/verticalDivider"
-                    android:layout_width="1dp"
-                    android:layout_height="0dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider2" />
+            </FrameLayout>
 
-            <TextView
-                    android:id="@+id/notRememberButton"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/wrong_answer_selector"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:text="@string/text_not_remember_button"
-                    android:textColor="@color/text_exercise_button_selector"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/verticalDivider"
-                    app:layout_constraintTop_toBottomOf="@id/divider2" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

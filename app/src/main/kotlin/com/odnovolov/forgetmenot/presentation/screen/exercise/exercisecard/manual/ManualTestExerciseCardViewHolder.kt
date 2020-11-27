@@ -12,7 +12,6 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.Exerc
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.AnswerStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
-import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class ManualTestExerciseCardViewHolder(

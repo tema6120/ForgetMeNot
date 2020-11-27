@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/wrong_answer_disabled" android:state_enabled="false" />
+    <item android:color="@color/wrong_answer_background" android:state_enabled="false" />
     <item android:color="@color/wrong_answer" />
 </selector>

@@ -1,0 +1,48 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <selector>
+            <item
+                    android:state_enabled="true"
+                    android:state_selected="true">
+                <shape>
+                    <solid android:color="@color/correct_answer" />
+                    <corners android:radius="16dp" />
+                </shape>
+            </item>
+            <item
+                    android:state_enabled="true"
+                    android:state_selected="false">
+                <shape>
+                    <solid android:color="@color/correct_answer_background" />
+                    <corners android:radius="16dp" />
+                </shape>
+            </item>
+            <item
+                    android:state_enabled="false"
+                    android:state_selected="true">
+                <shape>
+                    <solid android:color="@color/correct_answer_background" />
+                    <corners android:radius="16dp" />
+                </shape>
+            </item>
+            <item
+                    android:state_enabled="false"
+                    android:state_selected="false">
+                <shape>
+                    <solid android:color="@color/correct_answer_background_disabled" />
+                    <corners android:radius="16dp" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+    <item>
+        <ripple android:color="@android:color/white">
+            <item android:id="@android:id/mask">
+                <shape>
+                    <solid android:color="#000" />
+                    <corners android:radius="16dp" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+</layer-list>

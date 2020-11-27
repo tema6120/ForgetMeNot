@@ -16,7 +16,6 @@ import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseCardAdapter.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
-import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.answerScrollView as entryAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerScrollView as manualAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerTextView as manualAnswerTextView
+import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.questionTextView as manualQuestionTextView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerScrollView as offAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerTextView as offAnswerTextView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.questionTextView as offQuestionTextView
@@ -44,7 +45,7 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     private fun setupManualTestExerciseCard() {
         with(manualTestExerciseCardExample) {
-            questionTextView.setText(R.string.question_example_manual_test_method)
+            manualQuestionTextView.setText(R.string.question_example_manual_test_method)
             manualAnswerTextView.setText(R.string.answer_example_manual_test_method)
             rememberButton.setOnClickListener {
                 manualAnswerScrollView.isVisible = true

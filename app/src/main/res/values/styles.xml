@@ -170,4 +170,12 @@
 
     <!-- End support app screen -->
 
+    <style name="ExerciseCardStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
 </resources>
