@@ -72,11 +72,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fillViewport="true"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toTopOf="@id/divider2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider">
+                        android:visibility="gone">
 
                     <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                             android:id="@+id/answerTextView"
@@ -97,11 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fillViewport="true"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toTopOf="@id/divider2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider">
+                        android:visibility="gone">
 
                 <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                         android:id="@+id/hintTextView"
@@ -123,10 +115,6 @@
                         android:layout_height="match_parent"
                         android:background="@color/curtain"
                         android:visibility="invisible"
-                        app:layout_constraintBottom_toTopOf="@id/divider2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider"
                         tools:visibility="visible" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout

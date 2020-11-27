@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.question.view.*
+import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.questionTextView as entryQuestionTextView
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.answerScrollView as entryAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerScrollView as manualAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerTextView as manualAnswerTextView
@@ -95,7 +96,7 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     private fun setupEntryTestExerciseCard() {
         val correctAnswer: String = getString(R.string.answer_example_entry_test_method)
         with(entryTestExerciseCardExample) {
-            questionTextView.setText(R.string.question_example_entry_test_method)
+            entryQuestionTextView.setText(R.string.question_example_entry_test_method)
             correctAnswerTextView.text = correctAnswer
             checkButton.setOnClickListener {
                 answerEditText.run {
@@ -104,7 +105,6 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
                     hideSoftInput()
                 }
                 checkButton.isVisible = false
-                checkDivider.isVisible = false
                 entryAnswerScrollView.isVisible = true
                 val userAnswer: String? = answerEditText.text?.toString()?.trim()
                 if (userAnswer != correctAnswer) {

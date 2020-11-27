@@ -14,7 +14,6 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.UnansweredWithHint
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
-import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class EntryTestExerciseCardViewHolder(
