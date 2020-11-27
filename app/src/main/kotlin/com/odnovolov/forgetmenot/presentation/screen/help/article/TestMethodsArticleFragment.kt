@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answer
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerTextView as manualAnswerTextView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerScrollView as offAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerTextView as offAnswerTextView
+import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.questionTextView as offQuestionTextView
 
 class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     override val layoutRes: Int get() = R.layout.article_test_methods
@@ -32,7 +33,7 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     private fun setupOffTestExerciseCard() {
         with(offTestExerciseCardExample) {
-            questionTextView.setText(R.string.question_example_off_test_method)
+            offQuestionTextView.setText(R.string.question_example_off_test_method)
             offAnswerTextView.setText(R.string.answer_example_off_test_method)
             showAnswerButton.setOnClickListener {
                 showAnswerButton.isVisible = false

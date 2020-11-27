@@ -7,7 +7,7 @@
     <color name="colorControlHighlight">#42000000</color>
     <color name="background_decks_preview">#fff</color>
     <color name="divider">#1e000000</color>
-    <color name="curtain">#f3f3f3</color>
+    <color name="curtain">#EBEBEB</color>
     <color name="selected_item_background">#60FF8C00</color>
     <color name="selected_item_background_disabled">#1AFF8C00</color>
     <color name="correct_answer">#0cc3a9</color>

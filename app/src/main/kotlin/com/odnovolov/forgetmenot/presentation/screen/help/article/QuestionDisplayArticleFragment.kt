@@ -10,7 +10,6 @@ import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import kotlinx.android.synthetic.main.article_question_display.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
-import kotlinx.android.synthetic.main.question.*
 import java.util.*
 
 class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {

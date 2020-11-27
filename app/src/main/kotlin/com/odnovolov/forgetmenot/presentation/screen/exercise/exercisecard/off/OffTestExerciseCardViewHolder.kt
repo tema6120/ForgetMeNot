@@ -1,10 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off
 
 import android.graphics.Color
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.OffTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
@@ -13,7 +16,6 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.A
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.UnansweredWithHint
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
-import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class OffTestExerciseCardViewHolder(
@@ -57,7 +59,10 @@ class OffTestExerciseCardViewHolder(
                     questionTextView.fixTextSelection()
                 }
                 answerStatus.observe(coroutineScope) { answerStatus: AnswerStatus ->
-                    showAnswerButton.isVisible = answerStatus != Answered
+                    showAnswerFrame.isVisible = answerStatus != Answered
+                    showAnswerFrame.updateLayoutParams {
+                        height = if (answerStatus == UnansweredWithHint) 48.dp else MATCH_PARENT
+                    }
                     hintScrollView.isVisible = answerStatus == UnansweredWithHint
                     hintDivider.isVisible = answerStatus == UnansweredWithHint
                     answerScrollView.isVisible = answerStatus == Answered

@@ -8,100 +8,149 @@
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp">
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <include layout="@layout/question" />
-
-            <View
-                    android:id="@+id/divider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="?android:listDivider"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            <ScrollView
-                    android:id="@+id/hintScrollView"
-                    android:layout_width="0dp"
+            <FrameLayout
+                    android:id="@+id/question_frame"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:fillViewport="true"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@id/hintDivider"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider"
-                    tools:visibility="visible">
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent">
 
-                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                        android:id="@+id/hintTextView"
+                <ScrollView
+                        android:id="@+id/questionScrollView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:textColor="@color/text_secondary_selector"
-                        android:textIsSelectable="true"
-                        android:textSize="18sp"
-                        tools:text="■■■■■ ■■■ are ■■■■ ■■ ■■■■ ■■■■." />
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
 
-            </ScrollView>
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/questionTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:textColor="@color/text_secondary_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="20sp"
+                            tools:text="Эти люди привычны к тяжелой работе." />
 
-            <View
-                    android:id="@+id/hintDivider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="50dp"
-                    android:background="?android:listDivider"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/hintScrollView"
-                    tools:visibility="visible" />
+                </ScrollView>
 
-            <TextView
-                    android:id="@+id/showAnswerButton"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@color/curtain"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:text="@string/text_show_answer_textview"
-                    android:textColor="@color/text_curtain_selector"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/hintDivider" />
-
-            <ScrollView
-                    android:id="@+id/answerScrollView"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:fillViewport="true"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider">
-
-                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                        android:id="@+id/answerTextView"
+                <TextView
+                        android:id="@+id/showQuestionButton"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/curtain"
+                        android:gravity="center"
                         android:padding="16dp"
-                        android:textColor="@color/text_secondary_selector"
-                        android:textIsSelectable="true"
+                        android:text="@string/text_show_question_button"
+                        android:textColor="@color/text_curtain_selector"
                         android:textSize="18sp"
-                        tools:text="These men are used to hard work." />
+                        android:visibility="gone" />
 
-            </ScrollView>
+            </FrameLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <FrameLayout
+                    android:id="@+id/answer_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                <LinearLayout
+                        android:id="@+id/before_show_answer_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    <ScrollView
+                            android:id="@+id/hintScrollView"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:fillViewport="true"
+                            android:visibility="gone"
+                            tools:visibility="visible">
+
+                        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                                android:id="@+id/hintTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="16dp"
+                                android:textColor="@color/text_secondary_selector"
+                                android:textIsSelectable="true"
+                                android:textSize="18sp"
+                                tools:text="■■■■■ ■■■ are ■■■■ ■■ ■■■■ ■■■■." />
+
+                    </ScrollView>
+
+                    <View
+                            android:id="@+id/hintDivider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:listDivider"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+
+                    <FrameLayout
+                            android:id="@+id/showAnswerFrame"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent">
+
+                        <TextView
+                                android:id="@+id/showAnswerButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/curtain"
+                                android:gravity="center"
+                                android:text="@string/text_show_answer_textview"
+                                android:textColor="@color/text_curtain_selector"
+                                android:textSize="18sp" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <ScrollView
+                        android:id="@+id/answerScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/divider">
+
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/answerTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:textColor="@color/text_secondary_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="18sp"
+                            tools:text="These men are used to hard work." />
+
+                </ScrollView>
+
+                <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="top"
+                        android:background="?android:listDivider" />
+
+            </FrameLayout>
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

@@ -9,7 +9,6 @@ import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import kotlinx.android.synthetic.main.article_motivational_timer.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
-import kotlinx.android.synthetic.main.question.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive

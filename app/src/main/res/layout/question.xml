@@ -33,7 +33,7 @@
             android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:padding="16dp"
-            android:text="@string/text_show_question_textview"
+            android:text="@string/text_show_question_button"
             android:textColor="@color/text_curtain_selector"
             android:textSize="18sp"
             android:visibility="gone"

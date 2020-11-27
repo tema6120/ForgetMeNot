@@ -21,6 +21,7 @@ import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExercis
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
 import kotlinx.android.synthetic.main.article_exercise.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
+import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.questionTextView as offTestQuestionTextView
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.popup_choose_hint.view.*
 import kotlinx.android.synthetic.main.question.view.*
@@ -123,7 +124,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     private fun setupExampleOfLearnedCard() {
         with(learnedCardExample) {
-            questionTextView.setText(R.string.question4_in_exercise_article)
+            offTestQuestionTextView.setText(R.string.question4_in_exercise_article)
             answerTextView.setText(R.string.answer4_in_exercise_article)
             showAnswerButton.isVisible = false
             answerScrollView.isVisible = true
@@ -144,7 +145,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
                     )
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
-                questionTextView.isEnabled = !isLearned
+                offTestQuestionTextView.isEnabled = !isLearned
                 answerTextView.isEnabled = !isLearned
             }
         }
@@ -157,7 +158,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     private fun setupMaskedLettersHintExample() {
         with(maskedLettersHintExample) {
-            questionTextView.setText(R.string.question5_in_exercise_article)
+            offTestQuestionTextView.setText(R.string.question5_in_exercise_article)
             answerTextView.setText(R.string.answer5_in_exercise_article)
             showAnswerButton.setOnClickListener {
                 hintScrollView.isVisible = false
