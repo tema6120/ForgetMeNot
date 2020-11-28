@@ -1,0 +1,14 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape>
+            <corners android:radius="16dp" />
+            <solid android:color="@color/wrong_answer_background_disabled" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners android:radius="16dp" />
+            <solid android:color="@color/wrong_answer_background" />
+        </shape>
+    </item>
+</selector>

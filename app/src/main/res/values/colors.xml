@@ -53,6 +53,3 @@
     <color name="item_unselected">#664B5875</color>
     <color name="item_add_cards">#330000</color>
 </resources>
-<!--
-<color name="correct_answer_background">#F5D1EFEA</color>
-<color name="wrong_answer_background">#F5FDE3E0</color>-->

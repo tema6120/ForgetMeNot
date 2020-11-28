@@ -239,7 +239,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             variant3Button.setText(R.string.variant3_in_exercise_article)
             variant4Button.setText(R.string.variant4_in_exercise_article)
 
-            variant1Button.background =
+            variant1Frame.background =
                 ContextCompat.getDrawable(context, R.drawable.correct_answer_selector)
 
             variant1Button.setOnClickListener(::onVariantSelected)

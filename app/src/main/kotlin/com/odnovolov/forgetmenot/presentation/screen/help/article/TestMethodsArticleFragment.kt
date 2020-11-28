@@ -69,7 +69,7 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             variant3Button.setText(R.string.answer_example_quiz_test_method_variant3)
             variant4Button.setText(R.string.answer_example_quiz_test_method_variant4)
 
-            variant4Button.background =
+            variant4Frame.background =
                 ContextCompat.getDrawable(context, R.drawable.correct_answer_selector)
 
             variant1Button.setOnClickListener(::onVariantSelected)

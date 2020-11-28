@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -17,7 +16,6 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.Exerc
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.view.*
-import kotlinx.android.synthetic.main.question.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class QuizTestExerciseCardViewHolder(
@@ -32,7 +30,11 @@ class QuizTestExerciseCardViewHolder(
 
     private fun getRippleId(context: Context): Int {
         val outValue = TypedValue()
-        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+        context.theme.resolveAttribute(
+            android.R.attr.selectableItemBackgroundBorderless,
+            outValue,
+            true
+        )
         return outValue.resourceId
     }
 
@@ -63,10 +65,16 @@ class QuizTestExerciseCardViewHolder(
                     questionTextView.text = question
                     questionTextView.fixTextSelection()
                 }
+                forEachVariantFrame { variant: Int ->
+                    variantStatus(variant).observe(coroutineScope) { variantStatus: VariantStatus ->
+                        setVariantBackground(variantFrame = this, variantStatus)
+                    }
+                }
                 forEachVariantButton { variant: Int ->
                     variantText(variant).observe(coroutineScope, ::setText)
                     variantStatus(variant).observe(coroutineScope) { variantStatus: VariantStatus ->
-                        setVariantButtonBackground(button = this, variantStatus = variantStatus)
+                        setVariantIcon(variantButton = this, variantStatus)
+                        setVariantText(variantButton = this, variantStatus)
                     }
                 }
                 isAnswered.observe(coroutineScope) { isAnswered: Boolean ->
@@ -74,16 +82,12 @@ class QuizTestExerciseCardViewHolder(
                         if (isAnswered) {
                             setOnClickListener(null)
                             fixTextSelection()
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                // give chance to finish ripple animation
-                                postDelayed({ foreground = null }, 600)
-                            }
+                            // give chance to finish ripple animation
+                            postDelayed({ background = null }, 600)
                         } else {
                             setTextIsSelectable(false)
                             setOnClickListener { controller.dispatch(VariantSelected(variant)) }
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                foreground = ContextCompat.getDrawable(context, rippleId)
-                            }
+                            background = ContextCompat.getDrawable(context, rippleId)
                         }
                     }
                 }
@@ -100,15 +104,22 @@ class QuizTestExerciseCardViewHolder(
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
                     showQuestionButton.isEnabled = !isLearned
                     questionTextView.isEnabled = !isLearned
+                    forEachVariantFrame { isEnabled = !isLearned }
                     forEachVariantButton { isEnabled = !isLearned }
                 }
                 questionScrollView.scrollTo(0, 0)
-                variant1ScrollView.scrollTo(0, 0)
-                variant2ScrollView.scrollTo(0, 0)
-                variant3ScrollView.scrollTo(0, 0)
-                variant4ScrollView.scrollTo(0, 0)
+                answerScrollView.scrollTo(0, 0)
             }
         }
+    }
+
+    private inline fun View.forEachVariantFrame(
+        action: View.(variant: Int) -> Unit
+    ) {
+        variant1Frame.action(0)
+        variant2Frame.action(1)
+        variant3Frame.action(2)
+        variant4Frame.action(3)
     }
 
     private inline fun View.forEachVariantButton(
@@ -120,27 +131,39 @@ class QuizTestExerciseCardViewHolder(
         variant4Button.action(3)
     }
 
-    private fun setVariantButtonBackground(button: View, variantStatus: VariantStatus) {
-        with(button) {
-            when (variantStatus) {
-                Unselected -> {
-                    isSelected = false
-                }
-                Correct -> {
-                    isSelected = true
-                    background = ContextCompat.getDrawable(
-                        context,
-                        R.drawable.correct_answer_selector
-                    )
-                }
-                Wrong -> {
-                    isSelected = true
-                    background = ContextCompat.getDrawable(
-                        context,
-                        R.drawable.wrong_answer_selector
-                    )
-                }
-            }
+    private fun setVariantBackground(variantFrame: View, variantStatus: VariantStatus) {
+        val drawableResId: Int = when (variantStatus) {
+            WaitingForAnswer -> R.drawable.background_variant_status_wrong_but_not_selected
+            Correct -> R.drawable.background_variant_status_correct
+            CorrectButNotSelected -> R.drawable.background_variant_status_correct_but_not_selected
+            Wrong -> R.drawable.background_variant_status_wrong
+            WrongButNotSelected -> R.drawable.background_variant_status_wrong_but_not_selected
         }
+        variantFrame.background = ContextCompat.getDrawable(variantFrame.context, drawableResId)
+    }
+
+    private fun setVariantIcon(
+        variantButton: TextViewWithObservableSelection,
+        variantStatus: VariantStatus
+    ) {
+        val drawableResId: Int = when (variantStatus) {
+            Correct -> R.drawable.ic_correct_answer_24
+            Wrong -> R.drawable.ic_wrong_answer_24
+            else -> R.drawable.ic_radiobutton_unchecked_24
+        }
+        variantButton.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableResId, 0, 0, 0)
+    }
+
+    private fun setVariantText(
+        variantButton: TextViewWithObservableSelection,
+        variantStatus: VariantStatus
+    ) {
+        val colorResId: Int = when (variantStatus) {
+            Correct -> R.color.text_variant_status_correct
+            Wrong -> R.color.text_variant_status_wrong
+            else -> R.color.text_secondary_selector
+        }
+        val colorStateList = ContextCompat.getColorStateList(variantButton.context, colorResId)
+        variantButton.setTextColor(colorStateList)
     }
 }

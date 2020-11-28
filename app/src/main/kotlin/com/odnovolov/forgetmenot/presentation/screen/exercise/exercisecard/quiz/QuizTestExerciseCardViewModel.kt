@@ -34,10 +34,11 @@ class QuizTestExerciseCardViewModel(
                 val correctCardId: Long = exerciseCard.base.card.id
                 val selectedVariantIndex: Int? = exerciseCard.selectedVariantIndex
                 when {
-                    !isAnswered -> Unselected
-                    variantCardId == correctCardId -> Correct
+                    !isAnswered -> WaitingForAnswer
+                    variantCardId == correctCardId && variantIndex == selectedVariantIndex -> Correct
+                    variantCardId == correctCardId -> CorrectButNotSelected
                     variantIndex == selectedVariantIndex -> Wrong
-                    else -> Unselected
+                    else -> WrongButNotSelected
                 }
             }
 

@@ -3,17 +3,16 @@ package com.odnovolov.forgetmenot.presentation.common.customview
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 
 class TextViewWithObservableSelection @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : TextView(
+    defStyleAttr: Int = 0
+) : AppCompatTextView(
     context,
     attrs,
-    defStyleAttr,
-    defStyleRes
+    defStyleAttr
 ) {
     private var selectedRange = SelectedRange.EMPTY
         set(value) {
