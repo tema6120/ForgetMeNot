@@ -11,13 +11,13 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import java.util.*
 
@@ -28,6 +28,7 @@ class ExerciseViewModel(
     globalState: GlobalState
 ) {
     val isWalkingModeEnabled: Flow<Boolean> = globalState.flowOf(GlobalState::isWalkingModeEnabled)
+        .flowOn(businessLogicThread)
 
     val exerciseCards: Flow<List<ExerciseCard>> =
         exerciseState.flowOf(Exercise.State::exerciseCards)
@@ -47,6 +48,8 @@ class ExerciseViewModel(
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::isLearned)
         }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
 
     private val hasQuestionSelection: Flow<Boolean> = exerciseState
         .flowOf(Exercise.State::questionSelection)
@@ -63,6 +66,7 @@ class ExerciseViewModel(
             exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
                 .map { isAnswerCorrect: Boolean? -> isAnswerCorrect != null }
         }
+            .distinctUntilChanged()
 
     private val speakerLanguage: Flow<Locale?> =
         combine(
@@ -93,7 +97,6 @@ class ExerciseViewModel(
             }
             language
         }
-            .flowOn(Dispatchers.Default)
             .share()
 
     private val languageStatus: Flow<LanguageStatus?> = speakerLanguage
@@ -114,9 +117,13 @@ class ExerciseViewModel(
             else -> SpeakingStatus.NotSpeaking
         }
     }
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
 
     val isSpeakerPreparingToPronounce: Flow<Boolean> =
         speakerImpl.state.flowOf(SpeakerImpl.State::isPreparingToSpeak)
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
 
     val reasonForInabilityToSpeak: Flow<ReasonForInabilityToSpeak?> = combine(
         speakerImpl.state.flowOf(SpeakerImpl.State::status),
@@ -150,6 +157,7 @@ class ExerciseViewModel(
     }
 
     val speakerEvents: Flow<SpeakerImpl.Event> = speakerImpl.events
+        .flowOn(businessLogicThread)
 
     val hintStatus: Flow<HintStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
@@ -165,6 +173,8 @@ class ExerciseViewModel(
                 }
             }
         }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
 
     enum class HintStatus {
         Accessible,
@@ -190,17 +200,24 @@ class ExerciseViewModel(
                 }
             }
         }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
 
     val levelOfKnowledgeForCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::levelOfKnowledge)
         }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
 
     val isLevelOfKnowledgeEditedManually: Flow<Boolean> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.flowOf(ExerciseCard.Base::isLevelOfKnowledgeEditedManually)
         }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
 
     val keyGestureMap: Flow<Map<KeyGesture, KeyGestureAction>> =
         walkingModePreference.flowOf(WalkingModePreference::keyGestureMap)
+            .flowOn(businessLogicThread)
 }

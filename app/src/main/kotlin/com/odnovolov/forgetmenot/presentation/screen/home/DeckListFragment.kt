@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.dp
+import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
@@ -246,8 +247,8 @@ class DeckListFragment : BaseFragment() {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             val viewModel = diScope.viewModel
             with(viewModel) {
-                deckListItem.observe(resumePauseCoroutineScope!!) { deckListItem: List<DeckListItem> ->
-                    deckPreviewAdapter.submitList(deckListItem)
+                deckListItems.observe(resumePauseCoroutineScope!!) { deckListItems: List<DeckListItem> ->
+                    deckPreviewAdapter.submitList(deckListItems)
                     progressBar.visibility = View.GONE
                 }
             }

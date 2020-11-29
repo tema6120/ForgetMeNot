@@ -8,7 +8,8 @@ import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
+import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.Answered
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.UnansweredWithHint
@@ -18,15 +19,25 @@ import kotlinx.coroutines.CoroutineScope
 
 class EntryTestExerciseCardViewHolder(
     private val asyncItemView: AsyncFrameLayout,
-    coroutineScope: CoroutineScope,
-    controller: EntryTestExerciseCardController
+    private val coroutineScope: CoroutineScope,
+    private val controller: EntryTestExerciseCardController,
+    private val knowingWhenPagerStopped: KnowingWhenPagerStopped
 ) : ExerciseCardViewHolder<EntryTestExerciseCard>(
-    asyncItemView,
-    coroutineScope
+    asyncItemView
 ) {
     init {
         asyncItemView.invokeWhenInflated {
-            showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
+            knowingWhenPagerStopped.invokeWhenPagerStopped {
+                setupView()
+            }
+        }
+    }
+
+    private fun setupView() {
+        with(itemView) {
+            showQuestionButton.setOnClickListener {
+                controller.dispatch(ShowQuestionButtonClicked)
+            }
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
@@ -37,7 +48,9 @@ class EntryTestExerciseCardViewHolder(
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
-            checkButton.setOnClickListener { controller.dispatch(CheckButtonClicked) }
+            checkButton.setOnClickListener {
+                controller.dispatch(CheckButtonClicked)
+            }
             wrongAnswerTextView.run {
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))
@@ -50,9 +63,27 @@ class EntryTestExerciseCardViewHolder(
         }
     }
 
-    override fun bind(exerciseCard: EntryTestExerciseCard, coroutineScope: CoroutineScope) {
-        val viewModel = EntryTestExerciseCardViewModel(exerciseCard)
-        with(viewModel) {
+    private var viewModel: EntryTestExerciseCardViewModel? = null
+
+    override fun bind(exerciseCard: EntryTestExerciseCard) {
+        asyncItemView.invokeWhenInflated {
+            if (viewModel == null) {
+                knowingWhenPagerStopped.invokeWhenPagerStopped {
+                    viewModel = EntryTestExerciseCardViewModel(exerciseCard)
+                    observeViewModel()
+                }
+            } else {
+                questionScrollView.scrollTo(0, 0)
+                answerInputScrollView.scrollTo(0, 0)
+                hintScrollView.scrollTo(0, 0)
+                answerScrollView.scrollTo(0, 0)
+                viewModel!!.setExerciseCard(exerciseCard)
+            }
+        }
+    }
+
+    private fun observeViewModel() {
+        with(viewModel!!) {
             with(itemView) {
                 isQuestionDisplayed.observe(coroutineScope) { isQuestionDisplayed: Boolean ->
                     showQuestionButton.isVisible = !isQuestionDisplayed
@@ -102,10 +133,6 @@ class EntryTestExerciseCardViewHolder(
                     wrongAnswerTextView.isEnabled = isEnabled
                     correctAnswerTextView.isEnabled = isEnabled
                 }
-                questionScrollView.scrollTo(0, 0)
-                answerInputScrollView.scrollTo(0, 0)
-                hintScrollView.scrollTo(0, 0)
-                answerScrollView.scrollTo(0, 0)
             }
         }
     }

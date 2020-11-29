@@ -67,6 +67,7 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var keyEventInterceptor: (KeyEvent) -> Boolean
     private lateinit var volumeUpGestureDetector: KeyGestureDetector
     private lateinit var volumeDownGestureDetector: KeyGestureDetector
+    private var knowingWhenPagerStopped: KnowingWhenPagerStopped? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,7 +84,7 @@ class ExerciseFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = ExerciseDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!)
+            exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!, knowingWhenPagerStopped!!)
             viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
@@ -98,6 +99,8 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        exerciseViewPager.offscreenPageLimit = 1
+        knowingWhenPagerStopped = KnowingWhenPagerStopped()
         exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         levelOfKnowledgeButton.run {
             setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
@@ -286,9 +289,9 @@ class ExerciseFragment : BaseFragment() {
                 }
             }
             levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
-                val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
-                levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-                levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
+                val color = getColorForLevelOfKnowledge(levelOfKnowledge)
+                levelOfKnowledgeButton.background.setTint(color)
+                levelOfKnowledgeButton.text = levelOfKnowledge.toString()
                 if (levelOfKnowledgePopup?.isShowing == true) {
                     intervalsAdapter!!.intervalItems =
                         intervalsAdapter!!.intervalItems.map { intervalItem: IntervalItem ->
@@ -301,7 +304,7 @@ class ExerciseFragment : BaseFragment() {
                 }
             }
             isLevelOfKnowledgeEditedManually.observe { isEdited: Boolean ->
-                with(levelOfKnowledgeTextView) {
+                with(levelOfKnowledgeButton) {
                     if (isEdited) {
                         paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
                         setTypeface(null, Typeface.BOLD)
@@ -358,6 +361,19 @@ class ExerciseFragment : BaseFragment() {
                 showExitDialog(command.unansweredCardCount)
             }
         }
+    }
+
+    fun getColorForLevelOfKnowledge(levelOfKnowledge: Int): Int {
+        val colorId = when (levelOfKnowledge) {
+            0 -> R.color.level_of_knowledge_unsatisfactory
+            1 -> R.color.level_of_knowledge_poor
+            2 -> R.color.level_of_knowledge_acceptable
+            3 -> R.color.level_of_knowledge_satisfactory
+            4 -> R.color.level_of_knowledge_good
+            5 -> R.color.level_of_knowledge_very_good
+            else -> R.color.level_of_knowledge_excellent
+        }
+        return ContextCompat.getColor(requireContext(), colorId)
     }
 
     private fun showChooseHintPopup() {
@@ -628,6 +644,7 @@ class ExerciseFragment : BaseFragment() {
         intervalsAdapter = null
         levelOfKnowledgePopup = null
         exitDialog = null
+        knowingWhenPagerStopped = null
     }
 
     override fun onDestroy() {
@@ -644,6 +661,11 @@ class ExerciseFragment : BaseFragment() {
             if (currentViewHolder is EntryTestExerciseCardViewHolder) {
                 currentViewHolder.onPageSelected()
             }
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+            knowingWhenPagerStopped?.updateState(state)
         }
     }
 

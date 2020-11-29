@@ -7,10 +7,11 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.OffTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.Answered
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.UnansweredWithHint
@@ -19,15 +20,23 @@ import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class OffTestExerciseCardViewHolder(
-    asyncItemView: AsyncFrameLayout,
-    coroutineScope: CoroutineScope,
-    controller: OffTestExerciseCardController
+    private val asyncItemView: AsyncFrameLayout,
+    private val coroutineScope: CoroutineScope,
+    private val controller: OffTestExerciseCardController,
+    private val knowingWhenPagerStopped: KnowingWhenPagerStopped
 ) : ExerciseCardViewHolder<OffTestExerciseCard>(
-    asyncItemView,
-    coroutineScope
+    asyncItemView
 ) {
     init {
         asyncItemView.invokeWhenInflated {
+            knowingWhenPagerStopped.invokeWhenPagerStopped {
+                setupView()
+            }
+        }
+    }
+
+    private fun setupView() {
+        with(itemView) {
             showQuestionButton.setOnClickListener {
                 controller.dispatch(ShowQuestionButtonClicked)
             }
@@ -46,9 +55,26 @@ class OffTestExerciseCardViewHolder(
         }
     }
 
-    override fun bind(exerciseCard: OffTestExerciseCard, coroutineScope: CoroutineScope) {
-        val viewModel = OffTestExerciseCardViewModel(exerciseCard)
-        with(viewModel) {
+    private var viewModel: OffTestExerciseCardViewModel? = null
+
+    override fun bind(exerciseCard: OffTestExerciseCard) {
+        asyncItemView.invokeWhenInflated {
+            if (viewModel == null) {
+                knowingWhenPagerStopped.invokeWhenPagerStopped {
+                    viewModel = OffTestExerciseCardViewModel(exerciseCard)
+                    observeViewModel()
+                }
+            } else {
+                questionScrollView.scrollTo(0, 0)
+                hintScrollView.scrollTo(0, 0)
+                answerScrollView.scrollTo(0, 0)
+                viewModel!!.setExerciseCard(exerciseCard)
+            }
+        }
+    }
+
+    private fun observeViewModel() {
+        with(viewModel!!) {
             with(itemView) {
                 isQuestionDisplayed.observe(coroutineScope) { isQuestionDisplayed: Boolean ->
                     showQuestionButton.isVisible = !isQuestionDisplayed
@@ -93,9 +119,6 @@ class OffTestExerciseCardViewHolder(
                     hintTextView.isEnabled = isEnabled
                     answerTextView.isEnabled = isEnabled
                 }
-                questionScrollView.scrollTo(0, 0)
-                hintScrollView.scrollTo(0, 0)
-                answerScrollView.scrollTo(0, 0)
             }
         }
     }

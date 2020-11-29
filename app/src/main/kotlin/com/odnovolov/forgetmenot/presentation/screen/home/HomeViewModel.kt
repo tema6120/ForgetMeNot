@@ -162,7 +162,7 @@ class HomeViewModel(
             .distinctUntilChanged()
 
     @OptIn(ExperimentalStdlibApi::class)
-    val deckListItem: Flow<List<DeckListItem>> = combine(
+    val deckListItems: Flow<List<DeckListItem>> = combine(
         decksPreview,
         hasSearchText,
         deckSelection

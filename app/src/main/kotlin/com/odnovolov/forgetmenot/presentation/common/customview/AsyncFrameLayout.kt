@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard
+package com.odnovolov.forgetmenot.presentation.common.customview
 
 import android.content.Context
 import android.util.AttributeSet
@@ -30,7 +30,7 @@ class AsyncFrameLayout @JvmOverloads constructor(
     private var pendingActions: MutableList<AsyncFrameLayout.() -> Unit> = ArrayList()
 
     fun inflateAsync(layoutResId: Int) {
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Default) {
             val view = LayoutInflater.from(context)
                 .inflate(layoutResId, this@AsyncFrameLayout, false)
             withContext(Dispatchers.Main.immediate) {

@@ -1,124 +1,104 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
         tools:context="presentation.screen.exercise.ExerciseFragment">
 
-    <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/controlPanelScroll"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/exerciseViewPager"
-            android:layout_width="0dp"
+    <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/controlPanelScroll"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_weight="1">
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/exerciseViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <HorizontalScrollView
             android:id="@+id/controlPanelScroll"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme.AppBarOverlay"
+            android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
             <TextView
-                    android:id="@+id/levelOfKnowledgeTextView"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="9dp"
-                    android:gravity="center"
-                    android:textColor="@color/text_level_of_knowledge"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
-                    tools:text="0" />
-
-            <View
                     android:id="@+id/levelOfKnowledgeButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:layout_marginStart="2dp"
+                    android:background="@drawable/background_level_of_knowledge"
                     android:contentDescription="@string/description_level_of_knowledge_button"
-                    app:layout_constraintBottom_toBottomOf="@+id/levelOfKnowledgeTextView"
-                    app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
-                    app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
-                    app:layout_constraintTop_toTopOf="@+id/levelOfKnowledgeTextView" />
+                    android:gravity="center"
+                    android:textColor="@color/text_level_of_knowledge"
+                    android:textSize="16sp"
+                    tools:text="0" />
 
             <ImageButton
                     android:id="@+id/markAsLearnedButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_mark_as_learned_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/levelOfKnowledgeButton"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_mark_as_learned" />
 
-            <ImageButton
-                    android:id="@+id/speakButton"
+            <FrameLayout
                     android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_speak_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/markAsLearnedButton"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+                    android:layout_height="48dp">
 
-            <ProgressBar
-                    android:id="@+id/speakProgressBar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:indeterminateTint="@android:color/white"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@+id/speakButton"
-                    app:layout_constraintEnd_toEndOf="@+id/speakButton"
-                    app:layout_constraintStart_toStartOf="@+id/speakButton"
-                    app:layout_constraintTop_toTopOf="@+id/speakButton"
-                    tools:visibility="invisible" />
+                <ImageButton
+                        android:id="@+id/speakButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/ripple_light_borderless"
+                        android:contentDescription="@string/description_speak_button"
+                        app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+
+                <ProgressBar
+                        android:id="@+id/speakProgressBar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:indeterminateTint="@android:color/white"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+
+            </FrameLayout>
 
             <ImageButton
                     android:id="@+id/editCardButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_edit_card_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/speakButton"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_edit_white_24dp" />
 
             <ImageButton
                     android:id="@+id/timerButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_timer_button"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/editCardButton"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_timer_white_24dp"
                     tools:visibility="visible" />
 
@@ -126,11 +106,8 @@
                     android:id="@+id/hintButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_hint_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/timerButton"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
                     tools:visibility="visible" />
 
@@ -138,37 +115,28 @@
                     android:id="@+id/searchButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_search_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/hintButton"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_search_white_24dp" />
 
             <ImageButton
                     android:id="@+id/walkingModeButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_walking_mode_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/searchButton"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/walking_mode_button_selector" />
 
             <ImageButton
                     android:id="@+id/helpButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_help_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/walkingModeButton"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_baseline_help_outline_24" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </HorizontalScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

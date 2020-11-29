@@ -7,7 +7,8 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
+import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.AnswerStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardEvent.*
@@ -15,15 +16,23 @@ import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class ManualTestExerciseCardViewHolder(
-    asyncItemView: AsyncFrameLayout,
-    coroutineScope: CoroutineScope,
-    controller: ManualTestExerciseCardController
+    private val asyncItemView: AsyncFrameLayout,
+    private val coroutineScope: CoroutineScope,
+    private val controller: ManualTestExerciseCardController,
+    private val knowingWhenPagerStopped: KnowingWhenPagerStopped
 ) : ExerciseCardViewHolder<ManualTestExerciseCard>(
-    asyncItemView,
-    coroutineScope
+    asyncItemView
 ) {
     init {
         asyncItemView.invokeWhenInflated {
+            knowingWhenPagerStopped.invokeWhenPagerStopped {
+                setupView()
+            }
+        }
+    }
+
+    private fun setupView() {
+        with(itemView) {
             showQuestionButton.setOnClickListener {
                 controller.dispatch(ShowQuestionButtonClicked)
             }
@@ -45,9 +54,26 @@ class ManualTestExerciseCardViewHolder(
         }
     }
 
-    override fun bind(exerciseCard: ManualTestExerciseCard, coroutineScope: CoroutineScope) {
-        val viewModel = ManualTestExerciseCardViewModel(exerciseCard)
-        with(viewModel) {
+    private var viewModel: ManualTestExerciseCardViewModel? = null
+
+    override fun bind(exerciseCard: ManualTestExerciseCard) {
+        asyncItemView.invokeWhenInflated {
+            if (viewModel == null) {
+                knowingWhenPagerStopped.invokeWhenPagerStopped {
+                    viewModel = ManualTestExerciseCardViewModel(exerciseCard)
+                    observeViewModel()
+                }
+            } else {
+                questionScrollView.scrollTo(0, 0)
+                hintScrollView.scrollTo(0, 0)
+                answerScrollView.scrollTo(0, 0)
+                viewModel!!.setExerciseCard(exerciseCard)
+            }
+        }
+    }
+
+    private fun observeViewModel() {
+        with(viewModel!!) {
             with(itemView) {
                 isQuestionDisplayed.observe(coroutineScope) { isQuestionDisplayed: Boolean ->
                     showQuestionButton.isVisible = !isQuestionDisplayed
@@ -57,16 +83,17 @@ class ManualTestExerciseCardViewHolder(
                     questionTextView.text = question
                     questionTextView.fixTextSelection()
                 }
-                answerStatus.observe(coroutineScope) { answerStatus: AnswerStatus ->
-                    curtainView.isVisible = answerStatus == Unanswered
-                    hintScrollView.isVisible = answerStatus == UnansweredWithHint
-                    answerScrollView.isVisible = answerStatus == Correct || answerStatus == Wrong
-                    rememberButton.isSelected = answerStatus == Correct
-                    notRememberButton.isSelected = answerStatus == Wrong
-                }
                 hint.observe(coroutineScope) { hint: String? ->
                     hintTextView.text = hint
                     hintTextView.fixTextSelection()
+                }
+                answerStatus.observe(coroutineScope) { answerStatus: AnswerStatus ->
+                    curtainView.isVisible = answerStatus == Unanswered
+                    hintScrollView.isVisible = answerStatus == UnansweredWithHint
+                    answerScrollView.isVisible =
+                        answerStatus == Correct || answerStatus == Wrong
+                    rememberButton.isSelected = answerStatus == Correct
+                    notRememberButton.isSelected = answerStatus == Wrong
                 }
                 answer.observe(coroutineScope) { answer: String ->
                     answerTextView.text = answer
@@ -92,9 +119,6 @@ class ManualTestExerciseCardViewHolder(
                     hintTextView.isEnabled = isEnabled
                     answerTextView.isEnabled = isEnabled
                 }
-                questionScrollView.scrollTo(0, 0)
-                hintScrollView.scrollTo(0, 0)
-                answerScrollView.scrollTo(0, 0)
             }
         }
     }

@@ -1,175 +1,169 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/cardView"
+        style="@style/ExerciseCardStyle">
 
-    <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            style="@style/ExerciseCardStyle">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
+                android:id="@+id/question_frame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-            <FrameLayout
-                    android:id="@+id/question_frame"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent">
-
-                <ScrollView
-                        android:id="@+id/questionScrollView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fillViewport="true">
-
-                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                            android:id="@+id/questionTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="16dp"
-                            android:textColor="@color/text_secondary_selector"
-                            android:textIsSelectable="true"
-                            android:textSize="20sp"
-                            tools:text="усердный, прилежный" />
-
-                </ScrollView>
-
-                <TextView
-                        android:id="@+id/showQuestionButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/curtain"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        android:text="@string/text_show_question_button"
-                        android:textColor="@color/text_curtain_selector"
-                        android:textSize="18sp"
-                        android:visibility="gone" />
-
-                <View
-                        android:id="@+id/divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="bottom"
-                        android:background="?android:listDivider" />
-
-            </FrameLayout>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent">
 
             <ScrollView
-                    android:id="@+id/answerScrollView"
+                    android:id="@+id/questionScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
 
-                <LinearLayout
+                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                        android:id="@+id/questionTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                    <FrameLayout
-                            android:id="@+id/variant1Frame"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            tools:background="@drawable/background_variant_status_wrong">
-
-                        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                                android:id="@+id/variant1Button"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?selectableItemBackgroundBorderless"
-                                android:drawablePadding="16dp"
-                                android:padding="16dp"
-                                android:textColor="@color/textSecondary"
-                                android:textSize="18sp"
-                                app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
-                                tools:drawableStartCompat="@drawable/ic_wrong_answer_24"
-                                tools:text="freely"
-                                tools:textColor="@color/wrong_answer" />
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                            android:id="@+id/variant2Frame"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp">
-
-                        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                                android:id="@+id/variant2Button"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?selectableItemBackgroundBorderless"
-                                android:drawablePadding="16dp"
-                                android:padding="16dp"
-                                android:textColor="@color/textSecondary"
-                                android:textSize="18sp"
-                                app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
-                                tools:text="chronically" />
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                            android:id="@+id/variant3Frame"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp"
-                            tools:background="@drawable/background_variant_status_correct_but_not_selected">
-
-                        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                                android:id="@+id/variant3Button"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?selectableItemBackgroundBorderless"
-                                android:drawablePadding="16dp"
-                                android:padding="16dp"
-                                android:textColor="@color/textSecondary"
-                                android:textSize="18sp"
-                                app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
-                                tools:text="assiduously" />
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                            android:id="@+id/variant4Frame"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="16dp">
-
-                        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                                android:id="@+id/variant4Button"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?selectableItemBackgroundBorderless"
-                                android:drawablePadding="16dp"
-                                android:padding="16dp"
-                                android:textColor="@color/textSecondary"
-                                android:textSize="18sp"
-                                app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
-                                tools:text="feebly" />
-
-                    </FrameLayout>
-
-                </LinearLayout>
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:textColor="@color/text_secondary_selector"
+                        android:textIsSelectable="true"
+                        android:textSize="20sp"
+                        tools:text="усердный, прилежный" />
 
             </ScrollView>
 
-        </LinearLayout>
+            <TextView
+                    android:id="@+id/showQuestionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/curtain"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/text_show_question_button"
+                    android:textColor="@color/text_curtain_selector"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
-    </androidx.cardview.widget.CardView>
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="?android:listDivider" />
 
-</FrameLayout>
+        </FrameLayout>
+
+        <ScrollView
+                android:id="@+id/answerScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <FrameLayout
+                        android:id="@+id/variant1Frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        tools:background="@drawable/background_variant_status_wrong">
+
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/variant1Button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:drawablePadding="16dp"
+                            android:padding="16dp"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="18sp"
+                            app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
+                            tools:drawableStartCompat="@drawable/ic_wrong_answer_24"
+                            tools:text="freely"
+                            tools:textColor="@color/wrong_answer" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                        android:id="@+id/variant2Frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp">
+
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/variant2Button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:drawablePadding="16dp"
+                            android:padding="16dp"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="18sp"
+                            app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
+                            tools:text="chronically" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                        android:id="@+id/variant3Frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        tools:background="@drawable/background_variant_status_correct_but_not_selected">
+
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/variant3Button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:drawablePadding="16dp"
+                            android:padding="16dp"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="18sp"
+                            app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
+                            tools:text="assiduously" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                        android:id="@+id/variant4Frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp">
+
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/variant4Button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:drawablePadding="16dp"
+                            android:padding="16dp"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="18sp"
+                            app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
+                            tools:text="feebly" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

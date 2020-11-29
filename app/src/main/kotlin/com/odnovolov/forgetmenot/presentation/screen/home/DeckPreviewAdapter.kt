@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.highlight
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
+import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*

@@ -8,10 +8,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncFrameLayout
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
@@ -19,12 +20,12 @@ import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class QuizTestExerciseCardViewHolder(
-    asyncItemView: AsyncFrameLayout,
-    coroutineScope: CoroutineScope,
-    private val controller: QuizTestExerciseCardController
+    private val asyncItemView: AsyncFrameLayout,
+    private val coroutineScope: CoroutineScope,
+    private val controller: QuizTestExerciseCardController,
+    private val knowingWhenPagerStopped: KnowingWhenPagerStopped
 ) : ExerciseCardViewHolder<QuizTestExerciseCard>(
-    asyncItemView,
-    coroutineScope
+    asyncItemView
 ) {
     private val rippleId: Int = getRippleId(itemView.context)
 
@@ -40,6 +41,14 @@ class QuizTestExerciseCardViewHolder(
 
     init {
         asyncItemView.invokeWhenInflated {
+            knowingWhenPagerStopped.invokeWhenPagerStopped {
+                setupView()
+            }
+        }
+    }
+
+    private fun setupView() {
+        with(itemView) {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
@@ -53,9 +62,25 @@ class QuizTestExerciseCardViewHolder(
         }
     }
 
-    override fun bind(exerciseCard: QuizTestExerciseCard, coroutineScope: CoroutineScope) {
-        val viewModel = QuizTestExerciseCardViewModel(exerciseCard)
-        with(viewModel) {
+    private var viewModel: QuizTestExerciseCardViewModel? = null
+
+    override fun bind(exerciseCard: QuizTestExerciseCard) {
+        asyncItemView.invokeWhenInflated {
+            if (viewModel == null) {
+                knowingWhenPagerStopped.invokeWhenPagerStopped {
+                    viewModel = QuizTestExerciseCardViewModel(exerciseCard)
+                    observeViewModel()
+                }
+            } else {
+                questionScrollView.scrollTo(0, 0)
+                answerScrollView.scrollTo(0, 0)
+                viewModel!!.setExerciseCard(exerciseCard)
+            }
+        }
+    }
+
+    private fun observeViewModel() {
+        with(viewModel!!) {
             with(itemView) {
                 isQuestionDisplayed.observe(coroutineScope) { isQuestionDisplayed: Boolean ->
                     showQuestionButton.isVisible = !isQuestionDisplayed
@@ -107,8 +132,6 @@ class QuizTestExerciseCardViewHolder(
                     forEachVariantFrame { isEnabled = !isLearned }
                     forEachVariantButton { isEnabled = !isLearned }
                 }
-                questionScrollView.scrollTo(0, 0)
-                answerScrollView.scrollTo(0, 0)
             }
         }
     }
