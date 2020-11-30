@@ -128,7 +128,6 @@
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_margin="12dp"
                     android:background="@drawable/check_button_background_selector"
-                    android:fontFamily="@font/nunito_extrabold"
                     android:gravity="center"
                     android:outlineAmbientShadowColor="@color/colorAccent"
                     android:outlineSpotShadowColor="@color/colorAccent"
@@ -137,7 +136,8 @@
                     android:text="@string/text_check_button"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:fontFamily="@font/nunito_extrabold" />
 
             <ScrollView
                     android:id="@+id/answerScrollView"

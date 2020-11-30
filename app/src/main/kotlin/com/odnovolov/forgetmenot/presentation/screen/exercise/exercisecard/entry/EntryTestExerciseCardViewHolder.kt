@@ -4,6 +4,7 @@ import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Color
 import android.graphics.Paint
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
@@ -51,6 +52,7 @@ class EntryTestExerciseCardViewHolder(
             checkButton.setOnClickListener {
                 controller.dispatch(CheckButtonClicked)
             }
+            checkButton.typeface = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
             wrongAnswerTextView.run {
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))

@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manu
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
@@ -42,9 +43,11 @@ class ManualTestExerciseCardViewHolder(
             rememberButton.setOnClickListener {
                 controller.dispatch(RememberButtonClicked)
             }
+            rememberButton.typeface = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
             notRememberButton.setOnClickListener {
                 controller.dispatch(NotRememberButtonClicked)
             }
+            notRememberButton.typeface = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }

@@ -45,6 +45,7 @@ class HomeFragment : BaseFragment() {
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var isSearchingAfterPasteButtonClicked: Boolean = false
     private var appbarLayoutOffset: Int = 0
+    private var backPressInterceptor: MainActivity.BackPressInterceptor? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -388,7 +389,24 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+        backPressInterceptor = object : MainActivity.BackPressInterceptor {
+            override fun onBackPressed(): Boolean {
+                return when {
+                    selectionToolbar.isVisible -> {
+                        controller?.dispatch(SelectionCancelled)
+                        true
+                    }
+                    searchEditText.hasFocus() -> {
+                        cancelSearch()
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+            }
+        }
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor!!)
         if (searchEditText.text.isNotEmpty()) {
             searchEditText.post {
                 searchEditText.requestFocus()
@@ -398,26 +416,9 @@ class HomeFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor!!)
+        backPressInterceptor = null
         searchEditText.hideSoftInput()
-    }
-
-    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
-        override fun onBackPressed(): Boolean {
-            return when {
-                selectionToolbar.isVisible -> {
-                    controller?.dispatch(SelectionCancelled)
-                    true
-                }
-                searchEditText.hasFocus() -> {
-                    cancelSearch()
-                    true
-                }
-                else -> {
-                    false
-                }
-            }
-        }
     }
 
     private fun cancelSearch() {

@@ -134,7 +134,7 @@ class HomeController(
                 if (homeScreenState.deckSelection != null) {
                     toggleDeckSelection(event.deckId)
                 } else {
-                    navigateToDeckSetup(event.deckId)
+                    startExercise(listOf(event.deckId))
                 }
             }
 
