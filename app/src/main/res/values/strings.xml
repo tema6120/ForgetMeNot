@@ -16,7 +16,7 @@
     <string name="description_edit_card_button">Edit card</string>
     <string name="description_hint_button">Hint</string>
     <string name="description_timer_button">Stop timer</string>
-    <string name="description_level_of_knowledge_button">Level of knowledge</string>
+    <string name="description_grade_button">Grade</string>
     <string name="description_pause_button">Pause</string>
     <string name="description_resume_button">Resume</string>
     <string name="description_done_button">Done</string>
@@ -153,7 +153,7 @@
     <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>
     <string name="text_awaiting_group_checkbox">Awaiting</string>
     <string name="text_learned_group_checkbox">Learned</string>
-    <string name="title_level_of_knowledge">Level of knowledge:</string>
+    <string name="title_grade">Grade:</string>
     <string name="title_last_answer">Last answer:</string>
     <string name="title_last_answer_from">From</string>
     <string name="title_last_answer_to">to</string>

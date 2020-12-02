@@ -3,22 +3,24 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_item_grade"
         tools:background="@color/background_dark_popup">
 
     <TextView
-            android:id="@+id/levelOfKnowledgeTextView"
+            android:id="@+id/gradeIcon"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:background="@drawable/oval"
             android:gravity="center"
-            android:textColor="@color/text_level_of_knowledge"
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
+            tools:backgroundTint="@color/grade_unsatisfactory"
             tools:text="0"
             tools:visibility="visible" />
 
@@ -27,12 +29,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:fontFamily="@font/nunito_bold"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/levelOfKnowledgeTextView"
+            app:layout_constraintStart_toEndOf="@id/gradeIcon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="8 hours" />
 
@@ -40,20 +43,9 @@
             android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:background="@color/divider_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-    <FrameLayout
-            android:id="@+id/setLevelOfKnowledgeButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="?attr/selectableItemBackground"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,8 +40,8 @@ class CardsEditorForExercise(
                 originalCard.answer = editableCard.answer
                 isAnswerChanged = true
             }
-            if (editableCard.levelOfKnowledge != originalCard.levelOfKnowledge) {
-                originalCard.levelOfKnowledge = editableCard.levelOfKnowledge
+            if (editableCard.levelOfKnowledge != originalCard.grade) {
+                originalCard.grade = editableCard.levelOfKnowledge
                 isLevelOfKnowledgeChanged = true
             }
             if (editableCard.isLearned != originalCard.isLearned) {

@@ -9,7 +9,7 @@ class RepetitionSetting(
     isAvailableForExerciseCardsIncluded: Boolean,
     isAwaitingCardsIncluded: Boolean,
     isLearnedCardsIncluded: Boolean,
-    levelOfKnowledgeRange: IntRange,
+    gradeRange: IntRange,
     lastAnswerFromTimeAgo: DateTimeSpan?,
     lastAnswerToTimeAgo: DateTimeSpan?,
     numberOfLaps: Int
@@ -18,7 +18,7 @@ class RepetitionSetting(
     var isAvailableForExerciseCardsIncluded: Boolean by flowMaker(isAvailableForExerciseCardsIncluded)
     var isAwaitingCardsIncluded: Boolean by flowMaker(isAwaitingCardsIncluded)
     var isLearnedCardsIncluded: Boolean by flowMaker(isLearnedCardsIncluded)
-    var levelOfKnowledgeRange: IntRange by flowMaker(levelOfKnowledgeRange)
+    var gradeRange: IntRange by flowMaker(gradeRange)
     var lastAnswerFromTimeAgo: DateTimeSpan? by flowMaker(lastAnswerFromTimeAgo) // null means zero time
     var lastAnswerToTimeAgo: DateTimeSpan? by flowMaker(lastAnswerToTimeAgo) // null means now
     var numberOfLaps: Int by flowMaker(numberOfLaps)
@@ -29,7 +29,7 @@ class RepetitionSetting(
         isAvailableForExerciseCardsIncluded,
         isAwaitingCardsIncluded,
         isLearnedCardsIncluded,
-        levelOfKnowledgeRange,
+        gradeRange,
         lastAnswerFromTimeAgo,
         lastAnswerToTimeAgo,
         numberOfLaps
@@ -37,14 +37,14 @@ class RepetitionSetting(
 
     companion object {
         val Default by lazy {
-            val maxLevelOfKnowledge: Int = IntervalScheme.Default.intervals.last().levelOfKnowledge
+            val maxGrade: Int = IntervalScheme.Default.intervals.last().grade
             RepetitionSetting(
                 id = 0L,
                 name = "",
                 isAvailableForExerciseCardsIncluded = false,
                 isAwaitingCardsIncluded = true,
                 isLearnedCardsIncluded = false,
-                levelOfKnowledgeRange = 0..maxLevelOfKnowledge,
+                gradeRange = 0..maxGrade,
                 lastAnswerFromTimeAgo = null,
                 lastAnswerToTimeAgo = null,
                 numberOfLaps = 1

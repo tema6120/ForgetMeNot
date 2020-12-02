@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <selector>
+            <item android:state_selected="true">
+                <shape>
+                    <solid android:color="@color/background_item_grade_selected" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+    <item android:drawable="@drawable/ripple_rectangular_light" />
+</layer-list>

@@ -62,14 +62,34 @@ fun EditText.observeText(onTextChanged: (newText: String) -> Unit) {
     })
 }
 
-fun getBackgroundResForLevelOfKnowledge(levelOfKnowledge: Int) = when (levelOfKnowledge) {
-    0 -> R.drawable.background_level_of_knowledge_unsatisfactory
-    1 -> R.drawable.background_level_of_knowledge_poor
-    2 -> R.drawable.background_level_of_knowledge_acceptable
-    3 -> R.drawable.background_level_of_knowledge_satisfactory
-    4 -> R.drawable.background_level_of_knowledge_good
-    5 -> R.drawable.background_level_of_knowledge_very_good
-    else -> R.drawable.background_level_of_knowledge_excellent
+fun getBackgroundResForGrade(grade: Int) = when (grade) {
+    0 -> R.drawable.background_grade_unsatisfactory
+    1 -> R.drawable.background_grade_poor
+    2 -> R.drawable.background_grade_acceptable
+    3 -> R.drawable.background_grade_satisfactory
+    4 -> R.drawable.background_grade_good
+    5 -> R.drawable.background_grade_very_good
+    else -> R.drawable.background_grade_excellent
+}
+
+fun getGradeColorRes(grade: Int) = when (grade) {
+    0 -> R.color.grade_unsatisfactory
+    1 -> R.color.grade_poor
+    2 -> R.color.grade_acceptable
+    3 -> R.color.grade_satisfactory
+    4 -> R.color.grade_good
+    5 -> R.color.grade_very_good
+    else -> R.color.grade_excellent
+}
+
+fun getBrightGradeColorRes(grade: Int) = when (grade) {
+    0 -> R.color.grade_unsatisfactory_bright
+    1 -> R.color.grade_poor_bright
+    2 -> R.color.grade_acceptable_bright
+    3 -> R.color.grade_satisfactory_bright
+    4 -> R.color.grade_good_bright
+    5 -> R.color.grade_very_good_bright
+    else -> R.color.grade_excellent_bright
 }
 
 fun <T> Flow<T>.firstBlocking(): T = runBlocking { first() }

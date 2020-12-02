@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
 import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
@@ -37,38 +36,38 @@ class RepetitionSettingsViewModel(
             repetitionSetting.flowOf(RepetitionSetting::isLearnedCardsIncluded)
         }
 
-    val availableLevelOfKnowledgeRange: IntRange = run {
-        val maxLokFromCards: Int = globalState.decks
+    val availableGradeRange: IntRange = run {
+        val maxGradeFromCards: Int = globalState.decks
             .flatMap { deck -> deck.cards }
-            .map { card -> card.levelOfKnowledge }
+            .map { card -> card.grade }
             .maxOrNull() ?: 0
-        val maxLokFromSharedIntervals: Int = globalState.sharedIntervalSchemes
+        val maxGradeFromSharedIntervals: Int = globalState.sharedIntervalSchemes
             .flatMap { intervalScheme -> intervalScheme.intervals }
-            .map { interval -> interval.levelOfKnowledge }
+            .map { interval -> interval.grade }
             .maxOrNull() ?: 0
-        val maxLokFromDeckIntervals: Int = globalState.decks
+        val maxGradeFromDeckIntervals: Int = globalState.decks
             .flatMap { deck ->
-                deck.exercisePreference.intervalScheme?.intervals ?: emptyList<Interval>()
+                deck.exercisePreference.intervalScheme?.intervals ?: emptyList()
             }
-            .map { interval -> interval.levelOfKnowledge }
+            .map { interval -> interval.grade }
             .maxOrNull() ?: 0
-        val maxLokFromSharedRepetitionSettings: Int = globalState.sharedRepetitionSettings
-            .map { repetitionSetting -> repetitionSetting.levelOfKnowledgeRange.last }
+        val maxGradeFromSharedRepetitionSettings: Int = globalState.sharedRepetitionSettings
+            .map { repetitionSetting -> repetitionSetting.gradeRange.last }
             .maxOrNull() ?: 0
-        val maxLokFromCurrentRepetitionSetting: Int =
-            globalState.currentRepetitionSetting.levelOfKnowledgeRange.last
-        val maxLevelOfKnowledge: Int = arrayOf(
-            maxLokFromCards,
-            maxLokFromSharedIntervals,
-            maxLokFromDeckIntervals,
-            maxLokFromSharedRepetitionSettings,
-            maxLokFromCurrentRepetitionSetting
+        val maxGradeFromCurrentRepetitionSetting: Int =
+            globalState.currentRepetitionSetting.gradeRange.last
+        val maxGrade: Int = arrayOf(
+            maxGradeFromCards,
+            maxGradeFromSharedIntervals,
+            maxGradeFromDeckIntervals,
+            maxGradeFromSharedRepetitionSettings,
+            maxGradeFromCurrentRepetitionSetting
         ).maxOrNull()!!
-        0..maxLevelOfKnowledge
+        0..maxGrade
     }
 
-    val selectedLevelOfKnowledgeRange: Flow<IntRange> =
-        currentRepetitionSetting.map { it.levelOfKnowledgeRange }
+    val selectedGradeRange: Flow<IntRange> =
+        currentRepetitionSetting.map { it.gradeRange }
 
     val lastAnswerFromTimeAgo: Flow<DisplayedInterval?> = currentRepetitionSetting
         .flatMapLatest { repetitionSetting: RepetitionSetting ->

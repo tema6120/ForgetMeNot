@@ -5,7 +5,7 @@
             android:right="8dp"
             android:top="8dp">
         <shape android:shape="oval">
-            <solid android:color="@color/level_of_knowledge_unsatisfactory" />
+            <solid android:color="@color/grade_unsatisfactory" />
         </shape>
     </item>
     <item android:drawable="@drawable/ripple_light_borderless" />

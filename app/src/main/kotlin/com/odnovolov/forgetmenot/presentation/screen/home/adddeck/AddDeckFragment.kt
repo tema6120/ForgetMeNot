@@ -85,7 +85,7 @@ class AddDeckFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
-            animationStyle = R.style.RightPopupAnimation
+            animationStyle = R.style.TopRightPopupAnimation
         }
     }
 

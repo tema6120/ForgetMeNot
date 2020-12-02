@@ -56,7 +56,7 @@ class RepetitionStateCreator(
 
     private fun isCardMatchTheFilter(card: Card, deck: Deck): Boolean {
         return isCorrespondingCardGroupIncluded(card, deck)
-                && card.levelOfKnowledge in repetitionSetting.levelOfKnowledgeRange
+                && card.grade in repetitionSetting.gradeRange
                 && isLastAnswerTimeInFilterRange(card)
     }
 

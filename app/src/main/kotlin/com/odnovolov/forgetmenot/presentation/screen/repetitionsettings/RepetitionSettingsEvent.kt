@@ -5,7 +5,7 @@ sealed class RepetitionSettingsEvent {
     object AvailableForExerciseGroupButtonClicked : RepetitionSettingsEvent()
     object AwaitingGroupButtonClicked : RepetitionSettingsEvent()
     object LearnedGroupButtonClicked : RepetitionSettingsEvent()
-    class LevelOfKnowledgeRangeChanged(val levelOfKnowledgeRange: IntRange) : RepetitionSettingsEvent()
+    class GradeRangeChanged(val levelOfKnowledgeRange: IntRange) : RepetitionSettingsEvent()
     object LastAnswerFromButtonClicked : RepetitionSettingsEvent()
     object LastAnswerToButtonClicked : RepetitionSettingsEvent()
     object LapsButtonClicked : RepetitionSettingsEvent()

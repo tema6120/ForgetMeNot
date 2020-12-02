@@ -32,7 +32,7 @@ class CardsEditorForEditingExistingDeck(
                 || originalCard.question != editableCard.question
                 || originalCard.answer != editableCard.answer
                 || originalCard.isLearned != editableCard.isLearned
-                || originalCard.levelOfKnowledge != editableCard.levelOfKnowledge
+                || originalCard.grade != editableCard.levelOfKnowledge
     }
 
     override fun save(): SavingResult {

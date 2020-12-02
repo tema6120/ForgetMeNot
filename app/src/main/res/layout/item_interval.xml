@@ -5,16 +5,16 @@
         android:layout_height="wrap_content">
 
     <TextView
-            android:id="@+id/levelOfKnowledgeTextView"
+            android:id="@+id/gradeTextView"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
             android:gravity="center"
-            android:textColor="@color/text_level_of_knowledge"
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@drawable/background_level_of_knowledge_unsatisfactory"
+            tools:background="@drawable/background_grade_unsatisfactory"
             tools:text="0" />
 
     <View
@@ -23,9 +23,9 @@
             android:layout_height="0dp"
             android:background="?android:listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintStart_toStartOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintTop_toBottomOf="@+id/levelOfKnowledgeTextView" />
+            app:layout_constraintEnd_toEndOf="@+id/gradeTextView"
+            app:layout_constraintStart_toStartOf="@+id/gradeTextView"
+            app:layout_constraintTop_toBottomOf="@+id/gradeTextView" />
 
     <TextView
             android:id="@+id/intervalTextView"
@@ -44,8 +44,8 @@
             app:layout_constraintEnd_toStartOf="@+id/modifyIntervalButton"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/levelOfKnowledgeTextView"
-            app:layout_constraintTop_toBottomOf="@+id/levelOfKnowledgeTextView"
+            app:layout_constraintStart_toEndOf="@+id/gradeTextView"
+            app:layout_constraintTop_toBottomOf="@+id/gradeTextView"
             tools:text="8 hours" />
 
     <ImageView

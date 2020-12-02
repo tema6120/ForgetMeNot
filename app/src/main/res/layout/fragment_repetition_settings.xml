@@ -171,14 +171,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/title_level_of_knowledge"
+                android:text="@string/title_grade"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <com.appyvet.materialrangebar.RangeBar
-                android:id="@+id/levelOfKnowledgeRangeBar"
+                android:id="@+id/gradeRangeBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -202,8 +202,8 @@
                 app:mrb_tickLabelSelectedColor="#888888"
                 app:mrb_tickLabelSize="6sp"
                 tools:mrb_connectingLineColor="@color/colorAccent"
-                tools:mrb_leftSelectorColor="@color/level_of_knowledge_unsatisfactory"
-                tools:mrb_rightSelectorColor="@color/level_of_knowledge_excellent" />
+                tools:mrb_leftSelectorColor="@color/grade_unsatisfactory"
+                tools:mrb_rightSelectorColor="@color/grade_excellent" />
 
         <View
                 android:id="@+id/divider2"
@@ -212,7 +212,7 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/levelOfKnowledgeRangeBar" />
+                app:layout_constraintTop_toBottomOf="@id/gradeRangeBar" />
 
         <TextView
                 android:id="@+id/lastAnswerTitle"

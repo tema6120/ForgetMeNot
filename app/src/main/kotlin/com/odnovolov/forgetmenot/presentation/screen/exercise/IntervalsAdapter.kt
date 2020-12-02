@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
 import com.soywiz.klock.DateTimeSpan
-import kotlinx.android.synthetic.main.item_level_of_knowledge.view.*
+import kotlinx.android.synthetic.main.item_grade.view.*
 
 class IntervalsAdapter(
     private val onItemClick: (Int) -> Unit
@@ -30,41 +30,38 @@ class IntervalsAdapter(
         selectedPosition = intervalItems.indexOfFirst { it.isSelected }
     }
 
+    override fun getItemCount(): Int = intervalItems.size
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_level_of_knowledge, parent, false)
+            .inflate(R.layout.item_grade, parent, false)
         return SimpleRecyclerViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SimpleRecyclerViewHolder, position: Int) {
         val intervalItem: IntervalItem = intervalItems[position]
         with(holder.itemView) {
-            if (intervalItem.isSelected) {
-                setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.current_level_of_knowledge_background)
-                )
-            } else {
-                background = null
+            isSelected = intervalItem.isSelected
+            setOnClickListener {
+                onItemClick(intervalItem.grade)
             }
-            val backgroundRes = getBackgroundResForLevelOfKnowledge(intervalItem.levelOfKnowledge)
-            levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-            levelOfKnowledgeTextView.text = intervalItem.levelOfKnowledge.toString()
+            val gradeColor: Int = ContextCompat.getColor(
+                context,
+                getGradeColorRes(intervalItem.grade)
+            )
+            gradeIcon.background.setTint(gradeColor)
+            gradeIcon.text = intervalItem.grade.toString()
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(intervalItem.waitingPeriod)
             waitingPeriodTextView.text = displayedInterval.toString(context)
-            setLevelOfKnowledgeButton.setOnClickListener {
-                onItemClick(intervalItem.levelOfKnowledge)
-            }
             divider.isVisible = position != intervalItems.lastIndex
                     && position != selectedPosition
                     && position != selectedPosition - 1
         }
     }
-
-    override fun getItemCount(): Int = intervalItems.size
 }
 
 data class IntervalItem(
-    val levelOfKnowledge: Int,
+    val grade: Int,
     val waitingPeriod: DateTimeSpan,
     val isSelected: Boolean
 )

@@ -124,7 +124,7 @@ class RepetitionSettings(
 
     fun setLevelOfKnowledgeRange(levelOfKnowledgeRange: IntRange) {
         updateRepetitionSetting(
-            isValueChanged = currentRepetitionSetting.levelOfKnowledgeRange != levelOfKnowledgeRange,
+            isValueChanged = currentRepetitionSetting.gradeRange != levelOfKnowledgeRange,
             createNewIndividualRepetitionSetting = {
                 currentRepetitionSetting.shallowCopy(
                     id = generateId(),
@@ -132,7 +132,7 @@ class RepetitionSettings(
                 )
             },
             updateCurrentRepetitionSetting = {
-                currentRepetitionSetting.levelOfKnowledgeRange = levelOfKnowledgeRange
+                currentRepetitionSetting.gradeRange = levelOfKnowledgeRange
             }
         )
     }
@@ -211,7 +211,7 @@ class RepetitionSettings(
         isAvailableForExerciseCardsIncluded: Boolean = this.isAvailableForExerciseCardsIncluded,
         isAwaitingCardsIncluded: Boolean = this.isAwaitingCardsIncluded,
         isLearnedCardsIncluded: Boolean = this.isLearnedCardsIncluded,
-        levelOfKnowledgeRange: IntRange = this.levelOfKnowledgeRange,
+        levelOfKnowledgeRange: IntRange = this.gradeRange,
         lastAnswerFromTimeAgo: DateTimeSpan? = this.lastAnswerFromTimeAgo,
         lastAnswerToTimeAgo: DateTimeSpan? = this.lastAnswerToTimeAgo,
         numberOfLaps: Int = this.numberOfLaps

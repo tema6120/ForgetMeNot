@@ -23,7 +23,7 @@ class RepetitionSettingsFragment : BaseFragment() {
 
     private lateinit var diScope: RepetitionSettingsDiScope
     private var controller: RepetitionSettingsController? = null
-    private var isLevelOfKnowledgeRangeListenerEnabled = true
+    private var isGradeRangeListenerEnabled = true
     private var isInflated = false
 
     override fun onCreateView(
@@ -66,7 +66,7 @@ class RepetitionSettingsFragment : BaseFragment() {
 
     private fun setupView() {
         setupFilterGroups()
-        setupLevelOfKnowledgeRangeBar()
+        setupGradeRangeBar()
         setupLastAnswerFilter()
         setupNumberOfLaps()
     }
@@ -79,8 +79,8 @@ class RepetitionSettingsFragment : BaseFragment() {
         learnedGroupButton.setOnClickListener { controller?.dispatch(LearnedGroupButtonClicked) }
     }
 
-    private fun setupLevelOfKnowledgeRangeBar() {
-        with(levelOfKnowledgeRangeBar) {
+    private fun setupGradeRangeBar() {
+        with(gradeRangeBar) {
             setOnRangeBarChangeListener(
                 object : RangeBar.OnRangeBarChangeListener {
                     private var oldLeftPinValue: String? = leftPinValue
@@ -99,12 +99,12 @@ class RepetitionSettingsFragment : BaseFragment() {
 
                     override fun onTouchEnded(rangeBar: RangeBar?) {
                         if (isAnyPinValueChanged()) {
-                            if (isLevelOfKnowledgeRangeListenerEnabled) {
+                            if (isGradeRangeListenerEnabled) {
                                 val min = leftPinValue?.toInt() ?: return
                                 val max = rightPinValue?.toInt() ?: return
-                                controller?.dispatch(LevelOfKnowledgeRangeChanged(min..max))
+                                controller?.dispatch(GradeRangeChanged(min..max))
                             }
-                            updateLevelOfKnowledgeRangeSelectorColors()
+                            updateGradeRangeSelectorColors()
                         }
                         updateOldPinValues()
                     }
@@ -120,16 +120,8 @@ class RepetitionSettingsFragment : BaseFragment() {
         }
     }
 
-    private fun getLevelOfKnowledgeColor(levelOfKnowledge: Int): Int {
-        val resId = when (levelOfKnowledge) {
-            0 -> R.color.level_of_knowledge_unsatisfactory
-            1 -> R.color.level_of_knowledge_poor
-            2 -> R.color.level_of_knowledge_acceptable
-            3 -> R.color.level_of_knowledge_satisfactory
-            4 -> R.color.level_of_knowledge_good
-            5 -> R.color.level_of_knowledge_very_good
-            else -> R.color.level_of_knowledge_excellent
-        }
+    private fun getGradeColor(grade: Int): Int {
+        val resId = getGradeColorRes(grade)
         return ContextCompat.getColor(requireContext(), resId)
     }
 
@@ -162,14 +154,14 @@ class RepetitionSettingsFragment : BaseFragment() {
             isLearnedGroupChecked.observe { isChecked: Boolean ->
                 updateCheckBox(learnedGroupCheckBox, isChecked)
             }
-            availableLevelOfKnowledgeRange.let(::adaptLevelOfKnowledgeBarToAvailableRange)
-            selectedLevelOfKnowledgeRange.observe { levelOfKnowledgeRange: IntRange ->
-                isLevelOfKnowledgeRangeListenerEnabled = false
-                levelOfKnowledgeRangeBar.setRangePinsByValue(
-                    levelOfKnowledgeRange.first.toFloat(),
-                    levelOfKnowledgeRange.last.toFloat()
+            availableGradeRange.let(::adaptGradeBarToAvailableRange)
+            selectedGradeRange.observe { gradeRange: IntRange ->
+                isGradeRangeListenerEnabled = false
+                gradeRangeBar.setRangePinsByValue(
+                    gradeRange.first.toFloat(),
+                    gradeRange.last.toFloat()
                 )
-                isLevelOfKnowledgeRangeListenerEnabled = true
+                isGradeRangeListenerEnabled = true
             }
             lastAnswerFromTimeAgo.observe { lastAnswerFromTimeAgo: DisplayedInterval? ->
                 lastAnswerFromButton.text =
@@ -214,24 +206,24 @@ class RepetitionSettingsFragment : BaseFragment() {
         }
     }
 
-    private fun adaptLevelOfKnowledgeBarToAvailableRange(availableLevelOfKnowledgeRange: IntRange) {
-        with(levelOfKnowledgeRangeBar) {
-            tickStart = availableLevelOfKnowledgeRange.first.toFloat()
-            tickEnd = availableLevelOfKnowledgeRange.last.toFloat()
-            tickTopLabels = availableLevelOfKnowledgeRange
+    private fun adaptGradeBarToAvailableRange(availableGradeRange: IntRange) {
+        with(gradeRangeBar) {
+            tickStart = availableGradeRange.first.toFloat()
+            tickEnd = availableGradeRange.last.toFloat()
+            tickTopLabels = availableGradeRange
                 .map { it.toString() }
                 .toTypedArray()
             val list = (tickStart.toInt()..tickEnd.toInt())
-                .map(::getLevelOfKnowledgeColor)
+                .map(::getGradeColor)
             setConnectingLineColors(ArrayList(list))
-            updateLevelOfKnowledgeRangeSelectorColors()
+            updateGradeRangeSelectorColors()
         }
     }
 
-    private fun updateLevelOfKnowledgeRangeSelectorColors() {
-        with(levelOfKnowledgeRangeBar) {
-            leftSelectorColor = getLevelOfKnowledgeColor(leftPinValue.toInt())
-            rightSelectorColor = getLevelOfKnowledgeColor(rightPinValue.toInt())
+    private fun updateGradeRangeSelectorColors() {
+        with(gradeRangeBar) {
+            leftSelectorColor = getGradeColor(leftPinValue.toInt())
+            rightSelectorColor = getGradeColor(rightPinValue.toInt())
         }
     }
 

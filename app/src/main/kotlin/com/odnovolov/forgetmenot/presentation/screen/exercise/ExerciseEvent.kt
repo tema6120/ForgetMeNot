@@ -4,8 +4,8 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 
 sealed class ExerciseEvent {
     class PageSelected(val position: Int) : ExerciseEvent()
-    object LevelOfKnowledgeButtonClicked : ExerciseEvent()
-    class LevelOfKnowledgeSelected(val levelOfKnowledge: Int) : ExerciseEvent()
+    object GradeButtonClicked : ExerciseEvent()
+    class GradeWasChanged(val grade: Int) : ExerciseEvent()
     object NotAskButtonClicked : ExerciseEvent()
     object AskAgainButtonClicked : ExerciseEvent()
     object SpeakButtonClicked : ExerciseEvent()

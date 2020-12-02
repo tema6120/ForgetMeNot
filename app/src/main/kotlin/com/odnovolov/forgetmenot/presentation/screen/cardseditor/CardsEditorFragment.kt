@@ -33,7 +33,7 @@ class CardsEditorFragment : BaseFragment() {
     private lateinit var viewModel: CardsEditorViewModel
     private val fragmentCoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
+    private val intervalsPopup: PopupWindow by lazy { createIntervalsPopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
     private lateinit var exitDialog: Dialog
 
@@ -57,16 +57,16 @@ class CardsEditorFragment : BaseFragment() {
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
-        val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
-            controller?.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
-            levelOfKnowledgePopup.dismiss()
+        val onItemClick: (Int) -> Unit = { grade: Int ->
+            controller?.dispatch(GradeWasChanged(grade))
+            intervalsPopup.dismiss()
         }
         return IntervalsAdapter(onItemClick)
     }
 
-    private fun createLevelOfKnowledgePopup(): PopupWindow {
+    private fun createIntervalsPopup(): PopupWindow {
         val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
+            View.inflate(context, R.layout.popup_set_grade, null) as RecyclerView
         recycler.adapter = intervalsAdapter
         return PopupWindow(context).apply {
             width = WindowManager.LayoutParams.WRAP_CONTENT
@@ -96,8 +96,8 @@ class CardsEditorFragment : BaseFragment() {
     private fun setupView() {
         cardsViewPager.adapter = EditableCardAdapter(this)
         cardsViewPager.registerOnPageChangeCallback(onPageChangeCallback)
-        levelOfKnowledgeButton.run {
-            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
+        gradeButton.run {
+            setOnClickListener { controller?.dispatch(GradeButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         removeCardButton.run {
@@ -127,18 +127,18 @@ class CardsEditorFragment : BaseFragment() {
                     cardsViewPager.setCurrentItem(currentPosition, false)
                 }
             }
-            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int? ->
-                with(levelOfKnowledgeTextView) {
-                    if (levelOfKnowledge == null) {
+            gradeOfCurrentCard.observe { grade: Int? ->
+                with(gradeTextView) {
+                    if (grade == null) {
                         isVisible = false
                     } else {
-                        val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
+                        val backgroundRes = getBackgroundResForGrade(grade)
                         setBackgroundResource(backgroundRes)
-                        text = levelOfKnowledge.toString()
+                        text = grade.toString()
                         isVisible = true
                     }
                 }
-                levelOfKnowledgeButton.isVisible = levelOfKnowledge != null
+                gradeButton.isVisible = grade != null
             }
             isCurrentEditableCardLearned.observe { isLearned: Boolean? ->
                 with(markAsLearnedButton) {
@@ -180,8 +180,8 @@ class CardsEditorFragment : BaseFragment() {
                 cardsViewPager.setCurrentItem(command.position, true)
                 showToast(R.string.toast_fill_in_the_card)
             }
-            is ShowLevelOfKnowledgePopup -> {
-                showLevelOfKnowledgePopup(command.intervalItems)
+            is ShowIntervalsPopup -> {
+                showIntervalsPopup(command.intervalItems)
             }
             ShowIntervalsAreOffMessage -> {
                 showToast(R.string.toast_text_intervals_are_off)
@@ -205,16 +205,16 @@ class CardsEditorFragment : BaseFragment() {
         }
     }
 
-    private fun showLevelOfKnowledgePopup(intervalItems: List<IntervalItem>) {
+    private fun showIntervalsPopup(intervalItems: List<IntervalItem>) {
         intervalsAdapter.intervalItems = intervalItems
-        val content = levelOfKnowledgePopup.contentView
+        val content = intervalsPopup.contentView
         content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         val location = IntArray(2)
-        levelOfKnowledgeButton.getLocationOnScreen(location)
+        gradeButton.getLocationOnScreen(location)
         val x = location[0] + 8.dp
-        val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
-        levelOfKnowledgePopup.showAtLocation(
-            levelOfKnowledgeButton.rootView,
+        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
+        intervalsPopup.showAtLocation(
+            gradeButton.rootView,
             Gravity.NO_GRAVITY,
             x,
             y

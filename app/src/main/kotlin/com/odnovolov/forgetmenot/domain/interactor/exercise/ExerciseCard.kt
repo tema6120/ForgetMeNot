@@ -17,8 +17,8 @@ interface ExerciseCard {
         hint: String? = null,
         timeLeft: Int,
         isExpired: Boolean = false,
-        initialLevelOfKnowledge: Int,
-        isLevelOfKnowledgeEditedManually: Boolean
+        initialGrade: Int,
+        isGradeEditedManually: Boolean
     ) : FlowMaker<Base>() {
         val id: Long by flowMaker(id)
         val card: Card by flowMaker(card)
@@ -29,8 +29,8 @@ interface ExerciseCard {
         var hint: String? by flowMaker(hint)
         var timeLeft: Int by flowMaker(timeLeft)
         var isExpired: Boolean by flowMaker(isExpired)
-        val initialLevelOfKnowledge: Int by flowMaker(initialLevelOfKnowledge)
-        var isLevelOfKnowledgeEditedManually: Boolean by flowMaker(isLevelOfKnowledgeEditedManually)
+        val initialGrade: Int by flowMaker(initialGrade)
+        var isGradeEditedManually: Boolean by flowMaker(isGradeEditedManually)
     }
 }
 

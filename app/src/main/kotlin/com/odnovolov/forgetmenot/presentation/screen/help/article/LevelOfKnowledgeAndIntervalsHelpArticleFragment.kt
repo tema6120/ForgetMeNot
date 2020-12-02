@@ -16,7 +16,7 @@ import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForGrade
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
@@ -37,7 +37,7 @@ class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentF
         recycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recycler.adapter = adapter
-        levelOfKnowledgeButton.run {
+        gradeButton.run {
             setOnClickListener { showLevelOfKnowledgePopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
@@ -45,13 +45,13 @@ class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentF
             .observe(adapter::submitList)
         exercise.state.exerciseCards[0].card.flowOf(Card::levelOfKnowledge)
             .observe { levelOfKnowledge: Int ->
-                val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
-                levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-                levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
+                val backgroundRes = getBackgroundResForGrade(levelOfKnowledge)
+                gradeTextView.setBackgroundResource(backgroundRes)
+                gradeTextView.text = levelOfKnowledge.toString()
             }
         exercise.state.exerciseCards[0].card.flowOf(Card::isLevelOfKnowledgeEditedManually)
             .observe { isEdited: Boolean ->
-                with(levelOfKnowledgeTextView) {
+                with(gradeTextView) {
                     if (isEdited) {
                         paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
                         setTypeface(null, Typeface.BOLD)
@@ -89,7 +89,7 @@ class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentF
 
     private fun createLevelOfKnowledgePopup(): PopupWindow {
         val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
+            View.inflate(context, R.layout.popup_set_grade, null) as RecyclerView
         recycler.adapter = intervalsAdapter
         return PopupWindow(context).apply {
             width = WindowManager.LayoutParams.WRAP_CONTENT
@@ -109,19 +109,19 @@ class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentF
         intervalsAdapter.intervalItems = IntervalScheme.Default.intervals
             .map { interval: Interval ->
                 IntervalItem(
-                    levelOfKnowledge = interval.levelOfKnowledge,
+                    grade = interval.grade,
                     waitingPeriod = interval.value,
-                    isSelected = currentLevelOfKnowledge == interval.levelOfKnowledge
+                    isSelected = currentLevelOfKnowledge == interval.grade
                 )
             }
         val content = levelOfKnowledgePopup.contentView
         content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         val location = IntArray(2)
-        levelOfKnowledgeButton.getLocationOnScreen(location)
+        gradeButton.getLocationOnScreen(location)
         val x = location[0] + 8.dp
-        val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
+        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
         levelOfKnowledgePopup.showAtLocation(
-            levelOfKnowledgeButton.rootView,
+            gradeButton.rootView,
             Gravity.NO_GRAVITY,
             x,
             y

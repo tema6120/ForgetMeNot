@@ -100,11 +100,11 @@ class IntervalsSettings(
             (globalState.sharedIntervalSchemes + intervalsScheme).toCopyableList()
     }
 
-    fun modifyInterval(levelOfKnowledge: Int, newValue: DateTimeSpan) {
+    fun modifyInterval(grade: Int, newValue: DateTimeSpan) {
         val isValueChanged: Boolean =
             exercisePreference.intervalScheme?.let { intervalScheme: IntervalScheme ->
                 val oldValue = intervalScheme.intervals
-                    .find { it.levelOfKnowledge == levelOfKnowledge }
+                    .find { it.grade == grade }
                     ?.value ?: false
                 oldValue != newValue
             } ?: false
@@ -114,13 +114,13 @@ class IntervalsSettings(
                 val newIntervals: CopyableList<Interval> = IntervalScheme.Default.intervals
                     .map { defaultInterval: Interval ->
                         val value: DateTimeSpan =
-                            if (defaultInterval.levelOfKnowledge == levelOfKnowledge)
+                            if (defaultInterval.grade == grade)
                                 newValue
                             else
                                 defaultInterval.value
                         Interval(
                             id = generateId(),
-                            levelOfKnowledge = defaultInterval.levelOfKnowledge,
+                            grade = defaultInterval.grade,
                             value = value
                         )
                     }
@@ -130,7 +130,7 @@ class IntervalsSettings(
             updateCurrentIntervalScheme = {
                 exercisePreference.intervalScheme?.let { intervalScheme: IntervalScheme ->
                     intervalScheme.intervals
-                        .find { it.levelOfKnowledge == levelOfKnowledge }
+                        .find { it.grade == grade }
                         ?.value = newValue
                 }
             }
@@ -141,8 +141,8 @@ class IntervalsSettings(
         if (exercisePreference.intervalScheme == null) return
         fun newInterval() = Interval(
             id = generateId(),
-            levelOfKnowledge = exercisePreference.intervalScheme!!.intervals.last()
-                .levelOfKnowledge + 1,
+            grade = exercisePreference.intervalScheme!!.intervals.last()
+                .grade + 1,
             value = value
         )
         updateIntervalScheme(
@@ -185,7 +185,7 @@ class IntervalsSettings(
             .map { defaultInterval: Interval ->
                 Interval(
                     id = generateId(),
-                    levelOfKnowledge = defaultInterval.levelOfKnowledge,
+                    grade = defaultInterval.grade,
                     value = defaultInterval.value
                 )
             }
@@ -221,7 +221,7 @@ class IntervalsSettings(
         repeat(this.intervals.size) { index ->
             val testingInterval = this.intervals[index]
             val defaultInterval = IntervalScheme.Default.intervals[index]
-            if (testingInterval.levelOfKnowledge != defaultInterval.levelOfKnowledge
+            if (testingInterval.grade != defaultInterval.grade
                 || testingInterval.value != defaultInterval.value
             ) {
                 return false

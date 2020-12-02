@@ -37,7 +37,7 @@ class RepetitionFragment : BaseFragment() {
 
     private var controller: RepetitionViewController? = null
     private lateinit var viewModel: RepetitionViewModel
-    private val levelOfKnowledgePopup: PopupWindow by lazy { createLevelOfKnowledgePopup() }
+    private val intervalsPopup: PopupWindow by lazy { createIntervalsPopup() }
     private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
     private val speakErrorPopup: PopupWindow by lazy { createSpeakErrorPopup() }
     private val speakErrorToast: Toast by lazy {
@@ -67,8 +67,8 @@ class RepetitionFragment : BaseFragment() {
 
     private fun setupView() {
         repetitionViewPager.registerOnPageChangeCallback(onPageChangeCallback)
-        levelOfKnowledgeButton.run {
-            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
+        gradeButton.run {
+            setOnClickListener { controller?.dispatch(GradeButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         editCardButton.run {
@@ -91,10 +91,10 @@ class RepetitionFragment : BaseFragment() {
             repetitionCards.observe { repetitionCards: List<RepetitionCard> ->
                 adapter.items = repetitionCards
             }
-            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
-                val backgroundRes = getBackgroundResForLevelOfKnowledge(levelOfKnowledge)
-                levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-                levelOfKnowledgeTextView.text = levelOfKnowledge.toString()
+            gradeOfCurrentCard.observe { grade: Int ->
+                val backgroundRes = getBackgroundResForGrade(grade)
+                gradeTextView.setBackgroundResource(backgroundRes)
+                gradeTextView.text = grade.toString()
             }
             isCurrentRepetitionCardLearned.observe { isLearned: Boolean ->
                 with(markAsLearnedButton) {
@@ -189,8 +189,8 @@ class RepetitionFragment : BaseFragment() {
             is SetViewPagerPosition -> {
                 repetitionViewPager.currentItem = command.position
             }
-            is ShowLevelOfKnowledgePopup -> {
-                showLevelOfKnowledgePopup(command.intervalItems)
+            is ShowIntervalsPopup -> {
+                showIntervalsPopup(command.intervalItems)
             }
             ShowIntervalsAreOffMessage -> {
                 showToast(R.string.toast_text_intervals_are_off)
@@ -198,16 +198,16 @@ class RepetitionFragment : BaseFragment() {
         }
     }
 
-    private fun showLevelOfKnowledgePopup(intervalItems: List<IntervalItem>) {
+    private fun showIntervalsPopup(intervalItems: List<IntervalItem>) {
         intervalsAdapter.intervalItems = intervalItems
-        val content = levelOfKnowledgePopup.contentView
+        val content = intervalsPopup.contentView
         content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         val location = IntArray(2)
-        levelOfKnowledgeButton.getLocationOnScreen(location)
+        gradeButton.getLocationOnScreen(location)
         val x = location[0] + 8.dp
-        val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
-        levelOfKnowledgePopup.showAtLocation(
-            levelOfKnowledgeButton.rootView,
+        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
+        intervalsPopup.showAtLocation(
+            gradeButton.rootView,
             Gravity.NO_GRAVITY,
             x,
             y
@@ -227,16 +227,16 @@ class RepetitionFragment : BaseFragment() {
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
-        val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
-            controller?.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
-            levelOfKnowledgePopup.dismiss()
+        val onItemClick: (Int) -> Unit = { grade: Int ->
+            controller?.dispatch(GradeWasChanged(grade))
+            intervalsPopup.dismiss()
         }
         return IntervalsAdapter(onItemClick)
     }
 
-    private fun createLevelOfKnowledgePopup(): PopupWindow {
+    private fun createIntervalsPopup(): PopupWindow {
         val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
+            View.inflate(context, R.layout.popup_set_grade, null) as RecyclerView
         recycler.adapter = intervalsAdapter
         return PopupWindow(context).apply {
             width = WindowManager.LayoutParams.WRAP_CONTENT

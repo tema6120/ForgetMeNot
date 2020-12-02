@@ -25,7 +25,7 @@ class CardsEditorViewModel(
     }
         .share()
 
-    val levelOfKnowledgeForCurrentCard: Flow<Int?> =
+    val gradeOfCurrentCard: Flow<Int?> =
         if (cardsEditor is CardsEditorForDeckCreation) {
             flowOf(null)
         } else {

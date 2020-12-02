@@ -203,16 +203,16 @@ class ExerciseViewModel(
             .distinctUntilChanged()
             .flowOn(businessLogicThread)
 
-    val levelOfKnowledgeForCurrentCard: Flow<Int> =
+    val gradeOfCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            exerciseCard.base.card.flowOf(Card::levelOfKnowledge)
+            exerciseCard.base.card.flowOf(Card::grade)
         }
             .distinctUntilChanged()
             .flowOn(businessLogicThread)
 
-    val isLevelOfKnowledgeEditedManually: Flow<Boolean> =
+    val isGradeEditedManually: Flow<Boolean> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            exerciseCard.base.flowOf(ExerciseCard.Base::isLevelOfKnowledgeEditedManually)
+            exerciseCard.base.flowOf(ExerciseCard.Base::isGradeEditedManually)
         }
             .distinctUntilChanged()
             .flowOn(businessLogicThread)

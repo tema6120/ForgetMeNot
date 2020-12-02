@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForGrade
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
@@ -54,7 +54,7 @@ class IntervalsFragment : BaseFragment() {
         with(viewModel) {
             intervals.observe { intervals: List<Interval> ->
                 adapter.submitList(intervals)
-                updateExcellentLevelOfKnowledgeTextView(intervals)
+                updateExcellentGradeTextView(intervals)
             }
             isRemoveIntervalButtonVisible.observe { isVisible: Boolean ->
                 removeIntervalButton.isVisible = isVisible
@@ -65,12 +65,12 @@ class IntervalsFragment : BaseFragment() {
         }
     }
 
-    private fun updateExcellentLevelOfKnowledgeTextView(intervals: List<Interval>) {
-        val maxLevelOfKnowledge: Int = intervals.map { it.levelOfKnowledge }.maxOrNull() ?: -1
-        val excellentLevelOfKnowledge: Int = maxLevelOfKnowledge + 1
-        excellentLevelOfKnowledgeTextView.text = excellentLevelOfKnowledge.toString()
-        excellentLevelOfKnowledgeTextView.setBackgroundResource(
-            getBackgroundResForLevelOfKnowledge(excellentLevelOfKnowledge)
+    private fun updateExcellentGradeTextView(intervals: List<Interval>) {
+        val maxGrade: Int = intervals.map { it.grade }.maxOrNull() ?: -1
+        val excellentGrade: Int = maxGrade + 1
+        excellentGradeTextView.text = excellentGrade.toString()
+        excellentGradeTextView.setBackgroundResource(
+            getBackgroundResForGrade(excellentGrade)
         )
     }
 

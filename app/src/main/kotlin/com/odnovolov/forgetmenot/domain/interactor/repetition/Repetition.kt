@@ -165,8 +165,8 @@ class Repetition(
         state.isPlaying = false
     }
 
-    fun setLevelOfKnowledge(levelOfKnowledge: Int) {
-        currentRepetitionCard.card.levelOfKnowledge = levelOfKnowledge
+    fun setGrade(grade: Int) {
+        currentRepetitionCard.card.grade = grade
     }
 
     fun pause() {

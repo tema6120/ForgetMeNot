@@ -99,7 +99,7 @@ class Exercise(
             resetTimer()
         } else {
             if (currentExerciseCard.base.isAnswerCorrect == false) {
-                updateLevelOfKnowledge()
+                updateGrade()
                 addExerciseCardToRetestIfNeed()
             }
             startTimer()
@@ -181,7 +181,7 @@ class Exercise(
         card: Card,
         isQuestionChanged: Boolean,
         isAnswerChanged: Boolean,
-        isLevelOfKnowledgeChanged: Boolean,
+        isGradeChanged: Boolean,
         isIsLearnedChanged: Boolean
     ) {
         val currentPosition = state.currentPosition
@@ -197,15 +197,15 @@ class Exercise(
                     checkEntry()
                 }
             }
-            if (isLevelOfKnowledgeChanged) {
-                exerciseCard.base.isLevelOfKnowledgeEditedManually = true
+            if (isGradeChanged) {
+                exerciseCard.base.isGradeEditedManually = true
             }
             if (isIsLearnedChanged && currentPosition == position) {
                 if (currentExerciseCard.base.card.isLearned) {
                     deleteCardsForRetesting()
                     resetTimer()
                 } else if (currentExerciseCard.base.isAnswerCorrect == false) {
-                    updateLevelOfKnowledge()
+                    updateGrade()
                     addExerciseCardToRetestIfNeed()
                 }
             }
@@ -276,14 +276,14 @@ class Exercise(
                 && base.deck.exercisePreference.testMethod == TestMethod.Entry
                 && this !is EntryTestExerciseCard
 
-    fun setLevelOfKnowledge(levelOfKnowledge: Int) {
-        if (levelOfKnowledge < 0) return
-        currentExerciseCard.base.card.levelOfKnowledge = levelOfKnowledge
+    fun setGrade(grade: Int) {
+        if (grade < 0) return
+        currentExerciseCard.base.card.grade = grade
         state.exerciseCards.filter { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.id == currentExerciseCard.base.card.id
         }
             .forEach { exerciseCard: ExerciseCard ->
-                exerciseCard.base.isLevelOfKnowledgeEditedManually = true
+                exerciseCard.base.isGradeEditedManually = true
             }
     }
 
@@ -443,7 +443,7 @@ class Exercise(
         currentExerciseCard.base.isAnswerCorrect = true
         showQuestion()
         deleteCardsForRetesting()
-        updateLevelOfKnowledge()
+        updateGrade()
         updateLastAnsweredAt()
     }
 
@@ -454,7 +454,7 @@ class Exercise(
         currentExerciseCard.base.isAnswerCorrect = false
         showQuestion()
         addExerciseCardToRetestIfNeed()
-        updateLevelOfKnowledge()
+        updateGrade()
         updateLastAnsweredAt()
     }
 
@@ -491,8 +491,8 @@ class Exercise(
                 isReverse = isReverse,
                 isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
                 timeLeft = if (isWalkingMode) NOT_TO_USE_TIMER else deck.exercisePreference.timeForAnswer,
-                initialLevelOfKnowledge = initialLevelOfKnowledge,
-                isLevelOfKnowledgeEditedManually = isLevelOfKnowledgeEditedManually
+                initialGrade = initialGrade,
+                isGradeEditedManually = isGradeEditedManually
             )
         }
         val retestingExerciseCard: ExerciseCard =
@@ -526,8 +526,8 @@ class Exercise(
             .any { it.base.card.id == currentExerciseCard.base.card.id }
     }
 
-    private fun updateLevelOfKnowledge() {
-        if (currentExerciseCard.base.isLevelOfKnowledgeEditedManually) return
+    private fun updateGrade() {
+        if (currentExerciseCard.base.isGradeEditedManually) return
         var numberOfCorrect = 0
         var numberOfWrong = 0
         for (exerciseCard in state.exerciseCards) {
@@ -538,9 +538,9 @@ class Exercise(
             }
         }
         with(currentExerciseCard.base) {
-            card.levelOfKnowledge = when {
-                numberOfWrong > 0 -> maxOf(0, initialLevelOfKnowledge - numberOfWrong)
-                numberOfCorrect > 0 -> initialLevelOfKnowledge + 1
+            card.grade = when {
+                numberOfWrong > 0 -> maxOf(0, initialGrade - numberOfWrong)
+                numberOfCorrect > 0 -> initialGrade + 1
                 else -> return
             }
         }

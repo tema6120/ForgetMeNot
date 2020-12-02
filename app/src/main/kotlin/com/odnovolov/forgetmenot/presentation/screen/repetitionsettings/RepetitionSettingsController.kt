@@ -58,7 +58,7 @@ class RepetitionSettingsController(
                 repetitionSettings.toggleIsLearnedCardsIncluded()
             }
 
-            is LevelOfKnowledgeRangeChanged -> {
+            is GradeRangeChanged -> {
                 repetitionSettings.setLevelOfKnowledgeRange(event.levelOfKnowledgeRange)
             }
 

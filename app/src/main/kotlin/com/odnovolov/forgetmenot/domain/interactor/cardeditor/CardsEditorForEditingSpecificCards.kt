@@ -43,7 +43,7 @@ open class CardsEditorForEditingSpecificCards(
             originalCard.question != editableCard.question
                     || originalCard.answer != editableCard.answer
                     || originalCard.isLearned != editableCard.isLearned
-                    || originalCard.levelOfKnowledge != editableCard.levelOfKnowledge
+                    || originalCard.grade != editableCard.levelOfKnowledge
         }
     }
 
@@ -79,7 +79,7 @@ open class CardsEditorForEditingSpecificCards(
                 question = editableCard.question
                 answer = editableCard.answer
                 isLearned = editableCard.isLearned
-                levelOfKnowledge = editableCard.levelOfKnowledge
+                grade = editableCard.levelOfKnowledge
             }
         }
     }

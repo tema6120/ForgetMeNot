@@ -5,11 +5,11 @@ import com.soywiz.klock.DateTimeSpan
 
 class Interval(
     override val id: Long,
-    levelOfKnowledge: Int,
+    grade: Int,
     value: DateTimeSpan
 ) : FlowMakerWithRegistry<Interval>() {
-    var levelOfKnowledge: Int by flowMaker(levelOfKnowledge)
+    var grade: Int by flowMaker(grade)
     var value: DateTimeSpan by flowMaker(value)
 
-    override fun copy() = Interval(id, levelOfKnowledge, value)
+    override fun copy() = Interval(id, grade, value)
 }

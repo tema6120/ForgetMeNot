@@ -16,9 +16,9 @@ class Card(
     var answer: String by flowMaker(answer)
     var lap: Int by flowMaker(lap)
     var isLearned: Boolean by flowMaker(isLearned)
-    var levelOfKnowledge: Int by flowMaker(levelOfKnowledge)
+    var grade: Int by flowMaker(levelOfKnowledge)
     var lastAnsweredAt: DateTime? by flowMaker(lastAnsweredAt)
 
     override fun copy() =
-        Card(id, question, answer, lap, isLearned, levelOfKnowledge, lastAnsweredAt)
+        Card(id, question, answer, lap, isLearned, grade, lastAnsweredAt)
 }

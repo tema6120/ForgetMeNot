@@ -10,7 +10,7 @@ class EditableCard(
     question: String = card.question,
     answer: String = card.answer,
     isLearned: Boolean = card.isLearned,
-    levelOfKnowledge: Int = card.levelOfKnowledge
+    levelOfKnowledge: Int = card.grade
 ) : FlowMaker<EditableCard>() {
     var question: String by flowMaker(question)
     var answer: String by flowMaker(answer)

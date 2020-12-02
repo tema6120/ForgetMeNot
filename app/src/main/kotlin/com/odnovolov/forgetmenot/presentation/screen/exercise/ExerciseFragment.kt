@@ -58,7 +58,7 @@ class ExerciseFragment : BaseFragment() {
     private var walkingModePopup: PopupWindow? = null
     private var chooseHintPopup: PopupWindow? = null
     private var intervalsAdapter: IntervalsAdapter? = null
-    private var levelOfKnowledgePopup: PopupWindow? = null
+    private var intervalsPopup: PopupWindow? = null
     private var speakErrorPopup: PopupWindow? = null
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
@@ -84,7 +84,8 @@ class ExerciseFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = ExerciseDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!, knowingWhenPagerStopped!!)
+            exerciseViewPager.adapter =
+                diScope.getExerciseCardAdapter(viewCoroutineScope!!, knowingWhenPagerStopped!!)
             viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
@@ -102,8 +103,8 @@ class ExerciseFragment : BaseFragment() {
         exerciseViewPager.offscreenPageLimit = 1
         knowingWhenPagerStopped = KnowingWhenPagerStopped()
         exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
-        levelOfKnowledgeButton.run {
-            setOnClickListener { controller?.dispatch(LevelOfKnowledgeButtonClicked) }
+        gradeButton.run {
+            setOnClickListener { controller?.dispatch(GradeButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         editCardButton.run {
@@ -134,8 +135,7 @@ class ExerciseFragment : BaseFragment() {
 
     private fun showWalkingModePopup() {
         if (walkingModePopup == null) return
-        val walkingModeButtonLocation =
-            IntArray(2).also { walkingModeButton.getLocationOnScreen(it) }
+        val walkingModeButtonLocation = IntArray(2).also(walkingModeButton::getLocationOnScreen)
         val x: Int =
             walkingModeButtonLocation[0] + walkingModeButton.width - 8.dp - walkingModePopup!!.width
         val y: Int =
@@ -288,23 +288,22 @@ class ExerciseFragment : BaseFragment() {
                     timerButton.isVisible = true
                 }
             }
-            levelOfKnowledgeForCurrentCard.observe { levelOfKnowledge: Int ->
-                val color = getColorForLevelOfKnowledge(levelOfKnowledge)
-                levelOfKnowledgeButton.background.setTint(color)
-                levelOfKnowledgeButton.text = levelOfKnowledge.toString()
-                if (levelOfKnowledgePopup?.isShowing == true) {
+            gradeOfCurrentCard.observe { grade: Int ->
+                updateGradeButtonColor(grade)
+                gradeButton.text = grade.toString()
+                if (intervalsPopup?.isShowing == true) {
                     intervalsAdapter!!.intervalItems =
                         intervalsAdapter!!.intervalItems.map { intervalItem: IntervalItem ->
                             IntervalItem(
-                                levelOfKnowledge = intervalItem.levelOfKnowledge,
+                                grade = intervalItem.grade,
                                 waitingPeriod = intervalItem.waitingPeriod,
-                                isSelected = intervalItem.levelOfKnowledge == levelOfKnowledge
+                                isSelected = intervalItem.grade == grade
                             )
                         }
                 }
             }
-            isLevelOfKnowledgeEditedManually.observe { isEdited: Boolean ->
-                with(levelOfKnowledgeButton) {
+            isGradeEditedManually.observe { isEdited: Boolean ->
+                with(gradeButton) {
                     if (isEdited) {
                         paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
                         setTypeface(null, Typeface.BOLD)
@@ -351,8 +350,8 @@ class ExerciseFragment : BaseFragment() {
             ShowHintIsNotAccessibleMessage -> {
                 showToast(R.string.toast_hint_is_not_accessible)
             }
-            is ShowLevelOfKnowledgePopup -> {
-                showLevelOfKnowledgePopup(command.intervalItems)
+            is ShowIntervalsPopup -> {
+                showIntervalsPopup(command.intervalItems)
             }
             ShowIntervalsAreOffMessage -> {
                 showToast(R.string.toast_text_intervals_are_off)
@@ -363,17 +362,15 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    fun getColorForLevelOfKnowledge(levelOfKnowledge: Int): Int {
-        val colorId = when (levelOfKnowledge) {
-            0 -> R.color.level_of_knowledge_unsatisfactory
-            1 -> R.color.level_of_knowledge_poor
-            2 -> R.color.level_of_knowledge_acceptable
-            3 -> R.color.level_of_knowledge_satisfactory
-            4 -> R.color.level_of_knowledge_good
-            5 -> R.color.level_of_knowledge_very_good
-            else -> R.color.level_of_knowledge_excellent
+    private fun updateGradeButtonColor(grade: Int) {
+        val gradeColor: Int = ContextCompat.getColor(requireContext(), getGradeColorRes(grade))
+        gradeButton.background.setTint(gradeColor)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val brightGradeColor: Int =
+                ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))
+            gradeButton.outlineAmbientShadowColor = brightGradeColor
+            gradeButton.outlineSpotShadowColor = brightGradeColor
         }
-        return ContextCompat.getColor(requireContext(), colorId)
     }
 
     private fun showChooseHintPopup() {
@@ -389,17 +386,17 @@ class ExerciseFragment : BaseFragment() {
         )
     }
 
-    private fun showLevelOfKnowledgePopup(intervalItems: List<IntervalItem>) {
-        if (levelOfKnowledgePopup == null) return
+    private fun showIntervalsPopup(intervalItems: List<IntervalItem>) {
+        if (intervalsPopup == null) return
         intervalsAdapter!!.intervalItems = intervalItems
-        val content = levelOfKnowledgePopup!!.contentView
+        val content = intervalsPopup!!.contentView
         content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         val location = IntArray(2)
-        levelOfKnowledgeButton.getLocationOnScreen(location)
+        gradeButton.getLocationOnScreen(location)
         val x = location[0] + 8.dp
-        val y = location[1] + levelOfKnowledgeButton.height - 8.dp - content.measuredHeight
-        levelOfKnowledgePopup!!.showAtLocation(
-            levelOfKnowledgeButton.rootView,
+        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
+        intervalsPopup!!.showAtLocation(
+            gradeButton.rootView,
             Gravity.NO_GRAVITY,
             x,
             y
@@ -480,7 +477,7 @@ class ExerciseFragment : BaseFragment() {
         if (viewCoroutineScope == null) return
         createWalkingModePopup()
         createChooseHintPopup()
-        createLevelOfKnowledgePopup()
+        createIntervalsPopup()
         createSpeakErrorPopup()
         createExitDialog()
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
@@ -548,16 +545,16 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun createLevelOfKnowledgePopup() {
+    private fun createIntervalsPopup() {
         val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_set_level_of_knowledge, null) as RecyclerView
-        val onItemClick: (Int) -> Unit = { levelOfKnowledge: Int ->
-            controller?.dispatch(LevelOfKnowledgeSelected(levelOfKnowledge))
-            levelOfKnowledgePopup?.dismiss()
+            View.inflate(context, R.layout.popup_set_grade, null) as RecyclerView
+        val onItemClick: (Int) -> Unit = { grade: Int ->
+            controller?.dispatch(GradeWasChanged(grade))
+            intervalsPopup?.dismiss()
         }
         intervalsAdapter = IntervalsAdapter(onItemClick)
         recycler.adapter = intervalsAdapter
-        levelOfKnowledgePopup = PopupWindow(context).apply {
+        intervalsPopup = PopupWindow(context).apply {
             width = WindowManager.LayoutParams.WRAP_CONTENT
             height = WindowManager.LayoutParams.WRAP_CONTENT
             contentView = recycler
@@ -567,6 +564,7 @@ class ExerciseFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
+            animationStyle = R.style.BottomLeftPopupAnimation
         }
     }
 
@@ -642,7 +640,7 @@ class ExerciseFragment : BaseFragment() {
         walkingModePopup = null
         chooseHintPopup = null
         intervalsAdapter = null
-        levelOfKnowledgePopup = null
+        intervalsPopup = null
         exitDialog = null
         knowingWhenPagerStopped = null
     }

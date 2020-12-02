@@ -30,7 +30,7 @@ class RepetitionViewController(
 ) : BaseController<RepetitionFragmentEvent, Command>() {
     sealed class Command {
         class SetViewPagerPosition(val position: Int) : Command()
-        class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
+        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
     }
 
@@ -53,12 +53,12 @@ class RepetitionViewController(
                 repetition.setRepetitionCardPosition(event.position)
             }
 
-            LevelOfKnowledgeButtonClicked -> {
-                onLevelOfKnowledgeButtonClicked()
+            GradeButtonClicked -> {
+                onGradeButtonClicked()
             }
 
-            is LevelOfKnowledgeSelected -> {
-                repetition.setLevelOfKnowledge(event.levelOfKnowledge)
+            is GradeWasChanged -> {
+                repetition.setGrade(event.grade)
             }
 
             NotAskButtonClicked -> {
@@ -125,24 +125,23 @@ class RepetitionViewController(
         }
     }
 
-    private fun onLevelOfKnowledgeButtonClicked() {
+    private fun onGradeButtonClicked() {
         repetition.pause()
         val intervalScheme: IntervalScheme? =
             repetition.currentRepetitionCard.deck.exercisePreference.intervalScheme
         if (intervalScheme == null) {
             sendCommand(ShowIntervalsAreOffMessage)
         } else {
-            val currentLevelOfKnowledge: Int =
-                repetition.currentRepetitionCard.card.levelOfKnowledge
+            val currentGrade: Int = repetition.currentRepetitionCard.card.grade
             val intervalItems: List<IntervalItem> = intervalScheme.intervals
                 .map { interval: Interval ->
                     IntervalItem(
-                        levelOfKnowledge = interval.levelOfKnowledge,
+                        grade = interval.grade,
                         waitingPeriod = interval.value,
-                        isSelected = currentLevelOfKnowledge == interval.levelOfKnowledge
+                        isSelected = currentGrade == interval.grade
                     )
                 }
-            sendCommand(ShowLevelOfKnowledgePopup(intervalItems))
+            sendCommand(ShowIntervalsPopup(intervalItems))
         }
     }
 

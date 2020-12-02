@@ -25,12 +25,12 @@ class IntervalScheme(
                 id = 0,
                 name = "",
                 intervals = copyableListOf(
-                    Interval(id = 0, levelOfKnowledge = 0, value = 8.hours.toDateTimeSpan()),
-                    Interval(id = 1, levelOfKnowledge = 1, value = 2.days.toDateTimeSpan()),
-                    Interval(id = 2, levelOfKnowledge = 2, value = 7.days.toDateTimeSpan()),
-                    Interval(id = 3, levelOfKnowledge = 3, value = 21.days.toDateTimeSpan()),
-                    Interval(id = 4, levelOfKnowledge = 4, value = 2.months.toDateTimeSpan()),
-                    Interval(id = 5, levelOfKnowledge = 5, value = 6.months.toDateTimeSpan())
+                    Interval(id = 0, grade = 0, value = 8.hours.toDateTimeSpan()),
+                    Interval(id = 1, grade = 1, value = 2.days.toDateTimeSpan()),
+                    Interval(id = 2, grade = 2, value = 7.days.toDateTimeSpan()),
+                    Interval(id = 3, grade = 3, value = 21.days.toDateTimeSpan()),
+                    Interval(id = 4, grade = 4, value = 2.months.toDateTimeSpan()),
+                    Interval(id = 5, grade = 5, value = 6.months.toDateTimeSpan())
                 )
             )
         }

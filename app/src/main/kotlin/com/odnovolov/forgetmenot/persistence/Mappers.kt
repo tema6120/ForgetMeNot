@@ -48,7 +48,7 @@ fun Card.toCardDb(
     answer,
     lap,
     isLearned,
-    levelOfKnowledge,
+    grade,
     lastAnsweredAt?.unixMillisLong
 )
 
@@ -106,7 +106,7 @@ fun Interval.toIntervalDb(
 ): IntervalDb = IntervalDb.Impl(
     id,
     intervalSchemeId,
-    levelOfKnowledge,
+    grade,
     value
 )
 
@@ -153,8 +153,8 @@ fun RepetitionSetting.toRepetitionSettingDb(): RepetitionSettingDb = RepetitionS
     isAvailableForExerciseCardsIncluded,
     isAwaitingCardsIncluded,
     isLearnedCardsIncluded,
-    levelOfKnowledgeRange.first,
-    levelOfKnowledgeRange.last,
+    gradeRange.first,
+    gradeRange.last,
     lastAnswerFromTimeAgo,
     lastAnswerToTimeAgo,
     numberOfLaps

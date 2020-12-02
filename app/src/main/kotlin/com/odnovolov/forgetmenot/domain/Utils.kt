@@ -54,8 +54,8 @@ fun isCardAvailableForExercise(testingCard: Card, intervalScheme: IntervalScheme
         else -> {
             val intervals: List<Interval> = intervalScheme.intervals
             val interval: Interval = intervals.find {
-                it.levelOfKnowledge == testingCard.levelOfKnowledge
-            } ?: intervals.maxByOrNull { it.levelOfKnowledge }!!
+                it.grade == testingCard.grade
+            } ?: intervals.maxByOrNull { it.grade }!!
             testingCard.lastAnsweredAt!! + interval.value < DateTime.now()
         }
     }

@@ -40,7 +40,7 @@ class ExerciseController(
         object ShowTimerIsAlreadyOffMessage : Command()
         object ShowChooseHintPopup : Command()
         object ShowHintIsNotAccessibleMessage : Command()
-        class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
+        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
         class ShowThereAreUnansweredCardsMessage(val unansweredCardCount: Int) : Command()
     }
@@ -51,12 +51,12 @@ class ExerciseController(
                 exercise.setCurrentPosition(event.position)
             }
 
-            LevelOfKnowledgeButtonClicked -> {
-                onLevelOfKnowledgeButtonClicked()
+            GradeButtonClicked -> {
+                onGradeButtonClicked()
             }
 
-            is LevelOfKnowledgeSelected -> {
-                exercise.setLevelOfKnowledge(event.levelOfKnowledge)
+            is GradeWasChanged -> {
+                exercise.setGrade(event.grade)
             }
 
             NotAskButtonClicked -> {
@@ -200,23 +200,22 @@ class ExerciseController(
         }
     }
 
-    private fun onLevelOfKnowledgeButtonClicked() {
+    private fun onGradeButtonClicked() {
         val intervalScheme: IntervalScheme? =
             exercise.currentExerciseCard.base.deck.exercisePreference.intervalScheme
         if (intervalScheme == null) {
             sendCommand(ShowIntervalsAreOffMessage)
         } else {
-            val currentLevelOfKnowledge: Int =
-                exercise.currentExerciseCard.base.card.levelOfKnowledge
+            val currentGrade: Int = exercise.currentExerciseCard.base.card.grade
             val intervalItems: List<IntervalItem> = intervalScheme.intervals
                 .map { interval: Interval ->
                     IntervalItem(
-                        levelOfKnowledge = interval.levelOfKnowledge,
+                        grade = interval.grade,
                         waitingPeriod = interval.value,
-                        isSelected = currentLevelOfKnowledge == interval.levelOfKnowledge
+                        isSelected = currentGrade == interval.grade
                     )
                 }
-            sendCommand(ShowLevelOfKnowledgePopup(intervalItems))
+            sendCommand(ShowIntervalsPopup(intervalItems))
         }
     }
 

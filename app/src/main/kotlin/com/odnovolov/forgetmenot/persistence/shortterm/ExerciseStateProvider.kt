@@ -39,8 +39,8 @@ class ExerciseStateProvider(
         val hint: String?,
         val timeLeft: Int,
         val isExpired: Boolean = false,
-        val initialLevelOfKnowledge: Int,
-        val isLevelOfKnowledgeEditedManually: Boolean,
+        val initialGrade: Int,
+        val isGradeEditedManually: Boolean,
         val testMethod: TestMethod
     )
 
@@ -99,8 +99,8 @@ class ExerciseStateProvider(
                     hint,
                     timeLeft,
                     isExpired,
-                    initialLevelOfKnowledge,
-                    isLevelOfKnowledgeEditedManually,
+                    initialGrade,
+                    isGradeEditedManually,
                     testMethod
                 )
             }
@@ -132,8 +132,8 @@ class ExerciseStateProvider(
                         hint,
                         timeLeft,
                         isExpired,
-                        initialLevelOfKnowledge,
-                        isLevelOfKnowledgeEditedManually
+                        initialGrade,
+                        isGradeEditedManually
                     )
                 }
                 when (serializableExerciseCard.testMethod) {

@@ -37,7 +37,7 @@ class RepetitionSettingPropertyChangeHandler(
                 val isLearnedCardsIncluded = change.newValue as Boolean
                 queries.updateIsLearnedCardsIncluded(isLearnedCardsIncluded, repetitionSettingId)
             }
-            RepetitionSetting::levelOfKnowledgeRange -> {
+            RepetitionSetting::gradeRange -> {
                 val levelOfKnowledgeRange = change.newValue as IntRange
                 queries.updateLevelOfKnowledgeRange(
                     levelOfKnowledgeRange.first,

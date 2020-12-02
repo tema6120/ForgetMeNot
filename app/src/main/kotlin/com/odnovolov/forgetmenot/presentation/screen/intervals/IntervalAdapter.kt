@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R.layout
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForLevelOfKnowledge
+import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForGrade
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.ModifyIntervalButtonClicked
 import kotlinx.android.synthetic.main.item_interval.view.*
@@ -25,16 +25,16 @@ class IntervalAdapter(private val controller: IntervalsController) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.itemView) {
             val interval: Interval = getItem(position)
-            val backgroundRes = getBackgroundResForLevelOfKnowledge(interval.levelOfKnowledge)
-            levelOfKnowledgeTextView.setBackgroundResource(backgroundRes)
-            levelOfKnowledgeTextView.text = interval.levelOfKnowledge.toString()
+            val backgroundRes = getBackgroundResForGrade(interval.grade)
+            gradeTextView.setBackgroundResource(backgroundRes)
+            gradeTextView.text = interval.grade.toString()
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
             intervalTextView.text = displayedInterval.toString(context)
             intervalTextView.setOnClickListener {
-                controller.dispatch(ModifyIntervalButtonClicked(interval.levelOfKnowledge))
+                controller.dispatch(ModifyIntervalButtonClicked(interval.grade))
             }
             modifyIntervalButton.setOnClickListener {
-                controller.dispatch(ModifyIntervalButtonClicked(interval.levelOfKnowledge))
+                controller.dispatch(ModifyIntervalButtonClicked(interval.grade))
             }
         }
     }
@@ -43,11 +43,11 @@ class IntervalAdapter(private val controller: IntervalsController) :
 
     class DiffCallback : ItemCallback<Interval>() {
         override fun areItemsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-            return oldItem.levelOfKnowledge == newItem.levelOfKnowledge
+            return oldItem.grade == newItem.grade
         }
 
         override fun areContentsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-            return oldItem.levelOfKnowledge == newItem.levelOfKnowledge
+            return oldItem.grade == newItem.grade
                     && oldItem.value == newItem.value
         }
     }

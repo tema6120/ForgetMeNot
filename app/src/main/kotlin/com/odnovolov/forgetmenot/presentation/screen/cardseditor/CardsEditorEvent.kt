@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 sealed class CardsEditorEvent {
     class PageSelected(val position: Int) : CardsEditorEvent()
-    object LevelOfKnowledgeButtonClicked : CardsEditorEvent()
-    class LevelOfKnowledgeSelected(val levelOfKnowledge: Int) : CardsEditorEvent()
+    object GradeButtonClicked : CardsEditorEvent()
+    class GradeWasChanged(val levelOfKnowledge: Int) : CardsEditorEvent()
     object NotAskButtonClicked : CardsEditorEvent()
     object AskAgainButtonClicked : CardsEditorEvent()
     object RemoveCardButtonClicked : CardsEditorEvent()

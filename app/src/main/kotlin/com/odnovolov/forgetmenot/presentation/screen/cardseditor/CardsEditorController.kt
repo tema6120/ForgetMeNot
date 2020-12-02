@@ -33,7 +33,7 @@ class CardsEditorController(
 ) : BaseController<CardsEditorEvent, Command>() {
     sealed class Command {
         class ShowUnfilledTextInputAt(val position: Int) : Command()
-        class ShowLevelOfKnowledgePopup(val intervalItems: List<IntervalItem>) : Command()
+        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
         object ShowCardIsRemovedMessage : Command()
         object AskUserToConfirmExit : Command()
@@ -45,11 +45,11 @@ class CardsEditorController(
                 cardsEditor.setCurrentPosition(event.position)
             }
 
-            LevelOfKnowledgeButtonClicked -> {
+            GradeButtonClicked -> {
                 onLevelOfKnowledgeButtonClicked()
             }
 
-            is LevelOfKnowledgeSelected -> {
+            is GradeWasChanged -> {
                 cardsEditor.setLevelOfKnowledge(event.levelOfKnowledge)
             }
 
@@ -143,12 +143,12 @@ class CardsEditorController(
             val intervalItems: List<IntervalItem> = intervalScheme.intervals
                 .map { interval: Interval ->
                     IntervalItem(
-                        levelOfKnowledge = interval.levelOfKnowledge,
+                        grade = interval.grade,
                         waitingPeriod = interval.value,
-                        isSelected = currentLevelOfKnowledge == interval.levelOfKnowledge
+                        isSelected = currentLevelOfKnowledge == interval.grade
                     )
                 }
-            sendCommand(ShowLevelOfKnowledgePopup(intervalItems))
+            sendCommand(ShowIntervalsPopup(intervalItems))
         }
     }
 

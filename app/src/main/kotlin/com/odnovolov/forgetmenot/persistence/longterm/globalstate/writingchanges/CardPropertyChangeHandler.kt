@@ -34,7 +34,7 @@ class CardPropertyChangeHandler(
                 val isLearned = change.newValue as Boolean
                 queries.updateIsLearned(isLearned, cardId)
             }
-            Card::levelOfKnowledge -> {
+            Card::grade -> {
                 val levelOfKnowledge = change.newValue as Int
                 queries.updateLevelOfKnowledge(levelOfKnowledge, cardId)
             }
