@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
@@ -36,7 +35,7 @@ class DeckListFragment : BaseFragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
-    private lateinit var deckPreviewAdapter: DeckPreviewAdapter
+    private var deckPreviewAdapter: DeckPreviewAdapter? = null
     private var filtersPopup: PopupWindow? = null
     private var sortingPopup: PopupWindow? = null
     private var resumePauseCoroutineScope: CoroutineScope? = null
@@ -234,7 +233,7 @@ class DeckListFragment : BaseFragment() {
                 progressBar.visibility = View.GONE
             }
             deckSelection.observe { deckSelection: DeckSelection? ->
-                deckPreviewAdapter.deckSelection = deckSelection
+                deckPreviewAdapter?.deckSelection = deckSelection
                 filterButton?.isVisible = deckSelection == null
             }
         }
@@ -248,7 +247,7 @@ class DeckListFragment : BaseFragment() {
             val viewModel = diScope.viewModel
             with(viewModel) {
                 deckListItems.observe(resumePauseCoroutineScope!!) { deckListItems: List<DeckListItem> ->
-                    deckPreviewAdapter.submitList(deckListItems)
+                    deckPreviewAdapter?.submitList(deckListItems)
                     progressBar.visibility = View.GONE
                 }
             }
@@ -264,6 +263,7 @@ class DeckListFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         decksPreviewRecycler.adapter = null
+        deckPreviewAdapter = null
         filtersPopup = null
         sortingPopup = null
         filterButton = null

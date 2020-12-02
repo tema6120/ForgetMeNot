@@ -4,6 +4,7 @@ import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
@@ -13,6 +14,10 @@ import kotlinx.android.synthetic.main.item_card_overview.view.*
 class FoundCardAdapter(
     private val onCardClicked: (SearchCard) -> Unit
 ) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
+    init {
+        stateRestorationPolicy = PREVENT_WHEN_EMPTY
+    }
+
     var items: List<SearchCard> = emptyList()
         set(value) {
             field = value

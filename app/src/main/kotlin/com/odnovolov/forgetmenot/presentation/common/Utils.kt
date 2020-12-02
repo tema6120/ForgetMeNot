@@ -48,6 +48,8 @@ fun Locale.toFlagEmoji(): String? {
 val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 val Float.dp: Float get() = (this * Resources.getSystem().displayMetrics.density)
 
+val Int.sp: Int get() = (this * Resources.getSystem().displayMetrics.scaledDensity).toInt()
+
 fun EditText.observeText(onTextChanged: (newText: String) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

@@ -28,8 +28,8 @@ class CardsSearcher {
         state.searchText = text
         searchJob?.cancel()
         searchJob = coroutineScope.launch {
-            state.searchResult = emptyList()
             if (text.isEmpty()) {
+                state.searchResult = emptyList()
                 state.isSearching = false
                 return@launch
             }

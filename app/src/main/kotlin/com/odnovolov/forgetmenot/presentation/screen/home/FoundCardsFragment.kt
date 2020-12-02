@@ -38,25 +38,21 @@ class FoundCardsFragment : BaseFragment() {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
-            initAdapter()
             observeViewModel()
         }
     }
 
     private fun setupView() {
+        val onCardClicked: (SearchCard) -> Unit = { searchCard: SearchCard ->
+            controller?.dispatch(FoundCardClicked(searchCard))
+        }
+        cardsRecycler.adapter = FoundCardAdapter(onCardClicked)
         cardsRecycler.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val canScrollUp = cardsRecycler.canScrollVertically(-1)
                 divider.isVisible = canScrollUp
             }
         })
-    }
-
-    private fun initAdapter() {
-        val onCardClicked: (SearchCard) -> Unit = { searchCard: SearchCard ->
-            controller?.dispatch(FoundCardClicked(searchCard))
-        }
-        cardsRecycler.adapter = FoundCardAdapter(onCardClicked)
     }
 
     private fun observeViewModel() {
@@ -66,7 +62,7 @@ class FoundCardsFragment : BaseFragment() {
                 searchingCardsProgressBar.isInvisible = !isSearching
             }
             foundCards.observe { cards: List<SearchCard> ->
-                (cardsRecycler.adapter as  FoundCardAdapter).items = cards
+                (cardsRecycler.adapter as FoundCardAdapter).items = cards
             }
             cardsNotFound.observe { cardsNotFound: Boolean ->
                 emptyTextView.isVisible = cardsNotFound

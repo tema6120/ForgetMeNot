@@ -26,7 +26,9 @@ class AsyncFrameLayout @JvmOverloads constructor(
         setLayoutParams(layoutParams)
     }
 
-    private var isInflated = false
+    var isInflated = false
+        private set
+
     private var pendingActions: MutableList<AsyncFrameLayout.() -> Unit> = ArrayList()
 
     fun inflateAsync(layoutResId: Int) {

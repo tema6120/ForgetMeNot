@@ -11,7 +11,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
 import com.odnovolov.forgetmenot.persistence.DbCleaner
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         MainActivityDiScope.reopenIfClosed()
     }
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     var keyEventInterceptor: ((KeyEvent) -> Boolean)? = null
     private val backPressInterceptors: MutableList<BackPressInterceptor> = ArrayList()
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)

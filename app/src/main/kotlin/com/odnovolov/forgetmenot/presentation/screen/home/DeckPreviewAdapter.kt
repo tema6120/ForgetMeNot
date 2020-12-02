@@ -4,18 +4,22 @@ import android.content.Context
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.MeasureSpec
+import android.view.View.MeasureSpec.makeMeasureSpec
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.*
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
-import com.odnovolov.forgetmenot.presentation.common.highlight
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -25,23 +29,8 @@ class DeckPreviewAdapter(
     private val controller: HomeController,
     private val setupHeader: (View) -> Unit
 ) : ListAdapter<DeckListItem, SimpleRecyclerViewHolder>(DiffCallback()) {
-    var deckSelection: DeckSelection? = null
-        set(value) {
-            field = value
-            itemViewDeckIdMap.forEach { (itemView: View, deckId: Long) ->
-                updateDeckItemSelectionState(itemView, deckId)
-            }
-        }
-
-    private var itemViewDeckIdMap = HashMap<View, Long>()
-
-    private fun updateDeckItemSelectionState(itemView: View, deckId: Long) {
-        val isItemSelected: Boolean? = deckSelection?.run {
-            deckId in selectedDeckIds
-        }
-        itemView.isSelected = isItemSelected == true
-        itemView.deckOptionButton.isVisible = isItemSelected == null
-        itemView.deckSelector.isVisible = isItemSelected != null
+    init {
+        stateRestorationPolicy = PREVENT_WHEN_EMPTY
     }
 
     companion object {
@@ -58,6 +47,8 @@ class DeckPreviewAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
+        prepareMeasuring(parent)
+
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = when (viewType) {
             TYPE_HEADER -> {
@@ -68,7 +59,7 @@ class DeckPreviewAdapter(
                 layoutInflater.inflate(R.layout.item_deck_preview_footer, parent, false)
             }
             else -> {
-                val layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                val layoutParams = LayoutParams(MATCH_PARENT, 0)
                 AsyncFrameLayout(layoutParams, parent.context).apply {
                     inflateAsync(R.layout.item_deck_preview)
                     invokeWhenInflated {
@@ -90,39 +81,35 @@ class DeckPreviewAdapter(
         when (deckListItem) {
             DeckListItem.Header, DeckListItem.Footer -> return
         }
+        val asyncFrameLayout = viewHolder.itemView as AsyncFrameLayout
         val deckPreview = deckListItem as DeckPreview
-        (viewHolder.itemView as AsyncFrameLayout).invokeWhenInflated {
-            val itemView = viewHolder.itemView
-            itemView.deckButton.setOnClickListener {
+        measureAsyncFrameLayoutHeight(asyncFrameLayout, deckPreview.deckName)
+        asyncFrameLayout.invokeWhenInflated {
+            deckButton.setOnClickListener {
                 controller.dispatch(DeckButtonClicked(deckPreview.deckId))
             }
-            itemView.deckButton.setOnLongClickListener {
+            deckButton.setOnLongClickListener {
                 controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
                 true
             }
-            itemView.deckNameTextView.text = if (deckPreview.searchMatchingRanges != null) {
-                deckPreview.deckName
-                    .highlight(deckPreview.searchMatchingRanges, itemView.context)
-            } else {
-                deckPreview.deckName
-            }
-            itemView.deckOptionButton.setOnClickListener {
+            deckNameTextView.text =
+                if (deckPreview.searchMatchingRanges != null)
+                    deckPreview.deckName.highlight(deckPreview.searchMatchingRanges, context) else
+                    deckPreview.deckName
+            deckOptionButton.setOnClickListener {
                 controller.dispatch(DeckOptionButtonClicked(deckPreview.deckId))
             }
-            itemView.deckSelector.setOnClickListener {
+            deckSelector.setOnClickListener {
                 controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
             }
-            itemView.avgLapsValueTextView.text = deckPreview.averageLaps
-            itemView.learnedValueTextView.text =
-                "${deckPreview.learnedCount}/${deckPreview.totalCount}"
-            itemView.taskValueTextView.text =
-                deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
-            itemView.taskValueTextView.setTextColor(
-                getTaskColor(deckPreview.numberOfCardsReadyForExercise, itemView.context)
+            avgLapsValueTextView.text = deckPreview.averageLaps
+            learnedValueTextView.text = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
+            taskValueTextView.text = deckPreview.numberOfCardsReadyForExercise?.toString() ?: "-"
+            taskValueTextView.setTextColor(
+                getTaskColor(deckPreview.numberOfCardsReadyForExercise, context)
             )
-            itemView.lastTestedValueTextView.text = deckPreview.lastOpenedAt
-            updateDeckItemSelectionState(itemView, deckPreview.deckId)
-            itemViewDeckIdMap[itemView] = deckPreview.deckId
+            lastTestedValueTextView.text = deckPreview.lastOpenedAt
+            updateDeckItemSelectionState(itemView = this, deckPreview.deckId)
         }
     }
 
@@ -158,4 +145,74 @@ class DeckPreviewAdapter(
             return oldItem == newItem
         }
     }
+
+    // Deck selection
+
+    var deckSelection: DeckSelection? = null
+        set(value) {
+            field = value
+            itemViewDeckIdMap.forEach { (itemView: View, deckId: Long) ->
+                updateDeckItemSelectionState(itemView, deckId)
+            }
+        }
+
+    private var itemViewDeckIdMap = HashMap<View, Long>()
+
+    private fun updateDeckItemSelectionState(itemView: View, deckId: Long) {
+        itemViewDeckIdMap[itemView] = deckId
+
+        val isItemSelected: Boolean? = deckSelection?.run {
+            deckId in selectedDeckIds
+        }
+        itemView.isSelected = isItemSelected == true
+        itemView.deckOptionButton.isVisible = isItemSelected == null
+        itemView.deckSelector.isVisible = isItemSelected != null
+    }
+
+    // end Deck selection
+
+    // Measuring
+
+    private var parentWidth = -1
+    private var textViewForMeasure: TextView? = null
+
+    private fun prepareMeasuring(parent: ViewGroup) {
+        if (parentWidth != parent.width) {
+            parentWidth = parent.width
+            textViewForMeasure = TextView(parent.context).apply {
+                layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                setTextColor(ContextCompat.getColor(context, R.color.textPrimary))
+                textSize = 16f
+                setTypeface(ResourcesCompat.getFont(context, R.font.comfortaa), Typeface.BOLD)
+            }
+        }
+    }
+
+    private fun measureAsyncFrameLayoutHeight(
+        asyncFrameLayout: AsyncFrameLayout,
+        deckName: String
+    ) {
+        if (asyncFrameLayout.isInflated) {
+            if (asyncFrameLayout.layoutParams.height != WRAP_CONTENT) {
+                asyncFrameLayout.updateLayoutParams {
+                    height = WRAP_CONTENT
+                }
+            }
+            return
+        }
+        val widthForDeckNameTextView: Int = parentWidth - 116.dp
+
+        val textViewForMeasure = textViewForMeasure!!
+        textViewForMeasure.text = deckName
+        textViewForMeasure.measure(
+            makeMeasureSpec(widthForDeckNameTextView, MeasureSpec.EXACTLY),
+            makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+        val asyncFrameLayoutHeight = 57.dp + 31.sp + textViewForMeasure.measuredHeight
+        asyncFrameLayout.updateLayoutParams {
+            height = asyncFrameLayoutHeight
+        }
+    }
+
+    // end Measuring
 }
