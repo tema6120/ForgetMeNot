@@ -76,7 +76,7 @@ class DeckListFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
-            animationStyle = R.style.TopLeftPopupAnimation
+            animationStyle = R.style.PopupFromTopLeftAnimation
         }
     }
 
@@ -118,7 +118,7 @@ class DeckListFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
-            animationStyle = R.style.TopRightPopupAnimation
+            animationStyle = R.style.PopupFromTopRightAnimation
         }
     }
 

@@ -7,7 +7,7 @@
     <color name="colorControlHighlight">#42000000</color>
     <color name="background_decks_preview">#fff</color>
     <color name="divider">#1e000000</color>
-    <color name="divider_light">#0FFFFFFF</color>
+    <color name="divider_light">#17FFFFFF</color>
     <color name="curtain">#EBEBEB</color>
     <color name="selected_item_background">#60FF8C00</color>
     <color name="selected_item_background_disabled">#1AFF8C00</color>
@@ -24,7 +24,7 @@
     <color name="textSecondaryDisabled">#29000000</color>
     <color name="iconDark">#DE000000</color>
     <color name="background_dark_popup">#383838</color>
-    <color name="background_item_grade_selected">#484848</color>
+    <color name="background_item_selected_on_dark_popup">#484848</color>
     <color name="grade_unsatisfactory">#FF5957</color>
     <color name="grade_unsatisfactory_bright">#FF0400</color>
     <color name="grade_poor">#FF7639</color>
@@ -59,4 +59,5 @@
     <color name="item_selected">#4B5875</color>
     <color name="item_unselected">#664B5875</color>
     <color name="item_add_cards">#330000</color>
+    <color name="hint_icon">#FFE600</color>
 </resources>

@@ -522,7 +522,7 @@ class ExerciseFragment : BaseFragment() {
 
     private fun createChooseHintPopup() {
         val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
-            hintAsQuizButton.setOnClickListener {
+            getVariantsButton.setOnClickListener {
                 controller?.dispatch(HintAsQuizButtonClicked)
                 chooseHintPopup?.dismiss()
             }
@@ -542,6 +542,7 @@ class ExerciseFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
+            animationStyle = R.style.PopupFromBottomAnimation
         }
     }
 
@@ -564,7 +565,7 @@ class ExerciseFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
-            animationStyle = R.style.BottomLeftPopupAnimation
+            animationStyle = R.style.PopupFromBottomLeftAnimation
         }
     }
 

@@ -3,7 +3,7 @@
         <selector>
             <item android:state_selected="true">
                 <shape>
-                    <solid android:color="@color/background_item_grade_selected" />
+                    <solid android:color="@color/background_item_selected_on_dark_popup" />
                 </shape>
             </item>
         </selector>

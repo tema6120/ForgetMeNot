@@ -108,9 +108,7 @@
                     android:id="@+id/curtainView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/curtain"
-                    android:visibility="invisible"
-                    tools:visibility="visible" />
+                    android:background="@color/curtain" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

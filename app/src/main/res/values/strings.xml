@@ -121,7 +121,7 @@
         <item quantity="other">%d decks have been removed</item>
     </plurals>
     <string name="deck_selection_action_mode_title">Cards: %1$d, Decks: %2$d</string>
-    <string name="text_hint_as_quiz_button">As quiz</string>
+    <string name="text_hint_get_variants">Get variants</string>
     <string name="text_hint_mask_letters_button">Mask letters</string>
     <string name="text_go_to_tts_settings_button">Go to TTS Settings</string>
     <string name="title_repetition_mode">Start repetition</string>
@@ -213,6 +213,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="popup_title_walking_mode">Walking Mode</string>
+    <string name="popup_title_hints">Hints</string>
     <plurals name="exit_message_unanswered_cards">
         <item quantity="one">%d card is still unanswered</item>
         <item quantity="other">%d cards are still unanswered</item>

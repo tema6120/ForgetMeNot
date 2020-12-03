@@ -190,7 +190,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     private fun createChooseHintPopup(): PopupWindow {
         val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
-            hintAsQuizButton.setOnClickListener {
+            getVariantsButton.setOnClickListener {
                 maskedLettersHintExample.isVisible = false
                 quizHintExample.isVisible = true
                 hintButton.isVisible = false

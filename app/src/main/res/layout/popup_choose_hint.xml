@@ -1,38 +1,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         tools:background="@color/background_dark_popup">
 
     <TextView
-            android:id="@+id/hintAsQuizButton"
-            android:layout_width="match_parent"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:padding="16dp"
-            android:text="@string/text_hint_as_quiz_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:drawablePadding="8dp"
+            android:text="@string/popup_title_hints"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:theme="@style/AppTheme.AppBarOverlay" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_lightbulb_outline_white_24dp"
+            app:drawableTint="@color/hint_icon" />
 
     <View
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:theme="@style/AppTheme.AppBarOverlay" />
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/divider_light" />
 
-    <TextView
-            android:id="@+id/maskLettersButton"
-            android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/getVariantsButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/nunito_extrabold"
+            android:padding="16dp"
+            android:text="@string/text_hint_get_variants"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/background_item_selected_on_dark_popup"
+            app:cornerRadius="4dp"
+            app:rippleColor="@android:color/white" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/maskLettersButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/nunito_extrabold"
             android:padding="16dp"
             android:text="@string/text_hint_mask_letters_button"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:theme="@style/AppTheme.AppBarOverlay" />
+            app:backgroundTint="@color/background_item_selected_on_dark_popup"
+            app:cornerRadius="4dp"
+            app:rippleColor="@android:color/white" />
 
 </LinearLayout>

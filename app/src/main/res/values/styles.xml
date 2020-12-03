@@ -75,17 +75,22 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TopRightPopupAnimation">
+    <style name="PopupFromTopRightAnimation">
         <item name="android:windowEnterAnimation">@anim/popup_show_from_top_right</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 
-    <style name="TopLeftPopupAnimation">
+    <style name="PopupFromTopLeftAnimation">
         <item name="android:windowEnterAnimation">@anim/popup_show_from_top_left</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 
-    <style name="BottomLeftPopupAnimation">
+    <style name="PopupFromBottomAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_show_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
+    <style name="PopupFromBottomLeftAnimation">
         <item name="android:windowEnterAnimation">@anim/popup_show_from_bottom_left</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
