@@ -60,4 +60,5 @@
     <color name="item_unselected">#664B5875</color>
     <color name="item_add_cards">#330000</color>
     <color name="hint_icon">#FFE600</color>
+    <color name="walking_mode_icon">#00B7FF</color>
 </resources>

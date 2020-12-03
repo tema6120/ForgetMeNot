@@ -95,6 +95,11 @@
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 
+    <style name="PopupFromBottomRightAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_show_from_bottom_right</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
     <style name="DeckOptionItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -186,6 +191,10 @@
         <item name="android:layout_margin">16dp</item>
         <item name="cardCornerRadius">16dp</item>
         <item name="cardElevation">4dp</item>
+    </style>
+
+    <style name="WalkingModeSwitchStyle">
+        <item name="colorControlActivated">@color/walking_mode_icon</item>
     </style>
 
 </resources>

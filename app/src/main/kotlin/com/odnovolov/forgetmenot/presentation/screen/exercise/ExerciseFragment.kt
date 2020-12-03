@@ -517,6 +517,7 @@ class ExerciseFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
+            animationStyle = R.style.PopupFromBottomRightAnimation
         }
     }
 

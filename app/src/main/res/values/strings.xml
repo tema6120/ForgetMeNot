@@ -212,7 +212,7 @@
     <string name="message_changes_will_be_lost">Your changes will be lost if you don\'t save them.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="popup_title_walking_mode">Walking Mode</string>
+    <string name="popup_title_walking_mode">Walking mode</string>
     <string name="popup_title_hints">Hints</string>
     <plurals name="exit_message_unanswered_cards">
         <item quantity="one">%d card is still unanswered</item>
