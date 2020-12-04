@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.article_exercise.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.questionTextView as offTestQuestionTextView
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
-import kotlinx.android.synthetic.main.popup_choose_hint.view.*
+import kotlinx.android.synthetic.main.popup_hints.view.*
 import kotlinx.android.synthetic.main.question.view.*
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
 
@@ -189,7 +189,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     }
 
     private fun createChooseHintPopup(): PopupWindow {
-        val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
+        val content = View.inflate(requireContext(), R.layout.popup_hints, null).apply {
             getVariantsButton.setOnClickListener {
                 maskedLettersHintExample.isVisible = false
                 quizHintExample.isVisible = true

@@ -102,7 +102,7 @@
                     android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_timer_button"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/ic_timer_white_24dp"
+                    app:srcCompat="@drawable/ic_round_timer_24"
                     tools:visibility="visible" />
 
             <ImageButton

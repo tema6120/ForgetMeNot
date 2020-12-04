@@ -154,7 +154,7 @@ class DeckSettingsFragment : BaseFragment() {
                 selectedTimeForAnswerTextView.text =
                     if (timeForAnswer == 0)
                         getString(R.string.off) else
-                        getString(R.string.selected_time_for_answer, timeForAnswer)
+                        getString(R.string.time_for_answer, timeForAnswer)
             }
         }
     }

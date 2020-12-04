@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.plurals
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
@@ -43,8 +42,9 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 import kotlinx.android.synthetic.main.dialog_exit_from_exercise.*
 import kotlinx.android.synthetic.main.dialog_exit_from_exercise.view.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
-import kotlinx.android.synthetic.main.popup_choose_hint.view.*
+import kotlinx.android.synthetic.main.popup_hints.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
+import kotlinx.android.synthetic.main.popup_timer.view.*
 import kotlinx.android.synthetic.main.popup_walking_mode.view.*
 import kotlinx.coroutines.launch
 
@@ -55,11 +55,12 @@ class ExerciseFragment : BaseFragment() {
 
     private lateinit var viewModel: ExerciseViewModel
     private var controller: ExerciseController? = null
-    private var walkingModePopup: PopupWindow? = null
-    private var chooseHintPopup: PopupWindow? = null
     private var intervalsAdapter: IntervalsAdapter? = null
-    private var intervalsPopup: PopupWindow? = null
     private var speakErrorPopup: PopupWindow? = null
+    private var gradeIntervalsPopup: PopupWindow? = null
+    private var timerPopup: PopupWindow? = null
+    private var hintsPopup: PopupWindow? = null
+    private var walkingModePopup: PopupWindow? = null
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
@@ -116,7 +117,7 @@ class ExerciseFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         timerButton.run {
-            setOnClickListener { controller?.dispatch(TimerButtonClicked) }
+            setOnClickListener { showTimerPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         hintButton.run {
@@ -131,21 +132,6 @@ class ExerciseFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(HelpButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
-    }
-
-    private fun showWalkingModePopup() {
-        if (walkingModePopup == null) return
-        val walkingModeButtonLocation = IntArray(2).also(walkingModeButton::getLocationOnScreen)
-        val x: Int =
-            walkingModeButtonLocation[0] + walkingModeButton.width - 8.dp - walkingModePopup!!.width
-        val y: Int =
-            walkingModeButtonLocation[1] + walkingModeButton.height - 8.dp - walkingModePopup!!.height
-        walkingModePopup!!.showAtLocation(
-            walkingModeButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
     }
 
     private fun initKeyEventInterceptor() {
@@ -274,24 +260,29 @@ class ExerciseFragment : BaseFragment() {
                     }
                 }
             }
-            timeLeft.observe { timeLeft: Int? ->
-                if (timeLeft == null) {
-                    timerButton.isVisible = false
-                } else {
-                    timerButton.setImageResource(
-                        when {
-                            timeLeft == 0 -> R.drawable.ic_timer_white_24dp_off
-                            timeLeft % 2 == 1 -> R.drawable.ic_timer_white_24dp_odd
-                            else -> R.drawable.ic_timer_white_24dp
-                        }
-                    )
-                    timerButton.isVisible = true
+            timerStatus.observe { timerStatus: TimerStatus ->
+                when (timerStatus) {
+                    TimerStatus.NotUsed -> {
+                        timerButton.isVisible = false
+                    }
+                    is TimerStatus.Ticking -> {
+                        timerButton.setImageResource(
+                            if (timerStatus.secondsLeft % 2 == 0)
+                                R.drawable.ic_round_timer_24_even else
+                                R.drawable.ic_round_timer_24
+                        )
+                        timerButton.isVisible = true
+                    }
+                    TimerStatus.Stopped, TimerStatus.TimeIsOver -> {
+                        timerButton.setImageResource(R.drawable.ic_round_timer_24_off)
+                        timerButton.isVisible = true
+                    }
                 }
             }
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()
-                if (intervalsPopup?.isShowing == true) {
+                if (gradeIntervalsPopup?.isShowing == true) {
                     intervalsAdapter!!.intervalItems =
                         intervalsAdapter!!.intervalItems.map { intervalItem: IntervalItem ->
                             IntervalItem(
@@ -341,17 +332,14 @@ class ExerciseFragment : BaseFragment() {
             is MoveToPosition -> {
                 exerciseViewPager.setCurrentItem(command.position, true)
             }
-            ShowTimerIsAlreadyOffMessage -> {
-                showToast(R.string.toast_timer_is_already_off)
-            }
-            ShowChooseHintPopup -> {
-                showChooseHintPopup()
+            ShowHintsPopup -> {
+                showHintsPopup()
             }
             ShowHintIsNotAccessibleMessage -> {
                 showToast(R.string.toast_hint_is_not_accessible)
             }
             is ShowIntervalsPopup -> {
-                showIntervalsPopup(command.intervalItems)
+                showGradeIntervalsPopup(command.intervalItems)
             }
             ShowIntervalsAreOffMessage -> {
                 showToast(R.string.toast_text_intervals_are_off)
@@ -373,33 +361,83 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun showChooseHintPopup() {
-        if (chooseHintPopup == null) return
-        val hintButtonLocation = IntArray(2).also { hintButton.getLocationOnScreen(it) }
-        val x = hintButtonLocation[0] + (hintButton.width / 2) - (chooseHintPopup!!.width / 2)
-        val y = hintButtonLocation[1] + hintButton.height - 8.dp - chooseHintPopup!!.height
-        chooseHintPopup!!.showAtLocation(
-            hintButton.rootView,
+    private fun initSecondaryThings() {
+        if (viewCoroutineScope == null) return
+        createGradeIntervalsPopup()
+        createSpeakErrorPopup()
+        createTimerPopup()
+        createHintsPopup()
+        createWalkingModePopup()
+        createExitDialog()
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+    }
+
+    private fun createGradeIntervalsPopup() {
+        val recycler: RecyclerView =
+            View.inflate(context, R.layout.popup_grade_intervals, null) as RecyclerView
+        val onItemClick: (Int) -> Unit = { grade: Int ->
+            controller?.dispatch(GradeWasChanged(grade))
+            gradeIntervalsPopup?.dismiss()
+        }
+        intervalsAdapter = IntervalsAdapter(onItemClick)
+        recycler.adapter = intervalsAdapter
+        gradeIntervalsPopup = PopupWindow(context).apply {
+            width = WindowManager.LayoutParams.WRAP_CONTENT
+            height = WindowManager.LayoutParams.WRAP_CONTENT
+            contentView = recycler
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
+            )
+            elevation = 20f.dp
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.PopupFromBottomLeftAnimation
+        }
+    }
+
+    private fun showGradeIntervalsPopup(intervalItems: List<IntervalItem>) {
+        if (gradeIntervalsPopup == null) return
+        intervalsAdapter!!.intervalItems = intervalItems
+        val content = gradeIntervalsPopup!!.contentView
+        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+        val location = IntArray(2)
+        gradeButton.getLocationOnScreen(location)
+        val x = location[0] + 8.dp
+        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
+        gradeIntervalsPopup!!.showAtLocation(
+            gradeButton.rootView,
             Gravity.NO_GRAVITY,
             x,
             y
         )
     }
 
-    private fun showIntervalsPopup(intervalItems: List<IntervalItem>) {
-        if (intervalsPopup == null) return
-        intervalsAdapter!!.intervalItems = intervalItems
-        val content = intervalsPopup!!.contentView
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        val location = IntArray(2)
-        gradeButton.getLocationOnScreen(location)
-        val x = location[0] + 8.dp
-        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
-        intervalsPopup!!.showAtLocation(
-            gradeButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
+    private fun createSpeakErrorPopup() {
+        val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
+            goToTtsSettingsButton.setOnClickListener {
+                navigateToTtsSettings()
+                speakErrorPopup?.dismiss()
+            }
+        }
+        speakErrorPopup = PopupWindow(context).apply {
+            width = WindowManager.LayoutParams.WRAP_CONTENT
+            height = WindowManager.LayoutParams.WRAP_CONTENT
+            contentView = content
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
+            )
+            elevation = 20f.dp
+            isOutsideTouchable = true
+            isFocusable = true
+        }
+    }
+
+    private fun navigateToTtsSettings() {
+        startActivity(
+            Intent().apply {
+                action = "com.android.settings.TTS_SETTINGS"
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
         )
     }
 
@@ -458,29 +496,141 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun showExitDialog(unansweredCardCount: Int) {
-        exitDialog?.run {
-            show()
-            messageTextView.text = resources.getQuantityString(
-                plurals.exit_message_unanswered_cards,
-                unansweredCardCount,
-                unansweredCardCount
+    private fun createTimerPopup() {
+        val content = View.inflate(requireContext(), R.layout.popup_timer, null).apply {
+            stopTimerButton.setOnClickListener {
+                timerPopup?.dismiss()
+                controller?.dispatch(StopTimerButtonClicked)
+            }
+            subscribeTimerPopupToViewModel()
+        }
+        timerPopup = PopupWindow(context).apply {
+            contentView = content
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
-            showButton.text = resources.getQuantityString(
-                plurals.text_show_unanswered_card_button,
-                unansweredCardCount
-            )
+            elevation = 20f.dp
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.PopupFromBottomAnimation
         }
     }
 
-    private fun initSecondaryThings() {
-        if (viewCoroutineScope == null) return
-        createWalkingModePopup()
-        createChooseHintPopup()
-        createIntervalsPopup()
-        createSpeakErrorPopup()
-        createExitDialog()
-        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+    private fun subscribeTimerPopupToViewModel() {
+        viewCoroutineScope!!.launch {
+            val diScope = ExerciseDiScope.getAsync() ?: return@launch
+            diScope.viewModel.timerStatus.observe { timerStatus: TimerStatus ->
+                if (timerStatus == TimerStatus.NotUsed) {
+                    timerPopup?.dismiss()
+                    return@observe
+                }
+                with(timerPopup!!.contentView) {
+                    val drawableStartId =
+                        if (timerStatus is TimerStatus.Ticking && timerStatus.secondsLeft % 2 == 0)
+                            R.drawable.ic_round_timer_24_even_for_popup else
+                            R.drawable.ic_round_timer_24_for_popup
+                    timerPopupTitleTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        drawableStartId, 0, 0, 0
+                    )
+
+                    val tintColorId: Int = when (timerStatus) {
+                        is TimerStatus.Ticking -> R.color.ticking_timer_icon_on_popup
+                        TimerStatus.TimeIsOver -> R.color.issue
+                        else -> R.color.description_text_on_popup
+                    }
+                    val tintColor: Int = ContextCompat.getColor(context, tintColorId)
+                    timerPopupTitleTextView.compoundDrawablesRelative[0].setTint(tintColor)
+
+                    timerDescriptionTextView.text = when (timerStatus) {
+                        TimerStatus.NotUsed -> null
+                        is TimerStatus.Ticking ->
+                            getString(R.string.time_for_answer, timerStatus.secondsLeft)
+                        TimerStatus.Stopped -> getString(R.string.timer_stopped)
+                        TimerStatus.TimeIsOver -> getString(R.string.time_is_over)
+                    }
+
+                    val descriptionTextColorId: Int =
+                        if (timerStatus == TimerStatus.TimeIsOver)
+                            R.color.issue else
+                            R.color.description_text_on_popup
+                    val descriptionTextColor: Int =
+                        ContextCompat.getColor(context, descriptionTextColorId)
+                    timerDescriptionTextView.setTextColor(descriptionTextColor)
+
+                    stopTimerButton.isVisible = timerStatus is TimerStatus.Ticking
+                }
+                updateTimerPopupPosition()
+            }
+        }
+    }
+
+    private fun updateTimerPopupPosition() {
+        with(timerPopup!!) {
+            if (!isShowing) return
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            if (width == contentView.measuredWidth && height == contentView.measuredHeight) return
+            val timerButtonLocation = IntArray(2).also(timerButton::getLocationOnScreen)
+            val x =
+                timerButtonLocation[0] + (timerButton.width / 2) - (contentView.measuredWidth / 2)
+            val y = timerButtonLocation[1] + timerButton.height - 8.dp - contentView.measuredHeight
+            update(x, y, contentView.measuredWidth, contentView.measuredHeight)
+        }
+    }
+
+    private fun showTimerPopup() {
+        if (timerPopup == null) return
+        measureTimerPopup()
+        val timerButtonLocation = IntArray(2).also(timerButton::getLocationOnScreen)
+        val x = timerButtonLocation[0] + (timerButton.width / 2) - (timerPopup!!.width / 2)
+        val y = timerButtonLocation[1] + timerButton.height - 8.dp - timerPopup!!.height
+        timerPopup!!.showAtLocation(timerButton.rootView, Gravity.NO_GRAVITY, x, y)
+    }
+
+    private fun measureTimerPopup() {
+        timerPopup!!.run {
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            width = contentView.measuredWidth
+            height = contentView.measuredHeight
+        }
+    }
+
+    private fun createHintsPopup() {
+        val content = View.inflate(requireContext(), R.layout.popup_hints, null).apply {
+            getVariantsButton.setOnClickListener {
+                controller?.dispatch(HintAsQuizButtonClicked)
+                hintsPopup?.dismiss()
+            }
+            maskLettersButton.setOnClickListener {
+                controller?.dispatch(MaskLettersButtonClicked)
+                hintsPopup?.dismiss()
+            }
+        }
+        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+        hintsPopup = PopupWindow(context).apply {
+            width = content.measuredWidth
+            height = content.measuredHeight
+            contentView = content
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
+            )
+            elevation = 20f.dp
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.PopupFromBottomAnimation
+        }
+    }
+
+    private fun showHintsPopup() {
+        if (hintsPopup == null) return
+        val hintButtonLocation = IntArray(2).also { hintButton.getLocationOnScreen(it) }
+        val x = hintButtonLocation[0] + (hintButton.width / 2) - (hintsPopup!!.width / 2)
+        val y = hintButtonLocation[1] + hintButton.height - 8.dp - hintsPopup!!.height
+        hintsPopup!!.showAtLocation(
+            hintButton.rootView,
+            Gravity.NO_GRAVITY,
+            x,
+            y
+        )
     }
 
     private fun createWalkingModePopup() {
@@ -521,81 +671,18 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun createChooseHintPopup() {
-        val content = View.inflate(requireContext(), R.layout.popup_choose_hint, null).apply {
-            getVariantsButton.setOnClickListener {
-                controller?.dispatch(HintAsQuizButtonClicked)
-                chooseHintPopup?.dismiss()
-            }
-            maskLettersButton.setOnClickListener {
-                controller?.dispatch(MaskLettersButtonClicked)
-                chooseHintPopup?.dismiss()
-            }
-        }
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        chooseHintPopup = PopupWindow(context).apply {
-            width = content.measuredWidth
-            height = content.measuredHeight
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromBottomAnimation
-        }
-    }
-
-    private fun createIntervalsPopup() {
-        val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_set_grade, null) as RecyclerView
-        val onItemClick: (Int) -> Unit = { grade: Int ->
-            controller?.dispatch(GradeWasChanged(grade))
-            intervalsPopup?.dismiss()
-        }
-        intervalsAdapter = IntervalsAdapter(onItemClick)
-        recycler.adapter = intervalsAdapter
-        intervalsPopup = PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            contentView = recycler
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromBottomLeftAnimation
-        }
-    }
-
-    private fun createSpeakErrorPopup() {
-        val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
-            goToTtsSettingsButton.setOnClickListener {
-                navigateToTtsSettings()
-                speakErrorPopup?.dismiss()
-            }
-        }
-        speakErrorPopup = PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-        }
-    }
-
-    private fun navigateToTtsSettings() {
-        startActivity(
-            Intent().apply {
-                action = "com.android.settings.TTS_SETTINGS"
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
+    private fun showWalkingModePopup() {
+        if (walkingModePopup == null) return
+        val walkingModeButtonLocation = IntArray(2).also(walkingModeButton::getLocationOnScreen)
+        val x: Int =
+            walkingModeButtonLocation[0] + walkingModeButton.width - 8.dp - walkingModePopup!!.width
+        val y: Int =
+            walkingModeButtonLocation[1] + walkingModeButton.height - 8.dp - walkingModePopup!!.height
+        walkingModePopup!!.showAtLocation(
+            walkingModeButton.rootView,
+            Gravity.NO_GRAVITY,
+            x,
+            y
         )
     }
 
@@ -614,13 +701,27 @@ class ExerciseFragment : BaseFragment() {
         dialogTimeCapsule.register("exerciseExitDialog", exitDialog!!)
     }
 
+    private fun showExitDialog(unansweredCardCount: Int) {
+        exitDialog?.run {
+            show()
+            messageTextView.text = resources.getQuantityString(
+                R.plurals.exit_message_unanswered_cards,
+                unansweredCardCount,
+                unansweredCardCount
+            )
+            showButton.text = resources.getQuantityString(
+                R.plurals.text_show_unanswered_card_button,
+                unansweredCardCount
+            )
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         viewCoroutineScope!!.launch {
             val diScope = ExerciseDiScope.getAsync() ?: return@launch
             diScope.controller.dispatch(FragmentResumed)
         }
-        hideActionBar()
     }
 
     override fun onPause() {
@@ -639,10 +740,12 @@ class ExerciseFragment : BaseFragment() {
             keyEventInterceptor = null
             unregisterBackPressInterceptor(backPressInterceptor)
         }
-        walkingModePopup = null
-        chooseHintPopup = null
         intervalsAdapter = null
-        intervalsPopup = null
+        gradeIntervalsPopup = null
+        speakErrorPopup = null
+        timerPopup = null
+        hintsPopup = null
+        walkingModePopup = null
         exitDialog = null
         knowingWhenPagerStopped = null
     }
@@ -669,10 +772,12 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
-        override fun onBackPressed(): Boolean {
-            controller?.dispatch(BackButtonClicked)
-            return true
+    private val backPressInterceptor by lazy {
+        object : MainActivity.BackPressInterceptor {
+            override fun onBackPressed(): Boolean {
+                controller?.dispatch(BackButtonClicked)
+                return true
+            }
         }
     }
 }

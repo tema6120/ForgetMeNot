@@ -50,16 +50,11 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
         state.flowOf(State::timeLeft).observe { timeLeft: Int ->
             timerButton.setImageResource(
                 when {
-                    timeLeft == 0 -> R.drawable.ic_timer_white_24dp_off
-                    timeLeft % 2 == 1 -> R.drawable.ic_timer_white_24dp_odd
-                    else -> R.drawable.ic_timer_white_24dp
+                    timeLeft == 0 -> R.drawable.ic_round_timer_24_off
+                    timeLeft % 2 == 1 -> R.drawable.ic_round_timer_24
+                    else -> R.drawable.ic_round_timer_24_even
                 }
             )
-            if (timeLeft == 0) {
-                timerButton.setOnClickListener {
-                    showToast(R.string.toast_timer_is_already_off)
-                }
-            }
         }
         state.flowOf(State::isExpired).observe { isExpired: Boolean ->
             cardView.setCardBackgroundColor(

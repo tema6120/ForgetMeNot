@@ -59,6 +59,9 @@
     <color name="item_selected">#4B5875</color>
     <color name="item_unselected">#664B5875</color>
     <color name="item_add_cards">#330000</color>
-    <color name="hint_icon">#FFE600</color>
-    <color name="walking_mode_icon">#00B7FF</color>
+    <color name="hint_icon_on_popup">#FFE600</color>
+    <color name="walking_mode_icon_on_popup">#00B7FF</color>
+    <color name="ticking_timer_icon_on_popup">#00FF88</color>
+    <color name="issue">#FF5957</color>
+    <color name="description_text_on_popup">#aaa</color>
 </resources>

@@ -3,11 +3,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="150dp"
         android:orientation="vertical"
-        tools:background="@color/background_dark_popup">
+        tools:background="@drawable/background_popup_dark">
 
     <TextView
-            android:id="@+id/title"
+            android:id="@+id/timerPopupTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -16,12 +17,12 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:drawablePadding="8dp"
-            android:text="@string/popup_title_hints"
+            android:text="@string/popup_title_timer"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_lightbulb_outline_white_24dp"
-            app:drawableTint="@color/hint_icon" />
+            app:drawableStartCompat="@drawable/ic_round_timer_24"
+            app:drawableTint="@color/ticking_timer_icon_on_popup" />
 
     <View
             android:id="@+id/divider"
@@ -31,38 +32,38 @@
             android:layout_marginEnd="12dp"
             android:background="@color/divider_light" />
 
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/getVariantsButton"
+    <TextView
+            android:id="@+id/timerDescriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/nunito_extrabold"
+            android:textColor="@color/description_text_on_popup"
+            android:textSize="14sp"
+            tools:text="7 sec." />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/stopTimerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:fontFamily="@font/nunito_extrabold"
             android:padding="16dp"
-            android:text="@string/text_hint_get_variants"
+            android:text="@string/text_stop_timer_button"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             app:backgroundTint="@color/background_item_selected_on_dark_popup"
             app:cornerRadius="4dp"
             app:rippleColor="@android:color/white" />
 
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/maskLettersButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/nunito_extrabold"
-            android:padding="16dp"
-            android:text="@string/text_hint_mask_letters_button"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            app:backgroundTint="@color/background_item_selected_on_dark_popup"
-            app:cornerRadius="4dp"
-            app:rippleColor="@android:color/white" />
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="8dp" />
 
 </LinearLayout>

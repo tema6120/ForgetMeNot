@@ -11,7 +11,7 @@ sealed class ExerciseEvent {
     object SpeakButtonClicked : ExerciseEvent()
     object StopSpeakButtonClicked : ExerciseEvent()
     object EditCardButtonClicked : ExerciseEvent()
-    object TimerButtonClicked : ExerciseEvent()
+    object StopTimerButtonClicked : ExerciseEvent()
     object HintButtonClicked : ExerciseEvent()
     object HintAsQuizButtonClicked : ExerciseEvent()
     object MaskLettersButtonClicked : ExerciseEvent()

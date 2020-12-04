@@ -18,7 +18,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_directions_walk_white_24dp"
-            app:drawableTint="@color/walking_mode_icon"
+            app:drawableTint="@color/walking_mode_icon_on_popup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

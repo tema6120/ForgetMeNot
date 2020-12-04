@@ -182,21 +182,27 @@ class ExerciseViewModel(
         Off
     }
 
-    val timeLeft: Flow<Int?> =
+    val timerStatus: Flow<TimerStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            val isTimerEnabled =
-                exerciseCard.base.deck.exercisePreference.timeForAnswer != NOT_TO_USE_TIMER
-            combine(
-                exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
-                exerciseCard.base.card.flowOf(Card::isLearned),
-                isWalkingModeEnabled
-            ) { timeLeft: Int,
-                isLearned: Boolean,
-                isWalkingModeEnabled: Boolean
-                ->
-                when {
-                    isWalkingModeEnabled || isLearned || !isTimerEnabled -> null
-                    else -> timeLeft
+            if (exerciseCard.base.deck.exercisePreference.timeForAnswer == NOT_TO_USE_TIMER) {
+                flowOf(TimerStatus.NotUsed)
+            } else {
+                combine(
+                    exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
+                    exerciseCard.base.flowOf(ExerciseCard.Base::isExpired),
+                    exerciseCard.base.card.flowOf(Card::isLearned),
+                    isWalkingModeEnabled
+                ) { timeLeft: Int,
+                    isExpired: Boolean,
+                    isLearned: Boolean,
+                    isWalkingModeEnabled: Boolean
+                    ->
+                    when {
+                        isWalkingModeEnabled || isLearned -> TimerStatus.NotUsed
+                        timeLeft > 0 -> TimerStatus.Ticking(timeLeft)
+                        isExpired -> TimerStatus.TimeIsOver
+                        else -> TimerStatus.Stopped
+                    }
                 }
             }
         }
