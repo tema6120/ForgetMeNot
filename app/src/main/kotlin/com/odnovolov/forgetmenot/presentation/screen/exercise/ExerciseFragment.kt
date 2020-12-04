@@ -429,6 +429,7 @@ class ExerciseFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
+            animationStyle = R.style.PopupFromBottomAnimation
         }
     }
 
@@ -446,8 +447,11 @@ class ExerciseFragment : BaseFragment() {
         speakErrorPopup!!.contentView.speakErrorDescriptionTextView.text =
             getSpeakErrorDescription()
         val content: View = speakErrorPopup!!.contentView
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        val speakButtonLocation = IntArray(2).also { speakButton.getLocationOnScreen(it) }
+        content.measure(
+            MeasureSpec.makeMeasureSpec(speakButton.rootView.width, MeasureSpec.AT_MOST),
+            MeasureSpec.makeMeasureSpec(speakButton.rootView.height, MeasureSpec.AT_MOST)
+        )
+        val speakButtonLocation = IntArray(2).also(speakButton::getLocationOnScreen)
         val x: Int = 8.dp
         val y: Int = speakButtonLocation[1] + speakButton.height - 8.dp - content.measuredHeight
         speakErrorPopup!!.showAtLocation(

@@ -1,62 +1,62 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         tools:background="@drawable/background_popup_dark">
-
-    <ImageView
-            android:id="@+id/errorIcon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_error_outline_24" />
 
     <TextView
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:drawablePadding="8dp"
             android:text="@string/title_speak_error_popup"
             android:textColor="@color/issue"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/errorIcon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/errorIcon"
-            app:layout_constraintTop_toTopOf="@+id/errorIcon" />
+            android:textSize="20sp"
+            app:drawableStartCompat="@drawable/ic_baseline_error_outline_24" />
+
+    <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/divider_light" />
 
     <TextView
             android:id="@+id/speakErrorDescriptionTextView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/nunito_bold"
             android:textColor="@color/description_text_on_popup"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/errorIcon"
             tools:text="Current TTS engine (com.svox.pico) doesn't support Russian" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
             android:id="@+id/goToTtsSettingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/issue"
+            android:fontFamily="@font/nunito_extrabold"
+            android:maxWidth="226dp"
+            android:padding="16dp"
             android:text="@string/text_go_to_tts_settings_button"
             android:textAllCaps="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/speakErrorDescriptionTextView" />
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/issue"
+            app:cornerRadius="4dp"
+            app:rippleColor="@android:color/white" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
