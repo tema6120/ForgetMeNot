@@ -7,11 +7,13 @@ import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.domain.interactor.exercise.HintSelection
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
+import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.MaskingLettersAction.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
@@ -161,16 +163,39 @@ class ExerciseViewModel(
 
     val hintStatus: Flow<HintStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            val isQuizTestExerciseCard: Boolean = exerciseCard is QuizTestExerciseCard
+            if (exerciseCard is QuizTestExerciseCard) {
+                flowOf(HintStatus.Off)
+            } else {
             combine(
                 exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect),
-                exerciseCard.base.card.flowOf(Card::isLearned)
-            ) { isAnswerCorrect: Boolean?, isLearned: Boolean ->
+                exerciseCard.base.card.flowOf(Card::isLearned),
+                isWalkingModeEnabled,
+                exerciseCard.base.flowOf(ExerciseCard.Base::hint),
+                exerciseState.flowOf(Exercise.State::hintSelection)
+            ) { isAnswerCorrect: Boolean?,
+                isLearned: Boolean,
+                isWalkingModeEnabled: Boolean,
+                hint: String?,
+                hintSelection: HintSelection
+                ->
                 when {
-                    isQuizTestExerciseCard || isLearned -> HintStatus.Off
-                    isAnswerCorrect == null -> HintStatus.Accessible
-                    else -> HintStatus.NotAccessible
+                    isAnswerCorrect != null -> HintStatus.NotAccessibleBecauseCardIsAnswered
+                    isLearned -> HintStatus.NotAccessibleBecauseCardIsLearned
+                    else -> {
+                        val isGettingVariantsAccessible = !isWalkingModeEnabled
+                        val currentMaskingLettersAction =  when {
+                            hint == null -> MaskLetters
+                            hintSelection.endIndex > hintSelection.startIndex -> UnmaskSelectedRegion
+                            else -> UnmaskTheFirstLetter
+                        }
+                        HintStatus.Accessible(
+                            isGettingVariantsAccessible,
+                            currentMaskingLettersAction
+                        )
+                    }
                 }
+            }
+
             }
         }
             .distinctUntilChanged()

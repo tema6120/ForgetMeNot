@@ -28,7 +28,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.MaskingLettersAction.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
@@ -122,7 +122,7 @@ class ExerciseFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         hintButton.run {
-            setOnClickListener { controller?.dispatch(HintButtonClicked) }
+            setOnClickListener { showHintsPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         searchButton.run {
@@ -247,19 +247,8 @@ class ExerciseFragment : BaseFragment() {
                     if (isEnabled) keyEventInterceptor else null
             }
             hintStatus.observe { hintStatus: HintStatus ->
-                when (hintStatus) {
-                    Accessible -> {
-                        hintButton.setImageResource(R.drawable.ic_lightbulb_outline_white_24dp)
-                        hintButton.isVisible = true
-                    }
-                    NotAccessible -> {
-                        hintButton.setImageResource(R.drawable.ic_lightbulb_outline_white_24dp_disabled)
-                        hintButton.isVisible = true
-                    }
-                    Off -> {
-                        hintButton.isVisible = false
-                    }
-                }
+                hintButton.isActivated = hintStatus is HintStatus.Accessible
+                hintButton.isVisible = hintStatus != HintStatus.Off
             }
             timerStatus.observe { timerStatus: TimerStatus ->
                 when (timerStatus) {
@@ -332,12 +321,6 @@ class ExerciseFragment : BaseFragment() {
             }
             is MoveToPosition -> {
                 exerciseViewPager.setCurrentItem(command.position, true)
-            }
-            ShowHintsPopup -> {
-                showHintsPopup()
-            }
-            ShowHintIsNotAccessibleMessage -> {
-                showToast(R.string.toast_hint_is_not_accessible)
             }
             is ShowIntervalsPopup -> {
                 showGradeIntervalsPopup(command.intervalItems)
@@ -605,13 +588,14 @@ class ExerciseFragment : BaseFragment() {
     private fun createHintsPopup() {
         val content = View.inflate(requireContext(), R.layout.popup_hints, null).apply {
             getVariantsButton.setOnClickListener {
-                controller?.dispatch(HintAsQuizButtonClicked)
+                controller?.dispatch(GetVariantsButtonClicked)
                 hintsPopup?.dismiss()
             }
             maskLettersButton.setOnClickListener {
                 controller?.dispatch(MaskLettersButtonClicked)
                 hintsPopup?.dismiss()
             }
+            subscribeHintsPopupToViewModel()
         }
         content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         hintsPopup = PopupWindow(context).apply {
@@ -628,17 +612,72 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
+    private fun subscribeHintsPopupToViewModel() {
+        viewCoroutineScope!!.launch {
+            val diScope = ExerciseDiScope.getAsync() ?: return@launch
+            diScope.viewModel.hintStatus.observe { hintStatus: HintStatus ->
+                if (hintStatus == HintStatus.Off) {
+                    hintsPopup?.dismiss()
+                    return@observe
+                }
+                val isHintAccessible = hintStatus is HintStatus.Accessible
+                with(hintsPopup!!.contentView) {
+                    hintsPopupTitleTextView.isActivated = isHintAccessible
+
+                    when (hintStatus) {
+                        HintStatus.NotAccessibleBecauseCardIsAnswered -> hintsDescriptionTextView
+                            .setText(R.string.hints_are_not_accessible_because_the_card_is_answered)
+                        HintStatus.NotAccessibleBecauseCardIsLearned -> hintsDescriptionTextView
+                            .setText(R.string.hints_are_not_accessible_because_the_card_is_learned)
+                    }
+                    hintsDescriptionTextView.isVisible = !isHintAccessible
+
+                    getVariantsButton.isVisible = hintStatus is HintStatus.Accessible
+                            && hintStatus.isGettingVariantsAccessible
+
+                    maskLettersButton.isVisible = isHintAccessible
+                    if (hintStatus is HintStatus.Accessible) {
+                        maskLettersButton.setText(
+                            when (hintStatus.currentMaskingLettersAction) {
+                                MaskLetters -> R.string.title_mask_letters_button
+                                UnmaskTheFirstLetter -> R.string.title_unmask_the_first_letter_button
+                                UnmaskSelectedRegion -> R.string.title_unmask_selected_region_button
+                            }
+                        )
+                    }
+                }
+                updateHintsPopupPosition()
+            }
+        }
+    }
+
+    private fun updateHintsPopupPosition() {
+        with(hintsPopup!!) {
+            if (!isShowing) return
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            if (width == contentView.measuredWidth && height == contentView.measuredHeight) return
+            val hintButtonLocation = IntArray(2).also(hintButton::getLocationOnScreen)
+            val x = hintButtonLocation[0] + (hintButton.width / 2) - (contentView.measuredWidth / 2)
+            val y = hintButtonLocation[1] + hintButton.height - 8.dp - contentView.measuredHeight
+            update(x, y, contentView.measuredWidth, contentView.measuredHeight)
+        }
+    }
+
     private fun showHintsPopup() {
         if (hintsPopup == null) return
-        val hintButtonLocation = IntArray(2).also { hintButton.getLocationOnScreen(it) }
+        measureHintsPopup()
+        val hintButtonLocation = IntArray(2).also(hintButton::getLocationOnScreen)
         val x = hintButtonLocation[0] + (hintButton.width / 2) - (hintsPopup!!.width / 2)
         val y = hintButtonLocation[1] + hintButton.height - 8.dp - hintsPopup!!.height
-        hintsPopup!!.showAtLocation(
-            hintButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
+        hintsPopup!!.showAtLocation(hintButton.rootView, Gravity.NO_GRAVITY, x, y)
+    }
+
+    private fun measureHintsPopup() {
+        hintsPopup!!.run {
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            width = contentView.measuredWidth
+            height = contentView.measuredHeight
+        }
     }
 
     private fun createWalkingModePopup() {

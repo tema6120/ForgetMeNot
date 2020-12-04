@@ -3,12 +3,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:minWidth="150dp"
+        android:orientation="vertical"
         tools:background="@drawable/background_popup_dark">
 
     <TextView
-            android:id="@+id/title"
+            android:id="@+id/hintsPopupTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -21,8 +21,7 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_lightbulb_outline_white_24dp"
-            app:drawableTint="@color/hint_icon_on_popup" />
+            app:drawableStartCompat="@drawable/ic_lightbulb_outline_white_24dp_on_popup" />
 
     <View
             android:id="@+id/divider"
@@ -30,7 +29,26 @@
             android:layout_height="1dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
             android:background="@color/divider_light" />
+
+    <TextView
+            android:id="@+id/hintsDescriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center"
+            android:maxWidth="200dp"
+            android:textColor="@color/description_text_on_popup"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:text="@string/hints_are_not_accessible_because_the_card_is_answered"
+            tools:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/getVariantsButton"
@@ -38,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
             android:fontFamily="@font/nunito_extrabold"
             android:padding="16dp"
@@ -47,7 +64,8 @@
             android:textColor="@android:color/white"
             app:backgroundTint="@color/background_item_selected_on_dark_popup"
             app:cornerRadius="4dp"
-            app:rippleColor="@android:color/white" />
+            app:rippleColor="@android:color/white"
+            tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/maskLettersButton"
@@ -64,6 +82,7 @@
             android:textColor="@android:color/white"
             app:backgroundTint="@color/background_item_selected_on_dark_popup"
             app:cornerRadius="4dp"
-            app:rippleColor="@android:color/white" />
+            app:rippleColor="@android:color/white"
+            tools:visibility="visible" />
 
 </LinearLayout>

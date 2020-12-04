@@ -289,22 +289,19 @@ class Exercise(
     }
 
     fun setHintSelection(startIndex: Int, endIndex: Int) {
-        with(state.hintSelection) {
-            this.startIndex = startIndex
-            this.endIndex = endIndex
-        }
+        state.hintSelection = HintSelection(startIndex, endIndex)
     }
 
     fun showHint() {
-        fun hasHint() = currentExerciseCard.base.hint != null
-        fun hasHintSelection() = state.hintSelection.endIndex - state.hintSelection.startIndex > 0
+        val hasHint: Boolean = currentExerciseCard.base.hint != null
+        val hasHintSelection: Boolean = state.hintSelection.endIndex - state.hintSelection.startIndex > 0
         val answer: String = with(currentExerciseCard.base) {
             if (isReverse) card.question else card.answer
         }
         val oldHint: String? = currentExerciseCard.base.hint
         currentExerciseCard.base.hint = when {
-            !hasHint() -> Prompter.maskLetters(answer)
-            hasHintSelection() ->
+            !hasHint -> Prompter.maskLetters(answer)
+            hasHintSelection ->
                 Prompter.unmaskRange(
                     answer,
                     oldHint!!,
@@ -315,7 +312,7 @@ class Exercise(
         }
     }
 
-    fun hintAsQuiz() {
+    fun getVariants() {
         if (isWalkingMode
             || currentExerciseCard is QuizTestExerciseCard
             || currentExerciseCard.base.card.isLearned

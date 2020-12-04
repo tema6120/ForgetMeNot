@@ -37,8 +37,6 @@ class ExerciseController(
         object MoveToNextPosition : Command()
         object MoveToPreviousPosition : Command()
         class MoveToPosition(val position: Int) : Command()
-        object ShowHintsPopup : Command()
-        object ShowHintIsNotAccessibleMessage : Command()
         class ShowIntervalsPopup(val intervalItems: List<IntervalItem>) : Command()
         object ShowIntervalsAreOffMessage : Command()
         class ShowThereAreUnansweredCardsMessage(val unansweredCardCount: Int) : Command()
@@ -95,23 +93,8 @@ class ExerciseController(
                 exercise.stopTimer()
             }
 
-            HintButtonClicked -> {
-                when {
-                    exercise.currentExerciseCard.isAnswered -> {
-                        sendCommand(ShowHintIsNotAccessibleMessage)
-                    }
-                    !globalState.isWalkingModeEnabled
-                            && exercise.currentExerciseCard.base.hint == null -> {
-                        sendCommand(ShowHintsPopup)
-                    }
-                    else -> {
-                        exercise.showHint()
-                    }
-                }
-            }
-
-            HintAsQuizButtonClicked -> {
-                exercise.hintAsQuiz()
+            GetVariantsButtonClicked -> {
+                exercise.getVariants()
             }
 
             MaskLettersButtonClicked -> {

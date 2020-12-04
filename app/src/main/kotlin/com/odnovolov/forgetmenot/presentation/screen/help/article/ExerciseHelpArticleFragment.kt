@@ -165,8 +165,8 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
                 hintDivider.isVisible = false
                 showAnswerButton.isVisible = false
                 answerScrollView.isVisible = true
-                hintButton.setImageResource(R.drawable.ic_lightbulb_outline_white_24dp_disabled)
-                hintButton.setOnClickListener { showToast(R.string.toast_hint_is_not_accessible) }
+                hintButton.isActivated = false
+                /*hintButton.setOnClickListener { showToast(R.string.toast_hint_is_not_accessible) }*/
             }
             hintButton.setOnClickListener {
                 if (example3State.hint == null) {

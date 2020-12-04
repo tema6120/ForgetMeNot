@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HintSelection(
-    var startIndex: Int,
-    var endIndex: Int
+    val startIndex: Int,
+    val endIndex: Int
 )
