@@ -1,4 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_directions_walk_white_24dp_deactivated" android:state_activated="false" />
-    <item android:drawable="@drawable/ic_directions_walk_white_24dp" />
-</selector>

@@ -637,7 +637,10 @@ class ExerciseFragment : BaseFragment() {
         val content = View.inflate(requireContext(), R.layout.popup_walking_mode, null)
         viewCoroutineScope!!.launch {
             val diScope = ExerciseDiScope.getAsync() ?: return@launch
-            diScope.viewModel.isWalkingModeEnabled.observe(content.walkingModeSwitch::setChecked)
+            diScope.viewModel.isWalkingModeEnabled.observe { isWalkingModeEnabled: Boolean ->
+                content.walkingModeSwitch.isChecked = isWalkingModeEnabled
+                content.walkingModePopupTitleTextView.isActivated = isWalkingModeEnabled
+            }
         }
         content.walkingModeSettingsButton.run {
             setOnClickListener {

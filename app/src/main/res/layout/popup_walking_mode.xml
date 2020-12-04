@@ -6,7 +6,7 @@
         tools:background="@drawable/background_popup_dark">
 
     <TextView
-            android:id="@+id/titleTextView"
+            android:id="@+id/walkingModePopupTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -17,11 +17,11 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_directions_walk_white_24dp"
-            app:drawableTint="@color/walking_mode_icon_on_popup"
+            app:drawableStartCompat="@drawable/ic_round_directions_walk_24_on_popup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:drawableTint="@color/walking_mode_icon_on_popup" />
 
     <View
             android:id="@+id/divider"
@@ -33,7 +33,7 @@
             android:background="@color/divider_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+            app:layout_constraintTop_toBottomOf="@id/walkingModePopupTitleTextView" />
 
     <ImageButton
             android:id="@+id/walkingModeSettingsButton"
@@ -80,7 +80,8 @@
                 android:clickable="false"
                 android:focusable="false"
                 android:padding="8dp"
-                android:theme="@style/WalkingModeSwitchStyle" />
+                android:theme="@style/WalkingModeSwitchStyle"
+                tools:checked="true" />
 
     </FrameLayout>
 

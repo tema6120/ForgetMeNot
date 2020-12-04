@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/description_text_on_popup" android:state_activated="false" />
+    <item android:color="@color/walking_mode_icon_on_popup" />
+</selector>
