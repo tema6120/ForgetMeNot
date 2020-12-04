@@ -647,6 +647,9 @@
     <string name="description_youtube_button">Youtube</string>
     <string name="text_stop_timer_button">Stop</string>
     <string name="popup_title_timer">Timer</string>
-    <string name="timer_stopped">Timer stopped</string>
+    <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
+        enabled. Since in this mode we perceive cards aurally rather than visually, the timer may
+        be confusing.</string>
+    <string name="timer_stopped">The timer stopped</string>
     <string name="time_is_over">Time is over!</string>
 </resources>

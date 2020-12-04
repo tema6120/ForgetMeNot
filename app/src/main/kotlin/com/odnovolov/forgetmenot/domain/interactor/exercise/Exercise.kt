@@ -96,8 +96,9 @@ class Exercise(
         currentExerciseCard.base.card.isLearned = isLearned
         if (isLearned) {
             deleteCardsForRetesting()
-            resetTimer()
+            stopTimer()
         } else {
+            resetTimer()
             if (currentExerciseCard.base.isAnswerCorrect == false) {
                 updateGrade()
                 addExerciseCardToRetestIfNeed()
@@ -203,7 +204,7 @@ class Exercise(
             if (isIsLearnedChanged && currentPosition == position) {
                 if (currentExerciseCard.base.card.isLearned) {
                     deleteCardsForRetesting()
-                    resetTimer()
+                    stopTimer()
                 } else if (currentExerciseCard.base.isAnswerCorrect == false) {
                     updateGrade()
                     addExerciseCardToRetestIfNeed()

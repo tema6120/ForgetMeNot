@@ -2,6 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import android.content.Intent
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
@@ -26,8 +28,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel.HintStatus
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel.HintStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
@@ -273,7 +274,7 @@ class ExerciseFragment : BaseFragment() {
                         )
                         timerButton.isVisible = true
                     }
-                    TimerStatus.Stopped, TimerStatus.TimeIsOver -> {
+                    else -> {
                         timerButton.setImageResource(R.drawable.ic_round_timer_24_off)
                         timerButton.isVisible = true
                     }
@@ -543,10 +544,13 @@ class ExerciseFragment : BaseFragment() {
                         else -> R.color.description_text_on_popup
                     }
                     val tintColor: Int = ContextCompat.getColor(context, tintColorId)
-                    timerPopupTitleTextView.compoundDrawablesRelative[0].setTint(tintColor)
+                    timerPopupTitleTextView.compoundDrawablesRelative[0].colorFilter =
+                        PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
 
                     timerDescriptionTextView.text = when (timerStatus) {
                         TimerStatus.NotUsed -> null
+                        TimerStatus.OffBecauseWalkingMode ->
+                            getString(R.string.timer_is_off_because_walking_mode)
                         is TimerStatus.Ticking ->
                             getString(R.string.time_for_answer, timerStatus.secondsLeft)
                         TimerStatus.Stopped -> getString(R.string.timer_stopped)

@@ -176,12 +176,6 @@ class ExerciseViewModel(
             .distinctUntilChanged()
             .flowOn(businessLogicThread)
 
-    enum class HintStatus {
-        Accessible,
-        NotAccessible,
-        Off
-    }
-
     val timerStatus: Flow<TimerStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             if (exerciseCard.base.deck.exercisePreference.timeForAnswer == NOT_TO_USE_TIMER) {
@@ -190,15 +184,13 @@ class ExerciseViewModel(
                 combine(
                     exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
                     exerciseCard.base.flowOf(ExerciseCard.Base::isExpired),
-                    exerciseCard.base.card.flowOf(Card::isLearned),
                     isWalkingModeEnabled
                 ) { timeLeft: Int,
                     isExpired: Boolean,
-                    isLearned: Boolean,
                     isWalkingModeEnabled: Boolean
                     ->
                     when {
-                        isWalkingModeEnabled || isLearned -> TimerStatus.NotUsed
+                        isWalkingModeEnabled -> TimerStatus.OffBecauseWalkingMode
                         timeLeft > 0 -> TimerStatus.Ticking(timeLeft)
                         isExpired -> TimerStatus.TimeIsOver
                         else -> TimerStatus.Stopped
