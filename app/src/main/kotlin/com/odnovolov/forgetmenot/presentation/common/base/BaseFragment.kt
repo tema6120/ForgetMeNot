@@ -13,12 +13,12 @@ open class BaseFragment : Fragment() {
     val dialogTimeCapsule = DialogTimeCapsule()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         viewCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        super.onViewCreated(view, savedInstanceState)
     }
 
     inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit = {}) {
-        viewCoroutineScope!!.launch {
+        viewCoroutineScope?.launch {
             collect {
                 if (isActive) {
                     onEach(it)

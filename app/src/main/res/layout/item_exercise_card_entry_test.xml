@@ -38,7 +38,7 @@
                     android:id="@+id/showQuestionButton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/curtain"
+                    android:background="@drawable/curtain_question_clicable"
                     android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/text_show_question_button"

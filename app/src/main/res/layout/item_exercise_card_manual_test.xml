@@ -1,178 +1,187 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/cardView"
-        style="@style/ExerciseCardStyle">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            style="@style/ExerciseCardStyle">
 
-        <FrameLayout
-                android:id="@+id/question_frame"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <ScrollView
-                    android:id="@+id/questionScrollView"
+            <FrameLayout
+                    android:id="@+id/question_frame"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent">
 
-                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                        android:id="@+id/questionTextView"
+                <ScrollView
+                        android:id="@+id/questionScrollView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/questionTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:textColor="@color/text_secondary_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="20sp"
+                            tools:text="Эти люди привычны к тяжелой работе." />
+
+                </ScrollView>
+
+                <TextView
+                        android:id="@+id/showQuestionButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/curtain_question_clicable"
                         android:gravity="center"
                         android:padding="16dp"
-                        android:textColor="@color/text_secondary_selector"
-                        android:textIsSelectable="true"
-                        android:textSize="20sp"
-                        tools:text="Эти люди привычны к тяжелой работе." />
+                        android:text="@string/text_show_question_button"
+                        android:textColor="@color/text_curtain_selector"
+                        android:textSize="18sp"
+                        android:visibility="gone" />
 
-            </ScrollView>
-
-            <TextView
-                    android:id="@+id/showQuestionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/curtain"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:text="@string/text_show_question_button"
-                    android:textColor="@color/text_curtain_selector"
-                    android:textSize="18sp"
-                    android:visibility="gone" />
-
-            <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="bottom"
-                    android:background="?android:listDivider" />
-
-        </FrameLayout>
-
-        <FrameLayout
-                android:id="@+id/answer_frame"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-            <ScrollView
-                    android:id="@+id/answerScrollView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:visibility="gone">
-
-                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                        android:id="@+id/answerTextView"
+                <View
+                        android:id="@+id/divider"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="16dp"
-                        android:paddingEnd="16dp"
-                        android:paddingBottom="80dp"
-                        android:textColor="@color/text_secondary_selector"
-                        android:textIsSelectable="true"
-                        android:textSize="18sp" />
+                        android:layout_height="1dp"
+                        android:layout_gravity="bottom"
+                        android:background="?android:listDivider" />
 
-            </ScrollView>
+            </FrameLayout>
 
-            <ScrollView
-                    android:id="@+id/hintScrollView"
+            <FrameLayout
+                    android:id="@+id/answer_frame"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:visibility="gone">
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
-                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                        android:id="@+id/hintTextView"
+                <ScrollView
+                        android:id="@+id/answerScrollView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="16dp"
-                        android:paddingEnd="16dp"
-                        android:paddingBottom="80dp"
-                        android:textColor="@color/text_secondary_selector"
-                        android:textIsSelectable="true"
-                        android:textSize="18sp" />
+                        android:layout_height="match_parent"
+                        android:fillViewport="true"
+                        android:visibility="gone">
 
-            </ScrollView>
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/answerTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="16dp"
+                            android:paddingTop="16dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="80dp"
+                            android:textColor="@color/text_secondary_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="18sp" />
 
-            <View
-                    android:id="@+id/curtainView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/curtain" />
+                </ScrollView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                <ScrollView
+                        android:id="@+id/hintScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true"
+                        android:visibility="gone">
 
-                <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/rememberButton"
-                        android:layout_width="0dp"
-                        android:layout_height="56dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/background_remember_button"
-                        android:gravity="center"
-                        android:outlineAmbientShadowColor="@color/correct_answer"
-                        android:outlineSpotShadowColor="@color/correct_answer"
-                        android:text="@string/text_remember_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/text_remember_button"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/notRememberButton"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_max="250dp"
-                        tools:fontFamily="@font/nunito_extrabold" />
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/hintTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="16dp"
+                            android:paddingTop="16dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="80dp"
+                            android:textColor="@color/text_secondary_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="18sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/notRememberButton"
-                        android:layout_width="0dp"
-                        android:layout_height="56dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/background_not_remember_button"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:outlineAmbientShadowColor="@color/wrong_answer"
-                        android:outlineSpotShadowColor="@color/wrong_answer"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/text_not_remember_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/text_not_remember_button"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/rememberButton"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_max="250dp"
-                        tools:fontFamily="@font/nunito_extrabold" />
+                </ScrollView>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                        android:id="@+id/curtainView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/curtain_answer" />
 
-        </FrameLayout>
+            </FrameLayout>
 
-    </LinearLayout>
+        </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottomButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:elevation="12dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/rememberButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/background_remember_button"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:stateListAnimator="@animator/remember_button"
+                android:text="@string/text_remember_button"
+                android:textAllCaps="false"
+                android:textColor="@color/text_remember_button"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/notRememberButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="200dp"
+                tools:fontFamily="@font/comfortaa" />
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/notRememberButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/background_not_remember_button"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:stateListAnimator="@animator/remember_button"
+                android:text="@string/text_not_remember_button"
+                android:textAllCaps="false"
+                android:textColor="@color/text_not_remember_button"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/rememberButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="200dp"
+                tools:buttonTint="@color/wrong_answer"
+                tools:fontFamily="@font/comfortaa" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

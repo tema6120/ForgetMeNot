@@ -1,5 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/text_correct_answer_disabled" android:state_enabled="false" android:state_selected="false" />
-    <item android:color="@android:color/white" android:state_selected="true" />
-    <item android:color="@color/correct_answer" />
+    <item android:color="@color/text_remember_button_selected" android:state_selected="true" />
+    <item android:color="@color/text_remember_button_unselected" />
 </selector>

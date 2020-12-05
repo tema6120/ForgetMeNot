@@ -1,15 +1,20 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual
 
+import android.annotation.SuppressLint
 import android.graphics.Color
+import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
-import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.AnswerStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardEvent.*
@@ -97,6 +102,13 @@ class ManualTestExerciseCardViewHolder(
                         answerStatus == Correct || answerStatus == Wrong
                     rememberButton.isSelected = answerStatus == Correct
                     notRememberButton.isSelected = answerStatus == Wrong
+                    notRememberButton.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        marginStart = when (answerStatus) {
+                            Correct, Wrong -> 0.dp
+                            else -> 1.dp
+                        }
+                    }
+                    updateShadowColor(answerStatus)
                 }
                 answer.observe(coroutineScope) { answer: String ->
                     answerTextView.text = answer
@@ -124,5 +136,27 @@ class ManualTestExerciseCardViewHolder(
                 }
             }
         }
+    }
+
+    private fun updateShadowColor(answerStatus: AnswerStatus) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.P) return
+        with(itemView) {
+            updateShadowColor(
+                rememberButton,
+                answerStatus == Correct,
+                R.color.correct_answer_bright
+            )
+            updateShadowColor(notRememberButton, answerStatus == Wrong, R.color.wrong_answer_bright)
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun updateShadowColor(button: View, isSelected: Boolean, selectedColorRes: Int) {
+        val shadowColorRes: Int =
+            if (isSelected) selectedColorRes
+            else R.color.remember_button_not_selected
+        val shadowColor: Int = ContextCompat.getColor(button.context, shadowColorRes)
+        button.outlineAmbientShadowColor = shadowColor
+        button.outlineSpotShadowColor = shadowColor
     }
 }

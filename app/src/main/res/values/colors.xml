@@ -8,14 +8,15 @@
     <color name="background_decks_preview">#fff</color>
     <color name="divider">#1e000000</color>
     <color name="divider_light">#17FFFFFF</color>
-    <color name="curtain">#EBEBEB</color>
     <color name="selected_item_background">#60FF8C00</color>
     <color name="selected_item_background_disabled">#1AFF8C00</color>
     <color name="correct_answer">#0cc3a9</color>
+    <color name="correct_answer_bright">#00FFD9</color>
     <color name="correct_answer_background">#F5D1EFEA</color>
     <color name="correct_answer_background_disabled">#F5F0FBFA</color>
     <color name="text_correct_answer_disabled">#C3F0EA</color>
     <color name="wrong_answer">#f1523d</color>
+    <color name="wrong_answer_bright">#FF2200</color>
     <color name="wrong_answer_background">#F5FDE3E0</color>
     <color name="wrong_answer_background_disabled">#F5FFF5F4</color>
     <color name="text_wrong_answer_disabled">#FBD4CE</color>
@@ -64,4 +65,8 @@
     <color name="ticking_timer_icon_on_popup">#00FF88</color>
     <color name="issue">#FF5957</color>
     <color name="description_text_on_popup">#aaa</color>
+    <color name="remember_button_not_selected">#454D59</color>
+    <color name="text_remember_button_selected">#fff</color>
+    <color name="text_remember_button_unselected">#C8D2DE</color>
+    <color name="ripple_remember_button">#CCFFFFFF</color>
 </resources>

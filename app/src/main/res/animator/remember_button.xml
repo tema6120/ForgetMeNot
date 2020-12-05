@@ -1,0 +1,87 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:state_enabled="true"
+            android:state_pressed="true">
+        <set>
+            <objectAnimator android:propertyName="translationZ"
+                    android:valueTo="24dp"
+                    android:valueType="floatType"
+                    android:startDelay="300"
+                    android:duration="400" />
+
+            <objectAnimator android:propertyName="elevation"
+                    android:valueTo="12dp"
+                    android:valueType="floatType"
+                    android:duration="0" />
+
+            <objectAnimator android:propertyName="scaleX"
+                    android:valueTo="1.1"
+                    android:valueType="floatType"
+                    android:startDelay="300"
+                    android:duration="400" />
+
+            <objectAnimator android:propertyName="scaleY"
+                    android:valueTo="1.1"
+                    android:valueType="floatType"
+                    android:startDelay="300"
+                    android:duration="400" />
+        </set>
+    </item>
+    <!-- base state -->
+    <item android:state_enabled="true">
+        <set>
+            <objectAnimator android:propertyName="translationZ"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:duration="150" />
+
+            <objectAnimator android:propertyName="elevation"
+                    android:valueTo="12dp"
+                    android:valueType="floatType"
+                    android:duration="0" />
+
+            <objectAnimator android:propertyName="scaleX"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:duration="150" />
+
+            <objectAnimator android:propertyName="scaleY"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:duration="150" />
+
+            <objectAnimator android:propertyName="alpha"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:duration="150" />
+        </set>
+    </item>
+    <item>
+        <set>
+            <objectAnimator android:propertyName="translationZ"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:duration="150" />
+
+            <objectAnimator android:propertyName="elevation"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:duration="0" />
+
+            <objectAnimator android:propertyName="scaleX"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:duration="0" />
+
+            <objectAnimator android:propertyName="scaleY"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:duration="0" />
+
+            <objectAnimator android:propertyName="alpha"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:duration="150" />
+        </set>
+    </item>
+</selector>

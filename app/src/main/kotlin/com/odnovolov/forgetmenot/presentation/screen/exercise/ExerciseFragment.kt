@@ -490,7 +490,6 @@ class ExerciseFragment : BaseFragment() {
                 timerPopup?.dismiss()
                 controller?.dispatch(StopTimerButtonClicked)
             }
-            subscribeTimerPopupToViewModel()
         }
         timerPopup = PopupWindow(context).apply {
             contentView = content
@@ -502,6 +501,7 @@ class ExerciseFragment : BaseFragment() {
             isFocusable = true
             animationStyle = R.style.PopupFromBottomAnimation
         }
+        subscribeTimerPopupToViewModel()
     }
 
     private fun subscribeTimerPopupToViewModel() {
@@ -595,7 +595,6 @@ class ExerciseFragment : BaseFragment() {
                 controller?.dispatch(MaskLettersButtonClicked)
                 hintsPopup?.dismiss()
             }
-            subscribeHintsPopupToViewModel()
         }
         content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
         hintsPopup = PopupWindow(context).apply {
@@ -610,6 +609,7 @@ class ExerciseFragment : BaseFragment() {
             isFocusable = true
             animationStyle = R.style.PopupFromBottomAnimation
         }
+        subscribeHintsPopupToViewModel()
     }
 
     private fun subscribeHintsPopupToViewModel() {

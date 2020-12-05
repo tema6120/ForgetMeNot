@@ -15,7 +15,7 @@
     <string name="description_cannot_speak_button">Open speaking error description</string>
     <string name="description_edit_card_button">Edit card</string>
     <string name="description_hint_button">Hint</string>
-    <string name="description_timer_button">Stop timer</string>
+    <string name="description_timer_button">Timer</string>
     <string name="description_grade_button">Grade</string>
     <string name="description_pause_button">Pause</string>
     <string name="description_resume_button">Resume</string>
