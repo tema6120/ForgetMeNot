@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Interval
-import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForExercise
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
@@ -37,8 +36,7 @@ class ExerciseController(
         object MoveToNextPosition : Command()
         object MoveToPreviousPosition : Command()
         class MoveToPosition(val position: Int) : Command()
-        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>) : Command()
-        object ShowIntervalsAreOffMessage : Command()
+        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>?) : Command()
         class ShowThereAreUnansweredCardsMessage(val unansweredCardCount: Int) : Command()
     }
 
@@ -179,22 +177,17 @@ class ExerciseController(
     }
 
     private fun onGradeButtonClicked() {
-        val intervalScheme: IntervalScheme? =
-            exercise.currentExerciseCard.base.deck.exercisePreference.intervalScheme
-        if (intervalScheme == null) {
-            sendCommand(ShowIntervalsAreOffMessage)
-        } else {
-            val currentGrade: Int = exercise.currentExerciseCard.base.card.grade
-            val intervalItems: List<IntervalItem> = intervalScheme.intervals
-                .map { interval: Interval ->
-                    IntervalItem(
-                        grade = interval.grade,
-                        waitingPeriod = interval.value,
-                        isSelected = currentGrade == interval.grade
-                    )
-                }
-            sendCommand(ShowIntervalsPopup(intervalItems))
-        }
+        val currentGrade: Int = exercise.currentExerciseCard.base.card.grade
+        val intervalItems: List<IntervalItem>? = exercise.currentExerciseCard.base.deck
+            .exercisePreference.intervalScheme?.intervals
+            ?.map { interval: Interval ->
+                IntervalItem(
+                    grade = interval.grade,
+                    waitingPeriod = interval.value,
+                    isSelected = currentGrade == interval.grade
+                )
+            }
+        sendCommand(ShowIntervalsPopup(intervalItems))
     }
 
     private fun onKeyGestureDetected(event: KeyGestureDetected) {

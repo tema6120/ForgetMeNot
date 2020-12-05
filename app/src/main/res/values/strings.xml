@@ -114,7 +114,6 @@
     <string name="title_card_reverse_dialog">Card reverse</string>
     <string name="title_deck_name_dialog">Deck name</string>
     <string name="text_speak_text_in_brackets">Speak text in brackets</string>
-    <string name="toast_text_intervals_are_off">Intervals are off for this card</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
     <plurals name="numberOfDecksRemoved">
         <item quantity="one">Deck has been removed</item>
@@ -649,11 +648,13 @@
     <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
         enabled. Since in this mode we perceive cards aurally rather than visually, the timer may
         be confusing.</string>
-    <string name="timer_stopped">The timer stopped</string>
+    <string name="timer_stopped">The timer has stopped</string>
     <string name="time_is_over">Time is over!</string>
-    <string name="hints_are_not_accessible_because_the_card_is_answered">Hints are not accessible because the card is answered</string>
-    <string name="hints_are_not_accessible_because_the_card_is_learned">Hints are not accessible because the card is learned</string>
+    <string name="hints_are_not_accessible_because_the_card_is_answered">The hints are not accessible because the card is answered</string>
+    <string name="hints_are_not_accessible_because_the_card_is_learned">The hints are not accessible because the card is learned</string>
     <string name="title_mask_letters_button">Mask letters</string>
     <string name="title_unmask_the_first_letter_button">Unmask the first letter</string>
     <string name="title_unmask_selected_region_button">Unmask selected region</string>
+    <string name="popup_title_intervals">Intervals</string>
+    <string name="description_intervals_are_off">Intervals are off for this card</string>
 </resources>

@@ -11,13 +11,13 @@ import android.os.Looper
 import android.view.*
 import android.view.View.GONE
 import android.view.View.MeasureSpec
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.odnovolov.forgetmenot.R
@@ -43,6 +43,7 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 import kotlinx.android.synthetic.main.dialog_exit_from_exercise.*
 import kotlinx.android.synthetic.main.dialog_exit_from_exercise.view.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
+import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_hints.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.android.synthetic.main.popup_timer.view.*
@@ -58,7 +59,7 @@ class ExerciseFragment : BaseFragment() {
     private var controller: ExerciseController? = null
     private var intervalsAdapter: IntervalsAdapter? = null
     private var speakErrorPopup: PopupWindow? = null
-    private var gradeIntervalsPopup: PopupWindow? = null
+    private var intervalsPopup: PopupWindow? = null
     private var timerPopup: PopupWindow? = null
     private var hintsPopup: PopupWindow? = null
     private var walkingModePopup: PopupWindow? = null
@@ -272,7 +273,7 @@ class ExerciseFragment : BaseFragment() {
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()
-                if (gradeIntervalsPopup?.isShowing == true) {
+                if (intervalsPopup?.isShowing == true) {
                     intervalsAdapter!!.intervalItems =
                         intervalsAdapter!!.intervalItems.map { intervalItem: IntervalItem ->
                             IntervalItem(
@@ -323,10 +324,7 @@ class ExerciseFragment : BaseFragment() {
                 exerciseViewPager.setCurrentItem(command.position, true)
             }
             is ShowIntervalsPopup -> {
-                showGradeIntervalsPopup(command.intervalItems)
-            }
-            ShowIntervalsAreOffMessage -> {
-                showToast(R.string.toast_text_intervals_are_off)
+                showIntervalsPopup(command.intervalItems)
             }
             is ShowThereAreUnansweredCardsMessage -> {
                 showExitDialog(command.unansweredCardCount)
@@ -347,7 +345,7 @@ class ExerciseFragment : BaseFragment() {
 
     private fun initSecondaryThings() {
         if (viewCoroutineScope == null) return
-        createGradeIntervalsPopup()
+        createIntervalsPopup()
         createSpeakErrorPopup()
         createTimerPopup()
         createHintsPopup()
@@ -356,19 +354,18 @@ class ExerciseFragment : BaseFragment() {
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
-    private fun createGradeIntervalsPopup() {
-        val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_grade_intervals, null) as RecyclerView
+    private fun createIntervalsPopup() {
+        val content: View = View.inflate(context, R.layout.popup_intervals, null)
         val onItemClick: (Int) -> Unit = { grade: Int ->
             controller?.dispatch(GradeWasChanged(grade))
-            gradeIntervalsPopup?.dismiss()
+            intervalsPopup?.dismiss()
         }
         intervalsAdapter = IntervalsAdapter(onItemClick)
-        recycler.adapter = intervalsAdapter
-        gradeIntervalsPopup = PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            contentView = recycler
+        content.intervalsRecycler.adapter = intervalsAdapter
+        intervalsPopup = PopupWindow(context).apply {
+            width = WRAP_CONTENT
+            height = WRAP_CONTENT
+            contentView = content
             setBackgroundDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
@@ -379,21 +376,18 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun showGradeIntervalsPopup(intervalItems: List<IntervalItem>) {
-        if (gradeIntervalsPopup == null) return
-        intervalsAdapter!!.intervalItems = intervalItems
-        val content = gradeIntervalsPopup!!.contentView
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        val location = IntArray(2)
-        gradeButton.getLocationOnScreen(location)
-        val x = location[0] + 8.dp
-        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
-        gradeIntervalsPopup!!.showAtLocation(
-            gradeButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
+    private fun showIntervalsPopup(intervalItems: List<IntervalItem>?) {
+        intervalsPopup?.run {
+            contentView.intervalsPopupTitleTextView.isActivated = intervalItems != null
+            contentView.intervalsRecycler.isVisible = intervalItems != null
+            contentView.intervalsAreOffTextView.isVisible = intervalItems == null
+            intervalItems?.let { intervalsAdapter!!.intervalItems = it }
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            val gradeButtonLocation = IntArray(2).also(gradeButton::getLocationOnScreen)
+            val x = gradeButtonLocation[0] + 8.dp
+            val y = gradeButtonLocation[1] + gradeButton.height - 8.dp - contentView.measuredHeight
+            intervalsPopup!!.showAtLocation(gradeButton.rootView, Gravity.NO_GRAVITY, x, y)
+        }
     }
 
     private fun createSpeakErrorPopup() {
@@ -791,7 +785,7 @@ class ExerciseFragment : BaseFragment() {
             unregisterBackPressInterceptor(backPressInterceptor)
         }
         intervalsAdapter = null
-        gradeIntervalsPopup = null
+        intervalsPopup = null
         speakErrorPopup = null
         timerPopup = null
         hintsPopup = null

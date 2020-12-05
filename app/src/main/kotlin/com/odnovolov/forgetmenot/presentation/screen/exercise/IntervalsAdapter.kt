@@ -53,9 +53,6 @@ class IntervalsAdapter(
             gradeIcon.text = intervalItem.grade.toString()
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(intervalItem.waitingPeriod)
             waitingPeriodTextView.text = displayedInterval.toString(context)
-            divider.isVisible = position != intervalItems.lastIndex
-                    && position != selectedPosition
-                    && position != selectedPosition - 1
         }
     }
 }

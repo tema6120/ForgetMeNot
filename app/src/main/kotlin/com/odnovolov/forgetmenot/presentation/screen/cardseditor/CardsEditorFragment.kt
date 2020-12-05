@@ -66,7 +66,7 @@ class CardsEditorFragment : BaseFragment() {
 
     private fun createIntervalsPopup(): PopupWindow {
         val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_grade_intervals, null) as RecyclerView
+            View.inflate(context, R.layout.popup_intervals, null) as RecyclerView
         recycler.adapter = intervalsAdapter
         return PopupWindow(context).apply {
             width = WindowManager.LayoutParams.WRAP_CONTENT
@@ -184,7 +184,7 @@ class CardsEditorFragment : BaseFragment() {
                 showIntervalsPopup(command.intervalItems)
             }
             ShowIntervalsAreOffMessage -> {
-                showToast(R.string.toast_text_intervals_are_off)
+                showToast(R.string.description_intervals_are_off)
             }
             ShowCardIsRemovedMessage -> {
                 Snackbar
