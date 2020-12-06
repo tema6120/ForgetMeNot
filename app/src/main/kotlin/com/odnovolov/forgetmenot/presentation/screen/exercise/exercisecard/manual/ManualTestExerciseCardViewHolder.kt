@@ -1,20 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual
 
+import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
-import android.view.Gravity
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.transition.Slide
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.Stopwatch
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
@@ -67,6 +65,8 @@ class ManualTestExerciseCardViewHolder(
             rememberButton.setTypeface(comfortaaFont, Typeface.BOLD)
             notRememberButton.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
+            cardLabelTextView.stateListAnimator =
+                AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
         }
     }
 
@@ -149,17 +149,17 @@ class ManualTestExerciseCardViewHolder(
                             cardLabelTextView.background.setTint(
                                 ContextCompat.getColor(context, R.color.card_label_learned)
                             )
-                            toggleCardLabel(show = true)
+                            cardLabelTextView.isEnabled = true
                         }
                         CardLabel.Expired -> {
                             cardLabelTextView.setText(R.string.expired)
                             cardLabelTextView.background.setTint(
                                 ContextCompat.getColor(context, R.color.issue)
                             )
-                            toggleCardLabel(show = true)
+                            cardLabelTextView.isEnabled = true
                         }
                         null -> {
-                            toggleCardLabel(show = false)
+                            cardLabelTextView.isEnabled = false
                         }
                     }
                 }
@@ -187,14 +187,5 @@ class ManualTestExerciseCardViewHolder(
         val shadowColor: Int = ContextCompat.getColor(button.context, shadowColorRes)
         button.outlineAmbientShadowColor = shadowColor
         button.outlineSpotShadowColor = shadowColor
-    }
-
-    private fun toggleCardLabel(show: Boolean) {
-        with(itemView) {
-            val transition: Transition = Slide(Gravity.TOP)
-            transition.addTarget(cardLabelTextView)
-            TransitionManager.beginDelayedTransition(questionFrame, transition)
-            cardLabelTextView.isVisible = show
-        }
     }
 }
