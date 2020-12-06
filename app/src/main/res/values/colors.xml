@@ -70,4 +70,5 @@
     <color name="text_remember_button_selected">#fff</color>
     <color name="text_remember_button_unselected">#C8D2DE</color>
     <color name="ripple_remember_button">#CCFFFFFF</color>
+    <color name="card_label_learned">#29B6F6</color>
 </resources>

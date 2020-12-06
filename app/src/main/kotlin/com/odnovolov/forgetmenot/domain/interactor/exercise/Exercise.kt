@@ -359,6 +359,7 @@ class Exercise(
     fun resetTimer() {
         with(currentExerciseCard.base) {
             if (isWalkingMode
+                || card.isLearned
                 || isExpired
                 || currentExerciseCard.isAnswered
             ) {

@@ -2,12 +2,17 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manu
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.Typeface
+import android.view.Gravity
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
@@ -15,6 +20,7 @@ import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.AnswerStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardEvent.*
@@ -48,17 +54,19 @@ class ManualTestExerciseCardViewHolder(
             rememberButton.setOnClickListener {
                 controller.dispatch(RememberButtonClicked)
             }
-            rememberButton.typeface = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
             notRememberButton.setOnClickListener {
                 controller.dispatch(NotRememberButtonClicked)
             }
-            notRememberButton.typeface = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
+            val comfortaaFont: Typeface? = ResourcesCompat.getFont(context, R.font.comfortaa)
+            rememberButton.setTypeface(comfortaaFont, Typeface.BOLD)
+            notRememberButton.setTypeface(comfortaaFont, Typeface.BOLD)
+            cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
         }
     }
 
@@ -134,6 +142,27 @@ class ManualTestExerciseCardViewHolder(
                     hintTextView.isEnabled = isEnabled
                     answerTextView.isEnabled = isEnabled
                 }
+                cardLabel.observe(coroutineScope) { cardLabel: CardLabel? ->
+                    when (cardLabel) {
+                        CardLabel.Learned -> {
+                            cardLabelTextView.setText(R.string.learned)
+                            cardLabelTextView.background.setTint(
+                                ContextCompat.getColor(context, R.color.card_label_learned)
+                            )
+                            toggleCardLabel(show = true)
+                        }
+                        CardLabel.Expired -> {
+                            cardLabelTextView.setText(R.string.expired)
+                            cardLabelTextView.background.setTint(
+                                ContextCompat.getColor(context, R.color.issue)
+                            )
+                            toggleCardLabel(show = true)
+                        }
+                        null -> {
+                            toggleCardLabel(show = false)
+                        }
+                    }
+                }
             }
         }
     }
@@ -158,5 +187,14 @@ class ManualTestExerciseCardViewHolder(
         val shadowColor: Int = ContextCompat.getColor(button.context, shadowColorRes)
         button.outlineAmbientShadowColor = shadowColor
         button.outlineSpotShadowColor = shadowColor
+    }
+
+    private fun toggleCardLabel(show: Boolean) {
+        with(itemView) {
+            val transition: Transition = Slide(Gravity.TOP)
+            transition.addTarget(cardLabelTextView)
+            TransitionManager.beginDelayedTransition(questionFrame, transition)
+            cardLabelTextView.isVisible = show
+        }
     }
 }
