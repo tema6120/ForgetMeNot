@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
 import kotlinx.coroutines.flow.*
 
@@ -99,6 +100,17 @@ class QuizTestExerciseCardViewModel(
 
     val isLearned: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
+    }
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
+
+    val cardLabel: Flow<CardLabel?> = combine(isLearned, isExpired) { isLearned: Boolean,
+                                                                      isExpired: Boolean ->
+        when {
+            isLearned -> CardLabel.Learned
+            isExpired -> CardLabel.Expired
+            else -> null
+        }
     }
         .distinctUntilChanged()
         .flowOn(businessLogicThread)

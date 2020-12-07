@@ -1,8 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry
 
+import android.animation.AnimatorInflater
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -11,6 +13,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCar
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.Answered
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.UnansweredWithHint
@@ -52,7 +55,6 @@ class EntryTestExerciseCardViewHolder(
             checkButton.setOnClickListener {
                 controller.dispatch(CheckButtonClicked)
             }
-            checkButton.typeface = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
             wrongAnswerTextView.run {
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))
@@ -62,6 +64,11 @@ class EntryTestExerciseCardViewHolder(
             correctAnswerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
+            val comfortaaFont: Typeface? = ResourcesCompat.getFont(context, R.font.comfortaa)
+            checkButton.setTypeface(comfortaaFont, Typeface.BOLD)
+            cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
+            cardLabelTextView.stateListAnimator =
+                AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
         }
     }
 
@@ -134,6 +141,27 @@ class EntryTestExerciseCardViewHolder(
                     checkButton.isEnabled = isEnabled
                     wrongAnswerTextView.isEnabled = isEnabled
                     correctAnswerTextView.isEnabled = isEnabled
+                }
+                cardLabel.observe(coroutineScope) { cardLabel: CardLabel? ->
+                    when (cardLabel) {
+                        CardLabel.Learned -> {
+                            cardLabelTextView.setText(R.string.learned)
+                            cardLabelTextView.background.setTint(
+                                ContextCompat.getColor(context, R.color.card_label_learned)
+                            )
+                            cardLabelTextView.isEnabled = true
+                        }
+                        CardLabel.Expired -> {
+                            cardLabelTextView.setText(R.string.expired)
+                            cardLabelTextView.background.setTint(
+                                ContextCompat.getColor(context, R.color.issue)
+                            )
+                            cardLabelTextView.isEnabled = true
+                        }
+                        null -> {
+                            cardLabelTextView.isEnabled = false
+                        }
+                    }
                 }
             }
         }

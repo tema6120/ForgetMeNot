@@ -54,6 +54,24 @@
                     android:layout_gravity="bottom"
                     android:background="?android:listDivider" />
 
+            <TextView
+                    android:id="@+id/cardLabelTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_gravity="top|center_horizontal"
+                    android:background="@drawable/background_card_label"
+                    android:enabled="false"
+                    android:gravity="center_vertical"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:translationY="-37dp"
+                    tools:backgroundTint="@color/card_label_learned"
+                    tools:fontFamily="@font/comfortaa"
+                    tools:text="Learned"
+                    tools:textStyle="bold" />
+
         </FrameLayout>
 
         <ScrollView

@@ -1,8 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off
 
+import android.animation.AnimatorInflater
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
@@ -12,6 +15,7 @@ import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.Answered
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.UnansweredWithHint
@@ -52,6 +56,10 @@ class OffTestExerciseCardViewHolder(
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
+            val comfortaaFont: Typeface? = ResourcesCompat.getFont(context, R.font.comfortaa)
+            cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
+            cardLabelTextView.stateListAnimator =
+                AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
         }
     }
 
@@ -118,6 +126,27 @@ class OffTestExerciseCardViewHolder(
                     showAnswerButton.isEnabled = isEnabled
                     hintTextView.isEnabled = isEnabled
                     answerTextView.isEnabled = isEnabled
+                }
+                cardLabel.observe(coroutineScope) { cardLabel: CardLabel? ->
+                    when (cardLabel) {
+                        CardLabel.Learned -> {
+                            cardLabelTextView.setText(R.string.learned)
+                            cardLabelTextView.background.setTint(
+                                ContextCompat.getColor(context, R.color.card_label_learned)
+                            )
+                            cardLabelTextView.isEnabled = true
+                        }
+                        CardLabel.Expired -> {
+                            cardLabelTextView.setText(R.string.expired)
+                            cardLabelTextView.background.setTint(
+                                ContextCompat.getColor(context, R.color.issue)
+                            )
+                            cardLabelTextView.isEnabled = true
+                        }
+                        null -> {
+                            cardLabelTextView.isEnabled = false
+                        }
+                    }
                 }
             }
         }

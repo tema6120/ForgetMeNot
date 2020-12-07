@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCar
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.*
 import kotlinx.coroutines.flow.*
 
@@ -111,6 +112,17 @@ class EntryTestExerciseCardViewModel(
         isLearned
     ) { answerStatus: AnswerStatus, isLearned: Boolean ->
         answerStatus != Answered && !isLearned
+    }
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
+
+    val cardLabel: Flow<CardLabel?> = combine(isLearned, isExpired) { isLearned: Boolean,
+                                                                      isExpired: Boolean ->
+        when {
+            isLearned -> CardLabel.Learned
+            isExpired -> CardLabel.Expired
+            else -> null
+        }
     }
         .distinctUntilChanged()
         .flowOn(businessLogicThread)

@@ -63,7 +63,7 @@
                         android:paddingEnd="32dp"
                         android:textColor="@android:color/white"
                         android:textSize="14sp"
-                        android:translationY="-36dp"
+                        android:translationY="-37dp"
                         tools:backgroundTint="@color/card_label_learned"
                         tools:fontFamily="@font/comfortaa"
                         tools:text="Learned"
