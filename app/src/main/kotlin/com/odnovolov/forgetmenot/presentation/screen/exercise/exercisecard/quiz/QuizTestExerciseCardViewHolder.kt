@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
+import android.view.View.MeasureSpec
+import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -13,6 +15,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
@@ -21,6 +24,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.Exerc
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.view.*
+import kotlinx.android.synthetic.main.popup_card_label_tip.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class QuizTestExerciseCardViewHolder(
@@ -41,6 +45,16 @@ class QuizTestExerciseCardViewHolder(
             true
         )
         return outValue.resourceId
+    }
+
+    private val cardLabelTipPopup: PopupWindow by lazy {
+        val content = View.inflate(asyncItemView.context, R.layout.popup_card_label_tip, null)
+        PopupWindow(content).apply {
+            setBackgroundDrawable(null)
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.PopupFromTopAnimation
+        }
     }
 
     init {
@@ -147,6 +161,9 @@ class QuizTestExerciseCardViewHolder(
                             cardLabelTextView.background.setTint(
                                 ContextCompat.getColor(context, R.color.card_label_learned)
                             )
+                            cardLabelTextView.setOnClickListener {
+                                showCardLabelTipPopup(cardLabel)
+                            }
                             cardLabelTextView.isEnabled = true
                         }
                         CardLabel.Expired -> {
@@ -154,6 +171,9 @@ class QuizTestExerciseCardViewHolder(
                             cardLabelTextView.background.setTint(
                                 ContextCompat.getColor(context, R.color.issue)
                             )
+                            cardLabelTextView.setOnClickListener {
+                                showCardLabelTipPopup(cardLabel)
+                            }
                             cardLabelTextView.isEnabled = true
                         }
                         null -> {
@@ -217,5 +237,26 @@ class QuizTestExerciseCardViewHolder(
         }
         val colorStateList = ContextCompat.getColorStateList(variantButton.context, colorResId)
         variantButton.setTextColor(colorStateList)
+    }
+
+    private fun showCardLabelTipPopup(cardLabel: CardLabel) {
+        cardLabelTipPopup.contentView.cardLabelExplanationTextView.setText(
+            when (cardLabel) {
+                CardLabel.Learned -> R.string.explanation_card_label_learned
+                CardLabel.Expired -> R.string.explanation_card_label_expired
+            }
+        )
+        measureCardLabelTipPopup()
+        val xOff: Int = itemView.cardLabelTextView.width / 2 - cardLabelTipPopup.width / 2
+        val yOff: Int = 8.dp
+        cardLabelTipPopup.showAsDropDown(itemView.cardLabelTextView, xOff, yOff)
+    }
+
+    private fun measureCardLabelTipPopup() {
+        with(cardLabelTipPopup) {
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            width = contentView.measuredWidth
+            height = contentView.measuredHeight
+        }
     }
 }

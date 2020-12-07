@@ -1,4 +1,18 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:bottomLeftRadius="16dp" android:bottomRightRadius="16dp" />
-    <solid android:color="#000" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:bottomLeftRadius="16dp" android:bottomRightRadius="16dp" />
+            <solid android:color="#000" />
+        </shape>
+    </item>
+    <item>
+        <ripple android:color="@android:color/white">
+            <item android:id="@android:id/mask">
+                <shape>
+                    <corners android:bottomLeftRadius="16dp" android:bottomRightRadius="16dp" />
+                    <solid android:color="#000" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+</layer-list>

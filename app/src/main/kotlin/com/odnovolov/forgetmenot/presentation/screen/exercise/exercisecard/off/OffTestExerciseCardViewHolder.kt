@@ -3,7 +3,10 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off
 import android.animation.AnimatorInflater
 import android.graphics.Color
 import android.graphics.Typeface
+import android.view.View
+import android.view.View.MeasureSpec
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -21,6 +24,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.A
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.AnswerStatus.UnansweredWithHint
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
+import kotlinx.android.synthetic.main.popup_card_label_tip.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class OffTestExerciseCardViewHolder(
@@ -31,6 +35,16 @@ class OffTestExerciseCardViewHolder(
 ) : ExerciseCardViewHolder<OffTestExerciseCard>(
     asyncItemView
 ) {
+    private val cardLabelTipPopup: PopupWindow by lazy {
+        val content = View.inflate(asyncItemView.context, R.layout.popup_card_label_tip, null)
+        PopupWindow(content).apply {
+            setBackgroundDrawable(null)
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.PopupFromTopAnimation
+        }
+    }
+
     init {
         asyncItemView.invokeWhenInflated {
             knowingWhenPagerStopped.invokeWhenPagerStopped {
@@ -134,6 +148,9 @@ class OffTestExerciseCardViewHolder(
                             cardLabelTextView.background.setTint(
                                 ContextCompat.getColor(context, R.color.card_label_learned)
                             )
+                            cardLabelTextView.setOnClickListener {
+                                showCardLabelTipPopup(cardLabel)
+                            }
                             cardLabelTextView.isEnabled = true
                         }
                         CardLabel.Expired -> {
@@ -141,6 +158,9 @@ class OffTestExerciseCardViewHolder(
                             cardLabelTextView.background.setTint(
                                 ContextCompat.getColor(context, R.color.issue)
                             )
+                            cardLabelTextView.setOnClickListener {
+                                showCardLabelTipPopup(cardLabel)
+                            }
                             cardLabelTextView.isEnabled = true
                         }
                         null -> {
@@ -149,6 +169,27 @@ class OffTestExerciseCardViewHolder(
                     }
                 }
             }
+        }
+    }
+
+    private fun showCardLabelTipPopup(cardLabel: CardLabel) {
+        cardLabelTipPopup.contentView.cardLabelExplanationTextView.setText(
+            when (cardLabel) {
+                CardLabel.Learned -> R.string.explanation_card_label_learned
+                CardLabel.Expired -> R.string.explanation_card_label_expired
+            }
+        )
+        measureCardLabelTipPopup()
+        val xOff: Int = itemView.cardLabelTextView.width / 2 - cardLabelTipPopup.width / 2
+        val yOff: Int = 8.dp
+        cardLabelTipPopup.showAsDropDown(itemView.cardLabelTextView, xOff, yOff)
+    }
+
+    private fun measureCardLabelTipPopup() {
+        with(cardLabelTipPopup) {
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            width = contentView.measuredWidth
+            height = contentView.measuredHeight
         }
     }
 }

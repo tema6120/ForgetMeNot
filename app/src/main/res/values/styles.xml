@@ -80,6 +80,11 @@
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 
+    <style name="PopupFromTopAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_show_from_top</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
     <style name="PopupFromTopLeftAnimation">
         <item name="android:windowEnterAnimation">@anim/popup_show_from_top_left</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>

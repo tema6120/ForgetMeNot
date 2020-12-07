@@ -658,4 +658,6 @@
     <string name="popup_title_intervals">Intervals</string>
     <string name="description_intervals_are_off">Intervals are off for this card</string>
     <string name="expired">Expired</string>
+    <string name="explanation_card_label_learned">\'Learned\' means the card will not be asked again in exercise</string>
+    <string name="explanation_card_label_expired">\'Expired\' means that you didn\'t get to answer a question within the allotted time</string>
 </resources>

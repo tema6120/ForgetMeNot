@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <View
+            android:layout_width="15dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_triangle" />
+
+    <TextView
+            android:id="@+id/cardLabelExplanationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_popup_dark"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center_horizontal"
+            android:maxWidth="170dp"
+            android:padding="8dp"
+            android:textColor="@color/description_text_on_popup"
+            android:textSize="14sp"
+            tools:text="@string/explanation_card_label_learned" />
+
+</LinearLayout>
