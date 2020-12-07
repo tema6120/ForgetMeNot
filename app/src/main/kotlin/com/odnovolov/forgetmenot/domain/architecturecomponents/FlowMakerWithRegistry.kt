@@ -1,9 +1,8 @@
 package com.odnovolov.forgetmenot.domain.architecturecomponents
 
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -55,17 +54,18 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
     }
 
     private class WrappingRWProperty<PropertyOwner : Any, PropertyValue>(
-        var value: PropertyValue,
+        value: PropertyValue,
         private val propertyOwnerId: Long,
         private val preferredChangeClass: KClass<*>? = null
     ) : ReadWriteProperty<PropertyOwner, PropertyValue>, Flowable<PropertyValue> {
-        private val channels: MutableList<Channel<PropertyValue>> = ArrayList()
+        private val stateFlow = MutableStateFlow(value)
+        val value: PropertyValue get() = stateFlow.value
 
         override operator fun getValue(
             thisRef: PropertyOwner,
             property: KProperty<*>
         ): PropertyValue {
-            return value
+            return stateFlow.value
         }
 
         override operator fun setValue(
@@ -81,22 +81,10 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
                 newValue = value,
                 preferredChangeClass = preferredChangeClass
             )
-            this.value = value
-            channels.forEach { it.offer(value) }
+            stateFlow.value = value
         }
 
-        override fun asFlow(): Flow<PropertyValue> = flow {
-            emit(value)
-            val channel = Channel<PropertyValue>(Channel.CONFLATED)
-            channels.add(channel)
-            try {
-                for (item: PropertyValue in channel) {
-                    emit(item)
-                }
-            } finally {
-                channels.remove(channel)
-            }
-        }
+        override fun asFlow(): Flow<PropertyValue> = stateFlow
     }
 
     override fun asFlow(): Flow<PropertyOwner> {

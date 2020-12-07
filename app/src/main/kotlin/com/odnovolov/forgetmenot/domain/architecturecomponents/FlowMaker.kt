@@ -1,9 +1,8 @@
 package com.odnovolov.forgetmenot.domain.architecturecomponents
 
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
@@ -45,15 +44,16 @@ abstract class FlowMaker<PropertyOwner : FlowMaker<PropertyOwner>> : Flowable<Pr
     }
 
     private class WrappingRWProperty<PropertyOwner : Any, PropertyValue>(
-        var value: PropertyValue
+        value: PropertyValue
     ) : ReadWriteProperty<PropertyOwner, PropertyValue>, Flowable<PropertyValue> {
-        private val channels: MutableList<Channel<PropertyValue>> = ArrayList()
+        private val stateFlow = MutableStateFlow(value)
+        val value: PropertyValue get() = stateFlow.value
 
         override operator fun getValue(
             thisRef: PropertyOwner,
             property: KProperty<*>
         ): PropertyValue {
-            return value
+            return stateFlow.value
         }
 
         override operator fun setValue(
@@ -61,22 +61,10 @@ abstract class FlowMaker<PropertyOwner : FlowMaker<PropertyOwner>> : Flowable<Pr
             property: KProperty<*>,
             value: PropertyValue
         ) {
-            this.value = value
-            channels.forEach { it.offer(value) }
+            stateFlow.value = value
         }
 
-        override fun asFlow(): Flow<PropertyValue> = flow {
-            emit(value)
-            val channel = Channel<PropertyValue>(Channel.CONFLATED)
-            channels.add(channel)
-            try {
-                for (item: PropertyValue in channel) {
-                    emit(item)
-                }
-            } finally {
-                channels.remove(channel)
-            }
-        }
+        override fun asFlow(): Flow<PropertyValue> = stateFlow
     }
 
     override fun asFlow(): Flow<PropertyOwner> {
