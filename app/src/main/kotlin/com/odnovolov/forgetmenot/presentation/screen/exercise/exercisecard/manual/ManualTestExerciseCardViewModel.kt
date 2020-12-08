@@ -68,12 +68,7 @@ class ManualTestExerciseCardViewModel(
         .flowOn(businessLogicThread)
 
     val isExpired: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        combine(
-            exerciseCard.base.flowOf(ExerciseCard.Base::isExpired),
-            exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
-        ) { isExpired: Boolean, isAnswerCorrect: Boolean? ->
-            isExpired && isAnswerCorrect != true
-        }
+        exerciseCard.base.flowOf(ExerciseCard.Base::isExpired)
     }
         .distinctUntilChanged()
         .share()

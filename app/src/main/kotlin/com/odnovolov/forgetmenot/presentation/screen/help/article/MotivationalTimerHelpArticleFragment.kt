@@ -50,7 +50,7 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
         state.flowOf(State::timeLeft).observe { timeLeft: Int ->
             timerButton.setImageResource(
                 when {
-                    timeLeft == 0 -> R.drawable.ic_round_timer_24_off
+                    timeLeft == 0 -> R.drawable.ic_round_timer_24
                     timeLeft % 2 == 1 -> R.drawable.ic_round_timer_24
                     else -> R.drawable.ic_round_timer_24_even
                 }

@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.content.Intent
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -43,8 +43,8 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 import kotlinx.android.synthetic.main.dialog_exit_from_exercise.*
 import kotlinx.android.synthetic.main.dialog_exit_from_exercise.view.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
-import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_hints.view.*
+import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.android.synthetic.main.popup_timer.view.*
 import kotlinx.android.synthetic.main.popup_walking_mode.view.*
@@ -71,6 +71,7 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var volumeUpGestureDetector: KeyGestureDetector
     private lateinit var volumeDownGestureDetector: KeyGestureDetector
     private var knowingWhenPagerStopped: KnowingWhenPagerStopped? = null
+    private var timerButtonPaintingAnimation: ValueAnimator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -252,25 +253,7 @@ class ExerciseFragment : BaseFragment() {
                 hintButton.isActivated = hintStatus is HintStatus.Accessible
                 hintButton.isVisible = hintStatus != HintStatus.Off
             }
-            timerStatus.observe { timerStatus: TimerStatus ->
-                when (timerStatus) {
-                    TimerStatus.NotUsed -> {
-                        timerButton.isVisible = false
-                    }
-                    is TimerStatus.Ticking -> {
-                        timerButton.setImageResource(
-                            if (timerStatus.secondsLeft % 2 == 0)
-                                R.drawable.ic_round_timer_24_even else
-                                R.drawable.ic_round_timer_24
-                        )
-                        timerButton.isVisible = true
-                    }
-                    else -> {
-                        timerButton.setImageResource(R.drawable.ic_round_timer_24_off)
-                        timerButton.isVisible = true
-                    }
-                }
-            }
+            timerStatus.observe(::onTimerStatusChanged)
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()
@@ -308,6 +291,49 @@ class ExerciseFragment : BaseFragment() {
                     detectLongPress = keyGestureMap[VOLUME_DOWN_LONG_PRESS] != NO_ACTION
                 }
             }
+        }
+    }
+
+    private fun onTimerStatusChanged(timerStatus: TimerStatus) {
+        timerButton.isVisible = timerStatus != TimerStatus.NotUsed
+        if (timerStatus !is TimerStatus.Ticking ||
+            timerStatus.secondsLeft > TIME_TO_PAINT_TIMER_BUTTON
+        ) {
+            timerButtonPaintingAnimation?.cancel()
+            timerButtonPaintingAnimation = null
+        }
+        if (timerStatus == TimerStatus.NotUsed) return
+        timerButton.setImageResource(
+            if (timerStatus is TimerStatus.Ticking && timerStatus.secondsLeft % 2 == 0)
+                R.drawable.ic_round_timer_24_even else
+                R.drawable.ic_round_timer_24
+        )
+        if (timerStatus is TimerStatus.Ticking
+            && timerStatus.secondsLeft <= TIME_TO_PAINT_TIMER_BUTTON
+        ) {
+            if (timerButtonPaintingAnimation == null && isResumed) {
+                val colorFrom = Color.WHITE
+                val colorTo = ContextCompat.getColor(requireContext(), R.color.issue)
+                timerButtonPaintingAnimation =
+                    ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo).apply {
+                        duration = timerStatus.secondsLeft * 1000L
+                        addUpdateListener { animator: ValueAnimator ->
+                            timerButton.setColorFilter(
+                                animator.animatedValue as Int,
+                                PorterDuff.Mode.SRC_IN
+                            )
+                        }
+                        start()
+                    }
+            }
+        } else {
+            val iconColor: Int = when (timerStatus) {
+                is TimerStatus.Ticking -> Color.WHITE
+                TimerStatus.TimeIsOver -> ContextCompat.getColor(requireContext(), R.color.issue)
+                else ->
+                    ContextCompat.getColor(requireContext(), R.color.icon_exercise_button_unabled)
+            }
+            timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
         }
     }
 
@@ -387,7 +413,7 @@ class ExerciseFragment : BaseFragment() {
             val gradeButtonLocation = IntArray(2).also(gradeButton::getLocationOnScreen)
             val x = gradeButtonLocation[0] + 8.dp
             val y = gradeButtonLocation[1] + gradeButton.height - 8.dp - contentView.measuredHeight
-            intervalsPopup!!.showAtLocation(gradeButton.rootView, Gravity.NO_GRAVITY, x, y)
+            showAtLocation(gradeButton.rootView, Gravity.NO_GRAVITY, x, y)
         }
     }
 
@@ -399,8 +425,8 @@ class ExerciseFragment : BaseFragment() {
             }
         }
         speakErrorPopup = PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
+            width = WRAP_CONTENT
+            height = WRAP_CONTENT
             contentView = content
             setBackgroundDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
@@ -422,23 +448,18 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun showSpeakErrorPopup() {
-        if (speakErrorPopup == null) return
-        speakErrorPopup!!.contentView.speakErrorDescriptionTextView.text =
-            getSpeakErrorDescription()
-        val content: View = speakErrorPopup!!.contentView
-        content.measure(
-            MeasureSpec.makeMeasureSpec(speakButton.rootView.width, MeasureSpec.AT_MOST),
-            MeasureSpec.makeMeasureSpec(speakButton.rootView.height, MeasureSpec.AT_MOST)
-        )
-        val speakButtonLocation = IntArray(2).also(speakButton::getLocationOnScreen)
-        val x: Int = 8.dp
-        val y: Int = speakButtonLocation[1] + speakButton.height - 8.dp - content.measuredHeight
-        speakErrorPopup!!.showAtLocation(
-            speakButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
+        speakErrorPopup?.run {
+            contentView.speakErrorDescriptionTextView.text = getSpeakErrorDescription()
+            contentView.measure(
+                MeasureSpec.makeMeasureSpec(speakButton.rootView.width, MeasureSpec.AT_MOST),
+                MeasureSpec.makeMeasureSpec(speakButton.rootView.height, MeasureSpec.AT_MOST)
+            )
+            val speakButtonLocation = IntArray(2).also(speakButton::getLocationOnScreen)
+            val x: Int = 8.dp
+            val y: Int =
+                speakButtonLocation[1] + speakButton.height - 8.dp - contentView.measuredHeight
+            showAtLocation(speakButton.rootView, Gravity.NO_GRAVITY, x, y)
+        }
     }
 
     private fun getSpeakErrorDescription(): String? {
@@ -564,19 +585,14 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun showTimerPopup() {
-        if (timerPopup == null) return
-        measureTimerPopup()
-        val timerButtonLocation = IntArray(2).also(timerButton::getLocationOnScreen)
-        val x = timerButtonLocation[0] + (timerButton.width / 2) - (timerPopup!!.width / 2)
-        val y = timerButtonLocation[1] + timerButton.height - 8.dp - timerPopup!!.height
-        timerPopup!!.showAtLocation(timerButton.rootView, Gravity.NO_GRAVITY, x, y)
-    }
-
-    private fun measureTimerPopup() {
-        timerPopup!!.run {
+        timerPopup?.run {
             contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
             width = contentView.measuredWidth
             height = contentView.measuredHeight
+            val timerButtonLocation = IntArray(2).also(timerButton::getLocationOnScreen)
+            val x = timerButtonLocation[0] + (timerButton.width / 2) - (width / 2)
+            val y = timerButtonLocation[1] + timerButton.height - 8.dp - height
+            showAtLocation(timerButton.rootView, Gravity.NO_GRAVITY, x, y)
         }
     }
 
@@ -659,19 +675,14 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun showHintsPopup() {
-        if (hintsPopup == null) return
-        measureHintsPopup()
-        val hintButtonLocation = IntArray(2).also(hintButton::getLocationOnScreen)
-        val x = hintButtonLocation[0] + (hintButton.width / 2) - (hintsPopup!!.width / 2)
-        val y = hintButtonLocation[1] + hintButton.height - 8.dp - hintsPopup!!.height
-        hintsPopup!!.showAtLocation(hintButton.rootView, Gravity.NO_GRAVITY, x, y)
-    }
-
-    private fun measureHintsPopup() {
-        hintsPopup!!.run {
+        hintsPopup?.run {
             contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
             width = contentView.measuredWidth
             height = contentView.measuredHeight
+            val hintButtonLocation = IntArray(2).also(hintButton::getLocationOnScreen)
+            val x = hintButtonLocation[0] + (hintButton.width / 2) - (width / 2)
+            val y = hintButtonLocation[1] + hintButton.height - 8.dp - height
+            showAtLocation(hintButton.rootView, Gravity.NO_GRAVITY, x, y)
         }
     }
 
@@ -717,18 +728,12 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun showWalkingModePopup() {
-        if (walkingModePopup == null) return
-        val walkingModeButtonLocation = IntArray(2).also(walkingModeButton::getLocationOnScreen)
-        val x: Int =
-            walkingModeButtonLocation[0] + walkingModeButton.width - 8.dp - walkingModePopup!!.width
-        val y: Int =
-            walkingModeButtonLocation[1] + walkingModeButton.height - 8.dp - walkingModePopup!!.height
-        walkingModePopup!!.showAtLocation(
-            walkingModeButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
+        walkingModePopup?.run {
+            val walkingModeButtonLocation = IntArray(2).also(walkingModeButton::getLocationOnScreen)
+            val x: Int = walkingModeButtonLocation[0] + walkingModeButton.width - 8.dp - width
+            val y: Int = walkingModeButtonLocation[1] + walkingModeButton.height - 8.dp - height
+            showAtLocation(walkingModeButton.rootView, Gravity.NO_GRAVITY, x, y)
+        }
     }
 
     private fun createExitDialog() {
@@ -775,6 +780,8 @@ class ExerciseFragment : BaseFragment() {
             val diScope = ExerciseDiScope.getAsync() ?: return@launch
             diScope.controller.dispatch(FragmentPaused)
         }
+        timerButtonPaintingAnimation?.cancel()
+        timerButtonPaintingAnimation = null
     }
 
     override fun onDestroyView() {
@@ -824,5 +831,9 @@ class ExerciseFragment : BaseFragment() {
                 return true
             }
         }
+    }
+
+    companion object {
+        private const val TIME_TO_PAINT_TIMER_BUTTON = 7
     }
 }

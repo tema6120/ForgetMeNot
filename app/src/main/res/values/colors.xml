@@ -73,4 +73,5 @@
     <color name="card_label_learned">#29B6F6</color>
     <color name="curtain">#EBEBEB</color>
     <color name="text_on_curtain">#33000000</color>
+    <color name="icon_exercise_button_unabled">#61FFFFFF</color>
 </resources>
