@@ -103,6 +103,8 @@ class EntryTestExerciseCardViewHolder(
                 answerInputScrollView.scrollTo(0, 0)
                 hintScrollView.scrollTo(0, 0)
                 answerScrollView.scrollTo(0, 0)
+                answerEditText.setText(exerciseCard.userInput)
+                answerEditText.setSelection(exerciseCard.userInput?.length ?: 0)
                 viewModel!!.setExerciseCard(exerciseCard)
             }
         }
@@ -119,7 +121,6 @@ class EntryTestExerciseCardViewHolder(
                     questionTextView.text = question
                     questionTextView.fixTextSelection()
                 }
-                answerEditText.setText(userInput)
                 answerStatus.observe(coroutineScope) { answerStatus: AnswerStatus ->
                     answerInputScrollView.isVisible = answerStatus != Answered
                     hintScrollView.isVisible = answerStatus == UnansweredWithHint

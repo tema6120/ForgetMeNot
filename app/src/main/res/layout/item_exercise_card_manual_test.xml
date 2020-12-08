@@ -43,7 +43,7 @@
                         android:id="@+id/showQuestionButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/curtain_question_clicable"
+                        android:background="@drawable/curtain"
                         android:gravity="center"
                         android:padding="16dp"
                         android:text="@string/text_show_question_button"
@@ -130,7 +130,7 @@
                         android:id="@+id/curtainView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/curtain_answer" />
+                        android:background="@color/curtain" />
 
             </FrameLayout>
 

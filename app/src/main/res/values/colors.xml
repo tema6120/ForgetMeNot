@@ -71,4 +71,6 @@
     <color name="text_remember_button_selected">#fff</color>
     <color name="text_remember_button_unselected">#C8D2DE</color>
     <color name="card_label_learned">#29B6F6</color>
+    <color name="curtain">#EBEBEB</color>
+    <color name="text_on_curtain">#33000000</color>
 </resources>

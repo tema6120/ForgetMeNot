@@ -1,4 +1,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/curtain_answer" />
+    <item>
+        <shape>
+            <solid android:color="@color/curtain" />
+        </shape>
+    </item>
     <item android:drawable="@drawable/ripple" />
 </layer-list>

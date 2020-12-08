@@ -36,8 +36,6 @@ class EntryTestExerciseCardViewModel(
         .distinctUntilChanged()
         .flowOn(businessLogicThread)
 
-    val userInput: String get() = exerciseCardFlow.value.userInput ?: ""
-
     val hint: Flow<String?> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::hint)
     }
