@@ -79,6 +79,9 @@ class ManualTestExerciseCardViewHolder(
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
+            asyncItemView.viewTreeObserver.addOnScrollChangedListener {
+                bottomButtonsLayout.translationX = asyncItemView.x / 3
+            }
         }
     }
 
@@ -201,7 +204,7 @@ class ManualTestExerciseCardViewHolder(
     private fun updateShadowColor(button: View, isSelected: Boolean, selectedColorRes: Int) {
         val shadowColorRes: Int =
             if (isSelected) selectedColorRes
-            else R.color.remember_button_not_selected
+            else R.color.floating_button_in_exercise
         val shadowColor: Int = ContextCompat.getColor(button.context, shadowColorRes)
         button.outlineAmbientShadowColor = shadowColor
         button.outlineSpotShadowColor = shadowColor

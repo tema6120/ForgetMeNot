@@ -79,10 +79,13 @@ class EntryTestExerciseCardViewHolder(
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
             val comfortaaFont: Typeface? = ResourcesCompat.getFont(context, R.font.comfortaa)
-            checkButton.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
+            checkButton.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
+            asyncItemView.viewTreeObserver.addOnScrollChangedListener {
+                checkButton.translationX = asyncItemView.x / 3
+            }
         }
     }
 

@@ -246,6 +246,7 @@ class ExerciseFragment : BaseFragment() {
                 walkingModeButton.isActivated = isEnabled
                 (activity as MainActivity).keyEventInterceptor =
                     if (isEnabled) keyEventInterceptor else null
+                walkingModeButton.keepScreenOn = isEnabled
             }
             hintStatus.observe { hintStatus: HintStatus ->
                 hintButton.isActivated = hintStatus is HintStatus.Accessible
