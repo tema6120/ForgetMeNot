@@ -297,7 +297,7 @@ class ExerciseFragment : BaseFragment() {
     private fun onTimerStatusChanged(timerStatus: TimerStatus) {
         timerButton.isVisible = timerStatus != TimerStatus.NotUsed
         if (timerStatus !is TimerStatus.Ticking ||
-            timerStatus.secondsLeft > TIME_TO_PAINT_TIMER_BUTTON
+            timerStatus.secondsLeft * 1000L > TIME_TO_PAINT_TIMER_BUTTON
         ) {
             timerButtonPaintingAnimation?.cancel()
             timerButtonPaintingAnimation = null
@@ -309,7 +309,7 @@ class ExerciseFragment : BaseFragment() {
                 R.drawable.ic_round_timer_24
         )
         if (timerStatus is TimerStatus.Ticking
-            && timerStatus.secondsLeft <= TIME_TO_PAINT_TIMER_BUTTON
+            && timerStatus.secondsLeft * 1000L <= TIME_TO_PAINT_TIMER_BUTTON
         ) {
             if (timerButtonPaintingAnimation == null && isResumed) {
                 val colorFrom = Color.WHITE
@@ -834,6 +834,6 @@ class ExerciseFragment : BaseFragment() {
     }
 
     companion object {
-        private const val TIME_TO_PAINT_TIMER_BUTTON = 7
+        private const val TIME_TO_PAINT_TIMER_BUTTON = 10_000L
     }
 }

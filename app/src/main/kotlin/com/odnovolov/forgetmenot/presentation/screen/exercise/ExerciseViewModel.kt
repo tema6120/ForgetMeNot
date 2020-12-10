@@ -166,36 +166,35 @@ class ExerciseViewModel(
             if (exerciseCard is QuizTestExerciseCard) {
                 flowOf(HintStatus.Off)
             } else {
-            combine(
-                exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect),
-                exerciseCard.base.card.flowOf(Card::isLearned),
-                isWalkingModeEnabled,
-                exerciseCard.base.flowOf(ExerciseCard.Base::hint),
-                exerciseState.flowOf(Exercise.State::hintSelection)
-            ) { isAnswerCorrect: Boolean?,
-                isLearned: Boolean,
-                isWalkingModeEnabled: Boolean,
-                hint: String?,
-                hintSelection: HintSelection
-                ->
-                when {
-                    isAnswerCorrect != null -> HintStatus.NotAccessibleBecauseCardIsAnswered
-                    isLearned -> HintStatus.NotAccessibleBecauseCardIsLearned
-                    else -> {
-                        val isGettingVariantsAccessible = !isWalkingModeEnabled
-                        val currentMaskingLettersAction =  when {
-                            hint == null -> MaskLetters
-                            hintSelection.endIndex > hintSelection.startIndex -> UnmaskSelectedRegion
-                            else -> UnmaskTheFirstLetter
+                combine(
+                    exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect),
+                    exerciseCard.base.card.flowOf(Card::isLearned),
+                    isWalkingModeEnabled,
+                    exerciseCard.base.flowOf(ExerciseCard.Base::hint),
+                    exerciseState.flowOf(Exercise.State::hintSelection)
+                ) { isAnswerCorrect: Boolean?,
+                    isLearned: Boolean,
+                    isWalkingModeEnabled: Boolean,
+                    hint: String?,
+                    hintSelection: HintSelection
+                    ->
+                    when {
+                        isAnswerCorrect != null -> HintStatus.NotAccessibleBecauseCardIsAnswered
+                        isLearned -> HintStatus.NotAccessibleBecauseCardIsLearned
+                        else -> {
+                            val isGettingVariantsAccessible = !isWalkingModeEnabled
+                            val currentMaskingLettersAction = when {
+                                hint == null -> MaskLetters
+                                hintSelection.endIndex > hintSelection.startIndex -> UnmaskSelectedRegion
+                                else -> UnmaskTheFirstLetter
+                            }
+                            HintStatus.Accessible(
+                                isGettingVariantsAccessible,
+                                currentMaskingLettersAction
+                            )
                         }
-                        HintStatus.Accessible(
-                            isGettingVariantsAccessible,
-                            currentMaskingLettersAction
-                        )
                     }
                 }
-            }
-
             }
         }
             .distinctUntilChanged()
