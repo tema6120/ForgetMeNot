@@ -6,8 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import kotlinx.coroutines.flow.*
 

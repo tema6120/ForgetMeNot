@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry
 
 sealed class CardContent {
     data class UnansweredCard(
@@ -12,6 +12,7 @@ sealed class CardContent {
 
     data class AnsweredCard(
         val question: String,
-        val answer: String
+        val wrongAnswer: String?,
+        val correctAnswer: String
     ) : CardContent()
 }

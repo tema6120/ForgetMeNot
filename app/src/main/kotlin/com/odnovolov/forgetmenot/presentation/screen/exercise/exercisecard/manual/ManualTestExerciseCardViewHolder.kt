@@ -25,8 +25,7 @@ import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
@@ -115,6 +114,7 @@ class ManualTestExerciseCardViewHolder(
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
+            hintTextView.textSize = 18f
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }

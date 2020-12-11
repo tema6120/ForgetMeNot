@@ -8,22 +8,27 @@
             style="@style/ExerciseCardStyle">
 
         <LinearLayout
+                android:id="@+id/cardLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:weightSum="1"
                 android:orientation="vertical">
 
             <FrameLayout
                     android:id="@+id/questionFrame"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:background="@android:color/transparent">
 
                 <ScrollView
                         android:id="@+id/questionScrollView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fillViewport="true">
+                        android:fillViewport="true"
+                        android:visibility="invisible"
+                        tools:visibility="visible">
 
                     <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                             android:id="@+id/questionTextView"
@@ -50,140 +55,124 @@
                         android:textSize="18sp"
                         android:visibility="gone" />
 
-                <View
-                        android:id="@+id/divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="bottom"
-                        android:background="?android:listDivider" />
-
-                <TextView
-                        android:id="@+id/cardLabelTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:layout_gravity="top|center_horizontal"
-                        android:background="@drawable/background_card_label"
-                        android:enabled="false"
-                        android:gravity="center_vertical"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="32dp"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:translationY="-37dp"
-                        tools:backgroundTint="@color/card_label_learned"
-                        tools:fontFamily="@font/comfortaa"
-                        tools:text="Learned"
-                        tools:textStyle="bold" />
-
             </FrameLayout>
 
-            <FrameLayout
-                    android:id="@+id/answerFrame"
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_in_exercise" />
+
+            <ScrollView
+                    android:id="@+id/hintScrollView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:fillViewport="true"
+                    android:visibility="gone"
+                    tools:visibility="gone">
+
+                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                        android:id="@+id/hintTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textColor="@color/text_secondary_selector"
+                        android:textIsSelectable="true"
+                        android:textSize="18sp" />
+
+            </ScrollView>
+
+            <View
+                    android:id="@+id/hintDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_in_exercise"
+                    android:visibility="gone"
+                    tools:visibility="gone"/>
+
+            <ScrollView
+                    android:id="@+id/answerInputScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:fillViewport="true">
+
+                <EditText
+                        android:id="@+id/answerEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="top|start"
+                        android:hint="@string/hint_answer_edittext"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine"
+                        android:paddingStart="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="80dp"
+                        android:textColor="@color/text_secondary_selector"
+                        android:textColorHint="@color/text_curtain_selector"
+                        android:textSize="18sp" />
+
+            </ScrollView>
+
+            <ScrollView
+                    android:id="@+id/answerScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:visibility="gone">
 
                 <LinearLayout
-                        android:id="@+id/before_show_answer_frame"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                    <ScrollView
-                            android:id="@+id/hintScrollView"
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/wrongAnswerTextView"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:fillViewport="true"
-                            android:visibility="gone">
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:textColor="@color/wrong_answer_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="18sp"
+                            android:visibility="gone"
+                            tools:text="excape"
+                            tools:visibility="visible" />
 
-                        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                                android:id="@+id/hintTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="16dp"
-                                android:textColor="@color/text_secondary_selector"
-                                android:textIsSelectable="true"
-                                android:textSize="18sp" />
-
-                    </ScrollView>
-
-                    <View
-                            android:id="@+id/hintDivider"
+                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                            android:id="@+id/correctAnswerTextView"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:listDivider"
-                            android:visibility="gone" />
-
-                    <ScrollView
-                            android:id="@+id/answerInputScrollView"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:fillViewport="true">
-
-                        <EditText
-                                android:id="@+id/answerEditText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:gravity="top|start"
-                                android:hint="@string/hint_answer_edittext"
-                                android:importantForAutofill="no"
-                                android:inputType="textMultiLine"
-                                android:paddingStart="16dp"
-                                android:paddingTop="16dp"
-                                android:paddingEnd="16dp"
-                                android:paddingBottom="80dp"
-                                android:textColor="@color/text_secondary_selector"
-                                android:textColorHint="@color/text_curtain_selector"
-                                android:textSize="18sp" />
-
-                    </ScrollView>
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:textColor="@color/correct_answer_selector"
+                            android:textIsSelectable="true"
+                            android:textSize="18sp"
+                            tools:text="escape" />
 
                 </LinearLayout>
 
-                <ScrollView
-                        android:id="@+id/answerScrollView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fillViewport="true"
-                        android:visibility="gone">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                                android:id="@+id/wrongAnswerTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="16dp"
-                                android:textColor="@color/wrong_answer_selector"
-                                android:textIsSelectable="true"
-                                android:textSize="18sp"
-                                android:visibility="gone"
-                                tools:text="excape"
-                                tools:visibility="visible" />
-
-                        <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                                android:id="@+id/correctAnswerTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="16dp"
-                                android:textColor="@color/correct_answer_selector"
-                                android:textIsSelectable="true"
-                                android:textSize="18sp"
-                                tools:text="escape" />
-
-                    </LinearLayout>
-
-                </ScrollView>
-
-            </FrameLayout>
+            </ScrollView>
 
         </LinearLayout>
+
+        <TextView
+                android:id="@+id/cardLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="top|center_horizontal"
+                android:background="@drawable/background_card_label"
+                android:enabled="false"
+                android:gravity="center_vertical"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:translationY="-37dp"
+                tools:backgroundTint="@color/card_label_learned"
+                tools:fontFamily="@font/comfortaa"
+                tools:text="Learned"
+                tools:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
 

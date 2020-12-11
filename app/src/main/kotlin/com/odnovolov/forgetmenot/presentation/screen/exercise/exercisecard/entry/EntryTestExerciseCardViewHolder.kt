@@ -1,25 +1,37 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry
 
 import android.animation.AnimatorInflater
+import android.animation.LayoutTransition
+import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.util.Size
 import android.view.View
 import android.view.View.MeasureSpec
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
+import android.widget.LinearLayout.VERTICAL
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.Answered
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.AnswerStatus.UnansweredWithHint
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.CardContent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
 import kotlinx.android.synthetic.main.popup_card_label_tip.view.*
@@ -43,8 +55,56 @@ class EntryTestExerciseCardViewHolder(
         }
     }
 
+    private val qTextView = TextView(itemView.context).apply {
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        setPadding(16.dp)
+        textSize = 20f
+    }
+
+    private val hTextView = TextView(itemView.context).apply {
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        setPadding(16.dp)
+        textSize = 18f
+    }
+
+    private val wroTextView = TextView(itemView.context).apply {
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        setPadding(16.dp)
+        textSize = 18f
+    }
+
+    private val corTextView = TextView(itemView.context).apply {
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        setPadding(16.dp)
+        textSize = 18f
+    }
+
+    private val aColumn = LinearLayout(itemView.context).apply {
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        orientation = VERTICAL
+        addView(wroTextView)
+        addView(corTextView)
+    }
+
+    private var cardContent: CardContent? = null
+        set(value) {
+            field = value
+            updateCardContent()
+        }
+
+    private var cardSize: Size? = null
+        set(value) {
+            if (field != value) {
+                field = value
+                itemView.post { updateCardContent() }
+            }
+        }
+
     init {
         asyncItemView.invokeWhenInflated {
+            cardView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                cardSize = Size(cardView.width, cardView.height)
+            }
             knowingWhenPagerStopped.invokeWhenPagerStopped {
                 setupView()
             }
@@ -53,18 +113,28 @@ class EntryTestExerciseCardViewHolder(
 
     private fun setupView() {
         with(itemView) {
+            cardLinearLayout.layoutTransition.run {
+                enableTransitionType(LayoutTransition.CHANGING)
+                disableTransitionType(LayoutTransition.APPEARING)
+                disableTransitionType(LayoutTransition.DISAPPEARING)
+                disableTransitionType(LayoutTransition.CHANGE_APPEARING)
+                disableTransitionType(LayoutTransition.CHANGE_DISAPPEARING)
+            }
             showQuestionButton.setOnClickListener {
                 controller.dispatch(ShowQuestionButtonClicked)
             }
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
-            answerEditText.run {
-                observeText { text: String -> controller.dispatch(AnswerInputChanged(text)) }
-                setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) hideSoftInput() }
-            }
+            questionTextView.textSize = 20f
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
+            }
+            hintTextView.textSize = 18f
+            answerEditText.run {
+                observeText { text: String -> controller.dispatch(AnswerInputChanged(text)) }
+                setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) hideKeyboard() }
+                textSize = 18f
             }
             checkButton.setOnClickListener {
                 controller.dispatch(CheckButtonClicked)
@@ -74,10 +144,12 @@ class EntryTestExerciseCardViewHolder(
                     controller.dispatch(AnswerTextSelectionChanged(selection))
                 }
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                textSize = 18f
             }
             correctAnswerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
+            correctAnswerTextView.textSize = 18f
             val comfortaaFont: Typeface? = ResourcesCompat.getFont(context, R.font.comfortaa)
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
             checkButton.setTypeface(comfortaaFont, Typeface.BOLD)
@@ -113,34 +185,14 @@ class EntryTestExerciseCardViewHolder(
     private fun observeViewModel() {
         with(viewModel!!) {
             with(itemView) {
+                cardContent.observe(coroutineScope) { cardContent: CardContent ->
+                    this@EntryTestExerciseCardViewHolder.cardContent = cardContent
+                }
                 isQuestionDisplayed.observe(coroutineScope) { isQuestionDisplayed: Boolean ->
                     showQuestionButton.isVisible = !isQuestionDisplayed
-                    questionScrollView.isVisible = isQuestionDisplayed
-                }
-                question.observe(coroutineScope) { question: String ->
-                    questionTextView.text = question
-                    questionTextView.fixTextSelection()
-                }
-                answerStatus.observe(coroutineScope) { answerStatus: AnswerStatus ->
-                    answerInputScrollView.isVisible = answerStatus != Answered
-                    hintScrollView.isVisible = answerStatus == UnansweredWithHint
-                    hintDivider.isVisible = answerStatus == UnansweredWithHint
-                    checkButton.isVisible = answerStatus != Answered
-                    answerScrollView.isVisible = answerStatus == Answered
-                }
-                hint.observe(coroutineScope) { hint: String? ->
-                    hintTextView.text = hint
-                    hintTextView.fixTextSelection()
+                    questionScrollView.isInvisible = !isQuestionDisplayed
                 }
                 isInputEnabled.observe(coroutineScope, answerEditText::setEnabled)
-                wrongAnswer.observe(coroutineScope) { wrongAnswer: String? ->
-                    wrongAnswerTextView.isVisible = wrongAnswer != null
-                    wrongAnswerTextView.text = wrongAnswer
-                }
-                correctAnswer.observe(coroutineScope) { correctAnswer: String ->
-                    correctAnswerTextView.text = correctAnswer
-                    correctAnswerTextView.fixTextSelection()
-                }
                 isExpired.observe(coroutineScope) { isExpired: Boolean ->
                     val cardBackgroundColor: Int =
                         if (isExpired) {
@@ -191,24 +243,117 @@ class EntryTestExerciseCardViewHolder(
         }
     }
 
-    private fun showCardLabelTipPopup(cardLabel: CardLabel) {
-        cardLabelTipPopup.contentView.cardLabelExplanationTextView.setText(
-            when (cardLabel) {
-                CardLabel.Learned -> R.string.explanation_card_label_learned
-                CardLabel.Expired -> R.string.explanation_card_label_expired
+    private fun updateCardContent() {
+        val cardContent = cardContent ?: return
+        val cardSize = cardSize ?: return
+        when (cardContent) {
+            is UnansweredCard -> {
+                val availableCardHeight = cardSize.height - 1.dp
+                val desiredQuestionFrameHeight = measureHeight(qTextView, cardContent.question)
+                val desiredInputFrameHeight = availableCardHeight
+                CardSpaceAllocator.allocate(
+                    availableCardHeight,
+                    itemView.questionFrame,
+                    desiredQuestionFrameHeight,
+                    itemView.answerInputScrollView,
+                    desiredInputFrameHeight
+                )
+                itemView.hintScrollView.isVisible = false
+                itemView.hintDivider.isVisible = false
+                itemView.answerInputScrollView.isVisible = true
+                itemView.answerScrollView.isVisible = false
+                itemView.checkButton.isVisible = true
+                itemView.questionTextView.text = cardContent.question
+                itemView.questionTextView.fixTextSelection()
             }
-        )
-        measureCardLabelTipPopup()
-        val xOff: Int = itemView.cardLabelTextView.width / 2 - cardLabelTipPopup.width / 2
-        val yOff: Int = 8.dp
-        cardLabelTipPopup.showAsDropDown(itemView.cardLabelTextView, xOff, yOff)
+            is UnansweredCardWithHint -> {
+                val availableCardHeight = cardSize.height - 2.dp
+                val desiredQuestionHeight = measureHeight(qTextView, cardContent.question)
+                val desiredHintHeight = measureHeight(hTextView, cardContent.hint)
+                CardSpaceAllocatorForUnansweredSpellingCardWithHint.allocate(
+                    availableCardHeight,
+                    itemView.questionFrame,
+                    desiredQuestionHeight,
+                    itemView.hintScrollView,
+                    desiredHintHeight,
+                    itemView.answerInputScrollView
+                )
+                itemView.hintScrollView.isVisible = true
+                itemView.hintDivider.isVisible = true
+                itemView.answerInputScrollView.isVisible = true
+                itemView.answerScrollView.isVisible = false
+                itemView.checkButton.isVisible = true
+                itemView.questionTextView.text = cardContent.question
+                itemView.questionTextView.fixTextSelection()
+                itemView.hintTextView.text = cardContent.hint
+                itemView.hintTextView.fixTextSelection()
+            }
+            is AnsweredCard -> {
+                val availableCardHeight = cardSize.height - 1.dp
+                val desiredQuestionFrameHeight = measureHeight(qTextView, cardContent.question)
+                val desiredAnswerFrameHeight = measureAnswerFrame(cardContent)
+                CardSpaceAllocator.allocate(
+                    availableCardHeight,
+                    itemView.questionFrame,
+                    desiredQuestionFrameHeight,
+                    itemView.answerScrollView,
+                    desiredAnswerFrameHeight
+                )
+                itemView.hintScrollView.isVisible = false
+                itemView.hintDivider.isVisible = false
+                itemView.answerInputScrollView.isVisible = false
+                itemView.answerScrollView.isVisible = true
+                itemView.checkButton.isVisible = false
+                itemView.questionTextView.text = cardContent.question
+                itemView.questionTextView.fixTextSelection()
+                itemView.wrongAnswerTextView.isVisible = cardContent.wrongAnswer != null
+                if (cardContent.wrongAnswer != null) {
+                    itemView.wrongAnswerTextView.text = cardContent.wrongAnswer
+                    itemView.wrongAnswerTextView.fixTextSelection()
+                }
+                itemView.correctAnswerTextView.text = cardContent.correctAnswer
+                itemView.correctAnswerTextView.fixTextSelection()
+            }
+        }
+        itemView.cardLinearLayout.requestLayout()
     }
 
-    private fun measureCardLabelTipPopup() {
+    private fun measureHeight(textView: TextView, question: String): Int {
+        textView.text = question
+        textView.measure(
+            MeasureSpec.makeMeasureSpec(cardSize!!.width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+        return textView.measuredHeight
+    }
+
+    private fun measureAnswerFrame(cardContent: AnsweredCard): Int {
+        wroTextView.isVisible = cardContent.wrongAnswer != null
+        if (cardContent.wrongAnswer != null) {
+            wroTextView.text = cardContent.wrongAnswer
+        }
+        corTextView.text = cardContent.correctAnswer
+        aColumn.measure(
+            MeasureSpec.makeMeasureSpec(cardSize!!.width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+        return aColumn.measuredHeight
+    }
+
+    private fun showCardLabelTipPopup(cardLabel: CardLabel) {
         with(cardLabelTipPopup) {
+            contentView.cardLabelExplanationTextView.setText(
+                when (cardLabel) {
+                    CardLabel.Learned -> R.string.explanation_card_label_learned
+                    CardLabel.Expired -> R.string.explanation_card_label_expired
+                }
+            )
             contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
             width = contentView.measuredWidth
             height = contentView.measuredHeight
+            val xOff: Int = itemView.cardLabelTextView.width / 2 - width / 2
+            val yOff: Int = 8.dp
+            showAsDropDown(itemView.cardLabelTextView, xOff, yOff)
         }
     }
 
@@ -217,8 +362,28 @@ class EntryTestExerciseCardViewHolder(
             if (answerEditText.isEnabled
                 && resources.configuration.orientation == ORIENTATION_PORTRAIT
             ) {
-                answerEditText.showSoftInput()
+                showKeyboard()
             }
         }
+    }
+
+    private fun showKeyboard() {
+        needToCloseKeyboard = false
+        itemView.answerEditText.showSoftInput()
+    }
+
+    private fun hideKeyboard() {
+        needToCloseKeyboard = true
+        itemView.postDelayed({
+            if (needToCloseKeyboard) {
+                val imm = itemView.context
+                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+            }
+        }, 50)
+    }
+
+    companion object {
+        var needToCloseKeyboard = false
     }
 }
