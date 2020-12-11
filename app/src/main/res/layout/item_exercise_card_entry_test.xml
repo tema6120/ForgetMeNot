@@ -78,7 +78,7 @@
             </FrameLayout>
 
             <FrameLayout
-                    android:id="@+id/answer_frame"
+                    android:id="@+id/answerFrame"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">

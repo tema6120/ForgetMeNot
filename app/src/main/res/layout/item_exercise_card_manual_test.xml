@@ -9,22 +9,27 @@
             style="@style/ExerciseCardStyle">
 
         <LinearLayout
+                android:id="@+id/cardLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:weightSum="1">
 
             <FrameLayout
                     android:id="@+id/questionFrame"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:background="@android:color/transparent">
 
                 <ScrollView
                         android:id="@+id/questionScrollView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fillViewport="true">
+                        android:fillViewport="true"
+                        android:visibility="invisible"
+                        tools:visibility="visible">
 
                     <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                             android:id="@+id/questionTextView"
@@ -51,20 +56,40 @@
                         android:textSize="18sp"
                         android:visibility="gone" />
 
-                <View
-                        android:id="@+id/divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="bottom"
-                        android:background="?android:listDivider" />
-
             </FrameLayout>
 
-            <FrameLayout
-                    android:id="@+id/answer_frame"
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_in_exercise" />
+
+            <ScrollView
+                    android:id="@+id/hintScrollView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:fillViewport="true"
+                    android:visibility="gone">
+
+                <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+                        android:id="@+id/hintTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="80dp"
+                        android:textColor="@color/text_secondary_selector"
+                        android:textIsSelectable="true"
+                        android:textSize="18sp" />
+
+            </ScrollView>
+
+            <FrameLayout
+                    android:id="@+id/answerFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5">
 
                 <ScrollView
                         android:id="@+id/answerScrollView"
@@ -87,32 +112,12 @@
 
                 </ScrollView>
 
-                <ScrollView
-                        android:id="@+id/hintScrollView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fillViewport="true"
-                        android:visibility="gone">
-
-                    <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-                            android:id="@+id/hintTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="16dp"
-                            android:paddingTop="16dp"
-                            android:paddingEnd="16dp"
-                            android:paddingBottom="80dp"
-                            android:textColor="@color/text_secondary_selector"
-                            android:textIsSelectable="true"
-                            android:textSize="18sp" />
-
-                </ScrollView>
-
-                <View
+                <TextView
                         android:id="@+id/curtainView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/curtain" />
+                        android:background="@color/curtain"
+                        android:minHeight="80dp" />
 
             </FrameLayout>
 

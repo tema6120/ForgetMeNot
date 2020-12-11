@@ -5,6 +5,8 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.OffTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import kotlinx.coroutines.flow.*
 
@@ -32,9 +34,9 @@ class OffTestExerciseCardViewModel(
             val realQuestion = if (isReverse) answer else question
             val realAnswer = if (isReverse) question else answer
             when {
-                isAnswerCorrect != null -> CardContent.AnsweredCard(realQuestion, realAnswer)
-                hint != null -> CardContent.UnansweredCardWithHint(realQuestion, hint)
-                else -> CardContent.UnansweredCard(realQuestion)
+                isAnswerCorrect != null -> AnsweredCard(realQuestion, realAnswer)
+                hint != null -> UnansweredCardWithHint(realQuestion, hint)
+                else -> UnansweredCard(realQuestion)
             }
         }
     }

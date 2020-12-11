@@ -26,10 +26,11 @@ import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.CardContent.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.popup_card_label_tip.view.*
@@ -92,7 +93,13 @@ class OffTestExerciseCardViewHolder(
 
     private fun setupView() {
         with(itemView) {
-            cardLinearLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+            cardLinearLayout.layoutTransition.run {
+                enableTransitionType(LayoutTransition.CHANGING)
+                disableTransitionType(LayoutTransition.APPEARING)
+                disableTransitionType(LayoutTransition.DISAPPEARING)
+                disableTransitionType(LayoutTransition.CHANGE_APPEARING)
+                disableTransitionType(LayoutTransition.CHANGE_DISAPPEARING)
+            }
             showQuestionButton.setOnClickListener {
                 controller.dispatch(ShowQuestionButtonClicked)
             }

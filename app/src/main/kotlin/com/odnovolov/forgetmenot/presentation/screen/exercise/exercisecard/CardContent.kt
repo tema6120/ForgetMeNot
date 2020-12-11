@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off
+package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard
 
 sealed class CardContent {
     data class UnansweredCard(

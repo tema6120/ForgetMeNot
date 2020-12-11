@@ -6,8 +6,9 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardContent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.AnswerStatus.*
 import kotlinx.coroutines.flow.*
 
 class ManualTestExerciseCardViewModel(
@@ -19,6 +20,30 @@ class ManualTestExerciseCardViewModel(
         exerciseCardFlow.value = exerciseCard
     }
 
+    val cardContent: Flow<CardContent> = exerciseCardFlow.flatMapLatest { exerciseCard ->
+        val isReverse: Boolean = exerciseCard.base.isReverse
+        combine(
+            exerciseCard.base.card.flowOf(Card::question),
+            exerciseCard.base.card.flowOf(Card::answer),
+            exerciseCard.base.flowOf(ExerciseCard.Base::hint),
+            exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
+        ) { question: String,
+            answer: String,
+            hint: String?,
+            isAnswerCorrect: Boolean?
+            ->
+            val realQuestion = if (isReverse) answer else question
+            val realAnswer = if (isReverse) question else answer
+            when {
+                isAnswerCorrect != null -> AnsweredCard(realQuestion, realAnswer)
+                hint != null -> UnansweredCardWithHint(realQuestion, hint)
+                else -> UnansweredCard(realQuestion)
+            }
+        }
+    }
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
+
     val isQuestionDisplayed: Flow<Boolean> =
         exerciseCardFlow.flatMapLatest { exerciseCard ->
             exerciseCard.base.flowOf(ExerciseCard.Base::isQuestionDisplayed)
@@ -26,43 +51,8 @@ class ManualTestExerciseCardViewModel(
             .distinctUntilChanged()
             .flowOn(businessLogicThread)
 
-    val question: Flow<String> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        with(exerciseCard.base) {
-            if (isReverse)
-                card.flowOf(Card::answer)
-            else
-                card.flowOf(Card::question)
-        }
-    }
-        .distinctUntilChanged()
-        .flowOn(businessLogicThread)
-
-    val hint: Flow<String?> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        exerciseCard.base.flowOf(ExerciseCard.Base::hint)
-    }
-        .distinctUntilChanged()
-        .flowOn(businessLogicThread)
-
-    val answerStatus: Flow<AnswerStatus> = exerciseCardFlow.flatMapLatest { exerciseCard ->
+    val isAnswerCorrect: Flow<Boolean?> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
-    }.combine(hint) { isAnswerCorrect: Boolean?, hint: String? ->
-        when {
-            isAnswerCorrect == true -> Correct
-            isAnswerCorrect == false -> Wrong
-            hint != null -> UnansweredWithHint
-            else -> Unanswered
-        }
-    }
-        .distinctUntilChanged()
-        .flowOn(businessLogicThread)
-
-    val answer: Flow<String> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        with(exerciseCard.base) {
-            if (isReverse)
-                card.flowOf(Card::question)
-            else
-                card.flowOf(Card::answer)
-        }
     }
         .distinctUntilChanged()
         .flowOn(businessLogicThread)
