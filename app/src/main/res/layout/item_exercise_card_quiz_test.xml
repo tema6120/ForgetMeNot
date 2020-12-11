@@ -1,26 +1,29 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/cardView"
         style="@style/ExerciseCardStyle">
 
     <LinearLayout
+            android:id="@+id/cardLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1">
 
         <FrameLayout
-                android:id="@+id/question_frame"
+                android:id="@+id/questionFrame"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:background="@android:color/transparent">
 
             <ScrollView
                     android:id="@+id/questionScrollView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fillViewport="true">
+                    android:fillViewport="true"
+                    android:visibility="invisible"
+                    tools:visibility="visible">
 
                 <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                         android:id="@+id/questionTextView"
@@ -47,63 +50,36 @@
                     android:textSize="18sp"
                     android:visibility="gone" />
 
-            <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="bottom"
-                    android:background="?android:listDivider" />
-
-            <TextView
-                    android:id="@+id/cardLabelTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_gravity="top|center_horizontal"
-                    android:background="@drawable/background_card_label"
-                    android:enabled="false"
-                    android:gravity="center_vertical"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:translationY="-37dp"
-                    tools:backgroundTint="@color/card_label_learned"
-                    tools:fontFamily="@font/comfortaa"
-                    tools:text="Learned"
-                    tools:textStyle="bold" />
-
         </FrameLayout>
 
+        <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider_in_exercise" />
+
         <ScrollView
-                android:id="@+id/answerScrollView"
+                android:id="@+id/variantsScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="0.5">
 
             <LinearLayout
+                    android:id="@+id/variantsLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
 
                 <FrameLayout
                         android:id="@+id/variant1Frame"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        style="@style/VariantFrame"
                         tools:background="@drawable/background_variant_status_wrong">
 
                     <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                             android:id="@+id/variant1Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:drawablePadding="16dp"
-                            android:padding="16dp"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="18sp"
-                            app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
+                            style="@style/VariantButton"
                             tools:drawableStartCompat="@drawable/ic_wrong_answer_24"
                             tools:text="freely"
                             tools:textColor="@color/wrong_answer" />
@@ -112,68 +88,34 @@
 
                 <FrameLayout
                         android:id="@+id/variant2Frame"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp">
+                        style="@style/VariantFrame">
 
                     <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                             android:id="@+id/variant2Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:drawablePadding="16dp"
-                            android:padding="16dp"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="18sp"
-                            app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
+                            style="@style/VariantButton"
                             tools:text="chronically" />
 
                 </FrameLayout>
 
                 <FrameLayout
                         android:id="@+id/variant3Frame"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
+                        style="@style/VariantFrame"
                         tools:background="@drawable/background_variant_status_correct_but_not_selected">
 
                     <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                             android:id="@+id/variant3Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:drawablePadding="16dp"
-                            android:padding="16dp"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="18sp"
-                            app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
+                            style="@style/VariantButton"
                             tools:text="assiduously" />
 
                 </FrameLayout>
 
                 <FrameLayout
                         android:id="@+id/variant4Frame"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp">
+                        style="@style/VariantFrame">
 
                     <com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
                             android:id="@+id/variant4Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:drawablePadding="16dp"
-                            android:padding="16dp"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="18sp"
-                            app:drawableStartCompat="@drawable/ic_radiobutton_unchecked_24"
+                            style="@style/VariantButton"
                             tools:text="feebly" />
 
                 </FrameLayout>
@@ -183,5 +125,23 @@
         </ScrollView>
 
     </LinearLayout>
+
+    <TextView
+            android:id="@+id/cardLabelTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_gravity="top|center_horizontal"
+            android:background="@drawable/background_card_label"
+            android:enabled="false"
+            android:gravity="center_vertical"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:translationY="-37dp"
+            tools:backgroundTint="@color/card_label_learned"
+            tools:fontFamily="@font/comfortaa"
+            tools:text="Learned"
+            tools:textStyle="bold" />
 
 </androidx.cardview.widget.CardView>

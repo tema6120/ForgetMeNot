@@ -10,7 +10,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.
 import kotlinx.coroutines.flow.*
 
 class QuizTestExerciseCardViewModel(
-    private val initialExerciseCard: QuizTestExerciseCard
+    initialExerciseCard: QuizTestExerciseCard
 ) {
     private val exerciseCardFlow = MutableStateFlow(initialExerciseCard)
 
@@ -18,35 +18,31 @@ class QuizTestExerciseCardViewModel(
         exerciseCardFlow.value = exerciseCard
     }
 
-    val isQuestionDisplayed: Flow<Boolean> =
-        exerciseCardFlow.flatMapLatest { exerciseCard ->
-            exerciseCard.base.flowOf(ExerciseCard.Base::isQuestionDisplayed)
-        }
-            .distinctUntilChanged()
-            .flowOn(businessLogicThread)
-
-    val question: Flow<String> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        with(exerciseCard.base) {
-            if (isReverse)
-                card.flowOf(Card::answer)
-            else
-                card.flowOf(Card::question)
-        }
-    }
-        .distinctUntilChanged()
-        .flowOn(businessLogicThread)
-
-    fun variantText(variantIndex: Int): Flow<String?> =
-        exerciseCardFlow.flatMapLatest { exerciseCard ->
-            val card: Card? = exerciseCard.variants.getOrNull(variantIndex)
+    val cardContent: Flow<QuizCardContent> = exerciseCardFlow.flatMapLatest { exerciseCard ->
+        val questionFlow = if (exerciseCard.base.isReverse)
+            exerciseCard.base.card.flowOf(Card::answer) else
+            exerciseCard.base.card.flowOf(Card::question)
+        val variantFlows: List<Flow<String?>> = exerciseCard.variants.map { card: Card? ->
             if (card != null) {
                 if (exerciseCard.base.isReverse)
-                    card.flowOf(Card::question)
-                else
+                    card.flowOf(Card::question) else
                     card.flowOf(Card::answer)
             } else {
                 flowOf(null)
             }
+        }
+        combine(
+            questionFlow,
+            combine(variantFlows) { it.toList() },
+            ::QuizCardContent
+        )
+    }
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
+
+    val isQuestionDisplayed: Flow<Boolean> =
+        exerciseCardFlow.flatMapLatest { exerciseCard ->
+            exerciseCard.base.flowOf(ExerciseCard.Base::isQuestionDisplayed)
         }
             .distinctUntilChanged()
             .flowOn(businessLogicThread)

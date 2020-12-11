@@ -4,13 +4,21 @@ import android.animation.AnimatorInflater
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.util.Size
 import android.util.TypedValue
 import android.view.View
 import android.view.View.MeasureSpec
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.LinearLayout
+import android.widget.LinearLayout.VERTICAL
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
@@ -20,6 +28,7 @@ import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
@@ -57,8 +66,49 @@ class QuizTestExerciseCardViewHolder(
         }
     }
 
+    private val qTextView = TextView(itemView.context).apply {
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        setPadding(16.dp)
+        textSize = 20f
+    }
+
+    private val vTextViews = Array(4) {
+        TextView(itemView.context).apply {
+            layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+                setMargins(16.dp, 4.dp, 16.dp, 4.dp)
+                minHeight = 56.dp // if text is smaller than compound drawable
+            }
+            setPadding(56.dp, 16.dp, 16.dp, 16.dp)
+            textSize = 18f
+        }
+    }
+
+    private val vColumn = LinearLayout(itemView.context).apply {
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        orientation = VERTICAL
+        setPadding(0, 12.dp, 0, 12.dp)
+        vTextViews.forEach(::addView)
+    }
+
+    private var cardContent: QuizCardContent? = null
+        set(value) {
+            field = value
+            updateCardContent()
+        }
+
+    private var cardSize: Size? = null
+        set(value) {
+            if (field != value) {
+                field = value
+                itemView.post { updateCardContent() }
+            }
+        }
+
     init {
         asyncItemView.invokeWhenInflated {
+            cardView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                cardSize = Size(cardView.width, cardView.height)
+            }
             knowingWhenPagerStopped.invokeWhenPagerStopped {
                 setupView()
             }
@@ -68,10 +118,12 @@ class QuizTestExerciseCardViewHolder(
     private fun setupView() {
         with(itemView) {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
+            questionTextView.textSize = 20f
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
             forEachVariantButton { variant: Int ->
+                textSize = 18f
                 setOnClickListener { controller.dispatch(VariantSelected(variant)) }
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))
@@ -95,7 +147,7 @@ class QuizTestExerciseCardViewHolder(
                 }
             } else {
                 questionScrollView.scrollTo(0, 0)
-                answerScrollView.scrollTo(0, 0)
+                variantsScrollView.scrollTo(0, 0)
                 viewModel!!.setExerciseCard(exerciseCard)
             }
         }
@@ -104,13 +156,12 @@ class QuizTestExerciseCardViewHolder(
     private fun observeViewModel() {
         with(viewModel!!) {
             with(itemView) {
+                cardContent.observe(coroutineScope) { cardContent: QuizCardContent ->
+                    this@QuizTestExerciseCardViewHolder.cardContent = cardContent
+                }
                 isQuestionDisplayed.observe(coroutineScope) { isQuestionDisplayed: Boolean ->
                     showQuestionButton.isVisible = !isQuestionDisplayed
                     questionScrollView.isVisible = isQuestionDisplayed
-                }
-                question.observe(coroutineScope) { question: String ->
-                    questionTextView.text = question
-                    questionTextView.fixTextSelection()
                 }
                 forEachVariantFrame { variant: Int ->
                     variantStatus(variant).observe(coroutineScope) { variantStatus: VariantStatus ->
@@ -118,10 +169,9 @@ class QuizTestExerciseCardViewHolder(
                     }
                 }
                 forEachVariantButton { variant: Int ->
-                    variantText(variant).observe(coroutineScope, ::setText)
                     variantStatus(variant).observe(coroutineScope) { variantStatus: VariantStatus ->
                         setVariantIcon(variantButton = this, variantStatus)
-                        setVariantText(variantButton = this, variantStatus)
+                        setVariantTextColor(variantButton = this, variantStatus)
                     }
                 }
                 isAnswered.observe(coroutineScope) { isAnswered: Boolean ->
@@ -185,22 +235,64 @@ class QuizTestExerciseCardViewHolder(
         }
     }
 
-    private inline fun View.forEachVariantFrame(
-        action: View.(variant: Int) -> Unit
-    ) {
-        variant1Frame.action(0)
-        variant2Frame.action(1)
-        variant3Frame.action(2)
-        variant4Frame.action(3)
+    private fun updateCardContent() {
+        val cardContent = cardContent ?: return
+        val cardSize = cardSize ?: return
+        val availableCardHeight = cardSize.height - 1.dp
+        val desiredQuestionHeight = measureQuestionHeight(cardContent.question)
+        val desiredVariantsHeight = measureVariantsHeight(cardContent.variants)
+        CardSpaceAllocator.allocate(
+            availableCardHeight,
+            itemView.questionFrame,
+            desiredQuestionHeight,
+            itemView.variantsScrollView,
+            desiredVariantsHeight
+        )
+        itemView.questionTextView.text = cardContent.question
+        itemView.questionTextView.fixTextSelection()
+        forEachVariantButton { variant: Int ->
+            text = cardContent.variants[variant]
+        }
     }
 
-    private inline fun View.forEachVariantButton(
+    private fun measureQuestionHeight(question: String): Int {
+        qTextView.text = question
+        qTextView.measure(
+            MeasureSpec.makeMeasureSpec(cardSize!!.width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+        return qTextView.measuredHeight
+    }
+
+    private fun measureVariantsHeight(variants: List<String?>): Int {
+        vTextViews.forEachIndexed { index, textView -> textView.text = variants[index] }
+        vColumn.measure(
+            MeasureSpec.makeMeasureSpec(cardSize!!.width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+        return vColumn.measuredHeight
+    }
+
+    private inline fun forEachVariantFrame(
+        action: View.(variant: Int) -> Unit
+    ) {
+        with(itemView) {
+            variant1Frame.action(0)
+            variant2Frame.action(1)
+            variant3Frame.action(2)
+            variant4Frame.action(3)
+        }
+    }
+
+    private inline fun forEachVariantButton(
         action: TextViewWithObservableSelection.(variant: Int) -> Unit
     ) {
-        variant1Button.action(0)
-        variant2Button.action(1)
-        variant3Button.action(2)
-        variant4Button.action(3)
+        with(itemView) {
+            variant1Button.action(0)
+            variant2Button.action(1)
+            variant3Button.action(2)
+            variant4Button.action(3)
+        }
     }
 
     private fun setVariantBackground(variantFrame: View, variantStatus: VariantStatus) {
@@ -226,7 +318,7 @@ class QuizTestExerciseCardViewHolder(
         variantButton.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableResId, 0, 0, 0)
     }
 
-    private fun setVariantText(
+    private fun setVariantTextColor(
         variantButton: TextViewWithObservableSelection,
         variantStatus: VariantStatus
     ) {
@@ -240,23 +332,19 @@ class QuizTestExerciseCardViewHolder(
     }
 
     private fun showCardLabelTipPopup(cardLabel: CardLabel) {
-        cardLabelTipPopup.contentView.cardLabelExplanationTextView.setText(
-            when (cardLabel) {
-                CardLabel.Learned -> R.string.explanation_card_label_learned
-                CardLabel.Expired -> R.string.explanation_card_label_expired
-            }
-        )
-        measureCardLabelTipPopup()
-        val xOff: Int = itemView.cardLabelTextView.width / 2 - cardLabelTipPopup.width / 2
-        val yOff: Int = 8.dp
-        cardLabelTipPopup.showAsDropDown(itemView.cardLabelTextView, xOff, yOff)
-    }
-
-    private fun measureCardLabelTipPopup() {
         with(cardLabelTipPopup) {
+            contentView.cardLabelExplanationTextView.setText(
+                when (cardLabel) {
+                    CardLabel.Learned -> R.string.explanation_card_label_learned
+                    CardLabel.Expired -> R.string.explanation_card_label_expired
+                }
+            )
             contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
             width = contentView.measuredWidth
             height = contentView.measuredHeight
+            val xOff: Int = itemView.cardLabelTextView.width / 2 - width / 2
+            val yOff: Int = 8.dp
+            showAsDropDown(itemView.cardLabelTextView, xOff, yOff)
         }
     }
 }

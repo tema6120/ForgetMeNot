@@ -202,4 +202,24 @@
         <item name="colorControlActivated">@color/walking_mode_icon_on_popup</item>
     </style>
 
+    <style name="VariantFrame">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <style name="VariantButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="drawableStartCompat">@drawable/ic_radiobutton_unchecked_24</item>
+    </style>
+
 </resources>
