@@ -207,8 +207,6 @@
     <string name="text_import_file_button">Import file</string>
     <string name="text_browse_catalog_button">Browse catalog</string>
     <string name="text_create_cards_here_button">Create cards here</string>
-    <string name="title_exit_dialog">Are you sure you want to quit?</string>
-    <string name="message_changes_will_be_lost">Your changes will be lost if you don\'t save them.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="popup_title_walking_mode">Walking mode</string>
@@ -658,4 +656,7 @@
     </plurals>
     <string name="button_show_unanswered_card">Show unanswered card</string>
     <string name="button_quit_exercise">Quit anyway</string>
+    <string name="message_quit_cards_editor">Your unsaved changes will be lost. Save changes before quitting?</string>
+    <string name="button_save">Save</string>
+    <string name="button_quit_without_saving">Quit without saving</string>
 </resources>

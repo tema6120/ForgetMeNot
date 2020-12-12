@@ -86,7 +86,7 @@ class CardsEditorController(
                 }
             }
 
-            DoneButtonClicked -> {
+            DoneButtonClicked, SaveButtonClicked -> {
                 catchAndLogException {
                     when (val savingResult: SavingResult = cardsEditor.save()) {
                         Success -> {

@@ -12,5 +12,6 @@ sealed class CardsEditorEvent {
     object CancelButtonClicked : CardsEditorEvent()
     object DoneButtonClicked : CardsEditorEvent()
     object BackButtonClicked : CardsEditorEvent()
+    object SaveButtonClicked : CardsEditorEvent()
     object UserConfirmedExit : CardsEditorEvent()
 }

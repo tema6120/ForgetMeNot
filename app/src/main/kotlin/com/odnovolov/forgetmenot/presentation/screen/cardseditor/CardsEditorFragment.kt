@@ -31,29 +31,15 @@ class CardsEditorFragment : BaseFragment() {
 
     private var controller: CardsEditorController? = null
     private lateinit var viewModel: CardsEditorViewModel
-    private val fragmentCoroutineScope =
-        CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val intervalsPopup: PopupWindow by lazy { createIntervalsPopup() }
-    private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
-    private lateinit var exitDialog: Dialog
+    private val intervalsPopup: PopupWindow by lazy(::createIntervalsPopup)
+    private val intervalsAdapter: IntervalsAdapter by lazy(::createIntervalsAdapter)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        createExitDialog()
         return inflater.inflate(R.layout.fragment_cards_editor, container, false)
-    }
-
-    private fun createExitDialog() {
-        exitDialog = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.title_exit_dialog)
-            .setMessage(R.string.message_changes_will_be_lost)
-            .setPositiveButton(R.string.yes) { _, _ -> controller?.dispatch(UserConfirmedExit) }
-            .setNegativeButton(R.string.no, null)
-            .create()
-        dialogTimeCapsule.register("exitDialog", exitDialog)
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
@@ -200,7 +186,7 @@ class CardsEditorFragment : BaseFragment() {
                     .show()
             }
             AskUserToConfirmExit -> {
-                exitDialog.show()
+                QuitCardsEditorBottomSheet().show(childFragmentManager, "QuitCardsEditorBottomSheet")
             }
         }
     }
@@ -224,7 +210,6 @@ class CardsEditorFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
-        hideActionBar()
     }
 
     override fun onPause() {
@@ -240,7 +225,6 @@ class CardsEditorFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        fragmentCoroutineScope.cancel()
         (activity as AppCompatActivity).supportActionBar?.show()
         if (needToCloseDiScope()) {
             CardsEditorDiScope.close()

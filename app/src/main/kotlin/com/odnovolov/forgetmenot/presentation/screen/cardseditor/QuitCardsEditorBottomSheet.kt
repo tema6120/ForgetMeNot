@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.exercise
+package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,43 +9,42 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.ShowUnansweredCardButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.UserConfirmedExit
-import kotlinx.android.synthetic.main.bottom_sheet_quit_exercise.*
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.SaveButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.UserConfirmedExit
+import kotlinx.android.synthetic.main.bottom_sheet_quit_cards_editor.*
 import kotlinx.coroutines.launch
 
-class QuitExerciseBottomSheet : BaseBottomSheetDialogFragment() {
+class QuitCardsEditorBottomSheet : BaseBottomSheetDialogFragment() {
     init {
-        ExerciseDiScope.reopenIfClosed()
+        CardsEditorDiScope.reopenIfClosed()
     }
 
-    private var controller: ExerciseController? = null
+    private var controller: CardsEditorController? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_quit_exercise, container, false)
+        return inflater.inflate(R.layout.bottom_sheet_quit_cards_editor, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = ExerciseDiScope.getAsync() ?: return@launch
+            val diScope = CardsEditorDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            observeViewModel(diScope.viewModel)
         }
     }
 
     private fun setupView() {
         setBottomSheetAlwaysExpanded()
-        showUnansweredCardButton.setOnClickListener {
-            controller?.dispatch(ShowUnansweredCardButtonClicked)
+        saveButton.setOnClickListener {
+            controller?.dispatch(SaveButtonClicked)
             dismiss()
         }
-        quitExerciseButton.setOnClickListener {
+        quitWithoutSavingButton.setOnClickListener {
             controller?.dispatch(UserConfirmedExit)
         }
     }
@@ -61,15 +60,6 @@ class QuitExerciseBottomSheet : BaseBottomSheetDialogFragment() {
                 BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
-    }
-
-    private fun observeViewModel(viewModel: ExerciseViewModel) {
-        unansweredCardNumberTextView.text = viewModel.unansweredCardCount.toString()
-        quitExerciseMessageTextView.text = resources.getQuantityString(
-            R.plurals.message_quit_exercise,
-            viewModel.unansweredCardCount,
-            viewModel.unansweredCardCount
-        )
     }
 
     override fun getTheme(): Int {
