@@ -812,6 +812,8 @@ class ExerciseFragment : BaseFragment() {
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             controller?.dispatch(PageSelected(position))
+            timerButtonPaintingAnimation?.cancel()
+            timerButtonPaintingAnimation = null
             val currentViewHolder = exerciseViewPager.findViewHolderForAdapterPosition(position)
             if (currentViewHolder is EntryTestExerciseCardViewHolder) {
                 currentViewHolder.onPageSelected()

@@ -1,8 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.common
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import android.text.*
@@ -20,6 +23,8 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
@@ -107,10 +112,9 @@ fun <T, R> Flow<T>.mapTwoLatest(block: (old: T, new: T) -> R): Flow<R> {
         }
 }
 
-fun View.showSoftInput(showImplicit: Boolean = false) {
+fun View.showSoftInput() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    val flags: Int = if (showImplicit) InputMethodManager.SHOW_IMPLICIT else 0
-    fun show(): Boolean = requestFocus() && imm.showSoftInput(this, flags)
+    fun show(): Boolean = requestFocus() && imm.showSoftInput(this, 0)
     if (hasWindowFocus()) {
         val success = show()
         if (!success) post { show() }
@@ -127,10 +131,9 @@ fun View.showSoftInput(showImplicit: Boolean = false) {
     }
 }
 
-fun View.hideSoftInput(hideImplicitlyOnly: Boolean = false): Boolean {
+fun View.hideSoftInput(): Boolean {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    val flags: Int = if (hideImplicitlyOnly) InputMethodManager.HIDE_IMPLICIT_ONLY else 0
-    return imm.hideSoftInputFromWindow(windowToken, flags)
+    return imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
 fun Fragment.showToast(
@@ -279,3 +282,25 @@ fun String.highlight(
         }
     }
 }
+
+fun View.isVisibleOnScreen(): Boolean {
+    val actualPosition = Rect().also(::getGlobalVisibleRect)
+    val screenWidth = Resources.getSystem().displayMetrics.widthPixels
+    val screenHeight = Resources.getSystem().displayMetrics.heightPixels
+    val screen = Rect(0, 0, screenWidth, screenHeight)
+    return actualPosition.intersect(screen)
+}
+
+fun View.getActivity(): Activity? {
+    var context = this.context
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    return null
+}
+
+fun isKeyboardVisible(view: View): Boolean? =
+    ViewCompat.getRootWindowInsets(view)?.isVisible(Type.ime())

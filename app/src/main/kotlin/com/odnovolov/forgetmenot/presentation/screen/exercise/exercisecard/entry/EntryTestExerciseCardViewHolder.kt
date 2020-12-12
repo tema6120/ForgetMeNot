@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entr
 
 import android.animation.AnimatorInflater
 import android.animation.LayoutTransition
-import android.content.Context
+import android.app.Activity
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Color
 import android.graphics.Paint
@@ -18,8 +18,10 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.VERTICAL
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -133,7 +135,9 @@ class EntryTestExerciseCardViewHolder(
             hintTextView.textSize = 18f
             answerEditText.run {
                 observeText { text: String -> controller.dispatch(AnswerInputChanged(text)) }
-                setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) hideKeyboard() }
+                setOnFocusChangeListener { _, hasFocus ->
+                    if (!hasFocus) hideKeyboardDelayedIfItIsNotNeeded()
+                }
                 textSize = 18f
             }
             checkButton.setOnClickListener {
@@ -177,6 +181,9 @@ class EntryTestExerciseCardViewHolder(
                 answerScrollView.scrollTo(0, 0)
                 answerEditText.setText(exerciseCard.userInput)
                 answerEditText.setSelection(exerciseCard.userInput?.length ?: 0)
+                asyncItemView.doOnNextLayout {
+                    checkButton.translationX = asyncItemView.x / 3
+                }
                 viewModel!!.setExerciseCard(exerciseCard)
             }
         }
@@ -192,7 +199,16 @@ class EntryTestExerciseCardViewHolder(
                     showQuestionButton.isVisible = !isQuestionDisplayed
                     questionScrollView.isInvisible = !isQuestionDisplayed
                 }
-                isInputEnabled.observe(coroutineScope, answerEditText::setEnabled)
+                isInputEnabled.observe(coroutineScope) { isEnabled: Boolean ->
+                    answerEditText.isEnabled = isEnabled
+                    if (isEnabled) {
+                        answerEditText.post {
+                            if (answerEditText.isVisibleOnScreen()) {
+                                answerEditText.showSoftInput()
+                            }
+                        }
+                    }
+                }
                 isExpired.observe(coroutineScope) { isExpired: Boolean ->
                     val cardBackgroundColor: Int =
                         if (isExpired) {
@@ -362,28 +378,21 @@ class EntryTestExerciseCardViewHolder(
             if (answerEditText.isEnabled
                 && resources.configuration.orientation == ORIENTATION_PORTRAIT
             ) {
-                showKeyboard()
+                answerEditText.showSoftInput()
             }
         }
     }
 
-    private fun showKeyboard() {
-        needToCloseKeyboard = false
-        itemView.answerEditText.showSoftInput()
-    }
-
-    private fun hideKeyboard() {
-        needToCloseKeyboard = true
+    private fun hideKeyboardDelayedIfItIsNotNeeded() {
+        val activity = itemView.getActivity() ?: return
         itemView.postDelayed({
-            if (needToCloseKeyboard) {
-                val imm = itemView.context
-                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+            val focusedView = activity.currentFocus ?: return@postDelayed
+            if (isKeyboardVisible(focusedView) != true) return@postDelayed
+            if (focusedView !is AppCompatEditText || !focusedView.isVisibleOnScreen()) {
+                val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE)
+                        as InputMethodManager
+                imm.toggleSoftInput(0, 0)
             }
         }, 50)
-    }
-
-    companion object {
-        var needToCloseKeyboard = false
     }
 }
