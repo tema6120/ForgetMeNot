@@ -213,14 +213,6 @@
     <string name="no">No</string>
     <string name="popup_title_walking_mode">Walking mode</string>
     <string name="popup_title_hints">Hints</string>
-    <plurals name="exit_message_unanswered_cards">
-        <item quantity="one">%d card is still unanswered</item>
-        <item quantity="other">%d cards are still unanswered</item>
-    </plurals>
-    <plurals name="text_show_unanswered_card_button">
-        <item quantity="one">Show</item>
-        <item quantity="other">Show the first</item>
-    </plurals>
     <string name="hint_search_in_all_cards">Search in all cards</string>
     <string name="hint_search_in_specific_deck">Search in \'%1$s\'</string>
     <string name="text_search_in_cards_button">Search in cards</string>
@@ -660,4 +652,10 @@
     <string name="expired">Expired</string>
     <string name="explanation_card_label_learned">\'Learned\' means the card will not be asked again in exercise</string>
     <string name="explanation_card_label_expired">\'Expired\' means that you didn\'t get to answer a question within the allotted time</string>
+    <plurals name="message_quit_exercise">
+        <item quantity="one">%d card is still unanswered</item>
+        <item quantity="other">%d cards are still unanswered</item>
+    </plurals>
+    <string name="button_show_unanswered_card">Show unanswered card</string>
+    <string name="button_quit_exercise">Quit anyway</string>
 </resources>

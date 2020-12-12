@@ -1,0 +1,18 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/colorAccent" />
+            <corners android:radius="28dp" />
+        </shape>
+    </item>
+    <item>
+        <ripple android:color="@android:color/white">
+            <item android:id="@android:id/mask">
+                <shape>
+                    <solid android:color="#000" />
+                    <corners android:radius="28dp" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+</layer-list>

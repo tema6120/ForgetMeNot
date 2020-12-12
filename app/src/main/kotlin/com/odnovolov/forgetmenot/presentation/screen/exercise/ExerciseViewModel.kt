@@ -5,10 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
-import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
-import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.domain.interactor.exercise.HintSelection
-import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
+import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
@@ -242,4 +239,9 @@ class ExerciseViewModel(
     val keyGestureMap: Flow<Map<KeyGesture, KeyGestureAction>> =
         walkingModePreference.flowOf(WalkingModePreference::keyGestureMap)
             .flowOn(businessLogicThread)
+
+    val unansweredCardCount: Int
+        get() = exerciseState.exerciseCards.count { exerciseCard: ExerciseCard ->
+            !exerciseCard.isAnswered && !exerciseCard.base.card.isLearned
+        }
 }

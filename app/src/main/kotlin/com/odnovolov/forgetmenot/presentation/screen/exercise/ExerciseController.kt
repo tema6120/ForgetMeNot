@@ -37,7 +37,7 @@ class ExerciseController(
         object MoveToPreviousPosition : Command()
         class MoveToPosition(val position: Int) : Command()
         class ShowIntervalsPopup(val intervalItems: List<IntervalItem>?) : Command()
-        class ShowThereAreUnansweredCardsMessage(val unansweredCardCount: Int) : Command()
+        object ShowQuitExerciseBottomSheet : Command()
     }
 
     override fun handle(event: ExerciseEvent) {
@@ -154,7 +154,7 @@ class ExerciseController(
                     !exerciseCard.isAnswered && !exerciseCard.base.card.isLearned
                 }
                 if (unansweredCardCount > 0) {
-                    sendCommand(ShowThereAreUnansweredCardsMessage(unansweredCardCount))
+                    sendCommand(ShowQuitExerciseBottomSheet)
                 } else {
                     navigator.navigateUp()
                 }

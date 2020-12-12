@@ -8,6 +8,6 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@color/background_window</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.YourApp.LargeComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet</item>
     </style>
 </resources>

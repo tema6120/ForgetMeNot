@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.graphics.*
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,7 +13,6 @@ import android.view.View.MeasureSpec
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -40,8 +38,6 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.NO_ACTION
-import kotlinx.android.synthetic.main.dialog_exit_from_exercise.*
-import kotlinx.android.synthetic.main.dialog_exit_from_exercise.view.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.popup_hints.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
@@ -66,7 +62,6 @@ class ExerciseFragment : BaseFragment() {
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
-    private var exitDialog: AlertDialog? = null
     private lateinit var keyEventInterceptor: (KeyEvent) -> Boolean
     private lateinit var volumeUpGestureDetector: KeyGestureDetector
     private lateinit var volumeDownGestureDetector: KeyGestureDetector
@@ -353,8 +348,8 @@ class ExerciseFragment : BaseFragment() {
             is ShowIntervalsPopup -> {
                 showIntervalsPopup(command.intervalItems)
             }
-            is ShowThereAreUnansweredCardsMessage -> {
-                showExitDialog(command.unansweredCardCount)
+            is ShowQuitExerciseBottomSheet -> {
+                QuitExerciseBottomSheet().show(childFragmentManager, "QuitExerciseBottomSheet")
             }
         }
     }
@@ -377,7 +372,6 @@ class ExerciseFragment : BaseFragment() {
         createTimerPopup()
         createHintsPopup()
         createWalkingModePopup()
-        createExitDialog()
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
@@ -736,36 +730,6 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun createExitDialog() {
-        val content: View = View.inflate(context, R.layout.dialog_exit_from_exercise, null)
-        content.showButton.setOnClickListener {
-            controller?.dispatch(ShowUnansweredCardButtonClicked)
-            exitDialog?.dismiss()
-        }
-        exitDialog = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.title_exit_dialog)
-            .setView(content)
-            .setPositiveButton(R.string.yes) { _, _ -> controller?.dispatch(UserConfirmedExit) }
-            .setNegativeButton(R.string.no, null)
-            .create()
-        dialogTimeCapsule.register("exerciseExitDialog", exitDialog!!)
-    }
-
-    private fun showExitDialog(unansweredCardCount: Int) {
-        exitDialog?.run {
-            show()
-            messageTextView.text = resources.getQuantityString(
-                R.plurals.exit_message_unanswered_cards,
-                unansweredCardCount,
-                unansweredCardCount
-            )
-            showButton.text = resources.getQuantityString(
-                R.plurals.text_show_unanswered_card_button,
-                unansweredCardCount
-            )
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         viewCoroutineScope!!.launch {
@@ -798,7 +762,6 @@ class ExerciseFragment : BaseFragment() {
         timerPopup = null
         hintsPopup = null
         walkingModePopup = null
-        exitDialog = null
         knowingWhenPagerStopped = null
     }
 

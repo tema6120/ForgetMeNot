@@ -8,7 +8,7 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/background_window</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.YourApp.LargeComponent
+        <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet
         </item>
     </style>
 
@@ -120,9 +120,17 @@
         <item name="drawableTint">@color/textSecondary</item>
     </style>
 
-    <style name="ShapeAppearance.YourApp.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+    <style name="RoundCornerBottomSheet" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+
+    <style name="BottomSheetDialogTransparentBackground" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="AboutItem">
