@@ -32,8 +32,6 @@
     <string name="description_add_card_button">Add card</string>
     <string name="description_paste_button">Paste</string>
     <string name="description_clear_button">Clear</string>
-    <string name="description_cursor_left_button">Move cursor to the left</string>
-    <string name="description_cursor_right_button">Move cursor to the right</string>
     <string name="description_remove_card_button">Remove card</string>
     <string name="description_help_button">Help</string>
     <string name="description_walking_mode_button">Walking mode</string>

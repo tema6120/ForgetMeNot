@@ -36,22 +36,6 @@
                             app:srcCompat="@drawable/ic_content_paste_24px" />
 
                     <ImageButton
-                            android:id="@+id/questionCursorLeftButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_cursor_left_button"
-                            app:srcCompat="@drawable/ic_baseline_chevron_left_24" />
-
-                    <ImageButton
-                            android:id="@+id/questionCursorRightButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_cursor_right_button"
-                            app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
-
-                    <ImageButton
                             android:id="@+id/questionClearButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
@@ -152,22 +136,6 @@
                             android:background="?selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_paste_button"
                             app:srcCompat="@drawable/ic_content_paste_24px" />
-
-                    <ImageButton
-                            android:id="@+id/answerCursorLeftButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_cursor_left_button"
-                            app:srcCompat="@drawable/ic_baseline_chevron_left_24" />
-
-                    <ImageButton
-                            android:id="@+id/answerCursorRightButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/description_cursor_right_button"
-                            app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
 
                     <ImageButton
                             android:id="@+id/answerClearButton"

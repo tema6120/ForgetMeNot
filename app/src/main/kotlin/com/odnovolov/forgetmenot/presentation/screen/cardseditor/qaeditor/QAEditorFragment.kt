@@ -73,22 +73,6 @@ class QAEditorFragment : BaseFragment() {
             setOnClickListener { answerEditText.paste() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
-        questionCursorLeftButton.run {
-            setOnClickListener { moveQuestionCursorToTheLeft() }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
-        questionCursorRightButton.run {
-            setOnClickListener { moveQuestionCursorToTheRight() }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
-        answerCursorLeftButton.run {
-            setOnClickListener { moveAnswerCursorToTheLeft() }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
-        answerCursorRightButton.run {
-            setOnClickListener { moveAnswerCursorToTheRight() }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
         questionClearButton.run {
             setOnClickListener { questionEditText.text.clear() }
             TooltipCompat.setTooltipText(this, contentDescription)
@@ -96,42 +80,6 @@ class QAEditorFragment : BaseFragment() {
         answerClearButton.run {
             setOnClickListener { answerEditText.text.clear() }
             TooltipCompat.setTooltipText(this, contentDescription)
-        }
-    }
-
-    private fun moveQuestionCursorToTheLeft() {
-        when {
-            questionEditText.hasSelection() -> questionEditText.moveLeftPinToTheLeft()
-            answerEditText.hasSelection() -> answerEditText.moveLeftPinToTheLeft()
-            answerEditText.hasFocus() -> answerEditText.moveCursorToTheLeft()
-            else -> questionEditText.moveCursorToTheLeft()
-        }
-    }
-
-    private fun moveQuestionCursorToTheRight() {
-        when {
-            questionEditText.hasSelection() -> questionEditText.moveLeftPinToTheRight()
-            answerEditText.hasSelection() -> answerEditText.moveLeftPinToTheRight()
-            answerEditText.hasFocus() -> answerEditText.moveCursorToTheRight()
-            else -> questionEditText.moveCursorToTheRight()
-        }
-    }
-
-    private fun moveAnswerCursorToTheLeft() {
-        when {
-            questionEditText.hasSelection() -> questionEditText.moveRightPinToTheLeft()
-            answerEditText.hasSelection() -> answerEditText.moveRightPinToTheLeft()
-            questionEditText.hasFocus() -> questionEditText.moveCursorToTheLeft()
-            else -> answerEditText.moveCursorToTheLeft()
-        }
-    }
-
-    private fun moveAnswerCursorToTheRight() {
-        when {
-            questionEditText.hasSelection() -> questionEditText.moveRightPinToTheRight()
-            answerEditText.hasSelection() -> answerEditText.moveRightPinToTheRight()
-            questionEditText.hasFocus() -> questionEditText.moveCursorToTheRight()
-            else -> answerEditText.moveCursorToTheRight()
         }
     }
 
