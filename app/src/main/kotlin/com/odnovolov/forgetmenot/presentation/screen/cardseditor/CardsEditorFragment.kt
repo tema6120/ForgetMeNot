@@ -1,16 +1,17 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
-import android.app.Dialog
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
 import android.view.View.MeasureSpec
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
@@ -22,7 +23,8 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEven
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
 import kotlinx.android.synthetic.main.fragment_cards_editor.*
-import kotlinx.coroutines.*
+import kotlinx.android.synthetic.main.popup_intervals.view.*
+import kotlinx.coroutines.launch
 
 class CardsEditorFragment : BaseFragment() {
     init {
@@ -51,19 +53,20 @@ class CardsEditorFragment : BaseFragment() {
     }
 
     private fun createIntervalsPopup(): PopupWindow {
-        val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_intervals, null) as RecyclerView
-        recycler.adapter = intervalsAdapter
+        val content: View = View.inflate(context, R.layout.popup_intervals, null).apply {
+            intervalsRecycler.adapter = intervalsAdapter
+        }
         return PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            contentView = recycler
+            width = WRAP_CONTENT
+            height = WRAP_CONTENT
+            contentView = content
             setBackgroundDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
             )
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
+            animationStyle = R.style.PopupFromBottomLeftAnimation
         }
     }
 
@@ -114,17 +117,11 @@ class CardsEditorFragment : BaseFragment() {
                 }
             }
             gradeOfCurrentCard.observe { grade: Int? ->
-                with(gradeTextView) {
-                    if (grade == null) {
-                        isVisible = false
-                    } else {
-                        val backgroundRes = getBackgroundResForGrade(grade)
-                        setBackgroundResource(backgroundRes)
-                        text = grade.toString()
-                        isVisible = true
-                    }
-                }
                 gradeButton.isVisible = grade != null
+                if (grade != null) {
+                    gradeButton.text = grade.toString()
+                    updateGradeButtonColor(grade)
+                }
             }
             isCurrentEditableCardLearned.observe { isLearned: Boolean? ->
                 with(markAsLearnedButton) {
@@ -160,6 +157,17 @@ class CardsEditorFragment : BaseFragment() {
         }
     }
 
+    private fun updateGradeButtonColor(grade: Int) {
+        val gradeColor: Int = ContextCompat.getColor(requireContext(), getGradeColorRes(grade))
+        gradeButton.background.setTint(gradeColor)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val brightGradeColor: Int =
+                ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))
+            gradeButton.outlineAmbientShadowColor = brightGradeColor
+            gradeButton.outlineSpotShadowColor = brightGradeColor
+        }
+    }
+
     private fun executeCommand(command: CardsEditorController.Command) {
         when (command) {
             is ShowUnfilledTextInputAt -> {
@@ -168,9 +176,6 @@ class CardsEditorFragment : BaseFragment() {
             }
             is ShowIntervalsPopup -> {
                 showIntervalsPopup(command.intervalItems)
-            }
-            ShowIntervalsAreOffMessage -> {
-                showToast(R.string.description_intervals_are_off)
             }
             ShowCardIsRemovedMessage -> {
                 Snackbar
@@ -191,20 +196,18 @@ class CardsEditorFragment : BaseFragment() {
         }
     }
 
-    private fun showIntervalsPopup(intervalItems: List<IntervalItem>) {
-        intervalsAdapter.intervalItems = intervalItems
-        val content = intervalsPopup.contentView
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        val location = IntArray(2)
-        gradeButton.getLocationOnScreen(location)
-        val x = location[0] + 8.dp
-        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
-        intervalsPopup.showAtLocation(
-            gradeButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
+    private fun showIntervalsPopup(intervalItems: List<IntervalItem>?) {
+        with(intervalsPopup) {
+            contentView.intervalsPopupTitleTextView.isActivated = intervalItems != null
+            contentView.intervalsRecycler.isVisible = intervalItems != null
+            contentView.intervalsAreOffTextView.isVisible = intervalItems == null
+            intervalItems?.let { intervalsAdapter.intervalItems = it }
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            val gradeButtonLocation = IntArray(2).also(gradeButton::getLocationOnScreen)
+            val x = gradeButtonLocation[0] + 8.dp
+            val y = gradeButtonLocation[1] + gradeButton.height - 8.dp - contentView.measuredHeight
+            showAtLocation(gradeButton.rootView, Gravity.NO_GRAVITY, x, y)
+        }
     }
 
     override fun onResume() {

@@ -30,7 +30,7 @@ class CardsEditorViewModel(
             flowOf(null)
         } else {
             currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
-                editableCard?.flowOf(EditableCard::levelOfKnowledge) ?: flowOf(null)
+                editableCard?.flowOf(EditableCard::grade) ?: flowOf(null)
             }
         }
 

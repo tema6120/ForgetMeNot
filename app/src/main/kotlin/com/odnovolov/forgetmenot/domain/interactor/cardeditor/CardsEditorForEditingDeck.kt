@@ -104,7 +104,7 @@ abstract class CardsEditorForEditingDeck(
                     question = editableCard.question
                     answer = editableCard.answer
                     isLearned = editableCard.isLearned
-                    grade = editableCard.levelOfKnowledge
+                    grade = editableCard.grade
                 }
             }
             .toCopyableList()

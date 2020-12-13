@@ -33,8 +33,7 @@ class CardsEditorController(
 ) : BaseController<CardsEditorEvent, Command>() {
     sealed class Command {
         class ShowUnfilledTextInputAt(val position: Int) : Command()
-        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>) : Command()
-        object ShowIntervalsAreOffMessage : Command()
+        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>?) : Command()
         object ShowCardIsRemovedMessage : Command()
         object AskUserToConfirmExit : Command()
     }
@@ -46,11 +45,11 @@ class CardsEditorController(
             }
 
             GradeButtonClicked -> {
-                onLevelOfKnowledgeButtonClicked()
+                onGradeButtonClicked()
             }
 
             is GradeWasChanged -> {
-                cardsEditor.setLevelOfKnowledge(event.levelOfKnowledge)
+                cardsEditor.setGrade(event.grade)
             }
 
             NotAskButtonClicked -> {
@@ -129,27 +128,23 @@ class CardsEditorController(
         }
     }
 
-    private fun onLevelOfKnowledgeButtonClicked() {
+    private fun onGradeButtonClicked() {
         val intervalScheme: IntervalScheme? =
             if (cardsEditor.currentEditableCard.deck == null) {
                 ExercisePreference.Default.intervalScheme
             } else {
                 cardsEditor.currentEditableCard.deck!!.exercisePreference.intervalScheme
             }
-        if (intervalScheme == null) {
-            sendCommand(ShowIntervalsAreOffMessage)
-        } else {
-            val currentLevelOfKnowledge: Int = cardsEditor.currentEditableCard.levelOfKnowledge
-            val intervalItems: List<IntervalItem> = intervalScheme.intervals
-                .map { interval: Interval ->
-                    IntervalItem(
-                        grade = interval.grade,
-                        waitingPeriod = interval.value,
-                        isSelected = currentLevelOfKnowledge == interval.grade
-                    )
-                }
-            sendCommand(ShowIntervalsPopup(intervalItems))
-        }
+        val currentGrade: Int = cardsEditor.currentEditableCard.grade
+        val intervalItems: List<IntervalItem>? = intervalScheme?.intervals
+            ?.map { interval: Interval ->
+                IntervalItem(
+                    grade = interval.grade,
+                    waitingPeriod = interval.value,
+                    isSelected = currentGrade == interval.grade
+                )
+            }
+        sendCommand(ShowIntervalsPopup(intervalItems))
     }
 
     override fun saveState() {

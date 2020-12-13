@@ -64,7 +64,7 @@ class CardsEditorProvider(
         question,
         answer,
         isLearned,
-        levelOfKnowledge
+        grade
     )
 
     override fun toOriginal(serializableState: SerializableState): CardsEditor {
@@ -84,7 +84,7 @@ class CardsEditorProvider(
                     serializableEditableCard.question,
                     serializableEditableCard.answer,
                     serializableEditableCard.isLearned,
-                    serializableEditableCard.levelOfKnowledge
+                    serializableEditableCard.grade
                 )
             }
         val cardsEditorState = CardsEditor.State(
@@ -119,7 +119,7 @@ class CardsEditorProvider(
                                 serializableEditableCard.question,
                                 serializableEditableCard.answer,
                                 serializableEditableCard.isLearned,
-                                serializableEditableCard.levelOfKnowledge
+                                serializableEditableCard.grade
                             )
                         }
                         .toMutableList()
@@ -184,5 +184,5 @@ data class SerializableEditableCard(
     val question: String,
     val answer: String,
     val isLearned: Boolean,
-    val levelOfKnowledge: Int
+    val grade: Int
 )

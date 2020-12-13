@@ -3,8 +3,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:fitsSystemWindows="true"
+        android:orientation="vertical"
         tools:context="presentation.screen.cardseditor.CardsEditorFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -20,52 +20,38 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
             android:id="@+id/controlPanel"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
         <TextView
-                android:id="@+id/gradeTextView"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="9dp"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/background_grade_unsatisfactory"
-                tools:text="0"
-                tools:visibility="visible" />
-
-        <FrameLayout
                 android:id="@+id/gradeButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:layout_marginStart="2dp"
+                android:background="@drawable/background_grade_button"
                 android:contentDescription="@string/description_grade_button"
+                android:elevation="14dp"
+                android:gravity="center"
+                android:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
+                android:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/gradeTextView"
-                app:layout_constraintEnd_toEndOf="@+id/gradeTextView"
-                app:layout_constraintStart_toStartOf="@+id/gradeTextView"
-                app:layout_constraintTop_toTopOf="@+id/gradeTextView"
+                tools:text="0"
                 tools:visibility="visible" />
 
         <ImageButton
                 android:id="@+id/markAsLearnedButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_light_borderless"
                 android:contentDescription="@string/description_mark_as_learned_button"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/gradeButton"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_mark_as_learned"
                 tools:visibility="visible" />
 
@@ -73,12 +59,9 @@
                 android:id="@+id/removeCardButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_light_borderless"
                 android:contentDescription="@string/description_remove_card_button"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/markAsLearnedButton"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_delete_white_24dp"
                 tools:visibility="visible" />
 
@@ -86,37 +69,36 @@
                 android:id="@+id/helpButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_light_borderless"
                 android:contentDescription="@string/description_help_button"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/removeCardButton"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_help_outline_24"
                 tools:visibility="visible" />
+
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
         <ImageButton
                 android:id="@+id/cancelButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_light_borderless"
                 android:contentDescription="@string/description_cancel_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/doneButton"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_cancel_white_24dp" />
 
         <ImageButton
                 android:id="@+id/doneButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_light_borderless"
                 android:contentDescription="@string/description_done_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/done_button_selector" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </LinearLayout>

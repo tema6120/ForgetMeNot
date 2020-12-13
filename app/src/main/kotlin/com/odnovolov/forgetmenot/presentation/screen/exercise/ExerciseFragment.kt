@@ -54,8 +54,8 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var viewModel: ExerciseViewModel
     private var controller: ExerciseController? = null
     private var intervalsAdapter: IntervalsAdapter? = null
-    private var speakErrorPopup: PopupWindow? = null
     private var intervalsPopup: PopupWindow? = null
+    private var speakErrorPopup: PopupWindow? = null
     private var timerPopup: PopupWindow? = null
     private var hintsPopup: PopupWindow? = null
     private var walkingModePopup: PopupWindow? = null

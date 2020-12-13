@@ -32,8 +32,8 @@ abstract class CardsEditor(
         currentEditableCard.isLearned = isLearned
     }
 
-    open fun setLevelOfKnowledge(levelOfKnowledge: Int) {
-        currentEditableCard.levelOfKnowledge = levelOfKnowledge
+    open fun setGrade(grade: Int) {
+        currentEditableCard.grade = grade
     }
 
     abstract fun isCurrentCardRemovable(): Boolean

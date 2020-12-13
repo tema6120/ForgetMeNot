@@ -30,7 +30,7 @@ class CardsEditorForExercise(
             val originalCard = editableCard.card
             var isQuestionChanged = false
             var isAnswerChanged = false
-            var isLevelOfKnowledgeChanged = false
+            var isGradeChanged = false
             var isIsLearnedChanged = false
             if (editableCard.question != originalCard.question) {
                 originalCard.question = editableCard.question
@@ -40,22 +40,22 @@ class CardsEditorForExercise(
                 originalCard.answer = editableCard.answer
                 isAnswerChanged = true
             }
-            if (editableCard.levelOfKnowledge != originalCard.grade) {
-                originalCard.grade = editableCard.levelOfKnowledge
-                isLevelOfKnowledgeChanged = true
+            if (editableCard.grade != originalCard.grade) {
+                originalCard.grade = editableCard.grade
+                isGradeChanged = true
             }
             if (editableCard.isLearned != originalCard.isLearned) {
                 originalCard.isLearned = editableCard.isLearned
                 isIsLearnedChanged = true
             }
             val isCardChanged: Boolean = isQuestionChanged || isAnswerChanged
-                    || isLevelOfKnowledgeChanged || isIsLearnedChanged
+                    || isGradeChanged || isIsLearnedChanged
             if (isCardChanged && originalCard.isInExercise()) {
                 exercise.notifyCardChanged(
                     originalCard,
                     isQuestionChanged,
                     isAnswerChanged,
-                    isLevelOfKnowledgeChanged,
+                    isGradeChanged,
                     isIsLearnedChanged
                 )
             }

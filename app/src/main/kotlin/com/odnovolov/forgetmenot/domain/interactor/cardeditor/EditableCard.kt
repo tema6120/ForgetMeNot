@@ -10,12 +10,12 @@ class EditableCard(
     question: String = card.question,
     answer: String = card.answer,
     isLearned: Boolean = card.isLearned,
-    levelOfKnowledge: Int = card.grade
+    grade: Int = card.grade
 ) : FlowMaker<EditableCard>() {
     var question: String by flowMaker(question)
     var answer: String by flowMaker(answer)
     var isLearned: Boolean by flowMaker(isLearned)
-    var levelOfKnowledge: Int by flowMaker(levelOfKnowledge)
+    var grade: Int by flowMaker(grade)
 }
 
 fun EditableCard.isBlank(): Boolean = question.isBlank() && answer.isBlank()
