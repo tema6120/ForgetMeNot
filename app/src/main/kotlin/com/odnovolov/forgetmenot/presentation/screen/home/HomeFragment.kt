@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import android.animation.LayoutTransition
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
@@ -7,17 +8,24 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.*
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.*
+import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.R.plurals
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -106,6 +114,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupBottomButtons() {
+        bottomButtonsRow.layoutTransition.disableTransitionType(LayoutTransition.APPEARING)
         autoplayButton.setOnClickListener {
             controller?.dispatch(AutoplayButtonClicked)
         }
@@ -165,21 +174,14 @@ class HomeFragment : BaseFragment() {
             }
             deckSelection.observe { deckSelection: DeckSelection? ->
                 preventDeckItemsJumping(deckSelection)
-                selectionToolbar.isVisible = deckSelection != null
+                setSelectionToolbarVisibilityWithTransition(isVisible = deckSelection != null)
                 updateSearchFrameScrollFlags()
                 searchFrame.isVisible = deckSelection == null
                 headline.isVisible = deckSelection == null
                 if (searchFrame.isVisible && searchEditText.text.isNotEmpty()) {
                     searchEditText.requestFocus()
                 }
-                updateExerciseButtonLayoutParams(deckSelection)
-                deckSelection?.let { selection: DeckSelection ->
-                    numberOfSelectedDecksTextView.text = resources.getQuantityString(
-                        R.plurals.number_of_selected_decks,
-                        selection.selectedDeckIds.size,
-                        selection.selectedDeckIds.size
-                    )
-                }
+                updateSelectionToolbarTitle(deckSelection)
                 removeDecksButton.isVisible = deckSelection != null
                         && deckSelection.purpose == DeckSelection.Purpose.General
                 updateStatusBarColor(deckSelection != null)
@@ -193,43 +195,20 @@ class HomeFragment : BaseFragment() {
                         R.string.deck_list_title_all_decks
                 )
             }
-            autoplayButtonState.observe { buttonState: ButtonState ->
-                autoplayButton.isVisible = buttonState != ButtonState.Invisible
-                autoplayButton.isEnabled = buttonState != ButtonState.Inactive
-                autoplayButton.text =
-                    getString(
-                        if (buttonState == ButtonState.Inactive)
-                            R.string.text_autoplay_button_unable else
-                            R.string.text_autoplay_button
-                    )
-                autoplayButton.icon =
-                    if (buttonState == ButtonState.Inactive) {
-                        null
-                    } else {
-                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_play_24)
-                    }
+            isAutoplayButtonVisible.observe { isVisible: Boolean ->
+                autoplayButton.isVisible = isVisible
+                updateExerciseButtonMargin()
             }
-            exerciseButtonState.observe { buttonState: ButtonState ->
-                exerciseButton.isVisible = buttonState != ButtonState.Invisible
-                exerciseButton.isEnabled = buttonState != ButtonState.Inactive
+            isExerciseButtonVisible.observe { isVisible: Boolean ->
+                exerciseButton.isVisible = isVisible
+                updateExerciseButtonMargin()
             }
-            combine(
-                exerciseButtonState,
-                numberOfSelectedCardsAvailableForExercise
-            ) { buttonState: ButtonState, cardsCount: Int? ->
+            numberOfSelectedCardsAvailableForExercise.observe { cardsCount: Int? ->
                 exerciseButton.text =
-                    when {
-                        buttonState == ButtonState.Inactive ->
-                            getString(R.string.text_exercise_button_unable)
-                        cardsCount != null ->
-                            getString(
-                                R.string.text_exercise_button_with_cards_count,
-                                cardsCount
-                            )
-                        else ->
-                            getString(R.string.text_exercise_button)
-                    }
-            }.observe()
+                    if (cardsCount == null)
+                        getString(R.string.text_exercise_button) else
+                        getString(R.string.text_exercise_button_with_cards_count, cardsCount)
+            }
             combine(decksPreview, foundCards) { foundDecks: List<DeckPreview>,
                                                 foundCards: List<SearchCard>
                 ->
@@ -242,47 +221,6 @@ class HomeFragment : BaseFragment() {
                 }
             }.observe()
         }
-    }
-
-    private fun preventDeckItemsJumping(deckSelection: DeckSelection?) {
-        if (!selectionToolbar.isVisible && deckSelection != null) {
-            antiJumpingView.isVisible = true
-            val appBarRealHeight: Int = appBarLayout.height + appbarLayoutOffset
-            val gap = appBarRealHeight - 48.dp
-            antiJumpingView.updateLayoutParams {
-                height = gap
-            }
-            val deckListFragment =
-                childFragmentManager.findFragmentByTag("f0") as DeckListFragment
-            deckListFragment.scrollListener = { dy: Int ->
-                antiJumpingView.updateLayoutParams {
-                    height -= abs(dy)
-                }
-                if (antiJumpingView.height <= 0) {
-                    antiJumpingView.isVisible = false
-                    deckListFragment.scrollListener = null
-                }
-            }
-        } else if (selectionToolbar.isVisible && deckSelection == null) {
-            antiJumpingView.isVisible = false
-            val deckListFragment =
-                childFragmentManager.findFragmentByTag("f0") as DeckListFragment
-            deckListFragment.scrollListener = null
-        }
-    }
-
-    private fun updateExerciseButtonLayoutParams(deckSelection: DeckSelection?) {
-        val marginStart: Int =
-            if (deckSelection != null
-                && deckSelection.purpose == DeckSelection.Purpose.ForExercise
-            ) {
-                20.dp
-            } else {
-                0
-            }
-        val layoutParams = exerciseButton.layoutParams as ViewGroup.MarginLayoutParams
-        layoutParams.updateMarginsRelative(start = marginStart)
-        exerciseButton.layoutParams = layoutParams
     }
 
     private fun updatePasteButton(hasSearchText: Boolean) {
@@ -316,6 +254,72 @@ class HomeFragment : BaseFragment() {
         homePager.isUserInputEnabled = !isLocked
         if (isLocked) {
             homePager.setCurrentItem(0, true)
+        }
+    }
+
+    private fun preventDeckItemsJumping(deckSelection: DeckSelection?) {
+        if (!selectionToolbar.isVisible && deckSelection != null) {
+            antiJumpingView.isVisible = true
+            val appBarRealHeight: Int = appBarLayout.height + appbarLayoutOffset
+            val gap = appBarRealHeight - 48.dp
+            antiJumpingView.updateLayoutParams {
+                height = gap
+            }
+            val deckListFragment =
+                childFragmentManager.findFragmentByTag("f0") as DeckListFragment
+            deckListFragment.scrollListener = { dy: Int ->
+                antiJumpingView.updateLayoutParams {
+                    height -= abs(dy)
+                }
+                if (antiJumpingView.height <= 0) {
+                    antiJumpingView.isVisible = false
+                    deckListFragment.scrollListener = null
+                }
+            }
+        } else if (selectionToolbar.isVisible && deckSelection == null) {
+            antiJumpingView.isVisible = false
+            val deckListFragment =
+                childFragmentManager.findFragmentByTag("f0") as DeckListFragment
+            deckListFragment.scrollListener = null
+        }
+    }
+
+    private fun setSelectionToolbarVisibilityWithTransition(isVisible: Boolean) {
+        if (selectionToolbar.isVisible == isVisible) return
+        val transition: Transition = Slide(Gravity.TOP)
+        transition.duration = 200
+        transition.addTarget(selectionToolbar)
+        TransitionManager.beginDelayedTransition(appBarLayout, transition)
+        selectionToolbar.isVisible = isVisible
+    }
+
+    private fun updateSelectionToolbarTitle(deckSelection: DeckSelection?) {
+        if (deckSelection == null) return
+        if (deckSelection.selectedDeckIds.isNotEmpty()) {
+            numberOfSelectedDecksTextView.text = resources.getQuantityString(
+                plurals.title_deck_selection_toolbar_number_of_selected_decks,
+                deckSelection.selectedDeckIds.size,
+                deckSelection.selectedDeckIds.size
+            )
+        } else {
+            when (deckSelection.purpose) {
+                DeckSelection.Purpose.ForAutoplay -> {
+                    numberOfSelectedDecksTextView.text =
+                        getString(R.string.title_deck_selection_toolbar_choose_decks_to_play)
+                }
+                DeckSelection.Purpose.ForExercise -> {
+                    numberOfSelectedDecksTextView.text =
+                        getString(R.string.title_deck_selection_toolbar_choose_decks_for_exercise)
+                }
+                else -> {
+                }
+            }
+        }
+    }
+
+    private fun updateExerciseButtonMargin() {
+        exerciseButton.updateLayoutParams<MarginLayoutParams> {
+            marginStart = if (autoplayButton.isVisible) 0 else 20.dp
         }
     }
 

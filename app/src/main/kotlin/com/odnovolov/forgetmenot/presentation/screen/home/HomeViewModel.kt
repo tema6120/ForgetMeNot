@@ -222,58 +222,30 @@ class HomeViewModel(
     val areCardsBeingSearched: Flow<Boolean> =
         searcherState.flowOf(CardsSearcher.State::isSearching)
 
-    val exerciseButtonState: Flow<ButtonState> = combine(
+    val isExerciseButtonVisible: Flow<Boolean> = combine(
         deckSelection,
         hasSearchText
     ) { deckSelection: DeckSelection?, hasSearchText: Boolean ->
         if (deckSelection == null) {
-            if (hasSearchText) {
-                ButtonState.Invisible
-            } else {
-                ButtonState.Visible
-            }
+            !hasSearchText
         } else {
-            when {
-                deckSelection.purpose == DeckSelection.Purpose.ForExercise
-                        && deckSelection.selectedDeckIds.isEmpty() -> {
-                    ButtonState.Inactive
-                }
-                deckSelection.purpose == DeckSelection.Purpose.ForExercise
-                        || deckSelection.purpose == DeckSelection.Purpose.General -> {
-                    ButtonState.Visible
-                }
-                else -> {
-                    ButtonState.Invisible
-                }
-            }
+            deckSelection.selectedDeckIds.isNotEmpty() &&
+                    (deckSelection.purpose == DeckSelection.Purpose.ForExercise ||
+                            deckSelection.purpose == DeckSelection.Purpose.General)
         }
     }
         .distinctUntilChanged()
 
-    val autoplayButtonState: Flow<ButtonState> = combine(
+    val isAutoplayButtonVisible: Flow<Boolean> = combine(
         deckSelection,
         hasSearchText
     ) { deckSelection: DeckSelection?, hasSearchText: Boolean ->
         if (deckSelection == null) {
-            if (hasSearchText) {
-                ButtonState.Invisible
-            } else {
-                ButtonState.Visible
-            }
+            !hasSearchText
         } else {
-            when {
-                deckSelection.purpose == DeckSelection.Purpose.ForAutoplay
-                        && deckSelection.selectedDeckIds.isEmpty() -> {
-                    ButtonState.Inactive
-                }
-                deckSelection.purpose == DeckSelection.Purpose.ForAutoplay
-                        || deckSelection.purpose == DeckSelection.Purpose.General -> {
-                    ButtonState.Visible
-                }
-                else -> {
-                    ButtonState.Invisible
-                }
-            }
+            deckSelection.selectedDeckIds.isNotEmpty() &&
+                    (deckSelection.purpose == DeckSelection.Purpose.ForAutoplay ||
+                            deckSelection.purpose == DeckSelection.Purpose.General)
         }
     }
         .distinctUntilChanged()

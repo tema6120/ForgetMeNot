@@ -544,16 +544,16 @@
     <string name="description_remove_decks">Remove decks</string>
     <string name="description_more_options">More options</string>
     <string name="text_autoplay_button">Autoplay</string>
-    <string name="text_autoplay_button_unable">Choose decks for autoplay</string>
     <string name="text_exercise_button">Exercise</string>
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
-    <string name="text_exercise_button_unable">Choose decks for exercise</string>
     <string name="description_close">close</string>
     <string name="description_change_sorting_direction">Change sorting direction</string>
-    <plurals name="number_of_selected_decks">
+    <plurals name="title_deck_selection_toolbar_number_of_selected_decks">
         <item quantity="one">%d deck</item>
         <item quantity="other">%d decks</item>
     </plurals>
+    <string name="title_deck_selection_toolbar_choose_decks_to_play">Choose decks to play</string>
+    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Choose decks for exercise</string>
     <string name="title_deck_filters">Filters</string>
     <string name="deck_filter_only_decks_available_for_exercise">Only decks available for exercise</string>
     <string name="deck_option_start_exercise">Start exercise</string>
