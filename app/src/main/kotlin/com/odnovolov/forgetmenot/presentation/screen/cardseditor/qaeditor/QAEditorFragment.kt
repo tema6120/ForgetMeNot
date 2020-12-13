@@ -1,9 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
@@ -58,11 +63,7 @@ class QAEditorFragment : BaseFragment() {
             controller?.dispatch(AnswerInputChanged(text))
         }
         invertCardButton.run {
-            setOnClickListener {
-                val newAnswer = questionEditText.text
-                questionEditText.text = answerEditText.text
-                answerEditText.text = newAnswer
-            }
+            setOnClickListener { invertCardWithAnimation() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         questionPasteButton.run {
@@ -81,6 +82,64 @@ class QAEditorFragment : BaseFragment() {
             setOnClickListener { answerEditText.text.clear() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
+    }
+
+    private fun invertCardWithAnimation() {
+        questionEditText.clearFocus()
+        answerEditText.clearFocus()
+        setViewEnabled(false)
+        val secondAnimation = AnimatorSet()
+        with(secondAnimation) {
+            playTogether(
+                ObjectAnimator.ofFloat(cardView, View.ROTATION, 0f),
+                ObjectAnimator.ofFloat(questionPasteButton, View.ALPHA, 1f),
+                ObjectAnimator.ofFloat(questionClearButton, View.ALPHA, 1f),
+                ObjectAnimator.ofFloat(questionEditText, View.ALPHA, 1f),
+                ObjectAnimator.ofFloat(answerEditText, View.ALPHA, 1f),
+                ObjectAnimator.ofFloat(answerPasteButton, View.ALPHA, 1f),
+                ObjectAnimator.ofFloat(answerClearButton, View.ALPHA, 1f)
+            )
+            duration = 200
+            interpolator = LinearInterpolator()
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    setViewEnabled(true)
+                }
+            })
+        }
+        AnimatorSet().run {
+            playTogether(
+                ObjectAnimator.ofFloat(cardView, View.ROTATION, 90f),
+                ObjectAnimator.ofFloat(questionPasteButton, View.ALPHA, 0f),
+                ObjectAnimator.ofFloat(questionClearButton, View.ALPHA, 0f),
+                ObjectAnimator.ofFloat(questionEditText, View.ALPHA, 0f),
+                ObjectAnimator.ofFloat(answerEditText, View.ALPHA, 0f),
+                ObjectAnimator.ofFloat(answerPasteButton, View.ALPHA, 0f),
+                ObjectAnimator.ofFloat(answerClearButton, View.ALPHA, 0f)
+            )
+            duration = 200
+            interpolator = LinearInterpolator()
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    val newAnswer = questionEditText.text
+                    questionEditText.text = answerEditText.text
+                    answerEditText.text = newAnswer
+                    cardView.rotation = -90f
+                    secondAnimation.start()
+                }
+            })
+            start()
+        }
+    }
+
+    private fun setViewEnabled(isEnabled: Boolean) {
+        questionPasteButton.isEnabled = isEnabled
+        questionClearButton.isEnabled = isEnabled
+        questionEditText.isEnabled = isEnabled
+        answerEditText.isEnabled = isEnabled
+        answerPasteButton.isEnabled = isEnabled
+        answerClearButton.isEnabled = isEnabled
+        invertCardButton.isEnabled = isEnabled
     }
 
     private fun observeViewModel() {
