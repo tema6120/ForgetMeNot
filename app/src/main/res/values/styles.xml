@@ -198,7 +198,7 @@
 
     <!-- End support app screen -->
 
-    <style name="ExerciseCardStyle">
+    <style name="ExerciseCard">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_margin">16dp</item>

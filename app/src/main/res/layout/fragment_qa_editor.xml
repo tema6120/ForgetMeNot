@@ -6,7 +6,7 @@
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            style="@style/ExerciseCardStyle">
+            style="@style/ExerciseCard">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

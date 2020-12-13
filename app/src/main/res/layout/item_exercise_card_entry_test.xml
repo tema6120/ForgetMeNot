@@ -5,7 +5,7 @@
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            style="@style/ExerciseCardStyle">
+            style="@style/ExerciseCard">
 
         <LinearLayout
                 android:id="@+id/cardLinearLayout"
