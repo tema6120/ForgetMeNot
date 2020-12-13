@@ -61,7 +61,7 @@
                     android:id="@+id/divider"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/divider_in_exercise" />
+                    android:background="@color/divider_on_card" />
 
             <ScrollView
                     android:id="@+id/hintScrollView"
@@ -86,7 +86,7 @@
                     android:id="@+id/hintDivider"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/divider_in_exercise"
+                    android:background="@color/divider_on_card"
                     android:visibility="gone"
                     tools:visibility="gone"/>
 

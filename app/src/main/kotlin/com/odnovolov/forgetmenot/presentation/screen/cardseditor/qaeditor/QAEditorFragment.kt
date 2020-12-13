@@ -57,7 +57,7 @@ class QAEditorFragment : BaseFragment() {
         answerEditText.observeText { text: String ->
             controller?.dispatch(AnswerInputChanged(text))
         }
-        reverseCardButton.run {
+        invertCardButton.run {
             setOnClickListener {
                 val newAnswer = questionEditText.text
                 questionEditText.text = answerEditText.text

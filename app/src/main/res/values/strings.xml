@@ -21,7 +21,7 @@
     <string name="description_resume_button">Resume</string>
     <string name="description_done_button">Done</string>
     <string name="description_cancel_button">Cancel</string>
-    <string name="description_reverse_card_button">Reverse card</string>
+    <string name="description_invert_card_button">Invert card</string>
     <string name="description_drag_handle_button">Drag handle</string>
     <string name="description_remove_pronunciation_event_button">Remove pronunciation event</string>
     <string name="description_add_pronunciation_event_button">Add pronunciation event</string>

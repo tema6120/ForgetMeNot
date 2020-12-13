@@ -5,9 +5,8 @@
         android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp">
+            android:id="@+id/cardView"
+            style="@style/ExerciseCardStyle">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -17,7 +16,7 @@
                     android:id="@+id/questionToolbarScrollView"
                     android:layout_width="50dp"
                     android:layout_height="0dp"
-                    android:background="@color/background_card_editor_toolbar"
+                    android:background="@color/background_qa_editor_toolbar"
                     app:layout_constraintBottom_toTopOf="@id/divider"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -96,7 +95,7 @@
                     android:id="@+id/divider"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="?android:attr/listDivider"
+                    android:background="@color/divider_on_card"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +134,7 @@
                     android:id="@+id/answerToolbarScrollView"
                     android:layout_width="50dp"
                     android:layout_height="0dp"
-                    android:background="@color/background_card_editor_toolbar"
+                    android:background="@color/background_qa_editor_toolbar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider">
@@ -183,11 +182,11 @@
             </ScrollView>
 
             <ImageButton
-                    android:id="@+id/reverseCardButton"
+                    android:id="@+id/invertCardButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="@drawable/background_reverse_card_button"
-                    android:contentDescription="@string/description_reverse_card_button"
+                    android:background="@drawable/background_invert_card_button"
+                    android:contentDescription="@string/description_invert_card_button"
                     app:layout_constraintBottom_toBottomOf="@id/divider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

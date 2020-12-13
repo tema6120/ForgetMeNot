@@ -1,10 +1,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/background_card_editor_toolbar" />
+            <solid android:color="@color/background_qa_editor_toolbar" />
             <stroke
                     android:width="1dp"
-                    android:color="@color/divider" />
+                    android:color="@color/divider_on_card" />
         </shape>
     </item>
     <item
@@ -14,16 +14,12 @@
             android:right="12dp"
             android:top="12dp" />
     <item>
-        <ripple xmlns:tools="http://schemas.android.com/tools"
-                android:color="@color/colorControlHighlight"
-                tools:targetApi="lollipop">
-
+        <ripple android:color="@color/colorControlHighlight">
             <item android:id="@android:id/mask">
                 <shape android:shape="oval">
                     <solid android:color="#000" />
                 </shape>
             </item>
-
         </ripple>
     </item>
 </layer-list>
