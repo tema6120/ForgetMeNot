@@ -27,27 +27,12 @@ class CardFiltersForAutoplayViewModel(
         cardFilters.flowOf(CardFiltersForAutoplay::isLearnedCardsIncluded)
 
     val availableGradeRange: IntRange = run {
-        val maxGradeFromCards: Int = globalState.decks
+        val maxGradeFromCards: Int = repetitionStateCreator.state.decks
             .flatMap { deck -> deck.cards }
             .map { card -> card.grade }
             .maxOrNull() ?: 0
-        val maxGradeFromSharedIntervals: Int = globalState.sharedIntervalSchemes
-            .flatMap { intervalScheme -> intervalScheme.intervals }
-            .map { interval -> interval.grade }
-            .maxOrNull() ?: 0
-        val maxGradeFromDeckIntervals: Int = globalState.decks
-            .flatMap { deck ->
-                deck.exercisePreference.intervalScheme?.intervals ?: emptyList()
-            }
-            .map { interval -> interval.grade }
-            .maxOrNull() ?: 0
-        val maxGradeFromCurrentRepetitionSetting: Int = cardFilters.gradeRange.last
-        val maxGrade: Int = arrayOf(
-            maxGradeFromCards,
-            maxGradeFromSharedIntervals,
-            maxGradeFromDeckIntervals,
-            maxGradeFromCurrentRepetitionSetting
-        ).maxOrNull()!!
+        val maxGradeFromSavedFilter: Int = cardFilters.gradeRange.last
+        val maxGrade: Int = maxOf(maxGradeFromCards, maxGradeFromSavedFilter, 6)
         0..maxGrade
     }
 

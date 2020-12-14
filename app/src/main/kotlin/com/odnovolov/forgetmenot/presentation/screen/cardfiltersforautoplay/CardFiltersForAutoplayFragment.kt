@@ -1,14 +1,21 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.CheckBox
 import androidx.core.content.ContextCompat
+import androidx.core.view.isInvisible
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.showToast
+import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayController.Command.ShowNoCardIsReadyForRepetitionMessage
 import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayEvent.*
 import kotlinx.android.synthetic.main.fragment_card_filters_for_autoplay.*
@@ -21,49 +28,37 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
         CardFiltersForAutoplayDiScope.reopenIfClosed()
     }
 
-    private lateinit var diScope: CardFiltersForAutoplayDiScope
+    private lateinit var viewModel: CardFiltersForAutoplayViewModel
     private var controller: CardFiltersForAutoplayController? = null
     private var isGradeRangeListenerEnabled = true
-    private var isInflated = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
-        return if (savedInstanceState == null) {
-            inflater.inflateAsync(R.layout.fragment_card_filters_for_autoplay, ::onViewInflated)
-        } else {
-            inflater.inflate(R.layout.fragment_card_filters_for_autoplay, container, false)
-        }
-    }
-
-    private fun onViewInflated() {
-        isInflated = true
-        setupIfReady()
+        return inflater.inflate(R.layout.fragment_card_filters_for_autoplay, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState != null) {
-            isInflated = true
-        }
         viewCoroutineScope!!.launch {
-            diScope = CardFiltersForAutoplayDiScope.getAsync() ?: return@launch
+            val diScope = CardFiltersForAutoplayDiScope.getAsync() ?: return@launch
+            viewModel = diScope.viewModel
             controller = diScope.controller
-            setupIfReady()
+            setupView()
+            observeViewModel()
+            controller!!.commands.observe(::executeCommand)
         }
-    }
-
-    private fun setupIfReady() {
-        if (viewCoroutineScope == null || controller == null || !isInflated) return
-        setupView()
-        observeViewModel()
-        controller!!.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        startPlayingButton.setOnClickListener {
+            controller?.dispatch(StartPlayingButtonClicked)
+        }
         setupStateFilter()
         setupGradeRangeFilter()
         setupLastTestedFilter()
@@ -73,8 +68,12 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
         availableForExerciseButton.setOnClickListener {
             controller?.dispatch(AvailableForExerciseCheckboxClicked)
         }
-        awaitingButton.setOnClickListener { controller?.dispatch(AwaitingCheckboxClicked) }
-        learnedButton.setOnClickListener { controller?.dispatch(LearnedCheckboxClicked) }
+        awaitingButton.setOnClickListener {
+            controller?.dispatch(AwaitingCheckboxClicked)
+        }
+        learnedButton.setOnClickListener {
+            controller?.dispatch(LearnedCheckboxClicked)
+        }
     }
 
     private fun setupGradeRangeFilter() {
@@ -127,11 +126,13 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
         lastTestedFromButton.setOnClickListener {
             controller?.dispatch(LastTestedFromButtonClicked)
         }
-        lastTestedToButton.setOnClickListener { controller?.dispatch(LastTestedToButtonClicked) }
+        lastTestedToButton.setOnClickListener {
+            controller?.dispatch(LastTestedToButtonClicked)
+        }
     }
 
     private fun observeViewModel() {
-        with(diScope.viewModel) {
+        with(viewModel) {
             matchingCardsNumber.observe { matchingCardsNumber: Int ->
                 matchingCardsNumberTextView.text = matchingCardsNumber.toString()
                 matchingCardsLabelTextView.text = resources.getQuantityString(
@@ -140,13 +141,13 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
                 )
             }
             isAvailableForExerciseCheckboxChecked.observe { isChecked: Boolean ->
-                updateCheckBox(availableForExerciseGroupCheckBox, isChecked)
+                updateCheckBox(availableForExerciseCheckBox, isChecked)
             }
             isAwaitingCheckboxChecked.observe { isChecked: Boolean ->
-                updateCheckBox(awaitingGroupCheckBox, isChecked)
+                updateCheckBox(awaitingCheckBox, isChecked)
             }
             isLearnedCheckboxChecked.observe { isChecked: Boolean ->
-                updateCheckBox(learnedGroupCheckBox, isChecked)
+                updateCheckBox(learnedCheckBox, isChecked)
             }
             availableGradeRange.let(::adaptGradeBarToAvailableRange)
             selectedGradeRange.observe { gradeRange: IntRange ->
@@ -183,7 +184,7 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
     private fun updateCheckBox(checkBox: CheckBox, isChecked: Boolean) {
         with(checkBox) {
             setChecked(isChecked)
-            checkBox.uncover()
+            uncover()
         }
     }
 
@@ -216,34 +217,27 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.repetition_settings_actions, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_start_repetition -> {
-                controller?.dispatch(StartPlayingButtonClicked)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onResume() {
         super.onResume()
-        showActionBar()
+        scrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        isInflated = false
+    override fun onPause() {
+        super.onPause()
+        scrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             CardFiltersForAutoplayDiScope.close()
+        }
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = scrollView.canScrollVertically(-1)
+        if (divider.isInvisible == canScrollUp) {
+            divider.isInvisible = !canScrollUp
         }
     }
 }

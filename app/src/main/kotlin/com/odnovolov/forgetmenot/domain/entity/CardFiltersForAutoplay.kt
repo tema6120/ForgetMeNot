@@ -29,7 +29,7 @@ class CardFiltersForAutoplay(
 
     companion object {
         val Default by lazy {
-            val maxGrade: Int = IntervalScheme.Default.intervals.last().grade
+            val maxGrade: Int = IntervalScheme.Default.intervals.last().grade + 1
             CardFiltersForAutoplay(
                 isAvailableForExerciseCardsIncluded = false,
                 isAwaitingCardsIncluded = true,

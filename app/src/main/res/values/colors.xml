@@ -76,4 +76,10 @@
     <color name="icon_exercise_button_unabled">#61FFFFFF</color>
     <color name="divider_on_card">#3D000000</color>
     <color name="text_button_secondary">#A0A5C0</color>
+    <color name="edge">#C8C8C8</color>
+    <color name="iconGray">#949DA6</color>
+    <color name="text_description">#73000000</color>
+    <color name="title">#4B5875</color>
+    <color name="title_description">#A84B5875</color>
+    <color name="text_item_title">#B8000000</color>
 </resources>

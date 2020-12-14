@@ -38,7 +38,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#C8C8C8"
+            android:background="@color/edge"
             android:visibility="invisible" />
 
 </FrameLayout>

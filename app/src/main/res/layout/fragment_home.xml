@@ -242,7 +242,7 @@
                 app:cornerRadius="16dp"
                 app:icon="@drawable/ic_play_24"
                 app:iconGravity="textStart"
-                app:iconPadding="2dp"
+                app:iconPadding="8dp"
                 app:iconSize="16dp"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:iconTint="@color/colorAccent"

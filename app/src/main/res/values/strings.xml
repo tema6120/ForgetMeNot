@@ -146,14 +146,14 @@
     <string name="pause_action_title_in_repetition_notification">Pause</string>
     <string name="resume_action_title_in_repetition_notification">Resume</string>
     <string name="title_filtration_section">Filtration</string>
-    <string name="title_card_filter_state">State:</string>
+    <string name="title_card_filter_state">State</string>
     <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>
     <string name="text_awaiting_group_checkbox">Awaiting</string>
     <string name="text_learned_group_checkbox">Learned</string>
-    <string name="title_card_filter_grade">Grade:</string>
-    <string name="title_card_filter_last_tested">Last tested:</string>
-    <string name="title_last_answer_from">From</string>
-    <string name="title_last_answer_to">to</string>
+    <string name="title_card_filter_grade">Grade</string>
+    <string name="title_card_filter_last_tested">Last tested</string>
+    <string name="title_last_tested_from">From</string>
+    <string name="title_last_tested_to">to</string>
     <string name="zero_time">Zero time</string>
     <string name="now">Now</string>
     <string name="last_answer_time_from_filter_dialog_title">Last Answer Time From</string>
@@ -163,11 +163,10 @@
     <string name="interval_unit_months">Months</string>
     <string name="time_ago">%1$s ago</string>
     <string name="ago">ago</string>
-    <string name="title_action_start_repetition">START</string>
     <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
     <plurals name="matching_cards_number_label">
-        <item quantity="one">card matches\nthe filter</item>
-        <item quantity="other">cards match\nthe filter</item>
+        <item quantity="one">card matches the filter</item>
+        <item quantity="other">cards match the filter</item>
     </plurals>
     <string name="text_pronunciation_plan_title">Pronunciation plan for Repetition</string>
     <string name="pronunciation_event_speak_question">Speak question</string>
@@ -647,4 +646,5 @@
     <string name="message_quit_cards_editor">Your unsaved changes will be lost. Save changes before quitting?</string>
     <string name="button_save">Save</string>
     <string name="button_quit_without_saving">Quit without saving</string>
+    <string name="text_start_playing_button">Start playing</string>
 </resources>
