@@ -44,7 +44,7 @@
     <color name="background_expired_card">#FFE7E3</color>
     <color name="background_qa_editor_toolbar">#F5F5F5</color>
     <color name="background_window">#E9ECF0</color>
-    <color name="text_last_answer_button">#3580FF</color>
+    <color name="text_last_tested_button">#3580FF</color>
     <color name="background_last_answer_button">#333580FF</color>
     <color name="text_passed_laps">#05a1dc</color>
     <color name="text_progress">#00bda6</color>

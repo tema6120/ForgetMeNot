@@ -147,29 +147,26 @@ fun DeckReviewPreferenceDb.toDeckReviewPreference() = DeckReviewPreference(
     displayOnlyWithTasks
 )
 
-fun RepetitionSetting.toRepetitionSettingDb(): RepetitionSettingDb = RepetitionSettingDb.Impl(
-    id,
-    name,
+fun CardFiltersForAutoplay.toRepetitionSettingDb(): RepetitionSettingDb = RepetitionSettingDb.Impl(
+    0L,
+    "",
     isAvailableForExerciseCardsIncluded,
     isAwaitingCardsIncluded,
     isLearnedCardsIncluded,
     gradeRange.first,
     gradeRange.last,
-    lastAnswerFromTimeAgo,
-    lastAnswerToTimeAgo,
-    numberOfLaps
+    lastTestedFromTimeAgo,
+    lastTestedToTimeAgo,
+    0
 )
 
-fun RepetitionSettingDb.toRepetitionSetting() = RepetitionSetting(
-    id,
-    name,
+fun RepetitionSettingDb.toCardFiltersForAutoplay() = CardFiltersForAutoplay(
     isAvailableForExerciseCardsIncluded,
     isAwaitingCardsIncluded,
     isLearnedCardsIncluded,
     levelOfKnowledgeMin..levelOfKnowledgeMax,
     lastAnswerFromTimeAgo,
-    lastAnswerToTimeAgo,
-    numberOfLaps
+    lastAnswerToTimeAgo
 )
 
 fun FullscreenPreferenceDb.toFullscreenPreference() = FullscreenPreference(

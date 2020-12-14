@@ -50,7 +50,7 @@ class LongTermStateSaverImpl(
             put(Interval::class, IntervalPropertyChangeHandler(database))
             put(Pronunciation::class, PronunciationPropertyChangeHandler(database))
             put(PronunciationPlan::class, PronunciationPlanPropertyChangeHandler(database))
-            put(RepetitionSetting::class, RepetitionSettingPropertyChangeHandler(database))
+            put(CardFiltersForAutoplay::class, RepetitionSettingPropertyChangeHandler(database))
             put(DeckReviewPreference::class, DeckReviewPreferencePropertyChangeHandler(database))
             put(WalkingModePreference::class, WalkingModePreferencePropertyChangeHandler(database))
             put(FullscreenPreference::class, FullscreenPreferencePropertyChangeHandler(database))

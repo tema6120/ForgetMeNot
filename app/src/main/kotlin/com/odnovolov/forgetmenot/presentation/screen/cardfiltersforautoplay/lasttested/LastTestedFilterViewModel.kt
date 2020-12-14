@@ -1,13 +1,14 @@
-package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer
+package com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested
 
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class LastAnswerFilterViewModel(
-    private val dialogState: LastAnswerFilterDialogState
+class LastTestedFilterViewModel(
+    private val dialogState: LastTestedFilterDialogState
 ) {
-    val isFromDialog: Boolean = dialogState.isFromDialog
+    val isFromDialog: Boolean
+        get() = dialogState.isFromDialog
 
     val intervalValueText: String
         get() = dialogState.timeAgo.value?.toString() ?: ""
@@ -16,7 +17,7 @@ class LastAnswerFilterViewModel(
         get() = dialogState.timeAgo.intervalUnit
 
     val isZeroTimeSelected: Flow<Boolean> =
-        dialogState.flowOf(LastAnswerFilterDialogState::isZeroTimeSelected)
+        dialogState.flowOf(LastTestedFilterDialogState::isZeroTimeSelected)
 
     val isOkButtonEnabled: Flow<Boolean> = combine(
         isZeroTimeSelected,

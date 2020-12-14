@@ -3,8 +3,9 @@ package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchange
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
-import com.odnovolov.forgetmenot.domain.entity.RepetitionSetting
+import com.odnovolov.forgetmenot.domain.entity.CardFiltersForAutoplay
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.toRepetitionSettingDb
 import com.soywiz.klock.DateTimeSpan
 
 class RepetitionSettingPropertyChangeHandler(
@@ -14,30 +15,30 @@ class RepetitionSettingPropertyChangeHandler(
 
     override fun handle(change: PropertyChangeRegistry.Change) {
         if (change !is PropertyValueChange) return
-        val repetitionSettingId: Long = change.propertyOwnerId
+        val repetitionSettingId: Long = /*change.propertyOwnerId*/ 0L
         val exists: Boolean = queries.exists(repetitionSettingId).executeAsOne()
-        if (!exists) return
+        if (!exists) {
+            // todo: temporary solution
+            queries.insert(CardFiltersForAutoplay.Default.toRepetitionSettingDb())
+            return
+        }
         when (change.property) {
-            RepetitionSetting::name -> {
-                val name = change.newValue as String
-                queries.updateName(name, repetitionSettingId)
-            }
-            RepetitionSetting::isAvailableForExerciseCardsIncluded -> {
+            CardFiltersForAutoplay::isAvailableForExerciseCardsIncluded -> {
                 val isAvailableForExerciseCardsIncluded = change.newValue as Boolean
                 queries.updateIsAvailableForExerciseCardsIncluded(
                     isAvailableForExerciseCardsIncluded,
                     repetitionSettingId
                 )
             }
-            RepetitionSetting::isAwaitingCardsIncluded -> {
+            CardFiltersForAutoplay::isAwaitingCardsIncluded -> {
                 val isAwaitingCardsIncluded = change.newValue as Boolean
                 queries.updateIsAwaitingCardsIncluded(isAwaitingCardsIncluded, repetitionSettingId)
             }
-            RepetitionSetting::isLearnedCardsIncluded -> {
+            CardFiltersForAutoplay::isLearnedCardsIncluded -> {
                 val isLearnedCardsIncluded = change.newValue as Boolean
                 queries.updateIsLearnedCardsIncluded(isLearnedCardsIncluded, repetitionSettingId)
             }
-            RepetitionSetting::gradeRange -> {
+            CardFiltersForAutoplay::gradeRange -> {
                 val levelOfKnowledgeRange = change.newValue as IntRange
                 queries.updateLevelOfKnowledgeRange(
                     levelOfKnowledgeRange.first,
@@ -45,17 +46,13 @@ class RepetitionSettingPropertyChangeHandler(
                     repetitionSettingId
                 )
             }
-            RepetitionSetting::lastAnswerFromTimeAgo -> {
+            CardFiltersForAutoplay::lastTestedFromTimeAgo -> {
                 val lastAnswerFromTimeAgo = change.newValue as DateTimeSpan?
                 queries.updateLastAnswerFromTimeAgo(lastAnswerFromTimeAgo, repetitionSettingId)
             }
-            RepetitionSetting::lastAnswerToTimeAgo -> {
+            CardFiltersForAutoplay::lastTestedToTimeAgo -> {
                 val lastAnswerToTimeAgo = change.newValue as DateTimeSpan?
                 queries.updateLastAnswerToTimeAgo(lastAnswerToTimeAgo, repetitionSettingId)
-            }
-            RepetitionSetting::numberOfLaps -> {
-                val numberOfLaps = change.newValue as Int
-                queries.updateNumberOfLaps(numberOfLaps, repetitionSettingId)
             }
         }
     }

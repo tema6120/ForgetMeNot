@@ -14,12 +14,13 @@ class RepetitionStateCreator(
         val decks: List<Deck>
     )
 
-    private val repetitionSetting: RepetitionSetting get() = globalState.currentRepetitionSetting
+    private val cardFiltersForAutoplay: CardFiltersForAutoplay
+        get() = globalState.cardFiltersForAutoplay
 
     fun getCurrentMatchingCardsNumber(): Int {
         return state.decks.sumBy { deck: Deck ->
             deck.cards
-                .filter { card: Card -> isCardMatchTheFilter(card, deck) }
+                .filter { card: Card -> doesCardMatchTheFilter(card, deck) }
                 .count()
         }
     }
@@ -27,7 +28,7 @@ class RepetitionStateCreator(
     fun hasAnyCardAvailableForRepetition(): Boolean {
         return state.decks.any { deck: Deck ->
             deck.cards.any { card: Card ->
-                isCardMatchTheFilter(card, deck)
+                doesCardMatchTheFilter(card, deck)
             }
         }
     }
@@ -37,7 +38,7 @@ class RepetitionStateCreator(
             .map { deck: Deck ->
                 val isRandom = deck.exercisePreference.randomOrder
                 deck.cards
-                    .filter { card: Card -> isCardMatchTheFilter(card, deck) }
+                    .filter { card: Card -> doesCardMatchTheFilter(card, deck) }
                     .let { cards: List<Card> ->
                         if (isRandom)
                             cards.shuffled()
@@ -50,35 +51,35 @@ class RepetitionStateCreator(
         if (repetitionCards.isEmpty()) throw NoCardIsReadyForRepetition
         return Repetition.State(
             repetitionCards = repetitionCards,
-            numberOfLaps = repetitionSetting.numberOfLaps
+            numberOfLaps = 1
         )
     }
 
-    private fun isCardMatchTheFilter(card: Card, deck: Deck): Boolean {
-        return isCorrespondingCardGroupIncluded(card, deck)
-                && card.grade in repetitionSetting.gradeRange
-                && isLastAnswerTimeInFilterRange(card)
+    private fun doesCardMatchTheFilter(card: Card, deck: Deck): Boolean {
+        return doesCardMatchStateFilter(card, deck)
+                && card.grade in cardFiltersForAutoplay.gradeRange
+                && doesCardMatchLastTestedFilter(card)
     }
 
-    private fun isCorrespondingCardGroupIncluded(card: Card, deck: Deck): Boolean {
+    private fun doesCardMatchStateFilter(card: Card, deck: Deck): Boolean {
         return when {
-            card.isLearned -> repetitionSetting.isLearnedCardsIncluded
+            card.isLearned -> cardFiltersForAutoplay.isLearnedCardsIncluded
             isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme) ->
-                repetitionSetting.isAvailableForExerciseCardsIncluded
-            else -> repetitionSetting.isAwaitingCardsIncluded
+                cardFiltersForAutoplay.isAvailableForExerciseCardsIncluded
+            else -> cardFiltersForAutoplay.isAwaitingCardsIncluded
         }
     }
 
-    private fun isLastAnswerTimeInFilterRange(card: Card): Boolean {
+    private fun doesCardMatchLastTestedFilter(card: Card): Boolean {
         val now = DateTime.now()
         return if (card.lastAnsweredAt == null) {
-            repetitionSetting.lastAnswerFromTimeAgo == null
+            cardFiltersForAutoplay.lastTestedFromTimeAgo == null
         } else {
-            (repetitionSetting.lastAnswerFromTimeAgo == null
-                    || card.lastAnsweredAt!! > now - repetitionSetting.lastAnswerFromTimeAgo!!)
+            (cardFiltersForAutoplay.lastTestedFromTimeAgo == null
+                    || card.lastAnsweredAt!! > now - cardFiltersForAutoplay.lastTestedFromTimeAgo!!)
                     &&
-                    (repetitionSetting.lastAnswerToTimeAgo == null
-                            || card.lastAnsweredAt!! < now - repetitionSetting.lastAnswerToTimeAgo!!)
+                    (cardFiltersForAutoplay.lastTestedToTimeAgo == null
+                            || card.lastAnsweredAt!! < now - cardFiltersForAutoplay.lastTestedToTimeAgo!!)
         }
     }
 

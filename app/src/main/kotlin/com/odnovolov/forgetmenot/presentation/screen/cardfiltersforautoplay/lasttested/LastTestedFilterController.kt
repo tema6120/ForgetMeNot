@@ -1,19 +1,19 @@
-package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer
+package com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested
 
-import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionSettings
+import com.odnovolov.forgetmenot.domain.entity.CardFiltersForAutoplay
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested.LastTestedFilterEvent.*
 import com.soywiz.klock.DateTimeSpan
 
-class LastAnswerFilterController(
-    private val repetitionSettings: RepetitionSettings,
-    private val dialogState: LastAnswerFilterDialogState,
+class LastTestedFilterController(
+    private val cardFilters: CardFiltersForAutoplay,
+    private val dialogState: LastTestedFilterDialogState,
     private val longTermStateSaver: LongTermStateSaver,
-    private val dialogStateProvider: ShortTermStateProvider<LastAnswerFilterDialogState>
-) : BaseController<LastAnswerFilterEvent, Nothing>() {
-    override fun handle(event: LastAnswerFilterEvent) {
+    private val dialogStateProvider: ShortTermStateProvider<LastTestedFilterDialogState>
+) : BaseController<LastTestedFilterEvent, Nothing>() {
+    override fun handle(event: LastTestedFilterEvent) {
         when (event) {
             ZeroTimeRadioButtonClicked -> {
                 dialogState.isZeroTimeSelected = true
@@ -37,11 +37,9 @@ class LastAnswerFilterController(
                     dialogState.timeAgo.isValid() -> dialogState.timeAgo.toDateTimeSpan()
                     else -> return
                 }
-                if (dialogState.isFromDialog) {
-                    repetitionSettings.setLastAnswerFromTimeAgo(timeSpan)
-                } else {
-                    repetitionSettings.setLastAnswerToTimeAgo(timeSpan)
-                }
+                if (dialogState.isFromDialog)
+                    cardFilters.lastTestedFromTimeAgo = timeSpan else
+                    cardFilters.lastTestedToTimeAgo = timeSpan
             }
         }
     }

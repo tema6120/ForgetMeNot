@@ -16,11 +16,9 @@ import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
-import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -137,29 +135,19 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_deck_setup_screen_to_cards_editor_screen)
     }
 
-    fun navigateToAutoplaySettings(createDiScope: () -> RepetitionSettingsDiScope) {
-        RepetitionSettingsDiScope.open(createDiScope)
+    fun navigateToAutoplaySettings(createDiScope: () -> CardFiltersForAutoplayDiScope) {
+        CardFiltersForAutoplayDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_repetition_settings)
     }
 
-    fun navigateToHelpFromRepetitionSettings(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.action_repetition_settings_screen_to_help_screen)
-    }
-
-    fun showLastAnswerFilterDialog(createDiScope: () -> LastAnswerFilterDiScope) {
-        LastAnswerFilterDiScope.open(createDiScope)
-        navigate(R.id.action_show_last_answer_filter_dialog)
-    }
-
-    fun showRepetitionLapsDialog(createDiScope: () -> RepetitionLapsDiScope) {
-        RepetitionLapsDiScope.open(createDiScope)
-        navigate(R.id.action_show_repetition_last_dialog)
+    fun showLastTestedFilterDialog(createDiScope: () -> LastTestedFilterDiScope) {
+        LastTestedFilterDiScope.open(createDiScope)
+        navigate(R.id.show_last_tested_filter_dialog)
     }
 
     fun navigateToRepetition(createDiScope: () -> RepetitionDiScope) {
         RepetitionDiScope.open(createDiScope)
-        navigate(R.id.action_repetition_settings_screen_to_repetition_screen)
+        navigate(R.id.card_filters_to_player)
     }
 
     fun navigateToCardEditorFromRepetition(createDiScope: () -> CardsEditorDiScope) {

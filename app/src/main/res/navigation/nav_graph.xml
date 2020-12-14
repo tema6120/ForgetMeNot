@@ -23,7 +23,7 @@
 
         <action
                 android:id="@+id/nav_host_to_repetition_settings"
-                app:destination="@id/repetition_settings_screen" />
+                app:destination="@id/card_filters_for_autoplay_screen" />
 
         <action
                 android:id="@+id/nav_host_to_help"
@@ -232,40 +232,27 @@
     </fragment>
 
     <fragment
-            android:id="@+id/repetition_settings_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsFragment"
-            android:label="@string/label_repetition_settings_screen"
-            tools:layout="@layout/fragment_repetition_settings">
+            android:id="@+id/card_filters_for_autoplay_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayFragment"
+            android:label="@string/title_card_filters_for_autoplay"
+            tools:layout="@layout/fragment_card_filters_for_autoplay">
 
         <action
-                android:id="@+id/action_repetition_settings_screen_to_repetition_screen"
+                android:id="@+id/card_filters_to_player"
                 app:destination="@+id/repetition_screen"
-                app:popUpTo="@+id/repetition_settings_screen"
+                app:popUpTo="@+id/card_filters_for_autoplay_screen"
                 app:popUpToInclusive="true" />
 
         <action
-                android:id="@+id/action_repetition_settings_screen_to_help_screen"
-                app:destination="@+id/help_screen" />
-
-        <action
-                android:id="@+id/action_show_last_answer_filter_dialog"
-                app:destination="@+id/last_answer_filter_dialog" />
-
-        <action
-                android:id="@+id/action_show_repetition_last_dialog"
-                app:destination="@+id/repetition_laps_dialog" />
+                android:id="@+id/show_last_tested_filter_dialog"
+                app:destination="@+id/last_tested_filter_dialog" />
 
     </fragment>
 
     <dialog
-            android:id="@+id/last_answer_filter_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialog"
-            tools:layout="@layout/dialog_last_answer_filter" />
-
-    <dialog
-            android:id="@+id/repetition_laps_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.laps.RepetitionLapsDialog"
-            tools:layout="@layout/dialog_repetition_laps" />
+            android:id="@+id/last_tested_filter_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested.LastTestedFilterDialog"
+            tools:layout="@layout/dialog_last_tested_filter" />
 
     <fragment
             android:id="@+id/repetition_screen"

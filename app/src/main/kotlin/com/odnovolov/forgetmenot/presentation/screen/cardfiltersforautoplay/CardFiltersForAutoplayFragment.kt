@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings
+package com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay
 
 import android.os.Bundle
 import android.view.*
@@ -9,20 +9,20 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsController.Command.ShowNoCardIsReadyForRepetitionMessage
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsEvent.*
-import kotlinx.android.synthetic.main.fragment_repetition_settings.*
+import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayController.Command.ShowNoCardIsReadyForRepetitionMessage
+import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayEvent.*
+import kotlinx.android.synthetic.main.fragment_card_filters_for_autoplay.*
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-class RepetitionSettingsFragment : BaseFragment() {
+class CardFiltersForAutoplayFragment : BaseFragment() {
     init {
-        RepetitionSettingsDiScope.reopenIfClosed()
+        CardFiltersForAutoplayDiScope.reopenIfClosed()
     }
 
-    private lateinit var diScope: RepetitionSettingsDiScope
-    private var controller: RepetitionSettingsController? = null
+    private lateinit var diScope: CardFiltersForAutoplayDiScope
+    private var controller: CardFiltersForAutoplayController? = null
     private var isGradeRangeListenerEnabled = true
     private var isInflated = false
 
@@ -33,9 +33,9 @@ class RepetitionSettingsFragment : BaseFragment() {
     ): View? {
         setHasOptionsMenu(true)
         return if (savedInstanceState == null) {
-            inflater.inflateAsync(R.layout.fragment_repetition_settings, ::onViewInflated)
+            inflater.inflateAsync(R.layout.fragment_card_filters_for_autoplay, ::onViewInflated)
         } else {
-            inflater.inflate(R.layout.fragment_repetition_settings, container, false)
+            inflater.inflate(R.layout.fragment_card_filters_for_autoplay, container, false)
         }
     }
 
@@ -50,7 +50,7 @@ class RepetitionSettingsFragment : BaseFragment() {
             isInflated = true
         }
         viewCoroutineScope!!.launch {
-            diScope = RepetitionSettingsDiScope.getAsync() ?: return@launch
+            diScope = CardFiltersForAutoplayDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             setupIfReady()
         }
@@ -58,28 +58,26 @@ class RepetitionSettingsFragment : BaseFragment() {
 
     private fun setupIfReady() {
         if (viewCoroutineScope == null || controller == null || !isInflated) return
-        presetView.inject(diScope.presetController, diScope.presetViewModel)
         setupView()
         observeViewModel()
         controller!!.commands.observe(::executeCommand)
     }
 
     private fun setupView() {
-        setupFilterGroups()
-        setupGradeRangeBar()
-        setupLastAnswerFilter()
-        setupNumberOfLaps()
+        setupStateFilter()
+        setupGradeRangeFilter()
+        setupLastTestedFilter()
     }
 
-    private fun setupFilterGroups() {
-        availableForExerciseGroupButton.setOnClickListener {
-            controller?.dispatch(AvailableForExerciseGroupButtonClicked)
+    private fun setupStateFilter() {
+        availableForExerciseButton.setOnClickListener {
+            controller?.dispatch(AvailableForExerciseCheckboxClicked)
         }
-        awaitingGroupButton.setOnClickListener { controller?.dispatch(AwaitingGroupButtonClicked) }
-        learnedGroupButton.setOnClickListener { controller?.dispatch(LearnedGroupButtonClicked) }
+        awaitingButton.setOnClickListener { controller?.dispatch(AwaitingCheckboxClicked) }
+        learnedButton.setOnClickListener { controller?.dispatch(LearnedCheckboxClicked) }
     }
 
-    private fun setupGradeRangeBar() {
+    private fun setupGradeRangeFilter() {
         with(gradeRangeBar) {
             setOnRangeBarChangeListener(
                 object : RangeBar.OnRangeBarChangeListener {
@@ -125,15 +123,11 @@ class RepetitionSettingsFragment : BaseFragment() {
         return ContextCompat.getColor(requireContext(), resId)
     }
 
-    private fun setupLastAnswerFilter() {
-        lastAnswerFromButton.setOnClickListener {
-            controller?.dispatch(LastAnswerFromButtonClicked)
+    private fun setupLastTestedFilter() {
+        lastTestedFromButton.setOnClickListener {
+            controller?.dispatch(LastTestedFromButtonClicked)
         }
-        lastAnswerToButton.setOnClickListener { controller?.dispatch(LastAnswerToButtonClicked) }
-    }
-
-    private fun setupNumberOfLaps() {
-        specificLapNumberButton.setOnClickListener { controller?.dispatch(LapsButtonClicked) }
+        lastTestedToButton.setOnClickListener { controller?.dispatch(LastTestedToButtonClicked) }
     }
 
     private fun observeViewModel() {
@@ -145,13 +139,13 @@ class RepetitionSettingsFragment : BaseFragment() {
                     matchingCardsNumber
                 )
             }
-            isAvailableForExerciseGroupChecked.observe { isChecked: Boolean ->
+            isAvailableForExerciseCheckboxChecked.observe { isChecked: Boolean ->
                 updateCheckBox(availableForExerciseGroupCheckBox, isChecked)
             }
-            isAwaitingGroupChecked.observe { isChecked: Boolean ->
+            isAwaitingCheckboxChecked.observe { isChecked: Boolean ->
                 updateCheckBox(awaitingGroupCheckBox, isChecked)
             }
-            isLearnedGroupChecked.observe { isChecked: Boolean ->
+            isLearnedCheckboxChecked.observe { isChecked: Boolean ->
                 updateCheckBox(learnedGroupCheckBox, isChecked)
             }
             availableGradeRange.let(::adaptGradeBarToAvailableRange)
@@ -163,38 +157,25 @@ class RepetitionSettingsFragment : BaseFragment() {
                 )
                 isGradeRangeListenerEnabled = true
             }
-            lastAnswerFromTimeAgo.observe { lastAnswerFromTimeAgo: DisplayedInterval? ->
-                lastAnswerFromButton.text =
-                    if (lastAnswerFromTimeAgo == null) {
+            lastTestedFromTimeAgo.observe { lastTestedFromTimeAgo: DisplayedInterval? ->
+                lastTestedFromButton.text =
+                    if (lastTestedFromTimeAgo == null) {
                         getString(R.string.zero_time).toLowerCase(Locale.ROOT)
                     } else {
-                        val timeAgo: String = lastAnswerFromTimeAgo.toString(requireContext())
+                        val timeAgo: String = lastTestedFromTimeAgo.toString(requireContext())
                             .toLowerCase(Locale.ROOT)
                         getString(R.string.time_ago, timeAgo)
                     }
             }
-            lastAnswerToTimeAgo.observe { lastAnswerToTimeAgo: DisplayedInterval? ->
-                lastAnswerToButton.text =
-                    if (lastAnswerToTimeAgo == null) {
+            lastTestedToTimeAgo.observe { lastTestedToTimeAgo: DisplayedInterval? ->
+                lastTestedToButton.text =
+                    if (lastTestedToTimeAgo == null) {
                         getString(R.string.now).toLowerCase(Locale.ROOT)
                     } else {
                         val timeAgo: String =
-                            lastAnswerToTimeAgo.toString(requireContext()).toLowerCase(Locale.ROOT)
+                            lastTestedToTimeAgo.toString(requireContext()).toLowerCase(Locale.ROOT)
                         getString(R.string.time_ago, timeAgo)
                     }
-            }
-            numberOfLaps.observe { numberOfLaps: Int ->
-                val isInfinitely = numberOfLaps == Int.MAX_VALUE
-                if (isInfinitely) {
-                    lapNumberTextView.setText(R.string.infinitely)
-                } else {
-                    lapNumberTextView.text =
-                        resources.getQuantityString(
-                            R.plurals.number_of_laps_with_args,
-                            numberOfLaps,
-                            numberOfLaps
-                        )
-                }
             }
         }
     }
@@ -227,7 +208,7 @@ class RepetitionSettingsFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: RepetitionSettingsController.Command) {
+    private fun executeCommand(command: CardFiltersForAutoplayController.Command) {
         when (command) {
             ShowNoCardIsReadyForRepetitionMessage -> {
                 showToast(R.string.toast_text_no_card_matches_filter_conditions)
@@ -242,7 +223,7 @@ class RepetitionSettingsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_start_repetition -> {
-                controller?.dispatch(StartRepetitionMenuItemClicked)
+                controller?.dispatch(StartPlayingButtonClicked)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -262,7 +243,7 @@ class RepetitionSettingsFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
-            RepetitionSettingsDiScope.close()
+            CardFiltersForAutoplayDiScope.close()
         }
     }
 }

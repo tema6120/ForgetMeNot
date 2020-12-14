@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer
+package com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested
 
 import android.app.Dialog
 import android.os.Bundle
@@ -12,23 +12,21 @@ import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.common.uncover
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.RepetitionSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterEvent.*
-import kotlinx.android.synthetic.main.dialog_last_answer_filter.view.*
+import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested.LastTestedFilterEvent.*
+import kotlinx.android.synthetic.main.dialog_last_tested_filter.view.*
 import kotlinx.coroutines.launch
 
-class LastAnswerFilterDialog : BaseDialogFragment() {
+class LastTestedFilterDialog : BaseDialogFragment() {
     init {
-        RepetitionSettingsDiScope.reopenIfClosed()
-        LastAnswerFilterDiScope.reopenIfClosed()
+        LastTestedFilterDiScope.reopenIfClosed()
     }
 
-    private var controller: LastAnswerFilterController? = null
+    private var controller: LastTestedFilterController? = null
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         onCreateDialog()
-        rootView = View.inflate(requireContext(), R.layout.dialog_last_answer_filter, null)
+        rootView = View.inflate(requireContext(), R.layout.dialog_last_tested_filter, null)
         setupView()
         return AlertDialog.Builder(requireContext())
             .setTitle(" ") // need to set any title (but not empty) so that dialog will be built with Title TextView
@@ -89,13 +87,13 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
     override fun onStart() {
         super.onStart()
         viewCoroutineScope!!.launch {
-            val diScope = LastAnswerFilterDiScope.getAsync() ?: return@launch
+            val diScope = LastTestedFilterDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             observeViewModel(diScope.viewModel)
         }
     }
 
-    private fun observeViewModel(viewModel: LastAnswerFilterViewModel) {
+    private fun observeViewModel(viewModel: LastTestedFilterViewModel) {
         with(viewModel) {
             val titleId: Int =
                 if (isFromDialog)
@@ -149,7 +147,7 @@ class LastAnswerFilterDialog : BaseDialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
-            LastAnswerFilterDiScope.close()
+            LastTestedFilterDiScope.close()
         }
     }
 }

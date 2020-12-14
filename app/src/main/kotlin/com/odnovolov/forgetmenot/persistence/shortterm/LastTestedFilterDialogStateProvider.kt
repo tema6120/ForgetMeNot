@@ -1,18 +1,18 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
-import com.odnovolov.forgetmenot.persistence.shortterm.LastAnswerFilterDialogStateProvider.SerializableState
+import com.odnovolov.forgetmenot.persistence.shortterm.LastTestedFilterDialogStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
-import com.odnovolov.forgetmenot.presentation.screen.repetitionsettings.lastanswer.LastAnswerFilterDialogState
+import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested.LastTestedFilterDialogState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-class LastAnswerFilterDialogStateProvider(
+class LastTestedFilterDialogStateProvider(
     json: Json,
     database: Database,
-    override val key: String = LastAnswerFilterDialogState::class.qualifiedName!!
-) : BaseSerializableStateProvider<LastAnswerFilterDialogState, SerializableState>(
+    override val key: String = LastTestedFilterDialogState::class.qualifiedName!!
+) : BaseSerializableStateProvider<LastTestedFilterDialogState, SerializableState>(
     json,
     database
 ) {
@@ -26,19 +26,19 @@ class LastAnswerFilterDialogStateProvider(
 
     override val serializer = SerializableState.serializer()
 
-    override fun toSerializable(state: LastAnswerFilterDialogState) = SerializableState(
+    override fun toSerializable(state: LastTestedFilterDialogState) = SerializableState(
         state.isFromDialog,
         state.isZeroTimeSelected,
         state.timeAgo.value,
         state.timeAgo.intervalUnit
     )
 
-    override fun toOriginal(serializableState: SerializableState): LastAnswerFilterDialogState {
+    override fun toOriginal(serializableState: SerializableState): LastTestedFilterDialogState {
         val timeAgo = DisplayedInterval(
             serializableState.intervalInputValue,
             serializableState.intervalUnit
         )
-        return LastAnswerFilterDialogState(
+        return LastTestedFilterDialogState(
             serializableState.isFromDialog,
             serializableState.isZeroTimeSelected,
             timeAgo

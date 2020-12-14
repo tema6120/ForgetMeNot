@@ -8,7 +8,6 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.toCardDb
 import com.odnovolov.forgetmenot.persistence.toDeckDb
-import com.odnovolov.forgetmenot.persistence.toRepetitionSettingDb
 
 class GlobalStatePropertyChangeHandler(
     private val database: Database,
@@ -101,40 +100,11 @@ class GlobalStatePropertyChangeHandler(
                         .insertPronunciationPlanIfNotExists(pronunciationPlan)
                 }
             }
-            GlobalState::sharedRepetitionSettings -> {
-                if (change !is CollectionChange) return
-
-                val removedRepetitionSettings = change.removedItems as Collection<RepetitionSetting>
-                removedRepetitionSettings.forEach { repetitionSetting: RepetitionSetting ->
-                    database.sharedRepetitionSettingQueries.delete(repetitionSetting.id)
-                }
-
-                val addedRepetitionSettings = change.addedItems as Collection<RepetitionSetting>
-                addedRepetitionSettings.forEach { repetitionSetting: RepetitionSetting ->
-                    insertRepetitionSettingIfNotExists(repetitionSetting)
-                    database.sharedRepetitionSettingQueries.insert(repetitionSetting.id)
-                }
-            }
-            GlobalState::currentRepetitionSetting -> {
-                if (change !is PropertyValueChange) return
-                val currentRepetitionSetting = change.newValue as RepetitionSetting
-                insertRepetitionSettingIfNotExists(currentRepetitionSetting)
-                database.currentRepetitionSettingQueries.update(currentRepetitionSetting.id)
-            }
             GlobalState::isWalkingModeEnabled -> {
                 if (change !is PropertyValueChange) return
                 val isWalkingModeEnabled = change.newValue as Boolean
                 database.walkingModeQueries.updateIsEnabled(isWalkingModeEnabled)
             }
-        }
-    }
-
-    private fun insertRepetitionSettingIfNotExists(repetitionSetting: RepetitionSetting) {
-        val exists: Boolean = repetitionSetting.isDefault()
-                || database.repetitionSettingQueries.exists(repetitionSetting.id).executeAsOne()
-        if (!exists) {
-            val repetitionSettingDb = repetitionSetting.toRepetitionSettingDb()
-            database.repetitionSettingQueries.insert(repetitionSettingDb)
         }
     }
 }

@@ -44,26 +44,13 @@
 
         </LinearLayout>
 
-        <com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetView
-                android:id="@+id/presetView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@id/matchingCardsLinearLayout"
-                app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
                 android:id="@+id/groupsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/title_groups"
+                android:text="@string/title_card_filter_state"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +76,7 @@
                 tools:visibility="visible" />
 
         <View
-                android:id="@+id/availableForExerciseGroupButton"
+                android:id="@+id/availableForExerciseButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
@@ -118,7 +105,7 @@
                 tools:visibility="visible" />
 
         <View
-                android:id="@+id/awaitingGroupButton"
+                android:id="@+id/awaitingButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
@@ -146,7 +133,7 @@
                 tools:visibility="visible" />
 
         <View
-                android:id="@+id/learnedGroupButton"
+                android:id="@+id/learnedButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
@@ -171,7 +158,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/title_grade"
+                android:text="@string/title_card_filter_grade"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -215,25 +202,25 @@
                 app:layout_constraintTop_toBottomOf="@id/gradeRangeBar" />
 
         <TextView
-                android:id="@+id/lastAnswerTitle"
+                android:id="@+id/lastTestedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/title_last_answer"
+                android:text="@string/title_card_filter_last_tested"
                 android:textColor="@color/textPrimary"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider2" />
 
         <HorizontalScrollView
-                android:id="@+id/lastAnswerScrollView"
+                android:id="@+id/lastTestedScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lastAnswerTitle">
+                app:layout_constraintTop_toBottomOf="@id/lastTestedTitle">
 
             <LinearLayout
                     android:layout_width="wrap_content"
@@ -250,13 +237,13 @@
                         android:textSize="14sp" />
 
                 <TextView
-                        android:id="@+id/lastAnswerFromButton"
+                        android:id="@+id/lastTestedFromButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:background="@drawable/background_last_answer_button"
+                        android:background="@drawable/background_last_tested_button"
                         android:padding="8dp"
-                        android:textColor="@color/text_last_answer_button"
+                        android:textColor="@color/text_last_tested_button"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         tools:text="zero time" />
@@ -271,13 +258,13 @@
                         android:textSize="14sp" />
 
                 <TextView
-                        android:id="@+id/lastAnswerToButton"
+                        android:id="@+id/lastTestedToButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:background="@drawable/background_last_answer_button"
+                        android:background="@drawable/background_last_tested_button"
                         android:padding="8dp"
-                        android:textColor="@color/text_last_answer_button"
+                        android:textColor="@color/text_last_tested_button"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         tools:text="now" />
@@ -293,54 +280,7 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lastAnswerScrollView" />
-
-        <TextView
-                android:id="@+id/lapTitleTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/title_number_of_laps"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider3" />
-
-        <TextView
-                android:id="@+id/lapNumberTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lapTitleTextView"
-                tools:text="1 lap" />
-
-        <View
-                android:id="@+id/specificLapNumberButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toBottomOf="@id/lapNumberTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/lapTitleTextView" />
-
-        <View
-                android:id="@+id/divider4"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lapNumberTextView" />
+                app:layout_constraintTop_toBottomOf="@id/lastTestedScrollView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
