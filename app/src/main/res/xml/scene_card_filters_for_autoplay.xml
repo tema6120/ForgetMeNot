@@ -1,0 +1,84 @@
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+            app:constraintSetEnd="@id/collapsed"
+            app:constraintSetStart="@id/expanded">
+
+        <OnSwipe
+                app:dragDirection="dragUp"
+                app:maxAcceleration="40"
+                app:onTouchUp="autoCompleteToEnd"
+                app:touchAnchorId="@+id/scrollView"
+                app:touchAnchorSide="top" />
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/expanded">
+        <Constraint
+                android:id="@id/matchingCardsNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:scaleX="3"
+                android:scaleY="3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/screenTitle" />
+        <Constraint
+                android:id="@id/matchingCardsLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="48dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/matchingCardsNumberTextView" />
+        <Constraint
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="54dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/matchingCardsLabelTextView" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/collapsed">
+        <Constraint
+                android:id="@id/matchingCardsNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                app:layout_constraintBottom_toBottomOf="@id/screenTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/screenTitle" />
+        <Constraint
+                android:id="@id/matchingCardsLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="48dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/matchingCardsNumberTextView" />
+        <Constraint
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/screenTitle" />
+    </ConstraintSet>
+
+</MotionScene>

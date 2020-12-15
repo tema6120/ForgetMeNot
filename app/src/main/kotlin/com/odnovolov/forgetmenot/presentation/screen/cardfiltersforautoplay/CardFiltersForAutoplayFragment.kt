@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.CheckBox
 import androidx.core.content.ContextCompat
-import androidx.core.view.isInvisible
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -217,27 +215,10 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        scrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        scrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             CardFiltersForAutoplayDiScope.close()
-        }
-    }
-
-    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
-        val canScrollUp = scrollView.canScrollVertically(-1)
-        if (divider.isInvisible == canScrollUp) {
-            divider.isInvisible = !canScrollUp
         }
     }
 }

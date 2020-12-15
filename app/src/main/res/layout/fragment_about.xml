@@ -32,7 +32,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/nunito_extrabold"
                     android:text="@string/title_about_screen"
-                    android:textColor="@color/item_selected"
+                    android:textColor="@color/title"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
