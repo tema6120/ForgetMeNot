@@ -1,13 +1,16 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay
 
+import android.animation.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
@@ -211,7 +214,43 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
         when (command) {
             ShowNoCardIsReadyForRepetitionMessage -> {
                 showToast(R.string.toast_text_no_card_matches_filter_conditions)
+                animateCounter()
             }
+        }
+    }
+
+    private fun animateCounter() {
+        val counterRotation = ObjectAnimator.ofFloat(
+            matchingCardsNumberTextView, View.ROTATION,
+            0f, -5f, 10f, -10f, 5f, 0f
+        ).apply { duration = 600 }
+        val titleColor = ContextCompat.getColor(requireContext(), color.title)
+        val descriptionColor = ContextCompat.getColor(requireContext(), color.title_description)
+        val issueColor = ContextCompat.getColor(requireContext(), color.issue)
+        val counterPainting =
+            ValueAnimator.ofObject(ArgbEvaluator(), titleColor, issueColor, titleColor)
+                .apply {
+                    duration = 900
+                    addUpdateListener { animator: ValueAnimator ->
+                        matchingCardsNumberTextView.setTextColor(
+                            animator.animatedValue as Int
+                        )
+                    }
+                }
+        val descriptionPainting =
+            ValueAnimator.ofObject(ArgbEvaluator(), descriptionColor, issueColor, descriptionColor)
+                .apply {
+                    duration = 900
+                    addUpdateListener { animator: ValueAnimator ->
+                        matchingCardsLabelTextView.setTextColor(
+                            animator.animatedValue as Int
+                        )
+                    }
+                }
+        AnimatorSet().run {
+            playTogether(counterRotation, counterPainting, descriptionPainting)
+            interpolator = LinearInterpolator()
+            start()
         }
     }
 
