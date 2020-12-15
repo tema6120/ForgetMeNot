@@ -254,10 +254,24 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(TRANSITION_STATE, motionLayout.currentState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.getInt(TRANSITION_STATE)?.let(motionLayout::transitionToState)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             CardFiltersForAutoplayDiScope.close()
         }
+    }
+
+    companion object {
+        const val TRANSITION_STATE = "TRANSITION_STATE"
     }
 }

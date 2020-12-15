@@ -1,6 +1,7 @@
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/motionLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -262,7 +263,7 @@
                         app:mrb_tickHeight="4dp"
                         app:mrb_tickLabelColor="@color/textSecondary"
                         app:mrb_tickLabelSelectedColor="@color/textSecondary"
-                        app:mrb_tickLabelSize="8sp"
+                        app:mrb_tickLabelSize="6sp"
                         tools:mrb_connectingLineColor="@color/colorAccent"
                         tools:mrb_leftSelectorColor="@color/grade_unsatisfactory"
                         tools:mrb_rightSelectorColor="@color/grade_excellent"
@@ -337,7 +338,7 @@
                                 android:background="@drawable/background_last_tested_button"
                                 android:fontFamily="@font/nunito_extrabold"
                                 android:padding="8dp"
-                                android:textColor="@color/text_last_tested_button"
+                                android:textColor="@color/last_tested"
                                 android:textSize="16sp"
                                 tools:text="zero time" />
 
@@ -364,7 +365,7 @@
                                 android:background="@drawable/background_last_tested_button"
                                 android:fontFamily="@font/nunito_extrabold"
                                 android:padding="8dp"
-                                android:textColor="@color/text_last_tested_button"
+                                android:textColor="@color/last_tested"
                                 android:textSize="16sp"
                                 tools:text="now" />
 

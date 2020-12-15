@@ -7,12 +7,12 @@
     </item>
     <item>
         <ripple xmlns:tools="http://schemas.android.com/tools"
-                android:color="@color/text_last_tested_button"
+                android:color="@color/last_tested"
                 tools:targetApi="lollipop">
 
             <item android:id="@android:id/mask">
                 <shape>
-                    <solid android:color="@color/text_last_tested_button" />
+                    <solid android:color="@color/last_tested" />
                     <corners android:radius="6dp" />
                 </shape>
             </item>

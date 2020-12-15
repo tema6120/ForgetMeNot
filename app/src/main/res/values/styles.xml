@@ -18,6 +18,16 @@
         <item name="colorControlNormal">@color/accent_selector</item>
     </style>
 
+    <style name="LastTestedTheme" parent="AppTheme">
+        <item name="colorAccent">@color/last_tested</item>
+    </style>
+
+    <style name="LastTestedPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/last_tested</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+    </style>
+
     <style name="ArticleParagraph">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

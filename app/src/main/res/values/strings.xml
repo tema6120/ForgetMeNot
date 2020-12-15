@@ -156,8 +156,8 @@
     <string name="title_last_tested_to">to</string>
     <string name="zero_time">Zero time</string>
     <string name="now">Now</string>
-    <string name="last_answer_time_from_filter_dialog_title">Last Answer Time From</string>
-    <string name="last_answer_time_to_filter_dialog_title">Last Answer Time To</string>
+    <string name="title_dialog_last_tested_from">Last tested from</string>
+    <string name="title_dialog_last_tested_to">Last tested to</string>
     <string name="interval_unit_hours">Hours</string>
     <string name="interval_unit_days">Days</string>
     <string name="interval_unit_months">Months</string>

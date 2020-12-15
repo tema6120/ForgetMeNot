@@ -3,8 +3,11 @@ package com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.las
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
@@ -29,26 +32,28 @@ class LastTestedFilterDialog : BaseDialogFragment() {
         rootView = View.inflate(requireContext(), R.layout.dialog_last_tested_filter, null)
         setupView()
         return AlertDialog.Builder(requireContext())
-            .setTitle(" ") // need to set any title (but not empty) so that dialog will be built with Title TextView
             .setView(rootView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                controller?.dispatch(OkButtonClicked)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
             .create()
+            .apply {
+                val window = window ?: return@apply
+                window.setBackgroundDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
+                )
+            }
     }
 
     private fun setupView() {
         setupRadioButtons()
         setupValueEditText()
         setupUnitPicker()
+        setupBottomButtons()
     }
 
     private fun setupRadioButtons() {
-        rootView.zeroTimeButton.setOnClickListener {
+        rootView.zeroTimeFrame.setOnClickListener {
             controller?.dispatch(ZeroTimeRadioButtonClicked)
         }
-        rootView.specificTimeSpanButton.setOnClickListener {
+        rootView.specificTimeFrame.setOnClickListener {
             controller?.dispatch(SpecificTimeRadioButtonClicked)
         }
     }
@@ -84,6 +89,16 @@ class LastTestedFilterDialog : BaseDialogFragment() {
         }
     }
 
+    private fun setupBottomButtons() {
+        rootView.okButton.setOnClickListener {
+            controller?.dispatch(OkButtonClicked)
+            dismiss()
+        }
+        rootView.cancelButton.setOnClickListener {
+            dismiss()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         viewCoroutineScope!!.launch {
@@ -95,12 +110,12 @@ class LastTestedFilterDialog : BaseDialogFragment() {
 
     private fun observeViewModel(viewModel: LastTestedFilterViewModel) {
         with(viewModel) {
-            val titleId: Int =
-                if (isFromDialog)
-                    R.string.last_answer_time_from_filter_dialog_title else
-                    R.string.last_answer_time_to_filter_dialog_title
-            dialog!!.setTitle(titleId)
             with(rootView) {
+                dialogTitle.setText(
+                    if (isFromDialog)
+                        R.string.title_dialog_last_tested_from else
+                        R.string.title_dialog_last_tested_to
+                )
                 zeroTimeRadioButton.text = getString(
                     if (isFromDialog) R.string.zero_time else R.string.now
                 )
@@ -115,10 +130,12 @@ class LastTestedFilterDialog : BaseDialogFragment() {
                         isChecked = isZeroTimeSelected
                         uncover()
                     }
+                    zeroTimeFrame.isClickable = !isZeroTimeSelected
                     specificTimeSpanRadioButton.run {
                         isChecked = !isZeroTimeSelected
                         uncover()
                     }
+                    specificTimeFrame.isClickable = isZeroTimeSelected
                     setIsEnabledOfValueInputGroup(!isZeroTimeSelected)
                     valueEditText.run {
                         if (isZeroTimeSelected) {
@@ -141,7 +158,29 @@ class LastTestedFilterDialog : BaseDialogFragment() {
     private fun setIsEnabledOfValueInputGroup(isEnabled: Boolean) {
         rootView.valueEditText.isEnabled = isEnabled
         rootView.unitPicker.isEnabled = isEnabled
+        rootView.unitPicker.alpha = if (isEnabled) 1f else 0.3f
         rootView.agoTextView.isEnabled = isEnabled
+    }
+
+    override fun onResume() {
+        super.onResume()
+        rootView.scrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        rootView.scrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = rootView.scrollView.canScrollVertically(-1)
+        if (rootView.topDivider.isVisible != canScrollUp) {
+            rootView.topDivider.isVisible = canScrollUp
+        }
+        val canScrollDown = rootView.scrollView.canScrollVertically(1)
+        if (rootView.bottomDivider.isVisible != canScrollDown) {
+            rootView.bottomDivider.isVisible = canScrollDown
+        }
     }
 
     override fun onDestroy() {
