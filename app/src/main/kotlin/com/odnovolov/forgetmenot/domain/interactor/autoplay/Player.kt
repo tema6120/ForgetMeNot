@@ -47,9 +47,9 @@ class Player(
     private val currentPronunciationEvent: PronunciationEvent
         get() = currentPronunciationPlan.pronunciationEvents[state.pronunciationEventPosition]
 
-    private val textInBracketsRemover by lazy { TextInBracketsRemover() }
-
+    private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private var delayJob: Job? = null
+    private var skipDelay = true
 
     init {
         speaker.setOnSpeakingFinished { tryToExecuteNextPronunciationEvent() }
@@ -178,6 +178,7 @@ class Player(
 
     fun resume() {
         if (state.isPlaying) return
+        skipDelay = true
         state.isPlaying = true
         executePronunciationEvent()
     }
@@ -185,17 +186,23 @@ class Player(
     private fun executePronunciationEvent() {
         when (val pronunciationEvent = currentPronunciationEvent) {
             SpeakQuestion -> {
+                skipDelay = false
                 speakQuestion()
             }
             SpeakAnswer -> {
+                skipDelay = false
                 showAnswer()
                 speakAnswer()
             }
             is Delay -> {
-                delayJob = launch {
-                    delay(pronunciationEvent.timeSpan.millisecondsLong)
-                    if (isActive) {
-                        tryToExecuteNextPronunciationEvent()
+                if (skipDelay) {
+                    tryToExecuteNextPronunciationEvent()
+                } else {
+                    delayJob = launch {
+                        delay(pronunciationEvent.timeSpan.millisecondsLong)
+                        if (isActive) {
+                            tryToExecuteNextPronunciationEvent()
+                        }
                     }
                 }
             }
