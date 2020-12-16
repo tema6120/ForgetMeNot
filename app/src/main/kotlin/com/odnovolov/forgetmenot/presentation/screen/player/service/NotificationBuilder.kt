@@ -56,7 +56,7 @@ class NotificationBuilder(private val context: Context) {
         }
         val pausePendingIntent = PendingIntent.getService(context, 0, pauseIntent, 0)
         return NotificationCompat.Action.Builder(
-            R.drawable.ic_pause_dark_24dp,
+            R.drawable.ic_pause_28,
             context.getString(R.string.pause_in_notification),
             pausePendingIntent
         ).build()
@@ -68,7 +68,7 @@ class NotificationBuilder(private val context: Context) {
         }
         val pendingIntent = PendingIntent.getService(context, 0, intent, 0)
         return NotificationCompat.Action.Builder(
-            R.drawable.ic_play_arrow_dark_24dp,
+            R.drawable.ic_play_28,
             context.getString(R.string.resume_in_notification),
             pendingIntent
         ).build()

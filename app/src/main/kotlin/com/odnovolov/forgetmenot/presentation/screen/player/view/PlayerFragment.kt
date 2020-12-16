@@ -170,12 +170,12 @@ class PlayerFragment : BaseFragment() {
             }
             isPlaying.observe { isPlaying: Boolean ->
                 if (isPlaying) startService()
-                with(pauseResumeButton) {
+                with(playButton) {
                     keepScreenOn = isPlaying
                     setImageResource(
                         if (isPlaying)
-                            R.drawable.ic_pause_white_24dp else
-                            R.drawable.ic_play_arrow_white_24dp
+                            R.drawable.ic_pause_28 else
+                            R.drawable.ic_play_28
                     )
                     setOnClickListener {
                         controller?.dispatch(

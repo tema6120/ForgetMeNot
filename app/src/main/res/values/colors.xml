@@ -80,4 +80,5 @@
     <color name="text_primary_blue_unselected">#664B5875</color>
     <color name="text_description_blue">#A84B5875</color>
     <color name="text_title">#B8000000</color>
+    <color name="background_play_button">#03C2F9</color>
 </resources>
