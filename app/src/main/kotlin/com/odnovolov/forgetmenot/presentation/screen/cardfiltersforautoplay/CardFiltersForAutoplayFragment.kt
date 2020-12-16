@@ -224,8 +224,8 @@ class CardFiltersForAutoplayFragment : BaseFragment() {
             matchingCardsNumberTextView, View.ROTATION,
             0f, -5f, 10f, -10f, 5f, 0f
         ).apply { duration = 600 }
-        val titleColor = ContextCompat.getColor(requireContext(), color.title)
-        val descriptionColor = ContextCompat.getColor(requireContext(), color.title_description)
+        val titleColor = ContextCompat.getColor(requireContext(), color.text_primary_blue)
+        val descriptionColor = ContextCompat.getColor(requireContext(), color.text_description_blue)
         val issueColor = ContextCompat.getColor(requireContext(), color.issue)
         val counterPainting =
             ValueAnimator.ofObject(ArgbEvaluator(), titleColor, issueColor, titleColor)

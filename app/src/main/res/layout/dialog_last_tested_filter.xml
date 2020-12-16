@@ -16,7 +16,7 @@
             android:fontFamily="@font/nunito_bold"
             android:padding="16dp"
             android:text="@string/title_dialog_last_tested_from"
-            android:textColor="@color/text_item_title"
+            android:textColor="@color/text_title"
             android:textSize="20sp"
             app:drawableStartCompat="@drawable/ic_round_history_24" />
 

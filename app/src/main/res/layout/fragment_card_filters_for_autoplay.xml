@@ -23,11 +23,11 @@
             android:id="@+id/screenTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_extrabold"
+            android:fontFamily="@font/jura"
             android:padding="16dp"
             android:text="@string/title_card_filters_for_autoplay"
-            android:textColor="@color/title"
-            android:textSize="22sp"
+            android:textColor="@color/text_title"
+            android:textSize="23sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,8 +42,8 @@
             android:maxLines="1"
             android:scaleX="3"
             android:scaleY="3"
-            android:textColor="@color/title"
-            android:textSize="28sp"
+            android:textColor="@color/text_primary_blue"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/screenTitle"
@@ -58,7 +58,7 @@
             android:layout_marginEnd="48dp"
             android:fontFamily="@font/nunito_bold"
             android:gravity="center"
-            android:textColor="@color/title_description"
+            android:textColor="@color/text_description_blue"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,8 +112,8 @@
                         android:drawablePadding="8dp"
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/title_card_filter_state"
-                        android:textColor="@color/text_item_title"
-                        android:textSize="20sp"
+                        android:textColor="@color/text_title"
+                        android:textSize="19sp"
                         app:drawableStartCompat="@drawable/ic_round_emoji_flags_24" />
 
                 <View
@@ -146,7 +146,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_available_for_exercise_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -174,7 +174,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_awaiting_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -203,7 +203,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_learned_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -231,8 +231,8 @@
                         android:drawablePadding="8dp"
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/title_card_filter_grade"
-                        android:textColor="@color/text_item_title"
-                        android:textSize="20sp"
+                        android:textColor="@color/text_title"
+                        android:textSize="19sp"
                         app:drawableStartCompat="@drawable/ic_medal_24" />
 
                 <View
@@ -292,8 +292,8 @@
                         android:drawablePadding="8dp"
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/title_card_filter_last_tested"
-                        android:textColor="@color/text_item_title"
-                        android:textSize="20sp"
+                        android:textColor="@color/text_title"
+                        android:textSize="19sp"
                         app:drawableStartCompat="@drawable/ic_round_history_24" />
 
                 <View
@@ -326,7 +326,7 @@
                                 android:fontFamily="@font/nunito_bold"
                                 android:text="@string/title_last_tested_from"
                                 android:textColor="@color/textSecondary"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                         <TextView
                                 android:id="@+id/lastTestedFromButton"
@@ -339,7 +339,7 @@
                                 android:fontFamily="@font/nunito_extrabold"
                                 android:padding="8dp"
                                 android:textColor="@color/last_tested"
-                                android:textSize="16sp"
+                                android:textSize="14sp"
                                 tools:text="zero time" />
 
                         <TextView
@@ -352,7 +352,7 @@
                                 android:fontFamily="@font/nunito_bold"
                                 android:text="@string/title_last_tested_to"
                                 android:textColor="@color/textSecondary"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                         <TextView
                                 android:id="@+id/lastTestedToButton"
@@ -366,7 +366,7 @@
                                 android:fontFamily="@font/nunito_extrabold"
                                 android:padding="8dp"
                                 android:textColor="@color/last_tested"
-                                android:textSize="16sp"
+                                android:textSize="14sp"
                                 tools:text="now" />
 
                     </LinearLayout>

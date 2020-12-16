@@ -71,7 +71,7 @@
     <string name="label_settings_screen">Settings</string>
     <string name="label_walking_mode_settings_screen">Walking mode settings</string>
     <string name="label_help_screen">Help</string>
-    <string name="title_card_filters_for_autoplay">Card filters</string>
+    <string name="title_card_filters_for_autoplay">Card filter</string>
     <string name="label_repetition_screen">Repetition</string>
     <string name="label_search_screen">Search</string>
     <string name="hint_pronunciation_name_edittext">Enter name</string>
