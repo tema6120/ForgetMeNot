@@ -35,6 +35,7 @@ import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInab
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus.*
 import kotlinx.android.synthetic.main.fragment_player.*
+import kotlinx.android.synthetic.main.popup_infinite_playback.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.coroutines.launch
@@ -52,6 +53,7 @@ class PlayerFragment : BaseFragment() {
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
+    private val infinitePlaybackPopup: PopupWindow by lazy(::createInfinitePopup)
     private var knowingWhenPagerStopped: KnowingWhenPagerStopped? = null
 
     override fun onCreateView(
@@ -96,7 +98,7 @@ class PlayerFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         infinitePlaybackButton.run {
-            setOnClickListener { controller?.dispatch(InfinitePlaybackSwitchToggled) }
+            setOnClickListener { showInfinitePlaybackPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         helpButton.run {
@@ -361,6 +363,50 @@ class PlayerFragment : BaseFragment() {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
         )
+    }
+
+    private fun createInfinitePopup(): PopupWindow {
+        val content = View.inflate(requireContext(), R.layout.popup_infinite_playback, null)
+        viewCoroutineScope!!.launch {
+            val diScope = PlayerDiScope.getAsync() ?: return@launch
+            diScope.viewModel.isInfinitePlaybackEnabled.observe { isInfinitePlaybackEnabled ->
+                content.infinitePlaybackSwitch.run {
+                    isChecked = isInfinitePlaybackEnabled
+                    setText(if (isInfinitePlaybackEnabled) R.string.on else R.string.off)
+                }
+                content.infinitePlaybackPopupTitleTextView.isActivated = isInfinitePlaybackEnabled
+            }
+        }
+        content.infinitePlaybackSwitchButton.setOnClickListener {
+            controller?.dispatch(InfinitePlaybackSwitchToggled)
+        }
+        return PopupWindow(context).apply {
+            width = WRAP_CONTENT
+            height = WRAP_CONTENT
+            contentView = content
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
+            )
+            elevation = 20f.dp
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.PopupFromBottomRightAnimation
+        }
+    }
+
+    private fun showInfinitePlaybackPopup() {
+        infinitePlaybackPopup.run {
+            showAtLocation(infinitePlaybackButton.rootView, Gravity.NO_GRAVITY, 0, 0)
+            contentView.post {
+                val infinitePlaybackButtonLocation = IntArray(2)
+                    .also(infinitePlaybackButton::getLocationOnScreen)
+                val x: Int = infinitePlaybackButtonLocation[0] +
+                        infinitePlaybackButton.width - 8.dp - contentView.width
+                val y: Int = infinitePlaybackButtonLocation[1] +
+                            infinitePlaybackButton.height - 8.dp - contentView.height
+                update(x, y, width, height)
+            }
+        }
     }
 
     override fun onDestroyView() {

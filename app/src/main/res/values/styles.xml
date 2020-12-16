@@ -220,6 +220,10 @@
         <item name="colorControlActivated">@color/walking_mode_icon_on_popup</item>
     </style>
 
+    <style name="InfinitePlaybackSwitchStyle">
+        <item name="colorControlActivated">@color/infinite_playback_icon_on_popup</item>
+    </style>
+
     <style name="VariantFrame">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

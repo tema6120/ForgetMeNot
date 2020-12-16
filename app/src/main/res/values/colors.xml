@@ -61,6 +61,7 @@
     <color name="hint_icon_on_popup">#FFE600</color>
     <color name="walking_mode_icon_on_popup">#00B7FF</color>
     <color name="ticking_timer_icon_on_popup">#00FF88</color>
+    <color name="infinite_playback_icon_on_popup">#F991F8</color>
     <color name="issue">#FF5957</color>
     <color name="description_text_on_popup">#8CFFFFFF</color>
     <color name="floating_button_in_exercise">#454D59</color>

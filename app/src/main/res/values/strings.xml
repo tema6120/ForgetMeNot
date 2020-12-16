@@ -639,4 +639,5 @@
     <string name="button_save">Save</string>
     <string name="button_quit_without_saving">Quit without saving</string>
     <string name="text_start_playing_button">Start playing</string>
+    <string name="popup_title_infinite_playback">Infinite playback</string>
 </resources>

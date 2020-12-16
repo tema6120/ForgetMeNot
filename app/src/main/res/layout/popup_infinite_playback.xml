@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:background="@drawable/background_popup_dark">
+
+    <TextView
+            android:id="@+id/infinitePlaybackPopupTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:drawablePadding="8dp"
+            android:text="@string/popup_title_infinite_playback"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_round_all_inclusive_24_on_popup" />
+
+    <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/divider_light" />
+
+    <FrameLayout
+            android:id="@+id/infinitePlaybackSwitchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/infinitePlaybackSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/text_switch_on_popup"
+                android:textSize="14sp"
+                android:theme="@style/InfinitePlaybackSwitchStyle"
+                app:switchPadding="16dp"
+                tools:checked="true"
+                tools:text="On" />
+
+    </FrameLayout>
+
+</LinearLayout>
