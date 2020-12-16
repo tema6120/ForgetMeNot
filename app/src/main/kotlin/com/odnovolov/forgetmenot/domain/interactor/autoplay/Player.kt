@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.domain.interactor.autoplay
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
@@ -13,6 +14,7 @@ import kotlin.coroutines.CoroutineContext
 
 class Player(
     val state: State,
+    private val globalState: GlobalState,
     private val speaker: Speaker,
     override val coroutineContext: CoroutineContext
 ) : CoroutineScope {
@@ -21,8 +23,6 @@ class Player(
         currentPosition: Int = 0,
         pronunciationEventPosition: Int = 0,
         isPlaying: Boolean = true,
-        numberOfLaps: Int,
-        currentLap: Int = 0,
         questionSelection: String = "",
         answerSelection: String = ""
     ) : FlowMaker<State>() {
@@ -30,8 +30,6 @@ class Player(
         var currentPosition: Int by flowMaker(currentPosition)
         var pronunciationEventPosition: Int by flowMaker(pronunciationEventPosition)
         var isPlaying: Boolean by flowMaker(isPlaying)
-        val numberOfLaps: Int by flowMaker(numberOfLaps)
-        var currentLap: Int by flowMaker(currentLap)
         var questionSelection: String by flowMaker(questionSelection)
         var answerSelection: String by flowMaker(answerSelection)
     }
@@ -50,6 +48,7 @@ class Player(
     private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private var delayJob: Job? = null
     private var skipDelay = true
+    private val isInfinitePlaybackEnabled get() = globalState.isInfinitePlaybackEnabled
 
     init {
         speaker.setOnSpeakingFinished { tryToExecuteNextPronunciationEvent() }
@@ -57,6 +56,11 @@ class Player(
         if (state.isPlaying) {
             executePronunciationEvent()
         }
+    }
+
+    fun setInfinitePlaybackEnabled(enabled: Boolean) {
+        if (isInfinitePlaybackEnabled == enabled) return
+        globalState.isInfinitePlaybackEnabled = enabled
     }
 
     fun setCurrentPosition(position: Int) {
@@ -231,7 +235,7 @@ class Player(
                 state.pronunciationEventPosition = 0
                 true
             }
-            hasOneMoreLap() -> {
+            isInfinitePlaybackEnabled -> {
                 state.playingCards.forEach { playingCard: PlayingCard ->
                     playingCard.isQuestionDisplayed =
                         playingCard.deck.exercisePreference.isQuestionDisplayed
@@ -240,7 +244,6 @@ class Player(
                 state.currentPosition = 0
                 updateCurrentPronunciation()
                 state.pronunciationEventPosition = 0
-                state.currentLap++
                 true
             }
             else -> false
@@ -252,6 +255,4 @@ class Player(
 
     private fun hasOneMorePlayingCard(): Boolean =
         state.currentPosition + 1 < state.playingCards.size
-
-    private fun hasOneMoreLap(): Boolean = state.currentLap + 1 < state.numberOfLaps
 }

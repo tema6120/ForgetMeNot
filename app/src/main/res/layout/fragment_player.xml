@@ -107,6 +107,14 @@
                         app:srcCompat="@drawable/ic_search_white_24dp" />
 
                 <ImageButton
+                        android:id="@+id/infinitePlaybackButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/ripple_light_borderless"
+                        android:contentDescription="@string/description_infinite_playback"
+                        app:srcCompat="@drawable/ic_round_all_inclusive_24" />
+
+                <ImageButton
                         android:id="@+id/helpButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"

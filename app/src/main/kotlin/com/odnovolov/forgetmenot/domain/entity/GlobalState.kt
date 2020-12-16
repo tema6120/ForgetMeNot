@@ -11,7 +11,8 @@ class GlobalState(
     sharedPronunciations: CopyableCollection<Pronunciation>,
     sharedPronunciationPlans: CopyableCollection<PronunciationPlan>,
     cardFilterForAutoplay: CardFilterForAutoplay,
-    isWalkingModeEnabled: Boolean
+    isWalkingModeEnabled: Boolean,
+    isInfinitePlaybackEnabled: Boolean
 ) : FlowMakerWithRegistry<GlobalState>() {
     var decks: CopyableCollection<Deck> by flowMaker(decks, CollectionChange::class)
 
@@ -31,6 +32,8 @@ class GlobalState(
 
     var isWalkingModeEnabled: Boolean by flowMaker(isWalkingModeEnabled)
 
+    var isInfinitePlaybackEnabled: Boolean by flowMaker(isInfinitePlaybackEnabled)
+
     override fun copy() = GlobalState(
         decks.copy(),
         sharedExercisePreferences.copy(),
@@ -38,6 +41,7 @@ class GlobalState(
         sharedPronunciations.copy(),
         sharedPronunciationPlans.copy(),
         cardFilterForAutoplay.copy(),
-        isWalkingModeEnabled
+        isWalkingModeEnabled,
+        isInfinitePlaybackEnabled
     )
 }

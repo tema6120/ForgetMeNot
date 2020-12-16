@@ -22,9 +22,7 @@ class PlayerStateProvider(
         val serializablePlayingCards: List<SerializablePlayingCard>,
         val currentPosition: Int,
         val pronunciationEventPosition: Int,
-        val isPlaying: Boolean,
-        val numberOfLaps: Int,
-        val currentLap: Int
+        val isPlaying: Boolean
     )
 
     @Serializable
@@ -57,9 +55,7 @@ class PlayerStateProvider(
             serializablePlayingCards,
             state.currentPosition,
             state.pronunciationEventPosition,
-            state.isPlaying,
-            state.numberOfLaps,
-            state.currentLap
+            state.isPlaying
         )
     }
 
@@ -85,9 +81,7 @@ class PlayerStateProvider(
             playingCards,
             serializableState.currentPosition,
             serializableState.pronunciationEventPosition,
-            serializableState.isPlaying,
-            serializableState.numberOfLaps,
-            serializableState.currentLap
+            serializableState.isPlaying
         )
     }
 }

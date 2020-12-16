@@ -95,6 +95,10 @@ class PlayerFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(SearchButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
+        infinitePlaybackButton.run {
+            setOnClickListener { controller?.dispatch(InfinitePlaybackSwitchToggled) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
         helpButton.run {
             setOnClickListener { controller?.dispatch(HelpButtonClicked) }
             TooltipCompat.setTooltipText(this, contentDescription)
@@ -191,6 +195,9 @@ class PlayerFragment : BaseFragment() {
                     )
                     TooltipCompat.setTooltipText(this, contentDescription)
                 }
+            }
+            isInfinitePlaybackEnabled.observe { isInfinitePlaybackEnabled: Boolean ->
+                infinitePlaybackButton.isActivated = isInfinitePlaybackEnabled
             }
         }
     }

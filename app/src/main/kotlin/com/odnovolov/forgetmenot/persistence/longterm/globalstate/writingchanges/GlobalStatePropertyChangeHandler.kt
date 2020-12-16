@@ -105,6 +105,11 @@ class GlobalStatePropertyChangeHandler(
                 val isWalkingModeEnabled = change.newValue as Boolean
                 database.walkingModeQueries.updateIsEnabled(isWalkingModeEnabled)
             }
+            GlobalState::isInfinitePlaybackEnabled -> {
+                if (change !is PropertyValueChange) return
+                val isInfinitePlaybackEnabled = change.newValue as Boolean
+                // todo: write to database value
+            }
         }
     }
 }

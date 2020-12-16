@@ -40,6 +40,7 @@
     <string name="description_search_button">Search</string>
     <string name="description_drawer_button">Open navigation menu</string>
     <string name="description_back_button2">Back</string>
+    <string name="description_infinite_playback">Infinite playback</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>

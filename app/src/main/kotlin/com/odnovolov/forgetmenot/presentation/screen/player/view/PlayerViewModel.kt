@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
@@ -17,7 +18,8 @@ import java.util.*
 
 class PlayerViewModel(
     private val playerState: Player.State,
-    speakerImpl: SpeakerImpl
+    speakerImpl: SpeakerImpl,
+    globalState: GlobalState
 ) {
     val playingCards: Flow<List<PlayingCard>> =
         playerState.flowOf(Player.State::playingCards)
@@ -163,6 +165,10 @@ class PlayerViewModel(
     val isPlaying: Flow<Boolean> = playerState.flowOf(Player.State::isPlaying)
         .distinctUntilChanged()
         .flowOn(businessLogicThread)
+
+    val isInfinitePlaybackEnabled: Flow<Boolean> =
+        globalState.flowOf(GlobalState::isInfinitePlaybackEnabled)
+            .flowOn(businessLogicThread)
 
     val currentPosition: Int get() = playerState.currentPosition
 }

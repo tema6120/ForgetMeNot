@@ -39,6 +39,7 @@ class PlayerDiScope private constructor(
 
     val player = Player(
         playerState,
+        AppDiScope.get().globalState,
         speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
@@ -55,6 +56,7 @@ class PlayerDiScope private constructor(
 
     val viewController = PlayerViewController(
         player,
+        AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         playerStateProvider
@@ -62,7 +64,8 @@ class PlayerDiScope private constructor(
 
     val viewModel = PlayerViewModel(
         playerState,
-        speakerImpl
+        speakerImpl,
+        AppDiScope.get().globalState
     )
 
     val playingCardController = PlayingCardController(

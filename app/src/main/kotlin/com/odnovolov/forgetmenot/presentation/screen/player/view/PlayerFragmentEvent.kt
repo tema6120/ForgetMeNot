@@ -12,5 +12,6 @@ sealed class PlayerFragmentEvent {
     object PauseButtonClicked : PlayerFragmentEvent()
     object ResumeButtonClicked : PlayerFragmentEvent()
     object SearchButtonClicked : PlayerFragmentEvent()
+    object InfinitePlaybackSwitchToggled : PlayerFragmentEvent()
     object HelpButtonClicked : PlayerFragmentEvent()
 }

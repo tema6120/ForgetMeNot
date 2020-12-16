@@ -50,8 +50,7 @@ class PlayerStateCreator(
             .flattenWithShallowShuffling()
         if (playingCards.isEmpty()) throw NoCardIsReadyForAutoplay
         return Player.State(
-            playingCards = playingCards,
-            numberOfLaps = 1
+            playingCards = playingCards
         )
     }
 

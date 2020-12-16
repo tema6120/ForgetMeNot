@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.player.view
 
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.onEach
 
 class PlayerViewController(
     private val player: Player,
+    private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val playerStateProvider: ShortTermStateProvider<Player.State>
@@ -113,6 +115,11 @@ class PlayerViewController(
                     }
                     SearchDiScope(searchText)
                 }
+            }
+
+            InfinitePlaybackSwitchToggled -> {
+                val enabled = !globalState.isInfinitePlaybackEnabled
+                player.setInfinitePlaybackEnabled(enabled)
             }
 
             HelpButtonClicked -> {

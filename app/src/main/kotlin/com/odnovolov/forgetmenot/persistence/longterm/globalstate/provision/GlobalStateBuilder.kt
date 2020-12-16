@@ -27,6 +27,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             buildSharedPronunciationPlans(pronunciationPlans)
         val cardFilterForAutoplay: CardFilterForAutoplay = buildCardFilterForAutoplay()
         val isWalkingModeEnabled: Boolean = tables.walkingModeTable
+        val isInfinitePlaybackEnabled = false // todo: save isInfinitePlaybackEnabled
         return GlobalState(
             decks,
             sharedExercisePreferences,
@@ -34,7 +35,8 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             sharedPronunciations,
             sharedPronunciationPlans,
             cardFilterForAutoplay,
-            isWalkingModeEnabled
+            isWalkingModeEnabled,
+            isInfinitePlaybackEnabled
         )
     }
 
