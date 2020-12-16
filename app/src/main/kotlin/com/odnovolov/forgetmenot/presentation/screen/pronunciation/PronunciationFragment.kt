@@ -62,7 +62,6 @@ class PronunciationFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_pronunciation, container, false)
     }
 
@@ -324,25 +323,6 @@ class PronunciationFragment : BaseFragment() {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
         )
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.help, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_help -> {
-                controller?.dispatch(HelpButtonClicked)
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showActionBar()
     }
 
     override fun onDestroy() {

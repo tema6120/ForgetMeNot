@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -131,9 +131,9 @@ class CardsEditorProvider(
                             cardsEditorState
                         )
                     }
-                    RepetitionDiScope.isOpen() -> {
-                        CardsEditorForRepetition(
-                            RepetitionDiScope.get()!!.repetition,
+                    PlayerDiScope.isOpen() -> {
+                        CardsEditorForAutoplay(
+                            PlayerDiScope.get()!!.player,
                             removedEditableCards,
                             cardsEditorState
                         )

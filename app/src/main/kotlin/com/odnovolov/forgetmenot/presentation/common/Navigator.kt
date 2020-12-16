@@ -15,9 +15,9 @@ import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
-import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
-import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayDiScope
-import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested.LastTestedFilterDiScope
+import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import kotlinx.coroutines.Dispatchers
@@ -135,9 +135,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_deck_setup_screen_to_cards_editor_screen)
     }
 
-    fun navigateToAutoplaySettings(createDiScope: () -> CardFiltersForAutoplayDiScope) {
-        CardFiltersForAutoplayDiScope.open(createDiScope)
-        navigate(R.id.nav_host_to_repetition_settings)
+    fun navigateToAutoplaySettings(createDiScope: () -> CardFilterForAutoplayDiScope) {
+        CardFilterForAutoplayDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_card_filter_for_autoplay)
     }
 
     fun showLastTestedFilterDialog(createDiScope: () -> LastTestedFilterDiScope) {
@@ -145,24 +145,24 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.show_last_tested_filter_dialog)
     }
 
-    fun navigateToRepetition(createDiScope: () -> RepetitionDiScope) {
-        RepetitionDiScope.open(createDiScope)
-        navigate(R.id.card_filters_to_player)
+    fun navigateToPlayer(createDiScope: () -> PlayerDiScope) {
+        PlayerDiScope.open(createDiScope)
+        navigate(R.id.card_filter_to_player)
     }
 
-    fun navigateToCardEditorFromRepetition(createDiScope: () -> CardsEditorDiScope) {
+    fun navigateToCardEditorFromPlayer(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
-        navigate(R.id.action_repetition_screen_to_cards_editor_screen)
+        navigate(R.id.player_to_cards_editor)
     }
 
-    fun navigateToSearchFromRepetition(createDiScope: () -> SearchDiScope) {
+    fun navigateToSearchFromPlayer(createDiScope: () -> SearchDiScope) {
         SearchDiScope.open(createDiScope)
-        navigate(R.id.action_repetition_screen_to_search_screen)
+        navigate(R.id.player_to_search)
     }
 
-    fun navigateToHelpFromRepetition(createDiScope: () -> HelpDiScope) {
+    fun navigateToHelpFromPlayer(createDiScope: () -> HelpDiScope) {
         HelpDiScope.open(createDiScope)
-        navigate(R.id.action_repetition_screen_to_help_screen)
+        navigate(R.id.player_to_help)
     }
 
     fun navigateToWalkingModeSettingsFromSettings() {

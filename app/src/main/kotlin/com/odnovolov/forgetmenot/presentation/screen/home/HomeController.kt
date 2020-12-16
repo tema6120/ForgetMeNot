@@ -11,7 +11,7 @@ import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
-import com.odnovolov.forgetmenot.domain.interactor.repetition.RepetitionStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -24,7 +24,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
-import com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -267,8 +267,8 @@ class HomeController(
         homeScreenState.deckSelection = null
         navigator.navigateToAutoplaySettings {
             val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
-            val repetitionCreatorState = RepetitionStateCreator.State(decks)
-            CardFiltersForAutoplayDiScope.create(repetitionCreatorState)
+            val playerCreatorState = PlayerStateCreator.State(decks)
+            CardFilterForAutoplayDiScope.create(playerCreatorState)
         }
     }
 

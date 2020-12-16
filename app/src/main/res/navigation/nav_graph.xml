@@ -22,8 +22,8 @@
                 app:destination="@id/deck_setup_screen" />
 
         <action
-                android:id="@+id/nav_host_to_repetition_settings"
-                app:destination="@id/card_filters_for_autoplay_screen" />
+                android:id="@+id/nav_host_to_card_filter_for_autoplay"
+                app:destination="@id/card_filter_for_autoplay_screen" />
 
         <action
                 android:id="@+id/nav_host_to_help"
@@ -232,15 +232,15 @@
     </fragment>
 
     <fragment
-            android:id="@+id/card_filters_for_autoplay_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.CardFiltersForAutoplayFragment"
-            android:label="@string/title_card_filters_for_autoplay"
-            tools:layout="@layout/fragment_card_filters_for_autoplay">
+            android:id="@+id/card_filter_for_autoplay_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayFragment"
+            android:label="@string/title_card_filter_for_autoplay"
+            tools:layout="@layout/fragment_card_filter_for_autoplay">
 
         <action
-                android:id="@+id/card_filters_to_player"
-                app:destination="@+id/repetition_screen"
-                app:popUpTo="@+id/card_filters_for_autoplay_screen"
+                android:id="@+id/card_filter_to_player"
+                app:destination="@+id/player_screen"
+                app:popUpTo="@+id/card_filter_for_autoplay_screen"
                 app:popUpToInclusive="true" />
 
         <action
@@ -251,25 +251,25 @@
 
     <dialog
             android:id="@+id/last_tested_filter_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfiltersforautoplay.lasttested.LastTestedFilterDialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDialog"
             tools:layout="@layout/dialog_last_tested_filter" />
 
     <fragment
-            android:id="@+id/repetition_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.repetition.view.RepetitionFragment"
-            android:label="@string/label_repetition_screen"
-            tools:layout="@layout/fragment_repetition">
+            android:id="@+id/player_screen"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragment"
+            android:label="@string/label_player_screen"
+            tools:layout="@layout/fragment_player">
 
         <action
-                android:id="@+id/action_repetition_screen_to_cards_editor_screen"
+                android:id="@+id/player_to_cards_editor"
                 app:destination="@id/cards_editor_screen" />
 
         <action
-                android:id="@+id/action_repetition_screen_to_search_screen"
+                android:id="@+id/player_to_search"
                 app:destination="@+id/search_screen" />
 
         <action
-                android:id="@+id/action_repetition_screen_to_help_screen"
+                android:id="@+id/player_to_help"
                 app:destination="@id/help_screen" />
 
     </fragment>

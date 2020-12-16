@@ -2,9 +2,6 @@
     <string name="app_name">ForgetMeNot</string>
     <string name="add_new_deck">Add new deck</string>
     <string name="deck_option">Deck option</string>
-    <string name="title_remove_deck_menu_item">Remove</string>
-    <string name="title_setup_deck_menu_item">Setup</string>
-    <string name="title_export_menu_item">Export to file</string>
     <string name="label_exercise_screen">Exercise</string>
     <string name="text_show_question_button">Show question</string>
     <string name="text_show_answer_textview">Show answer</string>
@@ -48,11 +45,6 @@
     <string name="action_search">Search</string>
     <string name="action_sort_by">Sort by</string>`
     <string name="action_filter">Filter</string>
-    <string name="start_exercise">Start exercise</string>
-    <string name="action_select_all_decks">Select all decks</string>
-    <string name="action_remove_decks">Remove decks</string>
-    <string name="action_rename_deck">Rename deck</string>
-    <string name="action_help">Help</string>
     <string name="title_deck_sorting_popup">Sort by</string>
     <string name="deck_sorting_name">Name</string>
     <string name="deck_sorting_time_created">Time created</string>
@@ -71,8 +63,8 @@
     <string name="label_settings_screen">Settings</string>
     <string name="label_walking_mode_settings_screen">Walking mode settings</string>
     <string name="label_help_screen">Help</string>
-    <string name="title_card_filters_for_autoplay">Card filter</string>
-    <string name="label_repetition_screen">Repetition</string>
+    <string name="title_card_filter_for_autoplay">Card filter</string>
+    <string name="label_player_screen">Card player</string>
     <string name="label_search_screen">Search</string>
     <string name="hint_pronunciation_name_edittext">Enter name</string>
     <string name="text_question_title_textview">Question</string>
@@ -121,7 +113,6 @@
     <string name="text_hint_get_variants">Get variants</string>
     <string name="text_hint_mask_letters_button">Mask letters</string>
     <string name="text_go_to_tts_settings_button">Go to TTS Settings</string>
-    <string name="title_repetition_mode">Start repetition</string>
     <string name="title_action_settings">Settings</string>
     <string name="title_action_help">Help</string>
     <string name="text_walking_mode_title">Walking mode</string>
@@ -140,11 +131,11 @@
     <string name="key_gesture_action_mark_card_as_learned">Mark card as \'Learned\'</string>
     <string name="key_gesture_action_speak_question">Speak question</string>
     <string name="key_gesture_action_speak_answer">Speak answer</string>
-    <string name="repetition_notification_channel_name">Repetition</string>
-    <string name="repetition_notification_channel_description">Pronunciation of questions and answers in order to repetition</string>
-    <string name="repetition_notification_title">RepetitionMode</string>
-    <string name="pause_action_title_in_repetition_notification">Pause</string>
-    <string name="resume_action_title_in_repetition_notification">Resume</string>
+    <string name="player_notification_channel_name">Card player</string>
+    <string name="player_notification_channel_description">Sequential pronunciation of questions and answers</string>
+    <string name="player_notification_title">Card player</string>
+    <string name="pause_in_notification">Pause</string>
+    <string name="resume_in_notification">Resume</string>
     <string name="title_filtration_section">Filtration</string>
     <string name="title_card_filter_state">State</string>
     <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>
@@ -168,7 +159,7 @@
         <item quantity="one">card matches the filter</item>
         <item quantity="other">cards match the filter</item>
     </plurals>
-    <string name="text_pronunciation_plan_title">Pronunciation plan for Repetition</string>
+    <string name="text_pronunciation_plan_title">Pronunciation plan for Autoplay</string>
     <string name="pronunciation_event_speak_question">Speak question</string>
     <string name="pronunciation_event_speak_answer">Speak answer</string>
     <string name="pronunciation_event_delay_with_args">Delay %d sec.</string>
@@ -179,9 +170,9 @@
     <string name="error_message_cannot_change_last_speak_answer">Cannot change last \'Speak Answer\' event</string>
     <string name="title_preset_name_input_dialog">Preset name</string>
     <string name="title_fullscreen_mode_dialog">Fullscreen mode</string>
-    <string name="item_text_fullscreen_in_home_and_settings"><![CDATA[In Home screen & Settings]]></string>
-    <string name="item_text_fullscreen_in_exercise">In Exercise</string>
-    <string name="item_text_fullscreen_in_repetition">In Repetition</string>
+    <string name="item_text_fullscreen_in_exercise">In exercise</string>
+    <string name="item_text_fullscreen_in_player">In card player</string>
+    <string name="item_text_fullscreen_in_other_places">In other places</string>
     <string name="everywhere">Everywhere</string>
     <string name="nowhere">Nowhere</string>
     <string name="title_time_for_answer">Motivational timer</string>

@@ -12,7 +12,6 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupEvent.*
@@ -38,7 +37,6 @@ class DeckSetupFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         initRenameDeckDialog()
-        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_deck_setup, container, false)
     }
 
@@ -58,20 +56,6 @@ class DeckSetupFragment : BaseFragment() {
             .create()
         renameDeckDialog.setOnShowListener { renameDeckEditText.showSoftInput() }
         dialogTimeCapsule.register("renameDeckDialog", renameDeckDialog)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.deck_setup_actions, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_rename_deck -> {
-                controller?.dispatch(RenameDeckButtonClicked)
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -130,11 +114,6 @@ class DeckSetupFragment : BaseFragment() {
                 renameDeckDialog.show()
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showActionBar()
     }
 
     override fun onDestroyView() {

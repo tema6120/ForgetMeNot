@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
-import com.odnovolov.forgetmenot.domain.interactor.repetition.Repetition
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -13,7 +13,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.repetition.RepetitionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.*
 
 class SearchController(
@@ -74,29 +74,29 @@ class SearchController(
                             CardsEditorDiScope.create(cardsEditor)
                         }
                     }
-                    RepetitionDiScope.isOpen() -> {
+                    PlayerDiScope.isOpen() -> {
                         navigator.navigateToCardsEditorFromSearch {
-                            val repetition: Repetition = RepetitionDiScope.get()!!.repetition
+                            val player: Player = PlayerDiScope.get()!!.player
                             val foundEditableCard = EditableCard(
                                 event.searchCard.card,
                                 event.searchCard.deck
                             )
                             val cardsEditorState = if (event.searchCard.card.id ==
-                                repetition.currentRepetitionCard.card.id
+                                player.currentPlayingCard.card.id
                             ) {
                                 val editableCards: List<EditableCard> = listOf(foundEditableCard)
                                 State(editableCards)
                             } else {
-                                val editableCardFromRepetition = EditableCard(
-                                    repetition.currentRepetitionCard.card,
-                                    repetition.currentRepetitionCard.deck
+                                val editableCardFromPlayer = EditableCard(
+                                    player.currentPlayingCard.card,
+                                    player.currentPlayingCard.deck
                                 )
                                 val editableCards: List<EditableCard> =
-                                    listOf(editableCardFromRepetition, foundEditableCard)
+                                    listOf(editableCardFromPlayer, foundEditableCard)
                                 State(editableCards, currentPosition = 1)
                             }
-                            val cardsEditor = CardsEditorForRepetition(
-                                repetition,
+                            val cardsEditor = CardsEditorForAutoplay(
+                                player,
                                 state = cardsEditorState
                             )
                             CardsEditorDiScope.create(cardsEditor)

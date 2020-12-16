@@ -10,7 +10,7 @@ class GlobalState(
     sharedIntervalSchemes: CopyableCollection<IntervalScheme>,
     sharedPronunciations: CopyableCollection<Pronunciation>,
     sharedPronunciationPlans: CopyableCollection<PronunciationPlan>,
-    cardFiltersForAutoplay: CardFiltersForAutoplay,
+    cardFilterForAutoplay: CardFilterForAutoplay,
     isWalkingModeEnabled: Boolean
 ) : FlowMakerWithRegistry<GlobalState>() {
     var decks: CopyableCollection<Deck> by flowMaker(decks, CollectionChange::class)
@@ -27,7 +27,7 @@ class GlobalState(
     var sharedPronunciationPlans: CopyableCollection<PronunciationPlan>
             by flowMaker(sharedPronunciationPlans, CollectionChange::class)
 
-    val cardFiltersForAutoplay: CardFiltersForAutoplay by flowMaker(cardFiltersForAutoplay)
+    val cardFilterForAutoplay: CardFilterForAutoplay by flowMaker(cardFilterForAutoplay)
 
     var isWalkingModeEnabled: Boolean by flowMaker(isWalkingModeEnabled)
 
@@ -37,7 +37,7 @@ class GlobalState(
         sharedIntervalSchemes.copy(),
         sharedPronunciations.copy(),
         sharedPronunciationPlans.copy(),
-        cardFiltersForAutoplay.copy(),
+        cardFilterForAutoplay.copy(),
         isWalkingModeEnabled
     )
 }

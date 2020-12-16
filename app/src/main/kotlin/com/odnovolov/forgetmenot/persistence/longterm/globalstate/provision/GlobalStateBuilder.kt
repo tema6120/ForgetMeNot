@@ -25,7 +25,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             buildSharedPronunciations(pronunciations)
         val sharedPronunciationPlans: CopyableList<PronunciationPlan> =
             buildSharedPronunciationPlans(pronunciationPlans)
-        val cardFiltersForAutoplay: CardFiltersForAutoplay = buildCardFiltersForAutoplay()
+        val cardFilterForAutoplay: CardFilterForAutoplay = buildCardFilterForAutoplay()
         val isWalkingModeEnabled: Boolean = tables.walkingModeTable
         return GlobalState(
             decks,
@@ -33,7 +33,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             sharedIntervalSchemes,
             sharedPronunciations,
             sharedPronunciationPlans,
-            cardFiltersForAutoplay,
+            cardFilterForAutoplay,
             isWalkingModeEnabled
         )
     }
@@ -152,8 +152,8 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             .toCopyableList()
     }
 
-    private fun buildCardFiltersForAutoplay(): CardFiltersForAutoplay {
+    private fun buildCardFilterForAutoplay(): CardFilterForAutoplay {
         val firstRow = tables.repetitionSettingTable.find { it.id == 0L }
-        return firstRow?.toCardFiltersForAutoplay() ?: CardFiltersForAutoplay.Default
+        return firstRow?.toCardFilterForAutoplay() ?: CardFilterForAutoplay.Default
     }
 }

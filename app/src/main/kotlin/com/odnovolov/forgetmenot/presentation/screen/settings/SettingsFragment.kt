@@ -111,7 +111,7 @@ class SettingsFragment : BaseFragment() {
                 val items = listOf(
                     FullscreenPreferenceItem(
                         property = FullscreenPreference::isEnabledInHomeAndSettings,
-                        text = getString(R.string.item_text_fullscreen_in_home_and_settings),
+                        text = getString(R.string.item_text_fullscreen_in_other_places),
                         isSelected = fullscreenPreference.isEnabledInHomeAndSettings
                     ),
                     FullscreenPreferenceItem(
@@ -121,7 +121,7 @@ class SettingsFragment : BaseFragment() {
                     ),
                     FullscreenPreferenceItem(
                         property = FullscreenPreference::isEnabledInRepetition,
-                        text = getString(R.string.item_text_fullscreen_in_repetition),
+                        text = getString(R.string.item_text_fullscreen_in_player),
                         isSelected = fullscreenPreference.isEnabledInRepetition
                     )
                 )

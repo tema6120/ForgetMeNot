@@ -52,7 +52,7 @@ class FullscreenModeManager(
                     R.id.exercise_screen -> {
                         setFullscreenMode(isEnabledInExercise)
                     }
-                    R.id.repetition_screen -> {
+                    R.id.player_screen -> {
                         setFullscreenMode(isEnabledInRepetition)
                     }
                     else -> {
