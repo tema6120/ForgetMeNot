@@ -36,7 +36,7 @@ class PlayerViewModel(
             playingCard.card.flowOf(Card::grade)
         }
 
-    val isCurrentPlayingCardLearned: Flow<Boolean> =
+    val isCurrentCardLearned: Flow<Boolean> =
         currentPlayingCard.flatMapLatest { playingCard: PlayingCard ->
             playingCard.card.flowOf(Card::isLearned)
         }

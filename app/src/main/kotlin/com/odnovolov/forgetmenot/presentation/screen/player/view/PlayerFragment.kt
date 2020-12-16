@@ -2,13 +2,19 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.View.GONE
 import android.view.View.MeasureSpec
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
@@ -18,23 +24,18 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerService
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
-import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.*
+import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
+import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.ShowIntervalsPopup
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus.*
 import kotlinx.android.synthetic.main.fragment_player.*
-import kotlinx.android.synthetic.main.fragment_player.editCardButton
-import kotlinx.android.synthetic.main.fragment_player.gradeButton
-import kotlinx.android.synthetic.main.fragment_player.helpButton
-import kotlinx.android.synthetic.main.fragment_player.markAsLearnedButton
-import kotlinx.android.synthetic.main.fragment_player.searchButton
-import kotlinx.android.synthetic.main.fragment_player.speakButton
-import kotlinx.android.synthetic.main.fragment_player.speakProgressBar
+import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.coroutines.launch
 
@@ -45,9 +46,9 @@ class PlayerFragment : BaseFragment() {
 
     private var controller: PlayerViewController? = null
     private lateinit var viewModel: PlayerViewModel
-    private val intervalsPopup: PopupWindow by lazy { createIntervalsPopup() }
-    private val intervalsAdapter: IntervalsAdapter by lazy { createIntervalsAdapter() }
-    private val speakErrorPopup: PopupWindow by lazy { createSpeakErrorPopup() }
+    private val intervalsPopup: PopupWindow by lazy(::createIntervalsPopup)
+    private val intervalsAdapter: IntervalsAdapter by lazy(::createIntervalsAdapter)
+    private val speakErrorPopup: PopupWindow by lazy(::createSpeakErrorPopup)
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
@@ -102,16 +103,16 @@ class PlayerFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            val adapter = playerViewPager.adapter as PlayingCardAdapter
             playingCards.observe { playingCards: List<PlayingCard> ->
+                val adapter = playerViewPager.adapter as PlayingCardAdapter
                 adapter.items = playingCards
+                progressBar.visibility = GONE
             }
             gradeOfCurrentCard.observe { grade: Int ->
-                val backgroundRes = getBackgroundResForGrade(grade)
-                gradeTextView.setBackgroundResource(backgroundRes)
-                gradeTextView.text = grade.toString()
+                updateGradeButtonColor(grade)
+                gradeButton.text = grade.toString()
             }
-            isCurrentPlayingCardLearned.observe { isLearned: Boolean ->
+            isCurrentCardLearned.observe { isLearned: Boolean ->
                 with(markAsLearnedButton) {
                     setImageResource(
                         if (isLearned)
@@ -160,7 +161,7 @@ class PlayerFragment : BaseFragment() {
                 }
             }
             isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
-                speakProgressBar.visibility = if (isPreparing) View.VISIBLE else View.INVISIBLE
+                speakProgressBar.isInvisible = !isPreparing
             }
             speakerEvents.observe { event: SpeakerImpl.Event ->
                 when (event) {
@@ -194,6 +195,17 @@ class PlayerFragment : BaseFragment() {
         }
     }
 
+    private fun updateGradeButtonColor(grade: Int) {
+        val gradeColor: Int = ContextCompat.getColor(requireContext(), getGradeColorRes(grade))
+        gradeButton.background.setTint(gradeColor)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val brightGradeColor: Int =
+                ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))
+            gradeButton.outlineAmbientShadowColor = brightGradeColor
+            gradeButton.outlineSpotShadowColor = brightGradeColor
+        }
+    }
+
     private fun startService() {
         val intent = Intent(context, PlayerService::class.java)
         ContextCompat.startForegroundService(requireContext(), intent)
@@ -201,32 +213,13 @@ class PlayerFragment : BaseFragment() {
 
     private fun executeCommand(command: Command) {
         when (command) {
-            is SetViewPagerPosition -> {
+            is SetCurrentPosition -> {
                 playerViewPager.currentItem = command.position
             }
             is ShowIntervalsPopup -> {
                 showIntervalsPopup(command.intervalItems)
             }
-            ShowIntervalsAreOffMessage -> {
-                showToast(R.string.description_intervals_are_off)
-            }
         }
-    }
-
-    private fun showIntervalsPopup(intervalItems: List<IntervalItem>) {
-        intervalsAdapter.intervalItems = intervalItems
-        val content = intervalsPopup.contentView
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        val location = IntArray(2)
-        gradeButton.getLocationOnScreen(location)
-        val x = location[0] + 8.dp
-        val y = location[1] + gradeButton.height - 8.dp - content.measuredHeight
-        intervalsPopup.showAtLocation(
-            gradeButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
     }
 
     override fun onResume() {
@@ -238,7 +231,24 @@ class PlayerFragment : BaseFragment() {
                 playerViewPager.setCurrentItem(currentPosition, false)
             }
         }
-        hideActionBar()
+    }
+
+    private fun createIntervalsPopup(): PopupWindow {
+        val content: View = View.inflate(context, R.layout.popup_intervals, null).apply {
+            intervalsRecycler.adapter = intervalsAdapter
+        }
+        return PopupWindow(context).apply {
+            width = WRAP_CONTENT
+            height = WRAP_CONTENT
+            contentView = content
+            setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
+            )
+            elevation = 20f.dp
+            isOutsideTouchable = true
+            isFocusable = true
+            animationStyle = R.style.PopupFromBottomLeftAnimation
+        }
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
@@ -249,20 +259,17 @@ class PlayerFragment : BaseFragment() {
         return IntervalsAdapter(onItemClick)
     }
 
-    private fun createIntervalsPopup(): PopupWindow {
-        val recycler: RecyclerView =
-            View.inflate(context, R.layout.popup_intervals, null) as RecyclerView
-        recycler.adapter = intervalsAdapter
-        return PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            contentView = recycler
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
+    private fun showIntervalsPopup(intervalItems: List<IntervalItem>?) {
+        with(intervalsPopup) {
+            contentView.intervalsPopupTitleTextView.isActivated = intervalItems != null
+            contentView.intervalsRecycler.isVisible = intervalItems != null
+            contentView.intervalsAreOffTextView.isVisible = intervalItems == null
+            intervalItems?.let { intervalsAdapter.intervalItems = it }
+            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            val gradeButtonLocation = IntArray(2).also(gradeButton::getLocationOnScreen)
+            val x = gradeButtonLocation[0] + 8.dp
+            val y = gradeButtonLocation[1] + gradeButton.height - 8.dp - contentView.measuredHeight
+            showAtLocation(gradeButton.rootView, Gravity.NO_GRAVITY, x, y)
         }
     }
 
@@ -274,8 +281,8 @@ class PlayerFragment : BaseFragment() {
             }
         }
         return PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
+            width = WRAP_CONTENT
+            height = WRAP_CONTENT
             contentView = content
             setBackgroundDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
@@ -283,6 +290,7 @@ class PlayerFragment : BaseFragment() {
             elevation = 20f.dp
             isOutsideTouchable = true
             isFocusable = true
+            animationStyle = R.style.PopupFromBottomAnimation
         }
     }
 
@@ -325,18 +333,18 @@ class PlayerFragment : BaseFragment() {
     }
 
     private fun showSpeakErrorPopup() {
-        speakErrorPopup.contentView.speakErrorDescriptionTextView.text = getSpeakErrorDescription()
-        val content: View = speakErrorPopup.contentView
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        val speakButtonLocation = IntArray(2).also { speakButton.getLocationOnScreen(it) }
-        val x: Int = 8.dp
-        val y: Int = speakButtonLocation[1] + speakButton.height - 8.dp - content.measuredHeight
-        speakErrorPopup.showAtLocation(
-            speakButton.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
+        with(speakErrorPopup) {
+            contentView.speakErrorDescriptionTextView.text = getSpeakErrorDescription()
+            contentView.measure(
+                MeasureSpec.makeMeasureSpec(speakButton.rootView.width, MeasureSpec.AT_MOST),
+                MeasureSpec.makeMeasureSpec(speakButton.rootView.height, MeasureSpec.AT_MOST)
+            )
+            val speakButtonLocation = IntArray(2).also(speakButton::getLocationOnScreen)
+            val x: Int = 8.dp
+            val y: Int =
+                speakButtonLocation[1] + speakButton.height - 8.dp - contentView.measuredHeight
+            showAtLocation(speakButton.rootView, Gravity.NO_GRAVITY, x, y)
+        }
     }
 
     private fun navigateToTtsSettings() {

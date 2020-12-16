@@ -31,10 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:scrollbars="none">
 
         <LinearLayout
                 android:layout_width="wrap_content"
@@ -49,8 +46,8 @@
                     android:layout_marginStart="2dp"
                     android:background="@drawable/background_grade_button"
                     android:contentDescription="@string/description_grade_button"
-                    android:gravity="center"
                     android:elevation="14dp"
+                    android:gravity="center"
                     android:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
                     android:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
                     android:textColor="@android:color/white"

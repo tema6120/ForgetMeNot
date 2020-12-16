@@ -1,11 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 import com.odnovolov.forgetmenot.domain.entity.Interval
-import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
-import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -16,7 +15,8 @@ import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
-import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.*
+import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
+import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.ShowIntervalsPopup
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.launchIn
@@ -29,9 +29,8 @@ class PlayerViewController(
     private val playerStateProvider: ShortTermStateProvider<Player.State>
 ) : BaseController<PlayerFragmentEvent, Command>() {
     sealed class Command {
-        class SetViewPagerPosition(val position: Int) : Command()
-        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>) : Command()
-        object ShowIntervalsAreOffMessage : Command()
+        class SetCurrentPosition(val position: Int) : Command()
+        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>?) : Command()
     }
 
     init {
@@ -40,7 +39,7 @@ class PlayerViewController(
             player.state.flowOf(Player.State::isPlaying)
         ) { position: Int, isPlaying: Boolean ->
             if (isPlaying) {
-                emit(SetViewPagerPosition(position))
+                emit(SetCurrentPosition(position))
             }
         }
             .onEach { sendCommand(it) }
@@ -127,22 +126,17 @@ class PlayerViewController(
 
     private fun onGradeButtonClicked() {
         player.pause()
-        val intervalScheme: IntervalScheme? =
-            player.currentPlayingCard.deck.exercisePreference.intervalScheme
-        if (intervalScheme == null) {
-            sendCommand(ShowIntervalsAreOffMessage)
-        } else {
-            val currentGrade: Int = player.currentPlayingCard.card.grade
-            val intervalItems: List<IntervalItem> = intervalScheme.intervals
-                .map { interval: Interval ->
-                    IntervalItem(
-                        grade = interval.grade,
-                        waitingPeriod = interval.value,
-                        isSelected = currentGrade == interval.grade
-                    )
-                }
-            sendCommand(ShowIntervalsPopup(intervalItems))
-        }
+        val currentGrade: Int = player.currentPlayingCard.card.grade
+        val intervalItems: List<IntervalItem>? = player.currentPlayingCard.deck
+            .exercisePreference.intervalScheme?.intervals
+            ?.map { interval: Interval ->
+                IntervalItem(
+                    grade = interval.grade,
+                    waitingPeriod = interval.value,
+                    isSelected = currentGrade == interval.grade
+                )
+            }
+        sendCommand(ShowIntervalsPopup(intervalItems))
     }
 
     override fun saveState() {
