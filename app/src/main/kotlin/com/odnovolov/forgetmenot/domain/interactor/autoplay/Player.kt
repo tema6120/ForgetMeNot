@@ -94,7 +94,7 @@ class Player(
 
     fun showAnswer() {
         showQuestion()
-        currentPlayingCard.isAnswered = true
+        currentPlayingCard.isAnswerDisplayed = true
     }
 
     fun setQuestionSelection(selection: String) {
@@ -116,7 +116,7 @@ class Player(
         when {
             hasQuestionSelection() -> speakQuestionSelection()
             hasAnswerSelection() -> speakAnswerSelection()
-            currentPlayingCard.isAnswered -> speakAnswer()
+            currentPlayingCard.isAnswerDisplayed -> speakAnswer()
             else -> speakQuestion()
         }
     }
@@ -228,7 +228,7 @@ class Player(
                 state.playingCards.forEach { playingCard: PlayingCard ->
                     playingCard.isQuestionDisplayed =
                         playingCard.deck.exercisePreference.isQuestionDisplayed
-                    playingCard.isAnswered = false
+                    playingCard.isAnswerDisplayed = false
                 }
                 state.currentPosition = 0
                 updateCurrentPronunciation()

@@ -10,12 +10,12 @@ class PlayingCard(
     deck: Deck,
     isQuestionDisplayed: Boolean,
     isReverse: Boolean,
-    isAnswered: Boolean = false
+    isAnswerDisplayed: Boolean = false
 ) : FlowMaker<PlayingCard>() {
     val id: Long by flowMaker(id)
     val card: Card by flowMaker(card)
     val deck: Deck by flowMaker(deck)
     var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
     val isReverse: Boolean by flowMaker(isReverse)
-    var isAnswered: Boolean by flowMaker(isAnswered)
+    var isAnswerDisplayed: Boolean by flowMaker(isAnswerDisplayed)
 }

@@ -2,25 +2,50 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
-import kotlinx.coroutines.flow.Flow
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
+import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.CardContent.AnsweredCard
+import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.CardContent.UnansweredCard
+import kotlinx.coroutines.flow.*
 
-class PlayingCardViewModel(playingCard: PlayingCard) {
-    val isQuestionDisplayed: Flow<Boolean> =
+class PlayingCardViewModel(
+    initialPlayingCard: PlayingCard
+) {
+    private val playingCardFlow = MutableStateFlow(initialPlayingCard)
+
+    fun setPlayingCard(playingCard: PlayingCard) {
+        playingCardFlow.value = playingCard
+    }
+
+    val cardContent: Flow<CardContent> = playingCardFlow.flatMapLatest { playingCard ->
+        val isReverse: Boolean = playingCard.isReverse
+        combine(
+            playingCard.card.flowOf(Card::question),
+            playingCard.card.flowOf(Card::answer),
+            playingCard.flowOf(PlayingCard::isAnswerDisplayed)
+        ) { question: String,
+            answer: String,
+            isAnswerDisplayed: Boolean
+            ->
+            val realQuestion = if (isReverse) answer else question
+            val realAnswer = if (isReverse) question else answer
+            when {
+                isAnswerDisplayed -> AnsweredCard(realQuestion, realAnswer)
+                else -> UnansweredCard(realQuestion)
+            }
+        }
+    }
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
+
+    val isQuestionDisplayed: Flow<Boolean> = playingCardFlow.flatMapLatest { playingCard ->
         playingCard.flowOf(PlayingCard::isQuestionDisplayed)
-
-    val question: Flow<String> = with(playingCard) {
-        if (isReverse)
-            card.flowOf(Card::answer) else
-            card.flowOf(Card::question)
     }
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
 
-    val isAnswered: Flow<Boolean> = playingCard.flowOf(PlayingCard::isAnswered)
-
-    val answer: Flow<String> = with(playingCard) {
-        if (isReverse)
-            card.flowOf(Card::question) else
-            card.flowOf(Card::answer)
+    val isLearned: Flow<Boolean> = playingCardFlow.flatMapLatest { playingCard ->
+        playingCard.card.flowOf(Card::isLearned)
     }
-
-    val isLearned: Flow<Boolean> = playingCard.card.flowOf(Card::isLearned)
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
 }

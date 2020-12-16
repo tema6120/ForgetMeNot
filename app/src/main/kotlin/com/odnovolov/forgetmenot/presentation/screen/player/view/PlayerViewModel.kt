@@ -53,7 +53,7 @@ class PlayerViewModel(
 
     private val isCurrentCardAnswered: Flow<Boolean> =
         currentPlayingCard.flatMapLatest { playingCard: PlayingCard ->
-            playingCard.flowOf(PlayingCard::isAnswered)
+            playingCard.flowOf(PlayingCard::isAnswerDisplayed)
         }
 
     private val speakerLanguage: Flow<Locale?> =

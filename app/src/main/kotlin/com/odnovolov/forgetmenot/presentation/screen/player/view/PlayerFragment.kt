@@ -17,6 +17,7 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakErro
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
+import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
@@ -27,6 +28,13 @@ import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentE
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.*
 import kotlinx.android.synthetic.main.fragment_player.*
+import kotlinx.android.synthetic.main.fragment_player.editCardButton
+import kotlinx.android.synthetic.main.fragment_player.gradeButton
+import kotlinx.android.synthetic.main.fragment_player.helpButton
+import kotlinx.android.synthetic.main.fragment_player.markAsLearnedButton
+import kotlinx.android.synthetic.main.fragment_player.searchButton
+import kotlinx.android.synthetic.main.fragment_player.speakButton
+import kotlinx.android.synthetic.main.fragment_player.speakProgressBar
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.coroutines.launch
 
@@ -43,6 +51,7 @@ class PlayerFragment : BaseFragment() {
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
+    private var knowingWhenPagerStopped: KnowingWhenPagerStopped? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,13 +68,19 @@ class PlayerFragment : BaseFragment() {
             val diScope = PlayerDiScope.getAsync() ?: return@launch
             controller = diScope.viewController
             viewModel = diScope.viewModel
-            playerViewPager.adapter = diScope.getPlayingCardAdapter(viewCoroutineScope!!)
+            playerViewPager.adapter = PlayingCardAdapter(
+                viewCoroutineScope!!,
+                knowingWhenPagerStopped!!,
+                diScope.playingCardController
+            )
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }
     }
 
     private fun setupView() {
+        playerViewPager.offscreenPageLimit = 1
+        knowingWhenPagerStopped = KnowingWhenPagerStopped()
         playerViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
             setOnClickListener { controller?.dispatch(GradeButtonClicked) }
@@ -336,6 +351,7 @@ class PlayerFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         playerViewPager.adapter = null
+        knowingWhenPagerStopped = null
         playerViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
     }
 
@@ -353,6 +369,11 @@ class PlayerFragment : BaseFragment() {
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             controller?.dispatch(NewPageBecameSelected(position))
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+            knowingWhenPagerStopped?.updateState(state)
         }
     }
 }

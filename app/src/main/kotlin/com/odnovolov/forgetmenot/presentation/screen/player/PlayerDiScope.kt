@@ -8,11 +8,9 @@ import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceController
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceModel
-import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayingCardAdapter
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewModel
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.PlayingCardController
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 
@@ -67,15 +65,10 @@ class PlayerDiScope private constructor(
         speakerImpl
     )
 
-    private val playingCardController = PlayingCardController(
+    val playingCardController = PlayingCardController(
         player,
         AppDiScope.get().longTermStateSaver,
         playerStateProvider
-    )
-
-    fun getPlayingCardAdapter(coroutineScope: CoroutineScope) = PlayingCardAdapter(
-        coroutineScope,
-        playingCardController
     )
 
     companion object : DiScopeManager<PlayerDiScope>() {

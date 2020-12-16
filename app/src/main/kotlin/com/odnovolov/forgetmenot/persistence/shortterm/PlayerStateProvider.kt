@@ -34,7 +34,7 @@ class PlayerStateProvider(
         val deckId: Long,
         val isQuestionDisplayed: Boolean,
         val isReverse: Boolean,
-        val isAnswered: Boolean
+        val isAnswerDisplayed: Boolean
     )
 
     override val serializer = SerializableState.serializer()
@@ -49,7 +49,7 @@ class PlayerStateProvider(
                         deck.id,
                         isQuestionDisplayed,
                         isReverse,
-                        isAnswered
+                        isAnswerDisplayed
                     )
                 }
             }
@@ -76,7 +76,7 @@ class PlayerStateProvider(
                         card = cardIdCardMap.getValue(cardId),
                         deck = deckIdDeckMap.getValue(deckId),
                         isQuestionDisplayed = isQuestionDisplayed,
-                        isAnswered = isAnswered,
+                        isAnswerDisplayed = isAnswerDisplayed,
                         isReverse = isReverse
                     )
                 }
