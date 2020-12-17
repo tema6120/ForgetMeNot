@@ -1,9 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -44,6 +48,7 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun setupView() {
+        setPeekHeight()
         startExerciseDeckOptionItem.setOnClickListener {
             controller?.dispatch(StartExerciseDeckOptionSelected)
             dismiss()
@@ -63,6 +68,18 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
         removeDeckOptionItem.setOnClickListener {
             controller?.dispatch(RemoveDeckOptionSelected)
             dismiss()
+        }
+    }
+
+    private fun setPeekHeight() {
+        dialog?.setOnShowListener { dialog1 ->
+            val bottomSheetDialog = dialog1 as BottomSheetDialog
+            val bottomSheet: FrameLayout? =
+                bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet)
+            if (bottomSheet != null) {
+                val behavior = BottomSheetBehavior.from(bottomSheet)
+                behavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels * 2 / 3
+            }
         }
     }
 }

@@ -2,7 +2,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:layout_gravity="bottom">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -12,22 +13,33 @@
                 android:id="@+id/background"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="22dp"
                 android:background="@drawable/background_bottom_sheet_round_corner"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+                android:id="@+id/handle"
+                android:layout_width="76dp"
+                android:layout_height="4dp"
+                android:background="@drawable/bottom_sheet_handler"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/background" />
+
         <TextView
                 android:id="@+id/unansweredCardNumberTextView"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/ic_unanswered_card_number_background"
+                android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
+                android:padding="4dp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMaxTextSize="17sp"
                 app:autoSizeMinTextSize="12sp"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="@+id/fancyCardImage"
@@ -37,8 +49,8 @@
 
         <ImageView
                 android:id="@+id/fancyCardImage"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_marginTop="36dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,11 +62,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
-                android:textColor="@color/textPrimary"
+                android:textColor="@color/textSecondary"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +78,7 @@
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/background_preferred_button_on_quitting_bottom_sheet"
                 android:fontFamily="@font/nunito_extrabold"
@@ -97,7 +109,7 @@
                 android:text="@string/button_quit_exercise"
                 android:textAllCaps="false"
                 android:textColor="@color/text_button_secondary"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

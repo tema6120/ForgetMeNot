@@ -4,7 +4,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:background="@android:color/white">
+        tools:background="@drawable/background_bottom_sheet_round_corner"
+        tools:layout_gravity="bottom">
+
+    <View
+            android:id="@+id/handle"
+            android:layout_width="76dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bottom_sheet_handler" />
 
     <LinearLayout
             android:layout_width="match_parent"
