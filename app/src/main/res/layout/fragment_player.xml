@@ -138,10 +138,10 @@
             android:layout_marginBottom="-12dp"
             android:background="@drawable/background_play_button"
             android:contentDescription="@string/description_pause_button"
-            android:outlineAmbientShadowColor="@color/background_play_button"
-            android:outlineSpotShadowColor="@color/background_play_button"
+            android:outlineAmbientShadowColor="@color/colorAccent"
+            android:outlineSpotShadowColor="@color/colorAccent"
             android:stateListAnimator="@animator/material_button"
-            android:tint="@android:color/white"
+            android:tint="@color/colorAccent"
             app:srcCompat="@drawable/ic_pause_28" />
 
 </FrameLayout>

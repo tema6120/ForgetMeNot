@@ -201,6 +201,18 @@ class PlayerFragment : BaseFragment() {
             isInfinitePlaybackEnabled.observe { isInfinitePlaybackEnabled: Boolean ->
                 infinitePlaybackButton.isActivated = isInfinitePlaybackEnabled
             }
+            isCompleted.observe { isCompleted: Boolean ->
+                if (isCompleted) {
+                    val isBottomSheetOpened = childFragmentManager
+                        .findFragmentByTag(TAG_PLAYING_FINISHED_BOTTOM_SHEET) != null
+                    if (!isBottomSheetOpened) {
+                        PlayingFinishedBottomSheet().show(
+                            childFragmentManager,
+                            TAG_PLAYING_FINISHED_BOTTOM_SHEET
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -436,5 +448,9 @@ class PlayerFragment : BaseFragment() {
             super.onPageScrollStateChanged(state)
             knowingWhenPagerStopped?.updateState(state)
         }
+    }
+
+    companion object {
+        const val TAG_PLAYING_FINISHED_BOTTOM_SHEET = "TAG_PLAYING_FINISHED_BOTTOM_SHEET"
     }
 }

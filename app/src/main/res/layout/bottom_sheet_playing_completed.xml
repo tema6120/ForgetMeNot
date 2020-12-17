@@ -1,0 +1,115 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_gravity="bottom">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_bottom_sheet_round_corner">
+
+        <View
+                android:id="@+id/handle"
+                android:layout_width="76dp"
+                android:layout_height="4dp"
+                android:background="@drawable/bottom_sheet_handler"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="40dp"
+                android:contentDescription="@string/description_completed_cards"
+                app:layout_constraintBottom_toTopOf="@+id/playingCompletedDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/playing_is_over" />
+
+        <TextView
+                android:id="@+id/playingCompletedDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="48dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="@string/description_playing_completed"
+                android:textColor="@color/textSecondary"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/endButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/playAgainButton"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:gravity="center"
+                android:outlineAmbientShadowColor="@color/colorAccent"
+                android:outlineSpotShadowColor="@color/colorAccent"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@string/button_play_again"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp"
+                app:backgroundTint="@android:color/white"
+                app:cornerRadius="30dp"
+                app:icon="@drawable/ic_play_20"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@+id/endButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/endButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/endButton"
+                app:layout_constraintWidth_max="200dp"
+                app:rippleColor="@color/colorAccent"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/endButton"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:fontFamily="@font/nunito_extrabold"
+                android:gravity="center"
+                android:outlineAmbientShadowColor="@color/colorAccent"
+                android:outlineSpotShadowColor="@color/colorAccent"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@string/button_end"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:cornerRadius="30dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/playAgainButton"
+                app:layout_constraintTop_toBottomOf="@+id/playingCompletedDescription"
+                app:layout_constraintWidth_max="200dp"
+                app:rippleColor="@color/colorAccent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

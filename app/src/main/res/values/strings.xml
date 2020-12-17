@@ -640,4 +640,8 @@
     <string name="button_quit_without_saving">Quit without saving</string>
     <string name="text_start_playing_button">Start playing</string>
     <string name="popup_title_infinite_playback">Infinite playback</string>
+    <string name="button_end">End</string>
+    <string name="description_playing_completed">Playing completed!</string>
+    <string name="description_completed_cards">Completed cards</string>
+    <string name="button_play_again">Play again</string>
 </resources>

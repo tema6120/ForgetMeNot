@@ -170,5 +170,9 @@ class PlayerViewModel(
         globalState.flowOf(GlobalState::isInfinitePlaybackEnabled)
             .flowOn(businessLogicThread)
 
+    val isCompleted: Flow<Boolean> = playerState.flowOf(Player.State::isCompleted)
+        .distinctUntilChanged()
+        .flowOn(businessLogicThread)
+
     val currentPosition: Int get() = playerState.currentPosition
 }

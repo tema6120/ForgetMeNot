@@ -128,6 +128,14 @@ class PlayerViewController(
                     HelpDiScope(HelpArticle.Repetition)
                 }
             }
+
+            PlayAgainButtonClicked -> {
+                player.playOneMoreLap()
+            }
+
+            EndButtonClicked -> {
+                navigator.navigateUp()
+            }
         }
     }
 

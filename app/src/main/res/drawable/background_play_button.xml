@@ -1,11 +1,14 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/background_play_button" />
+            <stroke
+                    android:width="3dp"
+                    android:color="@color/colorAccent" />
+            <solid android:color="@android:color/white" />
         </shape>
     </item>
     <item>
-        <ripple android:color="@android:color/white">
+        <ripple android:color="@color/colorAccent">
             <item android:id="@android:id/mask">
                 <shape android:shape="oval">
                     <solid android:color="#000" />

@@ -53,7 +53,7 @@
                 android:textColor="@color/text_switch_on_popup"
                 android:textSize="14sp"
                 android:theme="@style/InfinitePlaybackSwitchStyle"
-                app:switchPadding="16dp"
+                app:switchPadding="8dp"
                 tools:checked="true"
                 tools:text="On" />
 

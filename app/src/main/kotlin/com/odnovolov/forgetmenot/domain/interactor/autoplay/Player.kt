@@ -1,12 +1,9 @@
 package com.odnovolov.forgetmenot.domain.interactor.autoplay
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.Pronunciation
-import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.Delay
-import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.interactor.exercise.TextInBracketsRemover
 import kotlinx.coroutines.*
 import java.util.*
@@ -23,6 +20,7 @@ class Player(
         currentPosition: Int = 0,
         pronunciationEventPosition: Int = 0,
         isPlaying: Boolean = true,
+        isCompleted: Boolean = false,
         questionSelection: String = "",
         answerSelection: String = ""
     ) : FlowMaker<State>() {
@@ -30,6 +28,7 @@ class Player(
         var currentPosition: Int by flowMaker(currentPosition)
         var pronunciationEventPosition: Int by flowMaker(pronunciationEventPosition)
         var isPlaying: Boolean by flowMaker(isPlaying)
+        var isCompleted: Boolean by flowMaker(isCompleted)
         var questionSelection: String by flowMaker(questionSelection)
         var answerSelection: String by flowMaker(answerSelection)
     }
@@ -39,7 +38,7 @@ class Player(
 
     private lateinit var currentPronunciation: Pronunciation
 
-    private val currentPronunciationPlan
+    private val currentPronunciationPlan: PronunciationPlan
         get() = currentPlayingCard.deck.exercisePreference.pronunciationPlan
 
     private val currentPronunciationEvent: PronunciationEvent
@@ -48,7 +47,6 @@ class Player(
     private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private var delayJob: Job? = null
     private var skipDelay = true
-    private val isInfinitePlaybackEnabled get() = globalState.isInfinitePlaybackEnabled
 
     init {
         speaker.setOnSpeakingFinished { tryToExecuteNextPronunciationEvent() }
@@ -59,7 +57,7 @@ class Player(
     }
 
     fun setInfinitePlaybackEnabled(enabled: Boolean) {
-        if (isInfinitePlaybackEnabled == enabled) return
+        if (globalState.isInfinitePlaybackEnabled == enabled) return
         globalState.isInfinitePlaybackEnabled = enabled
     }
 
@@ -182,9 +180,18 @@ class Player(
 
     fun resume() {
         if (state.isPlaying) return
+        if (!hasOneMorePronunciationEventForCurrentPlayingCard() && !hasOneMorePlayingCard()) {
+            resetProgression()
+        }
         skipDelay = true
         state.isPlaying = true
+        state.isCompleted = false
         executePronunciationEvent()
+    }
+
+    fun playOneMoreLap() {
+        resetProgression()
+        resume()
     }
 
     private fun executePronunciationEvent() {
@@ -219,6 +226,7 @@ class Player(
         if (success) {
             executePronunciationEvent()
         } else {
+            state.isCompleted = true
             state.isPlaying = false
         }
     }
@@ -235,15 +243,8 @@ class Player(
                 state.pronunciationEventPosition = 0
                 true
             }
-            isInfinitePlaybackEnabled -> {
-                state.playingCards.forEach { playingCard: PlayingCard ->
-                    playingCard.isQuestionDisplayed =
-                        playingCard.deck.exercisePreference.isQuestionDisplayed
-                    playingCard.isAnswerDisplayed = false
-                }
-                state.currentPosition = 0
-                updateCurrentPronunciation()
-                state.pronunciationEventPosition = 0
+            globalState.isInfinitePlaybackEnabled -> {
+                resetProgression()
                 true
             }
             else -> false
@@ -255,4 +256,16 @@ class Player(
 
     private fun hasOneMorePlayingCard(): Boolean =
         state.currentPosition + 1 < state.playingCards.size
+
+    private fun resetProgression() {
+        state.playingCards.forEach { playingCard: PlayingCard ->
+            with(playingCard) {
+                isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed
+                isAnswerDisplayed = false
+            }
+        }
+        state.currentPosition = 0
+        updateCurrentPronunciation()
+        state.pronunciationEventPosition = 0
+    }
 }
