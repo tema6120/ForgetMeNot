@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForExercise
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
@@ -36,7 +35,6 @@ class ExerciseController(
         object MoveToNextPosition : Command()
         object MoveToPreviousPosition : Command()
         class MoveToPosition(val position: Int) : Command()
-        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>?) : Command()
         object ShowQuitExerciseBottomSheet : Command()
     }
 
@@ -44,10 +42,6 @@ class ExerciseController(
         when (event) {
             is PageSelected -> {
                 exercise.setCurrentPosition(event.position)
-            }
-
-            GradeButtonClicked -> {
-                onGradeButtonClicked()
             }
 
             is GradeWasChanged -> {
@@ -174,20 +168,6 @@ class ExerciseController(
                 navigator.navigateUp()
             }
         }
-    }
-
-    private fun onGradeButtonClicked() {
-        val currentGrade: Int = exercise.currentExerciseCard.base.card.grade
-        val intervalItems: List<IntervalItem>? = exercise.currentExerciseCard.base.deck
-            .exercisePreference.intervalScheme?.intervals
-            ?.map { interval: Interval ->
-                IntervalItem(
-                    grade = interval.grade,
-                    waitingPeriod = interval.value,
-                    isSelected = currentGrade == interval.grade
-                )
-            }
-        sendCommand(ShowIntervalsPopup(intervalItems))
     }
 
     private fun onKeyGestureDetected(event: KeyGestureDetected) {

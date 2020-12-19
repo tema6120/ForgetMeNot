@@ -33,71 +33,17 @@ class AddDeckFragment : BaseFragment() {
     }
 
     private var controller: AddDeckController? = null
-    private lateinit var deckNameInputDialog: AlertDialog
-    private lateinit var deckNameDialogEditText: EditText
     private var pendingEvent: ContentReceived? = null
     private var addCardsPopup: PopupWindow? = null
+    private var deckNameInputDialog: AlertDialog? = null
+    private var deckNameDialogEditText: EditText? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initAddCardsPopup()
-        createDeckNameInputDialog()
         return inflater.inflate(R.layout.fragment_adddeck, container, false)
-    }
-
-    private fun initAddCardsPopup() {
-        val content = View.inflate(requireContext(), R.layout.popup_add_cards, null)
-            .apply {
-                importFileButton.setOnClickListener {
-                    addCardsPopup?.dismiss()
-                    showFileChooser()
-                }
-                helpImportFileButton.setOnClickListener {
-                    addCardsPopup?.dismiss()
-                    controller?.dispatch(HelpImportFileButtonClicked)
-                }
-                browseCatalogButton.setOnClickListener {
-                    addCardsPopup?.dismiss()
-                    openDeckCatalogInAnotherApp()
-                }
-                createCardsHereButton.setOnClickListener {
-                    addCardsPopup?.dismiss()
-                    controller?.dispatch(AddCardsHereButtonClicked)
-                }
-            }
-        addCardsPopup = LightPopupWindow(content)
-    }
-
-    private fun createDeckNameInputDialog() {
-        val contentView = View.inflate(context, R.layout.dialog_deck_name_input, null)
-        deckNameDialogEditText = contentView.deckNameEditText
-        deckNameDialogEditText.observeText { dialogText: String ->
-            controller?.dispatch(DialogTextChanged(dialogText))
-        }
-        deckNameInputDialog = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.title_deck_name_dialog)
-            .setView(contentView)
-            .setCancelable(false)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                controller?.dispatch(PositiveDialogButtonClicked)
-            }
-            .setNegativeButton(android.R.string.cancel) { _, _ ->
-                controller?.dispatch(NegativeDialogButtonClicked)
-            }
-            .create()
-            .apply { setOnShowListener { deckNameDialogEditText.showSoftInput() } }
-        dialogTimeCapsule.register("deckNameInputDialog", deckNameInputDialog)
-    }
-
-    private fun openDeckCatalogInAnotherApp() {
-        val webIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(DECK_CATALOG_PAGE)
-        )
-        startActivity(webIntent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -119,17 +65,21 @@ class AddDeckFragment : BaseFragment() {
                 progressBar.isVisible = isProcessing
             }
             isDialogVisible.observe { isDialogVisible ->
-                deckNameInputDialog.run { if (isDialogVisible) show() else dismiss() }
+                if (isDialogVisible) {
+                    requireDeckNameInputDialog().show()
+                } else {
+                    deckNameInputDialog?.dismiss()
+                }
             }
             nameCheckResult.observe { nameCheckResult: NameCheckResult ->
-                deckNameDialogEditText.error = when (nameCheckResult) {
+                deckNameDialogEditText?.error = when (nameCheckResult) {
                     Ok -> null
                     Empty -> getString(R.string.error_message_empty_name)
                     Occupied -> getString(R.string.error_message_occupied_name)
                 }
             }
             isPositiveButtonEnabled.observe { isPositiveButtonEnabled ->
-                deckNameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let { positiveButton ->
+                deckNameInputDialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.let { positiveButton ->
                     positiveButton.isEnabled = isPositiveButtonEnabled
                 }
             }
@@ -142,15 +92,16 @@ class AddDeckFragment : BaseFragment() {
                 showToast(command.exception.message)
             }
             is SetDialogText -> {
-                deckNameDialogEditText.setText(command.text)
-                deckNameDialogEditText.selectAll()
+                requireDeckNameInputDialog()
+                deckNameDialogEditText!!.setText(command.text)
+                deckNameDialogEditText!!.selectAll()
             }
         }
     }
 
     // it is called from parent fragment
     fun showAddCardsPopup(anchor: View) {
-        addCardsPopup?.show(anchor)
+        requireAddCardsPopup().show(anchor)
     }
 
     private fun showFileChooser() {
@@ -174,7 +125,7 @@ class AddDeckFragment : BaseFragment() {
             try {
                 contentResolver?.openInputStream(uri)
             } catch (e: FileNotFoundException) {
-                val errorMessage: String = getString(R.string. error_loading_file, e.message)
+                val errorMessage: String = getString(R.string.error_loading_file, e.message)
                 showToast(errorMessage)
                 return
             }
@@ -204,15 +155,104 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
+    private fun requireAddCardsPopup(): PopupWindow {
+        if (addCardsPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_add_cards, null)
+                .apply {
+                    importFileButton.setOnClickListener {
+                        addCardsPopup?.dismiss()
+                        showFileChooser()
+                    }
+                    helpImportFileButton.setOnClickListener {
+                        addCardsPopup?.dismiss()
+                        controller?.dispatch(HelpImportFileButtonClicked)
+                    }
+                    browseCatalogButton.setOnClickListener {
+                        addCardsPopup?.dismiss()
+                        openDeckCatalogInAnotherApp()
+                    }
+                    createCardsHereButton.setOnClickListener {
+                        addCardsPopup?.dismiss()
+                        controller?.dispatch(AddCardsHereButtonClicked)
+                    }
+                }
+            addCardsPopup = LightPopupWindow(content)
+        }
+        return addCardsPopup!!
+    }
+
+    private fun requireDeckNameInputDialog(): AlertDialog {
+        if (deckNameInputDialog == null) {
+            val contentView = View.inflate(context, R.layout.dialog_deck_name_input, null)
+            deckNameDialogEditText = contentView.deckNameEditText
+            deckNameDialogEditText!!.observeText { dialogText: String ->
+                controller?.dispatch(DialogTextChanged(dialogText))
+            }
+            deckNameInputDialog = AlertDialog.Builder(requireContext())
+                .setTitle(R.string.title_deck_name_dialog)
+                .setView(contentView)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    controller?.dispatch(PositiveDialogButtonClicked)
+                }
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
+                    controller?.dispatch(NegativeDialogButtonClicked)
+                }
+                .create()
+                .apply { setOnShowListener { deckNameDialogEditText?.showSoftInput() } }
+        }
+        return deckNameInputDialog!!
+    }
+
+    private fun openDeckCatalogInAnotherApp() {
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(DECK_CATALOG_PAGE)
+        )
+        startActivity(webIntent)
+    }
+
     override fun onResume() {
         super.onResume()
-        if (::deckNameInputDialog.isInitialized && deckNameInputDialog.isShowing) {
-            deckNameDialogEditText.showSoftInput()
+        if (deckNameInputDialog != null && deckNameInputDialog!!.isShowing) {
+            deckNameDialogEditText?.showSoftInput()
         }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            val dialogSavedState: Bundle? = getBundle(STATE_DECK_NAME_INPUT_DIALOG)
+            if (dialogSavedState != null) {
+                requireDeckNameInputDialog().onRestoreInstanceState(dialogSavedState)
+            }
+            val isAddCardsPopupShowing = getBoolean(STATE_ADD_CARDS_POPUP, false)
+            if (isAddCardsPopupShowing) {
+                val anchor: View? = parentFragment?.view?.findViewById(R.id.addCardsButton)
+                if (anchor != null) {
+                    requireAddCardsPopup().show(anchor)
+                }
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (deckNameInputDialog != null && deckNameInputDialog!!.isShowing) {
+            outState.putBundle(
+                STATE_DECK_NAME_INPUT_DIALOG,
+                deckNameInputDialog!!.onSaveInstanceState()
+            )
+        }
+        val isAddCardsPopupShowing = addCardsPopup?.isShowing ?: false
+        outState.putBoolean(STATE_ADD_CARDS_POPUP, isAddCardsPopupShowing)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        deckNameInputDialog?.dismiss()
+        deckNameInputDialog = null
+        deckNameDialogEditText = null
         addCardsPopup?.dismiss()
         addCardsPopup = null
     }
@@ -228,5 +268,7 @@ class AddDeckFragment : BaseFragment() {
         const val GET_CONTENT_REQUEST_CODE = 39
         const val DECK_CATALOG_PAGE =
             "https://drive.google.com/drive/folders/1sjHdkcChH2CvUi3jmhf--PNeVmA_716W?usp=sharing"
+        const val STATE_DECK_NAME_INPUT_DIALOG = "STATE_DECK_NAME_INPUT_DIALOG"
+        const val STATE_ADD_CARDS_POPUP = "STATE_ADD_CARDS_POPUP"
     }
 }

@@ -1,10 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
-import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
-import com.odnovolov.forgetmenot.domain.entity.Pronunciation
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
@@ -42,6 +39,37 @@ class ExerciseViewModel(
     }
         .distinctUntilChanged()
         .share()
+
+    val gradeOfCurrentCard: Flow<Int> =
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+            exerciseCard.base.card.flowOf(Card::grade)
+        }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
+
+    val isGradeEditedManually: Flow<Boolean> =
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+            exerciseCard.base.flowOf(ExerciseCard.Base::isGradeEditedManually)
+        }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
+
+    val intervalItems: Flow<List<IntervalItem>?> =
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+            val intervals = exerciseCard.base.deck.exercisePreference.intervalScheme?.intervals
+            exerciseCard.base.card.flowOf(Card::grade)
+                .map { currentGrade: Int ->
+                    intervals?.map { interval: Interval ->
+                        IntervalItem(
+                            grade = interval.grade,
+                            waitingPeriod = interval.value,
+                            isSelected = currentGrade == interval.grade
+                        )
+                    }
+                }
+        }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
 
     val isCurrentExerciseCardLearned: Flow<Boolean> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
@@ -158,6 +186,31 @@ class ExerciseViewModel(
     val speakerEvents: Flow<SpeakerImpl.Event> = speakerImpl.events
         .flowOn(businessLogicThread)
 
+    val timerStatus: Flow<TimerStatus> =
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+            if (exerciseCard.base.deck.exercisePreference.timeForAnswer == NOT_TO_USE_TIMER) {
+                flowOf(TimerStatus.NotUsed)
+            } else {
+                combine(
+                    exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
+                    exerciseCard.base.flowOf(ExerciseCard.Base::isExpired),
+                    isWalkingModeEnabled
+                ) { timeLeft: Int,
+                    isExpired: Boolean,
+                    isWalkingModeEnabled: Boolean
+                    ->
+                    when {
+                        isWalkingModeEnabled -> TimerStatus.OffBecauseWalkingMode
+                        timeLeft > 0 -> TimerStatus.Ticking(timeLeft)
+                        isExpired -> TimerStatus.TimeIsOver
+                        else -> TimerStatus.Stopped
+                    }
+                }
+            }
+        }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
+
     val hintStatus: Flow<HintStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             if (exerciseCard is QuizTestExerciseCard) {
@@ -193,45 +246,6 @@ class ExerciseViewModel(
                     }
                 }
             }
-        }
-            .distinctUntilChanged()
-            .flowOn(businessLogicThread)
-
-    val timerStatus: Flow<TimerStatus> =
-        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            if (exerciseCard.base.deck.exercisePreference.timeForAnswer == NOT_TO_USE_TIMER) {
-                flowOf(TimerStatus.NotUsed)
-            } else {
-                combine(
-                    exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
-                    exerciseCard.base.flowOf(ExerciseCard.Base::isExpired),
-                    isWalkingModeEnabled
-                ) { timeLeft: Int,
-                    isExpired: Boolean,
-                    isWalkingModeEnabled: Boolean
-                    ->
-                    when {
-                        isWalkingModeEnabled -> TimerStatus.OffBecauseWalkingMode
-                        timeLeft > 0 -> TimerStatus.Ticking(timeLeft)
-                        isExpired -> TimerStatus.TimeIsOver
-                        else -> TimerStatus.Stopped
-                    }
-                }
-            }
-        }
-            .distinctUntilChanged()
-            .flowOn(businessLogicThread)
-
-    val gradeOfCurrentCard: Flow<Int> =
-        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            exerciseCard.base.card.flowOf(Card::grade)
-        }
-            .distinctUntilChanged()
-            .flowOn(businessLogicThread)
-
-    val isGradeEditedManually: Flow<Boolean> =
-        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            exerciseCard.base.flowOf(ExerciseCard.Base::isGradeEditedManually)
         }
             .distinctUntilChanged()
             .flowOn(businessLogicThread)

@@ -17,6 +17,7 @@ import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnLayout
 import com.odnovolov.forgetmenot.R
 
 fun LightPopupWindow(content: View): PopupWindow =
@@ -50,17 +51,19 @@ private class PopupPositioner(
 
     fun show() {
         with(popupWindow) {
-            contentView.doOnNextGlobalLayout {
-                position()
-                observeLayoutChanges()
+            anchor.doOnLayout {
+                contentView.doOnNextGlobalLayout {
+                    position()
+                    observeLayoutChanges()
+                }
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    enterTransition = PopUp()
+                    exitTransition = Fade()
+                } else {
+                    animationStyle = R.style.Animation_Popup_Before_23_API
+                }
+                showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, 0, 0)
             }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                enterTransition = PopUp()
-                exitTransition = Fade()
-            } else {
-                animationStyle = R.style.Animation_Popup_Before_23_API
-            }
-            showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, 0, 0)
         }
     }
 
@@ -144,12 +147,13 @@ private class PopupPositioner(
     }
 
     private inline fun View.doOnNextGlobalLayout(crossinline action: () -> Unit) {
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
-                action()
-            }
-        })
+        viewTreeObserver.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    action()
+                }
+            })
     }
 
     companion object {

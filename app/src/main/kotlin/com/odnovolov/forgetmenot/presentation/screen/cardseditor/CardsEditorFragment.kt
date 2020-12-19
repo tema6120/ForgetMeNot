@@ -30,8 +30,8 @@ class CardsEditorFragment : BaseFragment() {
 
     private var controller: CardsEditorController? = null
     private lateinit var viewModel: CardsEditorViewModel
-    private val intervalsPopup: PopupWindow by lazy(::createIntervalsPopup)
-    private val intervalsAdapter: IntervalsAdapter by lazy(::createIntervalsAdapter)
+    private var intervalsPopup: PopupWindow? = null
+    private var intervalsAdapter: IntervalsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,21 +39,6 @@ class CardsEditorFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_cards_editor, container, false)
-    }
-
-    private fun createIntervalsAdapter(): IntervalsAdapter {
-        val onItemClick: (Int) -> Unit = { grade: Int ->
-            controller?.dispatch(GradeWasChanged(grade))
-            intervalsPopup.dismiss()
-        }
-        return IntervalsAdapter(onItemClick)
-    }
-
-    private fun createIntervalsPopup(): PopupWindow {
-        val content: View = View.inflate(context, R.layout.popup_intervals, null).apply {
-            intervalsRecycler.adapter = intervalsAdapter
-        }
-        return DarkPopupWindow(content)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +57,7 @@ class CardsEditorFragment : BaseFragment() {
         cardsViewPager.adapter = EditableCardAdapter(this)
         cardsViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
-            setOnClickListener { controller?.dispatch(GradeButtonClicked) }
+            setOnClickListener { requireIntervalsPopup().show(anchor = gradeButton) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         removeCardButton.run {
@@ -160,9 +145,6 @@ class CardsEditorFragment : BaseFragment() {
                 cardsViewPager.setCurrentItem(command.position, true)
                 showToast(R.string.toast_fill_in_the_card)
             }
-            is ShowIntervalsPopup -> {
-                showIntervalsPopup(command.intervalItems)
-            }
             ShowCardIsRemovedMessage -> {
                 Snackbar
                     .make(
@@ -177,19 +159,57 @@ class CardsEditorFragment : BaseFragment() {
                     .show()
             }
             AskUserToConfirmExit -> {
-                QuitCardsEditorBottomSheet().show(childFragmentManager, "QuitCardsEditorBottomSheet")
+                QuitCardsEditorBottomSheet().show(
+                    childFragmentManager,
+                    "QuitCardsEditorBottomSheet"
+                )
             }
         }
     }
 
-    private fun showIntervalsPopup(intervalItems: List<IntervalItem>?) {
-        with(intervalsPopup) {
-            contentView.intervalsIcon.isActivated = intervalItems != null
-            contentView.intervalsRecycler.isVisible = intervalItems != null
-            contentView.intervalsAreOffTextView.isVisible = intervalItems == null
-            intervalItems?.let { intervalsAdapter.intervalItems = it }
-            show(anchor = gradeButton)
+    private fun requireIntervalsPopup(): PopupWindow {
+        if (intervalsPopup == null) {
+            val content: View = View.inflate(context, R.layout.popup_intervals, null)
+            val onItemClick: (Int) -> Unit = { grade: Int ->
+                controller?.dispatch(GradeWasChanged(grade))
+                intervalsPopup?.dismiss()
+            }
+            intervalsAdapter = IntervalsAdapter(onItemClick)
+            content.intervalsRecycler.adapter = intervalsAdapter
+            intervalsPopup = DarkPopupWindow(content)
+            subscribeIntervalsPopupToViewModel()
         }
+        return intervalsPopup!!
+    }
+
+    private fun subscribeIntervalsPopupToViewModel() {
+        viewCoroutineScope!!.launch {
+            val diScope = CardsEditorDiScope.getAsync() ?: return@launch
+            diScope.viewModel.intervalItems.observe { intervalItems: List<IntervalItem>? ->
+                intervalsPopup?.contentView?.run {
+                    intervalItems?.let { intervalsAdapter!!.intervalItems = it }
+                    intervalsIcon.isActivated = intervalItems != null
+                    intervalsRecycler.isVisible = intervalItems != null
+                    intervalsAreOffTextView.isVisible = intervalItems == null
+                }
+            }
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            val needToShowIntervalsPopup = getBoolean(STATE_INTERVALS_POPUP, false)
+            if (needToShowIntervalsPopup) {
+                requireIntervalsPopup().show(anchor = gradeButton)
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val isPopupShowing = intervalsPopup?.isShowing ?: false
+        outState.putBoolean(STATE_INTERVALS_POPUP, isPopupShowing)
     }
 
     override fun onResume() {
@@ -206,6 +226,9 @@ class CardsEditorFragment : BaseFragment() {
         super.onDestroyView()
         cardsViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         cardsViewPager.adapter = null
+        intervalsPopup?.dismiss()
+        intervalsPopup = null
+        intervalsAdapter = null
     }
 
     override fun onDestroy() {
@@ -227,5 +250,9 @@ class CardsEditorFragment : BaseFragment() {
             controller?.dispatch(BackButtonClicked)
             return true
         }
+    }
+
+    companion object {
+        private const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
     }
 }

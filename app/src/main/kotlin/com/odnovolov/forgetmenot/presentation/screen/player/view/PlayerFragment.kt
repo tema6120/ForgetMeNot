@@ -26,7 +26,6 @@ import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServic
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
-import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.ShowIntervalsPopup
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
@@ -44,13 +43,13 @@ class PlayerFragment : BaseFragment() {
 
     private var controller: PlayerViewController? = null
     private lateinit var viewModel: PlayerViewModel
-    private val intervalsPopup: PopupWindow by lazy(::createIntervalsPopup)
-    private val intervalsAdapter: IntervalsAdapter by lazy(::createIntervalsAdapter)
-    private val speakErrorPopup: PopupWindow by lazy(::createSpeakErrorPopup)
+    private var intervalsPopup: PopupWindow? = null
+    private var intervalsAdapter: IntervalsAdapter? = null
+    private var speakErrorPopup: PopupWindow? = null
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
-    private val infinitePlaybackPopup: PopupWindow by lazy(::createInfinitePopup)
+    private var infinitePlaybackPopup: PopupWindow? = null
     private var knowingWhenPagerStopped: KnowingWhenPagerStopped? = null
 
     override fun onCreateView(
@@ -83,7 +82,10 @@ class PlayerFragment : BaseFragment() {
         knowingWhenPagerStopped = KnowingWhenPagerStopped()
         playerViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
-            setOnClickListener { controller?.dispatch(GradeButtonClicked) }
+            setOnClickListener {
+                controller?.dispatch(GradeButtonClicked)
+                requireIntervalsPopup().show(anchor = gradeButton)
+            }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         editCardButton.run {
@@ -95,7 +97,9 @@ class PlayerFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         infinitePlaybackButton.run {
-            setOnClickListener { infinitePlaybackPopup.show(anchor = infinitePlaybackButton) }
+            setOnClickListener {
+                requireInfinitePlaybackPopup().show(anchor = infinitePlaybackButton)
+            }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         helpButton.run {
@@ -150,7 +154,7 @@ class PlayerFragment : BaseFragment() {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)
                             NotSpeaking -> controller?.dispatch(SpeakButtonClicked)
-                            CannotSpeak -> showSpeakErrorPopup()
+                            CannotSpeak -> requireSpeakErrorPopup().show(anchor = speakButton)
                         }
                     }
                     contentDescription = getString(
@@ -234,9 +238,6 @@ class PlayerFragment : BaseFragment() {
             is SetCurrentPosition -> {
                 playerViewPager.currentItem = command.position
             }
-            is ShowIntervalsPopup -> {
-                showIntervalsPopup(command.intervalItems)
-            }
         }
     }
 
@@ -251,46 +252,77 @@ class PlayerFragment : BaseFragment() {
         }
     }
 
-    private fun createIntervalsPopup(): PopupWindow {
-        val content: View = View.inflate(context, R.layout.popup_intervals, null).apply {
-            intervalsRecycler.adapter = intervalsAdapter
+    private fun requireIntervalsPopup(): PopupWindow {
+        if (intervalsPopup == null) {
+            val content: View = View.inflate(context, R.layout.popup_intervals, null)
+            val onItemClick: (Int) -> Unit = { grade: Int ->
+                controller?.dispatch(GradeWasChanged(grade))
+                intervalsPopup?.dismiss()
+            }
+            intervalsAdapter = IntervalsAdapter(onItemClick)
+            content.intervalsRecycler.adapter = intervalsAdapter
+            intervalsPopup = DarkPopupWindow(content)
+            subscribeIntervalsPopupToViewModel()
         }
-        return DarkPopupWindow(content)
+        return intervalsPopup!!
     }
 
-    private fun createIntervalsAdapter(): IntervalsAdapter {
-        val onItemClick: (Int) -> Unit = { grade: Int ->
-            controller?.dispatch(GradeWasChanged(grade))
-            intervalsPopup.dismiss()
-        }
-        return IntervalsAdapter(onItemClick)
-    }
-
-    private fun showIntervalsPopup(intervalItems: List<IntervalItem>?) {
-        with(intervalsPopup) {
-            contentView.intervalsIcon.isActivated = intervalItems != null
-            contentView.intervalsRecycler.isVisible = intervalItems != null
-            contentView.intervalsAreOffTextView.isVisible = intervalItems == null
-            intervalItems?.let { intervalsAdapter.intervalItems = it }
-            show(anchor = gradeButton)
-        }
-    }
-
-    private fun createSpeakErrorPopup(): PopupWindow {
-        val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
-            goToTtsSettingsButton.setOnClickListener {
-                navigateToTtsSettings()
-                speakErrorPopup.dismiss()
+    private fun subscribeIntervalsPopupToViewModel() {
+        viewCoroutineScope!!.launch {
+            val diScope = PlayerDiScope.getAsync() ?: return@launch
+            diScope.viewModel.intervalItems.observe { intervalItems: List<IntervalItem>? ->
+                intervalsPopup?.contentView?.run {
+                    intervalItems?.let { intervalsAdapter!!.intervalItems = it }
+                    intervalsIcon.isActivated = intervalItems != null
+                    intervalsRecycler.isVisible = intervalItems != null
+                    intervalsAreOffTextView.isVisible = intervalItems == null
+                }
             }
         }
-        return DarkPopupWindow(content)
     }
 
-    private fun getSpeakErrorDescription(): String? {
-        val reasonForInabilityToSpeak: ReasonForInabilityToSpeak? =
-            viewModel.reasonForInabilityToSpeak.firstBlocking()
+    private fun requireSpeakErrorPopup(): PopupWindow {
+        if (speakErrorPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
+                goToTtsSettingsButton.setOnClickListener {
+                    navigateToTtsSettings()
+                    speakErrorPopup?.dismiss()
+                }
+            }
+            speakErrorPopup = DarkPopupWindow(content)
+            subscribeSpeakErrorPopup()
+        }
+        return speakErrorPopup!!
+    }
+
+    private fun navigateToTtsSettings() {
+        startActivity(
+            Intent().apply {
+                action = "com.android.settings.TTS_SETTINGS"
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+        )
+    }
+
+    private fun subscribeSpeakErrorPopup() {
+        viewCoroutineScope!!.launch {
+            val diScope = PlayerDiScope.getAsync() ?: return@launch
+            diScope.viewModel.reasonForInabilityToSpeak.observe { reason: ReasonForInabilityToSpeak? ->
+                if (reason == null) {
+                    speakErrorPopup?.dismiss()
+                } else {
+                    speakErrorPopup?.contentView?.run {
+                        speakErrorDescriptionTextView.text = getSpeakErrorDescription(reason)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getSpeakErrorDescription(
+        reasonForInabilityToSpeak: ReasonForInabilityToSpeak
+    ): String {
         return when (reasonForInabilityToSpeak) {
-            null -> null
             is FailedToInitializeSpeaker -> {
                 if (reasonForInabilityToSpeak.ttsEngine == null) {
                     getString(R.string.speak_error_description_failed_to_initialized)
@@ -324,38 +356,57 @@ class PlayerFragment : BaseFragment() {
         }
     }
 
-    private fun showSpeakErrorPopup() {
-        with(speakErrorPopup) {
-            contentView.speakErrorDescriptionTextView.text = getSpeakErrorDescription()
-            show(anchor = speakButton)
-        }
-    }
-
-    private fun navigateToTtsSettings() {
-        startActivity(
-            Intent().apply {
-                action = "com.android.settings.TTS_SETTINGS"
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    private fun requireInfinitePlaybackPopup(): PopupWindow {
+        if (infinitePlaybackPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_infinite_playback, null)
+            content.infinitePlaybackSwitchButton.setOnClickListener {
+                controller?.dispatch(InfinitePlaybackSwitchToggled)
             }
-        )
+            infinitePlaybackPopup = DarkPopupWindow(content)
+            subscribeInfinitePopupToViewModel()
+        }
+        return infinitePlaybackPopup!!
     }
 
-    private fun createInfinitePopup(): PopupWindow {
-        val content = View.inflate(requireContext(), R.layout.popup_infinite_playback, null)
+    private fun subscribeInfinitePopupToViewModel() {
         viewCoroutineScope!!.launch {
             val diScope = PlayerDiScope.getAsync() ?: return@launch
             diScope.viewModel.isInfinitePlaybackEnabled.observe { isInfinitePlaybackEnabled ->
-                content.infinitePlaybackSwitch.run {
-                    isChecked = isInfinitePlaybackEnabled
-                    setText(if (isInfinitePlaybackEnabled) R.string.on else R.string.off)
+                infinitePlaybackPopup?.contentView?.run {
+                    infinitePlaybackSwitch.run {
+                        isChecked = isInfinitePlaybackEnabled
+                        setText(if (isInfinitePlaybackEnabled) R.string.on else R.string.off)
+                    }
+                    infinitePlaybackIcon.isActivated = isInfinitePlaybackEnabled
                 }
-                content.infinitePlaybackIcon.isActivated = isInfinitePlaybackEnabled
             }
         }
-        content.infinitePlaybackSwitchButton.setOnClickListener {
-            controller?.dispatch(InfinitePlaybackSwitchToggled)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            when {
+                getBoolean(STATE_INTERVALS_POPUP, false) ->
+                    requireIntervalsPopup().show(anchor = gradeButton)
+                getBoolean(STATE_SPEAK_ERROR_POPUP, false) ->
+                    requireSpeakErrorPopup().show(anchor = speakButton)
+                getBoolean(STATE_INFINITE_PLAYBACK_POPUP, false) ->
+                    requireInfinitePlaybackPopup().show(anchor = infinitePlaybackButton)
+            }
         }
-        return DarkPopupWindow(content)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        savePopupState(outState, intervalsPopup, STATE_INTERVALS_POPUP)
+        savePopupState(outState, speakErrorPopup, STATE_SPEAK_ERROR_POPUP)
+        savePopupState(outState, infinitePlaybackPopup, STATE_INFINITE_PLAYBACK_POPUP)
+    }
+
+    private fun savePopupState(outState: Bundle, popupWindow: PopupWindow?, key: String) {
+        val isPopupShowing = popupWindow?.isShowing ?: false
+        outState.putBoolean(key, isPopupShowing)
     }
 
     override fun onDestroyView() {
@@ -363,6 +414,12 @@ class PlayerFragment : BaseFragment() {
         playerViewPager.adapter = null
         knowingWhenPagerStopped = null
         playerViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
+        intervalsPopup?.dismiss()
+        intervalsPopup = null
+        speakErrorPopup?.dismiss()
+        speakErrorPopup = null
+        infinitePlaybackPopup?.dismiss()
+        infinitePlaybackPopup = null
     }
 
     override fun onDestroy() {
@@ -389,5 +446,8 @@ class PlayerFragment : BaseFragment() {
 
     companion object {
         const val TAG_PLAYING_FINISHED_BOTTOM_SHEET = "TAG_PLAYING_FINISHED_BOTTOM_SHEET"
+        private const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
+        private const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
+        private const val STATE_INFINITE_PLAYBACK_POPUP = "STATE_INFINITE_PLAYBACK_POPUP"
     }
 }

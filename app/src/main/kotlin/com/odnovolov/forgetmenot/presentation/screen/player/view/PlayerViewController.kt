@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForAutoplay
@@ -11,13 +10,11 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
-import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.ShowIntervalsPopup
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.launchIn
@@ -32,7 +29,6 @@ class PlayerViewController(
 ) : BaseController<PlayerFragmentEvent, Command>() {
     sealed class Command {
         class SetCurrentPosition(val position: Int) : Command()
-        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>?) : Command()
     }
 
     init {
@@ -141,17 +137,6 @@ class PlayerViewController(
 
     private fun onGradeButtonClicked() {
         player.pause()
-        val currentGrade: Int = player.currentPlayingCard.card.grade
-        val intervalItems: List<IntervalItem>? = player.currentPlayingCard.deck
-            .exercisePreference.intervalScheme?.intervals
-            ?.map { interval: Interval ->
-                IntervalItem(
-                    grade = interval.grade,
-                    waitingPeriod = interval.value,
-                    isSelected = currentGrade == interval.grade
-                )
-            }
-        sendCommand(ShowIntervalsPopup(intervalItems))
     }
 
     override fun saveState() {

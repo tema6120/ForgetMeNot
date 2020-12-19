@@ -42,56 +42,15 @@ class DeckListFragment : BaseFragment() {
     private var resumePauseCoroutineScope: CoroutineScope? = null
     var scrollListener: ((dy: Int) -> Unit)? = null
     private var filterButton: View? = null
+    private var needToShowFiltersPopup = false
+    private var needToShowSortingPopup = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initFiltersPopup()
-        initSortingPopup()
         return inflater.inflate(R.layout.fragment_deck_list, container, false)
-    }
-
-    private fun initFiltersPopup() {
-        val content = View.inflate(requireContext(), R.layout.popup_deck_filters, null)
-            .apply {
-                closeButton.setOnClickListener {
-                    filtersPopup?.dismiss()
-                }
-                TooltipCompat.setTooltipText(closeButton, closeButton.contentDescription)
-                availableForExerciseButton.setOnClickListener {
-                    controller?.dispatch(DecksAvailableForExerciseCheckboxClicked)
-                }
-            }
-        filtersPopup = LightPopupWindow(content)
-    }
-
-    private fun initSortingPopup() {
-        val content = View.inflate(requireContext(), R.layout.popup_deck_sorting, null)
-            .apply {
-                closeButton.setOnClickListener {
-                    sortingPopup?.dismiss()
-                }
-                TooltipCompat.setTooltipText(closeButton, closeButton.contentDescription)
-                sortByNameButton.setOnClickListener {
-                    controller?.dispatch(SortByButtonClicked(Name))
-                }
-                sortByTimeCreatedButton.setOnClickListener {
-                    controller?.dispatch(SortByButtonClicked(CreatedAt))
-                }
-                sortByTimeLastTestedButton.setOnClickListener {
-                    controller?.dispatch(SortByButtonClicked(LastOpenedAt))
-                }
-                sortingDirectionButton.setOnClickListener {
-                    controller?.dispatch(SortingDirectionButtonClicked)
-                }
-                TooltipCompat.setTooltipText(
-                    sortingDirectionButton,
-                    sortingDirectionButton.contentDescription
-                )
-            }
-        sortingPopup = LightPopupWindow(content)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -122,14 +81,21 @@ class DeckListFragment : BaseFragment() {
         val setupHeader: (View) -> Unit = { header: View ->
             filterButton = header.filterButton
             header.filterButton.setOnClickListener {
-                filtersPopup!!.show(anchor = header.filterButton)
+                requireFiltersPopup().show(anchor = header.filterButton)
             }
             header.sortingButton.setOnClickListener {
-                sortingPopup!!.show(anchor = header.sortingButton)
+                requireSortingPopup().show(anchor = header.sortingButton)
             }
             viewModel.deckSorting.observe { deckSorting: DeckSorting ->
                 updateSortingButton(header.sortingButton, deckSorting)
-                updateSortingPopup(deckSorting)
+            }
+            if (needToShowFiltersPopup) {
+                needToShowFiltersPopup = false
+                requireFiltersPopup().show(anchor = header.filterButton)
+            }
+            if (needToShowSortingPopup) {
+                needToShowSortingPopup = false
+                requireSortingPopup().show(anchor = header.sortingButton)
             }
         }
         deckPreviewAdapter = DeckPreviewAdapter(controller!!, setupHeader)
@@ -156,6 +122,76 @@ class DeckListFragment : BaseFragment() {
         )
     }
 
+    private fun observeViewModel() {
+        with(viewModel) {
+            decksNotFound.observe { decksNotFound: Boolean ->
+                emptyTextView.isVisible = decksNotFound
+                progressBar.visibility = View.GONE
+            }
+            deckSelection.observe { deckSelection: DeckSelection? ->
+                deckPreviewAdapter?.deckSelection = deckSelection
+                filterButton?.isVisible = deckSelection == null
+            }
+        }
+    }
+
+    private fun requireFiltersPopup(): PopupWindow {
+        if (filtersPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_deck_filters, null)
+                .apply {
+                    closeButton.setOnClickListener {
+                        filtersPopup?.dismiss()
+                    }
+                    TooltipCompat.setTooltipText(closeButton, closeButton.contentDescription)
+                    availableForExerciseButton.setOnClickListener {
+                        controller?.dispatch(DecksAvailableForExerciseCheckboxClicked)
+                    }
+                }
+            filtersPopup = LightPopupWindow(content)
+            viewModel.displayOnlyDecksAvailableForExercise
+                .observe { displayOnlyDecksAvailableForExercise: Boolean ->
+                    filtersPopup?.contentView?.run {
+                        availableForExerciseCheckBox.isChecked =
+                            displayOnlyDecksAvailableForExercise
+                    }
+                }
+        }
+        return filtersPopup!!
+    }
+
+    private fun requireSortingPopup(): PopupWindow {
+        if (sortingPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_deck_sorting, null)
+                .apply {
+                    closeButton.setOnClickListener {
+                        sortingPopup?.dismiss()
+                    }
+                    TooltipCompat.setTooltipText(closeButton, closeButton.contentDescription)
+                    sortByNameButton.setOnClickListener {
+                        controller?.dispatch(SortByButtonClicked(Name))
+                    }
+                    sortByTimeCreatedButton.setOnClickListener {
+                        controller?.dispatch(SortByButtonClicked(CreatedAt))
+                    }
+                    sortByTimeLastTestedButton.setOnClickListener {
+                        controller?.dispatch(SortByButtonClicked(LastOpenedAt))
+                    }
+                    sortingDirectionButton.setOnClickListener {
+                        controller?.dispatch(SortingDirectionButtonClicked)
+                    }
+                    TooltipCompat.setTooltipText(
+                        sortingDirectionButton,
+                        sortingDirectionButton.contentDescription
+                    )
+                }
+            sortingPopup = LightPopupWindow(content)
+            viewModel.deckSorting.observe { deckSorting: DeckSorting ->
+                updateSortingPopup(deckSorting)
+            }
+        }
+        return sortingPopup!!
+    }
+
     private fun updateSortingPopup(deckSorting: DeckSorting) {
         sortingPopup?.contentView?.run {
             sortingDirectionButton.setImageResource(
@@ -176,24 +212,6 @@ class DeckListFragment : BaseFragment() {
             sortByNameTextView.isSelected = deckSorting.criterion == Name
             sortByTimeCreatedTextView.isSelected = deckSorting.criterion == CreatedAt
             sortByTimeLastTestedTextView.isSelected = deckSorting.criterion == LastOpenedAt
-        }
-    }
-
-    private fun observeViewModel() {
-        with(viewModel) {
-            displayOnlyDecksAvailableForExercise.observe { displayOnlyDecksAvailableForExercise: Boolean ->
-                filtersPopup?.contentView?.run {
-                    availableForExerciseCheckBox.isChecked = displayOnlyDecksAvailableForExercise
-                }
-            }
-            decksNotFound.observe { decksNotFound: Boolean ->
-                emptyTextView.isVisible = decksNotFound
-                progressBar.visibility = View.GONE
-            }
-            deckSelection.observe { deckSelection: DeckSelection? ->
-                deckPreviewAdapter?.deckSelection = deckSelection
-                filterButton?.isVisible = deckSelection == null
-            }
         }
     }
 
@@ -218,6 +236,22 @@ class DeckListFragment : BaseFragment() {
         resumePauseCoroutineScope = null
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            needToShowFiltersPopup = getBoolean(STATE_FILTERS_POPUP, false)
+            needToShowSortingPopup = getBoolean(STATE_SORTING_POPUP, false)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val isFiltersPopupShowing = filtersPopup?.isShowing ?: false
+        outState.putBoolean(STATE_FILTERS_POPUP, isFiltersPopupShowing)
+        val isSortingPopupShowing = sortingPopup?.isShowing ?: false
+        outState.putBoolean(STATE_SORTING_POPUP, isSortingPopupShowing)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         decksPreviewRecycler.adapter = null
@@ -227,5 +261,10 @@ class DeckListFragment : BaseFragment() {
         sortingPopup?.dismiss()
         sortingPopup = null
         filterButton = null
+    }
+
+    companion object {
+        private const val STATE_FILTERS_POPUP = "STATE_FILTERS_POPUP"
+        private const val STATE_SORTING_POPUP = "STATE_SORTING_POPUP"
     }
 }

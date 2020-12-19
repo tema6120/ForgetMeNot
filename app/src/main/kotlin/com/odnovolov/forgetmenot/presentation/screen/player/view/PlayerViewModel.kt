@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
@@ -10,6 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
+import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
@@ -37,6 +39,23 @@ class PlayerViewModel(
     val gradeOfCurrentCard: Flow<Int> =
         currentPlayingCard.flatMapLatest { playingCard: PlayingCard ->
             playingCard.card.flowOf(Card::grade)
+        }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
+
+    val intervalItems: Flow<List<IntervalItem>?> =
+        currentPlayingCard.flatMapLatest { playingCard: PlayingCard ->
+            val intervals = playingCard.deck.exercisePreference.intervalScheme?.intervals
+            playingCard.card.flowOf(Card::grade)
+                .map { currentGrade: Int ->
+                    intervals?.map { interval: Interval ->
+                        IntervalItem(
+                            grade = interval.grade,
+                            waitingPeriod = interval.value,
+                            isSelected = currentGrade == interval.grade
+                        )
+                    }
+                }
         }
             .distinctUntilChanged()
             .flowOn(businessLogicThread)

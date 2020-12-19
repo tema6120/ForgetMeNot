@@ -1,9 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
+import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
+import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForDeckCreation
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
+import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import kotlinx.coroutines.flow.*
 
 class CardsEditorViewModel(
@@ -33,6 +38,37 @@ class CardsEditorViewModel(
                 editableCard?.flowOf(EditableCard::grade) ?: flowOf(null)
             }
         }
+
+    val intervalItems: Flow<List<IntervalItem>?> =
+        if (cardsEditor is CardsEditorForDeckCreation) {
+            flowOf(null)
+        } else {
+            currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
+                if (editableCard == null) {
+                    flowOf(null)
+                } else {
+                    val intervalScheme: IntervalScheme? =
+                        if (cardsEditor.currentEditableCard.deck == null) {
+                            ExercisePreference.Default.intervalScheme
+                        } else {
+                            cardsEditor.currentEditableCard.deck!!.exercisePreference.intervalScheme
+                        }
+                    editableCard.flowOf(EditableCard::grade)
+                        .map { currentGrade: Int ->
+                            intervalScheme?.intervals
+                                ?.map { interval: Interval ->
+                                    IntervalItem(
+                                        grade = interval.grade,
+                                        waitingPeriod = interval.value,
+                                        isSelected = currentGrade == interval.grade
+                                    )
+                                }
+                        }
+                }
+            }
+        }
+            .distinctUntilChanged()
+            .flowOn(businessLogicThread)
 
     val isCurrentEditableCardLearned: Flow<Boolean?> =
         if (cardsEditor is CardsEditorForDeckCreation) {

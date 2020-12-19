@@ -1,8 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
-import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
-import com.odnovolov.forgetmenot.domain.entity.Interval
-import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Failure
@@ -21,7 +18,6 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorCont
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
 import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
-import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 
@@ -33,7 +29,6 @@ class CardsEditorController(
 ) : BaseController<CardsEditorEvent, Command>() {
     sealed class Command {
         class ShowUnfilledTextInputAt(val position: Int) : Command()
-        class ShowIntervalsPopup(val intervalItems: List<IntervalItem>?) : Command()
         object ShowCardIsRemovedMessage : Command()
         object AskUserToConfirmExit : Command()
     }
@@ -42,10 +37,6 @@ class CardsEditorController(
         when (event) {
             is PageSelected -> {
                 cardsEditor.setCurrentPosition(event.position)
-            }
-
-            GradeButtonClicked -> {
-                onGradeButtonClicked()
             }
 
             is GradeWasChanged -> {
@@ -126,25 +117,6 @@ class CardsEditorController(
                 navigator.navigateUp()
             }
         }
-    }
-
-    private fun onGradeButtonClicked() {
-        val intervalScheme: IntervalScheme? =
-            if (cardsEditor.currentEditableCard.deck == null) {
-                ExercisePreference.Default.intervalScheme
-            } else {
-                cardsEditor.currentEditableCard.deck!!.exercisePreference.intervalScheme
-            }
-        val currentGrade: Int = cardsEditor.currentEditableCard.grade
-        val intervalItems: List<IntervalItem>? = intervalScheme?.intervals
-            ?.map { interval: Interval ->
-                IntervalItem(
-                    grade = interval.grade,
-                    waitingPeriod = interval.value,
-                    isSelected = currentGrade == interval.grade
-                )
-            }
-        sendCommand(ShowIntervalsPopup(intervalItems))
     }
 
     override fun saveState() {
