@@ -85,33 +85,13 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="PopupFromTopRightAnimation">
-        <item name="android:windowEnterAnimation">@anim/popup_show_from_top_right</item>
+    <style name="Animation_Popup_Before_23_API">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 
-    <style name="PopupFromTopAnimation">
+    <style name="AnimationCardLabel">
         <item name="android:windowEnterAnimation">@anim/popup_show_from_top</item>
-        <item name="android:windowExitAnimation">@anim/popup_hide</item>
-    </style>
-
-    <style name="PopupFromTopLeftAnimation">
-        <item name="android:windowEnterAnimation">@anim/popup_show_from_top_left</item>
-        <item name="android:windowExitAnimation">@anim/popup_hide</item>
-    </style>
-
-    <style name="PopupFromBottomAnimation">
-        <item name="android:windowEnterAnimation">@anim/popup_show_from_bottom</item>
-        <item name="android:windowExitAnimation">@anim/popup_hide</item>
-    </style>
-
-    <style name="PopupFromBottomLeftAnimation">
-        <item name="android:windowEnterAnimation">@anim/popup_show_from_bottom_left</item>
-        <item name="android:windowExitAnimation">@anim/popup_hide</item>
-    </style>
-
-    <style name="PopupFromBottomRightAnimation">
-        <item name="android:windowEnterAnimation">@anim/popup_show_from_bottom_right</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 

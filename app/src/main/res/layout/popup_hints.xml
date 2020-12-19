@@ -1,80 +1,81 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="150dp"
-        android:orientation="vertical"
-        tools:background="@drawable/background_popup_dark">
+        tools:background="@drawable/background_popup_dark"
+        tools:elevation="20dp"
+        tools:layout_gravity="center">
+
+    <ImageView
+            android:id="@+id/hintIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/description_hint_icon"
+            android:src="@drawable/ic_lightbulb_outline_white_24dp_on_popup"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title"
+            tools:tint="@color/hint_icon_on_popup" />
 
     <TextView
-            android:id="@+id/hintsPopupTitleTextView"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:drawablePadding="8dp"
             android:text="@string/popup_title_hints"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_lightbulb_outline_white_24dp_on_popup" />
+            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/hintIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <View
             android:id="@+id/divider"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/divider_light" />
+            android:background="@color/divider_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
             android:id="@+id/hintsDescriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="24dp"
+            android:layout_margin="16dp"
             android:fontFamily="@font/nunito_bold"
             android:gravity="center"
-            android:maxWidth="200dp"
             android:textColor="@color/description_text_on_popup"
             android:textSize="14sp"
             android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/bottom_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintWidth_max="200dp"
             tools:text="@string/hints_are_not_accessible_because_the_card_is_answered"
             tools:visibility="gone" />
-
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/getVariantsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:fontFamily="@font/nunito_extrabold"
-            android:padding="16dp"
-            android:text="@string/text_hint_get_variants"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            app:backgroundTint="@color/background_item_selected_on_dark_popup"
-            app:cornerRadius="4dp"
-            app:rippleColor="@android:color/white"
-            tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/maskLettersButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/nunito_extrabold"
             android:padding="16dp"
             android:text="@string/text_hint_mask_letters_button"
@@ -82,7 +83,39 @@
             android:textColor="@android:color/white"
             app:backgroundTint="@color/background_item_selected_on_dark_popup"
             app:cornerRadius="4dp"
+            app:layout_constraintBottom_toTopOf="@id/getVariantsButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
             app:rippleColor="@android:color/white"
             tools:visibility="visible" />
 
-</LinearLayout>
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/getVariantsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/nunito_extrabold"
+            android:padding="16dp"
+            android:text="@string/text_hint_get_variants"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/background_item_selected_on_dark_popup"
+            app:cornerRadius="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/maskLettersButton"
+            app:rippleColor="@android:color/white"
+            tools:visibility="visible" />
+
+    <Space
+            android:id="@+id/bottom_padding"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

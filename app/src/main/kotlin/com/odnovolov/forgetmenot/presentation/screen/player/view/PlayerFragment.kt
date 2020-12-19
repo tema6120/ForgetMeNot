@@ -2,13 +2,10 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
-import android.view.View.MeasureSpec
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
@@ -98,7 +95,7 @@ class PlayerFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         infinitePlaybackButton.run {
-            setOnClickListener { showInfinitePlaybackPopup() }
+            setOnClickListener { infinitePlaybackPopup.show(anchor = infinitePlaybackButton) }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         helpButton.run {
@@ -258,18 +255,7 @@ class PlayerFragment : BaseFragment() {
         val content: View = View.inflate(context, R.layout.popup_intervals, null).apply {
             intervalsRecycler.adapter = intervalsAdapter
         }
-        return PopupWindow(context).apply {
-            width = WRAP_CONTENT
-            height = WRAP_CONTENT
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromBottomLeftAnimation
-        }
+        return DarkPopupWindow(content)
     }
 
     private fun createIntervalsAdapter(): IntervalsAdapter {
@@ -282,15 +268,11 @@ class PlayerFragment : BaseFragment() {
 
     private fun showIntervalsPopup(intervalItems: List<IntervalItem>?) {
         with(intervalsPopup) {
-            contentView.intervalsPopupTitleTextView.isActivated = intervalItems != null
+            contentView.intervalsIcon.isActivated = intervalItems != null
             contentView.intervalsRecycler.isVisible = intervalItems != null
             contentView.intervalsAreOffTextView.isVisible = intervalItems == null
             intervalItems?.let { intervalsAdapter.intervalItems = it }
-            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-            val gradeButtonLocation = IntArray(2).also(gradeButton::getLocationOnScreen)
-            val x = gradeButtonLocation[0] + 8.dp
-            val y = gradeButtonLocation[1] + gradeButton.height - 8.dp - contentView.measuredHeight
-            showAtLocation(gradeButton.rootView, Gravity.NO_GRAVITY, x, y)
+            show(anchor = gradeButton)
         }
     }
 
@@ -301,18 +283,7 @@ class PlayerFragment : BaseFragment() {
                 speakErrorPopup.dismiss()
             }
         }
-        return PopupWindow(context).apply {
-            width = WRAP_CONTENT
-            height = WRAP_CONTENT
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromBottomAnimation
-        }
+        return DarkPopupWindow(content)
     }
 
     private fun getSpeakErrorDescription(): String? {
@@ -356,15 +327,7 @@ class PlayerFragment : BaseFragment() {
     private fun showSpeakErrorPopup() {
         with(speakErrorPopup) {
             contentView.speakErrorDescriptionTextView.text = getSpeakErrorDescription()
-            contentView.measure(
-                MeasureSpec.makeMeasureSpec(speakButton.rootView.width, MeasureSpec.AT_MOST),
-                MeasureSpec.makeMeasureSpec(speakButton.rootView.height, MeasureSpec.AT_MOST)
-            )
-            val speakButtonLocation = IntArray(2).also(speakButton::getLocationOnScreen)
-            val x: Int = 8.dp
-            val y: Int =
-                speakButtonLocation[1] + speakButton.height - 8.dp - contentView.measuredHeight
-            showAtLocation(speakButton.rootView, Gravity.NO_GRAVITY, x, y)
+            show(anchor = speakButton)
         }
     }
 
@@ -386,39 +349,13 @@ class PlayerFragment : BaseFragment() {
                     isChecked = isInfinitePlaybackEnabled
                     setText(if (isInfinitePlaybackEnabled) R.string.on else R.string.off)
                 }
-                content.infinitePlaybackPopupTitleTextView.isActivated = isInfinitePlaybackEnabled
+                content.infinitePlaybackIcon.isActivated = isInfinitePlaybackEnabled
             }
         }
         content.infinitePlaybackSwitchButton.setOnClickListener {
             controller?.dispatch(InfinitePlaybackSwitchToggled)
         }
-        return PopupWindow(context).apply {
-            width = WRAP_CONTENT
-            height = WRAP_CONTENT
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromBottomRightAnimation
-        }
-    }
-
-    private fun showInfinitePlaybackPopup() {
-        infinitePlaybackPopup.run {
-            showAtLocation(infinitePlaybackButton.rootView, Gravity.NO_GRAVITY, 0, 0)
-            contentView.post {
-                val infinitePlaybackButtonLocation = IntArray(2)
-                    .also(infinitePlaybackButton::getLocationOnScreen)
-                val x: Int = infinitePlaybackButtonLocation[0] +
-                        infinitePlaybackButton.width - 8.dp - contentView.width
-                val y: Int = infinitePlaybackButtonLocation[1] +
-                            infinitePlaybackButton.height - 8.dp - contentView.height
-                update(x, y, width, height)
-            }
-        }
+        return DarkPopupWindow(content)
     }
 
     override fun onDestroyView() {

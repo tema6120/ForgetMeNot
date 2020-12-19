@@ -1,62 +1,97 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:background="@drawable/background_popup_dark">
+        tools:background="@drawable/background_popup_dark"
+        tools:elevation="24dp"
+        tools:layout_gravity="center">
+
+    <ImageView
+            android:id="@+id/issueIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/description_issue_icon"
+            android:src="@drawable/ic_baseline_error_outline_24"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title" />
 
     <TextView
-            android:id="@+id/titleTextView"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="8dp"
-            android:drawablePadding="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/title_speak_error_popup"
             android:textColor="@color/issue"
             android:textSize="20sp"
-            app:drawableStartCompat="@drawable/ic_baseline_error_outline_24" />
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/issueIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <View
             android:id="@+id/divider"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:background="@color/divider_light" />
-
-    <TextView
-            android:id="@+id/speakErrorDescriptionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
+            android:background="@color/divider_light"
+            app:layout_constraintBottom_toTopOf="@+id/speakErrorDescriptionTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+            android:id="@+id/speakErrorDescriptionTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/nunito_bold"
             android:textColor="@color/description_text_on_popup"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/goToTtsSettingsButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
             tools:text="Current TTS engine (com.svox.pico) doesn't support Russian" />
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/goToTtsSettingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/nunito_extrabold"
-            android:maxWidth="226dp"
+            android:maxLines="1"
             android:padding="16dp"
             android:text="@string/text_go_to_tts_settings_button"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeTextType="uniform"
             app:backgroundTint="@color/issue"
             app:cornerRadius="4dp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/speakErrorDescriptionTextView"
             app:rippleColor="@android:color/white" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

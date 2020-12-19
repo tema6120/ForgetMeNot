@@ -3,11 +3,9 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.view.View.MeasureSpec
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
@@ -79,13 +77,13 @@ class PronunciationFragment : BaseFragment() {
 
     private fun setupView() {
         questionLanguageTextView.setOnClickListener {
-            showLanguagePopup(questionLanguagePopup, anchor = questionLanguageTextView)
+            questionLanguagePopup.show(anchor = questionLanguageTextView)
         }
         questionAutoSpeakButton.setOnClickListener {
             controller?.dispatch(QuestionAutoSpeakSwitchToggled)
         }
         answerLanguageTextView.setOnClickListener {
-            showLanguagePopup(answerLanguagePopup, anchor = answerLanguageTextView)
+            answerLanguagePopup.show(anchor = answerLanguageTextView)
         }
         answerAutoSpeakButton.setOnClickListener {
             controller?.dispatch(AnswerAutoSpeakSwitchToggled)
@@ -223,17 +221,7 @@ class PronunciationFragment : BaseFragment() {
                 speakErrorPopup.dismiss()
             }
         }
-        return PopupWindow(context).apply {
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-        }
+        return DarkPopupWindow(content)
     }
 
     private fun showSpeakErrorPopup(
@@ -241,19 +229,9 @@ class PronunciationFragment : BaseFragment() {
         reasonForInabilityToSpeak: ReasonForInabilityToSpeak?
     ) {
         speakErrorPopup.dismiss()
-        val content: View = speakErrorPopup.contentView
-        content.speakErrorDescriptionTextView.text =
+        speakErrorPopup.contentView.speakErrorDescriptionTextView.text =
             getSpeakErrorDescription(reasonForInabilityToSpeak)
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        val anchorLocation = IntArray(2).also { anchor.getLocationOnScreen(it) }
-        val x: Int = maxOf(8.dp, anchorLocation[0] + anchor.width - content.measuredWidth)
-        val y: Int = anchorLocation[1]
-        speakErrorPopup.showAtLocation(
-            anchor.rootView,
-            Gravity.NO_GRAVITY,
-            x,
-            y
-        )
+        speakErrorPopup.show(anchor)
     }
 
     private fun getSpeakErrorDescription(
@@ -294,26 +272,9 @@ class PronunciationFragment : BaseFragment() {
         }
     }
 
-    private fun createLanguagePopup() = PopupWindow(requireContext()).apply {
-        width = WindowManager.LayoutParams.WRAP_CONTENT
-        height = WindowManager.LayoutParams.WRAP_CONTENT
-        contentView = View.inflate(requireContext(), R.layout.popup_available_languages, null)
-        setBackgroundDrawable(
-            ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_light)
-        )
-        elevation = 20f.dp
-        isOutsideTouchable = true
-        isFocusable = true
-    }
-
-    private fun showLanguagePopup(popupWindow: PopupWindow, anchor: View) {
-        popupWindow.width = anchor.width
-        val content: View = popupWindow.contentView
-        content.measure(anchor.width, MeasureSpec.UNSPECIFIED)
-        val anchorLocation = IntArray(2).also { anchor.getLocationOnScreen(it) }
-        val x = anchorLocation[0]
-        val y = anchorLocation[1] + anchor.height / 2 - content.measuredHeight / 2
-        popupWindow.showAtLocation(rootView, Gravity.NO_GRAVITY, x, y)
+    private fun createLanguagePopup(): PopupWindow {
+        val content = View.inflate(requireContext(), R.layout.popup_available_languages, null)
+        return LightPopupWindow(content)
     }
 
     private fun navigateToTtsSettings() {

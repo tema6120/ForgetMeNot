@@ -1,63 +1,88 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:elevation="20dp"
+        android:minWidth="150dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        tools:background="@drawable/background_popup_dark">
+        tools:background="@drawable/background_popup_dark"
+        tools:layout_gravity="center">
+
+    <ImageView
+            android:id="@+id/intervalsIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/description_intervals_icon"
+            android:src="@drawable/ic_round_hourglass_empty_24"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title" />
 
     <TextView
-            android:id="@+id/intervalsPopupTitleTextView"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:drawablePadding="8dp"
             android:text="@string/popup_title_intervals"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_round_hourglass_empty_24" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/intervalsIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <View
             android:id="@+id/divider"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
-            android:layout_marginBottom="4dp"
-            android:background="@color/divider_light" />
+            android:background="@color/divider_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView
             android:id="@+id/intervalsAreOffTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
             android:fontFamily="@font/nunito_bold"
             android:gravity="center"
-            android:maxWidth="200dp"
             android:text="@string/description_intervals_are_off"
             android:textColor="@color/description_text_on_popup"
             android:textSize="14sp"
             android:visibility="gone"
-            tools:visibility="gone" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintWidth_max="200dp"
+            tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/intervalsRecycler"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minWidth="150dp"
+            android:layout_marginTop="8dp"
             app:layoutManager="LinearLayoutManager"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
             tools:listitem="@layout/item_grade"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

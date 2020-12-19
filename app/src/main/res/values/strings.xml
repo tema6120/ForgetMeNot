@@ -644,4 +644,10 @@
     <string name="description_playing_completed">Playing completed</string>
     <string name="description_completed_cards">Completed cards</string>
     <string name="button_play_again">Play again</string>
+    <string name="description_walking_mode_icon">Walking mode icon</string>
+    <string name="description_hint_icon">Hint icon</string>
+    <string name="description_intervals_icon">Intervals icon</string>
+    <string name="description_timer_icon">Timer icon</string>
+    <string name="description_issue_icon">Issue icon</string>
+    <string name="description_infinite_playback_icon">Infinite playback icon</string>
 </resources>

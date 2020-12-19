@@ -4,25 +4,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="150dp"
-        tools:background="@drawable/background_popup_dark">
+        tools:background="@drawable/background_popup_dark"
+        tools:elevation="20dp"
+        tools:layout_gravity="center">
+
+    <ImageView
+            android:id="@+id/walkingModeIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/description_walking_mode_icon"
+            android:src="@drawable/ic_round_directions_walk_24_on_popup"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title"
+            tools:tint="@color/walking_mode_icon_on_popup" />
 
     <TextView
-            android:id="@+id/walkingModePopupTitleTextView"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:drawablePadding="8dp"
             android:text="@string/popup_title_walking_mode"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_round_directions_walk_24_on_popup"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:drawableTint="@color/walking_mode_icon_on_popup" />
+            app:layout_constraintStart_toEndOf="@+id/walkingModeIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <View
             android:id="@+id/divider"
@@ -34,18 +47,19 @@
             android:background="@color/divider_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/walkingModePopupTitleTextView" />
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
     <ImageButton
             android:id="@+id/walkingModeSettingsButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/ripple_light_borderless"
             android:contentDescription="@string/description_walking_mode_settings_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/walkingModeHelpButton"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:srcCompat="@drawable/ic_settings_white_24dp" />
@@ -67,7 +81,7 @@
             android:id="@+id/walkingModeSwitchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

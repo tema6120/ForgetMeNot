@@ -6,15 +6,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
@@ -24,9 +21,9 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
-import kotlinx.android.synthetic.main.popup_add_cards.view.*
 import kotlinx.android.synthetic.main.dialog_deck_name_input.view.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
+import kotlinx.android.synthetic.main.popup_add_cards.view.*
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
 
@@ -71,22 +68,7 @@ class AddDeckFragment : BaseFragment() {
                     controller?.dispatch(AddCardsHereButtonClicked)
                 }
             }
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        addCardsPopup = PopupWindow(context).apply {
-            width = content.measuredWidth
-            height = content.measuredHeight
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.background_popup_light
-                )
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromTopRightAnimation
-        }
+        addCardsPopup = LightPopupWindow(content)
     }
 
     private fun createDeckNameInputDialog() {
@@ -168,10 +150,7 @@ class AddDeckFragment : BaseFragment() {
 
     // it is called from parent fragment
     fun showAddCardsPopup(anchor: View) {
-        val anchorLocation = IntArray(2).also(anchor::getLocationOnScreen)
-        val x: Int = anchorLocation[0] + anchor.width - addCardsPopup!!.width
-        val y: Int = anchorLocation[1]
-        addCardsPopup?.showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, x, y)
+        addCardsPopup?.show(anchor)
     }
 
     private fun showFileChooser() {
@@ -230,6 +209,12 @@ class AddDeckFragment : BaseFragment() {
         if (::deckNameInputDialog.isInitialized && deckNameInputDialog.isShowing) {
             deckNameDialogEditText.showSoftInput()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        addCardsPopup?.dismiss()
+        addCardsPopup = null
     }
 
     override fun onDestroy() {

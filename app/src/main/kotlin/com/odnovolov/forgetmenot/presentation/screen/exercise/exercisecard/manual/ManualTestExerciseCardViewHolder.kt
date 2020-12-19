@@ -45,7 +45,7 @@ class ManualTestExerciseCardViewHolder(
             setBackgroundDrawable(null)
             isOutsideTouchable = true
             isFocusable = true
-            animationStyle = R.style.PopupFromTopAnimation
+            animationStyle = R.style.AnimationCardLabel
         }
     }
 

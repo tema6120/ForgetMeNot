@@ -1,22 +1,23 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.os.Bundle
-import android.view.*
-import android.view.View.MeasureSpec
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.LightPopupWindow
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.observe
+import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
@@ -63,21 +64,7 @@ class DeckListFragment : BaseFragment() {
                     controller?.dispatch(DecksAvailableForExerciseCheckboxClicked)
                 }
             }
-        filtersPopup = PopupWindow(context).apply {
-            width = 260.dp
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.background_popup_light
-                )
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromTopLeftAnimation
-        }
+        filtersPopup = LightPopupWindow(content)
     }
 
     private fun initSortingPopup() {
@@ -104,22 +91,7 @@ class DeckListFragment : BaseFragment() {
                     sortingDirectionButton.contentDescription
                 )
             }
-        content.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        sortingPopup = PopupWindow(context).apply {
-            width = content.measuredWidth
-            height = content.measuredHeight
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.background_popup_light
-                )
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromTopRightAnimation
-        }
+        sortingPopup = LightPopupWindow(content)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -150,10 +122,10 @@ class DeckListFragment : BaseFragment() {
         val setupHeader: (View) -> Unit = { header: View ->
             filterButton = header.filterButton
             header.filterButton.setOnClickListener {
-                showFiltersPopup(anchor = header.filterButton)
+                filtersPopup!!.show(anchor = header.filterButton)
             }
             header.sortingButton.setOnClickListener {
-                showSortingPopup(anchor = header.sortingButton)
+                sortingPopup!!.show(anchor = header.sortingButton)
             }
             viewModel.deckSorting.observe { deckSorting: DeckSorting ->
                 updateSortingButton(header.sortingButton, deckSorting)
@@ -162,20 +134,6 @@ class DeckListFragment : BaseFragment() {
         }
         deckPreviewAdapter = DeckPreviewAdapter(controller!!, setupHeader)
         decksPreviewRecycler.adapter = deckPreviewAdapter
-    }
-
-    private fun showFiltersPopup(anchor: View) {
-        val anchorLocation = IntArray(2).also(anchor::getLocationOnScreen)
-        val x: Int = anchorLocation[0]
-        val y: Int = anchorLocation[1]
-        filtersPopup!!.showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, x, y)
-    }
-
-    private fun showSortingPopup(anchor: View) {
-        val anchorLocation = IntArray(2).also(anchor::getLocationOnScreen)
-        val x: Int = anchorLocation[0] + anchor.width - sortingPopup!!.width
-        val y: Int = anchorLocation[1]
-        sortingPopup!!.showAtLocation(anchor.rootView, Gravity.NO_GRAVITY, x, y)
     }
 
     private fun updateSortingButton(
@@ -264,7 +222,9 @@ class DeckListFragment : BaseFragment() {
         super.onDestroyView()
         decksPreviewRecycler.adapter = null
         deckPreviewAdapter = null
+        filtersPopup?.dismiss()
         filtersPopup = null
+        sortingPopup?.dismiss()
         sortingPopup = null
         filterButton = null
     }

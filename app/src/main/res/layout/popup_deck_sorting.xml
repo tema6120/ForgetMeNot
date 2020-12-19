@@ -4,9 +4,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:background="@drawable/background_popup_light"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        tools:background="@drawable/background_popup_light"
+        tools:elevation="20dp"
+        tools:layout_gravity="center">
 
     <TextView
             android:id="@+id/title"
@@ -27,10 +29,10 @@
             android:id="@+id/closeButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="6dp"
             android:layout_gravity="center_vertical"
-            android:contentDescription="@string/description_close"
+            android:layout_marginEnd="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close_28" />
@@ -39,29 +41,29 @@
             android:id="@+id/sortByNameButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sortByNameTextView"
+            android:background="@drawable/ripple_rectangular_colored"
             app:layout_constraintBottom_toBottomOf="@+id/sortByNameTextView"
-            android:background="@drawable/ripple_rectangular_colored" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sortByNameTextView" />
 
     <TextView
             android:id="@+id/sortByNameTextView"
             style="@style/SortingItem"
             android:text="@string/deck_sorting_name"
-            tools:textColor="@color/item_selected"
             app:layout_constraintStart_toEndOf="@+id/sortingDirectionButton"
-            app:layout_constraintTop_toBottomOf="@+id/closeButton" />
+            app:layout_constraintTop_toBottomOf="@+id/closeButton"
+            tools:textColor="@color/text_primary_blue" />
 
     <View
             android:id="@+id/sortByTimeCreatedButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sortByTimeCreatedTextView"
+            android:background="@drawable/ripple_rectangular_colored"
             app:layout_constraintBottom_toBottomOf="@+id/sortByTimeCreatedTextView"
-            android:background="@drawable/ripple_rectangular_colored" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sortByTimeCreatedTextView" />
 
     <TextView
             android:id="@+id/sortByTimeCreatedTextView"
@@ -74,11 +76,11 @@
             android:id="@+id/sortByTimeLastTestedButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sortByTimeLastTestedTextView"
+            android:background="@drawable/ripple_rectangular_colored"
             app:layout_constraintBottom_toBottomOf="@+id/sortByTimeLastTestedTextView"
-            android:background="@drawable/ripple_rectangular_colored" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sortByTimeLastTestedTextView" />
 
     <TextView
             android:id="@+id/sortByTimeLastTestedTextView"
@@ -91,13 +93,13 @@
             android:id="@+id/sortingDirectionButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/description_change_sorting_direction"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:layout_constraintTop_toTopOf="@+id/sortByNameTextView"
+            android:clickable="true"
+            android:contentDescription="@string/description_change_sorting_direction"
+            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="@+id/sortByNameTextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_round_arrow_downward_24"/>
+            app:layout_constraintTop_toTopOf="@+id/sortByNameTextView"
+            app:srcCompat="@drawable/ic_round_arrow_downward_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

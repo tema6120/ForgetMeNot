@@ -1,12 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.MeasureSpec
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
@@ -56,18 +53,7 @@ class CardsEditorFragment : BaseFragment() {
         val content: View = View.inflate(context, R.layout.popup_intervals, null).apply {
             intervalsRecycler.adapter = intervalsAdapter
         }
-        return PopupWindow(context).apply {
-            width = WRAP_CONTENT
-            height = WRAP_CONTENT
-            contentView = content
-            setBackgroundDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_popup_dark)
-            )
-            elevation = 20f.dp
-            isOutsideTouchable = true
-            isFocusable = true
-            animationStyle = R.style.PopupFromBottomLeftAnimation
-        }
+        return DarkPopupWindow(content)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -198,15 +184,11 @@ class CardsEditorFragment : BaseFragment() {
 
     private fun showIntervalsPopup(intervalItems: List<IntervalItem>?) {
         with(intervalsPopup) {
-            contentView.intervalsPopupTitleTextView.isActivated = intervalItems != null
+            contentView.intervalsIcon.isActivated = intervalItems != null
             contentView.intervalsRecycler.isVisible = intervalItems != null
             contentView.intervalsAreOffTextView.isVisible = intervalItems == null
             intervalItems?.let { intervalsAdapter.intervalItems = it }
-            contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-            val gradeButtonLocation = IntArray(2).also(gradeButton::getLocationOnScreen)
-            val x = gradeButtonLocation[0] + 8.dp
-            val y = gradeButtonLocation[1] + gradeButton.height - 8.dp - contentView.measuredHeight
-            showAtLocation(gradeButton.rootView, Gravity.NO_GRAVITY, x, y)
+            show(anchor = gradeButton)
         }
     }
 

@@ -4,9 +4,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:background="@drawable/background_popup_light"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        tools:background="@drawable/background_popup_light"
+        tools:elevation="20dp"
+        tools:layout_gravity="center">
 
     <TextView
             android:id="@+id/title"
@@ -27,21 +29,21 @@
             android:id="@+id/closeButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="6dp"
             android:layout_gravity="center_vertical"
-            android:contentDescription="@string/description_close"
+            android:layout_marginEnd="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close_28" />
 
     <FrameLayout
             android:id="@+id/availableForExerciseButton"
-            app:layout_constraintTop_toBottomOf="@id/closeButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/closeButton">
 
         <CheckBox
                 android:id="@+id/availableForExerciseCheckBox"
@@ -51,11 +53,12 @@
                 android:layout_marginEnd="16dp"
                 android:clickable="false"
                 android:focusable="false"
-                android:padding="12dp"
                 android:fontFamily="@font/nunito_bold"
+                android:maxWidth="250dp"
+                android:padding="12dp"
+                android:text="@string/deck_filter_only_decks_available_for_exercise"
                 android:textColor="@color/textSecondary"
-                android:textSize="18sp"
-                android:text="@string/deck_filter_only_decks_available_for_exercise" />
+                android:textSize="18sp" />
 
     </FrameLayout>
 
