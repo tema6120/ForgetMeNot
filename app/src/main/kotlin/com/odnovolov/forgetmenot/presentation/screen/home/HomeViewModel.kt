@@ -8,9 +8,6 @@ import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -22,7 +19,7 @@ class HomeViewModel(
     controller: HomeController,
     searcherState: CardsSearcher.State
 ) {
-    private data class RawDeckPreview(
+    data class RawDeckPreview(
         val deckId: Long,
         val deckName: String,
         val createdAt: DateTime,
@@ -81,22 +78,8 @@ class HomeViewModel(
         rawDecksPreview,
         deckSorting
     ) { rawDecksPreview: List<RawDeckPreview>, deckSorting: DeckSorting ->
-        when (deckSorting.direction) {
-            Asc -> {
-                when (deckSorting.criterion) {
-                    Name -> rawDecksPreview.sortedBy { it.deckName }
-                    CreatedAt -> rawDecksPreview.sortedBy { it.createdAt }
-                    LastOpenedAt -> rawDecksPreview.sortedBy { it.lastTestedAt }
-                }
-            }
-            Desc -> {
-                when (deckSorting.criterion) {
-                    Name -> rawDecksPreview.sortedByDescending { it.deckName }
-                    CreatedAt -> rawDecksPreview.sortedByDescending { it.createdAt }
-                    LastOpenedAt -> rawDecksPreview.sortedByDescending { it.lastTestedAt }
-                }
-            }
-        }
+        val comparator = DeckPreviewComparator(deckSorting)
+        rawDecksPreview.sortedWith(comparator)
     }
         .share()
 
