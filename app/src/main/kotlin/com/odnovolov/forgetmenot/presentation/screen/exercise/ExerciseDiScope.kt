@@ -85,11 +85,9 @@ class ExerciseDiScope private constructor(
     )
 
     fun getExerciseCardAdapter(
-        coroutineScope: CoroutineScope,
-        knowingWhenPagerStopped: KnowingWhenPagerStopped
+        coroutineScope: CoroutineScope
     ) = ExerciseCardAdapter(
         coroutineScope,
-        knowingWhenPagerStopped,
         offTestExerciseCardController,
         manualTestExerciseCardController,
         quizTestExerciseCardController,

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
-import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
@@ -22,7 +22,6 @@ import kotlinx.coroutines.CoroutineScope
 
 class ExerciseCardAdapter(
     private val coroutineScope: CoroutineScope,
-    private val knowingWhenPagerStopped: KnowingWhenPagerStopped,
     private val offTestExerciseCardController: OffTestExerciseCardController,
     private val manualTestExerciseCardController: ManualTestExerciseCardController,
     private val quizTestExerciseCardController: QuizTestExerciseCardController,
@@ -46,39 +45,35 @@ class ExerciseCardAdapter(
     ): ExerciseCardViewHolder<ExerciseCard> {
         val layoutId: Int = viewType
         val layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        val itemView = AsyncFrameLayout(layoutParams, parent.context)
+        val itemView = AsyncCardFrame(layoutParams, parent.context)
         itemView.inflateAsync(layoutId)
         return when (layoutId) {
             R.layout.item_exercise_card_off_test -> {
                 OffTestExerciseCardViewHolder(
                     itemView,
                     coroutineScope,
-                    offTestExerciseCardController,
-                    knowingWhenPagerStopped
+                    offTestExerciseCardController
                 ) as ExerciseCardViewHolder<ExerciseCard>
             }
             R.layout.item_exercise_card_manual_test -> {
                 ManualTestExerciseCardViewHolder(
                     itemView,
                     coroutineScope,
-                    manualTestExerciseCardController,
-                    knowingWhenPagerStopped
+                    manualTestExerciseCardController
                 ) as ExerciseCardViewHolder<ExerciseCard>
             }
             R.layout.item_exercise_card_quiz_test -> {
                 QuizTestExerciseCardViewHolder(
                     itemView,
                     coroutineScope,
-                    quizTestExerciseCardController,
-                    knowingWhenPagerStopped
+                    quizTestExerciseCardController
                 ) as ExerciseCardViewHolder<ExerciseCard>
             }
             R.layout.item_exercise_card_entry_test -> {
                 EntryTestExerciseCardViewHolder(
                     itemView,
                     coroutineScope,
-                    entryTestExerciseCardController,
-                    knowingWhenPagerStopped
+                    entryTestExerciseCardController
                 ) as ExerciseCardViewHolder<ExerciseCard>
             }
             else -> throw AssertionError()

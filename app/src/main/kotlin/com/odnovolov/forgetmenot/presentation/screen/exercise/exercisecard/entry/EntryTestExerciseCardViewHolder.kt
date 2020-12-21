@@ -28,8 +28,7 @@ import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
-import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
-import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
@@ -40,10 +39,9 @@ import kotlinx.android.synthetic.main.popup_card_label_tip.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class EntryTestExerciseCardViewHolder(
-    private val asyncItemView: AsyncFrameLayout,
+    private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: EntryTestExerciseCardController,
-    private val knowingWhenPagerStopped: KnowingWhenPagerStopped
+    private val controller: EntryTestExerciseCardController
 ) : ExerciseCardViewHolder<EntryTestExerciseCard>(
     asyncItemView
 ) {
@@ -57,35 +55,45 @@ class EntryTestExerciseCardViewHolder(
         }
     }
 
-    private val qTextView = TextView(itemView.context).apply {
-        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        setPadding(16.dp)
-        textSize = 20f
+    private val qTextView by lazy {
+        TextView(itemView.context).apply {
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            setPadding(16.dp)
+            textSize = 20f
+        }
     }
 
-    private val hTextView = TextView(itemView.context).apply {
-        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        setPadding(16.dp)
-        textSize = 18f
+    private val hTextView by lazy {
+        TextView(itemView.context).apply {
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            setPadding(16.dp)
+            textSize = 18f
+        }
     }
 
-    private val wroTextView = TextView(itemView.context).apply {
-        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        setPadding(16.dp)
-        textSize = 18f
+    private val wroTextView by lazy {
+        TextView(itemView.context).apply {
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            setPadding(16.dp)
+            textSize = 18f
+        }
     }
 
-    private val corTextView = TextView(itemView.context).apply {
-        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        setPadding(16.dp)
-        textSize = 18f
+    private val corTextView by lazy {
+        TextView(itemView.context).apply {
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            setPadding(16.dp)
+            textSize = 18f
+        }
     }
 
-    private val aColumn = LinearLayout(itemView.context).apply {
-        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        orientation = VERTICAL
-        addView(wroTextView)
-        addView(corTextView)
+    private val aColumn by lazy {
+        LinearLayout(itemView.context).apply {
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            orientation = VERTICAL
+            addView(wroTextView)
+            addView(corTextView)
+        }
     }
 
     private var cardContent: CardContent? = null
@@ -96,20 +104,22 @@ class EntryTestExerciseCardViewHolder(
 
     private var cardSize: Size? = null
         set(value) {
-            if (field != value) {
-                field = value
-                itemView.post { updateCardContent() }
+            itemView.post {
+                if (field != value) {
+                    field = value
+                    updateCardContent()
+                }
             }
         }
 
+    private var needToResetRippleOnScrolling = true
+
     init {
-        asyncItemView.invokeWhenInflated {
+        asyncItemView.invokeWhenFrameCloseToScreen {
             cardView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
                 cardSize = Size(cardView.width, cardView.height)
             }
-            knowingWhenPagerStopped.invokeWhenPagerStopped {
-                setupView()
-            }
+            setupView()
         }
     }
 
@@ -160,6 +170,15 @@ class EntryTestExerciseCardViewHolder(
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             asyncItemView.viewTreeObserver.addOnScrollChangedListener {
+                if (asyncItemView.x == 0f) {
+                    needToResetRippleOnScrolling = true
+                } else {
+                    if (needToResetRippleOnScrolling) {
+                        needToResetRippleOnScrolling = false
+                        showQuestionButton.jumpDrawablesToCurrentState()
+                        checkButton.jumpDrawablesToCurrentState()
+                    }
+                }
                 checkButton.translationX = asyncItemView.x / 3
             }
         }
@@ -168,12 +187,10 @@ class EntryTestExerciseCardViewHolder(
     private var viewModel: EntryTestExerciseCardViewModel? = null
 
     override fun bind(exerciseCard: EntryTestExerciseCard) {
-        asyncItemView.invokeWhenInflated {
+        asyncItemView.invokeWhenFrameCloseToScreen {
             if (viewModel == null) {
-                knowingWhenPagerStopped.invokeWhenPagerStopped {
-                    viewModel = EntryTestExerciseCardViewModel(exerciseCard)
-                    observeViewModel()
-                }
+                viewModel = EntryTestExerciseCardViewModel(exerciseCard)
+                observeViewModel()
             } else {
                 questionScrollView.scrollTo(0, 0)
                 answerInputScrollView.scrollTo(0, 0)
@@ -374,7 +391,7 @@ class EntryTestExerciseCardViewHolder(
     }
 
     fun onPageSelected() {
-        asyncItemView.invokeWhenInflated {
+        asyncItemView.invokeWhenFrameCloseToScreen {
             if (answerEditText.isEnabled
                 && resources.configuration.orientation == ORIENTATION_PORTRAIT
             ) {

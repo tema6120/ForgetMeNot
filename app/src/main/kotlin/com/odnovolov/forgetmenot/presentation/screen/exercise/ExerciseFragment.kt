@@ -69,7 +69,6 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var keyEventInterceptor: (KeyEvent) -> Boolean
     private lateinit var volumeUpGestureDetector: KeyGestureDetector
     private lateinit var volumeDownGestureDetector: KeyGestureDetector
-    private var knowingWhenPagerStopped: KnowingWhenPagerStopped? = null
     private var timerButtonPaintingAnimation: ValueAnimator? = null
 
     override fun onCreateView(
@@ -87,8 +86,7 @@ class ExerciseFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = ExerciseDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            exerciseViewPager.adapter =
-                diScope.getExerciseCardAdapter(viewCoroutineScope!!, knowingWhenPagerStopped!!)
+            exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!)
             viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
@@ -104,7 +102,6 @@ class ExerciseFragment : BaseFragment() {
 
     private fun setupView() {
         exerciseViewPager.offscreenPageLimit = 1
-        knowingWhenPagerStopped = KnowingWhenPagerStopped()
         exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
             setOnClickListener { requireIntervalsPopup().show(anchor = gradeButton) }
@@ -699,7 +696,6 @@ class ExerciseFragment : BaseFragment() {
         hintsPopup = null
         walkingModePopup?.dismiss()
         walkingModePopup = null
-        knowingWhenPagerStopped = null
     }
 
     override fun onDestroy() {
@@ -718,11 +714,6 @@ class ExerciseFragment : BaseFragment() {
             if (currentViewHolder is EntryTestExerciseCardViewHolder) {
                 currentViewHolder.onPageSelected()
             }
-        }
-
-        override fun onPageScrollStateChanged(state: Int) {
-            super.onPageScrollStateChanged(state)
-            knowingWhenPagerStopped?.updateState(state)
         }
     }
 

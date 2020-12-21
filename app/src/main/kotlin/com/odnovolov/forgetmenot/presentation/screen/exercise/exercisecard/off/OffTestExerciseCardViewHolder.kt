@@ -21,26 +21,24 @@ import androidx.core.view.setPadding
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.OffTestExerciseCard
-import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardEvent.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.popup_card_label_tip.view.*
 import kotlinx.coroutines.CoroutineScope
 
 class OffTestExerciseCardViewHolder(
-    private val asyncItemView: AsyncFrameLayout,
+    private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: OffTestExerciseCardController,
-    private val knowingWhenPagerStopped: KnowingWhenPagerStopped
+    private val controller: OffTestExerciseCardController
 ) : ExerciseCardViewHolder<OffTestExerciseCard>(
     asyncItemView
 ) {
@@ -54,16 +52,20 @@ class OffTestExerciseCardViewHolder(
         }
     }
 
-    private val qTextView = TextView(itemView.context).apply {
-        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        setPadding(16.dp)
-        textSize = 20f
+    private val qTextView by lazy {
+        TextView(itemView.context).apply {
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            setPadding(16.dp)
+            textSize = 20f
+        }
     }
 
-    private val aTextView = TextView(itemView.context).apply {
-        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        setPadding(16.dp)
-        textSize = 18f
+    private val aTextView by lazy {
+        TextView(itemView.context).apply {
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            setPadding(16.dp)
+            textSize = 18f
+        }
     }
 
     private var cardContent: CardContent? = null
@@ -74,20 +76,22 @@ class OffTestExerciseCardViewHolder(
 
     private var cardSize: Size? = null
         set(value) {
-            if (field != value) {
-                field = value
-                itemView.post { updateCardContent() }
+            itemView.post {
+                if (field != value) {
+                    field = value
+                    updateCardContent()
+                }
             }
         }
 
+    private var needToResetRippleOnScrolling = true
+
     init {
-        asyncItemView.invokeWhenInflated {
+        asyncItemView.invokeWhenFrameCloseToScreen {
             cardView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
                 cardSize = Size(cardView.width, cardView.height)
             }
-            knowingWhenPagerStopped.invokeWhenPagerStopped {
-                setupView()
-            }
+            setupView()
         }
     }
 
@@ -122,18 +126,27 @@ class OffTestExerciseCardViewHolder(
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
+            asyncItemView.viewTreeObserver.addOnScrollChangedListener {
+                if (asyncItemView.x == 0f) {
+                    needToResetRippleOnScrolling = true
+                } else {
+                    if (needToResetRippleOnScrolling) {
+                        needToResetRippleOnScrolling = false
+                        showQuestionButton.jumpDrawablesToCurrentState()
+                        showAnswerButton.jumpDrawablesToCurrentState()
+                    }
+                }
+            }
         }
     }
 
     private var viewModel: OffTestExerciseCardViewModel? = null
 
     override fun bind(exerciseCard: OffTestExerciseCard) {
-        asyncItemView.invokeWhenInflated {
+        asyncItemView.invokeWhenFrameCloseToScreen {
             if (viewModel == null) {
-                knowingWhenPagerStopped.invokeWhenPagerStopped {
-                    viewModel = OffTestExerciseCardViewModel(exerciseCard)
-                    observeViewModel()
-                }
+                viewModel = OffTestExerciseCardViewModel(exerciseCard)
+                observeViewModel()
             } else {
                 questionScrollView.scrollTo(0, 0)
                 hintScrollView.scrollTo(0, 0)

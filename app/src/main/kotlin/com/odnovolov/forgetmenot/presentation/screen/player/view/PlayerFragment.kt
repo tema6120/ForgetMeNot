@@ -20,7 +20,6 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakErro
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
-import com.odnovolov.forgetmenot.presentation.screen.exercise.KnowingWhenPagerStopped
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerService
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
@@ -50,7 +49,6 @@ class PlayerFragment : BaseFragment() {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
     private var infinitePlaybackPopup: PopupWindow? = null
-    private var knowingWhenPagerStopped: KnowingWhenPagerStopped? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,7 +67,6 @@ class PlayerFragment : BaseFragment() {
             viewModel = diScope.viewModel
             playerViewPager.adapter = PlayingCardAdapter(
                 viewCoroutineScope!!,
-                knowingWhenPagerStopped!!,
                 diScope.playingCardController
             )
             observeViewModel()
@@ -79,7 +76,6 @@ class PlayerFragment : BaseFragment() {
 
     private fun setupView() {
         playerViewPager.offscreenPageLimit = 1
-        knowingWhenPagerStopped = KnowingWhenPagerStopped()
         playerViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
             setOnClickListener {
@@ -412,7 +408,6 @@ class PlayerFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         playerViewPager.adapter = null
-        knowingWhenPagerStopped = null
         playerViewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         intervalsPopup?.dismiss()
         intervalsPopup = null
@@ -436,11 +431,6 @@ class PlayerFragment : BaseFragment() {
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             controller?.dispatch(NewPageBecameSelected(position))
-        }
-
-        override fun onPageScrollStateChanged(state: Int) {
-            super.onPageScrollStateChanged(state)
-            knowingWhenPagerStopped?.updateState(state)
         }
     }
 
