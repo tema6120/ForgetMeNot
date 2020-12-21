@@ -164,11 +164,8 @@ class PlayingCardViewHolder(
                 }
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
                     cardLabelTextView.isEnabled = isLearned
-                    val isEnabled = !isLearned
-                    showQuestionButton.isEnabled = isEnabled
-                    questionTextView.isEnabled = isEnabled
-                    showAnswerButton.isEnabled = isEnabled
-                    answerTextView.isEnabled = isEnabled
+                    questionTextView.isActivated = !isLearned
+                    answerTextView.isActivated = !isLearned
                 }
             }
         }
