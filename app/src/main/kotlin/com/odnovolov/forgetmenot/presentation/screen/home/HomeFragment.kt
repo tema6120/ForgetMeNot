@@ -525,6 +525,7 @@ class HomeFragment : BaseFragment() {
         homePager.adapter = null
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
+        updateStatusBarColor(isSelectionMode = false)
     }
 
     override fun onDestroy() {

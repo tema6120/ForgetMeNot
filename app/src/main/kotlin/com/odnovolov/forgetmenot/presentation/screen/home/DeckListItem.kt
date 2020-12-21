@@ -11,7 +11,7 @@ sealed class DeckListItem {
         val learnedCount: Int,
         val totalCount: Int,
         val numberOfCardsReadyForExercise: Int?,
-        val lastOpenedAt: String
+        val lastTestedAt: String?
     ) : DeckListItem()
 
     object Footer : DeckListItem()

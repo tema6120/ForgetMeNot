@@ -138,16 +138,40 @@
                         android:textStyle="bold"
                         tools:text="24" />
 
-                <TextView
-                        android:id="@+id/lastTestedValueTextView"
+                <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        tools:text="Nov 2" />
+                        android:layout_height="match_parent">
+
+                    <TextView
+                            android:id="@+id/lastTestedValueTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            tools:text="Nov 2"
+                            tools:visibility="gone" />
+
+                    <TextView
+                            android:id="@+id/newDeckLabelTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|bottom"
+                            android:background="@drawable/background_new_deck"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:text="@string/label_new_deck"
+                            android:textColor="@android:color/white"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+
+                </FrameLayout>
 
             </TableRow>
 

@@ -112,7 +112,12 @@ class DeckPreviewAdapter(
             taskValueTextView.setTextColor(
                 getTaskColor(deckPreview.numberOfCardsReadyForExercise, context)
             )
-            lastTestedValueTextView.text = deckPreview.lastOpenedAt
+            val isDeckNew = deckPreview.lastTestedAt == null
+            lastTestedValueTextView.isVisible = !isDeckNew
+            newDeckLabelTextView.isVisible = isDeckNew
+            if (!isDeckNew) {
+                lastTestedValueTextView.text = deckPreview.lastTestedAt
+            }
             updateDeckItemSelectionState(itemView = this, deckPreview.deckId)
         }
     }

@@ -650,4 +650,5 @@
     <string name="description_timer_icon">Timer icon</string>
     <string name="description_issue_icon">Issue icon</string>
     <string name="description_infinite_playback_icon">Infinite playback icon</string>
+    <string name="label_new_deck">NEW</string>
 </resources>

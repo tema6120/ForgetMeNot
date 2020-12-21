@@ -30,7 +30,7 @@ class HomeViewModel(
         val learnedCount: Int,
         val totalCount: Int,
         val numberOfCardsReadyForExercise: Int?,
-        val lastOpenedAt: DateTime?
+        val lastTestedAt: DateTime?
     ) {
         fun toDeckPreview(searchMatchingRanges: List<IntRange>?) = DeckPreview(
             deckId,
@@ -40,7 +40,7 @@ class HomeViewModel(
             learnedCount,
             totalCount,
             numberOfCardsReadyForExercise,
-            lastOpenedAt?.format("MMM d") ?: "-"
+            lastTestedAt?.format("MMM d")
         )
     }
 
@@ -68,7 +68,7 @@ class HomeViewModel(
                     learnedCount = learnedCount,
                     totalCount = deck.cards.size,
                     numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
-                    lastOpenedAt = deck.lastOpenedAt
+                    lastTestedAt = deck.lastOpenedAt
                 )
             }
         }
@@ -86,14 +86,14 @@ class HomeViewModel(
                 when (deckSorting.criterion) {
                     Name -> rawDecksPreview.sortedBy { it.deckName }
                     CreatedAt -> rawDecksPreview.sortedBy { it.createdAt }
-                    LastOpenedAt -> rawDecksPreview.sortedBy { it.lastOpenedAt }
+                    LastOpenedAt -> rawDecksPreview.sortedBy { it.lastTestedAt }
                 }
             }
             Desc -> {
                 when (deckSorting.criterion) {
                     Name -> rawDecksPreview.sortedByDescending { it.deckName }
                     CreatedAt -> rawDecksPreview.sortedByDescending { it.createdAt }
-                    LastOpenedAt -> rawDecksPreview.sortedByDescending { it.lastOpenedAt }
+                    LastOpenedAt -> rawDecksPreview.sortedByDescending { it.lastTestedAt }
                 }
             }
         }
