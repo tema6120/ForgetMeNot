@@ -8,11 +8,9 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.widget.TooltipCompat
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.LightPopupWindow
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -40,7 +38,7 @@ class DeckListFragment : BaseFragment() {
     private var filtersPopup: PopupWindow? = null
     private var sortingPopup: PopupWindow? = null
     private var resumePauseCoroutineScope: CoroutineScope? = null
-    var scrollListener: ((dy: Int) -> Unit)? = null
+    lateinit var scrollListener: RecyclerView.OnScrollListener
     private var filterButton: View? = null
     private var needToShowFiltersPopup = false
     private var needToShowSortingPopup = false
@@ -55,7 +53,6 @@ class DeckListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
         viewCoroutineScope!!.launch {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             controller = diScope.controller
@@ -63,18 +60,6 @@ class DeckListFragment : BaseFragment() {
             initDeckPreviewAdapter()
             observeViewModel()
         }
-    }
-
-    private fun setupView() {
-        decksPreviewRecycler.addOnScrollListener(object : OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val canScrollUp = decksPreviewRecycler.canScrollVertically(-1)
-                if (divider.isInvisible == canScrollUp) {
-                    divider.isInvisible = !canScrollUp
-                }
-                scrollListener?.invoke(dy)
-            }
-        })
     }
 
     private fun initDeckPreviewAdapter() {
@@ -228,12 +213,15 @@ class DeckListFragment : BaseFragment() {
                 }
             }
         }
+        decksPreviewRecycler.addOnScrollListener(scrollListener)
+        scrollListener.onScrolled(decksPreviewRecycler, 0, 0)
     }
 
     override fun onPause() {
         super.onPause()
         resumePauseCoroutineScope!!.cancel()
         resumePauseCoroutineScope = null
+        decksPreviewRecycler.removeOnScrollListener(scrollListener)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

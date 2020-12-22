@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -22,6 +21,7 @@ class FoundCardsFragment : BaseFragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
+    lateinit var scrollListener: RecyclerView.OnScrollListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,19 +47,13 @@ class FoundCardsFragment : BaseFragment() {
             controller?.dispatch(FoundCardClicked(searchCard))
         }
         cardsRecycler.adapter = FoundCardAdapter(onCardClicked)
-        cardsRecycler.addOnScrollListener(object : OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val canScrollUp = cardsRecycler.canScrollVertically(-1)
-                divider.isVisible = canScrollUp
-            }
-        })
     }
 
     private fun observeViewModel() {
         with(viewModel) {
             areCardsBeingSearched.observe { isSearching: Boolean ->
                 cardsRecycler.isInvisible = isSearching
-                searchingCardsProgressBar.isInvisible = !isSearching
+                searchingCardsProgressBar.isVisible = isSearching
             }
             foundCards.observe { cards: List<SearchCard> ->
                 (cardsRecycler.adapter as FoundCardAdapter).items = cards
@@ -68,6 +62,17 @@ class FoundCardsFragment : BaseFragment() {
                 emptyTextView.isVisible = cardsNotFound
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cardsRecycler.addOnScrollListener(scrollListener)
+        scrollListener.onScrolled(cardsRecycler, 0, 0)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        cardsRecycler.removeOnScrollListener(scrollListener)
     }
 
     override fun onDestroyView() {

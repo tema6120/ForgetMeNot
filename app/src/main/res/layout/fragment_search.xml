@@ -25,7 +25,7 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/ripple_borderless_colored"
                 android:contentDescription="@string/description_back_button"
-                app:srcCompat="@drawable/ic_arrow_back_colored" />
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24_colored" />
 
         <EditText
                 android:id="@+id/searchEditText"

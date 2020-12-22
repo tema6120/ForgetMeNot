@@ -17,9 +17,12 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.snackbar.Snackbar
@@ -54,6 +57,7 @@ class HomeFragment : BaseFragment() {
     private var isSearchingAfterPasteButtonClicked: Boolean = false
     private var appbarLayoutOffset: Int = 0
     private var backPressInterceptor: MainActivity.BackPressInterceptor? = null
+    private var isAntiJumpingViewActivated = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -161,6 +165,11 @@ class HomeFragment : BaseFragment() {
         }.apply {
             attach()
         }
+        homePager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                appBarElevationManager.viewPagerPosition = position
+            }
+        })
     }
 
     private fun observeViewModel() {
@@ -265,22 +274,10 @@ class HomeFragment : BaseFragment() {
             antiJumpingView.updateLayoutParams {
                 height = gap
             }
-            val deckListFragment =
-                childFragmentManager.findFragmentByTag("f0") as DeckListFragment
-            deckListFragment.scrollListener = { dy: Int ->
-                antiJumpingView.updateLayoutParams {
-                    height -= abs(dy)
-                }
-                if (antiJumpingView.height <= 0) {
-                    antiJumpingView.isVisible = false
-                    deckListFragment.scrollListener = null
-                }
-            }
+            isAntiJumpingViewActivated = true
         } else if (selectionToolbar.isVisible && deckSelection == null) {
             antiJumpingView.isVisible = false
-            val deckListFragment =
-                childFragmentManager.findFragmentByTag("f0") as DeckListFragment
-            deckListFragment.scrollListener = null
+            isAntiJumpingViewActivated = false
         }
     }
 
@@ -391,6 +388,37 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+        when (childFragment) {
+            is DeckListFragment -> {
+                childFragment.scrollListener = object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        appBarElevationManager.canDeckListScrollUp =
+                            recyclerView.canScrollVertically(-1)
+                        if (isAntiJumpingViewActivated) {
+                            antiJumpingView.updateLayoutParams {
+                                height -= abs(dy) / 2
+                            }
+                            if (antiJumpingView.height <= 0) {
+                                antiJumpingView.isVisible = false
+                                isAntiJumpingViewActivated = false
+                            }
+                        }
+                    }
+                }
+            }
+            is FoundCardsFragment -> {
+                childFragment.scrollListener = object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        appBarElevationManager.canCardListScrollUp =
+                            recyclerView.canScrollVertically(-1)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         backPressInterceptor = object : MainActivity.BackPressInterceptor {
@@ -496,7 +524,7 @@ class HomeFragment : BaseFragment() {
         with(drawerButton) {
             setImageResource(
                 if (isSearchMode)
-                    R.drawable.ic_arrow_back_colored else
+                    R.drawable.ic_round_keyboard_backspace_24_colored else
                     R.drawable.ic_drawer_colored
             )
             setOnClickListener {
@@ -537,5 +565,36 @@ class HomeFragment : BaseFragment() {
 
     companion object {
         const val CREATE_FILE_REQUEST_CODE = 40
+    }
+
+    private val appBarElevationManager = object {
+        var viewPagerPosition = 0
+            set(value) {
+                if (field != value) {
+                    field = value
+                    updateAppBarElevation()
+                }
+            }
+
+        var canDeckListScrollUp = false
+            set(value) {
+                if (field != value) {
+                    field = value
+                    updateAppBarElevation()
+                }
+            }
+
+        var canCardListScrollUp = false
+            set(value) {
+                if (field != value) {
+                    field = value
+                    updateAppBarElevation()
+                }
+            }
+
+        private fun updateAppBarElevation() {
+            appBarLayout.isActivated = viewPagerPosition == 0 && canDeckListScrollUp ||
+                    viewPagerPosition == 1 && canCardListScrollUp
+        }
     }
 }

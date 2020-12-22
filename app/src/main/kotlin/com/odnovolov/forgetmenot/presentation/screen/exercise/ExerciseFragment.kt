@@ -378,8 +378,8 @@ class ExerciseFragment : BaseFragment() {
         if (intervalsPopup == null) {
             val content: View = View.inflate(context, R.layout.popup_intervals, null)
             val onItemClick: (Int) -> Unit = { grade: Int ->
-                controller?.dispatch(GradeWasChanged(grade))
                 intervalsPopup?.dismiss()
+                controller?.dispatch(GradeWasChanged(grade))
             }
             intervalsAdapter = IntervalsAdapter(onItemClick)
             content.intervalsRecycler.adapter = intervalsAdapter
@@ -543,12 +543,12 @@ class ExerciseFragment : BaseFragment() {
         if (hintsPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_hints, null).apply {
                 getVariantsButton.setOnClickListener {
-                    controller?.dispatch(GetVariantsButtonClicked)
                     hintsPopup?.dismiss()
+                    controller?.dispatch(GetVariantsButtonClicked)
                 }
                 maskLettersButton.setOnClickListener {
-                    controller?.dispatch(MaskLettersButtonClicked)
                     hintsPopup?.dismiss()
+                    controller?.dispatch(MaskLettersButtonClicked)
                 }
             }
             hintsPopup = DarkPopupWindow(content)
