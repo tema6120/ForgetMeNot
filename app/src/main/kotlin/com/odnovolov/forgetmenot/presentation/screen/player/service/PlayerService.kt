@@ -73,7 +73,7 @@ class PlayerService : BaseService() {
     override fun onDestroy() {
         super.onDestroy()
         PlayerDiScope.isServiceAlive = false
-        wakeLock?.release()
+        wakeLock?.run { if (isHeld) release() }
     }
 
     companion object {

@@ -7,6 +7,17 @@
         android:fitsSystemWindows="true"
         app:layoutDescription="@xml/scene_card_filter_for_autoplay">
 
+    <View
+            android:id="@+id/appBarSurface"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/background_window"
+            app:layout_constraintBottom_toBottomOf="@id/matchingCardsLabelTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:elevation="4dp" />
+
     <ImageButton
             android:id="@+id/backButton"
             android:layout_width="48dp"
@@ -14,6 +25,7 @@
             android:layout_marginStart="12dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/description_back_button"
+            android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/screenTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/screenTitle"
@@ -23,6 +35,7 @@
             android:id="@+id/screenTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="4dp"
             android:fontFamily="@font/jura"
             android:padding="16dp"
             android:text="@string/title_card_filter_for_autoplay"
@@ -38,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
+            android:elevation="4dp"
             android:fontFamily="@font/nunito_extrabold"
             android:maxLines="1"
             android:scaleX="3"
@@ -56,6 +70,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="48dp"
+            android:elevation="4dp"
             android:fontFamily="@font/nunito_bold"
             android:gravity="center"
             android:textColor="@color/text_description_blue"
@@ -65,16 +80,13 @@
             app:layout_constraintTop_toBottomOf="@+id/matchingCardsNumberTextView"
             tools:text="cards match the filter" />
 
-    <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="54dp"
-            android:background="@color/edge"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/matchingCardsLabelTextView" />
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="54dp"
+            app:constraint_referenced_ids="backButton, screenTitle,matchingCardsNumberTextView, matchingCardsLabelTextView" />
 
     <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -85,7 +97,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider">
+            app:layout_constraintTop_toBottomOf="@+id/barrier">
 
         <LinearLayout
                 android:layout_width="match_parent"
