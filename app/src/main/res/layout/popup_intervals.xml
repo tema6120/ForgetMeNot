@@ -4,7 +4,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="20dp"
-        android:minWidth="150dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         tools:background="@drawable/background_popup_dark"
@@ -69,13 +68,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintWidth_max="200dp"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/intervalsRecycler"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            app:layout_constraintWidth_min="175dp"
             app:layoutManager="LinearLayoutManager"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -83,6 +83,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
             tools:listitem="@layout/item_grade"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

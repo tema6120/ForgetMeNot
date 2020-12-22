@@ -1,7 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.player.service
 
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import android.os.PowerManager
 import com.odnovolov.forgetmenot.presentation.common.base.BaseService
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceEvent.PauseNotificationActionClicked
@@ -14,6 +16,7 @@ class PlayerService : BaseService() {
     }
 
     private lateinit var notificationBuilder: NotificationBuilder
+    private var wakeLock: PowerManager.WakeLock? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -30,14 +33,25 @@ class PlayerService : BaseService() {
                 notificationBuilder.contextText = question
                 notificationBuilder.update()
             }
-            isPlaying.observe { isPlaying ->
+            isPlaying.observe { isPlaying: Boolean ->
                 notificationBuilder.isPlaying = isPlaying
                 if (isPlaying) {
+                    val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+                    wakeLock = pm.newWakeLock(
+                        PowerManager.PARTIAL_WAKE_LOCK,
+                        javaClass.canonicalName
+                    )
+                    wakeLock!!.acquire()
                     startForeground(NOTIFICATION_ID, notificationBuilder.build())
                 } else {
                     notificationBuilder.update()
                     stopForeground(/*removeNotification = */false)
+                    wakeLock?.release()
                 }
+            }
+            isCompleted.observe { isCompleted: Boolean ->
+                notificationBuilder.isCompleted = isCompleted
+                notificationBuilder.update()
             }
         }
     }
@@ -59,6 +73,7 @@ class PlayerService : BaseService() {
     override fun onDestroy() {
         super.onDestroy()
         PlayerDiScope.isServiceAlive = false
+        wakeLock?.release()
     }
 
     companion object {

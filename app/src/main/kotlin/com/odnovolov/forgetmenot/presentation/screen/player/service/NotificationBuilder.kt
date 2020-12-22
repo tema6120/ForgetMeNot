@@ -14,6 +14,7 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 class NotificationBuilder(private val context: Context) {
     var contextText: CharSequence? = null
     var isPlaying: Boolean = true
+    var isCompleted: Boolean = false
 
     fun build(): Notification {
         return NotificationCompat.Builder(context, PlayerService.CHANNEL_ID)
@@ -29,6 +30,7 @@ class NotificationBuilder(private val context: Context) {
     fun update() {
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         fun notify() = notificationManager.notify(PlayerService.NOTIFICATION_ID, build())
 
         if (VERSION.SDK_INT >= VERSION_CODES.M) {
@@ -67,9 +69,14 @@ class NotificationBuilder(private val context: Context) {
             action = PlayerService.ACTION_RESUME
         }
         val pendingIntent = PendingIntent.getService(context, 0, intent, 0)
+        val actionTitle = context.getString(
+            if (isCompleted)
+                R.string.play_one_more_lap_in_notification else
+                R.string.resume_in_notification
+        )
         return NotificationCompat.Action.Builder(
             R.drawable.ic_play_28,
-            context.getString(R.string.resume_in_notification),
+            actionTitle,
             pendingIntent
         ).build()
     }

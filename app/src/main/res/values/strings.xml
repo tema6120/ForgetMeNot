@@ -137,6 +137,7 @@
     <string name="player_notification_title">Card player</string>
     <string name="pause_in_notification">Pause</string>
     <string name="resume_in_notification">Resume</string>
+    <string name="play_one_more_lap_in_notification">Play one more lap</string>
     <string name="title_filtration_section">Filtration</string>
     <string name="title_card_filter_state">State</string>
     <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>

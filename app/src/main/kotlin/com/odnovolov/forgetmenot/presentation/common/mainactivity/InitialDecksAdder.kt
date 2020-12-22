@@ -33,13 +33,13 @@ class InitialDecksAdder(
 
     private val fileNames: List<String> by lazy {
         listOf(
-            "English irregular verbs. Level 1.txt",
-            "English irregular verbs. Level 2.txt",
-            "English irregular verbs. Level 3.txt",
-            "English irregular verbs. Level 4.txt",
-            "English irregular verbs. Level 5.txt",
-            "English irregular verbs. Level 6.txt",
             "English irregular verbs. Level 7.txt",
+            "English irregular verbs. Level 6.txt",
+            "English irregular verbs. Level 5.txt",
+            "English irregular verbs. Level 4.txt",
+            "English irregular verbs. Level 3.txt",
+            "English irregular verbs. Level 2.txt",
+            "English irregular verbs. Level 1.txt"
         )
     }
 

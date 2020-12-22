@@ -20,4 +20,6 @@ class PlayerServiceModel(
         }
 
     val isPlaying: Flow<Boolean> = playerState.flowOf(Player.State::isPlaying)
+
+    val isCompleted: Flow<Boolean> = playerState.flowOf(Player.State::isCompleted)
 }
