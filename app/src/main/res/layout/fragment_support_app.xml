@@ -1,173 +1,186 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@color/background_window"
+            android:orientation="horizontal"
+            android:stateListAnimator="@animator/app_bar">
 
-        <FrameLayout
+        <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="12dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_back_button"
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+        <TextView
+                android:id="@+id/screenTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/jura"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/title_support_app_screen"
+                android:textColor="@color/text_title"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <ScrollView
+            android:id="@+id/contentScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <ImageButton
-                    android:id="@+id/backButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/background_white_button"
-                    android:contentDescription="@string/description_back_button"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_arrow_back_colored" />
+            <LinearLayout style="@style/SupportAppItem">
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/nunito_extrabold"
-                    android:text="@string/title_support_app_screen"
-                    android:textColor="@color/text_primary_blue"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                <TextView
+                        style="@style/CTA"
+                        android:text="@string/cta_rate_the_app_on_google_play" />
 
-        </FrameLayout>
+                <TextView
+                        style="@style/CTA_Description"
+                        android:text="@string/cta_rate_the_app_on_google_play_description" />
 
-        <LinearLayout style="@style/SupportAppItem">
+                <TextView
+                        android:id="@+id/rateUsButton"
+                        style="@style/SupportAppButton"
+                        android:text="@string/text_rate_us_button" />
 
-            <TextView
-                    style="@style/CTA"
-                    android:text="@string/cta_rate_the_app_on_google_play" />
+            </LinearLayout>
 
-            <TextView
-                    style="@style/CTA_Description"
-                    android:text="@string/cta_rate_the_app_on_google_play_description" />
+            <LinearLayout style="@style/SupportAppItem">
 
-            <TextView
-                    android:id="@+id/rateUsButton"
-                    style="@style/SupportAppButton"
-                    android:text="@string/text_rate_us_button" />
+                <TextView
+                        style="@style/CTA"
+                        android:text="@string/cta_give_us_feedback" />
 
-        </LinearLayout>
+                <TextView
+                        style="@style/CTA_Description"
+                        android:text="@string/cta_give_us_feedback_description" />
 
-        <LinearLayout style="@style/SupportAppItem">
+                <TextView
+                        android:id="@+id/writeReviewOnGooglePlayButton"
+                        style="@style/SupportAppButton"
+                        android:text="@string/text_write_review_on_google_play_button" />
 
-            <TextView
-                    style="@style/CTA"
-                    android:text="@string/cta_give_us_feedback" />
+                <TextView
+                        android:id="@+id/submitNewIssueOnGithubButton"
+                        style="@style/SupportAppButton"
+                        android:text="@string/text_submit_new_issue_on_github_button" />
 
-            <TextView
-                    style="@style/CTA_Description"
-                    android:text="@string/cta_give_us_feedback_description" />
+                <TextView
+                        android:id="@+id/sendEmailToAuthorButton"
+                        style="@style/SupportAppButton"
+                        android:text="@string/text_send_email_to_author_button" />
 
-            <TextView
-                    android:id="@+id/writeReviewOnGooglePlayButton"
-                    style="@style/SupportAppButton"
-                    android:text="@string/text_write_review_on_google_play_button" />
+            </LinearLayout>
 
-            <TextView
-                    android:id="@+id/submitNewIssueOnGithubButton"
-                    style="@style/SupportAppButton"
-                    android:text="@string/text_submit_new_issue_on_github_button" />
+            <LinearLayout style="@style/SupportAppItem">
 
-            <TextView
-                    android:id="@+id/sendEmailToAuthorButton"
-                    style="@style/SupportAppButton"
-                    android:text="@string/text_send_email_to_author_button" />
+                <TextView
+                        style="@style/CTA"
+                        android:text="@string/cta_help_us_with_translation" />
 
-        </LinearLayout>
+                <TextView
+                        style="@style/CTA_Description"
+                        android:text="@string/cta_help_us_with_translation_description" />
 
-        <LinearLayout style="@style/SupportAppItem">
+                <TextView
+                        android:id="@+id/helpTranslateButton"
+                        style="@style/SupportAppButton"
+                        android:text="@string/text_help_translate_button" />
 
-            <TextView
-                    style="@style/CTA"
-                    android:text="@string/cta_help_us_with_translation" />
+            </LinearLayout>
 
-            <TextView
-                    style="@style/CTA_Description"
-                    android:text="@string/cta_help_us_with_translation_description" />
+            <LinearLayout style="@style/SupportAppItem">
 
-            <TextView
-                    android:id="@+id/helpTranslateButton"
-                    style="@style/SupportAppButton"
-                    android:text="@string/text_help_translate_button" />
+                <TextView
+                        style="@style/CTA"
+                        android:text="@string/cta_share_with_friends" />
 
-        </LinearLayout>
+                <TextView
+                        style="@style/CTA_Description"
+                        android:text="@string/cta_share_with_friends_description" />
 
-        <LinearLayout style="@style/SupportAppItem">
+                <TextView
+                        android:id="@+id/shareWithFrindsButton"
+                        style="@style/SupportAppButton"
+                        android:text="@string/text_share_with_friends_button" />
 
-            <TextView
-                    style="@style/CTA"
-                    android:text="@string/cta_share_with_friends" />
+            </LinearLayout>
 
-            <TextView
-                    style="@style/CTA_Description"
-                    android:text="@string/cta_share_with_friends_description" />
+            <LinearLayout style="@style/SupportAppItem">
 
-            <TextView
-                    android:id="@+id/shareWithFrindsButton"
-                    style="@style/SupportAppButton"
-                    android:text="@string/text_share_with_friends_button" />
+                <TextView
+                        style="@style/CTA"
+                        android:text="@string/cta_join_us_on_social_media" />
 
-        </LinearLayout>
+                <TextView
+                        style="@style/CTA_Description"
+                        android:text="@string/cta_join_us_on_social_media_description" />
 
-        <LinearLayout style="@style/SupportAppItem">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="end"
+                        android:orientation="horizontal">
 
-            <TextView
-                    style="@style/CTA"
-                    android:text="@string/cta_join_us_on_social_media" />
+                    <ImageButton
+                            android:id="@+id/facebookButton"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/description_facebook_button"
+                            app:srcCompat="@drawable/ic_sm_facebook_32" />
 
-            <TextView
-                    style="@style/CTA_Description"
-                    android:text="@string/cta_join_us_on_social_media_description" />
+                    <ImageButton
+                            android:id="@+id/instagramButton"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/description_instagram_button"
+                            app:srcCompat="@drawable/ic_sm_instagram_32" />
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="end"
-                    android:orientation="horizontal">
+                    <ImageButton
+                            android:id="@+id/twitterButton"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/description_twitter_button"
+                            app:srcCompat="@drawable/ic_sm_twitter_32" />
 
-                <ImageButton
-                        android:id="@+id/facebookButton"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/description_facebook_button"
-                        app:srcCompat="@drawable/ic_sm_facebook_32" />
+                    <ImageButton
+                            android:id="@+id/youtubeButton"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/description_youtube_button"
+                            app:srcCompat="@drawable/ic_sm_youtube_32" />
 
-                <ImageButton
-                        android:id="@+id/instagramButton"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/description_instagram_button"
-                        app:srcCompat="@drawable/ic_sm_instagram_32" />
-
-                <ImageButton
-                        android:id="@+id/twitterButton"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/description_twitter_button"
-                        app:srcCompat="@drawable/ic_sm_twitter_32" />
-
-                <ImageButton
-                        android:id="@+id/youtubeButton"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/description_youtube_button"
-                        app:srcCompat="@drawable/ic_sm_youtube_32" />
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</LinearLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.screen.about.AboutFragment
@@ -76,6 +77,30 @@ class SupportAppFragment : Fragment() {
             .setType("text/plain")
             .putExtra(Intent.EXTRA_TEXT, shareText)
         startActivity(Intent.createChooser(sharingIntent, shareWithText))
+    }
+
+    private var scrollListener: ViewTreeObserver.OnScrollChangedListener? = null
+
+    override fun onResume() {
+        super.onResume()
+        scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
+            private var canScrollUp = false
+
+            override fun onScrollChanged() {
+                val canScrollUp = contentScrollView?.canScrollVertically(-1) ?: return
+                if (this.canScrollUp != canScrollUp) {
+                    this.canScrollUp = canScrollUp
+                    appBar?.isActivated = canScrollUp
+                }
+            }
+        }
+        contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        scrollListener = null
     }
 
     companion object {
