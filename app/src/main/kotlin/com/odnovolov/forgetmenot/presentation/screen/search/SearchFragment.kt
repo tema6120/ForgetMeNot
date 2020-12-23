@@ -11,15 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
-import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.observeText
+import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.SearchTextChanged
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_search.divider
-import kotlinx.android.synthetic.main.fragment_search.pasteClearButton
-import kotlinx.android.synthetic.main.fragment_search.progressBar
-import kotlinx.android.synthetic.main.fragment_search.searchEditText
 import kotlinx.coroutines.launch
 
 class SearchFragment : BaseFragment() {
@@ -68,9 +67,14 @@ class SearchFragment : BaseFragment() {
             updatePasteClearButton()
         }
         cardsRecycler.addOnScrollListener(object : OnScrollListener() {
+            private var canScrollUp = false
+
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val canScrollUp = cardsRecycler.canScrollVertically(-1)
-                divider.isVisible = canScrollUp
+                if (this.canScrollUp != canScrollUp) {
+                    this.canScrollUp = canScrollUp
+                    appBarSurface.isActivated = canScrollUp
+                }
             }
         })
     }

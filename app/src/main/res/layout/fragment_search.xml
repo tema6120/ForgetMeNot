@@ -6,58 +6,60 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-    <LinearLayout
-            android:id="@+id/searchFrame"
+    <FrameLayout
+            android:id="@+id/appBarSurface"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/background_search_frame"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:background="@color/background_window"
+            android:stateListAnimator="@animator/app_bar">
 
-        <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="48dp"
+        <LinearLayout
+                android:id="@+id/searchFrame"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ripple_borderless_colored"
-                android:contentDescription="@string/description_back_button"
-                app:srcCompat="@drawable/ic_round_keyboard_backspace_24_colored" />
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/background_search_frame"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/hint_search_edittext"
-                android:imeOptions="actionNone"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp" />
+            <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ripple_borderless_colored"
+                    android:contentDescription="@string/description_back_button"
+                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24_colored" />
 
-        <ImageButton
-                android:id="@+id/pasteClearButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ripple_borderless_colored"
-                android:contentDescription="@string/description_paste_button"
-                app:srcCompat="@drawable/ic_paste_colored" />
+            <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/hint_search_edittext"
+                    android:imeOptions="actionNone"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp" />
 
-    </LinearLayout>
+            <ImageButton
+                    android:id="@+id/pasteClearButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ripple_borderless_colored"
+                    android:contentDescription="@string/description_paste_button"
+                    app:srcCompat="@drawable/ic_paste_colored" />
 
-    <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:visibility="gone" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <FrameLayout
             android:layout_width="match_parent"

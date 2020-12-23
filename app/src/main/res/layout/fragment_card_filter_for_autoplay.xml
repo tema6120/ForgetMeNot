@@ -5,9 +5,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        app:layoutDescription="@xml/scene_card_filter_for_autoplay">
+        app:layoutDescription="@xml/card_filter_for_autoplay_scene">
 
-    <View
+    <FrameLayout
             android:id="@+id/appBarSurface"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -16,20 +16,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:elevation="4dp" />
+            tools:elevation="4dp">
 
-    <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="12dp"
-            android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="@string/description_back_button"
-            android:elevation="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/screenTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/screenTitle"
-            app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+        <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_back_button"
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+    </FrameLayout>
 
     <TextView
             android:id="@+id/screenTitle"

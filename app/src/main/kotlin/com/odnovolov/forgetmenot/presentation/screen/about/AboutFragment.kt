@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.setStatusBarColor
+import com.odnovolov.forgetmenot.presentation.common.setTransparentStatusBar
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment.NavigationDestination
 import kotlinx.android.synthetic.main.fragment_about.*
@@ -20,6 +22,7 @@ class AboutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setStatusBarColor(requireActivity(), R.color.colorPrimary)
         return inflater.inflate(R.layout.fragment_about, container, false)
     }
 
@@ -54,6 +57,13 @@ class AboutFragment : Fragment() {
         val uri = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isRemoving) {
+            setTransparentStatusBar(requireActivity())
+        }
     }
 
     companion object {

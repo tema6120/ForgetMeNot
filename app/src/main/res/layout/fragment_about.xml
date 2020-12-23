@@ -1,179 +1,190 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_about_scene">
 
-    <LinearLayout
-            android:layout_width="match_parent"
+    <FrameLayout
+            android:id="@+id/appBarSurface"
+            android:layout_width="0dp"
+            android:layout_height="260dp"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/ripple_light_borderless"
+                android:contentDescription="@string/description_back_button"
+                android:elevation="4dp"
+                android:tint="@android:color/white"
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24_colored" />
+
+    </FrameLayout>
+
+    <ImageView
+            android:id="@+id/app_logo"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:contentDescription="@string/decksription_app_logo"
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/slogan"
+            app:layout_constraintEnd_toStartOf="@+id/app_name"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/app_name"
+            app:srcCompat="@drawable/ic_app_logo" />
+
+    <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="28dp"
+            android:elevation="4dp"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="33sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/slogan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/app_logo"
+            app:layout_constraintTop_toTopOf="@id/appBarSurface"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="horizontal">
+    <TextView
+            android:id="@+id/slogan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:elevation="4dp"
+            android:text="@string/app_slogan"
+            android:textColor="#E7D900"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:transformPivotX="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/appBarSurface"
+            app:layout_constraintStart_toStartOf="@id/app_name"
+            app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
-            <ImageButton
-                    android:id="@+id/backButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/background_white_button"
-                    android:contentDescription="@string/description_back_button"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_arrow_back_colored" />
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/nunito_extrabold"
-                    android:text="@string/title_about_screen"
-                    android:textColor="@color/text_primary_blue"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-        </FrameLayout>
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/aboutScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarSurface">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingTop="64dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="64dp">
-
-            <ImageView
-                    android:id="@+id/app_logo"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:contentDescription="@string/decksription_app_logo"
-                    app:srcCompat="@drawable/ic_app_logo" />
+                android:orientation="vertical">
 
             <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@android:color/white"
                     android:orientation="vertical">
 
                 <TextView
-                        android:id="@+id/app_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/app_name"
-                        android:textColor="@android:color/white"
-                        android:textSize="32sp"
-                        android:textStyle="bold" />
+                        android:id="@+id/appVersionTextView"
+                        style="@style/AboutItem"
+                        app:drawableStartCompat="@drawable/ic_round_code_20"
+                        tools:text="v1.2.0" />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
 
                 <TextView
-                        android:id="@+id/slogan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/app_slogan"
-                        android:textColor="#E7D900"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:id="@+id/developerButton"
+                        style="@style/AboutItem"
+                        android:text="@string/about_item_developer"
+                        app:drawableStartCompat="@drawable/ic_round_copyright_20" />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
+
+                <TextView
+                        android:id="@+id/sourceCodeButton"
+                        style="@style/AboutItem"
+                        android:text="@string/about_item_source_code"
+                        app:drawableStartCompat="@drawable/ic_github_20" />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
+
+                <TextView
+                        android:id="@+id/privacyPolicyButton"
+                        style="@style/AboutItem"
+                        android:text="@string/about_item_privacy_policy"
+                        app:drawableStartCompat="@drawable/ic_round_verified_user_20" />
+
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-
             <TextView
-                    android:id="@+id/appVersionTextView"
-                    style="@style/AboutItem"
-                    app:drawableStartCompat="@drawable/ic_round_code_20"
-                    tools:text="v1.2.0" />
-
-            <View
+                    android:id="@+id/developer_story_title"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lobster_two"
+                    android:padding="16dp"
+                    android:text="@string/developer_story_title"
+                    android:textColor="@color/textSecondary"
+                    android:textIsSelectable="true"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
             <TextView
-                    android:id="@+id/developerButton"
-                    style="@style/AboutItem"
-                    android:text="@string/about_item_developer"
-                    app:drawableStartCompat="@drawable/ic_round_copyright_20" />
-
-            <View
+                    android:id="@+id/developerStoryTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lobster_two"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/developer_story"
+                    android:textColor="@color/textSecondary"
+                    android:textIsSelectable="true"
+                    android:textSize="15sp" />
 
-            <TextView
-                    android:id="@+id/sourceCodeButton"
-                    style="@style/AboutItem"
-                    android:text="@string/about_item_source_code"
-                    app:drawableStartCompat="@drawable/ic_github_20" />
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
-
-            <TextView
-                    android:id="@+id/privacyPolicyButton"
-                    style="@style/AboutItem"
-                    android:text="@string/about_item_privacy_policy"
-                    app:drawableStartCompat="@drawable/ic_round_verified_user_20" />
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/supportAppButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="20dp"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:gravity="center"
+                    android:outlineAmbientShadowColor="@color/colorAccent"
+                    android:outlineSpotShadowColor="@color/colorAccent"
+                    android:stateListAnimator="@animator/material_button"
+                    android:text="@string/text_support_app_button"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_exercise_button"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/exercise_button_background_tint"
+                    app:cornerRadius="16dp"
+                    app:icon="@drawable/ic_round_favorite_24"
+                    app:iconGravity="start"
+                    app:iconPadding="8dp"
+                    app:iconSize="20dp" />
 
         </LinearLayout>
 
-        <TextView
-                android:id="@+id/developer_story_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/developer_story_title"
-                android:textColor="@color/textSecondary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+    </androidx.core.widget.NestedScrollView>
 
-        <TextView
-                android:id="@+id/developer_story"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/developer_story"
-                android:textColor="@color/textSecondary"
-                android:textSize="14sp" />
-
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/supportAppButton"
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="20dp"
-                android:fontFamily="@font/nunito_extrabold"
-                android:gravity="center"
-                android:outlineAmbientShadowColor="@color/colorAccent"
-                android:outlineSpotShadowColor="@color/colorAccent"
-                android:stateListAnimator="@animator/material_button"
-                android:text="@string/text_support_app_button"
-                android:textAllCaps="false"
-                android:textColor="@color/text_exercise_button"
-                android:textSize="16sp"
-                app:backgroundTint="@color/exercise_button_background_tint"
-                app:cornerRadius="16dp" />
-
-    </LinearLayout>
-
-</ScrollView>
+</androidx.constraintlayout.motion.widget.MotionLayout>

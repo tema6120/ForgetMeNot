@@ -1,0 +1,111 @@
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+            app:constraintSetEnd="@+id/collapsed"
+            app:constraintSetStart="@+id/expanded">
+
+        <OnSwipe
+                app:dragDirection="dragUp"
+                app:maxAcceleration="40"
+                app:onTouchUp="autoCompleteToEnd"
+                app:touchAnchorId="@+id/aboutScrollView"
+                app:touchAnchorSide="top" />
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/expanded">
+
+        <Constraint
+                android:id="@+id/appBarSurface"
+                android:layout_width="0dp"
+                android:layout_height="260dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+                android:id="@+id/app_logo"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/appBarSurface"
+                app:layout_constraintEnd_toStartOf="@+id/app_name"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/appBarSurface" />
+
+        <Constraint
+                android:id="@+id/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                app:layout_constraintBottom_toTopOf="@id/slogan"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/app_logo"
+                app:layout_constraintTop_toTopOf="@id/appBarSurface"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+        <Constraint
+                android:id="@+id/slogan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:alpha="1"
+                android:scaleX="1"
+                android:scaleY="1"
+                app:layout_constraintBottom_toBottomOf="@id/appBarSurface"
+                app:layout_constraintStart_toStartOf="@id/app_name"
+                app:layout_constraintTop_toBottomOf="@+id/app_name" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/collapsed">
+
+        <Constraint
+                android:id="@+id/appBarSurface"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+                android:id="@+id/app_logo"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/appBarSurface"
+                app:layout_constraintEnd_toStartOf="@+id/slogan"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/appBarSurface" />
+
+        <Constraint
+                android:id="@+id/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                app:layout_constraintBottom_toBottomOf="@id/appBarSurface"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/appBarSurface" />
+
+        <Constraint
+                android:id="@+id/slogan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:alpha="0"
+                android:scaleX="0"
+                android:scaleY="0"
+                app:layout_constraintBottom_toBottomOf="@id/appBarSurface"
+                app:layout_constraintStart_toStartOf="@id/app_name"
+                app:layout_constraintTop_toBottomOf="@+id/app_name" />
+
+    </ConstraintSet>
+
+</MotionScene>

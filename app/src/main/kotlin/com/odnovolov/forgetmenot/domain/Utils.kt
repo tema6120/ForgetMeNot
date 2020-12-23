@@ -1,7 +1,9 @@
 package com.odnovolov.forgetmenot.domain
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.SUID
-import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeSpan
 import com.soywiz.klock.MonthSpan

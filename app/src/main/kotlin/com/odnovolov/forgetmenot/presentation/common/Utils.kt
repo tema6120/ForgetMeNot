@@ -5,7 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Resources
+import android.graphics.Color
 import android.graphics.Rect
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Handler
 import android.os.Looper
 import android.text.*
@@ -17,6 +20,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -304,3 +308,26 @@ fun View.getActivity(): Activity? {
 
 fun isKeyboardVisible(view: View): Boolean? =
     ViewCompat.getRootWindowInsets(view)?.isVisible(Type.ime())
+
+fun setStatusBarColor(activity: Activity, colorRes: Int) {
+    activity.window.statusBarColor = ContextCompat.getColor(activity, colorRes)
+    if (VERSION.SDK_INT >= VERSION_CODES.M) {
+        val visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        activity.window.decorView.systemUiVisibility = visibility
+    } else {
+        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
+}
+
+fun setTransparentStatusBar(activity: Activity) {
+    activity.window.statusBarColor = Color.TRANSPARENT
+    if (VERSION.SDK_INT >= VERSION_CODES.M) {
+        val visibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        activity.window.decorView.systemUiVisibility = visibility
+    } else {
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
+}
