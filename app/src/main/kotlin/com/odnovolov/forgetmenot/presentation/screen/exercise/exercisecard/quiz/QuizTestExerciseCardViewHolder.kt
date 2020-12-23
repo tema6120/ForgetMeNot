@@ -69,7 +69,7 @@ class QuizTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 20f
+            textSize = 18f
         }
     }
 
@@ -81,7 +81,7 @@ class QuizTestExerciseCardViewHolder(
                     minHeight = 56.dp // if text is smaller than compound drawable
                 }
                 setPadding(56.dp, 16.dp, 16.dp, 16.dp)
-                textSize = 18f
+                textSize = 16f
             }
         }
     }
@@ -125,12 +125,12 @@ class QuizTestExerciseCardViewHolder(
     private fun setupView() {
         with(itemView) {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
-            questionTextView.textSize = 20f
+            questionTextView.textSize = 18f
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
             forEachVariantButton { variant: Int ->
-                textSize = 18f
+                textSize = 16f
                 setOnClickListener { controller.dispatch(VariantSelected(variant)) }
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))

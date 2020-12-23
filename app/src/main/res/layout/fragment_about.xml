@@ -50,7 +50,7 @@
             android:elevation="4dp"
             android:text="@string/app_name"
             android:textColor="@android:color/white"
-            android:textSize="33sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/slogan"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@
             android:elevation="4dp"
             android:text="@string/app_slogan"
             android:textColor="#E7D900"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:transformPivotX="0dp"
             app:layout_constraintBottom_toBottomOf="@id/appBarSurface"
@@ -146,7 +146,7 @@
                     android:text="@string/developer_story_title"
                     android:textColor="@color/textSecondary"
                     android:textIsSelectable="true"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
             <TextView
@@ -175,13 +175,14 @@
                     android:text="@string/text_support_app_button"
                     android:textAllCaps="false"
                     android:textColor="@color/text_exercise_button"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:backgroundTint="@color/exercise_button_background_tint"
                     app:cornerRadius="16dp"
                     app:icon="@drawable/ic_round_favorite_24"
                     app:iconGravity="start"
                     app:iconPadding="8dp"
-                    app:iconSize="20dp" />
+                    app:iconSize="20dp"
+                    app:rippleColor="@android:color/white" />
 
         </LinearLayout>
 

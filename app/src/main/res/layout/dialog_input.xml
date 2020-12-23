@@ -9,6 +9,7 @@
             android:layout_margin="16dp"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/textPrimary"
+            android:textSize="15sp" />
 
 </FrameLayout>

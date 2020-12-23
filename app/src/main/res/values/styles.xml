@@ -16,6 +16,7 @@
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/accent_selector</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="LastTestedTheme" parent="AppTheme">
@@ -24,7 +25,7 @@
 
     <style name="LastTestedPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/last_tested</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
@@ -70,7 +71,7 @@
         <item name="android:layout_marginStart">32dp</item>
         <item name="android:layout_marginEnd">32dp</item>
         <item name="android:textColor">@color/text_primary_blue_selector</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
@@ -82,7 +83,7 @@
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingEnd">20dp</item>
         <item name="android:textColor">@color/text_primary_blue_selector</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Animation_Popup_Before_23_API">
@@ -105,7 +106,7 @@
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingEnd">32dp</item>
         <item name="android:textColor">@color/textSecondary</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:background">@drawable/ripple_rectangular_colored</item>
         <item name="drawableTint">@color/textSecondary</item>
     </style>
@@ -133,7 +134,7 @@
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingEnd">32dp</item>
         <item name="android:textColor">@color/textSecondary</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:background">@drawable/ripple_rectangular_colored</item>
         <item name="drawableTint">@color/textSecondary</item>
         <item name="android:clickable">true</item>
@@ -159,7 +160,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/nunito_extrabold</item>
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="CTA_Description">
@@ -183,7 +184,7 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/text_primary_blue</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
@@ -223,7 +224,7 @@
         <item name="android:drawablePadding">16dp</item>
         <item name="android:padding">16dp</item>
         <item name="android:textColor">@color/textSecondary</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="drawableStartCompat">@drawable/ic_radiobutton_unchecked_24</item>
     </style>
 

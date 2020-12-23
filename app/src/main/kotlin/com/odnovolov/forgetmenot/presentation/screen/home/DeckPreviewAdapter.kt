@@ -66,7 +66,7 @@ class DeckPreviewAdapter(
                         // strangely enough, text size in xml sometimes differs from text size that
                         // set programmatically. It may cause different height of real item and
                         // premeasured height of AsyncFrameLayout
-                        deckNameTextView.textSize = 16f
+                        deckNameTextView.textSize = 14f
                         // with async inflation, parameter 'fontFamily' in xml causes InflateException
                         // so we set font on ui thread programmatically
                         deckNameTextView.setTypeface(
@@ -191,7 +191,7 @@ class DeckPreviewAdapter(
             textViewForMeasure = TextView(parent.context).apply {
                 layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
                 setTextColor(ContextCompat.getColor(context, R.color.textPrimary))
-                textSize = 16f
+                textSize = 14f
                 setTypeface(ResourcesCompat.getFont(context, R.font.comfortaa), Typeface.BOLD)
             }
         }
@@ -217,7 +217,7 @@ class DeckPreviewAdapter(
             makeMeasureSpec(widthForDeckNameTextView, MeasureSpec.EXACTLY),
             makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         )
-        val asyncFrameLayoutHeight = 57.dp + 31.sp + textViewForMeasure.measuredHeight
+        val asyncFrameLayoutHeight = 57.dp + 29.sp + textViewForMeasure.measuredHeight
         asyncFrameLayout.updateLayoutParams {
             height = asyncFrameLayoutHeight
         }

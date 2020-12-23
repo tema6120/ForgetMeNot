@@ -39,7 +39,7 @@
                             android:padding="16dp"
                             android:textColor="@color/text_secondary_selector"
                             android:textIsSelectable="true"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             tools:text="Эти люди привычны к тяжелой работе." />
 
                 </ScrollView>
@@ -53,7 +53,7 @@
                         android:padding="16dp"
                         android:text="@string/text_show_question_button"
                         android:textColor="@color/text_curtain_selector"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:visibility="gone" />
 
             </FrameLayout>
@@ -81,7 +81,7 @@
                         android:paddingBottom="80dp"
                         android:textColor="@color/text_secondary_selector"
                         android:textIsSelectable="true"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
             </ScrollView>
 
@@ -108,7 +108,7 @@
                             android:paddingBottom="80dp"
                             android:textColor="@color/text_secondary_selector"
                             android:textIsSelectable="true"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                 </ScrollView>
 
@@ -134,7 +134,7 @@
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:translationY="-37dp"
                 tools:backgroundTint="@color/card_label_learned"
                 tools:fontFamily="@font/comfortaa"
@@ -167,7 +167,7 @@
                 android:text="@string/text_remember_button"
                 android:textAllCaps="false"
                 android:textColor="@color/text_remember_button"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/notRememberButton"
@@ -195,7 +195,7 @@
                 android:text="@string/text_not_remember_button"
                 android:textAllCaps="false"
                 android:textColor="@color/text_not_remember_button"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rememberButton"

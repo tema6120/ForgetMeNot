@@ -18,7 +18,7 @@
             android:padding="8dp"
             android:textColor="@color/textPrimary"
             android:textColorHint="#00FFFFFF"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="7" />
 
     <NumberPicker

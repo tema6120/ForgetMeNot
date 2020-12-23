@@ -29,7 +29,7 @@
                 android:layout_marginBottom="8dp"
                 android:drawablePadding="12dp"
                 android:textColor="@color/text_title"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:drawableStartCompat="@drawable/deck_indicator"
                 app:drawableTint="@color/iconDark"
@@ -46,7 +46,7 @@
 
         <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="31sp"
+                android:layout_height="29sp"
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -66,7 +66,7 @@
                         android:text="@string/average_laps"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
-                        android:textSize="10sp" />
+                        android:textSize="9.5sp" />
 
                 <TextView
                         android:id="@+id/learnedTextView"
@@ -78,7 +78,7 @@
                         android:text="@string/learned"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
-                        android:textSize="10sp" />
+                        android:textSize="9.5sp" />
 
                 <TextView
                         android:id="@+id/taskTextView"
@@ -90,7 +90,7 @@
                         android:text="@string/task"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
-                        android:textSize="10sp" />
+                        android:textSize="9.5sp" />
 
                 <TextView
                         android:id="@+id/match_parent"
@@ -101,7 +101,7 @@
                         android:text="@string/last_tested"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
-                        android:textSize="10sp" />
+                        android:textSize="9.5sp" />
 
             </TableRow>
 
@@ -112,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textPrimary"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         tools:text="3.6" />
 
@@ -123,7 +123,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/textPrimary"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         tools:text="12/50" />
 
@@ -134,7 +134,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/text_task"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         tools:text="24" />
 
@@ -149,7 +149,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:textColor="@color/textPrimary"
-                            android:textSize="12sp"
+                            android:textSize="11sp"
                             android:textStyle="bold"
                             tools:text="Nov 2"
                             tools:visibility="gone" />
@@ -166,7 +166,7 @@
                             android:paddingEnd="8dp"
                             android:text="@string/label_new_deck"
                             android:textColor="@android:color/white"
-                            android:textSize="11sp"
+                            android:textSize="10sp"
                             android:textStyle="bold"
                             android:visibility="gone"
                             tools:visibility="visible" />

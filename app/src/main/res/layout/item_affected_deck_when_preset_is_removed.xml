@@ -7,5 +7,5 @@
         android:paddingEnd="16dp"
         android:paddingBottom="8dp"
         android:textColor="@color/textSecondary"
-        android:textSize="16sp"
+        android:textSize="14sp"
         tools:text="• Vocabulary" />

@@ -17,6 +17,6 @@
             android:text="@string/message_do_not_forget_to_turn_on_auto_speak_of_question"
             android:textColor="@color/textPrimary"
             android:textIsSelectable="true"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 </LinearLayout>

@@ -18,6 +18,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="2dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_back_button"
                 app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
@@ -32,7 +33,7 @@
                 android:paddingBottom="16dp"
                 android:text="@string/title_support_app_screen"
                 android:textColor="@color/text_title"
-                android:textSize="23sp"
+                android:textSize="21sp"
                 android:textStyle="bold" />
 
     </FrameLayout>

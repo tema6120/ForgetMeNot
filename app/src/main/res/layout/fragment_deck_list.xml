@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:text="@string/no_matching_decks"
             android:textColor="@color/text_no_search_result"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"
             app:drawableTint="@color/text_no_search_result"

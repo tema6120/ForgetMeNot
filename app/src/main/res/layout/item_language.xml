@@ -19,7 +19,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:textColor="@color/textPrimary"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:text="Ukranian" />
 
         <TextView
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:text="🇺🇦" />
 
     </LinearLayout>

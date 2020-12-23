@@ -20,7 +20,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/title_deck_filters"
-            android:textSize="16sp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/closeButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/closeButton" />
@@ -58,7 +58,7 @@
                 android:padding="12dp"
                 android:text="@string/deck_filter_only_decks_available_for_exercise"
                 android:textColor="@color/textSecondary"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
     </FrameLayout>
 

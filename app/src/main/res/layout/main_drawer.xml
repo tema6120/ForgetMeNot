@@ -2,6 +2,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
         android:background="@android:color/white"
         android:fitsSystemWindows="true">
 
@@ -25,7 +26,7 @@
                     android:paddingEnd="24dp"
                     android:text="@string/app_name"
                     android:textColor="@color/text_primary_blue"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
             <View
@@ -53,9 +54,7 @@
                 <TextView
                         android:id="@+id/decksTextView"
                         style="@style/DrawerItemText"
-                        android:text="@string/drawer_item_decks"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:text="@string/drawer_item_decks" />
 
             </LinearLayout>
 

@@ -17,7 +17,7 @@
             android:padding="16dp"
             android:text="@string/title_dialog_last_tested_from"
             android:textColor="@color/text_title"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:drawableStartCompat="@drawable/ic_round_history_24" />
 
     <View
@@ -63,7 +63,7 @@
                         android:paddingEnd="16dp"
                         android:paddingBottom="12dp"
                         android:textColor="@color/text_secondary_selector"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:theme="@style/LastTestedTheme"
                         android:visibility="invisible"
                         tools:text="Zero time"
@@ -87,7 +87,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="12dp"
                     android:textColor="@color/textSecondary"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/LastTestedTheme"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@id/unitPicker"
@@ -111,7 +111,7 @@
                     android:padding="8dp"
                     android:textColor="@color/text_secondary_selector"
                     android:textColorHint="#00FFFFFF"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/LastTestedTheme"
                     app:layout_constraintBottom_toBottomOf="@id/unitPicker"
                     app:layout_constraintEnd_toStartOf="@+id/unitPicker"
@@ -141,7 +141,7 @@
                     android:padding="16dp"
                     android:text="@string/ago"
                     android:textColor="@color/text_secondary_selector"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@id/unitPicker"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -193,7 +193,7 @@
                 android:text="@android:string/cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/text_button_secondary"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/okButton"
@@ -209,7 +209,7 @@
                 android:text="@android:string/ok"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:backgroundTint="@color/last_tested"
                 app:cornerRadius="16dp"
                 app:rippleColor="@android:color/white" />

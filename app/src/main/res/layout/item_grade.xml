@@ -16,7 +16,7 @@
             android:background="@drawable/oval"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:backgroundTint="@color/grade_unsatisfactory"
             tools:text="0"
             tools:visibility="visible" />
@@ -28,7 +28,7 @@
             android:layout_margin="16dp"
             android:fontFamily="@font/nunito_bold"
             android:textColor="@color/text_waiting_period"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="8 hours" />
 
 </LinearLayout>

@@ -5,5 +5,5 @@
         android:fontFamily="@font/jura"
         android:maxLines="1"
         android:textColor="@color/tab_text"
-        android:textSize="24sp"
+        android:textSize="21sp"
         tools:text="@string/tab_cards" />

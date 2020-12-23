@@ -39,7 +39,7 @@
             android:padding="16dp"
             android:text="@string/title_card_filter_for_autoplay"
             android:textColor="@color/text_title"
-            android:textSize="23sp"
+            android:textSize="21sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
             android:scaleX="3"
             android:scaleY="3"
             android:textColor="@color/text_primary_blue"
-            android:textSize="24sp"
+            android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/screenTitle"
@@ -124,7 +124,7 @@
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/title_card_filter_state"
                         android:textColor="@color/text_title"
-                        android:textSize="19sp"
+                        android:textSize="18sp"
                         app:drawableStartCompat="@drawable/ic_round_emoji_flags_24" />
 
                 <View
@@ -157,7 +157,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_available_for_exercise_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="15sp"
+                            android:textSize="14sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -185,7 +185,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_awaiting_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="15sp"
+                            android:textSize="14sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -214,7 +214,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_learned_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="15sp"
+                            android:textSize="14sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -243,7 +243,7 @@
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/title_card_filter_grade"
                         android:textColor="@color/text_title"
-                        android:textSize="19sp"
+                        android:textSize="18sp"
                         app:drawableStartCompat="@drawable/ic_medal_24" />
 
                 <View
@@ -263,8 +263,8 @@
                         app:mrb_barWeight="2dp"
                         app:mrb_connectingLineWeight="4dp"
                         app:mrb_pinColor="#888888"
-                        app:mrb_pinMaxFont="15sp"
-                        app:mrb_pinMinFont="12sp"
+                        app:mrb_pinMaxFont="14sp"
+                        app:mrb_pinMinFont="11sp"
                         app:mrb_pinRadius="14dp"
                         app:mrb_pinTextColor="#ffffff"
                         app:mrb_rangeBarColor="#cccccc"
@@ -274,7 +274,7 @@
                         app:mrb_tickHeight="4dp"
                         app:mrb_tickLabelColor="@color/textSecondary"
                         app:mrb_tickLabelSelectedColor="@color/textSecondary"
-                        app:mrb_tickLabelSize="6sp"
+                        app:mrb_tickLabelSize="5sp"
                         tools:mrb_connectingLineColor="@color/colorAccent"
                         tools:mrb_leftSelectorColor="@color/grade_unsatisfactory"
                         tools:mrb_rightSelectorColor="@color/grade_excellent"
@@ -304,7 +304,7 @@
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/title_card_filter_last_tested"
                         android:textColor="@color/text_title"
-                        android:textSize="19sp"
+                        android:textSize="18sp"
                         app:drawableStartCompat="@drawable/ic_round_history_24" />
 
                 <View
@@ -407,7 +407,7 @@
             android:text="@string/text_start_playing_button"
             android:textAllCaps="false"
             android:textColor="@color/text_autoplay_button"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:backgroundTint="@android:color/white"
             app:cornerRadius="16dp"
             app:icon="@drawable/ic_play_20"

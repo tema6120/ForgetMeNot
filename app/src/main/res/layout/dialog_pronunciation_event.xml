@@ -21,7 +21,7 @@
                 android:padding="16dp"
                 android:text="@string/pronunciation_event_speak_question"
                 android:textColor="@color/textPrimary"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:visibility="invisible"
                 tools:visibility="visible" />
 
@@ -43,7 +43,7 @@
                 android:padding="16dp"
                 android:text="@string/pronunciation_event_speak_answer"
                 android:textColor="@color/textPrimary"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:visibility="invisible"
                 tools:visibility="visible" />
 
@@ -67,7 +67,7 @@
                 android:padding="16dp"
                 android:text="@string/pronunciation_event_delay"
                 android:textColor="@color/textPrimary"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:visibility="invisible"
                 tools:visibility="visible" />
 
@@ -83,7 +83,7 @@
                 android:padding="8dp"
                 android:textColor="@color/text_primary_selector"
                 android:textColorHint="#00FFFFFF"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 tools:text="2"
                 tools:ignore="HardcodedText"
                 android:importantForAutofill="no" />
@@ -95,7 +95,7 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/sec"
                 android:textColor="@color/textPrimary"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
     </LinearLayout>
 

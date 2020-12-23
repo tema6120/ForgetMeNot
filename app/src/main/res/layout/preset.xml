@@ -26,7 +26,7 @@
             android:maxLines="1"
             android:padding="16dp"
             android:textColor="@color/textPrimary"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:drawableEndCompat="@drawable/ic_more_expand_more_with_inset"
             tools:text="Individual" />

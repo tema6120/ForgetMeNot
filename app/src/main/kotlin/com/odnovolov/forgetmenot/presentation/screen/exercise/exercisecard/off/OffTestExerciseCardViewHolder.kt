@@ -56,7 +56,7 @@ class OffTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 20f
+            textSize = 18f
         }
     }
 
@@ -64,7 +64,7 @@ class OffTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 18f
+            textSize = 16f
         }
     }
 
@@ -107,7 +107,7 @@ class OffTestExerciseCardViewHolder(
             showQuestionButton.setOnClickListener {
                 controller.dispatch(ShowQuestionButtonClicked)
             }
-            questionTextView.textSize = 20f
+            questionTextView.textSize = 18f
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
@@ -117,11 +117,11 @@ class OffTestExerciseCardViewHolder(
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
-            hintTextView.textSize = 18f
+            hintTextView.textSize = 16f
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
-            answerTextView.textSize = 18f
+            answerTextView.textSize = 16f
             val comfortaaFont: Typeface? = ResourcesCompat.getFont(context, R.font.comfortaa)
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =

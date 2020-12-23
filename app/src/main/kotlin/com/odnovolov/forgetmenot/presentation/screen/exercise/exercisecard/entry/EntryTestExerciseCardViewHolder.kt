@@ -59,7 +59,7 @@ class EntryTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 20f
+            textSize = 18f
         }
     }
 
@@ -67,7 +67,7 @@ class EntryTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 18f
+            textSize = 16f
         }
     }
 
@@ -75,7 +75,7 @@ class EntryTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 18f
+            textSize = 16f
         }
     }
 
@@ -83,7 +83,7 @@ class EntryTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 18f
+            textSize = 16f
         }
     }
 
@@ -138,17 +138,17 @@ class EntryTestExerciseCardViewHolder(
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
-            questionTextView.textSize = 20f
+            questionTextView.textSize = 18f
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
-            hintTextView.textSize = 18f
+            hintTextView.textSize = 16f
             answerEditText.run {
                 observeText { text: String -> controller.dispatch(AnswerInputChanged(text)) }
                 setOnFocusChangeListener { _, hasFocus ->
                     if (!hasFocus) hideKeyboardDelayedIfItIsNotNeeded()
                 }
-                textSize = 18f
+                textSize = 16f
             }
             checkButton.setOnClickListener {
                 controller.dispatch(CheckButtonClicked)
@@ -158,12 +158,12 @@ class EntryTestExerciseCardViewHolder(
                     controller.dispatch(AnswerTextSelectionChanged(selection))
                 }
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                textSize = 18f
+                textSize = 16f
             }
             correctAnswerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
-            correctAnswerTextView.textSize = 18f
+            correctAnswerTextView.textSize = 16f
             val comfortaaFont: Typeface? = ResourcesCompat.getFont(context, R.font.comfortaa)
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
             checkButton.setTypeface(comfortaaFont, Typeface.BOLD)

@@ -40,7 +40,7 @@
                 android:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
                 android:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:visibility="gone"
                 tools:text="0"
                 tools:visibility="visible" />
