@@ -85,7 +85,7 @@ class PlayingCardViewHolder(
     private var needToResetRippleOnScrolling = true
 
     init {
-        asyncItemView.invokeWhenFrameCloseToScreen {
+        asyncItemView.invokeWhenReady {
             cardView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
                 cardSize = Size(cardView.width, cardView.height)
             }
@@ -140,7 +140,7 @@ class PlayingCardViewHolder(
     private var viewModel: PlayingCardViewModel? = null
 
     fun bind(playingCard: PlayingCard) {
-        asyncItemView.invokeWhenFrameCloseToScreen {
+        asyncItemView.invokeWhenReady {
             if (viewModel == null) {
                 viewModel = PlayingCardViewModel(playingCard)
                 observeViewModel()

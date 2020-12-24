@@ -84,7 +84,7 @@ class ManualTestExerciseCardViewHolder(
     private var needToResetRippleOnScrolling = true
 
     init {
-        asyncItemView.invokeWhenFrameCloseToScreen {
+        asyncItemView.invokeWhenReady {
             cardView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
                 cardSize = Size(cardView.width, cardView.height)
             }
@@ -147,7 +147,7 @@ class ManualTestExerciseCardViewHolder(
     private var viewModel: ManualTestExerciseCardViewModel? = null
 
     override fun bind(exerciseCard: ManualTestExerciseCard) {
-        asyncItemView.invokeWhenFrameCloseToScreen {
+        asyncItemView.invokeWhenReady {
             if (viewModel == null) {
                 viewModel = ManualTestExerciseCardViewModel(exerciseCard)
                 observeViewModel()

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -13,7 +13,6 @@ import kotlinx.coroutines.withContext
 import java.util.*
 
 class AsyncCardFrame @JvmOverloads constructor(
-    layoutParams: ViewGroup.LayoutParams,
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -25,8 +24,13 @@ class AsyncCardFrame @JvmOverloads constructor(
     defStyleRes
 ) {
     init {
-        setLayoutParams(layoutParams)
+        setLayoutParams(LayoutParams(MATCH_PARENT, MATCH_PARENT))
         viewTreeObserver.addOnScrollChangedListener {
+            if (isInflated && isCloseToScreen()) {
+                executePendingActions()
+            }
+        }
+        addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             if (isInflated && isCloseToScreen()) {
                 executePendingActions()
             }
@@ -54,7 +58,7 @@ class AsyncCardFrame @JvmOverloads constructor(
         }
     }
 
-    fun invokeWhenFrameCloseToScreen(action: AsyncCardFrame.() -> Unit) {
+    fun invokeWhenReady(action: AsyncCardFrame.() -> Unit) {
         if (isInflated && isCloseToScreen()) {
             executePendingActions()
             action()

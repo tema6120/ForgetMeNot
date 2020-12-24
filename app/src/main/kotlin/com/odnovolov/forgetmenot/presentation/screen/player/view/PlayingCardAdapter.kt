@@ -24,8 +24,7 @@ class PlayingCardAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayingCardViewHolder {
-        val layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        val itemView = AsyncCardFrame(layoutParams, parent.context)
+        val itemView = AsyncCardFrame(parent.context)
         itemView.inflateAsync(R.layout.item_playing_card)
         return PlayingCardViewHolder(
             itemView,

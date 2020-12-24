@@ -115,7 +115,7 @@ class EntryTestExerciseCardViewHolder(
     private var needToResetRippleOnScrolling = true
 
     init {
-        asyncItemView.invokeWhenFrameCloseToScreen {
+        asyncItemView.invokeWhenReady {
             cardView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
                 cardSize = Size(cardView.width, cardView.height)
             }
@@ -187,7 +187,7 @@ class EntryTestExerciseCardViewHolder(
     private var viewModel: EntryTestExerciseCardViewModel? = null
 
     override fun bind(exerciseCard: EntryTestExerciseCard) {
-        asyncItemView.invokeWhenFrameCloseToScreen {
+        asyncItemView.invokeWhenReady {
             if (viewModel == null) {
                 viewModel = EntryTestExerciseCardViewModel(exerciseCard)
                 observeViewModel()
@@ -391,7 +391,7 @@ class EntryTestExerciseCardViewHolder(
     }
 
     fun onPageSelected() {
-        asyncItemView.invokeWhenFrameCloseToScreen {
+        asyncItemView.invokeWhenReady {
             if (answerEditText.isEnabled
                 && resources.configuration.orientation == ORIENTATION_PORTRAIT
             ) {

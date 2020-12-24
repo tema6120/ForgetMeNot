@@ -36,7 +36,7 @@
                 android:background="@drawable/ic_unanswered_card_number_background"
                 android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
-                android:padding="4dp"
+                android:padding="8dp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 app:autoSizeMaxTextSize="15sp"

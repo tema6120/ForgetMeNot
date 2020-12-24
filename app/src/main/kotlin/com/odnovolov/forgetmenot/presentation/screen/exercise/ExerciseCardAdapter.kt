@@ -44,8 +44,7 @@ class ExerciseCardAdapter(
         viewType: Int
     ): ExerciseCardViewHolder<ExerciseCard> {
         val layoutId: Int = viewType
-        val layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        val itemView = AsyncCardFrame(layoutParams, parent.context)
+        val itemView = AsyncCardFrame(parent.context)
         itemView.inflateAsync(layoutId)
         return when (layoutId) {
             R.layout.item_exercise_card_off_test -> {

@@ -453,7 +453,6 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun cancelSearch() {
-        searchEditText.hideSoftInput()
         searchEditText.text.clear()
         searchEditText.clearFocus()
     }
@@ -486,6 +485,7 @@ class HomeFragment : BaseFragment() {
             } else {
                 AppBarLayout.Behavior()
             }
+        appBarLayout.requestLayout()
     }
 
     private fun updateStatusBarColor(isSelectionMode: Boolean) {
