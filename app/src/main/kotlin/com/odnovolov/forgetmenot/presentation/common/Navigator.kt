@@ -8,8 +8,8 @@ import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
@@ -56,14 +56,14 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_cards_editor)
     }
 
-    fun navigateToDeckSetupFromNavHost(createDiScope: () -> DeckSetupDiScope) {
-        DeckSetupDiScope.open(createDiScope)
-        navigate(R.id.nav_host_to_deck_setup)
+    fun navigateToDeckEditorFromNavHost(createDiScope: () -> DeckEditorDiScope) {
+        DeckEditorDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_deck_editor)
     }
 
-    fun navigateToDeckSetupFromCardsEditor(createDiScope: () -> DeckSetupDiScope) {
-        DeckSetupDiScope.open(createDiScope)
-        navigate(R.id.action_cards_editor_screen_to_deck_setup_screen)
+    fun navigateToDeckSetupFromCardsEditor(createDiScope: () -> DeckEditorDiScope) {
+        DeckEditorDiScope.open(createDiScope)
+        navigate(R.id.cards_editor_to_deck_editor)
     }
 
     fun navigateToHelpFromCardsEditor(createDiScope: () -> HelpDiScope) {

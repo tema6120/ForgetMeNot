@@ -18,8 +18,8 @@
                 app:destination="@id/cards_editor_screen" />
 
         <action
-                android:id="@+id/nav_host_to_deck_setup"
-                app:destination="@id/deck_setup_screen" />
+                android:id="@+id/nav_host_to_deck_editor"
+                app:destination="@id/deck_editor" />
 
         <action
                 android:id="@+id/nav_host_to_card_filter_for_autoplay"
@@ -70,9 +70,9 @@
     </fragment>
 
     <fragment
-            android:id="@+id/deck_setup_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupFragment"
-            tools:layout="@layout/fragment_deck_setup">
+            android:id="@+id/deck_editor"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorFragment"
+            tools:layout="@layout/fragment_deck_editor">
 
         <action
                 android:id="@+id/action_deck_setup_screen_to_pronunciation_screen"
@@ -172,7 +172,7 @@
 
     <dialog
             android:id="@+id/motivational_timer_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.motivationaltimer.MotivationalTimerDialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerDialog"
             tools:layout="@layout/dialog_motivational_timer" />
 
     <fragment
@@ -182,8 +182,8 @@
             android:layout="@layout/fragment_cards_editor">
 
         <action
-                android:id="@+id/action_cards_editor_screen_to_deck_setup_screen"
-                app:destination="@+id/deck_setup_screen"
+                android:id="@+id/cards_editor_to_deck_editor"
+                app:destination="@+id/deck_editor"
                 app:popUpTo="@+id/cards_editor_screen"
                 app:popUpToInclusive="true" />
 

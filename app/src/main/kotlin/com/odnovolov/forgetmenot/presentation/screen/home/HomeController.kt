@@ -16,8 +16,8 @@ import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
@@ -163,7 +163,7 @@ class HomeController(
 
             SetupDeckOptionSelected -> {
                 val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
-                navigateToDeckSetup(deckId)
+                navigateToDeckEditor(deckId)
             }
 
             ExportDeckOptionSelected -> {
@@ -232,12 +232,12 @@ class HomeController(
         }
     }
 
-    private fun navigateToDeckSetup(deckId: Long) {
+    private fun navigateToDeckEditor(deckId: Long) {
         homeScreenState.deckSelection = null
-        navigator.navigateToDeckSetupFromNavHost {
+        navigator.navigateToDeckEditorFromNavHost {
             val deck: Deck = globalState.decks.first { it.id == deckId }
             val deckEditorState = DeckEditor.State(deck)
-            DeckSetupDiScope.create(DeckSetupScreenState(deck), deckEditorState)
+            DeckEditorDiScope.create(DeckEditorScreenState(deck), deckEditorState)
         }
     }
 

@@ -16,8 +16,8 @@ import com.odnovolov.forgetmenot.presentation.common.catchAndLogException
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 
@@ -84,9 +84,9 @@ class CardsEditorController(
                                 is CardsEditorForDeckCreation -> {
                                     navigator.navigateToDeckSetupFromCardsEditor {
                                         val deck = cardsEditor.createdDeck!!
-                                        val screenState = DeckSetupScreenState(deck)
+                                        val screenState = DeckEditorScreenState(deck)
                                         val deckEditorState = DeckEditor.State(deck)
-                                        DeckSetupDiScope.create(screenState, deckEditorState)
+                                        DeckEditorDiScope.create(screenState, deckEditorState)
                                     }
                                 }
                                 else -> {

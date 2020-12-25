@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForGrade
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*
 import kotlinx.android.synthetic.main.fragment_intervals.*
 import kotlinx.coroutines.launch

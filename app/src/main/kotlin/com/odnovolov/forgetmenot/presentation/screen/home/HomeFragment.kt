@@ -151,8 +151,7 @@ class HomeFragment : BaseFragment() {
             searchTabLayout,
             homePager
         ) { tab, position ->
-            val customTab: TextView =
-                View.inflate(requireContext(), R.layout.tab, null) as TextView
+            val customTab = View.inflate(requireContext(), R.layout.tab, null) as TextView
             customTab.text = getString(
                 when (position) {
                     0 -> R.string.tab_decks

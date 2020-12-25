@@ -3,14 +3,14 @@ package com.odnovolov.forgetmenot.presentation.screen.search
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 
 class SearchDiScope(
     initialSearchText: String = ""
 ) {
     private val cardsSearcher: CardsSearcher =
-        if (DeckSetupDiScope.isOpen()) {
-            val deck = DeckSetupDiScope.shareDeck()
+        if (DeckEditorDiScope.isOpen()) {
+            val deck = DeckEditorDiScope.shareDeck()
             CardsSearcher(deck)
         } else {
             val globalState = AppDiScope.get().globalState

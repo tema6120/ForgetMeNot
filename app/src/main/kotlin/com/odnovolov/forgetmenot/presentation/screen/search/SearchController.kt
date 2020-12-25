@@ -11,7 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.*
@@ -29,9 +29,9 @@ class SearchController(
 
             is CardClicked -> {
                 when {
-                    DeckSetupDiScope.isOpen() -> {
+                    DeckEditorDiScope.isOpen() -> {
                         navigator.navigateToCardsEditorFromSearch {
-                            val deck = DeckSetupDiScope.get()!!.screenState.relevantDeck
+                            val deck = DeckEditorDiScope.get()!!.screenState.relevantDeck
                             val editableCards: List<EditableCard> =
                                 deck.cards.map { card -> EditableCard(card, deck) }
                                     .plus(EditableCard(Card(generateId(), "", ""), deck))

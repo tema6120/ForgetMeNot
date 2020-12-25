@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.search
 
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -13,7 +13,7 @@ class SearchViewModel(
     searcherState: CardsSearcher.State
 ) {
     val searchDeckName: Flow<String?> = flow {
-        val deckName: String? = DeckSetupDiScope.getAsync()?.let { diScope: DeckSetupDiScope ->
+        val deckName: String? = DeckEditorDiScope.getAsync()?.let { diScope: DeckEditorDiScope ->
             diScope.screenState.relevantDeck.name
         }
         emit(deckName)

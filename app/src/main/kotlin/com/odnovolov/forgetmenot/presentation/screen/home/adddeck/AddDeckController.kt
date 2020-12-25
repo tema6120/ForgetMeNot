@@ -9,14 +9,14 @@ import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreat
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.FailureCause.*
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.Success
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser.IllegalCardFormatException
-import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor.State
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupDiScope
-import com.odnovolov.forgetmenot.presentation.screen.decksetup.DeckSetupScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command
@@ -60,7 +60,7 @@ class AddDeckController(
                 )
                 when (result) {
                     is Success -> {
-                        navigateToDeckSetup(result.deck)
+                        navigateToDeckEditor(result.deck)
                         screenState.howToAdd = null
                     }
                     is Failure -> {
@@ -88,7 +88,7 @@ class AddDeckController(
                     LOAD_FROM_FILE -> {
                         val result = deckFromFileCreator.proposeDeckName(screenState.typedText)
                         if (result is Success) {
-                            navigateToDeckSetup(result.deck)
+                            navigateToDeckEditor(result.deck)
                             screenState.howToAdd = null
                         }
                     }
@@ -114,11 +114,11 @@ class AddDeckController(
         }
     }
 
-    private fun navigateToDeckSetup(deck: Deck) {
-        navigator.navigateToDeckSetupFromNavHost {
-            val deckEditorState = State(deck)
-            DeckSetupDiScope.create(
-                DeckSetupScreenState(deck),
+    private fun navigateToDeckEditor(deck: Deck) {
+        navigator.navigateToDeckEditorFromNavHost {
+            val deckEditorState = DeckEditor.State(deck)
+            DeckEditorDiScope.create(
+                DeckEditorScreenState(deck),
                 deckEditorState
             )
         }
