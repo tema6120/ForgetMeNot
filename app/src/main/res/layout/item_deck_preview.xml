@@ -29,7 +29,7 @@
                 android:layout_marginBottom="8dp"
                 android:drawablePadding="12dp"
                 android:textColor="@color/text_title"
-                android:textSize="14sp"
+                android:textSize="14.5sp"
                 android:textStyle="bold"
                 app:drawableStartCompat="@drawable/deck_indicator"
                 app:drawableTint="@color/iconDark"

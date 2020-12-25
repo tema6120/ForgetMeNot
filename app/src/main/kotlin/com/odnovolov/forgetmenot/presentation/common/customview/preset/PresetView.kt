@@ -21,6 +21,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
@@ -59,7 +60,7 @@ class PresetView @JvmOverloads constructor(
         setBackgroundResource(getBorderlessRippleId())
         contentDescription = context.getString(R.string.description_save_preset)
         visibility = GONE
-        setImageResource(R.drawable.ic_save_dark_24dp)
+        setImageResource(R.drawable.ic_round_save_24)
         TooltipCompat.setTooltipText(this, contentDescription)
     }
 
@@ -67,25 +68,19 @@ class PresetView @JvmOverloads constructor(
         layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
             gravity = CENTER_VERTICAL
         }
-        setBackgroundResource(getRippleId())
+        setBackgroundResource(R.drawable.ripple_corner_radius_8dp)
         setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_more_expand_more_with_inset, 0)
         ellipsize = TextUtils.TruncateAt.END
         maxLines = 1
-        setPadding(16.dp)
-        setTextColor(ContextCompat.getColor(context, R.color.textPrimary))
+        setPadding(12.dp)
+        setTextColor(ContextCompat.getColor(context, R.color.text_title))
         textSize = 22f
-        setTypeface(null, Typeface.BOLD)
-    }
-
-    private fun getRippleId(): Int {
-        return getAttrResourceId(android.R.attr.selectableItemBackground)
+        val font = ResourcesCompat.getFont(context, R.font.nunito_bold)
+        setTypeface(font, Typeface.BOLD)
     }
 
     private fun getBorderlessRippleId(): Int {
-        return getAttrResourceId(android.R.attr.selectableItemBackgroundBorderless)
-    }
-
-    private fun getAttrResourceId(resId: Int): Int {
+        val resId = android.R.attr.selectableItemBackgroundBorderless
         val outValue = TypedValue()
         context.theme.resolveAttribute(resId, outValue, true)
         return outValue.resourceId

@@ -11,11 +11,5 @@ sealed class DeckSettingsEvent {
     object DisplayQuestionSwitchToggled : DeckSettingsEvent()
     class CardReverseIsSelected(val cardReverse: CardReverse) : DeckSettingsEvent()
     object PronunciationPlanButtonClicked : DeckSettingsEvent()
-    object TimeForAnswerButtonClicked : DeckSettingsEvent()
-    object TestMethodHelpButtonClicked : DeckSettingsEvent()
-    object IntervalsHelpButtonClicked : DeckSettingsEvent()
-    object PronunciationHelpButtonClicked : DeckSettingsEvent()
-    object QuestionDisplayHelpButtonClicked : DeckSettingsEvent()
-    object PronunciationPlanHelpButtonClicked : DeckSettingsEvent()
-    object MotivationalTimerHelpButtonClicked : DeckSettingsEvent()
+    object MotivationalTimerButtonClicked : DeckSettingsEvent()
 }

@@ -115,7 +115,7 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_show_motivational_timer_dialog)
     }
 
-    fun navigateToHelpFromDeckSetup(createDiScope: () -> HelpDiScope) {
+    fun navigateToHelpFromDeckEditor(createDiScope: () -> HelpDiScope) {
         HelpDiScope.open(createDiScope)
         navigate(R.id.action_deck_setup_screen_to_help_screen)
     }

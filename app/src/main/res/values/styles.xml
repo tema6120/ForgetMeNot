@@ -228,4 +228,63 @@
         <item name="drawableStartCompat">@drawable/ic_radiobutton_unchecked_24</item>
     </style>
 
+    <!-- Deck settings -->
+
+    <style name="DeckSettingsSectionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">@color/text_primary_blue</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="DeckSettingsItemButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/background_settings_button</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="DeckSettingsTextColumn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="DeckSettingsItemTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_title</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DeckSettingsItemDescription">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_description</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="DeckSettingsItemNavigationIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:contentDescription">@string/description_navigate_icon</item>
+        <item name="srcCompat">@drawable/ic_round_chevron_right_32</item>
+    </style>
+
+    <style name="DeckSettingsDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@drawable/divider_with_margins</item>
+    </style>
+
+    <!-- end Deck settings -->
+
 </resources>

@@ -73,7 +73,7 @@ class ExercisePreferencePresetController(
     }
 
     override fun onHelpButtonClicked() {
-        navigator.navigateToHelpFromDeckSetup {
+        navigator.navigateToHelpFromDeckEditor {
             HelpDiScope(HelpArticle.Presets)
         }
     }

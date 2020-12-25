@@ -11,8 +11,6 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Dec
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerDialogState
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationEventDialogState
@@ -75,7 +73,7 @@ class DeckSettingsController(
                 }
             }
 
-            TimeForAnswerButtonClicked -> {
+            MotivationalTimerButtonClicked -> {
                 navigator.showMotivationalTimerDialog {
                     val timeForAnswer = currentExercisePreference.timeForAnswer
                     val isTimerEnabled = timeForAnswer != NOT_TO_USE_TIMER
@@ -87,42 +85,6 @@ class DeckSettingsController(
                         timeInput
                     )
                     MotivationalTimerDiScope.create(dialogState)
-                }
-            }
-
-            TestMethodHelpButtonClicked -> {
-                navigator.navigateToHelpFromDeckSetup {
-                    HelpDiScope(HelpArticle.TestMethods)
-                }
-            }
-
-            IntervalsHelpButtonClicked -> {
-                navigator.navigateToHelpFromDeckSetup {
-                    HelpDiScope(HelpArticle.LevelOfKnowledgeAndIntervals)
-                }
-            }
-
-            PronunciationHelpButtonClicked -> {
-                navigator.navigateToHelpFromDeckSetup {
-                    HelpDiScope(HelpArticle.Pronunciation)
-                }
-            }
-
-            QuestionDisplayHelpButtonClicked -> {
-                navigator.navigateToHelpFromDeckSetup {
-                    HelpDiScope(HelpArticle.QuestionDisplay)
-                }
-            }
-
-            PronunciationPlanHelpButtonClicked -> {
-                navigator.navigateToHelpFromDeckSetup {
-                    HelpDiScope(HelpArticle.Repetition)
-                }
-            }
-
-            MotivationalTimerHelpButtonClicked -> {
-                navigator.navigateToHelpFromDeckSetup {
-                    HelpDiScope(HelpArticle.MotivationalTimer)
                 }
             }
         }

@@ -52,9 +52,7 @@
     <string name="sort_by_time_created">By time created</string>
     <string name="sort_by_time_last_tested">By time last tested</string>
     <string name="title_deck_settings_toolbar">Deck Settings</string>
-    <string name="text_random_order">Random order</string>
-    <string name="label_deck_setup_screen">Deck Setup</string>
-    <string name="text_pronunciation">Pronunciation</string>
+    <string name="label_deck_editor_screen">Deck Editor</string>
     <string name="label_pronunciation_screen">Pronunciation</string>
     <string name="label_intervals_screen">Intervals</string>
     <string name="label_pronunciation_plan_screen">Pronunciation plan</string>
@@ -81,7 +79,6 @@
     <string name="description_delete_preset_button">Delete preset</string>
     <string name="description_add_new_preset">Add new preset</string>
     <string name="description_save_preset">Save preset</string>
-    <string name="title_test_method">Test method</string>
     <string name="title_test_method_dialog">Test method</string>
     <string name="test_method_label_off">Off</string>
     <string name="test_method_label_manual">Manual</string>
@@ -90,13 +87,10 @@
     <string name="text_remember_button">Remember</string>
     <string name="text_not_remember_button">Not remember</string>
     <string name="text_check_button">Check</string>
-    <string name="text_intervals_title">Intervals</string>
     <string name="close">close</string>
     <string name="hint_question_edittext">Enter a question</string>
     <string name="hint_answer_edittext">Enter the answer</string>
     <string name="dialog_title_modify_interval">Interval</string>
-    <string name="title_question_display">Question display</string>
-    <string name="title_card_reverse">Card Reverse</string>
     <string name="card_reverse_label_off">Off</string>
     <string name="card_reverse_label_on">On</string>
     <string name="card_reverse_label_every_other_lap">Every other lap</string>
@@ -159,7 +153,6 @@
         <item quantity="one">card matches the filter</item>
         <item quantity="other">cards match the filter</item>
     </plurals>
-    <string name="text_pronunciation_plan_title">Pronunciation plan for Autoplay</string>
     <string name="pronunciation_event_speak_question">Speak question</string>
     <string name="pronunciation_event_speak_answer">Speak answer</string>
     <string name="pronunciation_event_delay_with_args">Delay %d sec.</string>
@@ -175,7 +168,6 @@
     <string name="item_text_fullscreen_in_other_places">In other places</string>
     <string name="everywhere">Everywhere</string>
     <string name="nowhere">Nowhere</string>
-    <string name="title_time_for_answer">Motivational timer</string>
     <string name="time_for_answer">%d sec.</string>
     <string name="tab_name_settings">Settings</string>
     <string name="tab_name_content">Content</string>
@@ -652,4 +644,15 @@
     <string name="label_new_deck">NEW</string>
     <string name="button_export">Export</string>
     <string name="button_search">Search</string>
+    <string name="deck_settings_section_general">General</string>
+    <string name="deck_settings_section_exercise">Exercise</string>
+    <string name="deck_settings_section_autoplay">Autoplay</string>
+    <string name="deck_settings_item_random_order">Random order</string>
+    <string name="deck_settings_item_pronunciation">Pronunciation</string>
+    <string name="deck_settings_item_card_inversion">Card Inversion</string>
+    <string name="deck_settings_item_question_display">Question display</string>
+    <string name="deck_settings_item_testing_method">Testing method</string>
+    <string name="deck_settings_item_intervals">Intervals</string>
+    <string name="deck_settings_item_motivational_timer">Motivational timer</string>
+    <string name="deck_settings_item_pronunciation_plan">Pronunciation plan</string>
 </resources>

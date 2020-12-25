@@ -7,8 +7,8 @@ import android.os.MessageQueue.IdleHandler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.*
@@ -17,10 +17,8 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
-import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsController.Command.ShowAutoSpeakOfQuestionIsOffMessage
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
@@ -87,17 +85,9 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun setupPrimary() {
-        requireView().viewTreeObserver.addOnGlobalLayoutListener(
-            object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    requireView().viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    setMaxWidthForText()
-                }
-            })
+        setFonts()
         with(viewModel) {
             randomOrder.observe { randomOrder: Boolean ->
-                randomOrderSwitch.isChecked = randomOrder
-                randomOrderSwitch.uncover()
                 selectedRandomOrderTextView.text = getString(
                     if (randomOrder)
                         R.string.on else
@@ -105,7 +95,7 @@ class DeckSettingsFragment : BaseFragment() {
                 )
             }
             selectedTestMethod.observe { selectedTestMethod ->
-                selectedTestMethodTextView.text = when (selectedTestMethod) {
+                selectedTestingMethodTextView.text = when (selectedTestMethod) {
                     TestMethod.Off -> getString(R.string.test_method_label_off)
                     TestMethod.Manual -> getString(R.string.test_method_label_manual)
                     TestMethod.Quiz -> getString(R.string.test_method_label_quiz)
@@ -128,8 +118,6 @@ class DeckSettingsFragment : BaseFragment() {
                 }
             }
             isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
-                questionDisplaySwitch.isChecked = isQuestionDisplayed
-                questionDisplaySwitch.uncover()
                 selectedQuestionDisplayTextView.text = getString(
                     if (isQuestionDisplayed)
                         R.string.on else
@@ -137,7 +125,7 @@ class DeckSettingsFragment : BaseFragment() {
                 )
             }
             selectedCardReverse.observe { selectedCardReverse: CardReverse ->
-                selectedCardReverseTextView.text =
+                selectedCardInversionTextView.text =
                     when (selectedCardReverse) {
                         CardReverse.Off -> getString(R.string.card_reverse_label_off)
                         CardReverse.On -> getString(R.string.card_reverse_label_on)
@@ -153,7 +141,7 @@ class DeckSettingsFragment : BaseFragment() {
                 }
             }
             timeForAnswer.observe { timeForAnswer: Int ->
-                selectedTimeForAnswerTextView.text =
+                selectedMotivationalTimerTextView.text =
                     if (timeForAnswer == 0)
                         getString(R.string.off) else
                         getString(R.string.time_for_answer, timeForAnswer)
@@ -161,21 +149,28 @@ class DeckSettingsFragment : BaseFragment() {
         }
     }
 
-    private fun setMaxWidthForText() {
-        val rootViewWidth = requireView().width
-        testMethodTitle.maxWidth = rootViewWidth - 72.dp
-        selectedTestMethodTextView.maxWidth = rootViewWidth - 72.dp
-        intervalsTitle.maxWidth = rootViewWidth - 96.dp
-        selectedIntervalsTextView.maxWidth = rootViewWidth - 96.dp
-        pronunciationTitle.maxWidth = rootViewWidth - 96.dp
-        selectedPronunciationTextView.maxWidth = rootViewWidth - 96.dp
-        questionDisplayTitle.maxWidth = rootViewWidth - 72.dp - questionDisplaySwitch.width
-        selectedQuestionDisplayTextView.maxWidth =
-            rootViewWidth - 72.dp - questionDisplaySwitch.width
-        pronunciationPlanTitle.maxWidth = rootViewWidth - 96.dp
-        selectedPronunciationPlanTextView.maxWidth = rootViewWidth - 96.dp
-        timeForAnswerTitle.maxWidth = rootViewWidth - 72.dp
-        selectedTimeForAnswerTextView.maxWidth = rootViewWidth - 72.dp
+    private fun setFonts() {
+        val nunitoExtraboldFont = ResourcesCompat.getFont(requireContext(), R.font.nunito_extrabold)
+        generalSectionTitle.typeface = nunitoExtraboldFont
+        exerciseSectionTitle.typeface = nunitoExtraboldFont
+        autoplaySectionTitle.typeface = nunitoExtraboldFont
+        val nunitoBoldFont = ResourcesCompat.getFont(requireContext(), R.font.nunito_bold)
+        randomOrderTitle.typeface = nunitoBoldFont
+        selectedRandomOrderTextView.typeface = nunitoBoldFont
+        pronunciationTitle.typeface = nunitoBoldFont
+        selectedPronunciationTextView.typeface = nunitoBoldFont
+        cardInversionTitle.typeface = nunitoBoldFont
+        selectedCardInversionTextView.typeface = nunitoBoldFont
+        questionDisplayTitle.typeface = nunitoBoldFont
+        selectedQuestionDisplayTextView.typeface = nunitoBoldFont
+        testingMethodTitle.typeface = nunitoBoldFont
+        selectedTestingMethodTextView.typeface = nunitoBoldFont
+        intervalsTitle.typeface = nunitoBoldFont
+        selectedIntervalsTextView.typeface = nunitoBoldFont
+        motivationalTimerTitle.typeface = nunitoBoldFont
+        selectedMotivationalTimerTextView.typeface = nunitoBoldFont
+        pronunciationPlanTitle.typeface = nunitoBoldFont
+        selectedPronunciationPlanTextView.typeface = nunitoBoldFont
     }
 
     private fun setupSecondary() {
@@ -223,7 +218,7 @@ class DeckSettingsFragment : BaseFragment() {
         randomButton.setOnClickListener {
             controller?.dispatch(RandomOrderSwitchToggled)
         }
-        testMethodButton.setOnClickListener {
+        testingMethodButton.setOnClickListener {
             testMethodDialog.show()
         }
         intervalsButton.setOnClickListener {
@@ -232,35 +227,17 @@ class DeckSettingsFragment : BaseFragment() {
         pronunciationButton.setOnClickListener {
             controller?.dispatch(PronunciationButtonClicked)
         }
-        displayQuestionButton.setOnClickListener {
+        QuestionDisplayButton.setOnClickListener {
             controller?.dispatch(DisplayQuestionSwitchToggled)
         }
-        cardReverseButton.setOnClickListener {
+        cardInversionButton.setOnClickListener {
             cardReverseDialog.show()
         }
         pronunciationPlanButton.setOnClickListener {
             controller?.dispatch(PronunciationPlanButtonClicked)
         }
-        timeForAnswerButton.setOnClickListener {
-            controller?.dispatch(TimeForAnswerButtonClicked)
-        }
-        testMethodHelpButton.setOnClickListener {
-            controller?.dispatch(TestMethodHelpButtonClicked)
-        }
-        intervalsHelpButton.setOnClickListener {
-            controller?.dispatch(IntervalsHelpButtonClicked)
-        }
-        pronunciationHelpButton.setOnClickListener {
-            controller?.dispatch(PronunciationHelpButtonClicked)
-        }
-        questionDisplayHelpButton.setOnClickListener {
-            controller?.dispatch(QuestionDisplayHelpButtonClicked)
-        }
-        pronunciationPlanHelpButton.setOnClickListener {
-            controller?.dispatch(PronunciationPlanHelpButtonClicked)
-        }
-        motivationalTimerHelpButton.setOnClickListener {
-            controller?.dispatch(MotivationalTimerHelpButtonClicked)
+        motivationalTimerButton.setOnClickListener {
+            controller?.dispatch(MotivationalTimerButtonClicked)
         }
         scrollView.setOnScrollChangeListener(scrollListener)
         scrollListener.onScrollChange(scrollView, 0, 0, 0, 0)

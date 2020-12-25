@@ -39,7 +39,7 @@ class MotivationalTimerDialog : BaseDialogFragment() {
 
     private fun setupView() {
         with(rootView) {
-            timeForAnswerButton.setOnClickListener {
+            motivationalTimerButton.setOnClickListener {
                 controller?.dispatch(TimeForAnswerSwitchToggled)
             }
             timeForAnswerEditText.observeText { text: String ->

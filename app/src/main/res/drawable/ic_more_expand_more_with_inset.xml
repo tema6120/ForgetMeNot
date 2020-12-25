@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-        android:drawable="@drawable/ic_expand_more_dark_24dp"
-        android:insetLeft="8dp" />
+        android:drawable="@drawable/ic_round_expand_more_24"
+        android:insetLeft="4dp" />

@@ -10,15 +10,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="@string/title_time_for_answer"
+            android:text="@string/deck_settings_item_motivational_timer"
             android:textColor="@color/textPrimary"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@id/timeForAnswerButton"
+            app:layout_constraintEnd_toStartOf="@id/motivationalTimerButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-            android:id="@+id/timeForAnswerButton"
+            android:id="@+id/motivationalTimerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

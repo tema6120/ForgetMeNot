@@ -1,5 +1,4 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -17,441 +16,226 @@
                 android:layout_gravity="end"
                 android:layout_margin="16dp" />
 
+        <TextView
+                android:id="@+id/generalSectionTitle"
+                style="@style/DeckSettingsSectionTitle"
+                tools:fontFamily="@font/nunito_extrabold"
+                android:text="@string/deck_settings_section_general" />
+
         <LinearLayout
                 android:id="@+id/randomButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="horizontal">
+                style="@style/DeckSettingsItemButton">
 
-            <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+            <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/randomOrderTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_random_order"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="16sp" />
+                        style="@style/DeckSettingsItemTitle"
+                        tools:fontFamily="@font/nunito_bold"
+                        android:text="@string/deck_settings_item_random_order" />
 
                 <TextView
                         android:id="@+id/selectedRandomOrderTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/textSecondary"
+                        style="@style/DeckSettingsItemDescription"
+                        tools:fontFamily="@font/nunito_bold"
                         tools:text="On" />
 
             </LinearLayout>
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/randomOrderSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:padding="16dp"
-                    android:visibility="invisible"
-                    tools:checked="true"
-                    tools:visibility="visible" />
+            <ImageView style="@style/DeckSettingsItemNavigationIcon" />
 
         </LinearLayout>
 
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:listDivider" />
-
-        <LinearLayout
-                android:id="@+id/testMethodButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                <TextView
-                        android:id="@+id/testMethodTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/title_test_method"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="16sp" />
-
-                <TextView
-                        android:id="@+id/selectedTestMethodTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/textSecondary"
-                        tools:text="Manual" />
-
-            </LinearLayout>
-
-            <ImageButton
-                    android:id="@+id/testMethodHelpButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_help_button"
-                    android:tint="@color/iconDark"
-                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
-
-            <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:listDivider" />
-
-        <LinearLayout
-                android:id="@+id/intervalsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                <TextView
-                        android:id="@+id/intervalsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_intervals_title"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="16sp" />
-
-                <TextView
-                        android:id="@+id/selectedIntervalsTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/textSecondary"
-                        tools:text="Default" />
-
-            </LinearLayout>
-
-            <ImageButton
-                    android:id="@+id/intervalsHelpButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_help_button"
-                    android:tint="@color/iconDark"
-                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
-
-            <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-            <ImageView
-                    android:id="@+id/navigateToIntervalsScreenIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/description_navigate_icon"
-                    app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
-
-        </LinearLayout>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:listDivider" />
+        <View style="@style/DeckSettingsDivider" />
 
         <LinearLayout
                 android:id="@+id/pronunciationButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                style="@style/DeckSettingsItemButton">
 
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+            <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/pronunciationTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_pronunciation"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="16sp" />
+                        style="@style/DeckSettingsItemTitle"
+                        tools:fontFamily="@font/nunito_bold"
+                        android:text="@string/deck_settings_item_pronunciation" />
 
                 <TextView
                         android:id="@+id/selectedPronunciationTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/textSecondary"
-                        tools:text="'Answer in English'" />
+                        style="@style/DeckSettingsItemDescription"
+                        tools:fontFamily="@font/nunito_bold"
+                        tools:text="English (A), Ukranian" />
 
             </LinearLayout>
 
-            <ImageButton
-                    android:id="@+id/pronunciationHelpButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_help_button"
-                    android:tint="@color/iconDark"
-                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
-
-            <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-            <ImageView
-                    android:id="@+id/navigateToPronunciationScreenIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/description_navigate_icon"
-                    app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
+            <ImageView style="@style/DeckSettingsItemNavigationIcon" />
 
         </LinearLayout>
 
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:listDivider" />
+        <View style="@style/DeckSettingsDivider" />
 
         <LinearLayout
-                android:id="@+id/displayQuestionButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:id="@+id/cardInversionButton"
+                style="@style/DeckSettingsItemButton">
 
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+            <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
-                        android:id="@+id/questionDisplayTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/title_question_display"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="16sp" />
+                        android:id="@+id/cardInversionTitle"
+                        style="@style/DeckSettingsItemTitle"
+                        tools:fontFamily="@font/nunito_bold"
+                        android:text="@string/deck_settings_item_card_inversion" />
 
                 <TextView
-                        android:id="@+id/selectedQuestionDisplayTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/textSecondary"
-                        tools:text="On" />
-
-            </LinearLayout>
-
-            <ImageButton
-                    android:id="@+id/questionDisplayHelpButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_help_button"
-                    android:tint="@color/iconDark"
-                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
-
-            <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/questionDisplaySwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:visibility="invisible"
-                    tools:checked="true"
-                    tools:visibility="visible" />
-
-        </LinearLayout>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:listDivider" />
-
-        <LinearLayout
-                android:id="@+id/cardReverseButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-            <TextView
-                    android:id="@+id/cardReverseTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_card_reverse"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp" />
-
-            <TextView
-                    android:id="@+id/selectedCardReverseTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textSecondary"
-                    tools:text="Off" />
-
-        </LinearLayout>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:listDivider" />
-
-        <LinearLayout
-                android:id="@+id/pronunciationPlanButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                <TextView
-                        android:id="@+id/pronunciationPlanTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_pronunciation_plan_title"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="16sp" />
-
-                <TextView
-                        android:id="@+id/selectedPronunciationPlanTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/textSecondary"
-                        tools:text="Default" />
-
-            </LinearLayout>
-
-            <ImageButton
-                    android:id="@+id/pronunciationPlanHelpButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_help_button"
-                    android:tint="@color/iconDark"
-                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
-
-            <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-            <ImageView
-                    android:id="@+id/navigateToPronunciationPlanScreenIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/description_navigate_icon"
-                    app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
-
-        </LinearLayout>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:listDivider" />
-
-        <LinearLayout
-                android:id="@+id/timeForAnswerButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                <TextView
-                        android:id="@+id/timeForAnswerTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/title_time_for_answer"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="16sp" />
-
-                <TextView
-                        android:id="@+id/selectedTimeForAnswerTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/textSecondary"
+                        android:id="@+id/selectedCardInversionTextView"
+                        style="@style/DeckSettingsItemDescription"
+                        tools:fontFamily="@font/nunito_bold"
                         tools:text="Off" />
 
             </LinearLayout>
 
-            <ImageButton
-                    android:id="@+id/motivationalTimerHelpButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_help_button"
-                    android:tint="@color/iconDark"
-                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
-
-            <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+            <ImageView style="@style/DeckSettingsItemNavigationIcon" />
 
         </LinearLayout>
 
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:listDivider" />
+        <View style="@style/DeckSettingsDivider" />
+
+        <LinearLayout
+                android:id="@+id/QuestionDisplayButton"
+                style="@style/DeckSettingsItemButton">
+
+            <LinearLayout style="@style/DeckSettingsTextColumn">
+
+                <TextView
+                        android:id="@+id/questionDisplayTitle"
+                        style="@style/DeckSettingsItemTitle"
+                        tools:fontFamily="@font/nunito_bold"
+                        android:text="@string/deck_settings_item_question_display" />
+
+                <TextView
+                        android:id="@+id/selectedQuestionDisplayTextView"
+                        style="@style/DeckSettingsItemDescription"
+                        tools:fontFamily="@font/nunito_bold"
+                        tools:text="On" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/DeckSettingsItemNavigationIcon" />
+
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/exerciseSectionTitle"
+                style="@style/DeckSettingsSectionTitle"
+                tools:fontFamily="@font/nunito_extrabold"
+                android:text="@string/deck_settings_section_exercise" />
+
+        <LinearLayout
+                android:id="@+id/testingMethodButton"
+                style="@style/DeckSettingsItemButton">
+
+            <LinearLayout style="@style/DeckSettingsTextColumn">
+
+                <TextView
+                        android:id="@+id/testingMethodTitle"
+                        style="@style/DeckSettingsItemTitle"
+                        tools:fontFamily="@font/nunito_bold"
+                        android:text="@string/deck_settings_item_testing_method" />
+
+                <TextView
+                        android:id="@+id/selectedTestingMethodTextView"
+                        style="@style/DeckSettingsItemDescription"
+                        tools:fontFamily="@font/nunito_bold"
+                        tools:text="Self testing" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/DeckSettingsItemNavigationIcon" />
+
+        </LinearLayout>
+
+        <View style="@style/DeckSettingsDivider" />
+
+        <LinearLayout
+                android:id="@+id/intervalsButton"
+                style="@style/DeckSettingsItemButton">
+
+            <LinearLayout style="@style/DeckSettingsTextColumn">
+
+                <TextView
+                        android:id="@+id/intervalsTitle"
+                        style="@style/DeckSettingsItemTitle"
+                        tools:fontFamily="@font/nunito_bold"
+                        android:text="@string/deck_settings_item_intervals" />
+
+                <TextView
+                        android:id="@+id/selectedIntervalsTextView"
+                        style="@style/DeckSettingsItemDescription"
+                        tools:fontFamily="@font/nunito_bold"
+                        tools:text="8h • 2d • 7d • 21d • 2m • 6m" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/DeckSettingsItemNavigationIcon" />
+
+        </LinearLayout>
+
+        <View style="@style/DeckSettingsDivider" />
+
+        <LinearLayout
+                android:id="@+id/motivationalTimerButton"
+                style="@style/DeckSettingsItemButton">
+
+            <LinearLayout style="@style/DeckSettingsTextColumn">
+
+                <TextView
+                        android:id="@+id/motivationalTimerTitle"
+                        style="@style/DeckSettingsItemTitle"
+                        tools:fontFamily="@font/nunito_bold"
+                        android:text="@string/deck_settings_item_motivational_timer" />
+
+                <TextView
+                        android:id="@+id/selectedMotivationalTimerTextView"
+                        style="@style/DeckSettingsItemDescription"
+                        tools:fontFamily="@font/nunito_bold"
+                        tools:text="15 sec." />
+
+            </LinearLayout>
+
+            <ImageView style="@style/DeckSettingsItemNavigationIcon" />
+
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/autoplaySectionTitle"
+                style="@style/DeckSettingsSectionTitle"
+                tools:fontFamily="@font/nunito_extrabold"
+                android:text="@string/deck_settings_section_autoplay" />
+
+        <LinearLayout
+                android:id="@+id/pronunciationPlanButton"
+                style="@style/DeckSettingsItemButton"
+                android:layout_marginBottom="16dp">
+
+            <LinearLayout style="@style/DeckSettingsTextColumn">
+
+                <TextView
+                        android:id="@+id/pronunciationPlanTitle"
+                        style="@style/DeckSettingsItemTitle"
+                        tools:fontFamily="@font/nunito_bold"
+                        android:text="@string/deck_settings_item_pronunciation_plan" />
+
+                <TextView
+                        android:id="@+id/selectedPronunciationPlanTextView"
+                        style="@style/DeckSettingsItemDescription"
+                        tools:fontFamily="@font/nunito_bold"
+                        tools:text="Q 2s A 1s" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/DeckSettingsItemNavigationIcon" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
