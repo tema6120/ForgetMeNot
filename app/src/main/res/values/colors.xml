@@ -81,4 +81,10 @@
     <color name="text_primary_blue_unselected">#664B5875</color>
     <color name="text_description_blue">#A84B5875</color>
     <color name="text_title">#B8000000</color>
+    <color name="icon_export">#6132D5</color>
+    <color name="icon_export_background">#1A6132D5</color>
+    <color name="text_export_icon">#9913004D</color>
+    <color name="icon_search">#19C9DC</color>
+    <color name="icon_search_background">#1A19C9DC</color>
+    <color name="text_search_icon">#9900424D</color>
 </resources>

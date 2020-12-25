@@ -37,12 +37,13 @@ class DeckEditorDiScope private constructor(
     val controller = DeckEditorController(
         deckEditor,
         screenState,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         deckEditorStateProvider,
         screenStateProvider
     )
 
-    val deckSetupViewModel = DeckEditorViewModel(
+    val deckEditorViewModel = DeckEditorViewModel(
         screenState,
         deckEditorState,
         AppDiScope.get().globalState

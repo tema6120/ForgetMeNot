@@ -130,7 +130,7 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_search_screen_to_cards_editor_screen)
     }
 
-    fun navigateToCardsEditorFromDeckSetup(createDiScope: () -> CardsEditorDiScope) {
+    fun navigateToCardsEditorFromDeckEditor(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.action_deck_setup_screen_to_cards_editor_screen)
     }

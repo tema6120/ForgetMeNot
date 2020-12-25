@@ -7,5 +7,4 @@ sealed class DeckContentEvent {
     class OutputStreamOpened(val outputStream: OutputStream) : DeckContentEvent()
     object SearchButtonClicked : DeckContentEvent()
     class CardClicked(val cardId: Long) : DeckContentEvent()
-    object AddCardButtonClicked : DeckContentEvent()
 }

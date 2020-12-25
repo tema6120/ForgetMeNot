@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -46,33 +47,13 @@ class DeckEditorFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_deck_editor, container, false)
     }
 
-    private fun requireRenameDeckDialog(): AlertDialog {
-        if (renameDeckDialog == null) {
-            val contentView = View.inflate(context, R.layout.dialog_input, null)
-            renameDeckEditText = contentView.dialogInput
-            renameDeckEditText!!.observeText { text: String ->
-                controller?.dispatch(RenameDeckDialogTextChanged(text))
-            }
-            renameDeckDialog = AlertDialog.Builder(requireContext())
-                .setTitle(R.string.title_deck_name_dialog)
-                .setView(contentView)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    controller?.dispatch(RenameDeckDialogPositiveButtonClicked)
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-                .create()
-                .apply { setOnShowListener { renameDeckEditText?.showSoftInput() } }
-        }
-        return renameDeckDialog!!
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
             val diScope = DeckEditorDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            viewModel = diScope.deckSetupViewModel
+            viewModel = diScope.deckEditorViewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }
@@ -85,12 +66,35 @@ class DeckEditorFragment : BaseFragment() {
         deckNameTextView.setOnClickListener {
             controller?.dispatch(RenameDeckButtonClicked)
         }
+        addCardButton.run {
+            setOnClickListener { controller?.dispatch(AddCardButtonClicked) }
+            TooltipCompat.setTooltipText(this, contentDescription)
+        }
         setupViewPager()
     }
 
     private fun setupViewPager() {
         deckEditorViewPager.offscreenPageLimit = 1
         deckEditorViewPager.adapter = DeckEditorPagerAdapter(this)
+        deckEditorViewPager.registerOnPageChangeCallback(
+            object : ViewPager2.OnPageChangeCallback() {
+                private var isAddCardButtonVisible = false
+                    set(value) {
+                        if (field != value) {
+                            field = value
+                            with(addCardButton) { if (value) show() else hide() }
+                        }
+                    }
+
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    isAddCardButtonVisible = position == 1 && positionOffset == 0f
+                }
+            }
+        )
         tabLayoutMediator = TabLayoutMediator(
             deckEditorTabLayout,
             deckEditorViewPager
@@ -142,6 +146,26 @@ class DeckEditorFragment : BaseFragment() {
                 renameDeckDialog!!.show()
             }
         }
+    }
+
+    private fun requireRenameDeckDialog(): AlertDialog {
+        if (renameDeckDialog == null) {
+            val contentView = View.inflate(context, R.layout.dialog_input, null)
+            renameDeckEditText = contentView.dialogInput
+            renameDeckEditText!!.observeText { text: String ->
+                controller?.dispatch(RenameDeckDialogTextChanged(text))
+            }
+            renameDeckDialog = AlertDialog.Builder(requireContext())
+                .setTitle(R.string.title_deck_name_dialog)
+                .setView(contentView)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    controller?.dispatch(RenameDeckDialogPositiveButtonClicked)
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .create()
+                .apply { setOnShowListener { renameDeckEditText?.showSoftInput() } }
+        }
+        return renameDeckDialog!!
     }
 
     override fun onAttachFragment(childFragment: Fragment) {

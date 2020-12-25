@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -14,7 +13,7 @@ import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentController.Command.*
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentEvent.OutputStreamOpened
 import kotlinx.android.synthetic.main.fragment_deck_content.*
 import kotlinx.coroutines.launch
 
@@ -69,10 +68,6 @@ class DeckContentFragment : BaseFragment() {
         controller!!.commands.observe(::executeCommand)
         pendingEvent?.let(controller!!::dispatch)
         pendingEvent = null
-        addCardButton.run {
-            setOnClickListener { controller?.dispatch(AddCardButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
-        }
         cardsRecycler.addOnScrollListener(scrollListener)
     }
 

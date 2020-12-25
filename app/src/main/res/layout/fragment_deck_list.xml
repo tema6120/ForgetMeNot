@@ -32,6 +32,6 @@
             android:textStyle="bold"
             android:visibility="gone"
             app:drawableTint="@color/text_no_search_result"
-            app:drawableTopCompat="@drawable/ic_round_search_24" />
+            app:drawableTopCompat="@drawable/ic_round_search_54" />
 
 </FrameLayout>

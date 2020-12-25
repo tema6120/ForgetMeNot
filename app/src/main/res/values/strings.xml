@@ -35,8 +35,6 @@
     <string name="description_walking_mode_settings_button">Walking mode settings</string>
     <string name="description_back_button">Navigate back</string>
     <string name="description_show_table_of_contents_button">Show table of contents</string>
-    <string name="description_search_in_cards_button">Search in cards</string>
-    <string name="description_export_button">Export to file</string>
     <string name="description_search_button">Search</string>
     <string name="description_drawer_button">Open navigation menu</string>
     <string name="description_back_button2">Back</string>
@@ -652,4 +650,6 @@
     <string name="description_issue_icon">Issue icon</string>
     <string name="description_infinite_playback_icon">Infinite playback icon</string>
     <string name="label_new_deck">NEW</string>
+    <string name="button_export">Export</string>
+    <string name="button_search">Search</string>
 </resources>
