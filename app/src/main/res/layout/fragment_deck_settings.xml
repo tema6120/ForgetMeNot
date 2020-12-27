@@ -1,4 +1,5 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -19,20 +20,24 @@
         <TextView
                 android:id="@+id/generalSectionTitle"
                 style="@style/DeckSettingsSectionTitle"
-                tools:fontFamily="@font/nunito_extrabold"
-                android:text="@string/deck_settings_section_general" />
+                android:text="@string/deck_settings_section_general"
+                tools:fontFamily="@font/nunito_extrabold" />
 
         <LinearLayout
                 android:id="@+id/randomButton"
                 style="@style/DeckSettingsItemButton">
+
+            <ImageView
+                    style="@style/DeckSettingsIcon"
+                    app:srcCompat="@drawable/icon_random_order" />
 
             <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/randomOrderTitle"
                         style="@style/DeckSettingsItemTitle"
-                        tools:fontFamily="@font/nunito_bold"
-                        android:text="@string/deck_settings_item_random_order" />
+                        android:text="@string/deck_settings_item_random_order"
+                        tools:fontFamily="@font/nunito_bold" />
 
                 <TextView
                         android:id="@+id/selectedRandomOrderTextView"
@@ -52,13 +57,17 @@
                 android:id="@+id/pronunciationButton"
                 style="@style/DeckSettingsItemButton">
 
+            <ImageView
+                    style="@style/DeckSettingsIcon"
+                    app:srcCompat="@drawable/icon_pronunciation" />
+
             <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/pronunciationTitle"
                         style="@style/DeckSettingsItemTitle"
-                        tools:fontFamily="@font/nunito_bold"
-                        android:text="@string/deck_settings_item_pronunciation" />
+                        android:text="@string/deck_settings_item_pronunciation"
+                        tools:fontFamily="@font/nunito_bold" />
 
                 <TextView
                         android:id="@+id/selectedPronunciationTextView"
@@ -78,13 +87,17 @@
                 android:id="@+id/cardInversionButton"
                 style="@style/DeckSettingsItemButton">
 
+            <ImageView
+                    style="@style/DeckSettingsIcon"
+                    app:srcCompat="@drawable/icon_card_inversion" />
+
             <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/cardInversionTitle"
                         style="@style/DeckSettingsItemTitle"
-                        tools:fontFamily="@font/nunito_bold"
-                        android:text="@string/deck_settings_item_card_inversion" />
+                        android:text="@string/deck_settings_item_card_inversion"
+                        tools:fontFamily="@font/nunito_bold" />
 
                 <TextView
                         android:id="@+id/selectedCardInversionTextView"
@@ -104,13 +117,17 @@
                 android:id="@+id/QuestionDisplayButton"
                 style="@style/DeckSettingsItemButton">
 
+            <ImageView
+                    style="@style/DeckSettingsIcon"
+                    app:srcCompat="@drawable/icon_question_display" />
+
             <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/questionDisplayTitle"
                         style="@style/DeckSettingsItemTitle"
-                        tools:fontFamily="@font/nunito_bold"
-                        android:text="@string/deck_settings_item_question_display" />
+                        android:text="@string/deck_settings_item_question_display"
+                        tools:fontFamily="@font/nunito_bold" />
 
                 <TextView
                         android:id="@+id/selectedQuestionDisplayTextView"
@@ -127,20 +144,24 @@
         <TextView
                 android:id="@+id/exerciseSectionTitle"
                 style="@style/DeckSettingsSectionTitle"
-                tools:fontFamily="@font/nunito_extrabold"
-                android:text="@string/deck_settings_section_exercise" />
+                android:text="@string/deck_settings_section_exercise"
+                tools:fontFamily="@font/nunito_extrabold" />
 
         <LinearLayout
                 android:id="@+id/testingMethodButton"
                 style="@style/DeckSettingsItemButton">
+
+            <ImageView
+                    style="@style/DeckSettingsIcon"
+                    app:srcCompat="@drawable/icon_testing_method" />
 
             <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/testingMethodTitle"
                         style="@style/DeckSettingsItemTitle"
-                        tools:fontFamily="@font/nunito_bold"
-                        android:text="@string/deck_settings_item_testing_method" />
+                        android:text="@string/deck_settings_item_testing_method"
+                        tools:fontFamily="@font/nunito_bold" />
 
                 <TextView
                         android:id="@+id/selectedTestingMethodTextView"
@@ -160,13 +181,17 @@
                 android:id="@+id/intervalsButton"
                 style="@style/DeckSettingsItemButton">
 
+            <ImageView
+                    style="@style/DeckSettingsIcon"
+                    app:srcCompat="@drawable/icon_intervals" />
+
             <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/intervalsTitle"
                         style="@style/DeckSettingsItemTitle"
-                        tools:fontFamily="@font/nunito_bold"
-                        android:text="@string/deck_settings_item_intervals" />
+                        android:text="@string/deck_settings_item_intervals"
+                        tools:fontFamily="@font/nunito_bold" />
 
                 <TextView
                         android:id="@+id/selectedIntervalsTextView"
@@ -186,13 +211,17 @@
                 android:id="@+id/motivationalTimerButton"
                 style="@style/DeckSettingsItemButton">
 
+            <ImageView
+                    style="@style/DeckSettingsIcon"
+                    app:srcCompat="@drawable/icon_timer" />
+
             <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/motivationalTimerTitle"
                         style="@style/DeckSettingsItemTitle"
-                        tools:fontFamily="@font/nunito_bold"
-                        android:text="@string/deck_settings_item_motivational_timer" />
+                        android:text="@string/deck_settings_item_motivational_timer"
+                        tools:fontFamily="@font/nunito_bold" />
 
                 <TextView
                         android:id="@+id/selectedMotivationalTimerTextView"
@@ -209,21 +238,25 @@
         <TextView
                 android:id="@+id/autoplaySectionTitle"
                 style="@style/DeckSettingsSectionTitle"
-                tools:fontFamily="@font/nunito_extrabold"
-                android:text="@string/deck_settings_section_autoplay" />
+                android:text="@string/deck_settings_section_autoplay"
+                tools:fontFamily="@font/nunito_extrabold" />
 
         <LinearLayout
                 android:id="@+id/pronunciationPlanButton"
                 style="@style/DeckSettingsItemButton"
                 android:layout_marginBottom="16dp">
 
+            <ImageView
+                    style="@style/DeckSettingsIcon"
+                    app:srcCompat="@drawable/icon_pronunciation_plan" />
+
             <LinearLayout style="@style/DeckSettingsTextColumn">
 
                 <TextView
                         android:id="@+id/pronunciationPlanTitle"
                         style="@style/DeckSettingsItemTitle"
-                        tools:fontFamily="@font/nunito_bold"
-                        android:text="@string/deck_settings_item_pronunciation_plan" />
+                        android:text="@string/deck_settings_item_pronunciation_plan"
+                        tools:fontFamily="@font/nunito_bold" />
 
                 <TextView
                         android:id="@+id/selectedPronunciationPlanTextView"

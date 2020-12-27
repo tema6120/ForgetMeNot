@@ -157,7 +157,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_available_for_exercise_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="14sp"
+                            android:textSize="15sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -185,7 +185,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_awaiting_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="14sp"
+                            android:textSize="15sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -214,7 +214,7 @@
                             android:paddingBottom="12dp"
                             android:text="@string/text_learned_group_checkbox"
                             android:textColor="@color/textSecondary"
-                            android:textSize="14sp"
+                            android:textSize="15sp"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
