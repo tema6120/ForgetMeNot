@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.pronunciation
+package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 enum class SpeakingStatus {
     Speaking,

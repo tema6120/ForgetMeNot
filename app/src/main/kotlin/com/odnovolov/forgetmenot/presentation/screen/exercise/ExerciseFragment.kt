@@ -34,10 +34,8 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.Masking
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction

@@ -25,10 +25,10 @@ import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServic
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus
+import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.popup_infinite_playback.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*

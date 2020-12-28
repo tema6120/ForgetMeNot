@@ -65,7 +65,7 @@
     <string name="label_search_screen">Search</string>
     <string name="hint_pronunciation_name_edittext">Enter name</string>
     <string name="text_question_title_textview">Question</string>
-    <string name="text_auto_speak_switch">Auto speak</string>
+    <string name="text_autospeaking_switch">Auto-speaking</string>
     <string name="text_answer_title_textview">Answer</string>
     <string name="on">On</string>
     <string name="off">Off</string>
@@ -655,4 +655,6 @@
     <string name="deck_settings_item_intervals">Intervals</string>
     <string name="deck_settings_item_motivational_timer">Motivational timer</string>
     <string name="deck_settings_item_pronunciation_plan">Pronunciation plan</string>
+    <string name="title_pronunciation_screen">Pronunciation</string>
+    <string name="default_language">Default language</string>
 </resources>

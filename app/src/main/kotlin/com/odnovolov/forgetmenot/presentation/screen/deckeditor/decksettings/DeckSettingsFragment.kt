@@ -114,15 +114,15 @@ class DeckSettingsFragment : BaseFragment() {
                 selectedPronunciationTextView.text = buildString {
                     append(
                         pronunciation.questionLanguage?.displayLanguage
-                            ?: getString(R.string.default_name)
+                            ?: getString(R.string.default_language)
                     )
                     if (pronunciation.questionAutoSpeak) {
                         append(" (A)")
                     }
-                    append(", ")
+                    append("  |  ")
                     append(
                         pronunciation.answerLanguage?.displayLanguage
-                            ?: getString(R.string.default_name)
+                            ?: getString(R.string.default_language)
                     )
                     if (pronunciation.answerAutoSpeak) {
                         append(" (A)")

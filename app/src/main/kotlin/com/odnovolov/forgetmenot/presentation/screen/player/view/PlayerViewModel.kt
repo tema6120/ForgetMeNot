@@ -12,9 +12,9 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus
 import kotlinx.coroutines.flow.*
 import java.util.*
 

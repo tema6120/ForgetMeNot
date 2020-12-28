@@ -2,21 +2,22 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.PopupWindow
-import android.widget.Toast
-import androidx.appcompat.widget.TooltipCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePaddingRelative
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.ReasonForInabilityToSpeak.*
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.SpeakingStatus.*
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
-import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -28,10 +29,6 @@ class PronunciationFragment : BaseFragment() {
 
     private var controller: PronunciationController? = null
     private lateinit var viewModel: PronunciationViewModel
-    private val speakErrorPopup: PopupWindow by lazy { createSpeakErrorPopup() }
-    private val speakErrorToast: Toast by lazy {
-        Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
-    }
     private val questionLanguagePopup: PopupWindow by lazy {
         createLanguagePopup().apply {
             (contentView as RecyclerView).adapter = questionLanguageAdapter
@@ -54,6 +51,7 @@ class PronunciationFragment : BaseFragment() {
             answerLanguagePopup.dismiss()
         }
     )
+    private var scrollListener: ViewTreeObserver.OnScrollChangedListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,14 +73,20 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        questionLanguageTextView.setOnClickListener {
-            questionLanguagePopup.show(anchor = questionLanguageTextView)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        helpButton.setOnClickListener {
+            controller?.dispatch(HelpButtonClicked)
+        }
+        questionLanguageButton.setOnClickListener {
+            questionLanguagePopup.show(anchor = questionLanguageButton)
         }
         questionAutoSpeakButton.setOnClickListener {
             controller?.dispatch(QuestionAutoSpeakSwitchToggled)
         }
-        answerLanguageTextView.setOnClickListener {
-            answerLanguagePopup.show(anchor = answerLanguageTextView)
+        answerLanguageButton.setOnClickListener {
+            answerLanguagePopup.show(anchor = answerLanguageButton)
         }
         answerAutoSpeakButton.setOnClickListener {
             controller?.dispatch(AnswerAutoSpeakSwitchToggled)
@@ -98,176 +102,50 @@ class PronunciationFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             selectedQuestionLanguage.observe { selectedQuestionLanguage: Locale? ->
-                questionLanguageTextView.text = getSelectedLanguageText(selectedQuestionLanguage)
+                updateLanguageButton(isQuestion = true, selectedQuestionLanguage)
             }
             displayedQuestionLanguages.observe(questionLanguageAdapter::submitList)
-            questionAutoSpeak.observe { questionAutoSpeak: Boolean ->
+            questionAutoSpeaking.observe { questionAutoSpeak: Boolean ->
                 questionAutoSpeakSwitch.isChecked = questionAutoSpeak
                 questionAutoSpeakSwitch.uncover()
             }
-            isQuestionPreparingToBePronounced.observe { isPreparing: Boolean ->
-                testPronunciationOfQuestionProgressBar.visibility =
-                    if (isPreparing) View.VISIBLE else View.INVISIBLE
-            }
-            questionSpeakingStatus.observe { speakingStatus: SpeakingStatus ->
-                with(testPronunciationOfQuestionButton) {
-                    setImageResource(getSpeakIconResId(speakingStatus))
-                    setOnClickListener {
-                        when (speakingStatus) {
-                            Speaking -> {
-                                controller?.dispatch(StopSpeakButtonClicked)
-                            }
-                            NotSpeaking -> {
-                                controller?.dispatch(TestPronunciationOfQuestionButtonClicked)
-                            }
-                            CannotSpeak -> {
-                                val reasonForInabilityToSpeak: ReasonForInabilityToSpeak? =
-                                    viewModel.reasonForInabilityToSpeakQuestion.firstBlocking()
-                                showSpeakErrorPopup(
-                                    testPronunciationOfQuestionButton,
-                                    reasonForInabilityToSpeak
-                                )
-                            }
-                        }
-                    }
-                    setTooltipTextForSpeakButton(this, speakingStatus)
-                }
-            }
             selectedAnswerLanguage.observe { selectedAnswerLanguage: Locale? ->
-                answerLanguageTextView.text = getSelectedLanguageText(selectedAnswerLanguage)
+                updateLanguageButton(isQuestion = false, selectedAnswerLanguage)
             }
             displayedAnswerLanguages.observe(answerLanguageAdapter::submitList)
-            answerAutoSpeak.observe { answerAutoSpeak: Boolean ->
+            answerAutoSpeaking.observe { answerAutoSpeak: Boolean ->
                 answerAutoSpeakSwitch.isChecked = answerAutoSpeak
                 answerAutoSpeakSwitch.uncover()
-            }
-            isAnswerPreparingToBePronounced.observe { isPreparing: Boolean ->
-                testPronunciationOfAnswerProgressBar.visibility =
-                    if (isPreparing) View.VISIBLE else View.INVISIBLE
-            }
-            answerSpeakingStatus.observe { speakingStatus: SpeakingStatus ->
-                with(testPronunciationOfAnswerButton) {
-                    setImageResource(getSpeakIconResId(speakingStatus))
-                    setOnClickListener {
-                        when (speakingStatus) {
-                            Speaking -> {
-                                controller?.dispatch(StopSpeakButtonClicked)
-                            }
-                            NotSpeaking -> {
-                                controller?.dispatch(TestPronunciationOfAnswerButtonClicked)
-                            }
-                            CannotSpeak -> {
-                                val reasonForInabilityToSpeak: ReasonForInabilityToSpeak? =
-                                    viewModel.reasonForInabilityToSpeakAnswer.firstBlocking()
-                                showSpeakErrorPopup(
-                                    testPronunciationOfAnswerButton,
-                                    reasonForInabilityToSpeak
-                                )
-                            }
-                        }
-                    }
-                    setTooltipTextForSpeakButton(this, speakingStatus)
-                }
             }
             speakTextInBrackets.observe { speakTextInBrackets: Boolean ->
                 speakTextInBracketsSwitch.isChecked = speakTextInBrackets
                 speakTextInBracketsSwitch.uncover()
             }
-            speakerEvents.observe { event: SpeakerImpl.Event ->
-                when (event) {
-                    SpeakError -> speakErrorToast.show()
-                }
-            }
         }
     }
 
-    private fun getSpeakIconResId(speakingStatus: SpeakingStatus): Int {
-        return when (speakingStatus) {
-            Speaking -> R.drawable.ic_volume_off_dark_24dp
-            NotSpeaking -> R.drawable.ic_volume_up_dark_24dp
-            CannotSpeak -> R.drawable.ic_volume_error_24
-        }
-    }
-
-    private fun setTooltipTextForSpeakButton(speakButton: View, speakingStatus: SpeakingStatus) {
-        speakButton.contentDescription = getString(
-            when (speakingStatus) {
-                Speaking -> R.string.description_stop_speak_button
-                NotSpeaking -> R.string.description_test_pronunciation_button
-                CannotSpeak -> R.string.description_cannot_speak_button
-            }
-        )
-        TooltipCompat.setTooltipText(speakButton, speakButton.contentDescription)
-    }
-
-    private fun getSelectedLanguageText(locale: Locale?): String {
-        return if (locale != null) {
-            val flagEmoji: String? = locale.toFlagEmoji()
-            if (flagEmoji != null) {
-                "${locale.displayLanguage} $flagEmoji"
-            } else {
-                locale.displayLanguage
-            }
-        } else {
-            getString(R.string.default_name)
-        }
-    }
-
-    private fun createSpeakErrorPopup(): PopupWindow {
-        val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
-            goToTtsSettingsButton.setOnClickListener {
-                navigateToTtsSettings()
-                speakErrorPopup.dismiss()
-            }
-        }
-        return DarkPopupWindow(content)
-    }
-
-    private fun showSpeakErrorPopup(
-        anchor: View,
-        reasonForInabilityToSpeak: ReasonForInabilityToSpeak?
+    private fun updateLanguageButton(
+        isQuestion: Boolean,
+        language: Locale?
     ) {
-        speakErrorPopup.dismiss()
-        speakErrorPopup.contentView.speakErrorDescriptionTextView.text =
-            getSpeakErrorDescription(reasonForInabilityToSpeak)
-        speakErrorPopup.show(anchor)
-    }
-
-    private fun getSpeakErrorDescription(
-        reasonForInabilityToSpeak: ReasonForInabilityToSpeak?
-    ): String? {
-        return when (reasonForInabilityToSpeak) {
-            null -> null
-            is FailedToInitializeSpeaker -> {
-                if (reasonForInabilityToSpeak.ttsEngine == null) {
-                    getString(R.string.speak_error_description_failed_to_initialized)
-                } else {
-                    getString(
-                        R.string.speak_error_description_failed_to_initialized_with_specifying_tts_engine,
-                        reasonForInabilityToSpeak.ttsEngine
-                    )
-                }
-            }
-            is LanguageIsNotSupported -> {
-                if (reasonForInabilityToSpeak.ttsEngine == null) {
-                    getString(
-                        R.string.speak_error_description_language_is_not_supported,
-                        reasonForInabilityToSpeak.language.displayLanguage
-                    )
-                } else {
-                    getString(
-                        R.string.speak_error_description_language_is_not_supported_with_specifying_tts_engine,
-                        reasonForInabilityToSpeak.ttsEngine,
-                        reasonForInabilityToSpeak.language.displayLanguage
-                    )
-                }
-            }
-            is MissingDataForLanguage -> {
-                getString(
-                    R.string.speak_error_description_missing_data_for_language,
-                    reasonForInabilityToSpeak.language.displayLanguage
-                )
-            }
+        val languageTextView = if (isQuestion) questionLanguageTextView else answerLanguageTextView
+        val flagTextView = if (isQuestion) questionFlagTextView else answerFlagTextView
+        val languageButton = if (isQuestion) questionLanguageButton else answerLanguageButton
+        languageTextView.text = language?.displayLanguage
+            ?: getString(R.string.default_language)
+        val flag: String? = language?.toFlagEmoji()
+        val hasFlag = flag != null
+        if (hasFlag) {
+            flagTextView.text = flag
+            flagTextView.isVisible = true
+        }
+        flagTextView.isVisible = hasFlag
+        languageTextView.updatePaddingRelative(start = if (hasFlag) 8.dp else 18.dp)
+        languageTextView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            marginStart = if (hasFlag) 0 else 12.dp
+        }
+        languageButton.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            startToStart = if (hasFlag) flagTextView.id else languageTextView.id
         }
     }
 
@@ -283,6 +161,28 @@ class PronunciationFragment : BaseFragment() {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
+            private var canScrollUp = false
+
+            override fun onScrollChanged() {
+                val canScrollUp = contentScrollView?.canScrollVertically(-1) ?: return
+                if (this.canScrollUp != canScrollUp) {
+                    this.canScrollUp = canScrollUp
+                    appBar?.isActivated = canScrollUp
+                }
+            }
+        }
+        contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        scrollListener = null
     }
 
     override fun onDestroy() {

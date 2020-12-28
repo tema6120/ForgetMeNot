@@ -1,237 +1,348 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        tools:context=".presentation.screen.pronunciation.PronunciationFragment">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:id="@+id/questionTitleTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:padding="16dp"
-                android:text="@string/text_question_title_textview"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/questionLanguageTextView"
-                app:layout_constraintEnd_toStartOf="@+id/divider"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintWidth_max="200dp" />
+            android:layout_height="wrap_content"
+            android:background="@color/background_window"
+            android:orientation="horizontal"
+            android:stateListAnimator="@animator/app_bar">
 
         <ImageButton
-                android:id="@+id/testPronunciationOfQuestionButton"
+                android:id="@+id/backButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="12dp"
                 android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_test_pronunciation_button"
-                app:layout_constraintEnd_toEndOf="@+id/questionTitleTextView"
-                app:layout_constraintTop_toTopOf="@+id/questionTitleTextView"
-                app:srcCompat="@drawable/ic_volume_up_dark_24dp" />
-
-        <ProgressBar
-                android:id="@+id/testPronunciationOfQuestionProgressBar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:indeterminateTint="@color/iconDark"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/testPronunciationOfQuestionButton"
-                app:layout_constraintEnd_toEndOf="@+id/testPronunciationOfQuestionButton"
-                app:layout_constraintStart_toStartOf="@+id/testPronunciationOfQuestionButton"
-                app:layout_constraintTop_toTopOf="@+id/testPronunciationOfQuestionButton"
-                tools:visibility="visible" />
+                android:contentDescription="@string/description_back_button"
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
         <TextView
-                android:id="@+id/questionLanguageTextView"
-                android:layout_width="0dp"
+                android:id="@+id/screenTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:textColor="@color/textPrimary"
-                android:textSize="20sp"
-                app:drawableEndCompat="@drawable/ic_more_expand_more_with_inset"
-                app:layout_constraintBottom_toTopOf="@+id/questionAutoSpeakButton"
-                app:layout_constraintEnd_toEndOf="@+id/questionTitleTextView"
-                app:layout_constraintStart_toStartOf="@+id/questionTitleTextView"
-                app:layout_constraintTop_toBottomOf="@+id/questionTitleTextView"
-                tools:text="Ukrainian" />
-
-        <FrameLayout
-                android:id="@+id/questionAutoSpeakButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/speakTextInBracketsButton"
-                app:layout_constraintEnd_toEndOf="@+id/questionLanguageTextView"
-                app:layout_constraintStart_toStartOf="@+id/questionLanguageTextView"
-                app:layout_constraintTop_toBottomOf="@+id/questionLanguageTextView">
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/questionAutoSpeakSwitch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/text_auto_speak_switch"
-                    android:textColor="@color/textPrimary"
-                    android:visibility="invisible"
-                    tools:visibility="visible" />
-
-        </FrameLayout>
-
-        <View
-                android:id="@+id/divider"
-                android:layout_width="2dp"
-                android:layout_height="0dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="@id/questionAutoSpeakButton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/questionTitleTextView" />
-
-        <TextView
-                android:id="@+id/answerTitleTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:padding="16dp"
-                android:text="@string/text_answer_title_textview"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/divider"
-                app:layout_constraintTop_toTopOf="@id/questionTitleTextView"
-                app:layout_constraintWidth_max="200dp" />
+                android:layout_gravity="center"
+                android:fontFamily="@font/jura"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/title_pronunciation_screen"
+                android:textColor="@color/text_title"
+                android:textSize="21sp"
+                android:textStyle="bold" />
 
         <ImageButton
-                android:id="@+id/testPronunciationOfAnswerButton"
+                android:id="@+id/helpButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="12dp"
                 android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_test_pronunciation_button"
-                app:layout_constraintEnd_toEndOf="@+id/answerTitleTextView"
-                app:layout_constraintTop_toTopOf="@+id/answerTitleTextView"
-                app:srcCompat="@drawable/ic_volume_up_dark_24dp" />
+                android:contentDescription="@string/description_help_button"
+                app:srcCompat="@drawable/ic_round_help_outline_24"
+                app:tint="@color/text_title" />
 
-        <ProgressBar
-                android:id="@+id/testPronunciationOfAnswerProgressBar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:indeterminateTint="@color/iconDark"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/testPronunciationOfAnswerButton"
-                app:layout_constraintEnd_toEndOf="@+id/testPronunciationOfAnswerButton"
-                app:layout_constraintStart_toStartOf="@+id/testPronunciationOfAnswerButton"
-                app:layout_constraintTop_toTopOf="@+id/testPronunciationOfAnswerButton" />
+    </FrameLayout>
 
-        <TextView
-                android:id="@+id/answerLanguageTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:textColor="@color/textPrimary"
-                android:textSize="20sp"
-                app:drawableEndCompat="@drawable/ic_more_expand_more_with_inset"
-                app:layout_constraintEnd_toEndOf="@+id/answerTitleTextView"
-                app:layout_constraintStart_toStartOf="@+id/answerTitleTextView"
-                app:layout_constraintTop_toTopOf="@id/questionLanguageTextView"
-                tools:text="Default" />
+    <ScrollView
+            android:id="@+id/contentScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            tools:context=".presentation.screen.pronunciation.PronunciationFragment">
 
-        <FrameLayout
-                android:id="@+id/answerAutoSpeakButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/answerLanguageTextView"
-                app:layout_constraintStart_toStartOf="@+id/answerLanguageTextView"
-                app:layout_constraintTop_toTopOf="@id/questionAutoSpeakButton">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/answerAutoSpeakSwitch"
-                    android:layout_width="match_parent"
+            <View
+                    android:id="@+id/settingsSurface"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/white_rectangle_4dp_corner_radius"
+                    app:layout_constraintBottom_toBottomOf="@id/speakTextInBracketsButton"
+                    app:layout_constraintEnd_toEndOf="@id/answerTitle"
+                    app:layout_constraintStart_toStartOf="@id/questionTitle"
+                    app:layout_constraintTop_toTopOf="@id/questionTitle" />
+
+            <TextView
+                    android:id="@+id/questionTitle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/text_auto_speak_switch"
-                    android:textColor="@color/textPrimary"
-                    android:visibility="invisible"
-                    tools:visibility="visible" />
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:paddingStart="16dp"
+                    android:paddingTop="24dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/text_question_title_textview"
+                    android:textColor="@color/text_title"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/questionLanguageTextView"
+                    app:layout_constraintEnd_toStartOf="@+id/divider"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintWidth_max="220dp" />
 
-        </FrameLayout>
-
-        <FrameLayout
-                android:id="@+id/speakTextInBracketsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@id/goToTtsSettingsButton"
-                app:layout_constraintEnd_toEndOf="@+id/answerAutoSpeakButton"
-                app:layout_constraintStart_toStartOf="@+id/questionAutoSpeakButton"
-                app:layout_constraintTop_toBottomOf="@id/questionAutoSpeakButton">
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/speakTextInBracketsSwitch"
-                    android:layout_width="match_parent"
+            <TextView
+                    android:id="@+id/questionFlagTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:switchPadding="8dp"
-                    android:text="@string/text_speak_text_in_brackets"
-                    android:textColor="@color/textPrimary"
-                    android:visibility="invisible"
-                    tools:checked="true"
-                    tools:visibility="visible" />
+                    android:layout_marginStart="12dp"
+                    android:paddingStart="18dp"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/questionLanguageTextView"
+                    app:layout_constraintEnd_toStartOf="@id/questionLanguageTextView"
+                    app:layout_constraintStart_toStartOf="@id/questionTitle"
+                    app:layout_constraintTop_toTopOf="@+id/questionLanguageTextView"
+                    tools:text="🇬🇧" />
 
-        </FrameLayout>
+            <TextView
+                    android:id="@+id/questionLanguageTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunito_bold"
+                    android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/questionAutoSpeakButton"
+                    app:layout_constraintEnd_toStartOf="@+id/questionMoreIcon"
+                    app:layout_constraintStart_toEndOf="@+id/questionFlagTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/questionTitle"
+                    tools:text="English" />
 
-        <Button
-                android:id="@+id/goToTtsSettingsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/text_go_to_tts_settings_button"
-                android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            <ImageView
+                    android:id="@+id/questionMoreIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:paddingEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/questionLanguageTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/questionTitle"
+                    app:layout_constraintStart_toEndOf="@id/questionLanguageTextView"
+                    app:layout_constraintTop_toTopOf="@id/questionLanguageTextView"
+                    app:srcCompat="@drawable/ic_round_expand_more_24"
+                    app:tint="@color/textSecondary" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                    android:id="@+id/questionLanguageButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/background_language_button"
+                    app:layout_constraintBottom_toBottomOf="@id/questionLanguageTextView"
+                    app:layout_constraintEnd_toEndOf="@id/questionMoreIcon"
+                    app:layout_constraintStart_toStartOf="@id/questionFlagTextView"
+                    app:layout_constraintTop_toTopOf="@id/questionLanguageTextView" />
 
-</ScrollView>
+
+            <FrameLayout
+                    android:id="@+id/questionAutoSpeakButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintBottom_toTopOf="@+id/speakTextInBracketsButton"
+                    app:layout_constraintEnd_toEndOf="@+id/questionTitle"
+                    app:layout_constraintStart_toStartOf="@+id/questionTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/questionLanguageTextView">
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/questionAutoSpeakSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_bold"
+                        android:paddingStart="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="16dp"
+                        android:text="@string/text_autospeaking_switch"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp"
+                        android:visibility="invisible"
+                        app:switchPadding="8dp"
+                        tools:checked="true"
+                        tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="24dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toBottomOf="@id/questionAutoSpeakButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/questionTitle" />
+
+            <TextView
+                    android:id="@+id/answerTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:paddingStart="16dp"
+                    android:paddingTop="24dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/text_answer_title_textview"
+                    android:textColor="@color/text_title"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/divider"
+                    app:layout_constraintTop_toTopOf="@id/questionTitle"
+                    app:layout_constraintWidth_max="220dp" />
+
+            <TextView
+                    android:id="@+id/answerFlagTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:paddingStart="18dp"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/answerLanguageTextView"
+                    app:layout_constraintEnd_toStartOf="@id/answerLanguageTextView"
+                    app:layout_constraintStart_toStartOf="@id/answerTitle"
+                    app:layout_constraintTop_toTopOf="@+id/answerLanguageTextView"
+                    tools:text="🇺🇦" />
+
+            <TextView
+                    android:id="@+id/answerLanguageTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunito_bold"
+                    android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toStartOf="@+id/answerMoreIcon"
+                    app:layout_constraintStart_toEndOf="@+id/answerFlagTextView"
+                    app:layout_constraintTop_toTopOf="@id/questionLanguageTextView"
+                    tools:text="Ukrainian" />
+
+            <ImageView
+                    android:id="@+id/answerMoreIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:paddingEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/answerLanguageTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/answerTitle"
+                    app:layout_constraintStart_toEndOf="@id/answerLanguageTextView"
+                    app:layout_constraintTop_toTopOf="@id/answerLanguageTextView"
+                    app:srcCompat="@drawable/ic_round_expand_more_24"
+                    app:tint="@color/textSecondary" />
+
+            <View
+                    android:id="@+id/answerLanguageButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/background_language_button"
+                    app:layout_constraintBottom_toBottomOf="@id/answerLanguageTextView"
+                    app:layout_constraintEnd_toEndOf="@id/answerMoreIcon"
+                    app:layout_constraintStart_toStartOf="@id/answerFlagTextView"
+                    app:layout_constraintTop_toTopOf="@id/answerLanguageTextView" />
+
+            <FrameLayout
+                    android:id="@+id/answerAutoSpeakButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintEnd_toEndOf="@+id/answerTitle"
+                    app:layout_constraintStart_toStartOf="@+id/answerTitle"
+                    app:layout_constraintTop_toTopOf="@id/questionAutoSpeakButton">
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/answerAutoSpeakSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_bold"
+                        android:paddingStart="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="16dp"
+                        android:text="@string/text_autospeaking_switch"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp"
+                        android:visibility="invisible"
+                        app:switchPadding="8dp"
+                        tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                    android:id="@+id/speakTextInBracketsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@android:color/transparent"
+                    android:paddingBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/goToTtsSettingsButton"
+                    app:layout_constraintEnd_toEndOf="@+id/answerAutoSpeakButton"
+                    app:layout_constraintStart_toStartOf="@+id/questionAutoSpeakButton"
+                    app:layout_constraintTop_toBottomOf="@id/questionAutoSpeakButton">
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/speakTextInBracketsSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_bold"
+                        android:padding="16dp"
+                        android:switchPadding="8dp"
+                        android:text="@string/text_speak_text_in_brackets"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/goToTtsSettingsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:text="@string/text_go_to_tts_settings_button"
+                    android:textAllCaps="false"
+                    android:textSize="13sp"
+                    app:cornerRadius="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>

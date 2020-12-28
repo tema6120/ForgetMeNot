@@ -18,7 +18,6 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_back_button"
                 app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />

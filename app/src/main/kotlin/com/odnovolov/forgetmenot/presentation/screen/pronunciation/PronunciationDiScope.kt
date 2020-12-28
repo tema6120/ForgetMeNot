@@ -7,8 +7,6 @@ import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 
 class PronunciationDiScope {
-    private val pronunciationScreenState = PronunciationScreenState()
-
     private val pronunciationSettings = PronunciationSettings(
         DeckSettingsDiScope.shareDeckSettings()
     )
@@ -20,16 +18,12 @@ class PronunciationDiScope {
 
     val controller = PronunciationController(
         pronunciationSettings,
-        DeckSettingsDiScope.shareDeckSettings().state,
-        pronunciationScreenState,
-        speakerImpl,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 
     val viewModel = PronunciationViewModel(
         DeckSettingsDiScope.shareDeckSettings().state,
-        pronunciationScreenState,
         speakerImpl
     )
 
