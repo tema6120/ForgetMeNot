@@ -112,7 +112,6 @@ fun Interval.toIntervalDb(
 
 fun PronunciationDb.toPronunciation() = Pronunciation(
     id,
-    name,
     questionLanguage,
     questionAutoSpeak,
     answerLanguage,
@@ -122,7 +121,7 @@ fun PronunciationDb.toPronunciation() = Pronunciation(
 
 fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb.Impl(
     id,
-    name,
+    "",
     questionLanguage,
     questionAutoSpeak,
     answerLanguage,

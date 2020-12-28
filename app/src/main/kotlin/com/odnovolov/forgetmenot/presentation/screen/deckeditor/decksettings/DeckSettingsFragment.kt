@@ -111,10 +111,22 @@ class DeckSettingsFragment : BaseFragment() {
                 }
             }
             pronunciation.observe { pronunciation: Pronunciation ->
-                selectedPronunciationTextView.text = when {
-                    pronunciation.isDefault() -> getString(R.string.default_name)
-                    pronunciation.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${pronunciation.name}'"
+                selectedPronunciationTextView.text = buildString {
+                    append(
+                        pronunciation.questionLanguage?.displayLanguage
+                            ?: getString(R.string.default_name)
+                    )
+                    if (pronunciation.questionAutoSpeak) {
+                        append(" (A)")
+                    }
+                    append(", ")
+                    append(
+                        pronunciation.answerLanguage?.displayLanguage
+                            ?: getString(R.string.default_name)
+                    )
+                    if (pronunciation.answerAutoSpeak) {
+                        append(" (A)")
+                    }
                 }
             }
             isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->

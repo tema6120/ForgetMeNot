@@ -66,17 +66,15 @@ class InitialDecksAdder(
     private fun createExercisePreference(): ExercisePreference {
         val pronunciation = Pronunciation(
             id = generateId(),
-            name = "Only English (_A)",
             questionLanguage = Locale.ENGLISH,
             questionAutoSpeak = false,
             answerLanguage = Locale.ENGLISH,
             answerAutoSpeak = true,
             speakTextInBrackets = false
         )
-        globalState.sharedPronunciations = globalState.sharedPronunciations + pronunciation
         val exercisePreference = ExercisePreference(
             id = generateId(),
-            name = "For English Irregular Verbs",
+            name = "English Irregular Verbs",
             randomOrder = true,
             testMethod = TestMethod.Manual,
             intervalScheme = IntervalScheme.Default,

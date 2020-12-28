@@ -70,7 +70,6 @@ class PronunciationFragment : BaseFragment() {
             val diScope = PronunciationDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
-            presetView.inject(diScope.presetController, diScope.presetViewModel)
             observeViewModel()
         }
     }

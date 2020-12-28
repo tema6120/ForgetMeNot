@@ -67,22 +67,6 @@ class GlobalStatePropertyChangeHandler(
                     )
                 }
             }
-            GlobalState::sharedPronunciations -> {
-                if (change !is CollectionChange) return
-
-                val removedSharedPronunciations = change.removedItems as Collection<Pronunciation>
-                removedSharedPronunciations.forEach { pronunciation: Pronunciation ->
-                    database.sharedPronunciationQueries.delete(pronunciation.id)
-                }
-
-                val addedSharedPronunciations = change.addedItems as Collection<Pronunciation>
-                addedSharedPronunciations.forEach { pronunciation: Pronunciation ->
-                    database.sharedPronunciationQueries.insert(pronunciation.id)
-                    exercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists(
-                        pronunciation
-                    )
-                }
-            }
             GlobalState::sharedPronunciationPlans -> {
                 if (change !is CollectionChange) return
 

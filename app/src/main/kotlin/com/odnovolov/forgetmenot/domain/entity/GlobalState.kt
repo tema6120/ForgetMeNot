@@ -8,7 +8,6 @@ class GlobalState(
     decks: CopyableCollection<Deck>,
     sharedExercisePreferences: CopyableCollection<ExercisePreference>,
     sharedIntervalSchemes: CopyableCollection<IntervalScheme>,
-    sharedPronunciations: CopyableCollection<Pronunciation>,
     sharedPronunciationPlans: CopyableCollection<PronunciationPlan>,
     cardFilterForAutoplay: CardFilterForAutoplay,
     isWalkingModeEnabled: Boolean,
@@ -21,9 +20,6 @@ class GlobalState(
 
     var sharedIntervalSchemes: CopyableCollection<IntervalScheme>
             by flowMaker(sharedIntervalSchemes, CollectionChange::class)
-
-    var sharedPronunciations: CopyableCollection<Pronunciation>
-            by flowMaker(sharedPronunciations, CollectionChange::class)
 
     var sharedPronunciationPlans: CopyableCollection<PronunciationPlan>
             by flowMaker(sharedPronunciationPlans, CollectionChange::class)
@@ -38,7 +34,6 @@ class GlobalState(
         decks.copy(),
         sharedExercisePreferences.copy(),
         sharedIntervalSchemes.copy(),
-        sharedPronunciations.copy(),
         sharedPronunciationPlans.copy(),
         cardFilterForAutoplay.copy(),
         isWalkingModeEnabled,

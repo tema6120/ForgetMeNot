@@ -18,10 +18,6 @@ class PronunciationPropertyChangeHandler(
         val exists: Boolean = queries.exists(pronunciationId).executeAsOne()
         if (!exists) return
         when (change.property) {
-            Pronunciation::name -> {
-                val name = change.newValue as String
-                queries.updateName(name, pronunciationId)
-            }
             Pronunciation::questionLanguage -> {
                 val questionLanguage = change.newValue as Locale?
                 queries.updateQuestionLanguage(questionLanguage, pronunciationId)

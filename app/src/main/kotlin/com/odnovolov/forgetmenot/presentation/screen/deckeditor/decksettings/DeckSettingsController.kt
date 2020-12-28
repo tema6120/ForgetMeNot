@@ -46,7 +46,7 @@ class DeckSettingsController(
 
             PronunciationButtonClicked -> {
                 navigator.navigateToPronunciation {
-                    PronunciationDiScope.create(PresetDialogState())
+                    PronunciationDiScope()
                 }
             }
 
