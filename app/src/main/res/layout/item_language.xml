@@ -1,36 +1,34 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/languageItemButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_selectable_item">
+        android:background="@drawable/background_selectable_item"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-    <LinearLayout
-            android:id="@+id/languageItemButton"
-            android:layout_width="match_parent"
+    <TextView
+            android:id="@+id/flagTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_gravity="center_vertical"
+            android:hint="🇺🇦"
+            android:textColor="#000"
+            android:textSize="21sp"
+            android:visibility="invisible"
+            tools:text="🇺🇦"
+            tools:visibility="visible" />
 
-        <TextView
-                android:id="@+id/languageNameTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:textColor="@color/textPrimary"
-                android:textSize="18sp"
-                tools:text="Ukranian" />
+    <TextView
+            android:id="@+id/languageNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/textSecondary"
+            android:textSize="16sp"
+            tools:text="Ukranian" />
 
-        <TextView
-                android:id="@+id/flagTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
-                android:textSize="18sp"
-                tools:text="🇺🇦" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

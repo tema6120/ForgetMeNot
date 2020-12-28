@@ -274,7 +274,7 @@ fun String.highlight(
     ranges: List<IntRange>,
     context: Context
 ): SpannableString {
-    val highlightedColor = ContextCompat.getColor(context, R.color.selected_item_background)
+    val highlightedColor = ContextCompat.getColor(context, R.color.highlighted_text)
     return SpannableString(this).apply {
         ranges.forEach { selection: IntRange ->
             setSpan(

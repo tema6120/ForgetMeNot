@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
@@ -24,11 +25,16 @@ class LanguageAdapter(
         val displayedLanguage: DisplayedLanguage = getItem(position)
         with(viewHolder.itemView) {
             if (displayedLanguage.language == null) {
-                languageNameTextView.text = context.getString(string.default_name)
-                flagTextView.text = null
+                languageNameTextView.text = context.getString(string.default_language)
             } else {
                 languageNameTextView.text = displayedLanguage.language.displayLanguage
+            }
+            val flagEmoji = displayedLanguage.language?.toFlagEmoji()
+            if (flagEmoji != null) {
                 flagTextView.text = displayedLanguage.language.toFlagEmoji()
+                flagTextView.visibility = View.VISIBLE
+            } else {
+                flagTextView.visibility = View.INVISIBLE
             }
             isSelected = displayedLanguage.isSelected
             languageItemButton.setOnClickListener {

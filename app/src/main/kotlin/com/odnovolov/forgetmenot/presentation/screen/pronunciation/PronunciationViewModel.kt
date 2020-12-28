@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import java.util.*
 
 class PronunciationViewModel(
@@ -22,8 +23,11 @@ class PronunciationViewModel(
         }
         .share()
 
-    private val availableLanguages: Flow<Set<Locale>> = speakerImpl.state
+    private val availableLanguages: Flow<List<Locale>> = speakerImpl.state
         .flowOf(SpeakerImpl.State::availableLanguages)
+        .map { availableLanguages: Set<Locale> ->
+            availableLanguages.sortedBy { locale: Locale -> locale.displayName }
+        }
 
     val selectedQuestionLanguage: Flow<Locale?> = currentPronunciation
         .flatMapLatest { currentPronunciation: Pronunciation ->
@@ -33,7 +37,7 @@ class PronunciationViewModel(
     val displayedQuestionLanguages: Flow<List<DisplayedLanguage>> = combine(
         availableLanguages,
         selectedQuestionLanguage
-    ) { availableLanguages: Set<Locale>, selectedQuestionLanguage: Locale? ->
+    ) { availableLanguages: List<Locale>, selectedQuestionLanguage: Locale? ->
         val defaultLanguage = DisplayedLanguage(
             language = null,
             isSelected = selectedQuestionLanguage == null
@@ -61,7 +65,7 @@ class PronunciationViewModel(
     val displayedAnswerLanguages: Flow<List<DisplayedLanguage>> = combine(
         availableLanguages,
         selectedAnswerLanguage
-    ) { availableLanguages: Set<Locale>, selectedAnswerLanguage: Locale? ->
+    ) { availableLanguages: List<Locale>, selectedAnswerLanguage: Locale? ->
         val defaultLanguage = DisplayedLanguage(
             language = null,
             isSelected = selectedAnswerLanguage == null
