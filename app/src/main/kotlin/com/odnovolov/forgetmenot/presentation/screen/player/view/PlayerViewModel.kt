@@ -100,7 +100,7 @@ class PlayerViewModel(
                 isAnswered -> false
                 else -> true
             }
-            val isReverse: Boolean = currentPlayingCard.isReverse
+            val isReverse: Boolean = currentPlayingCard.isInverted
             val pronunciation: Pronunciation =
                 currentPlayingCard.deck.exercisePreference.pronunciation
             val language: Locale? = if (needToSpeakQuestion && !isReverse

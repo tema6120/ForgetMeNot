@@ -19,7 +19,7 @@ class EntryTestExerciseCardViewModel(
     }
 
     val cardContent: Flow<CardContent> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        val isReverse: Boolean = exerciseCard.base.isReverse
+        val isReverse: Boolean = exerciseCard.base.isInverted
         combine(
             exerciseCard.base.card.flowOf(Card::question),
             exerciseCard.base.card.flowOf(Card::answer),

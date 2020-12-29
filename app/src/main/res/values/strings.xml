@@ -91,9 +91,9 @@
     <string name="hint_question_edittext">Enter a question</string>
     <string name="hint_answer_edittext">Enter the answer</string>
     <string name="dialog_title_modify_interval">Interval</string>
-    <string name="card_reverse_label_off">Off</string>
-    <string name="card_reverse_label_on">On</string>
-    <string name="card_reverse_label_every_other_lap">Every other lap</string>
+    <string name="item_card_inversion_off">Off</string>
+    <string name="item_card_inversion_on">On</string>
+    <string name="item_card_inversion_every_other_lap">Every other lap</string>
     <string name="title_card_reverse_dialog">Card reverse</string>
     <string name="title_deck_name_dialog">Deck name</string>
     <string name="text_speak_text_in_brackets">Speak text in brackets</string>
@@ -657,4 +657,5 @@
     <string name="deck_settings_item_pronunciation_plan">Pronunciation plan</string>
     <string name="title_pronunciation_screen">Pronunciation</string>
     <string name="default_language">Default language</string>
+    <string name="title_card_inversion_screen">Card inversion</string>
 </resources>

@@ -33,8 +33,6 @@ class DeckSettingsFragment : BaseFragment() {
     private lateinit var viewModel: DeckSettingsViewModel
     private lateinit var testMethodDialog: Dialog
     private var testMethodAdapter: ItemAdapter? = null
-    private lateinit var cardReverseDialog: Dialog
-    private var cardReverseAdapter: ItemAdapter? = null
     private var isInflated = false
     private lateinit var diScope: DeckSettingsDiScope
     private var idleHandler: IdleHandler? = null
@@ -136,14 +134,14 @@ class DeckSettingsFragment : BaseFragment() {
                         R.string.off
                 )
             }
-            selectedCardReverse.observe { selectedCardReverse: CardReverse ->
-                selectedCardInversionTextView.text =
-                    when (selectedCardReverse) {
-                        CardReverse.Off -> getString(R.string.card_reverse_label_off)
-                        CardReverse.On -> getString(R.string.card_reverse_label_on)
-                        CardReverse.EveryOtherLap ->
-                            getString(R.string.card_reverse_label_every_other_lap)
+            selectedCardInversion.observe { selectedCardInversion: CardInversion ->
+                selectedCardInversionTextView.setText(
+                    when (selectedCardInversion) {
+                        CardInversion.Off -> R.string.item_card_inversion_off
+                        CardInversion.On -> R.string.item_card_inversion_on
+                        CardInversion.EveryOtherLap -> R.string.item_card_inversion_every_other_lap
                     }
+                )
             }
             pronunciationPlan.observe { pronunciationPlan: PronunciationPlan ->
                 selectedPronunciationPlanTextView.text = when {
@@ -188,7 +186,6 @@ class DeckSettingsFragment : BaseFragment() {
     private fun setupSecondary() {
         if (viewCoroutineScope == null) return
         initChooseTestMethodDialog()
-        initChooseCardReverseDialog()
         setupListeners()
         observeViewModelSecondary()
         controller!!.commands.observe(::executeCommand)
@@ -210,22 +207,6 @@ class DeckSettingsFragment : BaseFragment() {
         dialogTimeCapsule.register("testMethodDialog", testMethodDialog)
     }
 
-    private fun initChooseCardReverseDialog() {
-        cardReverseDialog = ChoiceDialogCreator.create(
-            context = requireContext(),
-            title = getString(R.string.title_card_reverse_dialog),
-            itemForm = AsRadioButton,
-            onItemClick = { item: Item ->
-                item as CardReverseItem
-                val chosenCardReverse = item.cardReverse
-                controller?.dispatch(CardReverseIsSelected(chosenCardReverse))
-                cardReverseDialog.dismiss()
-            },
-            takeAdapter = { cardReverseAdapter = it }
-        )
-        dialogTimeCapsule.register("cardReverseDialog", cardReverseDialog)
-    }
-
     private fun setupListeners() {
         randomButton.setOnClickListener {
             controller?.dispatch(RandomOrderSwitchToggled)
@@ -243,7 +224,7 @@ class DeckSettingsFragment : BaseFragment() {
             controller?.dispatch(DisplayQuestionSwitchToggled)
         }
         cardInversionButton.setOnClickListener {
-            cardReverseDialog.show()
+            controller?.dispatch(CardInversionButtonClicked)
         }
         pronunciationPlanButton.setOnClickListener {
             controller?.dispatch(PronunciationPlanButtonClicked)
@@ -272,21 +253,6 @@ class DeckSettingsFragment : BaseFragment() {
                 }
                 testMethodAdapter?.submitList(testMethods)
             }
-            selectedCardReverse.observe { selectedCardReverse: CardReverse ->
-                val items = CardReverse.values().map { cardReverse: CardReverse ->
-                    CardReverseItem(
-                        cardReverse = cardReverse,
-                        text = when (cardReverse) {
-                            CardReverse.Off -> getString(R.string.card_reverse_label_off)
-                            CardReverse.On -> getString(R.string.card_reverse_label_on)
-                            CardReverse.EveryOtherLap ->
-                                getString(R.string.card_reverse_label_every_other_lap)
-                        },
-                        isSelected = cardReverse === selectedCardReverse
-                    )
-                }
-                cardReverseAdapter?.submitList(items)
-            }
         }
     }
 
@@ -309,7 +275,6 @@ class DeckSettingsFragment : BaseFragment() {
         idleHandler?.let { idleHandler -> Looper.myQueue().removeIdleHandler(idleHandler) }
         isInflated = false
         testMethodAdapter = null
-        cardReverseAdapter = null
     }
 
     override fun onDestroy() {
@@ -321,12 +286,6 @@ class DeckSettingsFragment : BaseFragment() {
 
     data class TestMethodItem(
         val testMethod: TestMethod,
-        override val text: String,
-        override val isSelected: Boolean
-    ) : Item
-
-    data class CardReverseItem(
-        val cardReverse: CardReverse,
         override val text: String,
         override val isSelected: Boolean
     ) : Item

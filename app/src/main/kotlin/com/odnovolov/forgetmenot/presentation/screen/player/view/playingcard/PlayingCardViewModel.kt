@@ -17,7 +17,7 @@ class PlayingCardViewModel(
     }
 
     val cardContent: Flow<CardContent> = playingCardFlow.flatMapLatest { playingCard ->
-        val isReverse: Boolean = playingCard.isReverse
+        val isReverse: Boolean = playingCard.isInverted
         combine(
             playingCard.card.flowOf(Card::question),
             playingCard.card.flowOf(Card::answer),

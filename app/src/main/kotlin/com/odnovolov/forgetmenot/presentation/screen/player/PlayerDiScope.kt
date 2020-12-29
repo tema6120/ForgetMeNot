@@ -31,7 +31,7 @@ class PlayerDiScope private constructor(
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
         initialLanguage = playerState.playingCards[0].run {
             val pronunciation = deck.exercisePreference.pronunciation
-            if (isReverse)
+            if (isInverted)
                 pronunciation.answerLanguage else
                 pronunciation.questionLanguage
         }

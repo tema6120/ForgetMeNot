@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsController.Command
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsController.Command.ShowAutoSpeakOfQuestionIsOffMessage
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
@@ -50,6 +51,12 @@ class DeckSettingsController(
                 }
             }
 
+            CardInversionButtonClicked -> {
+                navigator.navigateToCardInversion {
+                    CardInversionDiScope()
+                }
+            }
+
             DisplayQuestionSwitchToggled -> {
                 val newIsQuestionDisplayed = !currentExercisePreference.isQuestionDisplayed
                 deckSettings.setIsQuestionDisplayed(newIsQuestionDisplayed)
@@ -58,10 +65,6 @@ class DeckSettingsController(
                 ) {
                     sendCommand(ShowAutoSpeakOfQuestionIsOffMessage)
                 }
-            }
-
-            is CardReverseIsSelected -> {
-                deckSettings.setCardReverse(event.cardReverse)
             }
 
             PronunciationPlanButtonClicked -> {

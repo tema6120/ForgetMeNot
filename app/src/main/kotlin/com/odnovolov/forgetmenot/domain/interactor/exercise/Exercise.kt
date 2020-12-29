@@ -56,7 +56,7 @@ class Exercise(
 
     private fun updateCurrentPronunciation() {
         val associatedPronunciation = currentExerciseCard.base.deck.exercisePreference.pronunciation
-        currentPronunciation = if (currentExerciseCard.base.isReverse) {
+        currentPronunciation = if (currentExerciseCard.base.isInverted) {
             with(associatedPronunciation) {
                 Pronunciation(
                     id = -1,
@@ -154,14 +154,14 @@ class Exercise(
 
     fun speakQuestion() {
         with(currentExerciseCard.base) {
-            val question = if (isReverse) card.answer else card.question
+            val question = if (isInverted) card.answer else card.question
             speak(question, currentPronunciation.questionLanguage)
         }
     }
 
     fun speakAnswer() {
         with(currentExerciseCard.base) {
-            val answer = if (isReverse) card.question else card.answer
+            val answer = if (isInverted) card.question else card.answer
             speak(answer, currentPronunciation.answerLanguage)
         }
     }
@@ -188,7 +188,7 @@ class Exercise(
         state.exerciseCards.forEachIndexed { position, exerciseCard ->
             if (card.id != exerciseCard.base.card.id) return@forEachIndexed
             state.currentPosition = position
-            val isReverse = exerciseCard.base.isReverse
+            val isReverse = exerciseCard.base.isInverted
             val isActualAnswerChanged: Boolean =
                 isReverse && isQuestionChanged || !isReverse && isAnswerChanged
             if (isActualAnswerChanged) {
@@ -234,7 +234,7 @@ class Exercise(
                     exerciseCard.shouldMapToQuizTestExerciseCard() -> {
                         hasChange = true
                         val variants: List<Card?> = with(exerciseCard.base) {
-                            QuizComposer.compose(card, deck, isReverse, withCaching = true)
+                            QuizComposer.compose(card, deck, isInverted, withCaching = true)
                         }
                         QuizTestExerciseCard(exerciseCard.base, variants)
                     }
@@ -295,7 +295,7 @@ class Exercise(
         val hasHint: Boolean = currentExerciseCard.base.hint != null
         val hasHintSelection: Boolean = state.hintSelection.endIndex - state.hintSelection.startIndex > 0
         val answer: String = with(currentExerciseCard.base) {
-            if (isReverse) card.question else card.answer
+            if (isInverted) card.question else card.answer
         }
         val oldHint: String? = currentExerciseCard.base.hint
         currentExerciseCard.base.hint = when {
@@ -321,7 +321,7 @@ class Exercise(
         }
         resetTimer()
         val variants: List<Card?> = with(currentExerciseCard.base) {
-            QuizComposer.compose(card, deck, isReverse, withCaching = false)
+            QuizComposer.compose(card, deck, isInverted, withCaching = false)
         }
         val newQuizTestExerciseCard = QuizTestExerciseCard(currentExerciseCard.base, variants)
         state.exerciseCards = state.exerciseCards.toMutableList().run {
@@ -426,7 +426,7 @@ class Exercise(
     private fun checkEntry() {
         val entryExerciseCard = currentExerciseCard as EntryTestExerciseCard
         val correctAnswer = with(entryExerciseCard.base) {
-            if (isReverse) card.question else card.answer
+            if (isInverted) card.question else card.answer
         }
         val isUserAnswerCorrect = entryExerciseCard.userInput?.trim() == correctAnswer.trim()
         if (isUserAnswerCorrect)
@@ -486,7 +486,7 @@ class Exercise(
                 id = generateId(),
                 card = card,
                 deck = deck,
-                isReverse = isReverse,
+                isInverted = isInverted,
                 isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
                 timeLeft = if (isWalkingMode) NOT_TO_USE_TIMER else deck.exercisePreference.timeForAnswer,
                 initialGrade = initialGrade,
@@ -502,7 +502,7 @@ class Exercise(
                         ManualTestExerciseCard(baseExerciseCard)
                     } else {
                         val variants: List<Card?> = with(baseExerciseCard) {
-                            QuizComposer.compose(card, deck, isReverse, withCaching = false)
+                            QuizComposer.compose(card, deck, isInverted, withCaching = false)
                         }
                         QuizTestExerciseCard(baseExerciseCard, variants)
                     }

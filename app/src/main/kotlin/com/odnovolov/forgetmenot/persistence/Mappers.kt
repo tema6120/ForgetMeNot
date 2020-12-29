@@ -77,7 +77,7 @@ fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = Exercise
     intervalScheme?.id,
     pronunciation.id,
     isQuestionDisplayed,
-    cardReverse,
+    cardInversion,
     pronunciationPlan.id,
     timeForAnswer
 )

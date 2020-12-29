@@ -40,17 +40,17 @@ class ExerciseStateCreator(
         card: Card,
         deck: Deck
     ): ExerciseCard {
-        val isReverse = when (deck.exercisePreference.cardReverse) {
-            CardReverse.Off -> false
-            CardReverse.On -> true
-            CardReverse.EveryOtherLap -> (card.lap % 2) == 1
+        val isInverted = when (deck.exercisePreference.cardInversion) {
+            CardInversion.Off -> false
+            CardInversion.On -> true
+            CardInversion.EveryOtherLap -> (card.lap % 2) == 1
         }
         val isWalkingMode = globalState.isWalkingModeEnabled
         val baseExerciseCard = ExerciseCard.Base(
             id = generateId(),
             card = card,
             deck = deck,
-            isReverse = isReverse,
+            isInverted = isInverted,
             isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
             timeLeft = if (isWalkingMode) 0 else deck.exercisePreference.timeForAnswer,
             initialGrade = card.grade,
@@ -64,7 +64,7 @@ class ExerciseStateCreator(
                     ManualTestExerciseCard(baseExerciseCard)
                 } else {
                     val variants: List<Card?> =
-                        QuizComposer.compose(card, deck, isReverse, withCaching = true)
+                        QuizComposer.compose(card, deck, isInverted, withCaching = true)
                     QuizTestExerciseCard(baseExerciseCard, variants)
                 }
             }

@@ -171,18 +171,18 @@ class DeckSettings(
         )
     }
 
-    fun setCardReverse(cardReverse: CardReverse) {
+    fun setCardInversion(cardInversion: CardInversion) {
         updateExercisePreference(
-            isValueChanged = currentExercisePreference.cardReverse != cardReverse,
+            isValueChanged = currentExercisePreference.cardInversion != cardInversion,
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
                     name = "",
-                    cardReverse = cardReverse
+                    cardInversion = cardInversion
                 )
             },
             updateCurrentExercisePreference = {
-                currentExercisePreference.cardReverse = cardReverse
+                currentExercisePreference.cardInversion = cardInversion
             }
         )
     }
@@ -260,7 +260,7 @@ class DeckSettings(
         intervalScheme: IntervalScheme? = this.intervalScheme,
         pronunciation: Pronunciation = this.pronunciation,
         isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
-        cardReverse: CardReverse = this.cardReverse,
+        cardInversion: CardInversion = this.cardInversion,
         pronunciationPlan: PronunciationPlan = this.pronunciationPlan,
         timeForAnswer: Int = this.timeForAnswer
     ) = ExercisePreference(
@@ -271,7 +271,7 @@ class DeckSettings(
         intervalScheme,
         pronunciation,
         isQuestionDisplayed,
-        cardReverse,
+        cardInversion,
         pronunciationPlan,
         timeForAnswer
     )

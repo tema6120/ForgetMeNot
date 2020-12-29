@@ -10,7 +10,7 @@ class ExercisePreference(
     intervalScheme: IntervalScheme?,
     pronunciation: Pronunciation,
     isQuestionDisplayed: Boolean,
-    cardReverse: CardReverse,
+    cardInversion: CardInversion,
     pronunciationPlan: PronunciationPlan,
     timeForAnswer: Int
 ) : FlowMakerWithRegistry<ExercisePreference>() {
@@ -20,7 +20,7 @@ class ExercisePreference(
     var intervalScheme: IntervalScheme? by flowMaker(intervalScheme)
     var pronunciation: Pronunciation by flowMaker(pronunciation)
     var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
-    var cardReverse: CardReverse by flowMaker(cardReverse)
+    var cardInversion: CardInversion by flowMaker(cardInversion)
     var pronunciationPlan: PronunciationPlan by flowMaker(pronunciationPlan)
     var timeForAnswer: Int by flowMaker(timeForAnswer)
 
@@ -32,7 +32,7 @@ class ExercisePreference(
         intervalScheme?.copy(),
         pronunciation.copy(),
         isQuestionDisplayed,
-        cardReverse,
+        cardInversion,
         pronunciationPlan.copy(),
         timeForAnswer
     )
@@ -47,7 +47,7 @@ class ExercisePreference(
                 intervalScheme = IntervalScheme.Default,
                 pronunciation = Pronunciation.Default,
                 isQuestionDisplayed = true,
-                cardReverse = CardReverse.Off,
+                cardInversion = CardInversion.Off,
                 pronunciationPlan = PronunciationPlan.Default,
                 timeForAnswer = NOT_TO_USE_TIMER
             )

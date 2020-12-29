@@ -47,9 +47,9 @@ class ExercisePreferencePropertyChangeHandler(
                 val isQuestionDisplayed = change.newValue as Boolean
                 queries.updateIsQuestionDisplayed(isQuestionDisplayed, exercisePreferenceId)
             }
-            ExercisePreference::cardReverse -> {
-                val cardReverse = change.newValue as CardReverse
-                queries.updateCardReverse(cardReverse, exercisePreferenceId)
+            ExercisePreference::cardInversion -> {
+                val cardInversion = change.newValue as CardInversion
+                queries.updateCardReverse(cardInversion, exercisePreferenceId)
             }
             ExercisePreference::pronunciationPlan -> {
                 val linkedPronunciationPlan = change.newValue as PronunciationPlan

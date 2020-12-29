@@ -110,11 +110,11 @@ class ExerciseViewModel(
                 isAnswered -> false
                 else -> true
             }
-            val isReverse: Boolean = currentExerciseCard.base.isReverse
+            val isInverted: Boolean = currentExerciseCard.base.isInverted
             val pronunciation: Pronunciation =
                 currentExerciseCard.base.deck.exercisePreference.pronunciation
-            val language: Locale? = if (needToSpeakQuestion && !isReverse
-                || !needToSpeakQuestion && isReverse
+            val language: Locale? = if (needToSpeakQuestion && !isInverted
+                || !needToSpeakQuestion && isInverted
             ) {
                 pronunciation.questionLanguage
             } else {

@@ -83,6 +83,14 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
+                android:id="@+id/deck_editor_to_card_inversion"
+                app:destination="@id/card_inversion"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+
+        <action
                 android:id="@+id/action_deck_setup_screen_to_intervals_screen"
                 app:destination="@id/intervals_screen"
                 app:enterAnim="@anim/slide_in_right"
@@ -127,6 +135,11 @@
                 app:destination="@id/help_screen" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/card_inversion"
+        android:name="com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionFragment"
+        tools:layout="@layout/fragment_card_inversion"/>
 
     <fragment
             android:id="@+id/intervals_screen"

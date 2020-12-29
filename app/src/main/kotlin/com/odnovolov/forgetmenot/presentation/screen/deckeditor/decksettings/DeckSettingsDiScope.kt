@@ -23,7 +23,7 @@ class DeckSettingsDiScope private constructor(
     private val presetDialogState: PresetDialogState =
         initialPresetDialogState ?: presetDialogStateProvider.load()
 
-    private val deckSettings = DeckSettings(
+    val deckSettings = DeckSettings(
         deckSettingsState,
         AppDiScope.get().globalState
     )

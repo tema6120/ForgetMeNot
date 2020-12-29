@@ -46,7 +46,7 @@ class PlayerStateProvider(
                         card.id,
                         deck.id,
                         isQuestionDisplayed,
-                        isReverse,
+                        isInverted,
                         isAnswerDisplayed
                     )
                 }
@@ -73,7 +73,7 @@ class PlayerStateProvider(
                         deck = deckIdDeckMap.getValue(deckId),
                         isQuestionDisplayed = isQuestionDisplayed,
                         isAnswerDisplayed = isAnswerDisplayed,
-                        isReverse = isReverse
+                        isInverted = isReverse
                     )
                 }
             }

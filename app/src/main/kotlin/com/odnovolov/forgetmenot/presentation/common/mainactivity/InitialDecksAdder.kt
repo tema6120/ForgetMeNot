@@ -80,7 +80,7 @@ class InitialDecksAdder(
             intervalScheme = IntervalScheme.Default,
             pronunciation = pronunciation,
             isQuestionDisplayed = true,
-            cardReverse = CardReverse.Off,
+            cardInversion = CardInversion.Off,
             pronunciationPlan = PronunciationPlan.Default,
             timeForAnswer = NOT_TO_USE_TIMER
         )

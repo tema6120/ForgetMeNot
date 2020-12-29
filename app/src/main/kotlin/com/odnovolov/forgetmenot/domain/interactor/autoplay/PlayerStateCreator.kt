@@ -83,17 +83,17 @@ class PlayerStateCreator(
     }
 
     private fun cardToPlayingCard(card: Card, deck: Deck): PlayingCard {
-        val isReverse = when (deck.exercisePreference.cardReverse) {
-            CardReverse.Off -> false
-            CardReverse.On -> true
-            CardReverse.EveryOtherLap -> (card.lap % 2) == 1
+        val isInverted = when (deck.exercisePreference.cardInversion) {
+            CardInversion.Off -> false
+            CardInversion.On -> true
+            CardInversion.EveryOtherLap -> (card.lap % 2) == 1
         }
         return PlayingCard(
             id = generateId(),
             card = card,
             deck = deck,
             isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
-            isReverse = isReverse
+            isInverted = isInverted
         )
     }
 

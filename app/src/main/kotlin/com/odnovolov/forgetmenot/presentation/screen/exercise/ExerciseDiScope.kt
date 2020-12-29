@@ -31,7 +31,7 @@ class ExerciseDiScope private constructor(
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
         initialLanguage = exerciseState.exerciseCards[0].let { exerciseCard: ExerciseCard ->
             val pronunciation = exerciseCard.base.deck.exercisePreference.pronunciation
-            if (exerciseCard.base.isReverse)
+            if (exerciseCard.base.isInverted)
                 pronunciation.answerLanguage else
                 pronunciation.questionLanguage
         }

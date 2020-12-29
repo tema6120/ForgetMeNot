@@ -73,7 +73,7 @@ class Player(
 
     private fun updateCurrentPronunciation() {
         val associatedPronunciation = currentPlayingCard.deck.exercisePreference.pronunciation
-        currentPronunciation = if (currentPlayingCard.isReverse) {
+        currentPronunciation = if (currentPlayingCard.isInverted) {
             with(associatedPronunciation) {
                 Pronunciation(
                     id = -1,
@@ -141,14 +141,14 @@ class Player(
 
     private fun speakQuestion() {
         with(currentPlayingCard) {
-            val question = if (isReverse) card.answer else card.question
+            val question = if (isInverted) card.answer else card.question
             speak(question, currentPronunciation.questionLanguage)
         }
     }
 
     private fun speakAnswer() {
         with(currentPlayingCard) {
-            val answer = if (isReverse) card.question else card.answer
+            val answer = if (isInverted) card.question else card.answer
             speak(answer, currentPronunciation.answerLanguage)
         }
     }

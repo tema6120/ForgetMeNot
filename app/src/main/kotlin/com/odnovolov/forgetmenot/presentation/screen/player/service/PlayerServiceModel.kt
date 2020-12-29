@@ -13,7 +13,7 @@ class PlayerServiceModel(
         .flatMapLatest { position: Int ->
             val playingCard: PlayingCard = playerState.playingCards[position]
             with(playingCard) {
-                if (isReverse)
+                if (isInverted)
                     card.flowOf(Card::answer) else
                     card.flowOf(Card::question)
             }

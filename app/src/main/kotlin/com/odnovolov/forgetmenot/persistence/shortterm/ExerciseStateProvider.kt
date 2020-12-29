@@ -93,7 +93,7 @@ class ExerciseStateProvider(
                     id,
                     card.id,
                     deck.id,
-                    isReverse,
+                    isInverted,
                     isQuestionDisplayed,
                     isAnswerCorrect,
                     hint,
