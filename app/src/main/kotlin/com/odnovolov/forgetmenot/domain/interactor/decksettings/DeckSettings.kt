@@ -107,18 +107,18 @@ class DeckSettings(
         )
     }
 
-    fun setTestMethod(testMethod: TestMethod) {
+    fun setTestingMethod(testingMethod: TestingMethod) {
         updateExercisePreference(
-            isValueChanged = currentExercisePreference.testMethod != testMethod,
+            isValueChanged = currentExercisePreference.testingMethod != testingMethod,
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
                     name = "",
-                    testMethod = testMethod
+                    testingMethod = testingMethod
                 )
             },
             updateCurrentExercisePreference = {
-                currentExercisePreference.testMethod = testMethod
+                currentExercisePreference.testingMethod = testingMethod
             }
         )
     }
@@ -257,7 +257,7 @@ class DeckSettings(
         id: Long,
         name: String = this.name,
         randomOrder: Boolean = this.randomOrder,
-        testMethod: TestMethod = this.testMethod,
+        testingMethod: TestingMethod = this.testingMethod,
         intervalScheme: IntervalScheme? = this.intervalScheme,
         pronunciation: Pronunciation = this.pronunciation,
         isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
@@ -268,7 +268,7 @@ class DeckSettings(
         id,
         name,
         randomOrder,
-        testMethod,
+        testingMethod,
         intervalScheme,
         pronunciation,
         isQuestionDisplayed,

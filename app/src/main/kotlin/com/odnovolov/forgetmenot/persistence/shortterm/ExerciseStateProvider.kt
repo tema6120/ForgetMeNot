@@ -4,8 +4,8 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.TestMethod
-import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
+import com.odnovolov.forgetmenot.domain.entity.TestingMethod
+import com.odnovolov.forgetmenot.domain.entity.TestingMethod.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider.SerializableExerciseState
 import kotlinx.serialization.Serializable
@@ -41,7 +41,7 @@ class ExerciseStateProvider(
         val isExpired: Boolean = false,
         val initialGrade: Int,
         val isGradeEditedManually: Boolean,
-        val testMethod: TestMethod
+        val testingMethod: TestingMethod
     )
 
     @Serializable
@@ -65,7 +65,7 @@ class ExerciseStateProvider(
         val quizAdditions: MutableList<QuizAddition> = ArrayList()
         val entryAdditions: MutableList<EntryAddition> = ArrayList()
         state.exerciseCards.forEach { exerciseCard: ExerciseCard ->
-            val testMethod: TestMethod = when (exerciseCard) {
+            val testingMethod: TestingMethod = when (exerciseCard) {
                 is OffTestExerciseCard -> Off
                 is ManualTestExerciseCard -> Manual
                 is QuizTestExerciseCard -> {
@@ -101,7 +101,7 @@ class ExerciseStateProvider(
                     isExpired,
                     initialGrade,
                     isGradeEditedManually,
-                    testMethod
+                    testingMethod
                 )
             }
             serializableExerciseCards.add(serializableExerciseCard)
@@ -136,7 +136,7 @@ class ExerciseStateProvider(
                         isGradeEditedManually
                     )
                 }
-                when (serializableExerciseCard.testMethod) {
+                when (serializableExerciseCard.testingMethod) {
                     Off -> OffTestExerciseCard(baseExerciseCard)
                     Manual -> ManualTestExerciseCard(baseExerciseCard)
                     Quiz -> {

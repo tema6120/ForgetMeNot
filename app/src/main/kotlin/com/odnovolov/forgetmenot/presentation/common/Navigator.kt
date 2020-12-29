@@ -22,6 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversion
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodDiScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -111,6 +112,16 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToHelpFromQuestionDisplay(createDiScope: () -> HelpDiScope) {
         HelpDiScope.open(createDiScope)
         navigate(R.id.question_display_to_help)
+    }
+
+    fun navigateToTestingMethod(createDiScope: () -> TestingMethodDiScope) {
+        TestingMethodDiScope.open(createDiScope)
+        navigate(R.id.deck_editor_to_testing_method)
+    }
+
+    fun navigateToHelpFromTestingMethod(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.testing_method_to_help)
     }
 
     fun navigateToPronunciationPlan(createDiScope: () -> PronunciationPlanDiScope) {

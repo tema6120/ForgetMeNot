@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.entity
 
-enum class TestMethod {
+enum class TestingMethod {
     Off,
     Manual,
     Quiz,

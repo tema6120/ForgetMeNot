@@ -99,6 +99,14 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
+                android:id="@+id/deck_editor_to_testing_method"
+                app:destination="@id/testing_method"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+
+        <action
                 android:id="@+id/action_deck_setup_screen_to_intervals_screen"
                 app:destination="@id/intervals_screen"
                 app:enterAnim="@anim/slide_in_right"
@@ -156,6 +164,17 @@
 
         <action
                 android:id="@+id/question_display_to_help"
+                app:destination="@+id/help_screen" />
+
+    </fragment>
+
+    <fragment
+            android:id="@+id/testing_method"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodFragment"
+            tools:layout="@layout/fragment_testing_method">
+
+        <action
+                android:id="@+id/testing_method_to_help"
                 app:destination="@+id/help_screen" />
 
     </fragment>

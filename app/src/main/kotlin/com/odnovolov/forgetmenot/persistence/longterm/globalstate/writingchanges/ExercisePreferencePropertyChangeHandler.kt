@@ -29,9 +29,9 @@ class ExercisePreferencePropertyChangeHandler(
                 val randomOrder = change.newValue as Boolean
                 queries.updateRandomOrder(randomOrder, exercisePreferenceId)
             }
-            ExercisePreference::testMethod -> {
-                val testMethod = change.newValue as TestMethod
-                queries.updateTestMethod(testMethod, exercisePreferenceId)
+            ExercisePreference::testingMethod -> {
+                val testingMethod = change.newValue as TestingMethod
+                queries.updateTestMethod(testingMethod, exercisePreferenceId)
             }
             ExercisePreference::intervalScheme -> {
                 val linkedIntervalScheme = change.newValue as IntervalScheme?

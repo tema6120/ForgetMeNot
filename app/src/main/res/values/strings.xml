@@ -80,10 +80,10 @@
     <string name="description_add_new_preset">Add new preset</string>
     <string name="description_save_preset">Save preset</string>
     <string name="title_test_method_dialog">Test method</string>
-    <string name="test_method_label_off">Off</string>
-    <string name="test_method_label_manual">Manual</string>
-    <string name="test_method_label_quiz">Quiz</string>
-    <string name="test_method_label_entry">Entry</string>
+    <string name="testing_method_without_testing">Without testing</string>
+    <string name="testing_method_self_testing">Self testing</string>
+    <string name="testing_method_testing_with_variants">Testing with variants</string>
+    <string name="testing_method_spell_check">Spell check</string>
     <string name="text_remember_button">Remember</string>
     <string name="text_not_remember_button">Not remember</string>
     <string name="text_check_button">Check</string>
@@ -659,4 +659,5 @@
     <string name="default_language">Default language</string>
     <string name="title_card_inversion_screen">Card inversion</string>
     <string name="title_question_display_screen">Question display</string>
+    <string name="title_testing_method_screen">Testing method</string>
 </resources>

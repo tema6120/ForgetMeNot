@@ -76,7 +76,7 @@ class InitialDecksAdder(
             id = generateId(),
             name = "English Irregular Verbs",
             randomOrder = true,
-            testMethod = TestMethod.Manual,
+            testingMethod = TestingMethod.Manual,
             intervalScheme = IntervalScheme.Default,
             pronunciation = pronunciation,
             isQuestionDisplayed = true,

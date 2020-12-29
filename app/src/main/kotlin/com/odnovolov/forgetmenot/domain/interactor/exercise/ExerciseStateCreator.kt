@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
 import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.entity.TestMethod.*
+import com.odnovolov.forgetmenot.domain.entity.TestingMethod.*
 import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
@@ -56,7 +56,7 @@ class ExerciseStateCreator(
             initialGrade = card.grade,
             isGradeEditedManually = false
         )
-        return when (deck.exercisePreference.testMethod) {
+        return when (deck.exercisePreference.testingMethod) {
             Off -> OffTestExerciseCard(baseExerciseCard)
             Manual -> ManualTestExerciseCard(baseExerciseCard)
             Quiz -> {

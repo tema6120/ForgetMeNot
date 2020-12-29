@@ -6,7 +6,7 @@ class ExercisePreference(
     override val id: Long,
     name: String,
     randomOrder: Boolean,
-    testMethod: TestMethod,
+    testingMethod: TestingMethod,
     intervalScheme: IntervalScheme?,
     pronunciation: Pronunciation,
     isQuestionDisplayed: Boolean,
@@ -16,7 +16,7 @@ class ExercisePreference(
 ) : FlowMakerWithRegistry<ExercisePreference>() {
     var name: String by flowMaker(name)
     var randomOrder: Boolean by flowMaker(randomOrder)
-    var testMethod: TestMethod by flowMaker(testMethod)
+    var testingMethod: TestingMethod by flowMaker(testingMethod)
     var intervalScheme: IntervalScheme? by flowMaker(intervalScheme)
     var pronunciation: Pronunciation by flowMaker(pronunciation)
     var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
@@ -28,7 +28,7 @@ class ExercisePreference(
         id,
         name,
         randomOrder,
-        testMethod,
+        testingMethod,
         intervalScheme?.copy(),
         pronunciation.copy(),
         isQuestionDisplayed,
@@ -43,7 +43,7 @@ class ExercisePreference(
                 id = 0L,
                 name = "",
                 randomOrder = true,
-                testMethod = TestMethod.Manual,
+                testingMethod = TestingMethod.Manual,
                 intervalScheme = IntervalScheme.Default,
                 pronunciation = Pronunciation.Default,
                 isQuestionDisplayed = true,

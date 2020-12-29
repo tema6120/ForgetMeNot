@@ -17,9 +17,9 @@ class DeckSettingsViewModel(
             exercisePreference.flowOf(ExercisePreference::randomOrder)
         }
 
-    val selectedTestMethod: Flow<TestMethod> = currentExercisePreference
+    val selectedTestMethod: Flow<TestingMethod> = currentExercisePreference
         .flatMapLatest { exercisePreference: ExercisePreference ->
-            exercisePreference.flowOf(ExercisePreference::testMethod)
+            exercisePreference.flowOf(ExercisePreference::testingMethod)
         }
 
     val intervalScheme: Flow<IntervalScheme?> = currentExercisePreference

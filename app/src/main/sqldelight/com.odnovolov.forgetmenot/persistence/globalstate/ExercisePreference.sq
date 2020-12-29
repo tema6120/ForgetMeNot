@@ -1,11 +1,11 @@
 import com.odnovolov.forgetmenot.domain.entity.CardInversion;
-import com.odnovolov.forgetmenot.domain.entity.TestMethod;
+import com.odnovolov.forgetmenot.domain.entity.TestingMethod;
 
 CREATE TABLE ExercisePreferenceDb (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     randomOrder INTEGER AS Boolean NOT NULL,
-    testMethod TEXT AS TestMethod NOT NULL,
+    testMethod TEXT AS TestingMethod NOT NULL,
     intervalSchemeId INTEGER,
     pronunciationId INTEGER NOT NULL,
     isQuestionDisplayed INTEGER AS Boolean NOT NULL,

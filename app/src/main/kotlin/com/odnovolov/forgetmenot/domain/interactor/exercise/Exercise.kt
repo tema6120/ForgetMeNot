@@ -268,12 +268,12 @@ class Exercise(
 
     private fun ExerciseCard.shouldMapToQuizTestExerciseCard(): Boolean =
         !isWalkingMode
-                && base.deck.exercisePreference.testMethod == TestMethod.Quiz
+                && base.deck.exercisePreference.testingMethod == TestingMethod.Quiz
                 && this !is QuizTestExerciseCard
 
     private fun ExerciseCard.shouldMapToEntryTestExerciseCard(): Boolean =
         !isWalkingMode
-                && base.deck.exercisePreference.testMethod == TestMethod.Entry
+                && base.deck.exercisePreference.testingMethod == TestingMethod.Entry
                 && this !is EntryTestExerciseCard
 
     fun setGrade(grade: Int) {
@@ -494,10 +494,10 @@ class Exercise(
             )
         }
         val retestingExerciseCard: ExerciseCard =
-            when (currentExerciseCard.base.deck.exercisePreference.testMethod) {
-                TestMethod.Off -> OffTestExerciseCard(baseExerciseCard)
-                TestMethod.Manual -> ManualTestExerciseCard(baseExerciseCard)
-                TestMethod.Quiz -> {
+            when (currentExerciseCard.base.deck.exercisePreference.testingMethod) {
+                TestingMethod.Off -> OffTestExerciseCard(baseExerciseCard)
+                TestingMethod.Manual -> ManualTestExerciseCard(baseExerciseCard)
+                TestingMethod.Quiz -> {
                     if (isWalkingMode) {
                         ManualTestExerciseCard(baseExerciseCard)
                     } else {
@@ -507,7 +507,7 @@ class Exercise(
                         QuizTestExerciseCard(baseExerciseCard, variants)
                     }
                 }
-                TestMethod.Entry -> {
+                TestingMethod.Entry -> {
                     if (isWalkingMode) {
                         ManualTestExerciseCard(baseExerciseCard)
                     } else {

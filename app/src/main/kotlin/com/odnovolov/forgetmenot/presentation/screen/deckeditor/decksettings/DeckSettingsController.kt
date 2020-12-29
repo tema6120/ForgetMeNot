@@ -15,6 +15,7 @@ import com.odnovolov.forgetmenot.presentation.screen.pronunciation.Pronunciation
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationEventDialogState
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodDiScope
 
 class DeckSettingsController(
     private val deckSettings: DeckSettings,
@@ -28,10 +29,6 @@ class DeckSettingsController(
             RandomOrderSwitchToggled -> {
                 val newRandomOrder = !currentExercisePreference.randomOrder
                 deckSettings.setRandomOrder(newRandomOrder)
-            }
-
-            is TestMethodIsSelected -> {
-                deckSettings.setTestMethod(event.testMethod)
             }
 
             IntervalsButtonClicked -> {
@@ -55,6 +52,12 @@ class DeckSettingsController(
             QuestionDisplayButtonClicked -> {
                 navigator.navigateToQuestionDisplay {
                     QuestionDisplayDiScope()
+                }
+            }
+
+            TestingMethodButtonClicked -> {
+                navigator.navigateToTestingMethod {
+                    TestingMethodDiScope()
                 }
             }
 

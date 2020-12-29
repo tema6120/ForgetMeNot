@@ -73,7 +73,7 @@ fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = Exercise
     id,
     name,
     randomOrder,
-    testMethod,
+    testingMethod,
     intervalScheme?.id,
     pronunciation.id,
     isQuestionDisplayed,
