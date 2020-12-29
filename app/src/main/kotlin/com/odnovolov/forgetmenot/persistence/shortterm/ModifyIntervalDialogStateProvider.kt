@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.ModifyIntervalDialogStateProvider.SerializableState
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
 import kotlinx.serialization.Serializable

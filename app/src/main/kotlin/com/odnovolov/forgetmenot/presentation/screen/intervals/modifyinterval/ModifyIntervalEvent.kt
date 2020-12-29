@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
 
 sealed class ModifyIntervalEvent {
     class IntervalValueChanged(val intervalValueText: String) : ModifyIntervalEvent()

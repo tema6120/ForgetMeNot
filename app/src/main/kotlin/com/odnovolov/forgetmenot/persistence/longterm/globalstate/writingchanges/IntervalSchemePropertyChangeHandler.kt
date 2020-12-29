@@ -19,11 +19,6 @@ class IntervalSchemePropertyChangeHandler(
         val exists: Boolean = queries.exists(intervalSchemeId).executeAsOne()
         if (!exists) return
         when (change.property) {
-            IntervalScheme::name -> {
-                if (change !is PropertyValueChange) return
-                val name = change.newValue as String
-                queries.updateName(name, intervalSchemeId)
-            }
             IntervalScheme::intervals -> {
                 if (change !is CollectionChange) return
                 val removedIntervals = change.removedItems as Collection<Interval>

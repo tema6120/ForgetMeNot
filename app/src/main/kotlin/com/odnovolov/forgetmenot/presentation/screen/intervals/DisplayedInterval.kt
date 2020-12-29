@@ -1,11 +1,11 @@
-package com.odnovolov.forgetmenot.presentation.common.entity
+package com.odnovolov.forgetmenot.presentation.screen.intervals
 
 import android.content.Context
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.toDateTimeSpan
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit.*
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit.Months
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit.*
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit.Months
 import com.soywiz.klock.*
 
 class DisplayedInterval(
@@ -35,6 +35,17 @@ class DisplayedInterval(
             }
         )
         return "$value $intervalUnit"
+    }
+
+    fun getAbbreviation(context: Context): String {
+        val intervalUnitAbbreviation: String = context.getString(
+            when (intervalUnit) {
+                Hours -> R.string.interval_unit_abbreviation_hours
+                Days -> R.string.interval_unit_abbreviation_days
+                Months -> R.string.interval_unit_abbreviation_months
+            }
+        )
+        return value.toString() + intervalUnitAbbreviation
     }
 
     companion object {

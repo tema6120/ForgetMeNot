@@ -33,7 +33,7 @@ class DeckSettingsController(
 
             IntervalsButtonClicked -> {
                 navigator.navigateToIntervals {
-                    IntervalsDiScope.create(PresetDialogState())
+                    IntervalsDiScope()
                 }
             }
 

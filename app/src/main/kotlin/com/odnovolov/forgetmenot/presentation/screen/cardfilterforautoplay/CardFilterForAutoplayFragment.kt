@@ -12,7 +12,7 @@ import com.appyvet.materialrangebar.RangeBar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.showToast

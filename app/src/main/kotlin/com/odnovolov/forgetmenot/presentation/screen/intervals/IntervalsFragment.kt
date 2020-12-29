@@ -35,7 +35,6 @@ class IntervalsFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = IntervalsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            presetView.inject(diScope.presetController, diScope.presetViewModel)
             intervalsRecyclerView.adapter = diScope.adapter
             observeViewModel(diScope.viewModel, diScope.adapter)
         }

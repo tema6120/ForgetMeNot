@@ -17,7 +17,7 @@ class MotivationalTimerDiScope private constructor(
         initialDialogState ?: dialogStateProvider.load()
 
     val controller = MotivationalTimerController(
-        DeckSettingsDiScope.shareDeckSettings(),
+        DeckSettingsDiScope.get()!!.deckSettings,
         dialogState,
         AppDiScope.get().longTermStateSaver,
         dialogStateProvider

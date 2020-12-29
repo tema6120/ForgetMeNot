@@ -11,19 +11,16 @@ import com.soywiz.klock.months
 
 class IntervalScheme(
     override val id: Long,
-    name: String,
     intervals: CopyableList<Interval>
 ) : FlowMakerWithRegistry<IntervalScheme>() {
-    var name: String by flowMaker(name)
     var intervals: CopyableList<Interval> by flowMaker(intervals, CollectionChange::class)
 
-    override fun copy() = IntervalScheme(id, name, intervals.copy())
+    override fun copy() = IntervalScheme(id, intervals.copy())
 
     companion object {
         val Default by lazy {
             IntervalScheme(
                 id = 0,
-                name = "",
                 intervals = copyableListOf(
                     Interval(id = 0, grade = 0, value = 8.hours.toDateTimeSpan()),
                     Interval(id = 1, grade = 1, value = 2.days.toDateTimeSpan()),
@@ -38,13 +35,3 @@ class IntervalScheme(
 }
 
 fun IntervalScheme.isDefault(): Boolean = this.id == IntervalScheme.Default.id
-
-fun IntervalScheme.isIndividual(): Boolean = !isDefault() && name.isEmpty()
-
-fun checkIntervalSchemeName(testingName: String, globalState: GlobalState): NameCheckResult {
-    return when {
-        testingName.isEmpty() -> NameCheckResult.Empty
-        globalState.sharedIntervalSchemes.any { it.name == testingName } -> NameCheckResult.Occupied
-        else -> NameCheckResult.Ok
-    }
-}

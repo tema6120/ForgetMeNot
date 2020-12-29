@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import kotlinx.coroutines.launch
 
@@ -138,13 +139,8 @@ class DeckSettingsFragment : BaseFragment() {
                     }
                 )
             }
-            intervalScheme.observe {
-                selectedIntervalsTextView.text = when {
-                    it == null -> getString(R.string.off)
-                    it.isDefault() -> getString(R.string.default_name)
-                    it.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${it.name}'"
-                }
+            intervalScheme.observe { intervalScheme: IntervalScheme? ->
+                selectedIntervalsTextView.text = composeIntervalSchemeDisplayText(intervalScheme)
             }
             pronunciation.observe { pronunciation: Pronunciation ->
                 selectedPronunciationTextView.text = buildString {
@@ -193,6 +189,17 @@ class DeckSettingsFragment : BaseFragment() {
                     if (timeForAnswer == 0)
                         getString(R.string.off) else
                         getString(R.string.time_for_answer, timeForAnswer)
+            }
+        }
+    }
+
+    private fun composeIntervalSchemeDisplayText(intervalScheme: IntervalScheme?): String {
+        return if (intervalScheme == null) {
+            getString(R.string.off)
+        } else {
+            intervalScheme.intervals.joinToString { interval: Interval ->
+                DisplayedInterval.fromDateTimeSpan(interval.value)
+                    .getAbbreviation(requireContext())
             }
         }
     }

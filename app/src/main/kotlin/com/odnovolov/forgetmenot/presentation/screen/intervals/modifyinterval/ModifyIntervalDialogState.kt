@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import kotlinx.serialization.Serializable
 
 class ModifyIntervalDialogState(

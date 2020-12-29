@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.LastTestedFilterDialogStateProvider.SerializableState
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDialogState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

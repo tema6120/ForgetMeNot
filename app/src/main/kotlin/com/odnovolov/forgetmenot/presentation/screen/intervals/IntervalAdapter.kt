@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R.layout
 import com.odnovolov.forgetmenot.domain.entity.Interval
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForGrade
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.ModifyIntervalButtonClicked

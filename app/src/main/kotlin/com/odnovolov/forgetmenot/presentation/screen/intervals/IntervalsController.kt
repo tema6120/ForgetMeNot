@@ -6,7 +6,6 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSetting
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*

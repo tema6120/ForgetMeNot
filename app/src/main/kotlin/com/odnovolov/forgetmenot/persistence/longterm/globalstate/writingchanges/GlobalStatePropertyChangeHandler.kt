@@ -51,22 +51,6 @@ class GlobalStatePropertyChangeHandler(
                     deckPropertyChangeHandler.insertExercisePreferenceIfNotExists(exercisePreference)
                 }
             }
-            GlobalState::sharedIntervalSchemes -> {
-                if (change !is CollectionChange) return
-
-                val removedSharedIntervalSchemes = change.removedItems as Collection<IntervalScheme>
-                removedSharedIntervalSchemes.forEach { intervalScheme: IntervalScheme ->
-                    database.sharedIntervalSchemeQueries.delete(intervalScheme.id)
-                }
-
-                val addedSharedIntervalSchemes = change.addedItems as Collection<IntervalScheme>
-                addedSharedIntervalSchemes.forEach { intervalScheme: IntervalScheme ->
-                    database.sharedIntervalSchemeQueries.insert(intervalScheme.id)
-                    exercisePreferencePropertyChangeHandler.insertIntervalSchemeIfNotExists(
-                        intervalScheme
-                    )
-                }
-            }
             GlobalState::sharedPronunciationPlans -> {
                 if (change !is CollectionChange) return
 

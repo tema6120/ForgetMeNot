@@ -86,13 +86,12 @@ fun IntervalSchemeDb.toIntervalScheme(
     intervals: CopyableList<Interval>
 ) = IntervalScheme(
     id,
-    name,
     intervals
 )
 
 fun IntervalScheme.toIntervalSchemeDb(): IntervalSchemeDb = IntervalSchemeDb.Impl(
     id,
-    name
+    ""
 )
 
 fun IntervalDb.toInterval() = Interval(

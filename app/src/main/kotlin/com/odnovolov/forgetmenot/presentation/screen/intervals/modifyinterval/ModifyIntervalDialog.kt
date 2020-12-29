@@ -7,7 +7,7 @@ import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput

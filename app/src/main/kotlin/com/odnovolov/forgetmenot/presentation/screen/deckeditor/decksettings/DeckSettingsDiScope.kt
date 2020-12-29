@@ -57,10 +57,6 @@ class DeckSettingsDiScope private constructor(
         fun create(initialPresetDialogState: PresetDialogState) =
             DeckSettingsDiScope(initialPresetDialogState)
 
-        fun shareDeckSettings(): DeckSettings {
-            return diScope?.deckSettings ?: error("DeckSettingsDiScope is not opened")
-        }
-
         override fun recreateDiScope() = DeckSettingsDiScope()
 
         override fun onCloseDiScope(diScope: DeckSettingsDiScope) {

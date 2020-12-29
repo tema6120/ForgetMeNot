@@ -17,7 +17,7 @@ class ModifyIntervalDiScope private constructor(
         initialModifyIntervalDialogState ?: modifyIntervalDialogStateProvider.load()
 
     val controller = ModifyIntervalController(
-        IntervalsDiScope.shareIntervalsSettings(),
+        IntervalsDiScope.get()!!.intervalsSettings,
         dialogState,
         AppDiScope.get().longTermStateSaver,
         modifyIntervalDialogStateProvider

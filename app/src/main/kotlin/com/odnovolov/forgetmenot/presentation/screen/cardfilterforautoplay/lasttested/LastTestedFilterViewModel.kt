@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested
 
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 

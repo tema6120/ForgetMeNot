@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 
 class LastTestedFilterDialogState(
     isFromDialog: Boolean,

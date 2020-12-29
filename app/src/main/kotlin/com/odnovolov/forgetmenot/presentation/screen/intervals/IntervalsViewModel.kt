@@ -17,7 +17,7 @@ class IntervalsViewModel(
             exercisePreference.flowOf(ExercisePreference::intervalScheme)
         }
         .flatMapLatest { intervalScheme: IntervalScheme? ->
-            intervalScheme?.flowOf(IntervalScheme::intervals) ?: flowOf(emptyList<Interval>())
+            intervalScheme?.flowOf(IntervalScheme::intervals) ?: flowOf(emptyList())
         }
         .flatMapLatest { intervals: List<Interval> ->
             if (intervals.isEmpty()) {

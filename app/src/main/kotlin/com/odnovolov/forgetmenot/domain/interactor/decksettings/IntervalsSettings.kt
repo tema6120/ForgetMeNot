@@ -1,108 +1,22 @@
 package com.odnovolov.forgetmenot.domain.interactor.decksettings
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
-import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
+import com.odnovolov.forgetmenot.domain.entity.isDefault
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings.Event.DeniedIntervalSchemeCreation
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings.Event.DeniedIntervalSchemeRenaming
 import com.soywiz.klock.DateTimeSpan
-import kotlinx.coroutines.flow.Flow
 
 class IntervalsSettings(
-    private val deckSettings: DeckSettings,
-    private val globalState: GlobalState
+    private val deckSettings: DeckSettings
 ) {
-    sealed class Event {
-        class DeniedIntervalSchemeCreation(val nameCheckResult: NameCheckResult) : Event()
-        class DeniedIntervalSchemeRenaming(val nameCheckResult: NameCheckResult) : Event()
-    }
-
-    private val eventFlow = EventFlow<Event>()
-    val events: Flow<Event> = eventFlow.get()
-
-    private val exercisePreference: ExercisePreference
-        get() = deckSettings.state.deck.exercisePreference
-
-    fun setIntervalScheme(intervalSchemeId: Long?) {
-        when (intervalSchemeId) {
-            deckSettings.state.deck.exercisePreference.intervalScheme?.id -> return
-            null -> deckSettings.setIntervalScheme(null)
-            IntervalScheme.Default.id -> deckSettings.setIntervalScheme(IntervalScheme.Default)
-            else -> {
-                globalState.sharedIntervalSchemes
-                    .find { it.id == intervalSchemeId }
-                    ?.let(deckSettings::setIntervalScheme)
-            }
-        }
-    }
-
-    fun createNewSharedIntervalScheme(name: String) {
-        when (checkIntervalSchemeName(name, globalState)) {
-            Ok -> createNewSharedIntervalSchemeAndSetToCurrentExercisePreference(name)
-            Empty -> eventFlow.send(DeniedIntervalSchemeCreation(Empty))
-            Occupied -> eventFlow.send(DeniedIntervalSchemeCreation(Occupied))
-        }
-    }
-
-    private fun createNewSharedIntervalSchemeAndSetToCurrentExercisePreference(name: String) {
-        val newSharedIntervalScheme = IntervalScheme(
-            id = generateId(),
-            name = name,
-            intervals = createIntervalsFromDefaultIntervals()
-        )
-        addNewSharedIntervalScheme(newSharedIntervalScheme)
-        deckSettings.setIntervalScheme(newSharedIntervalScheme)
-    }
-
-    fun renameIntervalScheme(intervalsScheme: IntervalScheme, newName: String) {
-        when (checkIntervalSchemeName(newName, globalState)) {
-            Ok -> {
-                when {
-                    intervalsScheme.isDefault() -> {
-                        createNewSharedIntervalSchemeAndSetToCurrentExercisePreference(newName)
-                    }
-                    intervalsScheme.isIndividual() -> {
-                        intervalsScheme.name = newName
-                        addNewSharedIntervalScheme(intervalsScheme)
-                    }
-                    else -> { // current IntervalScheme is shared
-                        intervalsScheme.name = newName
-                    }
-                }
-            }
-            Empty -> eventFlow.send(DeniedIntervalSchemeRenaming(Empty))
-            Occupied -> eventFlow.send(DeniedIntervalSchemeRenaming(Occupied))
-        }
-    }
-
-    fun deleteSharedIntervalScheme(intervalSchemeId: Long) {
-        if (intervalSchemeId == IntervalScheme.Default.id) return
-        globalState.sharedIntervalSchemes = globalState.sharedIntervalSchemes
-            .filter { sharedIntervalScheme -> sharedIntervalScheme.id != intervalSchemeId }
-            .toCopyableList()
-        globalState.decks
-            .map { deck -> deck.exercisePreference }
-            .filter { exercisePreference ->
-                exercisePreference.intervalScheme?.let { it.id == intervalSchemeId } ?: false
-            }
-            .distinct()
-            .forEach { exercisePreference ->
-                exercisePreference.intervalScheme = IntervalScheme.Default
-            }
-        deckSettings.recheckIndividualExercisePreferences()
-    }
-
-    private fun addNewSharedIntervalScheme(intervalsScheme: IntervalScheme) {
-        globalState.sharedIntervalSchemes =
-            (globalState.sharedIntervalSchemes + intervalsScheme).toCopyableList()
-    }
+    private val intervalScheme: IntervalScheme?
+        get() = deckSettings.state.deck.exercisePreference.intervalScheme
 
     fun modifyInterval(grade: Int, newValue: DateTimeSpan) {
         val isValueChanged: Boolean =
-            exercisePreference.intervalScheme?.let { intervalScheme: IntervalScheme ->
+            intervalScheme?.let { intervalScheme: IntervalScheme ->
                 val oldValue = intervalScheme.intervals
                     .find { it.grade == grade }
                     ?.value ?: false
@@ -125,10 +39,10 @@ class IntervalsSettings(
                         )
                     }
                     .toCopyableList()
-                IntervalScheme(id = generateId(), name = "", intervals = newIntervals)
+                IntervalScheme(id = generateId(), intervals = newIntervals)
             },
             updateCurrentIntervalScheme = {
-                exercisePreference.intervalScheme?.let { intervalScheme: IntervalScheme ->
+                intervalScheme?.let { intervalScheme: IntervalScheme ->
                     intervalScheme.intervals
                         .find { it.grade == grade }
                         ?.value = newValue
@@ -138,11 +52,10 @@ class IntervalsSettings(
     }
 
     fun addInterval(value: DateTimeSpan) {
-        if (exercisePreference.intervalScheme == null) return
+        if (intervalScheme == null) return
         fun newInterval() = Interval(
             id = generateId(),
-            grade = exercisePreference.intervalScheme!!.intervals.last()
-                .grade + 1,
+            grade = intervalScheme!!.intervals.last().grade + 1,
             value = value
         )
         updateIntervalScheme(
@@ -150,10 +63,10 @@ class IntervalsSettings(
                 val newIntervals: CopyableList<Interval> =
                     (createIntervalsFromDefaultIntervals() + newInterval())
                         .toCopyableList()
-                IntervalScheme(id = generateId(), name = "", intervals = newIntervals)
+                IntervalScheme(id = generateId(), intervals = newIntervals)
             },
             updateCurrentIntervalScheme = {
-                exercisePreference.intervalScheme?.let { intervalScheme: IntervalScheme ->
+                intervalScheme?.let { intervalScheme: IntervalScheme ->
                     intervalScheme.intervals = (intervalScheme.intervals + newInterval())
                         .toCopyableList()
                 }
@@ -162,7 +75,7 @@ class IntervalsSettings(
     }
 
     fun removeLastInterval() {
-        val hasAtLeastTwoIntervals: Boolean = exercisePreference.intervalScheme
+        val hasAtLeastTwoIntervals: Boolean = intervalScheme
             ?.let { it.intervals.size >= 2 } ?: false
         if (!hasAtLeastTwoIntervals) return
         updateIntervalScheme(
@@ -170,10 +83,10 @@ class IntervalsSettings(
                 val newIntervals: CopyableList<Interval> = createIntervalsFromDefaultIntervals()
                     .dropLast(1)
                     .toCopyableList()
-                IntervalScheme(id = generateId(), name = "", intervals = newIntervals)
+                IntervalScheme(id = generateId(), intervals = newIntervals)
             },
             updateCurrentIntervalScheme = {
-                exercisePreference.intervalScheme?.let { intervalScheme: IntervalScheme ->
+                intervalScheme?.let { intervalScheme: IntervalScheme ->
                     intervalScheme.intervals = intervalScheme.intervals.dropLast(1).toCopyableList()
                 }
             }
@@ -193,36 +106,32 @@ class IntervalsSettings(
     }
 
     private inline fun updateIntervalScheme(
-        createNewIndividualIntervalScheme: () -> IntervalScheme,
-        updateCurrentIntervalScheme: () -> Unit
+        crossinline createNewIndividualIntervalScheme: () -> IntervalScheme,
+        crossinline updateCurrentIntervalScheme: () -> Unit
     ) {
-        exercisePreference.intervalScheme?.let { oldIntervalScheme: IntervalScheme ->
+        intervalScheme?.let { oldIntervalScheme: IntervalScheme ->
             when {
                 oldIntervalScheme.isDefault() -> {
                     val newIndividualIntervalScheme = createNewIndividualIntervalScheme()
                     deckSettings.setIntervalScheme(newIndividualIntervalScheme)
                 }
-                oldIntervalScheme.isIndividual() -> {
+                else -> {
                     updateCurrentIntervalScheme()
                     if (oldIntervalScheme.shouldBeDefault()) {
                         deckSettings.setIntervalScheme(IntervalScheme.Default)
                     }
-                }
-                else -> { // current IntervalScheme is shared
-                    updateCurrentIntervalScheme()
                 }
             }
         }
     }
 
     private fun IntervalScheme.shouldBeDefault(): Boolean {
-        if (this.name != IntervalScheme.Default.name) return false
         if (this.intervals.size != IntervalScheme.Default.intervals.size) return false
         repeat(this.intervals.size) { index ->
-            val testingInterval = this.intervals[index]
+            val thisInterval = this.intervals[index]
             val defaultInterval = IntervalScheme.Default.intervals[index]
-            if (testingInterval.grade != defaultInterval.grade
-                || testingInterval.value != defaultInterval.value
+            if (thisInterval.grade != defaultInterval.grade
+                || thisInterval.value != defaultInterval.value
             ) {
                 return false
             }

@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Dec
 
 class PronunciationDiScope {
     private val pronunciationSettings = PronunciationSettings(
-        DeckSettingsDiScope.shareDeckSettings()
+        DeckSettingsDiScope.get()!!.deckSettings
     )
 
     private val speakerImpl = SpeakerImpl(
@@ -23,7 +23,7 @@ class PronunciationDiScope {
     )
 
     val viewModel = PronunciationViewModel(
-        DeckSettingsDiScope.shareDeckSettings().state,
+        DeckSettingsDiScope.get()!!.deckSettings.state,
         speakerImpl
     )
 

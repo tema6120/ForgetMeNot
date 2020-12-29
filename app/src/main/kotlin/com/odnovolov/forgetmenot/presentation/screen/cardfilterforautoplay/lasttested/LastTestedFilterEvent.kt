@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested
 
-import com.odnovolov.forgetmenot.presentation.common.entity.DisplayedInterval.IntervalUnit
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
 
 sealed class LastTestedFilterEvent {
     object ZeroTimeRadioButtonClicked : LastTestedFilterEvent()

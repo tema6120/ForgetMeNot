@@ -19,8 +19,6 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val decks: CopyableList<Deck> = buildDecks(exercisePreferences)
         val sharedExercisePreferences: CopyableList<ExercisePreference> =
             buildSharedExercisePreferences(exercisePreferences)
-        val sharedIntervalSchemes: CopyableList<IntervalScheme> =
-            buildSharedIntervalSchemes(intervalSchemes)
         val sharedPronunciationPlans: CopyableList<PronunciationPlan> =
             buildSharedPronunciationPlans(pronunciationPlans)
         val cardFilterForAutoplay: CardFilterForAutoplay = buildCardFilterForAutoplay()
@@ -29,7 +27,6 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         return GlobalState(
             decks,
             sharedExercisePreferences,
-            sharedIntervalSchemes,
             sharedPronunciationPlans,
             cardFilterForAutoplay,
             isWalkingModeEnabled,
@@ -120,15 +117,6 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             .map { exercisePreferenceId: Long ->
                 exercisePreferencesMap.getValue(exercisePreferenceId)
             }
-            .toCopyableList()
-    }
-
-    private fun buildSharedIntervalSchemes(
-        intervalSchemes: List<IntervalScheme>
-    ): CopyableList<IntervalScheme> {
-        val intervalSchemesMap: Map<Long, IntervalScheme> = intervalSchemes.associateBy { it.id }
-        return tables.sharedIntervalSchemeTable
-            .map { intervalSchemeId: Long -> intervalSchemesMap.getValue(intervalSchemeId) }
             .toCopyableList()
     }
 

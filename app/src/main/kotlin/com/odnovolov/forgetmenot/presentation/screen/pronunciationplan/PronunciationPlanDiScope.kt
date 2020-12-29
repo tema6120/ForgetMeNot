@@ -30,12 +30,12 @@ class PronunciationPlanDiScope private constructor(
         initialPronunciationEventDialogState ?: pronunciationEventDialogStateProvider.load()
 
     private val pronunciationPlanSettings = PronunciationPlanSettings(
-        DeckSettingsDiScope.shareDeckSettings(),
+        DeckSettingsDiScope.get()!!.deckSettings,
         AppDiScope.get().globalState
     )
 
     val presetController = PronunciationPlanPresetController(
-        DeckSettingsDiScope.shareDeckSettings().state,
+        DeckSettingsDiScope.get()!!.deckSettings.state,
         pronunciationPlanSettings,
         presetDialogState,
         AppDiScope.get().globalState,
@@ -45,13 +45,13 @@ class PronunciationPlanDiScope private constructor(
     )
 
     val presetViewModel = PronunciationPlanPresetViewModel(
-        DeckSettingsDiScope.shareDeckSettings().state,
+        DeckSettingsDiScope.get()!!.deckSettings.state,
         presetDialogState,
         AppDiScope.get().globalState
     )
 
     val controller = PronunciationPlanController(
-        DeckSettingsDiScope.shareDeckSettings().state,
+        DeckSettingsDiScope.get()!!.deckSettings.state,
         pronunciationPlanSettings,
         pronunciationEventDialogState,
         AppDiScope.get().navigator,
@@ -60,7 +60,7 @@ class PronunciationPlanDiScope private constructor(
     )
 
     val viewModel = PronunciationPlanViewModel(
-        DeckSettingsDiScope.shareDeckSettings().state,
+        DeckSettingsDiScope.get()!!.deckSettings.state,
         pronunciationEventDialogState
     )
 

@@ -7,7 +7,6 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegi
 class GlobalState(
     decks: CopyableCollection<Deck>,
     sharedExercisePreferences: CopyableCollection<ExercisePreference>,
-    sharedIntervalSchemes: CopyableCollection<IntervalScheme>,
     sharedPronunciationPlans: CopyableCollection<PronunciationPlan>,
     cardFilterForAutoplay: CardFilterForAutoplay,
     isWalkingModeEnabled: Boolean,
@@ -17,9 +16,6 @@ class GlobalState(
 
     var sharedExercisePreferences: CopyableCollection<ExercisePreference>
             by flowMaker(sharedExercisePreferences, CollectionChange::class)
-
-    var sharedIntervalSchemes: CopyableCollection<IntervalScheme>
-            by flowMaker(sharedIntervalSchemes, CollectionChange::class)
 
     var sharedPronunciationPlans: CopyableCollection<PronunciationPlan>
             by flowMaker(sharedPronunciationPlans, CollectionChange::class)
@@ -33,7 +29,6 @@ class GlobalState(
     override fun copy() = GlobalState(
         decks.copy(),
         sharedExercisePreferences.copy(),
-        sharedIntervalSchemes.copy(),
         sharedPronunciationPlans.copy(),
         cardFilterForAutoplay.copy(),
         isWalkingModeEnabled,
