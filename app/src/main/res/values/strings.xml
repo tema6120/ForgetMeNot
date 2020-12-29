@@ -658,4 +658,5 @@
     <string name="title_pronunciation_screen">Pronunciation</string>
     <string name="default_language">Default language</string>
     <string name="title_card_inversion_screen">Card inversion</string>
+    <string name="title_question_display_screen">Question display</string>
 </resources>

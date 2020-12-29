@@ -114,7 +114,7 @@
         <View style="@style/DeckSettingsDivider" />
 
         <LinearLayout
-                android:id="@+id/QuestionDisplayButton"
+                android:id="@+id/questionDisplayButton"
                 style="@style/DeckSettingsItemButton">
 
             <ImageView

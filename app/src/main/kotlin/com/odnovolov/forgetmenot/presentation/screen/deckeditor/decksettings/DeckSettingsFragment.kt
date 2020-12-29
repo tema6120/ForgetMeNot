@@ -7,7 +7,6 @@ import android.os.MessageQueue.IdleHandler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import com.odnovolov.forgetmenot.R
@@ -19,7 +18,6 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsController.Command.ShowAutoSpeakOfQuestionIsOffMessage
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import kotlinx.coroutines.launch
@@ -36,7 +34,6 @@ class DeckSettingsFragment : BaseFragment() {
     private var isInflated = false
     private lateinit var diScope: DeckSettingsDiScope
     private var idleHandler: IdleHandler? = null
-    private val autoSpeakIsOffDialog: Dialog by lazy(::createAutoSpeakIsOffDialog)
     lateinit var scrollListener: NestedScrollView.OnScrollChangeListener
 
     override fun onCreateView(
@@ -188,7 +185,6 @@ class DeckSettingsFragment : BaseFragment() {
         initChooseTestMethodDialog()
         setupListeners()
         observeViewModelSecondary()
-        controller!!.commands.observe(::executeCommand)
     }
 
     private fun initChooseTestMethodDialog() {
@@ -220,8 +216,8 @@ class DeckSettingsFragment : BaseFragment() {
         pronunciationButton.setOnClickListener {
             controller?.dispatch(PronunciationButtonClicked)
         }
-        QuestionDisplayButton.setOnClickListener {
-            controller?.dispatch(DisplayQuestionSwitchToggled)
+        questionDisplayButton.setOnClickListener {
+            controller?.dispatch(QuestionDisplayButtonClicked)
         }
         cardInversionButton.setOnClickListener {
             controller?.dispatch(CardInversionButtonClicked)
@@ -254,20 +250,6 @@ class DeckSettingsFragment : BaseFragment() {
                 testMethodAdapter?.submitList(testMethods)
             }
         }
-    }
-
-    private fun executeCommand(command: DeckSettingsController.Command) {
-        when (command) {
-            ShowAutoSpeakOfQuestionIsOffMessage -> autoSpeakIsOffDialog.show()
-        }
-    }
-
-    private fun createAutoSpeakIsOffDialog(): Dialog {
-        return AlertDialog.Builder(requireContext())
-            .setView(R.layout.dialog_auto_speak_is_off)
-            .setPositiveButton(android.R.string.ok, null)
-            .create()
-            .also { dialog -> dialogTimeCapsule.register("dialog_auto_speak_is_off", dialog) }
     }
 
     override fun onDestroyView() {

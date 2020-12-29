@@ -91,6 +91,14 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
+                android:id="@+id/deck_editor_to_question_display"
+                app:destination="@id/question_display"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+
+        <action
                 android:id="@+id/action_deck_setup_screen_to_intervals_screen"
                 app:destination="@id/intervals_screen"
                 app:enterAnim="@anim/slide_in_right"
@@ -137,9 +145,20 @@
     </fragment>
 
     <fragment
-        android:id="@+id/card_inversion"
-        android:name="com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionFragment"
-        tools:layout="@layout/fragment_card_inversion"/>
+            android:id="@+id/card_inversion"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionFragment"
+            tools:layout="@layout/fragment_card_inversion" />
+
+    <fragment
+            android:id="@+id/question_display"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayFragment"
+            tools:layout="@layout/fragment_question_display">
+
+        <action
+                android:id="@+id/question_display_to_help"
+                app:destination="@+id/help_screen" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/intervals_screen"

@@ -155,18 +155,19 @@ class DeckSettings(
         )
     }
 
-    fun setIsQuestionDisplayed(isQuestionDisplayed: Boolean) {
+    fun toggleIsQuestionDisplayed() {
+        val newIsQuestionDisplayed = !currentExercisePreference.isQuestionDisplayed
         updateExercisePreference(
-            isValueChanged = currentExercisePreference.isQuestionDisplayed != isQuestionDisplayed,
+            isValueChanged = true,
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
                     name = "",
-                    isQuestionDisplayed = isQuestionDisplayed
+                    isQuestionDisplayed = newIsQuestionDisplayed
                 )
             },
             updateCurrentExercisePreference = {
-                currentExercisePreference.isQuestionDisplayed = isQuestionDisplayed
+                currentExercisePreference.isQuestionDisplayed = newIsQuestionDisplayed
             }
         )
     }

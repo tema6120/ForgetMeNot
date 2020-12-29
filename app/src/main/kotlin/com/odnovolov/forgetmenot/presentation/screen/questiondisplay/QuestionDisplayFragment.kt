@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.cardinversion
+package com.odnovolov.forgetmenot.presentation.screen.questiondisplay
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,23 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.CardInversion
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.uncover
-import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import kotlinx.android.synthetic.main.fragment_card_inversion.*
+import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayEvent.HelpButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayEvent.QuestionDisplaySwitchToggled
+import kotlinx.android.synthetic.main.fragment_question_display.*
+import kotlinx.android.synthetic.main.fragment_question_display.appBar
+import kotlinx.android.synthetic.main.fragment_question_display.backButton
+import kotlinx.android.synthetic.main.fragment_question_display.contentScrollView
 import kotlinx.coroutines.launch
 
-class CardInversionFragment : BaseFragment() {
+class QuestionDisplayFragment : BaseFragment() {
     init {
         DeckSettingsDiScope.reopenIfClosed()
-        CardInversionDiScope.reopenIfClosed()
+        QuestionDisplayDiScope.reopenIfClosed()
     }
 
-    private var controller: CardInversionController? = null
-    private lateinit var viewModel: CardInversionViewModel
+    private var controller: QuestionDisplayController? = null
+    private lateinit var viewModel: QuestionDisplayViewModel
     private var scrollListener: ViewTreeObserver.OnScrollChangedListener? = null
 
     override fun onCreateView(
@@ -30,14 +33,14 @@ class CardInversionFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_card_inversion, container, false)
+        return inflater.inflate(R.layout.fragment_question_display, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = CardInversionDiScope.getAsync() ?: return@launch
+            val diScope = QuestionDisplayDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
             observeViewModel()
@@ -48,26 +51,24 @@ class CardInversionFragment : BaseFragment() {
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        offButton.setOnClickListener {
-            controller?.dispatch(OffRadioButtonClicked)
+        helpButton.setOnClickListener {
+            controller?.dispatch(HelpButtonClicked)
         }
-        onButton.setOnClickListener {
-            controller?.dispatch(OnRadioButtonClicked)
-        }
-        everyOtherLapButton.setOnClickListener {
-            controller?.dispatch(EveryOtherLapRadioButtonClicked)
+        questionDisplayFrame.setOnClickListener {
+            controller?.dispatch(QuestionDisplaySwitchToggled)
         }
     }
 
     private fun observeViewModel() {
         with(viewModel) {
-            cardInversion.observe { cardInversion: CardInversion ->
-                offRadioButton.isChecked = cardInversion == CardInversion.Off
-                offRadioButton.uncover()
-                onRadioButton.isChecked = cardInversion == CardInversion.On
-                onRadioButton.uncover()
-                everyOtherLapRadioButton.isChecked = cardInversion == CardInversion.EveryOtherLap
-                everyOtherLapRadioButton.uncover()
+            isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
+                questionDisplaySwitch.text = getString(
+                    if (isQuestionDisplayed)
+                        R.string.on else
+                        R.string.off
+                )
+                questionDisplaySwitch.isChecked = isQuestionDisplayed
+                questionDisplaySwitch.uncover()
             }
         }
     }
@@ -75,7 +76,7 @@ class CardInversionFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
-            private var canScrollUp = false
+            private var canScrollUp = true
 
             override fun onScrollChanged() {
                 val canScrollUp = contentScrollView?.canScrollVertically(-1) ?: return
@@ -97,7 +98,7 @@ class CardInversionFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
-            CardInversionDiScope.close()
+            QuestionDisplayDiScope.close()
         }
     }
 }

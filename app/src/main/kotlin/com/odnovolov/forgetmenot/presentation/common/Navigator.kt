@@ -21,6 +21,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lastt
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
+import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayDiScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -100,6 +101,16 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToCardInversion(createDiScope: () -> CardInversionDiScope) {
         CardInversionDiScope.open(createDiScope)
         navigate(R.id.deck_editor_to_card_inversion)
+    }
+
+    fun navigateToQuestionDisplay(createDiScope: () -> QuestionDisplayDiScope) {
+        QuestionDisplayDiScope.open(createDiScope)
+        navigate(R.id.deck_editor_to_question_display)
+    }
+
+    fun navigateToHelpFromQuestionDisplay(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.question_display_to_help)
     }
 
     fun navigateToPronunciationPlan(createDiScope: () -> PronunciationPlanDiScope) {
