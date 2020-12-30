@@ -143,23 +143,7 @@ class DeckSettingsFragment : BaseFragment() {
                 selectedIntervalsTextView.text = composeIntervalSchemeDisplayText(intervalScheme)
             }
             pronunciation.observe { pronunciation: Pronunciation ->
-                selectedPronunciationTextView.text = buildString {
-                    append(
-                        pronunciation.questionLanguage?.displayLanguage
-                            ?: getString(R.string.default_language)
-                    )
-                    if (pronunciation.questionAutoSpeak) {
-                        append(" (A)")
-                    }
-                    append("  |  ")
-                    append(
-                        pronunciation.answerLanguage?.displayLanguage
-                            ?: getString(R.string.default_language)
-                    )
-                    if (pronunciation.answerAutoSpeak) {
-                        append(" (A)")
-                    }
-                }
+                selectedPronunciationTextView.text = composePronunciationDisplayText(pronunciation)
             }
             isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
                 selectedQuestionDisplayTextView.text = getString(
@@ -200,6 +184,26 @@ class DeckSettingsFragment : BaseFragment() {
             intervalScheme.intervals.joinToString { interval: Interval ->
                 DisplayedInterval.fromDateTimeSpan(interval.value)
                     .getAbbreviation(requireContext())
+            }
+        }
+    }
+
+    private fun composePronunciationDisplayText(pronunciation: Pronunciation): String {
+        return buildString {
+            append(
+                pronunciation.questionLanguage?.displayLanguage
+                    ?: getString(R.string.default_language)
+            )
+            if (pronunciation.questionAutoSpeak) {
+                append(" (A)")
+            }
+            append("  |  ")
+            append(
+                pronunciation.answerLanguage?.displayLanguage
+                    ?: getString(R.string.default_language)
+            )
+            if (pronunciation.answerAutoSpeak) {
+                append(" (A)")
             }
         }
     }

@@ -1,0 +1,33 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/intervalsSwitchFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/intervalsSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"
+            android:focusable="false"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="16dp"
+            android:textColor="@color/textSecondary"
+            android:textSize="17sp"
+            android:theme="@style/IntervalsSwitch"
+            android:visibility="invisible"
+            app:switchPadding="12dp"
+            tools:checked="true"
+            tools:text="@string/on"
+            tools:visibility="visible" />
+
+</FrameLayout>

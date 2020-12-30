@@ -663,4 +663,5 @@
     <string name="title_card_inversion_screen">Card inversion</string>
     <string name="title_question_display_screen">Question display</string>
     <string name="title_testing_method_screen">Testing method</string>
+    <string name="title_intervals_screen">Intervals</string>
 </resources>

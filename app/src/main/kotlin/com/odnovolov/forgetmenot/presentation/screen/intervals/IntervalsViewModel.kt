@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
@@ -12,24 +11,34 @@ import kotlinx.coroutines.flow.*
 class IntervalsViewModel(
     deckSettingsState: DeckSettings.State
 ) {
-    val intervals: Flow<List<Interval>> = deckSettingsState.deck.flowOf(Deck::exercisePreference)
-        .flatMapLatest { exercisePreference: ExercisePreference ->
-            exercisePreference.flowOf(ExercisePreference::intervalScheme)
-        }
-        .flatMapLatest { intervalScheme: IntervalScheme? ->
-            intervalScheme?.flowOf(IntervalScheme::intervals) ?: flowOf(emptyList())
-        }
-        .flatMapLatest { intervals: List<Interval> ->
-            if (intervals.isEmpty()) {
-                flowOf(intervals)
-            } else {
-                val intervalsFlows: List<Flow<Interval>> = intervals.map { it.asFlow() }
-                combine(intervalsFlows) { intervals.toCopyableList().copy() }
+    @OptIn(ExperimentalStdlibApi::class)
+    val intervals: Flow<List<IntervalListItem>> =
+        deckSettingsState.deck.flowOf(Deck::exercisePreference)
+            .flatMapLatest { exercisePreference: ExercisePreference ->
+                exercisePreference.flowOf(ExercisePreference::intervalScheme)
             }
-        }
-        .share()
+            .flatMapLatest { intervalScheme: IntervalScheme? ->
+                intervalScheme?.flowOf(IntervalScheme::intervals) ?: flowOf(null)
+            }
+            .flatMapLatest { intervals: List<Interval>? ->
+                if (intervals == null) {
+                    flowOf(listOf(IntervalListItem.Header(areIntervalsOn = false)))
+                } else {
+                    val intervalsFlows: List<Flow<Interval>> = intervals.map { it.asFlow() }
+                    combine(intervalsFlows) { intervals.toCopyableList().copy() }
+                        .map { intervals: List<Interval> ->
+                            val intervalWrappers = intervals.map { interval: Interval ->
+                                IntervalListItem.IntervalWrapper(interval)
+                            }
 
-    val isRemoveIntervalButtonVisible: Flow<Boolean> = intervals.map { it.size > 1 }
-
-    val canBeEdited: Flow<Boolean> = intervals.map { it.isNotEmpty() }
+                            val maxGrade: Int = intervals.map { it.grade }.maxOrNull()!!
+                            val excellentGrade: Int = maxGrade + 1
+                            buildList {
+                                add(IntervalListItem.Header(areIntervalsOn = true))
+                                addAll(intervalWrappers)
+                                add(IntervalListItem.Footer(excellentGrade))
+                            }
+                        }
+                }
+            }
 }

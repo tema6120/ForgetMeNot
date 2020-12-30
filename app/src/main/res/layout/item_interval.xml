@@ -4,60 +4,69 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/middleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
     <TextView
             android:id="@+id/gradeTextView"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/background_grade_indicator"
+            android:elevation="14dp"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/indicatorLine"
+            app:layout_constraintStart_toStartOf="@id/indicatorLine"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@drawable/background_grade_unsatisfactory"
+            tools:backgroundTint="@color/grade_unsatisfactory"
+            tools:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
+            tools:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
             tools:text="0" />
 
     <View
             android:id="@+id/indicatorLine"
             android:layout_width="2dp"
             android:layout_height="0dp"
-            android:background="?android:listDivider"
+            android:layout_marginEnd="75dp"
+            android:background="@color/divider"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/gradeTextView"
-            app:layout_constraintStart_toStartOf="@+id/gradeTextView"
-            app:layout_constraintTop_toBottomOf="@+id/gradeTextView" />
+            app:layout_constraintEnd_toStartOf="@+id/middleLine"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-            android:id="@+id/intervalTextView"
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/rectangle_darker_gray_1dp_stroke"
-            android:foreground="?selectableItemBackground"
-            android:padding="8dp"
-            android:textColor="@color/textPrimary"
-            android:textSize="16sp"
-            app:layout_constrainedWidth="true"
+            app:barrierDirection="end"
+            app:barrierMargin="50dp"
+            app:constraint_referenced_ids="middleLine" />
+
+    <TextView
+            android:id="@+id/intervalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/background_language_button"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingStart="24dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/textSecondary"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/modifyIntervalButton"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="@+id/barrier"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/gradeTextView"
+            app:layout_constraintStart_toStartOf="@+id/barrier"
             app:layout_constraintTop_toBottomOf="@+id/gradeTextView"
             tools:text="8 hours" />
-
-    <ImageView
-            android:id="@+id/modifyIntervalButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/intervalTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/intervalTextView"
-            app:layout_constraintTop_toTopOf="@+id/intervalTextView"
-            app:srcCompat="@drawable/ic_edit_dark_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

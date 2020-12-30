@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
 import com.odnovolov.forgetmenot.domain.entity.Interval
+import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -21,6 +22,9 @@ class IntervalsController(
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<IntervalsEvent, Nothing>() {
+    private val currentIntervalScheme: IntervalScheme?
+        get() = deckSettingsState.deck.exercisePreference.intervalScheme
+
     override fun handle(event: IntervalsEvent) {
         when (event) {
             HelpButtonClicked -> {
@@ -29,12 +33,19 @@ class IntervalsController(
                 }
             }
 
-            is ModifyIntervalButtonClicked -> {
+            IntervalsSwitchToggled -> {
+                if (currentIntervalScheme == null) {
+                    intervalsSettings.turnOnIntervals()
+                } else {
+                    intervalsSettings.turnOffIntervals()
+                }
+            }
+
+            is IntervalButtonClicked -> {
+                val interval: Interval = currentIntervalScheme?.intervals?.first {
+                    it.grade == event.grade
+                } ?: return
                 navigator.showModifyIntervalDialog {
-                    val interval: Interval = deckSettingsState.deck.exercisePreference
-                        .intervalScheme!!.intervals.first {
-                            it.grade == event.grade
-                        }
                     val modifyIntervalDialogState = ModifyIntervalDialogState(
                         dialogPurpose = ToChangeInterval(event.grade),
                         displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
@@ -44,9 +55,9 @@ class IntervalsController(
             }
 
             AddIntervalButtonClicked -> {
+                val lastIntervalValue: DateTimeSpan =
+                    currentIntervalScheme?.intervals?.last()?.value ?: return
                 navigator.showModifyIntervalDialog {
-                    val lastIntervalValue: DateTimeSpan = deckSettingsState.deck.exercisePreference
-                        .intervalScheme!!.intervals.last().value
                     val modifyIntervalDialogState = ModifyIntervalDialogState(
                         dialogPurpose = ToAddNewInterval,
                         displayedInterval = DisplayedInterval.fromDateTimeSpan(lastIntervalValue)

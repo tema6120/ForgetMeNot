@@ -1,0 +1,69 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/middleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+    <View
+            android:id="@+id/indicatorLine"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="75dp"
+            android:background="@color/divider"
+            app:layout_constraintBottom_toTopOf="@+id/excellentGradeTextView"
+            app:layout_constraintEnd_toStartOf="@+id/middleLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/excellentGradeTextView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/background_grade_indicator"
+            android:elevation="14dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/indicatorLine"
+            app:layout_constraintStart_toStartOf="@id/indicatorLine"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:backgroundTint="@color/grade_excellent"
+            tools:outlineAmbientShadowColor="@color/grade_excellent_bright"
+            tools:outlineSpotShadowColor="@color/grade_excellent_bright"
+            tools:text="6" />
+
+    <ImageButton
+            android:id="@+id/removeIntervalButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_remove_pronunciation_event_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addIntervalButton"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/excellentGradeTextView"
+            app:srcCompat="@drawable/ic_remove" />
+
+    <ImageButton
+            android:id="@+id/addIntervalButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_add_pronunciation_event_button"
+            app:layout_constraintBottom_toBottomOf="@id/removeIntervalButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/removeIntervalButton"
+            app:layout_constraintTop_toTopOf="@id/removeIntervalButton"
+            app:srcCompat="@drawable/ic_add" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

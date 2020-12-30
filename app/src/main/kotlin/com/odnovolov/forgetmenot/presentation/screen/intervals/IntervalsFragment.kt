@@ -1,15 +1,15 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
 import android.os.Bundle
-import android.view.*
-import androidx.core.view.isVisible
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.getBackgroundResForGrade
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.HelpButtonClicked
 import kotlinx.android.synthetic.main.fragment_intervals.*
 import kotlinx.coroutines.launch
 
@@ -20,6 +20,7 @@ class IntervalsFragment : BaseFragment() {
     }
 
     private var controller: IntervalsController? = null
+    private var scrollListener: RecyclerView.OnScrollListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,34 +42,46 @@ class IntervalsFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        addIntervalButton.setOnClickListener { controller?.dispatch(AddIntervalButtonClicked) }
-        removeIntervalButton.setOnClickListener {
-            controller?.dispatch(RemoveIntervalButtonClicked)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        helpButton.setOnClickListener {
+            controller?.dispatch(HelpButtonClicked)
         }
     }
 
     private fun observeViewModel(viewModel: IntervalsViewModel, adapter: IntervalAdapter) {
         with(viewModel) {
-            intervals.observe { intervals: List<Interval> ->
+            intervals.observe { intervals: List<IntervalListItem> ->
                 adapter.submitList(intervals)
-                updateExcellentGradeTextView(intervals)
-            }
-            isRemoveIntervalButtonVisible.observe { isVisible: Boolean ->
-                removeIntervalButton.isVisible = isVisible
-            }
-            canBeEdited.observe { canBeEdited: Boolean ->
-                intervalsEditionGroup.isVisible = canBeEdited
             }
         }
     }
 
-    private fun updateExcellentGradeTextView(intervals: List<Interval>) {
-        val maxGrade: Int = intervals.map { it.grade }.maxOrNull() ?: -1
-        val excellentGrade: Int = maxGrade + 1
-        excellentGradeTextView.text = excellentGrade.toString()
-        excellentGradeTextView.setBackgroundResource(
-            getBackgroundResForGrade(excellentGrade)
-        )
+    override fun onResume() {
+        super.onResume()
+        scrollListener = object : RecyclerView.OnScrollListener() {
+            private var canScrollUp = intervalsRecyclerView.canScrollVertically(-1)
+
+            init {
+                appBar.isActivated = canScrollUp
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val canScrollUp = recyclerView.canScrollVertically(-1)
+                if (this.canScrollUp != canScrollUp) {
+                    this.canScrollUp = canScrollUp
+                    appBar.isActivated = canScrollUp
+                }
+            }
+        }
+        intervalsRecyclerView.addOnScrollListener(scrollListener!!)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        intervalsRecyclerView.removeOnScrollListener(scrollListener!!)
+        scrollListener = null
     }
 
     override fun onDestroyView() {

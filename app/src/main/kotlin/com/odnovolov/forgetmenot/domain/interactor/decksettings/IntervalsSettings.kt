@@ -14,6 +14,20 @@ class IntervalsSettings(
     private val intervalScheme: IntervalScheme?
         get() = deckSettings.state.deck.exercisePreference.intervalScheme
 
+    private var lastIntervalScheme: IntervalScheme? = null
+
+    fun turnOnIntervals() {
+        if (intervalScheme != null) return
+        val newIntervalScheme = lastIntervalScheme ?: IntervalScheme.Default
+        deckSettings.setIntervalScheme(newIntervalScheme)
+    }
+
+    fun turnOffIntervals() {
+        if (intervalScheme == null) return
+        lastIntervalScheme = intervalScheme
+        deckSettings.setIntervalScheme(null)
+    }
+
     fun modifyInterval(grade: Int, newValue: DateTimeSpan) {
         val isValueChanged: Boolean =
             intervalScheme?.let { intervalScheme: IntervalScheme ->
