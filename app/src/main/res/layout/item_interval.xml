@@ -54,7 +54,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/background_language_button"
+            android:background="@drawable/background_outlined_button"
             android:fontFamily="@font/nunito_bold"
             android:paddingStart="24dp"
             android:paddingTop="12dp"

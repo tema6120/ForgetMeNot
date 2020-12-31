@@ -90,7 +90,6 @@
     <string name="close">close</string>
     <string name="hint_question_edittext">Enter a question</string>
     <string name="hint_answer_edittext">Enter the answer</string>
-    <string name="dialog_title_modify_interval">Interval</string>
     <string name="item_card_inversion_off">Off</string>
     <string name="item_card_inversion_on">On</string>
     <string name="item_card_inversion_every_other_lap">Every other lap</string>

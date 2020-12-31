@@ -3,15 +3,17 @@ package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.NumberPicker
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalEvent.*
 import kotlinx.android.synthetic.main.dialog_modify_interval.view.*
@@ -39,19 +41,31 @@ class ModifyIntervalDialog : BaseDialogFragment() {
             observeViewModel(diScope.viewModel, isRestoring)
         }
         return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.dialog_title_modify_interval)
             .setView(rootView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                controller?.dispatch(OkButtonClicked)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
             .create()
-            .apply { setOnShowListener { rootView.numberEditText.showSoftInput() } }
+            .apply {
+                setOnShowListener { rootView.numberEditText.showSoftInput() }
+                val window = window ?: return@apply
+                window.setBackgroundDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
+                )
+            }
     }
 
     private fun setupView() {
         setupNumberEditText()
         setupUnitPicker()
+        setupBottomButtons()
+    }
+
+    private fun setupBottomButtons() {
+        rootView.cancelButton.setOnClickListener {
+            dismiss()
+        }
+        rootView.okButton.setOnClickListener {
+            controller?.dispatch(OkButtonClicked)
+            dismiss()
+        }
     }
 
     private fun setupNumberEditText() {
@@ -92,16 +106,46 @@ class ModifyIntervalDialog : BaseDialogFragment() {
                 selectAll()
             }
         }
+        setupGradeTextView(rootView.startGradeTextView, viewModel.grade)
+        setupGradeTextView(rootView.endGradeTextView, viewModel.grade + 1)
         rootView.unitPicker.value = DisplayedInterval.IntervalUnit.values()
             .indexOf(viewModel.displayedIntervalUnit)
-        viewModel.isOkButtonEnabled.observe { isEnabled ->
-            (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = isEnabled
+        viewModel.isOkButtonEnabled.observe(rootView.okButton::setEnabled)
+    }
+
+
+    private fun setupGradeTextView(gradeTextView: TextView, grade: Int) {
+        val context = gradeTextView.context
+        val gradeColorRes = getGradeColorRes(grade)
+        val gradeColor: Int = ContextCompat.getColor(context, gradeColorRes)
+        gradeTextView.background.setTint(gradeColor)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val shadowColorRes = getBrightGradeColorRes(grade)
+            val brightGradeColor: Int = ContextCompat.getColor(context, shadowColorRes)
+            gradeTextView.outlineAmbientShadowColor = brightGradeColor
+            gradeTextView.outlineSpotShadowColor = brightGradeColor
         }
+        gradeTextView.text = grade.toString()
     }
 
     override fun onResume() {
         super.onResume()
         rootView.numberEditText.showSoftInput()
+        rootView.intervalDialogScrollView.viewTreeObserver
+            .addOnScrollChangedListener(scrollListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        rootView.intervalDialogScrollView.viewTreeObserver
+            .removeOnScrollChangedListener(scrollListener)
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollDown = rootView.intervalDialogScrollView.canScrollVertically(1)
+        if (rootView.bottomDivider.isVisible != canScrollDown) {
+            rootView.bottomDivider.isVisible = canScrollDown
+        }
     }
 
     override fun onDestroy() {

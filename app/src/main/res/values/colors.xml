@@ -87,4 +87,5 @@
     <color name="icon_search">#19C9DC</color>
     <color name="icon_search_background">#1A19C9DC</color>
     <color name="text_search_icon">#9900424D</color>
+    <color name="button_disabled">#1F000000</color>
 </resources>

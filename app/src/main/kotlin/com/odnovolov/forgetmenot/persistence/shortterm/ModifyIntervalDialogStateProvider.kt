@@ -20,6 +20,7 @@ class ModifyIntervalDialogStateProvider(
     @Serializable
     data class SerializableState(
         val dialogPurpose: DialogPurpose,
+        val grade: Int,
         val intervalInputValue: Int?,
         val intervalUnit: IntervalUnit
     )
@@ -29,6 +30,7 @@ class ModifyIntervalDialogStateProvider(
     override fun toSerializable(state: ModifyIntervalDialogState) =
         SerializableState(
             dialogPurpose = state.dialogPurpose,
+            grade = state.grade,
             intervalInputValue = state.displayedInterval.value,
             intervalUnit = state.displayedInterval.intervalUnit
         )
@@ -43,6 +45,7 @@ class ModifyIntervalDialogStateProvider(
             )
         return ModifyIntervalDialogState(
             serializableState.dialogPurpose,
+            serializableState.grade,
             intervalInputData
         )
     }

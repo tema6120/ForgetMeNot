@@ -208,8 +208,15 @@
         <item name="colorControlActivated">@color/infinite_playback_icon_on_popup</item>
     </style>
 
-    <style name="IntervalsSwitch">
+    <style name="IntervalsSettingsTheme">
         <item name="colorControlActivated">@color/floating_button_in_exercise</item>
+    </style>
+
+    <style name="IntervalsPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/floating_button_in_exercise</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="VariantFrame">

@@ -2,8 +2,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp"
         tools:background="@drawable/background_dialog">
 
     <TextView
@@ -110,7 +112,7 @@
                     android:maxLength="3"
                     android:padding="8dp"
                     android:textColor="@color/text_secondary_selector"
-                    android:textColorHint="#00FFFFFF"
+                    android:textColorHint="@android:color/transparent"
                     android:textSize="14sp"
                     android:theme="@style/LastTestedTheme"
                     app:layout_constraintBottom_toBottomOf="@id/unitPicker"
@@ -118,7 +120,8 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/specificTimeSpanRadioButton"
                     app:layout_constraintTop_toTopOf="@+id/unitPicker"
-                    tools:text="7" />
+                    tools:text="7"
+                    tools:ignore="HardcodedText" />
 
             <NumberPicker
                     android:id="@+id/unitPicker"

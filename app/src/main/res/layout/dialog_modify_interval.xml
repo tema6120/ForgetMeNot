@@ -1,32 +1,163 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:background="@drawable/background_dialog"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
 
-    <EditText
-            android:id="@+id/numberEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="8dp"
-            android:gravity="end"
-            android:hint="000"
-            android:inputType="number"
-            android:maxLength="3"
-            android:padding="8dp"
-            android:textColor="@color/textPrimary"
-            android:textColorHint="#00FFFFFF"
-            android:textSize="16sp"
-            tools:text="7" />
+    <ScrollView
+            android:id="@+id/intervalDialogScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-    <NumberPicker
-            android:id="@+id/unitPicker"
-            android:layout_width="wrap_content"
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/startGradeTextView"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/background_grade_indicator"
+                        android:elevation="14dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="@id/indicatorLine"
+                        app:layout_constraintStart_toStartOf="@id/indicatorLine"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:backgroundTint="@color/grade_unsatisfactory"
+                        tools:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
+                        tools:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
+                        tools:text="0" />
+
+                <View
+                        android:id="@+id/timeLine"
+                        android:layout_width="80dp"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/divider" />
+
+                <TextView
+                        android:id="@+id/endGradeTextView"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/background_grade_indicator"
+                        android:elevation="14dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="@id/indicatorLine"
+                        app:layout_constraintStart_toStartOf="@id/indicatorLine"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:backgroundTint="@color/grade_poor"
+                        tools:outlineAmbientShadowColor="@color/grade_poor_bright"
+                        tools:outlineSpotShadowColor="@color/grade_poor_bright"
+                        tools:text="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                <EditText
+                        android:id="@+id/numberEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="end"
+                        android:hint="000"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:padding="8dp"
+                        android:textColor="@color/textSecondary"
+                        android:textColorHint="@android:color/transparent"
+                        android:textSize="14sp"
+                        android:theme="@style/IntervalsSettingsTheme"
+                        tools:ignore="HardcodedText"
+                        tools:text="7" />
+
+                <NumberPicker
+                        android:id="@+id/unitPicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:theme="@style/IntervalsPickerTheme" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <View
+            android:id="@+id/bottomDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:listDivider"
+            android:visibility="gone" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="8dp"
-            android:theme="@style/DefaultNumberPickerTheme" />
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/background_dialog_cancel_button"
+                android:fontFamily="@font/nunito_extrabold"
+                android:text="@android:string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/text_button_secondary"
+                android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/okButton"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:outlineAmbientShadowColor="@color/floating_button_in_exercise"
+                android:outlineSpotShadowColor="@color/floating_button_in_exercise"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@android:string/ok"
+                android:textAllCaps="false"
+                android:textColor="@color/text_ok_button_in_interval_dialog"
+                android:textSize="14sp"
+                app:backgroundTint="@color/background_tint_ok_button_in_intervals_dialog"
+                app:cornerRadius="16dp"
+                app:rippleColor="@android:color/white" />
+
+    </LinearLayout>
 
 </LinearLayout>

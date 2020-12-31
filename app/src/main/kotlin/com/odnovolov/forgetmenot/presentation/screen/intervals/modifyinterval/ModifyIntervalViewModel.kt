@@ -13,6 +13,9 @@ class ModifyIntervalViewModel(
     val displayedIntervalUnit: DisplayedInterval.IntervalUnit
         get() = modifyIntervalDialogState.displayedInterval.intervalUnit
 
+    val grade: Int
+        get() = modifyIntervalDialogState.grade
+
     val isOkButtonEnabled: Flow<Boolean> = modifyIntervalDialogState.displayedInterval.asFlow()
         .map { it.isValid() }
 }

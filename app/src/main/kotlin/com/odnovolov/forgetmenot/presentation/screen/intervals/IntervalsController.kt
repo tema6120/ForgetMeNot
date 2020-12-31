@@ -47,7 +47,8 @@ class IntervalsController(
                 } ?: return
                 navigator.showModifyIntervalDialog {
                     val modifyIntervalDialogState = ModifyIntervalDialogState(
-                        dialogPurpose = ToChangeInterval(event.grade),
+                        dialogPurpose = ToChangeInterval,
+                        grade = event.grade,
                         displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
                     )
                     ModifyIntervalDiScope.create(modifyIntervalDialogState)
@@ -55,12 +56,15 @@ class IntervalsController(
             }
 
             AddIntervalButtonClicked -> {
-                val lastIntervalValue: DateTimeSpan =
-                    currentIntervalScheme?.intervals?.last()?.value ?: return
+                val lastInterval = currentIntervalScheme?.intervals?.last() ?: return
+                val grade: Int = lastInterval.grade + 1
+                val value: DateTimeSpan = lastInterval.value
+                val displayedInterval = DisplayedInterval.fromDateTimeSpan(value)
                 navigator.showModifyIntervalDialog {
                     val modifyIntervalDialogState = ModifyIntervalDialogState(
                         dialogPurpose = ToAddNewInterval,
-                        displayedInterval = DisplayedInterval.fromDateTimeSpan(lastIntervalValue)
+                        grade,
+                        displayedInterval
                     )
                     ModifyIntervalDiScope.create(modifyIntervalDialogState)
                 }

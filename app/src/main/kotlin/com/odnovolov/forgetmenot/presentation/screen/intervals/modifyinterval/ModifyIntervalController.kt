@@ -30,16 +30,9 @@ class ModifyIntervalController(
                 with(modifyIntervalDialogState) {
                     if (!displayedInterval.isValid()) return
                     val newValue: DateTimeSpan = displayedInterval.toDateTimeSpan()
-                    when (val purpose = modifyIntervalDialogState.dialogPurpose) {
-                        ToAddNewInterval -> {
-                            intervalsSettings.addInterval(newValue)
-                        }
-                        is ToChangeInterval -> {
-                            intervalsSettings.modifyInterval(
-                                purpose.levelOfKnowledge,
-                                newValue
-                            )
-                        }
+                    when (dialogPurpose) {
+                        ToChangeInterval -> intervalsSettings.modifyInterval(grade, newValue)
+                        ToAddNewInterval -> intervalsSettings.addInterval(newValue)
                     }
                 }
             }

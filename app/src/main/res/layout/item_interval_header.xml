@@ -23,7 +23,7 @@
             android:padding="16dp"
             android:textColor="@color/textSecondary"
             android:textSize="17sp"
-            android:theme="@style/IntervalsSwitch"
+            android:theme="@style/IntervalsSettingsTheme"
             android:visibility="invisible"
             app:switchPadding="12dp"
             tools:checked="true"

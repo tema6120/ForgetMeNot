@@ -1,17 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
-import kotlinx.serialization.Serializable
 
 class ModifyIntervalDialogState(
     val dialogPurpose: DialogPurpose,
+    val grade: Int,
     val displayedInterval: DisplayedInterval
 )
 
-@Serializable
-sealed class DialogPurpose {
-    @Serializable
-    object ToAddNewInterval : DialogPurpose()
-    @Serializable
-    class ToChangeInterval(val levelOfKnowledge: Int) : DialogPurpose()
+enum class DialogPurpose {
+    ToAddNewInterval,
+    ToChangeInterval
 }
