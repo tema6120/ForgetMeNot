@@ -1,35 +1,37 @@
-package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer
+package com.odnovolov.forgetmenot.presentation.screen.motivationaltimer
 
-import com.odnovolov.forgetmenot.persistence.shortterm.MotivationalTimerDialogStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.MotivationalTimerScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 
 class MotivationalTimerDiScope private constructor(
-    initialDialogState: MotivationalTimerDialogState? = null
+    initialScreenState: MotivationalTimerScreenState? = null
 ) {
-    private val dialogStateProvider = MotivationalTimerDialogStateProvider(
+    private val screenStateProvider = MotivationalTimerScreenStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database
     )
 
-    private val dialogState: MotivationalTimerDialogState =
-        initialDialogState ?: dialogStateProvider.load()
+    private val screenState: MotivationalTimerScreenState =
+        initialScreenState ?: screenStateProvider.load()
 
     val controller = MotivationalTimerController(
         DeckSettingsDiScope.get()!!.deckSettings,
-        dialogState,
+        screenState,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
-        dialogStateProvider
+        screenStateProvider
     )
 
     val viewModel = MotivationalTimerViewModel(
-        dialogState
+        DeckSettingsDiScope.get()!!.deckSettings.state,
+        screenState
     )
 
     companion object : DiScopeManager<MotivationalTimerDiScope>() {
-        fun create(initialDialogState: MotivationalTimerDialogState) =
-            MotivationalTimerDiScope(initialDialogState)
+        fun create(initialScreenState: MotivationalTimerScreenState) =
+            MotivationalTimerDiScope(initialScreenState)
 
         override fun recreateDiScope() = MotivationalTimerDiScope()
 

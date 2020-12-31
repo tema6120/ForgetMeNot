@@ -1,43 +1,55 @@
-package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer
+package com.odnovolov.forgetmenot.presentation.screen.motivationaltimer
 
+import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.*
 
 class MotivationalTimerController(
     private val deckSettings: DeckSettings,
-    private val dialogState: MotivationalTimerDialogState,
+    private val screenState: MotivationalTimerScreenState,
+    private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val dialogStateProvider: ShortTermStateProvider<MotivationalTimerDialogState>
+    private val screenStateProvider: ShortTermStateProvider<MotivationalTimerScreenState>
 ) : BaseController<MotivationalTimerEvent, Nothing>() {
     override fun handle(event: MotivationalTimerEvent) {
         when (event) {
+            HelpButtonClicked -> {
+                navigator.navigateToHelpFromMotivationalTimer {
+                    HelpDiScope(HelpArticle.MotivationalTimer)
+                }
+            }
+
             TimeForAnswerSwitchToggled -> {
-                dialogState.isTimerEnabled = !dialogState.isTimerEnabled
+                screenState.isTimerEnabled = !screenState.isTimerEnabled
             }
 
             is TimeInputChanged -> {
-                dialogState.timeInput = event.text
+                screenState.timeInput = event.text
             }
 
             OkButtonClicked -> {
-                with(dialogState) {
+                with(screenState) {
                     val input: Int? = timeInput.toIntOrNull()
                     val timeForAnswer: Int = when {
-                        !isTimerEnabled -> 0
+                        !isTimerEnabled -> NOT_TO_USE_TIMER
                         input != null && input > 0 -> input
                         else -> return
                     }
                     deckSettings.setTimeForAnswer(timeForAnswer)
                 }
+                navigator.navigateUp()
             }
         }
     }
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
-        dialogStateProvider.save(dialogState)
+        screenStateProvider.save(screenState)
     }
 }

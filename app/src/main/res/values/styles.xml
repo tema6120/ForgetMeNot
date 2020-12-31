@@ -5,11 +5,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorControlHighlight</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/background_window</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet
-        </item>
+        <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />

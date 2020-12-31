@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
@@ -138,9 +138,14 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_pronunciation_plan_screen_to_help_screen)
     }
 
-    fun showMotivationalTimerDialog(createDiScope: () -> MotivationalTimerDiScope) {
+    fun navigateToMotivationalTimer(createDiScope: () -> MotivationalTimerDiScope) {
         MotivationalTimerDiScope.open(createDiScope)
-        navigate(R.id.action_show_motivational_timer_dialog)
+        navigate(R.id.deck_editor_to_motivational_timer)
+    }
+
+    fun navigateToHelpFromMotivationalTimer(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.motivational_timer_to_help)
     }
 
     fun navigateToHelpFromDeckEditor(createDiScope: () -> HelpDiScope) {

@@ -123,8 +123,12 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
-                android:id="@+id/action_show_motivational_timer_dialog"
-                app:destination="@+id/motivational_timer_dialog" />
+                android:id="@+id/deck_editor_to_motivational_timer"
+                app:destination="@id/motivational_timer"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/action_deck_setup_screen_to_search_screen"
@@ -201,6 +205,17 @@
             tools:layout="@layout/dialog_modify_interval" />
 
     <fragment
+        android:id="@+id/motivational_timer"
+        android:name="com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerFragment"
+        tools:layout="@layout/fragment_motivational_timer">
+
+        <action
+                android:id="@+id/motivational_timer_to_help"
+                app:destination="@id/help_screen" />
+
+    </fragment>
+
+    <fragment
             android:id="@+id/pronunciation_plan_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanFragment"
             android:label="@string/label_pronunciation_plan_screen"
@@ -220,11 +235,6 @@
             android:id="@+id/pronunciation_event_dialog"
             android:name="com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationEventDialog"
             tools:layout="@layout/dialog_pronunciation_event" />
-
-    <dialog
-            android:id="@+id/motivational_timer_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerDialog"
-            tools:layout="@layout/dialog_motivational_timer" />
 
     <fragment
             android:id="@+id/cards_editor_screen"

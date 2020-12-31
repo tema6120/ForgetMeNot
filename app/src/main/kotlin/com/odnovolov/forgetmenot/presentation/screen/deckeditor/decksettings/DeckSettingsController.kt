@@ -8,8 +8,8 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.motivationaltimer.MotivationalTimerDialogState
+import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerScreenState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationEventDialogState
@@ -71,17 +71,14 @@ class DeckSettingsController(
             }
 
             MotivationalTimerButtonClicked -> {
-                navigator.showMotivationalTimerDialog {
+                navigator.navigateToMotivationalTimer {
                     val timeForAnswer = currentExercisePreference.timeForAnswer
                     val isTimerEnabled = timeForAnswer != NOT_TO_USE_TIMER
                     val timeInput: String =
                         if (timeForAnswer == NOT_TO_USE_TIMER) "15"
                         else timeForAnswer.toString()
-                    val dialogState = MotivationalTimerDialogState(
-                        isTimerEnabled,
-                        timeInput
-                    )
-                    MotivationalTimerDiScope.create(dialogState)
+                    val screenState = MotivationalTimerScreenState(isTimerEnabled, timeInput)
+                    MotivationalTimerDiScope.create(screenState)
                 }
             }
         }
