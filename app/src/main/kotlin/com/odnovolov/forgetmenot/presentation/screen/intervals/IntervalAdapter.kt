@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -118,8 +119,8 @@ class IntervalAdapter(
     private fun setupGradeTextView(gradeTextView: TextView, grade: Int) {
         val context = gradeTextView.context
         val gradeColorRes = getGradeColorRes(grade)
-        val gradeColor: Int = ContextCompat.getColor(context, gradeColorRes)
-        gradeTextView.background.setTint(gradeColor)
+        val gradeColor: ColorStateList? = ContextCompat.getColorStateList(context, gradeColorRes)
+        gradeTextView.backgroundTintList = gradeColor
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             val shadowColorRes = getBrightGradeColorRes(grade)
             val brightGradeColor: Int = ContextCompat.getColor(context, shadowColorRes)

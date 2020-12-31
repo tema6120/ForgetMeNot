@@ -44,11 +44,8 @@ class IntervalsAdapter(
             setOnClickListener {
                 onItemClick(intervalItem.grade)
             }
-            val gradeColor: Int = ContextCompat.getColor(
-                context,
-                getGradeColorRes(intervalItem.grade)
-            )
-            gradeIcon.background.setTint(gradeColor)
+            val gradeColorRes = getGradeColorRes(intervalItem.grade)
+            gradeIcon.backgroundTintList = ContextCompat.getColorStateList(context, gradeColorRes)
             gradeIcon.text = intervalItem.grade.toString()
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(intervalItem.waitingPeriod)
             waitingPeriodTextView.text = displayedInterval.toString(context)

@@ -21,6 +21,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -249,9 +251,11 @@ class EntryTestExerciseCardViewHolder(
                     when (cardLabel) {
                         CardLabel.Learned -> {
                             cardLabelTextView.setText(R.string.learned)
-                            cardLabelTextView.background.setTint(
-                                ContextCompat.getColor(context, R.color.card_label_learned)
-                            )
+                            cardLabelTextView.background.colorFilter =
+                                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                                    ContextCompat.getColor(context, R.color.card_label_learned),
+                                    BlendModeCompat.SRC_ATOP
+                                )
                             cardLabelTextView.setOnClickListener {
                                 showCardLabelTipPopup(cardLabel)
                             }
@@ -259,9 +263,11 @@ class EntryTestExerciseCardViewHolder(
                         }
                         CardLabel.Expired -> {
                             cardLabelTextView.setText(R.string.expired)
-                            cardLabelTextView.background.setTint(
-                                ContextCompat.getColor(context, R.color.issue)
-                            )
+                            cardLabelTextView.background.colorFilter =
+                                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                                    ContextCompat.getColor(context, R.color.issue),
+                                    BlendModeCompat.SRC_ATOP
+                                )
                             cardLabelTextView.setOnClickListener {
                                 showCardLabelTipPopup(cardLabel)
                             }

@@ -8,6 +8,8 @@ import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
@@ -130,7 +132,11 @@ class CardsEditorFragment : BaseFragment() {
 
     private fun updateGradeButtonColor(grade: Int) {
         val gradeColor: Int = ContextCompat.getColor(requireContext(), getGradeColorRes(grade))
-        gradeButton.background.setTint(gradeColor)
+        gradeButton.background.colorFilter =
+            BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                gradeColor,
+                BlendModeCompat.SRC_ATOP
+            )
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             val brightGradeColor: Int =
                 ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))

@@ -20,7 +20,6 @@ class IntervalsFragment : BaseFragment() {
     }
 
     private var controller: IntervalsController? = null
-    private var scrollListener: RecyclerView.OnScrollListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,28 +59,12 @@ class IntervalsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        scrollListener = object : RecyclerView.OnScrollListener() {
-            private var canScrollUp = intervalsRecyclerView.canScrollVertically(-1)
-
-            init {
-                appBar.isActivated = canScrollUp
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val canScrollUp = recyclerView.canScrollVertically(-1)
-                if (this.canScrollUp != canScrollUp) {
-                    this.canScrollUp = canScrollUp
-                    appBar.isActivated = canScrollUp
-                }
-            }
-        }
-        intervalsRecyclerView.addOnScrollListener(scrollListener!!)
+        intervalsRecyclerView.addOnScrollListener(scrollListener)
     }
 
     override fun onPause() {
         super.onPause()
-        intervalsRecyclerView.removeOnScrollListener(scrollListener!!)
-        scrollListener = null
+        intervalsRecyclerView.removeOnScrollListener(scrollListener)
     }
 
     override fun onDestroyView() {
@@ -93,6 +76,15 @@ class IntervalsFragment : BaseFragment() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             IntervalsDiScope.close()
+        }
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val canScrollUp = recyclerView.canScrollVertically(-1)
+            if (appBar.isActivated != canScrollUp) {
+                appBar.isActivated = canScrollUp
+            }
         }
     }
 }

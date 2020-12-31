@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval
 
 import android.app.Dialog
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -117,8 +118,8 @@ class ModifyIntervalDialog : BaseDialogFragment() {
     private fun setupGradeTextView(gradeTextView: TextView, grade: Int) {
         val context = gradeTextView.context
         val gradeColorRes = getGradeColorRes(grade)
-        val gradeColor: Int = ContextCompat.getColor(context, gradeColorRes)
-        gradeTextView.background.setTint(gradeColor)
+        val gradeColor: ColorStateList? = ContextCompat.getColorStateList(context, gradeColorRes)
+        gradeTextView.backgroundTintList = gradeColor
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             val shadowColorRes = getBrightGradeColorRes(grade)
             val brightGradeColor: Int = ContextCompat.getColor(context, shadowColorRes)

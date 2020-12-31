@@ -19,6 +19,8 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
@@ -33,9 +35,9 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.MaskingLettersAction.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture
 import com.odnovolov.forgetmenot.presentation.screen.exercise.KeyGestureDetector.Gesture.*
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
@@ -287,8 +289,13 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun updateGradeButtonColor(grade: Int) {
-        val gradeColor: Int = ContextCompat.getColor(requireContext(), getGradeColorRes(grade))
-        gradeButton.background.setTint(gradeColor)
+        val gradeColorRes = getGradeColorRes(grade)
+        val gradeColor: Int = ContextCompat.getColor(requireContext(), gradeColorRes)
+        gradeButton.background.colorFilter =
+            BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                gradeColor,
+                BlendModeCompat.SRC_ATOP
+            )
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             val brightGradeColor: Int =
                 ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))
