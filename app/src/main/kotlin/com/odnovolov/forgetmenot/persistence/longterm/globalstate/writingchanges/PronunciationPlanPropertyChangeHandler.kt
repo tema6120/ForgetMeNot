@@ -16,11 +16,6 @@ class PronunciationPlanPropertyChangeHandler(
             .executeAsOne()
         if (!exists) return
         when (change.property) {
-            PronunciationPlan::name -> {
-                if (change !is PropertyValueChange) return
-                val newName = change.newValue as String
-                database.pronunciationPlanQueries.updateName(newName, pronunciationPlanId)
-            }
             PronunciationPlan::pronunciationEvents -> {
                 if (change !is PropertyValueChange) return
                 val newPronunciationEvents = change.newValue as List<PronunciationEvent>

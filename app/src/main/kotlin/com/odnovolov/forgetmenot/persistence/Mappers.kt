@@ -130,13 +130,12 @@ fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb.Impl(
 
 fun PronunciationPlanDb.toPronunciationPlan() = PronunciationPlan(
     id,
-    name,
     pronunciationEvents
 )
 
 fun PronunciationPlan.toPronunciationPlanDb(): PronunciationPlanDb = PronunciationPlanDb.Impl(
     id,
-    name,
+    "",
     pronunciationEvents
 )
 

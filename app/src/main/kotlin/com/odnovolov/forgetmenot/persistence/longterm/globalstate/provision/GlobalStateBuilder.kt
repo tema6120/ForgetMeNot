@@ -19,15 +19,12 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val decks: CopyableList<Deck> = buildDecks(exercisePreferences)
         val sharedExercisePreferences: CopyableList<ExercisePreference> =
             buildSharedExercisePreferences(exercisePreferences)
-        val sharedPronunciationPlans: CopyableList<PronunciationPlan> =
-            buildSharedPronunciationPlans(pronunciationPlans)
         val cardFilterForAutoplay: CardFilterForAutoplay = buildCardFilterForAutoplay()
         val isWalkingModeEnabled: Boolean = tables.walkingModeTable
         val isInfinitePlaybackEnabled = false // todo: save isInfinitePlaybackEnabled
         return GlobalState(
             decks,
             sharedExercisePreferences,
-            sharedPronunciationPlans,
             cardFilterForAutoplay,
             isWalkingModeEnabled,
             isInfinitePlaybackEnabled
@@ -117,16 +114,6 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             .map { exercisePreferenceId: Long ->
                 exercisePreferencesMap.getValue(exercisePreferenceId)
             }
-            .toCopyableList()
-    }
-
-    private fun buildSharedPronunciationPlans(
-        pronunciationPlans: List<PronunciationPlan>
-    ): CopyableList<PronunciationPlan> {
-        val pronunciationPlanMap: Map<Long, PronunciationPlan> =
-            pronunciationPlans.associateBy { it.id }
-        return tables.sharedPronunciationPlanTable
-            .map { pronunciationPlanId: Long -> pronunciationPlanMap.getValue(pronunciationPlanId) }
             .toCopyableList()
     }
 

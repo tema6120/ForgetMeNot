@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.catchAndLogException
+import com.odnovolov.forgetmenot.presentation.common.doWithCatchingExceptions
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.DialogPurpose.ToAddNewPronunciationEvent
@@ -52,7 +52,7 @@ class PronunciationPlanController(
                 if (event.position !in 0..pronunciationEvents.lastIndex) return
                 val newPronunciationEvents: List<PronunciationEvent> =
                     pronunciationEvents.toMutableList().apply { removeAt(event.position) }
-                catchAndLogException {
+                doWithCatchingExceptions {
                     pronunciationPlanSettings.setPronunciationEvents(newPronunciationEvents)
                 }
             }
@@ -162,7 +162,7 @@ class PronunciationPlanController(
             }
             null -> return
         }
-        catchAndLogException {
+        doWithCatchingExceptions {
             pronunciationPlanSettings.setPronunciationEvents(newPronunciationEvents)
         }
     }

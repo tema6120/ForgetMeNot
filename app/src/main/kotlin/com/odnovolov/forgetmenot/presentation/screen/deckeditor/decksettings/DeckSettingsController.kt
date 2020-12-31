@@ -5,12 +5,11 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerScreenState
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationEventDialogState
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
@@ -64,7 +63,6 @@ class DeckSettingsController(
             PronunciationPlanButtonClicked -> {
                 navigator.navigateToPronunciationPlan {
                     PronunciationPlanDiScope.create(
-                        PresetDialogState(),
                         PronunciationEventDialogState()
                     )
                 }

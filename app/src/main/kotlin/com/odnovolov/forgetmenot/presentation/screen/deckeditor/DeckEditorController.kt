@@ -10,7 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.catchAndLogException
+import com.odnovolov.forgetmenot.presentation.common.doWithCatchingExceptions
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.ShowRenameDialogWithText
@@ -41,7 +41,7 @@ class DeckEditorController(
 
             RenameDeckDialogPositiveButtonClicked -> {
                 val newName = screenState.typedDeckName
-                catchAndLogException { deckEditor.renameDeck(newName) }
+                doWithCatchingExceptions { deckEditor.renameDeck(newName) }
             }
 
             AddCardButtonClicked -> {

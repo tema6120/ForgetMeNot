@@ -664,4 +664,7 @@
     <string name="title_testing_method_screen">Testing method</string>
     <string name="title_intervals_screen">Intervals</string>
     <string name="title_motivational_timer_screen">Motivational timer</string>
+    <string name="speak_event_abbr_speak_question">Q</string>
+    <string name="speak_event_abbr_speak_answer">A</string>
+    <string name="speak_event_abbr_delay">%ds</string>
 </resources>

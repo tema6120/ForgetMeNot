@@ -42,7 +42,6 @@ class PronunciationPlanFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             pronunciationEventAdapter = PronunciationEventAdapter(controller!!)
-            presetView.inject(diScope.presetController, diScope.presetViewModel)
             setupPronunciationPlanRecyclerView()
             observePronunciationEvents()
             controller!!.commands.observe(::executeCommand)

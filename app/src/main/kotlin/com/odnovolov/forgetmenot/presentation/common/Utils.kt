@@ -208,7 +208,7 @@ fun LayoutInflater.inflateAsync(
     return frameLayout
 }
 
-inline fun catchAndLogException(block: () -> Unit) {
+inline fun doWithCatchingExceptions(block: () -> Unit) {
     try {
         block()
     } catch (e: Exception) {

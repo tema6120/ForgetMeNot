@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
@@ -162,11 +163,8 @@ class DeckSettingsFragment : BaseFragment() {
                 )
             }
             pronunciationPlan.observe { pronunciationPlan: PronunciationPlan ->
-                selectedPronunciationPlanTextView.text = when {
-                    pronunciationPlan.isDefault() -> getString(R.string.default_name)
-                    pronunciationPlan.isIndividual() -> getString(R.string.individual_name)
-                    else -> "'${pronunciationPlan.name}'"
-                }
+                selectedPronunciationPlanTextView.text =
+                    composePronunciationPlanDisplayText(pronunciationPlan)
             }
             timeForAnswer.observe { timeForAnswer: Int ->
                 selectedMotivationalTimerTextView.text =
@@ -181,7 +179,7 @@ class DeckSettingsFragment : BaseFragment() {
         return if (intervalScheme == null) {
             getString(R.string.off)
         } else {
-            intervalScheme.intervals.joinToString { interval: Interval ->
+            intervalScheme.intervals.joinToString(separator = "  ") { interval: Interval ->
                 DisplayedInterval.fromDateTimeSpan(interval.value)
                     .getAbbreviation(requireContext())
             }
@@ -206,6 +204,20 @@ class DeckSettingsFragment : BaseFragment() {
                 append(" (A)")
             }
         }
+    }
+
+    private fun composePronunciationPlanDisplayText(pronunciationPlan: PronunciationPlan): String {
+        return pronunciationPlan.pronunciationEvents
+            .joinToString(separator = "  ") { pronunciationEvent: PronunciationEvent ->
+                when (pronunciationEvent) {
+                    SpeakQuestion -> getString(R.string.speak_event_abbr_speak_question)
+                    SpeakAnswer -> getString(R.string.speak_event_abbr_speak_answer)
+                    is Delay -> getString(
+                        R.string.speak_event_abbr_delay,
+                        pronunciationEvent.timeSpan.seconds.toInt()
+                    )
+                }
+            }
     }
 
     override fun onDestroyView() {

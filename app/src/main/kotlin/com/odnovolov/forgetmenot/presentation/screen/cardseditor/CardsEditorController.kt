@@ -12,7 +12,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.catchAndLogException
+import com.odnovolov.forgetmenot.presentation.common.doWithCatchingExceptions
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
@@ -77,7 +77,7 @@ class CardsEditorController(
             }
 
             DoneButtonClicked, SaveButtonClicked -> {
-                catchAndLogException {
+                doWithCatchingExceptions {
                     when (val savingResult: SavingResult = cardsEditor.save()) {
                         Success -> {
                             when (cardsEditor) {

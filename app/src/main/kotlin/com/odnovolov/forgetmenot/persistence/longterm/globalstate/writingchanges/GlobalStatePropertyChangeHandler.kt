@@ -51,23 +51,6 @@ class GlobalStatePropertyChangeHandler(
                     deckPropertyChangeHandler.insertExercisePreferenceIfNotExists(exercisePreference)
                 }
             }
-            GlobalState::sharedPronunciationPlans -> {
-                if (change !is CollectionChange) return
-
-                val removedSharedPronunciationPlans =
-                    change.removedItems as Collection<PronunciationPlan>
-                removedSharedPronunciationPlans.forEach { pronunciationPlan: PronunciationPlan ->
-                    database.sharedPronunciationPlanQueries.delete(pronunciationPlan.id)
-                }
-
-                val addedSharedPronunciationPlans =
-                    change.addedItems as Collection<PronunciationPlan>
-                addedSharedPronunciationPlans.forEach { pronunciationPlan: PronunciationPlan ->
-                    database.sharedPronunciationPlanQueries.insert(pronunciationPlan.id)
-                    exercisePreferencePropertyChangeHandler
-                        .insertPronunciationPlanIfNotExists(pronunciationPlan)
-                }
-            }
             GlobalState::isWalkingModeEnabled -> {
                 if (change !is PropertyValueChange) return
                 val isWalkingModeEnabled = change.newValue as Boolean
