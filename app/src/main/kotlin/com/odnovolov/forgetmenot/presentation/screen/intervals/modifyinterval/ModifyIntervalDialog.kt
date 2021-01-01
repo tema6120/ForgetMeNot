@@ -46,8 +46,7 @@ class ModifyIntervalDialog : BaseDialogFragment() {
             .create()
             .apply {
                 setOnShowListener { rootView.numberEditText.showSoftInput() }
-                val window = window ?: return@apply
-                window.setBackgroundDrawable(
+                window?.setBackgroundDrawable(
                     ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
                 )
             }

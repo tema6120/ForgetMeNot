@@ -92,7 +92,7 @@ class PronunciationEventAdapter(
                     val font = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
                     pronunciationEventTextView.setTypeface(font, Typeface.BOLD)
                     pronunciationEventTextView.setTextColor(
-                        ContextCompat.getColor(context, R.color.textPrimary)
+                        ContextCompat.getColor(context, R.color.text_title)
                     )
                     speakIcon.visibility = VISIBLE
                     timeLineCenter.visibility = INVISIBLE

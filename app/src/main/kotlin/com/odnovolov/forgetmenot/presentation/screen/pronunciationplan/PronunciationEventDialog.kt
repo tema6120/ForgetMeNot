@@ -4,7 +4,10 @@ import android.app.Dialog
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.observeText
@@ -36,13 +39,13 @@ class PronunciationEventDialog : BaseDialogFragment() {
             observeViewModel(diScope.viewModel, isRestoring)
         }
         return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.title_dialog_pronunciation_event)
             .setView(rootView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                controller?.dispatch(DialogOkButtonClicked)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
             .create()
+            .apply {
+                window?.setBackgroundDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
+                )
+            }
     }
 
     private fun setupView() {
@@ -60,6 +63,13 @@ class PronunciationEventDialog : BaseDialogFragment() {
             }
             delayEditText.observeText { text: String ->
                 controller?.dispatch(DelayInputChanged(text))
+            }
+            cancelButton.setOnClickListener {
+                dismiss()
+            }
+            okButton.setOnClickListener {
+                controller?.dispatch(DialogOkButtonClicked)
+                dismiss()
             }
         }
     }
@@ -86,10 +96,7 @@ class PronunciationEventDialog : BaseDialogFragment() {
                         delayEditText.showSoftInput()
                     }
                 }
-                isOkButtonEnabled.observe { isEnabled: Boolean ->
-                    (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
-                        isEnabled
-                }
+                isOkButtonEnabled.observe(okButton::setEnabled)
             }
         }
     }
@@ -99,8 +106,25 @@ class PronunciationEventDialog : BaseDialogFragment() {
         if (controller != null && rootView.delayRadioButton.isChecked && isPortraitOrientation()) {
             rootView.delayEditText.showSoftInput()
         }
+        rootView.dialogScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        rootView.dialogScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
     }
 
     private fun isPortraitOrientation() =
         resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = rootView.dialogScrollView.canScrollVertically(-1)
+        if (rootView.topDivider.isVisible != canScrollUp) {
+            rootView.topDivider.isVisible = canScrollUp
+        }
+        val canScrollDown = rootView.dialogScrollView.canScrollVertically(1)
+        if (rootView.bottomDivider.isVisible != canScrollDown) {
+            rootView.bottomDivider.isVisible = canScrollDown
+        }
+    }
 }

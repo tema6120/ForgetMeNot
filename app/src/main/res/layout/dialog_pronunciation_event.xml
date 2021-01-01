@@ -1,101 +1,195 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:background="@drawable/background_dialog"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
 
-    <FrameLayout
-            android:id="@+id/speakQuestionButton"
-            android:layout_width="match_parent"
+    <TextView
+            android:id="@+id/dialogTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="16dp"
+            android:text="@string/title_dialog_pronunciation_event"
+            android:textColor="@color/text_title"
+            android:textSize="18sp" />
 
-        <RadioButton
-                android:id="@+id/speakQuestionRadioButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:padding="16dp"
-                android:text="@string/pronunciation_event_speak_question"
-                android:textColor="@color/textPrimary"
-                android:textSize="14sp"
-                android:visibility="invisible"
-                tools:visibility="visible" />
-
-    </FrameLayout>
-
-    <FrameLayout
-            android:id="@+id/speakAnswerButton"
+    <View
+            android:id="@+id/topDivider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="1dp"
+            android:background="?android:listDivider"
+            android:visibility="gone" />
 
-        <RadioButton
-                android:id="@+id/speakAnswerRadioButton"
+    <ScrollView
+            android:id="@+id/dialogScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:padding="16dp"
-                android:text="@string/pronunciation_event_speak_answer"
-                android:textColor="@color/textPrimary"
-                android:textSize="14sp"
-                android:visibility="invisible"
-                tools:visibility="visible" />
+                android:orientation="vertical">
 
-    </FrameLayout>
+            <FrameLayout
+                    android:id="@+id/speakQuestionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                <RadioButton
+                        android:id="@+id/speakQuestionRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_bold"
+                        android:padding="16dp"
+                        android:text="@string/pronunciation_event_speak_question"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp"
+                        android:theme="@style/IntervalsSettingsTheme"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                    android:id="@+id/speakAnswerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <RadioButton
+                        android:id="@+id/speakAnswerRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_bold"
+                        android:padding="16dp"
+                        android:text="@string/pronunciation_event_speak_answer"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp"
+                        android:theme="@style/IntervalsSettingsTheme"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                    android:id="@+id/delayButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                <RadioButton
+                        android:id="@+id/delayRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="32dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_bold"
+                        android:padding="16dp"
+                        android:text="@string/pronunciation_event_delay"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp"
+                        android:theme="@style/IntervalsSettingsTheme"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+
+                <EditText
+                        android:id="@+id/delayEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="end"
+                        android:hint="00"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:padding="8dp"
+                        android:textColor="@color/text_edittext"
+                        android:textColorHint="@android:color/transparent"
+                        android:textSize="16sp"
+                        android:theme="@style/IntervalsSettingsTheme"
+                        tools:ignore="HardcodedText"
+                        tools:text="2" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="@string/sec"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <View
+            android:id="@+id/bottomDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:listDivider"
+            android:visibility="gone" />
 
     <LinearLayout
-            android:id="@+id/delayButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-        <RadioButton
-                android:id="@+id/delayRadioButton"
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancelButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="32dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:padding="16dp"
-                android:text="@string/pronunciation_event_delay"
-                android:textColor="@color/textPrimary"
-                android:textSize="14sp"
-                android:visibility="invisible"
-                tools:visibility="visible" />
+                android:layout_height="64dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/background_dialog_cancel_button"
+                android:fontFamily="@font/nunito_extrabold"
+                android:text="@android:string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/text_button_secondary"
+                android:textSize="16sp" />
 
-        <EditText
-                android:id="@+id/delayEditText"
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/okButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="end"
-                android:hint="00"
-                android:inputType="number"
-                android:maxLength="2"
-                android:padding="8dp"
-                android:textColor="@color/text_primary_selector"
-                android:textColorHint="#00FFFFFF"
-                android:textSize="16sp"
-                tools:text="2"
-                tools:ignore="HardcodedText"
-                android:importantForAutofill="no" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_height="64dp"
                 android:layout_marginStart="16dp"
-                android:text="@string/sec"
-                android:textColor="@color/textPrimary"
-                android:textSize="14sp" />
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:outlineAmbientShadowColor="@color/floating_button_in_exercise"
+                android:outlineSpotShadowColor="@color/floating_button_in_exercise"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@android:string/ok"
+                android:textAllCaps="false"
+                android:textColor="@color/text_ok_button_in_interval_dialog"
+                android:textSize="14sp"
+                app:backgroundTint="@color/background_tint_ok_button_in_intervals_dialog"
+                app:cornerRadius="16dp"
+                app:rippleColor="@android:color/white" />
 
     </LinearLayout>
 
