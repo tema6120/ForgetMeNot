@@ -11,6 +11,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -88,7 +89,8 @@ class PronunciationEventAdapter(
                 SpeakQuestion -> {
                     pronunciationEventTextView.text =
                         context.getString(R.string.pronunciation_event_speak_question)
-                    pronunciationEventTextView.setTypeface(null, Typeface.BOLD)
+                    val font = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
+                    pronunciationEventTextView.setTypeface(font, Typeface.BOLD)
                     pronunciationEventTextView.setTextColor(
                         ContextCompat.getColor(context, R.color.textPrimary)
                     )
@@ -98,9 +100,10 @@ class PronunciationEventAdapter(
                 SpeakAnswer -> {
                     pronunciationEventTextView.text =
                         context.getString(R.string.pronunciation_event_speak_answer)
-                    pronunciationEventTextView.setTypeface(null, Typeface.BOLD)
+                    val font = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
+                    pronunciationEventTextView.setTypeface(font, Typeface.BOLD)
                     pronunciationEventTextView.setTextColor(
-                        ContextCompat.getColor(context, R.color.textPrimary)
+                        ContextCompat.getColor(context, R.color.text_title)
                     )
                     speakIcon.visibility = VISIBLE
                     timeLineCenter.visibility = INVISIBLE
@@ -111,7 +114,7 @@ class PronunciationEventAdapter(
                         context.getString(R.string.pronunciation_event_delay_with_args, seconds)
                     pronunciationEventTextView.setTypeface(null, Typeface.ITALIC)
                     pronunciationEventTextView.setTextColor(
-                        ContextCompat.getColor(context, R.color.textSecondary)
+                        ContextCompat.getColor(context, R.color.text_description)
                     )
                     speakIcon.visibility = INVISIBLE
                     timeLineCenter.visibility = VISIBLE

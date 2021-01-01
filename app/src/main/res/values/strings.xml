@@ -667,4 +667,5 @@
     <string name="speak_event_abbr_speak_question">Q</string>
     <string name="speak_event_abbr_speak_answer">A</string>
     <string name="speak_event_abbr_delay">%ds</string>
+    <string name="title_pronunciation_plan_screen">Pronunciation plan</string>
 </resources>

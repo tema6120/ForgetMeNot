@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -13,6 +14,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Dec
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanController.Command.ShowCannotChangeLastSpeakAnswerMessage
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanController.Command.ShowCannotChangeLastSpeakQuestionMessage
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.AddPronunciationEventButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.HelpButtonClicked
 import kotlinx.android.synthetic.main.fragment_pronunciation_plan.*
 import kotlinx.coroutines.launch
 
@@ -36,7 +38,7 @@ class PronunciationPlanFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupAddSpeakButton()
+        setupView()
         viewCoroutineScope!!.launch {
             val diScope = PronunciationPlanDiScope.getAsync() ?: return@launch
             controller = diScope.controller
@@ -48,7 +50,13 @@ class PronunciationPlanFragment : BaseFragment() {
         }
     }
 
-    private fun setupAddSpeakButton() {
+    private fun setupView() {
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        helpButton.setOnClickListener {
+            controller?.dispatch(HelpButtonClicked)
+        }
         addPronunciationEventButton.setOnClickListener {
             controller?.dispatch(AddPronunciationEventButtonClicked)
         }
@@ -78,6 +86,16 @@ class PronunciationPlanFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         pronunciationPlanRecyclerView.adapter = null
@@ -88,6 +106,13 @@ class PronunciationPlanFragment : BaseFragment() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             PronunciationPlanDiScope.close()
+        }
+    }
+
+    val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = contentScrollView.canScrollVertically(-1)
+        if (appBar.isActivated != canScrollUp) {
+            appBar.isActivated = canScrollUp
         }
     }
 }

@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="@id/timeLineTop"
             app:layout_constraintStart_toStartOf="@id/timeLineTop"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_volume_up_dark_24dp" />
+            app:srcCompat="@drawable/ic_round_volume_up_24" />
 
     <View
             android:id="@+id/timeLineCenter"
@@ -79,6 +79,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:ellipsize="end"
+            android:fontFamily="@font/nunito_extrabold"
             android:maxLines="1"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,8 +87,7 @@
             app:layout_constraintStart_toEndOf="@id/timeLineTop"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Speak question"
-            tools:textColor="@color/textPrimary"
-            tools:textStyle="bold" />
+            tools:textColor="@color/text_title" />
 
     <ImageButton
             android:id="@+id/removePronunciationEventButton"
@@ -99,6 +99,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/remove_button" />
+            app:srcCompat="@drawable/ic_remove" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
