@@ -24,6 +24,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
@@ -41,7 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 class QuizTestExerciseCardViewHolder(
     private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: QuizTestExerciseCardController
+    private val controller: BaseController<QuizTestExerciseCardEvent, Nothing>
 ) : ExerciseCardViewHolder<QuizTestExerciseCard>(
     asyncItemView
 ) {
@@ -125,7 +126,7 @@ class QuizTestExerciseCardViewHolder(
     }
 
     private fun setupView() {
-        with(itemView) {
+        with(asyncItemView) {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
             questionTextView.textSize = 18f
             questionTextView.observeSelectedText { selection: String ->
@@ -142,8 +143,8 @@ class QuizTestExerciseCardViewHolder(
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
-            asyncItemView.viewTreeObserver.addOnScrollChangedListener {
-                if (asyncItemView.x == 0f) {
+            addScrollListener {
+                if (x == 0f) {
                     needToResetRippleOnScrolling = true
                 } else {
                     if (needToResetRippleOnScrolling) {

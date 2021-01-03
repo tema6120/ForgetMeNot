@@ -2,30 +2,29 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardEvent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardEvent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardEvent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardController
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardEvent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardViewHolder
 import kotlinx.coroutines.CoroutineScope
 
 class ExerciseCardAdapter(
     private val coroutineScope: CoroutineScope,
-    private val offTestExerciseCardController: OffTestExerciseCardController,
-    private val manualTestExerciseCardController: ManualTestExerciseCardController,
-    private val quizTestExerciseCardController: QuizTestExerciseCardController,
-    private val entryTestExerciseCardController: EntryTestExerciseCardController
+    private val offTestExerciseCardController: BaseController<OffTestExerciseCardEvent, Nothing>,
+    private val manualTestExerciseCardController: BaseController<ManualTestExerciseCardEvent, Nothing>,
+    private val quizTestExerciseCardController: BaseController<QuizTestExerciseCardEvent, Nothing>,
+    private val entryTestExerciseCardController: BaseController<EntryTestExerciseCardEvent, Nothing>
 ) : ListAdapter<ExerciseCard, ExerciseCardViewHolder<ExerciseCard>>(
     DiffCallback()
 ) {

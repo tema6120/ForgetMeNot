@@ -21,6 +21,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.*
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
@@ -37,7 +38,7 @@ import kotlinx.coroutines.CoroutineScope
 class ManualTestExerciseCardViewHolder(
     private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: ManualTestExerciseCardController
+    private val controller: BaseController<ManualTestExerciseCardEvent, Nothing>
 ) : ExerciseCardViewHolder<ManualTestExerciseCard>(
     asyncItemView
 ) {
@@ -95,7 +96,7 @@ class ManualTestExerciseCardViewHolder(
     }
 
     private fun setupView() {
-        with(itemView) {
+        with(asyncItemView) {
             cardLinearLayout.layoutTransition.run {
                 enableTransitionType(LayoutTransition.CHANGING)
                 disableTransitionType(LayoutTransition.APPEARING)
@@ -130,8 +131,8 @@ class ManualTestExerciseCardViewHolder(
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
-            asyncItemView.viewTreeObserver.addOnScrollChangedListener {
-                if (asyncItemView.x == 0f) {
+            addScrollListener {
+                if (x == 0f) {
                     needToResetRippleOnScrolling = true
                 } else {
                     if (needToResetRippleOnScrolling) {
@@ -141,7 +142,7 @@ class ManualTestExerciseCardViewHolder(
                         notRememberButton.jumpDrawablesToCurrentState()
                     }
                 }
-                bottomButtonsLayout.translationX = asyncItemView.x / 3
+                bottomButtonsLayout.translationX = x / 3
             }
         }
     }

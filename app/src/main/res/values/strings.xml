@@ -668,4 +668,5 @@
     <string name="speak_event_abbr_speak_answer">A</string>
     <string name="speak_event_abbr_delay">%ds</string>
     <string name="title_pronunciation_plan_screen">Pronunciation plan</string>
+    <string name="title_example_in_settings_bottom_sheet">Example</string>
 </resources>

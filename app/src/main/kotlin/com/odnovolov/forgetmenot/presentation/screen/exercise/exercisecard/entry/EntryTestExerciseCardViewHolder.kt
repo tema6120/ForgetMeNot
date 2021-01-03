@@ -30,6 +30,7 @@ import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.EntryTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -43,7 +44,7 @@ import kotlinx.coroutines.CoroutineScope
 class EntryTestExerciseCardViewHolder(
     private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: EntryTestExerciseCardController
+    private val controller: BaseController<EntryTestExerciseCardEvent, Nothing>
 ) : ExerciseCardViewHolder<EntryTestExerciseCard>(
     asyncItemView
 ) {
@@ -126,7 +127,7 @@ class EntryTestExerciseCardViewHolder(
     }
 
     private fun setupView() {
-        with(itemView) {
+        with(asyncItemView) {
             cardLinearLayout.layoutTransition.run {
                 enableTransitionType(LayoutTransition.CHANGING)
                 disableTransitionType(LayoutTransition.APPEARING)
@@ -171,8 +172,8 @@ class EntryTestExerciseCardViewHolder(
             checkButton.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
-            asyncItemView.viewTreeObserver.addOnScrollChangedListener {
-                if (asyncItemView.x == 0f) {
+            addScrollListener {
+                if (x == 0f) {
                     needToResetRippleOnScrolling = true
                 } else {
                     if (needToResetRippleOnScrolling) {
@@ -181,7 +182,7 @@ class EntryTestExerciseCardViewHolder(
                         checkButton.jumpDrawablesToCurrentState()
                     }
                 }
-                checkButton.translationX = asyncItemView.x / 3
+                checkButton.translationX = x / 3
             }
         }
     }

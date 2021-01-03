@@ -126,16 +126,16 @@ class NavHostFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity)
-            .registerBackPressInterceptor(backPressInterceptorForClosingDrawer)
+            .registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         (activity as MainActivity)
-            .unregisterBackPressInterceptor(backPressInterceptorForClosingDrawer)
+            .unregisterBackPressInterceptor(backPressInterceptor)
     }
 
-    private val backPressInterceptorForClosingDrawer = object : MainActivity.BackPressInterceptor {
+    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
         override fun onBackPressed(): Boolean {
             return if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)

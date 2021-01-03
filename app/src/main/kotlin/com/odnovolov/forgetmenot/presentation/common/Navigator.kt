@@ -19,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayDiScope
@@ -104,8 +105,12 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.deck_editor_to_card_inversion)
     }
 
-    fun navigateToQuestionDisplay(createDiScope: () -> QuestionDisplayDiScope) {
-        QuestionDisplayDiScope.open(createDiScope)
+    fun navigateToQuestionDisplay(
+        createExampleExerciseDiScope: () -> ExampleExerciseDiScope,
+        createQuestionDisplayDiScope: () -> QuestionDisplayDiScope
+    ) {
+        ExampleExerciseDiScope.open(createExampleExerciseDiScope)
+        QuestionDisplayDiScope.open(createQuestionDisplayDiScope)
         navigate(R.id.deck_editor_to_question_display)
     }
 

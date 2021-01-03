@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -23,9 +24,18 @@ class AsyncCardFrame @JvmOverloads constructor(
     defStyleAttr,
     defStyleRes
 ) {
+    private val scrollListeners = ArrayList<ViewTreeObserver.OnScrollChangedListener>()
+
+    fun addScrollListener(scrollListener: ViewTreeObserver.OnScrollChangedListener) {
+        scrollListeners.add(scrollListener)
+        if (isAttachedToWindow) {
+            viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        }
+    }
+
     init {
-        setLayoutParams(LayoutParams(MATCH_PARENT, MATCH_PARENT))
-        viewTreeObserver.addOnScrollChangedListener {
+        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        addScrollListener {
             if (isInflated && isCloseToScreen()) {
                 executePendingActions()
             }
@@ -35,6 +45,16 @@ class AsyncCardFrame @JvmOverloads constructor(
                 executePendingActions()
             }
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        scrollListeners.forEach(viewTreeObserver::addOnScrollChangedListener)
+    }
+
+    override fun onDetachedFromWindow() {
+        scrollListeners.forEach(viewTreeObserver::removeOnScrollChangedListener)
+        super.onDetachedFromWindow()
     }
 
     var isInflated = false
@@ -52,7 +72,10 @@ class AsyncCardFrame @JvmOverloads constructor(
                     addView(view)
                     executePendingActions()
                 } else {
-                    pendingActions.addFirst { addView(view) }
+                    pendingActions.addFirst {
+                        addView(view)
+                        view.requestLayout()
+                    }
                 }
             }
         }

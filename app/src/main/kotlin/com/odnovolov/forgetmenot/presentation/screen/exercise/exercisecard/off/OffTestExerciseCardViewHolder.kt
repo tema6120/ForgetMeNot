@@ -23,6 +23,7 @@ import androidx.core.view.setPadding
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.OffTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
 import com.odnovolov.forgetmenot.presentation.common.observe
@@ -40,7 +41,7 @@ import kotlinx.coroutines.CoroutineScope
 class OffTestExerciseCardViewHolder(
     private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: OffTestExerciseCardController
+    private val controller: BaseController<OffTestExerciseCardEvent, Nothing>
 ) : ExerciseCardViewHolder<OffTestExerciseCard>(
     asyncItemView
 ) {
@@ -98,7 +99,7 @@ class OffTestExerciseCardViewHolder(
     }
 
     private fun setupView() {
-        with(itemView) {
+        with(asyncItemView) {
             cardLinearLayout.layoutTransition.run {
                 enableTransitionType(LayoutTransition.CHANGING)
                 disableTransitionType(LayoutTransition.APPEARING)
@@ -128,8 +129,8 @@ class OffTestExerciseCardViewHolder(
             cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
-            asyncItemView.viewTreeObserver.addOnScrollChangedListener {
-                if (asyncItemView.x == 0f) {
+            addScrollListener {
+                if (x == 0f) {
                     needToResetRippleOnScrolling = true
                 } else {
                     if (needToResetRippleOnScrolling) {

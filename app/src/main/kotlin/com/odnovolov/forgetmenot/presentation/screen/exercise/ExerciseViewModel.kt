@@ -15,7 +15,7 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.Walking
 import kotlinx.coroutines.flow.*
 import java.util.*
 
-class ExerciseViewModel(
+open class ExerciseViewModel(
     private val exerciseState: Exercise.State,
     speakerImpl: SpeakerImpl,
     walkingModePreference: WalkingModePreference,
@@ -29,7 +29,7 @@ class ExerciseViewModel(
 
     val currentPosition: Int get() = exerciseState.currentPosition
 
-    private val currentExerciseCard: Flow<ExerciseCard> = combine(
+    protected val currentExerciseCard: Flow<ExerciseCard> = combine(
         exerciseCards,
         exerciseState.flowOf(Exercise.State::currentPosition)
     ) { exerciseCards: List<ExerciseCard>, currentPosition: Int ->
@@ -184,7 +184,7 @@ class ExerciseViewModel(
     val speakerEvents: Flow<SpeakerImpl.Event> = speakerImpl.events
         .flowOn(businessLogicThread)
 
-    val timerStatus: Flow<TimerStatus> =
+    open val timerStatus: Flow<TimerStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             if (exerciseCard.base.deck.exercisePreference.timeForAnswer == NOT_TO_USE_TIMER) {
                 flowOf(TimerStatus.NotUsed)

@@ -732,11 +732,11 @@ class ExerciseFragment : BaseFragment() {
     }
 
     companion object {
-        private const val TIME_TO_PAINT_TIMER_BUTTON = 10_000L
-        private const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
-        private const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
-        private const val STATE_TIMER_POPUP = "STATE_TIMER_POPUP"
-        private const val STATE_HINTS_POPUP = "STATE_HINTS_POPUP"
-        private const val STATE_WALKING_MODE_POPUP = "STATE_WALKING_MODE_POPUP"
+        const val TIME_TO_PAINT_TIMER_BUTTON = 10_000L
+        const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
+        const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
+        const val STATE_TIMER_POPUP = "STATE_TIMER_POPUP"
+        const val STATE_HINTS_POPUP = "STATE_HINTS_POPUP"
+        const val STATE_WALKING_MODE_POPUP = "STATE_WALKING_MODE_POPUP"
     }
 }

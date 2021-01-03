@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.O
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.QuizTestExerciseCardController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 
 class ExerciseDiScope private constructor(
     initialExerciseState: Exercise.State? = null
@@ -101,6 +102,7 @@ class ExerciseDiScope private constructor(
 
         override fun onCloseDiScope(diScope: ExerciseDiScope) {
             with(diScope) {
+                exercise.cancel()
                 speakerImpl.shutdown()
                 controller.dispose()
                 offTestExerciseCardController.dispose()
