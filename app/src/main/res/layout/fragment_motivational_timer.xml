@@ -63,7 +63,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                 <FrameLayout
                         android:id="@+id/timerSwitchFrame"
@@ -95,11 +97,12 @@
 
                 <EditText
                         android:id="@+id/timeForAnswerEditText"
-                        android:layout_width="48dp"
+                        android:layout_width="54dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="24dp"
-                        android:gravity="end"
+                        android:gravity="center_horizontal"
+                        android:imeOptions="actionDone"
                         android:importantForAutofill="no"
                         android:inputType="number"
                         android:maxLength="2"
@@ -131,15 +134,32 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="60dp"
-                        app:layout_constraintVertical_bias="0.0"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         android:backgroundTint="@android:color/white"
                         android:text="@android:string/ok"
                         android:textColor="@color/colorAccent"
                         android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/timeForAnswerEditText"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:visibility="gone" />
+
+                <TextView
+                        android:id="@+id/savedTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="@string/saved"
+                        android:textColor="@color/text_edittext"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/timeForAnswerEditText"
+                        app:layout_constraintVertical_bias="0.0"
                         tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
