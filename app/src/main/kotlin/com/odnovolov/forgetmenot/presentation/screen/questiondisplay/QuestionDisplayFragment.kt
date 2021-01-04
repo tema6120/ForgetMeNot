@@ -28,7 +28,6 @@ class QuestionDisplayFragment : BaseFragment() {
 
     private var controller: QuestionDisplayController? = null
     private lateinit var viewModel: QuestionDisplayViewModel
-    private var scrollListener: ViewTreeObserver.OnScrollChangedListener? = null
     private lateinit var exampleFragment: ExampleExerciseFragment
 
     override fun onCreateView(
@@ -80,39 +79,32 @@ class QuestionDisplayFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
-            private var canScrollUp = true
-
-            override fun onScrollChanged() {
-                val canScrollUp = contentScrollView?.canScrollVertically(-1) ?: return
-                if (this.canScrollUp != canScrollUp) {
-                    this.canScrollUp = canScrollUp
-                    appBar?.isActivated = canScrollUp
-                }
-            }
-        }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
         behavior.addBottomSheetCallback(bottomSheetCallback)
         exampleFragment.notifyBottomSheetStateChanged(behavior.state)
-        (activity as MainActivity)
-            .registerBackPressInterceptor(backPressInterceptor)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
-        scrollListener = null
         val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
         behavior.removeBottomSheetCallback(bottomSheetCallback)
-        (activity as MainActivity)
-            .unregisterBackPressInterceptor(backPressInterceptor)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             QuestionDisplayDiScope.close()
+        }
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = contentScrollView.canScrollVertically(-1)
+        if (appBar.isActivated != canScrollUp) {
+            appBar.isActivated = canScrollUp
         }
     }
 

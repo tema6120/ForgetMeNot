@@ -12,10 +12,14 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePaddingRelative
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationEvent.*
 import kotlinx.android.synthetic.main.fragment_pronunciation.*
 import kotlinx.coroutines.launch
@@ -24,6 +28,7 @@ import java.util.*
 class PronunciationFragment : BaseFragment() {
     init {
         DeckSettingsDiScope.reopenIfClosed()
+        ExampleExerciseDiScope.reopenIfClosed()
         PronunciationDiScope.reopenIfClosed()
     }
 
@@ -51,7 +56,7 @@ class PronunciationFragment : BaseFragment() {
             answerLanguagePopup.dismiss()
         }
     )
-    private var scrollListener: ViewTreeObserver.OnScrollChangedListener? = null
+    private lateinit var exampleFragment: ExampleExerciseFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,6 +78,8 @@ class PronunciationFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        exampleFragment = (childFragmentManager.findFragmentByTag("ExampleExerciseFragment")
+                as ExampleExerciseFragment)
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -165,30 +172,53 @@ class PronunciationFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
-            private var canScrollUp = false
-
-            override fun onScrollChanged() {
-                val canScrollUp = contentScrollView?.canScrollVertically(-1) ?: return
-                if (this.canScrollUp != canScrollUp) {
-                    this.canScrollUp = canScrollUp
-                    appBar?.isActivated = canScrollUp
-                }
-            }
-        }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.addBottomSheetCallback(bottomSheetCallback)
+        exampleFragment.notifyBottomSheetStateChanged(behavior.state)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
-        scrollListener = null
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.removeBottomSheetCallback(bottomSheetCallback)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             PronunciationDiScope.close()
+        }
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = contentScrollView.canScrollVertically(-1)
+        if (appBar.isActivated != canScrollUp) {
+            appBar.isActivated = canScrollUp
+        }
+    }
+
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            exampleFragment.notifyBottomSheetStateChanged(newState)
+        }
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+    }
+
+    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
+        override fun onBackPressed(): Boolean {
+            val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+            return if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                true
+            } else {
+                false
+            }
         }
     }
 }

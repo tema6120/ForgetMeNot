@@ -38,9 +38,10 @@ class DeckSettingsController(
             }
 
             PronunciationButtonClicked -> {
-                navigator.navigateToPronunciation {
-                    PronunciationDiScope()
-                }
+                navigator.navigateToPronunciation(
+                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = false) },
+                    createPronunciationDiScope = ::PronunciationDiScope
+                )
             }
 
             CardInversionButtonClicked -> {

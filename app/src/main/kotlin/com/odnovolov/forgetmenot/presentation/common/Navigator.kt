@@ -90,8 +90,12 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_intervals_screen_to_help_screen)
     }
 
-    fun navigateToPronunciation(createDiScope: () -> PronunciationDiScope) {
-        PronunciationDiScope.open(createDiScope)
+    fun navigateToPronunciation(
+        createExampleExerciseDiScope: () -> ExampleExerciseDiScope,
+        createPronunciationDiScope: () -> PronunciationDiScope
+    ) {
+        ExampleExerciseDiScope.open(createExampleExerciseDiScope)
+        PronunciationDiScope.open(createPronunciationDiScope)
         navigate(R.id.action_deck_setup_screen_to_pronunciation_screen)
     }
 
