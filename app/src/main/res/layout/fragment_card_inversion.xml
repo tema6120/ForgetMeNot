@@ -1,163 +1,182 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
-    <FrameLayout
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_window"
-            android:orientation="horizontal"
-            android:stateListAnimator="@animator/app_bar">
-
-        <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginStart="12dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_back_button"
-                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
-
-        <TextView
-                android:id="@+id/screenTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/jura"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:text="@string/title_card_inversion_screen"
-                android:textColor="@color/text_title"
-                android:textSize="21sp"
-                android:textStyle="bold" />
-
-    </FrameLayout>
-
-    <ScrollView
-            android:id="@+id/contentScrollView"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
+                android:id="@+id/appBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/background_window"
+                android:orientation="horizontal"
+                android:stateListAnimator="@animator/app_bar">
 
-            <LinearLayout
-                    android:id="@+id/settingsSurface"
-                    android:layout_width="0dp"
+            <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_back_button"
+                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+            <TextView
+                    android:id="@+id/screenTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/white_rectangle_4dp_corner_radius"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_max="400dp">
+                    android:fontFamily="@font/jura"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/title_card_inversion_screen"
+                    android:textColor="@color/text_title"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
 
-                <FrameLayout
-                        android:id="@+id/offButton"
-                        android:layout_width="match_parent"
+        </FrameLayout>
+
+        <ScrollView
+                android:id="@+id/contentScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp">
+
+                <LinearLayout
+                        android:id="@+id/settingsSurface"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent">
+                        android:layout_gravity="center"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/white_rectangle_4dp_corner_radius"
+                        android:orientation="vertical"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_max="400dp">
 
-                    <RadioButton
-                            android:id="@+id/offRadioButton"
+                    <FrameLayout
+                            android:id="@+id/offButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/ripple_borderless_colored"
-                            android:button="@null"
-                            android:clickable="false"
-                            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
-                            android:focusable="false"
-                            android:fontFamily="@font/nunito_bold"
-                            android:paddingStart="24dp"
-                            android:paddingTop="12dp"
-                            android:paddingEnd="24dp"
-                            android:paddingBottom="12dp"
-                            android:text="@string/item_card_inversion_off"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="15sp"
-                            android:visibility="invisible"
-                            tools:checked="true"
-                            tools:visibility="visible" />
+                            android:background="@android:color/transparent">
 
-                </FrameLayout>
+                        <RadioButton
+                                android:id="@+id/offRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/ripple_borderless_colored"
+                                android:button="@null"
+                                android:clickable="false"
+                                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                                android:focusable="false"
+                                android:fontFamily="@font/nunito_bold"
+                                android:paddingStart="24dp"
+                                android:paddingTop="12dp"
+                                android:paddingEnd="24dp"
+                                android:paddingBottom="12dp"
+                                android:text="@string/item_card_inversion_off"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="15sp"
+                                android:visibility="invisible"
+                                tools:checked="true"
+                                tools:visibility="visible" />
 
-                <FrameLayout
-                        android:id="@+id/onButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent">
+                    </FrameLayout>
 
-                    <RadioButton
-                            android:id="@+id/onRadioButton"
+                    <FrameLayout
+                            android:id="@+id/onButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/ripple_borderless_colored"
-                            android:button="@null"
-                            android:clickable="false"
-                            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
-                            android:focusable="false"
-                            android:fontFamily="@font/nunito_bold"
-                            android:paddingStart="24dp"
-                            android:paddingTop="12dp"
-                            android:paddingEnd="24dp"
-                            android:paddingBottom="12dp"
-                            android:text="@string/item_card_inversion_on"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="15sp"
-                            android:visibility="invisible"
-                            tools:visibility="visible" />
+                            android:background="@android:color/transparent">
 
-                </FrameLayout>
+                        <RadioButton
+                                android:id="@+id/onRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/ripple_borderless_colored"
+                                android:button="@null"
+                                android:clickable="false"
+                                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                                android:focusable="false"
+                                android:fontFamily="@font/nunito_bold"
+                                android:paddingStart="24dp"
+                                android:paddingTop="12dp"
+                                android:paddingEnd="24dp"
+                                android:paddingBottom="12dp"
+                                android:text="@string/item_card_inversion_on"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="15sp"
+                                android:visibility="invisible"
+                                tools:visibility="visible" />
 
-                <FrameLayout
-                        android:id="@+id/everyOtherLapButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent">
+                    </FrameLayout>
 
-                    <RadioButton
-                            android:id="@+id/everyOtherLapRadioButton"
+                    <FrameLayout
+                            android:id="@+id/everyOtherLapButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/ripple_borderless_colored"
-                            android:button="@null"
-                            android:clickable="false"
-                            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
-                            android:focusable="false"
-                            android:fontFamily="@font/nunito_bold"
-                            android:paddingStart="24dp"
-                            android:paddingTop="12dp"
-                            android:paddingEnd="24dp"
-                            android:paddingBottom="12dp"
-                            android:text="@string/item_card_inversion_every_other_lap"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="15sp"
-                            android:visibility="invisible"
-                            tools:visibility="visible" />
+                            android:background="@android:color/transparent">
 
-                </FrameLayout>
+                        <RadioButton
+                                android:id="@+id/everyOtherLapRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/ripple_borderless_colored"
+                                android:button="@null"
+                                android:clickable="false"
+                                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                                android:focusable="false"
+                                android:fontFamily="@font/nunito_bold"
+                                android:paddingStart="24dp"
+                                android:paddingTop="12dp"
+                                android:paddingEnd="24dp"
+                                android:paddingBottom="12dp"
+                                android:text="@string/item_card_inversion_every_other_lap"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="15sp"
+                                android:visibility="invisible"
+                                tools:visibility="visible" />
 
-            </LinearLayout>
+                    </FrameLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
-    </ScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/exampleFragmentContainerView"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tag="ExampleExerciseFragment"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="100dp"
+            app:behavior_skipCollapsed="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

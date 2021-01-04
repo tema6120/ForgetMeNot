@@ -45,9 +45,10 @@ class DeckSettingsController(
             }
 
             CardInversionButtonClicked -> {
-                navigator.navigateToCardInversion {
-                    CardInversionDiScope()
-                }
+                navigator.navigateToCardInversion(
+                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = false) },
+                    createCardInversionDiScope = ::CardInversionDiScope
+                )
             }
 
             QuestionDisplayButtonClicked -> {

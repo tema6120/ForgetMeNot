@@ -104,8 +104,12 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_pronunciation_screen_to_help_screen)
     }
 
-    fun navigateToCardInversion(createDiScope: () -> CardInversionDiScope) {
-        CardInversionDiScope.open(createDiScope)
+    fun navigateToCardInversion(
+        createExampleExerciseDiScope: () -> ExampleExerciseDiScope,
+        createCardInversionDiScope: () -> CardInversionDiScope
+    ) {
+        ExampleExerciseDiScope.open(createExampleExerciseDiScope)
+        CardInversionDiScope.open(createCardInversionDiScope)
         navigate(R.id.deck_editor_to_card_inversion)
     }
 
