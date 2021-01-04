@@ -155,8 +155,12 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.action_pronunciation_plan_screen_to_help_screen)
     }
 
-    fun navigateToMotivationalTimer(createDiScope: () -> MotivationalTimerDiScope) {
-        MotivationalTimerDiScope.open(createDiScope)
+    fun navigateToMotivationalTimer(
+        createExampleExerciseDiScope: () -> ExampleExerciseDiScope,
+        createMotivationalTimerDiScope: () -> MotivationalTimerDiScope
+    ) {
+        ExampleExerciseDiScope.open(createExampleExerciseDiScope)
+        MotivationalTimerDiScope.open(createMotivationalTimerDiScope)
         navigate(R.id.deck_editor_to_motivational_timer)
     }
 

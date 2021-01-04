@@ -164,7 +164,7 @@ class ExampleExerciseFragment : BaseFragment() {
         if (timerStatus is TimerStatus.Ticking
             && timerStatus.secondsLeft * 1000L <= ExerciseFragment.TIME_TO_PAINT_TIMER_BUTTON
         ) {
-            if (timerButtonPaintingAnimation == null && isResumed) {
+            if (timerButtonPaintingAnimation == null && isResumed && !exampleTextView.isVisible) {
                 val colorFrom = Color.WHITE
                 val colorTo = ContextCompat.getColor(requireContext(), R.color.issue)
                 timerButtonPaintingAnimation =
@@ -216,6 +216,8 @@ class ExampleExerciseFragment : BaseFragment() {
                 if (currentViewHolder is EntryTestExerciseCardViewHolder) {
                     hideKeyboardForcibly(requireActivity())
                 }
+                timerButtonPaintingAnimation?.cancel()
+                timerButtonPaintingAnimation = null
             }
             else -> {
                 if (exampleExerciseFragmentRootView.isActivated) {

@@ -21,28 +21,25 @@ class ExampleExerciseStateCreator(
                     cards
             }
             .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
-            .map { card -> cardToExerciseCard(card, deck) }
+            .map { card -> card.toExerciseCard() }
         QuizComposer.clearCache()
         return Exercise.State(exerciseCards)
     }
 
-    private fun cardToExerciseCard(
-        card: Card,
-        deck: Deck
-    ): ExerciseCard {
+    private fun Card.toExerciseCard(): ExerciseCard {
         val isInverted = when (deck.exercisePreference.cardInversion) {
             CardInversion.Off -> false
             CardInversion.On -> true
-            CardInversion.EveryOtherLap -> (card.lap % 2) == 1
+            CardInversion.EveryOtherLap -> (lap % 2) == 1
         }
         val baseExerciseCard = ExerciseCard.Base(
             id = generateId(),
-            card = card,
+            card = this,
             deck = deck,
             isInverted = isInverted,
             isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
             timeLeft = deck.exercisePreference.timeForAnswer,
-            initialGrade = card.grade,
+            initialGrade = grade,
             isGradeEditedManually = false
         )
         return when (deck.exercisePreference.testingMethod) {
@@ -50,7 +47,7 @@ class ExampleExerciseStateCreator(
             Manual -> ManualTestExerciseCard(baseExerciseCard)
             Quiz -> {
                 val variants: List<Card?> =
-                    QuizComposer.compose(card, deck, isInverted, withCaching = true)
+                    QuizComposer.compose(this, deck, isInverted, withCaching = true)
                 QuizTestExerciseCard(baseExerciseCard, variants)
             }
             Entry -> {

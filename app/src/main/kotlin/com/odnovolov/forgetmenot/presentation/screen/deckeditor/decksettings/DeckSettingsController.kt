@@ -74,15 +74,18 @@ class DeckSettingsController(
             }
 
             MotivationalTimerButtonClicked -> {
-                navigator.navigateToMotivationalTimer {
-                    val timeForAnswer = currentExercisePreference.timeForAnswer
-                    val isTimerEnabled = timeForAnswer != NOT_TO_USE_TIMER
-                    val timeInput: String =
-                        if (timeForAnswer == NOT_TO_USE_TIMER) "15"
-                        else timeForAnswer.toString()
-                    val screenState = MotivationalTimerScreenState(isTimerEnabled, timeInput)
-                    MotivationalTimerDiScope.create(screenState)
-                }
+                navigator.navigateToMotivationalTimer(
+                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = true) },
+                    createMotivationalTimerDiScope = {
+                        val timeForAnswer = currentExercisePreference.timeForAnswer
+                        val isTimerEnabled = timeForAnswer != NOT_TO_USE_TIMER
+                        val timeInput: String =
+                            if (timeForAnswer == NOT_TO_USE_TIMER) "15"
+                            else timeForAnswer.toString()
+                        val screenState = MotivationalTimerScreenState(isTimerEnabled, timeInput)
+                        MotivationalTimerDiScope.create(screenState)
+                    }
+                )
             }
         }
     }

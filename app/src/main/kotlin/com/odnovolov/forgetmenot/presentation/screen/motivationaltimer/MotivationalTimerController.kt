@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.motivationaltimer
 
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
+import com.odnovolov.forgetmenot.domain.interactor.example.ExampleExercise
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -12,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.Motivatio
 
 class MotivationalTimerController(
     private val deckSettings: DeckSettings,
+    private val exercise: ExampleExercise,
     private val screenState: MotivationalTimerScreenState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
@@ -34,16 +36,14 @@ class MotivationalTimerController(
             }
 
             OkButtonClicked -> {
-                with(screenState) {
-                    val input: Int? = timeInput.toIntOrNull()
-                    val timeForAnswer: Int = when {
-                        !isTimerEnabled -> NOT_TO_USE_TIMER
-                        input != null && input > 0 -> input
-                        else -> return
-                    }
-                    deckSettings.setTimeForAnswer(timeForAnswer)
+                val input: Int? = screenState.timeInput.toIntOrNull()
+                val timeForAnswer: Int = when {
+                    !screenState.isTimerEnabled -> NOT_TO_USE_TIMER
+                    input != null && input > 0 -> input
+                    else -> return
                 }
-                navigator.navigateUp()
+                deckSettings.setTimeForAnswer(timeForAnswer)
+                exercise.notifyExercisePreferenceChanged()
             }
         }
     }

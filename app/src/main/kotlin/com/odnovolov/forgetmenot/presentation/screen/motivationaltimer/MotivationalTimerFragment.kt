@@ -6,20 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.*
 import kotlinx.android.synthetic.main.fragment_motivational_timer.*
 import kotlinx.coroutines.launch
 
 class MotivationalTimerFragment : BaseFragment() {
     init {
+        DeckSettingsDiScope.reopenIfClosed()
+        ExampleExerciseDiScope.reopenIfClosed()
         MotivationalTimerDiScope.reopenIfClosed()
     }
 
     private var controller: MotivationalTimerController? = null
     private lateinit var viewModel: MotivationalTimerViewModel
+    private lateinit var exampleFragment: ExampleExerciseFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +49,8 @@ class MotivationalTimerFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        exampleFragment = (childFragmentManager.findFragmentByTag("ExampleExerciseFragment")
+                as ExampleExerciseFragment)
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -91,12 +101,19 @@ class MotivationalTimerFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.addBottomSheetCallback(bottomSheetCallback)
+        exampleFragment.notifyBottomSheetStateChanged(behavior.state)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         timeForAnswerEditText.hideSoftInput()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.removeBottomSheetCallback(bottomSheetCallback)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onDestroy() {
@@ -110,6 +127,27 @@ class MotivationalTimerFragment : BaseFragment() {
         val canScrollUp = contentScrollView.canScrollVertically(-1)
         if (appBar.isActivated != canScrollUp) {
             appBar.isActivated = canScrollUp
+        }
+    }
+
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            exampleFragment.notifyBottomSheetStateChanged(newState)
+        }
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+    }
+
+    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
+        override fun onBackPressed(): Boolean {
+            val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+            return if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                true
+            } else {
+                false
+            }
         }
     }
 }

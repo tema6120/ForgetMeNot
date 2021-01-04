@@ -21,8 +21,9 @@ class ExampleExercise(
     val state: Exercise.State = state ?: stateCreator.create()
     private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private var timerJob: Job? = null
+    private var isExerciseActive = false
 
-    val currentExerciseCard: ExerciseCard
+    private val currentExerciseCard: ExerciseCard
         get() = state.exerciseCards[state.currentPosition]
 
     private val currentPronunciation
@@ -49,12 +50,15 @@ class ExampleExercise(
             currentPronunciation.answerAutoSpeak
 
     fun begin() {
+        isExerciseActive = true
         autoSpeakQuestionIfNeed()
         startTimer()
     }
 
     fun end() {
         speaker.stop()
+        resetTimer()
+        isExerciseActive = false
     }
 
     fun notifyExercisePreferenceChanged() {
@@ -127,14 +131,14 @@ class ExampleExercise(
         }
     }
 
-    fun speakQuestion() {
+    private fun speakQuestion() {
         with(currentExerciseCard.base) {
             val question = if (isInverted) card.answer else card.question
             speak(question, questionLanguage)
         }
     }
 
-    fun speakAnswer() {
+    private fun speakAnswer() {
         with(currentExerciseCard.base) {
             val answer = if (isInverted) card.question else card.answer
             speak(answer, answerLanguage)
@@ -155,6 +159,7 @@ class ExampleExercise(
     fun startTimer() {
         with(currentExerciseCard.base) {
             if (!useTimer
+                || !isExerciseActive
                 || currentExerciseCard.isAnswered
                 || isExpired
                 || timeLeft <= 0
@@ -178,6 +183,7 @@ class ExampleExercise(
     fun resetTimer() {
         with(currentExerciseCard.base) {
             if (!useTimer
+                || !isExerciseActive
                 || isExpired
                 || currentExerciseCard.isAnswered
             ) {
@@ -191,6 +197,7 @@ class ExampleExercise(
     fun stopTimer() {
         with(currentExerciseCard.base) {
             if (!useTimer
+                || !isExerciseActive
                 || isExpired
                 || currentExerciseCard.isAnswered
             ) {

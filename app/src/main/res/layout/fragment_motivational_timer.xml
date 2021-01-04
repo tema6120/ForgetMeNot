@@ -1,142 +1,162 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
-    <FrameLayout
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_window"
-            android:orientation="horizontal"
-            android:stateListAnimator="@animator/app_bar">
-
-        <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginStart="12dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_back_button"
-                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
-
-        <TextView
-                android:id="@+id/screenTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/jura"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:text="@string/title_motivational_timer_screen"
-                android:textColor="@color/text_title"
-                android:textSize="21sp"
-                android:textStyle="bold" />
-
-        <ImageButton
-                android:id="@+id/helpButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="12dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_help_button"
-                app:srcCompat="@drawable/ic_round_help_outline_24"
-                app:tint="@color/text_title" />
-
-    </FrameLayout>
-
-    <ScrollView
-            android:id="@+id/contentScrollView"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
+                android:id="@+id/appBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/background_window"
+                android:orientation="horizontal"
+                android:stateListAnimator="@animator/app_bar">
 
-            <FrameLayout
-                    android:id="@+id/timerSwitchFrame"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/timerSwitch"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:fontFamily="@font/nunito_bold"
-                        android:padding="16dp"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="15sp"
-                        android:visibility="invisible"
-                        app:switchPadding="12dp"
-                        tools:checked="true"
-                        tools:text="@string/on"
-                        tools:visibility="visible" />
-
-            </FrameLayout>
-
-            <EditText
-                    android:id="@+id/timeForAnswerEditText"
+            <ImageButton
+                    android:id="@+id/backButton"
                     android:layout_width="48dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="24dp"
-                    android:gravity="end"
-                    android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:padding="8dp"
-                    android:textColor="@color/text_edittext"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@+id/secTextView"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/timerSwitchFrame"
-                    tools:text="15" />
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_back_button"
+                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
             <TextView
-                    android:id="@+id/secTextView"
+                    android:id="@+id/screenTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/sec"
-                    android:textColor="@color/text_edittext"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@id/timeForAnswerEditText"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/timeForAnswerEditText"
-                    app:layout_constraintTop_toTopOf="@id/timeForAnswerEditText" />
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/jura"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/title_motivational_timer_screen"
+                    android:textColor="@color/text_title"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
 
-            <com.google.android.material.button.MaterialButton
-                    android:id="@+id/okButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@android:color/white"
-                    android:text="@android:string/ok"
-                    android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/timeForAnswerEditText"
-                    tools:visibility="visible" />
+            <ImageButton
+                    android:id="@+id/helpButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_help_button"
+                    app:srcCompat="@drawable/ic_round_help_outline_24"
+                    app:tint="@color/text_title" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
 
-    </ScrollView>
+        <ScrollView
+                android:id="@+id/contentScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
-</LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <FrameLayout
+                        android:id="@+id/timerSwitchFrame"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/timerSwitch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:fontFamily="@font/nunito_bold"
+                            android:padding="16dp"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="15sp"
+                            android:visibility="invisible"
+                            app:switchPadding="12dp"
+                            tools:checked="true"
+                            tools:text="@string/on"
+                            tools:visibility="visible" />
+
+                </FrameLayout>
+
+                <EditText
+                        android:id="@+id/timeForAnswerEditText"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="24dp"
+                        android:gravity="end"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:padding="8dp"
+                        android:textColor="@color/text_edittext"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/secTextView"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/timerSwitchFrame"
+                        tools:text="15" />
+
+                <TextView
+                        android:id="@+id/secTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/sec"
+                        android:textColor="@color/text_edittext"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/timeForAnswerEditText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/timeForAnswerEditText"
+                        app:layout_constraintTop_toTopOf="@id/timeForAnswerEditText" />
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/okButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="60dp"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:backgroundTint="@android:color/white"
+                        android:text="@android:string/ok"
+                        android:textColor="@color/colorAccent"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/timeForAnswerEditText"
+                        tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/exampleFragmentContainerView"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tag="ExampleExerciseFragment"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="100dp"
+            app:behavior_skipCollapsed="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

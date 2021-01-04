@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.MotivationalTimerScreenSt
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
 
 class MotivationalTimerDiScope private constructor(
     initialScreenState: MotivationalTimerScreenState? = null
@@ -18,6 +19,7 @@ class MotivationalTimerDiScope private constructor(
 
     val controller = MotivationalTimerController(
         DeckSettingsDiScope.get()!!.deckSettings,
+        ExampleExerciseDiScope.get()!!.exercise,
         screenState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
