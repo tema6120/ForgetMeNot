@@ -127,8 +127,12 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.question_display_to_help)
     }
 
-    fun navigateToTestingMethod(createDiScope: () -> TestingMethodDiScope) {
-        TestingMethodDiScope.open(createDiScope)
+    fun navigateToTestingMethod(
+        createExampleExerciseDiScope: () -> ExampleExerciseDiScope,
+        createTestingMethodDiScope: () -> TestingMethodDiScope
+    ) {
+        ExampleExerciseDiScope.open(createExampleExerciseDiScope)
+        TestingMethodDiScope.open(createTestingMethodDiScope)
         navigate(R.id.deck_editor_to_testing_method)
     }
 

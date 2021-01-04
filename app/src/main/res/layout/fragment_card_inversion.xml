@@ -53,8 +53,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="60dp">
+                    android:layout_height="wrap_content">
 
                 <LinearLayout
                         android:id="@+id/settingsSurface"
@@ -64,7 +63,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="76dp"
                         android:background="@drawable/white_rectangle_4dp_corner_radius"
                         android:orientation="vertical"
                         android:paddingTop="8dp"

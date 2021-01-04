@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.example
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -23,12 +24,9 @@ import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.*
@@ -192,6 +190,7 @@ class ExampleExerciseFragment : BaseFragment() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     fun notifyBottomSheetStateChanged(newState: Int) {
         when (newState) {
             BottomSheetBehavior.STATE_EXPANDED -> {
@@ -199,6 +198,11 @@ class ExampleExerciseFragment : BaseFragment() {
                 exampleTextView.isVisible = false
                 controller?.dispatch(BottomSheetExpanded)
                 exampleExerciseFragmentRootView.isActivated = true
+                val currentViewHolder = exampleExerciseViewPager
+                    .findViewHolderForAdapterPosition(exampleExerciseViewPager.currentItem)
+                if (currentViewHolder is EntryTestExerciseCardViewHolder) {
+                    currentViewHolder.onPageSelected()
+                }
             }
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 blocker.setOnTouchListener { _, _ -> true }
@@ -206,6 +210,11 @@ class ExampleExerciseFragment : BaseFragment() {
                 controller?.dispatch(BottomSheetCollapsed)
                 if (exampleExerciseFragmentRootView.isActivated) {
                     exampleExerciseFragmentRootView.isActivated = false
+                }
+                val currentViewHolder = exampleExerciseViewPager
+                    .findViewHolderForAdapterPosition(exampleExerciseViewPager.currentItem)
+                if (currentViewHolder is EntryTestExerciseCardViewHolder) {
+                    hideKeyboardForcibly(requireActivity())
                 }
             }
             else -> {

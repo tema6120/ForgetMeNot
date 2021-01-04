@@ -309,6 +309,14 @@ fun View.getActivity(): Activity? {
 fun isKeyboardVisible(view: View): Boolean? =
     ViewCompat.getRootWindowInsets(view)?.isVisible(Type.ime())
 
+fun hideKeyboardForcibly(activity: Activity) {
+    val focusedView = activity.currentFocus ?: return
+    if (isKeyboardVisible(focusedView) == true) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(0, 0)
+    }
+}
+
 fun setStatusBarColor(activity: Activity, colorRes: Int) {
     activity.window.statusBarColor = ContextCompat.getColor(activity, colorRes)
     if (VERSION.SDK_INT >= VERSION_CODES.M) {

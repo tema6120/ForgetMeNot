@@ -59,9 +59,10 @@ class DeckSettingsController(
             }
 
             TestingMethodButtonClicked -> {
-                navigator.navigateToTestingMethod {
-                    TestingMethodDiScope()
-                }
+                navigator.navigateToTestingMethod(
+                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = false) },
+                    createTestingMethodDiScope = ::TestingMethodDiScope
+                )
             }
 
             PronunciationPlanButtonClicked -> {
