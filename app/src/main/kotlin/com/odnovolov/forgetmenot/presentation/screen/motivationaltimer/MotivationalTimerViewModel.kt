@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 
 class MotivationalTimerViewModel(
-    deckSettingsState: DeckSettings.State,
+    private val deckSettingsState: DeckSettings.State,
     private val screenState: MotivationalTimerScreenState
 ) {
     val isTimerEnabled: Flow<Boolean> =
@@ -39,4 +39,13 @@ class MotivationalTimerViewModel(
             realTimeForAnswer != editedTimeForAnswer
         }
     }
+
+    val currentTimeForAnswer: Int
+        get() = deckSettingsState.deck.exercisePreference.timeForAnswer
+
+    val editedTimeForAnswer: Int?
+        get() = when {
+            !screenState.isTimerEnabled -> NOT_TO_USE_TIMER
+            else -> screenState.timeInput.toIntOrNull()
+        }
 }

@@ -168,7 +168,7 @@ class DeckSettingsFragment : BaseFragment() {
             }
             timeForAnswer.observe { timeForAnswer: Int ->
                 selectedMotivationalTimerTextView.text =
-                    if (timeForAnswer == 0)
+                    if (timeForAnswer == NOT_TO_USE_TIMER)
                         getString(R.string.off) else
                         getString(R.string.time_for_answer, timeForAnswer)
             }

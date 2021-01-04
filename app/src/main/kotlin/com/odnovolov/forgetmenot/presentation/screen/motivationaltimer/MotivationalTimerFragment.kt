@@ -15,8 +15,7 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseFragment
-import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.ShowInvalidEntryError
-import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.ShowSavedMessage
+import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.*
 import kotlinx.android.synthetic.main.fragment_motivational_timer.*
 import kotlinx.coroutines.launch
@@ -56,7 +55,7 @@ class MotivationalTimerFragment : BaseFragment() {
         exampleFragment = (childFragmentManager.findFragmentByTag("ExampleExerciseFragment")
                 as ExampleExerciseFragment)
         backButton.setOnClickListener {
-            requireActivity().onBackPressed()
+            controller?.dispatch(BackButtonClicked)
         }
         helpButton.setOnClickListener {
             controller?.dispatch(HelpButtonClicked)
@@ -130,6 +129,12 @@ class MotivationalTimerFragment : BaseFragment() {
                 timeForAnswerEditText.hideSoftInput()
                 timeForAnswerEditText.clearFocus()
             }
+            AskUserToSaveChanges -> {
+                QuitMotivationalTimerBottomSheet().show(
+                    childFragmentManager,
+                    "QuitMotivationalTimerBottomSheet"
+                )
+            }
         }
     }
 
@@ -177,12 +182,12 @@ class MotivationalTimerFragment : BaseFragment() {
     private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
         override fun onBackPressed(): Boolean {
             val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
-            return if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                true
             } else {
-                false
+                controller?.dispatch(BackButtonClicked)
             }
+            return true
         }
     }
 }

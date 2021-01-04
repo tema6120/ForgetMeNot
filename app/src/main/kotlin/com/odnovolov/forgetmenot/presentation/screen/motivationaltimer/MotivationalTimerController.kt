@@ -10,8 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command
-import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.ShowInvalidEntryError
-import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.ShowSavedMessage
+import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.*
 
 class MotivationalTimerController(
@@ -25,6 +24,7 @@ class MotivationalTimerController(
     sealed class Command {
         object ShowInvalidEntryError : Command()
         object ShowSavedMessage : Command()
+        object AskUserToSaveChanges : Command()
     }
 
     override fun handle(event: MotivationalTimerEvent) {
@@ -56,6 +56,44 @@ class MotivationalTimerController(
                 deckSettings.setTimeForAnswer(timeForAnswer)
                 sendCommand(ShowSavedMessage)
                 exercise.notifyExercisePreferenceChanged()
+            }
+
+            BackButtonClicked -> {
+                val isUserInputValid =
+                    !screenState.isTimerEnabled || screenState.timeInput.toIntOrNull() ?: -1 > 0
+                if (!isUserInputValid) {
+                    navigator.navigateUp()
+                    return
+                }
+                val newTimeForAnswer: Int = when {
+                    !screenState.isTimerEnabled -> NOT_TO_USE_TIMER
+                    else -> screenState.timeInput.toIntOrNull()!!
+                }
+                val currentTimeForAnswer: Int =
+                    deckSettings.state.deck.exercisePreference.timeForAnswer
+                if (newTimeForAnswer != currentTimeForAnswer) {
+                    sendCommand(AskUserToSaveChanges)
+                } else {
+                    navigator.navigateUp()
+                }
+            }
+
+            SaveButtonClicked -> {
+                val input: Int? = screenState.timeInput.toIntOrNull()
+                val timeForAnswer: Int = when {
+                    !screenState.isTimerEnabled -> NOT_TO_USE_TIMER
+                    input != null && input > 0 -> input
+                    else -> {
+                        sendCommand(ShowInvalidEntryError)
+                        return
+                    }
+                }
+                deckSettings.setTimeForAnswer(timeForAnswer)
+                navigator.navigateUp()
+            }
+
+            QuitButtonClicked -> {
+                navigator.navigateUp()
             }
         }
     }

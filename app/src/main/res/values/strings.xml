@@ -671,4 +671,5 @@
     <string name="title_example_in_settings_bottom_sheet">Example</string>
     <string name="error_motivational_timer_input">the number must be\ngreater than zero</string>
     <string name="saved">Saved!</string>
+    <string name="message_quit_motivational_timer">You have changed the timer setting from \'%1$s\' to \'%2$s\'. Do you want to save changes?</string>
 </resources>
