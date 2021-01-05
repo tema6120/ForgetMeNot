@@ -11,7 +11,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.QuitButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.SaveButtonClicked
 import kotlinx.android.synthetic.main.bottom_sheet_quit_motivational_timer.*

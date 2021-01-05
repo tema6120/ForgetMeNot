@@ -267,7 +267,10 @@ class HomeController(
         homeScreenState.deckSelection = null
         navigator.navigateToAutoplaySettings {
             val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
-            val playerCreatorState = PlayerStateCreator.State(decks)
+            val playerCreatorState = PlayerStateCreator.State(
+                decks,
+                globalState.cardFilterForAutoplay
+            )
             CardFilterForAutoplayDiScope.create(playerCreatorState)
         }
     }

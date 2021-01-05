@@ -13,8 +13,8 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseFragment
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.*
 import kotlinx.android.synthetic.main.fragment_motivational_timer.*

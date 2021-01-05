@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.example
+package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER

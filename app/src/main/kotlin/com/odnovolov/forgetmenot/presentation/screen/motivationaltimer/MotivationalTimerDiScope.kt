@@ -4,7 +4,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.MotivationalTimerScreenSt
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 
 class MotivationalTimerDiScope private constructor(
     initialScreenState: MotivationalTimerScreenState? = null

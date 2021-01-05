@@ -1,10 +1,10 @@
-package com.odnovolov.forgetmenot.presentation.screen.example
+package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
-import com.odnovolov.forgetmenot.domain.interactor.example.ExampleExercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.State
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseEvent.*
 
 class ExampleExerciseController(
     private val exercise: ExampleExercise,

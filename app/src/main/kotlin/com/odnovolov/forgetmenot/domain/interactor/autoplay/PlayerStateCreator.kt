@@ -7,15 +7,12 @@ import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.soywiz.klock.DateTime
 
 class PlayerStateCreator(
-    val state: State,
-    private val globalState: GlobalState
+    val state: State
 ) {
     data class State(
-        val decks: List<Deck>
+        val decks: List<Deck>,
+        val cardFilterForAutoplay: CardFilterForAutoplay
     )
-
-    private val cardFilterForAutoplay: CardFilterForAutoplay
-        get() = globalState.cardFilterForAutoplay
 
     fun getCurrentMatchingCardsNumber(): Int {
         return state.decks.sumBy { deck: Deck ->
@@ -56,29 +53,29 @@ class PlayerStateCreator(
 
     private fun doesCardMatchTheFilter(card: Card, deck: Deck): Boolean {
         return doesCardMatchStateFilter(card, deck)
-                && card.grade in cardFilterForAutoplay.gradeRange
+                && card.grade in state.cardFilterForAutoplay.gradeRange
                 && doesCardMatchLastTestedFilter(card)
     }
 
     private fun doesCardMatchStateFilter(card: Card, deck: Deck): Boolean {
         return when {
-            card.isLearned -> cardFilterForAutoplay.isLearnedCardsIncluded
+            card.isLearned -> state.cardFilterForAutoplay.isLearnedCardsIncluded
             isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme) ->
-                cardFilterForAutoplay.isAvailableForExerciseCardsIncluded
-            else -> cardFilterForAutoplay.isAwaitingCardsIncluded
+                state.cardFilterForAutoplay.isAvailableForExerciseCardsIncluded
+            else -> state.cardFilterForAutoplay.isAwaitingCardsIncluded
         }
     }
 
     private fun doesCardMatchLastTestedFilter(card: Card): Boolean {
         val now = DateTime.now()
         return if (card.lastAnsweredAt == null) {
-            cardFilterForAutoplay.lastTestedFromTimeAgo == null
+            state.cardFilterForAutoplay.lastTestedFromTimeAgo == null
         } else {
-            (cardFilterForAutoplay.lastTestedFromTimeAgo == null
-                    || card.lastAnsweredAt!! > now - cardFilterForAutoplay.lastTestedFromTimeAgo!!)
+            (state.cardFilterForAutoplay.lastTestedFromTimeAgo == null
+                    || card.lastAnsweredAt!! > now - state.cardFilterForAutoplay.lastTestedFromTimeAgo!!)
                     &&
-                    (cardFilterForAutoplay.lastTestedToTimeAgo == null
-                            || card.lastAnsweredAt!! < now - cardFilterForAutoplay.lastTestedToTimeAgo!!)
+                    (state.cardFilterForAutoplay.lastTestedToTimeAgo == null
+                            || card.lastAnsweredAt!! < now - state.cardFilterForAutoplay.lastTestedToTimeAgo!!)
         }
     }
 

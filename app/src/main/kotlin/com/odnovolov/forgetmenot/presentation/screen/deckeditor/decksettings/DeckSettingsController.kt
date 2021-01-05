@@ -7,7 +7,8 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerScreenState
@@ -66,11 +67,12 @@ class DeckSettingsController(
             }
 
             PronunciationPlanButtonClicked -> {
-                navigator.navigateToPronunciationPlan {
-                    PronunciationPlanDiScope.create(
-                        PronunciationEventDialogState()
-                    )
-                }
+                navigator.navigateToPronunciationPlan(
+                    createExamplePlayerDiScope = ExamplePlayerDiScope::create,
+                    createPronunciationPlanDiScope = {
+                        PronunciationPlanDiScope.create(PronunciationEventDialogState())
+                    }
+                )
             }
 
             MotivationalTimerButtonClicked -> {

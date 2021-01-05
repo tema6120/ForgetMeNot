@@ -19,7 +19,8 @@ import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayDiScope
@@ -141,8 +142,12 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.testing_method_to_help)
     }
 
-    fun navigateToPronunciationPlan(createDiScope: () -> PronunciationPlanDiScope) {
-        PronunciationPlanDiScope.open(createDiScope)
+    fun navigateToPronunciationPlan(
+        createExamplePlayerDiScope: () -> ExamplePlayerDiScope,
+        createPronunciationPlanDiScope: () -> PronunciationPlanDiScope
+    ) {
+        ExamplePlayerDiScope.open(createExamplePlayerDiScope)
+        PronunciationPlanDiScope.open(createPronunciationPlanDiScope)
         navigate(R.id.action_deck_setup_screen_to_pronunciation_plan_screen)
     }
 

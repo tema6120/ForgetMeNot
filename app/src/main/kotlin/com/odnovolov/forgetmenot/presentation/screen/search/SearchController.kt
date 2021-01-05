@@ -31,7 +31,7 @@ class SearchController(
                 when {
                     DeckEditorDiScope.isOpen() -> {
                         navigator.navigateToCardsEditorFromSearch {
-                            val deck = DeckEditorDiScope.get()!!.screenState.relevantDeck
+                            val deck = DeckEditorDiScope.get()!!.screenState.deck
                             val editableCards: List<EditableCard> =
                                 deck.cards.map { card -> EditableCard(card, deck) }
                                     .plus(EditableCard(Card(generateId(), "", ""), deck))

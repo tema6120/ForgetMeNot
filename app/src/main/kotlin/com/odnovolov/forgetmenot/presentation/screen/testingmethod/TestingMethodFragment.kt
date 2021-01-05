@@ -13,8 +13,8 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseFragment
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodEvent.*
 import kotlinx.android.synthetic.main.fragment_testing_method.*
 import kotlinx.coroutines.launch

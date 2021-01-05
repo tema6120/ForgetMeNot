@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
+import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerCreatorStateProvider.SerializableState
@@ -18,16 +20,25 @@ class PlayerCreatorStateProvider(
 ) {
     @Serializable
     data class SerializableState(
-        val deckIds: List<Long>
+        val deckIds: List<Long>,
+        val cardFilterId: Long
     )
 
     override val serializer = SerializableState.serializer()
 
     override fun toSerializable(state: PlayerStateCreator.State) = SerializableState(
-        deckIds = state.decks.map { it.id }
+        deckIds = state.decks.map { it.id },
+        cardFilterId = state.cardFilterForAutoplay.id
     )
 
-    override fun toOriginal(serializableState: SerializableState) = PlayerStateCreator.State(
-        globalState.decks.filter { it.id in serializableState.deckIds }
-    )
+    override fun toOriginal(serializableState: SerializableState): PlayerStateCreator.State {
+        val cardFilter: CardFilterForAutoplay =
+            if (serializableState.cardFilterId == CardFilterForAutoplay.IncludeAll.id) {
+                CardFilterForAutoplay.IncludeAll
+            } else {
+                globalState.cardFilterForAutoplay
+            }
+        val decks: List<Deck> = globalState.decks.filter { it.id in serializableState.deckIds }
+        return PlayerStateCreator.State(decks, cardFilter)
+    }
 }

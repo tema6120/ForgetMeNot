@@ -62,7 +62,7 @@ class DeckEditorDiScope private constructor(
             if (diScope == null) {
                 diScope = recreateDiScope()
             }
-            return diScope!!.screenState.relevantDeck
+            return diScope!!.screenState.deck
         }
 
         override fun recreateDiScope() = DeckEditorDiScope()

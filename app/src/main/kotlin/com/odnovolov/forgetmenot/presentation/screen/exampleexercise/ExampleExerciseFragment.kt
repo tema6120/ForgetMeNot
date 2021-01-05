@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.example
+package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -28,7 +29,7 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
@@ -129,7 +130,7 @@ class ExampleExerciseFragment : BaseFragment() {
                 }
             }
             isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
-                speakProgressBar.visibility = if (isPreparing) View.VISIBLE else View.INVISIBLE
+                speakProgressBar.isInvisible = !isPreparing
             }
             speakerEvents.observe { event: SpeakerImpl.Event ->
                 when (event) {
@@ -426,7 +427,8 @@ class ExampleExerciseFragment : BaseFragment() {
             controller?.dispatch(PageSelected(position))
             timerButtonPaintingAnimation?.cancel()
             timerButtonPaintingAnimation = null
-            val currentViewHolder = exampleExerciseViewPager.findViewHolderForAdapterPosition(position)
+            val currentViewHolder =
+                exampleExerciseViewPager.findViewHolderForAdapterPosition(position)
             if (currentViewHolder is EntryTestExerciseCardViewHolder) {
                 currentViewHolder.onPageSelected()
             }

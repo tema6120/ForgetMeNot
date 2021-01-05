@@ -28,15 +28,39 @@ class Exercise(
         var answerSelection: String by flowMaker(answerSelection)
         var hintSelection: HintSelection by flowMaker(hintSelection)
     }
-
-    val currentExerciseCard: ExerciseCard get() = state.exerciseCards[state.currentPosition]
-    private val isWalkingMode get() = globalState.isWalkingModeEnabled
-    private lateinit var currentPronunciation: Pronunciation
-    private val textInBracketsRemover by lazy { TextInBracketsRemover() }
+    private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private var timerJob: Job? = null
 
+    private val isWalkingMode
+        get() = globalState.isWalkingModeEnabled
+
+    val currentExerciseCard: ExerciseCard
+        get() = state.exerciseCards[state.currentPosition]
+
+    private val currentPronunciation
+        get() = currentExerciseCard.base.deck.exercisePreference.pronunciation
+
+    private val questionLanguage: Locale?
+        get() = if (currentExerciseCard.base.isInverted)
+            currentPronunciation.answerLanguage else
+            currentPronunciation.questionLanguage
+
+    private val answerLanguage: Locale?
+        get() = if (currentExerciseCard.base.isInverted)
+            currentPronunciation.questionLanguage else
+            currentPronunciation.answerLanguage
+
+    private val questionAutoSpeak: Boolean
+        get() = if (currentExerciseCard.base.isInverted)
+            currentPronunciation.answerAutoSpeak else
+            currentPronunciation.questionAutoSpeak
+
+    private val answerAutoSpeak: Boolean
+        get() = if (currentExerciseCard.base.isInverted)
+            currentPronunciation.questionAutoSpeak else
+            currentPronunciation.answerAutoSpeak
+
     init {
-        updateCurrentPronunciation()
         autoSpeakQuestionIfNeed()
         updateLastOpenedAt()
         startTimer()
@@ -48,28 +72,9 @@ class Exercise(
         }
         resetTimer()
         state.currentPosition = position
-        updateCurrentPronunciation()
         autoSpeakQuestionIfNeed()
         updateLastOpenedAt()
         startTimer()
-    }
-
-    private fun updateCurrentPronunciation() {
-        val associatedPronunciation = currentExerciseCard.base.deck.exercisePreference.pronunciation
-        currentPronunciation = if (currentExerciseCard.base.isInverted) {
-            with(associatedPronunciation) {
-                Pronunciation(
-                    id = -1,
-                    questionLanguage = answerLanguage,
-                    questionAutoSpeak = answerAutoSpeak,
-                    answerLanguage = questionLanguage,
-                    answerAutoSpeak = questionAutoSpeak,
-                    speakTextInBrackets = speakTextInBrackets
-                )
-            }
-        } else {
-            associatedPronunciation
-        }
     }
 
     private fun updateLastOpenedAt() {
@@ -121,20 +126,20 @@ class Exercise(
     private fun speakQuestionSelection() {
         speak(
             state.questionSelection,
-            currentPronunciation.questionLanguage
+            questionLanguage
         )
     }
 
     private fun speakAnswerSelection() {
         speak(
             state.answerSelection,
-            currentPronunciation.answerLanguage
+            answerLanguage
         )
     }
 
     private fun autoSpeakQuestionIfNeed() {
         if (isWalkingMode
-            || currentPronunciation.questionAutoSpeak
+            || questionAutoSpeak
             && !currentExerciseCard.base.card.isLearned
             && !currentExerciseCard.isAnswered
         ) {
@@ -144,7 +149,7 @@ class Exercise(
 
     private fun autoSpeakAnswerIfNeed() {
         if (isWalkingMode
-            || currentPronunciation.answerAutoSpeak
+            || answerAutoSpeak
             && !currentExerciseCard.base.card.isLearned
             && !currentExerciseCard.isAnswered
         ) {
@@ -155,14 +160,14 @@ class Exercise(
     fun speakQuestion() {
         with(currentExerciseCard.base) {
             val question = if (isInverted) card.answer else card.question
-            speak(question, currentPronunciation.questionLanguage)
+            speak(question, questionLanguage)
         }
     }
 
     fun speakAnswer() {
         with(currentExerciseCard.base) {
             val answer = if (isInverted) card.question else card.answer
-            speak(answer, currentPronunciation.answerLanguage)
+            speak(answer, answerLanguage)
         }
     }
 

@@ -145,7 +145,7 @@ fun DeckReviewPreferenceDb.toDeckReviewPreference() = DeckReviewPreference(
 )
 
 fun CardFilterForAutoplay.toRepetitionSettingDb(): RepetitionSettingDb = RepetitionSettingDb.Impl(
-    0L,
+    id,
     "",
     isAvailableForExerciseCardsIncluded,
     isAwaitingCardsIncluded,
@@ -158,6 +158,7 @@ fun CardFilterForAutoplay.toRepetitionSettingDb(): RepetitionSettingDb = Repetit
 )
 
 fun RepetitionSettingDb.toCardFilterForAutoplay() = CardFilterForAutoplay(
+    id,
     isAvailableForExerciseCardsIncluded,
     isAwaitingCardsIncluded,
     isLearnedCardsIncluded,

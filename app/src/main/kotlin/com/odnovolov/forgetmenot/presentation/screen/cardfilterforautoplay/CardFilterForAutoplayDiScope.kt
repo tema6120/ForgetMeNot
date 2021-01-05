@@ -18,8 +18,7 @@ class CardFilterForAutoplayDiScope private constructor(
         initialPlayerCreatorState ?: playerCreatorStateProvider.load()
 
     private val playerStateCreator = PlayerStateCreator(
-        playerCreatorState,
-        AppDiScope.get().globalState
+        playerCreatorState
     )
 
     val controller = CardFilterForAutoplayController(

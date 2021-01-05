@@ -14,7 +14,7 @@ class SearchViewModel(
 ) {
     val searchDeckName: Flow<String?> = flow {
         val deckName: String? = DeckEditorDiScope.getAsync()?.let { diScope: DeckEditorDiScope ->
-            diScope.screenState.relevantDeck.name
+            diScope.screenState.deck.name
         }
         emit(deckName)
     }

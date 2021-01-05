@@ -36,7 +36,18 @@ class Player(
     val currentPlayingCard: PlayingCard
         get() = with(state) { playingCards[currentPosition] }
 
-    private lateinit var currentPronunciation: Pronunciation
+    private val currentPronunciation
+        get() = currentPlayingCard.deck.exercisePreference.pronunciation
+
+    private val questionLanguage: Locale?
+        get() = if (currentPlayingCard.isInverted)
+            currentPronunciation.answerLanguage else
+            currentPronunciation.questionLanguage
+
+    private val answerLanguage: Locale?
+        get() = if (currentPlayingCard.isInverted)
+            currentPronunciation.questionLanguage else
+            currentPronunciation.answerLanguage
 
     private val currentPronunciationPlan: PronunciationPlan
         get() = currentPlayingCard.deck.exercisePreference.pronunciationPlan
@@ -49,8 +60,7 @@ class Player(
     private var skipDelay = true
 
     init {
-        speaker.setOnSpeakingFinished { tryToExecuteNextPronunciationEvent() }
-        updateCurrentPronunciation()
+        speaker.setOnSpeakingFinished(::tryToExecuteNextPronunciationEvent)
         if (state.isPlaying) {
             executePronunciationEvent()
         }
@@ -67,26 +77,7 @@ class Player(
         }
         pause()
         state.currentPosition = position
-        updateCurrentPronunciation()
         state.pronunciationEventPosition = 0
-    }
-
-    private fun updateCurrentPronunciation() {
-        val associatedPronunciation = currentPlayingCard.deck.exercisePreference.pronunciation
-        currentPronunciation = if (currentPlayingCard.isInverted) {
-            with(associatedPronunciation) {
-                Pronunciation(
-                    id = -1,
-                    questionLanguage = answerLanguage,
-                    questionAutoSpeak = answerAutoSpeak,
-                    answerLanguage = questionLanguage,
-                    answerAutoSpeak = questionAutoSpeak,
-                    speakTextInBrackets = speakTextInBrackets
-                )
-            }
-        } else {
-            associatedPronunciation
-        }
     }
 
     fun showQuestion() {
@@ -128,28 +119,28 @@ class Player(
     private fun speakQuestionSelection() {
         speak(
             state.questionSelection,
-            currentPronunciation.questionLanguage
+            questionLanguage
         )
     }
 
     private fun speakAnswerSelection() {
         speak(
             state.answerSelection,
-            currentPronunciation.answerLanguage
+            answerLanguage
         )
     }
 
     private fun speakQuestion() {
         with(currentPlayingCard) {
             val question = if (isInverted) card.answer else card.question
-            speak(question, currentPronunciation.questionLanguage)
+            speak(question, questionLanguage)
         }
     }
 
     private fun speakAnswer() {
         with(currentPlayingCard) {
             val answer = if (isInverted) card.question else card.answer
-            speak(answer, currentPronunciation.answerLanguage)
+            speak(answer, answerLanguage)
         }
     }
 
@@ -238,7 +229,6 @@ class Player(
             }
             hasOneMorePlayingCard() -> {
                 state.currentPosition++
-                updateCurrentPronunciation()
                 state.pronunciationEventPosition = 0
                 true
             }
@@ -264,7 +254,6 @@ class Player(
             }
         }
         state.currentPosition = 0
-        updateCurrentPronunciation()
         state.pronunciationEventPosition = 0
     }
 }

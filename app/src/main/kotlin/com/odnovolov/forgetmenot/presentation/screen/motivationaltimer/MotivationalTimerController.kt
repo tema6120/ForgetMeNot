@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.motivationaltimer
 
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.domain.interactor.example.ExampleExercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider

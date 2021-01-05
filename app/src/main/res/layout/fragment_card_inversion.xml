@@ -169,7 +169,7 @@
 
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/exampleFragmentContainerView"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.example.ExampleExerciseFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:tag="ExampleExerciseFragment"

@@ -7,6 +7,6 @@ class DeckEditorScreenState(
     relevantDeck: Deck,
     typedDeckName: String = ""
 ) : FlowMaker<DeckEditorScreenState>() {
-    val relevantDeck: Deck by flowMaker(relevantDeck)
+    val deck: Deck by flowMaker(relevantDeck)
     var typedDeckName: String by flowMaker(typedDeckName)
 }

@@ -1,7 +1,7 @@
-package com.odnovolov.forgetmenot.presentation.screen.example
+package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
-import com.odnovolov.forgetmenot.domain.interactor.example.ExampleExercise
-import com.odnovolov.forgetmenot.domain.interactor.example.ExampleExerciseStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.persistence.shortterm.ExampleExerciseStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
@@ -71,23 +71,22 @@ class ExampleExerciseDiScope private constructor(
         AppDiScope.get().globalState
     )
 
-    private val withoutTestingCardController = WithoutTestingExampleExerciseCardController(
+    private val offTestCardController = OffTestExampleExerciseCardController(
         exercise,
         exerciseStateProvider
     )
 
-    private val selfTestingCardController = SelfTestingExampleExerciseCardController(
+    private val manualTestCardController = ManualTestExampleExerciseCardController(
         exercise,
         exerciseStateProvider
     )
 
-    private val testingWithVariantsCardController =
-        TestingWithVariantsExampleExerciseCardController(
-            exercise,
-            exerciseStateProvider
-        )
+    private val quizTestCardController = QuizTestExampleExerciseCardController(
+        exercise,
+        exerciseStateProvider
+    )
 
-    private val spellCheckCardController = SpellCheckExampleExerciseCardController(
+    private val entryTestCardController = EntryTestExampleExerciseCardController(
         exercise,
         exerciseStateProvider
     )
@@ -96,10 +95,10 @@ class ExampleExerciseDiScope private constructor(
         coroutineScope: CoroutineScope
     ) = ExerciseCardAdapter(
         coroutineScope,
-        withoutTestingCardController,
-        selfTestingCardController,
-        testingWithVariantsCardController,
-        spellCheckCardController
+        offTestCardController,
+        manualTestCardController,
+        quizTestCardController,
+        entryTestCardController
     )
 
     companion object : DiScopeManager<ExampleExerciseDiScope>() {
@@ -112,10 +111,10 @@ class ExampleExerciseDiScope private constructor(
                 exercise.cancel()
                 speakerImpl.shutdown()
                 controller.dispose()
-                withoutTestingCardController.dispose()
-                selfTestingCardController.dispose()
-                testingWithVariantsCardController.dispose()
-                spellCheckCardController.dispose()
+                offTestCardController.dispose()
+                manualTestCardController.dispose()
+                quizTestCardController.dispose()
+                entryTestCardController.dispose()
             }
         }
     }

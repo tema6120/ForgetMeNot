@@ -26,7 +26,7 @@ class DeckEditorScreenStateProvider(
     override val serializer = SerializableState.serializer()
 
     override fun toSerializable(state: DeckEditorScreenState) = SerializableState(
-        state.relevantDeck.id,
+        state.deck.id,
         state.typedDeckName
     )
 

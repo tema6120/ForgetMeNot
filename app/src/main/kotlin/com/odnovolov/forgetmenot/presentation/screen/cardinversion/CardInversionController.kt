@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.cardinversion
 
 import com.odnovolov.forgetmenot.domain.entity.CardInversion
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.domain.interactor.example.ExampleExercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionEvent.*

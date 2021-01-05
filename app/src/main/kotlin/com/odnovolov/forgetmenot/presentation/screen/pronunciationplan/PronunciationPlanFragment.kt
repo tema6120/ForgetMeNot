@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerFragment
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanController.Command.ShowCannotChangeLastSpeakAnswerMessage
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanController.Command.ShowCannotChangeLastSpeakQuestionMessage
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.AddPronunciationEventButtonClicked
@@ -21,12 +25,14 @@ import kotlinx.coroutines.launch
 class PronunciationPlanFragment : BaseFragment() {
     init {
         DeckSettingsDiScope.reopenIfClosed()
+        ExamplePlayerDiScope.reopenIfClosed()
         PronunciationPlanDiScope.reopenIfClosed()
     }
 
     private var controller: PronunciationPlanController? = null
     private lateinit var viewModel: PronunciationPlanViewModel
     private lateinit var pronunciationEventAdapter: PronunciationEventAdapter
+    private lateinit var exampleFragment: ExamplePlayerFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +57,8 @@ class PronunciationPlanFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        exampleFragment = childFragmentManager.findFragmentByTag("ExamplePlayerFragment")
+                as ExamplePlayerFragment
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -89,11 +97,18 @@ class PronunciationPlanFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.addBottomSheetCallback(bottomSheetCallback)
+        exampleFragment.notifyBottomSheetStateChanged(behavior.state)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.removeBottomSheetCallback(bottomSheetCallback)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onDestroyView() {
@@ -113,6 +128,27 @@ class PronunciationPlanFragment : BaseFragment() {
         val canScrollUp = contentScrollView.canScrollVertically(-1)
         if (appBar.isActivated != canScrollUp) {
             appBar.isActivated = canScrollUp
+        }
+    }
+
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            exampleFragment.notifyBottomSheetStateChanged(newState)
+        }
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+    }
+
+    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
+        override fun onBackPressed(): Boolean {
+            val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+            return if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                true
+            } else {
+                false
+            }
         }
     }
 }

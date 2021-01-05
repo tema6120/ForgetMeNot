@@ -178,7 +178,6 @@ class PlayerViewModel(
         .flowOn(businessLogicThread)
 
     val speakerEvents: Flow<SpeakerImpl.Event> = speakerImpl.events
-        .distinctUntilChanged()
         .flowOn(businessLogicThread)
 
     val isPlaying: Flow<Boolean> = playerState.flowOf(Player.State::isPlaying)

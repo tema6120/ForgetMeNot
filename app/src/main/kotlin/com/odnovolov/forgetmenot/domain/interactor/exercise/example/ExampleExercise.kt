@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.domain.interactor.example
+package com.odnovolov.forgetmenot.domain.interactor.exercise.example
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Speaker

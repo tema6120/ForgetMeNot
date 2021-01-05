@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.example
+package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
 sealed class ExampleExerciseEvent {
     object BottomSheetExpanded : ExampleExerciseEvent()

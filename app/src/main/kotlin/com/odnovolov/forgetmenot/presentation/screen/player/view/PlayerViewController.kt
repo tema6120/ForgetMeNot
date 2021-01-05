@@ -51,7 +51,7 @@ class PlayerViewController(
             }
 
             GradeButtonClicked -> {
-                onGradeButtonClicked()
+                player.pause()
             }
 
             is GradeWasChanged -> {
@@ -133,10 +133,6 @@ class PlayerViewController(
                 navigator.navigateUp()
             }
         }
-    }
-
-    private fun onGradeButtonClicked() {
-        player.pause()
     }
 
     override fun saveState() {

@@ -1,12 +1,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/exampleExerciseFragmentRootView"
+        android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_example_fragment"
         android:fitsSystemWindows="true"
-        tools:context="presentation.screen.exampleexercise.ExampleExerciseFragment">
+        tools:context="presentation.screen.exampleplayer.ExamplePlayerFragment">
+
+    <View
+            android:id="@+id/backgroundView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_example_fragment" />
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +31,7 @@
                     android:layout_gravity="center" />
 
             <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/exampleExerciseViewPager"
+                    android:id="@+id/playerViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
@@ -36,6 +41,7 @@
                 android:id="@+id/controlPanelScroll"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginEnd="50dp"
                 android:background="@color/colorPrimary"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -68,16 +74,6 @@
 
                 </FrameLayout>
 
-                <ImageButton
-                        android:id="@+id/timerButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/ripple_light_borderless"
-                        android:contentDescription="@string/description_timer_button"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_round_timer_24"
-                        tools:visibility="visible" />
-
             </LinearLayout>
 
         </HorizontalScrollView>
@@ -109,5 +105,20 @@
                 android:textStyle="bold" />
 
     </FrameLayout>
+
+    <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="-12dp"
+            android:layout_marginBottom="-12dp"
+            android:background="@drawable/background_play_button"
+            android:contentDescription="@string/description_pause_button"
+            android:outlineAmbientShadowColor="@color/colorAccent"
+            android:outlineSpotShadowColor="@color/colorAccent"
+            android:stateListAnimator="@animator/material_button"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_pause_28" />
 
 </FrameLayout>
