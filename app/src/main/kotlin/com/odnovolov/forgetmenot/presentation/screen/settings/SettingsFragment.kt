@@ -18,7 +18,6 @@ import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivityDiScope
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.launch
@@ -145,11 +144,6 @@ class SettingsFragment : BaseFragment() {
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showActionBar()
     }
 
     override fun onDestroy() {

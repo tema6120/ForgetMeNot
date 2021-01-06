@@ -14,7 +14,6 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.showActionBar
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionSelected
@@ -180,11 +179,6 @@ class WalkingModeSettingsFragment : BaseFragment() {
             if (activeRemappingKeyGesture != null)
                 updateAdapterItems()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showActionBar()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

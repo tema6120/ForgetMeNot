@@ -221,25 +221,6 @@ inline fun doWithCatchingExceptions(block: () -> Unit) {
     }
 }
 
-@SuppressLint("RestrictedApi")
-fun Fragment.hideActionBar() {
-    (activity as MainActivity).supportActionBar?.run {
-        setShowHideAnimationEnabled(false)
-        hide()
-        Handler(Looper.getMainLooper()).post {
-            hide()
-        }
-    }
-}
-
-@SuppressLint("RestrictedApi")
-fun Fragment.showActionBar() {
-    (activity as MainActivity).supportActionBar?.run {
-        setShowHideAnimationEnabled(false)
-        show()
-    }
-}
-
 fun TextView.setTextWithClickableAnnotations(
     stringId: Int,
     onAnnotationClick: (annotationValue: String) -> Unit

@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
-import com.odnovolov.forgetmenot.presentation.common.hideActionBar
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpController.Command.OpenArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleSelected
@@ -125,11 +124,6 @@ class HelpFragment : BaseFragment() {
             .apply { if (!needToClearBackStack) addToBackStack(null) }
             .commit()
         needToResetScrollView = true
-    }
-
-    override fun onResume() {
-        super.onResume()
-        hideActionBar()
     }
 
     override fun onAttachFragment(childFragment: Fragment) {

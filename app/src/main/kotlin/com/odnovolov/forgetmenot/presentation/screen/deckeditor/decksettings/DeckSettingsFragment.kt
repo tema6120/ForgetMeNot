@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.FragmentStateRestorer
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
@@ -27,17 +28,15 @@ class DeckSettingsFragment : BaseFragment() {
     private var isInflated = false
     private lateinit var diScope: DeckSettingsDiScope
     lateinit var scrollListener: NestedScrollView.OnScrollChangeListener
+    private val fragmentStateRestorer = FragmentStateRestorer(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return if (savedInstanceState == null) {
-            inflater.inflateAsync(R.layout.fragment_deck_settings, ::onViewInflated)
-        } else {
-            inflater.inflate(R.layout.fragment_deck_settings, container, false)
-        }
+        fragmentStateRestorer.interceptSavedState()
+        return inflater.inflateAsync(R.layout.fragment_deck_settings, ::onViewInflated)
     }
 
     private fun onViewInflated() {
@@ -49,9 +48,6 @@ class DeckSettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState != null) {
-            isInflated = true
-        }
         viewCoroutineScope!!.launch {
             diScope = DeckSettingsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
@@ -62,6 +58,7 @@ class DeckSettingsFragment : BaseFragment() {
 
     private fun setupIfReady() {
         if (viewCoroutineScope == null || controller == null || !isInflated) return
+        fragmentStateRestorer.restoreState()
         presetView.inject(diScope.presetController, diScope.presetViewModel)
         setFonts()
         setupListeners()
