@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExerciseStateCreator
 import com.odnovolov.forgetmenot.persistence.shortterm.PresetDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -11,7 +12,7 @@ class DeckSettingsDiScope private constructor(
     initialPresetDialogState: PresetDialogState? = null
 ) {
     private val deckSettingsState = DeckSettings.State(
-        DeckEditorDiScope.shareDeck()
+        DeckEditorDiScope.get()!!.screenState.deck
     )
 
     private val presetDialogStateProvider = PresetDialogStateProvider(
@@ -26,6 +27,10 @@ class DeckSettingsDiScope private constructor(
     val deckSettings = DeckSettings(
         deckSettingsState,
         AppDiScope.get().globalState
+    )
+
+    private val exampleExerciseStateCreator = ExampleExerciseStateCreator(
+        DeckEditorDiScope.get()!!.screenState.deck
     )
 
     val presetController = ExercisePreferencePresetController(
@@ -45,6 +50,7 @@ class DeckSettingsDiScope private constructor(
 
     val controller = DeckSettingsController(
         deckSettings,
+        exampleExerciseStateCreator,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )

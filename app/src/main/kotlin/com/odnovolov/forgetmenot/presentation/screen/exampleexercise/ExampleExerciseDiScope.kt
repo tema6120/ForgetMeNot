@@ -16,7 +16,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 
 class ExampleExerciseDiScope private constructor(
-    isRecreated: Boolean,
+    initialExerciseState: Exercise.State? = null,
     initialUseTimer: Boolean? = null
 ) {
     private val exerciseStateProvider = ExerciseStateProvider(
@@ -25,15 +25,8 @@ class ExampleExerciseDiScope private constructor(
         AppDiScope.get().globalState
     )
 
-    private val exerciseStateCreator = ExampleExerciseStateCreator(
-        DeckSettingsDiScope.get()!!.deckSettings.state.deck
-    )
-
     private val exerciseState: Exercise.State =
-        if (isRecreated)
-            exerciseStateProvider.load()
-        else
-            exerciseStateCreator.create()
+        initialExerciseState ?: exerciseStateProvider.load()
 
     private val exampleExerciseStateProvider = ExampleExerciseStateProvider(
         AppDiScope.get().json,
@@ -104,9 +97,15 @@ class ExampleExerciseDiScope private constructor(
     )
 
     companion object : DiScopeManager<ExampleExerciseDiScope>() {
-        fun create(useTimer: Boolean) = ExampleExerciseDiScope(isRecreated = false, useTimer)
+        fun create(
+            initialExerciseState: Exercise.State,
+            useTimer: Boolean
+        ) = ExampleExerciseDiScope(
+            initialExerciseState,
+            useTimer
+        )
 
-        override fun recreateDiScope() = ExampleExerciseDiScope(isRecreated = true)
+        override fun recreateDiScope() = ExampleExerciseDiScope()
 
         override fun onCloseDiScope(diScope: ExampleExerciseDiScope) {
             with(diScope) {

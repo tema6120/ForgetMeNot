@@ -2,6 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings
 
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExerciseStateCreator
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -20,6 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethod
 
 class DeckSettingsController(
     private val deckSettings: DeckSettings,
+    private val exampleExerciseStateCreator: ExampleExerciseStateCreator,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<DeckSettingsEvent, Nothing>() {
@@ -40,28 +43,41 @@ class DeckSettingsController(
 
             PronunciationButtonClicked -> {
                 navigator.navigateToPronunciation(
-                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = false) },
+                    createExampleExerciseDiScope = {
+                        val exerciseState: Exercise.State =
+                            exampleExerciseStateCreator.create(doNotInvert = true)
+                        ExampleExerciseDiScope.create(exerciseState, useTimer = false)
+                    },
                     createPronunciationDiScope = ::PronunciationDiScope
                 )
             }
 
             CardInversionButtonClicked -> {
                 navigator.navigateToCardInversion(
-                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = false) },
+                    createExampleExerciseDiScope = {
+                        val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
+                        ExampleExerciseDiScope.create(exerciseState, useTimer = false)
+                    },
                     createCardInversionDiScope = ::CardInversionDiScope
                 )
             }
 
             QuestionDisplayButtonClicked -> {
                 navigator.navigateToQuestionDisplay(
-                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = false) },
+                    createExampleExerciseDiScope = {
+                        val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
+                        ExampleExerciseDiScope.create(exerciseState, useTimer = false)
+                    },
                     createQuestionDisplayDiScope = ::QuestionDisplayDiScope
                 )
             }
 
             TestingMethodButtonClicked -> {
                 navigator.navigateToTestingMethod(
-                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = false) },
+                    createExampleExerciseDiScope = {
+                        val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
+                        ExampleExerciseDiScope.create(exerciseState, useTimer = false)
+                    },
                     createTestingMethodDiScope = ::TestingMethodDiScope
                 )
             }
@@ -77,7 +93,10 @@ class DeckSettingsController(
 
             MotivationalTimerButtonClicked -> {
                 navigator.navigateToMotivationalTimer(
-                    createExampleExerciseDiScope = { ExampleExerciseDiScope.create(useTimer = true) },
+                    createExampleExerciseDiScope = {
+                        val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
+                        ExampleExerciseDiScope.create(exerciseState, useTimer = true)
+                    },
                     createMotivationalTimerDiScope = {
                         val timeForAnswer = currentExercisePreference.timeForAnswer
                         val isTimerEnabled = timeForAnswer != NOT_TO_USE_TIMER

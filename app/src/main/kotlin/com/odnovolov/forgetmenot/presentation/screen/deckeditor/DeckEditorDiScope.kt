@@ -1,9 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 
-import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
-import com.odnovolov.forgetmenot.persistence.shortterm.DeckEditorStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.DeckEditorScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.DeckEditorStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
@@ -57,13 +56,6 @@ class DeckEditorDiScope private constructor(
             initialScreenState,
             initialDeckEditorState
         )
-
-        fun shareDeck(): Deck {
-            if (diScope == null) {
-                diScope = recreateDiScope()
-            }
-            return diScope!!.screenState.deck
-        }
 
         override fun recreateDiScope() = DeckEditorDiScope()
 

@@ -10,7 +10,10 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 class ExampleExerciseStateCreator(
     private val deck: Deck
 ) {
-    fun create(): Exercise.State {
+    private var doNotInvert = false
+
+    fun create(doNotInvert: Boolean = false): Exercise.State {
+        this.doNotInvert = doNotInvert
         val isRandom = deck.exercisePreference.randomOrder
         val exerciseCards: List<ExerciseCard> = deck.cards
             .let { cards: List<Card> ->
@@ -27,11 +30,16 @@ class ExampleExerciseStateCreator(
     }
 
     private fun Card.toExerciseCard(): ExerciseCard {
-        val isInverted = when (deck.exercisePreference.cardInversion) {
-            CardInversion.Off -> false
-            CardInversion.On -> true
-            CardInversion.EveryOtherLap -> (lap % 2) == 1
-        }
+        val isInverted =
+            if (doNotInvert) {
+                false
+            } else {
+                when (deck.exercisePreference.cardInversion) {
+                    CardInversion.Off -> false
+                    CardInversion.On -> true
+                    CardInversion.EveryOtherLap -> (lap % 2) == 1
+                }
+            }
         val baseExerciseCard = ExerciseCard.Base(
             id = generateId(),
             card = this,
