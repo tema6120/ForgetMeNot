@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.dp
+import com.odnovolov.forgetmenot.presentation.common.getStatusBarHeight
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.about.AboutFragment
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpFragment
@@ -57,15 +58,6 @@ class NavHostFragment : BaseFragment() {
             override fun onDrawerOpened(drawerView: View) {}
         })
         setClickListeners()
-    }
-
-    private fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
     }
 
     private fun setClickListeners() {

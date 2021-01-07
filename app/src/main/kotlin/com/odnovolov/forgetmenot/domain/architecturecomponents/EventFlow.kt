@@ -4,9 +4,10 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.concurrent.CopyOnWriteArrayList
 
 class EventFlow<Event> {
-    private val channels: MutableList<Channel<Event>> = ArrayList()
+    private val channels: MutableList<Channel<Event>> = CopyOnWriteArrayList()
 
     fun get(): Flow<Event> = flow {
         val channel = Channel<Event>(capacity = UNLIMITED)

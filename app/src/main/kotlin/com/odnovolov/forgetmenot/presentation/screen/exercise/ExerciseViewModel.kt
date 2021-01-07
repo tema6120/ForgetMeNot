@@ -93,34 +93,53 @@ open class ExerciseViewModel(
         }
             .distinctUntilChanged()
 
+    private val currentLanguages: Flow<Pair<Locale?, Locale?>> =
+        currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+            val pronunciationFlow: Flow<Pronunciation> =
+                exerciseCard.base.deck.flowOf(Deck::exercisePreference)
+                    .flatMapLatest { exercisePreference: ExercisePreference ->
+                        exercisePreference.flowOf(ExercisePreference::pronunciation)
+                    }
+                    .share()
+            val questionLanguageFlow: Flow<Locale?> =
+                pronunciationFlow.flatMapLatest { pronunciation: Pronunciation ->
+                    pronunciation.flowOf(Pronunciation::questionLanguage)
+                }
+            val answerLanguageFlow: Flow<Locale?> =
+                pronunciationFlow.flatMapLatest { pronunciation: Pronunciation ->
+                    pronunciation.flowOf(Pronunciation::answerLanguage)
+                }
+            combine(
+                questionLanguageFlow,
+                answerLanguageFlow,
+                exerciseCard.base.flowOf(ExerciseCard.Base::isInverted)
+            ) { questionLanguage: Locale?,
+                answerLanguage: Locale?,
+                isInverted: Boolean
+                ->
+                if (isInverted) answerLanguage to questionLanguage
+                else questionLanguage to answerLanguage
+            }
+        }
+
     private val speakerLanguage: Flow<Locale?> =
         combine(
-            currentExerciseCard,
+            currentLanguages,
             hasQuestionSelection,
             hasAnswerSelection,
             isCurrentCardAnswered
-        ) { currentExerciseCard: ExerciseCard,
+        ) { currentLanguages: Pair<Locale?, Locale?>,
             hasQuestionSelection: Boolean,
             hasAnswerSelection: Boolean,
             isAnswered: Boolean
             ->
-            val needToSpeakQuestion = when {
-                hasQuestionSelection -> true
-                hasAnswerSelection -> false
-                isAnswered -> false
-                else -> true
+            val (questionLanguage, answerLanguage) = currentLanguages
+            when {
+                hasQuestionSelection -> questionLanguage
+                hasAnswerSelection -> answerLanguage
+                isAnswered -> answerLanguage
+                else -> questionLanguage
             }
-            val isInverted: Boolean = currentExerciseCard.base.isInverted
-            val pronunciation: Pronunciation =
-                currentExerciseCard.base.deck.exercisePreference.pronunciation
-            val language: Locale? = if (needToSpeakQuestion && !isInverted
-                || !needToSpeakQuestion && isInverted
-            ) {
-                pronunciation.questionLanguage
-            } else {
-                pronunciation.answerLanguage
-            }
-            language
         }
             .share()
 

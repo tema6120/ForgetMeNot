@@ -1,10 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
-import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.Interval
-import com.odnovolov.forgetmenot.domain.entity.Pronunciation
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
@@ -83,36 +80,54 @@ class PlayerViewModel(
         }
             .distinctUntilChanged()
 
+    private val currentLanguages: Flow<Pair<Locale?, Locale?>> =
+        currentPlayingCard.flatMapLatest { playingCard: PlayingCard ->
+            val pronunciationFlow: Flow<Pronunciation> =
+                playingCard.deck.flowOf(Deck::exercisePreference)
+                    .flatMapLatest { exercisePreference: ExercisePreference ->
+                        exercisePreference.flowOf(ExercisePreference::pronunciation)
+                    }
+                    .share()
+            val questionLanguageFlow: Flow<Locale?> =
+                pronunciationFlow.flatMapLatest { pronunciation: Pronunciation ->
+                    pronunciation.flowOf(Pronunciation::questionLanguage)
+                }
+            val answerLanguageFlow: Flow<Locale?> =
+                pronunciationFlow.flatMapLatest { pronunciation: Pronunciation ->
+                    pronunciation.flowOf(Pronunciation::answerLanguage)
+                }
+            combine(
+                questionLanguageFlow,
+                answerLanguageFlow,
+                playingCard.flowOf(PlayingCard::isInverted)
+            ) { questionLanguage: Locale?,
+                answerLanguage: Locale?,
+                isInverted: Boolean
+                ->
+                if (isInverted) answerLanguage to questionLanguage
+                else questionLanguage to answerLanguage
+            }
+        }
+
     private val speakerLanguage: Flow<Locale?> =
         combine(
-            currentPlayingCard,
+            currentLanguages,
             hasQuestionSelection,
             hasAnswerSelection,
             isCurrentCardAnswered
-        ) { currentPlayingCard: PlayingCard,
+        ) { currentLanguages: Pair<Locale?, Locale?>,
             hasQuestionSelection: Boolean,
             hasAnswerSelection: Boolean,
             isAnswered: Boolean
             ->
-            val needToSpeakQuestion = when {
-                hasQuestionSelection -> true
-                hasAnswerSelection -> false
-                isAnswered -> false
-                else -> true
+            val (questionLanguage, answerLanguage) = currentLanguages
+            when {
+                hasQuestionSelection -> questionLanguage
+                hasAnswerSelection -> answerLanguage
+                isAnswered -> answerLanguage
+                else -> questionLanguage
             }
-            val isReverse: Boolean = currentPlayingCard.isInverted
-            val pronunciation: Pronunciation =
-                currentPlayingCard.deck.exercisePreference.pronunciation
-            val language: Locale? = if (needToSpeakQuestion && !isReverse
-                || !needToSpeakQuestion && isReverse
-            ) {
-                pronunciation.questionLanguage
-            } else {
-                pronunciation.answerLanguage
-            }
-            language
         }
-            .distinctUntilChanged()
             .share()
 
     private val languageStatus: Flow<LanguageStatus?> = speakerLanguage

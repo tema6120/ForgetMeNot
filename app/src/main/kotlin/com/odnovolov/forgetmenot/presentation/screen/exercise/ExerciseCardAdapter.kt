@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -87,8 +86,7 @@ class ExerciseCardAdapter(
         override fun areItemsTheSame(oldItem: ExerciseCard, newItem: ExerciseCard): Boolean =
             oldItem.base.id == newItem.base.id
 
-        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: ExerciseCard, newItem: ExerciseCard): Boolean =
-            oldItem == newItem
+            oldItem::class == newItem::class
     }
 }

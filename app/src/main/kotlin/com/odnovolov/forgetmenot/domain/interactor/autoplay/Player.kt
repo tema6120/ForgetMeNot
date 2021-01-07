@@ -53,7 +53,9 @@ class Player(
         get() = currentPlayingCard.deck.exercisePreference.pronunciationPlan
 
     private val currentPronunciationEvent: PronunciationEvent
-        get() = currentPronunciationPlan.pronunciationEvents[state.pronunciationEventPosition]
+        get() = with(currentPronunciationPlan.pronunciationEvents) {
+            getOrElse(state.pronunciationEventPosition) { last() }
+        }
 
     private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private var delayJob: Job? = null

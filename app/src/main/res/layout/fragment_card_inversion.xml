@@ -63,7 +63,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="76dp"
+                        android:layout_marginBottom="100dp"
                         android:background="@drawable/white_rectangle_4dp_corner_radius"
                         android:orientation="vertical"
                         android:paddingTop="8dp"

@@ -25,8 +25,15 @@ class ExampleExerciseDiScope private constructor(
         AppDiScope.get().globalState
     )
 
-    private val exerciseState: Exercise.State? =
-        if (isRecreated) exerciseStateProvider.load() else null
+    private val exerciseStateCreator = ExampleExerciseStateCreator(
+        DeckSettingsDiScope.get()!!.deckSettings.state.deck
+    )
+
+    private val exerciseState: Exercise.State =
+        if (isRecreated)
+            exerciseStateProvider.load()
+        else
+            exerciseStateCreator.create()
 
     private val exampleExerciseStateProvider = ExampleExerciseStateProvider(
         AppDiScope.get().json,
@@ -46,12 +53,7 @@ class ExampleExerciseDiScope private constructor(
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow
     )
 
-    private val exerciseStateCreator = ExampleExerciseStateCreator(
-        DeckSettingsDiScope.get()!!.deckSettings.state.deck
-    )
-
     val exercise = ExampleExercise(
-        exerciseStateCreator,
         exerciseState,
         useTimer,
         speakerImpl,

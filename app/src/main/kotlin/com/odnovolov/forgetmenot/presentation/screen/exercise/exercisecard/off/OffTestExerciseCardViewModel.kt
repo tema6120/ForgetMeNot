@@ -20,19 +20,20 @@ class OffTestExerciseCardViewModel(
     }
 
     val cardContent: Flow<CardContent> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        val isReverse: Boolean = exerciseCard.base.isInverted
         combine(
             exerciseCard.base.card.flowOf(Card::question),
             exerciseCard.base.card.flowOf(Card::answer),
+            exerciseCard.base.flowOf(ExerciseCard.Base::isInverted),
             exerciseCard.base.flowOf(ExerciseCard.Base::hint),
             exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
         ) { question: String,
             answer: String,
+            isInverted: Boolean,
             hint: String?,
             isAnswerCorrect: Boolean?
             ->
-            val realQuestion = if (isReverse) answer else question
-            val realAnswer = if (isReverse) question else answer
+            val realQuestion = if (isInverted) answer else question
+            val realAnswer = if (isInverted) question else answer
             when {
                 isAnswerCorrect != null -> AnsweredCard(realQuestion, realAnswer)
                 hint != null -> UnansweredCardWithHint(realQuestion, hint)

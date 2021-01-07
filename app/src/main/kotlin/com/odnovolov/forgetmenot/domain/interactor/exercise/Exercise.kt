@@ -262,10 +262,10 @@ class Exercise(
                     }
                 }
             }
-        QuizComposer.clearCache()
         if (hasChange) {
             state.exerciseCards = conformedExerciseCards
         }
+        QuizComposer.clearCache()
     }
 
     private fun ExerciseCard.shouldMapToManualTestExerciseCard(): Boolean =

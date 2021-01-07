@@ -19,18 +19,19 @@ class EntryTestExerciseCardViewModel(
     }
 
     val cardContent: Flow<CardContent> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        val isReverse: Boolean = exerciseCard.base.isInverted
         combine(
             exerciseCard.base.card.flowOf(Card::question),
             exerciseCard.base.card.flowOf(Card::answer),
+            exerciseCard.base.flowOf(ExerciseCard.Base::isInverted),
             exerciseCard.base.flowOf(ExerciseCard.Base::hint),
             exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
         ) { question: String,
             answer: String,
+            isInverted: Boolean,
             hint: String?,
             isAnswerCorrect: Boolean?
             ->
-            val realQuestion = if (isReverse) answer else question
+            val realQuestion = if (isInverted) answer else question
             when {
                 isAnswerCorrect != null -> {
                     val wrongAnswer: String? = if (isAnswerCorrect) {
@@ -43,7 +44,7 @@ class EntryTestExerciseCardViewModel(
                             userInput
                         }
                     }
-                    val correctAnswer = if (isReverse) question else answer
+                    val correctAnswer = if (isInverted) question else answer
                     AnsweredCard(realQuestion, wrongAnswer, correctAnswer)
                 }
                 hint != null -> UnansweredCardWithHint(realQuestion, hint)

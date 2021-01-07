@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise.example
 
 import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.CardInversion
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.entity.TestingMethod
 import com.odnovolov.forgetmenot.domain.generateId
@@ -12,13 +13,11 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class ExampleExercise(
-    private val stateCreator: ExampleExerciseStateCreator,
-    state: Exercise.State?,
+    val state: Exercise.State,
     private val useTimer: Boolean,
     private val speaker: Speaker,
     override val coroutineContext: CoroutineContext
 ) : CoroutineScope {
-    val state: Exercise.State = state ?: stateCreator.create()
     private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private var timerJob: Job? = null
     private var isExerciseActive = false
@@ -62,11 +61,78 @@ class ExampleExercise(
     }
 
     fun notifyExercisePreferenceChanged() {
-        val newState = stateCreator.create()
-        state.questionSelection = newState.questionSelection
-        state.answerSelection = newState.answerSelection
-        state.currentPosition = newState.currentPosition
-        state.exerciseCards = newState.exerciseCards
+        var isExerciseCardsListChanged = false
+        val newExerciseCards: List<ExerciseCard> =
+            state.exerciseCards.map { exerciseCard: ExerciseCard ->
+                if (!exerciseCard.doesCorrespondTestingMethod()) {
+                    isExerciseCardsListChanged = true
+                    recreateExerciseCard(exerciseCard)
+                } else {
+                    exerciseCard.apply {
+                        conformToExercisePreference()
+                    }
+                }
+            }
+        if (isExerciseCardsListChanged) {
+            state.exerciseCards = newExerciseCards
+        }
+        QuizComposer.clearCache()
+    }
+
+    private fun ExerciseCard.doesCorrespondTestingMethod(): Boolean =
+        when (base.deck.exercisePreference.testingMethod) {
+            TestingMethod.Off -> this is OffTestExerciseCard
+            TestingMethod.Manual -> this is ManualTestExerciseCard
+            TestingMethod.Quiz -> this is QuizTestExerciseCard
+            TestingMethod.Entry -> this is EntryTestExerciseCard
+        }
+
+    private fun recreateExerciseCard(exerciseCard: ExerciseCard): ExerciseCard {
+        val card = exerciseCard.base.card
+        val deck = exerciseCard.base.deck
+        val isInverted = when (deck.exercisePreference.cardInversion) {
+            CardInversion.Off -> false
+            CardInversion.On -> true
+            CardInversion.EveryOtherLap -> (card.lap % 2) == 1
+        }
+        val baseExerciseCard = ExerciseCard.Base(
+            id = exerciseCard.base.id,
+            card = card,
+            deck = deck,
+            isInverted = isInverted,
+            isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
+            timeLeft = deck.exercisePreference.timeForAnswer,
+            initialGrade = card.grade,
+            isGradeEditedManually = false
+        )
+        return when (deck.exercisePreference.testingMethod) {
+            TestingMethod.Off -> OffTestExerciseCard(baseExerciseCard)
+            TestingMethod.Manual -> ManualTestExerciseCard(baseExerciseCard)
+            TestingMethod.Quiz -> {
+                val variants: List<Card?> =
+                    QuizComposer.compose(card, deck, isInverted, withCaching = true)
+                QuizTestExerciseCard(baseExerciseCard, variants)
+            }
+            TestingMethod.Entry -> {
+                EntryTestExerciseCard(baseExerciseCard)
+            }
+        }
+    }
+
+    private fun ExerciseCard.conformToExercisePreference() {
+        base.isInverted = when (base.deck.exercisePreference.cardInversion) {
+            CardInversion.Off -> false
+            CardInversion.On -> true
+            CardInversion.EveryOtherLap -> (base.card.lap % 2) == 1
+        }
+        base.isQuestionDisplayed = base.deck.exercisePreference.isQuestionDisplayed
+        base.timeLeft = base.deck.exercisePreference.timeForAnswer
+        base.isExpired = false
+        base.isAnswerCorrect = null
+        when (this) {
+            is QuizTestExerciseCard -> selectedVariantIndex = null
+            is EntryTestExerciseCard -> userInput = null
+        }
     }
 
     fun setPosition(position: Int) {

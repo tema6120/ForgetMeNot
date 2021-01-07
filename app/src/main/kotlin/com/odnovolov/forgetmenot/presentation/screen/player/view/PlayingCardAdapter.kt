@@ -1,8 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
@@ -17,10 +15,8 @@ class PlayingCardAdapter(
 ) : RecyclerView.Adapter<PlayingCardViewHolder>() {
     var items: List<PlayingCard> = emptyList()
         set(value) {
-            if (value != field) {
-                field = value
-                notifyDataSetChanged()
-            }
+            field = value
+            notifyDataSetChanged()
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayingCardViewHolder {

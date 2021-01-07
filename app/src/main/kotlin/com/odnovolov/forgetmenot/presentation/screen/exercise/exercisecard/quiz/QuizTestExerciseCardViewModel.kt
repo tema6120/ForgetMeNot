@@ -19,23 +19,26 @@ class QuizTestExerciseCardViewModel(
     }
 
     val cardContent: Flow<QuizCardContent> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        val questionFlow = if (exerciseCard.base.isInverted)
-            exerciseCard.base.card.flowOf(Card::answer) else
-            exerciseCard.base.card.flowOf(Card::question)
-        val variantFlows: List<Flow<String?>> = exerciseCard.variants.map { card: Card? ->
-            if (card != null) {
-                if (exerciseCard.base.isInverted)
-                    card.flowOf(Card::question) else
-                    card.flowOf(Card::answer)
-            } else {
-                flowOf(null)
+        exerciseCard.base.flowOf(ExerciseCard.Base::isInverted)
+            .flatMapLatest { isInverted: Boolean ->
+                val questionFlow = if (isInverted)
+                    exerciseCard.base.card.flowOf(Card::answer) else
+                    exerciseCard.base.card.flowOf(Card::question)
+                val variantFlows: List<Flow<String?>> = exerciseCard.variants.map { card: Card? ->
+                    if (card != null) {
+                        if (isInverted)
+                            card.flowOf(Card::question) else
+                            card.flowOf(Card::answer)
+                    } else {
+                        flowOf(null)
+                    }
+                }
+                combine(
+                    questionFlow,
+                    combine(variantFlows) { it.toList() },
+                    ::QuizCardContent
+                )
             }
-        }
-        combine(
-            questionFlow,
-            combine(variantFlows) { it.toList() },
-            ::QuizCardContent
-        )
     }
         .distinctUntilChanged()
         .flowOn(businessLogicThread)

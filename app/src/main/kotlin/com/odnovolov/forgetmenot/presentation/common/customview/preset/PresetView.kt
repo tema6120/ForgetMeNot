@@ -341,8 +341,8 @@ class PresetView @JvmOverloads constructor(
             }
 
             private const val NAME_INPUT_DIALOG_STATE_KEY = "NAME_INPUT_DIALOG_STATE_KEY"
-            private const val REMOVE_PRESET_DIALOG_STATE_KEY = "NAME_INPUT_DIALOG_STATE_KEY"
-            private const val IS_POPUP_VISIBLE_STATE_KEY = "NAME_INPUT_DIALOG_STATE_KEY"
+            private const val REMOVE_PRESET_DIALOG_STATE_KEY = "REMOVE_PRESET_DIALOG_STATE_KEY"
+            private const val IS_POPUP_VISIBLE_STATE_KEY = "IS_POPUP_VISIBLE_STATE_KEY"
         }
     }
 }
