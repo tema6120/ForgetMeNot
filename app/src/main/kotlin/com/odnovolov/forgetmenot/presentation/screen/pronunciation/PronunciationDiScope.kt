@@ -1,14 +1,25 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
+import com.odnovolov.forgetmenot.persistence.shortterm.PronunciationScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 
-class PronunciationDiScope {
+class PronunciationDiScope private constructor(
+    initialScreenState: PronunciationScreenState? = null
+) {
+    private val screenStateProvider = PronunciationScreenStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database
+    )
+
+    private val screenState: PronunciationScreenState =
+        initialScreenState ?: screenStateProvider.load()
+
     private val pronunciationSettings = PronunciationSettings(
-        DeckSettingsDiScope.get()!!.deckSettings
+        DeckSettingsDiScope.getOrRecreate().deckSettings
     )
 
     private val speakerImpl = SpeakerImpl(
@@ -18,16 +29,22 @@ class PronunciationDiScope {
 
     val controller = PronunciationController(
         pronunciationSettings,
+        screenState,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        screenStateProvider
     )
 
     val viewModel = PronunciationViewModel(
-        DeckSettingsDiScope.get()!!.deckSettings.state,
-        speakerImpl
+        DeckSettingsDiScope.getOrRecreate().deckSettings.state,
+        speakerImpl,
+        screenState
     )
 
     companion object : DiScopeManager<PronunciationDiScope>() {
+        fun create(initialScreenState: PronunciationScreenState) =
+            PronunciationDiScope(initialScreenState)
+
         override fun recreateDiScope() = PronunciationDiScope()
 
         override fun onCloseDiScope(diScope: PronunciationDiScope) {

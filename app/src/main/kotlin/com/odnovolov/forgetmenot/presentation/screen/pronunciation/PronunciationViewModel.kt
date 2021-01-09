@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.Pronunciation
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -14,8 +15,11 @@ import java.util.*
 
 class PronunciationViewModel(
     deckSettingsState: DeckSettings.State,
-    speakerImpl: SpeakerImpl
+    speakerImpl: SpeakerImpl,
+    screenState: PronunciationScreenState
 ) {
+    val tip: Flow<Tip?> = screenState.flowOf(PronunciationScreenState::tip)
+
     private val currentPronunciation: Flow<Pronunciation> = deckSettingsState.deck
         .flowOf(Deck::exercisePreference)
         .flatMapLatest { exercisePreference: ExercisePreference ->

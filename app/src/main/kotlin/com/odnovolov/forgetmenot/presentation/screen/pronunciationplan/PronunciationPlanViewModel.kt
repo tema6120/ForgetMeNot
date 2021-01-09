@@ -6,14 +6,18 @@ import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationPlan
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class PronunciationPlanViewModel(
     deckSettingsState: DeckSettings.State,
+    screenState: PronunciationPlanScreenState,
     private val dialogState: PronunciationEventDialogState
 ) {
+    val tip: Flow<Tip?> = screenState.flowOf(PronunciationPlanScreenState::tip)
+
     val pronunciationEventItems: Flow<List<PronunciationEventItem>> = deckSettingsState.deck
         .flowOf(Deck::exercisePreference)
         .flatMapLatest { exercisePreference: ExercisePreference ->

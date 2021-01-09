@@ -35,6 +35,11 @@ class MotivationalTimerController(
                 }
             }
 
+            CloseTipButtonClicked -> {
+                screenState.tip?.state?.needToShow = false
+                screenState.tip = null
+            }
+
             TimeForAnswerSwitchToggled -> {
                 screenState.isTimerEnabled = !screenState.isTimerEnabled
             }

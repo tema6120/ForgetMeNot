@@ -8,14 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.HelpButtonClicked
 import kotlinx.android.synthetic.main.fragment_intervals.*
 import kotlinx.coroutines.launch
 
 class IntervalsFragment : BaseFragment() {
     init {
-        DeckSettingsDiScope.reopenIfClosed()
         IntervalsDiScope.reopenIfClosed()
     }
 
@@ -51,9 +49,7 @@ class IntervalsFragment : BaseFragment() {
 
     private fun observeViewModel(viewModel: IntervalsViewModel, adapter: IntervalAdapter) {
         with(viewModel) {
-            intervals.observe { intervals: List<IntervalListItem> ->
-                adapter.submitList(intervals)
-            }
+            intervalItems.observe(adapter::submitList)
         }
     }
 

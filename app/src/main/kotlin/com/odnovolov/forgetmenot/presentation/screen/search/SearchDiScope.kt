@@ -10,7 +10,7 @@ class SearchDiScope(
 ) {
     private val cardsSearcher: CardsSearcher =
         if (DeckEditorDiScope.isOpen()) {
-            val deck = DeckEditorDiScope.get()!!.screenState.deck
+            val deck = DeckEditorDiScope.getOrRecreate().screenState.deck
             CardsSearcher(deck)
         } else {
             val globalState = AppDiScope.get().globalState

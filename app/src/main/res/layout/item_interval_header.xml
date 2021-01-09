@@ -1,33 +1,61 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/intervalsSwitchFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:animateLayoutChanges="true">
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/intervalsSwitch"
+    <ViewStub
+            android:id="@+id/tipStub"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:inflatedId="@+id/tipLayout"
+            android:layout="@layout/tip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:clickable="false"
-            android:focusable="false"
-            android:fontFamily="@font/nunito_bold"
-            android:padding="16dp"
-            android:textColor="@color/textSecondary"
-            android:textSize="17sp"
-            android:theme="@style/IntervalsSettingsTheme"
-            android:visibility="invisible"
-            app:switchPadding="12dp"
-            tools:checked="true"
-            tools:text="@string/on"
-            tools:visibility="visible" />
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tipStub, tipLayout"
+            tools:ignore="NotSibling" />
 
-</FrameLayout>
+    <FrameLayout
+            android:id="@+id/intervalsSwitchFrame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/intervalsSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:clickable="false"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="16dp"
+                android:textColor="@color/textSecondary"
+                android:textSize="17sp"
+                android:theme="@style/IntervalsSettingsTheme"
+                android:visibility="invisible"
+                app:switchPadding="12dp"
+                tools:checked="true"
+                tools:text="@string/on"
+                tools:visibility="visible" />
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

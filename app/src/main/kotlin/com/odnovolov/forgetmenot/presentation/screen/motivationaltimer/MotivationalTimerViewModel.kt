@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -12,6 +13,8 @@ class MotivationalTimerViewModel(
     private val deckSettingsState: DeckSettings.State,
     private val screenState: MotivationalTimerScreenState
 ) {
+    val tip: Flow<Tip?> = screenState.flowOf(MotivationalTimerScreenState::tip)
+
     val isTimerEnabled: Flow<Boolean> =
         screenState.flowOf(MotivationalTimerScreenState::isTimerEnabled)
 

@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings
 
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
+import com.odnovolov.forgetmenot.domain.entity.TestingMethod
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExerciseStateCreator
@@ -8,17 +9,24 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip.*
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerScreenState
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationScreenState
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationEventDialogState
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
+import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanScreenState
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayScreenState
 import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodDiScope
+import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodScreenState
 
 class DeckSettingsController(
     private val deckSettings: DeckSettings,
@@ -37,7 +45,13 @@ class DeckSettingsController(
 
             IntervalsButtonClicked -> {
                 navigator.navigateToIntervals {
-                    IntervalsDiScope()
+                    val possibleTips = listOf(
+                        TipIntervalsScreenImportance,
+                        TipIntervalsScreenAdjustIntervalScheme
+                    )
+                    val tipToShow: Tip? = determineTipToShow(possibleTips)
+                    val screenState = IntervalsScreenState(tipToShow)
+                    IntervalsDiScope.create(screenState)
                 }
             }
 
@@ -48,7 +62,18 @@ class DeckSettingsController(
                             exampleExerciseStateCreator.create(doNotInvert = true)
                         ExampleExerciseDiScope.create(exerciseState, useTimer = false)
                     },
-                    createPronunciationDiScope = ::PronunciationDiScope
+                    createPronunciationDiScope = {
+                        val possibleTips = listOf(
+                            TipPronunciationScreenSelectLanguages,
+                            TipPronunciationScreenAboutTTS,
+                            TipPronunciationScreenAboutAutoSpeaking,
+                            TipPronunciationScreenAboutSelection,
+                            TipPronunciationScreenAboutBrackets
+                        )
+                        val tipToShow: Tip? = determineTipToShow(possibleTips)
+                        val screenState = PronunciationScreenState(tipToShow)
+                        PronunciationDiScope.create(screenState)
+                    }
                 )
             }
 
@@ -58,7 +83,12 @@ class DeckSettingsController(
                         val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
                         ExampleExerciseDiScope.create(exerciseState, useTimer = false)
                     },
-                    createCardInversionDiScope = ::CardInversionDiScope
+                    createCardInversionDiScope = {
+                        val possibleTips = listOf(TipCardInversionScreen)
+                        val tipToShow: Tip? = determineTipToShow(possibleTips)
+                        val screenState = CardInversionScreenState(tipToShow)
+                        CardInversionDiScope.create(screenState)
+                    }
                 )
             }
 
@@ -68,7 +98,12 @@ class DeckSettingsController(
                         val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
                         ExampleExerciseDiScope.create(exerciseState, useTimer = false)
                     },
-                    createQuestionDisplayDiScope = ::QuestionDisplayDiScope
+                    createQuestionDisplayDiScope = {
+                        val possibleTips = listOf(TipQuestionDisplayScreenWhy)
+                        val tipToShow: Tip? = determineTipToShow(possibleTips)
+                        val screenState = QuestionDisplayScreenState(tipToShow)
+                        QuestionDisplayDiScope.create(screenState)
+                    }
                 )
             }
 
@@ -78,7 +113,19 @@ class DeckSettingsController(
                         val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
                         ExampleExerciseDiScope.create(exerciseState, useTimer = false)
                     },
-                    createTestingMethodDiScope = ::TestingMethodDiScope
+                    createTestingMethodDiScope = {
+                        val possibleTipToShow: Tip =
+                            when (currentExercisePreference.testingMethod) {
+                                TestingMethod.Off -> TipTestingMethodScreenWithoutTesting
+                                TestingMethod.Manual -> TipTestingMethodScreenSelfTesting
+                                TestingMethod.Quiz -> TipTestingMethodScreenTestingWithVariants
+                                TestingMethod.Entry -> TipTestingMethodScreenSpellCheck
+                            }
+                        val tipToShow: Tip? =
+                            if (possibleTipToShow.state.needToShow) possibleTipToShow else null
+                        val screenState = TestingMethodScreenState(tipToShow)
+                        TestingMethodDiScope.create(screenState)
+                    }
                 )
             }
 
@@ -86,7 +133,15 @@ class DeckSettingsController(
                 navigator.navigateToPronunciationPlan(
                     createExamplePlayerDiScope = ExamplePlayerDiScope::create,
                     createPronunciationPlanDiScope = {
-                        PronunciationPlanDiScope.create(PronunciationEventDialogState())
+                        val possibleTips = listOf(
+                            TipPronunciationPlanScreenDescription,
+                            TipPronunciationPlanScreenAboutLongerDelay,
+                            TipPronunciationPlanScreenAboutRepetitionPronunciation
+                        )
+                        val tipToShow: Tip? = determineTipToShow(possibleTips)
+                        val screenState = PronunciationPlanScreenState(tipToShow)
+                        val dialogState = PronunciationEventDialogState()
+                        PronunciationPlanDiScope.create(screenState, dialogState)
                     }
                 )
             }
@@ -98,12 +153,21 @@ class DeckSettingsController(
                         ExampleExerciseDiScope.create(exerciseState, useTimer = true)
                     },
                     createMotivationalTimerDiScope = {
+                        val possibleTips = listOf(
+                            TipMotivationalTimerScreenDescription,
+                            TipMotivationalTimerScreenHowToDoWithThis
+                        )
+                        val tipToShow: Tip? = determineTipToShow(possibleTips)
                         val timeForAnswer = currentExercisePreference.timeForAnswer
                         val isTimerEnabled = timeForAnswer != NOT_TO_USE_TIMER
                         val timeInput: String =
                             if (timeForAnswer == NOT_TO_USE_TIMER) "15"
                             else timeForAnswer.toString()
-                        val screenState = MotivationalTimerScreenState(isTimerEnabled, timeInput)
+                        val screenState = MotivationalTimerScreenState(
+                            tipToShow,
+                            isTimerEnabled,
+                            timeInput
+                        )
                         MotivationalTimerDiScope.create(screenState)
                     }
                 )

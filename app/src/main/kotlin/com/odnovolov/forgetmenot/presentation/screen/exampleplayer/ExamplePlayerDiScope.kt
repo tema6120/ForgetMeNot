@@ -28,7 +28,7 @@ class ExamplePlayerDiScope private constructor(
     private val playerStateCreator by lazy {
         PlayerStateCreator(
             PlayerStateCreator.State(
-                listOf(DeckSettingsDiScope.get()!!.deckSettings.state.deck),
+                listOf(DeckSettingsDiScope.getOrRecreate().deckSettings.state.deck),
                 CardFilterForAutoplay.IncludeAll
             )
         )

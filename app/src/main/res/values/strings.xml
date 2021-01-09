@@ -489,9 +489,6 @@
         find the confusing card.
 
         \n\n5. Make it a rule that once a day you should not have any tasks left to study.</string>
-    <string name="message_do_not_forget_to_turn_on_auto_speak_of_question">Since you have disabled
-        \'Question display\', you are going to perceive the question aurally. So, don\'t forget
-        to enable \'Auto speak\' of question to make exercise more comfortable.</string>
     <string name="error_loading_file">Error loading file: %1$s</string>
     <string name="average_laps">Avg. laps</string>
     <string name="learned">Learned</string>
@@ -672,4 +669,57 @@
     <string name="error_motivational_timer_input">the number must be\ngreater than zero</string>
     <string name="saved">Saved!</string>
     <string name="message_quit_motivational_timer">You have changed the timer setting from \'%1$s\' to \'%2$s\'. Do you want to save changes?</string>
+    <string name="description_attention_icon">attention icon</string>
+    <string name="tip_pronunciation_screen_select_languages">Select the languages of the questions
+        and answers to be able to pronounce the speech correctly.</string>
+    <string name="tip_pronunciation_screen_about_tts">Pronunciation is supported through Android
+        TTS API. If you want to customize speech synthesis in more detail, for example, change
+        engine, voice, pitch, speech rate, just go to the TTS settings.</string>
+    <string name="tip_pronunciation_screen_about_autospeaking">It is highly recommended to enable
+        auto-speaking of foreign language. So you will immediately understand how the words should
+        sound and this can help you memorize information faster.</string>
+    <string name="tip_pronunciation_screen_about_selection">To make a piece of text being
+        pronounced, simply highlight it and click the \'Speak\' icon.</string>
+    <string name="tip_pronunciation_screen_about_brackets">Provided \'Speak text in brackets\' is
+        off, it is easy to separate the text that should be pronounced from the text that
+        shouldn\'t. Use the brackets () [] {} &lt;&gt; for this. For example, wrap transcription,
+        synonyms, definition in them.</string>
+    <string name="tip_card_inversion_screen">Flip the cards over if the answers can look like
+        questions, and vice versa. For example, this can be applied to \'word-translation\' cards.
+    </string>
+    <string name="tip_question_display_screen_why">It\'s supposed that if you hide the text of a
+        question, you are going to perceive the question by ear. It can be a good contribution to
+        improving your listening skills while learning a language.</string>
+    <string name="tip_question_display_screen_do_not_forget_autospeaking">Since you have disabled
+        \'Question display\', you are going to perceive the question aurally. So, don\'t forget
+        to enable \'Auto-speaking\' of question to make exercise more comfortable.</string>
+    <string name="tip_testing_method_screen_without_testing">\'Without testing\' is suitable for
+        cases when you plan to run the cards once or twice.</string>
+    <string name="tip_testing_method_screen_self_testing">In most cases, \'Self testing\' is the
+        best choice. It is you who decide whether you know the answer or not.</string>
+    <string name="tip_testing_method_screen_testing_with_variants">\'Testing with variants\' is a
+        more playable testing method. You select right answer of four variants. The variants are
+        extracted from the same deck.</string>
+    <string name="tip_testing_method_screen_spell_check">With \'Spell check\', it is checked
+        whether the answer your entered matches the real answer. Suitable if spelling is
+        important to you.</string>
+    <string name="tip_intervals_screen_importance">With spaced repetition, the information or
+        knowledge will become further ingrained into your long-term memory.</string>
+    <string name="tip_intervals_screen_adjust_interval_scheme">Adjust the interval scheme to suit
+        you. General principle: \'The higher the grade, the longer the interval should be\'.</string>
+    <string name="tip_motivational_timer_screen_description">\'Motivational timer\' designed to
+        keep you from distractions. If you don\'t answer within the allotted time, you will
+        receive a penalty in the form of marking the answer as not correct.</string>
+    <string name="tip_motivational_timer_screen_how_to_do_with_this">Allocate sufficient time for
+        yourself to answer the question without worrying about the countdown. If you feel like you
+        need more time, you can stop the timer.</string>
+    <string name="tip_pronunciation_plan_screen_description">Describe how you want the card to be
+        pronounced in \'Card player\'.</string>
+    <string name="tip_pronunciation_plan_screen_about_longer_delay">Try to answer the question in
+        your head before it is pronounced. If you need more time to respond, just increase delay
+        between speaking question and answer. For example, the translation of a sentence may take 5
+        or more seconds.</string>
+    <string name="tip_pronunciation_plan_screen_about_repetition_pronunciation">If you have just
+        started learning a language, set up a pronunciation plan so that foreign speech is spoken
+        twice.</string>
 </resources>

@@ -38,7 +38,6 @@ import kotlinx.coroutines.launch
 
 class ExamplePlayerFragment : BaseFragment() {
     init {
-        DeckSettingsDiScope.reopenIfClosed()
         ExamplePlayerDiScope.reopenIfClosed()
     }
 

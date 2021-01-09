@@ -23,8 +23,6 @@ import kotlinx.coroutines.launch
 
 class ModifyIntervalDialog : BaseDialogFragment() {
     init {
-        DeckSettingsDiScope.reopenIfClosed()
-        IntervalsDiScope.reopenIfClosed()
         ModifyIntervalDiScope.reopenIfClosed()
     }
 

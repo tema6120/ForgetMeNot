@@ -205,25 +205,31 @@ open class ExerciseViewModel(
 
     open val timerStatus: Flow<TimerStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-            if (exerciseCard.base.deck.exercisePreference.timeForAnswer == NOT_TO_USE_TIMER) {
-                flowOf(TimerStatus.NotUsed)
-            } else {
-                combine(
-                    exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
-                    exerciseCard.base.flowOf(ExerciseCard.Base::isExpired),
-                    isWalkingModeEnabled
-                ) { timeLeft: Int,
-                    isExpired: Boolean,
-                    isWalkingModeEnabled: Boolean
-                    ->
-                    when {
-                        isWalkingModeEnabled -> TimerStatus.OffBecauseWalkingMode
-                        timeLeft > 0 -> TimerStatus.Ticking(timeLeft)
-                        isExpired -> TimerStatus.TimeIsOver
-                        else -> TimerStatus.Stopped
+            exerciseCard.base.deck.flowOf(Deck::exercisePreference)
+                .flatMapLatest { exercisePreference: ExercisePreference ->
+                    exercisePreference.flowOf(ExercisePreference::timeForAnswer)
+                }
+                .flatMapLatest { timeForAnswer: Int ->
+                    if (timeForAnswer == NOT_TO_USE_TIMER) {
+                        flowOf(TimerStatus.NotUsed)
+                    } else {
+                        combine(
+                            exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
+                            exerciseCard.base.flowOf(ExerciseCard.Base::isExpired),
+                            isWalkingModeEnabled
+                        ) { timeLeft: Int,
+                            isExpired: Boolean,
+                            isWalkingModeEnabled: Boolean
+                            ->
+                            when {
+                                isWalkingModeEnabled -> TimerStatus.OffBecauseWalkingMode
+                                timeLeft > 0 -> TimerStatus.Ticking(timeLeft)
+                                isExpired -> TimerStatus.TimeIsOver
+                                else -> TimerStatus.Stopped
+                            }
+                        }
                     }
                 }
-            }
         }
             .distinctUntilChanged()
             .flowOn(businessLogicThread)

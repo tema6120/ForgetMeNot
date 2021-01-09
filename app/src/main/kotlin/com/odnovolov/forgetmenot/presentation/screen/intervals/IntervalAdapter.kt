@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.item_interval.view.*
 import kotlinx.android.synthetic.main.item_interval.view.indicatorLine as indicatorLine
 import kotlinx.android.synthetic.main.item_interval_footer.view.*
 import kotlinx.android.synthetic.main.item_interval_header.view.*
+import kotlinx.android.synthetic.main.tip.view.*
 
 class IntervalAdapter(
     private val controller: IntervalsController
@@ -80,6 +81,22 @@ class IntervalAdapter(
 
     private fun bind(item: IntervalListItem.Header, view: View) {
         with(view) {
+            if (item.tip != null) {
+                if (tipStub != null) {
+                    tipStub.inflate()
+                    closeTipButton.setOnClickListener {
+                        controller.dispatch(CloseTipButtonClicked)
+                    }
+                }
+                val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                tipLayout.tipTextView.setText(item.tip.stringId)
+                tipLayout.isVisible = true
+            } else {
+                if (tipStub == null) {
+                    val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                    tipLayout.isVisible = false
+                }
+            }
             intervalsSwitch.isChecked = item.areIntervalsOn
             intervalsSwitch.setText(
                 if (item.areIntervalsOn)

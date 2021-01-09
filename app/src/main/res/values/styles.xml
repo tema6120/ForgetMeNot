@@ -147,7 +147,10 @@
         <item name="android:layout_marginEnd">12dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:padding">12dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
         <item name="android:background">@drawable/white_rectangle_4dp_corner_radius</item>
         <item name="android:orientation">vertical</item>
     </style>
@@ -163,9 +166,9 @@
     <style name="CTA_Description">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
-        <item name="android:textColor">@color/text_description</item>
+        <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textSize">14sp</item>
     </style>
 

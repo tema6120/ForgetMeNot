@@ -23,9 +23,11 @@ import java.util.*
 class PronunciationPlanController(
     private val deckSettingsState: DeckSettings.State,
     private val pronunciationPlanSettings: PronunciationPlanSettings,
+    private val screenState: PronunciationPlanScreenState,
     private val dialogState: PronunciationEventDialogState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
+    private val screenStateProvider: ShortTermStateProvider<PronunciationPlanScreenState>,
     private val dialogStateProvider: ShortTermStateProvider<PronunciationEventDialogState>
 ) : BaseController<PronunciationPlanUiEvent, Command>() {
     sealed class Command {
@@ -42,6 +44,11 @@ class PronunciationPlanController(
                 navigator.navigateToHelpFromPronunciationPlan {
                     HelpDiScope(HelpArticle.Repetition)
                 }
+            }
+
+            CloseTipButtonClicked -> {
+                screenState.tip?.state?.needToShow = false
+                screenState.tip = null
             }
 
             is PronunciationEventButtonClicked -> {
@@ -169,6 +176,7 @@ class PronunciationPlanController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        screenStateProvider.save(screenState)
         dialogStateProvider.save(dialogState)
     }
 }

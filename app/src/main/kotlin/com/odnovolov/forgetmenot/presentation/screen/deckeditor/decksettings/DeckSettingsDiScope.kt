@@ -12,7 +12,7 @@ class DeckSettingsDiScope private constructor(
     initialPresetDialogState: PresetDialogState? = null
 ) {
     private val deckSettingsState = DeckSettings.State(
-        DeckEditorDiScope.get()!!.screenState.deck
+        DeckEditorDiScope.getOrRecreate().screenState.deck
     )
 
     private val presetDialogStateProvider = PresetDialogStateProvider(
@@ -30,7 +30,7 @@ class DeckSettingsDiScope private constructor(
     )
 
     private val exampleExerciseStateCreator = ExampleExerciseStateCreator(
-        DeckEditorDiScope.get()!!.screenState.deck
+        DeckEditorDiScope.getOrRecreate().screenState.deck
     )
 
     val presetController = ExercisePreferencePresetController(

@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
+import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
@@ -28,22 +30,28 @@ class ExampleExerciseViewModel(
             flowOf(TimerStatus.NotUsed)
         } else {
             currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
-                if (exerciseCard.base.deck.exercisePreference.timeForAnswer == NOT_TO_USE_TIMER) {
-                    flowOf(TimerStatus.NotUsed)
-                } else {
-                    combine(
-                        exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
-                        exerciseCard.base.flowOf(ExerciseCard.Base::isExpired)
-                    ) { timeLeft: Int,
-                        isExpired: Boolean
-                        ->
-                        when {
-                            timeLeft > 0 -> TimerStatus.Ticking(timeLeft)
-                            isExpired -> TimerStatus.TimeIsOver
-                            else -> TimerStatus.Stopped
+                exerciseCard.base.deck.flowOf(Deck::exercisePreference)
+                    .flatMapLatest { exercisePreference: ExercisePreference ->
+                        exercisePreference.flowOf(ExercisePreference::timeForAnswer)
+                    }
+                    .flatMapLatest { timeForAnswer: Int ->
+                        if (timeForAnswer == NOT_TO_USE_TIMER) {
+                            flowOf(TimerStatus.NotUsed)
+                        } else {
+                            combine(
+                                exerciseCard.base.flowOf(ExerciseCard.Base::timeLeft),
+                                exerciseCard.base.flowOf(ExerciseCard.Base::isExpired)
+                            ) { timeLeft: Int,
+                                isExpired: Boolean
+                                ->
+                                when {
+                                    timeLeft > 0 -> TimerStatus.Ticking(timeLeft)
+                                    isExpired -> TimerStatus.TimeIsOver
+                                    else -> TimerStatus.Stopped
+                                }
+                            }
                         }
                     }
-                }
             }
                 .distinctUntilChanged()
                 .flowOn(businessLogicThread)

@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciationplan
 
 sealed class PronunciationPlanUiEvent {
     object HelpButtonClicked : PronunciationPlanUiEvent()
+    object CloseTipButtonClicked : PronunciationPlanUiEvent()
     class PronunciationEventButtonClicked(val position: Int) : PronunciationPlanUiEvent()
     class RemovePronunciationEventButtonClicked(val position: Int) : PronunciationPlanUiEvent()
     object AddPronunciationEventButtonClicked : PronunciationPlanUiEvent()

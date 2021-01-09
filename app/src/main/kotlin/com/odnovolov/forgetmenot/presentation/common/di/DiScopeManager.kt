@@ -29,7 +29,12 @@ abstract class DiScopeManager<DiScope> {
 
     suspend fun getAsync(): DiScope? = diScope ?: withContext(businessLogicThread) { diScope }
 
-    fun get(): DiScope? = diScope
+    fun getOrRecreate(): DiScope {
+        if (diScope == null) {
+            diScope = recreateDiScope()
+        }
+        return diScope!!
+    }
 
     fun close() {
         GlobalScope.launch(businessLogicThread) {

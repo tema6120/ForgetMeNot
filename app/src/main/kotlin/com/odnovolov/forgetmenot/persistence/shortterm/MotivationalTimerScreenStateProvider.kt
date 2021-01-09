@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.MotivationalTimerScreenStateProvider.SerializableState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerScreenState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -16,6 +17,7 @@ class MotivationalTimerScreenStateProvider(
 ) {
     @Serializable
     data class SerializableState(
+        val tipId: Long?,
         val isTimerEnabled: Boolean,
         val timeInput: String
     )
@@ -23,12 +25,17 @@ class MotivationalTimerScreenStateProvider(
     override val serializer = SerializableState.serializer()
 
     override fun toSerializable(state: MotivationalTimerScreenState) = SerializableState(
+        state.tip?.state?.id,
         state.isTimerEnabled,
         state.timeInput
     )
 
-    override fun toOriginal(serializableState: SerializableState) = MotivationalTimerScreenState(
-        serializableState.isTimerEnabled,
-        serializableState.timeInput
-    )
+    override fun toOriginal(serializableState: SerializableState): MotivationalTimerScreenState {
+        val tip = Tip.values().find { it.state.id == serializableState.tipId }
+        return MotivationalTimerScreenState(
+            tip,
+            serializableState.isTimerEnabled,
+            serializableState.timeInput
+        )
+    }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
@@ -12,20 +13,18 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.showToast
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerFragment
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanController.Command.ShowCannotChangeLastSpeakAnswerMessage
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanController.Command.ShowCannotChangeLastSpeakQuestionMessage
-import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.AddPronunciationEventButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.HelpButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.*
 import kotlinx.android.synthetic.main.fragment_pronunciation_plan.*
+import kotlinx.android.synthetic.main.tip.*
+import kotlinx.android.synthetic.main.tip.view.*
 import kotlinx.coroutines.launch
 
 class PronunciationPlanFragment : BaseFragment() {
     init {
-        DeckSettingsDiScope.reopenIfClosed()
-        ExamplePlayerDiScope.reopenIfClosed()
         PronunciationPlanDiScope.reopenIfClosed()
     }
 
@@ -51,7 +50,7 @@ class PronunciationPlanFragment : BaseFragment() {
             viewModel = diScope.viewModel
             pronunciationEventAdapter = PronunciationEventAdapter(controller!!)
             setupPronunciationPlanRecyclerView()
-            observePronunciationEvents()
+            observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }
     }
@@ -81,8 +80,28 @@ class PronunciationPlanFragment : BaseFragment() {
         itemTouchHelper.attachToRecyclerView(pronunciationPlanRecyclerView)
     }
 
-    private fun observePronunciationEvents() {
-        viewModel.pronunciationEventItems.observe(pronunciationEventAdapter::setItems)
+    private fun observeViewModel() {
+        with(viewModel) {
+            tip.observe { tip: Tip? ->
+                if (tip != null) {
+                    if (tipStub != null) {
+                        tipStub.inflate()
+                        closeTipButton.setOnClickListener {
+                            controller?.dispatch(CloseTipButtonClicked)
+                        }
+                    }
+                    val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                    tipLayout.tipTextView.setText(tip.stringId)
+                    tipLayout.isVisible = true
+                } else {
+                    if (tipStub == null) {
+                        val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                        tipLayout.isVisible = false
+                    }
+                }
+            }
+            pronunciationEventItems.observe(pronunciationEventAdapter::setItems)
+        }
     }
 
     private fun executeCommand(command: PronunciationPlanController.Command) {

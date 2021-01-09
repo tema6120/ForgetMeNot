@@ -12,18 +12,17 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.*
 import kotlinx.android.synthetic.main.fragment_motivational_timer.*
+import kotlinx.android.synthetic.main.tip.*
+import kotlinx.android.synthetic.main.tip.view.*
 import kotlinx.coroutines.launch
 
 class MotivationalTimerFragment : BaseFragment() {
     init {
-        DeckSettingsDiScope.reopenIfClosed()
-        ExampleExerciseDiScope.reopenIfClosed()
         MotivationalTimerDiScope.reopenIfClosed()
     }
 
@@ -83,6 +82,24 @@ class MotivationalTimerFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
+            tip.observe { tip: Tip? ->
+                if (tip != null) {
+                    if (tipStub != null) {
+                        tipStub.inflate()
+                        closeTipButton.setOnClickListener {
+                            controller?.dispatch(CloseTipButtonClicked)
+                        }
+                    }
+                    val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                    tipLayout.tipTextView.setText(tip.stringId)
+                    tipLayout.isVisible = true
+                } else {
+                    if (tipStub == null) {
+                        val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                        tipLayout.isVisible = false
+                    }
+                }
+            }
             timeForAnswerEditText.setText(timeInput)
             isTimerEnabled.observe { isTimerEnabled: Boolean ->
                 timerSwitch.run {

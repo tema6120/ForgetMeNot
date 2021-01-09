@@ -126,14 +126,14 @@ class CardsEditorProvider(
                 when {
                     ExerciseDiScope.isOpen() -> {
                         CardsEditorForExercise(
-                            ExerciseDiScope.get()!!.exercise,
+                            ExerciseDiScope.getOrRecreate().exercise,
                             removedEditableCards,
                             cardsEditorState
                         )
                     }
                     PlayerDiScope.isOpen() -> {
                         CardsEditorForAutoplay(
-                            PlayerDiScope.get()!!.player,
+                            PlayerDiScope.getOrRecreate().player,
                             removedEditableCards,
                             cardsEditorState
                         )

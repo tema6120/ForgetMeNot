@@ -16,7 +16,6 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivityDiScope
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -26,7 +25,6 @@ import kotlin.reflect.KProperty1
 
 class SettingsFragment : BaseFragment() {
     init {
-        MainActivityDiScope.reopenIfClosed()
         SettingsDiScope.reopenIfClosed()
     }
 

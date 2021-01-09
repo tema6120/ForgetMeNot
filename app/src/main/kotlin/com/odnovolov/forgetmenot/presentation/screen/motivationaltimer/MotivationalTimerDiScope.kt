@@ -18,8 +18,8 @@ class MotivationalTimerDiScope private constructor(
         initialScreenState ?: screenStateProvider.load()
 
     val controller = MotivationalTimerController(
-        DeckSettingsDiScope.get()!!.deckSettings,
-        ExampleExerciseDiScope.get()!!.exercise,
+        DeckSettingsDiScope.getOrRecreate().deckSettings,
+        ExampleExerciseDiScope.getOrRecreate().exercise,
         screenState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
@@ -27,7 +27,7 @@ class MotivationalTimerDiScope private constructor(
     )
 
     val viewModel = MotivationalTimerViewModel(
-        DeckSettingsDiScope.get()!!.deckSettings.state,
+        DeckSettingsDiScope.getOrRecreate().deckSettings.state,
         screenState
     )
 

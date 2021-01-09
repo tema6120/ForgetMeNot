@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 
 class DeckContentDiScope {
     private val deckEditorState = DeckEditor.State(
-        DeckEditorDiScope.get()!!.screenState.deck
+        DeckEditorDiScope.getOrRecreate().screenState.deck
     )
 
     private val deckEditor = DeckEditor(

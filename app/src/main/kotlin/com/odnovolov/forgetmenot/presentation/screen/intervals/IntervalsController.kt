@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.IntervalsSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
@@ -19,8 +20,10 @@ import com.soywiz.klock.DateTimeSpan
 class IntervalsController(
     private val deckSettingsState: DeckSettings.State,
     private val intervalsSettings: IntervalsSettings,
+    private val screenState: IntervalsScreenState,
     private val navigator: Navigator,
-    private val longTermStateSaver: LongTermStateSaver
+    private val longTermStateSaver: LongTermStateSaver,
+    private val screenStateProvider: ShortTermStateProvider<IntervalsScreenState>
 ) : BaseController<IntervalsEvent, Nothing>() {
     private val currentIntervalScheme: IntervalScheme?
         get() = deckSettingsState.deck.exercisePreference.intervalScheme
@@ -31,6 +34,11 @@ class IntervalsController(
                 navigator.navigateToHelpFromIntervals {
                     HelpDiScope(HelpArticle.LevelOfKnowledgeAndIntervals)
                 }
+            }
+
+            CloseTipButtonClicked -> {
+                screenState.tip?.state?.needToShow = false
+                screenState.tip = null
             }
 
             IntervalsSwitchToggled -> {
@@ -78,5 +86,6 @@ class IntervalsController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        screenStateProvider.save(screenState)
     }
 }

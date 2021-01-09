@@ -1,10 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.testingmethod
 
+import android.animation.LayoutTransition
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.TestingMethod
@@ -12,17 +15,16 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.uncover
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodEvent.*
 import kotlinx.android.synthetic.main.fragment_testing_method.*
+import kotlinx.android.synthetic.main.tip.*
+import kotlinx.android.synthetic.main.tip.view.*
 import kotlinx.coroutines.launch
 
 class TestingMethodFragment : BaseFragment() {
     init {
-        DeckSettingsDiScope.reopenIfClosed()
-        ExampleExerciseDiScope.reopenIfClosed()
         TestingMethodDiScope.reopenIfClosed()
     }
 
@@ -50,6 +52,7 @@ class TestingMethodFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        contentConstraintLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         exampleFragment = (childFragmentManager.findFragmentByTag("ExampleExerciseFragment")
                 as ExampleExerciseFragment)
         backButton.setOnClickListener {
@@ -74,6 +77,24 @@ class TestingMethodFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
+            tip.observe { tip: Tip? ->
+                if (tip != null) {
+                    if (tipStub != null) {
+                        tipStub.inflate()
+                        closeTipButton.setOnClickListener {
+                            controller?.dispatch(CloseTipButtonClicked)
+                        }
+                    }
+                    val tipLayout = rootView.findViewById<ConstraintLayout>(R.id.tipLayout)
+                    tipLayout.tipTextView.setText(tip.stringId)
+                    tipLayout.isVisible = true
+                } else {
+                    if (tipStub == null) {
+                        val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                        tipLayout.isVisible = false
+                    }
+                }
+            }
             testingMethod.observe { testingMethod: TestingMethod ->
                 with(withoutTestingRadioButton) {
                     isChecked = testingMethod == TestingMethod.Off
