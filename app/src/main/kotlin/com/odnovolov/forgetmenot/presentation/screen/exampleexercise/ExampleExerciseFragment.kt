@@ -9,6 +9,7 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,6 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
@@ -79,7 +79,7 @@ class ExampleExerciseFragment : BaseFragment() {
         }
         exampleExerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         timerButton.run {
-            setOnClickListener { requireTimerPopup().show(anchor = timerButton) }
+            setOnClickListener { showTimerPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
     }
@@ -105,14 +105,9 @@ class ExampleExerciseFragment : BaseFragment() {
                     )
                     setOnClickListener {
                         when (speakingStatus) {
-                            SpeakingStatus.Speaking -> controller?.dispatch(
-                                StopSpeakButtonClicked
-                            )
-                            SpeakingStatus.NotSpeaking -> controller?.dispatch(
-                                SpeakButtonClicked
-                            )
-                            SpeakingStatus.CannotSpeak -> requireSpeakErrorPopup()
-                                .show(anchor = speakButton)
+                            SpeakingStatus.Speaking -> controller?.dispatch(StopSpeakButtonClicked)
+                            SpeakingStatus.NotSpeaking -> controller?.dispatch(SpeakButtonClicked)
+                            SpeakingStatus.CannotSpeak -> showSpeakErrorPopup()
                         }
                     }
                     contentDescription = getString(
@@ -302,6 +297,10 @@ class ExampleExerciseFragment : BaseFragment() {
         }
     }
 
+    private fun showSpeakErrorPopup() {
+        requireSpeakErrorPopup().show(anchor = speakButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireTimerPopup(): PopupWindow {
         if (timerPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_timer, null).apply {
@@ -363,6 +362,10 @@ class ExampleExerciseFragment : BaseFragment() {
         }
     }
 
+    private fun showTimerPopup() {
+        requireTimerPopup().show(anchor = timerButton, gravity = Gravity.BOTTOM)
+    }
+
     override fun onResume() {
         super.onResume()
         viewCoroutineScope!!.launch {
@@ -385,10 +388,8 @@ class ExampleExerciseFragment : BaseFragment() {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
             when {
-                getBoolean(ExerciseFragment.STATE_SPEAK_ERROR_POPUP, false) ->
-                    requireSpeakErrorPopup().show(anchor = speakButton)
-                getBoolean(ExerciseFragment.STATE_TIMER_POPUP, false) ->
-                    requireTimerPopup().show(anchor = timerButton)
+                getBoolean(ExerciseFragment.STATE_SPEAK_ERROR_POPUP, false) -> showSpeakErrorPopup()
+                getBoolean(ExerciseFragment.STATE_TIMER_POPUP, false) -> showTimerPopup()
             }
         }
     }

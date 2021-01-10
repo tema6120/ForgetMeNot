@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,25 +67,33 @@ class DeckListFragment : BaseFragment() {
         val setupHeader: (View) -> Unit = { header: View ->
             filterButton = header.filterButton
             header.filterButton.setOnClickListener {
-                requireFiltersPopup().show(anchor = header.filterButton)
+                showFiltersPopup(anchor = header.filterButton)
             }
             header.sortingButton.setOnClickListener {
-                requireSortingPopup().show(anchor = header.sortingButton)
+                showSortingPopup(anchor = header.sortingButton)
             }
             viewModel.deckSorting.observe { deckSorting: DeckSorting ->
                 updateSortingButton(header.sortingButton, deckSorting)
             }
             if (needToShowFiltersPopup) {
                 needToShowFiltersPopup = false
-                requireFiltersPopup().show(anchor = header.filterButton)
+                showFiltersPopup(anchor = header.filterButton)
             }
             if (needToShowSortingPopup) {
                 needToShowSortingPopup = false
-                requireSortingPopup().show(anchor = header.sortingButton)
+                showSortingPopup(anchor = header.sortingButton)
             }
         }
         deckPreviewAdapter = DeckPreviewAdapter(controller!!, setupHeader)
         decksPreviewRecycler.adapter = deckPreviewAdapter
+    }
+
+    private fun showFiltersPopup(anchor: View) {
+        requireFiltersPopup().show(anchor = anchor, gravity = Gravity.TOP or Gravity.START)
+    }
+
+    private fun showSortingPopup(anchor: View) {
+        requireSortingPopup().show(anchor = anchor, gravity = Gravity.TOP or Gravity.END)
     }
 
     private fun updateSortingButton(

@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.common
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.graphics.Point
 import android.graphics.Rect
 import android.transition.Fade
@@ -37,13 +38,17 @@ private fun createPopupWindow(content: View, backgroundRes: Int) =
         isFocusable = true
     }
 
-fun PopupWindow.show(anchor: View) {
-    PopupPositioner(this, anchor).show()
+fun PopupWindow.show(
+    anchor: View,
+    gravity: Int = Gravity.TOP or Gravity.CENTER_HORIZONTAL
+) {
+    PopupPositioner(this, anchor, gravity).show()
 }
 
 private class PopupPositioner(
     private val popupWindow: PopupWindow,
-    private val anchor: View
+    private val anchor: View,
+    private val gravity: Int
 ) : OnLayoutChangeListener {
     private val contentWidth: Int get() = popupWindow.contentView.width
     private val contentHeight: Int get() = popupWindow.contentView.height
@@ -78,10 +83,29 @@ private class PopupPositioner(
 
     private fun position() {
         val window = Rect().also(anchor::getWindowVisibleDisplayFrame)
-        val (anchorX, anchorY) = IntArray(2).also(anchor::getLocationOnScreen)
+        val (anchorX: Int, anchorY: Int) = IntArray(2).also(anchor::getLocationOnScreen)
 
-        val bestX = anchorX + anchor.width / 2 - contentWidth / 2
-        val x = when {
+        val x: Int = calculateX(window, anchorX)
+        val y: Int = calculateY(window, anchorY)
+
+        if (popupPosition.x != x || popupPosition.y != y) {
+            popupPosition.x = x
+            popupPosition.y = y
+            popupWindow.update(x, y, popupWindow.width, popupWindow.height)
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                popupWindow.contentView?.parent?.run {
+                    if (this !is View) return@run
+                    pivotX = anchorX + anchor.width / 2f - x
+                    pivotY = anchorY + anchor.height / 2f - y
+                }
+            }
+        }
+    }
+
+    private fun calculateX(window: Rect, anchorX: Int): Int {
+        val bestX: Int = calculateBestX(anchorX)
+        return when {
             contentWidth >= window.width() -> {
                 0
             }
@@ -98,37 +122,45 @@ private class PopupPositioner(
                 bestX
             }
         }
+    }
 
-        val y = when {
+    @SuppressLint("RtlHardcoded")
+    private fun calculateBestX(anchorX: Int): Int {
+        val absoluteGravity: Int = Gravity.getAbsoluteGravity(gravity, anchor.layoutDirection)
+        return when (absoluteGravity and Gravity.HORIZONTAL_GRAVITY_MASK) {
+            Gravity.LEFT -> anchorX
+            Gravity.RIGHT -> anchorX + anchor.width - contentWidth
+            else -> anchorX + anchor.width / 2 - contentWidth / 2
+        }
+    }
+
+    private fun calculateY(window: Rect, anchorY: Int): Int {
+        val bestY: Int = calculateBestY(anchorY)
+        return when {
             contentHeight >= window.height() -> {
                 0
             }
             contentHeight >= window.height() - POPUP_MARGIN * 2 -> {
                 window.height() / 2 - contentHeight / 2
             }
-            anchorY < POPUP_MARGIN -> {
+            bestY < POPUP_MARGIN -> {
                 POPUP_MARGIN
             }
-            anchorY + contentHeight > window.bottom - POPUP_MARGIN -> {
+            bestY + contentHeight > window.bottom - POPUP_MARGIN -> {
                 window.bottom - POPUP_MARGIN - contentHeight
             }
             else -> {
-                anchorY
+                bestY
             }
         }
+    }
 
-        if (popupPosition.x != x || popupPosition.y != y) {
-            popupPosition.x = x
-            popupPosition.y = y
-            popupWindow.update(x, y, popupWindow.width, popupWindow.height)
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                popupWindow.contentView?.parent?.run {
-                    if (this !is View) return@run
-                    pivotX = anchorX + anchor.width / 2f - x
-                    pivotY = anchorY + anchor.height / 2f - y
-                }
-            }
+    private fun calculateBestY(anchorY: Int): Int {
+        val verticalGravity: Int = gravity and Gravity.VERTICAL_GRAVITY_MASK
+        return when (verticalGravity) {
+            Gravity.TOP -> anchorY
+            Gravity.BOTTOM -> anchorY + anchor.height - contentHeight
+            else -> anchorY + anchor.height / 2 - contentHeight / 2
         }
     }
 

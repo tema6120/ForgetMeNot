@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,7 +60,7 @@ class CardsEditorFragment : BaseFragment() {
         cardsViewPager.adapter = EditableCardAdapter(this)
         cardsViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
-            setOnClickListener { requireIntervalsPopup().show(anchor = gradeButton) }
+            setOnClickListener { showIntervalsPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         removeCardButton.run {
@@ -207,9 +208,13 @@ class CardsEditorFragment : BaseFragment() {
         savedInstanceState?.run {
             val needToShowIntervalsPopup = getBoolean(STATE_INTERVALS_POPUP, false)
             if (needToShowIntervalsPopup) {
-                requireIntervalsPopup().show(anchor = gradeButton)
+                showIntervalsPopup()
             }
         }
+    }
+
+    private fun showIntervalsPopup() {
+        requireIntervalsPopup().show(anchor = gradeButton, gravity = Gravity.BOTTOM)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

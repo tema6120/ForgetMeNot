@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -82,7 +83,7 @@ class PlayerFragment : BaseFragment() {
         gradeButton.run {
             setOnClickListener {
                 controller?.dispatch(GradeButtonClicked)
-                requireIntervalsPopup().show(anchor = gradeButton)
+                showIntervalsPopup()
             }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
@@ -95,9 +96,7 @@ class PlayerFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         infinitePlaybackButton.run {
-            setOnClickListener {
-                requireInfinitePlaybackPopup().show(anchor = infinitePlaybackButton)
-            }
+            setOnClickListener { showInfinitePlaybackPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         helpButton.run {
@@ -152,7 +151,7 @@ class PlayerFragment : BaseFragment() {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)
                             NotSpeaking -> controller?.dispatch(SpeakButtonClicked)
-                            CannotSpeak -> requireSpeakErrorPopup().show(anchor = speakButton)
+                            CannotSpeak -> showSpeakErrorPopup()
                         }
                     }
                     contentDescription = getString(
@@ -283,6 +282,10 @@ class PlayerFragment : BaseFragment() {
         }
     }
 
+    private fun showIntervalsPopup() {
+        requireIntervalsPopup().show(anchor = gradeButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireSpeakErrorPopup(): PopupWindow {
         if (speakErrorPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
@@ -358,6 +361,10 @@ class PlayerFragment : BaseFragment() {
         }
     }
 
+    private fun showSpeakErrorPopup() {
+        requireSpeakErrorPopup().show(anchor = speakButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireInfinitePlaybackPopup(): PopupWindow {
         if (infinitePlaybackPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_infinite_playback, null)
@@ -385,16 +392,18 @@ class PlayerFragment : BaseFragment() {
         }
     }
 
+    private fun showInfinitePlaybackPopup() {
+        requireInfinitePlaybackPopup()
+            .show(anchor = infinitePlaybackButton, gravity = Gravity.BOTTOM)
+    }
+
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
             when {
-                getBoolean(STATE_INTERVALS_POPUP, false) ->
-                    requireIntervalsPopup().show(anchor = gradeButton)
-                getBoolean(STATE_SPEAK_ERROR_POPUP, false) ->
-                    requireSpeakErrorPopup().show(anchor = speakButton)
-                getBoolean(STATE_INFINITE_PLAYBACK_POPUP, false) ->
-                    requireInfinitePlaybackPopup().show(anchor = infinitePlaybackButton)
+                getBoolean(STATE_INTERVALS_POPUP, false) -> showIntervalsPopup()
+                getBoolean(STATE_SPEAK_ERROR_POPUP, false) -> showSpeakErrorPopup()
+                getBoolean(STATE_INFINITE_PLAYBACK_POPUP, false) -> showInfinitePlaybackPopup()
             }
         }
     }

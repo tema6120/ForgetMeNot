@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exampleplayer
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,7 +104,7 @@ class ExamplePlayerFragment : BaseFragment() {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)
                             NotSpeaking -> controller?.dispatch(SpeakButtonClicked)
-                            CannotSpeak -> requireSpeakErrorPopup().show(anchor = speakButton)
+                            CannotSpeak -> showSpeakErrorPopup()
                         }
                     }
                     contentDescription = getString(
@@ -258,6 +259,10 @@ class ExamplePlayerFragment : BaseFragment() {
                 )
             }
         }
+    }
+
+    private fun showSpeakErrorPopup() {
+        requireSpeakErrorPopup().show(anchor = speakButton, gravity = Gravity.BOTTOM)
     }
 
     override fun onPause() {

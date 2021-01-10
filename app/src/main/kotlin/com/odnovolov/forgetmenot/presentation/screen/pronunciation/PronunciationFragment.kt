@@ -2,10 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.*
 import android.widget.PopupWindow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -86,13 +83,13 @@ class PronunciationFragment : BaseFragment() {
             controller?.dispatch(HelpButtonClicked)
         }
         questionLanguageButton.setOnClickListener {
-            questionLanguagePopup.show(anchor = questionLanguageButton)
+            questionLanguagePopup.show(anchor = questionLanguageButton, gravity = Gravity.CENTER)
         }
         questionAutoSpeakButton.setOnClickListener {
             controller?.dispatch(QuestionAutoSpeakSwitchToggled)
         }
         answerLanguageButton.setOnClickListener {
-            answerLanguagePopup.show(anchor = answerLanguageButton)
+            answerLanguagePopup.show(anchor = answerLanguageButton, gravity = Gravity.CENTER)
         }
         answerAutoSpeakButton.setOnClickListener {
             controller?.dispatch(AnswerAutoSpeakSwitchToggled)

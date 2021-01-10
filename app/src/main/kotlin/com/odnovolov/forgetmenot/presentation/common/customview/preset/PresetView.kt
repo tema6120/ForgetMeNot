@@ -12,8 +12,6 @@ import android.util.AttributeSet
 import android.util.SparseArray
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.Gravity.CENTER_VERTICAL
-import android.view.Gravity.END
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
@@ -26,13 +24,10 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetEvent.*
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowPresetNameDialog
 import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.dialog_remove_preset.view.*
 import kotlinx.android.synthetic.main.popup_preset.view.*
@@ -54,7 +49,7 @@ class PresetView @JvmOverloads constructor(
 ) {
     private val savePresetButton = ImageButton(context, attrs, defStyleAttr, defStyleRes).apply {
         layoutParams = LayoutParams(48.dp, 48.dp).apply {
-            gravity = CENTER_VERTICAL
+            gravity = Gravity.CENTER_VERTICAL
         }
         setPadding(12.dp)
         setBackgroundResource(getBorderlessRippleId())
@@ -66,7 +61,7 @@ class PresetView @JvmOverloads constructor(
 
     private val selectPresetButton = TextView(context, attrs, defStyleAttr, defStyleRes).apply {
         layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
-            gravity = CENTER_VERTICAL
+            gravity = Gravity.CENTER_VERTICAL
         }
         setBackgroundResource(R.drawable.ripple_corner_radius_8dp)
         setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_more_expand_more_with_inset, 0)
@@ -88,7 +83,7 @@ class PresetView @JvmOverloads constructor(
 
     init {
         orientation = HORIZONTAL
-        gravity = END
+        gravity = Gravity.END
         addView(savePresetButton)
         addView(selectPresetButton)
     }
@@ -259,11 +254,7 @@ class PresetView @JvmOverloads constructor(
     }
 
     private fun showPopup() {
-        val location = IntArray(2)
-        selectPresetButton.getLocationOnScreen(location)
-        val x = location[0] + selectPresetButton.width - popup.width
-        val y = location[1]
-        popup.showAtLocation(parent as View, Gravity.NO_GRAVITY, x, y)
+        popup.show(anchor = selectPresetButton, gravity = Gravity.TOP or Gravity.END)
     }
 
     private fun restoreByPendingState() {

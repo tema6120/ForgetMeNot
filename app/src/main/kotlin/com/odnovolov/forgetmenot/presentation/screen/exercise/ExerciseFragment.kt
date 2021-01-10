@@ -10,11 +10,8 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.GONE
-import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
@@ -104,15 +101,15 @@ class ExerciseFragment : BaseFragment() {
         exerciseViewPager.offscreenPageLimit = 1
         exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
-            setOnClickListener { requireIntervalsPopup().show(anchor = gradeButton) }
+            setOnClickListener { showIntervalsPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         timerButton.run {
-            setOnClickListener { requireTimerPopup().show(anchor = timerButton) }
+            setOnClickListener { showTimerPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         hintButton.run {
-            setOnClickListener { requireHintsPopup().show(anchor = hintButton) }
+            setOnClickListener { showHintsPopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         editCardButton.run {
@@ -124,7 +121,7 @@ class ExerciseFragment : BaseFragment() {
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         walkingModeButton.run {
-            setOnClickListener { requireWalkingModePopup().show(anchor = walkingModeButton) }
+            setOnClickListener { showWalkingModePopup() }
             TooltipCompat.setTooltipText(this, contentDescription)
         }
         helpButton.run {
@@ -231,7 +228,7 @@ class ExerciseFragment : BaseFragment() {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)
                             NotSpeaking -> controller?.dispatch(SpeakButtonClicked)
-                            CannotSpeak -> requireSpeakErrorPopup().show(anchor = speakButton)
+                            CannotSpeak -> showSpeakErrorPopup()
                         }
                     }
                     contentDescription = getString(
@@ -408,6 +405,10 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
+    private fun showIntervalsPopup() {
+        requireIntervalsPopup().show(anchor = gradeButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireSpeakErrorPopup(): PopupWindow {
         if (speakErrorPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
@@ -483,6 +484,10 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
+    private fun showSpeakErrorPopup() {
+        requireSpeakErrorPopup().show(anchor = speakButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireTimerPopup(): PopupWindow {
         if (timerPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_timer, null).apply {
@@ -544,6 +549,10 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
+    private fun showTimerPopup() {
+        requireTimerPopup().show(anchor = timerButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireHintsPopup(): PopupWindow {
         if (hintsPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_hints, null).apply {
@@ -600,6 +609,10 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
+    private fun showHintsPopup() {
+        requireHintsPopup().show(anchor = hintButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireWalkingModePopup(): PopupWindow {
         if (walkingModePopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_walking_mode, null)
@@ -632,6 +645,10 @@ class ExerciseFragment : BaseFragment() {
         return walkingModePopup!!
     }
 
+    private fun showWalkingModePopup() {
+        requireWalkingModePopup().show(anchor = walkingModeButton, gravity = Gravity.BOTTOM)
+    }
+
     override fun onResume() {
         super.onResume()
         viewCoroutineScope!!.launch {
@@ -654,16 +671,11 @@ class ExerciseFragment : BaseFragment() {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
             when {
-                getBoolean(STATE_INTERVALS_POPUP, false) ->
-                    requireIntervalsPopup().show(anchor = gradeButton)
-                getBoolean(STATE_SPEAK_ERROR_POPUP, false) ->
-                    requireSpeakErrorPopup().show(anchor = speakButton)
-                getBoolean(STATE_TIMER_POPUP, false) ->
-                    requireTimerPopup().show(anchor = timerButton)
-                getBoolean(STATE_HINTS_POPUP, false) ->
-                    requireHintsPopup().show(anchor = hintButton)
-                getBoolean(STATE_WALKING_MODE_POPUP, false) ->
-                    requireWalkingModePopup().show(anchor = walkingModeButton)
+                getBoolean(STATE_INTERVALS_POPUP, false) -> showIntervalsPopup()
+                getBoolean(STATE_SPEAK_ERROR_POPUP, false) -> showSpeakErrorPopup()
+                getBoolean(STATE_TIMER_POPUP, false) -> showTimerPopup()
+                getBoolean(STATE_HINTS_POPUP, false) -> showHintsPopup()
+                getBoolean(STATE_WALKING_MODE_POPUP, false) -> showWalkingModePopup()
             }
         }
     }
