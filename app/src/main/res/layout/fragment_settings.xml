@@ -1,99 +1,110 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@color/background_window"
+            android:orientation="horizontal"
+            android:stateListAnimator="@animator/app_bar">
+
+        <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="12dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_back_button"
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+        <TextView
+                android:id="@+id/screenTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/jura"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/title_settings_screen"
+                android:textColor="@color/text_title"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <ScrollView
+            android:id="@+id/contentScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
         <LinearLayout
-                android:id="@+id/walkingModeSettingsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
 
             <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:id="@+id/walkingModeSettingsButton"
+                    style="@style/DeckSettingsItemButton">
 
-                <TextView
-                        android:id="@+id/walkingModeSettingsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_walking_mode_title"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="16sp" />
+                <LinearLayout style="@style/DeckSettingsTextColumn">
 
-                <TextView
-                        android:id="@+id/walkingModeSettingsDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_walking_mode_settings_description"
-                        android:textColor="@color/textSecondary" />
+                    <TextView
+                            android:id="@+id/walkingModeSettingsTitle"
+                            style="@style/DeckSettingsItemTitle"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="@string/text_walking_mode_title" />
+
+                    <TextView
+                            android:id="@+id/walkingModeSettingsDescription"
+                            style="@style/DeckSettingsItemDescription"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="@string/text_walking_mode_settings_description" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/DeckSettingsItemNavigationIcon" />
 
             </LinearLayout>
 
-            <ImageButton
-                    android:id="@+id/walkingModeHelpButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_help_button"
-                    android:tint="@color/iconDark"
-                    app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/divider_with_margins" />
 
-            <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+            <LinearLayout
+                    android:id="@+id/fullscreenSettingsSettingsButton"
+                    style="@style/DeckSettingsItemButton">
 
-            <ImageView
-                    android:id="@+id/navigateToWalkingModeSettingsScreenIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/description_navigate_icon"
-                    app:srcCompat="@drawable/ic_navigate_next_dark_24dp" />
+                <LinearLayout style="@style/DeckSettingsTextColumn">
+
+                    <TextView
+                            android:id="@+id/fullscreenSettingsTitle"
+                            style="@style/DeckSettingsItemTitle"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="@string/text_fullscreen_settings_title" />
+
+                    <TextView
+                            android:id="@+id/fullscreenSettingsDescription"
+                            style="@style/DeckSettingsItemDescription"
+                            android:fontFamily="@font/nunito_bold"
+                            tools:text="Everywhere" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/DeckSettingsItemNavigationIcon" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <include layout="@layout/divider" />
+    </ScrollView>
 
-        <LinearLayout
-                android:id="@+id/fullscreenSettingsSettingsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-            <TextView
-                    android:id="@+id/fullscreenSettingsTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_fullscreen_settings_title"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp" />
-
-            <TextView
-                    android:id="@+id/fullscreenSettingsDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textSecondary"
-                    tools:text="Everywhere" />
-
-        </LinearLayout>
-
-        <include layout="@layout/divider" />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

@@ -4,8 +4,6 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsEvent.*
 
 class SettingsController(
@@ -15,14 +13,8 @@ class SettingsController(
 ) : BaseController<SettingsEvent, Nothing>() {
     override fun handle(event: SettingsEvent) {
         when (event) {
-            WalkingModeSettingsButton -> {
-                navigator.navigateToWalkingModeSettingsFromSettings()
-            }
-
-            WalkingModeHelpButton -> {
-                navigator.navigateToHelpFromSettings {
-                    HelpDiScope(HelpArticle.WalkingMode)
-                }
+            WalkingModeSettingsButtonClicked -> {
+                navigator.navigateToWalkingModeSettingsFromNavHost()
             }
 
             FullscreenInHomeAndSettingsCheckboxClicked -> {

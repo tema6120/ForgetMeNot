@@ -726,4 +726,5 @@
         twice.</string>
     <string name="title_preset_popup">Presets</string>
     <string name="button_delete">Delete</string>
+    <string name="title_settings_screen">Settings</string>
 </resources>

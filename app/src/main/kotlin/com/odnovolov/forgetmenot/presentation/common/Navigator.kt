@@ -224,13 +224,8 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.player_to_help)
     }
 
-    fun navigateToWalkingModeSettingsFromSettings() {
-        navigate(R.id.action_settings_screen_to_walking_mode_settings_screen)
-    }
-
-    fun navigateToHelpFromSettings(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.action_settings_screen_to_help_screen)
+    fun navigateToWalkingModeSettingsFromNavHost() {
+        navigate(R.id.nav_host_to_walking_mode_settings)
     }
 
     fun navigateToHelpFromNavHost(createDiScope: () -> HelpDiScope) {

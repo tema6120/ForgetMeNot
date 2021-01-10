@@ -79,28 +79,21 @@ class SupportAppFragment : Fragment() {
         startActivity(Intent.createChooser(sharingIntent, shareWithText))
     }
 
-    private var scrollListener: ViewTreeObserver.OnScrollChangedListener? = null
-
     override fun onResume() {
         super.onResume()
-        scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
-            private var canScrollUp = false
-
-            override fun onScrollChanged() {
-                val canScrollUp = contentScrollView?.canScrollVertically(-1) ?: return
-                if (this.canScrollUp != canScrollUp) {
-                    this.canScrollUp = canScrollUp
-                    appBar?.isActivated = canScrollUp
-                }
-            }
-        }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }
 
     override fun onPause() {
         super.onPause()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
-        scrollListener = null
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = contentScrollView.canScrollVertically(-1)
+        if (appBar.isActivated != canScrollUp) {
+            appBar.isActivated = canScrollUp
+        }
     }
 
     companion object {
