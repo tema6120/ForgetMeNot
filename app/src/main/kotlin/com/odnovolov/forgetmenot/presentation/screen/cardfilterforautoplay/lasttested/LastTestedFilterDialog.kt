@@ -35,8 +35,7 @@ class LastTestedFilterDialog : BaseDialogFragment() {
             .setView(rootView)
             .create()
             .apply {
-                val window = window ?: return@apply
-                window.setBackgroundDrawable(
+                window?.setBackgroundDrawable(
                     ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
                 )
             }

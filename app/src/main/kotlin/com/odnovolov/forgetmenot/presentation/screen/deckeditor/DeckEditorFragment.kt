@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +39,7 @@ class DeckEditorFragment : BaseFragment() {
     private lateinit var viewModel: DeckEditorViewModel
     private var renameDeckDialog: AlertDialog? = null
     private var renameDeckEditText: EditText? = null
+    private lateinit var dialogOkButton: View
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -150,20 +152,30 @@ class DeckEditorFragment : BaseFragment() {
 
     private fun requireRenameDeckDialog(): AlertDialog {
         if (renameDeckDialog == null) {
-            val contentView = View.inflate(context, R.layout.dialog_input, null)
-            renameDeckEditText = contentView.dialogInput
-            renameDeckEditText!!.observeText { text: String ->
-                controller?.dispatch(RenameDeckDialogTextChanged(text))
+            val contentView = View.inflate(context, R.layout.dialog_input, null).apply {
+                dialogTitle.setText(R.string.title_deck_name_dialog)
+                renameDeckEditText = dialogInput
+                renameDeckEditText!!.observeText { text: String ->
+                    controller?.dispatch(RenameDeckDialogTextChanged(text))
+                }
+                dialogOkButton = okButton
+                okButton.setOnClickListener {
+                    controller?.dispatch(RenameDeckDialogPositiveButtonClicked)
+                    renameDeckDialog?.dismiss()
+                }
+                cancelButton.setOnClickListener {
+                    renameDeckDialog?.dismiss()
+                }
             }
             renameDeckDialog = AlertDialog.Builder(requireContext())
-                .setTitle(R.string.title_deck_name_dialog)
                 .setView(contentView)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    controller?.dispatch(RenameDeckDialogPositiveButtonClicked)
-                }
-                .setNegativeButton(android.R.string.cancel, null)
                 .create()
-                .apply { setOnShowListener { renameDeckEditText?.showSoftInput() } }
+                .apply {
+                    window?.setBackgroundDrawable(
+                        ContextCompat.getDrawable(context, R.drawable.background_dialog)
+                    )
+                    setOnShowListener { renameDeckEditText?.showSoftInput() }
+                }
         }
         return renameDeckDialog!!
     }

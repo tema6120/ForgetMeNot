@@ -92,6 +92,7 @@ class PresetView @JvmOverloads constructor(
     private lateinit var presetAdapter: PresetAdapter
     private lateinit var nameInputDialog: AlertDialog
     private lateinit var nameEditText: EditText
+    private lateinit var dialogOkButton: View
     private lateinit var removePresetDialog: AlertDialog
     private val affectedDeckNameAdapter = AffectedDeckNameAdapter()
     private var coroutineScope: CoroutineScope? = null
@@ -154,8 +155,7 @@ class PresetView @JvmOverloads constructor(
                         context.getString(R.string.error_message_occupied_name)
                 }
                 if (nameInputDialog.isShowing) {
-                    nameInputDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                        .isEnabled = nameCheckResult == NameCheckResult.Ok
+                    dialogOkButton.isEnabled = nameCheckResult == NameCheckResult.Ok
                 }
             }
             deckNamesThatUsePreset.observe(coroutineScope!!) { deckNames: List<String> ->
@@ -224,20 +224,30 @@ class PresetView @JvmOverloads constructor(
     }
 
     private fun initNameInputDialog() {
-        val contentView = View.inflate(context, R.layout.dialog_input, null)
-        nameEditText = contentView.dialogInput
-        nameEditText.observeText { text: String ->
-            controller?.dispatch(PresetNameInputChanged(text))
+        val contentView = View.inflate(context, R.layout.dialog_input, null).apply {
+            dialogTitle.setText(R.string.title_preset_name_input_dialog)
+            nameEditText = dialogInput
+            nameEditText.observeText { text: String ->
+                controller?.dispatch(PresetNameInputChanged(text))
+            }
+            dialogOkButton = okButton
+            okButton.setOnClickListener {
+                controller?.dispatch(PresetNamePositiveDialogButtonClicked)
+                nameInputDialog.dismiss()
+            }
+            cancelButton.setOnClickListener {
+                nameInputDialog.dismiss()
+            }
         }
         nameInputDialog = AlertDialog.Builder(context)
-            .setTitle(R.string.title_preset_name_input_dialog)
             .setView(contentView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                controller?.dispatch(PresetNamePositiveDialogButtonClicked)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
             .create()
-        nameInputDialog.setOnShowListener { nameEditText.showSoftInput() }
+            .apply {
+                window?.setBackgroundDrawable(
+                    ContextCompat.getDrawable(context, R.drawable.background_dialog)
+                )
+                setOnShowListener { nameEditText.showSoftInput() }
+            }
     }
 
     private fun initRemovePresetDialog() {

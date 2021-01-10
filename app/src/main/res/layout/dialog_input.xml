@@ -1,15 +1,87 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/inputDialogScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/background_dialog"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
 
-    <EditText
-            android:id="@+id/dialogInput"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textColor="@color/textPrimary"
-            android:textSize="15sp" />
+            android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+                android:id="@+id/dialogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="16dp"
+                android:textColor="@color/text_title"
+                android:textSize="18sp"
+                app:drawableStartCompat="@drawable/ic_outline_edit_24"
+                app:drawableTint="@color/iconGray"
+                tools:text="@string/title_preset_name_input_dialog" />
+
+        <EditText
+                android:id="@+id/dialogInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/nunito_bold"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/textPrimary"
+                android:textSize="15sp" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/background_dialog_cancel_button"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:text="@android:string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_button_secondary"
+                    android:textSize="16sp" />
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/okButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:outlineAmbientShadowColor="@color/colorAccent"
+                    android:outlineSpotShadowColor="@color/colorAccent"
+                    android:stateListAnimator="@animator/material_button"
+                    android:text="@android:string/ok"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_ok_button_in_interval_dialog"
+                    android:textSize="14sp"
+                    app:backgroundTint="@color/background_tint_dialog_ok_button"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
