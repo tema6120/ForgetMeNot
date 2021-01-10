@@ -38,10 +38,10 @@ class CardsEditorDiScope private constructor(
         cardsEditorProvider
     )
 
-    fun qaEditorViewModel(cardId: Long): QAEditorViewModel {
-        val editableCard = cardsEditor.state.editableCards.first { it.card.id == cardId }
-        return QAEditorViewModel(editableCard)
-    }
+    fun qaEditorViewModel(cardId: Long) = QAEditorViewModel(
+        cardId,
+        cardsEditor.state
+    )
 
     companion object : DiScopeManager<CardsEditorDiScope>() {
         fun create(cardsEditor: CardsEditor) =

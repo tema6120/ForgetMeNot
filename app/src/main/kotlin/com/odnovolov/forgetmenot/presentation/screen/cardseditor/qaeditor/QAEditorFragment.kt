@@ -19,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.AnswerInputChanged
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.QuestionInputChanged
 import kotlinx.android.synthetic.main.fragment_qa_editor.*
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class QAEditorFragment : BaseFragment() {
@@ -143,19 +144,23 @@ class QAEditorFragment : BaseFragment() {
     }
 
     private fun observeViewModel() {
-        with(viewModel) {
+        viewCoroutineScope!!.launch {
+            val question: String = viewModel.question.first()
             questionEditText.setText(question)
+        }
+        viewCoroutineScope!!.launch {
+            val answer: String = viewModel.answer.first()
             answerEditText.setText(answer)
-            isLearned.observe { isLearned: Boolean ->
-                val color: Int = ContextCompat.getColor(
-                    requireContext(),
-                    if (isLearned)
-                        R.color.textSecondaryDisabled else
-                        R.color.textSecondary
-                )
-                questionEditText.setTextColor(color)
-                answerEditText.setTextColor(color)
-            }
+        }
+        viewModel.isLearned.observe { isLearned: Boolean ->
+            val color: Int = ContextCompat.getColor(
+                requireContext(),
+                if (isLearned)
+                    R.color.textSecondaryDisabled else
+                    R.color.textSecondary
+            )
+            questionEditText.setTextColor(color)
+            answerEditText.setTextColor(color)
         }
 
     }

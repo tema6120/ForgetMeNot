@@ -4,11 +4,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         tools:background="@drawable/background_popup_light"
         tools:elevation="20dp"
         tools:layout_gravity="center"
-        tools:layout_margin="32dp"
-        android:paddingBottom="8dp">
+        tools:layout_margin="32dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -18,14 +18,15 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_extrabold"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_extrabold"
                 android:text="@string/title_preset_popup"
                 android:textAllCaps="true"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
-                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintEnd_toStartOf="@id/presetHelpButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,10 +36,11 @@
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_help_button"
+                android:padding="12dp"
                 android:tint="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="@+id/title"
-                app:layout_constraintStart_toEndOf="@+id/title"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title"
                 app:layout_constraintTop_toTopOf="@+id/title"
                 app:srcCompat="@drawable/ic_baseline_help_outline_24" />
 
@@ -46,8 +48,8 @@
                 android:id="@+id/presetRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="LinearLayoutManager"
                 android:layout_marginTop="16dp"
+                app:layoutManager="LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"
@@ -62,9 +64,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:tint="@color/text_primary_brown"
                 app:layout_constraintTop_toBottomOf="@+id/presetRecyclerView"
-                app:srcCompat="@drawable/ic_round_add_24" />
+                app:srcCompat="@drawable/ic_round_add_24"
+                app:tint="@color/text_primary_brown" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
