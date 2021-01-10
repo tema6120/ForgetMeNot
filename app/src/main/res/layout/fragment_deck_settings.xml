@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetView
+        <com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.PresetView
                 android:id="@+id/presetView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

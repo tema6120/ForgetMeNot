@@ -8,10 +8,10 @@ import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.DialogPurpose.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetController
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 

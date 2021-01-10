@@ -498,6 +498,7 @@
     <string name="deck_list_title_all_decks">All decks</string>
     <string name="deck_list_title_decks_available_for_exercise">Decks available for exercise</string>
     <string name="text_add_cards_button">Add cards</string>
+    <string name="title_add_cards_popup">Add cards</string>
     <string name="drawer_item_decks">Decks</string>
     <string name="drawer_item_deck_groups">Deck groups</string>
     <string name="drawer_item_statistics">Statistics</string>
@@ -722,4 +723,5 @@
     <string name="tip_pronunciation_plan_screen_about_repetition_pronunciation">If you have just
         started learning a language, set up a pronunciation plan so that foreign speech is spoken
         twice.</string>
+    <string name="title_preset_popup">Presets</string>
 </resources>

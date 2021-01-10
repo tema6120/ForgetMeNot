@@ -56,7 +56,7 @@
     <color name="tab_text_unselected">#66404040</color>
     <color name="text_no_search_result">#33404040</color>
     <color name="text_disabled">#42000000</color>
-    <color name="item_add_cards">#330000</color>
+    <color name="text_primary_brown">#330000</color>
     <color name="intervals_icon_on_popup">#FFFFFF</color>
     <color name="hint_icon_on_popup">#FFE600</color>
     <color name="walking_mode_icon_on_popup">#00B7FF</color>

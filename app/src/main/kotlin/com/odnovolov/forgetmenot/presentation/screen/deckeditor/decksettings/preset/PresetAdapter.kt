@@ -1,13 +1,15 @@
-package com.odnovolov.forgetmenot.presentation.common.customview.preset
+package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset
 
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.common.setTooltipTextAsContentDescription
 import kotlinx.android.synthetic.main.item_preset.view.*
 
 class PresetAdapter(

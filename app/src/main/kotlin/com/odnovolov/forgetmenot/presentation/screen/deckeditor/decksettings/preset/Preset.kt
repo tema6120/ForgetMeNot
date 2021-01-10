@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.common.customview.preset
+package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset
 
 import android.content.Context
 import com.odnovolov.forgetmenot.R.string

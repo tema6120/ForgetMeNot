@@ -26,6 +26,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat.Type
@@ -328,4 +329,8 @@ fun Fragment.getStatusBarHeight(): Int {
         result = resources.getDimensionPixelSize(resourceId)
     }
     return result
+}
+
+fun View.setTooltipTextAsContentDescription() {
+    TooltipCompat.setTooltipText(this, contentDescription)
 }

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.common.customview.preset
+package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import kotlinx.serialization.Serializable

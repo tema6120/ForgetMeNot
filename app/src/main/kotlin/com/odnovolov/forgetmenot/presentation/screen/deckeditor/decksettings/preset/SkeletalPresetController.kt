@@ -1,12 +1,12 @@
-package com.odnovolov.forgetmenot.presentation.common.customview.preset
+package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset
 
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.DialogPurpose.*
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetEvent.*
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowPresetNameDialog
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.DialogPurpose.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.PresetEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetController.Command
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetController.Command.ShowPresetNameDialog
 
 abstract class SkeletalPresetController(
     private val dialogState: PresetDialogState,

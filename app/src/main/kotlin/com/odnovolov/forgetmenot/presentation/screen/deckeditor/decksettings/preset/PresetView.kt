@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.common.customview.preset
+package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset
 
 import android.content.Context
 import android.graphics.Typeface
@@ -25,9 +25,9 @@ import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.presentation.common.*
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetEvent.*
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowPresetNameDialog
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.PresetEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetController.Command.ShowPresetNameDialog
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.dialog_remove_preset.view.*
 import kotlinx.android.synthetic.main.popup_preset.view.*
@@ -189,7 +189,7 @@ class PresetView @JvmOverloads constructor(
 
     private fun initPopup() {
         popup = PopupWindow(context).apply {
-            width = 256.dp
+            width = 280.dp
             height = WindowManager.LayoutParams.WRAP_CONTENT
             setBackgroundDrawable(
                 ContextCompat.getDrawable(context, R.drawable.background_popup_light)

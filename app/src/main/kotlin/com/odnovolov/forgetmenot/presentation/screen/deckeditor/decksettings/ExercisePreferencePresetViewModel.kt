@@ -2,9 +2,9 @@ package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings
 
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.Preset
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.SkeletalPresetViewModel
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.Preset
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest

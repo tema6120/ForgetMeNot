@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.odnovolov.forgetmenot.presentation.common.customview.preset.PresetDialogState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
