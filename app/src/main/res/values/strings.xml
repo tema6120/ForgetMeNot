@@ -188,9 +188,10 @@
     <string name="text_search_in_cards_button">Search in cards</string>
     <string name="toast_deck_is_exported">Deck is exported</string>
     <string name="toast_error_while_exporting_deck">Error while exporting deck: \'%1$s\'</string>
-    <string name="title_remove_preset_dialog">Do you really want to delete this preset?</string>
+    <string name="title_remove_preset_dialog">Deleting preset \'%1$s\'</string>
     <string name="top_dialog_text_remove_preset">This preset is used by these decks:</string>
-    <string name="bottom_dialog_text_remove_preset">If you delete this preset then the default preset will be used for them.</string>
+    <string name="bottom_dialog_text_remove_preset">If you delete this preset then the default
+        preset will be used for them. Do you really want to delete this preset?</string>
     <string name="title_speak_error_popup">Pronunciation is not available</string>
     <string name="speak_error_description_failed_to_initialized">Failed to initialized TTS engine</string>
     <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Failed to initialized TTS engine (%1$s)</string>
@@ -724,4 +725,5 @@
         started learning a language, set up a pronunciation plan so that foreign speech is spoken
         twice.</string>
     <string name="title_preset_popup">Presets</string>
+    <string name="button_delete">Delete</string>
 </resources>

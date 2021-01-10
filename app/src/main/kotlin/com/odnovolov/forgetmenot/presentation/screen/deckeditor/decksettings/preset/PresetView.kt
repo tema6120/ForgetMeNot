@@ -95,6 +95,7 @@ class PresetView @JvmOverloads constructor(
     private lateinit var dialogOkButton: View
     private lateinit var removePresetDialog: AlertDialog
     private val affectedDeckNameAdapter = AffectedDeckNameAdapter()
+    private lateinit var removePresetTitleTextView: TextView
     private var coroutineScope: CoroutineScope? = null
     private var controller: SkeletalPresetController? = null
     private lateinit var viewModel: SkeletalPresetViewModel
@@ -173,6 +174,10 @@ class PresetView @JvmOverloads constructor(
                 nameEditText.selectAll()
             }
             is ShowRemovePresetDialog -> {
+                removePresetTitleTextView.text = context.getString(
+                    R.string.title_remove_preset_dialog,
+                    viewModel.presetNameToDelete
+                )
                 removePresetDialog.show()
             }
         }
@@ -251,16 +256,25 @@ class PresetView @JvmOverloads constructor(
     }
 
     private fun initRemovePresetDialog() {
-        val contentView = View.inflate(context, R.layout.dialog_remove_preset, null)
-        contentView.removePresetRecycler.adapter = affectedDeckNameAdapter
-        removePresetDialog = AlertDialog.Builder(context)
-            .setTitle(R.string.title_remove_preset_dialog)
-            .setView(contentView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
+        val contentView = View.inflate(context, R.layout.dialog_remove_preset, null).apply {
+            removePresetTitleTextView = removePresetTitle
+            removePresetRecycler.adapter = affectedDeckNameAdapter
+            deleteButton.setOnClickListener {
                 controller?.dispatch(RemovePresetPositiveDialogButtonClicked)
+                removePresetDialog.dismiss()
             }
-            .setNegativeButton(android.R.string.cancel, null)
+            cancelRemovingButton.setOnClickListener {
+                removePresetDialog.dismiss()
+            }
+        }
+        removePresetDialog = AlertDialog.Builder(context)
+            .setView(contentView)
             .create()
+            .apply {
+                window?.setBackgroundDrawable(
+                    ContextCompat.getDrawable(context, R.drawable.background_dialog)
+                )
+            }
     }
 
     private fun showPopup() {
@@ -269,7 +283,13 @@ class PresetView @JvmOverloads constructor(
 
     private fun restoreByPendingState() {
         pendingNameInputDialogState?.let(nameInputDialog::onRestoreInstanceState)
-        pendingRemovePresetDialogState?.let(removePresetDialog::onRestoreInstanceState)
+        pendingRemovePresetDialogState?.let { dialogState: Bundle ->
+            removePresetDialog.onRestoreInstanceState(dialogState)
+            removePresetTitleTextView.text = context.getString(
+                R.string.title_remove_preset_dialog,
+                viewModel.presetNameToDelete
+            )
+        }
         pendingPopupState?.let { isVisible: Boolean -> if (isVisible) showPopup() }
         pendingNameInputDialogState = null
         pendingRemovePresetDialogState = null
@@ -288,7 +308,7 @@ class PresetView @JvmOverloads constructor(
         }
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
+    override fun onSaveInstanceState(): Parcelable {
         return SavedState(super.onSaveInstanceState()).apply {
             nameInputDialogState = nameInputDialog.onSaveInstanceState()
             removePresetDialogState = removePresetDialog.onSaveInstanceState()

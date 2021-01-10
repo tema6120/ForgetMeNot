@@ -9,18 +9,37 @@
             android:layout_height="wrap_content">
 
         <TextView
+                android:id="@+id/removePresetTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="16dp"
+                android:textColor="@color/text_title"
+                android:textSize="18sp"
+                app:drawableStartCompat="@drawable/ic_round_delete_outline_24"
+                app:drawableTint="@color/iconGray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Deleting preset 'Germany vocabulary'" />
+
+        <TextView
                 android:id="@+id/topTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_bold"
                 android:padding="16dp"
                 android:text="@string/top_dialog_text_remove_preset"
-                android:textColor="@color/textPrimary"
-                android:textSize="13sp"
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/removePresetRecycler"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/removePresetTitle" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/removePresetRecycler"
@@ -44,15 +63,56 @@
                 android:id="@+id/bottomTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_bold"
                 android:padding="16dp"
                 android:text="@string/bottom_dialog_text_remove_preset"
-                android:textColor="@color/textPrimary"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/cancelRemovingButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/removePresetRecycler" />
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancelRemovingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/background_dialog_cancel_button"
+                android:fontFamily="@font/nunito_extrabold"
+                android:text="@android:string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/text_button_secondary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bottomTextView" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:outlineAmbientShadowColor="@color/issue"
+                android:outlineSpotShadowColor="@color/issue"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@string/button_delete"
+                android:textAllCaps="false"
+                android:textColor="@color/text_ok_button_in_interval_dialog"
+                android:textSize="14sp"
+                app:backgroundTint="@color/issue"
+                app:cornerRadius="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/cancelRemovingButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cancelRemovingButton"
+                app:layout_constraintTop_toTopOf="@+id/cancelRemovingButton"
+                app:rippleColor="@android:color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

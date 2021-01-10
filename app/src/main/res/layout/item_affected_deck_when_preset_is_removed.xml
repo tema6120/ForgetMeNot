@@ -2,10 +2,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingEnd="16dp"
         android:paddingBottom="8dp"
-        android:textColor="@color/textSecondary"
+        android:textColor="@color/text_description"
         android:textSize="14sp"
         tools:text="• Vocabulary" />

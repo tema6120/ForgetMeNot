@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class ExercisePreferencePresetViewModel(
-    presetDialogState: PresetDialogState,
+    private val presetDialogState: PresetDialogState,
     private val deckSettingsState: DeckSettings.State,
     private val globalState: GlobalState
 ) : SkeletalPresetViewModel() {
@@ -55,4 +55,11 @@ class ExercisePreferencePresetViewModel(
                 }
                 .map { deck: Deck -> deck.name }
         }
+
+    override val presetNameToDelete: String?
+        get() = globalState.sharedExercisePreferences
+            .find { exercisePreference: ExercisePreference ->
+                exercisePreference.id == presetDialogState.idToDelete
+            }
+            ?.name
 }

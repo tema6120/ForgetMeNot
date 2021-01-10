@@ -13,4 +13,6 @@ abstract class SkeletalPresetViewModel {
     abstract val presetInputCheckResult: Flow<NameCheckResult>
 
     abstract val deckNamesThatUsePreset: Flow<List<String>>
+
+    abstract val presetNameToDelete: String?
 }
