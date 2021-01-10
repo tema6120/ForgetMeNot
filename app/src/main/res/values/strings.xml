@@ -166,7 +166,7 @@
     <string name="title_preset_name_input_dialog">Preset name</string>
     <string name="title_fullscreen_mode_dialog">Fullscreen mode</string>
     <string name="item_text_fullscreen_in_exercise">In exercise</string>
-    <string name="item_text_fullscreen_in_player">In card player</string>
+    <string name="item_text_fullscreen_in_card_player">In card player</string>
     <string name="item_text_fullscreen_in_other_places">In other places</string>
     <string name="everywhere">Everywhere</string>
     <string name="nowhere">Nowhere</string>

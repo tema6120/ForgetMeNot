@@ -31,6 +31,7 @@ class WalkingModeSettingsFragment : BaseFragment() {
     private lateinit var chooseKeyGestureActionDialog: Dialog
     private lateinit var chooseKeyGestureActionDialogAdapter: ItemAdapter
     private var activeRemappingKeyGesture: KeyGesture? = null
+    private var dialogTitleTextView: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +46,9 @@ class WalkingModeSettingsFragment : BaseFragment() {
         chooseKeyGestureActionDialog = ChoiceDialogCreator.create(
             context = requireContext(),
             itemForm = AsRadioButton,
+            takeTitle = { titleTextView: TextView ->
+                dialogTitleTextView = titleTextView
+            },
             onItemClick = { item: Item ->
                 item as KeyGestureActionItem
                 chooseKeyGestureActionDialog.dismiss()
@@ -67,6 +71,7 @@ class WalkingModeSettingsFragment : BaseFragment() {
             val diScope = WalkingModeSettingsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
+            restoreViewState(savedInstanceState)
             setupView()
             observeViewModel()
         }
@@ -135,21 +140,29 @@ class WalkingModeSettingsFragment : BaseFragment() {
             VOLUME_DOWN_DOUBLE_PRESS -> R.string.text_double_press_title
             VOLUME_DOWN_LONG_PRESS -> R.string.text_long_press_title
         }
-        chooseKeyGestureActionDialog.setTitle(resId)
+        dialogTitleTextView?.setText(resId)
     }
 
     private fun observeViewModel() {
         with(viewModel) {
-            selectedVolumeUpSinglePressAction.observeBy(selectedVolumeUpSinglePressActionTextView)
-            selectedVolumeUpDoublePressAction.observeBy(selectedVolumeUpDoublePressActionTextView)
-            selectedVolumeUpLongPressAction.observeBy(selectedVolumeUpLongPressActionTextView)
+            selectedVolumeUpSinglePressAction.observeBy(
+                selectedVolumeUpSinglePressActionTextView
+            )
+            selectedVolumeUpDoublePressAction.observeBy(
+                selectedVolumeUpDoublePressActionTextView
+            )
+            selectedVolumeUpLongPressAction.observeBy(
+                selectedVolumeUpLongPressActionTextView
+            )
             selectedVolumeDownSinglePressAction.observeBy(
                 selectedVolumeDownSinglePressActionTextView
             )
             selectedVolumeDownDoublePressAction.observeBy(
                 selectedVolumeDownDoublePressActionTextView
             )
-            selectedVolumeDownLongPressAction.observeBy(selectedVolumeDownLongPressActionTextView)
+            selectedVolumeDownLongPressAction.observeBy(
+                selectedVolumeDownLongPressActionTextView
+            )
         }
     }
 
@@ -171,19 +184,29 @@ class WalkingModeSettingsFragment : BaseFragment() {
         SPEAK_ANSWER -> R.string.key_gesture_action_speak_answer
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
+    fun restoreViewState(savedInstanceState: Bundle?) {
         savedInstanceState?.run {
             activeRemappingKeyGesture = getSerializable(STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE)
                     as? KeyGesture
             if (activeRemappingKeyGesture != null)
                 updateAdapterItems()
+            val dialogState: Bundle? = getBundle(STATE_CHOOSE_KEYGESTURE_ACTION_DIALOG)
+            if (dialogState != null) {
+                updateDialogTitle()
+                chooseKeyGestureActionDialog.onRestoreInstanceState(dialogState)
+            }
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable(STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE, activeRemappingKeyGesture)
+        if (chooseKeyGestureActionDialog.isShowing) {
+            outState.putBundle(
+                STATE_CHOOSE_KEYGESTURE_ACTION_DIALOG,
+                chooseKeyGestureActionDialog.onSaveInstanceState()
+            )
+        }
     }
 
     override fun onDestroy() {
@@ -201,5 +224,6 @@ class WalkingModeSettingsFragment : BaseFragment() {
 
     companion object {
         const val STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE = "activeRemappingKeyGesture"
+        const val STATE_CHOOSE_KEYGESTURE_ACTION_DIALOG = "STATE_CHOOSE_KEYGESTURE_ACTION_DIALOG"
     }
 }

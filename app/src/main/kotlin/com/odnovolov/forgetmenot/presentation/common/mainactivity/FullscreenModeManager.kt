@@ -53,10 +53,10 @@ class FullscreenModeManager(
                         setFullscreenMode(isEnabledInExercise)
                     }
                     R.id.player_screen -> {
-                        setFullscreenMode(isEnabledInRepetition)
+                        setFullscreenMode(isEnabledInCardPlayer)
                     }
                     else -> {
-                        setFullscreenMode(isEnabledInHomeAndSettings)
+                        setFullscreenMode(isEnabledInOtherPlaces)
                     }
                 }
             }

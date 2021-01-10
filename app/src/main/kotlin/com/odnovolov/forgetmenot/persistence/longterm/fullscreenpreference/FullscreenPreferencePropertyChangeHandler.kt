@@ -14,17 +14,17 @@ class FullscreenPreferencePropertyChangeHandler(
     override fun handle(change: Change) {
         if (change !is PropertyValueChange) return
         when (change.property) {
-            FullscreenPreference::isEnabledInHomeAndSettings -> {
-                val isEnabledInHomeAndSettings = change.newValue as Boolean
-                queries.updateIsEnabledInHomeAndSettings(isEnabledInHomeAndSettings)
-            }
             FullscreenPreference::isEnabledInExercise -> {
                 val isEnabledInExercise = change.newValue as Boolean
                 queries.updateIsEnabledInExercise(isEnabledInExercise)
             }
-            FullscreenPreference::isEnabledInRepetition -> {
-                val isEnabledInRepetition = change.newValue as Boolean
-                queries.updateIsEnabledInRepetition(isEnabledInRepetition)
+            FullscreenPreference::isEnabledInCardPlayer -> {
+                val isEnabledInCardPlayer = change.newValue as Boolean
+                queries.updateIsEnabledInRepetition(isEnabledInCardPlayer)
+            }
+            FullscreenPreference::isEnabledInOtherPlaces -> {
+                val isEnabledInOtherPlaces = change.newValue as Boolean
+                queries.updateIsEnabledInHomeAndSettings(isEnabledInOtherPlaces)
             }
         }
     }

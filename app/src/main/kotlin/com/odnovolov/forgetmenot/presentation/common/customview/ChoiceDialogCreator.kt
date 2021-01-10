@@ -7,34 +7,59 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.appcompat.app.AlertDialog
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog.Builder
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.R.drawable
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
-import kotlinx.android.synthetic.main.dialog_single_choice.view.*
+import kotlinx.android.synthetic.main.dialog_choice.view.*
+import kotlinx.android.synthetic.main.title_choice_dialog.view.*
 
 object ChoiceDialogCreator {
     fun create(
         context: Context,
-        title: CharSequence? = null,
         itemForm: ItemForm,
+        takeTitle: (TextView) -> Unit,
         onItemClick: (Item) -> Unit,
         takeAdapter: (ItemAdapter) -> Unit
     ): Dialog {
         val adapter = ItemAdapter(itemForm, onItemClick)
         takeAdapter(adapter)
-        val rootView = View.inflate(context, R.layout.dialog_single_choice, null)
-        val recyclerView = rootView.recycler
-        recyclerView.adapter = adapter
-        return AlertDialog.Builder(context)
-            .setTitle(title)
-            .setView(rootView)
-            .setNegativeButton(R.string.close, null)
+        val customTitleLayout = View.inflate(context, R.layout.title_choice_dialog, null)
+        takeTitle(customTitleLayout.dialogTitle)
+        val contentView = View.inflate(context, R.layout.dialog_choice, null)
+        contentView.recycler.adapter = adapter
+        val divider = customTitleLayout.divider
+        divider.isVisible = contentView.recycler.canScrollVertically(-1)
+        val scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val canScrollUp = recyclerView.canScrollVertically(-1)
+                if (divider.isVisible != canScrollUp) {
+                    divider.isVisible = canScrollUp
+                }
+            }
+        }
+        contentView.recycler.addOnScrollListener(scrollListener)
+        return Builder(context)
+            .setCustomTitle(customTitleLayout)
+            .setView(contentView)
             .create()
+            .apply {
+                window?.setBackgroundDrawable(
+                    ContextCompat.getDrawable(context, drawable.background_dialog)
+                )
+                customTitleLayout.closeButton.setOnClickListener { dismiss() }
+                setOnDismissListener {
+                    contentView.recycler.removeOnScrollListener(scrollListener)
+                }
+            }
     }
 
     enum class ItemForm {

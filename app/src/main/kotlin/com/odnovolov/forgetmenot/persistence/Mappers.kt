@@ -168,7 +168,7 @@ fun RepetitionSettingDb.toCardFilterForAutoplay() = CardFilterForAutoplay(
 )
 
 fun FullscreenPreferenceDb.toFullscreenPreference() = FullscreenPreference(
-    isEnabledInHomeAndSettings,
     isEnabledInExercise,
-    isEnabledInRepetition
+    isEnabledInRepetition,
+    isEnabledInHomeAndSettings
 )

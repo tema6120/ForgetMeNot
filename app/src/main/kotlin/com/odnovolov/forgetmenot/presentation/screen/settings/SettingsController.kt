@@ -17,12 +17,6 @@ class SettingsController(
                 navigator.navigateToWalkingModeSettingsFromNavHost()
             }
 
-            FullscreenInHomeAndSettingsCheckboxClicked -> {
-                with(fullscreenPreference) {
-                    isEnabledInHomeAndSettings = !isEnabledInHomeAndSettings
-                }
-            }
-
             FullscreenInExerciseCheckboxClicked -> {
                 with(fullscreenPreference) {
                     isEnabledInExercise = !isEnabledInExercise
@@ -31,7 +25,13 @@ class SettingsController(
 
             FullscreenInRepetitionCheckboxClicked -> {
                 with(fullscreenPreference) {
-                    isEnabledInRepetition = !isEnabledInRepetition
+                    isEnabledInCardPlayer = !isEnabledInCardPlayer
+                }
+            }
+
+            FullscreenInOtherPlacesCheckboxClicked -> {
+                with(fullscreenPreference) {
+                    isEnabledInOtherPlaces = !isEnabledInOtherPlaces
                 }
             }
         }
