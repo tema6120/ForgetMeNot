@@ -228,6 +228,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_walking_mode_settings)
     }
 
+    fun navigateToHelpFromWalkingModeSettings(createDiScope: () -> HelpDiScope) {
+        HelpDiScope.open(createDiScope)
+        navigate(R.id.walking_mode_settings_to_help)
+    }
+
     fun navigateToHelpFromNavHost(createDiScope: () -> HelpDiScope) {
         HelpDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_help)

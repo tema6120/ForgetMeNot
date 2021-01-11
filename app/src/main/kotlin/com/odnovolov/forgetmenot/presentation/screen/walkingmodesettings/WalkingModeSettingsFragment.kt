@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -16,6 +17,7 @@ import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.HelpButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionSelected
 import kotlinx.android.synthetic.main.fragment_walking_mode_settings.*
 import kotlinx.coroutines.flow.Flow
@@ -78,6 +80,12 @@ class WalkingModeSettingsFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        helpButton.setOnClickListener {
+            controller?.dispatch(HelpButtonClicked)
+        }
         volumeUpSinglePressButton.setOnClickListener {
             activeRemappingKeyGesture = VOLUME_UP_SINGLE_PRESS
             showDialog()
@@ -132,7 +140,7 @@ class WalkingModeSettingsFragment : BaseFragment() {
     }
 
     private fun updateDialogTitle() {
-        val resId = when (activeRemappingKeyGesture!!) {
+        val resId: Int = when (activeRemappingKeyGesture!!) {
             VOLUME_UP_SINGLE_PRESS -> R.string.text_single_press_title
             VOLUME_UP_DOUBLE_PRESS -> R.string.text_double_press_title
             VOLUME_UP_LONG_PRESS -> R.string.text_long_press_title
@@ -141,6 +149,15 @@ class WalkingModeSettingsFragment : BaseFragment() {
             VOLUME_DOWN_LONG_PRESS -> R.string.text_long_press_title
         }
         dialogTitleTextView?.setText(resId)
+        val drawableRes: Int = when (activeRemappingKeyGesture!!) {
+            VOLUME_UP_SINGLE_PRESS -> R.drawable.ic_wm_volume_up_single_press
+            VOLUME_UP_DOUBLE_PRESS -> R.drawable.ic_wm_volume_up_double_press
+            VOLUME_UP_LONG_PRESS -> R.drawable.ic_wm_volume_up_long_press
+            VOLUME_DOWN_SINGLE_PRESS -> R.drawable.ic_wm_volume_down_single_press
+            VOLUME_DOWN_DOUBLE_PRESS -> R.drawable.ic_wm_volume_down_double_press
+            VOLUME_DOWN_LONG_PRESS -> R.drawable.ic_wm_volume_down_long_press
+        }
+        dialogTitleTextView?.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableRes, 0, 0, 0)
     }
 
     private fun observeViewModel() {
@@ -184,13 +201,13 @@ class WalkingModeSettingsFragment : BaseFragment() {
         SPEAK_ANSWER -> R.string.key_gesture_action_speak_answer
     }
 
-    fun restoreViewState(savedInstanceState: Bundle?) {
+    private fun restoreViewState(savedInstanceState: Bundle?) {
         savedInstanceState?.run {
-            activeRemappingKeyGesture = getSerializable(STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE)
+            activeRemappingKeyGesture = getSerializable(STATE_ACTIVE_REMAPPING_KEY_GESTURE)
                     as? KeyGesture
             if (activeRemappingKeyGesture != null)
                 updateAdapterItems()
-            val dialogState: Bundle? = getBundle(STATE_CHOOSE_KEYGESTURE_ACTION_DIALOG)
+            val dialogState: Bundle? = getBundle(STATE_CHOOSE_KEY_GESTURE_ACTION_DIALOG)
             if (dialogState != null) {
                 updateDialogTitle()
                 chooseKeyGestureActionDialog.onRestoreInstanceState(dialogState)
@@ -200,12 +217,30 @@ class WalkingModeSettingsFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE, activeRemappingKeyGesture)
+        outState.putSerializable(STATE_ACTIVE_REMAPPING_KEY_GESTURE, activeRemappingKeyGesture)
         if (chooseKeyGestureActionDialog.isShowing) {
             outState.putBundle(
-                STATE_CHOOSE_KEYGESTURE_ACTION_DIALOG,
+                STATE_CHOOSE_KEY_GESTURE_ACTION_DIALOG,
                 chooseKeyGestureActionDialog.onSaveInstanceState()
             )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
+        contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = contentScrollView.canScrollVertically(-1)
+        if (appBar.isActivated != canScrollUp) {
+            appBar.isActivated = canScrollUp
         }
     }
 
@@ -223,7 +258,8 @@ class WalkingModeSettingsFragment : BaseFragment() {
     ) : Item
 
     companion object {
-        const val STATE_KEY_ACTIVE_REMAPPING_KEY_GESTURE = "activeRemappingKeyGesture"
-        const val STATE_CHOOSE_KEYGESTURE_ACTION_DIALOG = "STATE_CHOOSE_KEYGESTURE_ACTION_DIALOG"
+        private const val STATE_ACTIVE_REMAPPING_KEY_GESTURE = "STATE_ACTIVE_REMAPPING_KEY_GESTURE"
+        private const val STATE_CHOOSE_KEY_GESTURE_ACTION_DIALOG =
+            "STATE_CHOOSE_KEY_GESTURE_ACTION_DIALOG"
     }
 }

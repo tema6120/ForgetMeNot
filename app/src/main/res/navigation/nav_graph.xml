@@ -266,7 +266,13 @@
             android:id="@+id/walking_mode_settings_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsFragment"
             android:label="@string/label_walking_mode_settings_screen"
-            tools:layout="@layout/fragment_walking_mode_settings" />
+            tools:layout="@layout/fragment_walking_mode_settings">
+
+        <action
+                android:id="@+id/walking_mode_settings_to_help"
+                app:destination="@id/help_screen" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/help_screen"

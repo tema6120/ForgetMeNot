@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     var keyEventInterceptor: ((KeyEvent) -> Boolean)? = null
     private val backPressInterceptors: MutableList<BackPressInterceptor> = ArrayList()
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    lateinit var fullscreenModeManager: FullscreenModeManager
+    var fullscreenModeManager: FullscreenModeManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
         if (VERSION.SDK_INT >= VERSION_CODES.N) {
             Handler(Looper.getMainLooper()).post {
-                fullscreenModeManager.isInMultiWindow = isInMultiWindowMode
+                fullscreenModeManager?.isInMultiWindow = isInMultiWindowMode
             }
         }
     }
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        fullscreenModeManager.setFullscreenMode(false)
+        fullscreenModeManager?.setFullscreenMode(false)
         coroutineScope.cancel()
         if (isFinishing || !isChangingConfigurations) {
             MainActivityDiScope.close()

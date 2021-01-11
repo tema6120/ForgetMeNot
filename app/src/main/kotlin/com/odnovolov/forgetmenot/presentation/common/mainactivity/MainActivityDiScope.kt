@@ -39,10 +39,6 @@ class MainActivityDiScope {
         FullscreenPreferenceProvider(AppDiScope.get().database).load()
 
     companion object : DiScopeManager<MainActivityDiScope>() {
-        fun shareFullScreenPreference(): FullscreenPreference {
-            return diScope?.fullScreenPreference ?: error("MainActivityDiScope is not opened")
-        }
-
         override fun recreateDiScope() = MainActivityDiScope()
     }
 }

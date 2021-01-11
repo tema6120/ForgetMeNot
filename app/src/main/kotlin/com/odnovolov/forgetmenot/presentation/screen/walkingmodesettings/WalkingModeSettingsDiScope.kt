@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 class WalkingModeSettingsDiScope {
     val controller = WalkingModeSettingsController(
         AppDiScope.get().walkingModePreference,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 

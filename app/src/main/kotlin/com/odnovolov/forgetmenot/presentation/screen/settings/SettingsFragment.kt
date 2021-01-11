@@ -105,7 +105,7 @@ class SettingsFragment : BaseFragment() {
         with(viewModel) {
             fullscreenPreference.observe { fullscreenPreference: FullscreenPreference ->
                 (requireActivity() as MainActivity).fullscreenModeManager
-                    .setFullscreenMode(fullscreenPreference.isEnabledInOtherPlaces)
+                    ?.setFullscreenMode(fullscreenPreference.isEnabledInOtherPlaces)
 
                 val items = listOf(
                     FullscreenPreferenceItem(
@@ -168,6 +168,7 @@ class SettingsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }
 

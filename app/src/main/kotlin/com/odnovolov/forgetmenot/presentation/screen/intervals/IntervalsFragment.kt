@@ -55,6 +55,7 @@ class IntervalsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        appBar.post { appBar.isActivated = intervalsRecyclerView.canScrollVertically(-1) }
         intervalsRecyclerView.addOnScrollListener(scrollListener)
     }
 

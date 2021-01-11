@@ -7,12 +7,12 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivityDi
 class SettingsDiScope {
     val controller = SettingsController(
         AppDiScope.get().navigator,
-        MainActivityDiScope.shareFullScreenPreference(),
+        MainActivityDiScope.getOrRecreate().fullScreenPreference,
         AppDiScope.get().longTermStateSaver
     )
 
     val viewModel = SettingsViewModel(
-        MainActivityDiScope.shareFullScreenPreference()
+        MainActivityDiScope.getOrRecreate().fullScreenPreference
     )
 
     companion object : DiScopeManager<SettingsDiScope>() {

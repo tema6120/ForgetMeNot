@@ -186,6 +186,7 @@ class PronunciationFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
         behavior.addBottomSheetCallback(bottomSheetCallback)

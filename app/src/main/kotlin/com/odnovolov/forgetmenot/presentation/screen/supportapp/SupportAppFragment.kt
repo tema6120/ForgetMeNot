@@ -81,6 +81,7 @@ class SupportAppFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }
 

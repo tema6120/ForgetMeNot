@@ -8,7 +8,6 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -66,17 +65,6 @@ class SearchFragment : BaseFragment() {
             controller?.dispatch(SearchTextChanged(newText))
             updatePasteClearButton()
         }
-        cardsRecycler.addOnScrollListener(object : OnScrollListener() {
-            private var canScrollUp = false
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val canScrollUp = cardsRecycler.canScrollVertically(-1)
-                if (this.canScrollUp != canScrollUp) {
-                    this.canScrollUp = canScrollUp
-                    appBarSurface.isActivated = canScrollUp
-                }
-            }
-        })
     }
 
     private fun updatePasteClearButton() {
@@ -130,8 +118,15 @@ class SearchFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        appBar.post { appBar.isActivated = cardsRecycler.canScrollVertically(-1) }
+        cardsRecycler.addOnScrollListener(scrollListener)
+    }
+
     override fun onPause() {
         super.onPause()
+        cardsRecycler.removeOnScrollListener(scrollListener)
         searchEditText.hideSoftInput()
     }
 
@@ -139,6 +134,15 @@ class SearchFragment : BaseFragment() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             SearchDiScope.close()
+        }
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val canScrollUp = recyclerView.canScrollVertically(-1)
+            if (appBar.isActivated != canScrollUp) {
+                appBar.isActivated = canScrollUp
+            }
         }
     }
 }
