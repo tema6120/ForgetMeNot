@@ -14,7 +14,6 @@ import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
-import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleLinkClicked
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.Card
@@ -102,11 +101,11 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
         controller?.dispatch(
             ArticleLinkClicked(
                 when (annotationValue) {
-                    "test_method" -> HelpArticle.TestMethods
+                    "test_method" -> HelpArticle.TestingMethods
                     "question_display" -> HelpArticle.QuestionDisplay
                     "pronunciation" -> HelpArticle.Pronunciation
                     "motivational_timer" -> HelpArticle.MotivationalTimer
-                    "level_of_knowledge" -> HelpArticle.LevelOfKnowledgeAndIntervals
+                    "level_of_knowledge" -> HelpArticle.GradeAndIntervals
                     "walking_mode" -> HelpArticle.WalkingMode
                     else -> return
                 }

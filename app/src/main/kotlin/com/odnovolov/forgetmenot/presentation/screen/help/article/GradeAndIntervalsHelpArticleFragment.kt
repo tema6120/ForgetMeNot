@@ -25,9 +25,9 @@ import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExercis
 import kotlinx.android.synthetic.main.article_level_of_knowledge_and_intervals.*
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
 
-class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
+class GradeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     override val layoutRes: Int get() = R.layout.article_level_of_knowledge_and_intervals
-    override val helpArticle: HelpArticle get() = HelpArticle.LevelOfKnowledgeAndIntervals
+    override val helpArticle: HelpArticle get() = HelpArticle.GradeAndIntervals
     private val exercise by lazy(::createExercise)
     private val intervalsAdapter: IntervalsAdapter by lazy(::createIntervalsAdapter)
     private val levelOfKnowledgePopup: PopupWindow by lazy(::createLevelOfKnowledgePopup)
@@ -66,8 +66,8 @@ class LevelOfKnowledgeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentF
     private fun createExercise(): ExampleExercise {
         val card = Card(
             id = generateId(),
-            question = getString(R.string.question_in_level_of_knowledge_and_intervals_article),
-            answer = getString(R.string.answer_in_level_of_knowledge_and_intervals_article),
+            question = getString(R.string.question_in_grade_and_intervals_article),
+            answer = getString(R.string.answer_in_grade_and_intervals_article),
             levelOfKnowledge = 3
         )
         val exerciseCard = ExerciseCard(

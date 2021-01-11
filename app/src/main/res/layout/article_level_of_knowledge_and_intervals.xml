@@ -8,7 +8,7 @@
     <TextView
             android:id="@+id/paragraph1"
             style="@style/ArticleParagraph"
-            android:text="@string/article_level_of_knowledge_and_intervals_paragraph1" />
+            android:text="@string/article_grade_and_intervals_paragraph1" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -55,6 +55,6 @@
     <TextView
             android:id="@+id/paragraph2"
             style="@style/ArticleParagraph"
-            android:text="@string/article_level_of_knowledge_and_intervals_paragraph2" />
+            android:text="@string/article_grade_and_intervals_paragraph2" />
 
 </LinearLayout>

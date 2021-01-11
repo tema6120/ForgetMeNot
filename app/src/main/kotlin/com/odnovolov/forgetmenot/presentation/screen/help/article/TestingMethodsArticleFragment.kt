@@ -22,9 +22,9 @@ import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerScr
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.answerTextView as offAnswerTextView
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.questionTextView as offQuestionTextView
 
-class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
+class TestingMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     override val layoutRes: Int get() = R.layout.article_test_methods
-    override val helpArticle: HelpArticle get() = HelpArticle.TestMethods
+    override val helpArticle: HelpArticle get() = HelpArticle.TestingMethods
 
     override fun setupView() {
         setupOffTestExerciseCard()
@@ -35,8 +35,8 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     private fun setupOffTestExerciseCard() {
         with(offTestExerciseCardExample) {
-            offQuestionTextView.setText(R.string.question_example_off_test_method)
-            offAnswerTextView.setText(R.string.answer_example_off_test_method)
+            offQuestionTextView.setText(R.string.question_example_off_testing_method)
+            offAnswerTextView.setText(R.string.answer_example_off_testing_method)
             showAnswerButton.setOnClickListener {
                 showAnswerButton.isVisible = false
                 offAnswerScrollView.isVisible = true
@@ -46,8 +46,8 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     private fun setupManualTestExerciseCard() {
         with(manualTestExerciseCardExample) {
-            manualQuestionTextView.setText(R.string.question_example_manual_test_method)
-            manualAnswerTextView.setText(R.string.answer_example_manual_test_method)
+            manualQuestionTextView.setText(R.string.question_example_manual_testing_method)
+            manualAnswerTextView.setText(R.string.answer_example_manual_testing_method)
             rememberButton.setOnClickListener {
                 manualAnswerScrollView.isVisible = true
                 rememberButton.isSelected = true
@@ -63,11 +63,11 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     private fun setupQuizTestExerciseCard() {
         with(quizTestExerciseCardExample) {
-            questionTextView.setText(R.string.question_example_quiz_test_method)
-            variant1Button.setText(R.string.answer_example_quiz_test_method_variant1)
-            variant2Button.setText(R.string.answer_example_quiz_test_method_variant2)
-            variant3Button.setText(R.string.answer_example_quiz_test_method_variant3)
-            variant4Button.setText(R.string.answer_example_quiz_test_method_variant4)
+            questionTextView.setText(R.string.question_example_quiz_testing_method)
+            variant1Button.setText(R.string.answer_example_quiz_testing_method_variant1)
+            variant2Button.setText(R.string.answer_example_quiz_testing_method_variant2)
+            variant3Button.setText(R.string.answer_example_quiz_testing_method_variant3)
+            variant4Button.setText(R.string.answer_example_quiz_testing_method_variant4)
 
             variant4Frame.background =
                 ContextCompat.getDrawable(context, R.drawable.correct_answer_selector)
@@ -94,9 +94,9 @@ class TestMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     }
 
     private fun setupEntryTestExerciseCard() {
-        val correctAnswer: String = getString(R.string.answer_example_entry_test_method)
+        val correctAnswer: String = getString(R.string.answer_example_entry_testing_method)
         with(entryTestExerciseCardExample) {
-            entryQuestionTextView.setText(R.string.question_example_entry_test_method)
+            entryQuestionTextView.setText(R.string.question_example_entry_testing_method)
             correctAnswerTextView.text = correctAnswer
             checkButton.setOnClickListener {
                 answerEditText.run {

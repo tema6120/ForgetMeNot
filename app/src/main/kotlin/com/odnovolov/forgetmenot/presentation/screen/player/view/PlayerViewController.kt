@@ -121,7 +121,7 @@ class PlayerViewController(
             HelpButtonClicked -> {
                 player.pause()
                 navigator.navigateToHelpFromPlayer {
-                    HelpDiScope(HelpArticle.Repetition)
+                    HelpDiScope(HelpArticle.AutoplayingCards)
                 }
             }
 

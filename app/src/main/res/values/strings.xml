@@ -199,38 +199,20 @@
     <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Current TTS engine (%1$s) doesn\'t support %2$s</string>
     <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
     <string name="error_message_failed_to_speak">Failed to speak</string>
-    <string name="help_article_title_about_forgetmenot">About ForgetMeNot</string>
-    <string name="help_article_title_deck_summary">Deck summary</string>
     <string name="help_article_title_import_of_deck">Import of deck</string>
     <string name="help_article_title_exercise">Exercise</string>
-    <string name="help_article_title_test_methods">Test methods</string>
-    <string name="help_article_title_level_of_knowledge_and_intervals">Level of knowledge and intervals</string>
+    <string name="help_article_title_testing_methods">Testing methods</string>
+    <string name="help_article_title_grade_and_intervals">Grade and intervals</string>
     <string name="help_article_title_pronunciation">Pronunciation</string>
     <string name="help_article_title_question_display">Question display</string>
     <string name="help_article_title_motivational_timer">Motivational timer</string>
     <string name="help_article_title_walking_mode">Walking mode</string>
-    <string name="help_article_title_repetition">Repetition</string>
+    <string name="help_article_title_autoplaying_cards">Autoplaying cards</string>
     <string name="help_article_title_presets">Presets</string>
     <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
     <string name="help_article_title_advice_on_studying">Advice on studying</string>
-    <string name="article_about_forgetmenot">ForgetMeNot is an application for memorizing
-        information using flashcards. Intervals are used for memorization efficiency. This app
-        supports the pronunciation of the text.</string>
-    <string name="article_deck_summary_paragraph_1">A deck is a set of cards to which a specific
-        setting is applied. The card contains a question and an answer. Each card is characterized
-        by <annotation clickable="level_of_knowledge">a level of knowledge</annotation> that shifts
-        during the test. Home screen displays all your decks with brief information.</string>
-    <string name="deck_name_example_in_deck_summary_article">My deck name</string>
-    <string name="passed_laps_indicator_explanation">number of passed laps</string>
-    <string name="learned_cards_indicator_explanation">number of learned cards</string>
-    <string name="all_cards_indicator_explanation">number of all cards</string>
-    <string name="task_indicator_explanation">number of cards available for exercise according to intervals</string>
-    <string name="article_deck_summary_paragraph_2">From the home screen, you can start
-        <annotation clickable="exercise">\'Exercise\'</annotation> or
-        <annotation clickable="repetition">\'Repetition\'</annotation>. You can work with several
-        decks at once using the selection of decks. To go into selection mode, just hold down on
-        the deck.</string>
-    <string name="article_import_of_deck_paragraph_1">1. Create text file on your computer in this format:</string>
+    <string name="article_import_of_deck_paragraph_1">1. Create a text file on your computer in
+        this format:</string>
     <string name="example_of_text_file_for_creating_deck">Q:
         \nWhat city was the first capital of the United States?
         \nA:
@@ -253,7 +235,7 @@
     <string name="example_file_name">American history.txt</string>
     <string name="article_import_of_deck_paragraph_2">2. Save this file with encoding UTF-8.
         \n\n3. Put it on your device disk or Google Drive.
-        \n\n3. Choose \'Load from file\' in ForgetMeNot.
+        \n\n3. Press \'Add cards\' -> \'Import file\' in ForgetMeNot.
         \n\n4. Select this file.</string>
     <string name="article_exercise_paragraph_1">In the exercise, you should answer questions. For
         each deck, you can specify unique settings, which can significantly change the examination
@@ -261,21 +243,21 @@
 
         \n\n\t- show cards in random order or not (Random order)
         \n\n\t- how to check the answer
-        (<annotation clickable="test_method">Test method</annotation>)
+        (<annotation clickable="testing_method">Testing method</annotation>)
         \n\n\t- present the question visually or orally
         (<annotation clickable="question_display">Question display</annotation>,
         <annotation clickable="pronunciation">Pronunciation</annotation>)
         \n\n\t- whether to pronounce question or answer automatically
         (<annotation clickable="pronunciation">Pronunciation</annotation>)
-        \n\n\t- whether it is necessary to reverse an question and an answer. Of course, it might
-        be needed if they are interchangeable. (Card Reverse)
+        \n\n\t- whether it is necessary to exchange the question and the answer. Of course, it might
+        be needed if they are interchangeable. (Card Inversion)
         \n\n\t- is there a time limit for response
         (<annotation clickable="motivational_timer">Motivational timer</annotation>)
 
-        \n\nRegardless of <annotation clickable="test_method">test method</annotation>, the answer
-        may be either correct or wrong. If the answer is wrong, the card will be asked again until
-        the answer is correct. It is needed in order to make sure that you commit the answer to
-        memory.</string>
+        \n\nRegardless of <annotation clickable="testing_method">testing method</annotation>,
+        the answer may be either correct or wrong. If the answer is wrong, the card will be asked
+        again until the answer is correct. It is needed in order to make sure that you commit the
+        answer to memory.</string>
     <string name="question1_in_exercise_article">Un sombrero</string>
     <string name="answer1_in_exercise_article">Hat</string>
     <string name="question2_in_exercise_article">Unos guantes</string>
@@ -283,9 +265,8 @@
     <string name="question3_in_exercise_article">Un abrigo</string>
     <string name="answer3_in_exercise_article">Coat</string>
     <string name="article_exercise_paragraph_2">Your answers influence
-        <annotation clickable="level_of_knowledge">the level of knowledge</annotation> of the card.
-        If intervals are enabled in the deck settings, the level of knowledge determines when the
-        card will be asked again.
+        <annotation clickable="grade">the grade</annotation> of the card. If intervals are enabled,
+        the grade determines when the card will be asked again.
 
         \n\nIf you know the question well and you don\'t want this card ever to be asked again or
         you don\'t want to study the card, click the \'Do not ask again\' icon. This card will be
@@ -299,59 +280,58 @@
     <string name="variant4_in_exercise_article">Good night</string>
     <string name="article_exercise_paragraph_3">You can edit the card just in the exercise. It
         might be needed not only for correcting mistakes on the card, but also for improving the
-        card if it is difficult to remember. You may also use search if you confused
-        answers.
+        card if it is difficult to remember. You may also use search if you confused answers.
 
         \n\nThere are two types of hints available in the exercise:
 
-        \n\n\t- \'As quiz\'. Four variants will be provided to choose. The variants are taken from
-        the deck to which the card belongs. This hint can make it a lot easier to answer if the
-        deck is not designed for \'Quiz\' test method.
+        \n\n\t- \'Get variants\'. Four variants will be provided to choose. The variants are taken
+        from the deck to which the card belongs. This hint can make it a lot easier to answer if the
+        deck is not designed for \'Testing method with variants\'.
         \n\n\t- \'Mask letters\'. This hint can be applied many times. The first time you turn to
         the hint, all letters will be replaced with a masked character ■. You can see how many
         words are in the answer, how many letters are in each word. If this is not enough, you can
-        unmask part of the answer. Just select a fragment and click on the hint icon.</string>
+        unmask part of the answer. Just select a fragment and press \'Unmask selected region\' on
+        hint popup window.</string>
     <string name="article_exercise_paragraph_4">You can also do the exercise without looking at the
         screen in <annotation clickable="walking_mode">\'Walking mode\'</annotation>.</string>
-    <string name="article_test_methods_paragraph_1">Test methods define how the answer will be
-        tested. There are 4 options:</string>
-    <string name="article_test_methods_off_section_title">1. Off</string>
-    <string name="question_example_off_test_method">Всі діти в цьому класі дуже ввічливі.</string>
-    <string name="answer_example_off_test_method">All the children in this class are very polite.</string>
-    <string name="article_test_methods_off_section_description">It may be used for decks with which
-        you do not plan to work for a long time. For example, it might be a deck that contains
+    <string name="article_testing_methods_paragraph_1">Testing methods define how the answer will
+        be tested. There are 4 options:</string>
+    <string name="article_testing_methods_off_section_title">1. Without testing</string>
+    <string name="question_example_off_testing_method">Всі діти в цьому класі дуже ввічливі.</string>
+    <string name="answer_example_off_testing_method">All the children in this class are very polite.</string>
+    <string name="article_testing_methods_off_section_description">It may be used for decks with
+        which you do not plan to work for a long time. For example, it might be a deck that contains
         sentences in the native and target language and you want to translate once without further
         repetition.</string>
-    <string name="article_test_methods_manual_section_title">2. Manual</string>
-    <string name="question_example_manual_test_method">mime\n\n\\verb\\</string>
-    <string name="answer_example_manual_test_method">[maɪm]\n\nuse gesture and movement without
+    <string name="article_testing_methods_manual_section_title">2. Self testing</string>
+    <string name="question_example_manual_testing_method">mime\n\n\\verb\\</string>
+    <string name="answer_example_manual_testing_method">[maɪm]\n\nuse gesture and movement without
         words in the acting of a play or role</string>
-    <string name="article_test_methods_manual_section_description">Basic test method. You decide
-        whether you remember the answer or not. The main advantage is the efficiency of
+    <string name="article_testing_methods_manual_section_description">Basic testing method. You
+        decide whether you remember the answer or not. The main advantage is the efficiency of
         memorization.</string>
-    <string name="article_test_methods_quiz_section_title">3. Quiz</string>
-    <string name="question_example_quiz_test_method">окунь</string>
-    <string name="answer_example_quiz_test_method_variant1">herring</string>
-    <string name="answer_example_quiz_test_method_variant2">trout</string>
-    <string name="answer_example_quiz_test_method_variant3">salmon</string>
-    <string name="answer_example_quiz_test_method_variant4">bass</string>
-    <string name="article_test_methods_quiz_section_description">In this mode, you need to choose
+    <string name="article_testing_methods_quiz_section_title">3. Testing with variants</string>
+    <string name="question_example_quiz_testing_method">окунь</string>
+    <string name="answer_example_quiz_testing_method_variant1">herring</string>
+    <string name="answer_example_quiz_testing_method_variant2">trout</string>
+    <string name="answer_example_quiz_testing_method_variant3">salmon</string>
+    <string name="answer_example_quiz_testing_method_variant4">bass</string>
+    <string name="article_testing_methods_quiz_section_description">In this mode, you need to choose
         the correct variant from the four offered. Variants are taken from the deck to which the
-        card belongs. Therefore, if you are going to use this test method, it is important to
+        card belongs. Therefore, if you are going to use this testing method, it is important to
         create a deck where variants are appropriate. For example, it could be a
         \'word-translation\' deck with the same parts of speech. This is a more playful form of
         testing, so it\'s great for kids. The disadvantage is the average memory efficiency, as
         variants are an significant clue.</string>
-    <string name="article_test_methods_entry_section_title">4. Entry</string>
-    <string name="question_example_entry_test_method">Past participle form of \'bring\'</string>
-    <string name="answer_example_entry_test_method">brought</string>
-    <string name="article_test_methods_entry_section_description">This method will be useful if you
-        want to improve the spelling of words. It can be used as a dictation. To do this, create a
+    <string name="article_testing_methods_entry_section_title">4. Spell check</string>
+    <string name="question_example_entry_testing_method">Past participle form of \'bring\'</string>
+    <string name="answer_example_entry_testing_method">brought</string>
+    <string name="article_testing_methods_entry_section_description">This method will be useful if
+        you want to test the spelling of words. It can be used as a dictation. To do this, create a
         deck where the question and answer will be the same, turn off the question display, select
         the language and enable the auto-pronunciation of the question in the deck settings.</string>
-    <string name="article_level_of_knowledge_and_intervals_paragraph1">Each card is characterized
-        by the level of knowledge. Each answer in the exercise affects the level of knowledge in
-        the following way:
+    <string name="article_grade_and_intervals_paragraph1">Each card is characterized by the grade.
+        Each answer in the exercise affects the grade in the following way:
 
         \n\n\t- decreases by one for each wrong answer, but not less than zero
 
@@ -360,19 +340,18 @@
 
         \n\n\t- does not change if the answer is correct, but this card was sent for retesting,
         due to an incorrect answer the previous time</string>
-    <string name="question_in_level_of_knowledge_and_intervals_article">цинк</string>
-    <string name="answer_in_level_of_knowledge_and_intervals_article">zinc</string>
-    <string name="article_level_of_knowledge_and_intervals_paragraph2">The level of knowledge is
-        directly related to intervals, which is applied to the deck of cards. The intervals affect
-        when the card is available for the exercise next time after responding. Usually, the higher
-        the level of knowledge, the longer the interval. That is, the intervals are needed so that
-        you deal more with poorly-studied cards and less with well-studied ones.
+    <string name="question_in_grade_and_intervals_article">цинк</string>
+    <string name="answer_in_grade_and_intervals_article">zinc</string>
+    <string name="article_grade_and_intervals_paragraph2">The grade is directly related to
+        intervals, which are applied to the deck. The intervals affect when the card is available
+        for the exercise next time after responding. Usually, the higher the grade, the longer the
+        interval. That is, the intervals are needed so that you deal more with poorly-studied cards
+        and less with well-studied ones.
 
-        \n\nPerhaps, for some reason, you want to change the level of knowledge. Just tap on the
-        \'Level of knowledge\' icon and choose the one you want. Usually, when you change the level
-        of knowledge, you would like to clarify how long it will take to be this card questioned
-        again. If you manually changed the level of knowledge, the standard scheme would not apply
-        to this card for this exercise session.</string>
+        \n\nPerhaps, for some reason, you want to change the grade. Just tap on the \'Grade\' icon
+        and choose the one you want. Usually, when you change the grade, you would like to clarify
+        how long it will take to be this card questioned again. If you manually changed the grade,
+        the standard scheme would not apply to this card for this exercise session.</string>
     <string name="article_question_display_paragraph_1">You can turn off the question display. In
         this case, it is supposed that you will get the question via voice playback. This will help
         improve your listening skills when learning a foreign language. Together with this, it is
@@ -380,13 +359,13 @@
         the question, just click on \'Show question\'.</string>
     <string name="question_in_question_display_article">Je demande à voir un avocat!</string>
     <string name="answer_in_question_display_article">I demand to see an avocado!</string>
-    <string name="article_motivational_timer">\'Motivational timer\' designed to focus your attention
-        on learning. If it is on, then you have some time to answer the question. If you miss the
-        deadline, the card is considered as expired, and the answer is automatically marked as
-        incorrect. If you have set enough time to respond, then the reason for expiring the card is
-        that you have lost concentration, and the motivational timer will act as a reminder of
-        this. If you are thinking of the answer and feel that you don\'t have enough time, just tap
-        on the timer icon to stop timer.</string>
+    <string name="article_motivational_timer">\'Motivational timer\' designed to focus your
+        attention on learning. If it is on, then you have some time to answer the question. If you
+        miss the deadline, the card is considered as expired, and the answer is automatically
+        marked as incorrect. If you have set enough time to respond, then the reason for expiring
+        the card is that you have lost concentration, and the motivational timer will act as a
+        reminder of this. If you are thinking of the answer and feel that you don\'t have enough
+        time, tap on \'Stop\' on timer popup window to stop the timer.</string>
     <string name="question_in_motivational_timer_article">How much is 0.0193 km in decimetres?</string>
     <string name="answer_in_motivational_timer_article">193</string>
     <string name="article_pronunciation">This app supports the pronunciation of text
@@ -422,23 +401,23 @@
         \n\n- the screen must be keep on. This is due to the Android operating system: applications
         can use the volume keys only when it is in the foreground.
 
-        \n\n- \'Quiz\' and \'Entry\' test methods are inappropriate to use in this mode and
-        therefore forcibly switch to the \'Manual\' test method.
+        \n\n- Methods \'Testing with variants\' and \'Spell check\' are inappropriate to
+        use in this mode and therefore forcibly switch to the \'Self testing\'.
 
         \n\n- auto-pronunciation of questions and answers is turned on. Don\'t forget to specify
         the correct languages ​​in the deck pronunciation settings.
 
         \n\n- \'Motivational timer\' is turned off.</string>
-    <string name="article_repetition">Repetition is a mode in which questions and answers are
-        pronounced in turn. It can be compared to an audio player, but instead of tracks, questions
-        and answers are played. This mode is suitable when you are doing something, but could
-        listen simultaneously, for example, when preparing food.
+    <string name="article_autoplaying_cards">Autoplaying cards is a mode in which questions and
+        answers are pronounced in turn. It can be compared to an audio player, but instead of
+        tracks, questions and answers are played. This mode is suitable when you are doing
+        something, but could listen simultaneously, for example, when preparing food.
 
         \n\nFor each deck, you can customize the pronunciation plan. For example, to pronounce a
         question twice, or to increase the interval between question and answer so that you have
         enough time to remember the answer before you hear it.</string>
     <string name="article_presets">Preset is a set of controls created in advance that can be
-        reused. Presets are needed to avoid the routine of settings decks or \'Repetition mode\'.
+        reused. Presets are needed to avoid the routine of settings decks.
 
         \n\nWhat preset names mean:
 
@@ -456,14 +435,14 @@
 
         \n\n2. Create decks taking into account the settings that you are going to apply to them.
 
-        \n\n\t- For \'Quiz\' test method, variants are taken from this deck. Therefore, the
-        cards should contain answers that fit to be variants.
+        \n\n\t- For testing method \'Testing with variants\', variants are taken from the same
+        deck. Therefore, the cards should contain answers that fit to be variants.
 
         \n\n\t- In the pronunciation settings of a deck, you can specify a language for questions
         and another language for answers. Therefore, you need to create deck where one language is
         used for questions, and also one language is used for answers.
 
-        \n\n\t- If you want to use \'Card reverse\', then create such a card so that an answer can
+        \n\n\t- If you want to use \'Card inversion\', then create such a card so that an answer can
         look like a question.
 
         \n\n3. If you are creating the deck as a file on your computer, you can download

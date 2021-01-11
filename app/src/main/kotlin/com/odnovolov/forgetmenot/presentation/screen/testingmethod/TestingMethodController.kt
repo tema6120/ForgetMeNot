@@ -25,7 +25,7 @@ class TestingMethodController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpFromTestingMethod {
-                    HelpDiScope(HelpArticle.TestMethods)
+                    HelpDiScope(HelpArticle.TestingMethods)
                 }
             }
 

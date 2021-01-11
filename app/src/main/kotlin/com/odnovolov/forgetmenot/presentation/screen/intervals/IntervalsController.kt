@@ -32,7 +32,7 @@ class IntervalsController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpFromIntervals {
-                    HelpDiScope(HelpArticle.LevelOfKnowledgeAndIntervals)
+                    HelpDiScope(HelpArticle.GradeAndIntervals)
                 }
             }
 

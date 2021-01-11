@@ -5,24 +5,18 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.screen.help.article.*
 
 enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
-    AboutForgetMeNot(
-        R.string.help_article_title_about_forgetmenot,
-        { AboutForgetMeNotHelpArticleFragment() }),
-    DeckSummary(
-        R.string.help_article_title_deck_summary,
-        { DeckSummaryHelpArticleFragment() }),
     ImportOfDeck(
         R.string.help_article_title_import_of_deck,
         { ImportOfDeckHelpArticleFragment() }),
     Exercise(
         R.string.help_article_title_exercise,
         { ExerciseHelpArticleFragment() }),
-    TestMethods(
-        R.string.help_article_title_test_methods,
-        { TestMethodsArticleFragment() }),
-    LevelOfKnowledgeAndIntervals(
-        R.string.help_article_title_level_of_knowledge_and_intervals,
-        { LevelOfKnowledgeAndIntervalsHelpArticleFragment() }),
+    TestingMethods(
+        R.string.help_article_title_testing_methods,
+        { TestingMethodsArticleFragment() }),
+    GradeAndIntervals(
+        R.string.help_article_title_grade_and_intervals,
+        { GradeAndIntervalsHelpArticleFragment() }),
     Pronunciation(
         R.string.help_article_title_pronunciation,
         { PronunciationHelpArticleFragment() }),
@@ -35,9 +29,9 @@ enum class HelpArticle(val titleId: Int, val createFragment: () -> Fragment) {
     WalkingMode(
         R.string.help_article_title_walking_mode,
         { WalkingModeHelpArticleFragment() }),
-    Repetition(
-        R.string.help_article_title_repetition,
-        { RepetitionHelpArticleFragment() }),
+    AutoplayingCards(
+        R.string.help_article_title_autoplaying_cards,
+        { AutoplayingCardsHelpArticleFragment() }),
     Presets(
         R.string.help_article_title_presets,
         { PresetsHelpArticleFragment() }),

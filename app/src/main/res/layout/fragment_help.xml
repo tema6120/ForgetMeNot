@@ -136,7 +136,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:drawableEndCompat="@drawable/ic_baseline_chevron_right_24"
-                    tools:text="@string/help_article_title_repetition" />
+                    tools:text="@string/help_article_title_autoplaying_cards" />
 
         </LinearLayout>
 

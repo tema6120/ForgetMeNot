@@ -6,12 +6,12 @@
     <TextView
             android:id="@+id/paragraph1"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_paragraph_1" />
+            android:text="@string/article_testing_methods_paragraph_1" />
 
     <TextView
             android:id="@+id/off_section_title"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_off_section_title"
+            android:text="@string/article_testing_methods_off_section_title"
             android:textStyle="bold" />
 
     <include
@@ -23,12 +23,12 @@
     <TextView
             android:id="@+id/off_section_description"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_off_section_description" />
+            android:text="@string/article_testing_methods_off_section_description" />
 
     <TextView
             android:id="@+id/manual_section_title"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_manual_section_title"
+            android:text="@string/article_testing_methods_manual_section_title"
             android:textStyle="bold" />
 
     <include
@@ -40,12 +40,12 @@
     <TextView
             android:id="@+id/manual_section_description"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_manual_section_description" />
+            android:text="@string/article_testing_methods_manual_section_description" />
 
     <TextView
             android:id="@+id/quiz_section_title"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_quiz_section_title"
+            android:text="@string/article_testing_methods_quiz_section_title"
             android:textStyle="bold" />
 
     <include
@@ -57,12 +57,12 @@
     <TextView
             android:id="@+id/quiz_section_description"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_quiz_section_description" />
+            android:text="@string/article_testing_methods_quiz_section_description" />
 
     <TextView
             android:id="@+id/entry_section_title"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_entry_section_title"
+            android:text="@string/article_testing_methods_entry_section_title"
             android:textStyle="bold" />
 
     <include
@@ -74,6 +74,6 @@
     <TextView
             android:id="@+id/entry_section_description"
             style="@style/ArticleParagraph"
-            android:text="@string/article_test_methods_entry_section_description" />
+            android:text="@string/article_testing_methods_entry_section_description" />
 
 </LinearLayout>

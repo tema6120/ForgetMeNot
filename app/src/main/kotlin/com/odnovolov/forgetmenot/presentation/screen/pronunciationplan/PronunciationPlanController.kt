@@ -42,7 +42,7 @@ class PronunciationPlanController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpFromPronunciationPlan {
-                    HelpDiScope(HelpArticle.Repetition)
+                    HelpDiScope(HelpArticle.AutoplayingCards)
                 }
             }
 
