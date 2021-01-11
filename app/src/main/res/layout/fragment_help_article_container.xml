@@ -1,0 +1,134 @@
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/helpDrawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/contentScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageButton
+                        android:id="@+id/backButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/description_back_button"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+                <ImageButton
+                        android:id="@+id/showTableOfContentsButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/description_show_table_of_contents_button"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_round_format_list_bulleted_24" />
+
+                <TextView
+                        android:id="@+id/articleTitleTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:paddingStart="12dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="8dp"
+                        android:textColor="@color/text_title"
+                        android:textIsSelectable="true"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/backButton"
+                        tools:text="@string/help_article_title_walking_mode" />
+
+                <FrameLayout
+                        android:id="@+id/articleFrame"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/articleTitleTextView" />
+
+                <Space
+                        android:layout_width="0dp"
+                        android:layout_height="86dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/articleFrame" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+                android:id="@+id/nextPreviousLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/background_previous_next_layout"
+                android:elevation="6dp"
+                android:orientation="horizontal">
+
+            <ImageButton
+                    android:id="@+id/previousArticleButton"
+                    android:layout_width="64dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:paddingEnd="10dp"
+                    app:srcCompat="@drawable/ic_round_chevron_left_28" />
+
+            <View
+                    android:id="@+id/verticalDivider"
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="11dp"
+                    android:background="#0F000000" />
+
+            <ImageButton
+                    android:id="@+id/nextArticleButton"
+                    android:layout_width="64dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:paddingStart="10dp"
+                    app:srcCompat="@drawable/ic_round_chevron_right_28" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tableOfContentsRecycler"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/background_window"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/item_help_article" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

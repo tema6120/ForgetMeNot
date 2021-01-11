@@ -276,9 +276,9 @@
 
     <fragment
             android:id="@+id/help_screen"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.help.HelpFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.help.HelpArticleContainerFragment"
             android:label="@string/label_help_screen"
-            tools:layout="@layout/fragment_help">
+            tools:layout="@layout/fragment_help_article_container">
 
         <action
                 android:id="@+id/action_help_screen_to_walking_mode_settings_screen"

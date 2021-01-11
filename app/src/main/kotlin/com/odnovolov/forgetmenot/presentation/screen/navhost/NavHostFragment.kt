@@ -15,7 +15,7 @@ import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.getStatusBarHeight
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.about.AboutFragment
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpFragment
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticleContainerFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsFragment
 import com.odnovolov.forgetmenot.presentation.screen.supportapp.SupportAppFragment
@@ -159,9 +159,9 @@ class NavHostFragment : BaseFragment() {
             ::SupportAppFragment
         ),
         Help(
-            HelpFragment::class,
+            HelpArticleContainerFragment::class,
             R.id.helpDrawerItem,
-            ::HelpFragment
+            ::HelpArticleContainerFragment
         ),
         About(
             AboutFragment::class,

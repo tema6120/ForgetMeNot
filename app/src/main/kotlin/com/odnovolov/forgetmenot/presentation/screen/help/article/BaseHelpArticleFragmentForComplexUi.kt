@@ -11,7 +11,7 @@ import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpController
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpFragment
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticleContainerFragment
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -44,7 +44,7 @@ abstract class BaseHelpArticleFragmentForComplexUi : Fragment() {
             controller = diScope.controller
             controller!!.dispatch(ArticleOpened(helpArticle))
         }
-        (parentFragment as HelpFragment).doWhenDrawerClosed {
+        (parentFragment as HelpArticleContainerFragment).doWhenDrawerClosed {
             if (isInAndroidViewScope) {
                 frame.addView(inflatedView)
                 setupView()

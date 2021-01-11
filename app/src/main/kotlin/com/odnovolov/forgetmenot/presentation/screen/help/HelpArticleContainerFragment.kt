@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
@@ -16,11 +15,11 @@ import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpController.Command.OpenArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleSelected
-import kotlinx.android.synthetic.main.fragment_help.*
+import kotlinx.android.synthetic.main.fragment_help_article_container.*
 import kotlinx.coroutines.launch
 import java.util.*
 
-class HelpFragment : BaseFragment() {
+class HelpArticleContainerFragment : BaseFragment() {
     init {
         HelpDiScope.reopenIfClosed()
     }
@@ -35,7 +34,7 @@ class HelpFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_help, container, false)
+        return inflater.inflate(R.layout.fragment_help_article_container, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,14 +67,15 @@ class HelpFragment : BaseFragment() {
         }
     }
 
-    private fun updateNavigationButton(button: TextView, helpArticle: HelpArticle?) {
+    private fun updateNavigationButton(button: View, helpArticle: HelpArticle?) {
         with(button) {
             if (helpArticle == null) {
                 isVisible = false
             } else {
-                setText(helpArticle.titleId)
                 isVisible = true
-                setOnClickListener { controller?.dispatch(ArticleSelected(helpArticle)) }
+                setOnClickListener {
+                    controller?.dispatch(ArticleSelected(helpArticle))
+                }
             }
         }
     }
@@ -129,7 +129,7 @@ class HelpFragment : BaseFragment() {
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         if (needToResetScrollView) {
-            articleScrollView.scrollTo(0, 0)
+            contentScrollView.scrollTo(0, 0)
             needToResetScrollView = false
         }
     }
