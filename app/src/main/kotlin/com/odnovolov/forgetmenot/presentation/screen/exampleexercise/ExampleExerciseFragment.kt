@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -226,7 +225,7 @@ class ExampleExerciseFragment : BaseFragment() {
         if (speakErrorPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
                 goToTtsSettingsButton.setOnClickListener {
-                    navigateToTtsSettings()
+                    openTtsSettings()
                     speakErrorPopup?.dismiss()
                 }
             }
@@ -234,15 +233,6 @@ class ExampleExerciseFragment : BaseFragment() {
             subscribeSpeakErrorPopup()
         }
         return speakErrorPopup!!
-    }
-
-    private fun navigateToTtsSettings() {
-        startActivity(
-            Intent().apply {
-                action = "com.android.settings.TTS_SETTINGS"
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
-        )
     }
 
     private fun subscribeSpeakErrorPopup() {

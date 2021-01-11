@@ -344,7 +344,7 @@ class HomeFragment : BaseFragment() {
                     .show()
             }
             is ShowCreateFileDialog -> {
-                showCreateFileDialog(command.fileName)
+                openFileCreator(CREATE_FILE_REQUEST_CODE, command.fileName)
             }
             ShowDeckIsExportedMessage -> {
                 showToast(R.string.toast_deck_is_exported)
@@ -357,14 +357,6 @@ class HomeFragment : BaseFragment() {
                 showToast(errorMessage)
             }
         }
-    }
-
-    private fun showCreateFileDialog(fileName: String) {
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/plain")
-            .putExtra(Intent.EXTRA_TITLE, fileName)
-        startActivityForResult(intent, CREATE_FILE_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

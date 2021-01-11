@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupWindow
@@ -98,7 +97,7 @@ class PronunciationFragment : BaseFragment() {
             controller?.dispatch(SpeakTextInBracketsSwitchToggled)
         }
         goToTtsSettingsButton.setOnClickListener {
-            navigateToTtsSettings()
+            openTtsSettings()
         }
     }
 
@@ -173,15 +172,6 @@ class PronunciationFragment : BaseFragment() {
     private fun createLanguagePopup(): PopupWindow {
         val content = View.inflate(requireContext(), R.layout.popup_available_languages, null)
         return LightPopupWindow(content)
-    }
-
-    private fun navigateToTtsSettings() {
-        startActivity(
-            Intent().apply {
-                action = "com.android.settings.TTS_SETTINGS"
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
-        )
     }
 
     override fun onResume() {

@@ -1,7 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.supportapp
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +7,9 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.openEmailComposer
+import com.odnovolov.forgetmenot.presentation.common.openShareWithChooser
+import com.odnovolov.forgetmenot.presentation.common.openUrl
 import com.odnovolov.forgetmenot.presentation.screen.about.AboutFragment
 import kotlinx.android.synthetic.main.fragment_support_app.*
 
@@ -36,13 +37,14 @@ class SupportAppFragment : Fragment() {
             openUrl(NEW_ISSUE_ON_GITHUB_URL)
         }
         sendEmailToAuthorButton.setOnClickListener {
-            startComposingMail()
+            openEmailComposer(AboutFragment.DEVELOPER_EMAIL)
         }
         helpTranslateButton.setOnClickListener {
             // TODO
         }
         shareWithFrindsButton.setOnClickListener {
-            shareWithFriends()
+            val shareText = "${getString(R.string.text_share_with_friends)}\n\n${GOOGLE_PLAY_URL}"
+            openShareWithChooser(shareText)
         }
         facebookButton.setOnClickListener {
             openUrl(FACEBOOK_URL)
@@ -56,27 +58,6 @@ class SupportAppFragment : Fragment() {
         youtubeButton.setOnClickListener {
             // TODO
         }
-    }
-
-    private fun openUrl(url: String) {
-        val uri = Uri.parse(url)
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        startActivity(intent)
-    }
-
-    private fun startComposingMail() {
-        val uri = Uri.fromParts("mailto", AboutFragment.DEVELOPER_EMAIL, null)
-        val intent = Intent(Intent.ACTION_SENDTO, uri)
-        startActivity(Intent.createChooser(intent, null))
-    }
-
-    private fun shareWithFriends() {
-        val shareText = "${getString(R.string.text_share_with_friends)}\n\n$GOOGLE_PLAY_URL"
-        val shareWithText = getString(R.string.share_with)
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-            .setType("text/plain")
-            .putExtra(Intent.EXTRA_TEXT, shareText)
-        startActivity(Intent.createChooser(sharingIntent, shareWithText))
     }
 
     override fun onResume() {

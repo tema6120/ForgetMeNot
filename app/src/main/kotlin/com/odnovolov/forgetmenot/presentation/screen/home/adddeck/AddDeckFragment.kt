@@ -105,13 +105,6 @@ class AddDeckFragment : BaseFragment() {
         requireAddCardsPopup().show(anchor, gravity = Gravity.TOP or Gravity.END)
     }
 
-    private fun showFileChooser() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/plain")
-        startActivityForResult(intent, GET_CONTENT_REQUEST_CODE)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode != Activity.RESULT_OK
@@ -162,7 +155,7 @@ class AddDeckFragment : BaseFragment() {
                 .apply {
                     importFileButton.setOnClickListener {
                         addCardsPopup?.dismiss()
-                        showFileChooser()
+                        openFileChooser(GET_CONTENT_REQUEST_CODE)
                     }
                     helpImportFileButton.setOnClickListener {
                         addCardsPopup?.dismiss()
@@ -170,7 +163,7 @@ class AddDeckFragment : BaseFragment() {
                     }
                     browseCatalogButton.setOnClickListener {
                         addCardsPopup?.dismiss()
-                        openDeckCatalogInAnotherApp()
+                        openUrl(DECK_CATALOG_PAGE)
                     }
                     createCardsHereButton.setOnClickListener {
                         addCardsPopup?.dismiss()
@@ -203,14 +196,6 @@ class AddDeckFragment : BaseFragment() {
                 .apply { setOnShowListener { deckNameDialogEditText?.showSoftInput() } }
         }
         return deckNameInputDialog!!
-    }
-
-    private fun openDeckCatalogInAnotherApp() {
-        val webIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(DECK_CATALOG_PAGE)
-        )
-        startActivity(webIntent)
     }
 
     override fun onResume() {

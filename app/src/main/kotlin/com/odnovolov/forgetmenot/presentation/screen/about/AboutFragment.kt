@@ -1,8 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.about
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.openEmailComposer
+import com.odnovolov.forgetmenot.presentation.common.openUrl
 import com.odnovolov.forgetmenot.presentation.common.setStatusBarColor
 import com.odnovolov.forgetmenot.presentation.common.setTransparentStatusBar
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
@@ -34,7 +34,7 @@ class AboutFragment : Fragment() {
         }
         appVersionTextView.text = "v" + BuildConfig.VERSION_NAME
         developerButton.setOnClickListener {
-            startComposingMail()
+            openEmailComposer(receiver = DEVELOPER_EMAIL)
         }
         sourceCodeButton.setOnClickListener {
             openUrl(SOURCE_CODE_URL)
@@ -45,18 +45,6 @@ class AboutFragment : Fragment() {
         supportAppButton.setOnClickListener {
             (parentFragment as NavHostFragment).navigateTo(NavigationDestination.SupportApp)
         }
-    }
-
-    private fun startComposingMail() {
-        val uri = Uri.fromParts("mailto", DEVELOPER_EMAIL, null)
-        val intent = Intent(Intent.ACTION_SENDTO, uri)
-        startActivity(Intent.createChooser(intent, null))
-    }
-
-    private fun openUrl(url: String) {
-        val uri = Uri.parse(url)
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        startActivity(intent)
     }
 
     override fun onDestroy() {

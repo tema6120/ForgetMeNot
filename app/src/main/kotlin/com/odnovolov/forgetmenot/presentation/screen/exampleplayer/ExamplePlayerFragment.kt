@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exampleplayer
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -18,13 +17,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
-import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.show
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerController.Command.SetCurrentPosition
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
@@ -190,7 +185,7 @@ class ExamplePlayerFragment : BaseFragment() {
         if (speakErrorPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_speak_error, null).apply {
                 goToTtsSettingsButton.setOnClickListener {
-                    navigateToTtsSettings()
+                    openTtsSettings()
                     speakErrorPopup?.dismiss()
                 }
             }
@@ -198,15 +193,6 @@ class ExamplePlayerFragment : BaseFragment() {
             subscribeSpeakErrorPopup()
         }
         return speakErrorPopup!!
-    }
-
-    private fun navigateToTtsSettings() {
-        startActivity(
-            Intent().apply {
-                action = "com.android.settings.TTS_SETTINGS"
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
-        )
     }
 
     private fun subscribeSpeakErrorPopup() {

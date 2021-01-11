@@ -707,4 +707,9 @@
     <string name="button_delete">Delete</string>
     <string name="title_settings_screen">Settings</string>
     <string name="title_walking_mode_settings_screen">Walking mode settings</string>
+    <string name="toast_no_tts_settings">Your device doesn\'t have TTS settins</string>
+    <string name="toast_no_email_client">You don\'t have any e-mail client to compose mail</string>
+    <string name="toast_no_browser">You don\'t have any browser to open URL</string>
+    <string name="toast_no_file_manager_to_load">You don\'t have any file manager to load a file</string>
+    <string name="toast_no_file_manager_to_create">You don\'t have any file manager to create a file</string>
 </resources>
