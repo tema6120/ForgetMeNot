@@ -1,16 +1,15 @@
 package com.odnovolov.forgetmenot.presentation.common
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Resources
+import android.content.res.Resources.NotFoundException
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.Typeface
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
-import android.os.Handler
-import android.os.Looper
 import android.text.*
 import android.text.Annotation
 import android.text.method.LinkMovementMethod
@@ -28,12 +27,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.*
@@ -333,4 +332,21 @@ fun Fragment.getStatusBarHeight(): Int {
 
 fun View.setTooltipTextAsContentDescription() {
     TooltipCompat.setTooltipText(this, contentDescription)
+}
+
+fun TextView.setFont(fontRes: Int, style: Int) {
+    val font: Typeface? = try {
+        ResourcesCompat.getFont(context, fontRes)
+    } catch (e: NotFoundException) {
+        null
+    }
+    setTypeface(font, style)
+}
+
+fun TextView.setFont(fontRes: Int) {
+    typeface = try {
+        ResourcesCompat.getFont(context, fontRes)
+    } catch (e: NotFoundException) {
+        return
+    }
 }

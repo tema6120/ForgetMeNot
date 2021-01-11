@@ -20,7 +20,6 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.doOnNextLayout
@@ -167,9 +166,8 @@ class EntryTestExerciseCardViewHolder(
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
             correctAnswerTextView.textSize = 16f
-            val comfortaaFont: Typeface? = ResourcesCompat.getFont(context, R.font.comfortaa)
-            cardLabelTextView.setTypeface(comfortaaFont, Typeface.BOLD)
-            checkButton.setTypeface(comfortaaFont, Typeface.BOLD)
+            cardLabelTextView.setFont(R.font.comfortaa, Typeface.BOLD)
+            checkButton.setFont(R.font.comfortaa, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             addScrollListener {

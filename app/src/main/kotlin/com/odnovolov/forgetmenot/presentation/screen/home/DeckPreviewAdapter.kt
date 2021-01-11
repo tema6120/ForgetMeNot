@@ -12,7 +12,6 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
@@ -69,10 +68,7 @@ class DeckPreviewAdapter(
                         deckNameTextView.textSize = 14.5f
                         // with async inflation, parameter 'fontFamily' in xml causes InflateException
                         // so we set font on ui thread programmatically
-                        deckNameTextView.setTypeface(
-                            ResourcesCompat.getFont(context, R.font.comfortaa),
-                            Typeface.BOLD
-                        )
+                        deckNameTextView.setFont(R.font.comfortaa, Typeface.BOLD)
                     }
                 }
             }
@@ -192,7 +188,7 @@ class DeckPreviewAdapter(
                 layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
                 setTextColor(ContextCompat.getColor(context, R.color.textPrimary))
                 textSize = 14.5f
-                setTypeface(ResourcesCompat.getFont(context, R.font.comfortaa), Typeface.BOLD)
+                setFont(R.font.comfortaa, Typeface.BOLD)
             }
         }
     }

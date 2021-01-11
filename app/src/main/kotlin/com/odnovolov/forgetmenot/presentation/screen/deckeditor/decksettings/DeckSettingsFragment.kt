@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentStateRestorer
 import com.odnovolov.forgetmenot.R
@@ -13,6 +12,7 @@ import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
@@ -34,7 +34,7 @@ class DeckSettingsFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         fragmentStateRestorer.interceptSavedState()
         return inflater.inflateAsync(R.layout.fragment_deck_settings, ::onViewInflated)
     }
@@ -66,27 +66,25 @@ class DeckSettingsFragment : BaseFragment() {
     }
 
     private fun setFonts() {
-        val nunitoExtraboldFont = ResourcesCompat.getFont(requireContext(), R.font.nunito_extrabold)
-        generalSectionTitle.typeface = nunitoExtraboldFont
-        exerciseSectionTitle.typeface = nunitoExtraboldFont
-        autoplaySectionTitle.typeface = nunitoExtraboldFont
-        val nunitoBoldFont = ResourcesCompat.getFont(requireContext(), R.font.nunito_bold)
-        randomOrderTitle.typeface = nunitoBoldFont
-        selectedRandomOrderTextView.typeface = nunitoBoldFont
-        pronunciationTitle.typeface = nunitoBoldFont
-        selectedPronunciationTextView.typeface = nunitoBoldFont
-        cardInversionTitle.typeface = nunitoBoldFont
-        selectedCardInversionTextView.typeface = nunitoBoldFont
-        questionDisplayTitle.typeface = nunitoBoldFont
-        selectedQuestionDisplayTextView.typeface = nunitoBoldFont
-        testingMethodTitle.typeface = nunitoBoldFont
-        selectedTestingMethodTextView.typeface = nunitoBoldFont
-        intervalsTitle.typeface = nunitoBoldFont
-        selectedIntervalsTextView.typeface = nunitoBoldFont
-        motivationalTimerTitle.typeface = nunitoBoldFont
-        selectedMotivationalTimerTextView.typeface = nunitoBoldFont
-        pronunciationPlanTitle.typeface = nunitoBoldFont
-        selectedPronunciationPlanTextView.typeface = nunitoBoldFont
+        generalSectionTitle.setFont(R.font.nunito_extrabold)
+        exerciseSectionTitle.setFont(R.font.nunito_extrabold)
+        autoplaySectionTitle.setFont(R.font.nunito_extrabold)
+        randomOrderTitle.setFont(R.font.nunito_bold)
+        selectedRandomOrderTextView.setFont(R.font.nunito_bold)
+        pronunciationTitle.setFont(R.font.nunito_bold)
+        selectedPronunciationTextView.setFont(R.font.nunito_bold)
+        cardInversionTitle.setFont(R.font.nunito_bold)
+        selectedCardInversionTextView.setFont(R.font.nunito_bold)
+        questionDisplayTitle.setFont(R.font.nunito_bold)
+        selectedQuestionDisplayTextView.setFont(R.font.nunito_bold)
+        testingMethodTitle.setFont(R.font.nunito_bold)
+        selectedTestingMethodTextView.setFont(R.font.nunito_bold)
+        intervalsTitle.setFont(R.font.nunito_bold)
+        selectedIntervalsTextView.setFont(R.font.nunito_bold)
+        motivationalTimerTitle.setFont(R.font.nunito_bold)
+        selectedMotivationalTimerTextView.setFont(R.font.nunito_bold)
+        pronunciationPlanTitle.setFont(R.font.nunito_bold)
+        selectedPronunciationPlanTextView.setFont(R.font.nunito_bold)
     }
 
     private fun setupListeners() {

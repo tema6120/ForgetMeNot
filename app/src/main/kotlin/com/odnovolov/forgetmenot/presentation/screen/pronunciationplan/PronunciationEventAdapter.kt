@@ -11,7 +11,6 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +19,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.PronunciationEventButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanUiEvent.RemovePronunciationEventButtonClicked
 import kotlinx.android.synthetic.main.item_pronunciation_event.view.*
@@ -89,8 +89,7 @@ class PronunciationEventAdapter(
                 SpeakQuestion -> {
                     pronunciationEventTextView.text =
                         context.getString(R.string.pronunciation_event_speak_question)
-                    val font = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
-                    pronunciationEventTextView.setTypeface(font, Typeface.BOLD)
+                    pronunciationEventTextView.setFont(R.font.nunito_extrabold, Typeface.BOLD)
                     pronunciationEventTextView.setTextColor(
                         ContextCompat.getColor(context, R.color.text_title)
                     )
@@ -100,8 +99,7 @@ class PronunciationEventAdapter(
                 SpeakAnswer -> {
                     pronunciationEventTextView.text =
                         context.getString(R.string.pronunciation_event_speak_answer)
-                    val font = ResourcesCompat.getFont(context, R.font.nunito_extrabold)
-                    pronunciationEventTextView.setTypeface(font, Typeface.BOLD)
+                    pronunciationEventTextView.setFont(R.font.nunito_extrabold, Typeface.BOLD)
                     pronunciationEventTextView.setTextColor(
                         ContextCompat.getColor(context, R.color.text_title)
                     )

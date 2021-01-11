@@ -19,7 +19,6 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
@@ -70,8 +69,7 @@ class PresetView @JvmOverloads constructor(
         setPadding(12.dp)
         setTextColor(ContextCompat.getColor(context, R.color.text_title))
         textSize = 22f
-        val font = ResourcesCompat.getFont(context, R.font.nunito_bold)
-        setTypeface(font, Typeface.BOLD)
+        setFont(R.font.nunito_bold, Typeface.BOLD)
     }
 
     private fun getBorderlessRippleId(): Int {
