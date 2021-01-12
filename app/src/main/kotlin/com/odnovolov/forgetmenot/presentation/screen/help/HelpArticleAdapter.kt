@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.help
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
@@ -22,11 +21,7 @@ class HelpArticleAdapter(
         val item: HelpArticleItem = getItem(position)
         with(viewHolder.itemView) {
             helpArticleTitleTextView.setText(item.helpArticle.titleId)
-            if (item.isArticleSelected) {
-                indicator.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
-            } else {
-                indicator.background = null
-            }
+            isSelected = item.isArticleSelected
             helpArticleTitleTextView.setOnClickListener {
                 onItemSelected(item.helpArticle)
             }

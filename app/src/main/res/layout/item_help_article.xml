@@ -3,42 +3,33 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        tools:background="@android:color/white">
 
     <View
             android:id="@+id/indicator"
             android:layout_width="6dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/helpArticleTitleTextView"
+            android:layout_height="40dp"
+            android:background="@drawable/drawer_item_indicator"
+            app:layout_constraintBottom_toBottomOf="@id/helpArticleTitleTextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/helpArticleTitleTextView"
-            tools:background="@color/colorAccent" />
+            app:layout_constraintTop_toTopOf="@id/helpArticleTitleTextView" />
 
     <TextView
             android:id="@+id/helpArticleTitleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_rectangular_colored"
+            android:fontFamily="@font/nunito_bold"
             android:paddingStart="38dp"
             android:paddingTop="16dp"
             android:paddingEnd="32dp"
             android:paddingBottom="16dp"
-            android:textColor="@color/textPrimary"
+            android:textColor="@color/text_primary_blue_selector"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/divider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="About ForgetMeNot" />
-
-    <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/helpArticleTitleTextView" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/help_article_title_import_of_deck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.popup_hints.view.*
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
 
 class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
@@ -269,7 +270,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
                     }
                 )
             }
-        }.observe()
+        }.launchIn(viewCoroutineScope!!)
     }
 
     private fun setupQuizHintExample() {
