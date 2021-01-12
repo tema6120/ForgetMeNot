@@ -1,11 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen.help
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import androidx.core.view.GravityCompat
-import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -15,7 +18,7 @@ import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpController.Command.OpenArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleSelected
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.*
 import kotlinx.android.synthetic.main.fragment_help_article_container.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -59,24 +62,11 @@ class HelpArticleContainerFragment : BaseFragment() {
             currentArticle.observe { currentArticle: HelpArticle ->
                 articleTitleTextView.setText(currentArticle.titleId)
             }
-            previousArticle.observe { previousArticle: HelpArticle? ->
-                updateNavigationButton(previousArticleButton, previousArticle)
+            isPreviousArticleButtonEnabled.observe { isEnabled: Boolean ->
+                previousButton.isEnabled = isEnabled
             }
-            nextArticle.observe { nextArticle: HelpArticle? ->
-                updateNavigationButton(nextArticleButton, nextArticle)
-            }
-        }
-    }
-
-    private fun updateNavigationButton(button: View, helpArticle: HelpArticle?) {
-        with(button) {
-            if (helpArticle == null) {
-                isVisible = false
-            } else {
-                isVisible = true
-                setOnClickListener {
-                    controller?.dispatch(ArticleSelected(helpArticle))
-                }
+            isNextArticleButtonEnabled.observe { isEnabled: Boolean ->
+                nextButton.isEnabled = isEnabled
             }
         }
     }
@@ -103,6 +93,75 @@ class HelpArticleContainerFragment : BaseFragment() {
             override fun onDrawerStateChanged(newState: Int) {}
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
             override fun onDrawerOpened(drawerView: View) {}
+        })
+        toggler.setOnClickListener {
+            // just to be able to register click which in turn enables click sound
+            // maybe it's important for blind persons
+        }
+        toggler.setOnTouchListener(object : View.OnTouchListener {
+            private var tiltAngle = 0f
+
+            override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+                val isTouchPointInsideToggler: Boolean =
+                    motionEvent.x >= 0 && motionEvent.x <= toggler.width
+                            && motionEvent.y >= 0 && motionEvent.y <= toggler.height
+
+                val tiltAngle = when {
+                    !isTouchPointInsideToggler -> {
+                        0f
+                    }
+                    motionEvent.action == MotionEvent.ACTION_UP -> {
+                        when (this.tiltAngle) {
+                            -5f -> {
+                                if (previousButton.isEnabled) {
+                                    controller?.dispatch(PreviousArticleButtonClicked)
+                                    view.performClick()
+                                }
+                            }
+                            5f -> {
+                                if (nextButton.isEnabled) {
+                                    controller?.dispatch(NextArticleButtonClicked)
+                                    view.performClick()
+                                }
+                            }
+                        }
+                        0f
+                    }
+                    motionEvent.x > toggler.width / 2 -> {
+                        if (nextButton.isEnabled) 5f else 0f
+                    }
+                    else -> {
+                        if (previousButton.isEnabled) -5f else 0f
+                    }
+                }
+
+                if (this.tiltAngle != tiltAngle) {
+                    this.tiltAngle = tiltAngle
+                    previousButton.isPressed = tiltAngle == -5f
+                    nextButton.isPressed = tiltAngle == 5f
+                    if (tiltAngle == 0f) animateSettling() else animatePressing()
+                }
+
+                return isTouchPointInsideToggler
+            }
+
+            private fun animatePressing() {
+                ObjectAnimator.ofFloat(toggler, "rotationY", tiltAngle).apply {
+                    duration = 100
+                    interpolator = LinearInterpolator()
+                    setAutoCancel(true)
+                    start()
+                }
+            }
+
+            private fun animateSettling() {
+                ObjectAnimator.ofFloat(toggler, "rotationY", 0f).apply {
+                    duration = 400
+                    interpolator = DecelerateInterpolator()
+                    setAutoCancel(true)
+                    start()
+                }
+            }
         })
     }
 

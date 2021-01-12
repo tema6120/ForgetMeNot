@@ -4,4 +4,6 @@ sealed class HelpEvent {
     class ArticleSelected(val helpArticle: HelpArticle) : HelpEvent()
     class ArticleLinkClicked(val helpArticle: HelpArticle) : HelpEvent()
     class ArticleOpened(val helpArticle: HelpArticle) : HelpEvent()
+    object PreviousArticleButtonClicked : HelpEvent()
+    object NextArticleButtonClicked : HelpEvent()
 }

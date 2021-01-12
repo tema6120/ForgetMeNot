@@ -8,19 +8,15 @@ class HelpViewModel(
 ) {
     val currentArticle: Flow<HelpArticle> = helpScreenState.flowOf(HelpScreenState::currentArticle)
 
-    val previousArticle: Flow<HelpArticle?> = currentArticle
+    val isPreviousArticleButtonEnabled: Flow<Boolean> = currentArticle
         .map { currentHelpArticle: HelpArticle ->
-            HelpArticle.values().run {
-                val currentIndex = indexOf(currentHelpArticle)
-                getOrNull(currentIndex - 1)
-            }
+            HelpArticle.values().indexOf(currentHelpArticle) > 0
         }
 
-    val nextArticle: Flow<HelpArticle?> = currentArticle
+    val isNextArticleButtonEnabled: Flow<Boolean> = currentArticle
         .map { currentHelpArticle: HelpArticle ->
             HelpArticle.values().run {
-                val currentIndex = indexOf(currentHelpArticle)
-                getOrNull(currentIndex + 1)
+                indexOf(currentHelpArticle) < lastIndex
             }
         }
 

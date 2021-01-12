@@ -29,6 +29,24 @@ class HelpController(
                     screenState.currentArticle = event.helpArticle
                 }
             }
+
+            PreviousArticleButtonClicked -> {
+                val articles = HelpArticle.values()
+                val currentIndex = articles.indexOf(screenState.currentArticle)
+                if (currentIndex > 0) {
+                    val article = articles[currentIndex - 1]
+                    sendCommand(OpenArticle(article, needToClearBackStack = true))
+                }
+            }
+
+            NextArticleButtonClicked -> {
+                val articles = HelpArticle.values()
+                val currentIndex = articles.indexOf(screenState.currentArticle)
+                if (currentIndex < articles.lastIndex) {
+                    val article = articles[currentIndex + 1]
+                    sendCommand(OpenArticle(article, needToClearBackStack = true))
+                }
+            }
         }
     }
 
