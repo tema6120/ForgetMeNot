@@ -2,4 +2,5 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/articleContentTextView"
         style="@style/ArticleParagraph"
-        tools:text="@string/article_about_forgetmenot" />
+        tools:fontFamily="@font/nunito_bold"
+        tools:text="@string/article_autoplaying_cards" />

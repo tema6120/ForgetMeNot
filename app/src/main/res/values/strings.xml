@@ -39,6 +39,8 @@
     <string name="description_drawer_button">Open navigation menu</string>
     <string name="description_back_button2">Back</string>
     <string name="description_infinite_playback">Infinite playback</string>
+    <string name="description_previous_button">Previous</string>
+    <string name="description_next_button">Next</string>
     <string name="snackbar_action_cancel">cancel</string>
     <string name="label_add_deck_screen">Add Deck</string>
     <string name="action_search">Search</string>
@@ -284,14 +286,15 @@
 
         \n\nThere are two types of hints available in the exercise:
 
-        \n\n\t- \'Get variants\'. Four variants will be provided to choose. The variants are taken
-        from the deck to which the card belongs. This hint can make it a lot easier to answer if the
-        deck is not designed for \'Testing method with variants\'.
         \n\n\t- \'Mask letters\'. This hint can be applied many times. The first time you turn to
         the hint, all letters will be replaced with a masked character ■. You can see how many
         words are in the answer, how many letters are in each word. If this is not enough, you can
         unmask part of the answer. Just select a fragment and press \'Unmask selected region\' on
-        hint popup window.</string>
+        hint popup window.
+
+        \n\n\t- \'Get variants\'. Four variants will be provided to choose. The variants are taken
+        from the deck to which the card belongs. This hint can make it a lot easier to answer if the
+        deck is not designed for \'Testing method with variants\'.</string>
     <string name="article_exercise_paragraph_4">You can also do the exercise without looking at the
         screen in <annotation clickable="walking_mode">\'Walking mode\'</annotation>.</string>
     <string name="article_testing_methods_paragraph_1">Testing methods define how the answer will
@@ -712,4 +715,5 @@
     <string name="toast_no_browser">You don\'t have any browser to open URL</string>
     <string name="toast_no_file_manager_to_load">You don\'t have any file manager to load a file</string>
     <string name="toast_no_file_manager_to_create">You don\'t have any file manager to create a file</string>
+    <string name="description_window_frame_icons">Window frame icons</string>
 </resources>

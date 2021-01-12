@@ -724,13 +724,9 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private val backPressInterceptor by lazy {
-        object : MainActivity.BackPressInterceptor {
-            override fun onBackPressed(): Boolean {
-                controller?.dispatch(BackButtonClicked)
-                return true
-            }
-        }
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        controller?.dispatch(BackButtonClicked)
+        true
     }
 
     companion object {

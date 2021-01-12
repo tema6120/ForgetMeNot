@@ -256,11 +256,9 @@ class CardsEditorFragment : BaseFragment() {
         }
     }
 
-    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
-        override fun onBackPressed(): Boolean {
-            controller?.dispatch(BackButtonClicked)
-            return true
-        }
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        controller?.dispatch(BackButtonClicked)
+        true
     }
 
     companion object {

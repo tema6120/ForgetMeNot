@@ -54,7 +54,7 @@ abstract class BaseHelpArticleFragmentForComplexUi : Fragment() {
 
     protected open fun setupView() {}
 
-    protected inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit) {
+    protected inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit = {}) {
         viewCoroutineScope!!.launch {
             collect {
                 if (isActive) {

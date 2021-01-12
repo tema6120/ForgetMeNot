@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -9,13 +10,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/article_import_of_deck_paragraph_1"
-            android:textColor="@color/textSecondary"
+            android:textColor="@color/text_description"
             android:textIsSelectable="true"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/text_file_frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:fontFamily="@font/nunito_bold" />
 
     <LinearLayout
             android:id="@+id/text_file_frame"
@@ -29,6 +31,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/paragraph1">
 
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/description_window_frame_icons"
+                android:padding="16dp"
+                app:srcCompat="@drawable/ic_window_frame_icons" />
+
+        <View
+                android:id="@+id/topDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/text_primary_blue" />
+
         <TextView
                 android:id="@+id/text_file_content"
                 android:layout_width="match_parent"
@@ -41,10 +56,10 @@
                 android:textSize="12sp" />
 
         <View
-                android:id="@+id/divider"
+                android:id="@+id/bottomDivider"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/textSecondary" />
+                android:layout_height="2dp"
+                android:background="@color/text_primary_blue" />
 
         <TextView
                 android:id="@+id/file_name"
@@ -66,12 +81,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/article_import_of_deck_paragraph_2"
-            android:textColor="@color/textSecondary"
+            android:textColor="@color/text_description"
             android:textIsSelectable="true"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_file_frame" />
+            app:layout_constraintTop_toBottomOf="@+id/text_file_frame"
+            tools:fontFamily="@font/nunito_bold" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

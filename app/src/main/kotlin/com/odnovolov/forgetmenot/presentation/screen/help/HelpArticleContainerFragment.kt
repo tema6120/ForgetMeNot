@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpController.Command.OpenArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleSelected
@@ -139,6 +140,25 @@ class HelpArticleContainerFragment : BaseFragment() {
             pendingActions.add(action)
         } else {
             action()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+    }
+
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        if (childFragmentManager.backStackEntryCount > 0) {
+            childFragmentManager.popBackStack()
+            true
+        } else {
+            false
         }
     }
 

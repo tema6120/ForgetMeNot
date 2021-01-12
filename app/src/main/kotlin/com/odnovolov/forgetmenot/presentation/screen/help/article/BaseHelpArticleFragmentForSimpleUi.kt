@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
+import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpController
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleOpened
+import kotlinx.android.synthetic.main.article.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -45,7 +48,9 @@ abstract class BaseHelpArticleFragmentForSimpleUi : Fragment() {
         setupView()
     }
 
-    protected open fun setupView() {}
+    protected open fun setupView() {
+        articleContentTextView.setFont(R.font.nunito_bold)
+    }
 
     protected inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit) {
         viewCoroutineScope!!.launch {

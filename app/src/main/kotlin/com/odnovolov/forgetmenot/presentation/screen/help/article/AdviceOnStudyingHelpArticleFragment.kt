@@ -12,6 +12,7 @@ class AdviceOnStudyingHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi()
     override val helpArticle: HelpArticle get() = HelpArticle.AdviceOnStudying
 
     override fun setupView() {
+        super.setupView()
         articleContentTextView.setTextWithClickableAnnotations(
             stringId = R.string.article_advice_on_studying,
             onAnnotationClick = { annotationValue: String ->

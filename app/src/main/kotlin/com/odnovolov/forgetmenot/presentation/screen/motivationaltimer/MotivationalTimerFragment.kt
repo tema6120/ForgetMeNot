@@ -197,15 +197,13 @@ class MotivationalTimerFragment : BaseFragment() {
         }
     }
 
-    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
-        override fun onBackPressed(): Boolean {
-            val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
-            if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
-                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            } else {
-                controller?.dispatch(BackButtonClicked)
-            }
-            return true
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        } else {
+            controller?.dispatch(BackButtonClicked)
         }
+        true
     }
 }

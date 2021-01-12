@@ -34,6 +34,10 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
+                android:id="@+id/nav_host_to_walking_mode_settings_no_animation"
+                app:destination="@id/walking_mode_settings_screen" />
+
+        <action
                 android:id="@+id/nav_host_to_help"
                 app:destination="@id/help_screen" />
 
@@ -278,13 +282,7 @@
             android:id="@+id/help_screen"
             android:name="com.odnovolov.forgetmenot.presentation.screen.help.HelpArticleContainerFragment"
             android:label="@string/label_help_screen"
-            tools:layout="@layout/fragment_help_article_container">
-
-        <action
-                android:id="@+id/action_help_screen_to_walking_mode_settings_screen"
-                app:destination="@id/walking_mode_settings_screen" />
-
-    </fragment>
+            tools:layout="@layout/fragment_help_article_container"/>
 
     <fragment
             android:id="@+id/card_filter_for_autoplay_screen"

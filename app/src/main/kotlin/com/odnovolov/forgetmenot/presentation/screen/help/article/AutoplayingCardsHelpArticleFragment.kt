@@ -9,6 +9,7 @@ class AutoplayingCardsHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi()
     override val helpArticle: HelpArticle get() = HelpArticle.AutoplayingCards
 
     override fun setupView() {
+        super.setupView()
         articleContentTextView.setText(R.string.article_autoplaying_cards)
     }
 }

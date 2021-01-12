@@ -239,7 +239,7 @@ class Navigator : ActivityLifecycleCallbacks {
     }
 
     fun navigateToWalkingModeSettingsFromWalkingModeArticle() {
-        navigate(R.id.action_help_screen_to_walking_mode_settings_screen)
+        navigate(R.id.nav_host_to_walking_mode_settings_no_animation)
     }
 
     fun navigateUp() {

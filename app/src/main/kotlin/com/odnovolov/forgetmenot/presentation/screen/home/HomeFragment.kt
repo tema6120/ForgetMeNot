@@ -411,20 +411,18 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        backPressInterceptor = object : MainActivity.BackPressInterceptor {
-            override fun onBackPressed(): Boolean {
-                return when {
-                    selectionToolbar.isVisible -> {
-                        controller?.dispatch(SelectionCancelled)
-                        true
-                    }
-                    searchEditText.hasFocus() -> {
-                        cancelSearch()
-                        true
-                    }
-                    else -> {
-                        false
-                    }
+        backPressInterceptor = MainActivity.BackPressInterceptor {
+            when {
+                selectionToolbar.isVisible -> {
+                    controller?.dispatch(SelectionCancelled)
+                    true
+                }
+                searchEditText.hasFocus() -> {
+                    cancelSearch()
+                    true
+                }
+                else -> {
+                    false
                 }
             }
         }

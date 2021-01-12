@@ -12,6 +12,7 @@ class WalkingModeHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi() {
     private val navigator by lazy { AppDiScope.get().navigator }
 
     override fun setupView() {
+        super.setupView()
         articleContentTextView.setTextWithClickableAnnotations(
             stringId = R.string.article_walking_mode,
             onAnnotationClick = { annotationValue: String ->

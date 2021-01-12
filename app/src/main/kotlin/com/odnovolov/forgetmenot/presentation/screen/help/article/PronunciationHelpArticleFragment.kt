@@ -9,6 +9,7 @@ class PronunciationHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi() {
     override val helpArticle: HelpArticle get() = HelpArticle.Pronunciation
 
     override fun setupView() {
+        super.setupView()
         articleContentTextView.setText(R.string.article_pronunciation)
     }
 }

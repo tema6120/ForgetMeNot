@@ -4,9 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.isVisible
-import androidx.core.view.setMargins
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,24 +22,19 @@ import kotlinx.coroutines.launch
 class ExampleExerciseCardAdapter(
     private val coroutineScope: CoroutineScope,
     private val exercise: ExampleExerciseToDemonstrateCardsRetesting
-) :
-    ListAdapter<ExerciseCard, ExerciseCardViewHolder>(DiffCallback()) {
+) : ListAdapter<ExerciseCard, ExerciseCardViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseCardViewHolder {
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_exercise_card_manual_test, parent, false)
         with(view) {
             layoutParams.apply {
-                width = 200.dp
-                height = 300.dp
+                width = 220.dp
+                height = 320.dp
             }
-            cardView.layoutParams = LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.MATCH_PARENT
-            ).apply {
-                setMargins(16.dp)
-            }
-            rememberButton.textSize = 12f
-            notRememberButton.textSize = 12f
+            rememberButton.updateLayoutParams { height = 40.dp }
+            rememberButton.textSize = 11f
+            notRememberButton.updateLayoutParams { height = 40.dp }
+            notRememberButton.textSize = 11f
         }
         return ExerciseCardViewHolder(view, coroutineScope, exercise)
     }
@@ -62,10 +56,12 @@ class ExampleExerciseCardAdapter(
             observing = coroutineScope.launch {
                 with(itemView) {
                     questionTextView.text = exerciseCard.card.question
+                    questionScrollView.isVisible = true
                     answerTextView.text = exerciseCard.card.answer
                     exerciseCard.flowOf(ExerciseCard::isAnswerCorrect)
                         .observe(this@launch) { isAnswerCorrect: Boolean? ->
                             answerScrollView.isVisible = isAnswerCorrect != null
+                            curtainView.isVisible = isAnswerCorrect == null
                             rememberButton.isSelected = isAnswerCorrect == true
                             notRememberButton.isSelected = isAnswerCorrect == false
                         }

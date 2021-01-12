@@ -19,7 +19,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true">
 
                 <ImageButton
                         android:id="@+id/backButton"
@@ -99,6 +100,7 @@
                     android:layout_width="64dp"
                     android:layout_height="38dp"
                     android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_previous_button"
                     android:paddingEnd="10dp"
                     app:srcCompat="@drawable/ic_round_chevron_left_28" />
 
@@ -115,6 +117,7 @@
                     android:layout_width="64dp"
                     android:layout_height="38dp"
                     android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_next_button"
                     android:paddingStart="10dp"
                     app:srcCompat="@drawable/ic_round_chevron_right_28" />
 

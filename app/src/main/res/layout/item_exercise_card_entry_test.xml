@@ -12,8 +12,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
-                android:weightSum="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="1">
 
             <FrameLayout
                     android:id="@+id/questionFrame"
@@ -88,7 +88,7 @@
                     android:layout_height="1dp"
                     android:background="@color/divider_on_card"
                     android:visibility="gone"
-                    tools:visibility="gone"/>
+                    tools:visibility="gone" />
 
             <ScrollView
                     android:id="@+id/answerInputScrollView"
@@ -102,11 +102,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
+                        android:enabled="false"
                         android:gravity="top|start"
                         android:hint="@string/hint_answer_edittext"
                         android:importantForAutofill="no"
                         android:inputType="textMultiLine"
-                        android:enabled="false"
                         android:paddingStart="16dp"
                         android:paddingTop="16dp"
                         android:paddingEnd="16dp"
@@ -120,7 +120,8 @@
             <ScrollView
                     android:id="@+id/answerScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
                     android:fillViewport="true"
                     android:visibility="gone">
 

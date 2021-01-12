@@ -10,6 +10,7 @@ class AdviceOnCompilingDeckHelpArticleFragment : BaseHelpArticleFragmentForSimpl
     override val helpArticle: HelpArticle get() = HelpArticle.AdviceOnCompilingDeck
 
     override fun setupView() {
+        super.setupView()
         articleContentTextView.run {
             setText(R.string.article_advice_on_compiling_deck)
             movementMethod = LinkMovementMethod.getInstance()

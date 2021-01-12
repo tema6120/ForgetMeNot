@@ -16,39 +16,33 @@
             android:layout_width="match_parent"
             android:layout_height="400dp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/controlPanel"
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:elevation="2dp">
 
         <ImageButton
                 android:id="@+id/speakButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/ripple_light_borderless"
                 android:contentDescription="@string/description_speak_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_volume_up_white_24dp" />
 
         <ProgressBar
                 android:id="@+id/speakProgressBar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="8dp"
                 android:indeterminateTint="@android:color/white"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/speakButton"
-                app:layout_constraintEnd_toEndOf="@+id/speakButton"
-                app:layout_constraintStart_toStartOf="@+id/speakButton"
-                app:layout_constraintTop_toTopOf="@+id/speakButton"
                 tools:visibility="visible" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
 </LinearLayout>

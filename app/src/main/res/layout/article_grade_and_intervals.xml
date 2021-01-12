@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/paragraph1"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_grade_and_intervals_paragraph1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
+            android:elevation="2dp">
+
+        <TextView
+                android:id="@+id/gradeButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/background_grade_button"
+                android:contentDescription="@string/description_grade_button"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                tools:text="0" />
+
+    </FrameLayout>
+
+    <TextView
+            android:id="@+id/paragraph2"
+            style="@style/ArticleParagraph"
+            android:text="@string/article_grade_and_intervals_paragraph2" />
+
+</LinearLayout>

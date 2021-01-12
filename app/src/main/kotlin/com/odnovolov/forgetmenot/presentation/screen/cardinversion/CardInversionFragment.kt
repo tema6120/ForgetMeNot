@@ -138,15 +138,13 @@ class CardInversionFragment : BaseFragment() {
         }
     }
 
-    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
-        override fun onBackPressed(): Boolean {
-            val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
-            return if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
-                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                true
-            } else {
-                false
-            }
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            true
+        } else {
+            false
         }
     }
 }

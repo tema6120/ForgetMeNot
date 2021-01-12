@@ -127,14 +127,12 @@ class NavHostFragment : BaseFragment() {
             .unregisterBackPressInterceptor(backPressInterceptor)
     }
 
-    private val backPressInterceptor = object : MainActivity.BackPressInterceptor {
-        override fun onBackPressed(): Boolean {
-            return if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START)
-                true
-            } else {
-                false
-            }
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        } else {
+            false
         }
     }
 

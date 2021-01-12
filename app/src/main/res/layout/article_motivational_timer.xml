@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -15,26 +14,22 @@
             android:layout_width="match_parent"
             android:layout_height="400dp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/controlPanel"
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:elevation="2dp">
 
         <ImageButton
                 android:id="@+id/timerButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_timer_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/ripple_light_borderless"
+                android:contentDescription="@string/description_timer_button" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
 </LinearLayout>

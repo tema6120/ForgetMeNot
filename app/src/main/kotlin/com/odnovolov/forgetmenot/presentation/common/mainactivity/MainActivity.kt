@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    interface BackPressInterceptor {
+    fun interface BackPressInterceptor {
         fun onBackPressed(): Boolean
     }
 }

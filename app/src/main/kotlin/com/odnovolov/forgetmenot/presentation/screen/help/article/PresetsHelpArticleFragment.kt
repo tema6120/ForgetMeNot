@@ -9,6 +9,7 @@ class PresetsHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi() {
     override val helpArticle: HelpArticle get() = HelpArticle.Presets
 
     override fun setupView() {
+        super.setupView()
         articleContentTextView.setText(R.string.article_presets)
     }
 }

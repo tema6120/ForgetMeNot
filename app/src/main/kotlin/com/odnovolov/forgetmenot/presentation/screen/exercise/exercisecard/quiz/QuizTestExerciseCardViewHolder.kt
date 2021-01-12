@@ -319,11 +319,11 @@ class QuizTestExerciseCardViewHolder(
 
     private fun setVariantBackground(variantFrame: View, variantStatus: VariantStatus) {
         val drawableResId: Int = when (variantStatus) {
-            WaitingForAnswer -> R.drawable.background_variant_status_wrong_but_not_selected
+            WaitingForAnswer -> R.drawable.background_variant_status_not_selected
             Correct -> R.drawable.background_variant_status_correct
             CorrectButNotSelected -> R.drawable.background_variant_status_correct_but_not_selected
             Wrong -> R.drawable.background_variant_status_wrong
-            WrongButNotSelected -> R.drawable.background_variant_status_wrong_but_not_selected
+            WrongButNotSelected -> R.drawable.background_variant_status_not_selected
         }
         variantFrame.background = ContextCompat.getDrawable(variantFrame.context, drawableResId)
     }

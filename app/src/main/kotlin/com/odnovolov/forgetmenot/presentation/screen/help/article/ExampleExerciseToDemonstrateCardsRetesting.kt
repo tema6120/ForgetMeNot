@@ -26,23 +26,23 @@ class ExampleExerciseToDemonstrateCardsRetesting(
         id: Long = generateId(),
         question: String,
         answer: String,
-        levelOfKnowledge: Int,
-        initialLevelOfKnowledge: Int = levelOfKnowledge,
-        isLevelOfKnowledgeEditedManually: Boolean = false
+        grade: Int,
+        initialGrade: Int = grade,
+        isGradeEditedManually: Boolean = false
     ) : FlowMaker<Card>() {
         val id: Long by flowMaker(id)
         val question: String by flowMaker(question)
         val answer: String by flowMaker(answer)
-        var levelOfKnowledge: Int by flowMaker(levelOfKnowledge)
-        val initialLevelOfKnowledge: Int by flowMaker(initialLevelOfKnowledge)
-        var isLevelOfKnowledgeEditedManually: Boolean by flowMaker(isLevelOfKnowledgeEditedManually)
+        var grade: Int by flowMaker(grade)
+        val initialGrade: Int by flowMaker(initialGrade)
+        var isGradeEditedManually: Boolean by flowMaker(isGradeEditedManually)
     }
 
-    fun setLevelOfKnowledge(levelOfKnowledge: Int, exerciseCard: ExerciseCard) {
-        if (levelOfKnowledge < 0) return
+    fun setGrade(grade: Int, exerciseCard: ExerciseCard) {
+        if (grade < 0) return
         exerciseCard.card.apply {
-            this.levelOfKnowledge = levelOfKnowledge
-            isLevelOfKnowledgeEditedManually = true
+            this.grade = grade
+            isGradeEditedManually = true
         }
     }
 
@@ -62,7 +62,7 @@ class ExampleExerciseToDemonstrateCardsRetesting(
         } else {
             addExerciseCardToRetestIfNeed(exerciseCard)
         }
-        updateLevelOfKnowledge(exerciseCard)
+        updateGrade(exerciseCard)
     }
 
     private fun deleteCardsForRetesting(currentExerciseCard: ExerciseCard) {
@@ -93,8 +93,8 @@ class ExampleExerciseToDemonstrateCardsRetesting(
             .any { it.card.id == cardId }
     }
 
-    private fun updateLevelOfKnowledge(currentExerciseCard: ExerciseCard) {
-        if (currentExerciseCard.card.isLevelOfKnowledgeEditedManually) return
+    private fun updateGrade(currentExerciseCard: ExerciseCard) {
+        if (currentExerciseCard.card.isGradeEditedManually) return
         var numberOfCorrect = 0
         var numberOfWrong = 0
         for (exerciseCard in state.exerciseCards) {
@@ -105,9 +105,9 @@ class ExampleExerciseToDemonstrateCardsRetesting(
             }
         }
         with(currentExerciseCard.card) {
-            levelOfKnowledge = when {
-                numberOfWrong > 0 -> maxOf(0, initialLevelOfKnowledge - numberOfWrong)
-                numberOfCorrect > 0 -> initialLevelOfKnowledge + 1
+            grade = when {
+                numberOfWrong > 0 -> maxOf(0, initialGrade - numberOfWrong)
+                numberOfCorrect > 0 -> initialGrade + 1
                 else -> return
             }
         }
