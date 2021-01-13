@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import android.graphics.Paint
 import android.view.ViewGroup.LayoutParams
@@ -10,7 +10,7 @@ import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
 import com.odnovolov.forgetmenot.presentation.common.setFont
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import kotlinx.android.synthetic.main.article_testing_methods.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*

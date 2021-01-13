@@ -15,7 +15,7 @@ import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.getStatusBarHeight
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.about.AboutFragment
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticleContainerFragment
+import com.odnovolov.forgetmenot.presentation.screen.help.HelpFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeFragment
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsFragment
 import com.odnovolov.forgetmenot.presentation.screen.supportapp.SupportAppFragment
@@ -37,7 +37,7 @@ class NavHostFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        drawerColumn.updatePadding(top = 24.dp + getStatusBarHeight())
+        drawerColumn.updatePadding(top = 24.dp + getStatusBarHeight(requireContext()))
         if (childFragmentManager.fragments.isEmpty()) {
             childFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, HomeFragment())
@@ -157,9 +157,9 @@ class NavHostFragment : BaseFragment() {
             ::SupportAppFragment
         ),
         Help(
-            HelpArticleContainerFragment::class,
+            HelpFragment::class,
             R.id.helpDrawerItem,
-            ::HelpArticleContainerFragment
+            ::HelpFragment
         ),
         About(
             AboutFragment::class,

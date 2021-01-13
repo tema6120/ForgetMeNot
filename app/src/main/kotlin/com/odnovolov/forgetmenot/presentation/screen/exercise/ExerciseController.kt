@@ -16,8 +16,8 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
@@ -114,8 +114,8 @@ class ExerciseController(
 
             WalkingModeHelpButtonClicked -> {
                 exercise.stopSpeaking()
-                navigator.navigateToHelpFromExercise {
-                    HelpDiScope(HelpArticle.WalkingMode)
+                navigator.navigateToHelpArticleFromExercise {
+                    HelpArticleDiScope(HelpArticle.WalkingMode)
                 }
             }
 
@@ -126,8 +126,8 @@ class ExerciseController(
 
             HelpButtonClicked -> {
                 exercise.stopSpeaking()
-                navigator.navigateToHelpFromExercise {
-                    HelpDiScope(HelpArticle.Exercise)
+                navigator.navigateToHelpArticleFromExercise {
+                    HelpArticleDiScope(HelpArticle.Exercise)
                 }
             }
 

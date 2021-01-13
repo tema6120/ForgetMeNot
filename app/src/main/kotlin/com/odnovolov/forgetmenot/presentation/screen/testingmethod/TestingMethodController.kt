@@ -9,8 +9,8 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip.*
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodEvent.*
 
 class TestingMethodController(
@@ -24,8 +24,8 @@ class TestingMethodController(
     override fun handle(event: TestingMethodEvent) {
         when (event) {
             HelpButtonClicked -> {
-                navigator.navigateToHelpFromTestingMethod {
-                    HelpDiScope(HelpArticle.TestingMethods)
+                navigator.navigateToHelpArticleFromTestingMethod {
+                    HelpArticleDiScope(HelpArticle.TestingMethods)
                 }
             }
 

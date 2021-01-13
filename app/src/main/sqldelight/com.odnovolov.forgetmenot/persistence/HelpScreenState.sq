@@ -1,4 +1,4 @@
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle;
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle;
 
 CREATE TABLE HelpScreenStateDb (
     currentHelpArtice TEXT AS HelpArticle NOT NULL

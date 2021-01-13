@@ -14,7 +14,7 @@ import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.Walk
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpScreenState
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.Dispatchers
@@ -54,7 +54,7 @@ class LongTermStateSaverImpl(
             put(DeckReviewPreference::class, DeckReviewPreferencePropertyChangeHandler(database))
             put(WalkingModePreference::class, WalkingModePreferencePropertyChangeHandler(database))
             put(FullscreenPreference::class, FullscreenPreferencePropertyChangeHandler(database))
-            put(HelpScreenState::class, HelpScreenStatePropertyChangeHandler(database))
+            put(HelpArticleScreenState::class, HelpScreenStatePropertyChangeHandler(database))
             put(InitialDecksAdder.State::class, InitialDecksAdderStatePropertyChangeHandler(database))
         }
 

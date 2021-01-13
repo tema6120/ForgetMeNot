@@ -7,8 +7,8 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.*
@@ -30,8 +30,8 @@ class MotivationalTimerController(
     override fun handle(event: MotivationalTimerEvent) {
         when (event) {
             HelpButtonClicked -> {
-                navigator.navigateToHelpFromMotivationalTimer {
-                    HelpDiScope(HelpArticle.MotivationalTimer)
+                navigator.navigateToHelpArticleFromMotivationalTimer {
+                    HelpArticleDiScope(HelpArticle.MotivationalTimer)
                 }
             }
 

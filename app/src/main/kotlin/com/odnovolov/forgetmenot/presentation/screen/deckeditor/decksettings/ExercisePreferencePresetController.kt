@@ -12,8 +12,8 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.pre
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.PresetDialogState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetController
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.preset.SkeletalPresetController.Command.ShowRemovePresetDialog
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 
 class ExercisePreferencePresetController(
     private val deckSettings: DeckSettings,
@@ -73,8 +73,8 @@ class ExercisePreferencePresetController(
     }
 
     override fun onHelpButtonClicked() {
-        navigator.navigateToHelpFromDeckEditor {
-            HelpDiScope(HelpArticle.Presets)
+        navigator.navigateToHelpArticleFromDeckEditor {
+            HelpArticleDiScope(HelpArticle.Presets)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import android.graphics.Paint
 import android.graphics.Typeface
@@ -20,12 +20,12 @@ import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.Card
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting.Card
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
 import kotlinx.android.synthetic.main.article_grade_and_intervals.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
 
 class GradeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     override val layoutRes: Int get() = R.layout.article_grade_and_intervals

@@ -2,39 +2,30 @@ package com.odnovolov.forgetmenot.presentation.screen.help
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
-import kotlinx.android.synthetic.main.item_help_article.view.*
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import kotlinx.android.synthetic.main.item_help_article_help_screen.view.*
 
 class HelpArticleAdapter(
-    private val onItemSelected: (HelpArticle) -> Unit
-) : ListAdapter<HelpArticleItem, SimpleRecyclerViewHolder>(DiffCallback()) {
+    private val onItemClicked: (HelpArticle) -> Unit
+) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_help_article, parent, false)
+            .inflate(R.layout.item_help_article_help_screen, parent, false)
         return SimpleRecyclerViewHolder(view)
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
-        val item: HelpArticleItem = getItem(position)
+        val helpArticle = HelpArticle.values()[position]
         with(viewHolder.itemView) {
-            helpArticleTitleTextView.setText(item.helpArticle.titleId)
-            isSelected = item.isArticleSelected
-            helpArticleTitleTextView.setOnClickListener {
-                onItemSelected(item.helpArticle)
-            }
+            helpArticleIcon.setImageResource(helpArticle.iconRes)
+            helpArticleTextView.setText(helpArticle.titleRes)
+            helpArticleButton.setOnClickListener { onItemClicked(helpArticle) }
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<HelpArticleItem>() {
-        override fun areItemsTheSame(oldItem: HelpArticleItem, newItem: HelpArticleItem): Boolean =
-            oldItem.helpArticle == newItem.helpArticle
-
-        override fun areContentsTheSame(
-            oldItem: HelpArticleItem,
-            newItem: HelpArticleItem
-        ): Boolean = oldItem == newItem
-    }
+    override fun getItemCount(): Int = HelpArticle.values().size
 }

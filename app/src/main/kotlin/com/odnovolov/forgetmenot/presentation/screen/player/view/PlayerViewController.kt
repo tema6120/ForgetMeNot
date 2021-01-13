@@ -10,8 +10,8 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
@@ -120,8 +120,8 @@ class PlayerViewController(
 
             HelpButtonClicked -> {
                 player.pause()
-                navigator.navigateToHelpFromPlayer {
-                    HelpDiScope(HelpArticle.AutoplayingCards)
+                navigator.navigateToHelpArticleFromPlayer {
+                    HelpArticleDiScope(HelpArticle.AutoplayingCards)
                 }
             }
 

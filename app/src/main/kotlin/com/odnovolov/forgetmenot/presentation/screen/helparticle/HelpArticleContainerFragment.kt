@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.help
+package com.odnovolov.forgetmenot.presentation.screen.helparticle
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -17,19 +17,19 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpController.Command.OpenArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleController.Command.OpenArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleEvent.*
 import kotlinx.android.synthetic.main.fragment_help_article_container.*
 import kotlinx.coroutines.launch
 import java.util.*
 
 class HelpArticleContainerFragment : BaseFragment() {
     init {
-        HelpDiScope.reopenIfClosed()
+        HelpArticleDiScope.reopenIfClosed()
     }
 
-    private var controller: HelpController? = null
-    private lateinit var viewModel: HelpViewModel
+    private var controller: HelpArticleController? = null
+    private lateinit var viewModel: HelpArticleViewModel
     private var needToResetScrollView = false
     private var pendingActions: MutableList<() -> Unit> = ArrayList()
 
@@ -45,7 +45,7 @@ class HelpArticleContainerFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = HelpDiScope.getAsync() ?: return@launch
+            val diScope = HelpArticleDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
             initAdapter()
@@ -60,7 +60,7 @@ class HelpArticleContainerFragment : BaseFragment() {
                 openArticle(currentArticle.firstBlocking(), needToClearBackStack = true)
             }
             currentArticle.observe { currentArticle: HelpArticle ->
-                articleTitleTextView.setText(currentArticle.titleId)
+                articleTitleTextView.setText(currentArticle.titleRes)
             }
             isPreviousArticleButtonEnabled.observe { isEnabled: Boolean ->
                 previousButton.isEnabled = isEnabled
@@ -71,7 +71,7 @@ class HelpArticleContainerFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: HelpController.Command) {
+    private fun executeCommand(command: HelpArticleController.Command) {
         when (command) {
             is OpenArticle -> openArticle(command.article, command.needToClearBackStack)
         }
@@ -224,7 +224,7 @@ class HelpArticleContainerFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
-            HelpDiScope.close()
+            HelpArticleDiScope.close()
         }
     }
 }

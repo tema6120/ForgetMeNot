@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
@@ -16,7 +16,7 @@ import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.TimerStatus
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import kotlinx.android.synthetic.main.article_motivational_timer.*
 import kotlinx.android.synthetic.main.article_motivational_timer.timerButton
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*

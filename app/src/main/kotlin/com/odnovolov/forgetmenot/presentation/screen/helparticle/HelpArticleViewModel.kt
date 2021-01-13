@@ -1,12 +1,13 @@
-package com.odnovolov.forgetmenot.presentation.screen.help
+package com.odnovolov.forgetmenot.presentation.screen.helparticle
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class HelpViewModel(
-    helpScreenState: HelpScreenState
+class HelpArticleViewModel(
+    helpScreenState: HelpArticleScreenState
 ) {
-    val currentArticle: Flow<HelpArticle> = helpScreenState.flowOf(HelpScreenState::currentArticle)
+    val currentArticle: Flow<HelpArticle> =
+        helpScreenState.flowOf(HelpArticleScreenState::currentArticle)
 
     val isPreviousArticleButtonEnabled: Flow<Boolean> = currentArticle
         .map { currentHelpArticle: HelpArticle ->

@@ -124,7 +124,7 @@
                     android:layout_height="48dp"
                     android:background="@drawable/ripple_light_borderless"
                     android:contentDescription="@string/description_walking_mode_button"
-                    app:srcCompat="@drawable/ic_round_directions_walk_24" />
+                    app:srcCompat="@drawable/ic_round_directions_walk_24_in_exercise" />
 
             <ImageButton
                     android:id="@+id/helpButton"

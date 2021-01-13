@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import android.animation.AnimatorInflater
 import android.graphics.Typeface
@@ -19,17 +19,17 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
 import com.odnovolov.forgetmenot.presentation.common.*
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleLinkClicked
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.Card
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleEvent.ArticleLinkClicked
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting.Card
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
 import kotlinx.android.synthetic.main.article_exercise.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.popup_hints.view.*
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
 
 class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     private class Example2State : FlowMaker<Example2State>() {

@@ -3,8 +3,8 @@ package com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.HelpButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionSelected
 
@@ -16,8 +16,8 @@ class WalkingModeSettingsController(
     override fun handle(event: WalkingModeSettingsEvent) {
         when (event) {
             HelpButtonClicked -> {
-                navigator.navigateToHelpFromWalkingModeSettings {
-                    HelpDiScope(HelpArticle.WalkingMode)
+                navigator.navigateToHelpArticleFromWalkingModeSettings {
+                    HelpArticleDiScope(HelpArticle.WalkingMode)
                 }
             }
 

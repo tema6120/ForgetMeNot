@@ -9,8 +9,8 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.doWithCatchingExceptions
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.DialogPurpose.ToAddNewPronunciationEvent
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.DialogPurpose.ToChangePronunciationEventAtPosition
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanController.Command
@@ -41,8 +41,8 @@ class PronunciationPlanController(
     override fun handle(event: PronunciationPlanUiEvent) {
         when (event) {
             HelpButtonClicked -> {
-                navigator.navigateToHelpFromPronunciationPlan {
-                    HelpDiScope(HelpArticle.AutoplayingCards)
+                navigator.navigateToHelpArticleFromPronunciationPlan {
+                    HelpArticleDiScope(HelpArticle.AutoplayingCards)
                 }
             }
 

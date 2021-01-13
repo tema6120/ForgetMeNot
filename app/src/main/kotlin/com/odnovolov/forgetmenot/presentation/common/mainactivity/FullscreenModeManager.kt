@@ -49,10 +49,10 @@ class FullscreenModeManager(
         navController.addOnDestinationChangedListener { _, destination, _ ->
             with(fullscreenPreference) {
                 when (destination.id) {
-                    R.id.exercise_screen -> {
+                    R.id.exercise -> {
                         setFullscreenMode(isEnabledInExercise)
                     }
-                    R.id.player_screen -> {
+                    R.id.player -> {
                         setFullscreenMode(isEnabledInCardPlayer)
                     }
                     else -> {

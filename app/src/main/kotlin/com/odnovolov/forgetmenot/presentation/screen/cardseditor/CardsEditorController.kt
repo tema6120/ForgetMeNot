@@ -18,8 +18,8 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorCont
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 
 class CardsEditorController(
     private val cardsEditor: CardsEditor,
@@ -63,8 +63,8 @@ class CardsEditorController(
             }
 
             HelpButtonClicked -> {
-                navigator.navigateToHelpFromCardsEditor {
-                    HelpDiScope(HelpArticle.AdviceOnCompilingDeck)
+                navigator.navigateToHelpArticleFromCardsEditor {
+                    HelpArticleDiScope(HelpArticle.AdviceOnCompilingDeck)
                 }
             }
 

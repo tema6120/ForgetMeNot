@@ -1,10 +1,10 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.MotivationalTimer
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleLinkClicked
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle.MotivationalTimer
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleEvent.ArticleLinkClicked
 import kotlinx.android.synthetic.main.article.*
 
 class AdviceOnStudyingHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi() {

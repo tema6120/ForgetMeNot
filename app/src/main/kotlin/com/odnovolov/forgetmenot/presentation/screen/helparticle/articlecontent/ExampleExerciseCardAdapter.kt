@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseCardAdapter.ExerciseCardViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.help.article.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseCardAdapter.ExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

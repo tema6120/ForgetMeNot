@@ -7,8 +7,8 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle.QuestionDisplay
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle.QuestionDisplay
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayEvent.*
 
 class QuestionDisplayController(
@@ -22,8 +22,8 @@ class QuestionDisplayController(
     override fun handle(event: QuestionDisplayEvent) {
         when (event) {
             HelpButtonClicked -> {
-                navigator.navigateToHelpFromQuestionDisplay {
-                    HelpDiScope(QuestionDisplay)
+                navigator.navigateToHelpArticleFromQuestionDisplay {
+                    HelpArticleDiScope(QuestionDisplay)
                 }
             }
 

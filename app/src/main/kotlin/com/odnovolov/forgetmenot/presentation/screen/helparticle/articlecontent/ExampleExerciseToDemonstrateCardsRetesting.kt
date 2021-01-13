@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.generateId

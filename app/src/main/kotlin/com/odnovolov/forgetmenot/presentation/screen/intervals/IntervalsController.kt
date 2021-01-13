@@ -8,8 +8,8 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToAddNewInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToChangeInterval
@@ -31,8 +31,8 @@ class IntervalsController(
     override fun handle(event: IntervalsEvent) {
         when (event) {
             HelpButtonClicked -> {
-                navigator.navigateToHelpFromIntervals {
-                    HelpDiScope(HelpArticle.GradeAndIntervals)
+                navigator.navigateToHelpArticleFromIntervals {
+                    HelpArticleDiScope(HelpArticle.GradeAndIntervals)
                 }
             }
 

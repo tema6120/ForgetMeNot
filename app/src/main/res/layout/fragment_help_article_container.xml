@@ -137,6 +137,6 @@
             android:layout_gravity="end"
             android:background="@color/background_window"
             app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_help_article" />
+            tools:listitem="@layout/item_help_article_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

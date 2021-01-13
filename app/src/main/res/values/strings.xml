@@ -271,8 +271,8 @@
         the grade determines when the card will be asked again.
 
         \n\nIf you know the question well and you don\'t want this card ever to be asked again or
-        you don\'t want to study the card, click the \'Do not ask again\' icon. This card will be
-        marked as learned.</string>
+        you don\'t want to study the card, click the \'Mark as learned\' icon. This card will never
+        be asked again.</string>
     <string name="question4_in_exercise_article">What\'s your name?</string>
     <string name="answer4_in_exercise_article">¿Cómo te llamas?</string>
     <string name="question5_in_exercise_article">Buenos días</string>
@@ -716,4 +716,7 @@
     <string name="toast_no_file_manager_to_load">You don\'t have any file manager to load a file</string>
     <string name="toast_no_file_manager_to_create">You don\'t have any file manager to create a file</string>
     <string name="description_window_frame_icons">Window frame icons</string>
+    <string name="title_help_screen">Help</string>
+    <string name="title_articles">Articles</string>
+    <string name="description_help_article_icon">Help article icon</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.setFont
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import kotlinx.android.synthetic.main.article_question_display.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
 import java.util.*

@@ -1,7 +1,7 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import kotlinx.android.synthetic.main.article.*
 
 class AutoplayingCardsHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi() {

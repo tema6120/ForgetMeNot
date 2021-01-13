@@ -11,7 +11,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
@@ -39,21 +39,21 @@ class Navigator : ActivityLifecycleCallbacks {
 
     fun navigateToCardsEditorFromExercise(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
-        navigate(R.id.action_exercise_screen_to_cards_editor_screen)
+        navigate(R.id.exercise_to_cards_editor)
     }
 
     fun navigateToSearchFromExercise(createDiScope: () -> SearchDiScope) {
         SearchDiScope.open(createDiScope)
-        navigate(R.id.action_exercise_screen_to_search_screen)
+        navigate(R.id.exercise_to_search)
     }
 
     fun navigateToWalkingModeSettingsFromExercise() {
-        navigate(R.id.action_exercise_screen_to_walking_mode_settings_screen)
+        navigate(R.id.exercise_to_walking_mode_settings)
     }
 
-    fun navigateToHelpFromExercise(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.action_exercise_screen_to_help_screen)
+    fun navigateToHelpArticleFromExercise(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.exercise_to_help_article)
     }
 
     fun navigateToCardsEditorFromNavHost(createDiScope: () -> CardsEditorDiScope) {
@@ -71,24 +71,24 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.cards_editor_to_deck_editor)
     }
 
-    fun navigateToHelpFromCardsEditor(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.action_cards_editor_screen_to_help_screen)
+    fun navigateToHelpArticleFromCardsEditor(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.cards_editor_to_help_article)
     }
 
     fun navigateToIntervals(createDiScope: () -> IntervalsDiScope) {
         IntervalsDiScope.open(createDiScope)
-        navigate(R.id.action_deck_setup_screen_to_intervals_screen)
+        navigate(R.id.deck_editor_to_intervals)
     }
 
     fun showModifyIntervalDialog(createDiScope: () -> ModifyIntervalDiScope) {
         ModifyIntervalDiScope.open(createDiScope)
-        navigate(R.id.action_show_modify_interval_dialog)
+        navigate(R.id.show_modify_interval_dialog)
     }
 
-    fun navigateToHelpFromIntervals(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.action_intervals_screen_to_help_screen)
+    fun navigateToHelpArticleFromIntervals(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.intervals_to_help_article)
     }
 
     fun navigateToPronunciation(
@@ -97,12 +97,12 @@ class Navigator : ActivityLifecycleCallbacks {
     ) {
         ExampleExerciseDiScope.open(createExampleExerciseDiScope)
         PronunciationDiScope.open(createPronunciationDiScope)
-        navigate(R.id.action_deck_setup_screen_to_pronunciation_screen)
+        navigate(R.id.deck_editor_to_pronunciation)
     }
 
-    fun navigateToHelpFromPronunciation(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.action_pronunciation_screen_to_help_screen)
+    fun navigateToHelpArticleFromPronunciation(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.pronunciation_to_help_article)
     }
 
     fun navigateToCardInversion(
@@ -123,9 +123,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.deck_editor_to_question_display)
     }
 
-    fun navigateToHelpFromQuestionDisplay(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.question_display_to_help)
+    fun navigateToHelpArticleFromQuestionDisplay(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.question_display_to_help_article)
     }
 
     fun navigateToTestingMethod(
@@ -137,9 +137,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.deck_editor_to_testing_method)
     }
 
-    fun navigateToHelpFromTestingMethod(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.testing_method_to_help)
+    fun navigateToHelpArticleFromTestingMethod(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.testing_method_to_help_article)
     }
 
     fun navigateToPronunciationPlan(
@@ -148,16 +148,16 @@ class Navigator : ActivityLifecycleCallbacks {
     ) {
         ExamplePlayerDiScope.open(createExamplePlayerDiScope)
         PronunciationPlanDiScope.open(createPronunciationPlanDiScope)
-        navigate(R.id.action_deck_setup_screen_to_pronunciation_plan_screen)
+        navigate(R.id.deck_editor_to_pronunciation_plan)
     }
 
     fun showPronunciationEventDialog() {
-        navigate(R.id.action_show_pronunciation_event_dialog)
+        navigate(R.id.show_pronunciation_event_dialog)
     }
 
-    fun navigateToHelpFromPronunciationPlan(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.action_pronunciation_plan_screen_to_help_screen)
+    fun navigateToHelpArticleFromPronunciationPlan(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.pronunciation_plan_to_help_article)
     }
 
     fun navigateToMotivationalTimer(
@@ -169,29 +169,29 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.deck_editor_to_motivational_timer)
     }
 
-    fun navigateToHelpFromMotivationalTimer(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.motivational_timer_to_help)
+    fun navigateToHelpArticleFromMotivationalTimer(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.motivational_timer_to_help_article)
     }
 
-    fun navigateToHelpFromDeckEditor(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.action_deck_setup_screen_to_help_screen)
+    fun navigateToHelpArticleFromDeckEditor(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.deck_editor_to_help_article)
     }
 
     fun navigateToSearchFromDeckSetup(createDiScope: () -> SearchDiScope) {
         SearchDiScope.open(createDiScope)
-        navigate(R.id.action_deck_setup_screen_to_search_screen)
+        navigate(R.id.deck_editor_to_search)
     }
 
     fun navigateToCardsEditorFromSearch(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
-        navigate(R.id.action_search_screen_to_cards_editor_screen)
+        navigate(R.id.search_to_cards_editor)
     }
 
     fun navigateToCardsEditorFromDeckEditor(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
-        navigate(R.id.action_deck_setup_screen_to_cards_editor_screen)
+        navigate(R.id.deck_editor_to_cards_editor)
     }
 
     fun navigateToAutoplaySettings(createDiScope: () -> CardFilterForAutoplayDiScope) {
@@ -219,27 +219,27 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.player_to_search)
     }
 
-    fun navigateToHelpFromPlayer(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.player_to_help)
+    fun navigateToHelpArticleFromPlayer(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.player_to_help_article)
     }
 
     fun navigateToWalkingModeSettingsFromNavHost() {
         navigate(R.id.nav_host_to_walking_mode_settings)
     }
 
-    fun navigateToHelpFromWalkingModeSettings(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.walking_mode_settings_to_help)
+    fun navigateToHelpArticleFromWalkingModeSettings(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.walking_mode_settings_to_help_article)
     }
 
-    fun navigateToHelpFromNavHost(createDiScope: () -> HelpDiScope) {
-        HelpDiScope.open(createDiScope)
-        navigate(R.id.nav_host_to_help)
+    fun navigateToHelpArticleFromNavHost(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_help_article)
     }
 
-    fun navigateToWalkingModeSettingsFromWalkingModeArticle() {
-        navigate(R.id.nav_host_to_walking_mode_settings_no_animation)
+    fun navigateToWalkingModeSettingsFromHelpArticle() {
+        navigate(R.id.help_article_to_walking_mode_settings)
     }
 
     fun navigateUp() {

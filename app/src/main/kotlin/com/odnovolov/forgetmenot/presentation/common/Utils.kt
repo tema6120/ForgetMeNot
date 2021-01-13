@@ -321,11 +321,11 @@ fun setTransparentStatusBar(activity: Activity) {
     }
 }
 
-fun Fragment.getStatusBarHeight(): Int {
+fun getStatusBarHeight(context: Context): Int {
     var result = 0
-    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+    val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
     if (resourceId > 0) {
-        result = resources.getDimensionPixelSize(resourceId)
+        result = context.resources.getDimensionPixelSize(resourceId)
     }
     return result
 }

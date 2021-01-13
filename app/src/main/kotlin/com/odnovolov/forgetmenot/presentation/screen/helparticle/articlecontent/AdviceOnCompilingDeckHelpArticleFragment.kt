@@ -1,8 +1,8 @@
-package com.odnovolov.forgetmenot.presentation.screen.help.article
+package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import android.text.method.LinkMovementMethod
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.screen.help.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import kotlinx.android.synthetic.main.article.*
 
 class AdviceOnCompilingDeckHelpArticleFragment : BaseHelpArticleFragmentForSimpleUi() {
