@@ -9,10 +9,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class DeckEditorViewModel(
-    screenState: DeckEditorScreenState,
+    private val screenState: DeckEditorScreenState,
     deckEditorState: DeckEditor.State,
     private val globalState: GlobalState
 ) {
+    val initialTab: DeckEditorScreenState.DeckEditorScreenTab
+        get() = screenState.initialTab
+
     val deckName: Flow<String> = deckEditorState.deck.flowOf(Deck::name)
 
     val deckNameCheckResult: Flow<NameCheckResult> =

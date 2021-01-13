@@ -84,6 +84,12 @@
                     android:background="@color/divider" />
 
             <TextView
+                    android:id="@+id/editCardsDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_edit_cards"
+                    app:drawableStartCompat="@drawable/ic_round_edit_20" />
+
+            <TextView
                     android:id="@+id/setupDeckOptionItem"
                     style="@style/DeckOptionItem"
                     android:text="@string/deck_option_setup"

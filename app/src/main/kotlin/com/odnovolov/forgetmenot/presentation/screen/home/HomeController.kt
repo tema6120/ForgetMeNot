@@ -25,6 +25,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -161,9 +162,14 @@ class HomeController(
                 navigateToAutoplaySettings(deckIds = listOf(deckId))
             }
 
+            EditCardsDeckOptionSelected -> {
+                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                navigateToDeckEditor(deckId, DeckEditorScreenTab.Content)
+            }
+
             SetupDeckOptionSelected -> {
                 val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
-                navigateToDeckEditor(deckId)
+                navigateToDeckEditor(deckId, DeckEditorScreenTab.Settings)
             }
 
             ExportDeckOptionSelected -> {
@@ -232,12 +238,15 @@ class HomeController(
         }
     }
 
-    private fun navigateToDeckEditor(deckId: Long) {
+    private fun navigateToDeckEditor(
+        deckId: Long,
+        initialTab: DeckEditorScreenTab
+    ) {
         homeScreenState.deckSelection = null
         navigator.navigateToDeckEditorFromNavHost {
             val deck: Deck = globalState.decks.first { it.id == deckId }
             val deckEditorState = DeckEditor.State(deck)
-            DeckEditorDiScope.create(DeckEditorScreenState(deck), deckEditorState)
+            DeckEditorDiScope.create(DeckEditorScreenState(deck, initialTab), deckEditorState)
         }
     }
 

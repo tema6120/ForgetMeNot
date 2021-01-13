@@ -18,6 +18,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorCont
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
@@ -86,7 +87,10 @@ class CardsEditorController(
                                 is CardsEditorForDeckCreation -> {
                                     navigator.navigateToDeckSetupFromCardsEditor {
                                         val deck = cardsEditor.createdDeck!!
-                                        val screenState = DeckEditorScreenState(deck)
+                                        val screenState = DeckEditorScreenState(
+                                            deck,
+                                            DeckEditorScreenTab.Settings
+                                        )
                                         val deckEditorState = DeckEditor.State(deck)
                                         DeckEditorDiScope.create(screenState, deckEditorState)
                                     }

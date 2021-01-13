@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.persistence.shortterm.DeckEditorScreenStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -20,6 +21,7 @@ class DeckEditorScreenStateProvider(
     @Serializable
     data class SerializableState(
         val deckId: Long,
+        val initialTab: DeckEditorScreenTab,
         val typedDeckName: String
     )
 
@@ -27,11 +29,16 @@ class DeckEditorScreenStateProvider(
 
     override fun toSerializable(state: DeckEditorScreenState) = SerializableState(
         state.deck.id,
+        state.initialTab,
         state.typedDeckName
     )
 
     override fun toOriginal(serializableState: SerializableState): DeckEditorScreenState {
         val deck: Deck = globalState.decks.first { it.id == serializableState.deckId }
-        return DeckEditorScreenState(deck, serializableState.typedDeckName)
+        return DeckEditorScreenState(
+            deck,
+            serializableState.initialTab,
+            serializableState.typedDeckName
+        )
     }
 }

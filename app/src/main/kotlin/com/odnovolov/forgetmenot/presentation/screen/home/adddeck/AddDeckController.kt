@@ -17,6 +17,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
@@ -120,7 +121,7 @@ class AddDeckController(
         navigator.navigateToDeckEditorFromNavHost {
             val deckEditorState = DeckEditor.State(deck)
             DeckEditorDiScope.create(
-                DeckEditorScreenState(deck),
+                DeckEditorScreenState(deck, DeckEditorScreenTab.Settings),
                 deckEditorState
             )
         }

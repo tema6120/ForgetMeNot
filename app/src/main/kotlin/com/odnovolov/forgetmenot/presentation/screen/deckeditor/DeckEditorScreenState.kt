@@ -4,9 +4,14 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Deck
 
 class DeckEditorScreenState(
-    relevantDeck: Deck,
+    val deck: Deck,
+    val initialTab: DeckEditorScreenTab,
     typedDeckName: String = ""
 ) : FlowMaker<DeckEditorScreenState>() {
-    val deck: Deck by flowMaker(relevantDeck)
     var typedDeckName: String by flowMaker(typedDeckName)
+    
+    enum class DeckEditorScreenTab {
+        Settings,
+        Content
+    }
 }

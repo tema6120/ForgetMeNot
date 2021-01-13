@@ -23,6 +23,7 @@ import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsFragment
 import kotlinx.android.synthetic.main.dialog_input.view.*
@@ -56,7 +57,7 @@ class DeckEditorFragment : BaseFragment() {
             val diScope = DeckEditorDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.deckEditorViewModel
-            observeViewModel()
+            observeViewModel(isRecreated = savedInstanceState != null)
             controller!!.commands.observe(::executeCommand)
         }
     }
@@ -120,8 +121,14 @@ class DeckEditorFragment : BaseFragment() {
         )
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(isRecreated: Boolean) {
         with(viewModel) {
+            if (!isRecreated) {
+                when (initialTab) {
+                    DeckEditorScreenTab.Settings -> deckEditorViewPager.setCurrentItem(0, false)
+                    DeckEditorScreenTab.Content -> deckEditorViewPager.setCurrentItem(1, false)
+                }
+            }
             deckName.observe { deckName: String ->
                 deckNameTextView.text = deckName
             }
