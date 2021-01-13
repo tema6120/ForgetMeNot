@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.view.*
 import android.view.View.GONE
 import android.widget.PopupWindow
@@ -61,6 +59,9 @@ class ExerciseFragment : BaseFragment() {
     private var walkingModePopup: PopupWindow? = null
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
+    }
+    private val vibrator: Vibrator? by lazy {
+        ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
     }
     private lateinit var keyEventInterceptor: (KeyEvent) -> Boolean
     private lateinit var volumeUpGestureDetector: KeyGestureDetector
@@ -263,6 +264,7 @@ class ExerciseFragment : BaseFragment() {
                     }, 500)
                 }
             }
+            vibrateCommand.observe { vibrate() }
             isWalkingModeEnabled.observe { isEnabled: Boolean ->
                 walkingModeButton.isActivated = isEnabled
                 (activity as MainActivity).keyEventInterceptor =
@@ -292,7 +294,7 @@ class ExerciseFragment : BaseFragment() {
                 gradeColor,
                 BlendModeCompat.SRC_ATOP
             )
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val brightGradeColor: Int =
                 ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))
             gradeButton.outlineAmbientShadowColor = brightGradeColor
@@ -347,6 +349,22 @@ class ExerciseFragment : BaseFragment() {
                     ContextCompat.getColor(requireContext(), R.color.icon_exercise_button_unabled)
             }
             timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+        }
+    }
+
+    private fun vibrate() {
+        vibrator?.let { vibrator: Vibrator ->
+            if (Build.VERSION.SDK_INT >= 26) {
+                vibrator.vibrate(
+                    VibrationEffect.createOneShot(
+                        VIBRATION_DURATION,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                vibrator.vibrate(VIBRATION_DURATION)
+            }
         }
     }
 
@@ -731,6 +749,7 @@ class ExerciseFragment : BaseFragment() {
 
     companion object {
         const val TIME_TO_PAINT_TIMER_BUTTON = 10_000L
+        const val VIBRATION_DURATION = 50L
         const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
         const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
         const val STATE_TIMER_POPUP = "STATE_TIMER_POPUP"

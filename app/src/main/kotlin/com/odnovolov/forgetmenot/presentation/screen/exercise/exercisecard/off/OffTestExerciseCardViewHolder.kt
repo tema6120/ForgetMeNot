@@ -177,7 +177,6 @@ class OffTestExerciseCardViewHolder(
                         }
                     cardView.setCardBackgroundColor(cardBackgroundColor)
                 }
-                vibrateCommand.observe(coroutineScope) { vibrate() }
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
                     val isEnabled = !isLearned
                     showQuestionButton.isEnabled = isEnabled

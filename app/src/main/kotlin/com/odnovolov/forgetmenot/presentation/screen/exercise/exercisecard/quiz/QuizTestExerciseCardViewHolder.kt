@@ -215,7 +215,6 @@ class QuizTestExerciseCardViewHolder(
                         }
                     cardView.setCardBackgroundColor(cardBackgroundColor)
                 }
-                vibrateCommand.observe(coroutineScope) { vibrate() }
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
                     showQuestionButton.isEnabled = !isLearned
                     questionTextView.isEnabled = !isLearned

@@ -5,9 +5,8 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
-import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
-import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent.*
 import kotlinx.coroutines.flow.*
 
 class ManualTestExerciseCardViewModel(
@@ -62,16 +61,6 @@ class ManualTestExerciseCardViewModel(
     }
         .distinctUntilChanged()
         .share()
-        .flowOn(businessLogicThread)
-
-    val vibrateCommand: Flow<Unit> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        exerciseCard.base
-            .flowOf(ExerciseCard.Base::isExpired)
-            .mapTwoLatest { wasExpired: Boolean, isExpiredNow: Boolean ->
-                if (!wasExpired && isExpiredNow) Unit else null
-            }
-    }
-        .filterNotNull()
         .flowOn(businessLogicThread)
 
     val isLearned: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->

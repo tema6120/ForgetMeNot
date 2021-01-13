@@ -4,7 +4,6 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
-import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
 import kotlinx.coroutines.flow.*
@@ -86,15 +85,6 @@ class QuizTestExerciseCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
-
-    val vibrateCommand: Flow<Unit> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
-    }
-        .mapTwoLatest { wasCorrect: Boolean?, isCorrectNow: Boolean? ->
-            if (wasCorrect == null && isCorrectNow == false) Unit else null
-        }
-        .filterNotNull()
         .flowOn(businessLogicThread)
 
     val isLearned: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->

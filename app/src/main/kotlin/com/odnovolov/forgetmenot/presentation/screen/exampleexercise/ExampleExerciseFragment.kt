@@ -5,9 +5,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +44,9 @@ class ExampleExerciseFragment : BaseFragment() {
     private lateinit var viewModel: ExampleExerciseViewModel
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
+    }
+    private val vibrator: Vibrator? by lazy {
+        ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
     }
     private var speakErrorPopup: PopupWindow? = null
     private var timerPopup: PopupWindow? = null
@@ -131,6 +132,7 @@ class ExampleExerciseFragment : BaseFragment() {
                 }
             }
             timerStatus.observe(::onTimerStatusChanged)
+            vibrateCommand.observe { vibrate() }
         }
     }
 
@@ -181,6 +183,22 @@ class ExampleExerciseFragment : BaseFragment() {
                     ContextCompat.getColor(requireContext(), R.color.icon_exercise_button_unabled)
             }
             timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+        }
+    }
+
+    private fun vibrate() {
+        vibrator?.let { vibrator: Vibrator ->
+            if (Build.VERSION.SDK_INT >= 26) {
+                vibrator.vibrate(
+                    VibrationEffect.createOneShot(
+                        ExerciseFragment.VIBRATION_DURATION,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                vibrator.vibrate(ExerciseFragment.VIBRATION_DURATION)
+            }
         }
     }
 

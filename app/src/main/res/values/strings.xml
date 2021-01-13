@@ -520,6 +520,11 @@
     <string name="deck_option_remove">Remove</string>
     <string name="decksription_app_logo">App logo</string>
     <string name="app_slogan">won\'t let you forget anything</string>
+    <string name="forgetmenot_brief_description">ForgetMeNot is designed to memorize information.
+        It based on spaced repetition of flashcards. The app supports speech output, import cards
+        from file, unique settings of each deck and many other interesting features. Besides
+        traditional examination of the knowledge, there is also the autoplaying mode. ForgetMeNot
+        is a great thing for language learning and not only.</string>
     <string name="developer_story">More than a year ago, when I started learning a foreign
         language, I decided to use flashcards to memorize words. Having tried dozens of different
         apps on Google Play, none of them satisfied me completely. So I decided to create my own

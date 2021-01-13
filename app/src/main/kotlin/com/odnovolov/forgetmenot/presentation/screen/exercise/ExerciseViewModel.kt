@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
+import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
 import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.MaskingLettersAction.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
@@ -272,6 +273,23 @@ open class ExerciseViewModel(
         }
             .distinctUntilChanged()
             .flowOn(businessLogicThread)
+
+    val vibrateCommand: Flow<Unit> = currentExerciseCard.flatMapLatest { exerciseCard ->
+        when (exerciseCard) {
+            is OffTestExerciseCard, is ManualTestExerciseCard ->
+                exerciseCard.base.flowOf(ExerciseCard.Base::isExpired)
+                    .mapTwoLatest { wasExpired: Boolean, isExpiredNow: Boolean ->
+                        if (!wasExpired && isExpiredNow) Unit else null
+                    }
+            else ->
+                exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
+                    .mapTwoLatest { wasCorrect: Boolean?, isCorrectNow: Boolean? ->
+                        if (wasCorrect == null && isCorrectNow == false) Unit else null
+                    }
+        }
+    }
+        .filterNotNull()
+        .flowOn(businessLogicThread)
 
     val keyGestureMap: Flow<Map<KeyGesture, KeyGestureAction>> =
         walkingModePreference.flowOf(WalkingModePreference::keyGestureMap)

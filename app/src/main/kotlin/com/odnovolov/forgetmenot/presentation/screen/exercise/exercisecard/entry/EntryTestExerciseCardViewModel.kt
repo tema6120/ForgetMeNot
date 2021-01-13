@@ -73,15 +73,6 @@ class EntryTestExerciseCardViewModel(
         .distinctUntilChanged()
         .flowOn(businessLogicThread)
 
-    val vibrateCommand: Flow<Unit> = exerciseCardFlow.flatMapLatest { exerciseCard ->
-        exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
-            .mapTwoLatest { wasCorrect: Boolean?, isCorrectNow: Boolean? ->
-                if (wasCorrect == null && isCorrectNow == false) Unit else null
-            }
-            .filterNotNull()
-    }
-        .flowOn(businessLogicThread)
-
     val isLearned: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
     }
