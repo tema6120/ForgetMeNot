@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerEvent.*
@@ -31,7 +32,8 @@ class MotivationalTimerController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromMotivationalTimer {
-                    HelpArticleDiScope(HelpArticle.MotivationalTimer)
+                    val screenState = HelpArticleScreenState(HelpArticle.MotivationalTimer)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

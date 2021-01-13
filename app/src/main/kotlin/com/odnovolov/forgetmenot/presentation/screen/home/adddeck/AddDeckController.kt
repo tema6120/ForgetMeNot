@@ -19,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
@@ -44,7 +45,8 @@ class AddDeckController(
         when (event) {
             HelpImportFileButtonClicked -> {
                 navigator.navigateToHelpArticleFromNavHost {
-                    HelpArticleDiScope(HelpArticle.ImportOfDeck)
+                    val screenState = HelpArticleScreenState(HelpArticle.ImportOfDeck)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

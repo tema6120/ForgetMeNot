@@ -31,6 +31,7 @@ class AppDiScope(
     val json = Json
 
     companion object {
+        @Volatile
         private lateinit var instance: AppDiScope
 
         fun init(app: App) {

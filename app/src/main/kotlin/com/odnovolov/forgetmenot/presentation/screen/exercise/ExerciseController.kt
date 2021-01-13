@@ -18,6 +18,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
@@ -115,7 +116,8 @@ class ExerciseController(
             WalkingModeHelpButtonClicked -> {
                 exercise.stopSpeaking()
                 navigator.navigateToHelpArticleFromExercise {
-                    HelpArticleDiScope(HelpArticle.WalkingMode)
+                    val screenState = HelpArticleScreenState(HelpArticle.WalkingMode)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 
@@ -127,7 +129,8 @@ class ExerciseController(
             HelpButtonClicked -> {
                 exercise.stopSpeaking()
                 navigator.navigateToHelpArticleFromExercise {
-                    HelpArticleDiScope(HelpArticle.Exercise)
+                    val screenState = HelpArticleScreenState(HelpArticle.Exercise)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.helparticle
 
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleController.Command
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleController.Command.OpenArticle
@@ -8,7 +9,8 @@ import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleEven
 
 class HelpArticleController(
     private val screenState: HelpArticleScreenState,
-    private val longTermStateSaver: LongTermStateSaver
+    private val longTermStateSaver: LongTermStateSaver,
+    private val screenStateProvider: ShortTermStateProvider<HelpArticleScreenState>
 ) : BaseController<HelpArticleEvent, Command>() {
     sealed class Command {
         class OpenArticle(val article: HelpArticle, val needToClearBackStack: Boolean) : Command()
@@ -52,5 +54,6 @@ class HelpArticleController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        screenStateProvider.save(screenState)
     }
 }

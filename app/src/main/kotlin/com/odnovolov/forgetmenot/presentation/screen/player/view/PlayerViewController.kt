@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
@@ -121,7 +122,8 @@ class PlayerViewController(
             HelpButtonClicked -> {
                 player.pause()
                 navigator.navigateToHelpArticleFromPlayer {
-                    HelpArticleDiScope(HelpArticle.AutoplayingCards)
+                    val screenState = HelpArticleScreenState(HelpArticle.AutoplayingCards)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.HelpButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionSelected
 
@@ -17,7 +18,8 @@ class WalkingModeSettingsController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromWalkingModeSettings {
-                    HelpArticleDiScope(HelpArticle.WalkingMode)
+                    val screenState = HelpArticleScreenState(HelpArticle.WalkingMode)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

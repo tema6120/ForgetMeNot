@@ -1,11 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.helparticle
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 
 class HelpArticleScreenState(
     currentArticle: HelpArticle
-) : FlowMakerWithRegistry<HelpArticleScreenState>() {
+) : FlowMaker<HelpArticleScreenState>() {
     var currentArticle: HelpArticle by flowMaker(currentArticle)
-
-    override fun copy() = HelpArticleScreenState(currentArticle)
 }

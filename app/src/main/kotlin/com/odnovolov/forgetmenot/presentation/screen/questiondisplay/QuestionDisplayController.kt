@@ -7,8 +7,9 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
-import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle.QuestionDisplay
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayEvent.*
 
 class QuestionDisplayController(
@@ -23,7 +24,8 @@ class QuestionDisplayController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromQuestionDisplay {
-                    HelpArticleDiScope(QuestionDisplay)
+                    val screenState = HelpArticleScreenState(HelpArticle.QuestionDisplay)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

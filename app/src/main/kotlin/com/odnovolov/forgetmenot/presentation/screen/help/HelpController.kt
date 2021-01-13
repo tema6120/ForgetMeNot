@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.help.HelpEvent.ArticleItemClicked
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 
 class HelpController(
     private val navigator: Navigator
@@ -14,7 +15,8 @@ class HelpController(
         when (event) {
             is ArticleItemClicked -> {
                 navigator.navigateToHelpArticleFromNavHost {
-                    HelpArticleDiScope(event.helpArticle)
+                    val screenState = HelpArticleScreenState(event.helpArticle)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
         }

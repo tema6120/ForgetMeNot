@@ -10,6 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToAddNewInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToChangeInterval
@@ -32,7 +33,8 @@ class IntervalsController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromIntervals {
-                    HelpArticleDiScope(HelpArticle.GradeAndIntervals)
+                    val screenState = HelpArticleScreenState(HelpArticle.GradeAndIntervals)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

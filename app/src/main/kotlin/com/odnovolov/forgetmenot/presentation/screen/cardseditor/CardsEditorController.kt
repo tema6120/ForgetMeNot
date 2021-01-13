@@ -20,6 +20,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 
 class CardsEditorController(
     private val cardsEditor: CardsEditor,
@@ -64,7 +65,8 @@ class CardsEditorController(
 
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromCardsEditor {
-                    HelpArticleDiScope(HelpArticle.AdviceOnCompilingDeck)
+                    val screenState = HelpArticleScreenState(HelpArticle.AdviceOnCompilingDeck)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

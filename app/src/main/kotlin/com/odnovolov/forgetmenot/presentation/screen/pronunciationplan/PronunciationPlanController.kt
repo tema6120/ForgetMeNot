@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.doWithCatchingExceptions
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.DialogPurpose.ToAddNewPronunciationEvent
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.DialogPurpose.ToChangePronunciationEventAtPosition
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanController.Command
@@ -42,7 +43,8 @@ class PronunciationPlanController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromPronunciationPlan {
-                    HelpArticleDiScope(HelpArticle.AutoplayingCards)
+                    val screenState = HelpArticleScreenState(HelpArticle.AutoplayingCards)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

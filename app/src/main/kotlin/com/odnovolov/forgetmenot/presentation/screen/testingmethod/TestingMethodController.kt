@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip.*
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodEvent.*
 
 class TestingMethodController(
@@ -25,7 +26,8 @@ class TestingMethodController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromTestingMethod {
-                    HelpArticleDiScope(HelpArticle.TestingMethods)
+                    val screenState = HelpArticleScreenState(HelpArticle.TestingMethods)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 

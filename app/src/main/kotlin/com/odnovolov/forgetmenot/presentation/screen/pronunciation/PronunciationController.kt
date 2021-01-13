@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationEvent.*
 
 class PronunciationController(
@@ -20,7 +21,8 @@ class PronunciationController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromPronunciation {
-                    HelpArticleDiScope(HelpArticle.Pronunciation)
+                    val screenState = HelpArticleScreenState(HelpArticle.Pronunciation)
+                    HelpArticleDiScope.create(screenState)
                 }
             }
 
