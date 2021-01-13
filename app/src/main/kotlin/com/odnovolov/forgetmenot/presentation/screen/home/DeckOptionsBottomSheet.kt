@@ -57,6 +57,10 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             controller?.dispatch(AutoplayDeckOptionSelected)
             dismiss()
         }
+        renameDeckOptionItem.setOnClickListener {
+            controller?.dispatch(RenameDeckOptionSelected)
+            dismiss()
+        }
         editCardsDeckOptionItem.setOnClickListener {
             controller?.dispatch(EditCardsDeckOptionSelected)
             dismiss()

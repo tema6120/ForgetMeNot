@@ -19,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
@@ -66,7 +67,17 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_deck_editor)
     }
 
-    fun navigateToDeckSetupFromCardsEditor(createDiScope: () -> DeckEditorDiScope) {
+    fun showRenameDeckDialogFromNavHost(createDiScope: () -> RenameDeckDiScope) {
+        RenameDeckDiScope.open(createDiScope)
+        navigate(R.id.nav_host_shows_rename_deck_dialog)
+    }
+
+    fun showRenameDeckDialogFromDeckEditor(createDiScope: () -> RenameDeckDiScope) {
+        RenameDeckDiScope.open(createDiScope)
+        navigate(R.id.deck_editor_shows_rename_deck_dialog)
+    }
+
+    fun navigateToDeckEditorFromCardsEditor(createDiScope: () -> DeckEditorDiScope) {
         DeckEditorDiScope.open(createDiScope)
         navigate(R.id.cards_editor_to_deck_editor)
     }

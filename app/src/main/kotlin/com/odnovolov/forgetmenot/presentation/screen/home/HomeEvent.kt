@@ -29,6 +29,7 @@ sealed class HomeEvent {
     class DeckOptionButtonClicked(val deckId: Long) : HomeEvent()
     object StartExerciseDeckOptionSelected : HomeEvent()
     object AutoplayDeckOptionSelected : HomeEvent()
+    object RenameDeckOptionSelected : HomeEvent()
     object EditCardsDeckOptionSelected : HomeEvent()
     object SetupDeckOptionSelected : HomeEvent()
     object ExportDeckOptionSelected : HomeEvent()

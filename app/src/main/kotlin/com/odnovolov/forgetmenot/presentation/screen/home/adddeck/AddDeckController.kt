@@ -9,7 +9,6 @@ import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreat
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.FailureCause.*
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.Success
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser.IllegalCardFormatException
-import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -119,11 +118,8 @@ class AddDeckController(
 
     private fun navigateToDeckEditor(deck: Deck) {
         navigator.navigateToDeckEditorFromNavHost {
-            val deckEditorState = DeckEditor.State(deck)
-            DeckEditorDiScope.create(
-                DeckEditorScreenState(deck, DeckEditorScreenTab.Settings),
-                deckEditorState
-            )
+            val screenState = DeckEditorScreenState(deck, DeckEditorScreenTab.Settings)
+            DeckEditorDiScope.create(screenState)
         }
     }
 

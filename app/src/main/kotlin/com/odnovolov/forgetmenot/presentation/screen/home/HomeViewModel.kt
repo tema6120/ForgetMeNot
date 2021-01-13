@@ -42,6 +42,12 @@ class HomeViewModel(
     }
 
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = globalState.flowOf(GlobalState::decks)
+        .flatMapLatest { decks: Collection<Deck> ->
+            val deckNameFlows: List<Flow<String>> = decks.map { deck: Deck ->
+                deck.flowOf(Deck::name)
+            }
+            combine(deckNameFlows) { decks }
+        }
         .map { decks: Collection<Deck> ->
             decks.map { deck: Deck ->
                 val averageLaps: String = deck.cards

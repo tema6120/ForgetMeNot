@@ -21,24 +21,18 @@ class DeckEditorScreenStateProvider(
     @Serializable
     data class SerializableState(
         val deckId: Long,
-        val initialTab: DeckEditorScreenTab,
-        val typedDeckName: String
+        val initialTab: DeckEditorScreenTab
     )
 
     override val serializer = SerializableState.serializer()
 
     override fun toSerializable(state: DeckEditorScreenState) = SerializableState(
         state.deck.id,
-        state.initialTab,
-        state.typedDeckName
+        state.initialTab
     )
 
     override fun toOriginal(serializableState: SerializableState): DeckEditorScreenState {
         val deck: Deck = globalState.decks.first { it.id == serializableState.deckId }
-        return DeckEditorScreenState(
-            deck,
-            serializableState.initialTab,
-            serializableState.typedDeckName
-        )
+        return DeckEditorScreenState(deck, serializableState.initialTab)
     }
 }

@@ -7,7 +7,6 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.Saving
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForDeckCreation
-import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -85,14 +84,13 @@ class CardsEditorController(
                         Success -> {
                             when (cardsEditor) {
                                 is CardsEditorForDeckCreation -> {
-                                    navigator.navigateToDeckSetupFromCardsEditor {
+                                    navigator.navigateToDeckEditorFromCardsEditor {
                                         val deck = cardsEditor.createdDeck!!
                                         val screenState = DeckEditorScreenState(
                                             deck,
                                             DeckEditorScreenTab.Settings
                                         )
-                                        val deckEditorState = DeckEditor.State(deck)
-                                        DeckEditorDiScope.create(screenState, deckEditorState)
+                                        DeckEditorDiScope.create(screenState)
                                     }
                                 }
                                 else -> {

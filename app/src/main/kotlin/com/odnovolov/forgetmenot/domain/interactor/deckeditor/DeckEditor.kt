@@ -2,8 +2,7 @@ package com.odnovolov.forgetmenot.domain.interactor.deckeditor
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.InvalidNameException
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.Ok
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.checkDeckName
 
 class DeckEditor(
@@ -12,10 +11,11 @@ class DeckEditor(
 ) {
     data class State(val deck: Deck)
 
-    fun renameDeck(newName: String) {
-        when (val nameCheckResult = checkDeckName(newName, globalState)) {
-            Ok -> state.deck.name = newName
-            else -> throw InvalidNameException(nameCheckResult)
+    fun renameDeck(newName: String): Boolean =
+        if (checkDeckName(newName, globalState) == NameCheckResult.Ok) {
+            state.deck.name = newName
+            true
+        } else {
+            false
         }
-    }
 }

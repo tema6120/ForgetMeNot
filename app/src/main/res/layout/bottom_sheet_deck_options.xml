@@ -84,6 +84,12 @@
                     android:background="@color/divider" />
 
             <TextView
+                    android:id="@+id/renameDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_rename"
+                    app:drawableStartCompat="@drawable/ic_round_font_download_20" />
+
+            <TextView
                     android:id="@+id/editCardsDeckOptionItem"
                     style="@style/DeckOptionItem"
                     android:text="@string/deck_option_edit_cards"

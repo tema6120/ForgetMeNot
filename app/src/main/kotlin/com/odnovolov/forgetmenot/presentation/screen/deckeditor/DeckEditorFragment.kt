@@ -4,24 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
-import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showSoftInput
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.ShowRenameDialogWithText
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentFragment
@@ -38,9 +31,6 @@ class DeckEditorFragment : BaseFragment() {
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var controller: DeckEditorController? = null
     private lateinit var viewModel: DeckEditorViewModel
-    private var renameDeckDialog: AlertDialog? = null
-    private var renameDeckEditText: EditText? = null
-    private lateinit var dialogOkButton: View
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +48,6 @@ class DeckEditorFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.deckEditorViewModel
             observeViewModel(isRecreated = savedInstanceState != null)
-            controller!!.commands.observe(::executeCommand)
         }
     }
 
@@ -132,59 +121,7 @@ class DeckEditorFragment : BaseFragment() {
             deckName.observe { deckName: String ->
                 deckNameTextView.text = deckName
             }
-            deckNameCheckResult.observe { nameCheckResult: NameCheckResult ->
-                renameDeckEditText?.error = when (nameCheckResult) {
-                    Ok -> null
-                    Empty -> getString(R.string.error_message_empty_name)
-                    Occupied -> getString(R.string.error_message_occupied_name)
-                }
-                if (renameDeckDialog?.isShowing == true) {
-                    renameDeckDialog!!.getButton(AlertDialog.BUTTON_POSITIVE)
-                        .isEnabled = nameCheckResult == Ok
-                }
-            }
         }
-    }
-
-    private fun executeCommand(command: DeckEditorController.Command) {
-        when (command) {
-            is ShowRenameDialogWithText -> {
-                requireRenameDeckDialog()
-                renameDeckEditText!!.setText(command.text)
-                renameDeckEditText!!.selectAll()
-                renameDeckDialog!!.show()
-            }
-        }
-    }
-
-    private fun requireRenameDeckDialog(): AlertDialog {
-        if (renameDeckDialog == null) {
-            val contentView = View.inflate(context, R.layout.dialog_input, null).apply {
-                dialogTitle.setText(R.string.title_deck_name_dialog)
-                renameDeckEditText = dialogInput
-                renameDeckEditText!!.observeText { text: String ->
-                    controller?.dispatch(RenameDeckDialogTextChanged(text))
-                }
-                dialogOkButton = okButton
-                okButton.setOnClickListener {
-                    controller?.dispatch(RenameDeckDialogPositiveButtonClicked)
-                    renameDeckDialog?.dismiss()
-                }
-                cancelButton.setOnClickListener {
-                    renameDeckDialog?.dismiss()
-                }
-            }
-            renameDeckDialog = AlertDialog.Builder(requireContext())
-                .setView(contentView)
-                .create()
-                .apply {
-                    window?.setBackgroundDrawable(
-                        ContextCompat.getDrawable(context, R.drawable.background_dialog)
-                    )
-                    setOnShowListener { renameDeckEditText?.showSoftInput() }
-                }
-        }
-        return renameDeckDialog!!
     }
 
     override fun onAttachFragment(childFragment: Fragment) {
@@ -208,23 +145,6 @@ class DeckEditorFragment : BaseFragment() {
         }
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.run {
-            val dialogSavedState: Bundle? = getBundle(STATE_RENAME_DECK_DIALOG)
-            if (dialogSavedState != null) {
-                requireRenameDeckDialog().onRestoreInstanceState(dialogSavedState)
-            }
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (renameDeckDialog?.isShowing == true) {
-            outState.putBundle(STATE_RENAME_DECK_DIALOG, renameDeckDialog!!.onSaveInstanceState())
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         tabLayoutMediator?.detach()
@@ -237,10 +157,6 @@ class DeckEditorFragment : BaseFragment() {
         if (needToCloseDiScope()) {
             DeckEditorDiScope.close()
         }
-    }
-
-    companion object {
-        private const val STATE_RENAME_DECK_DIALOG = "STATE_RENAME_DECK_DIALOG"
     }
 
     private val appBarElevationManager = object {

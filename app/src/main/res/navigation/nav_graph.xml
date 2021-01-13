@@ -22,6 +22,10 @@
                 app:destination="@id/deck_editor" />
 
         <action
+                android:id="@+id/nav_host_shows_rename_deck_dialog"
+                app:destination="@+id/rename_deck_dialog" />
+
+        <action
                 android:id="@+id/nav_host_to_card_filter_for_autoplay"
                 app:destination="@id/card_filter_for_autoplay" />
 
@@ -79,6 +83,10 @@
             android:id="@+id/deck_editor"
             android:name="com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorFragment"
             tools:layout="@layout/fragment_deck_editor">
+
+        <action
+            android:id="@+id/deck_editor_shows_rename_deck_dialog"
+            app:destination="@+id/rename_deck_dialog" />
 
         <action
                 android:id="@+id/deck_editor_to_pronunciation"
@@ -149,6 +157,11 @@
                 app:destination="@id/help_article" />
 
     </fragment>
+
+    <dialog
+        android:id="@+id/rename_deck_dialog"
+        android:name="com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDialog"
+        tools:layout="@layout/dialog_input" />
 
     <fragment
             android:id="@+id/pronunciation"

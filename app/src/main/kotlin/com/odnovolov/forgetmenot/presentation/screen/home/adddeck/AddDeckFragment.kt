@@ -183,7 +183,7 @@ class AddDeckFragment : BaseFragment() {
                 controller?.dispatch(DialogTextChanged(dialogText))
             }
             deckNameInputDialog = AlertDialog.Builder(requireContext())
-                .setTitle(R.string.title_deck_name_dialog)
+                .setTitle(R.string.title_rename_deck_dialog)
                 .setView(contentView)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok) { _, _ ->

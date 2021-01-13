@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
@@ -11,21 +12,25 @@ import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
-import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
-import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.common.firstBlocking
+import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDialogState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
-import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -162,6 +167,16 @@ class HomeController(
                 navigateToAutoplaySettings(deckIds = listOf(deckId))
             }
 
+            RenameDeckOptionSelected -> {
+                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                navigator.showRenameDeckDialogFromNavHost {
+                    val deck = globalState.decks.first { it.id == deckId }
+                    val deckEditorState = DeckEditor.State(deck)
+                    val dialogState = RenameDeckDialogState(deck.name)
+                    RenameDeckDiScope.create(deckEditorState, dialogState)
+                }
+            }
+
             EditCardsDeckOptionSelected -> {
                 val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
                 navigateToDeckEditor(deckId, DeckEditorScreenTab.Content)
@@ -245,8 +260,8 @@ class HomeController(
         homeScreenState.deckSelection = null
         navigator.navigateToDeckEditorFromNavHost {
             val deck: Deck = globalState.decks.first { it.id == deckId }
-            val deckEditorState = DeckEditor.State(deck)
-            DeckEditorDiScope.create(DeckEditorScreenState(deck, initialTab), deckEditorState)
+            val screenState = DeckEditorScreenState(deck, initialTab)
+            DeckEditorDiScope.create(screenState)
         }
     }
 

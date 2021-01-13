@@ -28,7 +28,7 @@ class LastTestedFilterDialog : BaseDialogFragment() {
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        onCreateDialog()
+        super.onCreateDialog()
         rootView = View.inflate(requireContext(), R.layout.dialog_last_tested_filter, null)
         setupView()
         return AlertDialog.Builder(requireContext())
