@@ -291,6 +291,22 @@ open class ExerciseViewModel(
         .filterNotNull()
         .flowOn(businessLogicThread)
 
+    val learnedCardSoundNotification: Flow<Unit> =
+        isWalkingModeEnabled.flatMapLatest { isWalkingModeEnabled: Boolean ->
+            if (isWalkingModeEnabled) {
+                currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
+                    exerciseCard.base.card.flowOf(Card::isLearned)
+                        .mapTwoLatest { wasLearned: Boolean, isLearnedNow: Boolean ->
+                            if (!wasLearned && isLearnedNow) Unit else null
+                        }
+                }
+            } else {
+                flowOf(null)
+            }
+        }
+            .filterNotNull()
+            .flowOn(businessLogicThread)
+
     val keyGestureMap: Flow<Map<KeyGesture, KeyGestureAction>> =
         walkingModePreference.flowOf(WalkingModePreference::keyGestureMap)
             .flowOn(businessLogicThread)

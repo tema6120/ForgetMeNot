@@ -182,10 +182,7 @@ class ExerciseController(
             MOVE_TO_PREVIOUS_CARD -> sendCommand(MoveToPreviousPosition)
             MARK_AS_REMEMBER -> exercise.answer(Remember)
             MARK_AS_NOT_REMEMBER -> exercise.answer(NotRemember)
-            MARK_CARD_AS_LEARNED -> {
-                exercise.setIsCardLearned(true)
-                sendCommand(MoveToNextPosition)
-            }
+            MARK_CARD_AS_LEARNED -> exercise.setIsCardLearned(true)
             SPEAK_QUESTION -> exercise.speakQuestion()
             SPEAK_ANSWER -> exercise.speakAnswer()
         }

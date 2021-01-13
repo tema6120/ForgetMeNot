@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.Typeface
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.os.*
 import android.view.*
 import android.view.View.GONE
@@ -63,6 +65,8 @@ class ExerciseFragment : BaseFragment() {
     private val vibrator: Vibrator? by lazy {
         ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
     }
+    private val toneGenerator: ToneGenerator
+            by lazy { ToneGenerator(AudioManager.STREAM_MUSIC, 100) }
     private lateinit var keyEventInterceptor: (KeyEvent) -> Boolean
     private lateinit var volumeUpGestureDetector: KeyGestureDetector
     private lateinit var volumeDownGestureDetector: KeyGestureDetector
@@ -265,6 +269,12 @@ class ExerciseFragment : BaseFragment() {
                 }
             }
             vibrateCommand.observe { vibrate() }
+            learnedCardSoundNotification.observe {
+                toneGenerator.startTone(
+                    ToneGenerator.TONE_CDMA_PIP,
+                    LEARNED_CARD_SOUND_DURATION
+                )
+            }
             isWalkingModeEnabled.observe { isEnabled: Boolean ->
                 walkingModeButton.isActivated = isEnabled
                 (activity as MainActivity).keyEventInterceptor =
@@ -750,6 +760,7 @@ class ExerciseFragment : BaseFragment() {
     companion object {
         const val TIME_TO_PAINT_TIMER_BUTTON = 10_000L
         const val VIBRATION_DURATION = 50L
+        const val LEARNED_CARD_SOUND_DURATION = 400
         const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
         const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
         const val STATE_TIMER_POPUP = "STATE_TIMER_POPUP"
