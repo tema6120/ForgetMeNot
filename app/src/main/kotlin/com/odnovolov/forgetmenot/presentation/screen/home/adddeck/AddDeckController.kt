@@ -52,6 +52,7 @@ class AddDeckController(
 
             AddCardsHereButtonClicked -> {
                 screenState.howToAdd = CREATE
+                sendCommand(SetDialogText(""))
             }
 
             is ContentReceived -> {
@@ -85,7 +86,7 @@ class AddDeckController(
                 screenState.typedText = event.dialogText
             }
 
-            PositiveDialogButtonClicked -> {
+            DialogOkButtonClicked -> {
                 when (screenState.howToAdd) {
                     LOAD_FROM_FILE -> {
                         val result = deckFromFileCreator.proposeDeckName(screenState.typedText)
@@ -109,7 +110,7 @@ class AddDeckController(
                 }
             }
 
-            NegativeDialogButtonClicked -> {
+            DialogCancelButtonClicked -> {
                 deckFromFileCreator.cancel()
                 screenState.howToAdd = null
             }

@@ -7,6 +7,6 @@ sealed class AddDeckEvent {
     object AddCardsHereButtonClicked : AddDeckEvent()
     class ContentReceived(val inputStream: InputStream, val fileName: String?) : AddDeckEvent()
     class DialogTextChanged(val dialogText: String) : AddDeckEvent()
-    object PositiveDialogButtonClicked : AddDeckEvent()
-    object NegativeDialogButtonClicked : AddDeckEvent()
+    object DialogOkButtonClicked : AddDeckEvent()
+    object DialogCancelButtonClicked : AddDeckEvent()
 }

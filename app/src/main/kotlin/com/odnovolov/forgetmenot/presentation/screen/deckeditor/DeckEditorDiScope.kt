@@ -14,7 +14,8 @@ class DeckEditorDiScope private constructor(
     )
 
     val screenState: DeckEditorScreenState =
-        initialScreenState ?: screenStateProvider.load()
+        initialScreenState?.also { screenStateProvider.save(it) }
+            ?: screenStateProvider.load()
 
     val controller = DeckEditorController(
         screenState,

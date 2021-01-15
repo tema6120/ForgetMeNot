@@ -4,6 +4,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
@@ -47,7 +48,7 @@ abstract class FlowMaker<PropertyOwner : FlowMaker<PropertyOwner>> : Flowable<Pr
     private class WrappingRWProperty<PropertyOwner : Any, PropertyValue>(
         var value: PropertyValue
     ) : ReadWriteProperty<PropertyOwner, PropertyValue>, Flowable<PropertyValue> {
-        private val channels: MutableList<Channel<PropertyValue>> = ArrayList()
+        private val channels: MutableList<Channel<PropertyValue>> = CopyOnWriteArrayList()
 
         override operator fun getValue(
             thisRef: PropertyOwner,

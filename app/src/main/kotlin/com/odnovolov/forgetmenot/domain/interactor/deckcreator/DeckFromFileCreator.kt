@@ -45,7 +45,7 @@ class DeckFromFileCreator(
     }
 
     fun proposeDeckName(deckName: String): Result {
-        if (state.stage != WaitingForName) error("Deck name is not expected now")
+        check(state.stage != WaitingForName) { "Deck name is not expected now" }
         return tryToAdd(deckName)
     }
 

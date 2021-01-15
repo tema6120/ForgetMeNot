@@ -12,7 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
@@ -22,7 +24,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
-import kotlinx.android.synthetic.main.dialog_deck_name_input.view.*
+import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
 import kotlinx.android.synthetic.main.popup_add_cards.view.*
 import kotlinx.coroutines.launch
@@ -36,8 +38,9 @@ class AddDeckFragment : BaseFragment() {
     private var controller: AddDeckController? = null
     private var pendingEvent: ContentReceived? = null
     private var addCardsPopup: PopupWindow? = null
-    private var deckNameInputDialog: AlertDialog? = null
+    private var deckNameDialog: AlertDialog? = null
     private var deckNameDialogEditText: EditText? = null
+    private var dialogOkButton: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,21 +70,9 @@ class AddDeckFragment : BaseFragment() {
             }
             isDialogVisible.observe { isDialogVisible ->
                 if (isDialogVisible) {
-                    requireDeckNameInputDialog().show()
+                    requireDeckNameDialog().show()
                 } else {
-                    deckNameInputDialog?.dismiss()
-                }
-            }
-            nameCheckResult.observe { nameCheckResult: NameCheckResult ->
-                deckNameDialogEditText?.error = when (nameCheckResult) {
-                    Ok -> null
-                    Empty -> getString(R.string.error_message_empty_name)
-                    Occupied -> getString(R.string.error_message_occupied_name)
-                }
-            }
-            isPositiveButtonEnabled.observe { isPositiveButtonEnabled ->
-                deckNameInputDialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.let { positiveButton ->
-                    positiveButton.isEnabled = isPositiveButtonEnabled
+                    deckNameDialog?.dismiss()
                 }
             }
         }
@@ -93,7 +84,7 @@ class AddDeckFragment : BaseFragment() {
                 showToast(command.exception.message)
             }
             is SetDialogText -> {
-                requireDeckNameInputDialog()
+                requireDeckNameDialog()
                 deckNameDialogEditText!!.setText(command.text)
                 deckNameDialogEditText!!.selectAll()
             }
@@ -175,32 +166,56 @@ class AddDeckFragment : BaseFragment() {
         return addCardsPopup!!
     }
 
-    private fun requireDeckNameInputDialog(): AlertDialog {
-        if (deckNameInputDialog == null) {
-            val contentView = View.inflate(context, R.layout.dialog_deck_name_input, null)
-            deckNameDialogEditText = contentView.deckNameEditText
-            deckNameDialogEditText!!.observeText { dialogText: String ->
-                controller?.dispatch(DialogTextChanged(dialogText))
+    private fun requireDeckNameDialog(): AlertDialog {
+        if (deckNameDialog == null) {
+            val dialogView = View.inflate(context, R.layout.dialog_input, null).apply {
+                dialogTitle.setText(R.string.title_rename_deck_dialog)
+                dialogInput.observeText { dialogText: String ->
+                    controller?.dispatch(DialogTextChanged(dialogText))
+                }
+                okButton.setOnClickListener {
+                    controller?.dispatch(DialogOkButtonClicked)
+                }
+                cancelButton.setOnClickListener {
+                    controller?.dispatch(DialogCancelButtonClicked)
+                }
+                deckNameDialogEditText = dialogInput
+                dialogOkButton = okButton
             }
-            deckNameInputDialog = AlertDialog.Builder(requireContext())
-                .setTitle(R.string.title_rename_deck_dialog)
-                .setView(contentView)
+            deckNameDialog = AlertDialog.Builder(requireContext())
+                .setView(dialogView)
                 .setCancelable(false)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    controller?.dispatch(PositiveDialogButtonClicked)
-                }
-                .setNegativeButton(android.R.string.cancel) { _, _ ->
-                    controller?.dispatch(NegativeDialogButtonClicked)
-                }
                 .create()
-                .apply { setOnShowListener { deckNameDialogEditText?.showSoftInput() } }
+                .apply {
+                    window?.setBackgroundDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
+                    )
+                    setOnShowListener { deckNameDialogEditText?.showSoftInput() }
+                }
+            subscribeDeckNameDialogToViewModel()
         }
-        return deckNameInputDialog!!
+        return deckNameDialog!!
+    }
+
+    private fun subscribeDeckNameDialogToViewModel() {
+        viewCoroutineScope!!.launch {
+            val diScope = AddDeckDiScope.getAsync() ?: return@launch
+            with(diScope.viewModel) {
+                nameCheckResult.observe { nameCheckResult: NameCheckResult ->
+                    deckNameDialogEditText?.error = when (nameCheckResult) {
+                        Ok -> null
+                        Empty -> getString(R.string.error_message_empty_name)
+                        Occupied -> getString(R.string.error_message_occupied_name)
+                    }
+                    dialogOkButton?.isEnabled = nameCheckResult == Ok
+                }
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        if (deckNameInputDialog != null && deckNameInputDialog!!.isShowing) {
+        if (deckNameDialog?.isShowing == true) {
             deckNameDialogEditText?.showSoftInput()
         }
     }
@@ -210,7 +225,7 @@ class AddDeckFragment : BaseFragment() {
         savedInstanceState?.run {
             val dialogSavedState: Bundle? = getBundle(STATE_DECK_NAME_INPUT_DIALOG)
             if (dialogSavedState != null) {
-                requireDeckNameInputDialog().onRestoreInstanceState(dialogSavedState)
+                requireDeckNameDialog().onRestoreInstanceState(dialogSavedState)
             }
             val isAddCardsPopupShowing = getBoolean(STATE_ADD_CARDS_POPUP, false)
             if (isAddCardsPopupShowing) {
@@ -224,10 +239,10 @@ class AddDeckFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (deckNameInputDialog != null && deckNameInputDialog!!.isShowing) {
+        if (deckNameDialog?.isShowing == true) {
             outState.putBundle(
                 STATE_DECK_NAME_INPUT_DIALOG,
-                deckNameInputDialog!!.onSaveInstanceState()
+                deckNameDialog!!.onSaveInstanceState()
             )
         }
         val isAddCardsPopupShowing = addCardsPopup?.isShowing ?: false
@@ -236,8 +251,8 @@ class AddDeckFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        deckNameInputDialog?.dismiss()
-        deckNameInputDialog = null
+        deckNameDialog?.dismiss()
+        deckNameDialog = null
         deckNameDialogEditText = null
         addCardsPopup?.dismiss()
         addCardsPopup = null
