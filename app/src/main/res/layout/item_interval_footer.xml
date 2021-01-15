@@ -30,7 +30,7 @@
             android:elevation="14dp"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_grade"
             app:layout_constraintEnd_toEndOf="@id/indicatorLine"
             app:layout_constraintStart_toStartOf="@id/indicatorLine"
             app:layout_constraintTop_toTopOf="parent"

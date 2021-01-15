@@ -38,7 +38,7 @@
                 android:fontFamily="@font/comfortaa"
                 android:padding="16dp"
                 android:textColor="@color/textPrimary"
-                android:textSize="14.5sp"
+                android:textSize="@dimen/text_size_deck_option_bottom_sheet_title"
                 android:textStyle="bold"
                 tools:text="Английский №8" />
 

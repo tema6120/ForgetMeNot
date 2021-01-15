@@ -31,7 +31,7 @@
             android:layout_marginEnd="16dp"
             android:text="@string/popup_title_walking_mode"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_popup_in_exercise_title"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/walkingModeIcon"

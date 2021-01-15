@@ -17,7 +17,7 @@
             android:fontFamily="@font/nunito_bold"
             android:padding="16dp"
             android:textColor="@color/text_title"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_dialog_title"
             app:layout_constraintBottom_toTopOf="@id/divider"
             app:layout_constraintEnd_toStartOf="@+id/closeButton"
             app:layout_constraintStart_toStartOf="parent"

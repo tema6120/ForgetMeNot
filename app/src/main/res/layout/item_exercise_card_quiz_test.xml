@@ -37,7 +37,7 @@
                             android:padding="16dp"
                             android:textColor="@color/text_secondary_selector"
                             android:textIsSelectable="true"
-                            android:textSize="18sp"
+                            android:textSize="@dimen/text_size_question"
                             tools:text="усердный, прилежный" />
 
                 </ScrollView>
@@ -51,7 +51,7 @@
                         android:padding="16dp"
                         android:text="@string/text_show_question_button"
                         android:textColor="@color/text_curtain_selector"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_size_exercise_show_button"
                         android:visibility="gone" />
 
             </FrameLayout>
@@ -141,7 +141,7 @@
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
                 android:textColor="@android:color/white"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_size_card_label"
                 android:translationY="-37dp"
                 tools:backgroundTint="@color/card_label_learned"
                 tools:fontFamily="@font/comfortaa"

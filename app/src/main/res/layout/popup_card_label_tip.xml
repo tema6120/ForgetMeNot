@@ -20,7 +20,7 @@
             android:maxWidth="170dp"
             android:padding="8dp"
             android:textColor="@color/description_text_on_popup"
-            android:textSize="13sp"
+            android:textSize="@dimen/text_size_card_label_tip_popup_explanation"
             tools:text="@string/explanation_card_label_learned" />
 
 </LinearLayout>

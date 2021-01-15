@@ -24,7 +24,7 @@
                 android:text="@string/title_preset_popup"
                 android:textAllCaps="true"
                 android:textColor="@color/colorAccent"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_preset_popup_title"
                 app:layout_constraintEnd_toStartOf="@id/presetHelpButton"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"

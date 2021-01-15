@@ -18,7 +18,7 @@
             android:padding="16dp"
             android:text="@string/title_dialog_pronunciation_event"
             android:textColor="@color/text_title"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_size_dialog_title" />
 
     <View
             android:id="@+id/topDivider"
@@ -56,7 +56,7 @@
                         android:padding="16dp"
                         android:text="@string/pronunciation_event_speak_question"
                         android:textColor="@color/textSecondary"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_dialog_radiobutton"
                         android:theme="@style/IntervalsSettingsTheme"
                         android:visibility="invisible"
                         tools:visibility="visible" />
@@ -80,7 +80,7 @@
                         android:padding="16dp"
                         android:text="@string/pronunciation_event_speak_answer"
                         android:textColor="@color/textSecondary"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_dialog_radiobutton"
                         android:theme="@style/IntervalsSettingsTheme"
                         android:visibility="invisible"
                         tools:visibility="visible" />
@@ -106,7 +106,7 @@
                         android:padding="16dp"
                         android:text="@string/pronunciation_event_delay"
                         android:textColor="@color/textSecondary"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_dialog_radiobutton"
                         android:theme="@style/IntervalsSettingsTheme"
                         android:visibility="invisible"
                         tools:visibility="visible" />
@@ -125,7 +125,7 @@
                         android:padding="8dp"
                         android:textColor="@color/text_edittext"
                         android:textColorHint="@android:color/transparent"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_size_dialog_edittext"
                         android:theme="@style/IntervalsSettingsTheme"
                         tools:ignore="HardcodedText"
                         tools:text="2" />
@@ -138,7 +138,7 @@
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/sec"
                         android:textColor="@color/textSecondary"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/text_size_dialog_radiobutton" />
 
             </LinearLayout>
 
@@ -170,7 +170,7 @@
                 android:text="@android:string/cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/text_button_secondary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/text_size_dialog_cancel_button" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/okButton"
@@ -186,7 +186,7 @@
                 android:text="@android:string/ok"
                 android:textAllCaps="false"
                 android:textColor="@color/text_ok_button_in_interval_dialog"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_dialog_ok_button"
                 app:backgroundTint="@color/background_tint_ok_button_in_intervals_dialog"
                 app:cornerRadius="16dp"
                 app:rippleColor="@android:color/white" />

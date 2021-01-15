@@ -8,5 +8,5 @@
         android:paddingEnd="16dp"
         android:paddingBottom="8dp"
         android:textColor="@color/text_description"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_description"
         tools:text="• Vocabulary" />

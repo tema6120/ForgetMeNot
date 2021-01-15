@@ -61,7 +61,7 @@ class EntryTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 18f
+            setTextSizeFromRes(R.dimen.text_size_question)
         }
     }
 
@@ -69,7 +69,7 @@ class EntryTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 16f
+            setTextSizeFromRes(R.dimen.text_size_answer)
         }
     }
 
@@ -77,7 +77,7 @@ class EntryTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 16f
+            setTextSizeFromRes(R.dimen.text_size_answer)
         }
     }
 
@@ -85,7 +85,7 @@ class EntryTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 16f
+            setTextSizeFromRes(R.dimen.text_size_answer)
         }
     }
 
@@ -140,17 +140,17 @@ class EntryTestExerciseCardViewHolder(
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
-            questionTextView.textSize = 18f
+            questionTextView.setTextSizeFromRes(R.dimen.text_size_question)
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
-            hintTextView.textSize = 16f
+            hintTextView.setTextSizeFromRes(R.dimen.text_size_answer)
             answerEditText.run {
                 observeText { text: String -> controller.dispatch(AnswerInputChanged(text)) }
                 setOnFocusChangeListener { _, hasFocus ->
                     if (!hasFocus) hideKeyboardDelayedIfItIsNotNeeded()
                 }
-                textSize = 16f
+                setTextSizeFromRes(R.dimen.text_size_answer)
             }
             checkButton.setOnClickListener {
                 controller.dispatch(CheckButtonClicked)
@@ -160,12 +160,12 @@ class EntryTestExerciseCardViewHolder(
                     controller.dispatch(AnswerTextSelectionChanged(selection))
                 }
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                textSize = 16f
+                setTextSizeFromRes(R.dimen.text_size_answer)
             }
             correctAnswerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
-            correctAnswerTextView.textSize = 16f
+            correctAnswerTextView.setTextSizeFromRes(R.dimen.text_size_answer)
             cardLabelTextView.setFont(R.font.comfortaa, Typeface.BOLD)
             checkButton.setFont(R.font.comfortaa, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =

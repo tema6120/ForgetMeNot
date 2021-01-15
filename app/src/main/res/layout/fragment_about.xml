@@ -50,7 +50,7 @@
             android:elevation="4dp"
             android:text="@string/app_name"
             android:textColor="@android:color/white"
-            android:textSize="30sp"
+            android:textSize="@dimen/text_size_about_screen_app_name"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/slogan"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@
             android:elevation="4dp"
             android:text="@string/app_slogan"
             android:textColor="#E7D900"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_about_screen_slogan"
             android:textStyle="bold"
             android:transformPivotX="0dp"
             app:layout_constraintBottom_toBottomOf="@id/appBarSurface"
@@ -145,9 +145,9 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:text="@string/forgetmenot_brief_description"
-                    android:textColor="@color/text_description"
+                    android:textColor="@color/textSecondary"
                     android:textIsSelectable="true"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_size_description" />
 
             <TextView
                     android:id="@+id/developer_story_title"
@@ -159,7 +159,7 @@
                     android:text="@string/developer_story_title"
                     android:textColor="@color/textSecondary"
                     android:textIsSelectable="true"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/text_size_about_screen_section_title"
                     android:textStyle="bold" />
 
             <TextView
@@ -170,9 +170,9 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:text="@string/developer_story"
-                    android:textColor="@color/text_description"
+                    android:textColor="@color/textSecondary"
                     android:textIsSelectable="true"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_about_screen_developer_story" />
 
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/supportAppButton"
@@ -188,7 +188,7 @@
                     android:text="@string/text_support_app_button"
                     android:textAllCaps="false"
                     android:textColor="@color/text_exercise_button"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_floating_button"
                     app:backgroundTint="@color/exercise_button_background_tint"
                     app:cornerRadius="16dp"
                     app:icon="@drawable/ic_round_favorite_24"

@@ -38,7 +38,7 @@
                             android:padding="16dp"
                             android:textColor="@color/text_secondary_selector"
                             android:textIsSelectable="true"
-                            android:textSize="18sp"
+                            android:textSize="@dimen/text_size_question"
                             tools:text="Эти люди привычны к тяжелой работе." />
 
                 </ScrollView>
@@ -52,7 +52,7 @@
                         android:padding="16dp"
                         android:text="@string/text_show_question_button"
                         android:textColor="@color/text_curtain_selector"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_size_exercise_show_button"
                         android:visibility="gone" />
 
             </FrameLayout>
@@ -78,7 +78,7 @@
                         android:padding="16dp"
                         android:textColor="@color/text_secondary_selector"
                         android:textIsSelectable="true"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/text_size_answer" />
 
             </ScrollView>
 
@@ -113,7 +113,7 @@
                         android:paddingBottom="80dp"
                         android:textColor="@color/text_secondary_selector"
                         android:textColorHint="@color/text_curtain_selector"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/text_size_answer" />
 
             </ScrollView>
 
@@ -137,7 +137,7 @@
                             android:padding="16dp"
                             android:textColor="@color/wrong_answer_selector"
                             android:textIsSelectable="true"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_size_answer"
                             android:visibility="gone"
                             tools:text="excape"
                             tools:visibility="visible" />
@@ -149,7 +149,7 @@
                             android:padding="16dp"
                             android:textColor="@color/correct_answer_selector"
                             android:textIsSelectable="true"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_size_answer"
                             tools:text="escape" />
 
                 </LinearLayout>
@@ -169,7 +169,7 @@
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
                 android:textColor="@android:color/white"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_size_card_label"
                 android:translationY="-37dp"
                 tools:backgroundTint="@color/card_label_learned"
                 tools:fontFamily="@font/comfortaa"
@@ -193,7 +193,7 @@
             android:text="@string/text_check_button"
             android:textAllCaps="false"
             android:textColor="@color/text_remember_button_unselected"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_exercise_floating_button"
             tools:fontFamily="@font/comfortaa"
             tools:textStyle="bold" />
 

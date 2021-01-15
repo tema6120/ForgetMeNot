@@ -20,11 +20,8 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.*
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
-import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -56,7 +53,7 @@ class ManualTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 18f
+            setTextSizeFromRes(R.dimen.text_size_question)
         }
     }
 
@@ -64,7 +61,7 @@ class ManualTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp, 16.dp, 16.dp, 80.dp)
-            textSize = 16f
+            setTextSizeFromRes(R.dimen.text_size_answer)
         }
     }
 
@@ -110,7 +107,7 @@ class ManualTestExerciseCardViewHolder(
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
-            questionTextView.textSize = 18f
+            questionTextView.setTextSizeFromRes(R.dimen.text_size_question)
             rememberButton.setOnClickListener {
                 controller.dispatch(RememberButtonClicked)
             }
@@ -120,11 +117,11 @@ class ManualTestExerciseCardViewHolder(
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
-            hintTextView.textSize = 16f
+            hintTextView.setTextSizeFromRes(R.dimen.text_size_answer)
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
-            answerTextView.textSize = 16f
+            answerTextView.setTextSizeFromRes(R.dimen.text_size_answer)
             rememberButton.setFont(R.font.comfortaa, Typeface.BOLD)
             notRememberButton.setFont(R.font.comfortaa, Typeface.BOLD)
             cardLabelTextView.setFont(R.font.comfortaa, Typeface.BOLD)

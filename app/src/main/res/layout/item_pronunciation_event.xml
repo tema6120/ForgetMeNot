@@ -81,7 +81,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/nunito_extrabold"
             android:maxLines="1"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_pronunciation_plan_screen_pronunciation_event"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/removePronunciationEventButton"
             app:layout_constraintStart_toEndOf="@id/timeLineTop"

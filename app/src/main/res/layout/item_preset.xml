@@ -24,7 +24,7 @@
             android:fontFamily="@font/nunito_bold"
             android:maxLines="1"
             android:textColor="@color/text_primary_brown"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_preset_popup_preset_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/renamePresetButton"
             app:layout_constraintStart_toStartOf="parent"

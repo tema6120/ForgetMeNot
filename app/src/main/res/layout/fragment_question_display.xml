@@ -39,7 +39,7 @@
                     android:paddingBottom="16dp"
                     android:text="@string/title_question_display_screen"
                     android:textColor="@color/text_title"
-                    android:textSize="21sp"
+                    android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
             <ImageButton
@@ -107,7 +107,7 @@
                             android:fontFamily="@font/nunito_bold"
                             android:padding="16dp"
                             android:textColor="@color/textSecondary"
-                            android:textSize="15sp"
+                            android:textSize="@dimen/text_size_switch"
                             android:visibility="invisible"
                             app:switchPadding="12dp"
                             tools:checked="true"

@@ -10,9 +10,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/article_import_of_deck_paragraph_1"
-            android:textColor="@color/text_description"
+            android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_help_article_paragraph"
             app:layout_constraintBottom_toTopOf="@+id/text_file_frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
                 android:text="@string/example_of_text_file_for_creating_deck"
                 android:textColor="@color/textSecondary"
                 android:textIsSelectable="true"
-                android:textSize="12sp" />
+                android:textSize="@dimen/text_size_import_of_deck_help_article_text_file_content" />
 
         <View
                 android:id="@+id/bottomDivider"
@@ -70,7 +70,7 @@
                 android:text="@string/example_file_name"
                 android:textColor="@color/textSecondary"
                 android:textIsSelectable="true"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_import_of_deck_help_article_file_name"
                 android:textStyle="italic" />
 
     </LinearLayout>
@@ -81,9 +81,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/article_import_of_deck_paragraph_2"
-            android:textColor="@color/text_description"
+            android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_help_article_paragraph"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

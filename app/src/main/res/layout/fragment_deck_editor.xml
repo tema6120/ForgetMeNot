@@ -42,7 +42,7 @@
                     android:paddingEnd="12dp"
                     android:paddingBottom="8dp"
                     android:textColor="@color/text_title"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/text_size_deck_editor_screen_deck_name"
                     android:textStyle="bold"
                     app:layout_scrollFlags="scroll|enterAlways"
                     tools:text="Английский №8" />

@@ -14,7 +14,7 @@
             android:layout_gravity="center_vertical"
             android:hint="🇺🇦"
             android:textColor="#000"
-            android:textSize="21sp"
+            android:textSize="@dimen/text_size_language_popup_flag"
             android:visibility="invisible"
             tools:text="🇺🇦"
             tools:visibility="visible" />
@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/nunito_bold"
             android:textColor="@color/textSecondary"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_language_popup_language_name"
             tools:text="Ukranian" />
 
 </LinearLayout>

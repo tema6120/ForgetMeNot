@@ -13,7 +13,7 @@
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/accent_selector</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_number_picker</item>
     </style>
 
     <style name="LastTestedTheme" parent="AppTheme">
@@ -22,7 +22,7 @@
 
     <style name="LastTestedPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/last_tested</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_last_tested_number_picker</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
@@ -33,9 +33,9 @@
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingBottom">8dp</item>
-        <item name="android:textColor">@color/text_description</item>
+        <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textIsSelectable">true</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_description</item>
     </style>
 
     <style name="DrawerItem">
@@ -68,7 +68,7 @@
         <item name="android:layout_marginStart">32dp</item>
         <item name="android:layout_marginEnd">32dp</item>
         <item name="android:textColor">@color/text_primary_blue_selector</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_main_drawer_item</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
@@ -80,7 +80,7 @@
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingEnd">20dp</item>
         <item name="android:textColor">@color/text_primary_blue_selector</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_deck_sorting_popup_item</item>
     </style>
 
     <style name="Animation_Popup_Before_23_API">
@@ -103,7 +103,7 @@
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingEnd">32dp</item>
         <item name="android:textColor">@color/textSecondary</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_deck_option_bottom_sheet_item</item>
         <item name="android:background">@drawable/ripple_rectangular_colored</item>
         <item name="drawableTint">@color/textSecondary</item>
     </style>
@@ -131,7 +131,7 @@
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingEnd">32dp</item>
         <item name="android:textColor">@color/textSecondary</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_about_screen_item</item>
         <item name="android:background">@drawable/ripple_rectangular_colored</item>
         <item name="drawableTint">@color/textSecondary</item>
         <item name="android:clickable">true</item>
@@ -160,7 +160,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/nunito_extrabold</item>
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_section_title</item>
     </style>
 
     <style name="CTA_Description">
@@ -169,7 +169,7 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="android:textColor">@color/textSecondary</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_description</item>
     </style>
 
     <style name="SupportAppButton">
@@ -184,7 +184,7 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/text_primary_blue</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_support_app_screen_button</item>
         <item name="android:textStyle">bold</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
@@ -214,7 +214,7 @@
 
     <style name="IntervalsPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/floating_button_in_exercise</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_intervals_number_picker</item>
         <item name="android:textColor">@color/textSecondary</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
@@ -236,7 +236,7 @@
         <item name="android:drawablePadding">16dp</item>
         <item name="android:padding">16dp</item>
         <item name="android:textColor">@color/text_secondary_selector</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_exercise_screen_variant_button</item>
         <item name="drawableStartCompat">@drawable/ic_radiobutton_unchecked_24</item>
     </style>
 
@@ -247,7 +247,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
         <item name="android:textColor">@color/text_primary_blue</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_section_title</item>
     </style>
 
     <style name="SettingsItemButton">
@@ -280,14 +280,14 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_title</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">@dimen/text_size_settings_item_title</item>
     </style>
 
     <style name="SettingsItemDescription">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_description</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">@dimen/text_size_settings_item_description</item>
     </style>
 
     <style name="SettingsItemNavigationIcon">

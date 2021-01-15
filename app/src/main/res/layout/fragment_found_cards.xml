@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:text="@string/no_matching_cards"
             android:textColor="@color/text_no_search_result"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_no_search_result"
             android:textStyle="bold"
             android:visibility="gone"
             app:drawableTint="@color/text_no_search_result"

@@ -48,7 +48,7 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text_size_search_edittext"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp" />
 
@@ -82,7 +82,7 @@
                     android:fontFamily="@font/jura"
                     android:maxLines="3"
                     android:textColor="@color/text_title"
-                    android:textSize="21sp"
+                    android:textSize="@dimen/text_size_home_screen_deck_list_title"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/addCardsButton"
@@ -112,7 +112,7 @@
                     android:text="@string/text_add_cards_button"
                     android:textAllCaps="true"
                     android:textColor="@color/colorAccent"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_home_screen_add_cards_button"
                     android:textStyle="bold"
                     app:drawableStartCompat="@drawable/ic_add_colored"
                     app:layout_constrainedWidth="true"
@@ -169,7 +169,7 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/text_size_home_screen_number_of_selected_decks"
                     tools:text="43 decks" />
 
             <ImageButton
@@ -239,7 +239,7 @@
                 android:text="@string/text_autoplay_button"
                 android:textAllCaps="false"
                 android:textColor="@color/text_autoplay_button"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_floating_button"
                 app:backgroundTint="@android:color/white"
                 app:cornerRadius="16dp"
                 app:icon="@drawable/ic_play_20"
@@ -271,7 +271,7 @@
                 android:text="@string/text_exercise_button"
                 android:textAllCaps="false"
                 android:textColor="@color/text_exercise_button"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_floating_button"
                 app:backgroundTint="@color/exercise_button_background_tint"
                 app:cornerRadius="16dp"
                 app:rippleColor="@android:color/white"

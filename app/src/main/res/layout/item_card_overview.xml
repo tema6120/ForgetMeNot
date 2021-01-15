@@ -24,7 +24,7 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:textColor="@color/text_secondary_selector"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_question"
                     tools:text="Эти люди привычны к тяжелой работе." />
 
             <View
@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:textColor="@color/text_secondary_selector"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text_size_answer"
                     tools:text="These men are used to hard work." />
 
         </LinearLayout>

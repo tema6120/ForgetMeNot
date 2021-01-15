@@ -57,7 +57,7 @@
                         android:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
                         android:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_grade"
                         tools:text="0" />
 
                 <ImageButton

@@ -25,7 +25,7 @@
             android:paddingEnd="32dp"
             android:paddingBottom="16dp"
             android:textColor="@color/text_primary_blue_selector"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_help_article_drawer_article_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

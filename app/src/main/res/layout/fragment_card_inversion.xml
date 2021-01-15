@@ -39,7 +39,7 @@
                     android:paddingBottom="16dp"
                     android:text="@string/title_card_inversion_screen"
                     android:textColor="@color/text_title"
-                    android:textSize="21sp"
+                    android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
         </FrameLayout>
@@ -118,7 +118,7 @@
                                 android:paddingBottom="12dp"
                                 android:text="@string/item_card_inversion_off"
                                 android:textColor="@color/textSecondary"
-                                android:textSize="15sp"
+                                android:textSize="@dimen/text_size_radiobutton"
                                 android:visibility="invisible"
                                 tools:checked="true"
                                 tools:visibility="visible" />
@@ -147,7 +147,7 @@
                                 android:paddingBottom="12dp"
                                 android:text="@string/item_card_inversion_on"
                                 android:textColor="@color/textSecondary"
-                                android:textSize="15sp"
+                                android:textSize="@dimen/text_size_radiobutton"
                                 android:visibility="invisible"
                                 tools:visibility="visible" />
 
@@ -175,7 +175,7 @@
                                 android:paddingBottom="12dp"
                                 android:text="@string/item_card_inversion_every_other_lap"
                                 android:textColor="@color/textSecondary"
-                                android:textSize="15sp"
+                                android:textSize="@dimen/text_size_radiobutton"
                                 android:visibility="invisible"
                                 tools:visibility="visible" />
 

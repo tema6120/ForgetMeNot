@@ -27,7 +27,7 @@
             android:fontFamily="@font/nunito_bold"
             android:text="@string/tip_question_display_screen_why"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_tip"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/closeTipButton"
             app:layout_constraintStart_toEndOf="@id/attentionIcon"

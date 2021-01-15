@@ -23,12 +23,9 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
-import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -72,7 +69,7 @@ class QuizTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 18f
+            setTextSizeFromRes(R.dimen.text_size_question)
         }
     }
 
@@ -84,7 +81,7 @@ class QuizTestExerciseCardViewHolder(
                     minHeight = 56.dp // if text is smaller than compound drawable
                 }
                 setPadding(56.dp, 16.dp, 16.dp, 16.dp)
-                textSize = 16f
+                setTextSizeFromRes(R.dimen.text_size_answer)
             }
         }
     }
@@ -128,12 +125,12 @@ class QuizTestExerciseCardViewHolder(
     private fun setupView() {
         with(asyncItemView) {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
-            questionTextView.textSize = 18f
+            questionTextView.setTextSizeFromRes(R.dimen.text_size_question)
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
             forEachVariantButton { variant: Int ->
-                textSize = 16f
+                setTextSizeFromRes(R.dimen.text_size_answer)
                 setOnClickListener { controller.dispatch(VariantSelected(variant)) }
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))

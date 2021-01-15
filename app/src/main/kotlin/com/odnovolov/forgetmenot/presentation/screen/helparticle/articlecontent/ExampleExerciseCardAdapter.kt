@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.observe
+import com.odnovolov.forgetmenot.presentation.common.setTextSizeFromRes
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseCardAdapter.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting.ExerciseCard
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
@@ -32,9 +33,9 @@ class ExampleExerciseCardAdapter(
                 height = 320.dp
             }
             rememberButton.updateLayoutParams { height = 40.dp }
-            rememberButton.textSize = 11f
+            rememberButton.setTextSizeFromRes(R.dimen.text_size_remember_button_in_exercise_help_article)
             notRememberButton.updateLayoutParams { height = 40.dp }
-            notRememberButton.textSize = 11f
+            notRememberButton.setTextSizeFromRes(R.dimen.text_size_remember_button_in_exercise_help_article)
         }
         return ExerciseCardViewHolder(view, coroutineScope, exercise)
     }

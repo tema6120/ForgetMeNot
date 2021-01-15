@@ -16,6 +16,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.BackgroundColorSpan
 import android.text.style.ClickableSpan
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
@@ -58,6 +59,10 @@ val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).to
 val Float.dp: Float get() = (this * Resources.getSystem().displayMetrics.density)
 
 val Int.sp: Int get() = (this * Resources.getSystem().displayMetrics.scaledDensity).toInt()
+
+fun TextView.setTextSizeFromRes(dimenRes: Int) {
+    setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(dimenRes))
+}
 
 fun EditText.observeText(onTextChanged: (newText: String) -> Unit) {
     addTextChangedListener(object : TextWatcher {

@@ -16,7 +16,7 @@
             android:gravity="center"
             android:text="@string/button_export"
             android:textColor="@color/text_export_icon"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_deck_content_screen_toolbar_button"
             app:drawableTopCompat="@drawable/export_button" />
 
     <TextView
@@ -31,7 +31,7 @@
             android:gravity="center"
             android:text="@string/button_search"
             android:textColor="@color/text_search_icon"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_deck_content_screen_toolbar_button"
             app:drawableTopCompat="@drawable/search_button" />
 
 </LinearLayout>

@@ -68,7 +68,7 @@ class PresetView @JvmOverloads constructor(
         maxLines = 1
         setPadding(12.dp)
         setTextColor(ContextCompat.getColor(context, R.color.text_title))
-        textSize = 22f
+        setTextSizeFromRes(R.dimen.text_size_preset_button)
         setFont(R.font.nunito_bold, Typeface.BOLD)
     }
 

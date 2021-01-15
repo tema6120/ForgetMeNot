@@ -21,7 +21,7 @@
             android:paddingEnd="32dp"
             android:paddingBottom="12dp"
             android:textColor="@color/textSecondary"
-            android:textSize="15sp"
+            android:textSize="@dimen/text_size_radiobutton"
             tools:text="Whatever" />
 
 </FrameLayout>

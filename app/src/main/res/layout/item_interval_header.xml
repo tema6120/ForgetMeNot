@@ -48,7 +48,7 @@
                 android:fontFamily="@font/nunito_bold"
                 android:padding="16dp"
                 android:textColor="@color/textSecondary"
-                android:textSize="17sp"
+                android:textSize="@dimen/text_size_switch"
                 android:theme="@style/IntervalsSettingsTheme"
                 android:visibility="invisible"
                 app:switchPadding="12dp"

@@ -35,7 +35,7 @@
                         android:elevation="14dp"
                         android:gravity="center"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_grade"
                         app:layout_constraintEnd_toEndOf="@id/indicatorLine"
                         app:layout_constraintStart_toStartOf="@id/indicatorLine"
                         app:layout_constraintTop_toTopOf="parent"
@@ -63,7 +63,7 @@
                         android:elevation="14dp"
                         android:gravity="center"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_grade"
                         app:layout_constraintEnd_toEndOf="@id/indicatorLine"
                         app:layout_constraintStart_toStartOf="@id/indicatorLine"
                         app:layout_constraintTop_toTopOf="parent"
@@ -94,7 +94,7 @@
                         android:padding="8dp"
                         android:textColor="@color/textSecondary"
                         android:textColorHint="@android:color/transparent"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_dialog_edittext"
                         android:theme="@style/IntervalsSettingsTheme"
                         tools:ignore="HardcodedText"
                         tools:text="7" />
@@ -137,7 +137,7 @@
                 android:text="@android:string/cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/text_button_secondary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/text_size_dialog_cancel_button" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/okButton"
@@ -153,7 +153,7 @@
                 android:text="@android:string/ok"
                 android:textAllCaps="false"
                 android:textColor="@color/text_ok_button_in_interval_dialog"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_dialog_ok_button"
                 app:backgroundTint="@color/background_tint_ok_button_in_intervals_dialog"
                 app:cornerRadius="16dp"
                 app:rippleColor="@android:color/white" />

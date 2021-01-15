@@ -22,11 +22,8 @@ import androidx.core.view.setPadding
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.OffTestExerciseCard
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.common.dp
-import com.odnovolov.forgetmenot.presentation.common.fixTextSelection
-import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -59,7 +56,7 @@ class OffTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 18f
+            setTextSizeFromRes(R.dimen.text_size_question)
         }
     }
 
@@ -67,7 +64,7 @@ class OffTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            textSize = 16f
+            setTextSizeFromRes(R.dimen.text_size_answer)
         }
     }
 
@@ -110,7 +107,7 @@ class OffTestExerciseCardViewHolder(
             showQuestionButton.setOnClickListener {
                 controller.dispatch(ShowQuestionButtonClicked)
             }
-            questionTextView.textSize = 18f
+            questionTextView.setTextSizeFromRes(R.dimen.text_size_question)
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
@@ -120,11 +117,11 @@ class OffTestExerciseCardViewHolder(
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
-            hintTextView.textSize = 16f
+            hintTextView.setTextSizeFromRes(R.dimen.text_size_answer)
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
-            answerTextView.textSize = 16f
+            answerTextView.setTextSizeFromRes(R.dimen.text_size_answer)
             cardLabelTextView.setFont(R.font.comfortaa, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)

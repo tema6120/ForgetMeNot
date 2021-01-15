@@ -101,7 +101,7 @@
                 android:paddingEnd="32dp"
                 android:text="@string/title_example_in_settings_bottom_sheet"
                 android:textColor="@android:color/white"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_size_card_label"
                 android:textStyle="bold" />
 
     </FrameLayout>
