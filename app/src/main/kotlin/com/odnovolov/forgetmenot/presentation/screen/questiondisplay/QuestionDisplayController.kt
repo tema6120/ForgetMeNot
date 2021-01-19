@@ -37,7 +37,7 @@ class QuestionDisplayController(
             QuestionDisplaySwitchToggled -> {
                 deckSettings.toggleIsQuestionDisplayed()
                 with(deckSettings.state.deck.exercisePreference) {
-                    if (!isQuestionDisplayed && !pronunciation.questionAutoSpeak) {
+                    if (!isQuestionDisplayed && !pronunciation.questionAutoSpeaking) {
                         screenState.tip = Tip.TipQuestionDisplayScreenDoNotForgetAutospeaking
                     }
                     if (isQuestionDisplayed

@@ -4,55 +4,64 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.persistence.DbKeys
+import com.odnovolov.forgetmenot.persistence.dateTimeSpanAdapter
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
-import com.odnovolov.forgetmenot.persistence.toRepetitionSettingDb
 import com.soywiz.klock.DateTimeSpan
 
 class CardFilterForAutoplayChangeHandler(
     database: Database
 ) : PropertyChangeHandler {
-    private val queries = database.repetitionSettingQueries
+    private val queries = database.keyValueQueries
 
     override fun handle(change: PropertyChangeRegistry.Change) {
         if (change !is PropertyValueChange) return
-        val repetitionSettingId: Long = /*change.propertyOwnerId*/ 0L
-        val exists: Boolean = queries.exists(repetitionSettingId).executeAsOne()
-        if (!exists) {
-            // todo: temporary solution
-            queries.insert(CardFilterForAutoplay.Default.toRepetitionSettingDb())
-            return
-        }
         when (change.property) {
-            CardFilterForAutoplay::isAvailableForExerciseCardsIncluded -> {
-                val isAvailableForExerciseCardsIncluded = change.newValue as Boolean
-                queries.updateIsAvailableForExerciseCardsIncluded(
-                    isAvailableForExerciseCardsIncluded,
-                    repetitionSettingId
+            CardFilterForAutoplay::areCardsAvailableForExerciseIncluded -> {
+                val areCardsAvailableForExerciseIncluded = change.newValue as Boolean
+                queries.replace(
+                    key = DbKeys.CARD_FILTER_FOR_AUTOPLAY_ARE_CARDS_AVAILABLE_FOR_EXERCISE_INCLUDED,
+                    value = areCardsAvailableForExerciseIncluded.toString()
                 )
             }
-            CardFilterForAutoplay::isAwaitingCardsIncluded -> {
-                val isAwaitingCardsIncluded = change.newValue as Boolean
-                queries.updateIsAwaitingCardsIncluded(isAwaitingCardsIncluded, repetitionSettingId)
+            CardFilterForAutoplay::areAwaitingCardsIncluded -> {
+                val areAwaitingCardsIncluded = change.newValue as Boolean
+                queries.replace(
+                    key = DbKeys.CARD_FILTER_FOR_AUTOPLAY_ARE_AWAITING_CARDS_INCLUDED,
+                    value = areAwaitingCardsIncluded.toString()
+                )
             }
-            CardFilterForAutoplay::isLearnedCardsIncluded -> {
-                val isLearnedCardsIncluded = change.newValue as Boolean
-                queries.updateIsLearnedCardsIncluded(isLearnedCardsIncluded, repetitionSettingId)
+            CardFilterForAutoplay::areLearnedCardsIncluded -> {
+                val areLearnedCardsIncluded = change.newValue as Boolean
+                queries.replace(
+                    key = DbKeys.CARD_FILTER_FOR_AUTOPLAY_ARE_LEARNED_CARDS_INCLUDED,
+                    value = areLearnedCardsIncluded.toString()
+                )
             }
             CardFilterForAutoplay::gradeRange -> {
-                val levelOfKnowledgeRange = change.newValue as IntRange
-                queries.updateLevelOfKnowledgeRange(
-                    levelOfKnowledgeRange.first,
-                    levelOfKnowledgeRange.last,
-                    repetitionSettingId
+                val gradeRange = change.newValue as IntRange
+                queries.replace(
+                    key = DbKeys.CARD_FILTER_FOR_AUTOPLAY_GRADE_MIN,
+                    value = gradeRange.first.toString()
+                )
+                queries.replace(
+                    key = DbKeys.CARD_FILTER_FOR_AUTOPLAY_GRADE_MAX,
+                    value = gradeRange.last.toString()
                 )
             }
             CardFilterForAutoplay::lastTestedFromTimeAgo -> {
-                val lastAnswerFromTimeAgo = change.newValue as DateTimeSpan?
-                queries.updateLastAnswerFromTimeAgo(lastAnswerFromTimeAgo, repetitionSettingId)
+                val lastTestedFromTimeAgo = change.newValue as DateTimeSpan?
+                queries.replace(
+                    key = DbKeys.CARD_FILTER_FOR_AUTOPLAY_LAST_TESTED_FROM_TIME_AGO,
+                    value = lastTestedFromTimeAgo?.let(dateTimeSpanAdapter::encode)
+                )
             }
             CardFilterForAutoplay::lastTestedToTimeAgo -> {
                 val lastAnswerToTimeAgo = change.newValue as DateTimeSpan?
-                queries.updateLastAnswerToTimeAgo(lastAnswerToTimeAgo, repetitionSettingId)
+                queries.replace(
+                    key = DbKeys.CARD_FILTER_FOR_AUTOPLAY_LAST_TESTED_TO_TIME_AGO,
+                    value = lastAnswerToTimeAgo?.let(dateTimeSpanAdapter::encode)
+                )
             }
         }
     }

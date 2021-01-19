@@ -3,9 +3,6 @@ package com.odnovolov.forgetmenot.persistence
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.globalstate.*
-import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
-import com.soywiz.klock.DateTime
 
 fun DeckDb.toDeck(
     cards: CopyableList<Card>,
@@ -13,17 +10,17 @@ fun DeckDb.toDeck(
 ) = Deck(
     id,
     name,
-    DateTime.fromUnix(createdAt),
-    lastOpenedAt?.let { DateTime.fromUnix(it) },
+    createdAt,
+    lastTestedAt,
     cards,
     exercisePreference
 )
 
-fun Deck.toDeckDb(): DeckDb = DeckDb.Impl(
+fun Deck.toDeckDb(): DeckDb = DeckDb(
     id,
     name,
-    createdAt.unixMillisLong,
-    lastOpenedAt?.unixMillisLong,
+    createdAt,
+    lastTestedAt,
     exercisePreference.id
 )
 
@@ -33,14 +30,14 @@ fun CardDb.toCard() = Card(
     answer,
     lap,
     isLearned,
-    levelOfKnowledge,
-    lastAnsweredAt?.let { DateTime.fromUnix(it) }
+    grade,
+    lastTestedAt
 )
 
 fun Card.toCardDb(
     deckId: Long,
     ordinal: Int
-): CardDb = CardDb.Impl(
+): CardDb = CardDb(
     id,
     deckId,
     ordinal,
@@ -49,7 +46,7 @@ fun Card.toCardDb(
     lap,
     isLearned,
     grade,
-    lastAnsweredAt?.unixMillisLong
+    lastTestedAt
 )
 
 fun ExercisePreferenceDb.toExercisePreference(
@@ -60,16 +57,16 @@ fun ExercisePreferenceDb.toExercisePreference(
     id,
     name,
     randomOrder,
-    testMethod,
+    testingMethod,
     intervalScheme,
     pronunciation,
     isQuestionDisplayed,
-    cardReverse,
+    cardInversion,
     pronunciationPlan,
     timeForAnswer
 )
 
-fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = ExercisePreferenceDb.Impl(
+fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = ExercisePreferenceDb(
     id,
     name,
     randomOrder,
@@ -82,27 +79,19 @@ fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = Exercise
     timeForAnswer
 )
 
-fun IntervalSchemeDb.toIntervalScheme(
-    intervals: CopyableList<Interval>
-) = IntervalScheme(
-    id,
-    intervals
-)
-
-fun IntervalScheme.toIntervalSchemeDb(): IntervalSchemeDb = IntervalSchemeDb.Impl(
-    id,
-    ""
+fun IntervalScheme.toIntervalSchemeDb(): IntervalSchemeDb = IntervalSchemeDb(
+    id
 )
 
 fun IntervalDb.toInterval() = Interval(
     id,
-    levelOfKnowledge,
+    grade,
     value
 )
 
 fun Interval.toIntervalDb(
     intervalSchemeId: Long
-): IntervalDb = IntervalDb.Impl(
+): IntervalDb = IntervalDb(
     id,
     intervalSchemeId,
     grade,
@@ -112,19 +101,18 @@ fun Interval.toIntervalDb(
 fun PronunciationDb.toPronunciation() = Pronunciation(
     id,
     questionLanguage,
-    questionAutoSpeak,
+    questionAutoSpeaking,
     answerLanguage,
-    answerAutoSpeak,
+    answerAutoSpeaking,
     speakTextInBrackets
 )
 
-fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb.Impl(
+fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb(
     id,
-    "",
     questionLanguage,
-    questionAutoSpeak,
+    questionAutoSpeaking,
     answerLanguage,
-    answerAutoSpeak,
+    answerAutoSpeaking,
     speakTextInBrackets
 )
 
@@ -133,42 +121,11 @@ fun PronunciationPlanDb.toPronunciationPlan() = PronunciationPlan(
     pronunciationEvents
 )
 
-fun PronunciationPlan.toPronunciationPlanDb(): PronunciationPlanDb = PronunciationPlanDb.Impl(
+fun PronunciationPlan.toPronunciationPlanDb(): PronunciationPlanDb = PronunciationPlanDb(
     id,
-    "",
     pronunciationEvents
 )
 
-fun DeckReviewPreferenceDb.toDeckReviewPreference() = DeckReviewPreference(
-    deckSorting,
-    displayOnlyWithTasks
-)
-
-fun CardFilterForAutoplay.toRepetitionSettingDb(): RepetitionSettingDb = RepetitionSettingDb.Impl(
-    id,
-    "",
-    isAvailableForExerciseCardsIncluded,
-    isAwaitingCardsIncluded,
-    isLearnedCardsIncluded,
-    gradeRange.first,
-    gradeRange.last,
-    lastTestedFromTimeAgo,
-    lastTestedToTimeAgo,
-    0
-)
-
-fun RepetitionSettingDb.toCardFilterForAutoplay() = CardFilterForAutoplay(
-    id,
-    isAvailableForExerciseCardsIncluded,
-    isAwaitingCardsIncluded,
-    isLearnedCardsIncluded,
-    levelOfKnowledgeMin..levelOfKnowledgeMax,
-    lastAnswerFromTimeAgo,
-    lastAnswerToTimeAgo
-)
-
-fun FullscreenPreferenceDb.toFullscreenPreference() = FullscreenPreference(
-    isEnabledInExercise,
-    isEnabledInRepetition,
-    isEnabledInHomeAndSettings
-)
+inline fun <reified T : Enum<T>> String.toEnumOrNull(): T? {
+    return enumValues<T>().find { it.name == this }
+}

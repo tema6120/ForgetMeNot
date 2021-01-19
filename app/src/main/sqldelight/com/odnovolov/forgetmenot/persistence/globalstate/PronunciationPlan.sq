@@ -3,7 +3,6 @@ import kotlin.collections.List;
 
 CREATE TABLE PronunciationPlanDb (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
     pronunciationEvents TEXT AS List<PronunciationEvent> NOT NULL
 );
 
@@ -12,9 +11,6 @@ INSERT INTO PronunciationPlanDb VALUES ?;
 
 selectAll:
 SELECT * FROM PronunciationPlanDb;
-
-updateName:
-UPDATE PronunciationPlanDb SET name = ? WHERE id = ?;
 
 updatePronunciationEvents:
 UPDATE PronunciationPlanDb SET pronunciationEvents = ? WHERE id = ?;
@@ -27,5 +23,4 @@ SELECT EXISTS (SELECT * FROM PronunciationPlanDb WHERE id = ?);
 
 deleteUnused:
 DELETE FROM PronunciationPlanDb
-WHERE id NOT IN (SELECT pronunciationPlanId FROM SharedPronunciationPlanDb)
-  AND id NOT IN (SELECT pronunciationPlanId FROM ExercisePreferenceDb);
+WHERE id NOT IN (SELECT pronunciationPlanId FROM ExercisePreferenceDb);

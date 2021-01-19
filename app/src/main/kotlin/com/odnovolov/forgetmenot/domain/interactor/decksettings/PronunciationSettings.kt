@@ -25,18 +25,18 @@ class PronunciationSettings(
         )
     }
 
-    fun toggleQuestionAutoSpeak() {
-        val newQuestionAutoSpeak = !currentPronunciation.questionAutoSpeak
+    fun toggleQuestionAutoSpeaking() {
+        val newQuestionAutoSpeaking = !currentPronunciation.questionAutoSpeaking
         updatePronunciation(
             isValueChanged = true,
             createNewPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
-                    questionAutoSpeak = newQuestionAutoSpeak
+                    questionAutoSpeaking = newQuestionAutoSpeaking
                 )
             },
             updateCurrentPronunciation = {
-                currentPronunciation.questionAutoSpeak = newQuestionAutoSpeak
+                currentPronunciation.questionAutoSpeaking = newQuestionAutoSpeaking
             }
         )
     }
@@ -56,18 +56,18 @@ class PronunciationSettings(
         )
     }
 
-    fun toggleAnswerAutoSpeak() {
-        val newAnswerAutoSpeak = !currentPronunciation.answerAutoSpeak
+    fun toggleAnswerAutoSpeaking() {
+        val newAnswerAutoSpeaking = !currentPronunciation.answerAutoSpeaking
         updatePronunciation(
             isValueChanged = true,
             createNewPronunciation = {
                 currentPronunciation.shallowCopy(
                     id = generateId(),
-                    answerAutoSpeak = newAnswerAutoSpeak
+                    answerAutoSpeaking = newAnswerAutoSpeaking
                 )
             },
             updateCurrentPronunciation = {
-                currentPronunciation.answerAutoSpeak = newAnswerAutoSpeak
+                currentPronunciation.answerAutoSpeaking = newAnswerAutoSpeaking
             }
         )
     }
@@ -111,16 +111,16 @@ class PronunciationSettings(
     private fun Pronunciation.shallowCopy(
         id: Long,
         questionLanguage: Locale? = this.questionLanguage,
-        questionAutoSpeak: Boolean = this.questionAutoSpeak,
+        questionAutoSpeaking: Boolean = this.questionAutoSpeaking,
         answerLanguage: Locale? = this.answerLanguage,
-        answerAutoSpeak: Boolean = this.answerAutoSpeak,
+        answerAutoSpeaking: Boolean = this.answerAutoSpeaking,
         speakTextInBrackets: Boolean = this.speakTextInBrackets
     ) = Pronunciation(
         id,
         questionLanguage,
-        questionAutoSpeak,
+        questionAutoSpeaking,
         answerLanguage,
-        answerAutoSpeak,
+        answerAutoSpeaking,
         speakTextInBrackets
     )
 

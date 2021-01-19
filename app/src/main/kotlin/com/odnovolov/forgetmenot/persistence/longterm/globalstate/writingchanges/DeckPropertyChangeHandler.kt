@@ -29,11 +29,10 @@ class DeckPropertyChangeHandler(
                 val name = change.newValue as String
                 database.deckQueries.updateName(name, deckId)
             }
-            Deck::lastOpenedAt -> {
+            Deck::lastTestedAt -> {
                 if (change !is PropertyValueChange) return
-                val lastOpenedAt = change.newValue as DateTime?
-                val databaseValue = lastOpenedAt?.unixMillisLong
-                database.deckQueries.updateLastOpenedAt(databaseValue, deckId)
+                val lastTestedAt = change.newValue as DateTime?
+                database.deckQueries.updateLastTestedAt(lastTestedAt, deckId)
             }
             Deck::cards -> {
                 if (change !is ListChange) return

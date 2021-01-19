@@ -52,13 +52,13 @@ fun isCardAvailableForExercise(testingCard: Card, intervalScheme: IntervalScheme
     return when {
         testingCard.isLearned -> false
         intervalScheme == null -> true
-        testingCard.lastAnsweredAt == null -> true
+        testingCard.lastTestedAt == null -> true
         else -> {
             val intervals: List<Interval> = intervalScheme.intervals
             val interval: Interval = intervals.find {
                 it.grade == testingCard.grade
             } ?: intervals.maxByOrNull { it.grade }!!
-            testingCard.lastAnsweredAt!! + interval.value < DateTime.now()
+            testingCard.lastTestedAt!! + interval.value < DateTime.now()
         }
     }
 }

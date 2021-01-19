@@ -31,7 +31,7 @@ class ExercisePreferencePropertyChangeHandler(
             }
             ExercisePreference::testingMethod -> {
                 val testingMethod = change.newValue as TestingMethod
-                queries.updateTestMethod(testingMethod, exercisePreferenceId)
+                queries.updateTestingMethod(testingMethod, exercisePreferenceId)
             }
             ExercisePreference::intervalScheme -> {
                 val linkedIntervalScheme = change.newValue as IntervalScheme?
@@ -49,7 +49,7 @@ class ExercisePreferencePropertyChangeHandler(
             }
             ExercisePreference::cardInversion -> {
                 val cardInversion = change.newValue as CardInversion
-                queries.updateCardReverse(cardInversion, exercisePreferenceId)
+                queries.updateCardInversion(cardInversion, exercisePreferenceId)
             }
             ExercisePreference::pronunciationPlan -> {
                 val linkedPronunciationPlan = change.newValue as PronunciationPlan

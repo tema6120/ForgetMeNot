@@ -32,16 +32,16 @@ class CardFilterForAutoplayController(
     override fun handle(event: CardFilterForAutoplayEvent) {
         when (event) {
             AvailableForExerciseCheckboxClicked -> {
-                cardFilter.isAvailableForExerciseCardsIncluded =
-                    !cardFilter.isAvailableForExerciseCardsIncluded
+                cardFilter.areCardsAvailableForExerciseIncluded =
+                    !cardFilter.areCardsAvailableForExerciseIncluded
             }
 
             AwaitingCheckboxClicked -> {
-                cardFilter.isAwaitingCardsIncluded = !cardFilter.isAwaitingCardsIncluded
+                cardFilter.areAwaitingCardsIncluded = !cardFilter.areAwaitingCardsIncluded
             }
 
             LearnedCheckboxClicked -> {
-                cardFilter.isLearnedCardsIncluded = !cardFilter.isLearnedCardsIncluded
+                cardFilter.areLearnedCardsIncluded = !cardFilter.areLearnedCardsIncluded
             }
 
             is GradeRangeChanged -> {

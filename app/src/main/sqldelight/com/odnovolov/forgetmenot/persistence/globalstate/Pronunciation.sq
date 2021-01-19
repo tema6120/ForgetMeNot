@@ -2,11 +2,10 @@ import java.util.Locale;
 
 CREATE TABLE PronunciationDb (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
     questionLanguage TEXT AS Locale,
-    questionAutoSpeak INTEGER AS Boolean NOT NULL,
+    questionAutoSpeaking INTEGER AS Boolean NOT NULL,
     answerLanguage TEXT AS Locale,
-    answerAutoSpeak INTEGER AS Boolean NOT NULL,
+    answerAutoSpeaking INTEGER AS Boolean NOT NULL,
     speakTextInBrackets INTEGER AS Boolean NOT NULL
 );
 
@@ -16,20 +15,17 @@ INSERT INTO PronunciationDb VALUES ?;
 selectAll:
 SELECT * FROM PronunciationDb;
 
-updateName:
-UPDATE PronunciationDb SET name = ? WHERE id = ?;
-
 updateQuestionLanguage:
 UPDATE PronunciationDb SET questionLanguage = ? WHERE id = ?;
 
-updateQuestionAutoSpeak:
-UPDATE PronunciationDb SET questionAutoSpeak = ? WHERE id = ?;
+updateQuestionAutoSpeaking:
+UPDATE PronunciationDb SET questionAutoSpeaking = ? WHERE id = ?;
 
 updateAnswerLanguage:
 UPDATE PronunciationDb SET answerLanguage = ? WHERE id = ?;
 
-updateAnswerAutoSpeak:
-UPDATE PronunciationDb SET answerAutoSpeak = ? WHERE id = ?;
+updateAnswerAutoSpeaking:
+UPDATE PronunciationDb SET answerAutoSpeaking = ? WHERE id = ?;
 
 updateSpeakTextInBrackets:
 UPDATE PronunciationDb SET speakTextInBrackets = ? WHERE id = ?;
@@ -42,5 +38,4 @@ SELECT EXISTS (SELECT * FROM PronunciationDb WHERE id = ?);
 
 deleteUnused:
 DELETE FROM PronunciationDb
-WHERE id NOT IN (SELECT pronunciationId FROM SharedPronunciationDb)
-  AND id NOT IN (SELECT pronunciationId FROM ExercisePreferenceDb);
+WHERE id NOT IN (SELECT pronunciationId FROM ExercisePreferenceDb);

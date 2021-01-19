@@ -58,7 +58,7 @@ class PronunciationViewModel(
 
     val questionAutoSpeaking: Flow<Boolean> = currentPronunciation
         .flatMapLatest { currentPronunciation: Pronunciation ->
-            currentPronunciation.flowOf(Pronunciation::questionAutoSpeak)
+            currentPronunciation.flowOf(Pronunciation::questionAutoSpeaking)
         }
 
     val selectedAnswerLanguage: Flow<Locale?> = currentPronunciation
@@ -86,7 +86,7 @@ class PronunciationViewModel(
 
     val answerAutoSpeaking: Flow<Boolean> = currentPronunciation
         .flatMapLatest { currentPronunciation: Pronunciation ->
-            currentPronunciation.flowOf(Pronunciation::answerAutoSpeak)
+            currentPronunciation.flowOf(Pronunciation::answerAutoSpeaking)
         }
 
     val speakTextInBrackets: Flow<Boolean> = currentPronunciation

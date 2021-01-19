@@ -38,15 +38,15 @@ class ExampleExercise(
             currentPronunciation.questionLanguage else
             currentPronunciation.answerLanguage
 
-    private val questionAutoSpeak: Boolean
+    private val questionAutoSpeaking: Boolean
         get() = if (currentExerciseCard.base.isInverted)
-            currentPronunciation.answerAutoSpeak else
-            currentPronunciation.questionAutoSpeak
+            currentPronunciation.answerAutoSpeaking else
+            currentPronunciation.questionAutoSpeaking
 
-    private val answerAutoSpeak: Boolean
+    private val answerAutoSpeaking: Boolean
         get() = if (currentExerciseCard.base.isInverted)
-            currentPronunciation.questionAutoSpeak else
-            currentPronunciation.answerAutoSpeak
+            currentPronunciation.questionAutoSpeaking else
+            currentPronunciation.answerAutoSpeaking
 
     fun begin() {
         isExerciseActive = true
@@ -186,13 +186,13 @@ class ExampleExercise(
     }
 
     private fun autoSpeakQuestionIfNeed() {
-        if (questionAutoSpeak && !currentExerciseCard.isAnswered) {
+        if (questionAutoSpeaking && !currentExerciseCard.isAnswered) {
             speakQuestion()
         }
     }
 
     private fun autoSpeakAnswerIfNeed() {
-        if (answerAutoSpeak && !currentExerciseCard.isAnswered) {
+        if (answerAutoSpeaking && !currentExerciseCard.isAnswered) {
             speakAnswer()
         }
     }

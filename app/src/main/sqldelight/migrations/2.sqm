@@ -1,0 +1,169 @@
+-- Since SupportSQLiteOpenHelper wrap our migration code into transaction,
+-- switching foreign_keys has no effect. So we add transaction commands to fix it.
+COMMIT;
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+-- Replacing the old key-value tables with the special table 'KeyValue'
+
+DROP TABLE DeckReviewPreferenceDb;
+DROP TABLE FullscreenPreferenceDb;
+DROP TABLE HelpScreenStateDb;
+DROP TABLE InitialDecksAdderStateDb;
+DROP TABLE CurrentRepetitionSettingDb;
+DROP TABLE RepetitionSettingDb;
+DROP TABLE SharedIntervalSchemeDb;
+DROP TABLE SharedPronunciationDb;
+DROP TABLE SharedPronunciationPlanDb;
+DROP TABLE SharedRepetitionSettingDb;
+DROP TABLE WalkingModeDb;
+
+CREATE TABLE KeyValue (
+    key INTEGER PRIMARY KEY,
+    value TEXT
+);
+
+INSERT INTO KeyValue VALUES (9, 'true'); -- ARE_INITIAL_DECKS_ADDED
+
+-- Updating PronunciationDb
+
+CREATE TABLE new_PronunciationDb (
+    id INTEGER PRIMARY KEY,
+    questionLanguage TEXT,
+    questionAutoSpeaking INTEGER NOT NULL,
+    answerLanguage TEXT,
+    answerAutoSpeaking INTEGER NOT NULL,
+    speakTextInBrackets INTEGER NOT NULL
+);
+
+INSERT INTO new_PronunciationDb
+SELECT id,
+       questionLanguage,
+       questionAutoSpeak,
+       answerLanguage,
+       answerAutoSpeak,
+       speakTextInBrackets
+FROM PronunciationDb;
+
+DROP TABLE PronunciationDb;
+
+ALTER TABLE new_PronunciationDb RENAME TO PronunciationDb;
+
+-- Updating PronunciationPlanDb
+
+CREATE TABLE new_PronunciationPlanDb (
+    id INTEGER PRIMARY KEY,
+    pronunciationEvents TEXT NOT NULL
+);
+
+INSERT INTO new_PronunciationPlanDb SELECT id, pronunciationEvents FROM PronunciationPlanDb;
+
+DROP TABLE PronunciationPlanDb;
+
+ALTER TABLE new_PronunciationPlanDb RENAME TO PronunciationPlanDb;
+
+-- Updating IntervalSchemeDb
+
+CREATE TABLE new_IntervalSchemeDb (
+    id INTEGER PRIMARY KEY
+);
+
+INSERT INTO new_IntervalSchemeDb SELECT id FROM IntervalSchemeDb;
+
+DROP TABLE IntervalSchemeDb;
+
+ALTER TABLE new_IntervalSchemeDb RENAME TO IntervalSchemeDb;
+
+-- Updating IntervalDb
+
+CREATE TABLE new_IntervalDb (
+    id INTEGER PRIMARY KEY,
+    intervalSchemeId INTEGER NOT NULL REFERENCES IntervalSchemeDb ON DELETE CASCADE,
+    grade INTEGER AS Int NOT NULL,
+    value TEXT NOT NULL
+);
+
+INSERT INTO new_IntervalDb SELECT * FROM IntervalDb;
+
+DROP TABLE IntervalDb;
+
+ALTER TABLE new_IntervalDb RENAME TO IntervalDb;
+
+-- Updating ExercisePreferenceDb
+
+CREATE TABLE new_ExercisePreferenceDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    randomOrder INTEGER NOT NULL,
+    testingMethod TEXT NOT NULL,
+    intervalSchemeId INTEGER,
+    pronunciationId INTEGER NOT NULL,
+    isQuestionDisplayed INTEGER NOT NULL,
+    cardInversion TEXT NOT NULL,
+    pronunciationPlanId INTEGER NOT NULL,
+    timeForAnswer INTEGER NOT NULL
+);
+
+INSERT INTO new_ExercisePreferenceDb SELECT * FROM ExercisePreferenceDb;
+
+DROP TABLE ExercisePreferenceDb;
+
+ALTER TABLE new_ExercisePreferenceDb RENAME TO ExercisePreferenceDb;
+
+-- Updating DeckDb
+
+CREATE TABLE new_DeckDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    createdAt INTEGER NOT NULL,
+    lastTestedAt INTEGER,
+    exercisePreferenceId INTEGER NOT NULL
+);
+
+INSERT INTO new_DeckDb SELECT * FROM DeckDb;
+
+DROP TABLE DeckDb;
+
+ALTER TABLE new_DeckDb RENAME TO DeckDb;
+
+-- Updating CardDb
+
+CREATE TABLE new_CardDb (
+    id INTEGER PRIMARY KEY,
+    deckId INTEGER NOT NULL REFERENCES DeckDb ON DELETE CASCADE,
+    ordinal INTEGER NOT NULL,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    lap INTEGER NOT NULL,
+    isLearned INTEGER NOT NULL,
+    grade INTEGER NOT NULL,
+    lastTestedAt INTEGER
+);
+
+INSERT INTO new_CardDb SELECT * FROM CardDb;
+
+DROP TABLE CardDb;
+
+ALTER TABLE new_CardDb RENAME TO CardDb;
+
+CREATE INDEX CardDbIndex ON CardDb(deckId, ordinal);
+
+-- Fixing the problem of ordinal
+
+UPDATE CardDb SET ordinal = (
+    SELECT count(*)
+    FROM CardDb AS Cdb
+    WHERE CardDb.deckId == Cdb.deckId AND CardDb.id > Cdb.id
+);
+
+-- Creation of TipStateDb
+
+CREATE TABLE TipStateDb (
+    id INTEGER PRIMARY KEY,
+    needToShow INTEGER AS Boolean NOT NULL,
+    lastShowedAt INTEGER
+);
+
+COMMIT;
+PRAGMA foreign_keys = on;
+BEGIN TRANSACTION;

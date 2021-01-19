@@ -21,7 +21,7 @@ class InitialDecksAdder(
     private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<Event, Nothing>() {
-    class State(areInitialDecksAdded: Boolean) : FlowMakerWithRegistry<State>() {
+    class State(areInitialDecksAdded: Boolean = false) : FlowMakerWithRegistry<State>() {
         var areInitialDecksAdded: Boolean by flowMaker(areInitialDecksAdded)
 
         override fun copy() = State(areInitialDecksAdded)
@@ -67,9 +67,9 @@ class InitialDecksAdder(
         val pronunciation = Pronunciation(
             id = generateId(),
             questionLanguage = Locale.ENGLISH,
-            questionAutoSpeak = false,
+            questionAutoSpeaking = false,
             answerLanguage = Locale.ENGLISH,
-            answerAutoSpeak = true,
+            answerAutoSpeaking = true,
             speakTextInBrackets = false
         )
         val exercisePreference = ExercisePreference(

@@ -4,7 +4,6 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegi
 import com.soywiz.klock.DateTimeSpan
 
 class CardFilterForAutoplay(
-    override val id: Long,
     isAvailableForExerciseCardsIncluded: Boolean,
     isAwaitingCardsIncluded: Boolean,
     isLearnedCardsIncluded: Boolean,
@@ -12,18 +11,17 @@ class CardFilterForAutoplay(
     lastTestedFromTimeAgo: DateTimeSpan?,
     lastTestedToTimeAgo: DateTimeSpan?
 ) : FlowMakerWithRegistry<CardFilterForAutoplay>() {
-    var isAvailableForExerciseCardsIncluded: Boolean by flowMaker(isAvailableForExerciseCardsIncluded)
-    var isAwaitingCardsIncluded: Boolean by flowMaker(isAwaitingCardsIncluded)
-    var isLearnedCardsIncluded: Boolean by flowMaker(isLearnedCardsIncluded)
+    var areCardsAvailableForExerciseIncluded: Boolean by flowMaker(isAvailableForExerciseCardsIncluded)
+    var areAwaitingCardsIncluded: Boolean by flowMaker(isAwaitingCardsIncluded)
+    var areLearnedCardsIncluded: Boolean by flowMaker(isLearnedCardsIncluded)
     var gradeRange: IntRange by flowMaker(gradeRange)
     var lastTestedFromTimeAgo: DateTimeSpan? by flowMaker(lastTestedFromTimeAgo) // null means zero time
     var lastTestedToTimeAgo: DateTimeSpan? by flowMaker(lastTestedToTimeAgo) // null means now
 
     override fun copy() = CardFilterForAutoplay(
-        id,
-        isAvailableForExerciseCardsIncluded,
-        isAwaitingCardsIncluded,
-        isLearnedCardsIncluded,
+        areCardsAvailableForExerciseIncluded,
+        areAwaitingCardsIncluded,
+        areLearnedCardsIncluded,
         gradeRange,
         lastTestedFromTimeAgo,
         lastTestedToTimeAgo
@@ -31,13 +29,11 @@ class CardFilterForAutoplay(
 
     companion object {
         val Default by lazy {
-            val maxGrade: Int = IntervalScheme.Default.intervals.last().grade + 1
             CardFilterForAutoplay(
-                id = 0L,
                 isAvailableForExerciseCardsIncluded = false,
                 isAwaitingCardsIncluded = true,
                 isLearnedCardsIncluded = false,
-                gradeRange = 0..maxGrade,
+                gradeRange = 0..2,
                 lastTestedFromTimeAgo = null,
                 lastTestedToTimeAgo = null
             )
@@ -45,7 +41,6 @@ class CardFilterForAutoplay(
 
         val IncludeAll by lazy {
             CardFilterForAutoplay(
-                id = -2L,
                 isAvailableForExerciseCardsIncluded = true,
                 isAwaitingCardsIncluded = true,
                 isLearnedCardsIncluded = true,

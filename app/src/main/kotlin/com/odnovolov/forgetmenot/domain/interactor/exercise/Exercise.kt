@@ -50,15 +50,15 @@ class Exercise(
             currentPronunciation.questionLanguage else
             currentPronunciation.answerLanguage
 
-    private val questionAutoSpeak: Boolean
+    private val questionAutoSpeaking: Boolean
         get() = if (currentExerciseCard.base.isInverted)
-            currentPronunciation.answerAutoSpeak else
-            currentPronunciation.questionAutoSpeak
+            currentPronunciation.answerAutoSpeaking else
+            currentPronunciation.questionAutoSpeaking
 
-    private val answerAutoSpeak: Boolean
+    private val answerAutoSpeaking: Boolean
         get() = if (currentExerciseCard.base.isInverted)
-            currentPronunciation.questionAutoSpeak else
-            currentPronunciation.answerAutoSpeak
+            currentPronunciation.questionAutoSpeaking else
+            currentPronunciation.answerAutoSpeaking
 
     init {
         autoSpeakQuestionIfNeed()
@@ -78,7 +78,7 @@ class Exercise(
     }
 
     private fun updateLastOpenedAt() {
-        currentExerciseCard.base.deck.lastOpenedAt = DateTime.now()
+        currentExerciseCard.base.deck.lastTestedAt = DateTime.now()
     }
 
     fun showQuestion() {
@@ -139,7 +139,7 @@ class Exercise(
 
     private fun autoSpeakQuestionIfNeed() {
         if (isWalkingMode
-            || questionAutoSpeak
+            || questionAutoSpeaking
             && !currentExerciseCard.base.card.isLearned
             && !currentExerciseCard.isAnswered
         ) {
@@ -149,7 +149,7 @@ class Exercise(
 
     private fun autoSpeakAnswerIfNeed() {
         if (isWalkingMode
-            || answerAutoSpeak
+            || answerAutoSpeaking
             && !currentExerciseCard.base.card.isLearned
             && !currentExerciseCard.isAnswered
         ) {
@@ -550,7 +550,7 @@ class Exercise(
     }
 
     private fun updateLastAnsweredAt() {
-        currentExerciseCard.base.card.lastAnsweredAt = DateTime.now()
+        currentExerciseCard.base.card.lastTestedAt = DateTime.now()
     }
 
     sealed class Answer {

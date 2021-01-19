@@ -6,13 +6,18 @@ import com.soywiz.klock.DateTime
 
 class TipState(
     override val id: Long,
-    needToShow: Boolean = true,
-    lastShowedAt: DateTime? = null
+    needToShow: Boolean = DEFAULT_NEED_TO_SHOW,
+    lastShowedAt: DateTime? = DEFAULT_LAST_SHOWED_AT
 ) : FlowMakerWithRegistry<TipState>() {
     var needToShow: Boolean by flowMaker(needToShow)
     var lastShowedAt: DateTime? by flowMaker(lastShowedAt)
 
     override fun copy() = TipState(id, needToShow, lastShowedAt)
+
+    companion object {
+        const val DEFAULT_NEED_TO_SHOW = true
+        val DEFAULT_LAST_SHOWED_AT: DateTime? = null
+    }
 }
 
 enum class Tip(

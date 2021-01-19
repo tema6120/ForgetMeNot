@@ -187,7 +187,7 @@ class DeckSettingsFragment : BaseFragment() {
                 pronunciation.questionLanguage?.displayLanguage
                     ?: getString(R.string.default_language)
             )
-            if (pronunciation.questionAutoSpeak) {
+            if (pronunciation.questionAutoSpeaking) {
                 append(" (A)")
             }
             append("  |  ")
@@ -195,7 +195,7 @@ class DeckSettingsFragment : BaseFragment() {
                 pronunciation.answerLanguage?.displayLanguage
                     ?: getString(R.string.default_language)
             )
-            if (pronunciation.answerAutoSpeak) {
+            if (pronunciation.answerAutoSpeaking) {
                 append(" (A)")
             }
         }

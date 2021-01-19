@@ -20,7 +20,7 @@ class IntervalPropertyChangeHandler(
         when (change.property) {
             Interval::grade -> {
                 val grade = change.newValue as Int
-                queries.updateLevelOfKnowledge(grade, intervalId)
+                queries.updateGrade(grade, intervalId)
             }
             Interval::value -> {
                 val value = change.newValue as DateTimeSpan

@@ -8,8 +8,8 @@ CREATE TABLE CardDb (
     answer TEXT NOT NULL,
     lap INTEGER AS Int NOT NULL,
     isLearned INTEGER AS Boolean NOT NULL,
-    levelOfKnowledge INTEGER AS Int NOT NULL,
-    lastAnsweredAt INTEGER --AS DateTime
+    grade INTEGER AS Int NOT NULL,
+    lastTestedAt INTEGER AS DateTime
 );
 
 CREATE INDEX CardDbIndex ON CardDb(deckId, ordinal);
@@ -38,11 +38,11 @@ UPDATE CardDb SET lap = ? WHERE id = ?;
 updateIsLearned:
 UPDATE CardDb SET isLearned = ? WHERE id = ?;
 
-updateLevelOfKnowledge:
-UPDATE CardDb SET levelOfKnowledge = ? WHERE id = ?;
+updateGrade:
+UPDATE CardDb SET grade = ? WHERE id = ?;
 
-updateLastAnsweredAt:
-UPDATE CardDb SET lastAnsweredAt = ? WHERE id = ?;
+updateLastTestedAt:
+UPDATE CardDb SET lastTestedAt = ? WHERE id = ?;
 
 delete:
 DELETE FROM CardDb WHERE deckId = ? AND ordinal = ?;

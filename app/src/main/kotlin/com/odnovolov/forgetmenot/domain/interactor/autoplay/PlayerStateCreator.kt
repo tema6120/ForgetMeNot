@@ -59,23 +59,23 @@ class PlayerStateCreator(
 
     private fun doesCardMatchStateFilter(card: Card, deck: Deck): Boolean {
         return when {
-            card.isLearned -> state.cardFilterForAutoplay.isLearnedCardsIncluded
+            card.isLearned -> state.cardFilterForAutoplay.areLearnedCardsIncluded
             isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme) ->
-                state.cardFilterForAutoplay.isAvailableForExerciseCardsIncluded
-            else -> state.cardFilterForAutoplay.isAwaitingCardsIncluded
+                state.cardFilterForAutoplay.areCardsAvailableForExerciseIncluded
+            else -> state.cardFilterForAutoplay.areAwaitingCardsIncluded
         }
     }
 
     private fun doesCardMatchLastTestedFilter(card: Card): Boolean {
         val now = DateTime.now()
-        return if (card.lastAnsweredAt == null) {
+        return if (card.lastTestedAt == null) {
             state.cardFilterForAutoplay.lastTestedFromTimeAgo == null
         } else {
             (state.cardFilterForAutoplay.lastTestedFromTimeAgo == null
-                    || card.lastAnsweredAt!! > now - state.cardFilterForAutoplay.lastTestedFromTimeAgo!!)
+                    || card.lastTestedAt!! > now - state.cardFilterForAutoplay.lastTestedFromTimeAgo!!)
                     &&
                     (state.cardFilterForAutoplay.lastTestedToTimeAgo == null
-                            || card.lastAnsweredAt!! < now - state.cardFilterForAutoplay.lastTestedToTimeAgo!!)
+                            || card.lastTestedAt!! < now - state.cardFilterForAutoplay.lastTestedToTimeAgo!!)
         }
     }
 

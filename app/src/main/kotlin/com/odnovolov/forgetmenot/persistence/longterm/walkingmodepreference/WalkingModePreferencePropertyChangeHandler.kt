@@ -20,8 +20,7 @@ class WalkingModePreferencePropertyChangeHandler(
             WalkingModePreference::keyGestureMap -> {
                 val keyGestureMap = change.newValue as Map<KeyGesture, KeyGestureAction>
                 keyGestureMap.forEach { (keyGesture: KeyGesture, keyGestureAction: KeyGestureAction) ->
-                    val keyGestureMapDb: KeyGestureMapDb =
-                        KeyGestureMapDb.Impl(keyGesture, keyGestureAction)
+                    val keyGestureMapDb = KeyGestureMapDb(keyGesture, keyGestureAction)
                     queries.replace(keyGestureMapDb)
                 }
             }

@@ -9,16 +9,16 @@ class Card(
     answer: String,
     lap: Int = 0,
     isLearned: Boolean = false,
-    levelOfKnowledge: Int = 0,
-    lastAnsweredAt: DateTime? = null
+    grade: Int = 0,
+    lastTestedAt: DateTime? = null
 ) : FlowMakerWithRegistry<Card>() {
     var question: String by flowMaker(question)
     var answer: String by flowMaker(answer)
     var lap: Int by flowMaker(lap)
     var isLearned: Boolean by flowMaker(isLearned)
-    var grade: Int by flowMaker(levelOfKnowledge)
-    var lastAnsweredAt: DateTime? by flowMaker(lastAnsweredAt)
+    var grade: Int by flowMaker(grade)
+    var lastTestedAt: DateTime? by flowMaker(lastTestedAt)
 
     override fun copy() =
-        Card(id, question, answer, lap, isLearned, grade, lastAnsweredAt)
+        Card(id, question, answer, lap, isLearned, grade, lastTestedAt)
 }

@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.LastOpenedAt
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.LastTestedAt
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 
 data class DeckSorting(
@@ -10,7 +10,7 @@ data class DeckSorting(
     enum class Criterion {
         Name,
         CreatedAt,
-        LastOpenedAt
+        LastTestedAt
     }
 
     enum class Direction {
@@ -19,6 +19,7 @@ data class DeckSorting(
     }
 
     companion object {
-        val Default by lazy { DeckSorting(LastOpenedAt, Asc) }
+        val DEFAULT_CRITERION = LastTestedAt
+        val DEFAULT_DIRECTION = Asc
     }
 }

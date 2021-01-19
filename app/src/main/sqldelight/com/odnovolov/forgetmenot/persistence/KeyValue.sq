@@ -1,0 +1,16 @@
+CREATE TABLE KeyValue (
+    key INTEGER PRIMARY KEY,
+    value TEXT
+);
+
+replace:
+REPLACE INTO KeyValue VALUES (?, ?);
+
+selectValue:
+SELECT value FROM KeyValue WHERE key = ?;
+
+selectValues:
+SELECT * FROM KeyValue WHERE key IN :keys;
+
+selectAll:
+SELECT * FROM KeyValue;

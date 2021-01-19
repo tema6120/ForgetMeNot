@@ -40,22 +40,16 @@ object DatabaseInitializer {
     fun initDatabase(sqliteDriver: SqlDriver): Database {
         return Database(
             sqliteDriver,
-            /*CardDb.Adapter(
-                lastAnsweredAtAdapter = dateTimeAdapter
+            CardDb.Adapter(
+                lastTestedAtAdapter = dateTimeAdapter
             ),
             DeckDb.Adapter(
                 createdAtAdapter = dateTimeAdapter,
-                lastOpenedAtAdapter = dateTimeAdapter
-            ),*/
-            DeckReviewPreferenceDb.Adapter(
-                deckSortingAdapter = deckSortingAdapter
+                lastTestedAtAdapter = dateTimeAdapter
             ),
             ExercisePreferenceDb.Adapter(
-                testMethodAdapter = EnumColumnAdapter(),
-                cardReverseAdapter = EnumColumnAdapter()
-            ),
-            HelpScreenStateDb.Adapter(
-                currentHelpArticeAdapter = EnumColumnAdapter()
+                testingMethodAdapter = EnumColumnAdapter(),
+                cardInversionAdapter = EnumColumnAdapter()
             ),
             IntervalDb.Adapter(
                 valueAdapter = dateTimeSpanAdapter
@@ -71,9 +65,8 @@ object DatabaseInitializer {
             PronunciationPlanDb.Adapter(
                 pronunciationEventsAdapter = pronunciationEventsAdapter
             ),
-            RepetitionSettingDb.Adapter(
-                lastAnswerFromTimeAgoAdapter = dateTimeSpanAdapter,
-                lastAnswerToTimeAgoAdapter = dateTimeSpanAdapter
+            TipStateDb.Adapter(
+                lastShowedAtAdapter = dateTimeAdapter
             )
         )
     }

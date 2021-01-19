@@ -3,8 +3,8 @@ import com.soywiz.klock.DateTime;
 CREATE TABLE DeckDb (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    createdAt INTEGER NOT NULL, -- AS DateTime
-    lastOpenedAt INTEGER, -- AS DateTime
+    createdAt INTEGER AS DateTime NOT NULL,
+    lastTestedAt INTEGER AS DateTime,
     exercisePreferenceId INTEGER NOT NULL
 );
 
@@ -17,8 +17,8 @@ SELECT * FROM DeckDb;
 updateName:
 UPDATE DeckDb SET name = ? WHERE id = ?;
 
-updateLastOpenedAt:
-UPDATE DeckDb SET lastOpenedAt = ? WHERE id = ?;
+updateLastTestedAt:
+UPDATE DeckDb SET lastTestedAt = ? WHERE id = ?;
 
 updateExercisePreferenceId:
 UPDATE DeckDb SET exercisePreferenceId = ? WHERE id = ?;

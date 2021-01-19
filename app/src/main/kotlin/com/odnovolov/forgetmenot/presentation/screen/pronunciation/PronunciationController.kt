@@ -36,7 +36,7 @@ class PronunciationController(
             }
 
             QuestionAutoSpeakSwitchToggled -> {
-                pronunciationSettings.toggleQuestionAutoSpeak()
+                pronunciationSettings.toggleQuestionAutoSpeaking()
             }
 
             is AnswerLanguageSelected -> {
@@ -44,7 +44,7 @@ class PronunciationController(
             }
 
             AnswerAutoSpeakSwitchToggled -> {
-                pronunciationSettings.toggleAnswerAutoSpeak()
+                pronunciationSettings.toggleAnswerAutoSpeaking()
             }
 
             SpeakTextInBracketsSwitchToggled -> {

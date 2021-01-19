@@ -1,0 +1,19 @@
+import com.soywiz.klock.DateTime;
+
+CREATE TABLE TipStateDb (
+    id INTEGER PRIMARY KEY,
+    needToShow INTEGER AS Boolean NOT NULL,
+    lastShowedAt INTEGER AS DateTime
+);
+
+selectAll:
+SELECT * FROM TipStateDb;
+
+upsert {
+  UPDATE TipStateDb
+  SET needToShow = :needToShow, lastShowedAt = :lastShowedAt
+  WHERE id = :id;
+
+  INSERT OR IGNORE INTO TipStateDb (id, needToShow, lastShowedAt)
+  VALUES (:id, :needToShow, :lastShowedAt);
+}

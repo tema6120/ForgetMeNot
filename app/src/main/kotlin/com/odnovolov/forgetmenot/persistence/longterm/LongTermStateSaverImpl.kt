@@ -9,10 +9,12 @@ import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckR
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.*
 import com.odnovolov.forgetmenot.persistence.longterm.initialdecksadderstate.InitialDecksAdderStatePropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.tipstate.TipStatePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.TipState
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.Dispatchers
@@ -36,8 +38,7 @@ class LongTermStateSaverImpl(
             )
             val globalStatePropertyChangeHandler = GlobalStatePropertyChangeHandler(
                 database,
-                deckPropertyChangeHandler,
-                exercisePreferencePropertyChangeHandler
+                deckPropertyChangeHandler
             )
 
             put(GlobalState::class, globalStatePropertyChangeHandler)
@@ -53,6 +54,7 @@ class LongTermStateSaverImpl(
             put(WalkingModePreference::class, WalkingModePreferencePropertyChangeHandler(database))
             put(FullscreenPreference::class, FullscreenPreferencePropertyChangeHandler(database))
             put(InitialDecksAdder.State::class, InitialDecksAdderStatePropertyChangeHandler(database))
+            put(TipState::class, TipStatePropertyChangeHandler(database))
         }
 
     override fun saveStateByRegistry() {

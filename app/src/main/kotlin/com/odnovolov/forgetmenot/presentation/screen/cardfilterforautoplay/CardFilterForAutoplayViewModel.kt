@@ -20,13 +20,13 @@ class CardFilterForAutoplayViewModel(
         .distinctUntilChanged()
 
     val isAvailableForExerciseCheckboxChecked: Flow<Boolean> =
-        cardFilter.flowOf(CardFilterForAutoplay::isAvailableForExerciseCardsIncluded)
+        cardFilter.flowOf(CardFilterForAutoplay::areCardsAvailableForExerciseIncluded)
 
     val isAwaitingCheckboxChecked: Flow<Boolean> =
-        cardFilter.flowOf(CardFilterForAutoplay::isAwaitingCardsIncluded)
+        cardFilter.flowOf(CardFilterForAutoplay::areAwaitingCardsIncluded)
 
     val isLearnedCheckboxChecked: Flow<Boolean> =
-        cardFilter.flowOf(CardFilterForAutoplay::isLearnedCardsIncluded)
+        cardFilter.flowOf(CardFilterForAutoplay::areLearnedCardsIncluded)
 
     val availableGradeRange: IntRange = run {
         val maxGradeFromCards: Int = playerStateCreator.state.decks

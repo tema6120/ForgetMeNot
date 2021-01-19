@@ -104,7 +104,7 @@ class DeckListFragment : BaseFragment() {
             when (deckSorting.criterion) {
                 Name -> R.string.sort_by_name
                 CreatedAt -> R.string.sort_by_time_created
-                LastOpenedAt -> R.string.sort_by_time_last_tested
+                LastTestedAt -> R.string.sort_by_time_last_tested
             }
         )
         val directionIconId: Int = when (deckSorting.direction) {
@@ -168,7 +168,7 @@ class DeckListFragment : BaseFragment() {
                         controller?.dispatch(SortByButtonClicked(CreatedAt))
                     }
                     sortByTimeLastTestedButton.setOnClickListener {
-                        controller?.dispatch(SortByButtonClicked(LastOpenedAt))
+                        controller?.dispatch(SortByButtonClicked(LastTestedAt))
                     }
                     sortingDirectionButton.setOnClickListener {
                         controller?.dispatch(SortingDirectionButtonClicked)
@@ -197,7 +197,7 @@ class DeckListFragment : BaseFragment() {
             val directionButtonAnchor: View = when (deckSorting.criterion) {
                 Name -> sortByNameTextView
                 CreatedAt -> sortByTimeCreatedTextView
-                LastOpenedAt -> sortByTimeLastTestedTextView
+                LastTestedAt -> sortByTimeLastTestedTextView
             }
             sortingDirectionButton.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 topToTop = directionButtonAnchor.id
@@ -205,7 +205,7 @@ class DeckListFragment : BaseFragment() {
             }
             sortByNameTextView.isSelected = deckSorting.criterion == Name
             sortByTimeCreatedTextView.isSelected = deckSorting.criterion == CreatedAt
-            sortByTimeLastTestedTextView.isSelected = deckSorting.criterion == LastOpenedAt
+            sortByTimeLastTestedTextView.isSelected = deckSorting.criterion == LastTestedAt
         }
     }
 

@@ -71,7 +71,7 @@ class HomeViewModel(
                     learnedCount = learnedCount,
                     totalCount = deck.cards.size,
                     numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
-                    lastTestedAt = deck.lastOpenedAt
+                    lastTestedAt = deck.lastTestedAt
                 )
             }
         }
@@ -160,7 +160,7 @@ class HomeViewModel(
         deckSelection: DeckSelection?
         ->
         if (decksPreview.isEmpty()) {
-            decksPreview
+            listOf(DeckListItem.Header)
         } else {
             buildList {
                 if (!hasSearchText) {

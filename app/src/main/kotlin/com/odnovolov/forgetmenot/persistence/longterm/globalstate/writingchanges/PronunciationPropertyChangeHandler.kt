@@ -22,17 +22,17 @@ class PronunciationPropertyChangeHandler(
                 val questionLanguage = change.newValue as Locale?
                 queries.updateQuestionLanguage(questionLanguage, pronunciationId)
             }
-            Pronunciation::questionAutoSpeak -> {
+            Pronunciation::questionAutoSpeaking -> {
                 val questionAutoSpeak = change.newValue as Boolean
-                queries.updateQuestionAutoSpeak(questionAutoSpeak, pronunciationId)
+                queries.updateQuestionAutoSpeaking(questionAutoSpeak, pronunciationId)
             }
             Pronunciation::answerLanguage -> {
                 val answerLanguage = change.newValue as Locale?
                 queries.updateAnswerLanguage(answerLanguage, pronunciationId)
             }
-            Pronunciation::answerAutoSpeak -> {
+            Pronunciation::answerAutoSpeaking -> {
                 val answerAutoSpeak = change.newValue as Boolean
-                queries.updateAnswerAutoSpeak(answerAutoSpeak, pronunciationId)
+                queries.updateAnswerAutoSpeaking(answerAutoSpeak, pronunciationId)
             }
             Pronunciation::speakTextInBrackets -> {
                 val speakTextInBrackets = change.newValue as Boolean

@@ -8,13 +8,13 @@ class Deck(
     override val id: Long,
     name: String,
     createdAt: DateTime = DateTime.now(),
-    lastOpenedAt: DateTime? = null,
+    lastTestedAt: DateTime? = null,
     cards: CopyableList<Card>,
     exercisePreference: ExercisePreference = ExercisePreference.Default
 ) : FlowMakerWithRegistry<Deck>() {
     var name: String by flowMaker(name)
     val createdAt: DateTime by flowMaker(createdAt)
-    var lastOpenedAt: DateTime? by flowMaker(lastOpenedAt)
+    var lastTestedAt: DateTime? by flowMaker(lastTestedAt)
     var cards: CopyableList<Card> by flowMaker(cards)
     var exercisePreference: ExercisePreference by flowMaker(exercisePreference)
 
@@ -22,7 +22,7 @@ class Deck(
         id,
         name,
         createdAt,
-        lastOpenedAt,
+        lastTestedAt,
         cards.copy(),
         exercisePreference.copy()
     )

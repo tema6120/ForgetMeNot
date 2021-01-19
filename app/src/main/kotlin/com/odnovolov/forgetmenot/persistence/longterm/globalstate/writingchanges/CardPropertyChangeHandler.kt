@@ -35,13 +35,12 @@ class CardPropertyChangeHandler(
                 queries.updateIsLearned(isLearned, cardId)
             }
             Card::grade -> {
-                val levelOfKnowledge = change.newValue as Int
-                queries.updateLevelOfKnowledge(levelOfKnowledge, cardId)
+                val grade = change.newValue as Int
+                queries.updateGrade(grade, cardId)
             }
-            Card::lastAnsweredAt -> {
-                val lastAnsweredAt = change.newValue as DateTime?
-                val databaseValue = lastAnsweredAt?.unixMillisLong
-                queries.updateLastAnsweredAt(databaseValue, cardId)
+            Card::lastTestedAt -> {
+                val lastTestedAt = change.newValue as DateTime?
+                queries.updateLastTestedAt(lastTestedAt, cardId)
             }
         }
     }

@@ -24,7 +24,7 @@ class DeckPreviewComparator(
                 when (deckSorting.criterion) {
                     Name -> leftDeck.deckName.compareTo(rightDeck.deckName)
                     CreatedAt -> leftDeck.createdAt.compareTo(rightDeck.createdAt)
-                    LastOpenedAt -> leftDeck.lastTestedAt!!.compareTo(rightDeck.lastTestedAt!!)
+                    LastTestedAt -> leftDeck.lastTestedAt!!.compareTo(rightDeck.lastTestedAt!!)
                 }
             }
         }

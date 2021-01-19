@@ -5,14 +5,14 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.persistence.DbKeys
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.toCardDb
 import com.odnovolov.forgetmenot.persistence.toDeckDb
 
 class GlobalStatePropertyChangeHandler(
     private val database: Database,
-    private val deckPropertyChangeHandler: DeckPropertyChangeHandler,
-    private val exercisePreferencePropertyChangeHandler: ExercisePreferencePropertyChangeHandler
+    private val deckPropertyChangeHandler: DeckPropertyChangeHandler
 ) : PropertyChangeHandler {
     override fun handle(change: PropertyChangeRegistry.Change) {
         when (change.property) {
@@ -54,12 +54,18 @@ class GlobalStatePropertyChangeHandler(
             GlobalState::isWalkingModeEnabled -> {
                 if (change !is PropertyValueChange) return
                 val isWalkingModeEnabled = change.newValue as Boolean
-                database.walkingModeQueries.updateIsEnabled(isWalkingModeEnabled)
+                database.keyValueQueries.replace(
+                    key = DbKeys.IS_WALKING_MODE_ENABLED,
+                    value = isWalkingModeEnabled.toString()
+                )
             }
             GlobalState::isInfinitePlaybackEnabled -> {
                 if (change !is PropertyValueChange) return
                 val isInfinitePlaybackEnabled = change.newValue as Boolean
-                // todo: write to database value
+                database.keyValueQueries.replace(
+                    key = DbKeys.IS_INFINITE_PLAYBACK_ENABLED,
+                    value = isInfinitePlaybackEnabled.toString()
+                )
             }
         }
     }

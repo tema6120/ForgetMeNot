@@ -29,4 +29,9 @@ class GlobalState(
         isWalkingModeEnabled,
         isInfinitePlaybackEnabled
     )
+
+    companion object {
+        const val DEFAULT_IS_WALKING_MODE_ENABLED = false
+        const val DEFAULT_IS_INFINITE_PLAYBACK_ENABLED = false
+    }
 }

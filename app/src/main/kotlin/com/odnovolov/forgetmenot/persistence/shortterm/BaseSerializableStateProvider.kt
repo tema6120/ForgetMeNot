@@ -35,7 +35,7 @@ abstract class BaseSerializableStateProvider<State, SerializableState>(
             GlobalScope.launch(Dispatchers.IO) {
                 savedSerializable = serializable
                 val jsonData: String = json.encodeToString(serializer, savedSerializable!!)
-                val serializableDb = SerializableDb.Impl(key, jsonData)
+                val serializableDb = SerializableDb(key, jsonData)
                 queries.replace(serializableDb)
             }
         }

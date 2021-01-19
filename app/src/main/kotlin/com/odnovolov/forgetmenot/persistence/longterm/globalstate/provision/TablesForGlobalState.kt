@@ -1,24 +1,19 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision
 
 import com.odnovolov.forgetmenot.Database
+import com.odnovolov.forgetmenot.persistence.KeyValue
 import com.odnovolov.forgetmenot.persistence.globalstate.*
 
 class TablesForGlobalState private constructor(
     val deckTable: List<DeckDb>,
     val cardTable: List<CardDb>,
     val exercisePreferenceTable: List<ExercisePreferenceDb>,
-    val intervalSchemeTable: List<IntervalSchemeDb>,
+    val intervalSchemeTable: List<Long>,
     val intervalTable: List<IntervalDb>,
     val pronunciationTable: List<PronunciationDb>,
     val pronunciationPlanTable: List<PronunciationPlanDb>,
     val sharedExercisePreferenceTable: List<Long>,
-    val sharedIntervalSchemeTable: List<Long>,
-    val sharedPronunciationTable: List<Long>,
-    val sharedPronunciationPlanTable: List<Long>,
-    val repetitionSettingTable: List<RepetitionSettingDb>,
-    val sharedRepetitionSettingTable: List<Long>,
-    val currentRepetitionSettingTable: Long,
-    val walkingModeTable: Boolean
+    val keyValueTable: Map<Long, String?>
 ) {
     companion object {
         fun load(database: Database): TablesForGlobalState {
@@ -32,13 +27,7 @@ class TablesForGlobalState private constructor(
                     pronunciationTable = pronunciationQueries.selectAll().executeAsList(),
                     pronunciationPlanTable = pronunciationPlanQueries.selectAll().executeAsList(),
                     sharedExercisePreferenceTable = sharedExercisePreferenceQueries.selectAll().executeAsList(),
-                    sharedIntervalSchemeTable = sharedIntervalSchemeQueries.selectAll().executeAsList(),
-                    sharedPronunciationTable = sharedPronunciationQueries.selectAll().executeAsList(),
-                    sharedPronunciationPlanTable = sharedPronunciationPlanQueries.selectAll().executeAsList(),
-                    repetitionSettingTable = repetitionSettingQueries.selectAll().executeAsList(),
-                    sharedRepetitionSettingTable = sharedRepetitionSettingQueries.selectAll().executeAsList(),
-                    currentRepetitionSettingTable = currentRepetitionSettingQueries.select().executeAsOne(),
-                    walkingModeTable = walkingModeQueries.selectAll().executeAsOne()
+                    keyValueTable = keyValueQueries.selectAll().executeAsList().associate { it.key to it.value }
                 )
             }
         }

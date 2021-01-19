@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.*
+import com.soywiz.klock.DateTimeSpan
 
 class GlobalStateBuilder private constructor(private val tables: TablesForGlobalState) {
     companion object {
@@ -20,8 +21,8 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val sharedExercisePreferences: CopyableList<ExercisePreference> =
             buildSharedExercisePreferences(exercisePreferences)
         val cardFilterForAutoplay: CardFilterForAutoplay = buildCardFilterForAutoplay()
-        val isWalkingModeEnabled: Boolean = tables.walkingModeTable
-        val isInfinitePlaybackEnabled = false // todo: save isInfinitePlaybackEnabled
+        val isWalkingModeEnabled: Boolean = buildIsWalkingModeEnabled()
+        val isInfinitePlaybackEnabled = buildIsInfinitePlaybackEnabled()
         return GlobalState(
             decks,
             sharedExercisePreferences,
@@ -33,13 +34,13 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
 
     private fun buildIntervalSchemes(): List<IntervalScheme> {
         return tables.intervalSchemeTable
-            .map { intervalSchemeDb ->
+            .map { intervalSchemeId: Long ->
                 val intervals: CopyableList<Interval> = tables.intervalTable
-                    .filter { it.intervalSchemeId == intervalSchemeDb.id }
-                    .sortedBy { it.levelOfKnowledge }
+                    .filter { it.intervalSchemeId == intervalSchemeId }
+                    .sortedBy { it.grade }
                     .map { it.toInterval() }
                     .toCopyableList()
-                intervalSchemeDb.toIntervalScheme(intervals)
+                IntervalScheme(intervalSchemeId, intervals)
             }
     }
 
@@ -118,7 +119,50 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
     }
 
     private fun buildCardFilterForAutoplay(): CardFilterForAutoplay {
-        val firstRow = tables.repetitionSettingTable.find { it.id == 0L }
-        return firstRow?.toCardFilterForAutoplay() ?: CardFilterForAutoplay.Default
+        val areCardsAvailableForExerciseIncluded: Boolean =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_AUTOPLAY_ARE_CARDS_AVAILABLE_FOR_EXERCISE_INCLUDED]
+                ?.toBoolean()
+                ?: CardFilterForAutoplay.Default.areCardsAvailableForExerciseIncluded
+        val areAwaitingCardsIncluded: Boolean =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_AUTOPLAY_ARE_AWAITING_CARDS_INCLUDED]
+                ?.toBoolean()
+                ?: CardFilterForAutoplay.Default.areAwaitingCardsIncluded
+        val areLearnedCardsIncluded: Boolean =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_AUTOPLAY_ARE_LEARNED_CARDS_INCLUDED]
+                ?.toBoolean()
+                ?: CardFilterForAutoplay.Default.areLearnedCardsIncluded
+        val gradeRangeMin: Int =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_AUTOPLAY_GRADE_MIN]?.toInt()
+                ?: CardFilterForAutoplay.Default.gradeRange.first
+        val gradeRangeMax: Int =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_AUTOPLAY_GRADE_MAX]?.toInt()
+                ?: CardFilterForAutoplay.Default.gradeRange.last
+        val lastTestedFromTimeAgo: DateTimeSpan? =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_AUTOPLAY_LAST_TESTED_FROM_TIME_AGO]
+                ?.let(dateTimeSpanAdapter::decode)
+                ?: CardFilterForAutoplay.Default.lastTestedFromTimeAgo
+        val lastTestedToTimeAgo: DateTimeSpan? =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_AUTOPLAY_LAST_TESTED_TO_TIME_AGO]
+                ?.let(dateTimeSpanAdapter::decode)
+                ?: CardFilterForAutoplay.Default.lastTestedToTimeAgo
+        return CardFilterForAutoplay(
+            areCardsAvailableForExerciseIncluded,
+            areAwaitingCardsIncluded,
+            areLearnedCardsIncluded,
+            gradeRangeMin..gradeRangeMax,
+            lastTestedFromTimeAgo,
+            lastTestedToTimeAgo
+        )
+    }
+
+
+    private fun buildIsWalkingModeEnabled(): Boolean {
+        return tables.keyValueTable[DbKeys.IS_WALKING_MODE_ENABLED]?.toBoolean()
+            ?: GlobalState.DEFAULT_IS_WALKING_MODE_ENABLED
+    }
+
+    private fun buildIsInfinitePlaybackEnabled(): Boolean {
+        return tables.keyValueTable[DbKeys.IS_INFINITE_PLAYBACK_ENABLED]?.toBoolean()
+            ?: GlobalState.DEFAULT_IS_INFINITE_PLAYBACK_ENABLED
     }
 }

@@ -6,23 +6,23 @@ import java.util.*
 class Pronunciation(
     override val id: Long,
     questionLanguage: Locale?,
-    questionAutoSpeak: Boolean,
+    questionAutoSpeaking: Boolean,
     answerLanguage: Locale?,
-    answerAutoSpeak: Boolean,
+    answerAutoSpeaking: Boolean,
     speakTextInBrackets: Boolean
 ) : FlowMakerWithRegistry<Pronunciation>() {
     var questionLanguage: Locale? by flowMaker(questionLanguage)
-    var questionAutoSpeak: Boolean by flowMaker(questionAutoSpeak)
+    var questionAutoSpeaking: Boolean by flowMaker(questionAutoSpeaking)
     var answerLanguage: Locale? by flowMaker(answerLanguage)
-    var answerAutoSpeak: Boolean by flowMaker(answerAutoSpeak)
+    var answerAutoSpeaking: Boolean by flowMaker(answerAutoSpeaking)
     var speakTextInBrackets: Boolean by flowMaker(speakTextInBrackets)
 
     override fun copy() = Pronunciation(
         id,
         questionLanguage,
-        questionAutoSpeak,
+        questionAutoSpeaking,
         answerLanguage,
-        answerAutoSpeak,
+        answerAutoSpeaking,
         speakTextInBrackets
     )
 
@@ -31,9 +31,9 @@ class Pronunciation(
             Pronunciation(
                 id = 0L,
                 questionLanguage = null,
-                questionAutoSpeak = false,
+                questionAutoSpeaking = false,
                 answerLanguage = null,
-                answerAutoSpeak = false,
+                answerAutoSpeaking = false,
                 speakTextInBrackets = false
             )
         }

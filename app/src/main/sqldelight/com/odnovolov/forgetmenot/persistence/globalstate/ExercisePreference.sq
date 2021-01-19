@@ -5,11 +5,11 @@ CREATE TABLE ExercisePreferenceDb (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     randomOrder INTEGER AS Boolean NOT NULL,
-    testMethod TEXT AS TestingMethod NOT NULL,
+    testingMethod TEXT AS TestingMethod NOT NULL,
     intervalSchemeId INTEGER,
     pronunciationId INTEGER NOT NULL,
     isQuestionDisplayed INTEGER AS Boolean NOT NULL,
-    cardReverse TEXT AS CardInversion NOT NULL,
+    cardInversion TEXT AS CardInversion NOT NULL,
     pronunciationPlanId INTEGER NOT NULL,
     timeForAnswer INTEGER AS Int NOT NULL
 );
@@ -26,8 +26,8 @@ UPDATE ExercisePreferenceDb SET name = ? WHERE id = ?;
 updateRandomOrder:
 UPDATE ExercisePreferenceDb SET randomOrder = ? WHERE id = ?;
 
-updateTestMethod:
-UPDATE ExercisePreferenceDb SET testMethod = ? WHERE id = ?;
+updateTestingMethod:
+UPDATE ExercisePreferenceDb SET testingMethod = ? WHERE id = ?;
 
 updateIntervalSchemeId:
 UPDATE ExercisePreferenceDb SET intervalSchemeId = ? WHERE id = ?;
@@ -38,8 +38,8 @@ UPDATE ExercisePreferenceDb SET pronunciationId = ? WHERE id = ?;
 updateIsQuestionDisplayed:
 UPDATE ExercisePreferenceDb SET isQuestionDisplayed = ? WHERE id = ?;
 
-updateCardReverse:
-UPDATE ExercisePreferenceDb SET cardReverse = ? WHERE id = ?;
+updateCardInversion:
+UPDATE ExercisePreferenceDb SET cardInversion = ? WHERE id = ?;
 
 updatePronunciationPlanId:
 UPDATE ExercisePreferenceDb SET pronunciationPlanId = ? WHERE id = ?;
