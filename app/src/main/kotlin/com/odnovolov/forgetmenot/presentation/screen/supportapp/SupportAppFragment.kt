@@ -50,13 +50,13 @@ class SupportAppFragment : Fragment() {
             openUrl(FACEBOOK_URL)
         }
         instagramButton.setOnClickListener {
-            // TODO
+            openUrl(INSTAGRAM_URL)
         }
         twitterButton.setOnClickListener {
-            // TODO
+            openUrl(TWITTER_URL)
         }
         youtubeButton.setOnClickListener {
-            // TODO
+            openUrl(YOUTUBE_URL)
         }
     }
 
@@ -83,5 +83,8 @@ class SupportAppFragment : Fragment() {
             "https://play.google.com/store/apps/details?id=com.odnovolov.forgetmenot"
         const val NEW_ISSUE_ON_GITHUB_URL = "https://github.com/tema6120/ForgetMeNot/issues/new"
         const val FACEBOOK_URL = "https://www.facebook.com/Forgetmenot-Flashcards-103107271588768"
+        const val INSTAGRAM_URL = "https://www.instagram.com/forgetmenot_flashcards"
+        const val TWITTER_URL = "https://twitter.com/ForgetMeNot_FC"
+        const val YOUTUBE_URL = "https://www.youtube.com/channel/UC5Hst5gp1HPLqCeGgKbAI9g"
     }
 }

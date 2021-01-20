@@ -190,17 +190,6 @@
                     android:contentDescription="@string/description_remove_decks"
                     app:srcCompat="@drawable/ic_round_delete_outline_24" />
 
-            <ImageButton
-                    android:id="@+id/selectionOptionsButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ripple_light_borderless"
-                    android:contentDescription="@string/description_more_options"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/ic_round_more_vert_24"
-                    tools:visibility="visible" />
-
         </LinearLayout>
 
         <View

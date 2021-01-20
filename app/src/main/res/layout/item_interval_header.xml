@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="tipStub, tipLayout"
-            tools:ignore="NotSibling" />
+            tools:ignore="NotSibling,UnknownId" />
 
     <FrameLayout
             android:id="@+id/intervalsSwitchFrame"

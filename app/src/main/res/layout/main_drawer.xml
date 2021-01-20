@@ -58,44 +58,6 @@
             </LinearLayout>
 
             <LinearLayout
-                    android:id="@+id/deckGroupsDrawerItem"
-                    style="@style/DrawerItem">
-
-                <View style="@style/DrawerIndicator" />
-
-                <ImageView
-                        android:id="@+id/deckGroupsIcon"
-                        style="@style/DrawerItemIcon"
-                        android:contentDescription="@string/drawer_item_deck_groups"
-                        app:srcCompat="@drawable/ic_round_group_work_24" />
-
-                <TextView
-                        android:id="@+id/deckGroupsTextView"
-                        style="@style/DrawerItemText"
-                        android:text="@string/drawer_item_deck_groups" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/statisticsDrawerItem"
-                    style="@style/DrawerItem">
-
-                <View style="@style/DrawerIndicator" />
-
-                <ImageView
-                        android:id="@+id/statisticsIcon"
-                        style="@style/DrawerItemIcon"
-                        android:contentDescription="@string/drawer_item_statistics"
-                        app:srcCompat="@drawable/ic_round_emoji_events_24" />
-
-                <TextView
-                        android:id="@+id/statisticsTextView"
-                        style="@style/DrawerItemText"
-                        android:text="@string/drawer_item_statistics" />
-
-            </LinearLayout>
-
-            <LinearLayout
                     android:id="@+id/settingsDrawerItem"
                     style="@style/DrawerItem">
 
