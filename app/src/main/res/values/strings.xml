@@ -62,7 +62,7 @@
     <string name="deck_summary_table_learned">Learned</string>
     <string name="deck_summary_table_task">Task</string>
     <string name="deck_summary_table_last_tested">Last tested</string>
-    <string name="label_new_deck">NEW</string>
+    <string name="label_new_deck" translatable="false">NEW</string>
     <string name="deck_options">Deck options</string>
     <string name="deck_option_start_exercise">Start exercise</string>
     <string name="deck_option_autoplay">Autoplay</string>
@@ -98,8 +98,8 @@
     <string name="popup_title_intervals">Intervals</string>
     <string name="description_intervals_icon">Intervals icon</string>
     <string name="description_intervals_are_off">Intervals are off for this card</string>
-    <string name="description_mark_as_learned_button">Mark as learned</string>
-    <string name="description_mark_as_unlearned_button">Mark as unlearned</string>
+    <string name="description_mark_as_learned_button">Mark as \'Learned\'</string>
+    <string name="description_mark_as_unlearned_button">Mark as \'Unlearned\'</string>
     <string name="description_speak_button">Speak</string>
     <string name="description_stop_speaking_button">Stop speaking</string>
     <string name="description_cannot_speak_button">Open speaking error description</string>
@@ -132,7 +132,7 @@
     <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
         enabled. Since in this mode we perceive cards aurally rather than visually, the timer may
         be confusing.</string>
-    <string name="timer_stopped">The timer has stopped</string>
+    <string name="timer_stopped">The timer is stopped</string>
     <string name="time_is_over">Time is over!</string>
     <string name="description_edit_card_button">Edit card</string>
     <string name="description_search_button">Search</string>
@@ -338,7 +338,7 @@
         more playable testing method. You select right answer of four variants. The variants are
         extracted from the same deck.</string>
     <string name="tip_testing_method_screen_spell_check">With \'Spell check\', it is checked
-        whether the answer your entered matches the real answer. Suitable if spelling is
+        whether the answer you entered matches the real answer. Suitable if spelling is
         important to you.</string>
     <string name="testing_method_without_testing">Without testing</string>
     <string name="testing_method_self_testing">Self testing</string>
@@ -462,11 +462,11 @@
     <string name="text_share_with_friends">Remember everything with flashcards.</string>
     <string name="cta_join_us_on_social_media">Join us on Social Media</string>
     <string name="cta_join_us_on_social_media_description">Get the latest news, share interesting
-        articles, ask questions. Connect, follow and have conversation with us</string>
-    <string name="description_facebook_button">Facebook</string>
-    <string name="description_instagram_button">Instagram</string>
-    <string name="description_twitter_button">Twitter</string>
-    <string name="description_youtube_button">Youtube</string>
+        articles, ask questions. Connect, follow and have conversation with us.</string>
+    <string name="description_facebook_button" translatable="false">Facebook</string>
+    <string name="description_instagram_button" translatable="false">Instagram</string>
+    <string name="description_twitter_button" translatable="false">Twitter</string>
+    <string name="description_youtube_button" translatable="false">Youtube</string>
 
 
     <!-- Help screen -->
@@ -554,8 +554,8 @@
         \n\nIf you know the question well and you don\'t want this card ever to be asked again or
         you don\'t want to study the card, click the \'Mark as learned\' icon. This card will never
         be asked again.</string>
-    <string name="question4_in_exercise_article">What\'s your name?</string>
-    <string name="answer4_in_exercise_article">¿Cómo te llamas?</string>
+    <string name="question4_in_exercise_article">¿Cómo te llamas?</string>
+    <string name="answer4_in_exercise_article">What\'s your name?</string>
     <string name="question5_in_exercise_article">Buenos días</string>
     <string name="answer5_in_exercise_article">Good morning</string>
     <string name="variant2_in_exercise_article">Good afternoon</string>
@@ -732,8 +732,8 @@
         \n\n3. If you are creating the deck as a file on your computer, you can download
         <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">this template file</a>.
         All you need to do is replace \'question\' with your question and \'answer\' with your
-        answer. Use Copy/Paste to speed up composing. If you are creating a deck on a device, try
-        to use multi-window mode.
+        answer. Use Copy/Paste to speed up composing. If you are creating a deck on your Android
+        device, try to use multi-window mode.
 
         \n\n4. Think of the deck compiling as part of the learning process. Try to remember
         everything on the fly.</string>
@@ -758,7 +758,7 @@
     <!-- About screen -->
 
     <string name="description_app_logo">App logo</string>
-    <string name="app_slogan">won\'t let you forget anything</string>
+    <string name="app_slogan" translatable="false">won\'t let you forget anything</string>
     <string name="about_item_developer">Odnovolov Artem</string>
     <string name="about_item_source_code">Source code</string>
     <string name="about_item_privacy_policy">Privacy policy</string>
