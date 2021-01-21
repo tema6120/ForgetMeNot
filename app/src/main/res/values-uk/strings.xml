@@ -6,7 +6,7 @@
     <string name="description_back_button">Перейти назад</string>
     <string name="description_back_button2">Повернутися</string>
     <string name="description_close">закрити</string>
-    <string name="description_attention_icon">іконка "Увага"</string>
+    <string name="description_attention_icon">іконка \"Увага\"</string>
     <string name="title_example_in_settings_bottom_sheet">Приклад</string>
 
 
@@ -58,7 +58,7 @@
     <string name="deck_sorting_name">Назвою</string>
     <string name="deck_sorting_time_created">Часом створення</string>
     <string name="deck_sorting_by_time_last_tested">Часом ост. тест.</string>
-    <string name="deck_summary_table_average_laps">Ср. кільк. кіл</string>
+    <string name="deck_summary_table_average_laps">Кіл</string>
     <string name="deck_summary_table_learned">Вивчено</string>
     <string name="deck_summary_table_task">Завдання</string>
     <string name="deck_summary_table_last_tested">Ост. тест.</string>
@@ -85,26 +85,26 @@
 
     <string name="card_label_learned">Вивчена</string>
     <string name="card_label_expired">Прострочена</string>
-    <string name="explanation_card_label_learned">"Вивчена" означає, що картка більше не буде
+    <string name="explanation_card_label_learned">\"Вивчена\" означає, що картка більше не буде
         запитуватися у вправі</string>
-    <string name="explanation_card_label_expired">"Прострочена" означає, що ви не встигли
+    <string name="explanation_card_label_expired">\"Прострочена\" означає, що ви не встигли
         відповісти на запитання протягом відведеного часу</string>
     <string name="text_show_question_button">Показати питання</string>
     <string name="text_show_answer_button">Показати відповідь</string>
     <string name="text_remember_button">Пам’ятаю</string>
     <string name="text_not_remember_button">Не пам’ятаю</string>
-    <string name="text_check_button">Перевірите</string>
+    <string name="text_check_button">Перевірити</string>
     <string name="description_grade_button">Оцінка</string>
     <string name="popup_title_intervals">Інтервали</string>
-    <string name="description_intervals_icon">іконка "Інтервали"</string>
+    <string name="description_intervals_icon">іконка \"Інтервали\"</string>
     <string name="description_intervals_are_off">Інтервали вимкнені для цієї картки</string>
-    <string name="description_mark_as_learned_button">Позначити як "Вивчена"</string>
-    <string name="description_mark_as_unlearned_button">Позначити як "Не вивчена"</string>
+    <string name="description_mark_as_learned_button">Позначити як \"Вивчена\"</string>
+    <string name="description_mark_as_unlearned_button">Позначити як \"Не вивчена\"</string>
     <string name="description_speak_button">Вимовити</string>
     <string name="description_stop_speaking_button">Припинити вимовлення</string>
     <string name="description_cannot_speak_button">Відкрити пояснення помилки відтворення</string>
     <string name="title_speak_error_popup">Вимова недоступна</string>
-    <string name="description_issue_icon">іконка "Проблема"</string>
+    <string name="description_issue_icon">іконка \"Проблема\"</string>
     <string name="speak_error_description_failed_to_initialized">Не вдалося ініціалізувати систему TTS</string>
     <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Не
         вдалося ініціалізувати систему TTS (%1$s)</string>
@@ -116,7 +116,7 @@
     <string name="error_message_failed_to_speak">Не вдалося вимовити</string>
     <string name="description_hint_button">Підказати</string>
     <string name="popup_title_hints">Підказки</string>
-    <string name="description_hint_icon">іконка "Підказка"</string>
+    <string name="description_hint_icon">іконка \"Підказка\"</string>
     <string name="text_hint_get_variants">Отримати варіанти</string>
     <string name="text_hint_mask_letters_button">Замаскувати літери</string>
     <string name="text_unmask_the_first_letter_button">Розкрити першу літеру</string>
@@ -127,10 +127,10 @@
         оскільки картка вивчена</string>
     <string name="description_timer_button">Таймер</string>
     <string name="popup_title_timer">Таймер</string>
-    <string name="description_timer_icon">іконка "Таймер"</string>
+    <string name="description_timer_icon">іконка \"Таймер\"</string>
     <string name="text_stop_timer_button">Зупинити</string>
-    <string name="timer_is_off_because_walking_mode">Таймер вимкнено, бо ввімкнено "Режим
-        прогулянки". Оскільки в цьому режимі ми сприймаємо картки на слух, а не візуально, таймер
+    <string name="timer_is_off_because_walking_mode">Таймер вимкнено, бо ввімкнено \"Режим
+        прогулянки\". Оскільки в цьому режимі ми сприймаємо картки на слух, а не візуально, таймер
         може привести до непорозуміння.</string>
     <string name="timer_stopped">Таймер зупинено</string>
     <string name="time_is_over">Час вийшов!</string>
@@ -138,8 +138,8 @@
     <string name="description_search_button">Шукати</string>
     <string name="description_walking_mode_button">Режим прогулянки</string>
     <string name="popup_title_walking_mode">Режим прогулянки</string>
-    <string name="description_walking_mode_icon">іконка "Режим прогулянки"</string>
-    <string name="description_walking_mode_settings_button">Налаштування "Режима прогулянки"</string>
+    <string name="description_walking_mode_icon">іконка \"Режим прогулянки\"</string>
+    <string name="description_walking_mode_settings_button">Налаштування \"Режима прогулянки\"</string>
     <plurals name="message_quit_exercise">
         <item quantity="one">На %d карту все ще не отримано відповідь</item>
         <item quantity="few">На %d карти все ще не отримано відповідь</item>
@@ -162,7 +162,7 @@
     <string name="text_awaiting_group_checkbox">В очікуванні</string>
     <string name="text_learned_group_checkbox">Вивчені</string>
     <string name="title_card_filter_grade">Оцінка</string>
-    <string name="title_card_filter_last_tested">Останнє тестування</string>
+    <string name="title_card_filter_last_tested">Час останнього тестування</string>
     <string name="title_last_tested_from">З</string>
     <string name="title_last_tested_to">по</string>
     <string name="zero_time">Самого початку</string>
@@ -185,7 +185,7 @@
     <string name="play_one_more_lap_in_notification">Програти ще одне коло</string>
     <string name="description_infinite_playback">Безкінечне програвання</string>
     <string name="popup_title_infinite_playback">Безкінечне програвання</string>
-    <string name="description_infinite_playback_icon">іконка "Безкінечне програвання"</string>
+    <string name="description_infinite_playback_icon">іконка \"Безкінечне програвання\"</string>
     <string name="description_pause_button">Зупинятися</string>
     <string name="description_resume_button">Продовжити</string>
     <string name="description_completed_cards">Завершені картки</string>
@@ -206,8 +206,8 @@
 
     <!-- Deck content screen -->
 
-    <string name="button_export">Експортувати</string>
-    <string name="button_search">Шукати</string>
+    <string name="button_export">Експорт</string>
+    <string name="button_search">Пошук</string>
     <string name="toast_deck_is_exported">Колода експортована.</string>
     <string name="toast_error_while_exporting_deck">Помилка під час експорту колоди: \'%1$s\'</string>
 
@@ -251,7 +251,7 @@
     <string name="deck_settings_item_intervals">Інтервали</string>
     <string name="deck_settings_item_motivational_timer">Мотиваційний таймер</string>
     <string name="deck_settings_item_pronunciation_plan">План мовлення</string>
-    <string name="description_navigate_icon">іконка "Перейти"</string>
+    <string name="description_navigate_icon">іконка \"Перейти\"</string>
     <string name="speak_event_abbr_speak_question">Q</string>
     <string name="speak_event_abbr_speak_answer">A</string>
     <string name="speak_event_abbr_delay">%dс</string>
@@ -265,18 +265,18 @@
 
     <!-- Presets -->
 
-    <string name="title_preset_name_input_dialog">Назва налаштування</string>
-    <string name="preset_name_default">Стандартні</string>
-    <string name="preset_name_individual">Індивідуальні</string>
+    <string name="title_preset_name_input_dialog">Назва пресету</string>
+    <string name="preset_name_default">Стандартний</string>
+    <string name="preset_name_individual">Індивідуальний</string>
     <string name="description_save_preset">Зберегти налаштування</string>
-    <string name="title_preset_popup">Попередньо встановленні налаштування</string>
-    <string name="description_rename_preset_button">Перейменувати налаштування</string>
-    <string name="description_delete_preset_button">Видалити налаштування</string>
-    <string name="description_add_new_preset">Додати нове налаштування</string>
-    <string name="title_remove_preset_dialog">Видалення налаштування \'%1$s\'</string>
-    <string name="top_dialog_text_remove_preset">Це налаштування використовується цими колодами:</string>
-    <string name="bottom_dialog_text_remove_preset">Якщо ви видалите це налаштування, то для цих
-        колод буде встановлено стандартне. Ви дійсно хочете видалити це налаштування?</string>
+    <string name="title_preset_popup">Пресети</string>
+    <string name="description_rename_preset_button">Перейменувати пресет</string>
+    <string name="description_delete_preset_button">Видалити пресет</string>
+    <string name="description_add_new_preset">Додати новий пресет</string>
+    <string name="title_remove_preset_dialog">Видалення пресета \'%1$s\'</string>
+    <string name="top_dialog_text_remove_preset">Цей пресет використовується цими колодами:</string>
+    <string name="bottom_dialog_text_remove_preset">Якщо ви видалите цей пресет, то для цих колод
+        буде встановлений стандартний набір налаштувань. Ви дійсно хочете видалити цей пресет?</string>
     <string name="button_delete">Видалити</string>
 
 
@@ -293,8 +293,8 @@
         це також може допомогти швидше запам’ятати інформацію.</string>
     <string name="tip_pronunciation_screen_about_selection">Щоб відтворити фрагмент тексту, просто
         виділіть його та натисніть іконку "Вимовити".</string>
-    <string name="tip_pronunciation_screen_about_brackets">За умови, що функція "Промовляти текст у
-        дужках" вимкнена, текст, який слід вимовити, легко відокремити від тексту, який не повинен.
+    <string name="tip_pronunciation_screen_about_brackets">За умови, що функція \"Промовляти текст у
+        дужках\" вимкнена, текст, який слід вимовити, легко відокремити від тексту, який не повинен.
         Використовуйте дужки () [] {} &lt;&gt; для цього. Наприклад, оберніть в них транскрипції,
         синоніми або визначення.</string>
     <string name="text_question_title_textview">Питання</string>
@@ -310,7 +310,7 @@
 
     <string name="screen_title_card_inversion">Інверсія картки</string>
     <string name="tip_card_inversion_screen">Переверніть картки, якщо відповіді можуть виглядати
-        як запитання, і навпаки. Наприклад, це можна застосувати до карток типу "слово-переклад".
+        як запитання, і навпаки. Наприклад, це можна застосувати до карток типу \"слово-переклад\".
     </string>
     <string name="item_card_inversion_off">Вимкнено</string>
     <string name="item_card_inversion_on">Увімкнено</string>
@@ -324,21 +324,21 @@
         запитання, ви будете сприймати питання на слух. Це може бути хорошим внеском у покращення
         ваших навичок аудіювання під час вивчення мови.</string>
     <string name="tip_question_display_screen_do_not_forget_autospeaking">Оскільки ви вимкнули
-        "Відображення запитань", ви будете сприймати запитання на слух. Тож, не забувайте вмикати
-        "Автоматична вимову" питання, щоб зробити вправу більш комфортним.</string>
+        \"Відображення запитань\", ви будете сприймати запитання на слух. Тож, не забувайте вмикати
+        \"Автоматична вимову\" питання, щоб зробити вправу більш комфортним.</string>
 
 
     <!-- Testing method screen -->
 
     <string name="screen_title_testing_method">Метод тестування</string>
-    <string name="tip_testing_method_screen_without_testing">"Без тестування" підходить для
+    <string name="tip_testing_method_screen_without_testing">\"Без тестування\" підходить для
         випадків, коли ви не плануєте повторювати картки більше, ніж один-два рази.</string>
     <string name="tip_testing_method_screen_self_testing">У більшості випадків найкращим вибором є
-        "Самотестування". Саме ви вирішуєте, чи пам’ятаєте ви відповідь.</string>
-    <string name="tip_testing_method_screen_testing_with_variants">"Тестування з варіантами" є
+        \"Самотестування\". Саме ви вирішуєте, чи пам’ятаєте ви відповідь.</string>
+    <string name="tip_testing_method_screen_testing_with_variants">\"Тестування з варіантами\" є
         більш розважальним методом тестування. Ви обираєте правильну відповідь з чотирьох
         варіантів. Варіанти беруться з тієї ж колоди.</string>
-    <string name="tip_testing_method_screen_spell_check">За допомогою "Перевірка правопису"
+    <string name="tip_testing_method_screen_spell_check">За допомогою \"Перевірка правопису\"
         перевіряється, чи відповідає ваша введена відповідь зі справжньою. Підходить, якщо правопис
         для вас важливо.</string>
     <string name="testing_method_without_testing">Без тестування</string>
@@ -353,7 +353,7 @@
     <string name="tip_intervals_screen_importance">З інтервалом повторень інформація або знання
         відкладуться у вашу довгострокову пам’ять.</string>
     <string name="tip_intervals_screen_adjust_interval_scheme">Налаштуйте схему інтервалів, яка
-        задовільнить вас. Загальний принцип: "Чим вищий бал, тим довшим має бути інтервал".</string>
+        задовільнить вас. Загальний принцип: \"Чим вищий бал, тим довшим має бути інтервал\".</string>
     <string name="interval_unit_hours">Години</string>
     <string name="interval_unit_days">Дні</string>
     <string name="interval_unit_months">Місяці</string>
@@ -362,7 +362,7 @@
     <!-- Motivational timer screen -->
 
     <string name="screen_title_motivational_timer">Мотиваційний таймер</string>
-    <string name="tip_motivational_timer_screen_description">"Мотиваційний таймер" розроблений, щоб
+    <string name="tip_motivational_timer_screen_description">\"Мотиваційний таймер\" розроблений, щоб
         утримати вас від відволікаючих чинників. Якщо ви не відповісте протягом відведеного часу,
         ви отримаєте покарання у вигляді позначення відповіді як неправильної.</string>
     <string name="tip_motivational_timer_screen_how_to_do_with_this">Виділіть собі достатньо часу,
@@ -378,7 +378,7 @@
 
     <string name="screen_title_pronunciation_plan">План мовлення</string>
     <string name="tip_pronunciation_plan_screen_description">Опишіть, як ви хочете, щоб карти
-        програвалися в "Програвачі карт".</string>
+        програвалися в \"Програвачі карт\".</string>
     <string name="tip_pronunciation_plan_screen_about_longer_delay">Спробуйте подумки відповісти
         на питання, перш ніж воно буде вимовлене. Якщо вам потрібно більше часу, просто збільште
         затримку між вимовой питання та відповіді. Наприклад, переклад речення може зайняти 5 і
@@ -397,9 +397,9 @@
     <string name="title_dialog_pronunciation_event">Оберіть подію</string>
     <string name="sec">сек.</string>
     <string name="error_message_cannot_change_last_speak_question">Неможливо змінити останню подію
-        "Вимовити питання"</string>
+        \"Вимовити питання\"</string>
     <string name="error_message_cannot_change_last_speak_answer">Неможливо змінити останню подію
-        "Вимовити відповідь"</string>
+        \"Вимовити відповідь\"</string>
 
 
     <!-- Settings screen -->
@@ -427,9 +427,9 @@
     <string name="key_gesture_action_no_action">Ніяких дій</string>
     <string name="key_gesture_action_move_to_next_card">Перехід до наступної картки</string>
     <string name="key_gesture_action_move_to_previous_card">Перейти до попередньої картки</string>
-    <string name="key_gesture_action_mark_as_remember">Позначити як "Пам'ятаю"</string>
-    <string name="key_gesture_action_mark_as_not_remember">Позначити як "Не пам'ятаю"</string>
-    <string name="key_gesture_action_mark_card_as_learned">Позначити як "Вивчена"</string>
+    <string name="key_gesture_action_mark_as_remember">Позначити як \"Пам’ятаю\"</string>
+    <string name="key_gesture_action_mark_as_not_remember">Позначити як \"Не пам’ятаю\"</string>
+    <string name="key_gesture_action_mark_card_as_learned">Позначити як \"Вивчена\"</string>
     <string name="key_gesture_action_speak_question">Вимовити питання</string>
     <string name="key_gesture_action_speak_answer">Вимовити відповідь</string>
 
@@ -516,7 +516,7 @@
     <string name="example_file_name">Американська історія.txt</string>
     <string name="article_import_of_deck_paragraph_2">2. Збережіть цей файл в кодуванні UTF-8.
         \n\n3. Скопіюйте його на диск вашого пристрою або Google Drive.
-        \n\n3. Натисніть "Додати картки" -> "Імпортувати файл" в ForgetMeNot.
+        \n\n3. Натисніть \"Додати картки\" -> \"Імпортувати файл\" в ForgetMeNot.
         \n\n4. Виберіть цей файл.</string>
     <string name="article_exercise_paragraph_1">У вправі слід відповідати на запитання. Для кожної
         колоди можна вказати унікальні налаштування, які можуть суттєво змінити характер тестування:
@@ -549,7 +549,7 @@
         визначає, коли картка буде знову запитуватися.
 
         \n\nЯкщо ви добре знаєте питання, і не хочете, щоб ця картка більше запитувалась, або ви
-        просто не хочете вивчати цю картку, натисніть на іконку "Позначити як Вивчена" Ця картка
+        просто не хочете вивчати цю картку, натисніть на іконку \"Позначити як Вивчена\" Ця картка
         більше ніколи не буде задаваться.</string>
     <string name="question4_in_exercise_article">¿Cómo te llamas?</string>
     <string name="answer4_in_exercise_article">Як вас звати?</string>
@@ -564,17 +564,17 @@
 
         \n\nУ вправі доступні два типи підказок:
 
-        \n\n\t- "Замаскувати літери". Цей підказку можна застосовувати багато разів. Коли ви
+        \n\n\t- \"Замаскувати літери\". Цей підказку можна застосовувати багато разів. Коли ви
         вперше звернетесь до підказки, усі літери будуть замінені замаскованим символом ■. Ви
         можете побачити, скільки слів має відповідь, скільки букв у кожному слові. Якщо цього
         недостатньо, ви можете розкрити частину відповіді. Просто виберіть фрагмент та натисніть
-        "Розкрити обраний фрагмент" у спливаючому вікні підказки.
+        \"Розкрити обраний фрагмент\" у спливаючому вікні підказки.
 
-        \n\n\t- "Отримати варіанти". На вибір буде надано чотири варіанти. Варіанти взяті з колоди,
+        \n\n\t- \"Отримати варіанти\". На вибір буде надано чотири варіанти. Варіанти взяті з колоди,
         якій належить карта. Цей підказка може значно полегшити відповідь, якщо колода не
-        призначена для "Методу тестування з варіантами".</string>
+        призначена для \"Методу тестування з варіантами\".</string>
     <string name="article_exercise_paragraph_4">Ви також можете виконувати вправу, не дивлячись на
-        екран в <annotation clickable="walking_mode">"Режимі прогулянки"</annotation>.</string>
+        екран в <annotation clickable="walking_mode">\"Режимі прогулянки\"</annotation>.</string>
     <string name="article_testing_methods_paragraph_1">Методи тестування визначають спосіб
         перевірки відповіді. Є 4 варіанти:</string>
     <string name="article_testing_methods_off_section_title">1. Без тестування</string>
@@ -601,7 +601,7 @@
         вибрати правильний варіант із чотирьох запропонованих. Варіанти взяті з колоди, якій
         належить карта. Тому, якщо ви збираєтеся використовувати цей метод тестування, важливо
         створити колоду, де варіанти будуть доречні. Наприклад, це може бути колода типу
-        "слово-переклад" з однаковими частинами мови. Це більш розважальна форма тестування, тому
+        \"слово-переклад\" з однаковими частинами мови. Це більш розважальна форма тестування, тому
         вона чудово підійде дітям. Недоліком є середня ефективність запам’ятовування, оскільки
         варіанти представляють собой значну підказку.</string>
     <string name="article_testing_methods_entry_section_title">4. Перевірка правопису</string>
@@ -630,23 +630,23 @@
         вивченими картами і менше з добре вивченими.
 
         \n\nМожливо, з якихось причин ви захочете змінити оцінку. Просто натисніть на іконку
-        "Оцінка" і виберіть потрібну. Зазвичай, коли ви змінюєте оцінку, ви хочете уточнити,
+        \"Оцінка\" і виберіть потрібну. Зазвичай, коли ви змінюєте оцінку, ви хочете уточнити,
         скільки часу знадобиться, щоб ця картка була знову запитана. Якщо ви вручну змінили оцінку,
         стандартна схема не застосовується до цієї картки протягом цього заняття.</string>
     <string name="article_question_display_paragraph_1">Ви можете вимкнути відображення запитань.
         У цьому випадку передбачається, що ви будете отримувати запитання за допомогою відтворення
         голосу. Це допоможе покращити ваші навички аудіювання під час вивчення іноземної мови.
         Разом із цим доречно включити автоматичну вимову запитання. Якщо ви все ще хочете побачити
-        запитання, просто натисніть "Показати питання".</string>
+        запитання, просто натисніть \"Показати питання\".</string>
     <string name="question_in_question_display_article">Je demande à voir un avocat!</string>
     <string name="answer_in_question_display_article">I demand to see an avocado!</string>
-    <string name="article_motivational_timer">"Мотиваційний таймер" призначений для зосередження
+    <string name="article_motivational_timer">\"Мотиваційний таймер\" призначений для зосередження
         вашої уваги на навчанні. Якщо він увімкнений, то у вас є деякий час, щоб відповісти на
         питання. Якщо ви не встигнете до дедлайну, картка вважається простроченою, а відповідь
         буде автоматично позначена як неправильна. Якщо ви встановили достатньо часу, щоб
-        відповісти, то причиною "прострочки" картки є те, що ви втратили концентрацію, і
+        відповісти, то причиною \"прострочки\" картки є те, що ви втратили концентрацію, і
         мотиваційний таймер буде нагадувати про це. Якщо ви згадуєте відповідь і відчуваєте, що
-        вам не вистачає часу, натисніть "Зупинити" у спливаючому вікні таймера.</string>
+        вам не вистачає часу, натисніть \"Зупинити\" у спливаючому вікні таймера.</string>
     <string name="question_in_motivational_timer_article">Скільки 0,0193 км в дециметрах?</string>
     <string name="answer_in_motivational_timer_article">193</string>
     <string name="article_pronunciation">Ця програма підтримує вимову тексту за допомогою TTS API,
@@ -659,32 +659,32 @@
         \n\nВи також можете ввімкнути автоматичну вимову запитання чи відповіді. Це завжди корисно
         при вивченні мов.
 
-        \n\nЯкщо функцію "Говорити текст у дужках" вимкнено, програма не буде вимовляти текст,
+        \n\nЯкщо функцію \"Вимовляти текст у дужках\" вимкнено, програма не буде вимовляти текст,
         оформлений у дужки () {} [] &lt;&gt;. Тому ви можете додати будь-яку додаткову інформацію
         в дужки, наприклад, транскрипцію слів, синонімів, слова, з якими ви часто плутаєте переклад.
 
-        \n\nДля вимовлення частини тексту, просто виділіть її та натисніть іконку "Вимовити".</string>
-    <string name="article_walking_mode">"Режим прогулянки" це особливий режим вправ, де ви можете
+        \n\nДля вимовлення частини тексту, просто виділіть її та натисніть іконку \"Вимовити\".</string>
+    <string name="article_walking_mode">\"Режим прогулянки\" це особливий режим вправ, де ви можете
         відповідати на запитання, не дивлячись на екран. Управління здійснюється за допомогою
         <annotation clickable="walking_mode_settings">жестів клавіш регулювання гучності</annotation>.
         Кожна дія супроводжується вимовою, наприклад, коли ви переходите до наступної картки, буде
         озвучено питання, а коли ви відповісте (пам’ятаю чи не пам’ятаю), прозвучить відповідь.
 
         \n\nЦей режим можна використовувати, коли ви кудись ідете і хочете добре використати час.
-        Саме звідси вона і отримала свою назву.
+        Саме звідси він і отримав свою назву.
 
         \n\n⚠️ Застереження:
 
         \n\n- екран має бути увімкненим. Це пов’язано з операційною системою Android: програми
         можуть використовувати клавіші гучності лише тоді, коли вона знаходиться на передньому плані.
 
-        \n\n- Методи "Тестування з варіантами" та "Перевірка правопису" недоречні для використання
-        в цьому режимі, а тому примусово перемикаються на "Самотестування".
+        \n\n- Методи \"Тестування з варіантами\" та \"Перевірка правопису\" недоречні для використання
+        в цьому режимі, а тому примусово перемикаються на \"Самотестування\".
 
         \n\n- буде увімкнено автоматична вимова питань та відповідей. Тож не забудьте вказати
         правильні мови в налаштуваннях вимови колоди.
 
-        \n\n- "Мотиваційний таймер" вимикається.</string>
+        \n\n- \"Мотиваційний таймер\" вимикається.</string>
     <string name="article_autoplaying_cards">Автоматичне програвання карт - це режим, при якому
         запитання та відповіді вимовляються по черзі. Його можна порівняти з аудіоплеєром, але
         замість композицій відтворюються запитання та відповіді. Цей режим підходить, коли ви щось
@@ -694,17 +694,17 @@
         \n\nДля кожної колоди ви можете налаштувати план мовлення. Наприклад, вимовляти запитання
         двічі або збільшити інтервал між запитанням та відповіддю, щоб у вас було достатньо часу,
         аби згадати відповідь, перш ніж її почути.</string>
-    <string name="article_presets">Попередньо встановленні налаштування (пресет) - це набір
-        налаштувать, створених заздалегідь, які можна перевикористовувати. Це потрібно, щоб
+    <string name="article_presets">Пресет (Попередньо встановленні налаштування) - це набір
+        налаштувать, створених заздалегідь, який можна перевикористовувати. Це потрібно, щоб
         уникнути рутинних робіт по налаштуванню колод.
 
         \n\nЩо означають назви налаштувань:
 
-        \n\n\tСтандартні - незмінні налаштування, які використовуються за замовчуванням.
+        \n\n\tСтандартний - незмінний набір налаштувань, який використовуються за замовчуванням.
 
-        \n\n\tІндивідуальні - налаштування, які застосовуються тільки для данної колоди.
+        \n\n\tІндивідуальний - набір налаштувань, який застосовуються тільки для данної колоди.
 
-        \n\n\t"Ваша назва налаштувань" - збережений пресет, яким можна спільно користуватися.
+        \n\n\t\'Ваша назва пресету\' - збережені налаштування, якими можна спільно користуватися.
         Будь-яка зміна цього пресету вплине на кожну колоду, до якої він застосовується.</string>
     <string name="article_advice_on_compiling_deck">1. Намагайтеся, щоб ваші картки були якомога
         коротшими. Краще створити декілька, ніж складати все в одне. Наприклад, якщо ви створюєте
@@ -714,19 +714,19 @@
 
         \n\n2. Створюйте колоди з урахуванням налаштувань, які ви збираєтесь застосувати до них.
 
-        \n\n\t- Для методу "Тестування з варіантами" варіанти беруться з однієї колоди. Тому
+        \n\n\t- Для методу \"Тестування з варіантами\" варіанти беруться з однієї колоди. Тому
         картки повинні містити відповіді, які підходять, щоб бути варіантами.
 
         \n\n\t- У налаштуваннях вимови колоди можна вказати мову для питань і ще одну мову для
         відповіді. Тому вам потрібно створити колоду, де для запитань використовується тільки одна
         мова, і також одна мова для відповідей.
 
-        \n\n\t- Якщо ви хочете використовувати "Інверсію картки", то створюйте така картки, щоб
+        \n\n\t- Якщо ви хочете використовувати \"Інверсію картки\", то створюйте така картки, щоб
         відповідь могла виглядати як питання.
 
         \n\n3. Якщо ви створюєте колоду у вигляді файла на своєму комп’ютері, ви можете завантажити
         <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">цей файл шаблону</a>.
-        Все, що вам потрібно зробити, це замінити "питання" на ваше запитання, і "відповідь" - теж
+        Все, що вам потрібно зробити, це замінити \"question\" на ваше запитання, і \"answer\" -
         на вашу відповідь. Використовуйте Copy / Paste, щоб прискорити створення. Якщо ви створюєте
         колоду на Android-пристрої, спробуйте скористатися мультивіконним режимом.
 
@@ -739,8 +739,8 @@
         правильно вимовляти слова, але й зосередитись на навчанні.
 
         \n\n3. Використовуйте інструменти, які допомагають зосередитись на навчанні. Використовуйте
-        <annotation clickable="motivational_timer">"Мотиваційний таймер"</annotation>, увімкніть
-        повноекранний режим, активуйте режим "Не турбувати" у налаштуваннях пристрою.
+        <annotation clickable="motivational_timer">\"Мотиваційний таймер\"</annotation>, увімкніть
+        повноекранний режим, активуйте режим \"Не турбувати\" у налаштуваннях пристрою.
 
         \n\n4. Якщо вам не вдається запам’ятати питання, відредагуйте картку, переформулюйте
         питання, видаліть непотрібне у відповіді. Якщо ви плутаєте відповіді, скористайтеся пошуком
@@ -785,7 +785,7 @@
         \n\nКрім того, я реалізував деякі прості, але важливі функції, наприклад, редагування
         картки на ходу, перевертання карт, повторне використання налаштувань колоди та багато
         інших. Існують також додаткові опції, які допоможуть вам зосередитись на навчанні,
-        наприклад, "Повноекранний режим" та "Мотиваційний таймер".
+        наприклад, \"Повноекранний режим\" та \"Мотиваційний таймер\".
 
         \n\nЧи задоволений я програмою зараз? Не зовсім. Є ще кілька ідей щодо вдосконалення. Але я
         думаю, що на цьому етапі вона виглядає досить привабливо і може підійти багатьом людям, які
