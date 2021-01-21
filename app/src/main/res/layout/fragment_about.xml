@@ -33,7 +33,7 @@
             android:id="@+id/app_logo"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:contentDescription="@string/decksription_app_logo"
+            android:contentDescription="@string/description_app_logo"
             android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="@id/slogan"
             app:layout_constraintEnd_toStartOf="@+id/app_name"

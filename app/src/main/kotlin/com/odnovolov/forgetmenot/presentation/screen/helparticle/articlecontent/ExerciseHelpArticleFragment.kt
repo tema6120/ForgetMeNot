@@ -264,9 +264,9 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             hintPopup!!.contentView.run {
                 maskLettersButton.setText(
                     when {
-                        hint == null -> R.string.title_mask_letters_button
-                        hasHintSelection -> R.string.title_unmask_selected_region_button
-                        else -> R.string.title_unmask_the_first_letter_button
+                        hint == null -> R.string.text_hint_mask_letters_button
+                        hasHintSelection -> R.string.text_unmask_selected_region_button
+                        else -> R.string.text_unmask_the_first_letter_button
                     }
                 )
             }

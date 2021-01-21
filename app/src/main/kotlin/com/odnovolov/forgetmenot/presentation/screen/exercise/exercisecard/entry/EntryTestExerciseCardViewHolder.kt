@@ -248,7 +248,7 @@ class EntryTestExerciseCardViewHolder(
                 cardLabel.observe(coroutineScope) { cardLabel: CardLabel? ->
                     when (cardLabel) {
                         CardLabel.Learned -> {
-                            cardLabelTextView.setText(R.string.learned)
+                            cardLabelTextView.setText(R.string.card_label_learned)
                             cardLabelTextView.background.colorFilter =
                                 BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
                                     ContextCompat.getColor(context, R.color.card_label_learned),
@@ -260,7 +260,7 @@ class EntryTestExerciseCardViewHolder(
                             cardLabelTextView.isEnabled = true
                         }
                         CardLabel.Expired -> {
-                            cardLabelTextView.setText(R.string.expired)
+                            cardLabelTextView.setText(R.string.card_label_expired)
                             cardLabelTextView.background.colorFilter =
                                 BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
                                     ContextCompat.getColor(context, R.color.issue),

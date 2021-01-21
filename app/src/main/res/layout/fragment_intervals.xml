@@ -33,7 +33,7 @@
                 android:fontFamily="@font/jura"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:text="@string/title_intervals_screen"
+                android:text="@string/screen_title_intervals"
                 android:textColor="@color/text_title"
                 android:textSize="@dimen/text_size_screen_title"
                 android:textStyle="bold" />

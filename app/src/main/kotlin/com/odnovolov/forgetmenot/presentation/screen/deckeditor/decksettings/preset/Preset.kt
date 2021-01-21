@@ -16,7 +16,7 @@ fun Preset.isShared(): Boolean = name.isNotEmpty()
 
 fun Preset.toString(context: Context): String = when {
     isOff() -> context.getString(string.off)
-    isDefault() -> context.getString(string.default_name)
-    isIndividual() -> context.getString(string.individual_name)
+    isDefault() -> context.getString(string.preset_name_default)
+    isIndividual() -> context.getString(string.preset_name_individual)
     else -> "'${name}'"
 }

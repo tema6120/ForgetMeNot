@@ -1,117 +1,423 @@
-<resources>
-    <string name="app_name">ForgetMeNot</string>
-    <string name="add_new_deck">Add new deck</string>
-    <string name="deck_option">Deck option</string>
-    <string name="label_exercise_screen">Exercise</string>
-    <string name="text_show_question_button">Show question</string>
-    <string name="text_show_answer_textview">Show answer</string>
-    <string name="description_mark_as_learned_button">Mark as learned</string>
-    <string name="description_mark_as_unlearned_button">Mark as unlearned</string>
-    <string name="description_speak_button">Speak</string>
-    <string name="description_stop_speak_button">Stop speaking</string>
-    <string name="description_cannot_speak_button">Open speaking error description</string>
-    <string name="description_edit_card_button">Edit card</string>
-    <string name="description_hint_button">Hint</string>
-    <string name="description_timer_button">Timer</string>
-    <string name="description_grade_button">Grade</string>
-    <string name="description_pause_button">Pause</string>
-    <string name="description_resume_button">Resume</string>
-    <string name="description_done_button">Done</string>
-    <string name="description_cancel_button">Cancel</string>
-    <string name="description_invert_card_button">Invert card</string>
-    <string name="description_drag_handle_button">Drag handle</string>
-    <string name="description_remove_pronunciation_event_button">Remove pronunciation event</string>
-    <string name="description_add_pronunciation_event_button">Add pronunciation event</string>
-    <string name="description_speak_icon">Speak icon</string>
-    <string name="description_rename_icon">Rename icon</string>
-    <string name="description_navigate_icon">Navigate icon</string>
-    <string name="description_test_pronunciation_button">Test pronunciation</string>
-    <string name="description_add_card_button">Add card</string>
-    <string name="description_paste_button">Paste</string>
-    <string name="description_clear_button">Clear</string>
-    <string name="description_remove_card_button">Remove card</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Common -->
+
+    <string name="app_name" translatable="false">ForgetMeNot</string>
     <string name="description_help_button">Help</string>
-    <string name="description_walking_mode_button">Walking mode</string>
-    <string name="description_walking_mode_settings_button">Walking mode settings</string>
     <string name="description_back_button">Navigate back</string>
-    <string name="description_show_table_of_contents_button">Show table of contents</string>
-    <string name="description_search_button">Search</string>
-    <string name="description_drawer_button">Open navigation menu</string>
     <string name="description_back_button2">Back</string>
-    <string name="description_infinite_playback">Infinite playback</string>
-    <string name="description_previous_button">Previous</string>
-    <string name="description_next_button">Next</string>
-    <string name="snackbar_action_cancel">cancel</string>
-    <string name="label_add_deck_screen">Add Deck</string>
-    <string name="action_search">Search</string>
-    <string name="action_sort_by">Sort by</string>`
-    <string name="action_filter">Filter</string>
-    <string name="title_deck_sorting_popup">Sort by</string>
-    <string name="deck_sorting_name">Name</string>
-    <string name="deck_sorting_time_created">Time created</string>
-    <string name="deck_sorting_by_time_last_tested">Time last tested</string>
+    <string name="description_close">close</string>
+    <string name="description_attention_icon">attention icon</string>
+    <string name="title_example_in_settings_bottom_sheet">Example</string>
+
+
+    <!-- Main drawer -->
+
+    <string name="drawer_item_decks">Decks</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_item_support_app">Support app</string>
+    <string name="drawer_item_help">Help</string>
+    <string name="drawer_item_about">About</string>
+
+
+    <!-- Deck list screen -->
+
+    <string name="description_drawer_button">Open navigation menu</string>
+    <string name="hint_search_edittext">Search</string>
+    <string name="title_deck_selection_toolbar_choose_decks_to_play">Choose decks to play</string>
+    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Choose decks for exercise</string>
+    <plurals name="title_deck_selection_toolbar_number_of_selected_decks">
+        <item quantity="one">%d deck</item>
+        <item quantity="other">%d decks</item>
+    </plurals>
+    <string name="description_cancel_selection">Cancel selection</string>
+    <string name="description_select_all">Select all</string>
+    <string name="description_remove_decks">Remove decks</string>
+    <string name="tab_decks">Decks</string>
+    <string name="tab_cards">Cards</string>
+    <string name="no_matching_decks">No matching decks</string>
+    <string name="no_matching_cards">No matching cards</string>
+    <string name="deck_list_title_all_decks">All decks</string>
+    <string name="deck_list_title_decks_available_for_exercise">Decks available for exercise</string>
+    <string name="text_add_cards_button">Add cards</string>
+    <string name="title_add_cards_popup">Add cards</string>
+    <string name="text_import_file_button">Import file</string>
+    <string name="text_browse_catalog_button">Browse catalog</string>
+    <string name="text_create_cards_here_button">Create cards here</string>
+    <string name="toast_no_file_manager_to_load">You don\'t have any file manager to load a file</string>
+    <string name="toast_no_file_manager_to_create">You don\'t have any file manager to create a file</string>
+    <string name="error_loading_file">Error loading file: %1$s</string>
+    <string name="text_filter_button">Filters</string>
+    <string name="title_deck_filters_popup">Filters</string>
+    <string name="deck_filter_only_decks_available_for_exercise">Only decks available for exercise</string>
     <string name="sort_by_name">By name</string>
     <string name="sort_by_time_created">By time created</string>
     <string name="sort_by_time_last_tested">By time last tested</string>
-    <string name="title_deck_settings_toolbar">Deck Settings</string>
-    <string name="label_deck_editor_screen">Deck Editor</string>
-    <string name="label_pronunciation_screen">Pronunciation</string>
-    <string name="label_intervals_screen">Intervals</string>
-    <string name="label_pronunciation_plan_screen">Pronunciation plan</string>
-    <string name="label_cards_editor_screen">Cards editor</string>
-    <string name="label_settings_screen">Settings</string>
-    <string name="label_walking_mode_settings_screen">Walking mode settings</string>
-    <string name="label_help_screen">Help</string>
-    <string name="title_card_filter_for_autoplay">Card filter</string>
-    <string name="label_player_screen">Card player</string>
-    <string name="label_search_screen">Search</string>
-    <string name="hint_pronunciation_name_edittext">Enter name</string>
-    <string name="text_question_title_textview">Question</string>
-    <string name="text_autospeaking_switch">Auto-speaking</string>
-    <string name="text_answer_title_textview">Answer</string>
-    <string name="on">On</string>
-    <string name="off">Off</string>
-    <string name="default_name">Default</string>
-    <string name="individual_name">Individual</string>
-    <string name="description_save_pronunciation">Save pronunciation</string>
-    <string name="description_save_intervals">Save intervals</string>
-    <string name="error_message_empty_name">Name cannot be empty</string>
-    <string name="error_message_occupied_name">This name is occupied</string>
-    <string name="description_rename_preset_button">Rename preset</string>
-    <string name="description_delete_preset_button">Delete preset</string>
-    <string name="description_add_new_preset">Add new preset</string>
-    <string name="description_save_preset">Save preset</string>
-    <string name="title_test_method_dialog">Test method</string>
-    <string name="testing_method_without_testing">Without testing</string>
-    <string name="testing_method_self_testing">Self testing</string>
-    <string name="testing_method_testing_with_variants">Testing with variants</string>
-    <string name="testing_method_spell_check">Spell check</string>
-    <string name="text_remember_button">Remember</string>
-    <string name="text_not_remember_button">Not remember</string>
-    <string name="text_check_button">Check</string>
-    <string name="close">close</string>
-    <string name="hint_question_edittext">Enter a question</string>
-    <string name="hint_answer_edittext">Enter the answer</string>
-    <string name="item_card_inversion_off">Off</string>
-    <string name="item_card_inversion_on">On</string>
-    <string name="item_card_inversion_every_other_lap">Every other lap</string>
-    <string name="title_card_reverse_dialog">Card reverse</string>
-    <string name="title_rename_deck_dialog">Deck name</string>
-    <string name="text_speak_text_in_brackets">Speak text in brackets</string>
+    <string name="title_deck_sorting_popup">Sort by</string>
+    <string name="description_change_sorting_direction">Change sorting direction</string>
+    <string name="deck_sorting_name">Name</string>
+    <string name="deck_sorting_time_created">Time created</string>
+    <string name="deck_sorting_by_time_last_tested">Time last tested</string>
+    <string name="deck_summary_table_average_laps">Avg. laps</string>
+    <string name="deck_summary_table_learned">Learned</string>
+    <string name="deck_summary_table_task">Task</string>
+    <string name="deck_summary_table_last_tested">Last tested</string>
+    <string name="label_new_deck">NEW</string>
+    <string name="deck_options">Deck options</string>
+    <string name="deck_option_start_exercise">Start exercise</string>
+    <string name="deck_option_autoplay">Autoplay</string>
+    <string name="deck_option_rename">Rename</string>
+    <string name="deck_option_edit_cards">Edit cards</string>
+    <string name="deck_option_setup">Setup</string>
+    <string name="deck_option_export">Export</string>
+    <string name="deck_option_remove">Remove</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
     <plurals name="numberOfDecksRemoved">
         <item quantity="one">Deck has been removed</item>
         <item quantity="other">%d decks have been removed</item>
     </plurals>
-    <string name="deck_selection_action_mode_title">Cards: %1$d, Decks: %2$d</string>
+    <string name="text_autoplay_button">Autoplay</string>
+    <string name="text_exercise_button">Exercise</string>
+    <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
+
+
+    <!-- Exercise screen -->
+
+    <string name="card_label_learned">Learned</string>
+    <string name="card_label_expired">Expired</string>
+    <string name="explanation_card_label_learned">\'Learned\' means the card will not be asked
+        again in exercise</string>
+    <string name="explanation_card_label_expired">\'Expired\' means that you didn\'t get to answer
+        a question within the allotted time</string>
+    <string name="text_show_question_button">Show question</string>
+    <string name="text_show_answer_button">Show answer</string>
+    <string name="text_remember_button">Remember</string>
+    <string name="text_not_remember_button">Not remember</string>
+    <string name="text_check_button">Check</string>
+    <string name="description_grade_button">Grade</string>
+    <string name="popup_title_intervals">Intervals</string>
+    <string name="description_intervals_icon">Intervals icon</string>
+    <string name="description_intervals_are_off">Intervals are off for this card</string>
+    <string name="description_mark_as_learned_button">Mark as learned</string>
+    <string name="description_mark_as_unlearned_button">Mark as unlearned</string>
+    <string name="description_speak_button">Speak</string>
+    <string name="description_stop_speaking_button">Stop speaking</string>
+    <string name="description_cannot_speak_button">Open speaking error description</string>
+    <string name="title_speak_error_popup">Pronunciation is not available</string>
+    <string name="description_issue_icon">Issue icon</string>
+    <string name="speak_error_description_failed_to_initialized">Failed to initialized TTS engine</string>
+    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Failed
+        to initialized TTS engine (%1$s)</string>
+    <string name="speak_error_description_language_is_not_supported">Current TTS engine doesn\'t
+        support %1$s</string>
+    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Current
+        TTS engine (%1$s) doesn\'t support %2$s</string>
+    <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
+    <string name="error_message_failed_to_speak">Failed to speak</string>
+    <string name="description_hint_button">Hint</string>
+    <string name="popup_title_hints">Hints</string>
+    <string name="description_hint_icon">Hint icon</string>
     <string name="text_hint_get_variants">Get variants</string>
     <string name="text_hint_mask_letters_button">Mask letters</string>
+    <string name="text_unmask_the_first_letter_button">Unmask the first letter</string>
+    <string name="text_unmask_selected_region_button">Unmask selected region</string>
+    <string name="hints_are_not_accessible_because_the_card_is_answered">The hints are not
+        accessible because the card is answered</string>
+    <string name="hints_are_not_accessible_because_the_card_is_learned">The hints are not
+        accessible because the card is learned</string>
+    <string name="description_timer_button">Timer</string>
+    <string name="popup_title_timer">Timer</string>
+    <string name="description_timer_icon">Timer icon</string>
+    <string name="text_stop_timer_button">Stop</string>
+    <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
+        enabled. Since in this mode we perceive cards aurally rather than visually, the timer may
+        be confusing.</string>
+    <string name="timer_stopped">The timer has stopped</string>
+    <string name="time_is_over">Time is over!</string>
+    <string name="description_edit_card_button">Edit card</string>
+    <string name="description_search_button">Search</string>
+    <string name="description_walking_mode_button">Walking mode</string>
+    <string name="popup_title_walking_mode">Walking mode</string>
+    <string name="description_walking_mode_icon">Walking mode icon</string>
+    <string name="description_walking_mode_settings_button">Walking mode settings</string>
+    <plurals name="message_quit_exercise">
+        <item quantity="one">%d card is still unanswered</item>
+        <item quantity="other">%d cards are still unanswered</item>
+    </plurals>
+    <string name="button_show_unanswered_card">Show unanswered card</string>
+    <string name="button_quit_exercise">Quit anyway</string>
+
+
+    <!-- Card filter for autoplay screen -->
+
+    <string name="screen_title_card_filter_for_autoplay">Card filter</string>
+    <plurals name="matching_cards_number_label">
+        <item quantity="one">card matches the filter</item>
+        <item quantity="other">cards match the filter</item>
+    </plurals>
+    <string name="title_card_filter_state">State</string>
+    <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>
+    <string name="text_awaiting_group_checkbox">Awaiting</string>
+    <string name="text_learned_group_checkbox">Learned</string>
+    <string name="title_card_filter_grade">Grade</string>
+    <string name="title_card_filter_last_tested">Last tested</string>
+    <string name="title_last_tested_from">From</string>
+    <string name="title_last_tested_to">to</string>
+    <string name="zero_time">Zero time</string>
+    <string name="now">Now</string>
+    <string name="time_ago">%1$s ago</string>
+    <string name="title_dialog_last_tested_from">Last tested from</string>
+    <string name="title_dialog_last_tested_to">Last tested to</string>
+    <string name="ago">ago</string>
+    <string name="text_start_playing_button">Start playing</string>
+    <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
+
+
+    <!-- Player screen -->
+
+    <string name="player_notification_channel_name">Card player</string>
+    <string name="player_notification_channel_description">Sequential pronunciation of
+        questions and answers</string>
+    <string name="player_notification_title">Card player</string>
+    <string name="pause_in_notification">Pause</string>
+    <string name="resume_in_notification">Resume</string>
+    <string name="play_one_more_lap_in_notification">Play one more lap</string>
+    <string name="description_infinite_playback">Infinite playback</string>
+    <string name="popup_title_infinite_playback">Infinite playback</string>
+    <string name="description_infinite_playback_icon">Infinite playback icon</string>
+    <string name="description_pause_button">Pause</string>
+    <string name="description_resume_button">Resume</string>
+    <string name="description_completed_cards">Completed cards</string>
+    <string name="description_playing_completed">Playing completed</string>
+    <string name="button_end">End</string>
+    <string name="button_play_again">Play again</string>
+
+
+    <!-- Deck editor screen -->
+
+    <string name="title_rename_deck_dialog">Deck name</string>
+    <string name="error_message_empty_name">Name cannot be empty</string>
+    <string name="error_message_occupied_name">This name is occupied</string>
+    <string name="tab_name_settings">Settings</string>
+    <string name="tab_name_content">Content</string>
+    <string name="description_add_card_button">Add card</string>
+
+
+    <!-- Deck content screen -->
+
+    <string name="button_export">Export</string>
+    <string name="button_search">Search</string>
+    <string name="toast_deck_is_exported">Deck is exported</string>
+    <string name="toast_error_while_exporting_deck">Error while exporting deck: \'%1$s\'</string>
+
+
+    <!-- Search screen -->
+
+    <string name="hint_search_in_all_cards">Search in all cards</string>
+    <string name="hint_search_in_specific_deck">Search in \'%1$s\'</string>
+    <string name="message_no_paste_data">Clipboard doesn\'t contain text</string>
+
+
+    <!-- Cards Editor screen -->
+
+    <string name="hint_question_edittext">Enter a question</string>
+    <string name="hint_answer_edittext">Enter the answer</string>
+    <string name="description_invert_card_button">Invert card</string>
+    <string name="description_paste_button">Paste</string>
+    <string name="description_clear_button">Clear</string>
+    <string name="description_remove_card_button">Remove card</string>
+    <string name="card_is_removed">Card is removed</string>
+    <string name="snackbar_action_cancel" tools:ignore="ButtonCase">cancel</string>
+    <string name="description_done_button">Done</string>
+    <string name="description_cancel_button">Cancel</string>
+    <string name="message_quit_cards_editor">Your unsaved changes will be lost. Save changes before
+        quitting?</string>
+    <string name="button_save">Save</string>
+    <string name="button_quit_without_saving">Quit without saving</string>
+    <string name="toast_fill_in_the_card">Fill in the card</string>
+
+
+    <!-- Deck settings screen -->
+
+    <string name="deck_settings_section_general">General</string>
+    <string name="deck_settings_section_exercise">Exercise</string>
+    <string name="deck_settings_section_autoplay">Autoplay</string>
+    <string name="deck_settings_item_random_order">Random order</string>
+    <string name="deck_settings_item_pronunciation">Pronunciation</string>
+    <string name="deck_settings_item_card_inversion">Card Inversion</string>
+    <string name="deck_settings_item_question_display">Question display</string>
+    <string name="deck_settings_item_testing_method">Testing method</string>
+    <string name="deck_settings_item_intervals">Intervals</string>
+    <string name="deck_settings_item_motivational_timer">Motivational timer</string>
+    <string name="deck_settings_item_pronunciation_plan">Pronunciation plan</string>
+    <string name="description_navigate_icon">Navigate icon</string>
+    <string name="speak_event_abbr_speak_question">Q</string>
+    <string name="speak_event_abbr_speak_answer">A</string>
+    <string name="speak_event_abbr_delay">%ds</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="interval_unit_abbreviation_hours">h</string>
+    <string name="interval_unit_abbreviation_days">d</string>
+    <string name="interval_unit_abbreviation_months">m</string>
+    <string name="time_for_answer">%d sec.</string>
+
+
+    <!-- Presets -->
+
+    <string name="title_preset_name_input_dialog">Preset name</string>
+    <string name="preset_name_default">Default</string>
+    <string name="preset_name_individual">Individual</string>
+    <string name="description_save_preset">Save preset</string>
+    <string name="title_preset_popup">Presets</string>
+    <string name="description_rename_preset_button">Rename preset</string>
+    <string name="description_delete_preset_button">Delete preset</string>
+    <string name="description_add_new_preset">Add new preset</string>
+    <string name="title_remove_preset_dialog">Deleting preset \'%1$s\'</string>
+    <string name="top_dialog_text_remove_preset">This preset is used by these decks:</string>
+    <string name="bottom_dialog_text_remove_preset">If you delete this preset then the default
+        preset will be used for them. Do you really want to delete this preset?</string>
+    <string name="button_delete">Delete</string>
+
+
+    <!-- Pronunciation screen -->
+
+    <string name="screen_title_pronunciation">Pronunciation</string>
+    <string name="tip_pronunciation_screen_select_languages">Select the languages of the questions
+        and answers to be able to pronounce the speech correctly.</string>
+    <string name="tip_pronunciation_screen_about_tts">Pronunciation is supported through Android
+        TTS API. If you want to customize speech synthesis in more detail, for example, change
+        engine, voice, pitch, speech rate, just go to the TTS settings.</string>
+    <string name="tip_pronunciation_screen_about_autospeaking">It is highly recommended to enable
+        auto-speaking of foreign language. So you will immediately understand how the words should
+        sound and this can help you memorize information faster.</string>
+    <string name="tip_pronunciation_screen_about_selection">To make a piece of text being
+        pronounced, simply highlight it and click the \'Speak\' icon.</string>
+    <string name="tip_pronunciation_screen_about_brackets">Provided \'Speak text in brackets\' is
+        off, it is easy to separate the text that should be pronounced from the text that
+        shouldn\'t. Use the brackets () [] {} &lt;&gt; for this. For example, wrap transcription,
+        synonyms, definition in them.</string>
+    <string name="text_question_title_textview">Question</string>
+    <string name="text_answer_title_textview">Answer</string>
+    <string name="default_language">Default language</string>
+    <string name="text_autospeaking_switch">Auto-speaking</string>
+    <string name="text_speak_text_in_brackets">Speak text in brackets</string>
     <string name="text_go_to_tts_settings_button">Go to TTS Settings</string>
-    <string name="title_action_settings">Settings</string>
-    <string name="title_action_help">Help</string>
+    <string name="toast_no_tts_settings">Your device doesn\'t have TTS settings</string>
+
+
+    <!-- Card inversion screen -->
+
+    <string name="screen_title_card_inversion">Card inversion</string>
+    <string name="tip_card_inversion_screen">Flip the cards over if the answers can look like
+        questions, and vice versa. For example, this can be applied to \'word-translation\' cards.
+    </string>
+    <string name="item_card_inversion_off">Off</string>
+    <string name="item_card_inversion_on">On</string>
+    <string name="item_card_inversion_every_other_lap">Every other lap</string>
+
+
+    <!-- Question display screen -->
+
+    <string name="screen_title_question_display">Question display</string>
+    <string name="tip_question_display_screen_why">It\'s supposed that if you hide the text of a
+        question, you are going to perceive the question by ear. It can be a good contribution to
+        improving your listening skills while learning a language.</string>
+    <string name="tip_question_display_screen_do_not_forget_autospeaking">Since you have disabled
+        \'Question display\', you are going to perceive the question aurally. So, don\'t forget
+        to enable \'Auto-speaking\' of question to make exercise more comfortable.</string>
+
+
+    <!-- Testing method screen -->
+
+    <string name="screen_title_testing_method">Testing method</string>
+    <string name="tip_testing_method_screen_without_testing">\'Without testing\' is suitable for
+        cases when you plan to run the cards once or twice.</string>
+    <string name="tip_testing_method_screen_self_testing">In most cases, \'Self testing\' is the
+        best choice. It is you who decide whether you know the answer or not.</string>
+    <string name="tip_testing_method_screen_testing_with_variants">\'Testing with variants\' is a
+        more playable testing method. You select right answer of four variants. The variants are
+        extracted from the same deck.</string>
+    <string name="tip_testing_method_screen_spell_check">With \'Spell check\', it is checked
+        whether the answer your entered matches the real answer. Suitable if spelling is
+        important to you.</string>
+    <string name="testing_method_without_testing">Without testing</string>
+    <string name="testing_method_self_testing">Self testing</string>
+    <string name="testing_method_testing_with_variants">Testing with variants</string>
+    <string name="testing_method_spell_check">Spell check</string>
+
+
+    <!-- Intervals screen -->
+
+    <string name="screen_title_intervals">Intervals</string>
+    <string name="tip_intervals_screen_importance">With spaced repetition, the information or
+        knowledge will become further ingrained into your long-term memory.</string>
+    <string name="tip_intervals_screen_adjust_interval_scheme">Adjust the interval scheme to suit
+        you. General principle: \'The higher the grade, the longer the interval should be\'.</string>
+    <string name="interval_unit_hours">Hours</string>
+    <string name="interval_unit_days">Days</string>
+    <string name="interval_unit_months">Months</string>
+
+
+    <!-- Motivational timer screen -->
+
+    <string name="screen_title_motivational_timer">Motivational timer</string>
+    <string name="tip_motivational_timer_screen_description">\'Motivational timer\' designed to
+        keep you from distractions. If you don\'t answer within the allotted time, you will
+        receive a penalty in the form of marking the answer as not correct.</string>
+    <string name="tip_motivational_timer_screen_how_to_do_with_this">Allocate sufficient time for
+        yourself to answer the question without worrying about the countdown. If you feel like you
+        need more time, you can stop the timer.</string>
+    <string name="error_motivational_timer_input">the number must be\ngreater than zero</string>
+    <string name="saved">Saved!</string>
+    <string name="message_quit_motivational_timer">You have changed the timer setting from \'%1$s\'
+        to \'%2$s\'. Do you want to save changes?</string>
+
+
+    <!-- Pronunciation plan screen -->
+
+    <string name="screen_title_pronunciation_plan">Pronunciation plan</string>
+    <string name="tip_pronunciation_plan_screen_description">Describe how you want the card to be
+        pronounced in \'Card player\'.</string>
+    <string name="tip_pronunciation_plan_screen_about_longer_delay">Try to answer the question in
+        your head before it is pronounced. If you need more time to respond, just increase delay
+        between speaking question and answer. For example, the translation of a sentence may take 5
+        or more seconds.</string>
+    <string name="tip_pronunciation_plan_screen_about_repetition_pronunciation">If you have just
+        started learning a language, set up a pronunciation plan so that foreign speech is spoken
+        twice.</string>
+    <string name="description_drag_handle_button">Drag handle</string>
+    <string name="description_speak_icon">Speak icon</string>
+    <string name="pronunciation_event_speak_question">Speak question</string>
+    <string name="pronunciation_event_speak_answer">Speak answer</string>
+    <string name="pronunciation_event_delay">Delay</string>
+    <string name="pronunciation_event_delay_with_args">Delay %d sec.</string>
+    <string name="description_remove_pronunciation_event_button">Remove pronunciation event</string>
+    <string name="description_add_pronunciation_event_button">Add pronunciation event</string>
+    <string name="title_dialog_pronunciation_event">Choose event</string>
+    <string name="sec">sec.</string>
+    <string name="error_message_cannot_change_last_speak_question">Cannot change last \'Speak
+        Question\' event</string>
+    <string name="error_message_cannot_change_last_speak_answer">Cannot change last \'Speak
+        Answer\' event</string>
+
+
+    <!-- Settings screen -->
+
+    <string name="screen_title_settings">Settings</string>
     <string name="text_walking_mode_title">Walking mode</string>
     <string name="text_walking_mode_settings_description">Remapping volume keys actions</string>
     <string name="text_fullscreen_settings_title">Fullscreen mode</string>
+    <string name="everywhere">Everywhere</string>
+    <string name="nowhere">Nowhere</string>
+    <string name="title_fullscreen_mode_dialog">Fullscreen mode</string>
+    <string name="item_text_fullscreen_in_exercise">In exercise</string>
+    <string name="item_text_fullscreen_in_card_player">In card player</string>
+    <string name="item_text_fullscreen_in_other_places">In other places</string>
+
+
+    <!-- Walking mode settings screen -->
+
+    <string name="screen_title_walking_mode_settings">Walking mode settings</string>
     <string name="text_volume_up_button_section">Volume up button</string>
     <string name="text_volume_down_button_section">Volume down button</string>
     <string name="text_single_press_title">Single press action</string>
@@ -125,82 +431,49 @@
     <string name="key_gesture_action_mark_card_as_learned">Mark card as \'Learned\'</string>
     <string name="key_gesture_action_speak_question">Speak question</string>
     <string name="key_gesture_action_speak_answer">Speak answer</string>
-    <string name="player_notification_channel_name">Card player</string>
-    <string name="player_notification_channel_description">Sequential pronunciation of questions and answers</string>
-    <string name="player_notification_title">Card player</string>
-    <string name="pause_in_notification">Pause</string>
-    <string name="resume_in_notification">Resume</string>
-    <string name="play_one_more_lap_in_notification">Play one more lap</string>
-    <string name="title_filtration_section">Filtration</string>
-    <string name="title_card_filter_state">State</string>
-    <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>
-    <string name="text_awaiting_group_checkbox">Awaiting</string>
-    <string name="text_learned_group_checkbox">Learned</string>
-    <string name="title_card_filter_grade">Grade</string>
-    <string name="title_card_filter_last_tested">Last tested</string>
-    <string name="title_last_tested_from">From</string>
-    <string name="title_last_tested_to">to</string>
-    <string name="zero_time">Zero time</string>
-    <string name="now">Now</string>
-    <string name="title_dialog_last_tested_from">Last tested from</string>
-    <string name="title_dialog_last_tested_to">Last tested to</string>
-    <string name="interval_unit_hours">Hours</string>
-    <string name="interval_unit_days">Days</string>
-    <string name="interval_unit_months">Months</string>
-    <string name="interval_unit_abbreviation_hours">h</string>
-    <string name="interval_unit_abbreviation_days">d</string>
-    <string name="interval_unit_abbreviation_months">m</string>
-    <string name="time_ago">%1$s ago</string>
-    <string name="ago">ago</string>
-    <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
-    <plurals name="matching_cards_number_label">
-        <item quantity="one">card matches the filter</item>
-        <item quantity="other">cards match the filter</item>
-    </plurals>
-    <string name="pronunciation_event_speak_question">Speak question</string>
-    <string name="pronunciation_event_speak_answer">Speak answer</string>
-    <string name="pronunciation_event_delay_with_args">Delay %d sec.</string>
-    <string name="pronunciation_event_delay">Delay</string>
-    <string name="sec">sec.</string>
-    <string name="title_dialog_pronunciation_event">Choose event</string>
-    <string name="error_message_cannot_change_last_speak_question">Cannot change last \'Speak Question\' event</string>
-    <string name="error_message_cannot_change_last_speak_answer">Cannot change last \'Speak Answer\' event</string>
-    <string name="title_preset_name_input_dialog">Preset name</string>
-    <string name="title_fullscreen_mode_dialog">Fullscreen mode</string>
-    <string name="item_text_fullscreen_in_exercise">In exercise</string>
-    <string name="item_text_fullscreen_in_card_player">In card player</string>
-    <string name="item_text_fullscreen_in_other_places">In other places</string>
-    <string name="everywhere">Everywhere</string>
-    <string name="nowhere">Nowhere</string>
-    <string name="time_for_answer">%d sec.</string>
-    <string name="tab_name_settings">Settings</string>
-    <string name="tab_name_content">Content</string>
-    <string name="message_no_paste_data">Clipboard doesn\'t contain text</string>
-    <string name="card_is_removed">Card is removed</string>
-    <string name="toast_fill_in_the_card">Fill in the card</string>
-    <string name="text_import_file_button">Import file</string>
-    <string name="text_browse_catalog_button">Browse catalog</string>
-    <string name="text_create_cards_here_button">Create cards here</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="popup_title_walking_mode">Walking mode</string>
-    <string name="popup_title_hints">Hints</string>
-    <string name="hint_search_in_all_cards">Search in all cards</string>
-    <string name="hint_search_in_specific_deck">Search in \'%1$s\'</string>
-    <string name="text_search_in_cards_button">Search in cards</string>
-    <string name="toast_deck_is_exported">Deck is exported</string>
-    <string name="toast_error_while_exporting_deck">Error while exporting deck: \'%1$s\'</string>
-    <string name="title_remove_preset_dialog">Deleting preset \'%1$s\'</string>
-    <string name="top_dialog_text_remove_preset">This preset is used by these decks:</string>
-    <string name="bottom_dialog_text_remove_preset">If you delete this preset then the default
-        preset will be used for them. Do you really want to delete this preset?</string>
-    <string name="title_speak_error_popup">Pronunciation is not available</string>
-    <string name="speak_error_description_failed_to_initialized">Failed to initialized TTS engine</string>
-    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Failed to initialized TTS engine (%1$s)</string>
-    <string name="speak_error_description_language_is_not_supported">Current TTS engine doesn\'t support %1$s</string>
-    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Current TTS engine (%1$s) doesn\'t support %2$s</string>
-    <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
-    <string name="error_message_failed_to_speak">Failed to speak</string>
+
+
+    <!-- Support app screen -->
+
+    <string name="screen_title_support_app">Support app</string>
+    <string name="cta_rate_the_app_on_google_play">Rate the app on Google Play</string>
+    <string name="cta_rate_the_app_on_google_play_description">App rating affect people\'s decision
+        to download app. Positive rating can help us reach more users. With higher downloads, we
+        will be able to receive feedback from a number of different perspectives which will help us
+        in making ForgetMeNot better than ever.</string>
+    <string name="text_rate_us_button">Rate us</string>
+    <string name="cta_give_us_feedback">Give us feedback</string>
+    <string name="cta_give_us_feedback_description">Tell us what\'s working, and what\'s not. We
+        want to provide you with the best experience, so your feedback is very valuable. Let us
+        know how we can do better.</string>
+    <string name="text_write_review_on_google_play_button">Write review on Google Play</string>
+    <string name="text_submit_new_issue_on_github_button">Submit new issue on Github</string>
+    <string name="text_send_email_to_author_button">Send email to author</string>
+    <string name="cta_help_us_with_translation">Help us with translation</string>
+    <string name="cta_help_us_with_translation_description">Translation is necessary for users who
+        speak others languages to enjoy the app. Also, localization enables the app to be more
+        accessible and useful to a wider audience.</string>
+    <string name="text_help_translate_button">Help translate</string>
+    <string name="cta_share_with_friends">Share with friends</string>
+    <string name="cta_share_with_friends_description">Your friends might need the app. Share your
+        experience with them.</string>
+    <string name="text_share_with_friends_button">Share with friends</string>
+    <string name="share_with">Share with</string>
+    <string name="text_share_with_friends">Remember everything with flashcards.</string>
+    <string name="cta_join_us_on_social_media">Join us on Social Media</string>
+    <string name="cta_join_us_on_social_media_description">Get the latest news, share interesting
+        articles, ask questions. Connect, follow and have conversation with us</string>
+    <string name="description_facebook_button">Facebook</string>
+    <string name="description_instagram_button">Instagram</string>
+    <string name="description_twitter_button">Twitter</string>
+    <string name="description_youtube_button">Youtube</string>
+
+
+    <!-- Help screen -->
+
+    <string name="screen_title_help">Help</string>
+    <string name="title_articles">Articles</string>
+    <string name="description_help_article_icon">Help article icon</string>
     <string name="help_article_title_import_of_deck">Import of deck</string>
     <string name="help_article_title_exercise">Exercise</string>
     <string name="help_article_title_testing_methods">Testing methods</string>
@@ -213,8 +486,16 @@
     <string name="help_article_title_presets">Presets</string>
     <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
     <string name="help_article_title_advice_on_studying">Advice on studying</string>
+
+
+    <!-- Help article screen -->
+
+    <string name="description_show_table_of_contents_button">Show table of contents</string>
+    <string name="description_previous_button">Previous</string>
+    <string name="description_next_button">Next</string>
     <string name="article_import_of_deck_paragraph_1">1. Create a text file on your computer in
         this format:</string>
+    <string name="description_window_frame_icons">Window frame icons</string>
     <string name="example_of_text_file_for_creating_deck">Q:
         \nWhat city was the first capital of the United States?
         \nA:
@@ -472,57 +753,23 @@
         find the confusing card.
 
         \n\n5. Make it a rule that once a day you should not have any tasks left to study.</string>
-    <string name="error_loading_file">Error loading file: %1$s</string>
-    <string name="average_laps">Avg. laps</string>
-    <string name="learned">Learned</string>
-    <string name="task">Task</string>
-    <string name="last_tested">Last tested</string>
-    <string name="text_filter_button">Filters</string>
-    <string name="deck_list_title_all_decks">All decks</string>
-    <string name="deck_list_title_decks_available_for_exercise">Decks available for exercise</string>
-    <string name="text_add_cards_button">Add cards</string>
-    <string name="title_add_cards_popup">Add cards</string>
-    <string name="drawer_item_decks">Decks</string>
-    <string name="drawer_item_settings">Settings</string>
-    <string name="drawer_item_support_app">Support app</string>
-    <string name="drawer_item_help">Help</string>
-    <string name="drawer_item_about">About</string>
-    <string name="hint_search_edittext">Search</string>
-    <string name="tab_decks">Decks</string>
-    <string name="tab_cards">Cards</string>
-    <string name="no_matching_decks">No matching decks</string>
-    <string name="no_matching_cards">No matching cards</string>
-    <string name="description_cancel_selection">Cancel selection</string>
-    <string name="description_select_all">Select all</string>
-    <string name="description_remove_decks">Remove decks</string>
-    <string name="description_more_options">More options</string>
-    <string name="text_autoplay_button">Autoplay</string>
-    <string name="text_exercise_button">Exercise</string>
-    <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
-    <string name="description_close">close</string>
-    <string name="description_change_sorting_direction">Change sorting direction</string>
-    <plurals name="title_deck_selection_toolbar_number_of_selected_decks">
-        <item quantity="one">%d deck</item>
-        <item quantity="other">%d decks</item>
-    </plurals>
-    <string name="title_deck_selection_toolbar_choose_decks_to_play">Choose decks to play</string>
-    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Choose decks for exercise</string>
-    <string name="title_deck_filters">Filters</string>
-    <string name="deck_filter_only_decks_available_for_exercise">Only decks available for exercise</string>
-    <string name="deck_option_start_exercise">Start exercise</string>
-    <string name="deck_option_autoplay">Autoplay</string>
-    <string name="deck_option_rename">Rename</string>
-    <string name="deck_option_edit_cards">Edit cards</string>
-    <string name="deck_option_setup">Setup</string>
-    <string name="deck_option_export">Export</string>
-    <string name="deck_option_remove">Remove</string>
-    <string name="decksription_app_logo">App logo</string>
+
+
+    <!-- About screen -->
+
+    <string name="description_app_logo">App logo</string>
     <string name="app_slogan">won\'t let you forget anything</string>
+    <string name="about_item_developer">Odnovolov Artem</string>
+    <string name="about_item_source_code">Source code</string>
+    <string name="about_item_privacy_policy">Privacy policy</string>
+    <string name="toast_no_email_client">You don\'t have any e-mail client to compose mail</string>
+    <string name="toast_no_browser">You don\'t have any browser to open URL</string>
     <string name="forgetmenot_brief_description">ForgetMeNot is designed to memorize information.
         It based on spaced repetition of flashcards. The app supports speech output, import cards
         from file, unique settings of each deck and many other interesting features. Besides
         traditional examination of the knowledge, there is also the autoplaying mode. ForgetMeNot
         is a great thing for language learning and not only.</string>
+    <string name="developer_story_title">Developer story</string>
     <string name="developer_story">More than a year ago, when I started learning a foreign
         language, I decided to use flashcards to memorize words. Having tried dozens of different
         apps on Google Play, none of them satisfied me completely. So I decided to create my own
@@ -554,174 +801,5 @@
         \n\nI am not in any way pursuing commercial goals. My app is completely free and open
         source. I\'d like to know what you think about my app!</string>
     <string name="text_support_app_button">Support app</string>
-    <string name="about_item_developer">Odnovolov Artem</string>
-    <string name="about_item_source_code">Source code</string>
-    <string name="about_item_privacy_policy">Privacy policy</string>
-    <string name="developer_story_title">Developer story</string>
-    <string name="title_about_screen">About</string>
-    <string name="title_support_app_screen">Support app</string>
-    <string name="cta_rate_the_app_on_google_play">Rate the app on Google Play</string>
-    <string name="cta_rate_the_app_on_google_play_description">App rating affect people\'s decision
-        to download app. Positive rating can help us reach more users. With higher downloads, we
-        will be able to receive feedback from a number of different perspectives which will help us
-        in making ForgetNeNot better than ever.</string>
-    <string name="text_rate_us_button">Rate us</string>
-    <string name="cta_give_us_feedback">Give us feedback</string>
-    <string name="cta_give_us_feedback_description">Tell us what\'s working, and what\'s not. We
-        want to provide you with the best experience, so your feedback is very valuable. Let us
-        know how we can do better.</string>
-    <string name="text_write_review_on_google_play_button">Write review on Google Play</string>
-    <string name="text_submit_new_issue_on_github_button">Submit new issue on Github</string>
-    <string name="text_send_email_to_author_button">Send email to author</string>
-    <string name="cta_help_us_with_translation">Help us with translation</string>
-    <string name="cta_help_us_with_translation_description">Translation is necessary for users who
-        speak others languages to enjoy the app. Also, localization enables the app to be more
-        accessible and useful to a wider audience.</string>
-    <string name="text_help_translate_button">Help translate</string>
-    <string name="cta_share_with_friends">Share with friends</string>
-    <string name="cta_share_with_friends_description">Your friends might need the app. Share your
-        experience with them.</string>
-    <string name="text_share_with_friends_button">Share with friends</string>
-    <string name="share_with">Share with</string>
-    <string name="text_share_with_friends">Remember everything with flashcards.</string>
-    <string name="cta_join_us_on_social_media">Join us on Social Media</string>
-    <string name="cta_join_us_on_social_media_description">Get the latest news, share interesting
-        articles, ask questions. Connect, follow and have conversation with us</string>
-    <string name="description_facebook_button">Facebook</string>
-    <string name="description_instagram_button">Instagram</string>
-    <string name="description_twitter_button">Twitter</string>
-    <string name="description_youtube_button">Youtube</string>
-    <string name="text_stop_timer_button">Stop</string>
-    <string name="popup_title_timer">Timer</string>
-    <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
-        enabled. Since in this mode we perceive cards aurally rather than visually, the timer may
-        be confusing.</string>
-    <string name="timer_stopped">The timer has stopped</string>
-    <string name="time_is_over">Time is over!</string>
-    <string name="hints_are_not_accessible_because_the_card_is_answered">The hints are not accessible because the card is answered</string>
-    <string name="hints_are_not_accessible_because_the_card_is_learned">The hints are not accessible because the card is learned</string>
-    <string name="title_mask_letters_button">Mask letters</string>
-    <string name="title_unmask_the_first_letter_button">Unmask the first letter</string>
-    <string name="title_unmask_selected_region_button">Unmask selected region</string>
-    <string name="popup_title_intervals">Intervals</string>
-    <string name="description_intervals_are_off">Intervals are off for this card</string>
-    <string name="expired">Expired</string>
-    <string name="explanation_card_label_learned">\'Learned\' means the card will not be asked again in exercise</string>
-    <string name="explanation_card_label_expired">\'Expired\' means that you didn\'t get to answer a question within the allotted time</string>
-    <plurals name="message_quit_exercise">
-        <item quantity="one">%d card is still unanswered</item>
-        <item quantity="other">%d cards are still unanswered</item>
-    </plurals>
-    <string name="button_show_unanswered_card">Show unanswered card</string>
-    <string name="button_quit_exercise">Quit anyway</string>
-    <string name="message_quit_cards_editor">Your unsaved changes will be lost. Save changes before quitting?</string>
-    <string name="button_save">Save</string>
-    <string name="button_quit_without_saving">Quit without saving</string>
-    <string name="text_start_playing_button">Start playing</string>
-    <string name="popup_title_infinite_playback">Infinite playback</string>
-    <string name="button_end">End</string>
-    <string name="description_playing_completed">Playing completed</string>
-    <string name="description_completed_cards">Completed cards</string>
-    <string name="button_play_again">Play again</string>
-    <string name="description_walking_mode_icon">Walking mode icon</string>
-    <string name="description_hint_icon">Hint icon</string>
-    <string name="description_intervals_icon">Intervals icon</string>
-    <string name="description_timer_icon">Timer icon</string>
-    <string name="description_issue_icon">Issue icon</string>
-    <string name="description_infinite_playback_icon">Infinite playback icon</string>
-    <string name="label_new_deck">NEW</string>
-    <string name="button_export">Export</string>
-    <string name="button_search">Search</string>
-    <string name="deck_settings_section_general">General</string>
-    <string name="deck_settings_section_exercise">Exercise</string>
-    <string name="deck_settings_section_autoplay">Autoplay</string>
-    <string name="deck_settings_item_random_order">Random order</string>
-    <string name="deck_settings_item_pronunciation">Pronunciation</string>
-    <string name="deck_settings_item_card_inversion">Card Inversion</string>
-    <string name="deck_settings_item_question_display">Question display</string>
-    <string name="deck_settings_item_testing_method">Testing method</string>
-    <string name="deck_settings_item_intervals">Intervals</string>
-    <string name="deck_settings_item_motivational_timer">Motivational timer</string>
-    <string name="deck_settings_item_pronunciation_plan">Pronunciation plan</string>
-    <string name="title_pronunciation_screen">Pronunciation</string>
-    <string name="default_language">Default language</string>
-    <string name="title_card_inversion_screen">Card inversion</string>
-    <string name="title_question_display_screen">Question display</string>
-    <string name="title_testing_method_screen">Testing method</string>
-    <string name="title_intervals_screen">Intervals</string>
-    <string name="title_motivational_timer_screen">Motivational timer</string>
-    <string name="speak_event_abbr_speak_question">Q</string>
-    <string name="speak_event_abbr_speak_answer">A</string>
-    <string name="speak_event_abbr_delay">%ds</string>
-    <string name="title_pronunciation_plan_screen">Pronunciation plan</string>
-    <string name="title_example_in_settings_bottom_sheet">Example</string>
-    <string name="error_motivational_timer_input">the number must be\ngreater than zero</string>
-    <string name="saved">Saved!</string>
-    <string name="message_quit_motivational_timer">You have changed the timer setting from \'%1$s\' to \'%2$s\'. Do you want to save changes?</string>
-    <string name="description_attention_icon">attention icon</string>
-    <string name="tip_pronunciation_screen_select_languages">Select the languages of the questions
-        and answers to be able to pronounce the speech correctly.</string>
-    <string name="tip_pronunciation_screen_about_tts">Pronunciation is supported through Android
-        TTS API. If you want to customize speech synthesis in more detail, for example, change
-        engine, voice, pitch, speech rate, just go to the TTS settings.</string>
-    <string name="tip_pronunciation_screen_about_autospeaking">It is highly recommended to enable
-        auto-speaking of foreign language. So you will immediately understand how the words should
-        sound and this can help you memorize information faster.</string>
-    <string name="tip_pronunciation_screen_about_selection">To make a piece of text being
-        pronounced, simply highlight it and click the \'Speak\' icon.</string>
-    <string name="tip_pronunciation_screen_about_brackets">Provided \'Speak text in brackets\' is
-        off, it is easy to separate the text that should be pronounced from the text that
-        shouldn\'t. Use the brackets () [] {} &lt;&gt; for this. For example, wrap transcription,
-        synonyms, definition in them.</string>
-    <string name="tip_card_inversion_screen">Flip the cards over if the answers can look like
-        questions, and vice versa. For example, this can be applied to \'word-translation\' cards.
-    </string>
-    <string name="tip_question_display_screen_why">It\'s supposed that if you hide the text of a
-        question, you are going to perceive the question by ear. It can be a good contribution to
-        improving your listening skills while learning a language.</string>
-    <string name="tip_question_display_screen_do_not_forget_autospeaking">Since you have disabled
-        \'Question display\', you are going to perceive the question aurally. So, don\'t forget
-        to enable \'Auto-speaking\' of question to make exercise more comfortable.</string>
-    <string name="tip_testing_method_screen_without_testing">\'Without testing\' is suitable for
-        cases when you plan to run the cards once or twice.</string>
-    <string name="tip_testing_method_screen_self_testing">In most cases, \'Self testing\' is the
-        best choice. It is you who decide whether you know the answer or not.</string>
-    <string name="tip_testing_method_screen_testing_with_variants">\'Testing with variants\' is a
-        more playable testing method. You select right answer of four variants. The variants are
-        extracted from the same deck.</string>
-    <string name="tip_testing_method_screen_spell_check">With \'Spell check\', it is checked
-        whether the answer your entered matches the real answer. Suitable if spelling is
-        important to you.</string>
-    <string name="tip_intervals_screen_importance">With spaced repetition, the information or
-        knowledge will become further ingrained into your long-term memory.</string>
-    <string name="tip_intervals_screen_adjust_interval_scheme">Adjust the interval scheme to suit
-        you. General principle: \'The higher the grade, the longer the interval should be\'.</string>
-    <string name="tip_motivational_timer_screen_description">\'Motivational timer\' designed to
-        keep you from distractions. If you don\'t answer within the allotted time, you will
-        receive a penalty in the form of marking the answer as not correct.</string>
-    <string name="tip_motivational_timer_screen_how_to_do_with_this">Allocate sufficient time for
-        yourself to answer the question without worrying about the countdown. If you feel like you
-        need more time, you can stop the timer.</string>
-    <string name="tip_pronunciation_plan_screen_description">Describe how you want the card to be
-        pronounced in \'Card player\'.</string>
-    <string name="tip_pronunciation_plan_screen_about_longer_delay">Try to answer the question in
-        your head before it is pronounced. If you need more time to respond, just increase delay
-        between speaking question and answer. For example, the translation of a sentence may take 5
-        or more seconds.</string>
-    <string name="tip_pronunciation_plan_screen_about_repetition_pronunciation">If you have just
-        started learning a language, set up a pronunciation plan so that foreign speech is spoken
-        twice.</string>
-    <string name="title_preset_popup">Presets</string>
-    <string name="button_delete">Delete</string>
-    <string name="title_settings_screen">Settings</string>
-    <string name="title_walking_mode_settings_screen">Walking mode settings</string>
-    <string name="toast_no_tts_settings">Your device doesn\'t have TTS settins</string>
-    <string name="toast_no_email_client">You don\'t have any e-mail client to compose mail</string>
-    <string name="toast_no_browser">You don\'t have any browser to open URL</string>
-    <string name="toast_no_file_manager_to_load">You don\'t have any file manager to load a file</string>
-    <string name="toast_no_file_manager_to_create">You don\'t have any file manager to create a file</string>
-    <string name="description_window_frame_icons">Window frame icons</string>
-    <string name="title_help_screen">Help</string>
-    <string name="title_articles">Articles</string>
-    <string name="description_help_article_icon">Help article icon</string>
+
 </resources>

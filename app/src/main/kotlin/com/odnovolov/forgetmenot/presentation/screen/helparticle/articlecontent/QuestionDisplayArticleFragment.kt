@@ -70,7 +70,7 @@ class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
                 }
                 contentDescription = getString(
                     if (isSpeaking)
-                        R.string.description_stop_speak_button else
+                        R.string.description_stop_speaking_button else
                         R.string.description_speak_button
                 )
                 TooltipCompat.setTooltipText(this, contentDescription)

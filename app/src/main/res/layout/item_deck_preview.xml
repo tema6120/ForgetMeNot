@@ -63,7 +63,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:paddingEnd="4dp"
-                        android:text="@string/average_laps"
+                        android:text="@string/deck_summary_table_average_laps"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
                         android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
@@ -75,7 +75,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:paddingEnd="4dp"
-                        android:text="@string/learned"
+                        android:text="@string/deck_summary_table_learned"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
                         android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
@@ -87,7 +87,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:paddingEnd="4dp"
-                        android:text="@string/task"
+                        android:text="@string/deck_summary_table_task"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
                         android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="@string/last_tested"
+                        android:text="@string/deck_summary_table_last_tested"
                         android:textAllCaps="true"
                         android:textColor="@color/textSecondary"
                         android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
@@ -187,7 +187,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/deck_option"
+            android:contentDescription="@string/deck_options"
             android:tint="@color/iconDark"
             app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
 
@@ -199,7 +199,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/deck_option"
+            android:contentDescription="@string/deck_options"
             android:visibility="gone"
             app:srcCompat="@drawable/deck_selector" />
 

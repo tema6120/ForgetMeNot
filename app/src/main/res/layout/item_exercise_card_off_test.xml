@@ -124,7 +124,7 @@
                         android:background="@drawable/curtain"
                         android:gravity="center"
                         android:minHeight="48dp"
-                        android:text="@string/text_show_answer_textview"
+                        android:text="@string/text_show_answer_button"
                         android:textColor="@color/text_curtain_selector"
                         android:textSize="@dimen/text_size_exercise_show_button"
                         tools:background="@color/curtain" />
@@ -144,7 +144,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
-                android:text="@string/learned"
+                android:text="@string/card_label_learned"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_card_label"
                 android:translationY="-37dp"

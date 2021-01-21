@@ -112,7 +112,7 @@ class ExampleExerciseFragment : BaseFragment() {
                     }
                     contentDescription = getString(
                         when (speakingStatus) {
-                            SpeakingStatus.Speaking -> R.string.description_stop_speak_button
+                            SpeakingStatus.Speaking -> R.string.description_stop_speaking_button
                             SpeakingStatus.NotSpeaking -> R.string.description_speak_button
                             SpeakingStatus.CannotSpeak -> R.string.description_cannot_speak_button
                         }

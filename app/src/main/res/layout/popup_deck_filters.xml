@@ -19,7 +19,7 @@
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/title_deck_filters"
+            android:text="@string/title_deck_filters_popup"
             android:textSize="@dimen/text_size_deck_filters_popup_title"
             app:layout_constraintBottom_toBottomOf="@+id/closeButton"
             app:layout_constraintStart_toStartOf="parent"

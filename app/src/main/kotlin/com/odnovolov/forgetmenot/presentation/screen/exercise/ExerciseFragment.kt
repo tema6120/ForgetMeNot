@@ -237,7 +237,7 @@ class ExerciseFragment : BaseFragment() {
                     }
                     contentDescription = getString(
                         when (speakingStatus) {
-                            Speaking -> R.string.description_stop_speak_button
+                            Speaking -> R.string.description_stop_speaking_button
                             NotSpeaking -> R.string.description_speak_button
                             CannotSpeak -> R.string.description_cannot_speak_button
                         }
@@ -616,9 +616,9 @@ class ExerciseFragment : BaseFragment() {
                     if (hintStatus is HintStatus.Accessible) {
                         maskLettersButton.setText(
                             when (hintStatus.currentMaskingLettersAction) {
-                                MaskLetters -> R.string.title_mask_letters_button
-                                UnmaskTheFirstLetter -> R.string.title_unmask_the_first_letter_button
-                                UnmaskSelectedRegion -> R.string.title_unmask_selected_region_button
+                                MaskLetters -> R.string.text_hint_mask_letters_button
+                                UnmaskTheFirstLetter -> R.string.text_unmask_the_first_letter_button
+                                UnmaskSelectedRegion -> R.string.text_unmask_selected_region_button
                             }
                         )
                     }

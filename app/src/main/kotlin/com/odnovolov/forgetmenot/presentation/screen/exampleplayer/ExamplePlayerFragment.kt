@@ -104,7 +104,7 @@ class ExamplePlayerFragment : BaseFragment() {
                     }
                     contentDescription = getString(
                         when (speakingStatus) {
-                            Speaking -> R.string.description_stop_speak_button
+                            Speaking -> R.string.description_stop_speaking_button
                             NotSpeaking -> R.string.description_speak_button
                             CannotSpeak -> R.string.description_cannot_speak_button
                         }
