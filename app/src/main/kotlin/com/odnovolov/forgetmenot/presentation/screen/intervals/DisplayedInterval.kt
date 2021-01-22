@@ -27,13 +27,13 @@ class DisplayedInterval(
     }
 
     fun toString(context: Context): String {
-        val intervalUnit: String = context.getString(
-            when (intervalUnit) {
-                Hours -> R.string.interval_unit_hours
-                Days -> R.string.interval_unit_days
-                Months -> R.string.interval_unit_months
-            }
-        )
+        val pluralsId: Int = when (intervalUnit) {
+            Hours -> R.plurals.interval_unit_hours
+            Days -> R.plurals.interval_unit_days
+            Months -> R.plurals.interval_unit_months
+        }
+        val quantity: Int = value ?: 0
+        val intervalUnit: String = context.resources.getQuantityString(pluralsId, quantity)
         return "$value $intervalUnit"
     }
 

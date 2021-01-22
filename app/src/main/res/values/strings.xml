@@ -353,9 +353,18 @@
         knowledge will become further ingrained into your long-term memory.</string>
     <string name="tip_intervals_screen_adjust_interval_scheme">Adjust the interval scheme to suit
         you. General principle: \'The higher the grade, the longer the interval should be\'.</string>
-    <string name="interval_unit_hours">Hours</string>
-    <string name="interval_unit_days">Days</string>
-    <string name="interval_unit_months">Months</string>
+    <plurals name="interval_unit_hours">
+        <item quantity="one">Hour</item>
+        <item quantity="other">Hours</item>
+    </plurals>
+    <plurals name="interval_unit_days">
+        <item quantity="one">Day</item>
+        <item quantity="other">Days</item>
+    </plurals>
+    <plurals name="interval_unit_months">
+        <item quantity="one">Month</item>
+        <item quantity="other">Months</item>
+    </plurals>
 
 
     <!-- Motivational timer screen -->

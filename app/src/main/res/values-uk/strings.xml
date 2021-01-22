@@ -301,7 +301,7 @@
     <string name="text_answer_title_textview">Відповідь</string>
     <string name="default_language">Мова за замовчуванням</string>
     <string name="text_autospeaking_switch">Автоматична вимова</string>
-    <string name="text_speak_text_in_brackets">Вимовляти текст у дужках</string>
+    <string name="text_speak_text_in_brackets">Промовляти текст у дужках</string>
     <string name="text_go_to_tts_settings_button">Перейти до налаштувань TTS</string>
     <string name="toast_no_tts_settings">Ваш пристрій не має налаштувань TTS</string>
 
@@ -354,9 +354,21 @@
         відкладуться у вашу довгострокову пам’ять.</string>
     <string name="tip_intervals_screen_adjust_interval_scheme">Налаштуйте схему інтервалів, яка
         задовільнить вас. Загальний принцип: \"Чим вищий бал, тим довшим має бути інтервал\".</string>
-    <string name="interval_unit_hours">Години</string>
-    <string name="interval_unit_days">Дні</string>
-    <string name="interval_unit_months">Місяці</string>
+    <plurals name="interval_unit_hours">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Година</item>
+        <item quantity="few">Години</item>
+        <item quantity="many">Годин</item>
+    </plurals>
+    <plurals name="interval_unit_days">
+        <item quantity="one" tools:ignore="ImpliedQuantity">День</item>
+        <item quantity="few">Дня</item>
+        <item quantity="many">Днів</item>
+    </plurals>
+    <plurals name="interval_unit_months">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Місяць</item>
+        <item quantity="few">Місяця</item>
+        <item quantity="many">Місяців</item>
+    </plurals>
 
 
     <!-- Motivational timer screen -->
@@ -659,7 +671,7 @@
         \n\nВи також можете ввімкнути автоматичну вимову запитання чи відповіді. Це завжди корисно
         при вивченні мов.
 
-        \n\nЯкщо функцію \"Вимовляти текст у дужках\" вимкнено, програма не буде вимовляти текст,
+        \n\nЯкщо функцію \"Промовляти текст у дужках\" вимкнено, програма не буде вимовляти текст,
         оформлений у дужки () {} [] &lt;&gt;. Тому ви можете додати будь-яку додаткову інформацію
         в дужки, наприклад, транскрипцію слів, синонімів, слова, з якими ви часто плутаєте переклад.
 
@@ -695,7 +707,7 @@
         двічі або збільшити інтервал між запитанням та відповіддю, щоб у вас було достатньо часу,
         аби згадати відповідь, перш ніж її почути.</string>
     <string name="article_presets">Пресет (Попередньо встановленні налаштування) - це набір
-        налаштувать, створених заздалегідь, який можна перевикористовувати. Це потрібно, щоб
+        налаштувань, створений заздалегідь, який можна перевикористовувати. Це потрібно, щоб
         уникнути рутинних робіт по налаштуванню колод.
 
         \n\nЩо означають назви налаштувань:

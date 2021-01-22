@@ -13,11 +13,14 @@ import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalEvent.*
+import kotlinx.android.synthetic.main.dialog_last_tested_filter.view.*
 import kotlinx.android.synthetic.main.dialog_modify_interval.view.*
+import kotlinx.android.synthetic.main.dialog_modify_interval.view.bottomDivider
+import kotlinx.android.synthetic.main.dialog_modify_interval.view.cancelButton
+import kotlinx.android.synthetic.main.dialog_modify_interval.view.okButton
+import kotlinx.android.synthetic.main.dialog_modify_interval.view.unitPicker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -51,9 +54,43 @@ class ModifyIntervalDialog : BaseDialogFragment() {
     }
 
     private fun setupView() {
-        setupNumberEditText()
         setupUnitPicker()
+        setupNumberEditText()
         setupBottomButtons()
+    }
+
+    private fun setupUnitPicker() {
+        with(rootView.unitPicker) {
+            minValue = 0
+            maxValue = DisplayedInterval.IntervalUnit.values().lastIndex
+            descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+            wrapSelectorWheel = false
+            setOnValueChangedListener { _, _, newValue: Int ->
+                val intervalUnit = DisplayedInterval.IntervalUnit.values()[newValue]
+                controller?.dispatch(IntervalUnitChanged(intervalUnit))
+            }
+        }
+    }
+
+    private fun setupNumberEditText() {
+        rootView.numberEditText.observeText { text: String ->
+            controller?.dispatch(IntervalValueChanged(text))
+            text.toIntOrNull()?.let(::updateIntervalUnitText)
+        }
+    }
+
+    private fun updateIntervalUnitText(quantity: Int) {
+        val intervalUnits = DisplayedInterval.IntervalUnit.values()
+            .map { intervalUnit: DisplayedInterval.IntervalUnit ->
+                val pluralsId: Int = when (intervalUnit) {
+                    DisplayedInterval.IntervalUnit.Hours -> R.plurals.interval_unit_hours
+                    DisplayedInterval.IntervalUnit.Days -> R.plurals.interval_unit_days
+                    DisplayedInterval.IntervalUnit.Months -> R.plurals.interval_unit_months
+                }
+                resources.getQuantityString(pluralsId, quantity)
+            }
+            .toTypedArray()
+        rootView.unitPicker.displayedValues = intervalUnits
     }
 
     private fun setupBottomButtons() {
@@ -63,37 +100,6 @@ class ModifyIntervalDialog : BaseDialogFragment() {
         rootView.okButton.setOnClickListener {
             controller?.dispatch(OkButtonClicked)
             dismiss()
-        }
-    }
-
-    private fun setupNumberEditText() {
-        rootView.numberEditText.observeText { text: String ->
-            controller?.dispatch(IntervalValueChanged(text))
-        }
-    }
-
-    private fun setupUnitPicker() {
-        val intervalUnits = DisplayedInterval.IntervalUnit.values()
-            .map { intervalUnit: DisplayedInterval.IntervalUnit ->
-                getString(
-                    when (intervalUnit) {
-                        DisplayedInterval.IntervalUnit.Hours -> R.string.interval_unit_hours
-                        DisplayedInterval.IntervalUnit.Days -> R.string.interval_unit_days
-                        DisplayedInterval.IntervalUnit.Months -> R.string.interval_unit_months
-                    }
-                )
-            }
-            .toTypedArray()
-        with(rootView.unitPicker) {
-            minValue = 0
-            maxValue = intervalUnits.size - 1
-            displayedValues = intervalUnits
-            descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-            wrapSelectorWheel = false
-            setOnValueChangedListener { _, _, newValue: Int ->
-                val intervalUnit = DisplayedInterval.IntervalUnit.values()[newValue]
-                controller?.dispatch(IntervalUnitChanged(intervalUnit))
-            }
         }
     }
 

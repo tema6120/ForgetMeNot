@@ -43,8 +43,8 @@ class LastTestedFilterDialog : BaseDialogFragment() {
 
     private fun setupView() {
         setupRadioButtons()
-        setupValueEditText()
         setupUnitPicker()
+        setupValueEditText()
         setupBottomButtons()
     }
 
@@ -57,28 +57,10 @@ class LastTestedFilterDialog : BaseDialogFragment() {
         }
     }
 
-    private fun setupValueEditText() {
-        rootView.valueEditText.observeText { text: String ->
-            controller?.dispatch(IntervalValueChanged(text))
-        }
-    }
-
     private fun setupUnitPicker() {
-        val intervalUnits = DisplayedInterval.IntervalUnit.values()
-            .map { intervalUnit: DisplayedInterval.IntervalUnit ->
-                getString(
-                    when (intervalUnit) {
-                        DisplayedInterval.IntervalUnit.Hours -> R.string.interval_unit_hours
-                        DisplayedInterval.IntervalUnit.Days -> R.string.interval_unit_days
-                        DisplayedInterval.IntervalUnit.Months -> R.string.interval_unit_months
-                    }
-                )
-            }
-            .toTypedArray()
         with(rootView.unitPicker) {
             minValue = 0
-            maxValue = intervalUnits.size - 1
-            displayedValues = intervalUnits
+            maxValue = DisplayedInterval.IntervalUnit.values().lastIndex
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
             wrapSelectorWheel = false
             setOnValueChangedListener { _, _, newValue: Int ->
@@ -86,6 +68,27 @@ class LastTestedFilterDialog : BaseDialogFragment() {
                 controller?.dispatch(IntervalUnitChanged(intervalUnit))
             }
         }
+    }
+
+    private fun setupValueEditText() {
+        rootView.valueEditText.observeText { text: String ->
+            controller?.dispatch(IntervalValueChanged(text))
+            text.toIntOrNull()?.let(::updateIntervalUnitText)
+        }
+    }
+
+    private fun updateIntervalUnitText(quantity: Int) {
+        val intervalUnits = DisplayedInterval.IntervalUnit.values()
+            .map { intervalUnit: DisplayedInterval.IntervalUnit ->
+                val pluralsId: Int = when (intervalUnit) {
+                    DisplayedInterval.IntervalUnit.Hours -> R.plurals.interval_unit_hours
+                    DisplayedInterval.IntervalUnit.Days -> R.plurals.interval_unit_days
+                    DisplayedInterval.IntervalUnit.Months -> R.plurals.interval_unit_months
+                }
+                resources.getQuantityString(pluralsId, quantity)
+            }
+            .toTypedArray()
+        rootView.unitPicker.displayedValues = intervalUnits
     }
 
     private fun setupBottomButtons() {
