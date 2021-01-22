@@ -48,9 +48,9 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="@dimen/text_size_search_edittext"
                     android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
+                    android:paddingEnd="8dp"
+                    android:textSize="@dimen/text_size_search_edittext" />
 
             <ImageButton
                     android:id="@+id/pasteButton"
@@ -101,6 +101,8 @@
                     android:id="@+id/addCardsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/background_add_cards_button"
                     android:drawablePadding="2dp"
                     android:fontFamily="@font/jura"
@@ -263,12 +265,12 @@
                 android:textSize="@dimen/text_size_floating_button"
                 app:backgroundTint="@color/exercise_button_background_tint"
                 app:cornerRadius="16dp"
-                app:rippleColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/autoplayButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_max="220dp"
+                app:rippleColor="@android:color/white"
                 app:strokeColor="@color/exercise_button_stroke"
                 app:strokeWidth="2dp" />
 

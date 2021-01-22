@@ -23,8 +23,10 @@
 
     <string name="description_drawer_button">Відкрити меню навігації</string>
     <string name="hint_search_edittext">Пошук</string>
-    <string name="title_deck_selection_toolbar_choose_decks_to_play">Оберіть колоди для програвання</string>
-    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Оберіть колоди для вправи</string>
+    <string name="title_deck_selection_toolbar_choose_decks_to_play">Оберіть колоди для програвання
+    </string>
+    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Оберіть колоди для вправи
+    </string>
     <plurals name="title_deck_selection_toolbar_number_of_selected_decks">
         <item quantity="one">%d колода</item>
         <item quantity="few">%d колоди</item>
@@ -38,18 +40,21 @@
     <string name="no_matching_decks">Немає відповідних колод</string>
     <string name="no_matching_cards">Немає відповідних карток</string>
     <string name="deck_list_title_all_decks">Всі колоди</string>
-    <string name="deck_list_title_decks_available_for_exercise">Колоди доступні для вправи</string>
+    <string name="deck_list_title_decks_available_for_exercise">Колоди, доступні для вправи</string>
     <string name="text_add_cards_button">Додати картки</string>
     <string name="title_add_cards_popup">Додати картки</string>
     <string name="text_import_file_button">Імпортувати файл</string>
     <string name="text_browse_catalog_button">Переглянути каталог</string>
     <string name="text_create_cards_here_button">Створити картки тут</string>
-    <string name="toast_no_file_manager_to_load">У вас немає жодного файлового менеджера щоб завантажити файл</string>
-    <string name="toast_no_file_manager_to_create">У вас немає жодного файлового менеджера щоб створити файл</string>
+    <string name="toast_no_file_manager_to_load">У вас немає жодного файлового менеджера щоб
+        завантажити файл</string>
+    <string name="toast_no_file_manager_to_create">У вас немає жодного файлового менеджера щоб
+        створити файл</string>
     <string name="error_loading_file">Помилка завантаження файлу: %1$s</string>
     <string name="text_filter_button">Фільтри</string>
     <string name="title_deck_filters_popup">Фільтри</string>
-    <string name="deck_filter_only_decks_available_for_exercise">Тільки колоди, доступні для вправи</string>
+    <string name="deck_filter_only_decks_available_for_exercise">Тільки колоди, доступні для вправи
+    </string>
     <string name="sort_by_name">За назвою</string>
     <string name="sort_by_time_created">За часом створення</string>
     <string name="sort_by_time_last_tested">За часом ост. тест.</string>
@@ -120,7 +125,7 @@
     <string name="text_hint_get_variants">Отримати варіанти</string>
     <string name="text_hint_mask_letters_button">Замаскувати літери</string>
     <string name="text_unmask_the_first_letter_button">Розкрити першу літеру</string>
-    <string name="text_unmask_selected_region_button">Розкрити обраний фрагмент</string>
+    <string name="text_unmask_selected_region_button">Розкрити виділений фрагмент</string>
     <string name="hints_are_not_accessible_because_the_card_is_answered">Підказки недоступні,
         оскільки вже отримано відповідь</string>
     <string name="hints_are_not_accessible_because_the_card_is_learned">Підказки недоступні,
@@ -141,9 +146,9 @@
     <string name="description_walking_mode_icon">іконка \"Режим прогулянки\"</string>
     <string name="description_walking_mode_settings_button">Налаштування \"Режима прогулянки\"</string>
     <plurals name="message_quit_exercise">
-        <item quantity="one">На %d карту все ще не отримано відповідь</item>
-        <item quantity="few">На %d карти все ще не отримано відповідь</item>
-        <item quantity="many">На %d карт все ще не отримано відповідь</item>
+        <item quantity="one">На %d картку все ще не отримано відповідь</item>
+        <item quantity="few">На %d картки все ще не отримано відповідь</item>
+        <item quantity="many">На %d карток все ще не отримано відповідь</item>
     </plurals>
     <string name="button_show_unanswered_card">Показати картку без відповіді</string>
     <string name="button_quit_exercise">Вийти все одно</string>
@@ -153,9 +158,9 @@
 
     <string name="screen_title_card_filter_for_autoplay">Фільтр карток</string>
     <plurals name="matching_cards_number_label">
-        <item quantity="one" tools:ignore="ImpliedQuantity">карта відповідає фільтру</item>
-        <item quantity="few">карти відповідають фільтру</item>
-        <item quantity="many">карт відповідають фільтру</item>
+        <item quantity="one" tools:ignore="ImpliedQuantity">картка відповідає фільтру</item>
+        <item quantity="few">картки відповідають фільтру</item>
+        <item quantity="many">карток відповідають фільтру</item>
     </plurals>
     <string name="title_card_filter_state">Стан</string>
     <string name="text_available_for_exercise_group_checkbox">Доступні для вправи</string>
@@ -172,7 +177,8 @@
     <string name="title_dialog_last_tested_to">Останній раз тестувалася по</string>
     <string name="ago">тому</string>
     <string name="text_start_playing_button">Почати програвати</string>
-    <string name="toast_text_no_card_matches_filter_conditions">Жодна картка не відповідає умовам фільтра</string>
+    <string name="toast_text_no_card_matches_filter_conditions">Жодна картка не відповідає умовам
+        фільтра</string>
 
 
     <!-- Player screen -->
@@ -180,13 +186,13 @@
     <string name="player_notification_channel_name">Програвач карток</string>
     <string name="player_notification_channel_description">Послідовна вимова питань та відповідей</string>
     <string name="player_notification_title">Програвач карток</string>
-    <string name="pause_in_notification">Зупинятися</string>
+    <string name="pause_in_notification">Зупинитися</string>
     <string name="resume_in_notification">Продовжити</string>
     <string name="play_one_more_lap_in_notification">Програти ще одне коло</string>
     <string name="description_infinite_playback">Безкінечне програвання</string>
     <string name="popup_title_infinite_playback">Безкінечне програвання</string>
     <string name="description_infinite_playback_icon">іконка \"Безкінечне програвання\"</string>
-    <string name="description_pause_button">Зупинятися</string>
+    <string name="description_pause_button">Зупинитися</string>
     <string name="description_resume_button">Продовжити</string>
     <string name="description_completed_cards">Завершені картки</string>
     <string name="description_playing_completed">Програвання завершено</string>
@@ -198,7 +204,7 @@
 
     <string name="title_rename_deck_dialog">Назва колоди</string>
     <string name="error_message_empty_name">Назва не може бути порожньою</string>
-    <string name="error_message_occupied_name">Ця назва зайнята</string>
+    <string name="error_message_occupied_name">Ця назва - зайнята</string>
     <string name="tab_name_settings">Налаштування</string>
     <string name="tab_name_content">Зміст</string>
     <string name="description_add_card_button">Додати картку</string>
@@ -350,10 +356,11 @@
     <!-- Intervals screen -->
 
     <string name="screen_title_intervals">Інтервали</string>
-    <string name="tip_intervals_screen_importance">З інтервалом повторень інформація або знання
+    <string name="tip_intervals_screen_importance">З інтервальними повторенями інформація або знання
         відкладуться у вашу довгострокову пам’ять.</string>
     <string name="tip_intervals_screen_adjust_interval_scheme">Налаштуйте схему інтервалів, яка
-        задовільнить вас. Загальний принцип: \"Чим вищий бал, тим довшим має бути інтервал\".</string>
+        задовільнить вас. Загальний принцип: \"Чим вищий бал, тим тривалішим має бути інтервал\".
+    </string>
     <plurals name="interval_unit_hours">
         <item quantity="one" tools:ignore="ImpliedQuantity">Година</item>
         <item quantity="few">Години</item>
@@ -404,8 +411,8 @@
     <string name="pronunciation_event_speak_answer">Вимовити відповідь</string>
     <string name="pronunciation_event_delay">Затримка</string>
     <string name="pronunciation_event_delay_with_args">Затримка %d сек.</string>
-    <string name="description_remove_pronunciation_event_button">Видалити подію плану</string>
-    <string name="description_add_pronunciation_event_button">Додати подію плану</string>
+    <string name="description_remove_pronunciation_event_button">Видалити подію</string>
+    <string name="description_add_pronunciation_event_button">Додати подію</string>
     <string name="title_dialog_pronunciation_event">Оберіть подію</string>
     <string name="sec">сек.</string>
     <string name="error_message_cannot_change_last_speak_question">Неможливо змінити останню подію
@@ -424,7 +431,7 @@
     <string name="nowhere">Ніде</string>
     <string name="title_fullscreen_mode_dialog">Повноекранний режим</string>
     <string name="item_text_fullscreen_in_exercise">Під час вправи</string>
-    <string name="item_text_fullscreen_in_card_player">В програвачі карт</string>
+    <string name="item_text_fullscreen_in_card_player">В програвачі карток</string>
     <string name="item_text_fullscreen_in_other_places">В інших місцях</string>
 
 
@@ -437,7 +444,7 @@
     <string name="text_double_press_title">Дія подвійного натискання</string>
     <string name="text_long_press_title">Дія тривалого натискання</string>
     <string name="key_gesture_action_no_action">Ніяких дій</string>
-    <string name="key_gesture_action_move_to_next_card">Перехід до наступної картки</string>
+    <string name="key_gesture_action_move_to_next_card">Перейти до наступної картки</string>
     <string name="key_gesture_action_move_to_previous_card">Перейти до попередньої картки</string>
     <string name="key_gesture_action_mark_as_remember">Позначити як \"Пам’ятаю\"</string>
     <string name="key_gesture_action_mark_as_not_remember">Позначити як \"Не пам’ятаю\"</string>
@@ -527,7 +534,7 @@
         \n3 вересня 1783</string>
     <string name="example_file_name">Американська історія.txt</string>
     <string name="article_import_of_deck_paragraph_2">2. Збережіть цей файл в кодуванні UTF-8.
-        \n\n3. Скопіюйте його на диск вашого пристрою або Google Drive.
+        \n\n3. Скопіюйте його на диск вашого пристрою або в Google Drive.
         \n\n3. Натисніть \"Додати картки\" -> \"Імпортувати файл\" в ForgetMeNot.
         \n\n4. Виберіть цей файл.</string>
     <string name="article_exercise_paragraph_1">У вправі слід відповідати на запитання. Для кожної
@@ -561,7 +568,7 @@
         визначає, коли картка буде знову запитуватися.
 
         \n\nЯкщо ви добре знаєте питання, і не хочете, щоб ця картка більше запитувалась, або ви
-        просто не хочете вивчати цю картку, натисніть на іконку \"Позначити як Вивчена\" Ця картка
+        просто не хочете вивчати цю картку, натисніть на іконку \"Позначити як Вивчена\". Ця картка
         більше ніколи не буде задаваться.</string>
     <string name="question4_in_exercise_article">¿Cómo te llamas?</string>
     <string name="answer4_in_exercise_article">Як вас звати?</string>
@@ -576,15 +583,15 @@
 
         \n\nУ вправі доступні два типи підказок:
 
-        \n\n\t- \"Замаскувати літери\". Цей підказку можна застосовувати багато разів. Коли ви
+        \n\n\t- \"Замаскувати літери\". Цю підказку можна застосовувати багато разів. Коли ви
         вперше звернетесь до підказки, усі літери будуть замінені замаскованим символом ■. Ви
         можете побачити, скільки слів має відповідь, скільки букв у кожному слові. Якщо цього
         недостатньо, ви можете розкрити частину відповіді. Просто виберіть фрагмент та натисніть
         \"Розкрити обраний фрагмент\" у спливаючому вікні підказки.
 
-        \n\n\t- \"Отримати варіанти\". На вибір буде надано чотири варіанти. Варіанти взяті з колоди,
-        якій належить карта. Цей підказка може значно полегшити відповідь, якщо колода не
-        призначена для \"Методу тестування з варіантами\".</string>
+        \n\n\t- \"Отримати варіанти\". На вибір буде надано чотири варіанти. Варіанти беруться з
+        колоди, якій належить картка. Цей підказка може значно полегшити відповідь, якщо колода не
+        призначена для методу \"Тестування з варіантами\".</string>
     <string name="article_exercise_paragraph_4">Ви також можете виконувати вправу, не дивлячись на
         екран в <annotation clickable="walking_mode">\"Режимі прогулянки\"</annotation>.</string>
     <string name="article_testing_methods_paragraph_1">Методи тестування визначають спосіб
@@ -610,8 +617,8 @@
     <string name="answer_example_quiz_testing_method_variant3">salmon</string>
     <string name="answer_example_quiz_testing_method_variant4">bass</string>
     <string name="article_testing_methods_quiz_section_description">У цьому режимі вам потрібно
-        вибрати правильний варіант із чотирьох запропонованих. Варіанти взяті з колоди, якій
-        належить карта. Тому, якщо ви збираєтеся використовувати цей метод тестування, важливо
+        вибрати правильний варіант із чотирьох запропонованих. Варіанти беруться з колоди, якій
+        належить картка. Тому, якщо ви збираєтеся використовувати цей метод тестування, важливо
         створити колоду, де варіанти будуть доречні. Наприклад, це може бути колода типу
         \"слово-переклад\" з однаковими частинами мови. Це більш розважальна форма тестування, тому
         вона чудово підійде дітям. Недоліком є середня ефективність запам’ятовування, оскільки
@@ -637,9 +644,9 @@
     <string name="answer_in_grade_and_intervals_article">zinc</string>
     <string name="article_grade_and_intervals_paragraph2">Оцінка має безпосереднє відношення до
         інтервалів, які застосовуються до колоди. Інтервали впливають на те, коли картка стане
-        доступною для вправи наступного разу після відповіді. Зазвичай, чим вище оцінка, тим довший
-        інтервал. Тобто інтервали потрібні для того, щоб ви більше мали справу з недостатньо
-        вивченими картами і менше з добре вивченими.
+        доступною для вправи наступного разу після відповіді. Зазвичай, чим вища оцінка, тим
+        триваліший інтервал. Тобто інтервали потрібні для того, щоб ви більше мали справу з
+        недостатньо-вивченими картами і менше з добре-вивченими.
 
         \n\nМожливо, з якихось причин ви захочете змінити оцінку. Просто натисніть на іконку
         \"Оцінка\" і виберіть потрібну. Зазвичай, коли ви змінюєте оцінку, ви хочете уточнити,
@@ -676,14 +683,14 @@
         в дужки, наприклад, транскрипцію слів, синонімів, слова, з якими ви часто плутаєте переклад.
 
         \n\nДля вимовлення частини тексту, просто виділіть її та натисніть іконку \"Вимовити\".</string>
-    <string name="article_walking_mode">\"Режим прогулянки\" це особливий режим вправ, де ви можете
-        відповідати на запитання, не дивлячись на екран. Управління здійснюється за допомогою
+    <string name="article_walking_mode">\"Режим прогулянки\" - це особливий режим вправи, де ви
+        можете відповідати на запитання, не дивлячись на екран. Управління здійснюється за допомогою
         <annotation clickable="walking_mode_settings">жестів клавіш регулювання гучності</annotation>.
         Кожна дія супроводжується вимовою, наприклад, коли ви переходите до наступної картки, буде
         озвучено питання, а коли ви відповісте (пам’ятаю чи не пам’ятаю), прозвучить відповідь.
 
-        \n\nЦей режим можна використовувати, коли ви кудись ідете і хочете добре використати час.
-        Саме звідси він і отримав свою назву.
+        \n\nЦей режим можна використовувати, коли ви кудись ідете і хочете корисно використати час.
+        Саме звідси цей режим і отримав свою назву.
 
         \n\n⚠️ Застереження:
 
@@ -700,8 +707,7 @@
     <string name="article_autoplaying_cards">Автоматичне програвання карт - це режим, при якому
         запитання та відповіді вимовляються по черзі. Його можна порівняти з аудіоплеєром, але
         замість композицій відтворюються запитання та відповіді. Цей режим підходить, коли ви щось
-        робите, але водночас це не буде заважати прослуховувати матеріали, наприклад, під час
-        приготування їжі.
+        робите, і водночас можете прослуховувати матеріали, наприклад, під час приготування їжі.
 
         \n\nДля кожної колоди ви можете налаштувати план мовлення. Наприклад, вимовляти запитання
         двічі або збільшити інтервал між запитанням та відповіддю, щоб у вас було достатньо часу,
@@ -726,7 +732,7 @@
 
         \n\n2. Створюйте колоди з урахуванням налаштувань, які ви збираєтесь застосувати до них.
 
-        \n\n\t- Для методу \"Тестування з варіантами\" варіанти беруться з однієї колоди. Тому
+        \n\n\t- Для методу \"Тестування з варіантами\" варіанти беруться з тієї ж колоди. Тому
         картки повинні містити відповіді, які підходять, щоб бути варіантами.
 
         \n\n\t- У налаштуваннях вимови колоди можна вказати мову для питань і ще одну мову для
@@ -742,7 +748,7 @@
         на вашу відповідь. Використовуйте Copy / Paste, щоб прискорити створення. Якщо ви створюєте
         колоду на Android-пристрої, спробуйте скористатися мультивіконним режимом.
 
-        \n\n4. Cприймайте складання колоди як частина навчального процесу. Спробуйте запам’ятати
+        \n\n4. Cприймайте складання колоди як частина навчального процесу. Старайтесь запам’ятати
         все на льоту.</string>
     <string name="article_advice_on_studying">1. Не запам’ятовуйте відповідь слово в слово.
         Головне, щоб ви розуміли суть. Завжди візуалізуйте питання, яке задається.
@@ -750,13 +756,13 @@
         \n\n2. Якщо ви вивчаєте іноземну мову, говоріть відповіді вголос. Це допоможе вам не тільки
         правильно вимовляти слова, але й зосередитись на навчанні.
 
-        \n\n3. Використовуйте інструменти, які допомагають зосередитись на навчанні. Використовуйте
+        \n\n3. Користуйтесь інструментами, які допомагають зосередитись на навчанні. Використовуйте
         <annotation clickable="motivational_timer">\"Мотиваційний таймер\"</annotation>, увімкніть
         повноекранний режим, активуйте режим \"Не турбувати\" у налаштуваннях пристрою.
 
         \n\n4. Якщо вам не вдається запам’ятати питання, відредагуйте картку, переформулюйте
         питання, видаліть непотрібне у відповіді. Якщо ви плутаєте відповіді, скористайтеся пошуком
-        і знайдіть причинну карту.
+        і знайдіть причинну картку.
 
         \n\n5. Візьміть за правило, що раз на день у вас не повинно залишатися жодних завдань для
         вправи.</string>
@@ -771,9 +777,9 @@
     <string name="toast_no_email_client">У вас немає поштового клієнта для написання листа</string>
     <string name="toast_no_browser">У вас немає браузера, щоб відкрити URL-адресу</string>
     <string name="forgetmenot_brief_description">ForgetMeNot призначений для запам’ятовування
-        інформації. Він базується на інтервальних повтореннях карт. Додаток підтримує вивід синтезу
-        мовлення з тексту, імпорт карт з файлу, унікальні налаштування кожної колоди та багато
-        інших цікавих функцій. Окрім традиційного тестування, також є режим автоматичного
+        інформації. Він базується на інтервальних повтореннях флеш-карток. Додаток підтримує вивід
+        синтезу мовлення з тексту, імпорт карток з файлу, унікальні налаштування кожної колоди та
+        багато інших цікавих функцій. Окрім традиційного тестування, також є режим автоматичного
         програвання карт. ForgetMeNot - чудова річ для вивчення мов, і не тільки.</string>
     <string name="developer_story_title">Історія розробника</string>
     <string name="developer_story">Більше року тому, коли я почав вивчати іноземну мову, я вирішив
@@ -795,7 +801,7 @@
         зроблено.
 
         \n\nКрім того, я реалізував деякі прості, але важливі функції, наприклад, редагування
-        картки на ходу, перевертання карт, повторне використання налаштувань колоди та багато
+        картки на ходу, перевертання карток, повторне використання налаштувань колоди та багато
         інших. Існують також додаткові опції, які допоможуть вам зосередитись на навчанні,
         наприклад, \"Повноекранний режим\" та \"Мотиваційний таймер\".
 

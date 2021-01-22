@@ -1,0 +1,823 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Common -->
+
+    <string name="description_help_button">Помочь</string>
+    <string name="description_back_button">Перейти назад</string>
+    <string name="description_back_button2">Вернуться</string>
+    <string name="description_close">закрыть</string>
+    <string name="description_attention_icon">иконка \"Внимание\"</string>
+    <string name="title_example_in_settings_bottom_sheet">Пример</string>
+
+
+    <!-- Main drawer -->
+
+    <string name="drawer_item_decks">Колоды</string>
+    <string name="drawer_item_settings">Настройки</string>
+    <string name="drawer_item_support_app">Поддержать приложение</string>
+    <string name="drawer_item_help">Помощь</string>
+    <string name="drawer_item_about">О приложении</string>
+
+
+    <!-- Deck list screen -->
+
+    <string name="description_drawer_button">Открыть меню навигации</string>
+    <string name="hint_search_edittext">Поиск</string>
+    <string name="title_deck_selection_toolbar_choose_decks_to_play">Выберите колоды для проигрывания</string>
+    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Выберите колоды для упражнения</string>
+    <plurals name="title_deck_selection_toolbar_number_of_selected_decks">
+        <item quantity="one">%d колода</item>
+        <item quantity="few">%d колоды</item>
+        <item quantity="many">%d колод</item>
+    </plurals>
+    <string name="description_cancel_selection">Отменить избрание</string>
+    <string name="description_select_all">Выбрать все</string>
+    <string name="description_remove_decks">Удалить колоды</string>
+    <string name="tab_decks">Колоды</string>
+    <string name="tab_cards">Карточки</string>
+    <string name="no_matching_decks">Нет соответствующих колод</string>
+    <string name="no_matching_cards">Нет соответствующих карточек</string>
+    <string name="deck_list_title_all_decks">Все колоды</string>
+    <string name="deck_list_title_decks_available_for_exercise">Колоды, доступны для упражнения</string>
+    <string name="text_add_cards_button">Добавить карточки</string>
+    <string name="title_add_cards_popup">Добавить карточки</string>
+    <string name="text_import_file_button">Импортировать файл</string>
+    <string name="text_browse_catalog_button">Просмотреть каталог</string>
+    <string name="text_create_cards_here_button">Создать карточки здесь</string>
+    <string name="toast_no_file_manager_to_load">У вас нет ни одного файлового менеджера для загрузки файла</string>
+    <string name="toast_no_file_manager_to_create">У вас нет ни одного файлового менеджера чтобы создать файл</string>
+    <string name="error_loading_file">Ошибка загрузки файла: %1$s</string>
+    <string name="text_filter_button">Фильтры</string>
+    <string name="title_deck_filters_popup">Фильтры</string>
+    <string name="deck_filter_only_decks_available_for_exercise">Только колоды, доступные для упражнения</string>
+    <string name="sort_by_name">По названию</string>
+    <string name="sort_by_time_created">По времени создания</string>
+    <string name="sort_by_time_last_tested">По времени посл. тест.</string>
+    <string name="title_deck_sorting_popup">Сортировать по</string>
+    <string name="description_change_sorting_direction">Изменить направление сортировки</string>
+    <string name="deck_sorting_name">Названию</string>
+    <string name="deck_sorting_time_created">Времени создания</string>
+    <string name="deck_sorting_by_time_last_tested">Времени посл. тест.</string>
+    <string name="deck_summary_table_average_laps">Кругов</string>
+    <string name="deck_summary_table_learned">Изучено</string>
+    <string name="deck_summary_table_task">Задание</string>
+    <string name="deck_summary_table_last_tested">Посл. тест.</string>
+    <string name="deck_options">Опции колоды</string>
+    <string name="deck_option_start_exercise">Начать упражнение</string>
+    <string name="deck_option_autoplay">Автоматически проиграть</string>
+    <string name="deck_option_rename">Переименовать</string>
+    <string name="deck_option_edit_cards">Редактировать карточки</string>
+    <string name="deck_option_setup">Настроить</string>
+    <string name="deck_option_export">Экспортировать</string>
+    <string name="deck_option_remove">Удалить</string>
+    <string name="toast_text_no_cards_ready_for_exercise">Нет карточек, готовых для упражнения</string>
+    <plurals name="numberOfDecksRemoved">
+        <item quantity="one">%d колода удалена</item>
+        <item quantity="few">Удалено %d колоды</item>
+        <item quantity="many">Удалено %d колод</item>
+    </plurals>
+    <string name="text_autoplay_button">Автопроигрывание</string>
+    <string name="text_exercise_button">Упражнение</string>
+    <string name="text_exercise_button_with_cards_count">Упражнение (%d)</string>
+
+
+    <!-- Exercise screen -->
+
+    <string name="card_label_learned">Изучена</string>
+    <string name="card_label_expired">Просроченная</string>
+    <string name="explanation_card_label_learned">\"Изучена\" означает, что карточка больше не
+        будет запрашиваться в упражнении</string>
+    <string name="explanation_card_label_expired">\"Просроченная\" означает, что вы не успели
+        ответить на вопрос в течение отведенного времени</string>
+    <string name="text_show_question_button">Показать вопрос</string>
+    <string name="text_show_answer_button">Показать ответ</string>
+    <string name="text_remember_button">Помню</string>
+    <string name="text_not_remember_button">Не помню</string>
+    <string name="text_check_button">Проверить</string>
+    <string name="description_grade_button">Оценка</string>
+    <string name="popup_title_intervals">Интервалы</string>
+    <string name="description_intervals_icon">иконка \"Интервалы\"</string>
+    <string name="description_intervals_are_off">Интервалы выключены для этой карточки</string>
+    <string name="description_mark_as_learned_button">Отметить как \"Изучена\"</string>
+    <string name="description_mark_as_unlearned_button">Отметить как \"Не изучена\"</string>
+    <string name="description_speak_button">Произнести</string>
+    <string name="description_stop_speaking_button">Прекратить произношение</string>
+    <string name="description_cannot_speak_button">Открыть объяснение ошибки воспроизведения</string>
+    <string name="title_speak_error_popup">Произношение недоступно</string>
+    <string name="description_issue_icon">иконка \"Проблема\"</string>
+    <string name="speak_error_description_failed_to_initialized">Не удалось инициализировать движок
+        TTS</string>
+    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Не
+        удалось инициализировать движок TTS (%1$s)</string>
+    <string name="speak_error_description_language_is_not_supported">Текущий движок TTS не
+        поддерживает %1$s</string>
+    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">
+        Текущий движок TTS (%1$s) не поддерживает %2$s</string>
+    <string name="speak_error_description_missing_data_for_language">Отсутствуют данные для %1$s</string>
+    <string name="error_message_failed_to_speak">Не удалось произнести</string>
+    <string name="description_hint_button">Подсказать</string>
+    <string name="popup_title_hints">Подсказки</string>
+    <string name="description_hint_icon">иконка \"Подсказки\"</string>
+    <string name="text_hint_get_variants">Получить варианты</string>
+    <string name="text_hint_mask_letters_button">Замаскировать буквы</string>
+    <string name="text_unmask_the_first_letter_button">Раскрыть первую букву</string>
+    <string name="text_unmask_selected_region_button">Раскрыть выделенный фрагмент</string>
+    <string name="hints_are_not_accessible_because_the_card_is_answered">Подсказки недоступны,
+        поскольку уже получен ответ</string>
+    <string name="hints_are_not_accessible_because_the_card_is_learned">Подсказки недоступны,
+        поскольку карта изучена</string>
+    <string name="description_timer_button">Таймер</string>
+    <string name="popup_title_timer">Таймер</string>
+    <string name="description_timer_icon">иконка \"Таймер\"</string>
+    <string name="text_stop_timer_button">Остановить</string>
+    <string name="timer_is_off_because_walking_mode">Таймер выключен, потому что включен \"Режим
+        прогулки\". Поскольку в этом режиме мы воспринимаем карточки на слух, а не визуально,
+        таймер может привести к недоразумению.</string>
+    <string name="timer_stopped">Таймер остановлен</string>
+    <string name="time_is_over">Время истекло!</string>
+    <string name="description_edit_card_button">Редактировать карточку</string>
+    <string name="description_search_button">Искать</string>
+    <string name="description_walking_mode_button">Режим прогулки</string>
+    <string name="popup_title_walking_mode">Режим прогулки</string>
+    <string name="description_walking_mode_icon">иконка \"Режим прогулки\"</string>
+    <string name="description_walking_mode_settings_button">Настройки \"Режима прогулки\"</string>
+    <plurals name="message_quit_exercise">
+        <item quantity="one">На %d карточку все еще не получен ответ</item>
+        <item quantity="few">На %d карточки все еще не получен ответ</item>
+        <item quantity="many">На %d карточек все еще не получен ответ</item>
+    </plurals>
+    <string name="button_show_unanswered_card">Показать карточку без ответа</string>
+    <string name="button_quit_exercise">Выйти все равно</string>
+
+
+    <!-- Card filter for autoplay screen -->
+
+    <string name="screen_title_card_filter_for_autoplay">Фильтр карточек</string>
+    <plurals name="matching_cards_number_label">
+        <item quantity="one" tools:ignore="ImpliedQuantity">карточка соответствует фильтру</item>
+        <item quantity="few">карточки соответствуют фильтру</item>
+        <item quantity="many">карточек соответствуют фильтру</item>
+    </plurals>
+    <string name="title_card_filter_state">Состояние</string>
+    <string name="text_available_for_exercise_group_checkbox">Доступные для упражнения</string>
+    <string name="text_awaiting_group_checkbox">В ожидании</string>
+    <string name="text_learned_group_checkbox">Изучены</string>
+    <string name="title_card_filter_grade">Оценка</string>
+    <string name="title_card_filter_last_tested">Время последнего тестирования</string>
+    <string name="title_last_tested_from">С</string>
+    <string name="title_last_tested_to">по</string>
+    <string name="zero_time">Самого начала</string>
+    <string name="now">Ныне</string>
+    <string name="time_ago">%1$s тому назад</string>
+    <string name="title_dialog_last_tested_from">Последний раз тестировалась с</string>
+    <string name="title_dialog_last_tested_to">Последний раз тестировалась по</string>
+    <string name="ago">тому назад</string>
+    <string name="text_start_playing_button">Начать проигрывать</string>
+    <string name="toast_text_no_card_matches_filter_conditions">Ни одна карточка не соответствует
+        условиям фильтра</string>
+
+
+    <!-- Player screen -->
+
+    <string name="player_notification_channel_name">Проигрыватель карточек</string>
+    <string name="player_notification_channel_description">Последовательная произношение вопросов и
+        ответов</string>
+    <string name="player_notification_title">Проигрыватель карточек</string>
+    <string name="pause_in_notification">Остановиться</string>
+    <string name="resume_in_notification">Продолжить</string>
+    <string name="play_one_more_lap_in_notification">Проиграть еще один круг</string>
+    <string name="description_infinite_playback">Бесконечное проигрывание</string>
+    <string name="popup_title_infinite_playback">Бесконечное проигрывание</string>
+    <string name="description_infinite_playback_icon">иконка \"Бесконечное проигрывание\"</string>
+    <string name="description_pause_button">Остановиться</string>
+    <string name="description_resume_button">Продолжить</string>
+    <string name="description_completed_cards">Законченные карточки</string>
+    <string name="description_playing_completed">Проигрывание закончено</string>
+    <string name="button_end">Выйти</string>
+    <string name="button_play_again">Проиграть снова</string>
+
+
+    <!-- Deck editor screen -->
+
+    <string name="title_rename_deck_dialog">Название колоды</string>
+    <string name="error_message_empty_name">Название не может быть пустым</string>
+    <string name="error_message_occupied_name">Это название - занятое</string>
+    <string name="tab_name_settings">Настройки</string>
+    <string name="tab_name_content">Содержание</string>
+    <string name="description_add_card_button">Добавить карточку</string>
+
+
+    <!-- Deck content screen -->
+
+    <string name="button_export">Экспорт</string>
+    <string name="button_search">Поиск</string>
+    <string name="toast_deck_is_exported">Колода экспортирована.</string>
+    <string name="toast_error_while_exporting_deck">Ошибка при экспорте колоды: \'%1$s\'</string>
+
+
+    <!-- Search screen -->
+
+    <string name="hint_search_in_all_cards">Поиск во всех карточках</string>
+    <string name="hint_search_in_specific_deck">Поиск в \'%1$s\'</string>
+    <string name="message_no_paste_data">Буфер обмена не содержит текст</string>
+
+
+    <!-- Cards Editor screen -->
+
+    <string name="hint_question_edittext">Введите вопрос</string>
+    <string name="hint_answer_edittext">Введите ответ</string>
+    <string name="description_invert_card_button">Инвертировать карточку</string>
+    <string name="description_paste_button">Вставить</string>
+    <string name="description_clear_button">Очистить</string>
+    <string name="description_remove_card_button">Удалить карточку</string>
+    <string name="card_is_removed">Карточка удалена</string>
+    <string name="snackbar_action_cancel" tools:ignore="ButtonCase">отменить</string>
+    <string name="description_done_button">Готово</string>
+    <string name="description_cancel_button">Отменить</string>
+    <string name="message_quit_cards_editor">Ваши несохраненные изменения будут потеряны. Сохранить
+        изменения перед выходом?</string>
+    <string name="button_save">Сохранить</string>
+    <string name="button_quit_without_saving">Выйти без сохранения</string>
+    <string name="toast_fill_in_the_card">Заполните карточку</string>
+
+
+    <!-- Deck settings screen -->
+
+    <string name="deck_settings_section_general">Общие</string>
+    <string name="deck_settings_section_exercise">Упражнение</string>
+    <string name="deck_settings_section_autoplay">Автопроигрывание</string>
+    <string name="deck_settings_item_random_order">Случайный порядок</string>
+    <string name="deck_settings_item_pronunciation">Произношение</string>
+    <string name="deck_settings_item_card_inversion">Инверсия карточки</string>
+    <string name="deck_settings_item_question_display">Отображение вопросов</string>
+    <string name="deck_settings_item_testing_method">Метод тестирования</string>
+    <string name="deck_settings_item_intervals">Интервалы</string>
+    <string name="deck_settings_item_motivational_timer">Мотивационный таймер</string>
+    <string name="deck_settings_item_pronunciation_plan">План произношения</string>
+    <string name="description_navigate_icon">иконка \"Перейти\"</string>
+    <string name="speak_event_abbr_speak_question">Q</string>
+    <string name="speak_event_abbr_speak_answer">A</string>
+    <string name="speak_event_abbr_delay">%dс</string>
+    <string name="on">Вкл.</string>
+    <string name="off">Выкл.</string>
+    <string name="interval_unit_abbreviation_hours">ч</string>
+    <string name="interval_unit_abbreviation_days">дн</string>
+    <string name="interval_unit_abbreviation_months">м</string>
+    <string name="time_for_answer">%d сек.</string>
+
+
+    <!-- Presets -->
+
+    <string name="title_preset_name_input_dialog">Название предустановки</string>
+    <string name="preset_name_default">Стандартная</string>
+    <string name="preset_name_individual">Индивидуальная</string>
+    <string name="description_save_preset">Сохранить настройки</string>
+    <string name="title_preset_popup">Предустановки</string>
+    <string name="description_rename_preset_button">Переименовать предустановку</string>
+    <string name="description_delete_preset_button">Удалить предустановку</string>
+    <string name="description_add_new_preset">Добавить новую предустановку</string>
+    <string name="title_remove_preset_dialog">Удаление предустановки \'%1$s\'</string>
+    <string name="top_dialog_text_remove_preset">Эта предустановка используется этими колодами:</string>
+    <string name="bottom_dialog_text_remove_preset">Если вы удалите эту предустановку, то для этих
+        колод будет установлен стандартный набор настроек. Вы действительно хотите удалить эту
+        предустановку?</string>
+    <string name="button_delete">Удалить</string>
+
+
+    <!-- Pronunciation screen -->
+
+    <string name="screen_title_pronunciation">Произношение</string>
+    <string name="tip_pronunciation_screen_select_languages">Выберите языка вопросы и ответы, чтобы
+        иметь возможность правильно произносить.</string>
+    <string name="tip_pronunciation_screen_about_tts">Произношение работает благодаря Android TTS
+        API. Если вы хотите настроить синтез речи более подробно, например, изменить движок, голос,
+        высоту звука, темп речи, просто перейдите к настройкам TTS.</string>
+    <string name="tip_pronunciation_screen_about_autospeaking">Настоятельно рекомендуется включить
+        автоматическое произношение на иностранном языке. Вы сразу будете знать, как должны звучать
+        слова, и это также может помочь быстрее запомнить информацию.</string>
+    <string name="tip_pronunciation_screen_about_selection">Чтобы воспроизвести фрагмент текста,
+        просто выделите его и нажмите иконку "произнести".</string>
+    <string name="tip_pronunciation_screen_about_brackets">При условии, что функция \"Произносить
+        текст в скобках\" выключена, текст, который следует произносить, легко отделить от текста,
+        который не должен. Используйте скобки () [] {} &lt;&gt; для этого. Например, оберните в них
+        транскрипции, синонимы или определения.</string>
+    <string name="text_question_title_textview">Вопрос</string>
+    <string name="text_answer_title_textview">Ответ</string>
+    <string name="default_language">Язык по умолчанию</string>
+    <string name="text_autospeaking_switch">Автоматическое произношение</string>
+    <string name="text_speak_text_in_brackets">Произносить текст в скобках</string>
+    <string name="text_go_to_tts_settings_button">Перейти к настройкам TTS</string>
+    <string name="toast_no_tts_settings">Ваше устройство не имеет настроек TTS</string>
+
+
+    <!-- Card inversion screen -->
+
+    <string name="screen_title_card_inversion">Инверсия карточки</string>
+    <string name="tip_card_inversion_screen">Переверните карточки, если ответы могут выглядеть как
+        вопрос, и наоборот. Например, это можно применить к карточкам типа \"слово-перевод\".
+    </string>
+    <string name="item_card_inversion_off">Выключена</string>
+    <string name="item_card_inversion_on">Включена</string>
+    <string name="item_card_inversion_every_other_lap">Через круг</string>
+
+
+    <!-- Question display screen -->
+
+    <string name="screen_title_question_display">Отображение вопросов</string>
+    <string name="tip_question_display_screen_why">Предполагается, что если вы скрываете текст
+        вопроса, вы будете воспринимать вопрос на слух. Это может быть хорошим вкладом в улучшение
+        ваших навыков аудирования при изучении языка.</string>
+    <string name="tip_question_display_screen_do_not_forget_autospeaking">Поскольку вы выключили
+        \"Отображение вопросов\", вы будете воспринимать вопрос на слух. Поэтому, не забывайте
+        включать \"Автоматическая произношение\" вопроса, чтобы сделать упражнение более
+        комфортным.</string>
+
+
+    <!-- Testing method screen -->
+
+    <string name="screen_title_testing_method">Метод тестирования</string>
+    <string name="tip_testing_method_screen_without_testing">\"Без тестирования\" подходит для
+        случаев, когда вы не планируете повторять карточки больше, чем один-два раза.</string>
+    <string name="tip_testing_method_screen_self_testing">В большинстве случаев лучшим выбором
+        является \"Самотестирование\". Именно вы решаете, помните ли вы ответ.</string>
+    <string name="tip_testing_method_screen_testing_with_variants">\"Тестирование с вариантами\" -
+        это более развлекательным методом тестирования. Вы выбираете правильный ответ из четырех
+        вариантов. Варианты берутся с той же колоды.</string>
+    <string name="tip_testing_method_screen_spell_check">С помощью \"Проверка правописания\"
+        проверяется, соответствует ли ваш введеннный ответ с настоящим. Подходит, если правописание
+        для вас важно.</string>
+    <string name="testing_method_without_testing">Без тестирования</string>
+    <string name="testing_method_self_testing">Самотестирование</string>
+    <string name="testing_method_testing_with_variants">Тестирование с вариантами</string>
+    <string name="testing_method_spell_check">Проверка правописания</string>
+
+
+    <!-- Intervals screen -->
+
+    <string name="screen_title_intervals">Интервалы</string>
+    <string name="tip_intervals_screen_importance">С интервальными повторениями информация или
+        знания отложатся в вашу долгосрочную память.</string>
+    <string name="tip_intervals_screen_adjust_interval_scheme">Настройте схему интервалов, которая
+        удовлетворит вас. Общий принцип: \"Чем выше балл, тем продолжительнее должен быть
+        интервал\".</string>
+    <plurals name="interval_unit_hours">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Час</item>
+        <item quantity="few">Часа</item>
+        <item quantity="many">Часов</item>
+    </plurals>
+    <plurals name="interval_unit_days">
+        <item quantity="one" tools:ignore="ImpliedQuantity">День</item>
+        <item quantity="few">Дня</item>
+        <item quantity="many">Дней</item>
+    </plurals>
+    <plurals name="interval_unit_months">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Месяц</item>
+        <item quantity="few">Месяца</item>
+        <item quantity="many">Месяцев</item>
+    </plurals>
+
+
+    <!-- Motivational timer screen -->
+
+    <string name="screen_title_motivational_timer">Мотивационный таймер</string>
+    <string name="tip_motivational_timer_screen_description">\"Мотивационный таймер\" разработан,
+        чтобы удержать вас от отвлекающих факторов. Если вы не ответите в течение отведенного
+        времени, вы получите наказание в виде обозначения ответа как неправильного.</string>
+    <string name="tip_motivational_timer_screen_how_to_do_with_this">Выделите себе достаточно
+        времени, чтобы отвечать на вопросы, не беспокоясь о обратный отсчет. Если вы чувствуете,
+        что вам нужно больше времени, вы можете остановить таймер.</string>
+    <string name="error_motivational_timer_input">число должно быть\nбольше нуля</string>
+    <string name="saved">Сохранено!</string>
+    <string name="message_quit_motivational_timer">Вы изменили настройки таймера с \'%1$s\' на
+        \'%2$s\'. Хотите сохранить изменения?</string>
+
+
+    <!-- Pronunciation plan screen -->
+
+    <string name="screen_title_pronunciation_plan">План произношения</string>
+    <string name="tip_pronunciation_plan_screen_description">Опишите, как вы хотите, чтобы карточки
+        проигрывались в \"Проигрывателе карточек\".</string>
+    <string name="tip_pronunciation_plan_screen_about_longer_delay">Попробуйте мысленно ответить на
+        вопрос, прежде чем оно будет произнесено. Если вам нужно больше времени, просто увеличьте
+        задержку между произношением вопроса и ответа. Например, перевод предложения может занять
+        5 и более секунд.</string>
+    <string name="tip_pronunciation_plan_screen_about_repetition_pronunciation">Если вы только
+        начали изучать иностранный язык, составьте план произношения так, чтобы текст на
+        иностранном языке проговаривался дважды.</string>
+    <string name="description_drag_handle_button">Ручка перетягивание</string>
+    <string name="description_speak_icon">иконка "Произнести"</string>
+    <string name="pronunciation_event_speak_question">Произнести вопрос</string>
+    <string name="pronunciation_event_speak_answer">Произнести ответ</string>
+    <string name="pronunciation_event_delay">Задержка</string>
+    <string name="pronunciation_event_delay_with_args">Задержка %d сек.</string>
+    <string name="description_remove_pronunciation_event_button">Удалить событие</string>
+    <string name="description_add_pronunciation_event_button">Добавить событие</string>
+    <string name="title_dialog_pronunciation_event">Выберите событие</string>
+    <string name="sec">сек.</string>
+    <string name="error_message_cannot_change_last_speak_question">Невозможно изменить последнее
+        событие \"Произнести вопрос\"</string>
+    <string name="error_message_cannot_change_last_speak_answer">Невозможно изменить последнее
+        событие \"Произнести ответ\"</string>
+
+
+    <!-- Settings screen -->
+
+    <string name="screen_title_settings">Настройки</string>
+    <string name="text_walking_mode_title">Режим прогулки</string>
+    <string name="text_walking_mode_settings_description">Изменение действий клавиш громкости</string>
+    <string name="text_fullscreen_settings_title">Полноэкранный режим</string>
+    <string name="everywhere">Везде</string>
+    <string name="nowhere">Нигде</string>
+    <string name="title_fullscreen_mode_dialog">Полноэкранный режим</string>
+    <string name="item_text_fullscreen_in_exercise">В упражнение</string>
+    <string name="item_text_fullscreen_in_card_player">В проигрывателе карточек</string>
+    <string name="item_text_fullscreen_in_other_places">В других местах</string>
+
+
+    <!-- Walking mode settings screen -->
+
+    <string name="screen_title_walking_mode_settings">Режим прогулки</string>
+    <string name="text_volume_up_button_section">Клавиша увеличения громкости</string>
+    <string name="text_volume_down_button_section">Клавиша уменьшения громкости</string>
+    <string name="text_single_press_title">Действие однократного нажатия</string>
+    <string name="text_double_press_title">Действие двойного нажатия</string>
+    <string name="text_long_press_title">Действие длительного нажатия</string>
+    <string name="key_gesture_action_no_action">Никаких действий</string>
+    <string name="key_gesture_action_move_to_next_card">Перейти к следующей карточки</string>
+    <string name="key_gesture_action_move_to_previous_card">Перейти к предыдущей карточки</string>
+    <string name="key_gesture_action_mark_as_remember">Отметить как \"Помню\"</string>
+    <string name="key_gesture_action_mark_as_not_remember">Отметить как \"Не помню\"</string>
+    <string name="key_gesture_action_mark_card_as_learned">Отметить как \"Изучена\"</string>
+    <string name="key_gesture_action_speak_question">Произнести вопрос</string>
+    <string name="key_gesture_action_speak_answer">Произнести ответ</string>
+
+
+    <!-- Support app screen -->
+
+    <string name="screen_title_support_app">Поддержать приложение</string>
+    <string name="cta_rate_the_app_on_google_play">Оцените приложение на Google Play</string>
+    <string name="cta_rate_the_app_on_google_play_description">Рейтинг приложения влияет на решение
+        людей загрузить его. Положительный рейтинг может помочь нам охватить больше пользователей.
+        С большим количеством загрузки мы сможем получать обратную связь с разных точек зрения, что
+        поможет нам сделать ForgetMeNot лучшим, чем когда-либо.</string>
+    <string name="text_rate_us_button">Оцените нас</string>
+    <string name="cta_give_us_feedback">Отправьте нам отзыв</string>
+    <string name="cta_give_us_feedback_description">Расскажите, что работает хорошо, а что нет. Мы
+        хотим предоставить вам лучший опыт пользования, поэтому ваши отзывы очень ценны. Сообщите
+        нам, как мы можем улучшить.</string>
+    <string name="text_write_review_on_google_play_button">Написать отзыв на Google Play</string>
+    <string name="text_submit_new_issue_on_github_button">Поднять новый вопрос на Github</string>
+    <string name="text_send_email_to_author_button">Отправить письмо автору</string>
+    <string name="cta_help_us_with_translation">Помогите нам с переводом</string>
+    <string name="cta_help_us_with_translation_description">Перевод необходим пользователям,
+        которые говорят на других языках, чтобы наслаждаться приложением. Кроме того, локализация
+        позволяет приложению быть более доступным и полезным для более широкой аудитории.</string>
+    <string name="text_help_translate_button">Помочь перевести</string>
+    <string name="cta_share_with_friends">Поделиться с друзьями</string>
+    <string name="cta_share_with_friends_description">Возможно, вашим друзьям это приложение нужно.
+        Поделитесь с ними своим опытом.</string>
+    <string name="text_share_with_friends_button">Поделиться с друзьями</string>
+    <string name="share_with">Поделиться с</string>
+    <string name="text_share_with_friends">Запоминайте все с помощью флэш-карточек.</string>
+    <string name="cta_join_us_on_social_media">Присоединяйтесь к нам в социальных сетях</string>
+    <string name="cta_join_us_on_social_media_description">Получайте последние новости, делитесь
+        интересными статьями, задавайте вопросы. Присоединяйтесь, следите и поддерживайте связь с
+        нами.</string>
+
+
+    <!-- Help screen -->
+
+    <string name="screen_title_help">Помощь</string>
+    <string name="title_articles">Статьи</string>
+    <string name="description_help_article_icon">иконка статьи помощи</string>
+    <string name="help_article_title_import_of_deck">Импорт колоды</string>
+    <string name="help_article_title_exercise">Упражнение</string>
+    <string name="help_article_title_testing_methods">Методы тестирования</string>
+    <string name="help_article_title_grade_and_intervals">Оценка и интервалы</string>
+    <string name="help_article_title_pronunciation">Произношение</string>
+    <string name="help_article_title_question_display">Отображение вопроса</string>
+    <string name="help_article_title_motivational_timer">Мотивационный таймер</string>
+    <string name="help_article_title_walking_mode">Режим прогулки</string>
+    <string name="help_article_title_autoplaying_cards">Автоматическое проигрывание карточек</string>
+    <string name="help_article_title_presets">Предустановки</string>
+    <string name="help_article_title_advice_on_compiling_deck">Советы по составлению колоды</string>
+    <string name="help_article_title_advice_on_studying">Советы по обучению</string>
+
+
+    <!-- Help article screen -->
+
+    <string name="description_show_table_of_contents_button">Показать содержание</string>
+    <string name="description_previous_button">Предыдущая</string>
+    <string name="description_next_button">Следующая</string>
+    <string name="article_import_of_deck_paragraph_1">1. Создайте на своем компьютере текстовый
+        файл в таком формате:</string>
+    <string name="description_window_frame_icons">иконки оконной рамы</string>
+    <string name="example_of_text_file_for_creating_deck">Q:
+        \nКакой город был первой столицей США?
+        \nA:
+        \nНью-Йорк
+
+        \n\n\n\nQ:
+        \nКто впервые открыл Америку?
+        \nA:
+        \nЛейф Эриксон
+
+        \n\n\n\nQ:
+        \nКто изобрел первый автомобиль?
+        \nA:
+        \nКарл Бенц
+
+        \n\n\n\nQ:
+        \nКогда закончилась война за независимость США?
+        \nA:
+        \n3 сентября 1783</string>
+    <string name="example_file_name">Американская история.txt</string>
+    <string name="article_import_of_deck_paragraph_2">2. Сохраните этот файл в кодировке UTF-8.
+        \n\n3. Скопируйте его на диск вашего устройства или в Google Drive.
+        \n\n3. Нажмите \"Добавить карточки\" -> \"Импортировать файл\" в ForgetMeNot.
+        \n\n4. Выберите этот файл.</string>
+    <string name="article_exercise_paragraph_1">В упражнении следует отвечать на вопросы. Для
+        каждой колоды можно указать уникальные настройки, которые могут существенно изменить
+        характер тестирования:
+
+        \n\n\t- показывать карточки в произвольном порядке или нет (Случайный порядок)
+        \n\n\t- как проверять ответ
+        (<annotation clickable="testing_method">Метод тестирования</annotation>)
+        \n\n\t- представить вопрос визуально или устно
+        (<annotation clickable="question_display">Отображение вопроса</annotation>,
+        <annotation clickable="pronunciation">Произношение</annotation>)
+        \n\n\t- произносить ли вопросы и ответы автоматически
+        (<annotation clickable="pronunciation">Произношение</annotation>)
+        \n\n\t- нужно ли менять вопросы и ответы местами. Конечно, это может понадобиться, если они
+        взаимозаменяемы. (Инверсия карточки)
+        \n\n\t- существует ли ограничение по времени для ответа
+        (<annotation clickable="motivational_timer">Мотивационный таймер</annotation>)
+
+        \n\nНезависимо от <annotation clickable="testing_method">метода тестирования</annotation>,
+        ответ может быть либо правильным, либо неправильным. Если ответ неправильный, карточка будет
+        опрошена снова, пока ответ не будет правильным. Это нужно для того, чтобы убедиться, что вы
+        усвоили ответ.</string>
+    <string name="question1_in_exercise_article">Un sombrero</string>
+    <string name="answer1_in_exercise_article">Шляпа</string>
+    <string name="question2_in_exercise_article">Unos guantes</string>
+    <string name="answer2_in_exercise_article">Перчатки</string>
+    <string name="question3_in_exercise_article">Un abrigo</string>
+    <string name="answer3_in_exercise_article">Пальто</string>
+    <string name="article_exercise_paragraph_2">Ваши ответы влияют на
+        <annotation clickable="grade">оценку</annotation> карточки. Если интервалы включены, оценка
+        определяет, когда карточка будет снова запрашиваться.
+
+        \n\nЕсли вы хорошо знаете вопрос, и не хотите, чтобы эта карточка больше спрашивалась, или
+        вы просто не хотите изучать эту карточку, нажмите на иконку \"Отметить как Изучена\". Эта
+        карта больше никогда не будет задаваться.</string>
+    <string name="question4_in_exercise_article">¿Cómo te llamas?</string>
+    <string name="answer4_in_exercise_article">Как вас зовут?</string>
+    <string name="question5_in_exercise_article">Buenos días</string>
+    <string name="answer5_in_exercise_article">Доброе утро</string>
+    <string name="variant2_in_exercise_article">Добрый день</string>
+    <string name="variant3_in_exercise_article">Доброго вечера</string>
+    <string name="variant4_in_exercise_article">Спокойной ночи</string>
+    <string name="article_exercise_paragraph_3">Вы можете редактировать карточки прямо во время
+        упражнения. Это может понадобиться не только для исправления ошибок, но и для
+        совершенствования карточки, если ее трудно запомнить. Вы также можете использовать поиск,
+        если вы путаете ответы.
+
+        \n\nВ упражнении доступны два типа подсказок:
+
+        \n\n\t- \"Замаскировать буквы\". Эту подсказку можно применять многократно. Когда вы
+        впервые обратитесь к подсказке, все буквы будут заменены замаскированным символом ■. Вы
+        можете видеть, сколько слов имеет ответ, сколько букв в каждом слове. Если этого
+        недостаточно, можно раскрыть часть ответа. Просто выберите фрагмент и нажмите \"Раскрыть
+        выбранный фрагмент\" во всплывающем окне подсказки.
+
+        \n\n\t- \"Получить варианты\". На выбор будут предоставлены четыре варианта. Варианты
+        берутся из колоды, которой принадлежит карточка. Этот подсказка может значительно облегчить
+        ответ, если колода не предназначена для метода \"Тестирования с вариантами\".</string>
+    <string name="article_exercise_paragraph_4">Вы также можете выполнять упражнение, не глядя на
+        экран в <annotation clickable="walking_mode">\"Режиме прогулки\"</annotation>.</string>
+    <string name="article_testing_methods_paragraph_1">Методы тестирования определяют способ
+        проверки ответа. Есть 4 варианта:</string>
+    <string name="article_testing_methods_off_section_title">1. Без тестирования</string>
+    <string name="question_example_off_testing_method">All the children in this class are very polite.</string>
+    <string name="answer_example_off_testing_method">Все дети в этом классе очень вежливые.</string>
+    <string name="article_testing_methods_off_section_description">Его можно использовать для колод,
+        с которыми вы не планируете работать долгое время. Например, это может быть колода, которая
+        содержит предложения на родном и иностранном языках, и вы хотите однократно попереводить
+        без дальнейшего повторения.</string>
+    <string name="article_testing_methods_manual_section_title">2. Самотестирования</string>
+    <string name="question_example_manual_testing_method">mime\n\n\\verb\\</string>
+    <string name="answer_example_manual_testing_method">[maɪm]\n\nuse gesture and movement without
+        words in the acting of a play or role</string>
+    <string name="article_testing_methods_manual_section_description">Основной метод тестирования.
+        Вы сами решаете, помните ли ответ или нет. Главное преимущество - эффективность
+        запоминания.</string>
+    <string name="article_testing_methods_quiz_section_title">3. Тестирование с вариантами</string>
+    <string name="question_example_quiz_testing_method">окунь</string>
+    <string name="answer_example_quiz_testing_method_variant1">herring</string>
+    <string name="answer_example_quiz_testing_method_variant2">trout</string>
+    <string name="answer_example_quiz_testing_method_variant3">salmon</string>
+    <string name="answer_example_quiz_testing_method_variant4">bass</string>
+    <string name="article_testing_methods_quiz_section_description">В этом режиме вам нужно выбрать
+        правильный вариант из четырех предложенных. Варианты берутся из колоды, которой принадлежит
+        карточка. Поэтому, если вы собираетесь использовать этот метод тестирования, важно создавать
+        такую колоду, где варианты будут уместны. Например, это может быть колода типа
+        \"слово-перевод\" с одинаковыми частями речи. Это более развлекательная форма тестирования,
+        поэтому она прекрасно подойдет детям. Недостатком является средняя эффективность
+        запоминания, поскольку варианты представляют собой значительную подсказку.</string>
+    <string name="article_testing_methods_entry_section_title">4. Проверка правописания</string>
+    <string name="question_example_entry_testing_method">Past participle form of \'bring\'</string>
+    <string name="answer_example_entry_testing_method">brought</string>
+    <string name="article_testing_methods_entry_section_description">Этот метод будет полезным,
+        если вы хотите проверить правописание слов. Его также можно использовать как диктант. Для
+        этого создайте колоду, где вопросы и ответ будут одинаковыми, выключите отображение
+        вопросов, выберите язык и включите автоматическую произношение вопросов в настройках
+        колоды.</string>
+    <string name="article_grade_and_intervals_paragraph1">Каждая карточка характеризуется оценкой.
+        Каждый ответ в упражнении влияет на оценку следующим образом:
+
+        \n\n\t- уменьшается на единицу для каждой неправильного ответа, но не меньше нуля
+
+        \n\n\t- увеличивается на единицу, если ответ - правильный, но только в том случае, если
+        карточка отвечается впервые в этой сессии упражнения
+
+        \n\n\t- не меняется, если ответ правильный, но эта карточка была отправлена на повторный
+        опрос из-за неправильного ответа в прошлый раз</string>
+    <string name="question_in_grade_and_intervals_article">цинк</string>
+    <string name="answer_in_grade_and_intervals_article">zinc</string>
+    <string name="article_grade_and_intervals_paragraph2">Оценка имеет непосредственное отношение к
+        интервалам, которые применяются к колоде. Интервалы влияют на то, когда карточка станет
+        доступной для упражнения в следующий раз после ответа. Обычно, чем выше оценка, тем
+        продолжительнее интервал. То есть интервалы нужны для того, чтобы вы больше имели дело с
+        недостаточно-изученными карточками и меньше с хорошо-изученными.
+
+        \n\nВозможно, по каким-то причинам вы захотите изменить оценку. Просто нажмите на иконку
+        \"Оценка\" и выберите нужную. Обычно, когда вы меняете оценку, вы хотите уточнить, сколько
+        времени понадобится, чтобы эта карта была вновь запрошенная. Если вы вручную изменили
+        оценку, стандартная схема не применяется к этой карточки в течение этого занятия.</string>
+    <string name="article_question_display_paragraph_1">Вы можете отключить отображение вопросов.
+        В этом случае предполагается, что вы будете получать ответы на вопросы с помощью
+        воспроизведения голоса. Это поможет улучшить ваши навыки аудирования при изучении
+        иностранного языка. Вместе с этим уместно включить автоматическое произношение вопроса.
+        Если вы все еще хотите увидеть вопрос, просто нажмите \"Показать вопрос\".</string>
+    <string name="question_in_question_display_article">Je demande à voir un avocat!</string>
+    <string name="answer_in_question_display_article">I demand to see an avocado!</string>
+    <string name="article_motivational_timer">\"Мотивационный таймер\" предназначен для
+        сосредоточения вашего внимания на обучении. Если он включен, то у вас есть некоторое время,
+        чтобы ответить на вопрос. Если вы не успеете до дедлайна, карточка считается просроченной,
+        а ответ будет автоматически обозначен как неправильный. Если вы установили достаточно
+        времени, чтобы ответить, то причиной \"просрочки\" карточки является то, что вы потеряли
+        концентрацию, и мотивационный таймер будет напоминать об этом. Если вы вспоминаете ответ и
+        чувствуете, что вам не хватает времени, нажмите \"Остановить\" в всплывающем окне таймера.
+    </string>
+    <string name="question_in_motivational_timer_article">Сколько 0,0193 км в дециметрах?</string>
+    <string name="answer_in_motivational_timer_article">193</string>
+    <string name="article_pronunciation">Эта программа поддерживает произношение текста с помощью
+        TTS API, предоставляемого ОС Android. Для каждой колоды можно выбрать язык, на котором нужно
+        озвучивать вопрос, и один язык для ответа. Поэтому при создании колоды важно использовать
+        отдельно один язык для вопросов и отдельный для ответов. Если вы хотите иметь карточки с
+        разными языками вопросов и ответов, то вам нужно создать отдельные колоды. Рекомендуется
+        всегда указывать языки.
+
+        \n\nВы также можете включить автоматическое произношение вопроса или ответа. Это всегда
+        полезно при изучении языков.
+
+        \n\nЕсли функция \"Произносить текст в скобках\" выключено, программа не будет произносить
+        текст, оформленный в скобки () {} [] &lt;&gt;. Поэтому вы можете добавить любую
+        дополнительную информацию в скобки, например, транскрипцию слов, синонимов, слова, с
+        которыми вы часто путаете перевод.
+
+        \n\nДля произнесения части текста, просто выделите ее и нажмите иконку \"Произнести\".</string>
+    <string name="article_walking_mode">\"Режим прогулки\" - это особый режим упражнения, где вы
+        можете отвечать на вопросы, неглядя на экран. Управление осуществляется с помощью
+        <annotation clickable="walking_mode_settings">жестов клавиш регулировки громкости</annotation>.
+        Каждое действие сопровождается произношением, например, когда вы переходите к следующей
+        карточки, будет озвучен вопрос, а когда вы ответите (помню или не помню), прозвучит ответ.
+
+        \n\nЭтот режим можно использовать, когда вы куда-то идете и хотите полезно использовать
+        время. Отсюда этот режим и получил свое название.
+
+        \n\n⚠️ Предостережение:
+
+        \n\n- экран должен быть включен. Это связано с операционной системой Android: программы
+        могут использовать клавиши громкости только тогда, когда она находится на переднем плане.
+
+        \n\n- Методы \"Тестирование с вариантами\" и \"Проверка правонаписания\" неуместны для
+        использования в этом режиме, и поэтому принудительно переключаются на \"Самотестирование\".
+
+        \n\n- будет включен автоматическое произношение вопросов и ответов. Поэтому не забудьте
+        указать правильные языка в настройках произношения колоды.
+
+        \n\n- \"Мотивационный таймер\" выключается.</string>
+    <string name="article_autoplaying_cards">Автоматическое проигрывание карт - это режим, при
+        котором вопросы и ответы произносятся по очереди. Его можно сравнить с аудиоплеером, но
+        вместо композиций воспроизводятся вопросы и ответы. Этот режим подходит, когда вы что-то
+        делаете, и одновременно можете прослушивать материалы, например, во время приготовления
+        пищи.
+
+        \n\nДля каждой колоды можно настроить план произношения. Например, произносить вопрос дважды
+        или увеличить интервал между вопросом и ответом, чтобы у вас было достаточно времени, чтобы
+        вспомнить ответ, прежде чем его услышать.</string>
+    <string name="article_presets">Предустановка - это набор настроек, созданный заранее, который
+        можно переиспользовать. Это нужно, чтобы избежать рутинных работ по настройке колод.
+
+        \n\nЧто означают названия прудустановок:
+
+        \n\n\tСтандартная - неизменяеный набор настроек, который используется по умолчанию.
+
+        \n\n\tИндивидуальная - набор настроек, который применяется только для данной колоды.
+
+        \n\n\t\'Ваше название предустановки\' - сохраненные настройки, которыми можно совместно
+        пользоваться. Любое изменение этой предустановки повлияет на каждую колоду, к которой она
+        применяется.</string>
+    <string name="article_advice_on_compiling_deck">1. Старайтесь, чтобы ваши карточки были как
+        можно короче. Лучше создать несколько, чем складывать все в одно. Например, если вы
+        создаете карточку для запоминания иностранного слова, тогда она должна описывать только
+        одно толкование, которое может быть выражено не более 3 словами. Вы можете добавить
+        дополнительную информацию в скобки, но сам ответ должен быть кратким.
+
+        \n\n2. Создавайте колоды с учетом настроек, которые вы собираетесь применить к ним.
+
+        \n\n\t- Для метода \"Тестирование с вариантами\" варианты берутся из той же колоды. Поэтому
+        карточки должны содержать ответы, которые подходят, чтобы быть вариантами.
+
+        \n\n\t- В настройки произношение колоды можно указать один язык для вопросам и еще один
+        язык для ответа. Поэтому вам нужно создавать колоды, где для вопросов используется только
+        один язык, и так же один язык для ответов.
+
+        \n\n\t- Если вы хотите использовать \"Инверсию карточки\", то создавайте такие карточки,
+        чтобы ответ мог выглядеть как вопрос.
+
+        \n\n3. Если вы создаете колоду в виде файла на компьютере, вы можете скачать
+        <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">этот файл шаблона</a>.
+        Все, что вам нужно сделать, это заменить \"question\" на ваш вопрос, и \"answer\" - на ваш
+        ответ. Используйте Copy / Paste, чтобы ускорить создание. Если вы создаете колоду на
+        Android-устройстве, попробуйте воспользоваться мультиоконным режимом.
+
+        \n\n4. Воспринимайте составления колоды как часть учебного процесса. Старайтесь запоминать
+        все на лету.</string>
+    <string name="article_advice_on_studying">1. Не запоминайте ответ слово в слово. Главное, чтобы
+        вы понимали суть. Всегда визуализируйте вопрос, который задается.
+
+        \n\n2. Если вы изучаете иностранный язык, говорите ответы вслух. Это поможет вам не только
+        правильно произносить слова, но и сосредоточиться на учебе.
+
+        \n\n3. Применяйте инструменты, которые помогают сосредоточиться на учебе. Используйте
+        <annotation clickable="motivational_timer">\"Мотивационный таймер\"</annotation>, включите
+        полноэкранный режим, включите режим \"Не беспокоить\" в настройках устройства.
+
+        \n\n4. Если вам не удается запомнить вопрос, отредактируйте карточку, переформулируйте
+        вопрос, удалите ненужное в ответе. Если вы путаете ответы, воспользуйтесь поиском и найдите
+        причинную карточку.
+
+        \n\n5. Возьмите за правило, что раз в день у вас не должно оставаться никаких задач для
+        упражнения.</string>
+
+
+    <!-- About screen -->
+
+    <string name="description_app_logo">Логотип приложения</string>
+    <string name="about_item_developer">Одноволов Артем</string>
+    <string name="about_item_source_code">Исходный код</string>
+    <string name="about_item_privacy_policy">Политика конфиденциальности</string>
+    <string name="toast_no_email_client">В вас нет почтового клиента для написания письма</string>
+    <string name="toast_no_browser">В вас нет браузера, чтобы открыть URL-адрес</string>
+    <string name="forgetmenot_brief_description">ForgetMeNot предназначен для запоминания
+        информации. Он базируется на интервальных повторениях флеш-карточек. Приложение
+        поддерживает вывод синтеза речи по тексту, импорт карточек из файла, уникальные настройки
+        для каждой колоды и много других интересных функций. Кроме традиционного тестирования,
+        также есть режим автоматического проигрывания карточек. ForgetMeNot - замечательная вещь для
+        изучения языков, и не только.</string>
+    <string name="developer_story_title">История разработчика</string>
+    <string name="developer_story">Более года назад, когда я начал изучать иностранный язык, я
+        решил использовать карточки для запоминания слов. Попробовав десятки различных приложений в
+        Google Play, ни одно из них не удовлетворило меня полностью. Поэтому я решил создать свое
+        собственное.
+
+        \n\nПрежде всего, я хотел, чтобы в моей программе был чистый интерфейс, чтобы я мог
+        полностью сосредоточиться на учебе. Мой приложение должен был быть удобным и чрезвычайно
+        быстрым, чтобы я мог повторять не менее 10 слов в минуту. Кроме того, мои требования
+        включали поддержку интервальных повторений, синтез речи, импорт карточек из файла (ведь
+        колода может создаваться на компьютере достаточно быстро с помощью copy-paste).
+
+        \n\nПосле реализации произношения текста я понял, что благодаря этому я могу значительно
+        расширить возможности учебного процесса. Во-первых, я могу скрыть текст вопроса, чтобы
+        воспринимать текст не визуально, а на слух. Это помогло бы улучшить мои навыки аудирования.
+        Во-вторых, во время некоторых занятий я мог бы повторять материал одновременно, если бы
+        приложение могло самостоятельно переключать карточки. В-третьих, (это несколько
+        необычная функция), я мог бы отвечать на вопрос, когда куда-то иду, неглядя на экран,
+        управляя программой клавишами громкости. Хорошо, это сделано.
+
+        \n\nКроме того, я реализовал некоторые простые, но важные функции, например, редактирование
+        карточки на ходу, переворачивание карточек, переиспользование настроек колод и многие
+        другие. Существуют также дополнительные опции, которые помогут вам сосредоточиться на учебе,
+        например, \"Полноэкранный режим\" и \"Мотивационный таймер\".
+
+        \n\nДоволен ли я программе сейчас? Не совсем. Есть еще несколько идей по совершенствованию.
+        Но я думаю, что на этом этапе она выглядит довольно привлекательно и может подойти многим
+        людям, которые изучают языки, и не только.
+
+        \n\nЯ никоим образом не преследую коммерческих целей. Мой приложение абсолютно бесплатное и
+        с открытым исходным кодом. Я хотел бы знать, что вы думаете о моем приложение!</string>
+    <string name="text_support_app_button">Поддержать приложение</string>
+
+</resources>
