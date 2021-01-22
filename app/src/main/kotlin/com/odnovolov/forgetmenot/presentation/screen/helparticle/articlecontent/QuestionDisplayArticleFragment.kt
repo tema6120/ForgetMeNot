@@ -8,7 +8,6 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import kotlinx.android.synthetic.main.article_question_display.*
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
@@ -25,7 +24,6 @@ class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     }
 
     override fun setupView() {
-        articleContentTextView.setFont(R.font.nunito_bold)
         questionTextView.setText(R.string.question_in_question_display_article)
         answerTextView.setText(R.string.answer_in_question_display_article)
         showQuestionButton.run {

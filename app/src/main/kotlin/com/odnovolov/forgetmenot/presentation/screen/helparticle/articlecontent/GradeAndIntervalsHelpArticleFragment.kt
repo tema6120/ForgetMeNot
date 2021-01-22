@@ -16,7 +16,6 @@ import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
 import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
@@ -35,8 +34,6 @@ class GradeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
     private val intervalsPopup: PopupWindow by lazy(::createIntervalsPopup)
 
     override fun setupView() {
-        paragraph1.setFont(R.font.nunito_bold)
-        paragraph2.setFont(R.font.nunito_bold)
         val adapter = ExampleExerciseCardAdapter(viewCoroutineScope!!, exercise)
         recycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

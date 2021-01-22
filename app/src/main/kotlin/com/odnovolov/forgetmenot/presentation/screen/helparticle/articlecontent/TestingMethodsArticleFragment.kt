@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import kotlinx.android.synthetic.main.article_testing_methods.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.*
@@ -18,8 +17,8 @@ import kotlinx.android.synthetic.main.item_exercise_card_off_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.*
 import kotlinx.android.synthetic.main.item_exercise_card_quiz_test.view.*
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.answerScrollView as entryAnswerScrollView
-import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.questionTextView as entryQuestionTextView
 import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.questionScrollView as entryQuestionScrollView
+import kotlinx.android.synthetic.main.item_exercise_card_entry_test.view.questionTextView as entryQuestionTextView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerScrollView as manualAnswerScrollView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.answerTextView as manualAnswerTextView
 import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.questionScrollView as manualQuestionScrollView
@@ -37,16 +36,6 @@ class TestingMethodsArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     override val helpArticle: HelpArticle get() = HelpArticle.TestingMethods
 
     override fun setupView() {
-        paragraph1.setFont(R.font.nunito_bold)
-        off_section_title.setFont(R.font.nunito_extrabold)
-        off_section_description.setFont(R.font.nunito_bold)
-        manual_section_title.setFont(R.font.nunito_extrabold)
-        manual_section_description.setFont(R.font.nunito_bold)
-        quiz_section_title.setFont(R.font.nunito_extrabold)
-        quiz_section_description.setFont(R.font.nunito_bold)
-        entry_section_title.setFont(R.font.nunito_extrabold)
-        entry_section_description.setFont(R.font.nunito_bold)
-
         setupOffTestExerciseCard()
         setupManualTestExerciseCard()
         setupQuizTestExerciseCard()

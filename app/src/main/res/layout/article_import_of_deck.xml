@@ -9,6 +9,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:fontFamily="@font/nunito_bold"
             android:text="@string/article_import_of_deck_paragraph_1"
             android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
@@ -16,8 +17,7 @@
             app:layout_constraintBottom_toTopOf="@+id/text_file_frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:fontFamily="@font/nunito_bold" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
             android:id="@+id/text_file_frame"
@@ -80,6 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:fontFamily="@font/nunito_bold"
             android:text="@string/article_import_of_deck_paragraph_2"
             android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
@@ -87,7 +88,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_file_frame"
-            tools:fontFamily="@font/nunito_bold" />
+            app:layout_constraintTop_toBottomOf="@+id/text_file_frame" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

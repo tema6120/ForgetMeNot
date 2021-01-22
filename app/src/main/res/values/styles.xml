@@ -36,6 +36,7 @@
         <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textIsSelectable">true</item>
         <item name="android:textSize">@dimen/text_size_description</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="DrawerItem">
@@ -248,6 +249,7 @@
         <item name="android:padding">16dp</item>
         <item name="android:textColor">@color/text_primary_blue</item>
         <item name="android:textSize">@dimen/text_size_section_title</item>
+        <item name="android:fontFamily">@font/nunito_extrabold</item>
     </style>
 
     <style name="SettingsItemButton">
@@ -281,6 +283,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_title</item>
         <item name="android:textSize">@dimen/text_size_settings_item_title</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="SettingsItemDescription">
@@ -288,6 +291,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_description</item>
         <item name="android:textSize">@dimen/text_size_settings_item_description</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="SettingsItemNavigationIcon">

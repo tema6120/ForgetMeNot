@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -7,15 +6,14 @@
     <TextView
             android:id="@+id/paragraph1"
             style="@style/ArticleParagraph"
-            android:text="@string/article_testing_methods_paragraph_1"
-            tools:fontFamily="@font/nunito_bold" />
+            android:text="@string/article_testing_methods_paragraph_1" />
 
     <TextView
             android:id="@+id/off_section_title"
             style="@style/ArticleParagraph"
+            android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_testing_methods_off_section_title"
-            android:textColor="@color/textSecondary"
-            tools:fontFamily="@font/nunito_extrabold" />
+            android:textColor="@color/textSecondary" />
 
     <include
             android:id="@+id/offTestExerciseCardExample"
@@ -26,15 +24,14 @@
     <TextView
             android:id="@+id/off_section_description"
             style="@style/ArticleParagraph"
-            android:text="@string/article_testing_methods_off_section_description"
-            tools:fontFamily="@font/nunito_bold" />
+            android:text="@string/article_testing_methods_off_section_description" />
 
     <TextView
             android:id="@+id/manual_section_title"
             style="@style/ArticleParagraph"
+            android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_testing_methods_manual_section_title"
-            android:textColor="@color/textSecondary"
-            tools:fontFamily="@font/nunito_extrabold" />
+            android:textColor="@color/textSecondary" />
 
     <include
             android:id="@+id/manualTestExerciseCardExample"
@@ -45,15 +42,14 @@
     <TextView
             android:id="@+id/manual_section_description"
             style="@style/ArticleParagraph"
-            android:text="@string/article_testing_methods_manual_section_description"
-            tools:fontFamily="@font/nunito_bold" />
+            android:text="@string/article_testing_methods_manual_section_description" />
 
     <TextView
             android:id="@+id/quiz_section_title"
             style="@style/ArticleParagraph"
+            android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_testing_methods_quiz_section_title"
-            android:textColor="@color/textSecondary"
-            tools:fontFamily="@font/nunito_extrabold" />
+            android:textColor="@color/textSecondary" />
 
     <include
             android:id="@+id/quizTestExerciseCardExample"
@@ -64,16 +60,14 @@
     <TextView
             android:id="@+id/quiz_section_description"
             style="@style/ArticleParagraph"
-            android:text="@string/article_testing_methods_quiz_section_description"
-            tools:fontFamily="@font/nunito_bold" />
+            android:text="@string/article_testing_methods_quiz_section_description" />
 
     <TextView
             android:id="@+id/entry_section_title"
             style="@style/ArticleParagraph"
+            android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_testing_methods_entry_section_title"
-
-            android:textColor="@color/textSecondary"
-            tools:fontFamily="@font/nunito_extrabold" />
+            android:textColor="@color/textSecondary" />
 
     <include
             android:id="@+id/entryTestExerciseCardExample"
@@ -84,7 +78,6 @@
     <TextView
             android:id="@+id/entry_section_description"
             style="@style/ArticleParagraph"
-            android:text="@string/article_testing_methods_entry_section_description"
-            tools:fontFamily="@font/nunito_bold" />
+            android:text="@string/article_testing_methods_entry_section_description" />
 
 </LinearLayout>

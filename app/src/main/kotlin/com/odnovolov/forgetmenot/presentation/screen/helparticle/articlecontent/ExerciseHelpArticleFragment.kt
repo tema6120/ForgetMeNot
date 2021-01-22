@@ -89,18 +89,14 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     }
 
     private fun setupText() {
-        paragraph1.setFont(R.font.nunito_bold)
         paragraph1.setTextWithClickableAnnotations(
             stringId = R.string.article_exercise_paragraph_1,
             onAnnotationClick = ::dispatchArticleLinkClicked
         )
-        paragraph2.setFont(R.font.nunito_bold)
         paragraph2.setTextWithClickableAnnotations(
             stringId = R.string.article_exercise_paragraph_2,
             onAnnotationClick = ::dispatchArticleLinkClicked
         )
-        paragraph3.setFont(R.font.nunito_bold)
-        paragraph4.setFont(R.font.nunito_bold)
         paragraph4.setTextWithClickableAnnotations(
             stringId = R.string.article_exercise_paragraph_4,
             onAnnotationClick = ::dispatchArticleLinkClicked

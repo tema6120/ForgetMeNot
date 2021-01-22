@@ -12,13 +12,11 @@ import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.TimerStatus
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import kotlinx.android.synthetic.main.article_motivational_timer.*
-import kotlinx.android.synthetic.main.article_motivational_timer.timerButton
 import kotlinx.android.synthetic.main.item_exercise_card_off_test.*
 import kotlinx.android.synthetic.main.popup_timer.view.*
 import kotlinx.coroutines.Job
@@ -52,7 +50,6 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
         }
 
     override fun setupView() {
-        articleContentTextView.setFont(R.font.nunito_bold)
         questionTextView.setText(R.string.question_in_motivational_timer_article)
         questionScrollView.isVisible = true
         answerTextView.setText(R.string.answer_in_motivational_timer_article)

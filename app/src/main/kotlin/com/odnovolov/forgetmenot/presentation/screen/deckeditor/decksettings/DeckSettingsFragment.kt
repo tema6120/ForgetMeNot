@@ -12,7 +12,6 @@ import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
@@ -60,31 +59,8 @@ class DeckSettingsFragment : BaseFragment() {
         if (viewCoroutineScope == null || controller == null || !isInflated) return
         fragmentStateRestorer.restoreState()
         presetView.inject(diScope.presetController, diScope.presetViewModel)
-        setFonts()
         setupListeners()
         observeViewModel()
-    }
-
-    private fun setFonts() {
-        generalSectionTitle.setFont(R.font.nunito_extrabold)
-        exerciseSectionTitle.setFont(R.font.nunito_extrabold)
-        autoplaySectionTitle.setFont(R.font.nunito_extrabold)
-        randomOrderTitle.setFont(R.font.nunito_bold)
-        selectedRandomOrderTextView.setFont(R.font.nunito_bold)
-        pronunciationTitle.setFont(R.font.nunito_bold)
-        selectedPronunciationTextView.setFont(R.font.nunito_bold)
-        cardInversionTitle.setFont(R.font.nunito_bold)
-        selectedCardInversionTextView.setFont(R.font.nunito_bold)
-        questionDisplayTitle.setFont(R.font.nunito_bold)
-        selectedQuestionDisplayTextView.setFont(R.font.nunito_bold)
-        testingMethodTitle.setFont(R.font.nunito_bold)
-        selectedTestingMethodTextView.setFont(R.font.nunito_bold)
-        intervalsTitle.setFont(R.font.nunito_bold)
-        selectedIntervalsTextView.setFont(R.font.nunito_bold)
-        motivationalTimerTitle.setFont(R.font.nunito_bold)
-        selectedMotivationalTimerTextView.setFont(R.font.nunito_bold)
-        pronunciationPlanTitle.setFont(R.font.nunito_bold)
-        selectedPronunciationPlanTextView.setFont(R.font.nunito_bold)
     }
 
     private fun setupListeners() {

@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
-import com.odnovolov.forgetmenot.presentation.common.setFont
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleController
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
@@ -48,9 +46,7 @@ abstract class BaseHelpArticleFragmentForSimpleUi : Fragment() {
         setupView()
     }
 
-    protected open fun setupView() {
-        articleContentTextView.setFont(R.font.nunito_bold)
-    }
+    protected open fun setupView() {}
 
     protected inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit) {
         viewCoroutineScope!!.launch {

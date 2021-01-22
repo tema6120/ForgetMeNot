@@ -20,8 +20,7 @@
         <TextView
                 android:id="@+id/generalSectionTitle"
                 style="@style/SettingsSectionTitle"
-                android:text="@string/deck_settings_section_general"
-                tools:fontFamily="@font/nunito_extrabold" />
+                android:text="@string/deck_settings_section_general" />
 
         <LinearLayout
                 android:id="@+id/randomButton"
@@ -36,13 +35,11 @@
                 <TextView
                         android:id="@+id/randomOrderTitle"
                         style="@style/SettingsItemTitle"
-                        android:text="@string/deck_settings_item_random_order"
-                        tools:fontFamily="@font/nunito_bold" />
+                        android:text="@string/deck_settings_item_random_order" />
 
                 <TextView
                         android:id="@+id/selectedRandomOrderTextView"
                         style="@style/SettingsItemDescription"
-                        tools:fontFamily="@font/nunito_bold"
                         tools:text="On" />
 
             </LinearLayout>
@@ -66,13 +63,11 @@
                 <TextView
                         android:id="@+id/pronunciationTitle"
                         style="@style/SettingsItemTitle"
-                        android:text="@string/deck_settings_item_pronunciation"
-                        tools:fontFamily="@font/nunito_bold" />
+                        android:text="@string/deck_settings_item_pronunciation" />
 
                 <TextView
                         android:id="@+id/selectedPronunciationTextView"
                         style="@style/SettingsItemDescription"
-                        tools:fontFamily="@font/nunito_bold"
                         tools:text="English (A), Ukranian" />
 
             </LinearLayout>
@@ -96,13 +91,11 @@
                 <TextView
                         android:id="@+id/cardInversionTitle"
                         style="@style/SettingsItemTitle"
-                        android:text="@string/deck_settings_item_card_inversion"
-                        tools:fontFamily="@font/nunito_bold" />
+                        android:text="@string/deck_settings_item_card_inversion" />
 
                 <TextView
                         android:id="@+id/selectedCardInversionTextView"
                         style="@style/SettingsItemDescription"
-                        tools:fontFamily="@font/nunito_bold"
                         tools:text="Off" />
 
             </LinearLayout>
@@ -126,13 +119,11 @@
                 <TextView
                         android:id="@+id/questionDisplayTitle"
                         style="@style/SettingsItemTitle"
-                        android:text="@string/deck_settings_item_question_display"
-                        tools:fontFamily="@font/nunito_bold" />
+                        android:text="@string/deck_settings_item_question_display" />
 
                 <TextView
                         android:id="@+id/selectedQuestionDisplayTextView"
                         style="@style/SettingsItemDescription"
-                        tools:fontFamily="@font/nunito_bold"
                         tools:text="On" />
 
             </LinearLayout>
@@ -144,8 +135,7 @@
         <TextView
                 android:id="@+id/exerciseSectionTitle"
                 style="@style/SettingsSectionTitle"
-                android:text="@string/deck_settings_section_exercise"
-                tools:fontFamily="@font/nunito_extrabold" />
+                android:text="@string/deck_settings_section_exercise" />
 
         <LinearLayout
                 android:id="@+id/testingMethodButton"
@@ -160,13 +150,11 @@
                 <TextView
                         android:id="@+id/testingMethodTitle"
                         style="@style/SettingsItemTitle"
-                        android:text="@string/deck_settings_item_testing_method"
-                        tools:fontFamily="@font/nunito_bold" />
+                        android:text="@string/deck_settings_item_testing_method" />
 
                 <TextView
                         android:id="@+id/selectedTestingMethodTextView"
                         style="@style/SettingsItemDescription"
-                        tools:fontFamily="@font/nunito_bold"
                         tools:text="Self testing" />
 
             </LinearLayout>
@@ -190,13 +178,11 @@
                 <TextView
                         android:id="@+id/intervalsTitle"
                         style="@style/SettingsItemTitle"
-                        android:text="@string/deck_settings_item_intervals"
-                        tools:fontFamily="@font/nunito_bold" />
+                        android:text="@string/deck_settings_item_intervals" />
 
                 <TextView
                         android:id="@+id/selectedIntervalsTextView"
                         style="@style/SettingsItemDescription"
-                        tools:fontFamily="@font/nunito_bold"
                         tools:text="8h • 2d • 7d • 21d • 2m • 6m" />
 
             </LinearLayout>
@@ -220,13 +206,11 @@
                 <TextView
                         android:id="@+id/motivationalTimerTitle"
                         style="@style/SettingsItemTitle"
-                        android:text="@string/deck_settings_item_motivational_timer"
-                        tools:fontFamily="@font/nunito_bold" />
+                        android:text="@string/deck_settings_item_motivational_timer" />
 
                 <TextView
                         android:id="@+id/selectedMotivationalTimerTextView"
                         style="@style/SettingsItemDescription"
-                        tools:fontFamily="@font/nunito_bold"
                         tools:text="15 sec." />
 
             </LinearLayout>
@@ -238,8 +222,7 @@
         <TextView
                 android:id="@+id/autoplaySectionTitle"
                 style="@style/SettingsSectionTitle"
-                android:text="@string/deck_settings_section_autoplay"
-                tools:fontFamily="@font/nunito_extrabold" />
+                android:text="@string/deck_settings_section_autoplay" />
 
         <LinearLayout
                 android:id="@+id/pronunciationPlanButton"
@@ -255,13 +238,11 @@
                 <TextView
                         android:id="@+id/pronunciationPlanTitle"
                         style="@style/SettingsItemTitle"
-                        android:text="@string/deck_settings_item_pronunciation_plan"
-                        tools:fontFamily="@font/nunito_bold" />
+                        android:text="@string/deck_settings_item_pronunciation_plan" />
 
                 <TextView
                         android:id="@+id/selectedPronunciationPlanTextView"
                         style="@style/SettingsItemDescription"
-                        tools:fontFamily="@font/nunito_bold"
                         tools:text="Q 2s A 1s" />
 
             </LinearLayout>
