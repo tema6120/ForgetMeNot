@@ -29,26 +29,18 @@ class PronunciationFragment : BaseFragment() {
 
     private var controller: PronunciationController? = null
     private lateinit var viewModel: PronunciationViewModel
-    private val questionLanguagePopup: PopupWindow by lazy {
-        createLanguagePopup().apply {
-            (contentView as RecyclerView).adapter = questionLanguageAdapter
-        }
-    }
+    private var questionLanguagePopup: PopupWindow? = null
     private val questionLanguageAdapter = LanguageAdapter(
         onItemClick = { language: Locale? ->
             controller?.dispatch(QuestionLanguageSelected(language))
-            questionLanguagePopup.dismiss()
+            questionLanguagePopup?.dismiss()
         }
     )
-    private val answerLanguagePopup: PopupWindow by lazy {
-        createLanguagePopup().apply {
-            (contentView as RecyclerView).adapter = answerLanguageAdapter
-        }
-    }
+    private var answerLanguagePopup: PopupWindow? = null
     private val answerLanguageAdapter = LanguageAdapter(
         onItemClick = { language: Locale? ->
             controller?.dispatch(AnswerLanguageSelected(language))
-            answerLanguagePopup.dismiss()
+            answerLanguagePopup?.dismiss()
         }
     )
     private lateinit var exampleFragment: ExampleExerciseFragment
@@ -82,13 +74,13 @@ class PronunciationFragment : BaseFragment() {
             controller?.dispatch(HelpButtonClicked)
         }
         questionLanguageButton.setOnClickListener {
-            questionLanguagePopup.show(anchor = questionLanguageButton, gravity = Gravity.CENTER)
+            requireQuestionLanguagePopup().show(anchor = questionLanguageButton, Gravity.CENTER)
         }
         questionAutoSpeakButton.setOnClickListener {
             controller?.dispatch(QuestionAutoSpeakSwitchToggled)
         }
         answerLanguageButton.setOnClickListener {
-            answerLanguagePopup.show(anchor = answerLanguageButton, gravity = Gravity.CENTER)
+            requireAnswerLanguagePopup().show(anchor = answerLanguageButton, Gravity.CENTER)
         }
         answerAutoSpeakButton.setOnClickListener {
             controller?.dispatch(AnswerAutoSpeakSwitchToggled)
@@ -99,6 +91,24 @@ class PronunciationFragment : BaseFragment() {
         goToTtsSettingsButton.setOnClickListener {
             openTtsSettings()
         }
+    }
+
+    private fun requireQuestionLanguagePopup(): PopupWindow {
+        if (questionLanguagePopup == null) {
+            questionLanguagePopup = createLanguagePopup().apply {
+                (contentView as RecyclerView).adapter = questionLanguageAdapter
+            }
+        }
+        return questionLanguagePopup!!
+    }
+
+    private fun requireAnswerLanguagePopup(): PopupWindow {
+        if (answerLanguagePopup == null) {
+            answerLanguagePopup = createLanguagePopup().apply {
+                (contentView as RecyclerView).adapter = answerLanguageAdapter
+            }
+        }
+        return answerLanguagePopup!!
     }
 
     private fun observeViewModel() {
@@ -190,6 +200,14 @@ class PronunciationFragment : BaseFragment() {
         val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
         behavior.removeBottomSheetCallback(bottomSheetCallback)
         (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        questionLanguagePopup?.dismiss()
+        questionLanguagePopup = null
+        answerLanguagePopup?.dismiss()
+        answerLanguagePopup = null
     }
 
     override fun onDestroy() {
