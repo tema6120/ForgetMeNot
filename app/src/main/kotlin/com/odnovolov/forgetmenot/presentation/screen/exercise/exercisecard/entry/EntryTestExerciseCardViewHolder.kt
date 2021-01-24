@@ -166,8 +166,6 @@ class EntryTestExerciseCardViewHolder(
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
             correctAnswerTextView.setTextSizeFromRes(R.dimen.text_size_answer)
-            cardLabelTextView.setFont(R.font.comfortaa, Typeface.BOLD)
-            checkButton.setFont(R.font.comfortaa, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             addScrollListener {

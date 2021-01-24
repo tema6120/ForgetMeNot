@@ -24,7 +24,6 @@
     <dimen name="text_size_about_screen_slogan">14sp</dimen>
     <dimen name="text_size_about_screen_item">14sp</dimen>
     <dimen name="text_size_about_screen_section_title">22sp</dimen>
-    <dimen name="text_size_about_screen_developer_story">15sp</dimen>
     <dimen name="text_size_description">14sp</dimen>
     <dimen name="text_size_floating_button">14sp</dimen>
     <dimen name="text_size_screen_title">21sp</dimen>

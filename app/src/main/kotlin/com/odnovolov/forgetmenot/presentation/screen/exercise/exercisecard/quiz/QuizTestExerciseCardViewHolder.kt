@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz
 import android.animation.AnimatorInflater
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.util.Size
 import android.util.TypedValue
 import android.view.View
@@ -136,7 +135,6 @@ class QuizTestExerciseCardViewHolder(
                     controller.dispatch(AnswerTextSelectionChanged(selection))
                 }
             }
-            cardLabelTextView.setFont(R.font.comfortaa, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             addScrollListener {

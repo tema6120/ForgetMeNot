@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.content.Context
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
@@ -16,7 +15,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.*
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
@@ -66,9 +65,6 @@ class DeckPreviewAdapter(
                         // set programmatically. It may cause different height of real item and
                         // premeasured height of AsyncFrameLayout
                         deckNameTextView.setTextSizeFromRes(R.dimen.text_size_home_screen_deck_name)
-                        // with async inflation, parameter 'fontFamily' in xml causes InflateException
-                        // so we set font on ui thread programmatically
-                        deckNameTextView.setFont(R.font.comfortaa, Typeface.BOLD)
                     }
                 }
             }
@@ -188,7 +184,6 @@ class DeckPreviewAdapter(
                 layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
                 setTextColor(ContextCompat.getColor(context, R.color.textPrimary))
                 setTextSizeFromRes(R.dimen.text_size_home_screen_deck_name)
-                setFont(R.font.comfortaa, Typeface.BOLD)
             }
         }
     }

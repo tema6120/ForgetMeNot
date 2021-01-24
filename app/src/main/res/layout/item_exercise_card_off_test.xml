@@ -148,8 +148,8 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_card_label"
                 android:translationY="-37dp"
-                tools:fontFamily="@font/comfortaa"
-                tools:textStyle="bold" />
+                android:fontFamily="@font/comfortaa"
+                android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
 

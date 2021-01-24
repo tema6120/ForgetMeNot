@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard
 
 import android.animation.AnimatorInflater
 import android.animation.LayoutTransition
-import android.graphics.Typeface
 import android.util.Size
 import android.view.View
 import android.view.View.MeasureSpec
@@ -116,7 +115,6 @@ class PlayingCardViewHolder(
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
             answerTextView.setTextSizeFromRes(R.dimen.text_size_answer)
-            cardLabelTextView.setFont(R.font.comfortaa, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             asyncItemView.viewTreeObserver.addOnScrollChangedListener {

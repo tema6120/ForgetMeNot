@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 
 import android.animation.AnimatorInflater
-import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -18,7 +17,9 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
-import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
+import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
+import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleEvent.ArticleLinkClicked
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting.Card
@@ -138,7 +139,6 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
                 example2State.isLearned = !example2State.isLearned
             }
             with(cardLabelTextView) {
-                setFont(R.font.comfortaa, Typeface.BOLD)
                 stateListAnimator =
                     AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             }

@@ -109,15 +109,15 @@
             android:background="@drawable/background_card_label"
             android:backgroundTint="@color/card_label_learned"
             android:enabled="false"
+            android:fontFamily="@font/comfortaa"
             android:gravity="center_vertical"
             android:paddingStart="32dp"
             android:paddingEnd="32dp"
             android:text="@string/card_label_learned"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_card_label"
+            android:textStyle="bold"
             android:translationY="-37dp"
-            tools:fontFamily="@font/comfortaa"
-            tools:textStyle="bold"
             tools:translationY="0dp" />
 
 </androidx.cardview.widget.CardView>

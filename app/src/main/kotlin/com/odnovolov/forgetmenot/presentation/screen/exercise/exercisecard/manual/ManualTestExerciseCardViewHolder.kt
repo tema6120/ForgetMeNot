@@ -4,7 +4,6 @@ import android.animation.AnimatorInflater
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.Typeface
 import android.util.Size
 import android.view.View
 import android.view.View.MeasureSpec
@@ -122,9 +121,6 @@ class ManualTestExerciseCardViewHolder(
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
             answerTextView.setTextSizeFromRes(R.dimen.text_size_answer)
-            rememberButton.setFont(R.font.comfortaa, Typeface.BOLD)
-            notRememberButton.setFont(R.font.comfortaa, Typeface.BOLD)
-            cardLabelTextView.setFont(R.font.comfortaa, Typeface.BOLD)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             addScrollListener {

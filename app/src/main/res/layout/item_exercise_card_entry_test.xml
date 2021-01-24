@@ -165,16 +165,16 @@
                 android:layout_gravity="top|center_horizontal"
                 android:background="@drawable/background_card_label"
                 android:enabled="false"
+                android:fontFamily="@font/comfortaa"
                 android:gravity="center_vertical"
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_card_label"
+                android:textStyle="bold"
                 android:translationY="-37dp"
                 tools:backgroundTint="@color/card_label_learned"
-                tools:fontFamily="@font/comfortaa"
-                tools:text="Learned"
-                tools:textStyle="bold" />
+                tools:text="Learned" />
 
     </androidx.cardview.widget.CardView>
 
@@ -185,6 +185,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="32dp"
             android:background="@drawable/background_check_button"
+            android:fontFamily="@font/comfortaa"
             android:gravity="center"
             android:minWidth="200dp"
             android:outlineAmbientShadowColor="@color/floating_button_in_exercise"
@@ -194,7 +195,6 @@
             android:textAllCaps="false"
             android:textColor="@color/text_remember_button_unselected"
             android:textSize="@dimen/text_size_exercise_floating_button"
-            tools:fontFamily="@font/comfortaa"
-            tools:textStyle="bold" />
+            android:textStyle="bold" />
 
 </FrameLayout>

@@ -18,7 +18,6 @@
             android:orientation="vertical"
             tools:context="presentation.screen.home.HomeFragment">
 
-        <!-- with async inflation, parameter 'fontFamily' causes InflateException -->
         <TextView
                 android:id="@+id/deckNameTextView"
                 android:layout_width="match_parent"
@@ -28,12 +27,12 @@
                 android:layout_marginEnd="56dp"
                 android:layout_marginBottom="8dp"
                 android:drawablePadding="12dp"
+                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/text_title"
                 android:textSize="@dimen/text_size_home_screen_deck_name"
                 android:textStyle="bold"
                 app:drawableStartCompat="@drawable/deck_indicator"
                 app:drawableTint="@color/iconDark"
-                tools:fontFamily="@font/comfortaa"
                 tools:text="Английский №8" />
 
         <View

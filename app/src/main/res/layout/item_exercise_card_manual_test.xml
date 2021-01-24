@@ -130,16 +130,16 @@
                 android:layout_gravity="top|center_horizontal"
                 android:background="@drawable/background_card_label"
                 android:enabled="false"
+                android:fontFamily="@font/comfortaa"
                 android:gravity="center_vertical"
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_card_label"
+                android:textStyle="bold"
                 android:translationY="-37dp"
                 tools:backgroundTint="@color/card_label_learned"
-                tools:fontFamily="@font/comfortaa"
-                tools:text="Learned"
-                tools:textStyle="bold" />
+                tools:text="Learned" />
 
     </androidx.cardview.widget.CardView>
 
@@ -159,6 +159,7 @@
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/background_remember_button"
                 android:ellipsize="end"
+                android:fontFamily="@font/comfortaa"
                 android:gravity="center"
                 android:maxLines="1"
                 android:paddingStart="8dp"
@@ -174,8 +175,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_max="200dp"
-                tools:fontFamily="@font/comfortaa" />
+                app:layout_constraintWidth_max="200dp" />
 
         <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/notRememberButton"
@@ -187,6 +187,7 @@
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/background_not_remember_button"
                 android:ellipsize="end"
+                android:fontFamily="@font/comfortaa"
                 android:gravity="center"
                 android:maxLines="1"
                 android:paddingStart="8dp"
@@ -196,14 +197,13 @@
                 android:textAllCaps="false"
                 android:textColor="@color/text_not_remember_button"
                 android:textSize="@dimen/text_size_exercise_floating_button"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rememberButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_max="200dp"
-                tools:buttonTint="@color/wrong_answer"
-                tools:fontFamily="@font/comfortaa"
-                tools:textStyle="bold" />
+                tools:buttonTint="@color/wrong_answer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

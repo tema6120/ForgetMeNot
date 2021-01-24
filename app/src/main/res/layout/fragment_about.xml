@@ -153,9 +153,9 @@
                     android:id="@+id/developer_story_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lobster_two"
-                    android:padding="16dp"
                     android:layout_marginTop="16dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:padding="16dp"
                     android:text="@string/developer_story_title"
                     android:textColor="@color/textSecondary"
                     android:textIsSelectable="true"
@@ -166,13 +166,14 @@
                     android:id="@+id/developerStoryTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lobster_two"
+                    android:fontFamily="@font/nunito_bold"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:text="@string/developer_story"
                     android:textColor="@color/textSecondary"
                     android:textIsSelectable="true"
-                    android:textSize="@dimen/text_size_about_screen_developer_story" />
+                    android:textSize="@dimen/text_size_description"
+                    android:textStyle="italic" />
 
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/supportAppButton"
