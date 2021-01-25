@@ -1,0 +1,5 @@
+- new design
+- created new screens (About, Help, Support app)
+- optimized space allocation for question and answer on the card
+- added tips and examples for deck settings
+- translated into Ukrainian and Russian

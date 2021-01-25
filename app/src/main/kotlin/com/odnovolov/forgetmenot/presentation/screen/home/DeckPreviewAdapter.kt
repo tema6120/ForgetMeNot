@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
@@ -184,6 +185,7 @@ class DeckPreviewAdapter(
                 layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
                 setTextColor(ContextCompat.getColor(context, R.color.textPrimary))
                 setTextSizeFromRes(R.dimen.text_size_home_screen_deck_name)
+                setFont(R.font.comfortaa, Typeface.BOLD)
             }
         }
     }

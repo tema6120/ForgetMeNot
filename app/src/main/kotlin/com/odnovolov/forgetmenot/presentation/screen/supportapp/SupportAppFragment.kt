@@ -40,7 +40,7 @@ class SupportAppFragment : Fragment() {
             openEmailComposer(AboutFragment.DEVELOPER_EMAIL)
         }
         helpTranslateButton.setOnClickListener {
-            // TODO
+            openUrl(HELP_TRANSLATE_URL)
         }
         shareWithFrindsButton.setOnClickListener {
             val shareText = "${getString(R.string.text_share_with_friends)}\n\n${GOOGLE_PLAY_URL}"
@@ -82,6 +82,8 @@ class SupportAppFragment : Fragment() {
         const val GOOGLE_PLAY_URL =
             "https://play.google.com/store/apps/details?id=com.odnovolov.forgetmenot"
         const val NEW_ISSUE_ON_GITHUB_URL = "https://github.com/tema6120/ForgetMeNot/issues/new"
+        const val HELP_TRANSLATE_URL =
+            "https://github.com/tema6120/ForgetMeNot/blob/master/.github/readme/HOW_TO_TRANSLATE.md"
         const val FACEBOOK_URL = "https://www.facebook.com/Forgetmenot-Flashcards-103107271588768"
         const val INSTAGRAM_URL = "https://www.instagram.com/forgetmenot_flashcards"
         const val TWITTER_URL = "https://twitter.com/ForgetMeNot_FC"

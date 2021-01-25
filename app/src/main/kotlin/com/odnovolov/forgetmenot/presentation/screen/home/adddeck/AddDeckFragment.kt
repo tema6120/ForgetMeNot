@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -81,7 +82,7 @@ class AddDeckFragment : BaseFragment() {
     private fun executeCommand(command: AddDeckController.Command) {
         when (command) {
             is ShowErrorMessage -> {
-                showToast(command.exception.message)
+                showToast(command.exception.message, duration = Toast.LENGTH_LONG)
             }
             is SetDialogText -> {
                 requireDeckNameDialog()
