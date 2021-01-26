@@ -1,9 +1,10 @@
 ![Header](/.github/readme/fmn_header.png)
 
-ForgetMeNot
-===========
+<h1 align="center">ForgetMeNot</h1>
 
+<p align="center">  
 ForgetMeNot is an Android app for memorizing information via flashcards. Simplicity, usability, speed were taken into account in the process of developing this educational program. This app provides excellent conditions for achieving high efficiency of memorization.
+</p>
 
 Download
 --------
@@ -22,44 +23,40 @@ Download
       height="80">](https://appgallery.huawei.com/#/app/C103089961)
 [<img src="https://raw.githubusercontent.com/tema6120/ForgetMeNot/master/.github/readme/direct_apk_download.png"
       alt="Get direct apk"
-      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.1/ForgetMeNot_v1.1.apk)
+      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.2/ForgetMeNot_v1.2.apk)
 
 Features
 --------
 
+<img src="/.github/readme/preview.gif" align="right" width="32%"/>
+
 * Import/export of decks.
 * Intervals ([Spaced repetition](https://en.wikipedia.org/wiki/Spaced_repetition)). You can specified your own interval scheme for each deck.
-* Several test methods. There are 'Off', 'Manual', 'Quiz', 'Entry'.
+* Several testing methods. There are 'Self testing', 'Testing with variants', 'Spell check'.
 * Pronunciation of the text via TTS. You can choose languages for questions and answers, autospeaking of them.
 * Hiding the text of a question to stimulate improvement of listening skills that is very useful in foreign language learning.
-* Card reversing.
-* Hints in the form of masking letters or quiz.
+* Card inversion.
+* Hints in the form of masking letters.
 * 'Motivational timer' that will make you concentrate on your studies (optionally).
 * Saving settings of deck as presets and reusing them in order to avoid routine work on settings.
 * Editing and searching cards right in the exercise.
 * 'Walking mode' that enables you do the exercise without looking at the screen.
-* 'Repetition mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
+* 'Autoplaying mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
 * Catalog of pre-made decks. The catalog is constantly growing and already contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
-
-Screenshots
------------
-
-| Home screen                                                | Exercise                                             |
-|:----------------------------------------------------------:|:----------------------------------------------------:|
-| ![Home screen](/.github/readme/screenshot_home_screen.png) | ![Exercise](/.github/readme/screenshot_exercise.png) |
-
-| Deck settings                                                  | Intervals settings                                                       |
-|:--------------------------------------------------------------:|:------------------------------------------------------------------------:|
-| ![Deck settings](/.github/readme/screenshot_deck_settings.png) | ![Intervals settings](/.github/readme/screenshot_intervals_settings.png) |
-
-| Pronunciation settings                                                           | Cards editor                                                 |
-|:--------------------------------------------------------------------------------:|:------------------------------------------------------------:|
-| ![Pronunciation settings](/.github/readme/screenshot_pronunciation_settings.png) | ![Cards editor](/.github/readme/screenshot_cards_editor.png) |
 
 Video
 -----
 
-[![https://www.youtube.com/watch?v=pxLL2P17UH8](/.github/readme/youtube_preview.png)](https://www.youtube.com/watch?v=pxLL2P17UH8)
+[![https://www.youtube.com/watch?v=pxLL2P17UH8](/.github/readme/youtube_preview.png)](https://www.youtube.com/watch?v=2BEM9YP7uuI)
+
+Help translate
+--------------
+
+[<img src="/.github/readme/crowdin_badge.svg"
+      alt="Crowdin"
+      height="80">](https://crowdin.com/project/forgetmenot)
+
+[How to help translate](/.github/readme/HOW_TO_TRANSLATE.md)
 
 Architecture
 ------------
