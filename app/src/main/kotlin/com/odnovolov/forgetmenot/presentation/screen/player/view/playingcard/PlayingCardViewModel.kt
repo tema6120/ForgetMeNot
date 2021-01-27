@@ -17,17 +17,18 @@ class PlayingCardViewModel(
     }
 
     val cardContent: Flow<CardContent> = playingCardFlow.flatMapLatest { playingCard ->
-        val isReverse: Boolean = playingCard.isInverted
         combine(
             playingCard.card.flowOf(Card::question),
             playingCard.card.flowOf(Card::answer),
+            playingCard.flowOf(PlayingCard::isInverted),
             playingCard.flowOf(PlayingCard::isAnswerDisplayed)
         ) { question: String,
             answer: String,
+            isInverted: Boolean,
             isAnswerDisplayed: Boolean
             ->
-            val realQuestion = if (isReverse) answer else question
-            val realAnswer = if (isReverse) question else answer
+            val realQuestion = if (isInverted) answer else question
+            val realAnswer = if (isInverted) question else answer
             when {
                 isAnswerDisplayed -> AnsweredCard(realQuestion, realAnswer)
                 else -> UnansweredCard(realQuestion)

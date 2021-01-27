@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.player.view
 
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
@@ -10,6 +11,9 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
@@ -25,8 +29,10 @@ class PlayerViewController(
     private val player: Player,
     private val globalState: GlobalState,
     private val navigator: Navigator,
+    private val screenState: PlayerScreenState,
     private val longTermStateSaver: LongTermStateSaver,
-    private val playerStateProvider: ShortTermStateProvider<Player.State>
+    private val playerStateProvider: ShortTermStateProvider<Player.State>,
+    private val screenStateProvider: ShortTermStateProvider<PlayerScreenState>
 ) : BaseController<PlayerFragmentEvent, Command>() {
     sealed class Command {
         class SetCurrentPosition(val position: Int) : Command()
@@ -59,11 +65,11 @@ class PlayerViewController(
                 player.setGrade(event.grade)
             }
 
-            NotAskButtonClicked -> {
+            MarkAsLearnedButtonClicked -> {
                 player.setIsCardLearned(true)
             }
 
-            AskAgainButtonClicked -> {
+            MarkAsUnlearnedButtonClicked -> {
                 player.setIsCardLearned(false)
             }
 
@@ -75,7 +81,18 @@ class PlayerViewController(
                 player.stopSpeaking()
             }
 
-            EditCardButtonClicked -> {
+            EditDeckSettingsButtonClicked -> {
+                player.pause()
+                screenState.wereDeckSettingsEdited = true
+                navigator.navigateToDeckEditorFromPlayer {
+                    val deck: Deck = player.currentPlayingCard.deck
+                    val tabs = DeckEditorTabs.OnlyDeckSettings
+                    val screenState = DeckEditorScreenState(deck, tabs)
+                    DeckEditorDiScope.create(screenState)
+                }
+            }
+
+            EditCardContentButtonClicked -> {
                 player.pause()
                 navigator.navigateToCardEditorFromPlayer {
                     val editableCard = EditableCard(
@@ -90,14 +107,6 @@ class PlayerViewController(
                     )
                     CardsEditorDiScope.create(cardsEditor)
                 }
-            }
-
-            PauseButtonClicked -> {
-                player.pause()
-            }
-
-            ResumeButtonClicked -> {
-                player.resume()
             }
 
             SearchButtonClicked -> {
@@ -127,6 +136,21 @@ class PlayerViewController(
                 }
             }
 
+            PauseButtonClicked -> {
+                player.pause()
+            }
+
+            ResumeButtonClicked -> {
+                player.resume()
+            }
+
+            FragmentResumed -> {
+                if (screenState.wereDeckSettingsEdited) {
+                    player.notifyExercisePreferenceChanged()
+                    screenState.wereDeckSettingsEdited = false
+                }
+            }
+
             PlayAgainButtonClicked -> {
                 player.playOneMoreLap()
             }
@@ -140,5 +164,6 @@ class PlayerViewController(
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
         playerStateProvider.save(player.state)
+        screenStateProvider.save(screenState)
     }
 }

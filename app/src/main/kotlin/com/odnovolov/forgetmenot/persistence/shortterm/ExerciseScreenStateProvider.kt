@@ -16,5 +16,5 @@ class ExerciseScreenStateProvider(
 
     override fun toSerializable(state: ExerciseScreenState) = state
 
-    override fun toOriginal(serializableState: ExerciseScreenState): ExerciseScreenState = serializableState
+    override fun toOriginal(serializableState: ExerciseScreenState) = serializableState
 }

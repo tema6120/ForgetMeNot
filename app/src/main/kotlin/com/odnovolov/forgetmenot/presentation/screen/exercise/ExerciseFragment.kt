@@ -208,8 +208,8 @@ class ExerciseFragment : BaseFragment() {
                     setOnClickListener {
                         controller?.dispatch(
                             if (isLearned)
-                                AskAgainButtonClicked else
-                                NotAskButtonClicked
+                                MarkAsUnlearnedButtonClicked else
+                                MarkAsLearnedButtonClicked
                         )
                     }
                     contentDescription = getString(

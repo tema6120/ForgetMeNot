@@ -225,6 +225,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.card_filter_to_player)
     }
 
+    fun navigateToDeckEditorFromPlayer(createDiScoe: () -> DeckEditorDiScope) {
+        DeckEditorDiScope.open(createDiScoe)
+        navigate(R.id.player_to_deck_editor)
+    }
+
     fun navigateToCardEditorFromPlayer(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.player_to_cards_editor)

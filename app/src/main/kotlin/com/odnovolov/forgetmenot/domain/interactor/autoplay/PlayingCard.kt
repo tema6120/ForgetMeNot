@@ -16,6 +16,6 @@ class PlayingCard(
     val card: Card by flowMaker(card)
     val deck: Deck by flowMaker(deck)
     var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
-    val isInverted: Boolean by flowMaker(isInverted)
+    var isInverted: Boolean by flowMaker(isInverted)
     var isAnswerDisplayed: Boolean by flowMaker(isAnswerDisplayed)
 }

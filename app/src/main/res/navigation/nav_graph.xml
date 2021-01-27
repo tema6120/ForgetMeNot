@@ -62,8 +62,8 @@
             tools:layout="@layout/fragment_exercise">
 
         <action
-            android:id="@+id/exercise_to_deck_editor"
-            app:destination="@id/deck_editor" />
+                android:id="@+id/exercise_to_deck_editor"
+                app:destination="@id/deck_editor" />
 
         <action
                 android:id="@+id/exercise_to_cards_editor"
@@ -89,8 +89,8 @@
             tools:layout="@layout/fragment_deck_editor">
 
         <action
-            android:id="@+id/deck_editor_shows_rename_deck_dialog"
-            app:destination="@+id/rename_deck_dialog" />
+                android:id="@+id/deck_editor_shows_rename_deck_dialog"
+                app:destination="@+id/rename_deck_dialog" />
 
         <action
                 android:id="@+id/deck_editor_to_pronunciation"
@@ -163,9 +163,9 @@
     </fragment>
 
     <dialog
-        android:id="@+id/rename_deck_dialog"
-        android:name="com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDialog"
-        tools:layout="@layout/dialog_input" />
+            android:id="@+id/rename_deck_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDialog"
+            tools:layout="@layout/dialog_input" />
 
     <fragment
             android:id="@+id/pronunciation"
@@ -321,6 +321,10 @@
             android:id="@+id/player"
             android:name="com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragment"
             tools:layout="@layout/fragment_player">
+
+        <action
+                android:id="@+id/player_to_deck_editor"
+                app:destination="@+id/deck_editor" />
 
         <action
                 android:id="@+id/player_to_cards_editor"

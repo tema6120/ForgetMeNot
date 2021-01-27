@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.player
 
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
+import com.odnovolov.forgetmenot.persistence.shortterm.PlayerScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
@@ -8,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceController
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceModel
+import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerScreenState
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewModel
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.PlayingCardController
@@ -15,7 +17,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 
 class PlayerDiScope private constructor(
-    initialPlayerState: Player.State? = null
+    initialPlayerState: Player.State? = null,
+    initialScreenState: PlayerScreenState? = null
 ) {
     private val playerStateProvider = PlayerStateProvider(
         AppDiScope.get().json,
@@ -25,6 +28,14 @@ class PlayerDiScope private constructor(
 
     private val playerState: Player.State =
         initialPlayerState ?: playerStateProvider.load()
+
+    private val screenStateProvider = PlayerScreenStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database
+    )
+
+    private val screenState: PlayerScreenState =
+        initialScreenState ?: screenStateProvider.load()
 
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
@@ -58,8 +69,10 @@ class PlayerDiScope private constructor(
         player,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
+        screenState,
         AppDiScope.get().longTermStateSaver,
-        playerStateProvider
+        playerStateProvider,
+        screenStateProvider
     )
 
     val viewModel = PlayerViewModel(
@@ -95,7 +108,7 @@ class PlayerDiScope private constructor(
         }
 
         fun create(initialPlayerState: Player.State) =
-            PlayerDiScope(initialPlayerState)
+            PlayerDiScope(initialPlayerState, PlayerScreenState())
 
         override fun recreateDiScope() = PlayerDiScope()
 

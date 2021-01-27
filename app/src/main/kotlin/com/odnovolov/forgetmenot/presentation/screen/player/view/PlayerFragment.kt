@@ -20,18 +20,25 @@ import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
-import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
+import com.odnovolov.forgetmenot.presentation.screen.exercise.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
-import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus
 import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerService
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
+import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.fragment_player.*
+import kotlinx.android.synthetic.main.fragment_player.editCardButton
+import kotlinx.android.synthetic.main.fragment_player.gradeButton
+import kotlinx.android.synthetic.main.fragment_player.helpButton
+import kotlinx.android.synthetic.main.fragment_player.markAsLearnedButton
+import kotlinx.android.synthetic.main.fragment_player.progressBar
+import kotlinx.android.synthetic.main.fragment_player.searchButton
+import kotlinx.android.synthetic.main.fragment_player.speakButton
+import kotlinx.android.synthetic.main.fragment_player.speakProgressBar
+import kotlinx.android.synthetic.main.popup_editing_card.view.*
 import kotlinx.android.synthetic.main.popup_infinite_playback.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
@@ -50,6 +57,7 @@ class PlayerFragment : BaseFragment() {
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
+    private var editingPopup: PopupWindow? = null
     private var infinitePlaybackPopup: PopupWindow? = null
 
     override fun onCreateView(
@@ -87,7 +95,7 @@ class PlayerFragment : BaseFragment() {
             setTooltipTextFromContentDescription()
         }
         editCardButton.run {
-            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
+            setOnClickListener { showEditingPopup() }
             setTooltipTextFromContentDescription()
         }
         searchButton.run {
@@ -109,6 +117,9 @@ class PlayerFragment : BaseFragment() {
             playingCards.observe { playingCards: List<PlayingCard> ->
                 val adapter = playerViewPager.adapter as PlayingCardAdapter
                 adapter.items = playingCards
+                if (playerViewPager.currentItem != currentPosition) {
+                    playerViewPager.setCurrentItem(currentPosition, false)
+                }
                 progressBar.visibility = GONE
             }
             gradeOfCurrentCard.observe { grade: Int ->
@@ -125,8 +136,8 @@ class PlayerFragment : BaseFragment() {
                     setOnClickListener {
                         controller?.dispatch(
                             if (isLearned)
-                                AskAgainButtonClicked else
-                                NotAskButtonClicked
+                                MarkAsUnlearnedButtonClicked else
+                                MarkAsLearnedButtonClicked
                         )
                     }
                     contentDescription = getString(
@@ -249,6 +260,7 @@ class PlayerFragment : BaseFragment() {
             if (playerViewPager.currentItem != currentPosition) {
                 playerViewPager.setCurrentItem(currentPosition, false)
             }
+            diScope.viewController.dispatch(FragmentResumed)
         }
     }
 
@@ -355,6 +367,27 @@ class PlayerFragment : BaseFragment() {
         requireSpeakErrorPopup().show(anchor = speakButton, gravity = Gravity.BOTTOM)
     }
 
+    private fun requireEditingPopup(): PopupWindow {
+        if (editingPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_editing_card, null).apply {
+                editDeckSettingsButton.setOnClickListener {
+                    editingPopup?.dismiss()
+                    controller?.dispatch(EditDeckSettingsButtonClicked)
+                }
+                editCardContentButton.setOnClickListener {
+                    editingPopup?.dismiss()
+                    controller?.dispatch(EditCardContentButtonClicked)
+                }
+            }
+            editingPopup = DarkPopupWindow(content)
+        }
+        return editingPopup!!
+    }
+
+    private fun showEditingPopup() {
+        requireEditingPopup().show(anchor = editCardButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireInfinitePlaybackPopup(): PopupWindow {
         if (infinitePlaybackPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_infinite_playback, null)
@@ -393,6 +426,7 @@ class PlayerFragment : BaseFragment() {
             when {
                 getBoolean(STATE_INTERVALS_POPUP, false) -> showIntervalsPopup()
                 getBoolean(STATE_SPEAK_ERROR_POPUP, false) -> showSpeakErrorPopup()
+                getBoolean(STATE_EDITING_POPUP, false) -> showEditingPopup()
                 getBoolean(STATE_INFINITE_PLAYBACK_POPUP, false) -> showInfinitePlaybackPopup()
             }
         }
@@ -402,6 +436,7 @@ class PlayerFragment : BaseFragment() {
         super.onSaveInstanceState(outState)
         savePopupState(outState, intervalsPopup, STATE_INTERVALS_POPUP)
         savePopupState(outState, speakErrorPopup, STATE_SPEAK_ERROR_POPUP)
+        savePopupState(outState, editingPopup, STATE_EDITING_POPUP)
         savePopupState(outState, infinitePlaybackPopup, STATE_INFINITE_PLAYBACK_POPUP)
     }
 
@@ -418,6 +453,8 @@ class PlayerFragment : BaseFragment() {
         intervalsPopup = null
         speakErrorPopup?.dismiss()
         speakErrorPopup = null
+        editingPopup?.dismiss()
+        editingPopup = null
         infinitePlaybackPopup?.dismiss()
         infinitePlaybackPopup = null
     }
@@ -443,6 +480,7 @@ class PlayerFragment : BaseFragment() {
         const val TAG_PLAYING_FINISHED_BOTTOM_SHEET = "TAG_PLAYING_FINISHED_BOTTOM_SHEET"
         private const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
         private const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
+        private const val STATE_EDITING_POPUP = "STATE_EDITING_POPUP"
         private const val STATE_INFINITE_PLAYBACK_POPUP = "STATE_INFINITE_PLAYBACK_POPUP"
     }
 }

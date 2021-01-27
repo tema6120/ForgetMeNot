@@ -55,11 +55,11 @@ class ExerciseController(
                 exercise.setGrade(event.grade)
             }
 
-            NotAskButtonClicked -> {
+            MarkAsLearnedButtonClicked -> {
                 exercise.setIsCardLearned(true)
             }
 
-            AskAgainButtonClicked -> {
+            MarkAsUnlearnedButtonClicked -> {
                 exercise.setIsCardLearned(false)
             }
 

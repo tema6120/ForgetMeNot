@@ -258,4 +258,16 @@ class Player(
         state.currentPosition = 0
         state.pronunciationEventPosition = 0
     }
+
+    fun notifyExercisePreferenceChanged() {
+        state.playingCards.forEach { playingCard: PlayingCard ->
+            playingCard.isInverted = when (playingCard.deck.exercisePreference.cardInversion) {
+                CardInversion.Off -> false
+                CardInversion.On -> true
+                CardInversion.EveryOtherLap -> playingCard.card.lap % 2 == 1
+            }
+            playingCard.isQuestionDisplayed = playingCard.isAnswerDisplayed
+                    || playingCard.deck.exercisePreference.isQuestionDisplayed
+        }
+    }
 }

@@ -45,11 +45,11 @@ class CardsEditorController(
                 cardsEditor.setGrade(event.grade)
             }
 
-            NotAskButtonClicked -> {
+            MarkAsLearnedButtonClicked -> {
                 cardsEditor.setIsLearned(true)
             }
 
-            AskAgainButtonClicked -> {
+            MarkAsUnlearnedButtonClicked -> {
                 cardsEditor.setIsLearned(false)
             }
 

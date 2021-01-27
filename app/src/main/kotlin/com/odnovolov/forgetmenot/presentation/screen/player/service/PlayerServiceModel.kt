@@ -12,11 +12,14 @@ class PlayerServiceModel(
     val question: Flow<String> = playerState.flowOf(Player.State::currentPosition)
         .flatMapLatest { position: Int ->
             val playingCard: PlayingCard = playerState.playingCards[position]
-            with(playingCard) {
-                if (isInverted)
-                    card.flowOf(Card::answer) else
-                    card.flowOf(Card::question)
-            }
+            playingCard.flowOf(PlayingCard::isInverted)
+                .flatMapLatest { isInverted: Boolean ->
+                    with(playingCard) {
+                        if (isInverted)
+                            card.flowOf(Card::answer) else
+                            card.flowOf(Card::question)
+                    }
+                }
         }
 
     val isPlaying: Flow<Boolean> = playerState.flowOf(Player.State::isPlaying)
