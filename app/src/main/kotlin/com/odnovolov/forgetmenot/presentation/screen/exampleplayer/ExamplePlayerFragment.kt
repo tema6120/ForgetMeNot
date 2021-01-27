@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -109,7 +108,7 @@ class ExamplePlayerFragment : BaseFragment() {
                             CannotSpeak -> R.string.description_cannot_speak_button
                         }
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
             }
             isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
@@ -142,7 +141,7 @@ class ExamplePlayerFragment : BaseFragment() {
                             R.string.description_pause_button else
                             R.string.description_resume_button
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
             }
         }

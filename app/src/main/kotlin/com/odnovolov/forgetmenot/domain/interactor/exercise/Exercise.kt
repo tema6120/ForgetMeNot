@@ -29,6 +29,7 @@ class Exercise(
         var hintSelection: HintSelection by flowMaker(hintSelection)
     }
     private val textInBracketsRemover by lazy(::TextInBracketsRemover)
+    private val exerciseCardConformer = ExerciseCardConformer(state, globalState)
     private var timerJob: Job? = null
 
     private val isWalkingMode
@@ -218,68 +219,17 @@ class Exercise(
         state.currentPosition = currentPosition
     }
 
+    fun notifyExercisePreferenceChanged() {
+        exerciseCardConformer.conform()
+    }
+
     fun setWalkingModeEnabled(enabled: Boolean) {
         if (isWalkingMode == enabled) return
         stopTimer()
         globalState.isWalkingModeEnabled = enabled
-        conformExerciseCards()
+        exerciseCardConformer.conform()
         startTimer()
     }
-
-    private fun conformExerciseCards() {
-        var hasChange = false
-        val conformedExerciseCards = state.exerciseCards
-            .map { exerciseCard ->
-                when {
-                    exerciseCard.isAnswered -> exerciseCard
-                    exerciseCard.shouldMapToManualTestExerciseCard() -> {
-                        hasChange = true
-                        ManualTestExerciseCard(exerciseCard.base)
-                    }
-                    exerciseCard.shouldMapToQuizTestExerciseCard() -> {
-                        hasChange = true
-                        val variants: List<Card?> = with(exerciseCard.base) {
-                            QuizComposer.compose(card, deck, isInverted, withCaching = true)
-                        }
-                        QuizTestExerciseCard(exerciseCard.base, variants)
-                    }
-                    exerciseCard.shouldMapToEntryTestExerciseCard() -> {
-                        hasChange = true
-                        EntryTestExerciseCard(exerciseCard.base)
-                    }
-                    else -> exerciseCard
-                }.apply {
-                    if (isWalkingMode
-                        && base.timeLeft != 0
-                    ) {
-                        base.timeLeft = 0
-                    } else if (!isWalkingMode
-                        && !base.card.isLearned
-                        && !isAnswered
-                        && !base.isExpired
-                    ) {
-                        base.timeLeft = base.deck.exercisePreference.timeForAnswer
-                    }
-                }
-            }
-        if (hasChange) {
-            state.exerciseCards = conformedExerciseCards
-        }
-        QuizComposer.clearCache()
-    }
-
-    private fun ExerciseCard.shouldMapToManualTestExerciseCard(): Boolean =
-        isWalkingMode && (this is QuizTestExerciseCard || this is EntryTestExerciseCard)
-
-    private fun ExerciseCard.shouldMapToQuizTestExerciseCard(): Boolean =
-        !isWalkingMode
-                && base.deck.exercisePreference.testingMethod == TestingMethod.Quiz
-                && this !is QuizTestExerciseCard
-
-    private fun ExerciseCard.shouldMapToEntryTestExerciseCard(): Boolean =
-        !isWalkingMode
-                && base.deck.exercisePreference.testingMethod == TestingMethod.Entry
-                && this !is EntryTestExerciseCard
 
     fun setGrade(grade: Int) {
         if (grade < 0) return

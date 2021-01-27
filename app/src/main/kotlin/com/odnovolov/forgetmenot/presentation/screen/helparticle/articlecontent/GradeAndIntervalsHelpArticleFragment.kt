@@ -5,7 +5,6 @@ import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupWindow
-import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -16,6 +15,7 @@ import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
 import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
+import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
 import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
@@ -40,7 +40,7 @@ class GradeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
         recycler.adapter = adapter
         gradeButton.run {
             setOnClickListener { showIntervalsPopup() }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         exercise.state.flowOf(ExampleExercise.State::exerciseCards)
             .observe(adapter::submitList)

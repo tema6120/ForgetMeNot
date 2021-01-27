@@ -335,7 +335,7 @@ fun getStatusBarHeight(context: Context): Int {
     return result
 }
 
-fun View.setTooltipTextAsContentDescription() {
+fun View.setTooltipTextFromContentDescription() {
     TooltipCompat.setTooltipText(this, contentDescription)
 }
 

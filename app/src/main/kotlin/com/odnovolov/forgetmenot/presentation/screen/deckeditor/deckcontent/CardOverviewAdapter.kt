@@ -2,12 +2,12 @@ package com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentEvent.*
 import kotlinx.android.synthetic.main.item_card_overview.view.*
 import kotlinx.android.synthetic.main.toolbar_deck_content.view.*
@@ -27,11 +27,11 @@ class CardOverviewAdapter(
         if (viewType == R.layout.toolbar_deck_content) {
             view.exportButton.run {
                 setOnClickListener { controller.dispatch(ExportButtonClicked) }
-                TooltipCompat.setTooltipText(this, contentDescription)
+                setTooltipTextFromContentDescription()
             }
             view.searchButton.run {
                 setOnClickListener { controller.dispatch(SearchButtonClicked) }
-                TooltipCompat.setTooltipText(this, contentDescription)
+                setTooltipTextFromContentDescription()
             }
         }
         return SimpleRecyclerViewHolder(view)

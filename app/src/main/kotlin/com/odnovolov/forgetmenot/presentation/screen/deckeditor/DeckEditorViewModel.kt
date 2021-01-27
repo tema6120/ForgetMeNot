@@ -6,8 +6,6 @@ import kotlinx.coroutines.flow.Flow
 class DeckEditorViewModel(
     private val screenState: DeckEditorScreenState
 ) {
-    val initialTab: DeckEditorScreenState.DeckEditorScreenTab
-        get() = screenState.initialTab
-
+    val tabs: DeckEditorTabs get() = screenState.tabs
     val deckName: Flow<String> = screenState.deck.flowOf(Deck::name)
 }

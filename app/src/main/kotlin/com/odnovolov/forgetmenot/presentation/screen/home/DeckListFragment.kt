@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
-import androidx.appcompat.widget.TooltipCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -16,6 +15,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.LightPopupWindow
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.observe
+import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
 import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
@@ -136,7 +136,7 @@ class DeckListFragment : BaseFragment() {
                     closeButton.setOnClickListener {
                         filtersPopup?.dismiss()
                     }
-                    TooltipCompat.setTooltipText(closeButton, closeButton.contentDescription)
+                    closeButton.setTooltipTextFromContentDescription()
                     availableForExerciseButton.setOnClickListener {
                         controller?.dispatch(DecksAvailableForExerciseCheckboxClicked)
                     }
@@ -160,7 +160,7 @@ class DeckListFragment : BaseFragment() {
                     closeButton.setOnClickListener {
                         sortingPopup?.dismiss()
                     }
-                    TooltipCompat.setTooltipText(closeButton, closeButton.contentDescription)
+                    closeButton.setTooltipTextFromContentDescription()
                     sortByNameButton.setOnClickListener {
                         controller?.dispatch(SortByButtonClicked(Name))
                     }
@@ -173,10 +173,7 @@ class DeckListFragment : BaseFragment() {
                     sortingDirectionButton.setOnClickListener {
                         controller?.dispatch(SortingDirectionButtonClicked)
                     }
-                    TooltipCompat.setTooltipText(
-                        sortingDirectionButton,
-                        sortingDirectionButton.contentDescription
-                    )
+                    sortingDirectionButton.setTooltipTextFromContentDescription()
                 }
             sortingPopup = LightPopupWindow(content)
             viewModel.deckSorting.observe { deckSorting: DeckSorting ->

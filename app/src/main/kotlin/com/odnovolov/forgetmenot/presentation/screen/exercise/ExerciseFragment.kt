@@ -13,7 +13,6 @@ import android.view.*
 import android.view.View.GONE
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -39,6 +38,7 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.NO_ACTION
 import kotlinx.android.synthetic.main.fragment_exercise.*
+import kotlinx.android.synthetic.main.popup_editing_card.view.*
 import kotlinx.android.synthetic.main.popup_hints.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
@@ -58,6 +58,7 @@ class ExerciseFragment : BaseFragment() {
     private var speakErrorPopup: PopupWindow? = null
     private var timerPopup: PopupWindow? = null
     private var hintsPopup: PopupWindow? = null
+    private var editingPopup: PopupWindow? = null
     private var walkingModePopup: PopupWindow? = null
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
@@ -106,31 +107,31 @@ class ExerciseFragment : BaseFragment() {
         exerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
             setOnClickListener { showIntervalsPopup() }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         timerButton.run {
             setOnClickListener { showTimerPopup() }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         hintButton.run {
             setOnClickListener { showHintsPopup() }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         editCardButton.run {
-            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setOnClickListener { showEditingPopup() }
+            setTooltipTextFromContentDescription()
         }
         searchButton.run {
             setOnClickListener { controller?.dispatch(SearchButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         walkingModeButton.run {
             setOnClickListener { showWalkingModePopup() }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         helpButton.run {
             setOnClickListener { controller?.dispatch(HelpButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
@@ -216,7 +217,7 @@ class ExerciseFragment : BaseFragment() {
                             R.string.description_mark_as_unlearned_button else
                             R.string.description_mark_as_learned_button
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
             }
             speakingStatus.observe { speakingStatus: SpeakingStatus ->
@@ -242,7 +243,7 @@ class ExerciseFragment : BaseFragment() {
                             CannotSpeak -> R.string.description_cannot_speak_button
                         }
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
                 if (speakingStatus != CannotSpeak) {
                     speakErrorPopup?.dismiss()
@@ -631,6 +632,27 @@ class ExerciseFragment : BaseFragment() {
         requireHintsPopup().show(anchor = hintButton, gravity = Gravity.BOTTOM)
     }
 
+    private fun requireEditingPopup(): PopupWindow {
+        if (editingPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_editing_card, null).apply {
+                editDeckSettingsButton.setOnClickListener {
+                    editingPopup?.dismiss()
+                    controller?.dispatch(EditDeckSettingsButtonClicked)
+                }
+                editCardContentButton.setOnClickListener {
+                    editingPopup?.dismiss()
+                    controller?.dispatch(EditCardContentButtonClicked)
+                }
+            }
+            editingPopup = DarkPopupWindow(content)
+        }
+        return editingPopup!!
+    }
+
+    private fun showEditingPopup() {
+        requireEditingPopup().show(anchor = editCardButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireWalkingModePopup(): PopupWindow {
         if (walkingModePopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_walking_mode, null)
@@ -646,14 +668,14 @@ class ExerciseFragment : BaseFragment() {
                     walkingModePopup?.dismiss()
                     controller?.dispatch(WalkingModeSettingsButtonClicked)
                 }
-                TooltipCompat.setTooltipText(this, contentDescription)
+                setTooltipTextFromContentDescription()
             }
             content.walkingModeHelpButton.run {
                 setOnClickListener {
                     walkingModePopup?.dismiss()
                     controller?.dispatch(WalkingModeHelpButtonClicked)
                 }
-                TooltipCompat.setTooltipText(this, contentDescription)
+                setTooltipTextFromContentDescription()
             }
             content.walkingModeSwitchButton.setOnClickListener {
                 controller?.dispatch(WalkingModeSwitchToggled)
@@ -693,6 +715,7 @@ class ExerciseFragment : BaseFragment() {
                 getBoolean(STATE_SPEAK_ERROR_POPUP, false) -> showSpeakErrorPopup()
                 getBoolean(STATE_TIMER_POPUP, false) -> showTimerPopup()
                 getBoolean(STATE_HINTS_POPUP, false) -> showHintsPopup()
+                getBoolean(STATE_EDITING_POPUP, false) -> showEditingPopup()
                 getBoolean(STATE_WALKING_MODE_POPUP, false) -> showWalkingModePopup()
             }
         }
@@ -704,6 +727,7 @@ class ExerciseFragment : BaseFragment() {
         savePopupState(outState, speakErrorPopup, STATE_SPEAK_ERROR_POPUP)
         savePopupState(outState, timerPopup, STATE_TIMER_POPUP)
         savePopupState(outState, hintsPopup, STATE_HINTS_POPUP)
+        savePopupState(outState, editingPopup, STATE_EDITING_POPUP)
         savePopupState(outState, walkingModePopup, STATE_WALKING_MODE_POPUP)
     }
 
@@ -729,6 +753,8 @@ class ExerciseFragment : BaseFragment() {
         timerPopup = null
         hintsPopup?.dismiss()
         hintsPopup = null
+        editingPopup?.dismiss()
+        editingPopup = null
         walkingModePopup?.dismiss()
         walkingModePopup = null
     }
@@ -765,6 +791,7 @@ class ExerciseFragment : BaseFragment() {
         const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
         const val STATE_TIMER_POPUP = "STATE_TIMER_POPUP"
         const val STATE_HINTS_POPUP = "STATE_HINTS_POPUP"
+        const val STATE_EDITING_POPUP = "STATE_EDITING_POPUP"
         const val STATE_WALKING_MODE_POPUP = "STATE_WALKING_MODE_POPUP"
     }
 }

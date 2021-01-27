@@ -28,10 +28,12 @@ class HelpArticleAdapter(
             helpArticleTitleTextView.setOnClickListener {
                 onItemSelected(item.helpArticle)
             }
-            if (item.helpArticle.ordinal == 0) {
-                updateLayoutParams<MarginLayoutParams> {
-                    topMargin = getStatusBarHeight(context)
-                }
+            updateLayoutParams<MarginLayoutParams> {
+                topMargin = if (item.helpArticle.ordinal == 0) {
+                        getStatusBarHeight(context)
+                    } else {
+                        0
+                    }
             }
         }
     }

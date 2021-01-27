@@ -8,7 +8,6 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
-import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -19,6 +18,7 @@ import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Prompter
 import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
 import com.odnovolov.forgetmenot.presentation.common.setTextWithClickableAnnotations
+import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
 import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleEvent.ArticleLinkClicked
@@ -154,7 +154,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
                             R.string.description_mark_as_unlearned_button else
                             R.string.description_mark_as_learned_button
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
                 questionTextView.isEnabled = !isLearned
                 answerTextView.isEnabled = !isLearned
@@ -188,7 +188,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             hintButton.setOnClickListener {
                 requireHintPopup().show(anchor = hintButton, Gravity.BOTTOM)
             }
-            TooltipCompat.setTooltipText(hintButton, hintButton.contentDescription)
+            setTooltipTextFromContentDescription()
             example3State.flowOf(Example3State::hint).observe(hintTextView::setText)
             hintTextView.observeSelectedText { text: String ->
                 val hasSelectedText = text.isNotEmpty()

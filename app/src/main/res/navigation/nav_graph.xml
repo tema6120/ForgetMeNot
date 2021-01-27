@@ -62,6 +62,10 @@
             tools:layout="@layout/fragment_exercise">
 
         <action
+            android:id="@+id/exercise_to_deck_editor"
+            app:destination="@id/deck_editor" />
+
+        <action
                 android:id="@+id/exercise_to_cards_editor"
                 app:destination="@id/cards_editor" />
 

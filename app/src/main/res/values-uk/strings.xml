@@ -140,6 +140,10 @@
     <string name="timer_stopped">Таймер зупинено</string>
     <string name="time_is_over">Час вийшов!</string>
     <string name="description_edit_card_button">Редагувати картку</string>
+    <string name="description_editing_icon">іконка \"Редагування\"</string>
+    <string name="popup_title_editing">Редагування</string>
+    <string name="text_edit_deck_settings_button">Редагувати налаштування колоди</string>
+    <string name="text_edit_card_content_button">Редагувати зміст картки</string>
     <string name="description_search_button">Шукати</string>
     <string name="description_walking_mode_button">Режим прогулянки</string>
     <string name="popup_title_walking_mode">Режим прогулянки</string>

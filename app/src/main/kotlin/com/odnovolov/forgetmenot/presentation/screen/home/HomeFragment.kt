@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
-import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -252,7 +251,7 @@ class HomeFragment : BaseFragment() {
                     R.string.description_clear_button else
                     R.string.description_paste_button
             )
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
     }
 
@@ -505,7 +504,7 @@ class HomeFragment : BaseFragment() {
                     R.string.description_back_button2 else
                     R.string.description_drawer_button
             )
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
     }
 

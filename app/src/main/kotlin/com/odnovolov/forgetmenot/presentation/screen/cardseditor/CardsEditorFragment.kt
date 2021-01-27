@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -61,23 +60,23 @@ class CardsEditorFragment : BaseFragment() {
         cardsViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         gradeButton.run {
             setOnClickListener { showIntervalsPopup() }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         removeCardButton.run {
             setOnClickListener { controller?.dispatch(RemoveCardButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         helpButton.run {
             setOnClickListener { controller?.dispatch(HelpButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         cancelButton.run {
             setOnClickListener { controller?.dispatch(CancelButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         doneButton.run {
             setOnClickListener { controller?.dispatch(DoneButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
     }
 
@@ -119,7 +118,7 @@ class CardsEditorFragment : BaseFragment() {
                                 R.string.description_mark_as_unlearned_button else
                                 R.string.description_mark_as_learned_button
                         )
-                        TooltipCompat.setTooltipText(this, contentDescription)
+                        setTooltipTextFromContentDescription()
                         isVisible = true
                     }
                 }

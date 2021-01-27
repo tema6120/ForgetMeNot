@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isInvisible
@@ -80,7 +79,7 @@ class ExampleExerciseFragment : BaseFragment() {
         exampleExerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
         timerButton.run {
             setOnClickListener { showTimerPopup() }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
     }
 
@@ -117,7 +116,7 @@ class ExampleExerciseFragment : BaseFragment() {
                             SpeakingStatus.CannotSpeak -> R.string.description_cannot_speak_button
                         }
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
                 if (speakingStatus != SpeakingStatus.CannotSpeak) {
                     speakErrorPopup?.dismiss()

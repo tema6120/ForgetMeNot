@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForExercise
@@ -13,6 +14,9 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
@@ -29,8 +33,10 @@ class ExerciseController(
     private val walkingModePreference: WalkingModePreference,
     private val globalState: GlobalState,
     private val navigator: Navigator,
+    private val screenState: ExerciseScreenState,
     private val longTermStateSaver: LongTermStateSaver,
-    private val exerciseStateProvider: ShortTermStateProvider<Exercise.State>
+    private val exerciseStateProvider: ShortTermStateProvider<Exercise.State>,
+    private val exerciseScreenStateProvider: ShortTermStateProvider<ExerciseScreenState>
 ) : BaseController<ExerciseEvent, Command>() {
     sealed class Command {
         object MoveToNextPosition : Command()
@@ -65,7 +71,18 @@ class ExerciseController(
                 exercise.stopSpeaking()
             }
 
-            EditCardButtonClicked -> {
+            EditDeckSettingsButtonClicked -> {
+                exercise.stopSpeaking()
+                screenState.wereDeckSettingsEdited = true
+                navigator.navigateToDeckEditorFromExercise {
+                    val deck: Deck = exercise.currentExerciseCard.base.deck
+                    val tabs = DeckEditorTabs.OnlyDeckSettings
+                    val screenState = DeckEditorScreenState(deck, tabs)
+                    DeckEditorDiScope.create(screenState)
+                }
+            }
+
+            EditCardContentButtonClicked -> {
                 exercise.stopSpeaking()
                 navigator.navigateToCardsEditorFromExercise {
                     val editableCard = EditableCard(
@@ -135,6 +152,10 @@ class ExerciseController(
             }
 
             FragmentResumed -> {
+                if (screenState.wereDeckSettingsEdited) {
+                    exercise.notifyExercisePreferenceChanged()
+                    screenState.wereDeckSettingsEdited = false
+                }
                 exercise.startTimer()
             }
 
@@ -191,5 +212,6 @@ class ExerciseController(
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
         exerciseStateProvider.save(exercise.state)
+        exerciseScreenStateProvider.save(screenState)
     }
 }

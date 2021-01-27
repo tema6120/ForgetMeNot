@@ -55,7 +55,7 @@ class PresetView @JvmOverloads constructor(
         contentDescription = context.getString(R.string.description_save_preset)
         visibility = GONE
         setImageResource(R.drawable.ic_round_save_24)
-        TooltipCompat.setTooltipText(this, contentDescription)
+        setTooltipTextFromContentDescription()
     }
 
     private val selectPresetButton = TextView(context, attrs, defStyleAttr, defStyleRes).apply {

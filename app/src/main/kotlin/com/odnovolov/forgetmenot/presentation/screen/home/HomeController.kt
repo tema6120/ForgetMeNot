@@ -22,7 +22,8 @@ import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardF
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDialogState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
@@ -260,7 +261,8 @@ class HomeController(
         homeScreenState.deckSelection = null
         navigator.navigateToDeckEditorFromNavHost {
             val deck: Deck = globalState.decks.first { it.id == deckId }
-            val screenState = DeckEditorScreenState(deck, initialTab)
+            val tabs = DeckEditorTabs.All(initialTab)
+            val screenState = DeckEditorScreenState(deck, tabs)
             DeckEditorDiScope.create(screenState)
         }
     }

@@ -9,7 +9,6 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -23,15 +22,15 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakErro
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus
+import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerService
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
-import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus
-import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.popup_infinite_playback.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
@@ -85,23 +84,23 @@ class PlayerFragment : BaseFragment() {
                 controller?.dispatch(GradeButtonClicked)
                 showIntervalsPopup()
             }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         editCardButton.run {
             setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         searchButton.run {
             setOnClickListener { controller?.dispatch(SearchButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         infinitePlaybackButton.run {
             setOnClickListener { showInfinitePlaybackPopup() }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         helpButton.run {
             setOnClickListener { controller?.dispatch(HelpButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
     }
 
@@ -135,7 +134,7 @@ class PlayerFragment : BaseFragment() {
                             R.string.description_mark_as_unlearned_button else
                             R.string.description_mark_as_learned_button
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
             }
             speakingStatus.observe { speakingStatus: SpeakingStatus ->
@@ -161,7 +160,7 @@ class PlayerFragment : BaseFragment() {
                             CannotSpeak -> R.string.description_cannot_speak_button
                         }
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
             }
             isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
@@ -193,7 +192,7 @@ class PlayerFragment : BaseFragment() {
                             R.string.description_pause_button else
                             R.string.description_resume_button
                     )
-                    TooltipCompat.setTooltipText(this, contentDescription)
+                    setTooltipTextFromContentDescription()
                 }
             }
             isInfinitePlaybackEnabled.observe { isInfinitePlaybackEnabled: Boolean ->

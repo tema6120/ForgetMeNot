@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.TooltipCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +15,10 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState.DeckEditorScreenTab
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsFragment
 import kotlinx.android.synthetic.main.dialog_input.view.*
@@ -46,7 +48,7 @@ class DeckEditorFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = DeckEditorDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            viewModel = diScope.deckEditorViewModel
+            viewModel = diScope.viewModel
             observeViewModel(isRecreated = savedInstanceState != null)
         }
     }
@@ -60,13 +62,13 @@ class DeckEditorFragment : BaseFragment() {
         }
         addCardButton.run {
             setOnClickListener { controller?.dispatch(AddCardButtonClicked) }
-            TooltipCompat.setTooltipText(this, contentDescription)
+            setTooltipTextFromContentDescription()
         }
         setupViewPager()
     }
 
     private fun setupViewPager() {
-        deckEditorViewPager.offscreenPageLimit = 1
+        deckEditorViewPager.isUserInputEnabled = false
         deckEditorViewPager.adapter = DeckEditorPagerAdapter(this)
         deckEditorViewPager.registerOnPageChangeCallback(
             object : ViewPager2.OnPageChangeCallback() {
@@ -87,20 +89,6 @@ class DeckEditorFragment : BaseFragment() {
                 }
             }
         )
-        tabLayoutMediator = TabLayoutMediator(
-            deckEditorTabLayout,
-            deckEditorViewPager
-        ) { tab, position ->
-            val customTab = View.inflate(requireContext(), R.layout.tab, null) as TextView
-            customTab.text = getString(
-                when (position) {
-                    0 -> R.string.tab_name_settings
-                    1 -> R.string.tab_name_content
-                    else -> throw IllegalArgumentException("position must be in 0..1")
-                }
-            )
-            tab.customView = customTab
-        }.apply { attach() }
         deckEditorViewPager.registerOnPageChangeCallback(
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -112,15 +100,45 @@ class DeckEditorFragment : BaseFragment() {
 
     private fun observeViewModel(isRecreated: Boolean) {
         with(viewModel) {
-            if (!isRecreated) {
-                when (initialTab) {
-                    DeckEditorScreenTab.Settings -> deckEditorViewPager.setCurrentItem(0, false)
-                    DeckEditorScreenTab.Content -> deckEditorViewPager.setCurrentItem(1, false)
+            setupViewPager(tabs, isRecreated)
+            deckName.observe(deckNameTextView::setText)
+        }
+    }
+
+    private fun setupViewPager(tabs: DeckEditorTabs, isRecreated: Boolean) {
+        val needTabs: Boolean = tabs is DeckEditorTabs.All
+        deckEditorTabLayout.isVisible = needTabs
+        deckEditorViewPager.offscreenPageLimit =
+            if (needTabs) 1
+            else ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+        deckEditorViewPager.isUserInputEnabled = needTabs
+        if (!isRecreated) {
+            val activeTab: Int = when (tabs) {
+                is DeckEditorTabs.All -> {
+                    when (tabs.initialTab) {
+                        Settings -> 0
+                        Content -> 1
+                    }
                 }
+                DeckEditorTabs.OnlyDeckSettings -> 0
             }
-            deckName.observe { deckName: String ->
-                deckNameTextView.text = deckName
-            }
+            deckEditorViewPager.setCurrentItem(activeTab, false)
+        }
+        if (needTabs) {
+            tabLayoutMediator = TabLayoutMediator(
+                deckEditorTabLayout,
+                deckEditorViewPager
+            ) { tab, position ->
+                val customTab = View.inflate(requireContext(), R.layout.tab, null) as TextView
+                customTab.text = getString(
+                    when (position) {
+                        0 -> R.string.tab_name_settings
+                        1 -> R.string.tab_name_content
+                        else -> throw IllegalArgumentException("position must be in 0..1")
+                    }
+                )
+                tab.customView = customTab
+            }.apply { attach() }
         }
     }
 

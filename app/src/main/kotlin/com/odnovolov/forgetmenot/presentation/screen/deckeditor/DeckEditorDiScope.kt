@@ -22,7 +22,7 @@ class DeckEditorDiScope private constructor(
         AppDiScope.get().navigator
     )
 
-    val deckEditorViewModel = DeckEditorViewModel(
+    val viewModel = DeckEditorViewModel(
         screenState
     )
 

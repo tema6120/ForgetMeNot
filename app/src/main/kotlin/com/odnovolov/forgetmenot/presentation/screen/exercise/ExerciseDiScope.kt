@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
@@ -16,7 +17,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 
 class ExerciseDiScope private constructor(
-    initialExerciseState: Exercise.State? = null
+    initialExerciseState: Exercise.State? = null,
+    initialExerciseScreenState: ExerciseScreenState? = null
 ) {
     private val exerciseStateProvider = ExerciseStateProvider(
         AppDiScope.get().json,
@@ -26,6 +28,14 @@ class ExerciseDiScope private constructor(
 
     private val exerciseState: Exercise.State =
         initialExerciseState ?: exerciseStateProvider.load()
+
+    private val exerciseScreenStateProvider = ExerciseScreenStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database
+    )
+
+    private val screenState: ExerciseScreenState =
+        initialExerciseScreenState ?: exerciseScreenStateProvider.load()
 
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
@@ -50,8 +60,10 @@ class ExerciseDiScope private constructor(
         AppDiScope.get().walkingModePreference,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
+        screenState,
         AppDiScope.get().longTermStateSaver,
-        exerciseStateProvider
+        exerciseStateProvider,
+        exerciseScreenStateProvider
     )
 
     val viewModel = ExerciseViewModel(
@@ -96,7 +108,8 @@ class ExerciseDiScope private constructor(
     )
 
     companion object : DiScopeManager<ExerciseDiScope>() {
-        fun create(initialExerciseState: Exercise.State) = ExerciseDiScope(initialExerciseState)
+        fun create(initialExerciseState: Exercise.State) =
+            ExerciseDiScope(initialExerciseState, ExerciseScreenState())
 
         override fun recreateDiScope() = ExerciseDiScope()
 
