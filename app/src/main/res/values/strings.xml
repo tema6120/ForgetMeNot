@@ -260,6 +260,7 @@
     <string name="speak_event_abbr_delay">%ds</string>
     <string name="on">On</string>
     <string name="off">Off</string>
+    <string name="interval_unit_abbreviation_minutes">min</string>
     <string name="interval_unit_abbreviation_hours">h</string>
     <string name="interval_unit_abbreviation_days">d</string>
     <string name="interval_unit_abbreviation_months">m</string>
@@ -357,6 +358,10 @@
         knowledge will become further ingrained into your long-term memory.</string>
     <string name="tip_intervals_screen_adjust_interval_scheme">Adjust the interval scheme to suit
         you. General principle: \'The higher the grade, the longer the interval should be\'.</string>
+    <plurals name="interval_unit_minutes">
+        <item quantity="one">Minute</item>
+        <item quantity="other">Minutes</item>
+    </plurals>
     <plurals name="interval_unit_hours">
         <item quantity="one">Hour</item>
         <item quantity="other">Hours</item>

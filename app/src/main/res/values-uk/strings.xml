@@ -267,6 +267,7 @@
     <string name="speak_event_abbr_delay">%dс</string>
     <string name="on">Увімкнено</string>
     <string name="off">Вимкнено</string>
+    <string name="interval_unit_abbreviation_minutes">хв</string>
     <string name="interval_unit_abbreviation_hours">г</string>
     <string name="interval_unit_abbreviation_days">дн</string>
     <string name="interval_unit_abbreviation_months">м</string>
@@ -365,6 +366,11 @@
     <string name="tip_intervals_screen_adjust_interval_scheme">Налаштуйте схему інтервалів, яка
         задовільнить вас. Загальний принцип: \"Чим вищий бал, тим тривалішим має бути інтервал\".
     </string>
+    <plurals name="interval_unit_minutes">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Хвилина</item>
+        <item quantity="few">Хвилини</item>
+        <item quantity="many">Хвилин</item>
+    </plurals>
     <plurals name="interval_unit_hours">
         <item quantity="one" tools:ignore="ImpliedQuantity">Година</item>
         <item quantity="few">Години</item>

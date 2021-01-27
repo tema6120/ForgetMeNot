@@ -20,6 +20,7 @@ class DisplayedInterval(
     fun toDateTimeSpan(): DateTimeSpan {
         if (!isValid()) throw IllegalStateException("intervalNumber is not valid")
         return when (intervalUnit) {
+            Minutes -> value!!.minutes.toDateTimeSpan()
             Hours -> value!!.hours.toDateTimeSpan()
             Days -> value!!.days.toDateTimeSpan()
             Months -> value!!.months.toDateTimeSpan()
@@ -28,6 +29,7 @@ class DisplayedInterval(
 
     fun toString(context: Context): String {
         val pluralsId: Int = when (intervalUnit) {
+            Minutes -> R.plurals.interval_unit_minutes
             Hours -> R.plurals.interval_unit_hours
             Days -> R.plurals.interval_unit_days
             Months -> R.plurals.interval_unit_months
@@ -40,6 +42,7 @@ class DisplayedInterval(
     fun getAbbreviation(context: Context): String {
         val intervalUnitAbbreviation: String = context.getString(
             when (intervalUnit) {
+                Minutes -> R.string.interval_unit_abbreviation_minutes
                 Hours -> R.string.interval_unit_abbreviation_hours
                 Days -> R.string.interval_unit_abbreviation_days
                 Months -> R.string.interval_unit_abbreviation_months
@@ -63,10 +66,16 @@ class DisplayedInterval(
                         intervalUnit = Days
                     )
                 }
-                else -> {
+                dateTimeSpan.timeSpan % 1.hours == TimeSpan.ZERO -> {
                     DisplayedInterval(
                         value = dateTimeSpan.timeSpan.hours.toInt(),
                         intervalUnit = Hours
+                    )
+                }
+                else -> {
+                    DisplayedInterval(
+                        value = dateTimeSpan.timeSpan.minutes.toInt(),
+                        intervalUnit = Minutes
                     )
                 }
             }
@@ -74,6 +83,7 @@ class DisplayedInterval(
     }
 
     enum class IntervalUnit {
+        Minutes,
         Hours,
         Days,
         Months

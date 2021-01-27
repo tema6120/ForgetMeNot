@@ -7,9 +7,10 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.soywiz.klock.DateTime
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 
 class HomeViewModel(
@@ -41,6 +42,13 @@ class HomeViewModel(
         )
     }
 
+    private val fiveSeconds: Flow<Unit> = flow {
+        while (true) {
+            emit(Unit)
+            delay(5 * 1000)
+        }
+    }
+
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = globalState.flowOf(GlobalState::decks)
         .flatMapLatest { decks: Collection<Deck> ->
             val deckNameFlows: List<Flow<String>> = decks.map { deck: Deck ->
@@ -48,6 +56,7 @@ class HomeViewModel(
             }
             combine(deckNameFlows) { decks }
         }
+        .combine(fiveSeconds) { decks: Collection<Deck>, _ -> decks }
         .map { decks: Collection<Deck> ->
             decks.map { deck: Deck ->
                 val averageLaps: String = deck.cards
@@ -127,7 +136,7 @@ class HomeViewModel(
         }
     }
         .share()
-        .flowOn(Dispatchers.Default)
+        .flowOn(businessLogicThread)
 
     private fun findMatchingRange(source: String, search: String): List<IntRange>? {
         if (search.isEmpty()) return null
@@ -174,7 +183,7 @@ class HomeViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(Dispatchers.Default)
+        .flowOn(businessLogicThread)
 
     val numberOfSelectedCardsAvailableForExercise: Flow<Int?> = combine(
         decksPreview,
@@ -194,7 +203,7 @@ class HomeViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(Dispatchers.Default)
+        .flowOn(businessLogicThread)
 
     val deckNameInDeckOptionMenu: Flow<String?> =
         homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu)

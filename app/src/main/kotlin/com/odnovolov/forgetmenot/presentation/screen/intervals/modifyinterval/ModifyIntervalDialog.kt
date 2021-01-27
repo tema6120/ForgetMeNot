@@ -83,6 +83,7 @@ class ModifyIntervalDialog : BaseDialogFragment() {
         val intervalUnits = DisplayedInterval.IntervalUnit.values()
             .map { intervalUnit: DisplayedInterval.IntervalUnit ->
                 val pluralsId: Int = when (intervalUnit) {
+                    DisplayedInterval.IntervalUnit.Minutes ->  R.plurals.interval_unit_minutes
                     DisplayedInterval.IntervalUnit.Hours -> R.plurals.interval_unit_hours
                     DisplayedInterval.IntervalUnit.Days -> R.plurals.interval_unit_days
                     DisplayedInterval.IntervalUnit.Months -> R.plurals.interval_unit_months

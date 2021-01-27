@@ -264,6 +264,7 @@
     <string name="speak_event_abbr_delay">%dс</string>
     <string name="on">Вкл.</string>
     <string name="off">Выкл.</string>
+    <string name="interval_unit_abbreviation_minutes">мин</string>
     <string name="interval_unit_abbreviation_hours">ч</string>
     <string name="interval_unit_abbreviation_days">дн</string>
     <string name="interval_unit_abbreviation_months">м</string>
@@ -364,6 +365,11 @@
     <string name="tip_intervals_screen_adjust_interval_scheme">Настройте схему интервалов, которая
         удовлетворит вас. Общий принцип: \"Чем выше балл, тем продолжительнее должен быть
         интервал\".</string>
+    <plurals name="interval_unit_minutes">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Минута</item>
+        <item quantity="few">Минуты</item>
+        <item quantity="many">Минут</item>
+    </plurals>
     <plurals name="interval_unit_hours">
         <item quantity="one" tools:ignore="ImpliedQuantity">Час</item>
         <item quantity="few">Часа</item>
