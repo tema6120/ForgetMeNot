@@ -53,8 +53,8 @@
     <dimen name="text_size_pronunciation_screen_autospeaking_switch">14sp</dimen>
     <dimen name="text_size_pronunciation_screen_speak_text_in_brackets_checkbox">14sp</dimen>
     <dimen name="text_size_pronunciation_screen_speak_go_to_tts_settings_button">13sp</dimen>
-    <dimen name="text_size_home_screen_deck_name">15sp</dimen>
-    <dimen name="text_size_home_screen_filters_sorting_button">15sp</dimen>
+    <dimen name="text_size_home_screen_deck_name">16sp</dimen>
+    <dimen name="text_size_home_screen_filters_sorting_button">14sp</dimen>
     <dimen name="text_size_deck_preview_item_summary_table_title">9.5sp</dimen>
     <dimen name="text_size_deck_preview_item_summary_table_value">11sp</dimen>
     <dimen name="text_size_deck_preview_item_summary_table_new_deck_label">10sp</dimen>

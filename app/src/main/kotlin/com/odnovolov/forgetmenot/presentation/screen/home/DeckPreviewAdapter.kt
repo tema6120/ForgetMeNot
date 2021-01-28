@@ -185,7 +185,7 @@ class DeckPreviewAdapter(
                 layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
                 setTextColor(ContextCompat.getColor(context, R.color.textPrimary))
                 setTextSizeFromRes(R.dimen.text_size_home_screen_deck_name)
-                setFont(R.font.comfortaa, Typeface.BOLD)
+                setFont(R.font.nunito_bold)
             }
         }
     }

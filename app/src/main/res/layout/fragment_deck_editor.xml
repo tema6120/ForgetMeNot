@@ -36,7 +36,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/ripple_corner_radius_8dp"
-                    android:fontFamily="@font/comfortaa"
+                    android:fontFamily="@font/nunito_bold"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="12dp"

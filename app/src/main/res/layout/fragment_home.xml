@@ -48,6 +48,7 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
+                    android:fontFamily="@font/nunito_bold"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:textSize="@dimen/text_size_search_edittext" />

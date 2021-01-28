@@ -35,7 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/comfortaa"
+                android:fontFamily="@font/nunito_bold"
                 android:padding="16dp"
                 android:textColor="@color/textPrimary"
                 android:textSize="@dimen/text_size_deck_option_bottom_sheet_title"

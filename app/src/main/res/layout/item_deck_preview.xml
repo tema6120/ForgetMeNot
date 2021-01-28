@@ -27,7 +27,7 @@
                 android:layout_marginEnd="56dp"
                 android:layout_marginBottom="8dp"
                 android:drawablePadding="12dp"
-                android:fontFamily="@font/comfortaa"
+                android:fontFamily="@font/nunito_bold"
                 android:textColor="@color/text_title"
                 android:textSize="@dimen/text_size_home_screen_deck_name"
                 android:textStyle="bold"
