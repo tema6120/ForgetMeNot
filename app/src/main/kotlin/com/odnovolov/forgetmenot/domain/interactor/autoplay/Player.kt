@@ -19,6 +19,7 @@ class Player(
         playingCards: List<PlayingCard>,
         currentPosition: Int = 0,
         pronunciationEventPosition: Int = 0,
+        currentLap: Int = 0,
         isPlaying: Boolean = true,
         isCompleted: Boolean = false,
         questionSelection: String = "",
@@ -27,6 +28,7 @@ class Player(
         val playingCards: List<PlayingCard> by flowMaker(playingCards)
         var currentPosition: Int by flowMaker(currentPosition)
         var pronunciationEventPosition: Int by flowMaker(pronunciationEventPosition)
+        var currentLap: Int by flowMaker(currentLap)
         var isPlaying: Boolean by flowMaker(isPlaying)
         var isCompleted: Boolean by flowMaker(isCompleted)
         var questionSelection: String by flowMaker(questionSelection)
@@ -68,9 +70,8 @@ class Player(
         }
     }
 
-    fun setInfinitePlaybackEnabled(enabled: Boolean) {
-        if (globalState.isInfinitePlaybackEnabled == enabled) return
-        globalState.isInfinitePlaybackEnabled = enabled
+    fun setNumberOfLaps(numberOfLaps: Int) {
+        globalState.numberOfLapsInPlayer = numberOfLaps
     }
 
     fun setCurrentPosition(position: Int) {
@@ -173,7 +174,7 @@ class Player(
     fun resume() {
         if (state.isPlaying) return
         if (!hasOneMorePronunciationEventForCurrentPlayingCard() && !hasOneMorePlayingCard()) {
-            resetProgression()
+            nextLap()
         }
         skipDelay = true
         state.isPlaying = true
@@ -182,7 +183,7 @@ class Player(
     }
 
     fun playOneMoreLap() {
-        resetProgression()
+        nextLap()
         resume()
     }
 
@@ -234,8 +235,8 @@ class Player(
                 state.pronunciationEventPosition = 0
                 true
             }
-            globalState.isInfinitePlaybackEnabled -> {
-                resetProgression()
+            hasOneMoreLap() -> {
+                nextLap()
                 true
             }
             else -> false
@@ -248,7 +249,7 @@ class Player(
     private fun hasOneMorePlayingCard(): Boolean =
         state.currentPosition + 1 < state.playingCards.size
 
-    private fun resetProgression() {
+    private fun nextLap() {
         state.playingCards.forEach { playingCard: PlayingCard ->
             with(playingCard) {
                 isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed
@@ -257,7 +258,10 @@ class Player(
         }
         state.currentPosition = 0
         state.pronunciationEventPosition = 0
+        state.currentLap++
     }
+
+    private fun hasOneMoreLap(): Boolean = state.currentLap + 1 < globalState.numberOfLapsInPlayer
 
     fun notifyExercisePreferenceChanged() {
         state.playingCards.forEach { playingCard: PlayingCard ->

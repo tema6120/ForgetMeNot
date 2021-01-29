@@ -106,13 +106,34 @@
                         android:contentDescription="@string/description_search_button"
                         app:srcCompat="@drawable/ic_search_white_24dp" />
 
-                <ImageButton
-                        android:id="@+id/infinitePlaybackButton"
+                <FrameLayout
+                        android:id="@+id/lapsButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:background="@drawable/ripple_light_borderless"
-                        android:contentDescription="@string/description_infinite_playback"
-                        app:srcCompat="@drawable/ic_round_all_inclusive_24" />
+                        android:background="@drawable/ripple_light_borderless">
+
+                    <ImageView
+                            android:id="@+id/lapsIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/description_laps_button"
+                            tools:srcCompat="@drawable/ic_laps" />
+
+                    <TextView
+                            android:id="@+id/lapsTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="10dp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            tools:ignore="SpUsage"
+                            tools:text="1"
+                            tools:visibility="visible" />
+
+                </FrameLayout>
 
                 <ImageButton
                         android:id="@+id/helpButton"

@@ -59,13 +59,9 @@ class GlobalStatePropertyChangeHandler(
                     value = isWalkingModeEnabled.toString()
                 )
             }
-            GlobalState::isInfinitePlaybackEnabled -> {
+            GlobalState::numberOfLapsInPlayer -> {
                 if (change !is PropertyValueChange) return
-                val isInfinitePlaybackEnabled = change.newValue as Boolean
-                database.keyValueQueries.replace(
-                    key = DbKeys.IS_INFINITE_PLAYBACK_ENABLED,
-                    value = isInfinitePlaybackEnabled.toString()
-                )
+                // todo
             }
         }
     }

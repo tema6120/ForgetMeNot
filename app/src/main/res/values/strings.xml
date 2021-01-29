@@ -186,9 +186,13 @@
     <string name="pause_in_notification">Pause</string>
     <string name="resume_in_notification">Resume</string>
     <string name="play_one_more_lap_in_notification">Play one more lap</string>
-    <string name="description_infinite_playback">Infinite playback</string>
-    <string name="popup_title_infinite_playback">Infinite playback</string>
-    <string name="description_infinite_playback_icon">Infinite playback icon</string>
+    <string name="description_laps_button">Laps</string>
+    <string name="title_dialog_laps_in_player">Number of laps</string>
+    <string name="radiobutton_infinitely">Infinitely</string>
+    <plurals name="radiobutton_specific_number_of_laps">
+        <item quantity="one">lap</item>
+        <item quantity="other">laps</item>
+    </plurals>
     <string name="description_pause_button">Pause</string>
     <string name="description_resume_button">Resume</string>
     <string name="description_completed_cards">Completed cards</string>

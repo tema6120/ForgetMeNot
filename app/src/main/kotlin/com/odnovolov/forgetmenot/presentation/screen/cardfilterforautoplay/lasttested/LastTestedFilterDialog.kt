@@ -150,10 +150,7 @@ class LastTestedFilterDialog : BaseDialogFragment() {
                     }
                 }
 
-                isOkButtonEnabled.observe { isEnabled ->
-                    (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
-                        isEnabled
-                }
+                isOkButtonEnabled.observe(okButton::setEnabled)
             }
         }
     }

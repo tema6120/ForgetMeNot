@@ -193,9 +193,14 @@
     <string name="pause_in_notification">Зупинитися</string>
     <string name="resume_in_notification">Продовжити</string>
     <string name="play_one_more_lap_in_notification">Програти ще одне коло</string>
-    <string name="description_infinite_playback">Безкінечне програвання</string>
-    <string name="popup_title_infinite_playback">Безкінечне програвання</string>
-    <string name="description_infinite_playback_icon">іконка \"Безкінечне програвання\"</string>
+    <string name="description_laps_button">Кола</string>
+    <string name="title_dialog_laps_in_player">Кількість кіл</string>
+    <string name="radiobutton_infinitely">Безкінечно</string>
+    <plurals name="radiobutton_specific_number_of_laps">
+        <item quantity="one" tools:ignore="ImpliedQuantity">коло</item>
+        <item quantity="few">кола</item>
+        <item quantity="many">кіл</item>
+    </plurals>
     <string name="description_pause_button">Зупинитися</string>
     <string name="description_resume_button">Продовжити</string>
     <string name="description_completed_cards">Завершені картки</string>

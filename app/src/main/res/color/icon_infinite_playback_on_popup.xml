@@ -1,4 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/description_text_on_popup" android:state_activated="false" />
-    <item android:color="@color/infinite_playback_icon_on_popup" />
-</selector>

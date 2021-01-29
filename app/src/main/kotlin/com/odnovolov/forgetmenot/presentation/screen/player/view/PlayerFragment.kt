@@ -28,18 +28,20 @@ import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServic
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
+import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewModel.Laps
+import kotlinx.android.synthetic.main.dialog_laps_in_player.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.editCardButton
 import kotlinx.android.synthetic.main.fragment_player.gradeButton
 import kotlinx.android.synthetic.main.fragment_player.helpButton
+import kotlinx.android.synthetic.main.fragment_player.lapsTextView
 import kotlinx.android.synthetic.main.fragment_player.markAsLearnedButton
 import kotlinx.android.synthetic.main.fragment_player.progressBar
 import kotlinx.android.synthetic.main.fragment_player.searchButton
 import kotlinx.android.synthetic.main.fragment_player.speakButton
 import kotlinx.android.synthetic.main.fragment_player.speakProgressBar
 import kotlinx.android.synthetic.main.popup_editing_card.view.*
-import kotlinx.android.synthetic.main.popup_infinite_playback.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.coroutines.launch
@@ -58,7 +60,6 @@ class PlayerFragment : BaseFragment() {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
     private var editingPopup: PopupWindow? = null
-    private var infinitePlaybackPopup: PopupWindow? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,8 +103,8 @@ class PlayerFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(SearchButtonClicked) }
             setTooltipTextFromContentDescription()
         }
-        infinitePlaybackButton.run {
-            setOnClickListener { showInfinitePlaybackPopup() }
+        lapsButton.run {
+            setOnClickListener { controller?.dispatch(LapsButtonClicked) }
             setTooltipTextFromContentDescription()
         }
         helpButton.run {
@@ -206,8 +207,16 @@ class PlayerFragment : BaseFragment() {
                     setTooltipTextFromContentDescription()
                 }
             }
-            isInfinitePlaybackEnabled.observe { isInfinitePlaybackEnabled: Boolean ->
-                infinitePlaybackButton.isActivated = isInfinitePlaybackEnabled
+            laps.observe { laps: Laps ->
+                lapsIcon.setImageResource(
+                    if (laps == Laps.Infinitely)
+                        R.drawable.ic_round_all_inclusive_24 else
+                        R.drawable.ic_laps
+                )
+                lapsTextView.isVisible = laps is Laps.SpecificNumberOfText
+                if (laps is Laps.SpecificNumberOfText) {
+                    lapsTextView.text = laps.text
+                }
             }
             isCompleted.observe { isCompleted: Boolean ->
                 if (isCompleted) {
@@ -388,38 +397,6 @@ class PlayerFragment : BaseFragment() {
         requireEditingPopup().show(anchor = editCardButton, gravity = Gravity.BOTTOM)
     }
 
-    private fun requireInfinitePlaybackPopup(): PopupWindow {
-        if (infinitePlaybackPopup == null) {
-            val content = View.inflate(requireContext(), R.layout.popup_infinite_playback, null)
-            content.infinitePlaybackSwitchButton.setOnClickListener {
-                controller?.dispatch(InfinitePlaybackSwitchToggled)
-            }
-            infinitePlaybackPopup = DarkPopupWindow(content)
-            subscribeInfinitePopupToViewModel()
-        }
-        return infinitePlaybackPopup!!
-    }
-
-    private fun subscribeInfinitePopupToViewModel() {
-        viewCoroutineScope!!.launch {
-            val diScope = PlayerDiScope.getAsync() ?: return@launch
-            diScope.viewModel.isInfinitePlaybackEnabled.observe { isInfinitePlaybackEnabled ->
-                infinitePlaybackPopup?.contentView?.run {
-                    infinitePlaybackSwitch.run {
-                        isChecked = isInfinitePlaybackEnabled
-                        setText(if (isInfinitePlaybackEnabled) R.string.on else R.string.off)
-                    }
-                    infinitePlaybackIcon.isActivated = isInfinitePlaybackEnabled
-                }
-            }
-        }
-    }
-
-    private fun showInfinitePlaybackPopup() {
-        requireInfinitePlaybackPopup()
-            .show(anchor = infinitePlaybackButton, gravity = Gravity.BOTTOM)
-    }
-
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
@@ -427,7 +404,6 @@ class PlayerFragment : BaseFragment() {
                 getBoolean(STATE_INTERVALS_POPUP, false) -> showIntervalsPopup()
                 getBoolean(STATE_SPEAK_ERROR_POPUP, false) -> showSpeakErrorPopup()
                 getBoolean(STATE_EDITING_POPUP, false) -> showEditingPopup()
-                getBoolean(STATE_INFINITE_PLAYBACK_POPUP, false) -> showInfinitePlaybackPopup()
             }
         }
     }
@@ -437,7 +413,6 @@ class PlayerFragment : BaseFragment() {
         savePopupState(outState, intervalsPopup, STATE_INTERVALS_POPUP)
         savePopupState(outState, speakErrorPopup, STATE_SPEAK_ERROR_POPUP)
         savePopupState(outState, editingPopup, STATE_EDITING_POPUP)
-        savePopupState(outState, infinitePlaybackPopup, STATE_INFINITE_PLAYBACK_POPUP)
     }
 
     private fun savePopupState(outState: Bundle, popupWindow: PopupWindow?, key: String) {
@@ -455,8 +430,6 @@ class PlayerFragment : BaseFragment() {
         speakErrorPopup = null
         editingPopup?.dismiss()
         editingPopup = null
-        infinitePlaybackPopup?.dismiss()
-        infinitePlaybackPopup = null
     }
 
     override fun onDestroy() {
@@ -481,6 +454,5 @@ class PlayerFragment : BaseFragment() {
         private const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
         private const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
         private const val STATE_EDITING_POPUP = "STATE_EDITING_POPUP"
-        private const val STATE_INFINITE_PLAYBACK_POPUP = "STATE_INFINITE_PLAYBACK_POPUP"
     }
 }

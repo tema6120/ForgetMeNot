@@ -199,9 +199,22 @@ class PlayerViewModel(
         .distinctUntilChanged()
         .flowOn(businessLogicThread)
 
-    val isInfinitePlaybackEnabled: Flow<Boolean> =
-        globalState.flowOf(GlobalState::isInfinitePlaybackEnabled)
-            .flowOn(businessLogicThread)
+    sealed class Laps {
+        class SpecificNumberOfText(val text: String) : Laps()
+        object Infinitely : Laps()
+    }
+
+    val laps: Flow<Laps> = combine(
+        playerState.flowOf(Player.State::currentLap),
+        globalState.flowOf(GlobalState::numberOfLapsInPlayer)
+    ) { currentLap: Int, numberOfLapsInPlayer: Int ->
+        val lapOrdinal = currentLap + 1
+        when (numberOfLapsInPlayer) {
+            Int.MAX_VALUE -> Laps.Infinitely
+            1 -> Laps.SpecificNumberOfText("1")
+            else -> Laps.SpecificNumberOfText("$lapOrdinal/$numberOfLapsInPlayer")
+        }
+    }
 
     val isCompleted: Flow<Boolean> = playerState.flowOf(Player.State::isCompleted)
         .distinctUntilChanged()

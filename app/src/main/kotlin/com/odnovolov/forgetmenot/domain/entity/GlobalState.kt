@@ -9,7 +9,7 @@ class GlobalState(
     sharedExercisePreferences: CopyableCollection<ExercisePreference>,
     cardFilterForAutoplay: CardFilterForAutoplay,
     isWalkingModeEnabled: Boolean,
-    isInfinitePlaybackEnabled: Boolean
+    numberOfLapsInPlayer: Int
 ) : FlowMakerWithRegistry<GlobalState>() {
     var decks: CopyableCollection<Deck> by flowMaker(decks, CollectionChange::class)
 
@@ -20,18 +20,18 @@ class GlobalState(
 
     var isWalkingModeEnabled: Boolean by flowMaker(isWalkingModeEnabled)
 
-    var isInfinitePlaybackEnabled: Boolean by flowMaker(isInfinitePlaybackEnabled)
+    var numberOfLapsInPlayer: Int by flowMaker(numberOfLapsInPlayer)
 
     override fun copy() = GlobalState(
         decks.copy(),
         sharedExercisePreferences.copy(),
         cardFilterForAutoplay.copy(),
         isWalkingModeEnabled,
-        isInfinitePlaybackEnabled
+        numberOfLapsInPlayer
     )
 
     companion object {
         const val DEFAULT_IS_WALKING_MODE_ENABLED = false
-        const val DEFAULT_IS_INFINITE_PLAYBACK_ENABLED = false
+        const val DEFAULT_NUMBER_OF_LAPS_IN_PLAYER = 1
     }
 }

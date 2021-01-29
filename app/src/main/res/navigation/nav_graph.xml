@@ -335,9 +335,18 @@
                 app:destination="@+id/search" />
 
         <action
+            android:id="@+id/show_laps_in_player_dialog"
+            app:destination="@+id/laps_in_player_dialog" />
+
+        <action
                 android:id="@+id/player_to_help_article"
                 app:destination="@id/help_article" />
 
     </fragment>
+
+    <dialog
+            android:id="@+id/laps_in_player_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDialog"
+            tools:layout="@layout/dialog_laps_in_player" />
 
 </navigation>

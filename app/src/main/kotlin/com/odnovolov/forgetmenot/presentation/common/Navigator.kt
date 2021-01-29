@@ -22,6 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversion
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayDiScope
@@ -238,6 +239,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToSearchFromPlayer(createDiScope: () -> SearchDiScope) {
         SearchDiScope.open(createDiScope)
         navigate(R.id.player_to_search)
+    }
+
+    fun showLapsInPlayerDialog(createDiScope: () -> LapsInPlayerDiScope) {
+        LapsInPlayerDiScope.open(createDiScope)
+        navigate(R.id.show_laps_in_player_dialog)
     }
 
     fun navigateToHelpArticleFromPlayer(createDiScope: () -> HelpArticleDiScope) {

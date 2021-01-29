@@ -20,6 +20,8 @@ import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScre
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
+import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDialogState
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.launchIn
@@ -123,9 +125,15 @@ class PlayerViewController(
                 }
             }
 
-            InfinitePlaybackSwitchToggled -> {
-                val enabled = !globalState.isInfinitePlaybackEnabled
-                player.setInfinitePlaybackEnabled(enabled)
+            LapsButtonClicked -> {
+                navigator.showLapsInPlayerDialog {
+                    val isInfinite = globalState.numberOfLapsInPlayer == Int.MAX_VALUE
+                    val numberOfLapsInput: String =
+                        if (isInfinite) "1"
+                        else globalState.numberOfLapsInPlayer.toString()
+                    val dialogState = LapsInPlayerDialogState(isInfinite, numberOfLapsInput)
+                    LapsInPlayerDiScope.create(dialogState)
+                }
             }
 
             HelpButtonClicked -> {

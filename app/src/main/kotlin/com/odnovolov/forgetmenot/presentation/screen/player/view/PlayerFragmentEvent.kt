@@ -11,7 +11,7 @@ sealed class PlayerFragmentEvent {
     object EditDeckSettingsButtonClicked : PlayerFragmentEvent()
     object EditCardContentButtonClicked : PlayerFragmentEvent()
     object SearchButtonClicked : PlayerFragmentEvent()
-    object InfinitePlaybackSwitchToggled : PlayerFragmentEvent()
+    object LapsButtonClicked : PlayerFragmentEvent()
     object HelpButtonClicked : PlayerFragmentEvent()
     object PauseButtonClicked : PlayerFragmentEvent()
     object ResumeButtonClicked : PlayerFragmentEvent()

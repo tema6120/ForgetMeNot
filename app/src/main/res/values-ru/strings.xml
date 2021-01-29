@@ -190,9 +190,14 @@
     <string name="pause_in_notification">Остановиться</string>
     <string name="resume_in_notification">Продолжить</string>
     <string name="play_one_more_lap_in_notification">Проиграть еще один круг</string>
-    <string name="description_infinite_playback">Бесконечное проигрывание</string>
-    <string name="popup_title_infinite_playback">Бесконечное проигрывание</string>
-    <string name="description_infinite_playback_icon">иконка \"Бесконечное проигрывание\"</string>
+    <string name="description_laps_button">Круги</string>
+    <string name="title_dialog_laps_in_player">Количество кругов</string>
+    <string name="radiobutton_infinitely">Бесконечно</string>
+    <plurals name="radiobutton_specific_number_of_laps">
+        <item quantity="one" tools:ignore="ImpliedQuantity">круг</item>
+        <item quantity="few">круга</item>
+        <item quantity="many">кругов</item>
+    </plurals>
     <string name="description_pause_button">Остановиться</string>
     <string name="description_resume_button">Продолжить</string>
     <string name="description_completed_cards">Законченные карточки</string>
