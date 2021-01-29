@@ -23,6 +23,7 @@ class Parser private constructor() {
             it.readText()
         }
         return text
+            .removePrefix("\uFEFF")
             .replace("\r", "")
             .split(CARD_BLOCK_SEPARATOR_REGEX)
             .filter(::notEmpty)

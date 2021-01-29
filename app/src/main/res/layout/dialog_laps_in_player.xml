@@ -33,20 +33,23 @@
                 android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
-            <LinearLayout
+            <FrameLayout
                     android:id="@+id/specificNumberOfLapsButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_transparent_12dp_corner_radius"
                     android:orientation="horizontal">
 
                 <RadioButton
                         android:id="@+id/specificNumberOfLapsRadioButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:background="@drawable/ripple_borderless_colored"
                         android:button="@null"
                         android:clickable="false"
                         android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+                        android:drawablePadding="64dp"
                         android:focusable="false"
                         android:fontFamily="@font/nunito_bold"
                         android:paddingStart="16dp"
@@ -57,17 +60,20 @@
                         android:textSize="@dimen/text_size_dialog_radiobutton"
                         android:visibility="invisible"
                         tools:checked="true"
+                        tools:text="lap"
                         tools:visibility="visible" />
 
                 <EditText
                         android:id="@+id/lapsEditText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="32dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginStart="64dp"
                         android:fontFamily="@font/nunito_bold"
-                        android:gravity="end"
-                        android:hint="00"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
                         android:inputType="number"
+                        android:labelFor="@+id/specificNumberOfLapsRadioButton"
                         android:maxLength="1"
                         android:padding="8dp"
                         android:textColor="@color/text_secondary_selector"
@@ -76,22 +82,11 @@
                         tools:ignore="HardcodedText"
                         tools:text="1" />
 
-                <TextView
-                        android:id="@+id/lapsTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/nunito_bold"
-                        android:padding="16dp"
-                        android:textColor="@color/text_secondary_selector"
-                        android:textSize="@dimen/text_size_dialog_radiobutton"
-                        tools:text="lap" />
-
-            </LinearLayout>
+            </FrameLayout>
 
             <FrameLayout
                     android:id="@+id/infinitelyButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rectangle_transparent_12dp_corner_radius">
 

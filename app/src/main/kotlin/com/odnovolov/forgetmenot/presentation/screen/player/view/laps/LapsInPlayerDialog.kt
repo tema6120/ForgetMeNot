@@ -93,7 +93,7 @@ class LapsInPlayerDialog : BaseDialogFragment() {
                     }
                 }
                 numberOfLaps.observe { numberOfLaps: Int ->
-                    lapsTextView.text = resources.getQuantityText(
+                    specificNumberOfLapsRadioButton.text = resources.getQuantityText(
                         R.plurals.radiobutton_specific_number_of_laps,
                         numberOfLaps
                     )
