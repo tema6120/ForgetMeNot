@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.soywiz.klock.DateTime
+import kotlin.random.Random
 
 class PlayerStateCreator(
     val state: State
@@ -84,6 +85,7 @@ class PlayerStateCreator(
             CardInversion.Off -> false
             CardInversion.On -> true
             CardInversion.EveryOtherLap -> (card.lap % 2) == 1
+            CardInversion.Randomly -> Random.nextBoolean()
         }
         return PlayingCard(
             id = generateId(),

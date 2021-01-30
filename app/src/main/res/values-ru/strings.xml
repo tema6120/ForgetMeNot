@@ -329,6 +329,7 @@
     <string name="item_card_inversion_off">Выключена</string>
     <string name="item_card_inversion_on">Включена</string>
     <string name="item_card_inversion_every_other_lap">Через круг</string>
+    <string name="item_card_inversion_randomly">Случайным образом</string>
 
 
     <!-- Question display screen -->

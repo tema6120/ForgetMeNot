@@ -5,4 +5,5 @@ sealed class CardInversionEvent {
     object OffRadioButtonClicked : CardInversionEvent()
     object OnRadioButtonClicked : CardInversionEvent()
     object EveryOtherLapRadioButtonClicked : CardInversionEvent()
+    object RandomlyButtonClicked : CardInversionEvent()
 }

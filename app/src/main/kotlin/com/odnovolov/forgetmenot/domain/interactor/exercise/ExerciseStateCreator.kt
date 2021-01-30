@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.TestingMethod.*
 import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
+import kotlin.random.Random
 
 class ExerciseStateCreator(
     private val globalState: GlobalState
@@ -44,6 +45,7 @@ class ExerciseStateCreator(
             CardInversion.Off -> false
             CardInversion.On -> true
             CardInversion.EveryOtherLap -> (card.lap % 2) == 1
+            CardInversion.Randomly -> Random.nextBoolean()
         }
         val isWalkingMode = globalState.isWalkingModeEnabled
         val baseExerciseCard = ExerciseCard.Base(

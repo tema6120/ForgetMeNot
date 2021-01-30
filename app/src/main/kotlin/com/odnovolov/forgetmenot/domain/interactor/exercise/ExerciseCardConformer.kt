@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise
 
 import com.odnovolov.forgetmenot.domain.entity.*
+import kotlin.random.Random
 
 class ExerciseCardConformer(
     private val state: Exercise.State,
@@ -81,8 +82,9 @@ class ExerciseCardConformer(
     }
 
     private fun ExerciseCard.conformToExercisePreference() {
-        if (base.isInverted != needToInvert(this)) {
-            base.isInverted = needToInvert(this)
+        val needToInvert: Boolean = needToInvert(this)
+        if (base.isInverted != needToInvert) {
+            base.isInverted = needToInvert
             base.hint = null
         }
         base.isQuestionDisplayed = base.deck.exercisePreference.isQuestionDisplayed
@@ -102,6 +104,7 @@ class ExerciseCardConformer(
                     else -> card.lap % 2 == 1
                 }
             }
+            CardInversion.Randomly -> Random.nextBoolean()
         }
     }
 

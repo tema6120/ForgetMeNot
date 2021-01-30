@@ -64,6 +64,9 @@ class CardInversionFragment : BaseFragment() {
         everyOtherLapButton.setOnClickListener {
             controller?.dispatch(EveryOtherLapRadioButtonClicked)
         }
+        randomlyButton.setOnClickListener {
+            controller?.dispatch(RandomlyButtonClicked)
+        }
     }
 
     private fun observeViewModel() {
@@ -93,6 +96,8 @@ class CardInversionFragment : BaseFragment() {
                 onRadioButton.uncover()
                 everyOtherLapRadioButton.isChecked = cardInversion == CardInversion.EveryOtherLap
                 everyOtherLapRadioButton.uncover()
+                randomlyRadioButton.isChecked = cardInversion == CardInversion.Randomly
+                randomlyRadioButton.uncover()
             }
         }
     }

@@ -37,20 +37,6 @@ val dateTimeSpanAdapter = object : ColumnAdapter<DateTimeSpan, String> {
     }
 }
 
-val deckSortingAdapter = object : ColumnAdapter<DeckSorting, String> {
-    override fun encode(value: DeckSorting): String {
-        return "${value.criterion} ${value.direction}"
-    }
-
-    override fun decode(databaseValue: String): DeckSorting {
-        return databaseValue.split(" ").let {
-            val criterion = DeckSorting.Criterion.valueOf(it[0])
-            val direction = DeckSorting.Direction.valueOf(it[1])
-            DeckSorting(criterion, direction)
-        }
-    }
-}
-
 val pronunciationEventsAdapter = object : ColumnAdapter<List<PronunciationEvent>, String> {
     override fun encode(value: List<PronunciationEvent>): String {
         return value.joinToString { pronunciationEvent: PronunciationEvent ->

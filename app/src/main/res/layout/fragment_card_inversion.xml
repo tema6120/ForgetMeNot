@@ -181,6 +181,34 @@
 
                     </FrameLayout>
 
+                    <FrameLayout
+                            android:id="@+id/randomlyButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent">
+
+                        <RadioButton
+                                android:id="@+id/randomlyRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/ripple_borderless_colored"
+                                android:button="@null"
+                                android:clickable="false"
+                                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                                android:focusable="false"
+                                android:fontFamily="@font/nunito_bold"
+                                android:paddingStart="24dp"
+                                android:paddingTop="12dp"
+                                android:paddingEnd="24dp"
+                                android:paddingBottom="12dp"
+                                android:text="@string/item_card_inversion_randomly"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="@dimen/text_size_radiobutton"
+                                android:visibility="invisible"
+                                tools:visibility="visible" />
+
+                    </FrameLayout>
+
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

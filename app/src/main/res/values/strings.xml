@@ -323,6 +323,7 @@
     <string name="item_card_inversion_off">Off</string>
     <string name="item_card_inversion_on">On</string>
     <string name="item_card_inversion_every_other_lap">Every other lap</string>
+    <string name="item_card_inversion_randomly">Randomly</string>
 
 
     <!-- Question display screen -->

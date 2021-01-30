@@ -36,6 +36,11 @@ class CardInversionController(
                 deckSettings.setCardInversion(CardInversion.EveryOtherLap)
                 exercise.notifyExercisePreferenceChanged()
             }
+
+            RandomlyButtonClicked -> {
+                deckSettings.setCardInversion(CardInversion.Randomly)
+                exercise.notifyExercisePreferenceChanged()
+            }
         }
     }
 

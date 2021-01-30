@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.TestingMethod.*
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
+import kotlin.random.Random
 
 class ExampleExerciseStateCreator(
     private val deck: Deck
@@ -38,6 +39,7 @@ class ExampleExerciseStateCreator(
                     CardInversion.Off -> false
                     CardInversion.On -> true
                     CardInversion.EveryOtherLap -> (lap % 2) == 1
+                    CardInversion.Randomly -> Random.nextBoolean()
                 }
             }
         val baseExerciseCard = ExerciseCard.Base(

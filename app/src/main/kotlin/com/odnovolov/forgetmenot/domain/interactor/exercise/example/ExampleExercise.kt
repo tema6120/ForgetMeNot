@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.coroutines.CoroutineContext
+import kotlin.random.Random
 
 class ExampleExercise(
     val state: Exercise.State,
@@ -94,6 +95,7 @@ class ExampleExercise(
             CardInversion.Off -> false
             CardInversion.On -> true
             CardInversion.EveryOtherLap -> (card.lap % 2) == 1
+            CardInversion.Randomly -> Random.nextBoolean()
         }
         val baseExerciseCard = ExerciseCard.Base(
             id = exerciseCard.base.id,
@@ -124,6 +126,7 @@ class ExampleExercise(
             CardInversion.Off -> false
             CardInversion.On -> true
             CardInversion.EveryOtherLap -> (base.card.lap % 2) == 1
+            CardInversion.Randomly -> Random.nextBoolean()
         }
         base.isQuestionDisplayed = base.deck.exercisePreference.isQuestionDisplayed
         base.timeLeft = base.deck.exercisePreference.timeForAnswer

@@ -130,6 +130,7 @@ class DeckSettingsFragment : BaseFragment() {
                         CardInversion.Off -> R.string.item_card_inversion_off
                         CardInversion.On -> R.string.item_card_inversion_on
                         CardInversion.EveryOtherLap -> R.string.item_card_inversion_every_other_lap
+                        CardInversion.Randomly -> R.string.item_card_inversion_randomly
                     }
                 )
             }

@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.TextInBracketsRemove
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.coroutines.CoroutineContext
+import kotlin.random.Random
 
 class Player(
     val state: State,
@@ -269,6 +270,7 @@ class Player(
                 CardInversion.Off -> false
                 CardInversion.On -> true
                 CardInversion.EveryOtherLap -> playingCard.card.lap % 2 == 1
+                CardInversion.Randomly -> Random.nextBoolean()
             }
             playingCard.isQuestionDisplayed = playingCard.isAnswerDisplayed
                     || playingCard.deck.exercisePreference.isQuestionDisplayed

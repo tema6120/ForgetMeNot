@@ -331,6 +331,7 @@
     <string name="item_card_inversion_off">Вимкнено</string>
     <string name="item_card_inversion_on">Увімкнено</string>
     <string name="item_card_inversion_every_other_lap">Через коло</string>
+    <string name="item_card_inversion_randomly">Випадковим чином</string>
 
 
     <!-- Question display screen -->
