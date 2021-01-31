@@ -233,6 +233,9 @@
 
     <!-- Cards Editor screen -->
 
+    <string name="card_label_duplicated">Дублированная</string>
+    <string name="explanation_card_label_duplicated">Есть еще одна карточка с тем же вопросом и
+        ответом в этой колоде.</string>
     <string name="hint_question_edittext">Введите вопрос</string>
     <string name="hint_answer_edittext">Введите ответ</string>
     <string name="description_invert_card_button">Инвертировать карточку</string>

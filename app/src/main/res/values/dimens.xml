@@ -6,7 +6,7 @@
     <dimen name="text_size_help_article_paragraph">14sp</dimen>
     <dimen name="text_size_import_of_deck_help_article_text_file_content">12sp</dimen>
     <dimen name="text_size_import_of_deck_help_article_file_name">14sp</dimen>
-    <dimen name="text_size_deck_option_bottom_sheet_title">15sp</dimen>
+    <dimen name="text_size_deck_option_bottom_sheet_title">17sp</dimen>
     <dimen name="text_size_deck_option_bottom_sheet_item">14sp</dimen>
     <dimen name="text_size_bottom_sheet_description">16sp</dimen>
     <dimen name="text_size_bottom_sheet_preferred_button">16sp</dimen>

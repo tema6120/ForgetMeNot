@@ -162,6 +162,25 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+                android:id="@+id/cardLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="top|center_horizontal"
+                android:background="@drawable/background_card_label"
+                android:backgroundTint="@color/issue"
+                android:enabled="false"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="center_vertical"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:stateListAnimator="@animator/card_label"
+                android:text="@string/card_label_duplicated"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_card_label"
+                android:textStyle="bold"
+                android:translationY="-37dp" />
+
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

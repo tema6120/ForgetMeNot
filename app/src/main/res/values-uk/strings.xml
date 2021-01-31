@@ -236,6 +236,9 @@
 
     <!-- Cards Editor screen -->
 
+    <string name="card_label_duplicated">Дубльована</string>
+    <string name="explanation_card_label_duplicated">Є ще одна картка з тим самим запитанням та
+        відповіддю в цій колоді.</string>
     <string name="hint_question_edittext">Введіть запитання</string>
     <string name="hint_answer_edittext">Введіть відповідь</string>
     <string name="description_invert_card_button">Інвертувати картку</string>
