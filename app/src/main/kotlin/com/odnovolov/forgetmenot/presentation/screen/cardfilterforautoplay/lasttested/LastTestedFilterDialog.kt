@@ -25,12 +25,19 @@ class LastTestedFilterDialog : BaseDialogFragment() {
     }
 
     private var controller: LastTestedFilterController? = null
+    private lateinit var viewModel: LastTestedFilterViewModel
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog()
         rootView = View.inflate(requireContext(), R.layout.dialog_last_tested_filter, null)
         setupView()
+        viewCoroutineScope!!.launch {
+            val diScope = LastTestedFilterDiScope.getAsync() ?: return@launch
+            controller = diScope.controller
+            viewModel = diScope.viewModel
+            observeViewModel()
+        }
         return AlertDialog.Builder(requireContext())
             .setView(rootView)
             .create()
@@ -102,16 +109,7 @@ class LastTestedFilterDialog : BaseDialogFragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewCoroutineScope!!.launch {
-            val diScope = LastTestedFilterDiScope.getAsync() ?: return@launch
-            controller = diScope.controller
-            observeViewModel(diScope.viewModel)
-        }
-    }
-
-    private fun observeViewModel(viewModel: LastTestedFilterViewModel) {
+    private fun observeViewModel() {
         with(viewModel) {
             with(rootView) {
                 dialogTitle.setText(

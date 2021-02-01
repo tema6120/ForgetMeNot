@@ -114,6 +114,7 @@
         TTS engine (%1$s) doesn\'t support %2$s</string>
     <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
     <string name="error_message_failed_to_speak">Failed to speak</string>
+    <string name="error_message_cannot_get_audio_focus">Cannot get audio focus</string>
     <string name="description_hint_button">Hint</string>
     <string name="popup_title_hints">Hints</string>
     <string name="description_hint_icon">Hint icon</string>

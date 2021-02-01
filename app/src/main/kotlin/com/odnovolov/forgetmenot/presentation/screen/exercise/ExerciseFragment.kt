@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.findViewHolderForAdapterPosition
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.CannotGainAudioFocus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
@@ -254,7 +255,14 @@ class ExerciseFragment : BaseFragment() {
             }
             speakerEvents.observe { event: SpeakerImpl.Event ->
                 when (event) {
-                    SpeakError -> speakErrorToast.show()
+                    SpeakError -> speakErrorToast.run {
+                        setText(R.string.error_message_failed_to_speak)
+                        show()
+                    }
+                    CannotGainAudioFocus -> speakErrorToast.run {
+                        setText(R.string.error_message_cannot_get_audio_focus)
+                        show()
+                    }
                 }
             }
             timerStatus.observe(::onTimerStatusChanged)

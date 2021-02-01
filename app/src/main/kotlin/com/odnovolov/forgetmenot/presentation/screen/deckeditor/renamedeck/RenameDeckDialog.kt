@@ -25,13 +25,17 @@ class RenameDeckDialog : BaseDialogFragment() {
     private var controller: RenameDeckController? = null
     private lateinit var viewModel: RenameDeckViewModel
     private lateinit var rootView: View
-    private var isRecreated = false
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog()
-        isRecreated = savedInstanceState != null
         rootView = View.inflate(requireContext(), R.layout.dialog_input, null)
         setupView()
+        viewCoroutineScope!!.launch {
+            val diScope = RenameDeckDiScope.getAsync() ?: return@launch
+            controller = diScope.controller
+            viewModel = diScope.viewModel
+            observeViewModel(isRecreated = savedInstanceState != null)
+        }
         return AlertDialog.Builder(requireContext())
             .setView(rootView)
             .create()
@@ -58,17 +62,7 @@ class RenameDeckDialog : BaseDialogFragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewCoroutineScope!!.launch {
-            val diScope = RenameDeckDiScope.getAsync() ?: return@launch
-            controller = diScope.controller
-            viewModel = diScope.viewModel
-            observeViewModel()
-        }
-    }
-
-    private fun observeViewModel() {
+    private fun observeViewModel(isRecreated: Boolean) {
         with(viewModel) {
             if (!isRecreated) {
                 rootView.dialogInput.setText(deckName)

@@ -40,6 +40,7 @@ class ExerciseDiScope private constructor(
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
+        manageAudioFocus = true,
         initialLanguage = exerciseState.exerciseCards[0].let { exerciseCard: ExerciseCard ->
             val pronunciation = exerciseCard.base.deck.exercisePreference.pronunciation
             if (exerciseCard.base.isInverted)

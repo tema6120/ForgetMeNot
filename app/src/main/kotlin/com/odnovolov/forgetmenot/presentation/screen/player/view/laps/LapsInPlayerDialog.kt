@@ -21,12 +21,19 @@ class LapsInPlayerDialog : BaseDialogFragment() {
     }
 
     private var controller: LapsInPlayerController? = null
+    private lateinit var viewModel: LapsInPlayerViewModel
     private lateinit var rootView: View
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog()
         rootView = View.inflate(context, R.layout.dialog_laps_in_player, null)
         setupView()
+        viewCoroutineScope!!.launch {
+            val diScope = LapsInPlayerDiScope.getAsync() ?: return@launch
+            controller = diScope.controller
+            viewModel = diScope.viewModel
+            observeViewModel()
+        }
         return AlertDialog.Builder(requireContext())
             .setView(rootView)
             .create()
@@ -58,16 +65,7 @@ class LapsInPlayerDialog : BaseDialogFragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewCoroutineScope!!.launch {
-            val diScope = LapsInPlayerDiScope.getAsync() ?: return@launch
-            controller = diScope.controller
-            observeViewModel(diScope.viewModel)
-        }
-    }
-
-    private fun observeViewModel(viewModel: LapsInPlayerViewModel) {
+    private fun observeViewModel() {
         with(viewModel) {
             with(rootView) {
                 lapsEditText.setText(numberOfLapsInput)

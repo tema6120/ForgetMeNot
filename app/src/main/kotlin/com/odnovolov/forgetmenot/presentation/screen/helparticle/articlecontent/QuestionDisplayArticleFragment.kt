@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.CannotGainAudioFocus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -46,6 +47,7 @@ class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             speaker = SpeakerImpl(
                 appDiScope.app,
                 appDiScope.activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
+                manageAudioFocus = true,
                 initialLanguage = QUESTION_LANGUAGE
             )
             observeSpeakerState()
@@ -76,7 +78,14 @@ class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
         }
         speaker!!.events.observe { event: SpeakerImpl.Event ->
             when (event) {
-                SpeakError -> speakErrorToast.show()
+                SpeakError -> speakErrorToast.run {
+                    setText(R.string.error_message_failed_to_speak)
+                    show()
+                }
+                CannotGainAudioFocus -> speakErrorToast.run {
+                    setText(R.string.error_message_cannot_get_audio_focus)
+                    show()
+                }
             }
         }
     }

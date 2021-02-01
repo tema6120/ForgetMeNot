@@ -46,7 +46,7 @@ class PlayerService : BaseService() {
                 } else {
                     notificationBuilder.update()
                     stopForeground(/*removeNotification = */false)
-                    wakeLock?.release()
+                    wakeLock?.run { if (isHeld) release() }
                 }
             }
             isCompleted.observe { isCompleted: Boolean ->

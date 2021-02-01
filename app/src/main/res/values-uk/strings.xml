@@ -119,6 +119,7 @@
         Поточна система TTS (%1$s) не підтримує %2$s</string>
     <string name="speak_error_description_missing_data_for_language">Відсутні дані для %1$s</string>
     <string name="error_message_failed_to_speak">Не вдалося вимовити</string>
+    <string name="error_message_cannot_get_audio_focus">Неможливо отримати аудіофокус</string>
     <string name="description_hint_button">Підказати</string>
     <string name="popup_title_hints">Підказки</string>
     <string name="description_hint_icon">іконка \"Підказка\"</string>

@@ -5,6 +5,9 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import androidx.media.AudioAttributesCompat
+import androidx.media.AudioFocusRequestCompat
+import androidx.media.AudioManagerCompat
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Speaker
@@ -12,7 +15,7 @@ import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent.ActivityPaused
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent.ActivityResumed
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status.*
 import kotlinx.coroutines.*
@@ -27,6 +30,7 @@ import kotlin.collections.ArrayList
 class SpeakerImpl(
     private val applicationContext: Context,
     private val activityLifecycleEvents: Flow<ActivityLifecycleEvent>,
+    private val manageAudioFocus: Boolean,
     private val initialLanguage: Locale? = null
 ) : Speaker {
     class State : FlowMaker<State>() {
@@ -47,6 +51,7 @@ class SpeakerImpl(
 
     sealed class Event {
         object SpeakError : Event()
+        object CannotGainAudioFocus : Event()
     }
 
     enum class LanguageStatus {
@@ -85,6 +90,21 @@ class SpeakerImpl(
     private val toneGenerator: ToneGenerator
             by lazy { ToneGenerator(AudioManager.STREAM_MUSIC, 100) }
     private var errorSoundJob: Job? = null
+    private val audioManager by lazy {
+        applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    }
+    private val afChangeListener by lazy {
+        AudioManager.OnAudioFocusChangeListener { focusChange: Int ->
+            coroutineScope.launch {
+                if (focusChange != AudioManager.AUDIOFOCUS_GAIN) {
+                    stopSpeaking()
+                    state.isPreparingToSpeak = false
+                }
+            }
+        }
+    }
+
+    private var focusRequest: AudioFocusRequestCompat? = null
 
     init {
         coroutineScope.launch {
@@ -148,7 +168,7 @@ class SpeakerImpl(
                 if (ttsWrapper.language != null) {
                     ttsWrapper.updateLanguageStatus()
                 }
-                executeSpeakingTask()
+                tryToExecuteSpeakingTask()
             } else {
                 state.status = FailedToInitialize
                 state.isPreparingToSpeak = false
@@ -247,6 +267,8 @@ class SpeakerImpl(
                         restartTts()
                         needToRestartSpeakingTts = false
                     }
+                    speakingTask = null
+                    abandonAudioFocusRequest()
                 }
             }
 
@@ -256,6 +278,8 @@ class SpeakerImpl(
                     state.isSpeaking = false
                     isSpeaking = false
                     onSpeakingFinishedListener?.invoke()
+                    speakingTask = null
+                    abandonAudioFocusRequest()
                 }
             }
         })
@@ -268,11 +292,11 @@ class SpeakerImpl(
             }
             state.isPreparingToSpeak = true
             speakingTask = SpeakingTask(text, language)
-            executeSpeakingTask()
+            tryToExecuteSpeakingTask()
         }
     }
 
-    private fun executeSpeakingTask() {
+    private fun tryToExecuteSpeakingTask() {
         if (state.status != Initialized) return
         val speakingTask: SpeakingTask = speakingTask ?: return
         val specifiedLanguage: Locale = speakingTask.language ?: run {
@@ -286,11 +310,15 @@ class SpeakerImpl(
             val isTtsEngineValid = validateTtsEngine(ttsWrapper)
             if (!isTtsEngineValid) return
         }
-        if (ttsWrapper.isInitialized) {
-            stopSpeaking()
-            ttsWrapper.speak(speakingTask.text)
-            this.speakingTask = null
+        if (!ttsWrapper.isInitialized) return
+        if (manageAudioFocus && requestAudioFocus() == AudioManager.AUDIOFOCUS_REQUEST_FAILED) {
+            eventFlow.send(CannotGainAudioFocus)
+            state.isPreparingToSpeak = false
+            return
         }
+        stopSpeaking()
+        ttsWrapper.speak(speakingTask.text)
+        this.speakingTask = null
     }
 
     private fun obtainTtsWrapper(language: Locale): TtsWrapper {
@@ -368,6 +396,29 @@ class SpeakerImpl(
         }
     }
 
+    private fun requestAudioFocus(): Int {
+        focusRequest = AudioFocusRequestCompat.Builder(
+            AudioManagerCompat.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+        )
+            .setOnAudioFocusChangeListener(afChangeListener)
+            .setAudioAttributes(
+                AudioAttributesCompat.Builder()
+                    .setUsage(AudioAttributesCompat.USAGE_ASSISTANT)
+                    .setContentType(AudioAttributesCompat.CONTENT_TYPE_SPEECH)
+                    .build()
+            )
+            .build()
+        return AudioManagerCompat.requestAudioFocus(audioManager, focusRequest!!)
+    }
+
+    private fun abandonAudioFocusRequest() {
+        if (!manageAudioFocus) return
+        focusRequest?.let { focusRequest ->
+            AudioManagerCompat.abandonAudioFocusRequest(audioManager, focusRequest)
+        }
+        focusRequest = null
+    }
+
     fun languageStatusOf(language: Locale?): Flow<LanguageStatus?> = flow {
         val specifiedLanguage = language ?: state.defaultLanguage
         val ttsWrapper = obtainTtsWrapper(specifiedLanguage)
@@ -397,6 +448,7 @@ class SpeakerImpl(
             stopSpeaking()
             state.isPreparingToSpeak = false
             speakingTask = null
+            abandonAudioFocusRequest()
         }
     }
 
@@ -423,6 +475,7 @@ class SpeakerImpl(
                 availableLanguages = emptySet()
                 isPreparingToSpeak = false
             }
+            abandonAudioFocusRequest()
             coroutineScope.cancel()
         }
     }

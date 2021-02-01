@@ -115,6 +115,7 @@
         Текущий движок TTS (%1$s) не поддерживает %2$s</string>
     <string name="speak_error_description_missing_data_for_language">Отсутствуют данные для %1$s</string>
     <string name="error_message_failed_to_speak">Не удалось произнести</string>
+    <string name="error_message_cannot_get_audio_focus">Не удается получить аудиофокус</string>
     <string name="description_hint_button">Подсказать</string>
     <string name="popup_title_hints">Подсказки</string>
     <string name="description_hint_icon">иконка \"Подсказки\"</string>
