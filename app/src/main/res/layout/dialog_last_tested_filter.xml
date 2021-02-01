@@ -213,7 +213,7 @@
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_dialog_ok_button"
-                app:backgroundTint="@color/last_tested"
+                app:backgroundTint="@color/background_tint_ok_button_in_last_tested_filter_dialog"
                 app:cornerRadius="16dp"
                 app:rippleColor="@android:color/white" />
 

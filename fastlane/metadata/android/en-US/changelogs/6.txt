@@ -1,0 +1,6 @@
+- ability to edit deck settings from exercise and card player
+- intervals can be expressed in minutes
+- ability to indicate the number of laps in card player
+- random card inversion
+- warning in cards editor when a deck has cards with the same question and answer
+- audio focus is utilized. Phone call will prevent speech output
