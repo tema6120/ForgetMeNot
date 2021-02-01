@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerStateProvider
+import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -37,10 +38,14 @@ class PlayerDiScope private constructor(
     private val screenState: PlayerScreenState =
         initialScreenState ?: screenStateProvider.load()
 
+    private val audioFocusManager = AudioFocusManager(
+        AppDiScope.get().app
+    )
+
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        manageAudioFocus = false,
+        audioFocusManager,
         initialLanguage = playerState.playingCards[0].run {
             val pronunciation = deck.exercisePreference.pronunciation
             if (isInverted)
@@ -58,6 +63,7 @@ class PlayerDiScope private constructor(
 
     val serviceController = PlayerServiceController(
         player,
+        audioFocusManager,
         AppDiScope.get().longTermStateSaver,
         playerStateProvider
     )
@@ -68,6 +74,7 @@ class PlayerDiScope private constructor(
 
     val viewController = PlayerViewController(
         player,
+        audioFocusManager,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         screenState,
@@ -117,6 +124,7 @@ class PlayerDiScope private constructor(
             with(diScope) {
                 speakerImpl.shutdown()
                 player.cancel()
+                audioFocusManager.abandonAllRequests()
                 serviceController.dispose()
                 viewController.dispose()
                 playingCardController.dispose()

@@ -42,9 +42,7 @@ class ExampleExerciseFragment : BaseFragment() {
 
     private var controller: ExampleExerciseController? = null
     private lateinit var viewModel: ExampleExerciseViewModel
-    private val speakErrorToast: Toast by lazy {
-        Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
-    }
+    private val toast: Toast by lazy { Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT) }
     private val vibrator: Vibrator? by lazy {
         ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
     }
@@ -128,11 +126,11 @@ class ExampleExerciseFragment : BaseFragment() {
             }
             speakerEvents.observe { event: SpeakerImpl.Event ->
                 when (event) {
-                    SpeakError -> speakErrorToast.run {
+                    SpeakError -> toast.run {
                         setText(R.string.error_message_failed_to_speak)
                         show()
                     }
-                    CannotGainAudioFocus -> speakErrorToast.run {
+                    CannotGainAudioFocus -> toast.run {
                         setText(R.string.error_message_cannot_get_audio_focus)
                         show()
                     }

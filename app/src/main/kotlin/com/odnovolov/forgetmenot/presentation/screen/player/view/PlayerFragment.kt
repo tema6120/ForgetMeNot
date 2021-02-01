@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.CannotGainAudioFocus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.*
@@ -28,6 +29,7 @@ import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServic
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
+import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.ShowCannotGetAudioFocusMessage
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewModel.Laps
 import kotlinx.android.synthetic.main.dialog_laps_in_player.*
 import kotlinx.android.synthetic.main.fragment_exercise.*
@@ -56,9 +58,7 @@ class PlayerFragment : BaseFragment() {
     private var intervalsPopup: PopupWindow? = null
     private var intervalsAdapter: IntervalsAdapter? = null
     private var speakErrorPopup: PopupWindow? = null
-    private val speakErrorToast: Toast by lazy {
-        Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
-    }
+    private val toast: Toast by lazy { Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT) }
     private var editingPopup: PopupWindow? = null
 
     override fun onCreateView(
@@ -180,7 +180,14 @@ class PlayerFragment : BaseFragment() {
             }
             speakerEvents.observe { event: SpeakerImpl.Event ->
                 when (event) {
-                    SpeakError -> speakErrorToast.show()
+                    SpeakError -> toast.run {
+                        setText(R.string.error_message_failed_to_speak)
+                        show()
+                    }
+                    CannotGainAudioFocus -> toast.run {
+                        setText(R.string.error_message_cannot_get_audio_focus)
+                        show()
+                    }
                 }
             }
             isPlaying.observe { isPlaying: Boolean ->
@@ -257,6 +264,12 @@ class PlayerFragment : BaseFragment() {
         when (command) {
             is SetCurrentPosition -> {
                 playerViewPager.currentItem = command.position
+            }
+            ShowCannotGetAudioFocusMessage -> {
+                toast.run {
+                    setText(R.string.error_message_cannot_get_audio_focus)
+                    show()
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
 import com.odnovolov.forgetmenot.persistence.shortterm.PronunciationScreenStateProvider
+import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
@@ -22,10 +23,14 @@ class PronunciationDiScope private constructor(
         DeckSettingsDiScope.getOrRecreate().deckSettings
     )
 
+    private val audioFocusManager = AudioFocusManager(
+        AppDiScope.get().app
+    )
+
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        manageAudioFocus = true
+        audioFocusManager
     )
 
     val controller = PronunciationController(
@@ -49,6 +54,7 @@ class PronunciationDiScope private constructor(
         override fun recreateDiScope() = PronunciationDiScope()
 
         override fun onCloseDiScope(diScope: PronunciationDiScope) {
+            diScope.audioFocusManager.abandonAllRequests()
             diScope.controller.dispose()
             diScope.speakerImpl.shutdown()
         }

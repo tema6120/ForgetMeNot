@@ -1,15 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
-import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
-import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
 import com.odnovolov.forgetmenot.persistence.shortterm.ExampleExerciseStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
+import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCardAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -41,10 +40,14 @@ class ExampleExerciseDiScope private constructor(
             exampleExerciseStateProvider.load()
         }
 
+    private val audioFocusManager = AudioFocusManager(
+        AppDiScope.get().app
+    )
+
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        manageAudioFocus = true
+        audioFocusManager
     )
 
     val exercise = ExampleExercise(
@@ -111,6 +114,7 @@ class ExampleExerciseDiScope private constructor(
         override fun onCloseDiScope(diScope: ExampleExerciseDiScope) {
             with(diScope) {
                 exercise.cancel()
+                audioFocusManager.abandonAllRequests()
                 speakerImpl.shutdown()
                 controller.dispose()
                 offTestCardController.dispose()

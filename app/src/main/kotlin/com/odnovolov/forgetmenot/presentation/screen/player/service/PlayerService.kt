@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.os.PowerManager
+import android.widget.Toast
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseService
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
-import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceEvent.PauseNotificationActionClicked
-import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceEvent.ResumeNotificationActionClicked
+import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceController.Command.ShowCannotGetAudioFocusMessage
+import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceEvent.*
 import kotlinx.coroutines.launch
 
 class PlayerService : BaseService() {
@@ -17,6 +19,13 @@ class PlayerService : BaseService() {
 
     private lateinit var notificationBuilder: NotificationBuilder
     private var wakeLock: PowerManager.WakeLock? = null
+    private val cannotGetAudiofocusToast: Toast by lazy {
+        Toast.makeText(
+            applicationContext,
+            R.string.error_message_cannot_get_audio_focus,
+            Toast.LENGTH_SHORT
+        )
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -24,6 +33,13 @@ class PlayerService : BaseService() {
         coroutineScope.launch {
             val diScope = PlayerDiScope.getAsync() ?: return@launch
             observeServiceModel(diScope.serviceModel)
+            diScope.serviceController.commands.observe(::executeCommand)
+        }
+    }
+
+    private fun executeCommand(command: PlayerServiceController.Command) {
+        when (command) {
+            ShowCannotGetAudioFocusMessage -> cannotGetAudiofocusToast.show()
         }
     }
 

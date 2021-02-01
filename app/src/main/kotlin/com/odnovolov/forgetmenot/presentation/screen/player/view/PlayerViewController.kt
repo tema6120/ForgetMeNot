@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
+import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -17,9 +18,11 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
+import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceController
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerFragmentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.SetCurrentPosition
+import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.ShowCannotGetAudioFocusMessage
 import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDialogState
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
@@ -29,6 +32,7 @@ import kotlinx.coroutines.flow.onEach
 
 class PlayerViewController(
     private val player: Player,
+    private val audioFocusManager: AudioFocusManager,
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val screenState: PlayerScreenState,
@@ -38,6 +42,7 @@ class PlayerViewController(
 ) : BaseController<PlayerFragmentEvent, Command>() {
     sealed class Command {
         class SetCurrentPosition(val position: Int) : Command()
+        object ShowCannotGetAudioFocusMessage : Command()
     }
 
     init {
@@ -61,6 +66,7 @@ class PlayerViewController(
 
             GradeButtonClicked -> {
                 player.pause()
+                audioFocusManager.abandonRequest(PlayerServiceController.AUDIO_FOCUS_KEY)
             }
 
             is GradeWasChanged -> {
@@ -149,7 +155,12 @@ class PlayerViewController(
             }
 
             ResumeButtonClicked -> {
-                player.resume()
+                val success = audioFocusManager.request(PlayerServiceController.AUDIO_FOCUS_KEY)
+                if (success) {
+                    player.resume()
+                } else {
+                    sendCommand(ShowCannotGetAudioFocusMessage)
+                }
             }
 
             FragmentResumed -> {
@@ -160,7 +171,12 @@ class PlayerViewController(
             }
 
             PlayAgainButtonClicked -> {
-                player.playOneMoreLap()
+                val success = audioFocusManager.request(PlayerServiceController.AUDIO_FOCUS_KEY)
+                if (success) {
+                    player.playOneMoreLap()
+                } else {
+                    sendCommand(ShowCannotGetAudioFocusMessage)
+                }
             }
 
             EndButtonClicked -> {

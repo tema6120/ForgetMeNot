@@ -5,9 +5,6 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
-import androidx.media.AudioAttributesCompat
-import androidx.media.AudioFocusRequestCompat
-import androidx.media.AudioManagerCompat
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Speaker
@@ -15,6 +12,7 @@ import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent.ActivityPaused
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent.ActivityResumed
+import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager.AudiofocusState
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status.*
@@ -30,7 +28,7 @@ import kotlin.collections.ArrayList
 class SpeakerImpl(
     private val applicationContext: Context,
     private val activityLifecycleEvents: Flow<ActivityLifecycleEvent>,
-    private val manageAudioFocus: Boolean,
+    private val audioFocusManager: AudioFocusManager,
     private val initialLanguage: Locale? = null
 ) : Speaker {
     class State : FlowMaker<State>() {
@@ -90,27 +88,33 @@ class SpeakerImpl(
     private val toneGenerator: ToneGenerator
             by lazy { ToneGenerator(AudioManager.STREAM_MUSIC, 100) }
     private var errorSoundJob: Job? = null
-    private val audioManager by lazy {
-        applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    }
-    private val afChangeListener by lazy {
-        AudioManager.OnAudioFocusChangeListener { focusChange: Int ->
-            coroutineScope.launch {
-                if (focusChange != AudioManager.AUDIOFOCUS_GAIN) {
-                    stopSpeaking()
-                    state.isPreparingToSpeak = false
-                }
-            }
-        }
-    }
-
-    private var focusRequest: AudioFocusRequestCompat? = null
 
     init {
         coroutineScope.launch {
             registerNewTts(initialLanguage)
             observeActivityLifecycleEvents()
+            observeAudioFocusState()
         }
+    }
+
+    private fun observeAudioFocusState() {
+        audioFocusManager.state.flowOf(AudioFocusManager.State::audioFocusState)
+            .observe(coroutineScope) { audioFocusState: AudiofocusState ->
+                when (audioFocusState) {
+                    AudiofocusState.LOSS,
+                    AudiofocusState.LOSS_TRANSIENT -> {
+                        if (state.isPreparingToSpeak || state.isSpeaking) {
+                            val success = audioFocusManager.request(AUDIOFOCUS_KEY)
+                            if (!success) {
+                                stopSpeaking()
+                                state.isPreparingToSpeak = false
+                            }
+                        }
+                    }
+                    else -> {
+                    }
+                }
+            }
     }
 
     private fun registerNewTts(language: Locale?): TtsWrapper {
@@ -252,9 +256,13 @@ class SpeakerImpl(
         tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(utteranceId: String?) {
                 coroutineScope.launch {
-                    state.isPreparingToSpeak = false
-                    state.isSpeaking = true
-                    isSpeaking = true
+                    if (!state.isPreparingToSpeak) {
+                        tts.stop()
+                    } else {
+                        state.isPreparingToSpeak = false
+                        state.isSpeaking = true
+                        isSpeaking = true
+                    }
                 }
             }
 
@@ -268,7 +276,7 @@ class SpeakerImpl(
                         needToRestartSpeakingTts = false
                     }
                     speakingTask = null
-                    abandonAudioFocusRequest()
+                    audioFocusManager.abandonRequest(AUDIOFOCUS_KEY)
                 }
             }
 
@@ -279,7 +287,7 @@ class SpeakerImpl(
                     isSpeaking = false
                     onSpeakingFinishedListener?.invoke()
                     speakingTask = null
-                    abandonAudioFocusRequest()
+                    audioFocusManager.abandonRequest(AUDIOFOCUS_KEY)
                 }
             }
         })
@@ -311,7 +319,7 @@ class SpeakerImpl(
             if (!isTtsEngineValid) return
         }
         if (!ttsWrapper.isInitialized) return
-        if (manageAudioFocus && requestAudioFocus() == AudioManager.AUDIOFOCUS_REQUEST_FAILED) {
+        if (!audioFocusManager.request(AUDIOFOCUS_KEY)) {
             eventFlow.send(CannotGainAudioFocus)
             state.isPreparingToSpeak = false
             return
@@ -372,6 +380,7 @@ class SpeakerImpl(
             state.isPreparingToSpeak = false
             playErrorSound()
             eventFlow.send(SpeakError)
+            audioFocusManager.abandonRequest(AUDIOFOCUS_KEY)
         } else {
             val queueMode: Int = TextToSpeech.QUEUE_FLUSH
             val utteranceId: String = UUID.randomUUID().toString()
@@ -380,6 +389,7 @@ class SpeakerImpl(
                 state.isPreparingToSpeak = false
                 playErrorSound()
                 eventFlow.send(SpeakError)
+                audioFocusManager.abandonRequest(AUDIOFOCUS_KEY)
                 updateLanguageStatus()
             }
         }
@@ -394,29 +404,6 @@ class SpeakerImpl(
                 errorSoundJob = null
             }
         }
-    }
-
-    private fun requestAudioFocus(): Int {
-        focusRequest = AudioFocusRequestCompat.Builder(
-            AudioManagerCompat.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
-        )
-            .setOnAudioFocusChangeListener(afChangeListener)
-            .setAudioAttributes(
-                AudioAttributesCompat.Builder()
-                    .setUsage(AudioAttributesCompat.USAGE_ASSISTANT)
-                    .setContentType(AudioAttributesCompat.CONTENT_TYPE_SPEECH)
-                    .build()
-            )
-            .build()
-        return AudioManagerCompat.requestAudioFocus(audioManager, focusRequest!!)
-    }
-
-    private fun abandonAudioFocusRequest() {
-        if (!manageAudioFocus) return
-        focusRequest?.let { focusRequest ->
-            AudioManagerCompat.abandonAudioFocusRequest(audioManager, focusRequest)
-        }
-        focusRequest = null
     }
 
     fun languageStatusOf(language: Locale?): Flow<LanguageStatus?> = flow {
@@ -448,7 +435,7 @@ class SpeakerImpl(
             stopSpeaking()
             state.isPreparingToSpeak = false
             speakingTask = null
-            abandonAudioFocusRequest()
+            audioFocusManager.abandonRequest(AUDIOFOCUS_KEY)
         }
     }
 
@@ -475,7 +462,7 @@ class SpeakerImpl(
                 availableLanguages = emptySet()
                 isPreparingToSpeak = false
             }
-            abandonAudioFocusRequest()
+            audioFocusManager.abandonRequest(AUDIOFOCUS_KEY)
             coroutineScope.cancel()
         }
     }
@@ -484,5 +471,6 @@ class SpeakerImpl(
         val DEFAULT_LANGUAGE: Locale = Locale.ENGLISH
         const val ERROR_SOUND_DURATION = 500
         const val MAX_TTS_INSTANCES: Int = 4
+        const val AUDIOFOCUS_KEY = "SpeakerImpl"
     }
 }

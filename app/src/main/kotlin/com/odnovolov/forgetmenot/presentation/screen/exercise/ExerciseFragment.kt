@@ -61,9 +61,7 @@ class ExerciseFragment : BaseFragment() {
     private var hintsPopup: PopupWindow? = null
     private var editingPopup: PopupWindow? = null
     private var walkingModePopup: PopupWindow? = null
-    private val speakErrorToast: Toast by lazy {
-        Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
-    }
+    private val toast: Toast by lazy { Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT) }
     private val vibrator: Vibrator? by lazy {
         ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
     }
@@ -255,11 +253,11 @@ class ExerciseFragment : BaseFragment() {
             }
             speakerEvents.observe { event: SpeakerImpl.Event ->
                 when (event) {
-                    SpeakError -> speakErrorToast.run {
+                    SpeakError -> toast.run {
                         setText(R.string.error_message_failed_to_speak)
                         show()
                     }
-                    CannotGainAudioFocus -> speakErrorToast.run {
+                    CannotGainAudioFocus -> toast.run {
                         setText(R.string.error_message_cannot_get_audio_focus)
                         show()
                     }

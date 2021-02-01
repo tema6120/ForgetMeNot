@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.CannotGainAudioFocus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Event.SpeakError
@@ -20,6 +21,7 @@ class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     override val layoutRes: Int get() = R.layout.article_question_display
     override val helpArticle: HelpArticle get() = HelpArticle.QuestionDisplay
     private var speaker: SpeakerImpl? = null
+    private var audioFocusManager: AudioFocusManager? = null
     private val speakErrorToast: Toast by lazy {
         Toast.makeText(requireContext(), R.string.error_message_failed_to_speak, Toast.LENGTH_SHORT)
     }
@@ -44,10 +46,11 @@ class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             val appDiScope = withContext(businessLogicThread) {
                 AppDiScope.get()
             }
+            audioFocusManager = AudioFocusManager(requireContext())
             speaker = SpeakerImpl(
                 appDiScope.app,
                 appDiScope.activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-                manageAudioFocus = true,
+                audioFocusManager!!,
                 initialLanguage = QUESTION_LANGUAGE
             )
             observeSpeakerState()
@@ -105,6 +108,7 @@ class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
 
     override fun onDestroy() {
         super.onDestroy()
+        audioFocusManager?.abandonAllRequests()
         speaker?.shutdown()
     }
 

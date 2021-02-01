@@ -3,8 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil.ItemCallback
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R.layout
 import com.odnovolov.forgetmenot.R.string
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
@@ -14,7 +13,15 @@ import java.util.*
 
 class LanguageAdapter(
     private val onItemClick: (language: Locale?) -> Unit
-) : ListAdapter<DisplayedLanguage, SimpleRecyclerViewHolder>(DiffCallback()) {
+) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
+    var items: List<DisplayedLanguage> = emptyList()
+        set(value) {
+            if (field != value) {
+                field = value
+                notifyDataSetChanged()
+            }
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(layout.item_language, parent, false)
@@ -22,7 +29,7 @@ class LanguageAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
-        val displayedLanguage: DisplayedLanguage = getItem(position)
+        val displayedLanguage: DisplayedLanguage = items[position]
         with(viewHolder.itemView) {
             if (displayedLanguage.language == null) {
                 languageNameTextView.text = context.getString(string.default_language)
@@ -43,19 +50,5 @@ class LanguageAdapter(
         }
     }
 
-    class DiffCallback : ItemCallback<DisplayedLanguage>() {
-        override fun areItemsTheSame(
-            oldItem: DisplayedLanguage,
-            newItem: DisplayedLanguage
-        ): Boolean {
-            return oldItem.language == newItem.language
-        }
-
-        override fun areContentsTheSame(
-            oldItem: DisplayedLanguage,
-            newItem: DisplayedLanguage
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    override fun getItemCount(): Int = items.size
 }

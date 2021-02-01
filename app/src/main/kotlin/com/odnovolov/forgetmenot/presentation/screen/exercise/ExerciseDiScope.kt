@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
+import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -37,10 +38,14 @@ class ExerciseDiScope private constructor(
     private val screenState: ExerciseScreenState =
         initialExerciseScreenState ?: exerciseScreenStateProvider.load()
 
+    private val audioFocusManager = AudioFocusManager(
+        AppDiScope.get().app
+    )
+
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        manageAudioFocus = true,
+        audioFocusManager,
         initialLanguage = exerciseState.exerciseCards[0].let { exerciseCard: ExerciseCard ->
             val pronunciation = exerciseCard.base.deck.exercisePreference.pronunciation
             if (exerciseCard.base.isInverted)
@@ -117,6 +122,7 @@ class ExerciseDiScope private constructor(
         override fun onCloseDiScope(diScope: ExerciseDiScope) {
             with(diScope) {
                 exercise.cancel()
+                audioFocusManager.abandonAllRequests()
                 speakerImpl.shutdown()
                 controller.dispose()
                 offTestExerciseCardController.dispose()

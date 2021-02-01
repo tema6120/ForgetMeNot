@@ -134,7 +134,9 @@ class PronunciationFragment : BaseFragment() {
             selectedQuestionLanguage.observe { selectedQuestionLanguage: Locale? ->
                 updateLanguageButton(isQuestion = true, selectedQuestionLanguage)
             }
-            displayedQuestionLanguages.observe(questionLanguageAdapter::submitList)
+            displayedQuestionLanguages.observe { displayedQuestionLanguages ->
+                questionLanguageAdapter.items = displayedQuestionLanguages
+            }
             questionAutoSpeaking.observe { questionAutoSpeak: Boolean ->
                 questionAutoSpeakSwitch.isChecked = questionAutoSpeak
                 questionAutoSpeakSwitch.uncover()
@@ -142,7 +144,9 @@ class PronunciationFragment : BaseFragment() {
             selectedAnswerLanguage.observe { selectedAnswerLanguage: Locale? ->
                 updateLanguageButton(isQuestion = false, selectedAnswerLanguage)
             }
-            displayedAnswerLanguages.observe(answerLanguageAdapter::submitList)
+            displayedAnswerLanguages.observe { displayedQuestionLanguages ->
+                answerLanguageAdapter.items = displayedQuestionLanguages
+            }
             answerAutoSpeaking.observe { answerAutoSpeak: Boolean ->
                 answerAutoSpeakSwitch.isChecked = answerAutoSpeak
                 answerAutoSpeakSwitch.uncover()

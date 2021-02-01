@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerStateProvider
+import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -41,10 +42,14 @@ class ExamplePlayerDiScope private constructor(
             playerStateCreator.create().apply { isPlaying = false }
         }
 
+    private val audioFocusManager = AudioFocusManager(
+        AppDiScope.get().app
+    )
+
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        manageAudioFocus = false,
+        audioFocusManager,
         initialLanguage = playerState.playingCards[0].run {
             val pronunciation = deck.exercisePreference.pronunciation
             if (isInverted)
@@ -62,6 +67,7 @@ class ExamplePlayerDiScope private constructor(
 
     val controller = ExamplePlayerController(
         player,
+        audioFocusManager,
         playerStateProvider
     )
 
@@ -84,6 +90,7 @@ class ExamplePlayerDiScope private constructor(
 
         override fun onCloseDiScope(diScope: ExamplePlayerDiScope) {
             with(diScope) {
+                audioFocusManager.abandonAllRequests()
                 speakerImpl.shutdown()
                 player.cancel()
                 controller.dispose()
