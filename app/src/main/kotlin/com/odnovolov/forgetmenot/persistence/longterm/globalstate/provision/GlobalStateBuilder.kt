@@ -22,8 +22,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             buildSharedExercisePreferences(exercisePreferences)
         val cardFilterForAutoplay: CardFilterForAutoplay = buildCardFilterForAutoplay()
         val isWalkingModeEnabled: Boolean = buildIsWalkingModeEnabled()
-        // todo
-        val numberOfLapsInPlayer = 1
+        val numberOfLapsInPlayer = buildNumberOfLapsInPlayer()
         return GlobalState(
             decks,
             sharedExercisePreferences,
@@ -156,9 +155,13 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         )
     }
 
-
     private fun buildIsWalkingModeEnabled(): Boolean {
         return tables.keyValueTable[DbKeys.IS_WALKING_MODE_ENABLED]?.toBoolean()
             ?: GlobalState.DEFAULT_IS_WALKING_MODE_ENABLED
+    }
+
+    private fun buildNumberOfLapsInPlayer(): Int {
+        return tables.keyValueTable[DbKeys.NUMBER_OF_LAPS_IN_PLAYER]?.toInt()
+            ?: GlobalState.DEFAULT_NUMBER_OF_LAPS_IN_PLAYER
     }
 }

@@ -61,7 +61,11 @@ class GlobalStatePropertyChangeHandler(
             }
             GlobalState::numberOfLapsInPlayer -> {
                 if (change !is PropertyValueChange) return
-                // todo
+                val numberOfLapsInPlayer = change.newValue as Int
+                database.keyValueQueries.replace(
+                    key = DbKeys.NUMBER_OF_LAPS_IN_PLAYER,
+                    value = numberOfLapsInPlayer.toString()
+                )
             }
         }
     }
