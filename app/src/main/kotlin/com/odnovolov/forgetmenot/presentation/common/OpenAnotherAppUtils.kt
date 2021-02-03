@@ -46,9 +46,15 @@ fun Fragment.openShareWithChooser(shareText: String) {
 }
 
 fun Fragment.openFileChooser(requestCode: Int) {
-    val intent = Intent(Intent.ACTION_GET_CONTENT)
+    val mimeTypes = arrayOf(
+        "text/plain", "text/txt",
+        "text/comma-separated-values", "text/csv",
+        "text/tab-separated-values", "text/tsv"
+    )
+    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         .addCategory(Intent.CATEGORY_OPENABLE)
-        .setType("text/plain")
+        .setType("*/*")
+        .putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
     if (intent.resolveActivity(requireContext().packageManager) != null) {
         val chooserIntent = Intent.createChooser(intent, null)
         startActivityForResult(chooserIntent, requestCode)

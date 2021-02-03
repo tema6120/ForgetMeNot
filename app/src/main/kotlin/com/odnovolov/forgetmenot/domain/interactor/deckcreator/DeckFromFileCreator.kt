@@ -34,7 +34,7 @@ class DeckFromFileCreator(
     fun loadFromFile(inputStream: InputStream, fileName: String): Result {
         state.stage = Parsing
         try {
-            state.cardPrototypes = Parser.parse(inputStream)
+            state.cardPrototypes = Parser.parse("inputStream")
         } catch (e: IllegalCardFormatException) {
             return Failure(ParsingError(e))
         } finally {

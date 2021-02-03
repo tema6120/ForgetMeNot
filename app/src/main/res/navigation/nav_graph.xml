@@ -10,6 +10,10 @@
             tools:layout="@layout/fragment_nav_host">
 
         <action
+            android:id="@+id/nav_host_to_file_import"
+            app:destination="@+id/file_import" />
+
+        <action
                 android:id="@+id/nav_host_to_exercise"
                 app:destination="@id/exercise" />
 
@@ -42,6 +46,11 @@
                 app:destination="@id/help_article" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/file_import"
+        android:name="com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportFragment"
+        tools:layout="@layout/fragment_file_import" />
 
     <fragment
             android:id="@+id/search"

@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreat
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.FailureCause.*
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.Success
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser.IllegalCardFormatException
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.ImportedFile
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -18,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
@@ -57,7 +59,15 @@ class AddDeckController(
             }
 
             is ContentReceived -> {
-                screenState.howToAdd = LOAD_FROM_FILE
+                val fileName: String = event.fileName ?: ""
+                val fileContent: ByteArray = event.inputStream.use { inputStream ->
+                    inputStream.readBytes()
+                }
+                val importedFile = ImportedFile(fileName, fileContent)
+                navigator.navigateToFileImport {
+                    FileImportDiScope.create(importedFile)
+                }
+                /*screenState.howToAdd = LOAD_FROM_FILE
                 val result = deckFromFileCreator.loadFromFile(
                     event.inputStream,
                     event.fileName ?: ""
@@ -80,7 +90,7 @@ class AddDeckController(
                             }
                         }
                     }
-                }
+                }*/
             }
 
             is DialogTextChanged -> {

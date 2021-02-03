@@ -95,7 +95,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="@drawable/ripple_light_borderless"
-                        android:contentDescription="@string/description_edit_card_button"
+                        android:contentDescription="@string/description_edit"
                         app:srcCompat="@drawable/ic_edit_white_24dp" />
 
                 <ImageButton

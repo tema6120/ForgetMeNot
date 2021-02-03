@@ -96,4 +96,7 @@
     <dimen name="text_size_settings_item_description">13sp</dimen>
     <dimen name="text_size_remember_button_in_exercise_help_article">11sp</dimen>
     <dimen name="text_size_help_screen_articles_title">15sp</dimen>
+    <dimen name="text_size_file_import_add_to">15sp</dimen>
+    <dimen name="text_size_file_import_deck_name">18sp</dimen>
+    <dimen name="text_size_file_import_source_text">14sp</dimen>
 </resources>

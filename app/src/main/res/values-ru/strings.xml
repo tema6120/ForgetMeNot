@@ -81,6 +81,12 @@
     <string name="text_exercise_button_with_cards_count">Упражнение (%d)</string>
 
 
+    <!-- File import screen -->
+
+    <string name="screen_title_file_import">Импорт файла</string>
+    <string name="add_to">Добавить к:</string>
+
+
     <!-- Exercise screen -->
 
     <string name="card_label_learned">Изучена</string>
@@ -136,7 +142,7 @@
         таймер может привести к недоразумению.</string>
     <string name="timer_stopped">Таймер остановлен</string>
     <string name="time_is_over">Время истекло!</string>
-    <string name="description_edit_card_button">Редактировать карточку</string>
+    <string name="description_edit">Редактировать</string>
     <string name="description_editing_icon">иконка \"Редактирование\"</string>
     <string name="popup_title_editing">Редактирование</string>
     <string name="text_edit_deck_settings_button">Редактировать настройки колоды</string>

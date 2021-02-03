@@ -1,12 +1,10 @@
 package com.odnovolov.forgetmenot.domain.interactor.deckcreator
 
-import java.io.InputStream
-
 class Parser private constructor() {
 
     companion object {
-        fun parse(inputStream: InputStream): List<CardPrototype> {
-            return Parser().parse(inputStream)
+        fun parse(input: String): List<CardPrototype> {
+            return Parser().parse(input)
         }
 
         private val CARD_BLOCK_SEPARATOR_REGEX = Regex("""\n(?=[[:blank:]]*Q:[[:blank:]]*\n)""")
@@ -18,13 +16,8 @@ class Parser private constructor() {
         private val CARD_CONTENT_REGEX = Regex("""[[:blank:]]*[\S]([\s\S]*[\S]|)""")
     }
 
-    private fun parse(inputStream: InputStream): List<CardPrototype> {
-        val text = inputStream.bufferedReader().use {
-            it.readText()
-        }
-        return text
-            .removePrefix("\uFEFF")
-            .replace("\r", "")
+    private fun parse(input: String): List<CardPrototype> {
+        return input
             .split(CARD_BLOCK_SEPARATOR_REGEX)
             .filter(::notEmpty)
             .map(::parseCardBlock)

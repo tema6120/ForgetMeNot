@@ -22,6 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversion
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
@@ -33,6 +34,11 @@ import kotlinx.coroutines.launch
 
 class Navigator : ActivityLifecycleCallbacks {
     private var navController: NavController? = null
+
+    fun navigateToFileImport(createDiScope: () -> FileImportDiScope) {
+        FileImportDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_file_import)
+    }
 
     fun navigateToExercise(createDiScope: () -> ExerciseDiScope) {
         ExerciseDiScope.open(createDiScope)

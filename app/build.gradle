@@ -65,6 +65,8 @@ dependencies {
     implementation "com.squareup.sqldelight:android-driver:1.4.4"
     implementation "com.soywiz.korlibs.klock:klock:1.12.0"
     implementation 'com.appyvet:materialrangebar:1.4.7'
+    implementation 'com.brackeys.ui:editorkit:1.1.0'
+    implementation 'org.apache.commons:commons-csv:1.8'
 }
 
 sqldelight {

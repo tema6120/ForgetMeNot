@@ -81,6 +81,12 @@
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
 
 
+    <!-- File import screen -->
+
+    <string name="screen_title_file_import">File import</string>
+    <string name="add_to">Add to:</string>
+
+
     <!-- Exercise screen -->
 
     <string name="card_label_learned">Learned</string>
@@ -135,7 +141,7 @@
         be confusing.</string>
     <string name="timer_stopped">The timer is stopped</string>
     <string name="time_is_over">Time is over!</string>
-    <string name="description_edit_card_button">Edit card</string>
+    <string name="description_edit">Edit</string>
     <string name="description_editing_icon">Editing icon</string>
     <string name="popup_title_editing">Editing</string>
     <string name="text_edit_deck_settings_button">Edit deck settings</string>
@@ -805,7 +811,7 @@
         \n\nFirst of all, I wanted my application to have a clean UI so that I could fully focus
         on my studies. My app had to be convenient and super fast so that I could repeat at least
         10 words per minute. Also, my requirements included support for spaced repetitions,
-        pronunciation, importing cards from a file (because a deck can created on a computer quite
+        pronunciation, importing cards from a file (because a deck can be created on a computer quite
         quickly using copy-paste).
 
         \n\nAfter implementing the pronunciation, I realized that with this, I can greatly expand
