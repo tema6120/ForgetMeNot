@@ -10,11 +10,12 @@ class FileImportViewModel(
     private val fileImporterState: FileImporter.State,
     private val globalState: GlobalState
 ) {
-    val deckName: Flow<String> = fileImporterState.files[0].let { cardsFile: CardsFile ->
-        when(val deckWhereToAdd = cardsFile.deckWhereToAdd) {
-            is NewDeck -> deckWhereToAdd.flowOf(NewDeck::deckName)
-            is ExistingDeck -> deckWhereToAdd.deck.flowOf(Deck::name)
-            else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
+    val deckName: Flow<String> = fileImporterState.files[0].flowOf(CardsFile::deckWhereToAdd)
+        .flatMapLatest { deckWhereToAdd: AbstractDeck ->
+            when(deckWhereToAdd) {
+                is NewDeck -> deckWhereToAdd.flowOf(NewDeck::deckName)
+                is ExistingDeck -> deckWhereToAdd.deck.flowOf(Deck::name)
+                else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
         }
     }
 
@@ -30,6 +31,10 @@ class FileImportViewModel(
             }
         }
         .flowOn(businessLogicThread)
+
+    val isNewDeck: Flow<Boolean> = fileImporterState.files[0]
+        .flowOf(CardsFile::deckWhereToAdd)
+        .map { deckWhereToAdd: AbstractDeck -> deckWhereToAdd is NewDeck }
 
     val sourceText: String get() = fileImporterState.files[0].text
 }

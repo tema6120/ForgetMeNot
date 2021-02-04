@@ -43,6 +43,22 @@ class FileImportController(
                 }
             }
 
+            AddCardsToNewDeckButtonClicked -> {
+                val newDeck = NewDeck(deckName = "")
+                fileImporter.setDeckWhereToAdd(newDeck)
+                navigator.showRenameDeckDialogFromFileImport {
+                    val dialogState = RenameDeckDialogState(
+                        abstractDeck = newDeck,
+                        typedDeckName = newDeck.deckName
+                    )
+                    RenameDeckDiScope.create(dialogState)
+                }
+            }
+
+            AddCardsToExistingDeckButtonClicked -> {
+
+            }
+
             is TextChanged -> {
                 fileImporter.updateText(event.newText)
             }

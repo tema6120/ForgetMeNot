@@ -85,6 +85,10 @@
 
     <string name="screen_title_file_import">Импорт файла</string>
     <string name="add_to">Добавить к:</string>
+    <string name="deck_label_in_file_import_new">Новая колода</string>
+    <string name="deck_label_in_file_import_existing">Существующая колода</string>
+    <string name="popup_change_deck_for_import_new_button">Новой колоде</string>
+    <string name="popup_change_deck_for_import_existing_button">Существующей колоде</string>
 
 
     <!-- Exercise screen -->

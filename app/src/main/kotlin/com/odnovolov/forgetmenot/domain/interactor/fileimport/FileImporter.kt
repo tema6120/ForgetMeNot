@@ -94,4 +94,8 @@ class FileImporter {
         state.files = state.files.filterIndexed { index, _ -> !result[index] }
         return result
     }
+
+    fun setDeckWhereToAdd(deckWhereToAdd: AbstractDeck) {
+        currentFile.deckWhereToAdd = deckWhereToAdd
+    }
 }

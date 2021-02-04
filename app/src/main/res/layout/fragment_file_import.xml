@@ -69,7 +69,7 @@
                     android:paddingBottom="8dp"
                     android:text="@string/add_to"
                     android:textColor="@color/text_description"
-                    android:textSize="@dimen/text_size_file_import_add_to"
+                    android:textSize="@dimen/text_size_file_import_screen_add_to"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/screenTitle" />
@@ -102,7 +102,7 @@
                         android:paddingEnd="4dp"
                         android:paddingBottom="16dp"
                         android:textColor="@color/textSecondary"
-                        android:textSize="@dimen/text_size_file_import_deck_name"
+                        android:textSize="@dimen/text_size_file_import_screen_deck_name"
                         tools:text="My Vocabulary 35">
 
                     <requestFocus />
@@ -125,6 +125,25 @@
 
             </LinearLayout>
 
+            <TextView
+                    android:id="@+id/deckLabelTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="56dp"
+                    android:background="@drawable/background_new_deck"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/deck_label_in_file_import_new"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_file_import_screen_deck_label"
+                    app:layout_constraintBottom_toTopOf="@+id/renameDeckButton"
+                    app:layout_constraintEnd_toEndOf="@+id/renameDeckButton"
+                    app:layout_constraintTop_toTopOf="@+id/renameDeckButton" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -145,7 +164,7 @@
                 android:inputType="textMultiLine"
                 android:padding="16dp"
                 android:textColor="@color/textSecondary"
-                android:textSize="@dimen/text_size_file_import_source_text"
+                android:textSize="@dimen/text_size_file_import_screen_source_text"
                 tools:text="@string/example_of_text_file_for_creating_deck" />
 
     </androidx.core.widget.NestedScrollView>
