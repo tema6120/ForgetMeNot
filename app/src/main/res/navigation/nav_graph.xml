@@ -10,8 +10,8 @@
             tools:layout="@layout/fragment_nav_host">
 
         <action
-            android:id="@+id/nav_host_to_file_import"
-            app:destination="@+id/file_import" />
+                android:id="@+id/nav_host_to_file_import"
+                app:destination="@+id/file_import" />
 
         <action
                 android:id="@+id/nav_host_to_exercise"
@@ -48,9 +48,15 @@
     </fragment>
 
     <fragment
-        android:id="@+id/file_import"
-        android:name="com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportFragment"
-        tools:layout="@layout/fragment_file_import" />
+            android:id="@+id/file_import"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportFragment"
+            tools:layout="@layout/fragment_file_import">
+
+        <action
+                android:id="@+id/file_import_shows_rename_deck_dialog"
+                app:destination="@+id/rename_deck_dialog" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/search"
@@ -173,7 +179,7 @@
 
     <dialog
             android:id="@+id/rename_deck_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialog"
             tools:layout="@layout/dialog_input" />
 
     <fragment
@@ -344,8 +350,8 @@
                 app:destination="@+id/search" />
 
         <action
-            android:id="@+id/show_laps_in_player_dialog"
-            app:destination="@+id/laps_in_player_dialog" />
+                android:id="@+id/show_laps_in_player_dialog"
+                app:destination="@+id/laps_in_player_dialog" />
 
         <action
                 android:id="@+id/player_to_help_article"

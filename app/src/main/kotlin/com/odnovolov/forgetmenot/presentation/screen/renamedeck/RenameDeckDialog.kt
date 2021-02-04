@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck
+package com.odnovolov.forgetmenot.presentation.screen.renamedeck
 
 import android.app.Dialog
 import android.os.Bundle
@@ -12,8 +12,8 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckEvent.OkButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckEvent.TextChanged
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.OkButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.TextChanged
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.coroutines.launch
 

@@ -10,8 +10,8 @@
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
-            android:background="@color/background_window">
+            android:background="@color/background_window"
+            android:elevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -25,10 +25,10 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="8dp"
                     android:background="?selectableItemBackgroundBorderless"
-                    android:tint="@color/text_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_cancel_white_24dp" />
+                    app:srcCompat="@drawable/ic_cancel_white_24dp"
+                    app:tint="@color/text_title" />
 
             <TextView
                     android:id="@+id/screenTitle"
@@ -53,13 +53,13 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="12dp"
                     android:background="?selectableItemBackgroundBorderless"
-                    android:tint="@color/text_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/done_button_selector" />
+                    app:srcCompat="@drawable/done_button_selector"
+                    app:tint="@color/text_title" />
 
             <TextView
-                    android:id="@+id/add_deck"
+                    android:id="@+id/add_to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
@@ -74,23 +74,56 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/screenTitle" />
 
-            <TextView
-                    android:id="@+id/deckNameTextView"
+            <LinearLayout
+                    android:id="@+id/renameDeckButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
-                    android:background="@drawable/background_outlined_button"
-                    android:fontFamily="@font/nunito_bold"
-                    android:padding="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="12dp"
-                    android:textColor="@color/textSecondary"
-                    android:textSize="@dimen/text_size_file_import_deck_name"
+                    android:background="@drawable/background_outlined_button"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_deck"
-                    tools:text="My Vocabulary 35" />
+                    app:layout_constraintTop_toBottomOf="@id/add_to">
+
+                <TextView
+                        android:id="@+id/deckNameTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/nunito_bold"
+                        android:paddingStart="24dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="4dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="@dimen/text_size_file_import_deck_name"
+                        tools:text="My Vocabulary 35">
+
+                    <requestFocus />
+
+                </TextView>
+
+                <ImageButton
+                        android:id="@+id/changeDeckButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="8dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        app:layout_constraintBottom_toBottomOf="@+id/deckNameTextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/deckNameTextView"
+                        app:layout_constraintTop_toTopOf="@+id/deckNameTextView"
+                        app:srcCompat="@drawable/ic_round_wifi_protected_setup_24"
+                        app:tint="@color/textSecondary" />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -105,12 +138,12 @@
         <EditText
                 android:id="@+id/sourceEditText"
                 android:layout_width="match_parent"
-                android:gravity="top|start"
+                android:layout_height="wrap_content"
                 android:background="@null"
-                android:padding="16dp"
+                android:gravity="top|start"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
-                android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:textColor="@color/textSecondary"
                 android:textSize="@dimen/text_size_file_import_source_text"
                 tools:text="@string/example_of_text_file_for_creating_deck" />

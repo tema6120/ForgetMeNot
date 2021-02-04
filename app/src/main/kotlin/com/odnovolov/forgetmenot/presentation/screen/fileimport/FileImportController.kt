@@ -1,10 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
+import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
+import com.odnovolov.forgetmenot.domain.entity.NewDeck
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 
 class FileImportController(
     private val fileImporter: FileImporter,
@@ -21,6 +25,21 @@ class FileImportController(
                 val result = fileImporter.import()
                 if (result[0]) {
                     navigator.navigateUp()
+                }
+            }
+
+            RenameDeckButtonClicked -> {
+                val abstractDeck: AbstractDeck = with(fileImporter.state) {
+                    files[currentPosition].deckWhereToAdd
+                }
+                if (abstractDeck is NewDeck) {
+                    navigator.showRenameDeckDialogFromFileImport {
+                        val dialogState = RenameDeckDialogState(
+                            abstractDeck = abstractDeck,
+                            typedDeckName = abstractDeck.deckName
+                        )
+                        RenameDeckDiScope.create(dialogState)
+                    }
                 }
             }
 

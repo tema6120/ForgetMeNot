@@ -196,8 +196,7 @@ class QAEditorFragment : BaseFragment() {
         super.onResume()
         resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         resumePauseCoroutineScope!!.launch {
-            viewModel.isDuplicated
-                .observe(resumePauseCoroutineScope!!, cardLabelTextView::setEnabled)
+            viewModel.isDuplicated.observe(coroutineScope = this, cardLabelTextView::setEnabled)
         }
     }
 

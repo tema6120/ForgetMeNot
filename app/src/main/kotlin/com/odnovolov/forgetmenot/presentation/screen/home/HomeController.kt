@@ -1,12 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.ExistingDeck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
-import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
@@ -24,8 +24,8 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDialogState
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
@@ -172,9 +172,11 @@ class HomeController(
                 val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
                 navigator.showRenameDeckDialogFromNavHost {
                     val deck = globalState.decks.first { it.id == deckId }
-                    val deckEditorState = DeckEditor.State(deck)
-                    val dialogState = RenameDeckDialogState(deck.name)
-                    RenameDeckDiScope.create(deckEditorState, dialogState)
+                    val dialogState = RenameDeckDialogState(
+                        abstractDeck = ExistingDeck(deck),
+                        typedDeckName = deck.name
+                    )
+                    RenameDeckDiScope.create(dialogState)
                 }
             }
 

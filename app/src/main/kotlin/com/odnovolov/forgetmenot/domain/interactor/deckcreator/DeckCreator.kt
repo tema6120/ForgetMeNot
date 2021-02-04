@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.domain.interactor.deckcreator
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.InvalidNameException
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.Ok
-import com.odnovolov.forgetmenot.domain.entity.checkDeckName
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForDeckCreation
 

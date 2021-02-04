@@ -11,7 +11,7 @@ class FileImportDiScope private constructor(
 ) {
     private val fileImportSettings = FileImportSettings(Charsets.UTF_8)
 
-    private val fileImporter =
+    val fileImporter =
         if (importedFile != null) {
             FileImporter(importedFile, AppDiScope.get().globalState, fileImportSettings)
         } else {
@@ -25,7 +25,10 @@ class FileImportDiScope private constructor(
         AppDiScope.get().longTermStateSaver
     )
 
-    val viewModel = FileImportViewModel(fileImporter.state)
+    val viewModel = FileImportViewModel(
+        fileImporter.state,
+        AppDiScope.get().globalState
+    )
 
     companion object : DiScopeManager<FileImportDiScope>() {
         fun create(importedFile: ImportedFile) =

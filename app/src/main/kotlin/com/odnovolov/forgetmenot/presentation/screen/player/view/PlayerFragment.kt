@@ -46,7 +46,7 @@ import kotlinx.android.synthetic.main.fragment_player.speakProgressBar
 import kotlinx.android.synthetic.main.popup_editing_card.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class PlayerFragment : BaseFragment() {
     init {
@@ -60,6 +60,7 @@ class PlayerFragment : BaseFragment() {
     private var speakErrorPopup: PopupWindow? = null
     private val toast: Toast by lazy { Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT) }
     private var editingPopup: PopupWindow? = null
+    private var resumePauseCoroutineScope: CoroutineScope? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -225,18 +226,6 @@ class PlayerFragment : BaseFragment() {
                     lapsTextView.text = laps.text
                 }
             }
-            isCompleted.observe { isCompleted: Boolean ->
-                if (isCompleted) {
-                    val isBottomSheetOpened = childFragmentManager
-                        .findFragmentByTag(TAG_PLAYING_FINISHED_BOTTOM_SHEET) != null
-                    if (!isBottomSheetOpened) {
-                        PlayingFinishedBottomSheet().show(
-                            childFragmentManager,
-                            TAG_PLAYING_FINISHED_BOTTOM_SHEET
-                        )
-                    }
-                }
-            }
         }
     }
 
@@ -276,14 +265,33 @@ class PlayerFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewCoroutineScope!!.launch {
+        resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        resumePauseCoroutineScope!!.launch {
             val diScope = PlayerDiScope.getAsync() ?: return@launch
             val currentPosition = diScope.viewModel.currentPosition
             if (playerViewPager.currentItem != currentPosition) {
                 playerViewPager.setCurrentItem(currentPosition, false)
             }
             diScope.viewController.dispatch(FragmentResumed)
+            diScope.viewModel.isCompleted.observe(coroutineScope = this) { isCompleted: Boolean ->
+                if (isCompleted) {
+                    val isBottomSheetOpened = childFragmentManager
+                        .findFragmentByTag(TAG_PLAYING_FINISHED_BOTTOM_SHEET) != null
+                    if (!isBottomSheetOpened) {
+                        PlayingFinishedBottomSheet().show(
+                            childFragmentManager,
+                            TAG_PLAYING_FINISHED_BOTTOM_SHEET
+                        )
+                    }
+                }
+            }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        resumePauseCoroutineScope!!.cancel()
+        resumePauseCoroutineScope = null
     }
 
     private fun requireIntervalsPopup(): PopupWindow {

@@ -2,14 +2,12 @@ package com.odnovolov.forgetmenot.domain.interactor.fileimport
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.domain.entity.checkDeckName
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.CardPrototype
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser.IllegalCardFormatException
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
 
 class FileImporter {
     class State(
@@ -91,7 +89,7 @@ class FileImporter {
                     return@map true
                 }
             }
-            throw IllegalStateException()
+            error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
         }
         state.files = state.files.filterIndexed { index, _ -> !result[index] }
         return result

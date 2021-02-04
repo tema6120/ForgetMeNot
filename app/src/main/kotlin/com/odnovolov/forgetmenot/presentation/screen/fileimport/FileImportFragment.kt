@@ -1,15 +1,20 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
 import kotlinx.android.synthetic.main.fragment_file_import.*
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class FileImportFragment : BaseFragment() {
@@ -46,6 +51,9 @@ class FileImportFragment : BaseFragment() {
         nextButton.setOnClickListener {
             controller?.dispatch(DoneButtonClicked)
         }
+        renameDeckButton.setOnClickListener {
+            controller?.dispatch(RenameDeckButtonClicked)
+        }
         sourceEditText.observeText { newText: String ->
             controller?.dispatch(TextChanged(newText))
         }
@@ -56,8 +64,34 @@ class FileImportFragment : BaseFragment() {
             if (!isRecreated) {
                 sourceEditText.setText(sourceText)
             }
-            deckName.observe(deckNameTextView::setText)
+            combine(deckName, deckNameCheckResult) { deckName, deckNameCheckResult ->
+                deckNameTextView.text = if (deckNameCheckResult != NameCheckResult.Ok) {
+                    SpannableString(deckName).apply {
+                        setSpan(
+                            WavyUnderlineSpan(),
+                            0,
+                            deckName.lastIndex,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                } else {
+                    deckName
+                }
+                deckNameTextView.error = when (deckNameCheckResult) {
+                    NameCheckResult.Ok -> null
+                    NameCheckResult.Empty -> getString(R.string.error_message_empty_name)
+                    NameCheckResult.Occupied -> getString(R.string.error_message_occupied_name)
+                }
+                if (deckNameCheckResult != NameCheckResult.Ok) {
+                    deckNameTextView.requestFocus()
+                }
+            }.observe()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sourceEditText.hideSoftInput()
     }
 
     override fun onDestroy() {

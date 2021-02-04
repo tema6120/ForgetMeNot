@@ -1,18 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 
 import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.ExistingDeck
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingExistingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
-import com.odnovolov.forgetmenot.domain.interactor.deckeditor.DeckEditor
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.AddCardButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.RenameDeckButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.renamedeck.RenameDeckDialogState
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 
 class DeckEditorController(
     private val screenState: DeckEditorScreenState,
@@ -25,9 +25,11 @@ class DeckEditorController(
             RenameDeckButtonClicked -> {
                 navigator.showRenameDeckDialogFromDeckEditor {
                     val deck = screenState.deck
-                    val deckEditorState = DeckEditor.State(deck)
-                    val dialogState = RenameDeckDialogState(deck.name)
-                    RenameDeckDiScope.create(deckEditorState, dialogState)
+                    val dialogState = RenameDeckDialogState(
+                        abstractDeck = ExistingDeck(deck),
+                        typedDeckName = deck.name
+                    )
+                    RenameDeckDiScope.create(dialogState)
                 }
             }
 
