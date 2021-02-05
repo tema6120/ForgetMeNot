@@ -1,0 +1,108 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/deckChooserRootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="presentation.screen.deckchooser.DeckChooserFragment">
+
+    <LinearLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:descendantFocusability="beforeDescendants"
+            android:elevation="4dp"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <ImageButton
+                    android:id="@+id/cancelButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_cancel_selection"
+                    app:srcCompat="@drawable/ic_round_clear_24" />
+
+            <TextView
+                    android:id="@+id/screenTitleTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nunito_bold"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_home_screen_number_of_selected_decks"
+                    tools:text="@string/screen_title_choose_a_deck_to_import_cards_to" />
+
+        </LinearLayout>
+
+        <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/background_search_frame_selector"
+                android:fontFamily="@font/nunito_bold"
+                android:hint="@string/hint_search_edittext"
+                android:imeOptions="actionNone"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp"
+                android:textSize="@dimen/text_size_search_edittext" />
+
+    </LinearLayout>
+
+    <FrameLayout
+            android:id="@+id/deckListFrame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/decksPreviewRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_deck_preview" />
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        <TextView
+                android:id="@+id/emptyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/no_matching_decks"
+                android:textColor="@color/text_no_search_result"
+                android:textSize="@dimen/text_size_no_search_result"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:drawableTint="@color/text_no_search_result"
+                app:drawableTopCompat="@drawable/ic_round_search_54" />
+
+    </FrameLayout>
+
+</LinearLayout>

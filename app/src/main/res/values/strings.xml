@@ -89,6 +89,7 @@
     <string name="deck_label_in_file_import_existing">Existing deck</string>
     <string name="popup_change_deck_for_import_new_button">New deck</string>
     <string name="popup_change_deck_for_import_existing_button">Existing deck</string>
+    <string name="screen_title_choose_a_deck_to_import_cards_to">Choose a deck to import cards to</string>
 
 
     <!-- Exercise screen -->

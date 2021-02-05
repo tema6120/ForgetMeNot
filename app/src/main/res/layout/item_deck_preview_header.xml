@@ -13,13 +13,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_corner_radius_4dp"
-            android:drawablePadding="4dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/nunito_bold"
             android:padding="8dp"
             android:text="@string/text_filter_button"
             android:textColor="@color/textSecondary"
             android:textSize="@dimen/text_size_home_screen_filters_sorting_button"
-            android:fontFamily="@font/nunito_bold"
-            app:drawableStartCompat="@drawable/ic_filter" />
+            app:drawableStartCompat="@drawable/ic_filter_12"
+            app:drawableTint="@color/textSecondary" />
 
     <Space
             android:layout_width="0dp"
@@ -31,13 +32,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_corner_radius_4dp"
-            android:drawablePadding="4dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/nunito_bold"
             android:padding="8dp"
             android:textColor="@color/textSecondary"
             android:textSize="@dimen/text_size_home_screen_filters_sorting_button"
-            android:fontFamily="@font/nunito_bold"
-            app:drawableStartCompat="@drawable/ic_sorting"
-            tools:drawableEndCompat="@drawable/ic_arrow_upward"
+            app:drawableStartCompat="@drawable/ic_sorting_12"
+            app:drawableTint="@color/textSecondary"
+            tools:drawableEndCompat="@drawable/ic_round_arrow_downward_12"
             tools:text="By time last tested" />
 
 </LinearLayout>

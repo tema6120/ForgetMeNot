@@ -144,6 +144,12 @@ class FileImportFragment : BaseFragment() {
         sourceEditText.hideSoftInput()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        changeDeckPopup?.dismiss()
+        changeDeckPopup = null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {

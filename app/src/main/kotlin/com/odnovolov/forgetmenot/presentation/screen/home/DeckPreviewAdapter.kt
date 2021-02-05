@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.content.Context
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
@@ -21,12 +20,14 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.customview.AsyncFrameLayout
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DeckPreviewAdapter(
-    private val controller: HomeController,
-    private val setupHeader: (View) -> Unit
+    private val setupHeader: (View) -> Unit,
+    private val onDeckButtonClicked: (deckId: Long) -> Unit,
+    private val onDeckButtonLongClicked: ((deckId: Long) -> Unit)? = null,
+    private val onDeckOptionButtonClicked: ((deckId: Long) -> Unit)? = null,
+    private val onDeckSelectorClicked: ((deckId: Long) -> Unit)? = null
 ) : ListAdapter<DeckListItem, SimpleRecyclerViewHolder>(DiffCallback()) {
     init {
         stateRestorationPolicy = PREVENT_WHEN_EMPTY
@@ -83,21 +84,27 @@ class DeckPreviewAdapter(
         measureAsyncFrameLayoutHeight(asyncFrameLayout, deckPreview.deckName)
         asyncFrameLayout.invokeWhenInflated {
             deckButton.setOnClickListener {
-                controller.dispatch(DeckButtonClicked(deckPreview.deckId))
+                onDeckButtonClicked(deckPreview.deckId)
             }
-            deckButton.setOnLongClickListener {
-                controller.dispatch(DeckButtonLongClicked(deckPreview.deckId))
-                true
+            onDeckButtonLongClicked?.let { onDeckButtonLongClicked ->
+                deckButton.setOnLongClickListener {
+                    onDeckButtonLongClicked(deckPreview.deckId)
+                    true
+                }
             }
             deckNameTextView.text =
                 if (deckPreview.searchMatchingRanges != null)
                     deckPreview.deckName.highlight(deckPreview.searchMatchingRanges, context) else
                     deckPreview.deckName
-            deckOptionButton.setOnClickListener {
-                controller.dispatch(DeckOptionButtonClicked(deckPreview.deckId))
+            onDeckOptionButtonClicked?.let { onDeckOptionButtonClicked ->
+                deckOptionButton.setOnClickListener {
+                    onDeckOptionButtonClicked(deckPreview.deckId)
+                }
             }
-            deckSelector.setOnClickListener {
-                controller.dispatch(DeckSelectorClicked(deckPreview.deckId))
+            onDeckSelectorClicked?.let { onDeckSelectorClicked ->
+                deckSelector.setOnClickListener {
+                    onDeckSelectorClicked(deckPreview.deckId)
+                }
             }
             avgLapsValueTextView.text = deckPreview.averageLaps
             learnedValueTextView.text = "${deckPreview.learnedCount}/${deckPreview.totalCount}"
@@ -167,8 +174,9 @@ class DeckPreviewAdapter(
             deckId in selectedDeckIds
         }
         itemView.isSelected = isItemSelected == true
-        itemView.deckOptionButton.isVisible = isItemSelected == null
-        itemView.deckSelector.isVisible = isItemSelected != null
+        itemView.deckOptionButton.isVisible =
+            isItemSelected == null && onDeckOptionButtonClicked != null
+        itemView.deckSelector.isVisible = isItemSelected != null && onDeckSelectorClicked != null
     }
 
     // end Deck selection

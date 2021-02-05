@@ -1,11 +1,15 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
 import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
+import com.odnovolov.forgetmenot.domain.entity.ExistingDeck
 import com.odnovolov.forgetmenot.domain.entity.NewDeck
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
@@ -13,7 +17,8 @@ import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialog
 class FileImportController(
     private val fileImporter: FileImporter,
     private val navigator: Navigator,
-    private val longTermStateSaver: LongTermStateSaver
+    private val longTermStateSaver: LongTermStateSaver,
+    private val fileImporterStateProvider: ShortTermStateProvider<FileImporter.State>
 ) : BaseController<FileImportEvent, Nothing>() {
     override fun handle(event: FileImportEvent) {
         when (event) {
@@ -56,7 +61,17 @@ class FileImportController(
             }
 
             AddCardsToExistingDeckButtonClicked -> {
+                navigator.navigateToDeckChooserFromFileImport {
+                    val screenState = DeckChooserScreenState(
+                        purpose = DeckChooserScreenState.Purpose.ChooseDeckWhereToImportCards
+                    )
+                    DeckChooserDiScope.create(screenState)
+                }
+            }
 
+            is TargetDeckIsSelected -> {
+                val deck = ExistingDeck(event.deck)
+                fileImporter.setDeckWhereToAdd(deck)
             }
 
             is TextChanged -> {
@@ -67,5 +82,6 @@ class FileImportController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        fileImporterStateProvider.save(fileImporter.state)
     }
 }

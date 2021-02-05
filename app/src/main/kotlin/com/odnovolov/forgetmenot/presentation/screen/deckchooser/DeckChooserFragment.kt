@@ -1,61 +1,61 @@
-package com.odnovolov.forgetmenot.presentation.screen.home
+package com.odnovolov.forgetmenot.presentation.screen.deckchooser
 
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.LightPopupWindow
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
-import com.odnovolov.forgetmenot.presentation.common.show
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ChooseDeckWhereToImportCards
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
-import kotlinx.android.synthetic.main.fragment_deck_list.*
+import kotlinx.android.synthetic.main.fragment_deck_chooser.*
+import kotlinx.android.synthetic.main.fragment_deck_chooser.decksPreviewRecycler
+import kotlinx.android.synthetic.main.fragment_deck_chooser.progressBar
+import kotlinx.android.synthetic.main.fragment_deck_chooser.searchEditText
 import kotlinx.android.synthetic.main.item_deck_preview_header.view.*
-import kotlinx.android.synthetic.main.popup_deck_filters.view.*
 import kotlinx.android.synthetic.main.popup_deck_sorting.view.*
-import kotlinx.android.synthetic.main.popup_deck_sorting.view.closeButton
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 
-class DeckListFragment : BaseFragment() {
+class DeckChooserFragment : BaseFragment() {
     init {
-        HomeDiScope.reopenIfClosed()
+        DeckChooserDiScope.reopenIfClosed()
     }
 
-    private lateinit var viewModel: HomeViewModel
-    private var controller: HomeController? = null
+    private var controller: DeckChooserController? = null
+    private lateinit var viewModel: DeckChooserViewModel
     private var deckPreviewAdapter: DeckPreviewAdapter? = null
-    private var filtersPopup: PopupWindow? = null
     private var sortingPopup: PopupWindow? = null
-    private var resumePauseCoroutineScope: CoroutineScope? = null
-    lateinit var scrollListener: RecyclerView.OnScrollListener
-    private var filterButton: View? = null
-    private var needToShowFiltersPopup = false
     private var needToShowSortingPopup = false
+    private var backPressInterceptor: MainActivity.BackPressInterceptor? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_deck_list, container, false)
+        return inflater.inflate(R.layout.fragment_deck_chooser, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
         viewCoroutineScope!!.launch {
-            val diScope = HomeDiScope.getAsync() ?: return@launch
+            val diScope = DeckChooserDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
             initDeckPreviewAdapter()
@@ -63,21 +63,24 @@ class DeckListFragment : BaseFragment() {
         }
     }
 
+    private fun setupView() {
+        cancelButton.setOnClickListener {
+            controller?.dispatch(CancelButtonClicked)
+        }
+        searchEditText.observeText { newText: String ->
+            controller?.dispatch(SearchTextChanged(newText))
+        }
+    }
+
     private fun initDeckPreviewAdapter() {
         val setupHeader: (View) -> Unit = { header: View ->
-            filterButton = header.filterButton
-            header.filterButton.setOnClickListener {
-                showFiltersPopup(anchor = header.filterButton)
-            }
+            header.updateLayoutParams<MarginLayoutParams> { topMargin = 8.dp }
+            header.filterButton.isVisible = false
             header.sortingButton.setOnClickListener {
                 showSortingPopup(anchor = header.sortingButton)
             }
             viewModel.deckSorting.observe { deckSorting: DeckSorting ->
                 updateSortingButton(header.sortingButton, deckSorting)
-            }
-            if (needToShowFiltersPopup) {
-                needToShowFiltersPopup = false
-                showFiltersPopup(anchor = header.filterButton)
             }
             if (needToShowSortingPopup) {
                 needToShowSortingPopup = false
@@ -86,16 +89,26 @@ class DeckListFragment : BaseFragment() {
         }
         deckPreviewAdapter = DeckPreviewAdapter(
             setupHeader,
-            onDeckButtonClicked = { deckId -> controller?.dispatch(DeckButtonClicked(deckId)) },
-            onDeckButtonLongClicked = { deckId -> controller?.dispatch(DeckButtonLongClicked(deckId)) },
-            onDeckOptionButtonClicked = { deckId -> controller?.dispatch(DeckOptionButtonClicked(deckId)) },
-            onDeckSelectorClicked = { deckId -> controller?.dispatch(DeckSelectorClicked(deckId)) }
+            onDeckButtonClicked = { deckId -> controller?.dispatch(DeckButtonClicked(deckId)) }
         )
         decksPreviewRecycler.adapter = deckPreviewAdapter
     }
 
-    private fun showFiltersPopup(anchor: View) {
-        requireFiltersPopup().show(anchor = anchor, gravity = Gravity.TOP or Gravity.START)
+    private fun observeViewModel() {
+        with(viewModel) {
+            screenTitleTextView.text = when (purpose) {
+                ChooseDeckWhereToImportCards ->
+                    getString(R.string.screen_title_choose_a_deck_to_import_cards_to)
+            }
+            deckListItems.observe { deckListItems: List<DeckListItem> ->
+                deckPreviewAdapter?.submitList(deckListItems)
+                progressBar.visibility = View.GONE
+            }
+            decksNotFound.observe { decksNotFound: Boolean ->
+                emptyTextView.isVisible = decksNotFound
+                progressBar.visibility = View.GONE
+            }
+        }
     }
 
     private fun showSortingPopup(anchor: View) {
@@ -120,43 +133,6 @@ class DeckListFragment : BaseFragment() {
         sortingButton.setCompoundDrawablesWithIntrinsicBounds(
             R.drawable.ic_sorting_12, 0, directionIconId, 0
         )
-    }
-
-    private fun observeViewModel() {
-        with(viewModel) {
-            decksNotFound.observe { decksNotFound: Boolean ->
-                emptyTextView.isVisible = decksNotFound
-                progressBar.visibility = View.GONE
-            }
-            deckSelection.observe { deckSelection: DeckSelection? ->
-                deckPreviewAdapter?.deckSelection = deckSelection
-                filterButton?.isVisible = deckSelection == null
-            }
-        }
-    }
-
-    private fun requireFiltersPopup(): PopupWindow {
-        if (filtersPopup == null) {
-            val content = View.inflate(requireContext(), R.layout.popup_deck_filters, null)
-                .apply {
-                    closeButton.setOnClickListener {
-                        filtersPopup?.dismiss()
-                    }
-                    closeButton.setTooltipTextFromContentDescription()
-                    availableForExerciseButton.setOnClickListener {
-                        controller?.dispatch(DecksAvailableForExerciseCheckboxClicked)
-                    }
-                }
-            filtersPopup = LightPopupWindow(content)
-            viewModel.displayOnlyDecksAvailableForExercise
-                .observe { displayOnlyDecksAvailableForExercise: Boolean ->
-                    filtersPopup?.contentView?.run {
-                        availableForExerciseCheckBox.isChecked =
-                            displayOnlyDecksAvailableForExercise
-                    }
-                }
-        }
-        return filtersPopup!!
     }
 
     private fun requireSortingPopup(): PopupWindow {
@@ -212,43 +188,43 @@ class DeckListFragment : BaseFragment() {
         }
     }
 
+    private fun cancelSearch() {
+        searchEditText.text.clear()
+        searchEditText.clearFocus()
+    }
+
     override fun onResume() {
         super.onResume()
-        resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-        resumePauseCoroutineScope!!.launch {
-            val coroutineScope = this
-            val diScope = HomeDiScope.getAsync() ?: return@launch
-            val viewModel = diScope.viewModel
-            with(viewModel) {
-                deckListItems.observe(coroutineScope) { deckListItems: List<DeckListItem> ->
-                    deckPreviewAdapter?.submitList(deckListItems)
-                    progressBar.visibility = View.GONE
+        backPressInterceptor = MainActivity.BackPressInterceptor {
+            when {
+                searchEditText.hasFocus() -> {
+                    cancelSearch()
+                    true
+                }
+                else -> {
+                    false
                 }
             }
         }
-        decksPreviewRecycler.addOnScrollListener(scrollListener)
-        scrollListener.onScrolled(decksPreviewRecycler, 0, 0)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor!!)
     }
 
     override fun onPause() {
         super.onPause()
-        resumePauseCoroutineScope!!.cancel()
-        resumePauseCoroutineScope = null
-        decksPreviewRecycler.removeOnScrollListener(scrollListener)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor!!)
+        backPressInterceptor = null
+        searchEditText.hideSoftInput()
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
-            needToShowFiltersPopup = getBoolean(STATE_FILTERS_POPUP, false)
             needToShowSortingPopup = getBoolean(STATE_SORTING_POPUP, false)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val isFiltersPopupShowing = filtersPopup?.isShowing ?: false
-        outState.putBoolean(STATE_FILTERS_POPUP, isFiltersPopupShowing)
         val isSortingPopupShowing = sortingPopup?.isShowing ?: false
         outState.putBoolean(STATE_SORTING_POPUP, isSortingPopupShowing)
     }
@@ -257,15 +233,18 @@ class DeckListFragment : BaseFragment() {
         super.onDestroyView()
         decksPreviewRecycler.adapter = null
         deckPreviewAdapter = null
-        filtersPopup?.dismiss()
-        filtersPopup = null
         sortingPopup?.dismiss()
         sortingPopup = null
-        filterButton = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (needToCloseDiScope()) {
+            DeckChooserDiScope.close()
+        }
     }
 
     companion object {
-        private const val STATE_FILTERS_POPUP = "STATE_FILTERS_POPUP"
-        private const val STATE_SORTING_POPUP = "STATE_SORTING_POPUP"
+        private const val STATE_SORTING_POPUP = "STATE_SORTING_POPUP_IN_DECK_CHOOSER"
     }
 }

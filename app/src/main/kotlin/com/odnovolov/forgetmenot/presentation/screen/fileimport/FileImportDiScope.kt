@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.fileimport
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportSettings
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.ImportedFile
+import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
@@ -11,18 +12,33 @@ class FileImportDiScope private constructor(
 ) {
     private val fileImportSettings = FileImportSettings(Charsets.UTF_8)
 
-    val fileImporter =
+    private val fileImporterStateProvider = FileImporterStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database,
+        AppDiScope.get().globalState
+    )
+
+    val fileImporter: FileImporter =
         if (importedFile != null) {
-            FileImporter(importedFile, AppDiScope.get().globalState, fileImportSettings)
+            FileImporter(
+                importedFile,
+                AppDiScope.get().globalState,
+                fileImportSettings
+            )
         } else {
-            // todo
-            throw NullPointerException()
+            val fileImporterState = fileImporterStateProvider.load()
+            FileImporter(
+                fileImporterState,
+                AppDiScope.get().globalState,
+                fileImportSettings
+            )
         }
 
     val controller = FileImportController(
         fileImporter,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        fileImporterStateProvider
     )
 
     val viewModel = FileImportViewModel(
@@ -31,8 +47,7 @@ class FileImportDiScope private constructor(
     )
 
     companion object : DiScopeManager<FileImportDiScope>() {
-        fun create(importedFile: ImportedFile) =
-            FileImportDiScope(importedFile)
+        fun create(importedFile: ImportedFile) = FileImportDiScope(importedFile)
 
         override fun recreateDiScope() = FileImportDiScope()
 

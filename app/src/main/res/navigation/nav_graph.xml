@@ -56,7 +56,16 @@
                 android:id="@+id/file_import_shows_rename_deck_dialog"
                 app:destination="@+id/rename_deck_dialog" />
 
+        <action
+                android:id="@+id/file_import_to_deck_chooser"
+                app:destination="@id/deck_chooser" />
+
     </fragment>
+
+    <fragment
+            android:id="@+id/deck_chooser"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserFragment"
+            tools:layout="@layout/fragment_deck_chooser" />
 
     <fragment
             android:id="@+id/search"

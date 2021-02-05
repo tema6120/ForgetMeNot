@@ -23,8 +23,8 @@ class FileImporter {
         globalState: GlobalState,
         fileImportSettings: FileImportSettings
     ) {
-        val deckName = importedFile.fileName
-        val whereToAdd = NewDeck(deckName)
+        val deckName = importedFile.fileName.substringBeforeLast(".")
+        val whereToAdd: AbstractDeck = NewDeck(deckName)
         val text = importedFile.content.toString(fileImportSettings.charset)
             .removePrefix("\uFEFF")
             .replace("\r", "")

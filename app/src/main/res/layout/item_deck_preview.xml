@@ -188,6 +188,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/deck_options"
             android:tint="@color/iconDark"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
 
     <ImageButton

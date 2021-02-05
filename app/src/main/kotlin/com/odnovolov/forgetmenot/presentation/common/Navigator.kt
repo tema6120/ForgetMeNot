@@ -19,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
@@ -43,6 +44,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun showRenameDeckDialogFromFileImport(createDiScope: () -> RenameDeckDiScope) {
         RenameDeckDiScope.open(createDiScope)
         navigate(R.id.file_import_shows_rename_deck_dialog)
+    }
+
+    fun navigateToDeckChooserFromFileImport(createDiScope: () -> DeckChooserDiScope) {
+        DeckChooserDiScope.open(createDiScope)
+        navigate(R.id.file_import_to_deck_chooser)
     }
 
     fun navigateToExercise(createDiScope: () -> ExerciseDiScope) {
