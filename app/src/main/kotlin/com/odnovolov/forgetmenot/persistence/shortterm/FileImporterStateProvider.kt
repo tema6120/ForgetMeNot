@@ -36,9 +36,10 @@ class FileImporterStateProvider(
                         else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
                     }
                 SerializableCardsFile(
+                    cardsFile.sourceBytes,
+                    cardsFile.charset.name(),
                     serializableAbstractDeck,
-                    cardsFile.text,
-                    cardsFile.charset.name()
+                    cardsFile.text
                 )
             }
         return SerializableState(serializableCardsFiles, state.currentPosition)
@@ -57,9 +58,10 @@ class FileImporterStateProvider(
                 }
                 val charset = Charset.forName(serializableCardsFile.charsetName)
                 CardsFile(
+                    serializableCardsFile.sourceBytes,
+                    charset,
                     deckWhereToAdd,
-                    serializableCardsFile.text,
-                    charset
+                    serializableCardsFile.text
                 )
             }
         return FileImporter.State(cardsFiles, serializableState.currentPosition)
@@ -68,9 +70,10 @@ class FileImporterStateProvider(
 
 @Serializable
 data class SerializableCardsFile(
+    val sourceBytes: ByteArray,
+    val charsetName: String,
     val serializableAbstractDeck: SerializableAbstractDeck,
-    val text: String,
-    val charsetName: String
+    val text: String
 )
 
 @Serializable

@@ -16,8 +16,10 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
 import kotlinx.android.synthetic.main.fragment_file_import.*
 import kotlinx.android.synthetic.main.popup_change_deck_for_import.view.*
+import kotlinx.android.synthetic.main.popup_charsets.view.*
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import java.nio.charset.Charset
 
 class FileImportFragment : BaseFragment() {
     init {
@@ -27,6 +29,8 @@ class FileImportFragment : BaseFragment() {
     private var controller: FileImportController? = null
     private lateinit var viewModel: FileImportViewModel
     private var changeDeckPopup: PopupWindow? = null
+    private var charsetPopup: PopupWindow? = null
+    private var charsetAdapter: CharsetAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +47,7 @@ class FileImportFragment : BaseFragment() {
             val diScope = FileImportDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             viewModel = diScope.viewModel
-            observeViewModel(isRecreated = savedInstanceState != null)
+            observeViewModel()
         }
     }
 
@@ -60,13 +64,14 @@ class FileImportFragment : BaseFragment() {
         sourceEditText.observeText { newText: String ->
             controller?.dispatch(TextChanged(newText))
         }
+        charsetButton.setOnClickListener {
+            showCharsetPopup()
+        }
     }
 
-    private fun observeViewModel(isRecreated: Boolean) {
+    private fun observeViewModel() {
         with(viewModel) {
-            if (!isRecreated) {
-                sourceEditText.setText(sourceText)
-            }
+            sourceTextWithNewEncoding.observe(sourceEditText::setText)
             combine(deckName, deckNameCheckResult) { deckName, deckNameCheckResult ->
                 deckNameTextView.text = if (deckNameCheckResult == NameCheckResult.Occupied) {
                     SpannableString(deckName).apply {
@@ -108,6 +113,9 @@ class FileImportFragment : BaseFragment() {
                     }
                 }
             }
+            currentCharset.observe { charset: Charset ->
+                charsetButton.text = charset.name()
+            }
         }
     }
 
@@ -139,6 +147,34 @@ class FileImportFragment : BaseFragment() {
         return changeDeckPopup!!
     }
 
+    private fun showCharsetPopup() {
+        requireCharsetPopup().show(anchor = charsetButton, gravity = Gravity.BOTTOM)
+    }
+
+    private fun requireCharsetPopup(): PopupWindow {
+        if (charsetPopup == null) {
+            val content: View = View.inflate(requireContext(), R.layout.popup_charsets, null)
+            val onItemClicked: (Charset) -> Unit = { charset: Charset ->
+                charsetPopup?.dismiss()
+                controller?.dispatch(EncodingIsChanged(charset))
+            }
+            charsetAdapter = CharsetAdapter(onItemClicked)
+            content.charsetRecycler.adapter = charsetAdapter
+            charsetPopup = DarkPopupWindow(content)
+            subscribeCharsetPopupToViewModel()
+        }
+        return charsetPopup!!
+    }
+
+    private fun subscribeCharsetPopupToViewModel() {
+        viewCoroutineScope!!.launch {
+            val diScope = FileImportDiScope.getAsync() ?: return@launch
+            diScope.viewModel.availableCharsets.observe { availableCharsets: List<CharsetItem> ->
+                charsetAdapter!!.items = availableCharsets
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         sourceEditText.hideSoftInput()
@@ -148,6 +184,8 @@ class FileImportFragment : BaseFragment() {
         super.onDestroyView()
         changeDeckPopup?.dismiss()
         changeDeckPopup = null
+        charsetPopup?.dismiss()
+        charsetPopup = null
     }
 
     override fun onDestroy() {

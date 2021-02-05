@@ -77,6 +77,10 @@ class FileImportController(
             is TextChanged -> {
                 fileImporter.updateText(event.newText)
             }
+
+            is EncodingIsChanged -> {
+                fileImporter.setCharset(event.newEncoding)
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.pr
 
 import android.content.Context
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Looper
 import android.os.Parcel
@@ -17,8 +18,9 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
@@ -63,7 +65,16 @@ class PresetView @JvmOverloads constructor(
             gravity = Gravity.CENTER_VERTICAL
         }
         setBackgroundResource(R.drawable.ripple_corner_radius_8dp)
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_more_expand_more_with_inset, 0)
+        val compoundDrawableEnd: Drawable? =
+            ContextCompat.getDrawable(context, R.drawable.ic_more_expand_more_with_inset)?.also {
+                val color: Int = ContextCompat.getColor(context, R.color.text_title)
+                val colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                    color,
+                    BlendModeCompat.SRC_ATOP
+                )
+                it.colorFilter = colorFilter
+            }
+        setCompoundDrawablesWithIntrinsicBounds(null, null, compoundDrawableEnd, null)
         ellipsize = TextUtils.TruncateAt.END
         maxLines = 1
         setPadding(12.dp)

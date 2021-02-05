@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import java.nio.charset.Charset
 
 sealed class FileImportEvent {
     object CancelButtonClicked : FileImportEvent()
@@ -10,4 +11,5 @@ sealed class FileImportEvent {
     object AddCardsToExistingDeckButtonClicked : FileImportEvent()
     class TargetDeckIsSelected(val deck: Deck) : FileImportEvent()
     class TextChanged(val newText: String) : FileImportEvent()
+    class EncodingIsChanged(val newEncoding: Charset) : FileImportEvent()
 }

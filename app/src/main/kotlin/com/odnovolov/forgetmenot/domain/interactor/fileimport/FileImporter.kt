@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.domain.interactor.deckcreator.CardPrototype
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser.IllegalCardFormatException
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
+import java.nio.charset.Charset
 
 class FileImporter {
     class State(
@@ -24,11 +25,16 @@ class FileImporter {
         fileImportSettings: FileImportSettings
     ) {
         val deckName = importedFile.fileName.substringBeforeLast(".")
-        val whereToAdd: AbstractDeck = NewDeck(deckName)
+        val deckWhereToAdd: AbstractDeck = NewDeck(deckName)
         val text = importedFile.content.toString(fileImportSettings.charset)
             .removePrefix("\uFEFF")
             .replace("\r", "")
-        val cardsFile = CardsFile(whereToAdd, text, fileImportSettings.charset)
+        val cardsFile = CardsFile(
+            sourceBytes = importedFile.content,
+            charset = fileImportSettings.charset,
+            deckWhereToAdd,
+            text
+        )
         this.state = State(listOf(cardsFile))
         this.globalState = globalState
         this.fileImportSettings = fileImportSettings
@@ -97,5 +103,15 @@ class FileImporter {
 
     fun setDeckWhereToAdd(deckWhereToAdd: AbstractDeck) {
         currentFile.deckWhereToAdd = deckWhereToAdd
+    }
+
+    fun setCharset(newCharset: Charset) {
+        with(currentFile) {
+            if (charset == newCharset) return
+            text = sourceBytes.toString(newCharset)
+                .removePrefix("\uFEFF")
+                .replace("\r", "")
+            charset = newCharset
+        }
     }
 }

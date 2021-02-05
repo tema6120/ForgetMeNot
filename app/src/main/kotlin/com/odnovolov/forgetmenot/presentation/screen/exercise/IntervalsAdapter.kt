@@ -18,16 +18,9 @@ class IntervalsAdapter(
         set(value) {
             if (value != field) {
                 field = value
-                updateSelectedPosition()
                 notifyDataSetChanged()
             }
         }
-
-    private var selectedPosition: Int = -1
-
-    private fun updateSelectedPosition() {
-        selectedPosition = intervalItems.indexOfFirst { it.isSelected }
-    }
 
     override fun getItemCount(): Int = intervalItems.size
 

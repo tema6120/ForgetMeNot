@@ -96,6 +96,9 @@
     <string name="popup_change_deck_for_import_existing_button">Існуючої колоди</string>
     <string name="screen_title_choose_a_deck_to_import_cards_to">Виберіть колоду, куди потрібно
         імпортувати картки</string>
+    <string name="label_encoding">Кодування</string>
+    <string name="description_charset_icon">іконка \"Кодування\"</string>
+    <string name="popup_title_charset">Кодування</string>
 
 
     <!-- Exercise screen -->
