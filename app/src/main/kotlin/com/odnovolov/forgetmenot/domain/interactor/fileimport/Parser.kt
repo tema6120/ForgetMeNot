@@ -3,19 +3,17 @@ package com.odnovolov.forgetmenot.domain.interactor.fileimport
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 
 abstract class Parser(
-    val state: State
-) {
+    state: State
+) : FlowMaker<Parser>() {
+    var state: State by flowMaker(state)
+
     abstract fun parse(text: String)
 
-    class State(
-        text: String,
-        cardPrototypes: List<CardPrototype>,
-        errorLines: List<Int>
-    ) : FlowMaker<State>() {
-        var text: String by flowMaker(text)
-        var cardPrototypes: List<CardPrototype> by flowMaker(cardPrototypes)
-        var errorLines: List<Int> by flowMaker(errorLines)
-    }
+    data class State(
+        val text: String,
+        val cardPrototypes: List<CardPrototype>,
+        val errorLines: List<Int>
+    )
 
     data class CardPrototype(
         val questionRange: IntRange,

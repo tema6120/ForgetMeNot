@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+        <com.brackeys.ui.editorkit.widget.TextProcessor
+                android:id="@+id/editor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top|start"
+                android:textColor="@color/textSecondary" />
+
+    </androidx.core.widget.NestedScrollView>
+
+    <HorizontalScrollView
+            android:id="@+id/controlPanelScroll"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:id="@+id/charsetButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/background_outlined_button_on_dark"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_file_import_screen_charset_button"
+                    app:drawableEndCompat="@drawable/ic_round_expand_more_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="UTF-8" />
+
+            <TextView
+                    android:id="@+id/encodingLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_encoding_label"
+                    android:paddingStart="6dp"
+                    android:paddingTop="1dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="1dp"
+                    android:text="@string/label_encoding"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_file_import_screen_encoding_label"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/charsetButton"
+                    app:layout_constraintEnd_toEndOf="@+id/charsetButton"
+                    app:layout_constraintStart_toStartOf="@+id/charsetButton"
+                    app:layout_constraintTop_toTopOf="@+id/charsetButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </HorizontalScrollView>
+
+</LinearLayout>

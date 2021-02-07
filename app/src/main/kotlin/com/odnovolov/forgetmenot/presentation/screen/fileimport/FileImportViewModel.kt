@@ -2,13 +2,13 @@ package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.*
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import kotlinx.coroutines.flow.*
-import java.nio.charset.Charset
 
 class FileImportViewModel(
-    private val fileImporterState: FileImporter.State,
+    fileImporterState: FileImporter.State,
     private val globalState: GlobalState
 ) {
     val deckName: Flow<String> = fileImporterState.files[0].flowOf(CardsFile::deckWhereToAdd)
@@ -36,32 +36,4 @@ class FileImportViewModel(
     val isNewDeck: Flow<Boolean> = fileImporterState.files[0]
         .flowOf(CardsFile::deckWhereToAdd)
         .map { deckWhereToAdd: AbstractDeck -> deckWhereToAdd is NewDeck }
-
-    val currentCharset: Flow<Charset> = fileImporterState.files[0].flowOf(CardsFile::charset)
-
-    @OptIn(ExperimentalStdlibApi::class)
-    val availableCharsets: Flow<List<CharsetItem>> = currentCharset.map { currentCharset: Charset ->
-        buildList<Charset> {
-            addAll(mainCharsets)
-            for (charset in Charset.availableCharsets().values) {
-                if (charset !in mainCharsets) {
-                    add(charset)
-                }
-            }
-        }.map { charset: Charset ->
-            CharsetItem(
-                charset,
-                isSelected = charset == currentCharset
-            )
-        }
-    }
-
-    val parser: Flow<Parser> = flowOf(fileImporterState.files[0].parser)
-
-    val sourceTextWithNewEncoding: Flow<String> = currentCharset.map {
-        fileImporterState.files[0].parser.state.text
-    }
-
-    val errorLines: Flow<List<Int>> =
-        fileImporterState.files[0].parser.state.flowOf(Parser.State::errorLines)
 }

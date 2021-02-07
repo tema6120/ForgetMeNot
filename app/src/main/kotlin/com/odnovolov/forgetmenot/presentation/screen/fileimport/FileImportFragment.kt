@@ -8,21 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.core.view.GravityCompat
+import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.myColorScheme
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.SyntaxHighlighting
 import kotlinx.android.synthetic.main.fragment_file_import.*
 import kotlinx.android.synthetic.main.popup_change_deck_for_import.view.*
 import kotlinx.android.synthetic.main.popup_charsets.view.*
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import java.nio.charset.Charset
 
 class FileImportFragment : BaseFragment() {
     init {
@@ -32,8 +30,7 @@ class FileImportFragment : BaseFragment() {
     private var controller: FileImportController? = null
     private lateinit var viewModel: FileImportViewModel
     private var changeDeckPopup: PopupWindow? = null
-    private var charsetPopup: PopupWindow? = null
-    private var charsetAdapter: CharsetAdapter? = null
+    private var tabLayoutMediator: TabLayoutMediator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,10 +61,25 @@ class FileImportFragment : BaseFragment() {
         renameDeckButton.setOnClickListener {
             controller?.dispatch(RenameDeckButtonClicked)
         }
-        editor.colorScheme = myColorScheme
-        charsetButton.setOnClickListener {
-            showCharsetPopup()
-        }
+        setupViewPager()
+    }
+
+    private fun setupViewPager() {
+        fileImportViewPager.adapter = FileImportPagerAdapter(this)
+        tabLayoutMediator = TabLayoutMediator(
+            fileImportTabLayout,
+            fileImportViewPager
+        ) { tab, position ->
+            val customTab = View.inflate(requireContext(), R.layout.tab, null) as TextView
+            customTab.text = getString(
+                when (position) {
+                    0 -> R.string.tab_name_source_text
+                    1 -> R.string.tab_name_cards
+                    else -> throw IllegalArgumentException("position must be in 0..1")
+                }
+            )
+            tab.customView = customTab
+        }.apply { attach() }
     }
 
     private fun observeViewModel() {
@@ -113,18 +125,6 @@ class FileImportFragment : BaseFragment() {
                     }
                 }
             }
-            parser.observe { parser: Parser ->
-                editor.language = SyntaxHighlighting(parser)
-            }
-            sourceTextWithNewEncoding.observe(editor::setTextContent)
-            errorLines.observe { errorLines: List<Int> ->
-                errorLines.forEach { errorLine: Int ->
-                    editor.setErrorLine(errorLine + 1)
-                }
-            }
-            currentCharset.observe { charset: Charset ->
-                charsetButton.text = charset.name()
-            }
         }
     }
 
@@ -156,45 +156,10 @@ class FileImportFragment : BaseFragment() {
         return changeDeckPopup!!
     }
 
-    private fun showCharsetPopup() {
-        requireCharsetPopup().show(anchor = charsetButton, gravity = Gravity.BOTTOM)
-    }
-
-    private fun requireCharsetPopup(): PopupWindow {
-        if (charsetPopup == null) {
-            val content: View = View.inflate(requireContext(), R.layout.popup_charsets, null)
-            val onItemClicked: (Charset) -> Unit = { charset: Charset ->
-                charsetPopup?.dismiss()
-                controller?.dispatch(EncodingIsChanged(charset))
-            }
-            charsetAdapter = CharsetAdapter(onItemClicked)
-            content.charsetRecycler.adapter = charsetAdapter
-            charsetPopup = DarkPopupWindow(content)
-            subscribeCharsetPopupToViewModel()
-        }
-        return charsetPopup!!
-    }
-
-    private fun subscribeCharsetPopupToViewModel() {
-        viewCoroutineScope!!.launch {
-            val diScope = FileImportDiScope.getAsync() ?: return@launch
-            diScope.viewModel.availableCharsets.observe { availableCharsets: List<CharsetItem> ->
-                charsetAdapter!!.items = availableCharsets
-            }
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        editor.hideSoftInput()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         changeDeckPopup?.dismiss()
         changeDeckPopup = null
-        charsetPopup?.dismiss()
-        charsetPopup = null
     }
 
     override fun onDestroy() {

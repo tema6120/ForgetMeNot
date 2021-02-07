@@ -91,9 +91,16 @@
     <string name="popup_change_deck_for_import_existing_button">Существующей колоде</string>
     <string name="screen_title_choose_a_deck_to_import_cards_to">Выберите колоду, куда нужно
         импортировать карточки</string>
+    <string name="tab_name_source_text">Исходный текст</string>
+    <string name="tab_name_cards">Карточки</string>
     <string name="label_encoding">Кодировка</string>
     <string name="description_charset_icon">иконка \"Кодировка\"</string>
     <string name="popup_title_charset">Кодировки</string>
+    <plurals name="title_cards_selection_toolbar_in_file_import">
+        <item quantity="one">%d карточка</item>
+        <item quantity="few">%d карточки</item>
+        <item quantity="many">%d карточек</item>
+    </plurals>
 
 
     <!-- Exercise screen -->

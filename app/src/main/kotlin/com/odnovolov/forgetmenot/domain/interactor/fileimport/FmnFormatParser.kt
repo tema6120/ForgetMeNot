@@ -35,9 +35,7 @@ class FmnFormatParser(state: State) : Parser(state) {
                     text.lastIndex
             parseCardBlock(cardBlockStartIndex, cardBlockEndIndex)
         }
-        state.text = newText
-        state.cardPrototypes = newCardPrototypes
-        state.errorLines = newErrorLines
+        state = State(newText, newCardPrototypes, newErrorLines)
     }
 
     private fun parseCardBlock(cardBlockStartIndex: Int, cardBlockEndIndex: Int) {

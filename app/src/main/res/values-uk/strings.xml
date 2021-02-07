@@ -96,9 +96,16 @@
     <string name="popup_change_deck_for_import_existing_button">Існуючої колоди</string>
     <string name="screen_title_choose_a_deck_to_import_cards_to">Виберіть колоду, куди потрібно
         імпортувати картки</string>
+    <string name="tab_name_source_text">Вихідний текст</string>
+    <string name="tab_name_cards">Картки</string>
     <string name="label_encoding">Кодування</string>
     <string name="description_charset_icon">іконка \"Кодування\"</string>
     <string name="popup_title_charset">Кодування</string>
+    <plurals name="title_cards_selection_toolbar_in_file_import">
+        <item quantity="one">%d картка</item>
+        <item quantity="few">%d картки</item>
+        <item quantity="many">%d карток</item>
+    </plurals>
 
 
     <!-- Exercise screen -->

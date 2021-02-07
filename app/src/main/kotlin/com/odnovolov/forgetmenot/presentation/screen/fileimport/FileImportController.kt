@@ -73,10 +73,6 @@ class FileImportController(
                 val deck = ExistingDeck(event.deck)
                 fileImporter.setDeckWhereToAdd(deck)
             }
-
-            is EncodingIsChanged -> {
-                fileImporter.setCharset(event.newEncoding)
-            }
         }
     }
 

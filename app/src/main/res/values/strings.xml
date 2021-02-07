@@ -90,9 +90,15 @@
     <string name="popup_change_deck_for_import_new_button">New deck</string>
     <string name="popup_change_deck_for_import_existing_button">Existing deck</string>
     <string name="screen_title_choose_a_deck_to_import_cards_to">Choose a deck to import cards to</string>
+    <string name="tab_name_source_text">Source text</string>
+    <string name="tab_name_cards">Cards</string>
     <string name="label_encoding">Encoding</string>
     <string name="description_charset_icon">Encoding icon</string>
     <string name="popup_title_charset">Encodings</string>
+    <plurals name="title_cards_selection_toolbar_in_file_import">
+        <item quantity="one">%d card</item>
+        <item quantity="other">%d cards</item>
+    </plurals>
 
 
     <!-- Exercise screen -->

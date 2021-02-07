@@ -80,19 +80,16 @@ class DeckEditorFragment : BaseFragment() {
                         }
                     }
 
+                override fun onPageSelected(position: Int) {
+                    appBarElevationManager.viewPagerPosition = position
+                }
+
                 override fun onPageScrolled(
                     position: Int,
                     positionOffset: Float,
                     positionOffsetPixels: Int
                 ) {
                     isAddCardButtonVisible = position == 1 && positionOffset == 0f
-                }
-            }
-        )
-        deckEditorViewPager.registerOnPageChangeCallback(
-            object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    appBarElevationManager.viewPagerPosition = position
                 }
             }
         )

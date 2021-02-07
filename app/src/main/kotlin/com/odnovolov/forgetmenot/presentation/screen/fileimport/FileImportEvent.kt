@@ -10,5 +10,4 @@ sealed class FileImportEvent {
     object AddCardsToNewDeckButtonClicked : FileImportEvent()
     object AddCardsToExistingDeckButtonClicked : FileImportEvent()
     class TargetDeckIsSelected(val deck: Deck) : FileImportEvent()
-    class EncodingIsChanged(val newEncoding: Charset) : FileImportEvent()
 }
