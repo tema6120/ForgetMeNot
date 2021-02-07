@@ -56,7 +56,12 @@ class FileImportViewModel(
         }
     }
 
+    val parser: Flow<Parser> = flowOf(fileImporterState.files[0].parser)
+
     val sourceTextWithNewEncoding: Flow<String> = currentCharset.map {
-        fileImporterState.files[0].text
+        fileImporterState.files[0].parser.state.text
     }
+
+    val errorLines: Flow<List<Int>> =
+        fileImporterState.files[0].parser.state.flowOf(Parser.State::errorLines)
 }

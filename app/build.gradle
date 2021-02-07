@@ -50,7 +50,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.fragment:fragment:1.2.5'
+    implementation ('androidx.fragment:fragment') { version { strictly '1.2.5' } }
     implementation 'androidx.core:core-ktx:1.5.0-alpha05'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation "androidx.navigation:navigation-fragment:2.3.0"
@@ -66,6 +66,7 @@ dependencies {
     implementation "com.soywiz.korlibs.klock:klock:1.12.0"
     implementation 'com.appyvet:materialrangebar:1.4.7'
     implementation 'org.apache.commons:commons-csv:1.8'
+    implementation 'com.brackeys.ui:editorkit:1.1.0'
 }
 
 sqldelight {

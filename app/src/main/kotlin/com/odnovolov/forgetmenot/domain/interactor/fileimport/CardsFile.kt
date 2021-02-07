@@ -8,10 +8,10 @@ class CardsFile(
     sourceBytes: ByteArray,
     charset: Charset,
     deckWhereToAdd: AbstractDeck,
-    text: String
+    parser: Parser
 ) : FlowMaker<CardsFile>() {
     val sourceBytes: ByteArray by flowMaker(sourceBytes)
     var charset: Charset by flowMaker(charset)
     var deckWhereToAdd: AbstractDeck by flowMaker(deckWhereToAdd)
-    var text: String by flowMaker(text)
+    var parser: Parser by flowMaker(parser)
 }

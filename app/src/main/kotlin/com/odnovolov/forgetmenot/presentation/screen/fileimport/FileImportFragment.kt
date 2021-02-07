@@ -11,9 +11,12 @@ import android.widget.PopupWindow
 import androidx.core.view.GravityCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.myColorScheme
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.SyntaxHighlighting
 import kotlinx.android.synthetic.main.fragment_file_import.*
 import kotlinx.android.synthetic.main.popup_change_deck_for_import.view.*
 import kotlinx.android.synthetic.main.popup_charsets.view.*
@@ -61,9 +64,7 @@ class FileImportFragment : BaseFragment() {
         renameDeckButton.setOnClickListener {
             controller?.dispatch(RenameDeckButtonClicked)
         }
-        sourceEditText.observeText { newText: String ->
-            controller?.dispatch(TextChanged(newText))
-        }
+        editor.colorScheme = myColorScheme
         charsetButton.setOnClickListener {
             showCharsetPopup()
         }
@@ -71,7 +72,6 @@ class FileImportFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            sourceTextWithNewEncoding.observe(sourceEditText::setText)
             combine(deckName, deckNameCheckResult) { deckName, deckNameCheckResult ->
                 deckNameTextView.text = if (deckNameCheckResult == NameCheckResult.Occupied) {
                     SpannableString(deckName).apply {
@@ -113,6 +113,15 @@ class FileImportFragment : BaseFragment() {
                     }
                 }
             }
+            parser.observe { parser: Parser ->
+                editor.language = SyntaxHighlighting(parser)
+            }
+            sourceTextWithNewEncoding.observe(editor::setTextContent)
+            errorLines.observe { errorLines: List<Int> ->
+                errorLines.forEach { errorLine: Int ->
+                    editor.setErrorLine(errorLine + 1)
+                }
+            }
             currentCharset.observe { charset: Charset ->
                 charsetButton.text = charset.name()
             }
@@ -134,12 +143,12 @@ class FileImportFragment : BaseFragment() {
                 null
             ).apply {
                 newDeckButton.setOnClickListener {
-                    controller?.dispatch(AddCardsToNewDeckButtonClicked)
                     changeDeckPopup!!.dismiss()
+                    controller?.dispatch(AddCardsToNewDeckButtonClicked)
                 }
                 existingDeckButton.setOnClickListener {
-                    controller?.dispatch(AddCardsToExistingDeckButtonClicked)
                     changeDeckPopup!!.dismiss()
+                    controller?.dispatch(AddCardsToExistingDeckButtonClicked)
                 }
             }
             changeDeckPopup = LightPopupWindow(content)
@@ -177,7 +186,7 @@ class FileImportFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        sourceEditText.hideSoftInput()
+        editor.hideSoftInput()
     }
 
     override fun onDestroyView() {

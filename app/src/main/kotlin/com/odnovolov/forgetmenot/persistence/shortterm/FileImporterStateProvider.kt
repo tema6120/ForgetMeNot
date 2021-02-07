@@ -4,6 +4,8 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FmnFormatParser
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -39,7 +41,7 @@ class FileImporterStateProvider(
                     cardsFile.sourceBytes,
                     cardsFile.charset.name(),
                     serializableAbstractDeck,
-                    cardsFile.text
+                    cardsFile.parser.state.text
                 )
             }
         return SerializableState(serializableCardsFiles, state.currentPosition)
@@ -57,11 +59,17 @@ class FileImporterStateProvider(
                     }
                 }
                 val charset = Charset.forName(serializableCardsFile.charsetName)
+                val parserState = Parser.State(
+                    text = serializableCardsFile.text,
+                    cardPrototypes = emptyList(),
+                    errorLines = emptyList()
+                )
+                val parser = FmnFormatParser(parserState)
                 CardsFile(
                     serializableCardsFile.sourceBytes,
                     charset,
                     deckWhereToAdd,
-                    serializableCardsFile.text
+                    parser
                 )
             }
         return FileImporter.State(cardsFiles, serializableState.currentPosition)

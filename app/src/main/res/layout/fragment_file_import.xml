@@ -155,18 +155,12 @@
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <EditText
-                android:id="@+id/sourceEditText"
+        <com.brackeys.ui.editorkit.widget.TextProcessor
+                android:id="@+id/editor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
+                android:layout_height="match_parent"
                 android:gravity="top|start"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:padding="16dp"
-                android:textColor="@color/textSecondary"
-                android:textSize="@dimen/text_size_file_import_screen_source_text"
-                tools:text="@string/example_of_text_file_for_creating_deck" />
+                android:textColor="@color/textSecondary" />
 
     </androidx.core.widget.NestedScrollView>
 

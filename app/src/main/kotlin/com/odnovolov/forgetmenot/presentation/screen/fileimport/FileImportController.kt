@@ -74,10 +74,6 @@ class FileImportController(
                 fileImporter.setDeckWhereToAdd(deck)
             }
 
-            is TextChanged -> {
-                fileImporter.updateText(event.newText)
-            }
-
             is EncodingIsChanged -> {
                 fileImporter.setCharset(event.newEncoding)
             }

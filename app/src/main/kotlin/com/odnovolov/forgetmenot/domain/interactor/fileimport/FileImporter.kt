@@ -4,10 +4,8 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.interactor.deckcreator.CardPrototype
-import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser
-import com.odnovolov.forgetmenot.domain.interactor.deckcreator.Parser.IllegalCardFormatException
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.CardPrototype
 import java.nio.charset.Charset
 
 class FileImporter {
@@ -29,11 +27,17 @@ class FileImporter {
         val text = importedFile.content.toString(fileImportSettings.charset)
             .removePrefix("\uFEFF")
             .replace("\r", "")
+        val parserState = Parser.State(
+            text,
+            cardPrototypes = emptyList(),
+            errorLines = emptyList()
+        )
+        val parser = FmnFormatParser(parserState)
         val cardsFile = CardsFile(
             sourceBytes = importedFile.content,
             charset = fileImportSettings.charset,
             deckWhereToAdd,
-            text
+            parser
         )
         this.state = State(listOf(cardsFile))
         this.globalState = globalState
@@ -56,10 +60,6 @@ class FileImporter {
 
     private val currentFile get() = with(state) { files[currentPosition] }
 
-    fun updateText(newText: String) {
-        currentFile.text = newText
-    }
-
     fun import(): List<Boolean> {
         val result: List<Boolean> = state.files.map { cardsFile: CardsFile ->
             val deckWhereToAdd = cardsFile.deckWhereToAdd
@@ -70,15 +70,21 @@ class FileImporter {
                     return@map false
                 }
             }
-            val cardPrototypes: List<CardPrototype> = try {
-                Parser.parse(cardsFile.text)
-            } catch (e: IllegalCardFormatException) {
-                return@map false
-            }
+            val cardPrototypes: List<CardPrototype> = cardsFile.parser.state.cardPrototypes
             if (cardPrototypes.isEmpty()) {
                 return@map false
             }
-            val newCards = cardPrototypes.map(CardPrototype::toCard).toCopyableList()
+            val text: String = cardsFile.parser.state.text
+            val newCards = cardPrototypes.map { cardPrototype: CardPrototype ->
+                val question = text.substring(cardPrototype.questionRange)
+                val answer = text.substring(cardPrototype.answerRange)
+                Card(
+                    id = generateId(),
+                    question,
+                    answer
+                )
+            }
+                .toCopyableList()
             when (deckWhereToAdd) {
                 is NewDeck -> {
                     val deck = Deck(
@@ -108,9 +114,10 @@ class FileImporter {
     fun setCharset(newCharset: Charset) {
         with(currentFile) {
             if (charset == newCharset) return
-            text = sourceBytes.toString(newCharset)
+            val text: String = sourceBytes.toString(newCharset)
                 .removePrefix("\uFEFF")
                 .replace("\r", "")
+            parser.parse(text)
             charset = newCharset
         }
     }
