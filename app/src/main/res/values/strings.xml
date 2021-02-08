@@ -96,6 +96,8 @@
         <item quantity="one">%d error</item>
         <item quantity="other">%d errors</item>
     </plurals>
+    <string name="description_undo_button">Undo</string>
+    <string name="description_redo_button">Redo</string>
     <string name="label_encoding">Encoding</string>
     <string name="description_charset_icon">Encoding icon</string>
     <string name="popup_title_charset">Encodings</string>

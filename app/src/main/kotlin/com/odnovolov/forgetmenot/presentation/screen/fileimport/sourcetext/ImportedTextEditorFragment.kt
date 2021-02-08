@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.core.view.isVisible
+import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.myColorScheme
@@ -62,6 +60,18 @@ class ImportedTextEditorFragment : BaseFragment() {
         errorButton.setOnClickListener {
             goToNextError()
         }
+        undoButton.setOnClickListener {
+            if (editor.canUndo()) editor.undo()
+        }
+        redoButton.setOnClickListener {
+            if (editor.canRedo()) editor.redo()
+        }
+        editor.onUndoRedoChangedListener = OnUndoRedoChangedListener {
+            undoButton.isEnabled = editor.canUndo()
+            redoButton.isEnabled = editor.canRedo()
+        }
+        undoButton.setTooltipTextFromContentDescription()
+        redoButton.setTooltipTextFromContentDescription()
     }
 
     private fun goToNextError() {

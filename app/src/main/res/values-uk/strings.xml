@@ -103,6 +103,8 @@
         <item quantity="few">%d помилки</item>
         <item quantity="many">%d помилок</item>
     </plurals>
+    <string name="description_undo_button">Скасувати</string>
+    <string name="description_redo_button">Повторити</string>
     <string name="label_encoding">Кодування</string>
     <string name="description_charset_icon">іконка \"Кодування\"</string>
     <string name="popup_title_charset">Кодування</string>

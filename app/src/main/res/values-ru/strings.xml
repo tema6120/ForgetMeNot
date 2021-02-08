@@ -98,6 +98,8 @@
         <item quantity="few">%d ошибки</item>
         <item quantity="many">%d ошибок</item>
     </plurals>
+    <string name="description_undo_button">Отменить</string>
+    <string name="description_redo_button">Повторить</string>
     <string name="label_encoding">Кодировка</string>
     <string name="description_charset_icon">иконка \"Кодировка\"</string>
     <string name="popup_title_charset">Кодировки</string>

@@ -105,7 +105,7 @@
                     android:contentDescription="@string/description_previous_button"
                     android:paddingEnd="10dp"
                     app:srcCompat="@drawable/ic_round_chevron_left_28"
-                    app:tint="@color/icon_toggler" />
+                    app:tint="@color/image_button_on_control_panel_enabled" />
 
             <View
                     android:id="@+id/verticalDivider"
@@ -124,7 +124,7 @@
                     android:contentDescription="@string/description_next_button"
                     android:paddingStart="10dp"
                     app:srcCompat="@drawable/ic_round_chevron_right_28"
-                    app:tint="@color/icon_toggler" />
+                    app:tint="@color/image_button_on_control_panel_enabled" />
 
         </LinearLayout>
 
