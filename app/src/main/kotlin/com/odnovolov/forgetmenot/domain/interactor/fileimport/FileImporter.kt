@@ -80,8 +80,8 @@ class FileImporter(
             val text: String = sourceBytes.toString(newCharset)
                 .removePrefix("\uFEFF")
                 .replace("\r", "")
-            charset = newCharset
             updateText(text)
+            charset = newCharset
         }
     }
 

@@ -7,7 +7,8 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScop
 class ImportedCardsDiScope {
     val controller = ImportedCardsController(
         FileImportDiScope.getOrRecreate().fileImporter,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        FileImportDiScope.getOrRecreate().fileImporterStateProvider
     )
 
     val viewModel = ImportedCardsViewModel(

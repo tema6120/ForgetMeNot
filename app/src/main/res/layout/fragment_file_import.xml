@@ -1,170 +1,178 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/fileImportRootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         tools:context="presentation.screen.fileimport.FileImportFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_window"
-            android:elevation="4dp">
+            android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways">
+                android:background="@color/background_window"
+                android:elevation="4dp">
 
-            <ImageButton
-                    android:id="@+id/previousButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_cancel_white_24dp"
-                    app:tint="@color/text_title" />
-
-            <TextView
-                    android:id="@+id/screenTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/jura"
-                    android:padding="16dp"
-                    android:text="@string/screen_title_file_import"
-                    android:textColor="@color/text_title"
-                    android:textSize="@dimen/text_size_screen_title"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@id/previousButton"
-                    app:layout_constraintEnd_toStartOf="@id/nextButton"
-                    app:layout_constraintStart_toEndOf="@id/previousButton"
-                    app:layout_constraintTop_toTopOf="@id/previousButton" />
-
-            <ImageButton
-                    android:id="@+id/nextButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="12dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/done_button_selector"
-                    app:tint="@color/text_title" />
-
-            <TextView
-                    android:id="@+id/add_to"
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_bold"
-                    android:paddingStart="24dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/add_to"
-                    android:textColor="@color/text_description"
-                    android:textSize="@dimen/text_size_file_import_screen_add_to"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/screenTitle" />
-
-            <LinearLayout
-                    android:id="@+id/renameDeckButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/background_outlined_button"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_to">
-
-                <TextView
-                        android:id="@+id/deckNameTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:fontFamily="@font/nunito_bold"
-                        android:paddingStart="24dp"
-                        android:paddingTop="16dp"
-                        android:paddingEnd="4dp"
-                        android:paddingBottom="16dp"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="@dimen/text_size_file_import_screen_deck_name"
-                        tools:text="My Vocabulary 35">
-
-                    <requestFocus />
-
-                </TextView>
+                    app:layout_scrollFlags="scroll|enterAlways">
 
                 <ImageButton
-                        android:id="@+id/changeDeckButton"
+                        android:id="@+id/previousButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="8dp"
                         android:background="?selectableItemBackgroundBorderless"
-                        app:layout_constraintBottom_toBottomOf="@+id/deckNameTextView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_cancel_white_24dp"
+                        app:tint="@color/text_title" />
+
+                <TextView
+                        android:id="@+id/screenTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/jura"
+                        android:padding="16dp"
+                        android:text="@string/screen_title_file_import"
+                        android:textColor="@color/text_title"
+                        android:textSize="@dimen/text_size_screen_title"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/previousButton"
+                        app:layout_constraintEnd_toStartOf="@id/nextButton"
+                        app:layout_constraintStart_toEndOf="@id/previousButton"
+                        app:layout_constraintTop_toTopOf="@id/previousButton" />
+
+                <ImageButton
+                        android:id="@+id/nextButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="?selectableItemBackgroundBorderless"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/deckNameTextView"
-                        app:layout_constraintTop_toTopOf="@+id/deckNameTextView"
-                        app:srcCompat="@drawable/ic_round_wifi_protected_setup_24"
-                        app:tint="@color/textSecondary" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/done_button_selector"
+                        app:tint="@color/text_title" />
 
-            </LinearLayout>
+                <TextView
+                        android:id="@+id/add_to"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_bold"
+                        android:paddingStart="24dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/add_to"
+                        android:textColor="@color/text_description"
+                        android:textSize="@dimen/text_size_file_import_screen_add_to"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/screenTitle" />
 
-            <TextView
-                    android:id="@+id/deckLabelTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="56dp"
-                    android:background="@drawable/background_new_deck"
-                    android:paddingStart="8dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="2dp"
-                    android:text="@string/deck_label_in_file_import_new"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_file_import_screen_deck_label"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/renameDeckButton"
-                    app:layout_constraintEnd_toEndOf="@+id/renameDeckButton"
-                    app:layout_constraintTop_toTopOf="@+id/renameDeckButton" />
+                <LinearLayout
+                        android:id="@+id/renameDeckButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/background_outlined_button"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/add_to">
 
-            <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/fileImportTabLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:background="@null"
-                    app:tabIndicator="@drawable/tab_indicator"
-                    app:tabIndicatorColor="@color/colorAccent"
-                    app:tabMode="scrollable"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/renameDeckButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:tabSelectedTextColor="@color/colorAccent" />
+                    <TextView
+                            android:id="@+id/deckNameTextView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:fontFamily="@font/nunito_bold"
+                            android:paddingStart="24dp"
+                            android:paddingTop="16dp"
+                            android:paddingEnd="4dp"
+                            android:paddingBottom="16dp"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="@dimen/text_size_file_import_screen_deck_name"
+                            tools:text="My Vocabulary 35">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <requestFocus />
 
-    </com.google.android.material.appbar.AppBarLayout>
+                    </TextView>
 
-    <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/fileImportViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                    <ImageButton
+                            android:id="@+id/changeDeckButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="8dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            app:layout_constraintBottom_toBottomOf="@+id/deckNameTextView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/deckNameTextView"
+                            app:layout_constraintTop_toTopOf="@+id/deckNameTextView"
+                            app:srcCompat="@drawable/ic_round_wifi_protected_setup_24"
+                            app:tint="@color/textSecondary" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/deckLabelTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="56dp"
+                        android:background="@drawable/background_new_deck"
+                        android:paddingStart="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="2dp"
+                        android:text="@string/deck_label_in_file_import_new"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_file_import_screen_deck_label"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/renameDeckButton"
+                        app:layout_constraintEnd_toEndOf="@+id/renameDeckButton"
+                        app:layout_constraintTop_toTopOf="@+id/renameDeckButton" />
+
+                <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/fileImportTabLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="@null"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/renameDeckButton"
+                        app:tabIndicator="@drawable/tab_indicator"
+                        app:tabIndicatorColor="@color/colorAccent"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/colorAccent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/fileImportViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</FrameLayout>

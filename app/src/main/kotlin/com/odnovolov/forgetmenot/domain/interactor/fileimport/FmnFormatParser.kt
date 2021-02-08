@@ -46,38 +46,35 @@ class FmnFormatParser : Parser() {
             return
         }
         val cardMatchResult = cardRegex.find(cardBlock)!!
+
         val questionGroup: MatchGroup = cardMatchResult.groups[1]!!
         val questionMatchResult = cardContentRegex.find(questionGroup.value)
         if (questionMatchResult == null) {
-            commitErrorLines(
-                cardBlockStartIndex + questionGroup.range.first,
-                cardBlockStartIndex + questionGroup.range.last
-            )
+            commitErrorLines(cardBlockStartIndex, cardBlockEndIndex)
+            return
         }
+
         val answerGroup: MatchGroup = cardMatchResult.groups[3]!!
         val answerMatchResult = cardContentRegex.find(answerGroup.value)
         if (answerMatchResult == null) {
-            commitErrorLines(
-                cardBlockStartIndex + answerGroup.range.first,
-                cardBlockStartIndex + answerGroup.range.last
-            )
+            commitErrorLines(cardBlockStartIndex, cardBlockEndIndex)
+            return
         }
-        if (questionMatchResult != null && answerMatchResult != null) {
-            val questionStart: Int =
-                cardBlockStartIndex + questionGroup.range.first + questionMatchResult.range.first
-            val questionEnd: Int =
-                cardBlockStartIndex + questionGroup.range.first + questionMatchResult.range.last
-            val questionRange = questionStart..questionEnd
 
-            val answerStart: Int =
-                cardBlockStartIndex + answerGroup.range.first + answerMatchResult.range.first
-            val answerEnd: Int =
-                cardBlockStartIndex + answerGroup.range.first + answerMatchResult.range.last
-            val answerRange = answerStart..answerEnd
+        val questionStart: Int =
+            cardBlockStartIndex + questionGroup.range.first + questionMatchResult.range.first
+        val questionEnd: Int =
+            cardBlockStartIndex + questionGroup.range.first + questionMatchResult.range.last
+        val questionRange = questionStart..questionEnd
 
-            val cardPrototype = CardMarkup(questionRange, answerRange)
-            cardMarkups.add(cardPrototype)
-        }
+        val answerStart: Int =
+            cardBlockStartIndex + answerGroup.range.first + answerMatchResult.range.first
+        val answerEnd: Int =
+            cardBlockStartIndex + answerGroup.range.first + answerMatchResult.range.last
+        val answerRange = answerStart..answerEnd
+
+        val cardPrototype = CardMarkup(questionRange, answerRange)
+        cardMarkups.add(cardPrototype)
     }
 
     private fun commitErrorLines(errorStartIndex: Int, errorEndIndex: Int) {
@@ -88,7 +85,7 @@ class FmnFormatParser : Parser() {
                 val lineStartIndex =
                     if (lineNumber == 0) 0
                     else newLineCharLocations[lineNumber - 1] + 1
-                val lineEndIndex = newLineCharLocations[lineNumber] + 1
+                val lineEndIndex = newLineCharLocations[lineNumber]
                 when {
                     errorEndIndex < lineStartIndex -> return
                     errorStartIndex <= lineEndIndex -> errorLines.add(lineNumber)

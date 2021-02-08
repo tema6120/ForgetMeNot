@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FmnFormatParser
@@ -40,6 +41,8 @@ class FileImporterStateProvider(
                     cardsFile.sourceBytes,
                     cardsFile.charset.name(),
                     cardsFile.text,
+                    cardsFile.errorLines,
+                    cardsFile.cardPrototypes,
                     serializableAbstractDeck
                 )
             }
@@ -57,17 +60,14 @@ class FileImporterStateProvider(
                         ExistingDeck(deck)
                     }
                 }
-                val charset = Charset.forName(serializableCardsFile.charsetName)
-                val text = serializableCardsFile.text
-                val parser = FmnFormatParser()
                 CardsFile(
-                    serializableCardsFile.sourceBytes,
-                    charset,
-                    text,
-                    parser,
-                    errorLines = emptyList(),
-                    cardPrototypes = emptyList(),
-                    deckWhereToAdd
+                    sourceBytes = serializableCardsFile.sourceBytes,
+                    charset = Charset.forName(serializableCardsFile.charsetName),
+                    text = serializableCardsFile.text,
+                    parser = FmnFormatParser(),
+                    errorLines = serializableCardsFile.errorLines,
+                    cardPrototypes = serializableCardsFile.cardPrototypes,
+                    deckWhereToAdd = deckWhereToAdd
                 )
             }
         return FileImporter.State(cardsFiles, serializableState.currentPosition)
@@ -79,6 +79,8 @@ data class SerializableCardsFile(
     val sourceBytes: ByteArray,
     val charsetName: String,
     val text: String,
+    val errorLines: List<Int>,
+    val cardPrototypes: List<CardPrototype>,
     val serializableAbstractDeck: SerializableAbstractDeck
 )
 

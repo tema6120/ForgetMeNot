@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
@@ -15,6 +16,9 @@ import kotlinx.android.synthetic.main.toolbar_deck_content.view.*
 class CardOverviewAdapter(
     private val controller: DeckContentController
 ) : ListAdapter<Card, SimpleRecyclerViewHolder>(DiffCallback()) {
+    init {
+        stateRestorationPolicy = PREVENT_WHEN_EMPTY
+    }
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0)

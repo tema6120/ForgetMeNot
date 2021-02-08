@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 class FileImportDiScope private constructor(
     importedFile: ImportedFile? = null
 ) {
-    private val fileImporterStateProvider = FileImporterStateProvider(
+    val fileImporterStateProvider = FileImporterStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
         AppDiScope.get().globalState

@@ -19,6 +19,7 @@ class SyntaxHighlighting(
     private val filerImporter: FileImporter
 ) : Language {
     private var parsing: Job? = null
+    private val coroutineScope = CoroutineScope(businessLogicThread)
 
     override fun getStyler(): LanguageStyler {
         return object : LanguageStyler {
@@ -31,7 +32,7 @@ class SyntaxHighlighting(
                 syntaxScheme: SyntaxScheme,
                 stylingResult: StylingResult
             ) {
-                parsing = GlobalScope.launch(businessLogicThread) {
+                parsing = coroutineScope.launch {
                     val parserResult: Parser.ParserResult = filerImporter.updateText(sourceCode)
                     val spans: MutableList<SyntaxHighlightSpan> = ArrayList()
                     for (cardMarkup in parserResult.cardMarkups) {
@@ -62,6 +63,10 @@ class SyntaxHighlighting(
             }
 
         }
+    }
+
+    fun dispose() {
+        coroutineScope.cancel()
     }
 
     override fun getName(): String = "CardsFileSyntaxHighlighting"

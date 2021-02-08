@@ -1,7 +1,9 @@
 package com.odnovolov.forgetmenot.domain.interactor.fileimport
 
 import com.odnovolov.forgetmenot.domain.entity.Card
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CardPrototype(
     val id: Long,
     val question: String,

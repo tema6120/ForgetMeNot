@@ -11,7 +11,8 @@ class ImportedTextEditorDiScope {
 
     val controller = ImportedTextEditorController(
         FileImportDiScope.getOrRecreate().fileImporter,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        FileImportDiScope.getOrRecreate().fileImporterStateProvider
     )
 
     val viewModel = ImportedTextEditorViewModel(
@@ -22,6 +23,7 @@ class ImportedTextEditorDiScope {
         override fun recreateDiScope() = ImportedTextEditorDiScope()
 
         override fun onCloseDiScope(diScope: ImportedTextEditorDiScope) {
+            diScope.syntaxHighlighting.dispose()
             diScope.controller.dispose()
         }
     }

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
@@ -13,6 +14,10 @@ import kotlinx.android.synthetic.main.item_card_prototype.view.*
 class CardPrototypeAdapter(
     private val onCardClicked: (id: Long) -> Unit
 ) : ListAdapter<CardPrototype, SimpleRecyclerViewHolder>(DiffCallback()) {
+    init {
+        stateRestorationPolicy = PREVENT_WHEN_EMPTY
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_card_prototype, parent, false)
