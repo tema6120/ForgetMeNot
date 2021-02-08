@@ -92,6 +92,10 @@
     <string name="screen_title_choose_a_deck_to_import_cards_to">Choose a deck to import cards to</string>
     <string name="tab_name_source_text">Source text</string>
     <string name="tab_name_cards">Cards</string>
+    <plurals name="source_text_error_button">
+        <item quantity="one">%d error</item>
+        <item quantity="other">%d errors</item>
+    </plurals>
     <string name="label_encoding">Encoding</string>
     <string name="description_charset_icon">Encoding icon</string>
     <string name="popup_title_charset">Encodings</string>

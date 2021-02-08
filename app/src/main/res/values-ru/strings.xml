@@ -93,6 +93,11 @@
         импортировать карточки</string>
     <string name="tab_name_source_text">Исходный текст</string>
     <string name="tab_name_cards">Карточки</string>
+    <plurals name="source_text_error_button">
+        <item quantity="one">%d ошибка</item>
+        <item quantity="few">%d ошибки</item>
+        <item quantity="many">%d ошибок</item>
+    </plurals>
     <string name="label_encoding">Кодировка</string>
     <string name="description_charset_icon">иконка \"Кодировка\"</string>
     <string name="popup_title_charset">Кодировки</string>

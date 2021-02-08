@@ -1,0 +1,18 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:topLeftRadius="16dp" />
+            <solid android:color="@color/issue" />
+        </shape>
+    </item>
+    <item>
+        <ripple android:color="@android:color/white">
+            <item android:id="@android:id/mask">
+                <shape>
+                    <corners android:topLeftRadius="16dp" />
+                    <solid android:color="@color/issue" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+</layer-list>

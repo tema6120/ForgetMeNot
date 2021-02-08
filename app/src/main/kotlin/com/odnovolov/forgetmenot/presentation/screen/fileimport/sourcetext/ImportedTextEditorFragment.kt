@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser
 import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.hideSoftInput
@@ -31,6 +31,8 @@ class ImportedTextEditorFragment : BaseFragment() {
     private lateinit var viewModel: ImportedTextEditorViewModel
     private var charsetPopup: PopupWindow? = null
     private var charsetAdapter: CharsetAdapter? = null
+    private var errorLines: List<Int> = emptyList()
+    private var lastShownErrorLine = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +59,37 @@ class ImportedTextEditorFragment : BaseFragment() {
         charsetButton.setOnClickListener {
             showCharsetPopup()
         }
+        errorButton.setOnClickListener {
+            goToNextError()
+        }
+    }
+
+    private fun goToNextError() {
+        if (errorLines.isEmpty()) return
+        determineNextErrorLine()
+        editorScrollView.smoothScrollTo(0, determineErrorLineVerticalPosition())
+    }
+
+    private fun determineNextErrorLine() {
+        var found = false
+        var previousErrorLine = -2
+        for (errorLine in errorLines) {
+            if (previousErrorLine + 1 != errorLine && errorLine > lastShownErrorLine) {
+                lastShownErrorLine = errorLine
+                found = true
+                break
+            }
+            previousErrorLine = errorLine
+        }
+        if (!found) {
+            lastShownErrorLine = errorLines.first()
+        }
+    }
+
+    private fun determineErrorLineVerticalPosition(): Int {
+        val errorLineStartIndex: Int = editor.getIndexForStartOfLine(lastShownErrorLine)
+        val lineInTermsOfLayout: Int = editor.layout.getLineForOffset(errorLineStartIndex)
+        return editor.layout.getLineTop(lineInTermsOfLayout)
     }
 
     private fun observeViewModel() {
@@ -65,6 +98,18 @@ class ImportedTextEditorFragment : BaseFragment() {
             errorLines.observe { errorLines: List<Int> ->
                 errorLines.forEach { errorLine: Int ->
                     editor.setErrorLine(errorLine + 1)
+                }
+                this@ImportedTextEditorFragment.errorLines = errorLines
+            }
+            numberOfErrors.observe { numberOfErrors: Int ->
+                errorButton.isVisible = numberOfErrors > 0
+                errorLineView.isVisible = numberOfErrors > 0
+                if (numberOfErrors > 0) {
+                    errorButton.text = resources.getQuantityString(
+                        R.plurals.source_text_error_button,
+                        numberOfErrors,
+                        numberOfErrors
+                    )
                 }
             }
             currentCharset.observe { charset: Charset ->

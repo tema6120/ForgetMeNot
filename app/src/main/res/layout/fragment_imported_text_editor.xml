@@ -6,21 +6,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView
-            android:id="@+id/editorScrollView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editorFrame"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true">
+            android:layout_weight="1">
 
-        <com.brackeys.ui.editorkit.widget.TextProcessor
-                android:id="@+id/editor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="top|start"
-                android:textColor="@color/textSecondary" />
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/editorScrollView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:fillViewport="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.core.widget.NestedScrollView>
+            <com.brackeys.ui.editorkit.widget.TextProcessor
+                    android:id="@+id/editor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top|start"
+                    android:textColor="@color/textSecondary" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <View
+                android:id="@+id/errorLineView"
+                android:layout_width="4dp"
+                android:layout_height="0dp"
+                android:alpha="0.9"
+                android:background="@color/issue"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/errorButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+
+        <TextView
+                android:id="@+id/errorButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.9"
+                android:background="@drawable/background_source_text_error_button"
+                android:fontFamily="@font/comfortaa"
+                android:paddingStart="32dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="4dp"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_card_label"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="3 errors"
+                tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <HorizontalScrollView
             android:id="@+id/controlPanelScroll"

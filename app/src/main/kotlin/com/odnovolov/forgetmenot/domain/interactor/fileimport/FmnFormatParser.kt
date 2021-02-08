@@ -92,7 +92,7 @@ class FmnFormatParser : Parser() {
                 }
             }
             if (text.last() != '\n') {
-                val lineNumber = newLineCharLocations.size + 1
+                val lineNumber = newLineCharLocations.size
                 val lineStartIndex = newLineCharLocations.last() + 1
                 val lineEndIndex = text.lastIndex
                 when {
