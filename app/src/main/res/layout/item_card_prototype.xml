@@ -8,7 +8,10 @@
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:elevation="4dp"
             android:foreground="?selectableItemBackground"
             app:cardCornerRadius="16dp">
@@ -44,5 +47,15 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <ImageButton
+            android:id="@+id/checkIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|start"
+            android:elevation="4dp"
+            android:layout_marginStart="60dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_check_circle_24" />
 
 </FrameLayout>

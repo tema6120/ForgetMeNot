@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FmnFormatParser
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -40,8 +39,8 @@ class FileImporterStateProvider(
                 SerializableCardsFile(
                     cardsFile.sourceBytes,
                     cardsFile.charset.name(),
-                    serializableAbstractDeck,
-                    cardsFile.parser.state.text
+                    cardsFile.text,
+                    serializableAbstractDeck
                 )
             }
         return SerializableState(serializableCardsFiles, state.currentPosition)
@@ -59,17 +58,16 @@ class FileImporterStateProvider(
                     }
                 }
                 val charset = Charset.forName(serializableCardsFile.charsetName)
-                val parserState = Parser.State(
-                    text = serializableCardsFile.text,
-                    cardPrototypes = emptyList(),
-                    errorLines = emptyList()
-                )
-                val parser = FmnFormatParser(parserState)
+                val text = serializableCardsFile.text
+                val parser = FmnFormatParser()
                 CardsFile(
                     serializableCardsFile.sourceBytes,
                     charset,
-                    deckWhereToAdd,
-                    parser
+                    text,
+                    parser,
+                    errorLines = emptyList(),
+                    cardPrototypes = emptyList(),
+                    deckWhereToAdd
                 )
             }
         return FileImporter.State(cardsFiles, serializableState.currentPosition)
@@ -80,8 +78,8 @@ class FileImporterStateProvider(
 data class SerializableCardsFile(
     val sourceBytes: ByteArray,
     val charsetName: String,
-    val serializableAbstractDeck: SerializableAbstractDeck,
-    val text: String
+    val text: String,
+    val serializableAbstractDeck: SerializableAbstractDeck
 )
 
 @Serializable

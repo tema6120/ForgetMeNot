@@ -7,11 +7,17 @@ import java.nio.charset.Charset
 class CardsFile(
     sourceBytes: ByteArray,
     charset: Charset,
+    text: String,
+    parser: Parser,
+    errorLines: List<Int>,
+    cardPrototypes: List<CardPrototype>,
     deckWhereToAdd: AbstractDeck,
-    parser: Parser
 ) : FlowMaker<CardsFile>() {
     val sourceBytes: ByteArray by flowMaker(sourceBytes)
     var charset: Charset by flowMaker(charset)
-    var deckWhereToAdd: AbstractDeck by flowMaker(deckWhereToAdd)
+    var text: String by flowMaker(text)
     var parser: Parser by flowMaker(parser)
+    var errorLines: List<Int> by flowMaker(errorLines)
+    var cardPrototypes: List<CardPrototype> by flowMaker(cardPrototypes)
+    var deckWhereToAdd: AbstractDeck by flowMaker(deckWhereToAdd)
 }

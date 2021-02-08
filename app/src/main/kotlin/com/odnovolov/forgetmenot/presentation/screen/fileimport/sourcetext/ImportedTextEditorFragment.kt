@@ -45,6 +45,7 @@ class ImportedTextEditorFragment : BaseFragment() {
         setupView()
         viewCoroutineScope!!.launch {
             val diScope = ImportedTextEditorDiScope.getAsync() ?: return@launch
+            editor.language = diScope.syntaxHighlighting
             controller = diScope.controller
             viewModel = diScope.viewModel
             observeViewModel()
@@ -60,9 +61,6 @@ class ImportedTextEditorFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            parser.observe { parser: Parser ->
-                editor.language = SyntaxHighlighting(parser)
-            }
             sourceTextWithNewEncoding.observe(editor::setTextContent)
             errorLines.observe { errorLines: List<Int> ->
                 errorLines.forEach { errorLine: Int ->

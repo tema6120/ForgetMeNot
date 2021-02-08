@@ -5,6 +5,10 @@ import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 
 class ImportedTextEditorDiScope {
+    val syntaxHighlighting = SyntaxHighlighting(
+        FileImportDiScope.getOrRecreate().fileImporter
+    )
+
     val controller = ImportedTextEditorController(
         FileImportDiScope.getOrRecreate().fileImporter,
         AppDiScope.get().longTermStateSaver

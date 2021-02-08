@@ -8,29 +8,23 @@ import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 class FileImportDiScope private constructor(
     importedFile: ImportedFile? = null
 ) {
-    private val fileImportSettings = FileImportSettings(Charsets.UTF_8)
-
     private val fileImporterStateProvider = FileImporterStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
         AppDiScope.get().globalState
     )
 
-    val fileImporter: FileImporter =
-        if (importedFile != null) {
-            FileImporter(
-                importedFile,
-                AppDiScope.get().globalState,
-                fileImportSettings
-            )
+    val fileImporter: FileImporter = kotlin.run {
+        val fileImporterState = if (importedFile != null) {
+            FileImporter.State.fromFiles(listOf(importedFile))
         } else {
-            val fileImporterState = fileImporterStateProvider.load()
-            FileImporter(
-                fileImporterState,
-                AppDiScope.get().globalState,
-                fileImportSettings
-            )
+            fileImporterStateProvider.load()
         }
+        FileImporter(
+            fileImporterState,
+            AppDiScope.get().globalState
+        )
+    }
 
     val controller = FileImportController(
         fileImporter,

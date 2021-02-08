@@ -10,12 +10,13 @@ import com.brackeys.ui.language.base.span.StyleSpan
 import com.brackeys.ui.language.base.span.SyntaxHighlightSpan
 import com.brackeys.ui.language.base.styler.LanguageStyler
 import com.brackeys.ui.language.base.utils.StylingResult
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import kotlinx.coroutines.*
 
 class SyntaxHighlighting(
-    val parser: Parser
+    private val filerImporter: FileImporter
 ) : Language {
     private var parsing: Job? = null
 
@@ -31,18 +32,18 @@ class SyntaxHighlighting(
                 stylingResult: StylingResult
             ) {
                 parsing = GlobalScope.launch(businessLogicThread) {
-                    parser.parse(sourceCode)
+                    val parserResult: Parser.ParserResult = filerImporter.updateText(sourceCode)
                     val spans: MutableList<SyntaxHighlightSpan> = ArrayList()
-                    for (cardPrototype in parser.state.cardPrototypes) {
+                    for (cardMarkup in parserResult.cardMarkups) {
                         val questionSpan = SyntaxHighlightSpan(
                             StyleSpan(syntaxScheme.operatorColor, bold = true),
-                            cardPrototype.questionRange.first,
-                            cardPrototype.questionRange.last + 1
+                            cardMarkup.questionRange.first,
+                            cardMarkup.questionRange.last + 1
                         )
                         val answerSpan = SyntaxHighlightSpan(
                             StyleSpan(syntaxScheme.keywordColor, bold = true),
-                            cardPrototype.answerRange.first,
-                            cardPrototype.answerRange.last + 1
+                            cardMarkup.answerRange.first,
+                            cardMarkup.answerRange.last + 1
                         )
                         spans.add(questionSpan)
                         spans.add(answerSpan)

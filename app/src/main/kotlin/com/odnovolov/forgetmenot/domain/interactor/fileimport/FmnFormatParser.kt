@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.domain.interactor.fileimport
 
-class FmnFormatParser(state: State) : Parser(state) {
+class FmnFormatParser : Parser() {
     private val cardBlockSeparatorRegex = Regex("""\n(?=[[:blank:]]*Q:[[:blank:]]*\n)""")
     private val cardRegex = Regex(
         """\s*Q:[[:blank:]]*\n(((?!^[[:blank:]]*[QA]:[[:blank:]]*${'$'})[\s\S])+)\n[[:blank:]]*A:[[:blank:]]*\n(((?!^[[:blank:]]*[QA]:[[:blank:]]*${'$'})[\s\S])+)""",
@@ -8,15 +8,15 @@ class FmnFormatParser(state: State) : Parser(state) {
     )
     private val cardContentRegex = Regex("""[[:blank:]]*[\S]([\s\S]*[\S]|)""")
 
-    private lateinit var newText: String
-    private lateinit var newCardPrototypes: MutableList<CardPrototype>
-    private lateinit var newErrorLines: MutableList<Int>
+    private lateinit var text: String
+    private lateinit var cardMarkups: MutableList<CardMarkup>
+    private lateinit var errorLines: MutableList<Int>
     private lateinit var newLineCharLocations: List<Int>
 
-    override fun parse(text: String) {
-        newText = text
-        newCardPrototypes = ArrayList()
-        newErrorLines = ArrayList()
+    override fun parse(text: String): ParserResult {
+        this.text = text
+        cardMarkups = ArrayList()
+        errorLines = ArrayList()
         newLineCharLocations = text.mapIndexedNotNull { index, ch ->
             if (ch == '\n') index else null
         }
@@ -35,11 +35,11 @@ class FmnFormatParser(state: State) : Parser(state) {
                     text.lastIndex
             parseCardBlock(cardBlockStartIndex, cardBlockEndIndex)
         }
-        state = State(newText, newCardPrototypes, newErrorLines)
+        return ParserResult(cardMarkups, errorLines)
     }
 
     private fun parseCardBlock(cardBlockStartIndex: Int, cardBlockEndIndex: Int) {
-        val cardBlock: String = newText.substring(cardBlockStartIndex..cardBlockEndIndex)
+        val cardBlock: String = text.substring(cardBlockStartIndex..cardBlockEndIndex)
         if (cardBlock.isBlank()) return
         if (!cardBlock.matches(cardRegex)) {
             commitErrorLines(cardBlockStartIndex, cardBlockEndIndex)
@@ -75,14 +75,14 @@ class FmnFormatParser(state: State) : Parser(state) {
                 cardBlockStartIndex + answerGroup.range.first + answerMatchResult.range.last
             val answerRange = answerStart..answerEnd
 
-            val cardPrototype = CardPrototype(questionRange, answerRange)
-            newCardPrototypes.add(cardPrototype)
+            val cardPrototype = CardMarkup(questionRange, answerRange)
+            cardMarkups.add(cardPrototype)
         }
     }
 
     private fun commitErrorLines(errorStartIndex: Int, errorEndIndex: Int) {
         if (newLineCharLocations.isEmpty()) {
-            newErrorLines.add(0)
+            errorLines.add(0)
         } else {
             repeat(newLineCharLocations.size) { lineNumber: Int ->
                 val lineStartIndex =
@@ -91,16 +91,16 @@ class FmnFormatParser(state: State) : Parser(state) {
                 val lineEndIndex = newLineCharLocations[lineNumber] + 1
                 when {
                     errorEndIndex < lineStartIndex -> return
-                    errorStartIndex <= lineEndIndex -> newErrorLines.add(lineNumber)
+                    errorStartIndex <= lineEndIndex -> errorLines.add(lineNumber)
                 }
             }
-            if (newText.last() != '\n') {
+            if (text.last() != '\n') {
                 val lineNumber = newLineCharLocations.size + 1
                 val lineStartIndex = newLineCharLocations.last() + 1
-                val lineEndIndex = newText.lastIndex
+                val lineEndIndex = text.lastIndex
                 when {
                     errorEndIndex < lineStartIndex -> return
-                    errorStartIndex <= lineEndIndex -> newErrorLines.add(lineNumber)
+                    errorStartIndex <= lineEndIndex -> errorLines.add(lineNumber)
                 }
             }
         }

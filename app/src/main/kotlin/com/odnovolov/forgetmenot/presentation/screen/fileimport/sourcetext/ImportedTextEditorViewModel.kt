@@ -31,13 +31,9 @@ class ImportedTextEditorViewModel(
         }
     }
 
-    val parser: Flow<Parser> = flowOf(fileImporterState.files[0].parser)
-
     val sourceTextWithNewEncoding: Flow<String> = currentCharset.map {
-        fileImporterState.files[0].parser.state.text
+        fileImporterState.files[0].text
     }
 
-    val errorLines: Flow<List<Int>> =
-        fileImporterState.files[0].parser.flowOf(Parser::state)
-            .map { state: Parser.State -> state.errorLines}
+    val errorLines: Flow<List<Int>> = fileImporterState.files[0].flowOf(CardsFile::errorLines)
 }

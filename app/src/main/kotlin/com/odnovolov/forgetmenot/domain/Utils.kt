@@ -62,3 +62,14 @@ fun isCardAvailableForExercise(testingCard: Card, intervalScheme: IntervalScheme
         }
     }
 }
+
+fun <E> MutableList<E>.removeFirst(predicate: (E) -> Boolean): E? {
+    for (i in indices) {
+        val element = get(i)
+        if (predicate(element)) {
+            removeAt(i)
+            return element
+        }
+    }
+    return null
+}

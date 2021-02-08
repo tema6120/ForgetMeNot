@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.plurals
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cards.ImportedCardsEvent.CardClicked
@@ -41,7 +42,9 @@ class ImportedCardsFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        val onCardClicked: (Long) -> Unit = { id: Long -> controller?.dispatch(CardClicked(id)) }
+        val onCardClicked: (Long) -> Unit = { id: Long ->
+            controller?.dispatch(CardClicked(id))
+        }
         cardsRecycler.adapter = CardPrototypeAdapter(onCardClicked)
         selectAllButton.setOnClickListener {
             controller?.dispatch(SelectAllButtonClicked)
@@ -50,12 +53,14 @@ class ImportedCardsFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            cardPrototypes.observe { cardPrototypes: List<CardPrototypeItem> ->
+            cardPrototypes.observe { cardPrototypes: List<CardPrototype> ->
                 (cardsRecycler.adapter as CardPrototypeAdapter).submitList(cardPrototypes)
+            }
+            numberOfSelectedCards.observe { numberOfSelectedCards: Int ->
                 numberOfSelectedCardsTextView.text = resources.getQuantityString(
                     plurals.title_cards_selection_toolbar_in_file_import,
-                    cardPrototypes.size,
-                    cardPrototypes.size
+                    numberOfSelectedCards,
+                    numberOfSelectedCards
                 )
             }
         }
