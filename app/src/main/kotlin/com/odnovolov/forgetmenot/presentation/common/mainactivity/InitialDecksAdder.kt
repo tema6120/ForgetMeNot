@@ -6,8 +6,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.architecturecomponents.plus
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
-import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator.Result.Success
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder.Event
@@ -17,7 +16,7 @@ import java.util.*
 class InitialDecksAdder(
     private val state: State,
     private val assetManager: AssetManager,
-    private val deckFromFileCreator: DeckFromFileCreator,
+    /*private val fileImporter: FileImporter,*/
     private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<Event, Nothing>() {
@@ -46,7 +45,7 @@ class InitialDecksAdder(
     override fun handle(event: Event) {
         when (event) {
             AppStarted -> {
-                if (state.areInitialDecksAdded) return
+                /*if (state.areInitialDecksAdded) return
                 val exercisePreferenceForNewDecks: ExercisePreference = createExercisePreference()
                 try {
                     fileNames.forEach { fileName: String ->
@@ -58,7 +57,7 @@ class InitialDecksAdder(
                     PropertyChangeRegistry.removeAll()
                     return
                 }
-                state.areInitialDecksAdded = true
+                state.areInitialDecksAdded = true*/
             }
         }
     }
@@ -89,7 +88,7 @@ class InitialDecksAdder(
         return exercisePreference
     }
 
-    private fun addDeckFromAssets(fileName: String): Deck {
+    /*private fun addDeckFromAssets(fileName: String): Deck {
         val inputStream = assetManager.open(fileName)
         val result = deckFromFileCreator.loadFromFile(inputStream, fileName)
         if (result !is Success) {
@@ -98,7 +97,7 @@ class InitialDecksAdder(
             )
         }
         return result.deck
-    }
+    }*/
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()

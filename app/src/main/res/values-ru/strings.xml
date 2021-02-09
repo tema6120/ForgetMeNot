@@ -46,7 +46,7 @@
     <string name="text_create_cards_here_button">Создать карточки здесь</string>
     <string name="toast_no_file_manager_to_load">У вас нет ни одного файлового менеджера для загрузки файла</string>
     <string name="toast_no_file_manager_to_create">У вас нет ни одного файлового менеджера чтобы создать файл</string>
-    <string name="error_loading_file">Ошибка загрузки файла: %1$s</string>
+    <string name="error_loading_file">Не удалось прочитать файлы:\n\n%1$s</string>
     <string name="text_filter_button">Фильтры</string>
     <string name="title_deck_filters_popup">Фильтры</string>
     <string name="deck_filter_only_decks_available_for_exercise">Только колоды, доступные для упражнения</string>

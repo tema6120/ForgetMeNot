@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.common.mainactivity
 
-import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.longterm.initialdecksadderstate.InitialDecksAdderStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -18,18 +17,10 @@ class MainActivityDiScope {
         initialDecksAdderStateProvider.load()
     }
 
-    private val deckFromFileCreator: DeckFromFileCreator by lazy {
-        DeckFromFileCreator(
-            DeckFromFileCreator.State(),
-            AppDiScope.get().globalState
-        )
-    }
-
     val initialDecksAdder: InitialDecksAdder by lazy {
         InitialDecksAdder(
             initialDecksAdderState,
             AppDiScope.get().app.assets,
-            deckFromFileCreator,
             AppDiScope.get().globalState,
             AppDiScope.get().longTermStateSaver
         )

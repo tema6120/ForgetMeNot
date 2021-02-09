@@ -1,11 +1,8 @@
-package com.odnovolov.forgetmenot.presentation.screen.home.adddeck
+package com.odnovolov.forgetmenot.presentation.screen.home.addcards
 
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,22 +19,21 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.SetDialogText
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckController.Command.ShowErrorMessage
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsController.Command.SetDialogText
+import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsController.Command.ShowCannotReadFilesMessage
+import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsEvent.*
 import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.fragment_adddeck.*
 import kotlinx.android.synthetic.main.popup_add_cards.view.*
 import kotlinx.coroutines.launch
-import java.io.FileNotFoundException
 
-class AddDeckFragment : BaseFragment() {
+class AddCardsFragment : BaseFragment() {
     init {
-        AddDeckDiScope.reopenIfClosed()
+        AddCardsDiScope.reopenIfClosed()
     }
 
-    private var controller: AddDeckController? = null
-    private var pendingEvent: ContentReceived? = null
+    private var controller: AddCardsController? = null
+    private var pendingEvent: ReceivedContent? = null
     private var addCardsPopup: PopupWindow? = null
     private var deckNameDialog: AlertDialog? = null
     private var deckNameDialogEditText: EditText? = null
@@ -54,7 +50,7 @@ class AddDeckFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewCoroutineScope!!.launch {
-            val diScope = AddDeckDiScope.getAsync() ?: return@launch
+            val diScope = AddCardsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             val viewModel = diScope.viewModel
             observeViewModel(viewModel)
@@ -64,9 +60,9 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
-    private fun observeViewModel(viewModel: AddDeckViewModel) {
+    private fun observeViewModel(viewModel: AddCardsViewModel) {
         with(viewModel) {
-            isProcessing.observe { isProcessing ->
+            areFilesBeingReading.observe { isProcessing ->
                 progressBar.isVisible = isProcessing
             }
             isDialogVisible.observe { isDialogVisible ->
@@ -79,10 +75,10 @@ class AddDeckFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: AddDeckController.Command) {
+    private fun executeCommand(command: AddCardsController.Command) {
         when (command) {
-            is ShowErrorMessage -> {
-                showToast(command.exception.message, duration = Toast.LENGTH_LONG)
+            is ShowCannotReadFilesMessage -> {
+                showCannotReadFilesMessage(command.fileNames)
             }
             is SetDialogText -> {
                 requireDeckNameDialog()
@@ -90,6 +86,12 @@ class AddDeckFragment : BaseFragment() {
                 deckNameDialogEditText!!.selectAll()
             }
         }
+    }
+
+    private fun showCannotReadFilesMessage(fileNames: List<String?>) {
+        val nameList = fileNames.joinToString(separator = ",\n") { fileName -> fileName ?: "----" }
+        val errorMessage = getString(R.string.error_loading_file, nameList)
+        showToast(errorMessage, duration = Toast.LENGTH_LONG)
     }
 
     // it is called from parent fragment
@@ -105,39 +107,11 @@ class AddDeckFragment : BaseFragment() {
         ) {
             return
         }
-        val uri = intent.data
-        val contentResolver = context?.contentResolver
-        val inputStream = uri?.let {
-            try {
-                contentResolver?.openInputStream(uri)
-            } catch (e: FileNotFoundException) {
-                val errorMessage: String = getString(R.string.error_loading_file, e.message)
-                showToast(errorMessage)
-                return
-            }
-        }
-        if (uri == null || contentResolver == null || inputStream == null) return
-        val fileName = getFileNameFromUri(uri, contentResolver)
-        val event = ContentReceived(inputStream, fileName)
+        val event = ReceivedContent(intent)
         if (controller == null) {
             pendingEvent = event
         } else {
             controller!!.dispatch(event)
-        }
-    }
-
-    private fun getFileNameFromUri(uri: Uri, contentResolver: ContentResolver): String? {
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        cursor.use {
-            if (cursor == null || !cursor.moveToFirst()) {
-                return null
-            }
-            val nameIndex: Int = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            return try {
-                cursor.getString(nameIndex)
-            } catch (e: Exception) {
-                null
-            }
         }
     }
 
@@ -200,7 +174,7 @@ class AddDeckFragment : BaseFragment() {
 
     private fun subscribeDeckNameDialogToViewModel() {
         viewCoroutineScope!!.launch {
-            val diScope = AddDeckDiScope.getAsync() ?: return@launch
+            val diScope = AddCardsDiScope.getAsync() ?: return@launch
             with(diScope.viewModel) {
                 nameCheckResult.observe { nameCheckResult: NameCheckResult ->
                     deckNameDialogEditText?.error = when (nameCheckResult) {
@@ -262,7 +236,7 @@ class AddDeckFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
-            AddDeckDiScope.close()
+            AddCardsDiScope.close()
         }
     }
 

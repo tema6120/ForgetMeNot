@@ -43,12 +43,12 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:fontFamily="@font/nunito_bold"
                     android:hint="@string/hint_search_edittext"
                     android:imeOptions="actionNone"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:fontFamily="@font/nunito_bold"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:textSize="@dimen/text_size_search_edittext" />
@@ -278,10 +278,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/addDeckFragment"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckFragment"
+            android:id="@+id/addcardsFragment"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:tag="AddDeckFragment" />
+            android:tag="AddCardsFragment" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

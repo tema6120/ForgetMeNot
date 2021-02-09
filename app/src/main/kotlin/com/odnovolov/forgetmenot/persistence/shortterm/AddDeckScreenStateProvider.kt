@@ -2,35 +2,34 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.AddDeckScreenStateProvider.SerializableState
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState.HowToAdd
+import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsScreenState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 class AddDeckScreenStateProvider(
     json: Json,
     database: Database,
-    override val key: String = AddDeckScreenState::class.qualifiedName!!
-) : BaseSerializableStateProvider<AddDeckScreenState, SerializableState>(
+    override val key: String = AddCardsScreenState::class.qualifiedName!!
+) : BaseSerializableStateProvider<AddCardsScreenState, SerializableState>(
     json,
     database
 ) {
     @Serializable
     data class SerializableState(
         val typedText: String,
-        val howToAdd: HowToAdd?
+        val isDeckBeingCreated: Boolean
     )
 
     override val serializer = SerializableState.serializer()
 
-    override fun toSerializable(state: AddDeckScreenState) = SerializableState(
+    override fun toSerializable(state: AddCardsScreenState) = SerializableState(
         state.typedText,
-        state.howToAdd
+        state.isDeckBeingCreated
     )
 
     override fun toOriginal(serializableState: SerializableState) =
-        AddDeckScreenState().apply {
+        AddCardsScreenState().apply {
             typedText = serializableState.typedText
-            howToAdd = serializableState.howToAdd
+            isDeckBeingCreated = serializableState.isDeckBeingCreated
         }
 }

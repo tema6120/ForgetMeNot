@@ -6,7 +6,7 @@ import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
 class FileImportDiScope private constructor(
-    importedFile: ImportedFile? = null
+    initialFileImporterState: FileImporter.State? = null
 ) {
     val fileImporterStateProvider = FileImporterStateProvider(
         AppDiScope.get().json,
@@ -14,17 +14,13 @@ class FileImportDiScope private constructor(
         AppDiScope.get().globalState
     )
 
-    val fileImporter: FileImporter = kotlin.run {
-        val fileImporterState = if (importedFile != null) {
-            FileImporter.State.fromFiles(listOf(importedFile))
-        } else {
-            fileImporterStateProvider.load()
-        }
-        FileImporter(
-            fileImporterState,
-            AppDiScope.get().globalState
-        )
-    }
+    private val fileImporterState: FileImporter.State =
+        initialFileImporterState ?: fileImporterStateProvider.load()
+
+    val fileImporter = FileImporter(
+        fileImporterState,
+        AppDiScope.get().globalState
+    )
 
     val controller = FileImportController(
         fileImporter,
@@ -39,7 +35,7 @@ class FileImportDiScope private constructor(
     )
 
     companion object : DiScopeManager<FileImportDiScope>() {
-        fun create(importedFile: ImportedFile) = FileImportDiScope(importedFile)
+        fun create(fileImporterState: FileImporter.State) = FileImportDiScope(fileImporterState)
 
         override fun recreateDiScope() = FileImportDiScope()
 

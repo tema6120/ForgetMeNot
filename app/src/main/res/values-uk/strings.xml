@@ -50,7 +50,7 @@
         завантажити файл</string>
     <string name="toast_no_file_manager_to_create">У вас немає жодного файлового менеджера щоб
         створити файл</string>
-    <string name="error_loading_file">Помилка завантаження файлу: %1$s</string>
+    <string name="error_loading_file">Не вдалося прочитати файли:\n\n%1$s</string>
     <string name="text_filter_button">Фільтри</string>
     <string name="title_deck_filters_popup">Фільтри</string>
     <string name="deck_filter_only_decks_available_for_exercise">Тільки колоди, доступні для вправи

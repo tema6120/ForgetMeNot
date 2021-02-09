@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.core.view.GravityCompat
+import com.brackeys.ui.editorkit.span.ErrorSpan
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
@@ -89,7 +90,7 @@ class FileImportFragment : BaseFragment() {
                 deckNameTextView.text = if (deckNameCheckResult == NameCheckResult.Occupied) {
                     SpannableString(deckName).apply {
                         setSpan(
-                            WavyUnderlineSpan(),
+                            ErrorSpan(),
                             0,
                             deckName.lastIndex,
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

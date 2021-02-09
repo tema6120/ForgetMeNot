@@ -55,6 +55,7 @@ fun Fragment.openFileChooser(requestCode: Int) {
         .addCategory(Intent.CATEGORY_OPENABLE)
         .setType("*/*")
         .putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
     if (intent.resolveActivity(requireContext().packageManager) != null) {
         val chooserIntent = Intent.createChooser(intent, null)
         startActivityForResult(chooserIntent, requestCode)

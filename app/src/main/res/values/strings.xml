@@ -46,7 +46,7 @@
     <string name="text_create_cards_here_button">Create cards here</string>
     <string name="toast_no_file_manager_to_load">You don\'t have any file manager to load a file</string>
     <string name="toast_no_file_manager_to_create">You don\'t have any file manager to create a file</string>
-    <string name="error_loading_file">Error loading file: %1$s</string>
+    <string name="error_loading_file">Failed to read files:\n\n%1$s</string>
     <string name="text_filter_button">Filters</string>
     <string name="title_deck_filters_popup">Filters</string>
     <string name="deck_filter_only_decks_available_for_exercise">Only decks available for exercise</string>

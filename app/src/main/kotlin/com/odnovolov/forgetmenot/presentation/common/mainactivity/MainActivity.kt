@@ -12,13 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.deckcreator.DeckFromFileCreator
 import com.odnovolov.forgetmenot.persistence.DbCleaner
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder.Event.AppStarted
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckDiScope
-import com.odnovolov.forgetmenot.presentation.screen.home.adddeck.AddDeckScreenState
+import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsScreenState
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
@@ -76,12 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openFirstScreenDiScopes() {
         HomeDiScope.open { HomeDiScope.create(HomeScreenState()) }
-        AddDeckDiScope.open {
-            AddDeckDiScope.create(
-                DeckFromFileCreator.State(),
-                AddDeckScreenState()
-            )
-        }
+        AddCardsDiScope.open { AddCardsDiScope.create(AddCardsScreenState()) }
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
