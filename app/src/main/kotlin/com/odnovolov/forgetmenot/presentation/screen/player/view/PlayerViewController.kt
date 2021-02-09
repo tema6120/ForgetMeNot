@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -127,7 +128,8 @@ class PlayerViewController(
                             else -> ""
                         }
                     }
-                    SearchDiScope(searchText)
+                    val cardsSearcher = CardsSearcher(globalState)
+                    SearchDiScope.create(cardsSearcher, searchText)
                 }
             }
 

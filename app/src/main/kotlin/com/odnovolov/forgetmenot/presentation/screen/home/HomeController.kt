@@ -67,6 +67,9 @@ class HomeController(
             }
         }
             .launchIn(coroutineScope)
+        if (homeScreenState.searchText.isNotEmpty()) {
+            cardsSearcher.search(homeScreenState.searchText)
+        }
     }
 
 

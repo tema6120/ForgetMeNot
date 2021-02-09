@@ -56,10 +56,6 @@ class HomeDiScope private constructor(
     companion object : DiScopeManager<HomeDiScope>() {
         fun create(initialHomeScreenState: HomeScreenState) = HomeDiScope(initialHomeScreenState)
 
-        fun shareDeckReviewPreference(): DeckReviewPreference {
-            return diScope?.deckReviewPreference ?: error("HomeDiScope is not opened")
-        }
-
         override fun recreateDiScope() = HomeDiScope()
 
         override fun onCloseDiScope(diScope: HomeDiScope) {

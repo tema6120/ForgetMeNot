@@ -1,21 +1,28 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
+import com.odnovolov.forgetmenot.persistence.shortterm.CardsSearcherProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 
-class SearchDiScope(
+class SearchDiScope private constructor(
+    initialCardsSearcher: CardsSearcher? = null,
     initialSearchText: String = ""
 ) {
-    private val cardsSearcher: CardsSearcher =
-        if (DeckEditorDiScope.isOpen()) {
-            val deck = DeckEditorDiScope.getOrRecreate().screenState.deck
-            CardsSearcher(deck)
-        } else {
-            val globalState = AppDiScope.get().globalState
-            CardsSearcher(globalState)
+    private val cardsSearcherProvider = CardsSearcherProvider(
+        AppDiScope.get().globalState,
+        AppDiScope.get().json,
+        AppDiScope.get().database
+    )
+
+    init {
+        if (initialCardsSearcher != null) {
+            cardsSearcherProvider.save(initialCardsSearcher)
         }
+    }
+
+    private val cardsSearcher: CardsSearcher =
+        initialCardsSearcher ?: cardsSearcherProvider.load()
 
     val controller = SearchController(
         cardsSearcher,
@@ -29,6 +36,14 @@ class SearchDiScope(
     )
 
     companion object : DiScopeManager<SearchDiScope>() {
+        fun create(
+            cardsSearcher: CardsSearcher,
+            initialSearchText: String = ""
+        ) = SearchDiScope(
+            cardsSearcher,
+            initialSearchText
+        )
+
         override fun recreateDiScope() = SearchDiScope()
 
         override fun onCloseDiScope(diScope: SearchDiScope) {

@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingExistingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -50,7 +51,8 @@ class DeckContentController(
 
             SearchButtonClicked -> {
                 navigator.navigateToSearchFromDeckSetup {
-                    SearchDiScope()
+                    val cardsSearcher = CardsSearcher(deckEditorScreenState.deck)
+                    SearchDiScope.create(cardsSearcher)
                 }
             }
 

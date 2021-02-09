@@ -96,17 +96,23 @@ class SearchFragment : BaseFragment() {
                     getString(R.string.hint_search_in_all_cards) else
                     getString(R.string.hint_search_in_specific_deck, searchDeckName))
             }
+            isSearching.observe { isSearching: Boolean ->
+                cardsRecycler.isInvisible = isSearching
+                progressBar.isVisible = isSearching
+            }
             if (isFirstCreated) {
-                searchEditText.setText(initialSearchText)
                 if (initialSearchText.isEmpty()) {
                     searchEditText.post {
                         searchEditText.showSoftInput()
                     }
+                } else {
+                    searchEditText.setText(initialSearchText)
                 }
-            }
-            isSearching.observe { isSearching: Boolean ->
-                cardsRecycler.isInvisible = isSearching
-                progressBar.isVisible = isSearching
+            } else {
+                val searchText = searchEditText.text.toString()
+                if (searchText.isNotEmpty()) {
+                    controller!!.dispatch(SearchTextChanged(searchText))
+                }
             }
             cardsNotFound.observe { cardsNotFound: Boolean ->
                 emptyTextView.isVisible = cardsNotFound

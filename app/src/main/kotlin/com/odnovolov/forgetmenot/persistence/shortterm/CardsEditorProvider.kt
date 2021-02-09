@@ -46,10 +46,16 @@ class CardsEditorProvider(
                     cardsEditor.removedCards.map { editableCard: EditableCard ->
                         editableCard.toSerializable()
                     }
+                val screen = when (cardsEditor) {
+                    is CardsEditorForExercise -> EditingSpecificCardsScreen.Exercise
+                    is CardsEditorForAutoplay -> EditingSpecificCardsScreen.Autoplay
+                    else -> EditingSpecificCardsScreen.Other
+                }
                 SerializableStateForEditingSpecificCards(
                     removedSerializableEditableCards,
                     serializableEditableCards,
-                    cardsEditor.state.currentPosition
+                    cardsEditor.state.currentPosition,
+                    screen
                 )
             }
             else -> {
@@ -123,22 +129,22 @@ class CardsEditorProvider(
                             )
                         }
                         .toMutableList()
-                when {
-                    ExerciseDiScope.isOpen() -> {
+                when(serializableState.screen) {
+                    EditingSpecificCardsScreen.Exercise -> {
                         CardsEditorForExercise(
                             ExerciseDiScope.getOrRecreate().exercise,
                             removedEditableCards,
                             cardsEditorState
                         )
                     }
-                    PlayerDiScope.isOpen() -> {
+                    EditingSpecificCardsScreen.Autoplay -> {
                         CardsEditorForAutoplay(
                             PlayerDiScope.getOrRecreate().player,
                             removedEditableCards,
                             cardsEditorState
                         )
                     }
-                    else -> {
+                    EditingSpecificCardsScreen.Other -> {
                         CardsEditorForEditingSpecificCards(
                             removedEditableCards,
                             cardsEditorState
@@ -174,8 +180,15 @@ class SerializableStateForEditingExistingDeck(
 class SerializableStateForEditingSpecificCards(
     val removedSerializableEditableCards: List<SerializableEditableCard>,
     override val serializableEditableCards: List<SerializableEditableCard>,
-    override val currentPosition: Int
+    override val currentPosition: Int,
+    val screen: EditingSpecificCardsScreen
 ) : SerializableState()
+
+enum class EditingSpecificCardsScreen{
+    Exercise,
+    Autoplay,
+    Other
+}
 
 @Serializable
 data class SerializableEditableCard(

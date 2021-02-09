@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotRemember
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
 import com.odnovolov.forgetmenot.domain.interactor.exercise.isAnswered
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -121,7 +122,8 @@ class ExerciseController(
                             else -> ""
                         }
                     }
-                    SearchDiScope(searchText)
+                    val cardsSearcher = CardsSearcher(globalState)
+                    SearchDiScope.create(cardsSearcher, searchText)
                 }
             }
 

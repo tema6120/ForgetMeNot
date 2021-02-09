@@ -4,18 +4,22 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher.SearchArea.AllDecks
+import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher.SearchArea.SpecificDeck
 import kotlinx.coroutines.*
 
 class CardsSearcher {
     constructor(globalState: GlobalState) {
         getAllCards = { globalState.decks.flatMap { deck: Deck -> decomposeDeck(deck) } }
+        state = State(AllDecks)
     }
 
     constructor(deck: Deck) {
         getAllCards = { decomposeDeck(deck) }
+        state = State(SpecificDeck(deck))
     }
 
-    val state = State()
+    val state: State
     private val getAllCards: () -> List<Pair<Card, Deck>>
     private val coroutineScope = CoroutineScope(newSingleThreadContext("SearchThread"))
     private var searchJob: Job? = null
@@ -70,9 +74,17 @@ class CardsSearcher {
         coroutineScope.cancel()
     }
 
-    class State : FlowMaker<State>() {
+    class State(
+        searchArea: SearchArea
+    ) : FlowMaker<State>() {
+        val searchArea: SearchArea by flowMaker(searchArea)
         var searchText: String by flowMaker("")
         var isSearching: Boolean by flowMaker(false)
         var searchResult: List<SearchCard> by flowMaker(emptyList())
+    }
+
+    sealed class SearchArea {
+        object AllDecks : SearchArea()
+        class SpecificDeck(val deck: Deck) : SearchArea()
     }
 }
