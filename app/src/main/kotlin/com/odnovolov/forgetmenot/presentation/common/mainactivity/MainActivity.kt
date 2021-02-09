@@ -17,7 +17,6 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAd
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsScreenState
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
@@ -75,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openFirstScreenDiScopes() {
         HomeDiScope.open { HomeDiScope.create(HomeScreenState()) }
-        AddCardsDiScope.open { AddCardsDiScope.create(AddCardsScreenState()) }
+        AddCardsDiScope.open { AddCardsDiScope() }
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {

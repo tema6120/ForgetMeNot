@@ -1,11 +1,19 @@
 package com.odnovolov.forgetmenot.presentation.screen.renamedeck
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.deckcreator.createDeck
+import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.renameDeck
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.SubmittedNameForNewDeck
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.OkButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.TextChanged
 
@@ -23,13 +31,27 @@ class RenameDeckController(
             }
 
             OkButtonClicked -> {
-                val success: Boolean = renameDeck(
-                    newName = dialogState.typedDeckName,
-                    dialogState.abstractDeck,
-                    globalState
-                )
-                if (success) {
-                    navigator.navigateUp()
+                val newName = dialogState.typedDeckName
+                when (val purpose = dialogState.purpose) {
+                    is ToRenameExistingDeck -> {
+                        val success: Boolean = renameDeck(newName, purpose.deck, globalState)
+                        if (success) navigator.navigateUp()
+                    }
+                    ToRenameNewDeckForFileImport -> {
+                        if (checkDeckName(newName, globalState) == NameCheckResult.Ok) {
+                            FileImportDiScope.getOrRecreate().controller
+                                .dispatch(SubmittedNameForNewDeck(dialogState.typedDeckName))
+                            navigator.navigateUp()
+                        }
+                    }
+                    ToCreateNewDeck -> {
+                        val cardsEditor: CardsEditor? = createDeck(newName, globalState)
+                        if (cardsEditor != null) {
+                            navigator.navigateToCardsEditorFromRenameDeckDialog {
+                                CardsEditorDiScope.create(cardsEditor)
+                            }
+                        }
+                    }
                 }
             }
         }

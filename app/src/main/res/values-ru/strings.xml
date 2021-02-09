@@ -43,7 +43,7 @@
     <string name="title_add_cards_popup">Добавить карточки</string>
     <string name="text_import_file_button">Импортировать файл</string>
     <string name="text_browse_catalog_button">Просмотреть каталог</string>
-    <string name="text_create_cards_here_button">Создать карточки здесь</string>
+    <string name="text_create_new_deck_button">Создать новую колоду</string>
     <string name="toast_no_file_manager_to_load">У вас нет ни одного файлового менеджера для загрузки файла</string>
     <string name="toast_no_file_manager_to_create">У вас нет ни одного файлового менеджера чтобы создать файл</string>
     <string name="error_loading_file">Не удалось прочитать файлы:\n\n%1$s</string>

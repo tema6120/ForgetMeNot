@@ -112,7 +112,7 @@
             app:layout_constraintTop_toTopOf="@+id/browseCatalogButton" />
 
     <View
-            android:id="@+id/createCardsHereButton"
+            android:id="@+id/createNewDeckButton"
             android:layout_width="0dp"
             android:layout_height="64dp"
             android:background="@drawable/ripple_rectangular_colored"
@@ -121,31 +121,31 @@
             app:layout_constraintTop_toBottomOf="@+id/browseCatalogButton" />
 
     <ImageView
-            android:id="@+id/createCardsHereIcon"
+            android:id="@+id/createNewDeckIcon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:background="@drawable/ring"
             android:padding="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/createCardsHereButton"
-            app:layout_constraintStart_toStartOf="@+id/createCardsHereButton"
-            app:layout_constraintTop_toTopOf="@+id/createCardsHereButton"
+            app:layout_constraintBottom_toBottomOf="@+id/createNewDeckButton"
+            app:layout_constraintStart_toStartOf="@+id/createNewDeckButton"
+            app:layout_constraintTop_toTopOf="@+id/createNewDeckButton"
             app:srcCompat="@drawable/ic_round_create_24" />
 
     <TextView
-            android:id="@+id/createCardsHereTextView"
+            android:id="@+id/createNewDeckTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/nunito_bold"
-            android:text="@string/text_create_cards_here_button"
+            android:text="@string/text_create_new_deck_button"
             android:textColor="@color/text_primary_brown"
             android:textSize="@dimen/text_size_add_cards_popup_item"
-            app:layout_constraintBottom_toBottomOf="@+id/createCardsHereButton"
-            app:layout_constraintEnd_toEndOf="@+id/createCardsHereButton"
+            app:layout_constraintBottom_toBottomOf="@+id/createNewDeckButton"
+            app:layout_constraintEnd_toEndOf="@+id/createNewDeckButton"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/createCardsHereIcon"
-            app:layout_constraintTop_toTopOf="@+id/createCardsHereButton" />
+            app:layout_constraintStart_toEndOf="@+id/createNewDeckIcon"
+            app:layout_constraintTop_toTopOf="@+id/createNewDeckButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

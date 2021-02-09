@@ -4,15 +4,11 @@ import com.odnovolov.forgetmenot.domain.entity.*
 
 fun renameDeck(
     newName: String,
-    abstractDeck: AbstractDeck,
+    deck: Deck,
     globalState: GlobalState
 ): Boolean {
     return if (checkDeckName(newName, globalState) == NameCheckResult.Ok) {
-        when(abstractDeck) {
-            is NewDeck -> abstractDeck.deckName = newName
-            is ExistingDeck -> abstractDeck.deck.name = newName
-            else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
-        }
+        deck.name = newName
         true
     } else {
         false

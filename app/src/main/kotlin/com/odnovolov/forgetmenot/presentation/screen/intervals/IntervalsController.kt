@@ -12,10 +12,10 @@ import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToAddNewInterval
-import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.DialogPurpose.ToChangeInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState.Purpose.ToAddNewInterval
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDialogState.Purpose.ToChangeInterval
 import com.soywiz.klock.DateTimeSpan
 
 class IntervalsController(
@@ -57,7 +57,7 @@ class IntervalsController(
                 } ?: return
                 navigator.showModifyIntervalDialog {
                     val modifyIntervalDialogState = ModifyIntervalDialogState(
-                        dialogPurpose = ToChangeInterval,
+                        purpose = ToChangeInterval,
                         grade = event.grade,
                         displayedInterval = DisplayedInterval.fromDateTimeSpan(interval.value)
                     )
@@ -72,7 +72,7 @@ class IntervalsController(
                 val displayedInterval = DisplayedInterval.fromDateTimeSpan(value)
                 navigator.showModifyIntervalDialog {
                     val modifyIntervalDialogState = ModifyIntervalDialogState(
-                        dialogPurpose = ToAddNewInterval,
+                        purpose = ToAddNewInterval,
                         grade,
                         displayedInterval
                     )

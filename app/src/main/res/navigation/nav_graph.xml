@@ -189,7 +189,12 @@
     <dialog
             android:id="@+id/rename_deck_dialog"
             android:name="com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialog"
-            tools:layout="@layout/dialog_input" />
+            tools:layout="@layout/dialog_input">
+
+        <action android:id="@+id/rename_deck_dialog_to_cards_editor"
+            app:destination="@+id/cards_editor" />
+
+    </dialog>
 
     <fragment
             android:id="@+id/pronunciation"

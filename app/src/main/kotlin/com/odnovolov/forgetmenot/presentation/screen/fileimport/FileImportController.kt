@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiSc
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameNewDeckForFileImport
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 
 class FileImportController(
@@ -40,7 +41,7 @@ class FileImportController(
                 if (abstractDeck is NewDeck) {
                     navigator.showRenameDeckDialogFromFileImport {
                         val dialogState = RenameDeckDialogState(
-                            abstractDeck = abstractDeck,
+                            purpose = ToRenameNewDeckForFileImport,
                             typedDeckName = abstractDeck.deckName
                         )
                         RenameDeckDiScope.create(dialogState)
@@ -49,15 +50,15 @@ class FileImportController(
             }
 
             AddCardsToNewDeckButtonClicked -> {
-                val newDeck = NewDeck(deckName = "")
-                fileImporter.setDeckWhereToAdd(newDeck)
                 navigator.showRenameDeckDialogFromFileImport {
-                    val dialogState = RenameDeckDialogState(
-                        abstractDeck = newDeck,
-                        typedDeckName = newDeck.deckName
-                    )
-                    RenameDeckDiScope.create(dialogState)
+                    val state = RenameDeckDialogState(purpose = ToRenameNewDeckForFileImport)
+                    RenameDeckDiScope.create(state)
                 }
+            }
+
+            is SubmittedNameForNewDeck -> {
+                val newDeck = NewDeck(event.deckName)
+                fileImporter.setDeckWhereToAdd(newDeck)
             }
 
             AddCardsToExistingDeckButtonClicked -> {

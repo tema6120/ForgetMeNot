@@ -95,6 +95,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_shows_rename_deck_dialog)
     }
 
+    fun navigateToCardsEditorFromRenameDeckDialog(createDiScope: () -> CardsEditorDiScope) {
+        CardsEditorDiScope.open(createDiScope)
+        navigate(R.id.rename_deck_dialog_to_cards_editor)
+    }
+
     fun showRenameDeckDialogFromDeckEditor(createDiScope: () -> RenameDeckDiScope) {
         RenameDeckDiScope.open(createDiScope)
         navigate(R.id.deck_editor_shows_rename_deck_dialog)

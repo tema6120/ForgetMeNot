@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.entity.ExistingDeck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
@@ -24,14 +23,15 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
-import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
-import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeck
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -176,7 +176,7 @@ class HomeController(
                 navigator.showRenameDeckDialogFromNavHost {
                     val deck = globalState.decks.first { it.id == deckId }
                     val dialogState = RenameDeckDialogState(
-                        abstractDeck = ExistingDeck(deck),
+                        purpose = ToRenameExistingDeck(deck),
                         typedDeckName = deck.name
                     )
                     RenameDeckDiScope.create(dialogState)

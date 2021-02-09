@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.AddCardButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.RenameDeckButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeck
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 
 class DeckEditorController(
@@ -26,7 +27,7 @@ class DeckEditorController(
                 navigator.showRenameDeckDialogFromDeckEditor {
                     val deck = screenState.deck
                     val dialogState = RenameDeckDialogState(
-                        abstractDeck = ExistingDeck(deck),
+                        purpose = ToRenameExistingDeck(deck),
                         typedDeckName = deck.name
                     )
                     RenameDeckDiScope.create(dialogState)

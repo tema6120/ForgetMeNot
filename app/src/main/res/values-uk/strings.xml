@@ -45,7 +45,7 @@
     <string name="title_add_cards_popup">Додати картки</string>
     <string name="text_import_file_button">Імпортувати файл</string>
     <string name="text_browse_catalog_button">Переглянути каталог</string>
-    <string name="text_create_cards_here_button">Створити картки тут</string>
+    <string name="text_create_new_deck_button">Створити нову колоду</string>
     <string name="toast_no_file_manager_to_load">У вас немає жодного файлового менеджера щоб
         завантажити файл</string>
     <string name="toast_no_file_manager_to_create">У вас немає жодного файлового менеджера щоб

@@ -43,7 +43,7 @@
     <string name="title_add_cards_popup">Add cards</string>
     <string name="text_import_file_button">Import file</string>
     <string name="text_browse_catalog_button">Browse catalog</string>
-    <string name="text_create_cards_here_button">Create cards here</string>
+    <string name="text_create_new_deck_button">Create new deck</string>
     <string name="toast_no_file_manager_to_load">You don\'t have any file manager to load a file</string>
     <string name="toast_no_file_manager_to_create">You don\'t have any file manager to create a file</string>
     <string name="error_loading_file">Failed to read files:\n\n%1$s</string>

@@ -8,6 +8,7 @@ sealed class FileImportEvent {
     object DoneButtonClicked : FileImportEvent()
     object RenameDeckButtonClicked : FileImportEvent()
     object AddCardsToNewDeckButtonClicked : FileImportEvent()
+    class SubmittedNameForNewDeck(val deckName: String) : FileImportEvent()
     object AddCardsToExistingDeckButtonClicked : FileImportEvent()
     class TargetDeckIsSelected(val deck: Deck) : FileImportEvent()
 }
