@@ -27,7 +27,7 @@ class FmnFormatParser : Parser() {
             else matchResults[0].range.first
         parseCardBlock(cardBlockStartIndex, cardBlockEndIndex)
         repeat(matchResults.count()) { i: Int ->
-            cardBlockStartIndex = matchResults[i].range.last - 1
+            cardBlockStartIndex = matchResults[i].range.last
             cardBlockEndIndex =
                 if (i < matchResults.lastIndex)
                     matchResults[i + 1].range.first

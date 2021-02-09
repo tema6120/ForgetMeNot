@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.core.view.isVisible
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
+import com.brackeys.ui.editorkit.span.ErrorSpan
+import com.brackeys.ui.editorkit.widget.TextProcessor
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -113,6 +115,9 @@ class ImportedTextEditorFragment : BaseFragment() {
                 errorLines.forEach { errorLine: Int ->
                     editor.setErrorLine(errorLine + 1)
                 }
+                if (errorLines.isEmpty()) {
+                    editor.clearErrorLines()
+                }
                 this@ImportedTextEditorFragment.errorLines = errorLines
             }
             if (!isRecreated) {
@@ -141,6 +146,10 @@ class ImportedTextEditorFragment : BaseFragment() {
                 charsetButton.text = charset.name()
             }
         }
+    }
+
+    private fun TextProcessor.clearErrorLines() {
+        text.getSpans(0, text.length, ErrorSpan::class.java).forEach(text::removeSpan)
     }
 
     private fun showCharsetPopup() {
