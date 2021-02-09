@@ -126,19 +126,19 @@ class FileImporter(
         }
     }
 
-    fun import(): List<Boolean> {
-        val result: List<Boolean> = state.files.map { cardsFile: CardsFile ->
+    fun import(): List<ImportResult> {
+        val results: List<ImportResult> = state.files.map { cardsFile: CardsFile ->
             val deckWhereToAdd = cardsFile.deckWhereToAdd
             if (deckWhereToAdd is NewDeck) {
                 val nameCheckResult: NameCheckResult =
                     checkDeckName(deckWhereToAdd.deckName, globalState)
                 if (nameCheckResult != NameCheckResult.Ok) {
-                    return@map false
+                    return@map ImportResult.Failure
                 }
             }
             val cardPrototypes: List<CardPrototype> = cardsFile.cardPrototypes
             if (cardPrototypes.isEmpty()) {
-                return@map false
+                return@map ImportResult.Failure
             }
             val newCards: CopyableList<Card> = cardPrototypes
                 .filter { cardPrototype -> cardPrototype.isSelected }
@@ -152,17 +152,24 @@ class FileImporter(
                         cards = newCards
                     )
                     globalState.decks = (globalState.decks + deck).toCopyableList()
-                    return@map true
+                    return@map ImportResult.Success(deck)
                 }
                 is ExistingDeck -> {
                     deckWhereToAdd.deck.cards =
                         (deckWhereToAdd.deck.cards + newCards).toCopyableList()
-                    return@map true
+                    return@map ImportResult.Success(deckWhereToAdd.deck)
                 }
                 else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
             }
         }
-        state.files = state.files.filterIndexed { index, _ -> !result[index] }
-        return result
+        state.files = state.files.filterIndexed { index, _ ->
+            results[index] == ImportResult.Failure
+        }
+        return results
+    }
+
+    sealed class ImportResult {
+        class Success(val deck: Deck) : ImportResult()
+        object Failure : ImportResult()
     }
 }

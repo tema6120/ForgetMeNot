@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
 import com.odnovolov.forgetmenot.domain.entity.ExistingDeck
 import com.odnovolov.forgetmenot.domain.entity.NewDeck
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -29,7 +30,7 @@ class FileImportController(
 
             DoneButtonClicked -> {
                 val result = fileImporter.import()
-                if (result[0]) {
+                if (result[0] is ImportResult.Success) {
                     navigator.navigateUp()
                 }
             }

@@ -7,6 +7,8 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.plus
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.ImportedFile
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder.Event
@@ -16,7 +18,6 @@ import java.util.*
 class InitialDecksAdder(
     private val state: State,
     private val assetManager: AssetManager,
-    /*private val fileImporter: FileImporter,*/
     private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<Event, Nothing>() {
@@ -45,20 +46,33 @@ class InitialDecksAdder(
     override fun handle(event: Event) {
         when (event) {
             AppStarted -> {
-                /*if (state.areInitialDecksAdded) return
-                val exercisePreferenceForNewDecks: ExercisePreference = createExercisePreference()
+                if (state.areInitialDecksAdded) return
                 try {
-                    fileNames.forEach { fileName: String ->
-                        val addedDeck: Deck = addDeckFromAssets(fileName)
-                        addedDeck.exercisePreference = exercisePreferenceForNewDecks
-                    }
-                } catch (e: IllegalStateException) {
+                    addDecksFromAssets()
+                } catch (e: Exception) {
                     e.printStackTrace()
                     PropertyChangeRegistry.removeAll()
                     return
                 }
-                state.areInitialDecksAdded = true*/
+                state.areInitialDecksAdded = true
             }
+        }
+    }
+
+    private fun addDecksFromAssets() {
+        val files: List<ImportedFile> = fileNames.map { fileName: String ->
+            val fileContent: ByteArray = assetManager.open(fileName).use { it.readBytes() }
+            ImportedFile(fileName, fileContent)
+        }
+        val fileImporterState = FileImporter.State.fromFiles(files)
+        val fileImporter = FileImporter(fileImporterState, globalState)
+        val results: List<ImportResult> = fileImporter.import()
+        if (results.any { it == ImportResult.Failure }) {
+            error("Fail to add initial decks from Assets")
+        }
+        val exercisePreferenceForNewDecks: ExercisePreference = createExercisePreference()
+        for (result in results) {
+            (result as ImportResult.Success).deck.exercisePreference = exercisePreferenceForNewDecks
         }
     }
 
@@ -87,17 +101,6 @@ class InitialDecksAdder(
             globalState.sharedExercisePreferences + exercisePreference
         return exercisePreference
     }
-
-    /*private fun addDeckFromAssets(fileName: String): Deck {
-        val inputStream = assetManager.open(fileName)
-        val result = deckFromFileCreator.loadFromFile(inputStream, fileName)
-        if (result !is Success) {
-            throw IllegalStateException(
-                "Fail to add initial deck ($fileName) from Assets - $result"
-            )
-        }
-        return result.deck
-    }*/
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
