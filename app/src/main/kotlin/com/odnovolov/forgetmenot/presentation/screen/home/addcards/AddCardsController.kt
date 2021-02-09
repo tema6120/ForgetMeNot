@@ -52,10 +52,8 @@ class AddCardsController(
             }
 
             is ReceivedContent -> {
-                screenState.areFilesBeingReading = true
                 val results: List<FileFromIntentReader.Result> =
                     fileFromIntentReader.read(event.intent)
-                screenState.areFilesBeingReading = false
                 val failedFileNames: List<String?> = results
                     .mapNotNull { result -> result as? FileFromIntentReader.Result.Failure }
                     .map { failure -> failure.fileName }

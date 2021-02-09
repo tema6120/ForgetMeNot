@@ -86,7 +86,7 @@
                     android:textSize="@dimen/text_size_home_screen_deck_list_title"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/addCardsButton"
+                    app:layout_constraintEnd_toStartOf="@id/addCardsFragment"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/deck_list_title_decks_available_for_exercise" />
@@ -98,32 +98,21 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.55" />
 
-            <TextView
-                    android:id="@+id/addCardsButton"
+            <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/addCardsFragment"
+                    android:name="com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/background_add_cards_button"
-                    android:drawablePadding="2dp"
-                    android:fontFamily="@font/jura"
-                    android:gravity="center"
-                    android:paddingStart="16dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="6dp"
-                    android:text="@string/text_add_cards_button"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/text_size_home_screen_add_cards_button"
-                    android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_add_colored"
+                    android:tag="AddCardsFragment"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@id/guideline"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout="@layout/fragment_add_cards" />
 
             <com.google.android.material.tabs.TabLayout
                     android:id="@+id/searchTabLayout"
@@ -276,12 +265,5 @@
                 app:strokeWidth="2dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/addcardsFragment"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:tag="AddCardsFragment" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -35,7 +35,6 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsFragment
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
@@ -81,7 +80,6 @@ class HomeFragment : BaseFragment() {
 
     private fun setupView() {
         setupSearchFrame()
-        setupAddCardsButton()
         setupSelectionToolbar()
         observeAppbarOffset()
         setupViewPager()
@@ -105,13 +103,6 @@ class HomeFragment : BaseFragment() {
         searchEditText.observeText { newText: String ->
             controller?.dispatch(SearchTextChanged(newText))
             isSearchingAfterPasteButtonClicked = false
-        }
-    }
-
-    private fun setupAddCardsButton() {
-        addCardsButton.setOnClickListener {
-            (childFragmentManager.findFragmentByTag("AddCardsFragment") as AddCardsFragment)
-                .showAddCardsPopup(anchor = addCardsButton)
         }
     }
 
@@ -173,7 +164,7 @@ class HomeFragment : BaseFragment() {
         with(viewModel) {
             hasSearchText.observe { hasSearchText: Boolean ->
                 deckListTitleTextView.isVisible = !hasSearchText
-                addCardsButton.isVisible = !hasSearchText
+                addCardsFragment.isVisible = !hasSearchText
                 searchTabLayout.isVisible = hasSearchText
                 updatePasteButton(hasSearchText)
                 updateViewPagerLocking()

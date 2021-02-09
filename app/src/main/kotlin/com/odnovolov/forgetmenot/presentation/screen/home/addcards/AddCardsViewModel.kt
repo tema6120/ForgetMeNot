@@ -12,10 +12,6 @@ class AddCardsViewModel(
     screenState: AddCardsScreenState,
     private val globalState: GlobalState
 ) {
-    val areFilesBeingReading: Flow<Boolean> =
-        screenState.flowOf(AddCardsScreenState::areFilesBeingReading)
-            .flowOn(businessLogicThread)
-
     val isDialogVisible: Flow<Boolean> = screenState.flowOf(AddCardsScreenState::isDeckBeingCreated)
         .flowOn(businessLogicThread)
 

@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
@@ -23,7 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsContr
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsController.Command.ShowCannotReadFilesMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsEvent.*
 import kotlinx.android.synthetic.main.dialog_input.view.*
-import kotlinx.android.synthetic.main.fragment_adddeck.*
+import kotlinx.android.synthetic.main.fragment_add_cards.*
 import kotlinx.android.synthetic.main.popup_add_cards.view.*
 import kotlinx.coroutines.launch
 
@@ -44,11 +43,12 @@ class AddCardsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_adddeck, container, false)
+        return inflater.inflate(R.layout.fragment_add_cards, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
         viewCoroutineScope!!.launch {
             val diScope = AddCardsDiScope.getAsync() ?: return@launch
             controller = diScope.controller
@@ -60,11 +60,18 @@ class AddCardsFragment : BaseFragment() {
         }
     }
 
+    private fun setupView() {
+        addCardsButton.setOnClickListener {
+            showAddCardsPopup()
+        }
+    }
+
+    private fun showAddCardsPopup() {
+        requireAddCardsPopup().show(anchor = addCardsButton, gravity = Gravity.TOP or Gravity.END)
+    }
+
     private fun observeViewModel(viewModel: AddCardsViewModel) {
         with(viewModel) {
-            areFilesBeingReading.observe { isProcessing ->
-                progressBar.isVisible = isProcessing
-            }
             isDialogVisible.observe { isDialogVisible ->
                 if (isDialogVisible) {
                     requireDeckNameDialog().show()
@@ -92,11 +99,6 @@ class AddCardsFragment : BaseFragment() {
         val nameList = fileNames.joinToString(separator = ",\n") { fileName -> fileName ?: "----" }
         val errorMessage = getString(R.string.error_loading_file, nameList)
         showToast(errorMessage, duration = Toast.LENGTH_LONG)
-    }
-
-    // it is called from parent fragment
-    fun showAddCardsPopup(anchor: View) {
-        requireAddCardsPopup().show(anchor, gravity = Gravity.TOP or Gravity.END)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -202,12 +204,9 @@ class AddCardsFragment : BaseFragment() {
             if (dialogSavedState != null) {
                 requireDeckNameDialog().onRestoreInstanceState(dialogSavedState)
             }
-            val isAddCardsPopupShowing = getBoolean(STATE_ADD_CARDS_POPUP, false)
-            if (isAddCardsPopupShowing) {
-                val anchor: View? = parentFragment?.view?.findViewById(R.id.addCardsButton)
-                if (anchor != null) {
-                    showAddCardsPopup(anchor)
-                }
+            val needToShowAddCardsPopup = getBoolean(STATE_ADD_CARDS_POPUP, false)
+            if (needToShowAddCardsPopup) {
+                showAddCardsPopup()
             }
         }
     }
