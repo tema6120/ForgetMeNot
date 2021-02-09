@@ -48,6 +48,7 @@ class DeckChooserFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setStatusBarColor(requireActivity(), R.color.colorAccent)
         return inflater.inflate(R.layout.fragment_deck_chooser, container, false)
     }
 
@@ -241,6 +242,7 @@ class DeckChooserFragment : BaseFragment() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             DeckChooserDiScope.close()
+            setTransparentStatusBar(requireActivity())
         }
     }
 

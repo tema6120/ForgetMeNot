@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.sourcetext
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +15,12 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.myColorScheme
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.sourcetext.ImportedTextEditorEvent.EncodingIsChanged
 import kotlinx.android.synthetic.main.fragment_imported_text_editor.*
 import kotlinx.android.synthetic.main.popup_charsets.view.*
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.nio.charset.Charset
 
@@ -48,7 +52,7 @@ class ImportedTextEditorFragment : BaseFragment() {
             editor.language = diScope.syntaxHighlighting
             controller = diScope.controller
             viewModel = diScope.viewModel
-            observeViewModel()
+            observeViewModel(isRecreated = savedInstanceState != null)
         }
     }
 
@@ -77,7 +81,7 @@ class ImportedTextEditorFragment : BaseFragment() {
     private fun goToNextError() {
         if (errorLines.isEmpty()) return
         determineNextErrorLine()
-        editorScrollView.smoothScrollTo(0, determineErrorLineVerticalPosition())
+        editorScrollView.smoothScrollTo(0, determineErrorLineVerticalPosition(), 500)
     }
 
     private fun determineNextErrorLine() {
@@ -102,7 +106,7 @@ class ImportedTextEditorFragment : BaseFragment() {
         return editor.layout.getLineTop(lineInTermsOfLayout)
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(isRecreated: Boolean) {
         with(viewModel) {
             sourceTextWithNewEncoding.observe(editor::setTextContent)
             errorLines.observe { errorLines: List<Int> ->
@@ -110,6 +114,17 @@ class ImportedTextEditorFragment : BaseFragment() {
                     editor.setErrorLine(errorLine + 1)
                 }
                 this@ImportedTextEditorFragment.errorLines = errorLines
+            }
+            if (!isRecreated) {
+                viewCoroutineScope!!.launch {
+                    val errorLinesAtStart = errorLines.first()
+                    this@ImportedTextEditorFragment.errorLines = errorLinesAtStart
+                    if (errorLinesAtStart.isEmpty()) {
+                        (parentFragment as FileImportFragment).goToCardsTab()
+                    } else {
+                        Handler(Looper.myLooper()!!).post { goToNextError() }
+                    }
+                }
             }
             numberOfErrors.observe { numberOfErrors: Int ->
                 errorButton.isVisible = numberOfErrors > 0

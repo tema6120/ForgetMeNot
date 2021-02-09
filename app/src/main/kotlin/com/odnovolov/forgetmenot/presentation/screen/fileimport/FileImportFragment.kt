@@ -65,6 +65,7 @@ class FileImportFragment : BaseFragment() {
     }
 
     private fun setupViewPager() {
+        fileImportViewPager.offscreenPageLimit = 1
         fileImportViewPager.adapter = FileImportPagerAdapter(this)
         tabLayoutMediator = TabLayoutMediator(
             fileImportTabLayout,
@@ -154,6 +155,13 @@ class FileImportFragment : BaseFragment() {
             changeDeckPopup = LightPopupWindow(content)
         }
         return changeDeckPopup!!
+    }
+
+    // called from ImportedTextEditorFragment if there are no errors at the start
+    fun goToCardsTab() {
+        fileImportViewPager?.run {
+            post { setCurrentItem(1, false) }
+        }
     }
 
     override fun onDestroyView() {
