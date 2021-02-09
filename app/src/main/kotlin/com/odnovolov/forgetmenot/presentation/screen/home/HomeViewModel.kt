@@ -259,6 +259,9 @@ class HomeViewModel(
     }
         .distinctUntilChanged()
 
+    val areFilesBeingReading: Flow<Boolean> =
+        homeScreenState.flowOf(HomeScreenState::areFilesBeingReading)
+
     init {
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->
             decksPreview.map { it.deckId }

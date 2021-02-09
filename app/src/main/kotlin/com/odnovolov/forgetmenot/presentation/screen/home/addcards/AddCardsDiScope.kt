@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home.addcards
 
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 
 class AddCardsDiScope {
     private val fileFromIntentReader = FileFromIntentReader(
@@ -9,6 +10,7 @@ class AddCardsDiScope {
     )
 
     val controller = AddCardsController(
+        HomeDiScope.getOrRecreate().screenState,
         fileFromIntentReader,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver

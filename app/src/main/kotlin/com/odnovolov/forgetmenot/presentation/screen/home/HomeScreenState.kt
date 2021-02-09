@@ -8,6 +8,7 @@ class HomeScreenState : FlowMaker<HomeScreenState>() {
     var searchText: String by flowMaker("")
     var deckSelection: DeckSelection? by flowMaker(null)
     var deckForDeckOptionMenu: Deck? by flowMaker(null)
+    var areFilesBeingReading: Boolean by flowMaker(false)
 }
 
 @Serializable

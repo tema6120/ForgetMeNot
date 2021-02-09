@@ -217,6 +217,9 @@ class HomeFragment : BaseFragment() {
                     homePager.setCurrentItem(1, true)
                 }
             }.observe()
+            areFilesBeingReading.observe { areFilesBeingReading: Boolean ->
+                progressBar.isVisible = areFilesBeingReading
+            }
         }
     }
 

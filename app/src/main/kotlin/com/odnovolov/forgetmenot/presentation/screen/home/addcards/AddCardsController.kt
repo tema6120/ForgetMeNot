@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScop
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsController.Command.ShowCannotReadFilesMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsEvent.*
@@ -17,6 +18,7 @@ import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialog
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 
 class AddCardsController(
+    private val homeScreenState: HomeScreenState,
     private val fileFromIntentReader: FileFromIntentReader,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
@@ -28,8 +30,10 @@ class AddCardsController(
     override fun handle(event: AddCardsEvent) {
         when (event) {
             is ReceivedContent -> {
+                homeScreenState.areFilesBeingReading = true
                 val results: List<FileFromIntentReader.Result> =
                     fileFromIntentReader.read(event.intent)
+                homeScreenState.areFilesBeingReading = false
                 val failedFileNames: List<String?> = results
                     .mapNotNull { result -> result as? FileFromIntentReader.Result.Failure }
                     .map { failure -> failure.fileName }

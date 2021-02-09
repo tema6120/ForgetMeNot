@@ -21,7 +21,7 @@ class HomeDiScope private constructor(
         AppDiScope.get().globalState
     )
 
-    private val homeScreenState: HomeScreenState =
+    val screenState: HomeScreenState =
         initialHomeScreenState ?: homeScreenStateProvider.load()
 
     private val deckRemover = DeckRemover(AppDiScope.get().globalState)
@@ -33,7 +33,7 @@ class HomeDiScope private constructor(
     )
 
     val controller = HomeController(
-        homeScreenState,
+        screenState,
         deckReviewPreference,
         DeckExporter(),
         deckRemover,
@@ -46,7 +46,7 @@ class HomeDiScope private constructor(
     )
 
     val viewModel = HomeViewModel(
-        homeScreenState,
+        screenState,
         AppDiScope.get().globalState,
         deckReviewPreference,
         controller,
