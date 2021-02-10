@@ -36,4 +36,8 @@ class FileImportViewModel(
     val isNewDeck: Flow<Boolean> = fileImporterState.files[0]
         .flowOf(CardsFile::deckWhereToAdd)
         .map { deckWhereToAdd: AbstractDeck -> deckWhereToAdd is NewDeck }
+
+    val hasErrors: Flow<Boolean> = fileImporterState.files[0]
+        .flowOf(CardsFile::errorLines)
+        .map { it.isNotEmpty() }
 }

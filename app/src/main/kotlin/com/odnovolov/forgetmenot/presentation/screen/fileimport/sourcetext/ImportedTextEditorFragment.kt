@@ -124,9 +124,8 @@ class ImportedTextEditorFragment : BaseFragment() {
                 viewCoroutineScope!!.launch {
                     val errorLinesAtStart = errorLines.first()
                     this@ImportedTextEditorFragment.errorLines = errorLinesAtStart
-                    if (errorLinesAtStart.isEmpty()) {
-                        (parentFragment as FileImportFragment).goToCardsTab()
-                    } else {
+                    if (errorLinesAtStart.isNotEmpty()) {
+                        (parentFragment as FileImportFragment).goToSourceTextTab()
                         Handler(Looper.myLooper()!!).post { goToNextError() }
                     }
                 }

@@ -32,6 +32,7 @@ class FileImportFragment : BaseFragment() {
     private lateinit var viewModel: FileImportViewModel
     private var changeDeckPopup: PopupWindow? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
+    private var sourceTextTab: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,30 +76,24 @@ class FileImportFragment : BaseFragment() {
             val customTab = View.inflate(requireContext(), R.layout.tab, null) as TextView
             customTab.text = getString(
                 when (position) {
-                    0 -> R.string.tab_name_source_text
-                    1 -> R.string.tab_name_cards
-                    else -> throw IllegalArgumentException("position must be in 0..1")
+                    0 -> R.string.tab_name_cards
+                    else -> R.string.tab_name_source_text
                 }
             )
             tab.customView = customTab
+            if (position == 1) {
+                sourceTextTab = customTab
+            }
         }.apply { attach() }
     }
 
     private fun observeViewModel() {
         with(viewModel) {
             combine(deckName, deckNameCheckResult) { deckName, deckNameCheckResult ->
-                deckNameTextView.text = if (deckNameCheckResult == NameCheckResult.Occupied) {
-                    SpannableString(deckName).apply {
-                        setSpan(
-                            ErrorSpan(),
-                            0,
-                            deckName.lastIndex,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                    }
-                } else {
-                    deckName
-                }
+                deckNameTextView.text =
+                    if (deckNameCheckResult != NameCheckResult.Ok)
+                        makeErrorSpannableStringFrom(deckName) else
+                        deckName
                 deckNameTextView.error = when (deckNameCheckResult) {
                     NameCheckResult.Ok -> null
                     NameCheckResult.Empty -> getString(R.string.error_message_empty_name)
@@ -127,8 +122,25 @@ class FileImportFragment : BaseFragment() {
                     }
                 }
             }
+            hasErrors.observe { hasErrors: Boolean ->
+                val sourceTextTabTitle = getString(R.string.tab_name_source_text)
+                sourceTextTab?.text =
+                    if (hasErrors)
+                        makeErrorSpannableStringFrom(sourceTextTabTitle) else
+                        sourceTextTabTitle
+            }
         }
     }
+
+    private fun makeErrorSpannableStringFrom(string: String) =
+        SpannableString(string).apply {
+            setSpan(
+                ErrorSpan(),
+                0,
+                string.lastIndex,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
 
     private fun showChangeDeckPopup() {
         requireChangeDeckPopup().show(
@@ -158,8 +170,8 @@ class FileImportFragment : BaseFragment() {
         return changeDeckPopup!!
     }
 
-    // called from ImportedTextEditorFragment if there are no errors at the start
-    fun goToCardsTab() {
+    // called from ImportedTextEditorFragment if there are errors at the start
+    fun goToSourceTextTab() {
         fileImportViewPager?.run {
             post { setCurrentItem(1, false) }
         }
@@ -167,6 +179,10 @@ class FileImportFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        tabLayoutMediator?.detach()
+        tabLayoutMediator = null
+        sourceTextTab = null
+        fileImportViewPager.adapter = null
         changeDeckPopup?.dismiss()
         changeDeckPopup = null
     }

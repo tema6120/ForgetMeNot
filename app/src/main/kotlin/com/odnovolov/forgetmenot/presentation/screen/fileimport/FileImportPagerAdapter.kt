@@ -12,12 +12,12 @@ class FileImportPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment
 
     override fun createFragment(position: Int): Fragment = when (position) {
         0 -> {
-            ImportedTextEditorDiScope.open { ImportedTextEditorDiScope() }
-            ImportedTextEditorFragment()
-        }
-        else -> {
             ImportedCardsDiScope.open { ImportedCardsDiScope() }
             ImportedCardsFragment()
+        }
+        else -> {
+            ImportedTextEditorDiScope.open { ImportedTextEditorDiScope() }
+            ImportedTextEditorFragment()
         }
     }
 }
