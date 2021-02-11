@@ -19,8 +19,9 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileFragment
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.editorColorScheme
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorEvent.EncodingIsChanged
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.editorColorScheme
+import kotlinx.android.synthetic.main.fragment_cards_file.*
 import kotlinx.android.synthetic.main.fragment_imported_text_editor.*
 import kotlinx.android.synthetic.main.popup_charsets.view.*
 import kotlinx.coroutines.flow.first
@@ -133,7 +134,9 @@ class ImportedTextEditorFragment : BaseFragment() {
                     val errorLinesAtStart = errorLines.first()
                     this@ImportedTextEditorFragment.errorLines = errorLinesAtStart
                     if (errorLinesAtStart.isNotEmpty()) {
-                        (parentFragment as CardsFileFragment).goToSourceTextTab()
+                        (parentFragment as CardsFileFragment).viewPager?.run {
+                            post { setCurrentItem(1, false) }
+                        }
                         Handler(Looper.myLooper()!!).post { goToNextError() }
                     }
                 }

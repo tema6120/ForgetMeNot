@@ -3,6 +3,20 @@ package com.odnovolov.forgetmenot.presentation.common
 import android.util.Log
 
 object Stopwatch {
+    private val startTimes: MutableMap<String, Long> = HashMap()
+
+    fun start(name: String = DEFAULT_NAME) {
+        startTimes[name] = System.nanoTime()
+    }
+
+    fun stop(name: String = DEFAULT_NAME) {
+        val stopTime = System.nanoTime()
+        val startTime = startTimes.remove(name) ?: return
+        val elapsedTime = stopTime - startTime
+        val formattedTime: String = formatTime(elapsedTime)
+        Log.d("odnovolov", "elapsedTime ($name) = $formattedTime")
+    }
+
     inline fun <R> measure(name: String = DEFAULT_NAME, crossinline block: () -> R): R {
         val startTime = System.nanoTime()
         val result = block()

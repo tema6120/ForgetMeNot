@@ -64,6 +64,7 @@ class FileImportFragment : BaseFragment() {
                     }
                 }
                 val fragment = CardsFileFragment.create(command.cardsFileId)
+                fragment.isAppearingWithAnimation = true
                 childFragmentManager.beginTransaction()
                     .setCustomAnimations(enterAnim, exitAnim)
                     .replace(R.id.fragmentContainer, fragment)

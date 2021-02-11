@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.SpannableString
 import android.text.Spanned
 import android.view.Gravity
@@ -45,6 +47,7 @@ class CardsFileFragment : BaseFragment() {
     private var changeDeckPopup: PopupWindow? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var sourceTextTab: TextView? = null
+    var isAppearingWithAnimation = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,16 +90,20 @@ class CardsFileFragment : BaseFragment() {
         renameDeckButton.setOnClickListener {
             controller?.dispatch(RenameDeckButtonClicked)
         }
-        setupViewPager()
+        val delay = if (isAppearingWithAnimation) 400L else 1L
+        Handler(Looper.myLooper()!!).postDelayed({
+            setupViewPager()
+            progressBar.isVisible = false
+        }, delay)
     }
 
     private fun setupViewPager() {
-        fileImportViewPager.offscreenPageLimit = 1
+        viewPager.offscreenPageLimit = 1
         val id = requireArguments().getLong(ARG_ID)
-        fileImportViewPager.adapter = CardsFileTabPagerAdapter(id, fragment = this)
+        viewPager.adapter = CardsFileTabPagerAdapter(id, fragment = this)
         tabLayoutMediator = TabLayoutMediator(
             fileImportTabLayout,
-            fileImportViewPager
+            viewPager
         ) { tab, position ->
             val customTab = View.inflate(requireContext(), R.layout.tab, null) as TextView
             customTab.text = getString(
@@ -212,19 +219,12 @@ class CardsFileFragment : BaseFragment() {
         return changeDeckPopup!!
     }
 
-    // called from ImportedTextEditorFragment if there are errors at the start
-    fun goToSourceTextTab() {
-        fileImportViewPager?.run {
-            post { setCurrentItem(1, false) }
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
         sourceTextTab = null
-        fileImportViewPager.adapter = null
+        viewPager.adapter = null
         changeDeckPopup?.dismiss()
         changeDeckPopup = null
     }
