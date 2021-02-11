@@ -36,9 +36,9 @@
         <action
                 android:id="@+id/nav_host_to_walking_mode_settings"
                 app:destination="@+id/walking_mode_settings"
-                app:enterAnim="@anim/slide_in_right"
+                app:enterAnim="@anim/slide_in_left"
                 app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
@@ -119,57 +119,57 @@
         <action
                 android:id="@+id/deck_editor_to_pronunciation"
                 app:destination="@id/pronunciation"
-                app:enterAnim="@anim/slide_in_right"
+                app:enterAnim="@anim/slide_in_left"
                 app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/deck_editor_to_card_inversion"
                 app:destination="@id/card_inversion"
-                app:enterAnim="@anim/slide_in_right"
+                app:enterAnim="@anim/slide_in_left"
                 app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/deck_editor_to_question_display"
                 app:destination="@id/question_display"
-                app:enterAnim="@anim/slide_in_right"
+                app:enterAnim="@anim/slide_in_left"
                 app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/deck_editor_to_testing_method"
                 app:destination="@id/testing_method"
-                app:enterAnim="@anim/slide_in_right"
+                app:enterAnim="@anim/slide_in_left"
                 app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/deck_editor_to_intervals"
                 app:destination="@id/intervals"
-                app:enterAnim="@anim/slide_in_right"
+                app:enterAnim="@anim/slide_in_left"
                 app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/deck_editor_to_pronunciation_plan"
                 app:destination="@id/pronunciation_plan"
-                app:enterAnim="@anim/slide_in_right"
+                app:enterAnim="@anim/slide_in_left"
                 app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
                 android:id="@+id/deck_editor_to_motivational_timer"
                 app:destination="@id/motivational_timer"
-                app:enterAnim="@anim/slide_in_right"
+                app:enterAnim="@anim/slide_in_left"
                 app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action

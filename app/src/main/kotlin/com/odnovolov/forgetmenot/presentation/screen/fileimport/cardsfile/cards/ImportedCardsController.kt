@@ -1,12 +1,12 @@
-package com.odnovolov.forgetmenot.presentation.screen.fileimport.cards
+package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards
 
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.State
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cards.ImportedCardsEvent.CardClicked
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cards.ImportedCardsEvent.SelectAllButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.CardClicked
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.SelectAllButtonClicked
 
 class ImportedCardsController(
     private val fileImporter: FileImporter,

@@ -38,6 +38,7 @@ class FileImporterStateProvider(
                         else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
                     }
                 SerializableCardsFile(
+                    cardsFile.id,
                     cardsFile.sourceBytes,
                     cardsFile.charset.name(),
                     cardsFile.text,
@@ -61,6 +62,7 @@ class FileImporterStateProvider(
                     }
                 }
                 CardsFile(
+                    id = serializableCardsFile.id,
                     sourceBytes = serializableCardsFile.sourceBytes,
                     charset = Charset.forName(serializableCardsFile.charsetName),
                     text = serializableCardsFile.text,
@@ -76,6 +78,7 @@ class FileImporterStateProvider(
 
 @Serializable
 data class SerializableCardsFile(
+    val id: Long,
     val sourceBytes: ByteArray,
     val charsetName: String,
     val text: String,

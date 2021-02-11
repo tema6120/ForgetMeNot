@@ -4,7 +4,7 @@ import android.graphics.Color
 import com.brackeys.ui.editorkit.model.ColorScheme
 import com.brackeys.ui.language.base.model.SyntaxScheme
 
-val myColorScheme = ColorScheme(
+val editorColorScheme = ColorScheme(
     textColor = Color.parseColor("#4C4C4C"),
     backgroundColor = Color.parseColor("#FFFFFF"),
     gutterColor = Color.parseColor("#FFFFFF"),

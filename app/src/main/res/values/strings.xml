@@ -84,6 +84,7 @@
     <!-- File import screen -->
 
     <string name="screen_title_file_import">File import</string>
+    <string name="text_skip_button">Skip</string>
     <string name="add_to">Add to:</string>
     <string name="deck_label_in_file_import_new">New deck</string>
     <string name="deck_label_in_file_import_existing">Existing deck</string>

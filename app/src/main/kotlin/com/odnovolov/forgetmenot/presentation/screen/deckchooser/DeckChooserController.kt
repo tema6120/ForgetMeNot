@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ChooseDeckWhereToImportCards
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.TargetDeckIsSelected
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.TargetDeckIsSelected
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
@@ -54,7 +54,7 @@ class DeckChooserController(
                 val deck: Deck = globalState.decks.first { it.id == event.deckId }
                 when (screenState.purpose) {
                     ChooseDeckWhereToImportCards -> {
-                        FileImportDiScope.getOrRecreate().controller
+                        FileImportDiScope.getOrRecreate().cardsFileController
                             .dispatch(TargetDeckIsSelected(deck))
                     }
                 }

@@ -206,4 +206,9 @@ class QAEditorFragment : BaseFragment() {
         resumePauseCoroutineScope!!.cancel()
         resumePauseCoroutineScope = null
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        controller?.dispose()
+    }
 }

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.fileimport.sourcetext
+package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
 import android.os.Bundle
 import android.os.Handler
@@ -17,9 +17,10 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportFragment
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.myColorScheme
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.sourcetext.ImportedTextEditorEvent.EncodingIsChanged
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileFragment
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.editorColorScheme
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorEvent.EncodingIsChanged
 import kotlinx.android.synthetic.main.fragment_imported_text_editor.*
 import kotlinx.android.synthetic.main.popup_charsets.view.*
 import kotlinx.coroutines.flow.first
@@ -27,8 +28,14 @@ import kotlinx.coroutines.launch
 import java.nio.charset.Charset
 
 class ImportedTextEditorFragment : BaseFragment() {
-    init {
-        ImportedTextEditorDiScope.reopenIfClosed()
+    companion object {
+        private const val ARG_ID = "ARG_ID"
+
+        fun create(id: Long) = ImportedTextEditorFragment().apply {
+            arguments = Bundle(1).apply {
+                putLong(ARG_ID, id)
+            }
+        }
     }
 
     private var controller: ImportedTextEditorController? = null
@@ -50,16 +57,17 @@ class ImportedTextEditorFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = ImportedTextEditorDiScope.getAsync() ?: return@launch
+            val diScope = FileImportDiScope.getAsync() ?: return@launch
+            controller = diScope.importedTextEditorController
+            val id = requireArguments().getLong(ARG_ID)
+            viewModel = diScope.importedTextEditorViewModel(id)
             editor.language = diScope.syntaxHighlighting
-            controller = diScope.controller
-            viewModel = diScope.viewModel
             observeViewModel(isRecreated = savedInstanceState != null)
         }
     }
 
     private fun setupView() {
-        editor.colorScheme = myColorScheme
+        editor.colorScheme = editorColorScheme
         charsetButton.setOnClickListener {
             showCharsetPopup()
         }
@@ -125,7 +133,7 @@ class ImportedTextEditorFragment : BaseFragment() {
                     val errorLinesAtStart = errorLines.first()
                     this@ImportedTextEditorFragment.errorLines = errorLinesAtStart
                     if (errorLinesAtStart.isNotEmpty()) {
-                        (parentFragment as FileImportFragment).goToSourceTextTab()
+                        (parentFragment as CardsFileFragment).goToSourceTextTab()
                         Handler(Looper.myLooper()!!).post { goToNextError() }
                     }
                 }
@@ -173,8 +181,10 @@ class ImportedTextEditorFragment : BaseFragment() {
 
     private fun subscribeCharsetPopupToViewModel() {
         viewCoroutineScope!!.launch {
-            val diScope = ImportedTextEditorDiScope.getAsync() ?: return@launch
-            diScope.viewModel.availableCharsets.observe { availableCharsets: List<CharsetItem> ->
+            val diScope = FileImportDiScope.getAsync() ?: return@launch
+            val id = requireArguments().getLong(ARG_ID)
+            val viewModel = diScope.importedTextEditorViewModel(id)
+            viewModel.availableCharsets.observe { availableCharsets: List<CharsetItem> ->
                 charsetAdapter!!.items = availableCharsets
             }
         }
@@ -189,12 +199,5 @@ class ImportedTextEditorFragment : BaseFragment() {
         super.onDestroyView()
         charsetPopup?.dismiss()
         charsetPopup = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (needToCloseDiScope()) {
-            ImportedTextEditorDiScope.close()
-        }
     }
 }

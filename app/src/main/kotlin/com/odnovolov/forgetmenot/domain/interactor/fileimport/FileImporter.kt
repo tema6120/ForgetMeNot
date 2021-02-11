@@ -54,6 +54,7 @@ class FileImporter(
                         val deckName = fileName.substringBeforeLast(".")
                         val deckWhereToAdd: AbstractDeck = NewDeck(deckName)
                         CardsFile(
+                            id = generateId(),
                             sourceBytes = content,
                             charset,
                             text,
@@ -69,6 +70,23 @@ class FileImporter(
     }
 
     private val currentFile get() = with(state) { files[currentPosition] }
+
+    fun setCurrentPosition(position: Int) {
+        if (position !in 0..state.files.lastIndex || position == state.currentPosition) return
+        state.currentPosition = position
+    }
+
+    fun skip() {
+        with(state) {
+            val position = currentPosition
+            if (currentPosition == files.lastIndex) {
+                currentPosition--
+            }
+            files = files.toMutableList().apply {
+                removeAt(position)
+            }
+        }
+    }
 
     fun setDeckWhereToAdd(deckWhereToAdd: AbstractDeck) {
         currentFile.deckWhereToAdd = deckWhereToAdd

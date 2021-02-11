@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.fileimport.sourcetext
+package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
 import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.base.model.ParseResult

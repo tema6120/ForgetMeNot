@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.fileimport.sourcetext
+package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
 import java.nio.charset.Charset
 

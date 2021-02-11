@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.sourcetext.clarifyingName
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.clarifyingName
 import kotlinx.android.synthetic.main.item_charset.view.*
 import java.nio.charset.Charset
 

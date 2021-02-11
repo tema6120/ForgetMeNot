@@ -89,6 +89,7 @@
     <!-- File import screen -->
 
     <string name="screen_title_file_import">Імпорт файлу</string>
+    <string name="text_skip_button">Пропустити</string>
     <string name="add_to">Додати до:</string>
     <string name="deck_label_in_file_import_new">Нова колода</string>
     <string name="deck_label_in_file_import_existing">Існуюча колода</string>

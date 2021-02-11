@@ -1,26 +1,16 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupWindow
-import android.widget.TextView
-import androidx.core.view.GravityCompat
-import com.brackeys.ui.editorkit.span.ErrorSpan
-import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
+import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition.*
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileFragment
 import kotlinx.android.synthetic.main.fragment_file_import.*
-import kotlinx.android.synthetic.main.popup_change_deck_for_import.view.*
-import kotlinx.android.synthetic.main.popup_charsets.view.*
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class FileImportFragment : BaseFragment() {
@@ -30,9 +20,6 @@ class FileImportFragment : BaseFragment() {
 
     private var controller: FileImportController? = null
     private lateinit var viewModel: FileImportViewModel
-    private var changeDeckPopup: PopupWindow? = null
-    private var tabLayoutMediator: TabLayoutMediator? = null
-    private var sourceTextTab: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,147 +31,54 @@ class FileImportFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
         viewCoroutineScope!!.launch {
             val diScope = FileImportDiScope.getAsync() ?: return@launch
-            controller = diScope.controller
-            viewModel = diScope.viewModel
+            controller = diScope.fileImportController
+            viewModel = diScope.fileImportViewModel
             observeViewModel()
+            controller!!.commands.observe(::executeCommand)
         }
     }
 
-    private fun setupView() {
-        previousButton.setOnClickListener {
-            controller?.dispatch(CancelButtonClicked)
-        }
-        nextButton.setOnClickListener {
-            controller?.dispatch(DoneButtonClicked)
-        }
-        renameDeckButton.setOnClickListener {
-            controller?.dispatch(RenameDeckButtonClicked)
-        }
-        setupViewPager()
-    }
-
-    private fun setupViewPager() {
-        fileImportViewPager.offscreenPageLimit = 1
-        fileImportViewPager.adapter = FileImportPagerAdapter(this)
-        tabLayoutMediator = TabLayoutMediator(
-            fileImportTabLayout,
-            fileImportViewPager
-        ) { tab, position ->
-            val customTab = View.inflate(requireContext(), R.layout.tab, null) as TextView
-            customTab.text = getString(
-                when (position) {
-                    0 -> R.string.tab_name_cards
-                    else -> R.string.tab_name_source_text
+    private fun executeCommand(command: FileImportController.Command) {
+        when (command) {
+            is Navigate -> {
+                val enterAnim: Int
+                val exitAnim: Int
+                when (command.filePageTransition) {
+                    SwipeToNext -> {
+                        enterAnim = R.anim.slide_in_left
+                        exitAnim = R.anim.slide_out_left
+                    }
+                    SwipeToPrevious -> {
+                        enterAnim = R.anim.slide_in_right
+                        exitAnim = R.anim.slide_out_right
+                    }
+                    SwipeToNextDroppingCurrent -> {
+                        enterAnim = R.anim.slide_in_left
+                        exitAnim = R.anim.slide_out_down_fading
+                    }
+                    SwipeToPreviousDroppingCurrent -> {
+                        enterAnim = R.anim.slide_in_right
+                        exitAnim = R.anim.slide_out_down_fading
+                    }
                 }
-            )
-            tab.customView = customTab
-            if (position == 1) {
-                sourceTextTab = customTab
+                val fragment = CardsFileFragment.create(command.cardsFileId)
+                childFragmentManager.beginTransaction()
+                    .setCustomAnimations(enterAnim, exitAnim)
+                    .replace(R.id.fragmentContainer, fragment)
+                    .commit()
             }
-        }.apply { attach() }
+        }
     }
 
     private fun observeViewModel() {
-        with(viewModel) {
-            combine(deckName, deckNameCheckResult) { deckName, deckNameCheckResult ->
-                deckNameTextView.text =
-                    if (deckNameCheckResult != NameCheckResult.Ok)
-                        makeErrorSpannableStringFrom(deckName) else
-                        deckName
-                deckNameTextView.error = when (deckNameCheckResult) {
-                    NameCheckResult.Ok -> null
-                    NameCheckResult.Empty -> getString(R.string.error_message_empty_name)
-                    NameCheckResult.Occupied -> getString(R.string.error_message_occupied_name)
-                }
-                if (deckNameCheckResult != NameCheckResult.Ok) {
-                    deckNameTextView.requestFocus()
-                }
-            }.observe()
-            isNewDeck.observe { isNewDeck: Boolean ->
-                deckLabelTextView.setText(
-                    if (isNewDeck)
-                        R.string.deck_label_in_file_import_new else
-                        R.string.deck_label_in_file_import_existing
-                )
-                deckLabelTextView.setBackgroundResource(
-                    if (isNewDeck)
-                        R.drawable.background_new_deck else
-                        R.drawable.deck_label_in_file_import_existing
-                )
-                changeDeckButton.setOnClickListener {
-                    if (isNewDeck) {
-                        controller?.dispatch(AddCardsToExistingDeckButtonClicked)
-                    } else {
-                        showChangeDeckPopup()
-                    }
-                }
-            }
-            hasErrors.observe { hasErrors: Boolean ->
-                val sourceTextTabTitle = getString(R.string.tab_name_source_text)
-                sourceTextTab?.text =
-                    if (hasErrors)
-                        makeErrorSpannableStringFrom(sourceTextTabTitle) else
-                        sourceTextTabTitle
-            }
+        if (childFragmentManager.fragments.isEmpty()) {
+            val fragment = CardsFileFragment.create(viewModel.currentCardsFileId)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .commitNow()
         }
-    }
-
-    private fun makeErrorSpannableStringFrom(string: String) =
-        SpannableString(string).apply {
-            setSpan(
-                ErrorSpan(),
-                0,
-                string.lastIndex,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-
-    private fun showChangeDeckPopup() {
-        requireChangeDeckPopup().show(
-            anchor = changeDeckButton,
-            gravity = Gravity.TOP or GravityCompat.END
-        )
-    }
-
-    private fun requireChangeDeckPopup(): PopupWindow {
-        if (changeDeckPopup == null) {
-            val content: View = View.inflate(
-                requireContext(),
-                R.layout.popup_change_deck_for_import,
-                null
-            ).apply {
-                newDeckButton.setOnClickListener {
-                    changeDeckPopup!!.dismiss()
-                    controller?.dispatch(AddCardsToNewDeckButtonClicked)
-                }
-                existingDeckButton.setOnClickListener {
-                    changeDeckPopup!!.dismiss()
-                    controller?.dispatch(AddCardsToExistingDeckButtonClicked)
-                }
-            }
-            changeDeckPopup = LightPopupWindow(content)
-        }
-        return changeDeckPopup!!
-    }
-
-    // called from ImportedTextEditorFragment if there are errors at the start
-    fun goToSourceTextTab() {
-        fileImportViewPager?.run {
-            post { setCurrentItem(1, false) }
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        tabLayoutMediator?.detach()
-        tabLayoutMediator = null
-        sourceTextTab = null
-        fileImportViewPager.adapter = null
-        changeDeckPopup?.dismiss()
-        changeDeckPopup = null
     }
 
     override fun onDestroy() {

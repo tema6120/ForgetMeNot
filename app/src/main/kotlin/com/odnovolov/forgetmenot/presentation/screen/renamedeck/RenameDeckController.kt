@@ -12,7 +12,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.SubmittedNameForNewDeck
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.SubmittedNameForNewDeck
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.OkButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.TextChanged
@@ -39,7 +39,7 @@ class RenameDeckController(
                     }
                     ToRenameNewDeckForFileImport -> {
                         if (checkDeckName(newName, globalState) == NameCheckResult.Ok) {
-                            FileImportDiScope.getOrRecreate().controller
+                            FileImportDiScope.getOrRecreate().cardsFileController
                                 .dispatch(SubmittedNameForNewDeck(dialogState.typedDeckName))
                             navigator.navigateUp()
                         }

@@ -1,16 +1,25 @@
-package com.odnovolov.forgetmenot.presentation.screen.fileimport.sourcetext
+package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import java.nio.charset.Charset
 
 class ImportedTextEditorViewModel(
+    private val cardsFileId: Long,
     private val fileImporterState: FileImporter.State
 ) {
-    val currentCharset: Flow<Charset> = fileImporterState.files[0].flowOf(CardsFile::charset)
+    private val cardsFile: Flow<CardsFile> =
+        fileImporterState.flowOf(FileImporter.State::files)
+            .map { files: List<CardsFile> ->
+                files.find { file: CardsFile -> file.id == cardsFileId }
+            }
+            .filterNotNull()
+
+    val currentCharset: Flow<Charset> = cardsFile.flatMapLatest { cardsFile: CardsFile ->
+        cardsFile.flowOf(CardsFile::charset)
+    }
 
     @OptIn(ExperimentalStdlibApi::class)
     val availableCharsets: Flow<List<CharsetItem>> = currentCharset.map { currentCharset: Charset ->
@@ -29,11 +38,13 @@ class ImportedTextEditorViewModel(
         }
     }
 
-    val sourceTextWithNewEncoding: Flow<String> = currentCharset.map {
-        fileImporterState.files[0].text
+    val sourceTextWithNewEncoding: Flow<String> = currentCharset.mapNotNull {
+        fileImporterState.files.find { file: CardsFile -> file.id == cardsFileId }?.text
     }
 
-    val errorLines: Flow<List<Int>> = fileImporterState.files[0].flowOf(CardsFile::errorLines)
+    val errorLines: Flow<List<Int>> = cardsFile.flatMapLatest { cardsFile: CardsFile ->
+        cardsFile.flowOf(CardsFile::errorLines)
+    }
 
     val numberOfErrors: Flow<Int> = errorLines.map { errorLines: List<Int> ->
         var numberOfErrors = 0
