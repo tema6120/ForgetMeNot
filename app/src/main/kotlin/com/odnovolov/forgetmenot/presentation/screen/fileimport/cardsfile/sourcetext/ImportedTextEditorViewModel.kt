@@ -2,6 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourc
 
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.ErrorBlock
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
 import kotlinx.coroutines.flow.*
 import java.nio.charset.Charset
@@ -42,19 +44,8 @@ class ImportedTextEditorViewModel(
         fileImporterState.files.find { file: CardsFile -> file.id == cardsFileId }?.text
     }
 
-    val errorLines: Flow<List<Int>> = cardsFile.flatMapLatest { cardsFile: CardsFile ->
-        cardsFile.flowOf(CardsFile::errorLines)
+    val errors: Flow<List<ErrorBlock>> = cardsFile.flatMapLatest { cardsFile: CardsFile ->
+        cardsFile.flowOf(CardsFile::errors)
     }
-
-    val numberOfErrors: Flow<Int> = errorLines.map { errorLines: List<Int> ->
-        var numberOfErrors = 0
-        var previousErrorLine = -2
-        for (errorLine in errorLines) {
-            if (previousErrorLine + 1 != errorLine) {
-                numberOfErrors++
-            }
-            previousErrorLine = errorLine
-        }
-        numberOfErrors
-    }
+        .flowOn(businessLogicThread)
 }

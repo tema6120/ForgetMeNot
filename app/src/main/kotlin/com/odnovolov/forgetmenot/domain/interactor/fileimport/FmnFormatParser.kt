@@ -9,16 +9,17 @@ class FmnFormatParser : Parser() {
     private val cardContentRegex = Regex("""[[:blank:]]*[\S]([\s\S]*[\S]|)""")
 
     private lateinit var text: String
-    private lateinit var cardMarkups: MutableList<CardMarkup>
-    private lateinit var errorLines: MutableList<Int>
-    private lateinit var newLineCharLocations: List<Int>
+    private val cardMarkups: MutableList<CardMarkup> = ArrayList()
+    private val errors: MutableList<ErrorBlock> = ArrayList()
+    private val newLineCharLocations: MutableList<Int> = ArrayList()
 
     override fun parse(text: String): ParserResult {
         this.text = text
-        cardMarkups = ArrayList()
-        errorLines = ArrayList()
-        newLineCharLocations = text.mapIndexedNotNull { index, ch ->
-            if (ch == '\n') index else null
+        cardMarkups.clear()
+        errors.clear()
+        newLineCharLocations.clear()
+        text.forEachIndexed { index, ch ->
+            if (ch == '\n') newLineCharLocations.add(index)
         }
         val matchResults: List<MatchResult> = cardBlockSeparatorRegex.findAll(text).toList()
         var cardBlockStartIndex = 0
@@ -35,14 +36,14 @@ class FmnFormatParser : Parser() {
                     text.lastIndex
             parseCardBlock(cardBlockStartIndex, cardBlockEndIndex)
         }
-        return ParserResult(cardMarkups, errorLines)
+        return ParserResult(cardMarkups, errors)
     }
 
     private fun parseCardBlock(cardBlockStartIndex: Int, cardBlockEndIndex: Int) {
         val cardBlock: String = text.substring(cardBlockStartIndex..cardBlockEndIndex)
         if (cardBlock.isBlank()) return
         if (!cardBlock.matches(cardRegex)) {
-            commitErrorLines(cardBlockStartIndex, cardBlockEndIndex)
+            commitErrorBlock(cardBlockStartIndex, cardBlockEndIndex)
             return
         }
         val cardMatchResult = cardRegex.find(cardBlock)!!
@@ -50,14 +51,14 @@ class FmnFormatParser : Parser() {
         val questionGroup: MatchGroup = cardMatchResult.groups[1]!!
         val questionMatchResult = cardContentRegex.find(questionGroup.value)
         if (questionMatchResult == null) {
-            commitErrorLines(cardBlockStartIndex, cardBlockEndIndex)
+            commitErrorBlock(cardBlockStartIndex, cardBlockEndIndex)
             return
         }
 
         val answerGroup: MatchGroup = cardMatchResult.groups[3]!!
         val answerMatchResult = cardContentRegex.find(answerGroup.value)
         if (answerMatchResult == null) {
-            commitErrorLines(cardBlockStartIndex, cardBlockEndIndex)
+            commitErrorBlock(cardBlockStartIndex, cardBlockEndIndex)
             return
         }
 
@@ -77,8 +78,9 @@ class FmnFormatParser : Parser() {
         cardMarkups.add(cardPrototype)
     }
 
-    private fun commitErrorLines(errorStartIndex: Int, errorEndIndex: Int) {
-        if (newLineCharLocations.isEmpty()) {
+    private fun commitErrorBlock(errorStartIndex: Int, errorEndIndex: Int) {
+        val errorLines: MutableList<Int> = ArrayList()
+         if (newLineCharLocations.isEmpty()) {
             errorLines.add(0)
         } else {
             repeat(newLineCharLocations.size) { lineNumber: Int ->
@@ -87,19 +89,20 @@ class FmnFormatParser : Parser() {
                     else newLineCharLocations[lineNumber - 1] + 1
                 val lineEndIndex = newLineCharLocations[lineNumber]
                 when {
-                    errorEndIndex < lineStartIndex -> return
+                    errorEndIndex < lineStartIndex -> return@repeat
                     errorStartIndex <= lineEndIndex -> errorLines.add(lineNumber)
                 }
             }
             if (text.last() != '\n') {
-                val lineNumber = newLineCharLocations.size
-                val lineStartIndex = newLineCharLocations.last() + 1
-                val lineEndIndex = text.lastIndex
-                when {
-                    errorEndIndex < lineStartIndex -> return
-                    errorStartIndex <= lineEndIndex -> errorLines.add(lineNumber)
+                val lastLineStartIndex = newLineCharLocations.last() + 1
+                if (lastLineStartIndex <= errorEndIndex) {
+                    val lastLineNumber = newLineCharLocations.size
+                    errorLines.add(lastLineNumber)
                 }
             }
+
         }
+        val errorBlock = ErrorBlock(errorLines)
+        errors.add(errorBlock)
     }
 }

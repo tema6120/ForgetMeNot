@@ -4,9 +4,13 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.Ok
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.CardMarkup
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.ErrorBlock
 import com.odnovolov.forgetmenot.domain.removeFirst
 import java.nio.charset.Charset
 
@@ -39,7 +43,7 @@ class FileImporter(
                             }
                         }
                         val parseResult = parser.parse(text)
-                        val errorLines: List<Int> = parseResult.errorLines
+                        val errors: List<ErrorBlock> = parseResult.errors
                         val cardPrototypes: List<CardPrototype> =
                             parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
                                 val question: String = text.substring(cardMarkup.questionRange)
@@ -59,7 +63,7 @@ class FileImporter(
                             charset,
                             text,
                             parser,
-                            errorLines,
+                            errors,
                             cardPrototypes,
                             deckWhereToAdd
                         )
@@ -78,6 +82,7 @@ class FileImporter(
 
     fun skip() {
         with(state) {
+            if (files.size <= 1) return
             val position = currentPosition
             if (currentPosition == files.lastIndex) {
                 currentPosition--
@@ -106,7 +111,7 @@ class FileImporter(
     fun updateText(text: String): Parser.ParserResult {
         val parseResult: Parser.ParserResult = currentFile.parser.parse(text)
         currentFile.text = text
-        currentFile.errorLines = parseResult.errorLines
+        currentFile.errors = parseResult.errors
         val oldCardPrototypes: MutableList<CardPrototype> =
             currentFile.cardPrototypes.toMutableList()
         currentFile.cardPrototypes = parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
@@ -145,18 +150,18 @@ class FileImporter(
     }
 
     fun import(): List<ImportResult> {
-        val results: List<ImportResult> = state.files.map { cardsFile: CardsFile ->
+        return state.files.map { cardsFile: CardsFile ->
             val deckWhereToAdd = cardsFile.deckWhereToAdd
             if (deckWhereToAdd is NewDeck) {
                 val nameCheckResult: NameCheckResult =
                     checkDeckName(deckWhereToAdd.deckName, globalState)
-                if (nameCheckResult != NameCheckResult.Ok) {
-                    return@map ImportResult.Failure
+                if (nameCheckResult != Ok) {
+                    return@map Failure
                 }
             }
             val cardPrototypes: List<CardPrototype> = cardsFile.cardPrototypes
             if (cardPrototypes.isEmpty()) {
-                return@map ImportResult.Failure
+                return@map Failure
             }
             val newCards: CopyableList<Card> = cardPrototypes
                 .filter { cardPrototype -> cardPrototype.isSelected }
@@ -170,20 +175,16 @@ class FileImporter(
                         cards = newCards
                     )
                     globalState.decks = (globalState.decks + deck).toCopyableList()
-                    return@map ImportResult.Success(deck)
+                    return@map Success(deck)
                 }
                 is ExistingDeck -> {
                     deckWhereToAdd.deck.cards =
                         (deckWhereToAdd.deck.cards + newCards).toCopyableList()
-                    return@map ImportResult.Success(deckWhereToAdd.deck)
+                    return@map Success(deckWhereToAdd.deck)
                 }
                 else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
             }
         }
-        state.files = state.files.filterIndexed { index, _ ->
-            results[index] == ImportResult.Failure
-        }
-        return results
     }
 
     sealed class ImportResult {

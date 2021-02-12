@@ -1,18 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.brackeys.ui.editorkit.span.ErrorSpan
 import com.brackeys.ui.editorkit.widget.TextProcessor
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.ErrorBlock
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
@@ -43,7 +43,7 @@ class ImportedTextEditorFragment : BaseFragment() {
     private lateinit var viewModel: ImportedTextEditorViewModel
     private var charsetPopup: PopupWindow? = null
     private var charsetAdapter: CharsetAdapter? = null
-    private var errorLines: List<Int> = emptyList()
+    private var errors: List<ErrorBlock> = emptyList()
     private var lastShownErrorLine = -1
 
     override fun onCreateView(
@@ -90,24 +90,17 @@ class ImportedTextEditorFragment : BaseFragment() {
     }
 
     private fun goToNextError() {
-        if (errorLines.isEmpty()) return
+        if (errors.isEmpty()) return
         determineNextErrorLine()
         editorScrollView.smoothScrollTo(0, determineErrorLineVerticalPosition(), 500)
     }
 
     private fun determineNextErrorLine() {
-        var found = false
-        var previousErrorLine = -2
-        for (errorLine in errorLines) {
-            if (previousErrorLine + 1 != errorLine && errorLine > lastShownErrorLine) {
-                lastShownErrorLine = errorLine
-                found = true
-                break
-            }
-            previousErrorLine = errorLine
-        }
-        if (!found) {
-            lastShownErrorLine = errorLines.first()
+        try {
+            val nextErrorBlock = errors.find { it.lines[0] > lastShownErrorLine } ?: errors.first()
+            lastShownErrorLine = nextErrorBlock.lines[0]
+        } catch(e: IndexOutOfBoundsException) {
+            e.printStackTrace()
         }
     }
 
@@ -120,28 +113,17 @@ class ImportedTextEditorFragment : BaseFragment() {
     private fun observeViewModel(isRecreated: Boolean) {
         with(viewModel) {
             sourceTextWithNewEncoding.observe(editor::setTextContent)
-            errorLines.observe { errorLines: List<Int> ->
-                errorLines.forEach { errorLine: Int ->
-                    editor.setErrorLine(errorLine + 1)
-                }
-                if (errorLines.isEmpty()) {
-                    editor.clearErrorLines()
-                }
-                this@ImportedTextEditorFragment.errorLines = errorLines
-            }
-            if (!isRecreated) {
-                viewCoroutineScope!!.launch {
-                    val errorLinesAtStart = errorLines.first()
-                    this@ImportedTextEditorFragment.errorLines = errorLinesAtStart
-                    if (errorLinesAtStart.isNotEmpty()) {
-                        (parentFragment as CardsFileFragment).viewPager?.run {
-                            post { setCurrentItem(1, false) }
-                        }
-                        Handler(Looper.myLooper()!!).post { goToNextError() }
+            errors.observe { errors: List<ErrorBlock> ->
+                this@ImportedTextEditorFragment.errors = errors
+                errors.forEach { errorBlock: ErrorBlock ->
+                    errorBlock.lines.forEach { errorLine: Int ->
+                        editor.setErrorLine(errorLine + 1)
                     }
                 }
-            }
-            numberOfErrors.observe { numberOfErrors: Int ->
+                if (errors.isEmpty()) {
+                    editor.clearErrorLines()
+                }
+                val numberOfErrors = errors.size
                 errorButton.isVisible = numberOfErrors > 0
                 errorLineView.isVisible = numberOfErrors > 0
                 if (numberOfErrors > 0) {
@@ -150,6 +132,20 @@ class ImportedTextEditorFragment : BaseFragment() {
                         numberOfErrors,
                         numberOfErrors
                     )
+                }
+            }
+            if (!isRecreated) {
+                viewCoroutineScope!!.launch {
+                    val errorLinesAtStart = errors.first()
+                    this@ImportedTextEditorFragment.errors = errorLinesAtStart
+                    if (errorLinesAtStart.isNotEmpty()) {
+                        (parentFragment as CardsFileFragment).viewPager?.run {
+                            post { setCurrentItem(1, false) }
+                        }
+                        editor.doOnLayout {
+                            editor.post { goToNextError() }
+                        }
+                    }
                 }
             }
             currentCharset.observe { charset: Charset ->

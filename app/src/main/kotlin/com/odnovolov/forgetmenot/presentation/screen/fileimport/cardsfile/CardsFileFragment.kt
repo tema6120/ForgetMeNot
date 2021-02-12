@@ -90,8 +90,9 @@ class CardsFileFragment : BaseFragment() {
         renameDeckButton.setOnClickListener {
             controller?.dispatch(RenameDeckButtonClicked)
         }
-        val delay = if (isAppearingWithAnimation) 400L else 1L
+        val delay = if (isAppearingWithAnimation) 450L else 1L
         Handler(Looper.myLooper()!!).postDelayed({
+            if (viewCoroutineScope == null) return@postDelayed
             setupViewPager()
             progressBar.isVisible = false
         }, delay)
