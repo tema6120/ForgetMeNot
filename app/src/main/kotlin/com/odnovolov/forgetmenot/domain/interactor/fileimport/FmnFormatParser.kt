@@ -76,14 +76,21 @@ class FmnFormatParser : Parser() {
         val questionEnd: Int =
             cardBlockStartIndex + questionGroup.range.first + questionMatchResult.range.last
         val questionRange = questionStart..questionEnd
+        val questionText = text.substring(questionRange)
 
         val answerStart: Int =
             cardBlockStartIndex + answerGroup.range.first + answerMatchResult.range.first
         val answerEnd: Int =
             cardBlockStartIndex + answerGroup.range.first + answerMatchResult.range.last
         val answerRange = answerStart..answerEnd
+        val answerText = text.substring(answerRange)
 
-        val cardPrototype = CardMarkup(questionRange, answerRange)
+        val cardPrototype = CardMarkup(
+            questionText,
+            questionRange,
+            answerText,
+            answerRange
+        )
         cardMarkups.add(cardPrototype)
     }
 }

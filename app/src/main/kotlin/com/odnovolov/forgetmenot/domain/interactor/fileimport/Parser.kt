@@ -9,7 +9,9 @@ abstract class Parser {
     )
 
     data class CardMarkup(
-        val questionRange: IntRange,
-        val answerRange: IntRange
+        val questionText: String,
+        val questionRange: IntRange?,
+        val answerText: String,
+        val answerRange: IntRange?
     )
 }

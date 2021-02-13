@@ -47,8 +47,8 @@ class FileImporter(
                         val errorRanges: List<IntRange> = parseResult.errorRanges
                         val cardPrototypes: List<CardPrototype> =
                             parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
-                                val question: String = text.substring(cardMarkup.questionRange)
-                                val answer: String = text.substring(cardMarkup.answerRange)
+                                val question: String = cardMarkup.questionText
+                                val answer: String = cardMarkup.answerText
                                 CardPrototype(
                                     id = generateId(),
                                     question,
@@ -116,8 +116,8 @@ class FileImporter(
         val oldCardPrototypes: MutableList<CardPrototype> =
             currentFile.cardPrototypes.toMutableList()
         currentFile.cardPrototypes = parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
-            val question: String = text.substring(cardMarkup.questionRange)
-            val answer: String = text.substring(cardMarkup.answerRange)
+            val question: String = cardMarkup.questionText
+            val answer: String = cardMarkup.answerText
             oldCardPrototypes.removeFirst { cardPrototype: CardPrototype ->
                 cardPrototype.question == question && cardPrototype.answer == answer
             } ?: CardPrototype(

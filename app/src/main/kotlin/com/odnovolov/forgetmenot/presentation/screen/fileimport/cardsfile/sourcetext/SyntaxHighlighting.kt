@@ -36,18 +36,22 @@ class SyntaxHighlighting(
                     val parserResult: Parser.ParserResult = filerImporter.updateText(sourceCode)
                     val spans: MutableList<SyntaxHighlightSpan> = ArrayList()
                     for (cardMarkup in parserResult.cardMarkups) {
-                        val questionSpan = SyntaxHighlightSpan(
-                            StyleSpan(syntaxScheme.operatorColor, bold = true),
-                            cardMarkup.questionRange.first,
-                            cardMarkup.questionRange.last + 1
-                        )
-                        val answerSpan = SyntaxHighlightSpan(
-                            StyleSpan(syntaxScheme.keywordColor, bold = true),
-                            cardMarkup.answerRange.first,
-                            cardMarkup.answerRange.last + 1
-                        )
-                        spans.add(questionSpan)
-                        spans.add(answerSpan)
+                        cardMarkup.questionRange?.let { questionRange: IntRange ->
+                            val questionSpan = SyntaxHighlightSpan(
+                                StyleSpan(syntaxScheme.operatorColor, bold = true),
+                                questionRange.first,
+                                questionRange.last + 1
+                            )
+                            spans.add(questionSpan)
+                        }
+                        cardMarkup.answerRange?.let { answerRange: IntRange ->
+                            val answerSpan = SyntaxHighlightSpan(
+                                StyleSpan(syntaxScheme.keywordColor, bold = true),
+                                answerRange.first,
+                                answerRange.last + 1
+                            )
+                            spans.add(answerSpan)
+                        }
                     }
                     withContext(Dispatchers.Main) {
                         stylingResult.invoke(spans)
@@ -81,7 +85,7 @@ class SyntaxHighlighting(
         val EmptySuggestionProvider = object : SuggestionProvider {
             override fun clearLines() {}
             override fun deleteLine(lineNumber: Int) {}
-            override fun getAll(): Set<Suggestion>  = emptySet()
+            override fun getAll(): Set<Suggestion> = emptySet()
             override fun processLine(lineNumber: Int, text: String) {}
         }
     }

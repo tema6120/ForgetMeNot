@@ -37,22 +37,38 @@ class CsvParser(
                     errors.add(recordStart..recordEnd)
                     continue
                 }
-                val question = csvRecord[0].trim()
-                val answer = csvRecord[1].trim()
-                if (question.isEmpty() || answer.isEmpty()) {
+                val questionText = csvRecord[0].trim()
+                val answerText = csvRecord[1].trim()
+                if (questionText.isEmpty() || answerText.isEmpty()) {
                     errors.add(recordStart..recordEnd)
                     continue
                 }
 
-                val questionStart = text.indexOf(question, startIndex = recordStart)
-                val questionEnd = questionStart + question.length - 1
-                val questionRange = questionStart..questionEnd
+                // naive way to find position
+                val questionStart = text.indexOf(questionText, startIndex = recordStart)
+                val questionEnd = questionStart + questionText.length - 1
+                val questionRange =
+                    if (questionStart != -1) {
+                        questionStart..questionEnd
+                    } else {
+                        null
+                    }
 
-                val answerStart = text.indexOf(answer, startIndex = questionEnd)
-                val answerEnd = answerStart + answer.length - 1
-                val answerRange = answerStart..answerEnd
+                val answerStart = text.indexOf(answerText, startIndex = questionEnd)
+                val answerEnd = answerStart + answerText.length - 1
+                val answerRange =
+                    if (answerStart != -1) {
+                        answerStart..answerEnd
+                    } else {
+                        null
+                    }
 
-                val cardPrototype = CardMarkup(questionRange, answerRange)
+                val cardPrototype = CardMarkup(
+                    questionText,
+                    questionRange,
+                    answerText,
+                    answerRange
+                )
                 cardMarkups.add(cardPrototype)
             }
         } catch (e: Exception) {
