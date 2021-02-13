@@ -29,7 +29,7 @@ import java.nio.charset.Charset
 
 class ImportedTextEditorFragment : BaseFragment() {
     companion object {
-        private const val ARG_ID = "ARG_ID"
+        const val ARG_ID = "ARG_ID"
 
         fun create(id: Long) = ImportedTextEditorFragment().apply {
             arguments = Bundle(1).apply {

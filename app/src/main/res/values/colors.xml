@@ -89,4 +89,6 @@
     <color name="text_search_icon">#9900424D</color>
     <color name="button_disabled">#1F000000</color>
     <color name="card_label_example">#9A92F6</color>
+    <color name="file_format_label">#9C30E8</color>
+    <color name="icon_file_format">#B061E8</color>
 </resources>

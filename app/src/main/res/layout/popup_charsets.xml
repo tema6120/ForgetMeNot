@@ -3,10 +3,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="20dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         tools:background="@drawable/background_popup_dark"
+        tools:elevation="20dp"
         tools:layout_gravity="center">
 
     <ImageView

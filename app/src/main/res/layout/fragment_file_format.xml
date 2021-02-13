@@ -1,0 +1,51 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        tools:layout_height="50dp"
+        tools:layout_width="match_parent">
+
+    <TextView
+            android:id="@+id/fileFormatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/background_outlined_button_on_dark"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_file_import_screen_control_panel_button"
+            app:drawableEndCompat="@drawable/ic_round_expand_more_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="CSV | Excel" />
+
+    <TextView
+            android:id="@+id/formatLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_file_format_label"
+            android:paddingStart="6dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="1dp"
+            android:text="@string/label_file_format"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_file_import_screen_label_for_control_panel_button"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/fileFormatButton"
+            app:layout_constraintEnd_toEndOf="@+id/fileFormatButton"
+            app:layout_constraintStart_toStartOf="@+id/fileFormatButton"
+            app:layout_constraintTop_toTopOf="@+id/fileFormatButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

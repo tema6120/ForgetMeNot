@@ -1,0 +1,135 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="270dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        tools:background="@drawable/background_popup_dark"
+        tools:elevation="20dp"
+        tools:layout_gravity="center">
+
+    <ImageView
+            android:id="@+id/fileFormatIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/description_file_format_icon"
+            android:src="@drawable/ic_integration_instructions_24"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title"
+            app:tint="@color/icon_file_format" />
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/popup_title_file_format"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_popup_in_exercise_title"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/helpButton"
+            app:layout_constraintStart_toEndOf="@+id/fileFormatIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+            android:id="@+id/helpButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ripple_light_borderless"
+            android:contentDescription="@string/description_file_format_icon"
+            android:src="@drawable/ic_round_help_outline_18"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/title"
+            app:layout_constraintTop_toTopOf="@id/title" />
+
+    <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/divider_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <FrameLayout
+            android:id="@+id/fmnFormatRadioButtonFrame"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider">
+
+        <RadioButton
+                android:id="@+id/fmnFormatRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_light_borderless"
+                android:button="@null"
+                android:clickable="false"
+                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
+                android:text="@string/item_file_format_fmn_format"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_radiobutton"
+                android:visibility="visible"
+                app:drawableTint="@android:color/white"
+                tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/dsvFormatRadioButtonFrame"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fmnFormatRadioButtonFrame">
+
+        <TextView
+                android:id="@+id/dsvFormatRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_light_borderless"
+                android:button="@null"
+                android:clickable="false"
+                android:drawableEnd="@drawable/ic_round_expand_more_32"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
+                android:text="@string/text_dsv_format_radiobutton"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_radiobutton"
+                android:visibility="visible"
+                app:drawableTint="@android:color/white"
+                tools:visibility="visible" />
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

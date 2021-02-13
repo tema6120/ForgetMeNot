@@ -106,6 +106,11 @@
     </plurals>
     <string name="description_undo_button">Скасувати</string>
     <string name="description_redo_button">Повторити</string>
+    <string name="label_file_format">Формат</string>
+    <string name="description_file_format_icon">іконка \"Формат файлу\"</string>
+    <string name="popup_title_file_format">Формат</string>
+    <string name="item_file_format_fmn_format">\'Q:A:\' формат</string>
+    <string name="text_dsv_format_radiobutton">Значення, розділені розділювачем</string>
     <string name="label_encoding">Кодування</string>
     <string name="description_charset_icon">іконка \"Кодування\"</string>
     <string name="popup_title_charset">Кодування</string>

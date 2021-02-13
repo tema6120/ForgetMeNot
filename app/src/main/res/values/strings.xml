@@ -99,9 +99,15 @@
     </plurals>
     <string name="description_undo_button">Undo</string>
     <string name="description_redo_button">Redo</string>
+    <string name="label_file_format">Format</string>
+    <string name="description_file_format_icon">File format icon</string>
+    <string name="popup_title_file_format">Format</string>
+    <string name="fmn_file_format_abbreviation" translatable="false">Q:A:</string>
+    <string name="item_file_format_fmn_format">\'Q:A:\' format</string>
+    <string name="text_dsv_format_radiobutton">Delimiter-separated values</string>
     <string name="label_encoding">Encoding</string>
     <string name="description_charset_icon">Encoding icon</string>
-    <string name="popup_title_charset">Encodings</string>
+    <string name="popup_title_charset">Encoding</string>
     <plurals name="title_cards_selection_toolbar_in_file_import">
         <item quantity="one">%d card</item>
         <item quantity="other">%d cards</item>

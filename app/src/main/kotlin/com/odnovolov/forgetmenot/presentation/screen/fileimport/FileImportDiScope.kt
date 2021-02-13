@@ -11,6 +11,8 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorController
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorViewModel
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.SyntaxHighlighting
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat.FileFormatController
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat.FileFormatViewModel
 
 class FileImportDiScope private constructor(
     initialFileImporterState: FileImporter.State? = null
@@ -78,6 +80,15 @@ class FileImportDiScope private constructor(
         fileImporter
     )
 
+    val fileFormatController = FileFormatController(
+        AppDiScope.get().longTermStateSaver
+    )
+
+    fun fileFormatViewModel(id: Long) = FileFormatViewModel(
+        id,
+        fileImporterState
+    )
+
     companion object : DiScopeManager<FileImportDiScope>() {
         fun create(fileImporterState: FileImporter.State) = FileImportDiScope(fileImporterState)
 
@@ -90,6 +101,7 @@ class FileImportDiScope private constructor(
                 importedCardsController.dispose()
                 importedTextEditorController.dispose()
                 syntaxHighlighting.dispose()
+                fileFormatController.dispose()
             }
         }
     }
