@@ -12,7 +12,6 @@ import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.brackeys.ui.editorkit.span.ErrorSpan
 import com.brackeys.ui.editorkit.widget.TextProcessor
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.ErrorBlock
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
@@ -99,7 +98,7 @@ class ImportedTextEditorFragment : BaseFragment() {
         try {
             val nextErrorBlock = errors.find { it.lines[0] > lastShownErrorLine } ?: errors.first()
             lastShownErrorLine = nextErrorBlock.lines[0]
-        } catch(e: IndexOutOfBoundsException) {
+        } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
     }

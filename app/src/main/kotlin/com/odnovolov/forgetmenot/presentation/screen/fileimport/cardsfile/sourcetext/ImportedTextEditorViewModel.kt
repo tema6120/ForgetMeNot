@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourc
 
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.ErrorBlock
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
 import kotlinx.coroutines.flow.*
@@ -45,7 +44,8 @@ class ImportedTextEditorViewModel(
     }
 
     val errors: Flow<List<ErrorBlock>> = cardsFile.flatMapLatest { cardsFile: CardsFile ->
-        cardsFile.flowOf(CardsFile::errors)
+        cardsFile.flowOf(CardsFile::errorRanges)
+            .map { errorRanges: List<IntRange> -> findErrorBlocks(cardsFile.text, errorRanges) }
     }
         .flowOn(businessLogicThread)
 }

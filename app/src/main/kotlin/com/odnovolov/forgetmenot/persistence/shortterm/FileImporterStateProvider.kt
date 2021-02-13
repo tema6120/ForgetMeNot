@@ -6,7 +6,6 @@ import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FmnFormatParser
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.ErrorBlock
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -38,12 +37,13 @@ class FileImporterStateProvider(
                         is ExistingDeck -> SerializableExistingDeck(deckWhereToAdd.deck.id)
                         else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
                     }
+                val errors = cardsFile.errorRanges.map { it.first to it.last() }
                 SerializableCardsFile(
                     cardsFile.id,
                     cardsFile.sourceBytes,
                     cardsFile.charset.name(),
                     cardsFile.text,
-                    cardsFile.errors,
+                    errors,
                     cardsFile.cardPrototypes,
                     serializableAbstractDeck
                 )
@@ -62,13 +62,15 @@ class FileImporterStateProvider(
                         ExistingDeck(deck)
                     }
                 }
+                val errorRanges: List<IntRange> = serializableCardsFile.errors
+                    .map { (errorStart, errorEnd) -> errorStart..errorEnd }
                 CardsFile(
                     id = serializableCardsFile.id,
                     sourceBytes = serializableCardsFile.sourceBytes,
                     charset = Charset.forName(serializableCardsFile.charsetName),
                     text = serializableCardsFile.text,
                     parser = FmnFormatParser(),
-                    errors = serializableCardsFile.errors,
+                    errorRanges = errorRanges,
                     cardPrototypes = serializableCardsFile.cardPrototypes,
                     deckWhereToAdd = deckWhereToAdd
                 )
@@ -83,7 +85,7 @@ data class SerializableCardsFile(
     val sourceBytes: ByteArray,
     val charsetName: String,
     val text: String,
-    val errors: List<ErrorBlock>,
+    val errors: List<Pair<Int, Int>>,
     val cardPrototypes: List<CardPrototype>,
     val serializableAbstractDeck: SerializableAbstractDeck
 )
