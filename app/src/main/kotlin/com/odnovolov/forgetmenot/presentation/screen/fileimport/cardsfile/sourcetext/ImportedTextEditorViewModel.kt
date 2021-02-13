@@ -39,8 +39,13 @@ class ImportedTextEditorViewModel(
         }
     }
 
-    val sourceTextWithNewEncoding: Flow<String> = currentCharset.mapNotNull {
-        fileImporterState.files.find { file: CardsFile -> file.id == cardsFileId }?.text
+    val updateTextCommand: Flow<String> = cardsFile.flatMapLatest { cardsFile: CardsFile ->
+        combine(
+            cardsFile.flowOf(CardsFile::charset),
+            cardsFile.flowOf(CardsFile::format)
+        ) { _, _ ->
+            cardsFile.text
+        }
     }
 
     val errors: Flow<List<ErrorBlock>> = cardsFile.flatMapLatest { cardsFile: CardsFile ->

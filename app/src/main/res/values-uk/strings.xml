@@ -111,6 +111,9 @@
     <string name="popup_title_file_format">Формат</string>
     <string name="item_file_format_fmn_format">\'Q:A:\' формат</string>
     <string name="text_dsv_format_radiobutton">Значення, розділені розділювачем</string>
+    <string name="description_view_format_settings">Подивитися налаштування формату</string>
+    <string name="description_edit_format_settings">Змінити налаштування формату</string>
+    <string name="description_add_new_format_settings">Додати нові налаштування формату</string>
     <string name="label_encoding">Кодування</string>
     <string name="description_charset_icon">іконка \"Кодування\"</string>
     <string name="popup_title_charset">Кодування</string>

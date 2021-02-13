@@ -4,8 +4,8 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FmnFormatParser
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -37,7 +37,7 @@ class FileImporterStateProvider(
                         is ExistingDeck -> SerializableExistingDeck(deckWhereToAdd.deck.id)
                         else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
                     }
-                val errors = cardsFile.errorRanges.map { it.first to it.last() }
+                val errors = cardsFile.errorRanges.map { it.first to it.last }
                 SerializableCardsFile(
                     cardsFile.id,
                     cardsFile.sourceBytes,
@@ -69,7 +69,7 @@ class FileImporterStateProvider(
                     sourceBytes = serializableCardsFile.sourceBytes,
                     charset = Charset.forName(serializableCardsFile.charsetName),
                     text = serializableCardsFile.text,
-                    parser = FmnFormatParser(),
+                    format = FileFormat.FMN_FORMAT, // TODO
                     errorRanges = errorRanges,
                     cardPrototypes = serializableCardsFile.cardPrototypes,
                     deckWhereToAdd = deckWhereToAdd

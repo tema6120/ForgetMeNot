@@ -105,6 +105,9 @@
     <string name="fmn_file_format_abbreviation" translatable="false">Q:A:</string>
     <string name="item_file_format_fmn_format">\'Q:A:\' format</string>
     <string name="text_dsv_format_radiobutton">Delimiter-separated values</string>
+    <string name="description_view_format_settings">View format settings</string>
+    <string name="description_edit_format_settings">Edit format settings</string>
+    <string name="description_add_new_format_settings">Add a new format settings</string>
     <string name="label_encoding">Encoding</string>
     <string name="description_charset_icon">Encoding icon</string>
     <string name="popup_title_charset">Encoding</string>

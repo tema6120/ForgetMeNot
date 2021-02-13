@@ -1,0 +1,69 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fmnFormatRadioButtonFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/background_dark_popup">
+
+    <FrameLayout
+            android:id="@+id/setFormatButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:foreground="@drawable/ripple_rectangular_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+            android:id="@+id/editFormatSettingsButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/ripple_light_borderless"
+            android:contentDescription="@string/description_edit_format_settings"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_outline_edit_24"
+            tools:visibility="visible" />
+
+    <ImageButton
+            android:id="@+id/viewFormatSettingsButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/ripple_light_borderless"
+            android:contentDescription="@string/description_view_format_settings"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/editFormatSettingsButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_outline_visibility_24" />
+
+    <RadioButton
+            android:id="@+id/dsvFormatRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:button="@null"
+            android:clickable="false"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:ellipsize="end"
+            android:focusable="false"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingEnd="20dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_radiobutton"
+            app:drawableTint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/viewFormatSettingsButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="CSV | Excel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

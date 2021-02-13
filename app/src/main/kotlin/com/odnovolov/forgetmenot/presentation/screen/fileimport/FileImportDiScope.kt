@@ -54,6 +54,7 @@ class FileImportDiScope private constructor(
         fileImporterState,
         AppDiScope.get().globalState
     )
+
     val importedCardsController = ImportedCardsController(
         fileImporter,
         AppDiScope.get().longTermStateSaver,
@@ -81,6 +82,7 @@ class FileImportDiScope private constructor(
     )
 
     val fileFormatController = FileFormatController(
+        fileImporter,
         AppDiScope.get().longTermStateSaver
     )
 

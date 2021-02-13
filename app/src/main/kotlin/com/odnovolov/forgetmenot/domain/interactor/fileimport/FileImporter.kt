@@ -11,7 +11,6 @@ import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.Impor
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.CardMarkup
 import com.odnovolov.forgetmenot.domain.removeFirst
-import org.apache.commons.csv.CSVFormat
 import java.nio.charset.Charset
 
 class FileImporter(
@@ -26,24 +25,18 @@ class FileImporter(
         var currentPosition: Int by flowMaker(currentPosition)
 
         companion object {
-            private val unwantedEOL by lazy { Regex("""\r\n?""") }
-
             fun fromFiles(files: List<ImportedFile>): State {
                 val cardsFile: List<CardsFile> =
                     files.map { (fileName: String, content: ByteArray) ->
                         val charset: Charset = Charset.defaultCharset()
-                        val parser: Parser = when (fileName.substringAfterLast('.', "")) {
-                            "csv" -> CsvParser(CSVFormat.DEFAULT)
-                            else -> FmnFormatParser()
+                        val format = when (fileName.substringAfterLast('.', "")) {
+                            "tsv" -> FileFormat.CSV_TDF
+                            "csv" -> FileFormat.CSV_DEFAULT
+                            else -> FileFormat.FMN_FORMAT
                         }
-                        val text: String = content.toString(charset).let { contentString ->
-                            if (parser is CsvParser) {
-                                contentString.removePrefix("\uFEFF")
-                            } else {
-                                contentString.removePrefix("\uFEFF").replace(unwantedEOL, "\n")
-                            }
-                        }
-                        val parseResult = parser.parse(text)
+                        val text: String = content.toString(charset)
+                            .normalizeForParser(format.parser)
+                        val parseResult = format.parser.parse(text)
                         val errorRanges: List<IntRange> = parseResult.errorRanges
                         val cardPrototypes: List<CardPrototype> =
                             parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
@@ -63,7 +56,7 @@ class FileImporter(
                             sourceBytes = content,
                             charset,
                             text,
-                            parser,
+                            format,
                             errorRanges,
                             cardPrototypes,
                             deckWhereToAdd
@@ -101,16 +94,19 @@ class FileImporter(
     fun setCharset(newCharset: Charset) {
         with(currentFile) {
             if (charset == newCharset) return
-            val text: String = sourceBytes.toString(newCharset)
-                .removePrefix("\uFEFF")
-                .replace("\r", "")
+            val text: String = sourceBytes.toString(newCharset).normalizeForParser(format.parser)
             updateText(text)
             charset = newCharset
         }
     }
 
+    fun setFormat(format: FileFormat) {
+        currentFile.format = format
+        updateText(currentFile.text)
+    }
+
     fun updateText(text: String): Parser.ParserResult {
-        val parseResult: Parser.ParserResult = currentFile.parser.parse(text)
+        val parseResult: Parser.ParserResult = currentFile.format.parser.parse(text)
         currentFile.text = text
         currentFile.errorRanges = parseResult.errorRanges
         val oldCardPrototypes: MutableList<CardPrototype> =
@@ -191,5 +187,20 @@ class FileImporter(
     sealed class ImportResult {
         class Success(val deck: Deck) : ImportResult()
         object Failure : ImportResult()
+    }
+
+    companion object {
+        private val unwantedEOL by lazy { Regex("""\r\n?""") }
+
+        fun String.normalizeForParser(parser: Parser): String {
+            return when (parser) {
+                is FmnFormatParser -> {
+                    removePrefix("\uFEFF").replace(unwantedEOL, "\n")
+                }
+                else -> {
+                    removePrefix("\uFEFF")
+                }
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ class CardsFile(
     sourceBytes: ByteArray,
     charset: Charset,
     text: String,
-    parser: Parser,
+    format: FileFormat,
     errorRanges: List<IntRange>,
     cardPrototypes: List<CardPrototype>,
     deckWhereToAdd: AbstractDeck,
@@ -18,7 +18,7 @@ class CardsFile(
     val sourceBytes: ByteArray by flowMaker(sourceBytes)
     var charset: Charset by flowMaker(charset)
     var text: String by flowMaker(text)
-    var parser: Parser by flowMaker(parser)
+    var format: FileFormat by flowMaker(format)
     var errorRanges: List<IntRange> by flowMaker(errorRanges)
     var cardPrototypes: List<CardPrototype> by flowMaker(cardPrototypes)
     var deckWhereToAdd: AbstractDeck by flowMaker(deckWhereToAdd)

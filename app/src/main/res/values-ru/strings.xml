@@ -106,6 +106,9 @@
     <string name="popup_title_file_format">Формат</string>
     <string name="item_file_format_fmn_format">\'Q:A:\' формат</string>
     <string name="text_dsv_format_radiobutton">Значения, разделенные разделителем</string>
+    <string name="description_view_format_settings">Посмотреть настройки формата</string>
+    <string name="description_edit_format_settings">Изменить настройки формата</string>
+    <string name="description_add_new_format_settings">Добавить новые настройки формата</string>
     <string name="label_encoding">Кодировка</string>
     <string name="description_charset_icon">иконка \"Кодировка\"</string>
     <string name="popup_title_charset">Кодировка</string>

@@ -111,7 +111,7 @@ class ImportedTextEditorFragment : BaseFragment() {
 
     private fun observeViewModel(isRecreated: Boolean) {
         with(viewModel) {
-            sourceTextWithNewEncoding.observe(editor::setTextContent)
+            updateTextCommand.observe(editor::setTextContent)
             errors.observe { errors: List<ErrorBlock> ->
                 this@ImportedTextEditorFragment.errors = errors
                 errors.forEach { errorBlock: ErrorBlock ->
