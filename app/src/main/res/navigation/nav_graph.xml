@@ -60,12 +60,21 @@
                 android:id="@+id/file_import_to_deck_chooser"
                 app:destination="@id/deck_chooser" />
 
+        <action
+                android:id="@+id/file_import_to_dsv_format"
+                app:destination="@id/dsv_format" />
+
     </fragment>
 
     <fragment
             android:id="@+id/deck_chooser"
             android:name="com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserFragment"
             tools:layout="@layout/fragment_deck_chooser" />
+
+    <fragment
+            android:id="@+id/dsv_format"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatFragment"
+            tools:layout="@layout/fragment_dsv_format" />
 
     <fragment
             android:id="@+id/search"
@@ -191,8 +200,9 @@
             android:name="com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialog"
             tools:layout="@layout/dialog_input">
 
-        <action android:id="@+id/rename_deck_dialog_to_cards_editor"
-            app:destination="@+id/cards_editor" />
+        <action
+                android:id="@+id/rename_deck_dialog_to_cards_editor"
+                app:destination="@+id/cards_editor" />
 
     </dialog>
 

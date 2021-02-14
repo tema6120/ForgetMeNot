@@ -316,4 +316,39 @@
 
     <!-- end Settings -->
 
+    <!-- DSV format -->
+
+    <style name="DSVFormatItemTitle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DSVFormatItemController">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:background">@drawable/background_dsv_file_format_controller</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">16sp</item>
+        <item name="layout_constraintWidth_min">40dp</item>
+    </style>
+
+    <!-- end DSV format -->
+
 </resources>

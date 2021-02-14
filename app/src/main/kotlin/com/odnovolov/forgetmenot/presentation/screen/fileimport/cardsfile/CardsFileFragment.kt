@@ -99,6 +99,7 @@ class CardsFileFragment : BaseFragment() {
     }
 
     private fun setupViewPager() {
+        //viewPager.isSaveEnabled = false
         viewPager.offscreenPageLimit = 1
         val id = requireArguments().getLong(ARG_ID)
         viewPager.adapter = CardsFileTabPagerAdapter(id, fragment = this)
@@ -118,6 +119,17 @@ class CardsFileFragment : BaseFragment() {
                 sourceTextTab = customTab
             }
         }.apply { attach() }
+        viewCoroutineScope!!.launch {
+            val diScope = FileImportDiScope.getAsync() ?: return@launch
+            val viewModel = diScope.cardsFileViewModel(id)
+            viewModel.hasErrorsInSourceText.observe { hasErrors: Boolean ->
+                val sourceTextTabTitle = getString(R.string.tab_name_source_text)
+                sourceTextTab?.text =
+                    if (hasErrors)
+                        makeErrorSpannableStringFrom(sourceTextTabTitle) else
+                        sourceTextTabTitle
+            }
+        }
     }
 
     private fun observeViewModel() {
@@ -171,13 +183,6 @@ class CardsFileFragment : BaseFragment() {
                         showChangeDeckPopup()
                     }
                 }
-            }
-            hasErrorsInSourceText.observe { hasErrors: Boolean ->
-                val sourceTextTabTitle = getString(R.string.tab_name_source_text)
-                sourceTextTab?.text =
-                    if (hasErrors)
-                        makeErrorSpannableStringFrom(sourceTextTabTitle) else
-                        sourceTextTabTitle
             }
         }
     }

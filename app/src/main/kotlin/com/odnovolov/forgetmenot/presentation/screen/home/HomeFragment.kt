@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -306,7 +307,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun updateExerciseButtonMargin() {
-        exerciseButton.updateLayoutParams<MarginLayoutParams> {
+        exerciseButton.updateLayoutParams<ConstraintLayout.LayoutParams> {
             marginStart = if (autoplayButton.isVisible) 0 else 20.dp
         }
     }

@@ -228,7 +228,8 @@ inline fun doWithCatchingExceptions(block: () -> Unit) {
 
 fun TextView.setTextWithClickableAnnotations(
     stringId: Int,
-    onAnnotationClick: (annotationValue: String) -> Unit
+    onAnnotationClick: (annotationValue: String) -> Unit,
+    linkColor: Int? = null
 ) {
     val spannedString = context.getText(stringId) as SpannedString
     val spannableString = SpannableString(spannedString)
@@ -242,6 +243,7 @@ fun TextView.setTextWithClickableAnnotations(
 
                 override fun updateDrawState(textPaint: TextPaint) {
                     super.updateDrawState(textPaint)
+                    linkColor?.let(textPaint::setColor)
                     textPaint.isUnderlineText = true
                 }
             }

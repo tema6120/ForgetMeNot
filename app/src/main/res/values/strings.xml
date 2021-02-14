@@ -9,6 +9,10 @@
     <string name="description_close">close</string>
     <string name="description_attention_icon">attention icon</string>
     <string name="title_example_in_settings_bottom_sheet">Example</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="disabled">Disabled</string>
+    <string name="label_name">Name</string>
 
 
     <!-- Main drawer -->
@@ -864,5 +868,39 @@
         \n\nI am not in any way pursuing commercial goals. My app is completely free and open
         source. I\'d like to know what you think about my app!</string>
     <string name="text_support_app_button">Support app</string>
+
+
+    <!-- DSV format screen -->
+
+    <string name="screen_title_dsv_format">DSV format</string>
+    <string name="tip_dsv_format">Delimiter-separated values are processed with the
+        <annotation clickable="csv_library">Apache Commons CSV library</annotation>. Visit
+        <annotation clickable="CSVFormat">this page</annotation> to better understand what the
+        format settings mean.</string>
+    <string name="description_delete_format_settings">Delete format settings</string>
+    <string name="dsv_format_setting_record_separator">Record separator</string>
+    <string name="dsv_format_setting_delimiter">Delimiter</string>
+    <string name="dsv_format_setting_trailing_delimiter">Trailing delimiter</string>
+    <string name="dsv_format_setting_quote_character">Quote character</string>
+    <string name="dsv_format_setting_quote_mode">Quote mode</string>
+    <string name="dsv_format_setting_escape_character">Escape character</string>
+    <string name="dsv_format_setting_null_string">Null string</string>
+    <string name="dsv_format_setting_quoted_null_string">Quoted null string</string>
+    <string name="dsv_format_setting_ignore_surrounding_spaces">Ignore surrounding spaces</string>
+    <string name="dsv_format_setting_trim">Trim</string>
+    <string name="dsv_format_setting_ignore_empty_lines">Ignore empty lines</string>
+    <string name="dsv_format_setting_comment_character">Comment character</string>
+    <string name="dsv_format_setting_skip_header_record">Skip header record</string>
+    <string name="dsv_format_setting_header_column_names">Header column names</string>
+    <string name="dsv_format_setting_ignore_header_names_case">Ignore header names case</string>
+    <string name="dsv_format_setting_allow_duplicate_header_names">Allow duplicate header names</string>
+    <string name="dsv_format_setting_allow_missing_column_names">Allow missing column names</string>
+    <string name="dsv_format_setting_header_comments">Header comments</string>
+    <string name="dsv_format_setting_auto_flush">Auto-flush</string>
+    <string name="dsv_quote_mode_all">All</string>
+    <string name="dsv_quote_mode_all_non_null">All non-null</string>
+    <string name="dsv_quote_mode_minimal">Minimal</string>
+    <string name="dsv_quote_mode_non_numeric">Non-numeric</string>
+    <string name="dsv_quote_mode_none">None</string>
 
 </resources>

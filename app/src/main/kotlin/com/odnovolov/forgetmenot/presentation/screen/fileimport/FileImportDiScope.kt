@@ -83,6 +83,7 @@ class FileImportDiScope private constructor(
 
     val fileFormatController = FileFormatController(
         fileImporter,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 

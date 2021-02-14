@@ -114,6 +114,7 @@ class ImportedTextEditorFragment : BaseFragment() {
             updateTextCommand.observe(editor::setTextContent)
             errors.observe { errors: List<ErrorBlock> ->
                 this@ImportedTextEditorFragment.errors = errors
+                //editor.clearErrorLines()
                 errors.forEach { errorBlock: ErrorBlock ->
                     errorBlock.lines.forEach { errorLine: Int ->
                         editor.setErrorLine(errorLine + 1)

@@ -8,6 +8,10 @@
     <string name="description_close">закрити</string>
     <string name="description_attention_icon">іконка \"Увага\"</string>
     <string name="title_example_in_settings_bottom_sheet">Приклад</string>
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
+    <string name="disabled">Вимкнено</string>
+    <string name="label_name">Назва</string>
 
 
     <!-- Main drawer -->
@@ -532,7 +536,7 @@
         розмовляють іншими мовами, щоб насолоджуватися додатком. Крім того, локалізація дозволяє
         додатку бути більш доступним та корисним для широкої аудиторії.</string>
     <string name="text_help_translate_button">Допомогти перекласти</string>
-    <string name="cta_share_with_friends">Поділитися з друзями</string>
+    <string name="cta_share_with_friends">Поділіться з друзями</string>
     <string name="cta_share_with_friends_description">Можливо, вашим друзям потрібний додаток.
         Поділіться з ними своїм досвідом.</string>
     <string name="text_share_with_friends_button">Поділитися з друзями</string>
@@ -870,5 +874,39 @@
         \n\nЯ жодним чином не переслідую комерційних цілей. Мій додаток абсолютно безкоштовний і з
         відкритим кодом. Я хотів би знати, що ви думаєте про мій додаток!</string>
     <string name="text_support_app_button">Підтримати додаток</string>
+
+
+    <!-- DSV format screen -->
+
+    <string name="screen_title_dsv_format">DSV формат</string>
+    <string name="tip_dsv_format">Значення, розділені розділювачем, обробляються завдяки бібліотеці
+        <annotation clickable="csv_library">Apache Commons CSV</annotation>. Відвідайте
+        <annotation clickable="CSVFormat">цю сторінку</annotation>, щоб краще зрозуміти, що
+        означають налаштування формату.</string>
+    <string name="description_delete_format_settings">Видалити налаштування формату</string>
+    <string name="dsv_format_setting_record_separator">Розділювач записів (Record separator)</string>
+    <string name="dsv_format_setting_delimiter">Розділювач значень (Delimiter)</string>
+    <string name="dsv_format_setting_trailing_delimiter">Кінцевий розділювач (Trailing delimiter)</string>
+    <string name="dsv_format_setting_quote_character">Символ лапок (Quote character)</string>
+    <string name="dsv_format_setting_quote_mode">Режим лапок (Quote mode)</string>
+    <string name="dsv_format_setting_escape_character">Символ уникнення (Escape character)</string>
+    <string name="dsv_format_setting_null_string">Позначення Null-значення</string>
+    <string name="dsv_format_setting_quoted_null_string">Позначення Null-значення в лапках</string>
+    <string name="dsv_format_setting_ignore_surrounding_spaces">Ігнорувати оточенні пробіли (Ignore surrounding spaces)</string>
+    <string name="dsv_format_setting_trim">Обрізати (Trim)</string>
+    <string name="dsv_format_setting_ignore_empty_lines">Ігнорувати порожні рядки</string>
+    <string name="dsv_format_setting_comment_character">Символ коментаря (Comment character)</string>
+    <string name="dsv_format_setting_skip_header_record">Пропускати запис заголовка</string>
+    <string name="dsv_format_setting_header_column_names">Назви стовпців заголовка</string>
+    <string name="dsv_format_setting_ignore_header_names_case">Ігнорувати регістр назв заголовків</string>
+    <string name="dsv_format_setting_allow_duplicate_header_names">Дозволити дублюючі імена заголовків</string>
+    <string name="dsv_format_setting_allow_missing_column_names">Дозволити відсутні назви стовпців</string>
+    <string name="dsv_format_setting_header_comments">Коментарі в заголовку</string>
+    <string name="dsv_format_setting_auto_flush">Автоматично скидати (Auto-flush)</string>
+    <string name="dsv_quote_mode_all">Всі</string>
+    <string name="dsv_quote_mode_all_non_null">Усі не null</string>
+    <string name="dsv_quote_mode_minimal">По мінімуму</string>
+    <string name="dsv_quote_mode_non_numeric">Нечислові</string>
+    <string name="dsv_quote_mode_none">Не використовувати</string>
 
 </resources>

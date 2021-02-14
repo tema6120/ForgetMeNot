@@ -8,6 +8,10 @@
     <string name="description_close">закрыть</string>
     <string name="description_attention_icon">иконка \"Внимание\"</string>
     <string name="title_example_in_settings_bottom_sheet">Пример</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="disabled">Выключено</string>
+    <string name="label_name">Название</string>
 
 
     <!-- Main drawer -->
@@ -342,7 +346,7 @@
     <string name="tip_pronunciation_screen_select_languages">Выберите языка вопросы и ответы, чтобы
         иметь возможность правильно произносить.</string>
     <string name="tip_pronunciation_screen_about_tts">Произношение работает благодаря Android TTS
-        API. Если вы хотите настроить синтез речи более подробно, например, изменить движок, голос,
+        API. Если вы хотите настроить синтез речи более детально, например, изменить движок, голос,
         высоту звука, темп речи, просто перейдите к настройкам TTS.</string>
     <string name="tip_pronunciation_screen_about_autospeaking">Настоятельно рекомендуется включить
         автоматическое произношение на иностранном языке. Вы сразу будете знать, как должны звучать
@@ -531,7 +535,7 @@
         которые говорят на других языках, чтобы наслаждаться приложением. Кроме того, локализация
         позволяет приложению быть более доступным и полезным для более широкой аудитории.</string>
     <string name="text_help_translate_button">Помочь перевести</string>
-    <string name="cta_share_with_friends">Поделиться с друзьями</string>
+    <string name="cta_share_with_friends">Поделитесь с друзьями</string>
     <string name="cta_share_with_friends_description">Возможно, вашим друзьям это приложение нужно.
         Поделитесь с ними своим опытом.</string>
     <string name="text_share_with_friends_button">Поделиться с друзьями</string>
@@ -877,5 +881,39 @@
         \n\nЯ никоим образом не преследую коммерческих целей. Мой приложение абсолютно бесплатное и
         с открытым исходным кодом. Я хотел бы знать, что вы думаете о моем приложение!</string>
     <string name="text_support_app_button">Поддержать приложение</string>
+
+
+    <!-- DSV format screen -->
+
+    <string name="screen_title_dsv_format">DSV формат</string>
+    <string name="tip_dsv_format">Значения, разделенные разделителем, обрабатываются благодаря
+        библиотеке <annotation clickable="csv_library">Apache Commons CSV</annotation>. Посетите
+        <annotation clickable="CSVFormat">эту страницу</annotation>, чтобы лучше понять, что
+        означают настройки формата.</string>
+    <string name="description_delete_format_settings">Удалить настройки формата</string>
+    <string name="dsv_format_setting_record_separator">Разделитель записей (Record separator)</string>
+    <string name="dsv_format_setting_delimiter">Разделитель значений (Delimiter)</string>
+    <string name="dsv_format_setting_trailing_delimiter">Конечный разделитель (Trailing delimiter)</string>
+    <string name="dsv_format_setting_quote_character">Cимвол кавычек (Quote character)</string>
+    <string name="dsv_format_setting_quote_mode">Режим кавычек (Quote mode)</string>
+    <string name="dsv_format_setting_escape_character">Символ избежание (Escape character)</string>
+    <string name="dsv_format_setting_null_string">Обозначение Null-значения</string>
+    <string name="dsv_format_setting_quoted_null_string">Обозначение Null-значения в кавычках</string>
+    <string name="dsv_format_setting_ignore_surrounding_spaces">Игнорировать окружающие пробелы (Ignore surrounding spaces)</string>
+    <string name="dsv_format_setting_trim">Обрезать (Trim)</string>
+    <string name="dsv_format_setting_ignore_empty_lines">Игнорировать пустые строки</string>
+    <string name="dsv_format_setting_comment_character">Символ комментария (Comment character)</string>
+    <string name="dsv_format_setting_skip_header_record">Пропускать запись заголовка</string>
+    <string name="dsv_format_setting_header_column_names">Названия столбцов заголовка</string>
+    <string name="dsv_format_setting_ignore_header_names_case">Игнорировать регистр названий заголовков</string>
+    <string name="dsv_format_setting_allow_duplicate_header_names">Разрешить дублирующие названия заголовков</string>
+    <string name="dsv_format_setting_allow_missing_column_names">Разрешить столбцы без названий</string>
+    <string name="dsv_format_setting_header_comments">Комментарии в заголовке</string>
+    <string name="dsv_format_setting_auto_flush">Автоматически сбрасывать (Auto-flush)</string>
+    <string name="dsv_quote_mode_all">Все</string>
+    <string name="dsv_quote_mode_all_non_null">Все не null</string>
+    <string name="dsv_quote_mode_minimal">По минимуму</string>
+    <string name="dsv_quote_mode_non_numeric">Нечисловые</string>
+    <string name="dsv_quote_mode_none">Не использовать</string>
 
 </resources>
