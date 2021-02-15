@@ -43,13 +43,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:fontFamily="@font/jura"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:text="@string/screen_title_dsv_format"
                 android:textColor="@color/text_title"
                 android:textSize="@dimen/text_size_screen_title"
-                android:textStyle="bold" />
+                android:textStyle="bold">
+
+            <requestFocus />
+
+        </TextView>
 
         <ImageButton
                 android:id="@+id/doneButton"
@@ -85,7 +91,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    tools:layout_marginEnd="4dp"
                     android:background="@drawable/background_outlined_button"
                     android:fontFamily="@font/nunito_bold"
                     android:paddingStart="24dp"
@@ -97,6 +102,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/deleteDSVFormatButton"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_marginEnd="4dp"
                     tools:text="Excel" />
 
             <TextView
@@ -127,11 +133,11 @@
                     android:contentDescription="@string/description_delete_format_settings"
                     android:tint="@color/textSecondary"
                     android:visibility="gone"
-                    tools:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/dsvFormatNameTextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/dsvFormatNameTextView"
-                    app:srcCompat="@drawable/ic_round_delete_20" />
+                    app:srcCompat="@drawable/ic_round_delete_20"
+                    tools:visibility="visible" />
 
             <include
                     android:id="@+id/tipLayout"
@@ -162,6 +168,7 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:labelFor="@+id/delimiterTitle"
+                    android:maxLength="2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/delimiterTitle"
                     tools:text=";" />
@@ -222,12 +229,13 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:labelFor="@+id/quoteCharacterTitle"
-                    app:layout_constraintEnd_toStartOf="@+id/disabledQuoteCharacterTextView"
+                    android:maxLength="2"
+                    app:layout_constraintEnd_toStartOf="@+id/disabledQuoteCharacterButton"
                     app:layout_constraintTop_toTopOf="@+id/quoteCharacterTitle"
                     tools:text="&quot;" />
 
             <TextView
-                    android:id="@+id/disabledQuoteCharacterTextView"
+                    android:id="@+id/disabledQuoteCharacterButton"
                     style="@style/DSVFormatItemButton"
                     android:text="@string/disabled"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -311,12 +319,13 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:labelFor="@+id/escapeCharacterTitle"
-                    app:layout_constraintEnd_toStartOf="@+id/disabledEscapeCharacterTextView"
+                    android:maxLength="2"
+                    app:layout_constraintEnd_toStartOf="@+id/disabledEscapeCharacterButton"
                     app:layout_constraintTop_toTopOf="@+id/escapeCharacterTitle"
                     tools:text="\\" />
 
             <TextView
-                    android:id="@+id/disabledEscapeCharacterTextView"
+                    android:id="@+id/disabledEscapeCharacterButton"
                     style="@style/DSVFormatItemButton"
                     android:text="@string/disabled"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -345,7 +354,7 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:labelFor="@+id/nullStringTitle"
-                    android:maxLength="10"
+                    android:maxLength="15"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/nullStringTitle"
                     tools:text="\\N" />
@@ -498,12 +507,13 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:labelFor="@+id/commentCharacterTitle"
-                    app:layout_constraintEnd_toStartOf="@+id/disabledCommentCharacterTextView"
+                    android:maxLength="2"
+                    app:layout_constraintEnd_toStartOf="@+id/disabledCommentCharacterButton"
                     app:layout_constraintTop_toTopOf="@+id/commentCharacterTitle"
                     tools:text="" />
 
             <TextView
-                    android:id="@+id/disabledCommentCharacterTextView"
+                    android:id="@+id/disabledCommentCharacterButton"
                     style="@style/DSVFormatItemButton"
                     android:text="@string/disabled"
                     app:layout_constraintEnd_toEndOf="parent"

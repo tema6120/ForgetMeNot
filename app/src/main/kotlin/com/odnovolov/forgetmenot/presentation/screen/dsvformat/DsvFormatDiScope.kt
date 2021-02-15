@@ -11,6 +11,7 @@ class DsvFormatDiScope private constructor(
 
     val controller = DsvFormatController(
         screenState,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 

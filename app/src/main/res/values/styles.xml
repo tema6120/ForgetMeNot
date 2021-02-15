@@ -352,6 +352,7 @@
 
     <style name="DSVFormatItemEditText" parent="@style/DSVFormatItemButton">
         <item name="android:background">@drawable/background_dsv_file_format_edittext</item>
+        <item name="android:enabled">false</item>
     </style>
 
     <!-- end DSV format -->

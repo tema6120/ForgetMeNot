@@ -31,7 +31,7 @@ class DsvFormatScreenState(
     var formatName: String by flowMaker(formatName)
     var isTipVisible: Boolean by flowMaker(isTipVisible)
     var errorMessage: String? by flowMaker(errorMessage)
-    var delimiter: Char by flowMaker(delimiter)
+    var delimiter: Char? by flowMaker(delimiter)
     var trailingDelimiter: Boolean by flowMaker(trailingDelimiter)
     var quoteCharacter: Char? by flowMaker(quoteCharacter)
     var quoteMode: QuoteMode? by flowMaker(quoteMode)

@@ -10,7 +10,7 @@ class DsvFormatViewModel(
     val formatName: Flow<String> = screenState.flowOf(DsvFormatScreenState::formatName)
     val isTipVisible: Flow<Boolean> = screenState.flowOf(DsvFormatScreenState::isTipVisible)
     val errorMessage: Flow<String?> = screenState.flowOf(DsvFormatScreenState::errorMessage)
-    val delimiter: Char get() = screenState.delimiter
+    val delimiter: Char? get() = screenState.delimiter
     val trailingDelimiter: Flow<Boolean> = screenState.flowOf(DsvFormatScreenState::trailingDelimiter)
     val quoteCharacter: Flow<Char?> = screenState.flowOf(DsvFormatScreenState::quoteCharacter)
     val quoteMode: Flow<QuoteMode?> = screenState.flowOf(DsvFormatScreenState::quoteMode)

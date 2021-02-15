@@ -12,7 +12,7 @@ import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.IgnoreSurroundingSpacesButton
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
 import kotlinx.android.synthetic.main.fragment_dsv_format.*
 import kotlinx.android.synthetic.main.tip.*
 import kotlinx.coroutines.launch
@@ -57,7 +57,7 @@ class DsvFormatFragment : BaseFragment() {
             linkColor = Color.WHITE
         )
         closeTipButton.setOnClickListener {
-            tipLayout.isVisible = false
+            controller?.dispatch(CloseTipButtonClicked)
         }
         recordSeparatorEditText.isSelected = true
         delimiterEditText.isSelected = true
@@ -69,8 +69,11 @@ class DsvFormatFragment : BaseFragment() {
             formatName.observe { formatName: String ->
                 dsvFormatNameTextView.text = formatName
             }
+            isTipVisible.observe { isTipVisible: Boolean ->
+                tipLayout.isVisible = isTipVisible
+            }
             setReadOnly(isReadOnly)
-            delimiterEditText.setText(delimiter.toString().toDisplayedString())
+            delimiterEditText.setText(delimiter?.toString()?.toDisplayedString())
             trailingDelimiter.observe { trailingDelimiter: Boolean ->
                 yesTrailingDelimiterButton.isSelected = trailingDelimiter
                 noTrailingDelimiterButton.isSelected = !trailingDelimiter
@@ -80,7 +83,7 @@ class DsvFormatFragment : BaseFragment() {
             )
             quoteCharacter.observe { quoteCharacter: Char? ->
                 quoteCharacterEditText.isSelected = quoteCharacter != null
-                disabledQuoteCharacterTextView.isSelected = quoteCharacter == null
+                disabledQuoteCharacterButton.isSelected = quoteCharacter == null
             }
             quoteMode.observe { quoteMode: QuoteMode? ->
                 allQuoteModeButton.isSelected = quoteMode == QuoteMode.ALL
@@ -95,7 +98,10 @@ class DsvFormatFragment : BaseFragment() {
             )
             escapeCharacter.observe { escapeCharacter: Char? ->
                 escapeCharacterEditText.isSelected = escapeCharacter != null
-                disabledEscapeCharacterTextView.isSelected = escapeCharacter == null
+                disabledEscapeCharacterButton.isSelected = escapeCharacter == null
+            }
+            nullString.observe { nullString: String? ->
+                nullStringEditText.isSelected = nullString != null
             }
             ignoreSurroundingSpaces.observe { ignoreSurroundingSpaces: Boolean ->
                 yesIgnoreSurroundingSpacesButton.isSelected = ignoreSurroundingSpaces
@@ -115,7 +121,7 @@ class DsvFormatFragment : BaseFragment() {
             )
             commentMarker.observe { commentMarker: Char? ->
                 commentCharacterEditText.isSelected = commentMarker != null
-                disabledCommentCharacterTextView.isSelected = commentMarker == null
+                disabledCommentCharacterButton.isSelected = commentMarker == null
             }
             skipHeaderRecord.observe { skipHeaderRecord: Boolean ->
                 yesSkipHeaderRecordButton.isSelected = skipHeaderRecord
@@ -148,27 +154,173 @@ class DsvFormatFragment : BaseFragment() {
         dsvFormatNameTextView.updateLayoutParams<ConstraintLayout.LayoutParams> {
             marginEnd = if (readOnly) 16.dp else 4.dp
         }
-        /*if (!readOnly)*/ setClickListeners()
+        if (readOnly) {
+            backButton.setOnClickListener {
+                controller?.dispatch(BackButtonClicked)
+            }
+        } else {
+            cancelButton.setOnClickListener {
+                controller?.dispatch(CancelButtonClicked)
+            }
+            doneButton.setOnClickListener {
+                controller?.dispatch(DoneButtonClicked)
+            }
+            dsvFormatNameTextView.setOnClickListener {
+                controller?.dispatch(FormatNameButtonClicked)
+            }
+            deleteDSVFormatButton.setOnClickListener {
+                controller?.dispatch(DeleteFormatButtonClicked)
+            }
+            //makeControllersEnabled()
+        }
+        makeControllersEnabled()
     }
 
-    private fun setClickListeners() {
+    private fun makeControllersEnabled() {
+        // Delimiter
+        delimiterEditText.isEnabled = true
+        delimiterEditText.observeText { newText: String ->
+            val delimiter: Char? =
+                if (newText.isEmpty()) null else newText.toRegularString().first()
+            controller?.dispatch(DelimiterChanged(delimiter))
+        }
+        // Trailing delimiter
+        yesTrailingDelimiterButton.setOnClickListener {
+            controller?.dispatch(TrailingDelimiterChanged(true))
+        }
+        noTrailingDelimiterButton.setOnClickListener {
+            controller?.dispatch(TrailingDelimiterChanged(false))
+        }
+        // Quote character
+        quoteCharacterEditText.isEnabled = true
+        quoteCharacterEditText.observeText { newText: String ->
+            val quoteCharacter: Char? =
+                if (newText.isEmpty()) null else newText.toRegularString().first()
+            controller?.dispatch(QuoteCharacterChanged(quoteCharacter))
+        }
+        disabledQuoteCharacterButton.setOnClickListener {
+            quoteCharacterEditText.text.clear()
+        }
+        // Quote mode
+        allQuoteModeButton.setOnClickListener {
+            controller?.dispatch(QuoteModeChanged(QuoteMode.ALL))
+        }
+        allNonNullQuoteModeButton.setOnClickListener {
+            controller?.dispatch(QuoteModeChanged(QuoteMode.ALL_NON_NULL))
+        }
+        minimalQuoteModeButton.setOnClickListener {
+            controller?.dispatch(QuoteModeChanged(QuoteMode.MINIMAL))
+        }
+        nonNumericQuoteModeButton.setOnClickListener {
+            controller?.dispatch(QuoteModeChanged(QuoteMode.NON_NUMERIC))
+        }
+        noneQuoteModeButton.setOnClickListener {
+            controller?.dispatch(QuoteModeChanged(QuoteMode.NONE))
+        }
+        // Escape character
+        escapeCharacterEditText.isEnabled = true
+        escapeCharacterEditText.observeText { newText: String ->
+            val escapeCharacter: Char? =
+                if (newText.isEmpty()) null else newText.toRegularString().first()
+            controller?.dispatch(EscapeCharacterChanged(escapeCharacter))
+        }
+        disabledEscapeCharacterButton.setOnClickListener {
+            escapeCharacterEditText.text.clear()
+        }
+        // Null string
+        nullStringEditText.isEnabled = true
+        nullStringEditText.observeText { newText: String ->
+            val nullString: String? = if (newText.isEmpty()) null else newText.toRegularString()
+            controller?.dispatch(NullStringChanged(nullString))
+        }
+        // Ignore surrounding spaces
         yesIgnoreSurroundingSpacesButton.setOnClickListener {
-            controller?.dispatch(IgnoreSurroundingSpacesButton(true))
+            controller?.dispatch(IgnoreSurroundingSpacesChanged(true))
         }
         noIgnoreSurroundingSpacesButton.setOnClickListener {
-            controller?.dispatch(IgnoreSurroundingSpacesButton(false))
+            controller?.dispatch(IgnoreSurroundingSpacesChanged(false))
+        }
+        // Trim
+        yesTrimButton.setOnClickListener {
+            controller?.dispatch(TrimChanged(true))
+        }
+        noTrimButton.setOnClickListener {
+            controller?.dispatch(TrimChanged(false))
+        }
+        // Ignore empty lines
+        yesIgnoreEmptyLinesButton.setOnClickListener {
+            controller?.dispatch(IgnoreEmptyLinesChanged(true))
+        }
+        noIgnoreEmptyLinesButton.setOnClickListener {
+            controller?.dispatch(IgnoreEmptyLinesChanged(false))
+        }
+        // Record separator
+        recordSeparatorEditText.isEnabled = true
+        recordSeparatorEditText.observeText { newText: String ->
+            val recordSeparator: String? =
+                if (newText.isEmpty()) null else newText.toRegularString()
+            controller?.dispatch(RecordSeparatorChanged(recordSeparator))
+        }
+        // Comment character
+        commentCharacterEditText.isEnabled = true
+        commentCharacterEditText.observeText { newText: String ->
+            val commentCharacter: Char? =
+                if (newText.isEmpty()) null else newText.toRegularString().first()
+            controller?.dispatch(CommentMarkerChanged(commentCharacter))
+        }
+        disabledCommentCharacterButton.setOnClickListener {
+            commentCharacterEditText.text.clear()
+        }
+        // Skip header record
+        yesSkipHeaderRecordButton.setOnClickListener {
+            controller?.dispatch(SkipHeaderRecordChanged(true))
+        }
+        noSkipHeaderRecordButton.setOnClickListener {
+            controller?.dispatch(SkipHeaderRecordChanged(false))
+        }
+        // Header column names
+        // todo
+        // Ignore header names case
+        yesIgnoreHeaderNamesCaseButton.setOnClickListener {
+            controller?.dispatch(IgnoreHeaderCaseChanged(true))
+        }
+        noIgnoreHeaderNamesCaseButton.setOnClickListener {
+            controller?.dispatch(IgnoreHeaderCaseChanged(false))
+        }
+        // Allow duplicate header names
+        yesAllowDuplicateHeaderNamesButton.setOnClickListener {
+            controller?.dispatch(AllowDuplicateHeaderNamesChanged(true))
+        }
+        noAllowDuplicateHeaderNamesButton.setOnClickListener {
+            controller?.dispatch(AllowDuplicateHeaderNamesChanged(false))
+        }
+        // Allow missing column names
+        yesAllowMissingColumnNamesButton.setOnClickListener {
+            controller?.dispatch(AllowMissingColumnNamesChanged(true))
+        }
+        noAllowMissingColumnNamesButton.setOnClickListener {
+            controller?.dispatch(AllowMissingColumnNamesChanged(false))
+        }
+        // Header comments
+        // todo
+        // Auto-flush
+        yesAutoFlushButton.setOnClickListener {
+            controller?.dispatch(AutoFlushChanged(true))
+        }
+        noAutoFlushButton.setOnClickListener {
+            controller?.dispatch(AutoFlushChanged(false))
         }
     }
 
     private fun String.toDisplayedString(): String {
-        return replace("\\\\", "\\")
+        return replace("\\", "\\\\")
             .replace("\n", "\\n")
             .replace("\r", "\\r")
             .replace("\t", "\\t")
     }
 
     private fun String.toRegularString(): String {
-        return replace("\\", "\\\\")
+        return replace("\\\\", "\\")
             .replace("\\n", "\n")
             .replace("\\r", "\r")
             .replace("\\t", "\t")
