@@ -84,6 +84,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    tools:layout_marginEnd="4dp"
                     android:background="@drawable/background_outlined_button"
                     android:fontFamily="@font/nunito_bold"
                     android:paddingStart="24dp"
@@ -124,6 +126,8 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_delete_format_settings"
                     android:tint="@color/textSecondary"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/dsvFormatNameTextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/dsvFormatNameTextView"
@@ -141,33 +145,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dsvFormatNameTextView" />
 
-            <!-- Record separator -->
-
-            <TextView
-                    android:id="@+id/recordSeparatorTitle"
-                    style="@style/DSVFormatItemTitle"
-                    android:text="@string/dsv_format_setting_record_separator"
-                    app:layout_constraintEnd_toStartOf="@id/recordSeparatorEditText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tipLayout" />
-
-            <EditText
-                    android:id="@+id/recordSeparatorEditText"
-                    style="@style/DSVFormatItemController"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:labelFor="@+id/recordSeparatorTitle"
-                    android:maxLength="10"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/recordSeparatorTitle"
-                    tools:text="\\n" />
-
-            <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="recordSeparatorTitle,recordSeparatorEditText" />
 
             <!-- Delimiter -->
 
@@ -177,11 +154,11 @@
                     android:text="@string/dsv_format_setting_delimiter"
                     app:layout_constraintEnd_toStartOf="@id/delimiterEditText"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier" />
+                    app:layout_constraintTop_toBottomOf="@+id/tipLayout" />
 
             <EditText
                     android:id="@+id/delimiterEditText"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemEditText"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:labelFor="@+id/delimiterTitle"
@@ -190,7 +167,7 @@
                     tools:text=";" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier2"
+                    android:id="@+id/barrier1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -202,31 +179,31 @@
                     android:id="@+id/trailingDelimiterTitle"
                     style="@style/DSVFormatItemTitle"
                     android:text="@string/dsv_format_setting_trailing_delimiter"
-                    app:layout_constraintEnd_toStartOf="@id/yesTrailingDelimiterTextView"
+                    app:layout_constraintEnd_toStartOf="@id/yesTrailingDelimiterButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier2" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier1" />
 
             <TextView
-                    android:id="@+id/yesTrailingDelimiterTextView"
-                    style="@style/DSVFormatItemController"
+                    android:id="@+id/yesTrailingDelimiterButton"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
-                    app:layout_constraintEnd_toStartOf="@+id/noTrailingDelimiterTextView"
+                    app:layout_constraintEnd_toStartOf="@+id/noTrailingDelimiterButton"
                     app:layout_constraintTop_toTopOf="@+id/trailingDelimiterTitle" />
 
             <TextView
-                    android:id="@+id/noTrailingDelimiterTextView"
-                    style="@style/DSVFormatItemController"
+                    android:id="@+id/noTrailingDelimiterButton"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/trailingDelimiterTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier3"
+                    android:id="@+id/barrier2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="trailingDelimiterTitle,yesTrailingDelimiterTextView" />
+                    app:constraint_referenced_ids="trailingDelimiterTitle,yesTrailingDelimiterButton" />
 
             <!-- Quote character -->
 
@@ -236,11 +213,11 @@
                     android:text="@string/dsv_format_setting_quote_character"
                     app:layout_constraintEnd_toStartOf="@id/quoteCharacterEditText"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier3" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier2" />
 
             <EditText
                     android:id="@+id/quoteCharacterEditText"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemEditText"
                     android:layout_marginEnd="-2dp"
                     android:importantForAutofill="no"
                     android:inputType="text"
@@ -251,13 +228,13 @@
 
             <TextView
                     android:id="@+id/disabledQuoteCharacterTextView"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/disabled"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/quoteCharacterTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier4"
+                    android:id="@+id/barrier3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -271,7 +248,7 @@
                     android:text="@string/dsv_format_setting_quote_mode"
                     app:layout_constraintEnd_toStartOf="@id/quoteModeColumn"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier4" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier3" />
 
             <LinearLayout
                     android:id="@+id/quoteModeColumn"
@@ -282,35 +259,35 @@
                     app:layout_constraintTop_toTopOf="@id/quoteModeTitle">
 
                 <TextView
-                        android:id="@+id/allQuoteModeTextView"
-                        style="@style/DSVFormatItemController"
+                        android:id="@+id/allQuoteModeButton"
+                        style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:text="@string/dsv_quote_mode_all" />
 
                 <TextView
-                        android:id="@+id/allNonNullQuoteModeTextView"
-                        style="@style/DSVFormatItemController"
+                        android:id="@+id/allNonNullQuoteModeButton"
+                        style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:layout_marginTop="-2dp"
                         android:text="@string/dsv_quote_mode_all_non_null" />
 
                 <TextView
-                        android:id="@+id/minimalQuoteModeTextView"
-                        style="@style/DSVFormatItemController"
+                        android:id="@+id/minimalQuoteModeButton"
+                        style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:layout_marginTop="-2dp"
                         android:text="@string/dsv_quote_mode_minimal" />
 
                 <TextView
-                        android:id="@+id/nonNumericQuoteModeTextView"
-                        style="@style/DSVFormatItemController"
+                        android:id="@+id/nonNumericQuoteModeButton"
+                        style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:layout_marginTop="-2dp"
                         android:text="@string/dsv_quote_mode_non_numeric" />
 
                 <TextView
-                        android:id="@+id/noneQuoteModeTextView"
-                        style="@style/DSVFormatItemController"
+                        android:id="@+id/noneQuoteModeButton"
+                        style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:layout_marginTop="-2dp"
                         android:text="@string/dsv_quote_mode_none" />
@@ -329,7 +306,7 @@
 
             <EditText
                     android:id="@+id/escapeCharacterEditText"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemEditText"
                     android:layout_marginEnd="-2dp"
                     android:importantForAutofill="no"
                     android:inputType="text"
@@ -340,13 +317,13 @@
 
             <TextView
                     android:id="@+id/disabledEscapeCharacterTextView"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/disabled"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/escapeCharacterTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier5"
+                    android:id="@+id/barrier4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -360,11 +337,11 @@
                     android:text="@string/dsv_format_setting_null_string"
                     app:layout_constraintEnd_toStartOf="@id/nullStringEditText"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier5" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier4" />
 
             <EditText
                     android:id="@+id/nullStringEditText"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemEditText"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:labelFor="@+id/nullStringTitle"
@@ -374,39 +351,11 @@
                     tools:text="\\N" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier6"
+                    android:id="@+id/barrier5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="nullStringTitle,nullStringEditText" />
-
-            <!-- Quoted null string -->
-
-            <TextView
-                    android:id="@+id/quotedNullStringTitle"
-                    style="@style/DSVFormatItemTitle"
-                    android:text="@string/dsv_format_setting_quoted_null_string"
-                    app:layout_constraintEnd_toStartOf="@id/quotedNullStringEditText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier6" />
-
-            <EditText
-                    android:id="@+id/quotedNullStringEditText"
-                    style="@style/DSVFormatItemController"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:labelFor="@+id/quotedNullStringTitle"
-                    android:maxLength="10"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/quotedNullStringTitle"
-                    tools:text="" />
-
-            <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="quotedNullStringTitle,quotedNullStringEditText" />
 
             <!-- Ignore surrounding spaces -->
 
@@ -414,31 +363,31 @@
                     android:id="@+id/ignoreSurroundingSpacesTitle"
                     style="@style/DSVFormatItemTitle"
                     android:text="@string/dsv_format_setting_ignore_surrounding_spaces"
-                    app:layout_constraintEnd_toStartOf="@id/yesIgnoreSurroundingSpacesTitleTextView"
+                    app:layout_constraintEnd_toStartOf="@id/yesIgnoreSurroundingSpacesButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier7" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier5" />
 
             <TextView
-                    android:id="@+id/yesIgnoreSurroundingSpacesTitleTextView"
-                    style="@style/DSVFormatItemController"
+                    android:id="@+id/yesIgnoreSurroundingSpacesButton"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
-                    app:layout_constraintEnd_toStartOf="@+id/noIgnoreSurroundingSpacesTitleTextView"
+                    app:layout_constraintEnd_toStartOf="@+id/noIgnoreSurroundingSpacesButton"
                     app:layout_constraintTop_toTopOf="@+id/ignoreSurroundingSpacesTitle" />
 
             <TextView
-                    android:id="@+id/noIgnoreSurroundingSpacesTitleTextView"
-                    style="@style/DSVFormatItemController"
+                    android:id="@+id/noIgnoreSurroundingSpacesButton"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ignoreSurroundingSpacesTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier8"
+                    android:id="@+id/barrier6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="ignoreSurroundingSpacesTitle,yesIgnoreSurroundingSpacesTitleTextView" />
+                    app:constraint_referenced_ids="ignoreSurroundingSpacesTitle,yesIgnoreSurroundingSpacesButton" />
 
             <!-- Trim -->
 
@@ -446,31 +395,31 @@
                     android:id="@+id/trimTitle"
                     style="@style/DSVFormatItemTitle"
                     android:text="@string/dsv_format_setting_trim"
-                    app:layout_constraintEnd_toStartOf="@id/yesTrimTextView"
+                    app:layout_constraintEnd_toStartOf="@id/yesTrimButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier8" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier6" />
 
             <TextView
-                    android:id="@+id/yesTrimTextView"
-                    style="@style/DSVFormatItemController"
+                    android:id="@+id/yesTrimButton"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
-                    app:layout_constraintEnd_toStartOf="@+id/noTrimTextView"
+                    app:layout_constraintEnd_toStartOf="@+id/noTrimButton"
                     app:layout_constraintTop_toTopOf="@+id/trimTitle" />
 
             <TextView
-                    android:id="@+id/noTrimTextView"
-                    style="@style/DSVFormatItemController"
+                    android:id="@+id/noTrimButton"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/trimTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier9"
+                    android:id="@+id/barrier7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="trimTitle,yesTrimTextView" />
+                    app:constraint_referenced_ids="trimTitle,yesTrimButton" />
 
             <!-- Ignore empty lines -->
 
@@ -480,11 +429,11 @@
                     android:text="@string/dsv_format_setting_ignore_empty_lines"
                     app:layout_constraintEnd_toStartOf="@id/yesIgnoreEmptyLinesButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier9" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier7" />
 
             <TextView
                     android:id="@+id/yesIgnoreEmptyLinesButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
                     app:layout_constraintEnd_toStartOf="@+id/noIgnoreEmptyLinesButton"
@@ -492,17 +441,45 @@
 
             <TextView
                     android:id="@+id/noIgnoreEmptyLinesButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ignoreEmptyLinesTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier10"
+                    android:id="@+id/barrier8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="ignoreEmptyLinesTitle,yesIgnoreEmptyLinesButton" />
+
+            <!-- Record separator -->
+
+            <TextView
+                    android:id="@+id/recordSeparatorTitle"
+                    style="@style/DSVFormatItemTitle"
+                    android:text="@string/dsv_format_setting_record_separator"
+                    app:layout_constraintEnd_toStartOf="@id/recordSeparatorEditText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/barrier8" />
+
+            <EditText
+                    android:id="@+id/recordSeparatorEditText"
+                    style="@style/DSVFormatItemEditText"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:labelFor="@+id/recordSeparatorTitle"
+                    android:maxLength="10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/recordSeparatorTitle"
+                    tools:text="\\n" />
+
+            <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="recordSeparatorTitle,recordSeparatorEditText" />
 
             <!-- Comment character -->
 
@@ -512,11 +489,11 @@
                     android:text="@string/dsv_format_setting_comment_character"
                     app:layout_constraintEnd_toStartOf="@id/commentCharacterEditText"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier10" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier9" />
 
             <EditText
                     android:id="@+id/commentCharacterEditText"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemEditText"
                     android:layout_marginEnd="-2dp"
                     android:importantForAutofill="no"
                     android:inputType="text"
@@ -527,13 +504,13 @@
 
             <TextView
                     android:id="@+id/disabledCommentCharacterTextView"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/disabled"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/commentCharacterTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier11"
+                    android:id="@+id/barrier10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -547,11 +524,11 @@
                     android:text="@string/dsv_format_setting_skip_header_record"
                     app:layout_constraintEnd_toStartOf="@id/yesSkipHeaderRecordButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier11" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier10" />
 
             <TextView
                     android:id="@+id/yesSkipHeaderRecordButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
                     app:layout_constraintEnd_toStartOf="@+id/noSkipHeaderRecordButton"
@@ -559,13 +536,13 @@
 
             <TextView
                     android:id="@+id/noSkipHeaderRecordButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/skipHeaderRecordTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier12"
+                    android:id="@+id/barrier11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -579,7 +556,7 @@
                     android:text="@string/dsv_format_setting_header_column_names"
                     app:layout_constraintEnd_toStartOf="@id/headerColumnNamesRecycler"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier12" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier11" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/headerColumnNamesRecycler"
@@ -591,7 +568,7 @@
                     tools:listitem="@layout/item_header_column_name_of_dsv" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier13"
+                    android:id="@+id/barrier12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -605,11 +582,11 @@
                     android:text="@string/dsv_format_setting_ignore_header_names_case"
                     app:layout_constraintEnd_toStartOf="@id/yesIgnoreHeaderNamesCaseButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier13" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier12" />
 
             <TextView
                     android:id="@+id/yesIgnoreHeaderNamesCaseButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
                     app:layout_constraintEnd_toStartOf="@+id/noIgnoreHeaderNamesCaseButton"
@@ -617,13 +594,13 @@
 
             <TextView
                     android:id="@+id/noIgnoreHeaderNamesCaseButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ignoreHeaderNamesCaseTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier14"
+                    android:id="@+id/barrier13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -637,11 +614,11 @@
                     android:text="@string/dsv_format_setting_allow_duplicate_header_names"
                     app:layout_constraintEnd_toStartOf="@id/yesAllowDuplicateHeaderNamesButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier14" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier13" />
 
             <TextView
                     android:id="@+id/yesAllowDuplicateHeaderNamesButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
                     app:layout_constraintEnd_toStartOf="@+id/noAllowDuplicateHeaderNamesButton"
@@ -649,13 +626,13 @@
 
             <TextView
                     android:id="@+id/noAllowDuplicateHeaderNamesButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/allowDuplicateHeaderNamesTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier15"
+                    android:id="@+id/barrier14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -669,11 +646,11 @@
                     android:text="@string/dsv_format_setting_allow_missing_column_names"
                     app:layout_constraintEnd_toStartOf="@id/yesAllowMissingColumnNamesButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier15" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier14" />
 
             <TextView
                     android:id="@+id/yesAllowMissingColumnNamesButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
                     app:layout_constraintEnd_toStartOf="@+id/noAllowMissingColumnNamesButton"
@@ -681,13 +658,13 @@
 
             <TextView
                     android:id="@+id/noAllowMissingColumnNamesButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/allowMissingColumnNamesTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier16"
+                    android:id="@+id/barrier15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -701,7 +678,7 @@
                     android:text="@string/dsv_format_setting_header_comments"
                     app:layout_constraintEnd_toStartOf="@id/headerCommentsRecycler"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier16" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier15" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/headerCommentsRecycler"
@@ -714,7 +691,7 @@
                     tools:listitem="@layout/item_header_column_name_of_dsv" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier17"
+                    android:id="@+id/barrier16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -728,11 +705,11 @@
                     android:text="@string/dsv_format_setting_auto_flush"
                     app:layout_constraintEnd_toStartOf="@id/yesAutoFlushButton"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier17" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier16" />
 
             <TextView
                     android:id="@+id/yesAutoFlushButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:layout_marginEnd="-2dp"
                     android:text="@string/yes"
                     app:layout_constraintEnd_toStartOf="@+id/noAutoFlushButton"
@@ -740,13 +717,13 @@
 
             <TextView
                     android:id="@+id/noAutoFlushButton"
-                    style="@style/DSVFormatItemController"
+                    style="@style/DSVFormatItemButton"
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/autoFlushTitle" />
 
             <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier18"
+                    android:id="@+id/barrier17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
@@ -757,7 +734,7 @@
                     android:layout_height="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier18" />
+                    app:layout_constraintTop_toBottomOf="@+id/barrier17" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

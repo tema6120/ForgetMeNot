@@ -103,4 +103,6 @@
     <dimen name="text_size_change_deck_for_import_popup_button">15sp</dimen>
     <dimen name="text_size_file_import_screen_label_for_control_panel_button">8sp</dimen>
     <dimen name="text_size_file_import_screen_control_panel_button">18sp</dimen>
+    <dimen name="text_size_dsv_format_screen_item_title">16sp</dimen>
+    <dimen name="text_size_dsv_format_screen_item_controller">16sp</dimen>
 </resources>

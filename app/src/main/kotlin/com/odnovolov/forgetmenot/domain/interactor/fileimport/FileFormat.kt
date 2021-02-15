@@ -19,6 +19,7 @@ data class FileFormat(
                 FMN_FORMAT,
                 CSV_DEFAULT,
                 CSV_EXCEL,
+                CSV_EXCEL_SEMICOLON,
                 CSV_MYSQL,
                 CSV_RFC4180,
                 CSV_TDF
@@ -38,7 +39,7 @@ data class FileFormat(
             name = "CSV | Default",
             extension = EXTENSION_CSV,
             parser = CsvParser(CSVFormat.DEFAULT),
-            isPredefined = true
+            isPredefined = true,
         )
 
         val CSV_EXCEL = FileFormat(
@@ -49,8 +50,16 @@ data class FileFormat(
             isPredefined = true
         )
 
-        val CSV_MYSQL = FileFormat(
+        val CSV_EXCEL_SEMICOLON = FileFormat(
             id = 3,
+            name = "CSV | Excel (semicolon)",
+            extension = EXTENSION_CSV,
+            parser = CsvParser(CSVFormat.EXCEL.withDelimiter(';')),
+            isPredefined = true
+        )
+
+        val CSV_MYSQL = FileFormat(
+            id = 4,
             name = "CSV | MySQL",
             extension = EXTENSION_CSV,
             parser = CsvParser(CSVFormat.MYSQL),
@@ -58,7 +67,7 @@ data class FileFormat(
         )
 
         val CSV_RFC4180 = FileFormat(
-            id = 4,
+            id = 5,
             name = "CSV | RFC-4180",
             extension = EXTENSION_CSV,
             parser = CsvParser(CSVFormat.RFC4180),
@@ -66,7 +75,7 @@ data class FileFormat(
         )
 
         val CSV_TDF = FileFormat(
-            id = 5,
+            id = 6,
             name = "TSV",
             extension = EXTENSION_TSV,
             parser = CsvParser(CSVFormat.TDF),

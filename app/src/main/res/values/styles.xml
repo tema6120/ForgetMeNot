@@ -329,14 +329,14 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:textColor">@color/textSecondary</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_dsv_format_screen_item_title</item>
     </style>
 
-    <style name="DSVFormatItemController">
+    <style name="DSVFormatItemButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">16dp</item>
-        <item name="android:background">@drawable/background_dsv_file_format_controller</item>
+        <item name="android:background">@drawable/background_dsv_file_format_button</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
@@ -344,9 +344,14 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingEnd">14dp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_dsv_format_controller</item>
+        <item name="android:textSize">@dimen/text_size_dsv_format_screen_item_controller</item>
         <item name="layout_constraintWidth_min">40dp</item>
+        <item name="android:stateListAnimator">@animator/dsv_format_controller</item>
+    </style>
+
+    <style name="DSVFormatItemEditText" parent="@style/DSVFormatItemButton">
+        <item name="android:background">@drawable/background_dsv_file_format_edittext</item>
     </style>
 
     <!-- end DSV format -->

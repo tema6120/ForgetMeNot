@@ -888,20 +888,25 @@
     <string name="screen_title_dsv_format">DSV формат</string>
     <string name="tip_dsv_format">Значения, разделенные разделителем, обрабатываются благодаря
         библиотеке <annotation clickable="csv_library">Apache Commons CSV</annotation>. Посетите
-        <annotation clickable="CSVFormat">эту страницу</annotation>, чтобы лучше понять, что
-        означают настройки формата.</string>
+        <annotation clickable="CSVFormat">эту страницу</annotation>, чтобы узнать больше о
+        настройках формата.
+
+        \n\nОсобенные символы:
+        \n\t\\n - новая строка
+        \n\t\\r - возврат каретки
+        \n\t\\t - горизонтальная табуляция
+        \n\t\\\\ - обратная косая черта</string>
     <string name="description_delete_format_settings">Удалить настройки формата</string>
-    <string name="dsv_format_setting_record_separator">Разделитель записей (Record separator)</string>
     <string name="dsv_format_setting_delimiter">Разделитель значений (Delimiter)</string>
     <string name="dsv_format_setting_trailing_delimiter">Конечный разделитель (Trailing delimiter)</string>
     <string name="dsv_format_setting_quote_character">Cимвол кавычек (Quote character)</string>
-    <string name="dsv_format_setting_quote_mode">Режим кавычек (Quote mode)</string>
+    <string name="dsv_format_setting_quote_mode">Режим кавычек (Quote mode)\n(Используется для вывода)</string>
     <string name="dsv_format_setting_escape_character">Символ избежание (Escape character)</string>
     <string name="dsv_format_setting_null_string">Обозначение Null-значения</string>
-    <string name="dsv_format_setting_quoted_null_string">Обозначение Null-значения в кавычках</string>
     <string name="dsv_format_setting_ignore_surrounding_spaces">Игнорировать окружающие пробелы (Ignore surrounding spaces)</string>
     <string name="dsv_format_setting_trim">Обрезать (Trim)</string>
     <string name="dsv_format_setting_ignore_empty_lines">Игнорировать пустые строки</string>
+    <string name="dsv_format_setting_record_separator">Разделитель записей (Record separator)\n(Используется для вывода)</string>
     <string name="dsv_format_setting_comment_character">Символ комментария (Comment character)</string>
     <string name="dsv_format_setting_skip_header_record">Пропускать запись заголовка</string>
     <string name="dsv_format_setting_header_column_names">Названия столбцов заголовка</string>

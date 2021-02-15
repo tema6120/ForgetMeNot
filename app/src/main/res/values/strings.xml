@@ -875,20 +875,25 @@
     <string name="screen_title_dsv_format">DSV format</string>
     <string name="tip_dsv_format">Delimiter-separated values are processed with the
         <annotation clickable="csv_library">Apache Commons CSV library</annotation>. Visit
-        <annotation clickable="CSVFormat">this page</annotation> to better understand what the
-        format settings mean.</string>
+        <annotation clickable="CSVFormat">this page</annotation> to learn more about format
+        settings.
+
+        \n\nSpecial characters:
+        \n\t\\n - new line
+        \n\t\\r - carriage return
+        \n\t\\t - horizontal tab
+        \n\t\\\\ - backslash</string>
     <string name="description_delete_format_settings">Delete format settings</string>
-    <string name="dsv_format_setting_record_separator">Record separator</string>
     <string name="dsv_format_setting_delimiter">Delimiter</string>
     <string name="dsv_format_setting_trailing_delimiter">Trailing delimiter</string>
     <string name="dsv_format_setting_quote_character">Quote character</string>
-    <string name="dsv_format_setting_quote_mode">Quote mode</string>
+    <string name="dsv_format_setting_quote_mode">Quote mode\n(Used for outputs)</string>
     <string name="dsv_format_setting_escape_character">Escape character</string>
     <string name="dsv_format_setting_null_string">Null string</string>
-    <string name="dsv_format_setting_quoted_null_string">Quoted null string</string>
     <string name="dsv_format_setting_ignore_surrounding_spaces">Ignore surrounding spaces</string>
     <string name="dsv_format_setting_trim">Trim</string>
     <string name="dsv_format_setting_ignore_empty_lines">Ignore empty lines</string>
+    <string name="dsv_format_setting_record_separator">Record separator\n(Used for outputs)</string>
     <string name="dsv_format_setting_comment_character">Comment character</string>
     <string name="dsv_format_setting_skip_header_record">Skip header record</string>
     <string name="dsv_format_setting_header_column_names">Header column names</string>
