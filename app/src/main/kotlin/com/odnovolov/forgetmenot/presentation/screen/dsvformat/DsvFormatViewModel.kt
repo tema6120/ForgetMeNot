@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.apache.commons.csv.QuoteMode
 
 class DsvFormatViewModel(
@@ -22,10 +23,12 @@ class DsvFormatViewModel(
     val recordSeparator: String? get() = screenState.recordSeparator
     val commentMarker: Flow<Char?> = screenState.flowOf(DsvFormatScreenState::commentMarker)
     val skipHeaderRecord: Flow<Boolean> = screenState.flowOf(DsvFormatScreenState::skipHeaderRecord)
-    val header: Flow<Array<String>?> = screenState.flowOf(DsvFormatScreenState::header)
+    val header: Array<String>? get() = screenState.header
+    val headerColumnCount: Flow<Int> = screenState.flowOf(DsvFormatScreenState::header).map { it?.size ?: 0 }
     val ignoreHeaderCase: Flow<Boolean> = screenState.flowOf(DsvFormatScreenState::ignoreHeaderCase)
     val allowDuplicateHeaderNames: Flow<Boolean> = screenState.flowOf(DsvFormatScreenState::allowDuplicateHeaderNames)
     val allowMissingColumnNames: Flow<Boolean> = screenState.flowOf(DsvFormatScreenState::allowMissingColumnNames)
-    val headerComments: Flow<Array<String>?> = screenState.flowOf(DsvFormatScreenState::headerComments)
+    val headerComments: Array<String>? get() = screenState.headerComments
+    val headerCommentsCount: Flow<Int> = screenState.flowOf(DsvFormatScreenState::headerComments).map { it?.size ?: 0 }
     val autoFlush: Flow<Boolean> = screenState.flowOf(DsvFormatScreenState::autoFlush)
 }

@@ -84,8 +84,36 @@ class DsvFormatController(
                 screenState.skipHeaderRecord = event.skipHeaderRecord
             }
 
-            is HeaderChanged -> {
-                screenState.header = event.header
+            is HeaderColumnNameChanged -> {
+                val currentHeader = screenState.header
+                when {
+                    currentHeader == null -> {
+                        if (event.columnName.isEmpty()) return
+                        screenState.header = arrayOf(event.columnName)
+                    }
+                    event.position > currentHeader.lastIndex -> {
+                        screenState.header = Array(currentHeader.size + 1) { i: Int ->
+                            if (i <= currentHeader.lastIndex) {
+                                currentHeader[i]
+                            } else {
+                                event.columnName
+                            }
+                        }
+                    }
+                    event.position == currentHeader.lastIndex && event.columnName.isEmpty() -> {
+                        screenState.header =
+                            if (currentHeader.size <= 1) {
+                                null
+                            } else {
+                                Array(currentHeader.size - 1) { i: Int ->
+                                    currentHeader[i]
+                                }
+                            }
+                    }
+                    else -> {
+                        screenState.header!![event.position] = event.columnName
+                    }
+                }
             }
 
             is IgnoreHeaderCaseChanged -> {
@@ -100,8 +128,38 @@ class DsvFormatController(
                 screenState.allowMissingColumnNames = event.allowMissingColumnNames
             }
 
-            is HeaderCommentsChanged -> {
-                screenState.headerComments = event.headerComments
+            is HeaderCommentChanged -> {
+                val currentHeaderComments = screenState.headerComments
+                when {
+                    currentHeaderComments == null -> {
+                        if (event.headerComment.isEmpty()) return
+                        screenState.headerComments = arrayOf(event.headerComment)
+                    }
+                    event.position > currentHeaderComments.lastIndex -> {
+                        screenState.headerComments =
+                            Array(currentHeaderComments.size + 1) { i: Int ->
+                                if (i <= currentHeaderComments.lastIndex) {
+                                    currentHeaderComments[i]
+                                } else {
+                                    event.headerComment
+                                }
+                            }
+                    }
+                    event.position == currentHeaderComments.lastIndex
+                            && event.headerComment.isEmpty() -> {
+                        screenState.headerComments =
+                            if (currentHeaderComments.size <= 1) {
+                                null
+                            } else {
+                                Array(currentHeaderComments.size - 1) { i: Int ->
+                                    currentHeaderComments[i]
+                                }
+                            }
+                    }
+                    else -> {
+                        screenState.headerComments!![event.position] = event.headerComment
+                    }
+                }
             }
 
             is AutoFlushChanged -> {

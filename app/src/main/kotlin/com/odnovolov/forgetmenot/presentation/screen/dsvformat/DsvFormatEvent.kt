@@ -21,10 +21,10 @@ sealed class DsvFormatEvent {
     class RecordSeparatorChanged(val recordSeparator: String?) : DsvFormatEvent()
     class CommentMarkerChanged(val commentMarker: Char?) : DsvFormatEvent()
     class SkipHeaderRecordChanged(val skipHeaderRecord: Boolean) : DsvFormatEvent()
-    class HeaderChanged(val header: Array<String>?) : DsvFormatEvent()
+    class HeaderColumnNameChanged(val position: Int, val columnName: String) : DsvFormatEvent()
     class IgnoreHeaderCaseChanged(val ignoreHeaderCase: Boolean) : DsvFormatEvent()
     class AllowDuplicateHeaderNamesChanged(val allowDuplicateHeaderNames: Boolean) : DsvFormatEvent()
     class AllowMissingColumnNamesChanged(val allowMissingColumnNames: Boolean) : DsvFormatEvent()
-    class HeaderCommentsChanged(val headerComments: Array<String>?) : DsvFormatEvent()
+    class HeaderCommentChanged(val position: Int, val headerComment: String) : DsvFormatEvent()
     class AutoFlushChanged(val autoFlush: Boolean) : DsvFormatEvent()
 }

@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
@@ -127,6 +130,55 @@ class DsvFormatFragment : BaseFragment() {
                 yesSkipHeaderRecordButton.isSelected = skipHeaderRecord
                 noSkipHeaderRecordButton.isSelected = !skipHeaderRecord
             }
+            header?.let { headerColumnNames: Array<String> ->
+                headerColumnNames.forEachIndexed { index: Int, columnName: String ->
+                    if (index == 0) {
+                        firstHeaderColumnNameEditText.setText(columnName)
+                    } else {
+                        with(headerColumnNamesLinearLayout) {
+                            if (childCount < index + 1) {
+                                val newInput =
+                                    View.inflate(context, R.layout.dsv_list_input, null) as EditText
+                                val position = childCount
+                                newInput.isEnabled = !isReadOnly
+                                newInput.observeText { newText: String ->
+                                    controller?.dispatch(HeaderColumnNameChanged(position, newText))
+                                }
+                                addView(newInput)
+                                newInput.updateLayoutParams<MarginLayoutParams> {
+                                    topMargin = -(2.dp)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            headerColumnCount.observe { headerColumnCount: Int ->
+                val inputCountShouldBe = headerColumnCount + 1
+                with(headerColumnNamesLinearLayout) {
+                    while (childCount > inputCountShouldBe) {
+                        val lastViewPosition = childCount - 1
+                        removeViewAt(lastViewPosition)
+                    }
+                    while (childCount < inputCountShouldBe) {
+                        val newInput =
+                            View.inflate(context, R.layout.dsv_list_input, null) as EditText
+                        val position = childCount
+                        newInput.isEnabled = true //!isReadOnly
+                        newInput.observeText { newText: String ->
+                            controller?.dispatch(HeaderColumnNameChanged(position, newText))
+                        }
+                        addView(newInput)
+                        newInput.updateLayoutParams<MarginLayoutParams> {
+                            topMargin = -(2.dp)
+                        }
+                    }
+                    children.toList().forEachIndexed { index, view ->
+                        val isLastView = index == childCount - 1
+                        view.isSelected = !isLastView
+                    }
+                }
+            }
             ignoreHeaderCase.observe { ignoreHeaderCase: Boolean ->
                 yesIgnoreHeaderNamesCaseButton.isSelected = ignoreHeaderCase
                 noIgnoreHeaderNamesCaseButton.isSelected = !ignoreHeaderCase
@@ -138,6 +190,55 @@ class DsvFormatFragment : BaseFragment() {
             allowMissingColumnNames.observe { allowMissingColumnNames: Boolean ->
                 yesAllowMissingColumnNamesButton.isSelected = allowMissingColumnNames
                 noAllowMissingColumnNamesButton.isSelected = !allowMissingColumnNames
+            }
+            headerComments?.let { headerComments: Array<String> ->
+                headerComments.forEachIndexed { index: Int, comment: String ->
+                    if (index == 0) {
+                        firstHeaderCommentEditText.setText(comment)
+                    } else {
+                        with(headerCommentsLinearLayout) {
+                            if (childCount < index + 1) {
+                                val newInput =
+                                    View.inflate(context, R.layout.dsv_list_input, null) as EditText
+                                val position = childCount
+                                newInput.isEnabled = !isReadOnly
+                                newInput.observeText { newText: String ->
+                                    controller?.dispatch(HeaderCommentChanged(position, newText))
+                                }
+                                addView(newInput)
+                                newInput.updateLayoutParams<MarginLayoutParams> {
+                                    topMargin = -(2.dp)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            headerCommentsCount.observe { headerCommentsCount: Int ->
+                val inputCountShouldBe = headerCommentsCount + 1
+                with(headerCommentsLinearLayout) {
+                    while (childCount > inputCountShouldBe) {
+                        val lastViewPosition = childCount - 1
+                        removeViewAt(lastViewPosition)
+                    }
+                    while (childCount < inputCountShouldBe) {
+                        val newInput =
+                            View.inflate(context, R.layout.dsv_list_input, null) as EditText
+                        val position = childCount
+                        newInput.isEnabled = true //!isReadOnly
+                        newInput.observeText { newText: String ->
+                            controller?.dispatch(HeaderCommentChanged(position, newText))
+                        }
+                        addView(newInput)
+                        newInput.updateLayoutParams<MarginLayoutParams> {
+                            topMargin = -(2.dp)
+                        }
+                    }
+                    children.toList().forEachIndexed { index, view ->
+                        val isLastView = index == childCount - 1
+                        view.isSelected = !isLastView
+                    }
+                }
             }
             autoFlush.observe { autoFlush: Boolean ->
                 yesAutoFlushButton.isSelected = autoFlush
@@ -279,7 +380,10 @@ class DsvFormatFragment : BaseFragment() {
             controller?.dispatch(SkipHeaderRecordChanged(false))
         }
         // Header column names
-        // todo
+        firstHeaderColumnNameEditText.isEnabled = true
+        firstHeaderColumnNameEditText.observeText { newText: String ->
+            controller?.dispatch(HeaderColumnNameChanged(0, newText))
+        }
         // Ignore header names case
         yesIgnoreHeaderNamesCaseButton.setOnClickListener {
             controller?.dispatch(IgnoreHeaderCaseChanged(true))
@@ -302,7 +406,10 @@ class DsvFormatFragment : BaseFragment() {
             controller?.dispatch(AllowMissingColumnNamesChanged(false))
         }
         // Header comments
-        // todo
+        firstHeaderCommentEditText.isEnabled = true
+        firstHeaderCommentEditText.observeText { newText: String ->
+            controller?.dispatch(HeaderCommentChanged(0, newText))
+        }
         // Auto-flush
         yesAutoFlushButton.setOnClickListener {
             controller?.dispatch(AutoFlushChanged(true))
@@ -352,7 +459,8 @@ class DsvFormatFragment : BaseFragment() {
     }
 
     companion object {
-        const val APACHE_COMMONS_CSV_LIBRARY_URL = "https://commons.apache.org/proper/commons-csv/"
+        const val APACHE_COMMONS_CSV_LIBRARY_URL =
+            "https://commons.apache.org/proper/commons-csv/"
         const val CSV_FORMAT_URL =
             "https://commons.apache.org/proper/commons-csv/apidocs/org/apache/commons/csv/CSVFormat.html"
     }

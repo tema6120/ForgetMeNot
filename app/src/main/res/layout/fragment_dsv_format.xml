@@ -564,25 +564,38 @@
                     android:id="@+id/headerColumnNamesTitle"
                     style="@style/DSVFormatItemTitle"
                     android:text="@string/dsv_format_setting_header_column_names"
-                    app:layout_constraintEnd_toStartOf="@id/headerColumnNamesRecycler"
+                    app:layout_constraintEnd_toStartOf="@id/headerColumnNamesLinearLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/barrier11" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/headerColumnNamesRecycler"
-                    android:layout_width="200dp"
+            <LinearLayout
+                    android:id="@+id/headerColumnNamesLinearLayout"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    app:layoutManager="LinearLayoutManager"
+                    android:layout_marginEnd="16dp"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/headerColumnNamesTitle"
-                    tools:listitem="@layout/item_header_column_name_of_dsv" />
+                    app:layout_constraintTop_toTopOf="@id/headerColumnNamesTitle">
+
+                <EditText
+                        android:id="@+id/firstHeaderColumnNameEditText"
+                        style="@style/DSVFormatItemEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="0dp"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:labelFor="@+id/headerColumnNamesTitle" />
+
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="headerColumnNamesTitle,headerColumnNamesRecycler" />
+                    app:constraint_referenced_ids="headerColumnNamesTitle,headerColumnNamesLinearLayout" />
 
             <!-- Ignore header names case -->
 
@@ -686,26 +699,38 @@
                     android:id="@+id/headerCommentsTitle"
                     style="@style/DSVFormatItemTitle"
                     android:text="@string/dsv_format_setting_header_comments"
-                    app:layout_constraintEnd_toStartOf="@id/headerCommentsRecycler"
+                    app:layout_constraintEnd_toStartOf="@id/headerCommentsLinearLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/barrier15" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/headerCommentsRecycler"
-                    android:layout_width="200dp"
+            <LinearLayout
+                    android:id="@+id/headerCommentsLinearLayout"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    app:layoutManager="LinearLayoutManager"
+                    android:layout_marginEnd="16dp"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/headerCommentsTitle"
-                    tools:ignore="TooManyViews"
-                    tools:listitem="@layout/item_header_column_name_of_dsv" />
+                    app:layout_constraintTop_toTopOf="@id/headerCommentsTitle">
+
+                <EditText
+                        android:id="@+id/firstHeaderCommentEditText"
+                        style="@style/DSVFormatItemEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="0dp"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:labelFor="@+id/headerCommentsTitle" />
+
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="headerCommentsTitle,headerCommentsRecycler" />
+                    app:constraint_referenced_ids="headerCommentsTitle,headerCommentsLinearLayout" />
 
             <!-- Auto-flush -->
 

@@ -1,0 +1,11 @@
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/editText"
+        style="@style/DSVFormatItemEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-2dp"
+        android:layout_marginEnd="0dp"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        tools:text="Question" />
