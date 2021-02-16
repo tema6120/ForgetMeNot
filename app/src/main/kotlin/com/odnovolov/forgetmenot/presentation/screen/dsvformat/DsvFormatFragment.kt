@@ -75,6 +75,10 @@ class DsvFormatFragment : BaseFragment() {
             isTipVisible.observe { isTipVisible: Boolean ->
                 tipLayout.isVisible = isTipVisible
             }
+            errorMessage.observe { errorMessage: String? ->
+                errorTextView.isVisible = errorMessage != null
+                errorMessage?.let(errorTextView::setText)
+            }
             setReadOnly(isReadOnly)
             delimiterEditText.setText(delimiter?.toString()?.toDisplayedString())
             trailingDelimiter.observe { trailingDelimiter: Boolean ->

@@ -4,6 +4,8 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
+import org.apache.commons.csv.CSVFormat
+import java.lang.Exception
 
 class DsvFormatController(
     private val screenState: DsvFormatScreenState,
@@ -38,50 +40,62 @@ class DsvFormatController(
 
             is DelimiterChanged -> {
                 screenState.delimiter = event.delimiter
+                validate()
             }
 
             is TrailingDelimiterChanged -> {
                 screenState.trailingDelimiter = event.trailingDelimiter
+                validate()
             }
 
             is QuoteCharacterChanged -> {
                 screenState.quoteCharacter = event.quoteCharacter
+                validate()
             }
 
             is QuoteModeChanged -> {
                 screenState.quoteMode = event.quoteMode
+                validate()
             }
 
             is EscapeCharacterChanged -> {
                 screenState.escapeCharacter = event.escapeCharacter
+                validate()
             }
 
             is NullStringChanged -> {
                 screenState.nullString = event.nullString
+                validate()
             }
 
             is IgnoreSurroundingSpacesChanged -> {
                 screenState.ignoreSurroundingSpaces = event.ignoreSurroundingSpaces
+                validate()
             }
 
             is TrimChanged -> {
                 screenState.trim = event.trim
+                validate()
             }
 
             is IgnoreEmptyLinesChanged -> {
                 screenState.ignoreEmptyLines = event.ignoreEmptyLines
+                validate()
             }
 
             is RecordSeparatorChanged -> {
                 screenState.recordSeparator = event.recordSeparator
+                validate()
             }
 
             is CommentMarkerChanged -> {
                 screenState.commentMarker = event.commentMarker
+                validate()
             }
 
             is SkipHeaderRecordChanged -> {
                 screenState.skipHeaderRecord = event.skipHeaderRecord
+                validate()
             }
 
             is HeaderColumnNameChanged -> {
@@ -114,18 +128,22 @@ class DsvFormatController(
                         screenState.header!![event.position] = event.columnName
                     }
                 }
+                validate()
             }
 
             is IgnoreHeaderCaseChanged -> {
                 screenState.ignoreHeaderCase = event.ignoreHeaderCase
+                validate()
             }
 
             is AllowDuplicateHeaderNamesChanged -> {
                 screenState.allowDuplicateHeaderNames = event.allowDuplicateHeaderNames
+                validate()
             }
 
             is AllowMissingColumnNamesChanged -> {
                 screenState.allowMissingColumnNames = event.allowMissingColumnNames
+                validate()
             }
 
             is HeaderCommentChanged -> {
@@ -160,11 +178,41 @@ class DsvFormatController(
                         screenState.headerComments!![event.position] = event.headerComment
                     }
                 }
+                validate()
             }
 
             is AutoFlushChanged -> {
                 screenState.autoFlush = event.autoFlush
+                validate()
             }
+        }
+    }
+
+    private fun validate() {
+        screenState.errorMessage = try {
+            with(screenState) {
+                CSVFormat.newFormat(delimiter!!)
+                    .withTrailingDelimiter(trailingDelimiter)
+                    .withQuote(quoteCharacter)
+                    .withQuoteMode(quoteMode)
+                    .withEscape(escapeCharacter)
+                    .withNullString(nullString)
+                    .withIgnoreSurroundingSpaces(ignoreSurroundingSpaces)
+                    .withTrim(trim)
+                    .withIgnoreEmptyLines(ignoreEmptyLines)
+                    .withRecordSeparator(recordSeparator)
+                    .withCommentMarker(commentMarker)
+                    .withSkipHeaderRecord(skipHeaderRecord)
+                    .apply { header?.let(::withHeader) }
+                    .withIgnoreHeaderCase(ignoreHeaderCase)
+                    .withAllowDuplicateHeaderNames(allowDuplicateHeaderNames)
+                    .withAllowMissingColumnNames(allowMissingColumnNames)
+                    .withHeaderComments(headerComments)
+                    .withAutoFlush(autoFlush)
+            }
+            null
+        } catch (e: Exception) {
+            e.message ?: e::class.java.simpleName
         }
     }
 
