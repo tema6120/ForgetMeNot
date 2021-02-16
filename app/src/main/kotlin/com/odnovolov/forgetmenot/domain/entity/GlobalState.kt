@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.domain.entity
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
-import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
+import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 
 class GlobalState(
     decks: CopyableCollection<Deck>,

@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -25,6 +26,8 @@ class FileImportDiScope private constructor(
 
     private val fileImporterState: FileImporter.State =
         initialFileImporterState ?: fileImporterStateProvider.load()
+
+    val fileImportStorage: FileImportStorage = FileImportStorage(HashMap()) // fixme
 
     val fileImporter = FileImporter(
         fileImporterState,
@@ -89,7 +92,8 @@ class FileImportDiScope private constructor(
 
     fun fileFormatViewModel(id: Long) = FileFormatViewModel(
         id,
-        fileImporterState
+        fileImporterState,
+        fileImportStorage
     )
 
     companion object : DiScopeManager<FileImportDiScope>() {

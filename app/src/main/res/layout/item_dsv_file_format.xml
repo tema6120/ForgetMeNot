@@ -20,7 +20,7 @@
             android:id="@+id/editFormatSettingsButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="20dp"
             android:background="@drawable/ripple_light_borderless"
             android:contentDescription="@string/description_edit_format_settings"
             android:visibility="gone"

@@ -5,7 +5,8 @@ import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.QuoteMode
 
 class DsvFormatEditor(
-    val state: State
+    val state: State,
+    private val fileImportStorage: FileImportStorage
 ) {
     class State(
         sourceFileFormat: FileFormat,
@@ -326,7 +327,15 @@ class DsvFormatEditor(
     fun save(): SaveResult {
         // todo check name
         val newCsvFormat: CSVFormat = validate() ?: return SaveResult.FAILED_VALIDATION
-        // save to global state
+        val parser = CsvParser(newCsvFormat)
+        val fileImport = state.sourceFileFormat.copy(
+            name = state.formatName,
+            parser = parser
+        )
+        with (fileImportStorage) {
+            customFileFormats[fileImport.id] = fileImport
+            customFileFormats = customFileFormats
+        }
         return SaveResult.SUCCESS
     }
 

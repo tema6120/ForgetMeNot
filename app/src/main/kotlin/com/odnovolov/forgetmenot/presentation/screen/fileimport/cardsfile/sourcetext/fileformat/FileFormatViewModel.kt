@@ -2,15 +2,14 @@ package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourc
 
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class FileFormatViewModel(
     private val cardsFileId: Long,
-    fileImporterState: FileImporter.State
+    fileImporterState: FileImporter.State,
+    private val fileImportStorage: FileImportStorage
 ) {
     private val cardsFile: Flow<CardsFile> =
         fileImporterState.flowOf(FileImporter.State::files)
@@ -19,13 +18,13 @@ class FileFormatViewModel(
             }
             .filterNotNull()
 
-    private val fileFormat: Flow<FileFormat> =
+    private val currentFileFormat: Flow<FileFormat> =
         cardsFile.flatMapLatest { cardsFile: CardsFile ->
             cardsFile.flowOf(CardsFile::format)
         }
 
     val formatName: Flow<String> =
-        fileFormat.map { format: FileFormat ->
+        currentFileFormat.map { format: FileFormat ->
             if (format.isPredefined) {
                 format.name
             } else {
@@ -34,12 +33,15 @@ class FileFormatViewModel(
         }
 
     val isFmnFormatSelected: Flow<Boolean> =
-        fileFormat.map { selectedFileFormat: FileFormat ->
+        currentFileFormat.map { selectedFileFormat: FileFormat ->
             FileFormat.FMN_FORMAT.id == selectedFileFormat.id
         }
 
     val dsvFileFormatItems: Flow<List<DsvFileFormat>> =
-        fileFormat.map { selectedFileFormat: FileFormat ->
+        combine(
+            currentFileFormat,
+            fileImportStorage.flowOf(FileImportStorage::customFileFormats)
+        ) { currentFileFormat: FileFormat, customFileFormats: Map<Long, FileFormat> ->
             FileFormat.predefinedFormats
                 .filter { predefinedFileFormat: FileFormat ->
                     when (predefinedFileFormat.extension) {
@@ -47,10 +49,11 @@ class FileFormatViewModel(
                         else -> false
                     }
                 }
+                .plus(customFileFormats.values)
                 .map { predefinedFileFormat: FileFormat ->
                     DsvFileFormat(
                         predefinedFileFormat,
-                        isSelected = predefinedFileFormat.id == selectedFileFormat.id
+                        isSelected = predefinedFileFormat.id == currentFileFormat.id
                     )
                 }
         }

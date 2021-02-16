@@ -16,7 +16,8 @@ class DsvFormatDiScope private constructor(
         initialScreenState ?: throw NullPointerException() // fixme
 
     private val dsvFormatEditor = DsvFormatEditor(
-        dsvFormatEditorState
+        dsvFormatEditorState,
+        FileImportDiScope.getOrRecreate().fileImportStorage
     )
 
     val controller = DsvFormatController(
