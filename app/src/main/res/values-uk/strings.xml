@@ -912,5 +912,8 @@
     <string name="dsv_quote_mode_minimal">По мінімуму</string>
     <string name="dsv_quote_mode_non_numeric">Нечислові</string>
     <string name="dsv_quote_mode_none">Не використовувати</string>
+    <string name="error_message_failed_to_save_dsv_format_empty_name">Не вказано назву</string>
+    <string name="error_message_failed_to_save_dsv_format_occupied_name">Назва зайнята</string>
+    <string name="error_message_failed_to_save_dsv_format_not_valid">Формат DSV недійсний</string>
 
 </resources>

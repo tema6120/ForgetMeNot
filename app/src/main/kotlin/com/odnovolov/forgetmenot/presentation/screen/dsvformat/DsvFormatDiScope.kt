@@ -1,26 +1,45 @@
 package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 
 class DsvFormatDiScope private constructor(
+    initialDsvFormatEditorState: DsvFormatEditor.State? = null,
     initialScreenState: DsvFormatScreenState? = null
 ) {
-    val screenState: DsvFormatScreenState =
-        initialScreenState ?: throw NullPointerException()
+    private val dsvFormatEditorState: DsvFormatEditor.State =
+        initialDsvFormatEditorState ?: throw NullPointerException() // fixme
+
+    private val screenState: DsvFormatScreenState =
+        initialScreenState ?: throw NullPointerException() // fixme
+
+    private val dsvFormatEditor = DsvFormatEditor(
+        dsvFormatEditorState
+    )
 
     val controller = DsvFormatController(
+        dsvFormatEditor,
+        FileImportDiScope.getOrRecreate().fileImporter,
         screenState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 
     val viewModel = DsvFormatViewModel(
+        dsvFormatEditorState,
         screenState
     )
 
     companion object : DiScopeManager<DsvFormatDiScope>() {
-        fun create(screenState: DsvFormatScreenState) = DsvFormatDiScope(screenState)
+        fun create(
+            dsvFormatEditorState: DsvFormatEditor.State,
+            screenState: DsvFormatScreenState
+        ) = DsvFormatDiScope(
+            dsvFormatEditorState,
+            screenState
+        )
 
         override fun recreateDiScope() = DsvFormatDiScope()
 

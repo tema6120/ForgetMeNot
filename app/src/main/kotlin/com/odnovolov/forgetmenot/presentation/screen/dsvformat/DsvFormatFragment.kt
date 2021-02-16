@@ -15,8 +15,10 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.ShowSaveErrorMessage
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
 import kotlinx.android.synthetic.main.fragment_dsv_format.*
 import kotlinx.android.synthetic.main.tip.*
@@ -47,6 +49,26 @@ class DsvFormatFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             observeViewModel()
+            controller!!.commands.observe(::executeCommand)
+        }
+    }
+
+    private fun executeCommand(command: DsvFormatController.Command) {
+        when (command) {
+            is ShowSaveErrorMessage -> {
+                when (command.cause) {
+                    FAILED_FORMAT_NAME_EMPTY -> {
+                        showToast(R.string.error_message_failed_to_save_dsv_format_empty_name)
+                    }
+                    FAILED_FORMAT_NAME_OCCUPIED -> {
+                        showToast(R.string.error_message_failed_to_save_dsv_format_occupied_name)
+                    }
+                    FAILED_VALIDATION -> {
+                        showToast(R.string.error_message_failed_to_save_dsv_format_not_valid)
+                    }
+                    SUCCESS -> {}
+                }
+            }
         }
     }
 
@@ -170,7 +192,7 @@ class DsvFormatFragment : BaseFragment() {
                         val newInput =
                             View.inflate(context, R.layout.dsv_list_input, null) as EditText
                         val position = childCount
-                        newInput.isEnabled = true //!isReadOnly
+                        newInput.isEnabled = !isReadOnly
                         newInput.observeText { newText: String ->
                             controller?.dispatch(HeaderColumnNameChanged(position, newText))
                         }
@@ -231,7 +253,7 @@ class DsvFormatFragment : BaseFragment() {
                         val newInput =
                             View.inflate(context, R.layout.dsv_list_input, null) as EditText
                         val position = childCount
-                        newInput.isEnabled = true //!isReadOnly
+                        newInput.isEnabled = !isReadOnly
                         newInput.observeText { newText: String ->
                             controller?.dispatch(HeaderCommentChanged(position, newText))
                         }
@@ -278,9 +300,8 @@ class DsvFormatFragment : BaseFragment() {
             deleteDSVFormatButton.setOnClickListener {
                 controller?.dispatch(DeleteFormatButtonClicked)
             }
-            //makeControllersEnabled()
+            makeControllersEnabled()
         }
-        makeControllersEnabled()
     }
 
     private fun makeControllersEnabled() {

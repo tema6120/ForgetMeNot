@@ -906,5 +906,8 @@
     <string name="dsv_quote_mode_minimal">Minimal</string>
     <string name="dsv_quote_mode_non_numeric">Non-numeric</string>
     <string name="dsv_quote_mode_none">None</string>
+    <string name="error_message_failed_to_save_dsv_format_empty_name">Name is empty</string>
+    <string name="error_message_failed_to_save_dsv_format_occupied_name">Name is occupied</string>
+    <string name="error_message_failed_to_save_dsv_format_not_valid">DSV format is not valid</string>
 
 </resources>

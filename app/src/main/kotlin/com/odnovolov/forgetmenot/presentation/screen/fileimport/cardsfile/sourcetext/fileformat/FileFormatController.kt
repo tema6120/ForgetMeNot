@@ -1,13 +1,17 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat
 
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CsvParser
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_CSV
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatDiScope
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState.Purpose
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat.FileFormatEvent.*
 import org.apache.commons.csv.CSVFormat
 
@@ -16,6 +20,11 @@ class FileFormatController(
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<FileFormatEvent, Nothing>() {
+    private val currentFileFormat: FileFormat
+        get() = with(fileImporter.state) {
+            files[currentPosition].format
+        }
+
     override fun handle(event: FileFormatEvent) {
         when (event) {
             is FileFormatRadioButtonClicked -> {
@@ -23,50 +32,35 @@ class FileFormatController(
             }
 
             is ViewFileFormatSettingsButtonClicked -> {
-                navigator.navigateToDsvFormat {
-                    val parser = event.fileFormat.parser
-                    val csvFormat = if (parser is CsvParser) parser.csvFormat else CSVFormat.DEFAULT
-                    val screenState: DsvFormatScreenState =
-                        createDsvFormatScreenState(event.fileFormat, csvFormat)
-                    DsvFormatDiScope.create(screenState)
-                }
+                navigateToDsvFormat(event.fileFormat, Purpose.View)
             }
 
             is EditFileFormatSettingsButtonClicked -> {
-                /*navigator.navigateToDsvFormat {
-                    DsvFormatDiScope()
-                }*/
+                navigateToDsvFormat(event.fileFormat, Purpose.EditExisting)
+            }
+
+            AddFileFormatSettingsButtonClicked -> {
+                val parser: CsvParser = currentFileFormat.parser as? CsvParser
+                    ?: CsvParser(CSVFormat.DEFAULT)
+                val newFileFormat = FileFormat(
+                    id = generateId(),
+                    name = "",
+                    extension = EXTENSION_CSV,
+                    parser = parser,
+                    isPredefined = false
+                )
+                navigateToDsvFormat(newFileFormat, Purpose.CreateNew)
             }
         }
     }
 
-    private fun createDsvFormatScreenState(
-        fileFormat: FileFormat,
-        csvFormat: CSVFormat
-    ) = DsvFormatScreenState(
-        isReadOnly = fileFormat.isPredefined,
-        fileFormat.name,
-        isTipVisible = true,
-        errorMessage = null,
-        csvFormat.delimiter,
-        csvFormat.trailingDelimiter,
-        csvFormat.quoteCharacter,
-        csvFormat.quoteMode,
-        csvFormat.escapeCharacter,
-        csvFormat.nullString,
-        csvFormat.ignoreSurroundingSpaces,
-        csvFormat.trim,
-        csvFormat.ignoreEmptyLines,
-        csvFormat.recordSeparator,
-        csvFormat.commentMarker,
-        csvFormat.skipHeaderRecord,
-        csvFormat.header,
-        csvFormat.ignoreHeaderCase,
-        csvFormat.allowDuplicateHeaderNames,
-        csvFormat.allowMissingColumnNames,
-        csvFormat.headerComments,
-        csvFormat.autoFlush
-    )
+    private fun navigateToDsvFormat(fileFormat: FileFormat, purpose: Purpose) {
+        navigator.navigateToDsvFormat {
+            val dsvFormatEditorState = State.createFrom(fileFormat)
+            val screenState = DsvFormatScreenState(purpose)
+            DsvFormatDiScope.create(dsvFormatEditorState, screenState)
+        }
+    }
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()

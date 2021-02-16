@@ -1,29 +1,49 @@
 package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.SUCCESS
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.ShowSaveErrorMessage
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
-import org.apache.commons.csv.CSVFormat
-import java.lang.Exception
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState.Purpose
 
 class DsvFormatController(
+    private val dsvFormatEditor: DsvFormatEditor,
+    private val fileImporter: FileImporter,
     private val screenState: DsvFormatScreenState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
-) : BaseController<DsvFormatEvent, Nothing>() {
+) : BaseController<DsvFormatEvent, Command>() {
+    sealed class Command {
+        class ShowSaveErrorMessage(val cause: SaveResult) : Command()
+    }
+
     override fun handle(event: DsvFormatEvent) {
         when (event) {
-            BackButtonClicked -> {
-                navigator.navigateUp()
-            }
-
-            CancelButtonClicked -> {
-                // todo
+            BackButtonClicked, CancelButtonClicked -> {
+                if (screenState.purpose != Purpose.View && dsvFormatEditor.isChanged()) {
+                    // todo: ask to quit
+                } else {
+                    navigator.navigateUp()
+                }
             }
 
             DoneButtonClicked -> {
-                // todo
+                val result = dsvFormatEditor.save()
+                if (result == SUCCESS) {
+                    if (screenState.purpose == Purpose.CreateNew) {
+                        val newFileFormat = dsvFormatEditor.state.sourceFileFormat
+                        fileImporter.setFormat(newFileFormat)
+                    }
+                    navigator.navigateUp()
+                } else {
+                    sendCommand(ShowSaveErrorMessage(result))
+                }
             }
 
             FormatNameButtonClicked -> {
@@ -31,7 +51,11 @@ class DsvFormatController(
             }
 
             DeleteFormatButtonClicked -> {
-                // todo
+                val success = dsvFormatEditor.remove()
+                // todo: check if it is used
+                if (success) {
+                    navigator.navigateUp()
+                }
             }
 
             CloseTipButtonClicked -> {
@@ -39,185 +63,76 @@ class DsvFormatController(
             }
 
             is DelimiterChanged -> {
-                screenState.delimiter = event.delimiter
-                validate()
+                dsvFormatEditor.setDelimiter(event.delimiter)
             }
 
             is TrailingDelimiterChanged -> {
-                screenState.trailingDelimiter = event.trailingDelimiter
-                validate()
+                dsvFormatEditor.setTrailingDelimiter(event.trailingDelimiter)
             }
 
             is QuoteCharacterChanged -> {
-                screenState.quoteCharacter = event.quoteCharacter
-                validate()
+                dsvFormatEditor.setQuoteCharacter(event.quoteCharacter)
             }
 
             is QuoteModeChanged -> {
-                screenState.quoteMode = event.quoteMode
-                validate()
+                dsvFormatEditor.setQuoteMode(event.quoteMode)
             }
 
             is EscapeCharacterChanged -> {
-                screenState.escapeCharacter = event.escapeCharacter
-                validate()
+                dsvFormatEditor.setEscapeCharacter(event.escapeCharacter)
             }
 
             is NullStringChanged -> {
-                screenState.nullString = event.nullString
-                validate()
+                dsvFormatEditor.setNullString(event.nullString)
             }
 
             is IgnoreSurroundingSpacesChanged -> {
-                screenState.ignoreSurroundingSpaces = event.ignoreSurroundingSpaces
-                validate()
+                dsvFormatEditor.setIgnoreSurroundingSpaces(event.ignoreSurroundingSpaces)
             }
 
             is TrimChanged -> {
-                screenState.trim = event.trim
-                validate()
+                dsvFormatEditor.setTrim(event.trim)
             }
 
             is IgnoreEmptyLinesChanged -> {
-                screenState.ignoreEmptyLines = event.ignoreEmptyLines
-                validate()
+                dsvFormatEditor.setIgnoreEmptyLines(event.ignoreEmptyLines)
             }
 
             is RecordSeparatorChanged -> {
-                screenState.recordSeparator = event.recordSeparator
-                validate()
+                dsvFormatEditor.setRecordSeparator(event.recordSeparator)
             }
 
             is CommentMarkerChanged -> {
-                screenState.commentMarker = event.commentMarker
-                validate()
+                dsvFormatEditor.setCommentMarker(event.commentMarker)
             }
 
             is SkipHeaderRecordChanged -> {
-                screenState.skipHeaderRecord = event.skipHeaderRecord
-                validate()
+                dsvFormatEditor.setSkipHeaderRecord(event.skipHeaderRecord)
             }
 
             is HeaderColumnNameChanged -> {
-                val currentHeader = screenState.header
-                when {
-                    currentHeader == null -> {
-                        if (event.columnName.isEmpty()) return
-                        screenState.header = arrayOf(event.columnName)
-                    }
-                    event.position > currentHeader.lastIndex -> {
-                        screenState.header = Array(currentHeader.size + 1) { i: Int ->
-                            if (i <= currentHeader.lastIndex) {
-                                currentHeader[i]
-                            } else {
-                                event.columnName
-                            }
-                        }
-                    }
-                    event.position == currentHeader.lastIndex && event.columnName.isEmpty() -> {
-                        screenState.header =
-                            if (currentHeader.size <= 1) {
-                                null
-                            } else {
-                                Array(currentHeader.size - 1) { i: Int ->
-                                    currentHeader[i]
-                                }
-                            }
-                    }
-                    else -> {
-                        screenState.header!![event.position] = event.columnName
-                    }
-                }
-                validate()
+                dsvFormatEditor.setHeaderColumnName(event.position, event.columnName)
             }
 
             is IgnoreHeaderCaseChanged -> {
-                screenState.ignoreHeaderCase = event.ignoreHeaderCase
-                validate()
+                dsvFormatEditor.setIgnoreHeaderCase(event.ignoreHeaderCase)
             }
 
             is AllowDuplicateHeaderNamesChanged -> {
-                screenState.allowDuplicateHeaderNames = event.allowDuplicateHeaderNames
-                validate()
+                dsvFormatEditor.setAllowDuplicateHeaderNames(event.allowDuplicateHeaderNames)
             }
 
             is AllowMissingColumnNamesChanged -> {
-                screenState.allowMissingColumnNames = event.allowMissingColumnNames
-                validate()
+                dsvFormatEditor.setAllowMissingColumnNames(event.allowMissingColumnNames)
             }
 
             is HeaderCommentChanged -> {
-                val currentHeaderComments = screenState.headerComments
-                when {
-                    currentHeaderComments == null -> {
-                        if (event.headerComment.isEmpty()) return
-                        screenState.headerComments = arrayOf(event.headerComment)
-                    }
-                    event.position > currentHeaderComments.lastIndex -> {
-                        screenState.headerComments =
-                            Array(currentHeaderComments.size + 1) { i: Int ->
-                                if (i <= currentHeaderComments.lastIndex) {
-                                    currentHeaderComments[i]
-                                } else {
-                                    event.headerComment
-                                }
-                            }
-                    }
-                    event.position == currentHeaderComments.lastIndex
-                            && event.headerComment.isEmpty() -> {
-                        screenState.headerComments =
-                            if (currentHeaderComments.size <= 1) {
-                                null
-                            } else {
-                                Array(currentHeaderComments.size - 1) { i: Int ->
-                                    currentHeaderComments[i]
-                                }
-                            }
-                    }
-                    else -> {
-                        screenState.headerComments!![event.position] = event.headerComment
-                    }
-                }
-                validate()
+                dsvFormatEditor.setHeaderComment(event.position, event.headerComment)
             }
 
             is AutoFlushChanged -> {
-                screenState.autoFlush = event.autoFlush
-                validate()
+                dsvFormatEditor.setAutoFlush(event.autoFlush)
             }
-        }
-    }
-
-    private fun validate() {
-        with(screenState) {
-            errorMessage =
-                if (delimiter == null) {
-                    "The delimiter cannot be empty"
-                } else {
-                    try {
-                        val format = CSVFormat.newFormat(delimiter!!)
-                            .withTrailingDelimiter(trailingDelimiter)
-                            .withQuote(quoteCharacter)
-                            .withEscape(escapeCharacter)
-                            .withQuoteMode(quoteMode)
-                            .withNullString(nullString)
-                            .withIgnoreSurroundingSpaces(ignoreSurroundingSpaces)
-                            .withTrim(trim)
-                            .withIgnoreEmptyLines(ignoreEmptyLines)
-                            .withRecordSeparator(recordSeparator)
-                            .withCommentMarker(commentMarker)
-                            .withSkipHeaderRecord(skipHeaderRecord)
-                            .withIgnoreHeaderCase(ignoreHeaderCase)
-                            .withAllowDuplicateHeaderNames(allowDuplicateHeaderNames)
-                            .withAllowMissingColumnNames(allowMissingColumnNames)
-                            .withHeaderComments(headerComments)
-                            .withAutoFlush(autoFlush)
-                        header?.let { format.withHeader(*it) }
-                        null
-                    } catch (e: Exception) {
-                        e.message ?: e::class.java.simpleName
-                    }
-                }
         }
     }
 

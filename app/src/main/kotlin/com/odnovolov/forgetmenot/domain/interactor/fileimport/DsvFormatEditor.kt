@@ -1,0 +1,339 @@
+package com.odnovolov.forgetmenot.domain.interactor.fileimport
+
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.QuoteMode
+
+class DsvFormatEditor(
+    val state: State
+) {
+    class State(
+        sourceFileFormat: FileFormat,
+        formatName: String,
+        errorMessage: String?,
+        delimiter: Char,
+        trailingDelimiter: Boolean,
+        quoteCharacter: Char?,
+        quoteMode: QuoteMode?,
+        escapeCharacter: Char?,
+        nullString: String?,
+        ignoreSurroundingSpaces: Boolean,
+        trim: Boolean,
+        ignoreEmptyLines: Boolean,
+        recordSeparator: String?,
+        commentMarker: Char?,
+        skipHeaderRecord: Boolean,
+        header: Array<String>?,
+        ignoreHeaderCase: Boolean,
+        allowDuplicateHeaderNames: Boolean,
+        allowMissingColumnNames: Boolean,
+        headerComments: Array<String>?,
+        autoFlush: Boolean,
+    ) : FlowMaker<State>() {
+        val sourceFileFormat: FileFormat by flowMaker(sourceFileFormat)
+        var formatName: String by flowMaker(formatName)
+        var errorMessage: String? by flowMaker(errorMessage)
+        var delimiter: Char? by flowMaker(delimiter)
+        var trailingDelimiter: Boolean by flowMaker(trailingDelimiter)
+        var quoteCharacter: Char? by flowMaker(quoteCharacter)
+        var quoteMode: QuoteMode? by flowMaker(quoteMode)
+        var escapeCharacter: Char? by flowMaker(escapeCharacter)
+        var nullString: String? by flowMaker(nullString)
+        var ignoreSurroundingSpaces: Boolean by flowMaker(ignoreSurroundingSpaces)
+        var trim: Boolean by flowMaker(trim)
+        var ignoreEmptyLines: Boolean by flowMaker(ignoreEmptyLines)
+        var recordSeparator: String? by flowMaker(recordSeparator)
+        var commentMarker: Char? by flowMaker(commentMarker)
+        var skipHeaderRecord: Boolean by flowMaker(skipHeaderRecord)
+        var header: Array<String>? by flowMaker(header)
+        var ignoreHeaderCase: Boolean by flowMaker(ignoreHeaderCase)
+        var allowDuplicateHeaderNames: Boolean by flowMaker(allowDuplicateHeaderNames)
+        var allowMissingColumnNames: Boolean by flowMaker(allowMissingColumnNames)
+        var headerComments: Array<String>? by flowMaker(headerComments)
+        var autoFlush: Boolean by flowMaker(autoFlush)
+
+        companion object {
+            fun createFrom(fileFormat: FileFormat): State {
+                check(fileFormat.parser is CsvParser) { "parser of FileFormat should be CsvParser" }
+                val csvFormat: CSVFormat = fileFormat.parser.csvFormat
+                return State(
+                    fileFormat,
+                    fileFormat.name,
+                    errorMessage = null,
+                    csvFormat.delimiter,
+                    csvFormat.trailingDelimiter,
+                    csvFormat.quoteCharacter,
+                    csvFormat.quoteMode,
+                    csvFormat.escapeCharacter,
+                    csvFormat.nullString,
+                    csvFormat.ignoreSurroundingSpaces,
+                    csvFormat.trim,
+                    csvFormat.ignoreEmptyLines,
+                    csvFormat.recordSeparator,
+                    csvFormat.commentMarker,
+                    csvFormat.skipHeaderRecord,
+                    csvFormat.header,
+                    csvFormat.ignoreHeaderCase,
+                    csvFormat.allowDuplicateHeaderNames,
+                    csvFormat.allowMissingColumnNames,
+                    csvFormat.headerComments,
+                    csvFormat.autoFlush
+                )
+            }
+        }
+    }
+
+    private val readOnly get() = state.sourceFileFormat.isPredefined
+
+    fun setDelimiter(delimiter: Char?) {
+        if (readOnly) return
+        state.delimiter = delimiter
+        validate()
+    }
+
+    fun setTrailingDelimiter(trailingDelimiter: Boolean) {
+        if (readOnly) return
+        state.trailingDelimiter = trailingDelimiter
+        validate()
+    }
+
+    fun setQuoteCharacter(quoteCharacter: Char?) {
+        if (readOnly) return
+        state.quoteCharacter = quoteCharacter
+        validate()
+    }
+
+    fun setQuoteMode(quoteMode: QuoteMode?) {
+        if (readOnly) return
+        state.quoteMode = quoteMode
+        validate()
+    }
+
+    fun setEscapeCharacter(escapeCharacter: Char?) {
+        if (readOnly) return
+        state.escapeCharacter = escapeCharacter
+        validate()
+    }
+
+    fun setNullString(nullString: String?) {
+        if (readOnly) return
+        state.nullString = nullString
+        validate()
+    }
+
+    fun setIgnoreSurroundingSpaces(ignoreSurroundingSpaces: Boolean) {
+        if (readOnly) return
+        state.ignoreSurroundingSpaces = ignoreSurroundingSpaces
+        validate()
+    }
+
+    fun setTrim(trim: Boolean) {
+        if (readOnly) return
+        state.trim = trim
+        validate()
+    }
+
+    fun setIgnoreEmptyLines(ignoreEmptyLines: Boolean) {
+        if (readOnly) return
+        state.ignoreEmptyLines = ignoreEmptyLines
+        validate()
+    }
+
+    fun setRecordSeparator(recordSeparator: String?) {
+        if (readOnly) return
+        state.recordSeparator = recordSeparator
+        validate()
+    }
+
+    fun setCommentMarker(commentMarker: Char?) {
+        if (readOnly) return
+        state.commentMarker = commentMarker
+        validate()
+    }
+
+    fun setSkipHeaderRecord(skipHeaderRecord: Boolean) {
+        if (readOnly) return
+        state.skipHeaderRecord = skipHeaderRecord
+        validate()
+    }
+
+    fun setHeaderColumnName(position: Int, columnName: String) {
+        if (readOnly) return
+        val currentHeader = state.header
+        when {
+            currentHeader == null -> {
+                if (columnName.isEmpty()) return
+                state.header = arrayOf(columnName)
+            }
+            position > currentHeader.lastIndex -> {
+                state.header = Array(currentHeader.size + 1) { i: Int ->
+                    if (i <= currentHeader.lastIndex) {
+                        currentHeader[i]
+                    } else {
+                        columnName
+                    }
+                }
+            }
+            position == currentHeader.lastIndex && columnName.isEmpty() -> {
+                state.header =
+                    if (currentHeader.size <= 1) {
+                        null
+                    } else {
+                        Array(currentHeader.size - 1) { i: Int ->
+                            currentHeader[i]
+                        }
+                    }
+            }
+            else -> {
+                state.header!![position] = columnName
+            }
+        }
+        validate()
+    }
+
+    fun setIgnoreHeaderCase(ignoreHeaderCase: Boolean) {
+        if (readOnly) return
+        state.ignoreHeaderCase = ignoreHeaderCase
+        validate()
+    }
+
+    fun setAllowDuplicateHeaderNames(allowDuplicateHeaderNames: Boolean) {
+        if (readOnly) return
+        state.allowDuplicateHeaderNames = allowDuplicateHeaderNames
+        validate()
+    }
+
+    fun setAllowMissingColumnNames(allowMissingColumnNames: Boolean) {
+        if (readOnly) return
+        state.allowMissingColumnNames = allowMissingColumnNames
+        validate()
+    }
+
+    fun setHeaderComment(position: Int, headerComment: String) {
+        if (readOnly) return
+        val currentHeaderComments = state.headerComments
+        when {
+            currentHeaderComments == null -> {
+                if (headerComment.isEmpty()) return
+                state.headerComments = arrayOf(headerComment)
+            }
+            position > currentHeaderComments.lastIndex -> {
+                state.headerComments =
+                    Array(currentHeaderComments.size + 1) { i: Int ->
+                        if (i <= currentHeaderComments.lastIndex) {
+                            currentHeaderComments[i]
+                        } else {
+                            headerComment
+                        }
+                    }
+            }
+            position == currentHeaderComments.lastIndex
+                    && headerComment.isEmpty() -> {
+                state.headerComments =
+                    if (currentHeaderComments.size <= 1) {
+                        null
+                    } else {
+                        Array(currentHeaderComments.size - 1) { i: Int ->
+                            currentHeaderComments[i]
+                        }
+                    }
+            }
+            else -> {
+                state.headerComments!![position] = headerComment
+            }
+        }
+        validate()
+    }
+
+    fun setAutoFlush(autoFlush: Boolean) {
+        if (readOnly) return
+        state.autoFlush = autoFlush
+        validate()
+    }
+
+    private fun validate(): CSVFormat? {
+        return with(state) {
+            if (delimiter == null) {
+                errorMessage = "The delimiter cannot be empty"
+                null
+            } else {
+                try {
+                    val format = CSVFormat.newFormat(delimiter!!)
+                        .withTrailingDelimiter(trailingDelimiter)
+                        .withQuote(quoteCharacter)
+                        .withEscape(escapeCharacter)
+                        .withQuoteMode(quoteMode)
+                        .withNullString(nullString)
+                        .withIgnoreSurroundingSpaces(ignoreSurroundingSpaces)
+                        .withTrim(trim)
+                        .withIgnoreEmptyLines(ignoreEmptyLines)
+                        .withRecordSeparator(recordSeparator)
+                        .withCommentMarker(commentMarker)
+                        .withSkipHeaderRecord(skipHeaderRecord)
+                        .withIgnoreHeaderCase(ignoreHeaderCase)
+                        .withAllowDuplicateHeaderNames(allowDuplicateHeaderNames)
+                        .withAllowMissingColumnNames(allowMissingColumnNames)
+                        .withHeaderComments(headerComments)
+                        .withAutoFlush(autoFlush)
+                    header?.let { format.withHeader(*it) }
+                    errorMessage = null
+                    format
+                } catch (e: Exception) {
+                    errorMessage = e.message ?: e::class.java.simpleName
+                    null
+                }
+            }
+        }
+    }
+
+    fun rename(newName: String): Boolean {
+        // todo
+        return true
+    }
+
+    fun isChanged(): Boolean {
+        val sourceCSVFormat = (state.sourceFileFormat.parser as CsvParser).csvFormat
+        return state.sourceFileFormat.name != state.formatName
+                || sourceCSVFormat.delimiter != state.delimiter
+                || sourceCSVFormat.trailingDelimiter != state.trailingDelimiter
+                || sourceCSVFormat.quoteCharacter != state.quoteCharacter
+                || sourceCSVFormat.quoteMode != state.quoteMode
+                || sourceCSVFormat.escapeCharacter != state.escapeCharacter
+                || sourceCSVFormat.nullString != state.nullString
+                || sourceCSVFormat.ignoreSurroundingSpaces != state.ignoreSurroundingSpaces
+                || sourceCSVFormat.trim != state.trim
+                || sourceCSVFormat.ignoreEmptyLines != state.ignoreEmptyLines
+                || sourceCSVFormat.recordSeparator != state.recordSeparator
+                || sourceCSVFormat.commentMarker != state.commentMarker
+                || sourceCSVFormat.skipHeaderRecord != state.skipHeaderRecord
+                || !(sourceCSVFormat.header contentEquals state.header)
+                || sourceCSVFormat.ignoreHeaderCase != state.ignoreHeaderCase
+                || sourceCSVFormat.allowDuplicateHeaderNames != state.allowDuplicateHeaderNames
+                || sourceCSVFormat.allowMissingColumnNames != state.allowMissingColumnNames
+                || !(sourceCSVFormat.headerComments contentEquals state.headerComments)
+                || sourceCSVFormat.autoFlush != state.autoFlush
+    }
+
+    fun remove(): Boolean {
+        if (state.sourceFileFormat.isPredefined) {
+            return false
+        } else {
+            // todo
+            return true
+        }
+    }
+
+    fun save(): SaveResult {
+        // todo check name
+        val newCsvFormat: CSVFormat = validate() ?: return SaveResult.FAILED_VALIDATION
+        // save to global state
+        return SaveResult.SUCCESS
+    }
+
+    enum class SaveResult {
+        FAILED_FORMAT_NAME_EMPTY,
+        FAILED_FORMAT_NAME_OCCUPIED,
+        FAILED_VALIDATION,
+        SUCCESS
+    }
+}
