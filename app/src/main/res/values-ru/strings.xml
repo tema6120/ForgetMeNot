@@ -894,8 +894,7 @@
         \n\nОсобенные символы:
         \n\t\\n - новая строка
         \n\t\\r - возврат каретки
-        \n\t\\t - горизонтальная табуляция
-        \n\t\\\\ - обратная косая черта</string>
+        \n\t\\t - горизонтальная табуляция</string>
     <string name="description_delete_format_settings">Удалить настройки формата</string>
     <string name="dsv_format_setting_delimiter">Разделитель значений (Delimiter)</string>
     <string name="dsv_format_setting_trailing_delimiter">Конечный разделитель (Trailing delimiter)</string>

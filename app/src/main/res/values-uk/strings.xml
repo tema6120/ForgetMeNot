@@ -887,8 +887,7 @@
         \n\nОсобливі символи:
         \n\t\\n - новий рядок
         \n\t\\r - повернення каретки
-        \n\t\\t - горизонтальна табуляція
-        \n\t\\\\ - зворотна коса риска</string>
+        \n\t\\t - горизонтальна табуляція</string>
     <string name="description_delete_format_settings">Видалити налаштування формату</string>
     <string name="dsv_format_setting_delimiter">Розділювач значень (Delimiter)</string>
     <string name="dsv_format_setting_trailing_delimiter">Кінцевий розділювач (Trailing delimiter)</string>

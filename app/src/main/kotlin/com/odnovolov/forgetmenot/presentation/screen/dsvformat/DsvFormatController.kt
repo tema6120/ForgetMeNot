@@ -189,30 +189,35 @@ class DsvFormatController(
     }
 
     private fun validate() {
-        screenState.errorMessage = try {
-            with(screenState) {
-                CSVFormat.newFormat(delimiter!!)
-                    .withTrailingDelimiter(trailingDelimiter)
-                    .withQuote(quoteCharacter)
-                    .withQuoteMode(quoteMode)
-                    .withEscape(escapeCharacter)
-                    .withNullString(nullString)
-                    .withIgnoreSurroundingSpaces(ignoreSurroundingSpaces)
-                    .withTrim(trim)
-                    .withIgnoreEmptyLines(ignoreEmptyLines)
-                    .withRecordSeparator(recordSeparator)
-                    .withCommentMarker(commentMarker)
-                    .withSkipHeaderRecord(skipHeaderRecord)
-                    .apply { header?.let(::withHeader) }
-                    .withIgnoreHeaderCase(ignoreHeaderCase)
-                    .withAllowDuplicateHeaderNames(allowDuplicateHeaderNames)
-                    .withAllowMissingColumnNames(allowMissingColumnNames)
-                    .withHeaderComments(headerComments)
-                    .withAutoFlush(autoFlush)
-            }
-            null
-        } catch (e: Exception) {
-            e.message ?: e::class.java.simpleName
+        with(screenState) {
+            errorMessage =
+                if (delimiter == null) {
+                    "The delimiter cannot be empty"
+                } else {
+                    try {
+                        val format = CSVFormat.newFormat(delimiter!!)
+                            .withTrailingDelimiter(trailingDelimiter)
+                            .withQuote(quoteCharacter)
+                            .withEscape(escapeCharacter)
+                            .withQuoteMode(quoteMode)
+                            .withNullString(nullString)
+                            .withIgnoreSurroundingSpaces(ignoreSurroundingSpaces)
+                            .withTrim(trim)
+                            .withIgnoreEmptyLines(ignoreEmptyLines)
+                            .withRecordSeparator(recordSeparator)
+                            .withCommentMarker(commentMarker)
+                            .withSkipHeaderRecord(skipHeaderRecord)
+                            .withIgnoreHeaderCase(ignoreHeaderCase)
+                            .withAllowDuplicateHeaderNames(allowDuplicateHeaderNames)
+                            .withAllowMissingColumnNames(allowMissingColumnNames)
+                            .withHeaderComments(headerComments)
+                            .withAutoFlush(autoFlush)
+                        header?.let { format.withHeader(*it) }
+                        null
+                    } catch (e: Exception) {
+                        e.message ?: e::class.java.simpleName
+                    }
+                }
         }
     }
 

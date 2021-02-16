@@ -2,6 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -284,6 +286,7 @@ class DsvFormatFragment : BaseFragment() {
     private fun makeControllersEnabled() {
         // Delimiter
         delimiterEditText.isEnabled = true
+        delimiterEditText.limitInputToOneCharacterOrEscapeSequences()
         delimiterEditText.observeText { newText: String ->
             val delimiter: Char? =
                 if (newText.isEmpty()) null else newText.toRegularString().first()
@@ -298,6 +301,7 @@ class DsvFormatFragment : BaseFragment() {
         }
         // Quote character
         quoteCharacterEditText.isEnabled = true
+        quoteCharacterEditText.limitInputToOneCharacterOrEscapeSequences()
         quoteCharacterEditText.observeText { newText: String ->
             val quoteCharacter: Char? =
                 if (newText.isEmpty()) null else newText.toRegularString().first()
@@ -324,6 +328,7 @@ class DsvFormatFragment : BaseFragment() {
         }
         // Escape character
         escapeCharacterEditText.isEnabled = true
+        escapeCharacterEditText.limitInputToOneCharacterOrEscapeSequences()
         escapeCharacterEditText.observeText { newText: String ->
             val escapeCharacter: Char? =
                 if (newText.isEmpty()) null else newText.toRegularString().first()
@@ -368,6 +373,7 @@ class DsvFormatFragment : BaseFragment() {
         }
         // Comment character
         commentCharacterEditText.isEnabled = true
+        commentCharacterEditText.limitInputToOneCharacterOrEscapeSequences()
         commentCharacterEditText.observeText { newText: String ->
             val commentCharacter: Char? =
                 if (newText.isEmpty()) null else newText.toRegularString().first()
@@ -424,17 +430,32 @@ class DsvFormatFragment : BaseFragment() {
     }
 
     private fun String.toDisplayedString(): String {
-        return replace("\\", "\\\\")
-            .replace("\n", "\\n")
+        return replace("\n", "\\n")
             .replace("\r", "\\r")
             .replace("\t", "\\t")
     }
 
     private fun String.toRegularString(): String {
-        return replace("\\\\", "\\")
-            .replace("\\n", "\n")
+        return replace("\\n", "\n")
             .replace("\\r", "\r")
             .replace("\\t", "\t")
+    }
+
+    private fun EditText.limitInputToOneCharacterOrEscapeSequences() {
+        filters = arrayOf(object : InputFilter {
+            override fun filter(
+                source: CharSequence,
+                start: Int,
+                end: Int,
+                dest: Spanned,
+                dstart: Int,
+                dend: Int
+            ): CharSequence? {
+                val replacement = source.substring(start, end)
+                val finalText = StringBuilder(dest).replace(dstart, dend, replacement).toString()
+                return if (finalText.length == 1 || finalText in ESCAPE_SEQUENCES) null else ""
+            }
+        })
     }
 
     override fun onResume() {
@@ -467,5 +488,6 @@ class DsvFormatFragment : BaseFragment() {
             "https://commons.apache.org/proper/commons-csv/"
         const val CSV_FORMAT_URL =
             "https://commons.apache.org/proper/commons-csv/apidocs/org/apache/commons/csv/CSVFormat.html"
+        val ESCAPE_SEQUENCES = listOf("\\n", "\\r", "\\t")
     }
 }

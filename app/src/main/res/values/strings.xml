@@ -881,8 +881,7 @@
         \n\nSpecial characters:
         \n\t\\n - new line
         \n\t\\r - carriage return
-        \n\t\\t - horizontal tab
-        \n\t\\\\ - backslash</string>
+        \n\t\\t - horizontal tab</string>
     <string name="description_delete_format_settings">Delete format settings</string>
     <string name="dsv_format_setting_delimiter">Delimiter</string>
     <string name="dsv_format_setting_trailing_delimiter">Trailing delimiter</string>
