@@ -922,5 +922,6 @@
     <string name="error_message_failed_to_save_dsv_format_empty_name">Не указано название</string>
     <string name="error_message_failed_to_save_dsv_format_occupied_name">Название занятое</string>
     <string name="error_message_failed_to_save_dsv_format_not_valid">Формат DSV недействителен</string>
+    <string name="hint_enter_a_name">Введите название</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider
@@ -27,7 +28,7 @@ class FileImportDiScope private constructor(
     private val fileImporterState: FileImporter.State =
         initialFileImporterState ?: fileImporterStateProvider.load()
 
-    val fileImportStorage: FileImportStorage = FileImportStorage(HashMap()) // fixme
+    val fileImportStorage: FileImportStorage = FileImportStorage(copyableListOf()) // fixme
 
     val fileImporter = FileImporter(
         fileImporterState,

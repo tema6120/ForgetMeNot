@@ -15,7 +15,8 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.*
+import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.Failure.Cause.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.ShowSaveErrorMessage
@@ -57,16 +58,15 @@ class DsvFormatFragment : BaseFragment() {
         when (command) {
             is ShowSaveErrorMessage -> {
                 when (command.cause) {
-                    FAILED_FORMAT_NAME_EMPTY -> {
+                    NameIsEmpty -> {
                         showToast(R.string.error_message_failed_to_save_dsv_format_empty_name)
                     }
-                    FAILED_FORMAT_NAME_OCCUPIED -> {
+                    NameIsOccupied -> {
                         showToast(R.string.error_message_failed_to_save_dsv_format_occupied_name)
                     }
-                    FAILED_VALIDATION -> {
+                    InvalidFormat -> {
                         showToast(R.string.error_message_failed_to_save_dsv_format_not_valid)
                     }
-                    SUCCESS -> {}
                 }
             }
         }
@@ -93,8 +93,13 @@ class DsvFormatFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            formatName.observe { formatName: String ->
-                dsvFormatNameTextView.text = formatName
+            dsvFormatNameEditText.setText(formatName)
+            formatNameCheckResult.observe { nameCheckResult: NameCheckResult ->
+                dsvFormatNameEditText.error = when (nameCheckResult) {
+                    NameCheckResult.Ok -> null
+                    NameCheckResult.Empty -> getString(R.string.error_message_empty_name)
+                    NameCheckResult.Occupied -> getString(R.string.error_message_occupied_name)
+                }
             }
             isTipVisible.observe { isTipVisible: Boolean ->
                 tipLayout.isVisible = isTipVisible
@@ -280,7 +285,7 @@ class DsvFormatFragment : BaseFragment() {
         cancelButton.isVisible = !readOnly
         doneButton.isVisible = !readOnly
         deleteDSVFormatButton.isVisible = !readOnly
-        dsvFormatNameTextView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+        dsvFormatNameEditText.updateLayoutParams<ConstraintLayout.LayoutParams> {
             marginEnd = if (readOnly) 16.dp else 4.dp
         }
         if (readOnly) {
@@ -294,8 +299,9 @@ class DsvFormatFragment : BaseFragment() {
             doneButton.setOnClickListener {
                 controller?.dispatch(DoneButtonClicked)
             }
-            dsvFormatNameTextView.setOnClickListener {
-                controller?.dispatch(FormatNameButtonClicked)
+            dsvFormatNameEditText.isEnabled = true
+            dsvFormatNameEditText.observeText { newText: String ->
+                controller?.dispatch(FormatNameChanged(newText))
             }
             deleteDSVFormatButton.setOnClickListener {
                 controller?.dispatch(DeleteFormatButtonClicked)
@@ -488,6 +494,7 @@ class DsvFormatFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        hideKeyboardForcibly(requireActivity())
     }
 
     private val scrollListener = ViewTreeObserver.OnScrollChangedListener {

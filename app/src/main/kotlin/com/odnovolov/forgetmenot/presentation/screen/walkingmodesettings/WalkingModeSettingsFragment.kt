@@ -64,7 +64,6 @@ class WalkingModeSettingsFragment : BaseFragment() {
             },
             takeAdapter = { chooseKeyGestureActionDialogAdapter = it }
         )
-        dialogTimeCapsule.register("chooseKeyGestureActionDialog", chooseKeyGestureActionDialog)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

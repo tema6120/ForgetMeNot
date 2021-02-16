@@ -30,19 +30,25 @@ class DsvFileFormatAdapter(
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
         val item = items[position]
+        val fileFormat = item.fileFormat
         with(viewHolder.itemView) {
-            editFormatSettingsButton.isVisible = !item.fileFormat.isPredefined
-            viewFormatSettingsButton.isVisible = item.fileFormat.isPredefined
-            dsvFormatRadioButton.text = item.fileFormat.name
+            editFormatSettingsButton.isVisible = !fileFormat.isPredefined
+            viewFormatSettingsButton.isVisible = fileFormat.isPredefined
+            dsvFormatRadioButton.text =
+                if (fileFormat.isPredefined) {
+                    fileFormat.name
+                } else {
+                    "'${fileFormat.name}'"
+                }
             dsvFormatRadioButton.isChecked = item.isSelected
             setFormatButton.setOnClickListener {
-                onItemClicked(item.fileFormat)
+                onItemClicked(fileFormat)
             }
             viewFormatSettingsButton.setOnClickListener {
-                onViewFormatSettingsButtonClicked(item.fileFormat)
+                onViewFormatSettingsButtonClicked(fileFormat)
             }
             editFormatSettingsButton.setOnClickListener {
-                onEditFormatSettingsButtonClicked(item.fileFormat)
+                onEditFormatSettingsButtonClicked(fileFormat)
             }
         }
     }

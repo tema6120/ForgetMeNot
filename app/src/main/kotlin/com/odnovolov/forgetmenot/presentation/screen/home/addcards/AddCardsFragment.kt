@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsController.Command.ShowCannotReadFilesMessage

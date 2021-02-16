@@ -87,21 +87,27 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true">
 
-                <TextView
-                        android:id="@+id/dsvFormatNameTextView"
+                <EditText
+                        android:id="@+id/dsvFormatNameEditText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/background_outlined_button"
+                        android:background="@drawable/background_outlined_edittext"
+                        android:enabled="false"
                         android:fontFamily="@font/nunito_bold"
+                        android:hint="@string/hint_enter_a_name"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:labelFor="@+id/nameLabelTextView"
                         android:paddingStart="24dp"
                         android:paddingTop="16dp"
                         android:paddingEnd="24dp"
                         android:paddingBottom="16dp"
                         android:textColor="@color/textSecondary"
+                        android:textColorHint="@color/divider"
                         android:textSize="@dimen/text_size_file_import_screen_deck_name"
                         app:layout_constraintEnd_toStartOf="@+id/deleteDSVFormatButton"
                         app:layout_constraintStart_toStartOf="parent"
@@ -124,9 +130,9 @@
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_size_file_import_screen_deck_label"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@+id/dsvFormatNameTextView"
-                        app:layout_constraintEnd_toEndOf="@+id/dsvFormatNameTextView"
-                        app:layout_constraintTop_toTopOf="@+id/dsvFormatNameTextView" />
+                        app:layout_constraintBottom_toTopOf="@+id/dsvFormatNameEditText"
+                        app:layout_constraintEnd_toEndOf="@+id/dsvFormatNameEditText"
+                        app:layout_constraintTop_toTopOf="@+id/dsvFormatNameEditText" />
 
                 <ImageButton
                         android:id="@+id/deleteDSVFormatButton"
@@ -137,9 +143,9 @@
                         android:contentDescription="@string/description_delete_format_settings"
                         android:tint="@color/textSecondary"
                         android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/dsvFormatNameTextView"
+                        app:layout_constraintBottom_toBottomOf="@+id/dsvFormatNameEditText"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/dsvFormatNameTextView"
+                        app:layout_constraintTop_toTopOf="@id/dsvFormatNameEditText"
                         app:srcCompat="@drawable/ic_round_delete_20"
                         tools:visibility="visible" />
 
@@ -153,7 +159,7 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dsvFormatNameTextView" />
+                        app:layout_constraintTop_toBottomOf="@+id/dsvFormatNameEditText" />
 
 
                 <!-- Delimiter -->

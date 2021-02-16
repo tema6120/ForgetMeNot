@@ -909,5 +909,6 @@
     <string name="error_message_failed_to_save_dsv_format_empty_name">Name is empty</string>
     <string name="error_message_failed_to_save_dsv_format_occupied_name">Name is occupied</string>
     <string name="error_message_failed_to_save_dsv_format_not_valid">DSV format is not valid</string>
+    <string name="hint_enter_a_name">Enter a name</string>
 
 </resources>

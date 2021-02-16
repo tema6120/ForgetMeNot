@@ -6,7 +6,7 @@ sealed class DsvFormatEvent {
     object BackButtonClicked : DsvFormatEvent()
     object CancelButtonClicked : DsvFormatEvent()
     object DoneButtonClicked : DsvFormatEvent()
-    object FormatNameButtonClicked : DsvFormatEvent()
+    class FormatNameChanged(val formatName: String) : DsvFormatEvent()
     object DeleteFormatButtonClicked : DsvFormatEvent()
     object CloseTipButtonClicked : DsvFormatEvent()
     class DelimiterChanged(val delimiter: Char?) : DsvFormatEvent()

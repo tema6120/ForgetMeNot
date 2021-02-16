@@ -915,5 +915,6 @@
     <string name="error_message_failed_to_save_dsv_format_empty_name">Не вказано назву</string>
     <string name="error_message_failed_to_save_dsv_format_occupied_name">Назва зайнята</string>
     <string name="error_message_failed_to_save_dsv_format_not_valid">Формат DSV недійсний</string>
+    <string name="hint_enter_a_name">Введіть назву</string>
 
 </resources>

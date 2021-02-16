@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.domain.interactor.fileimport
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
+import com.odnovolov.forgetmenot.domain.architecturecomponents.plus
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.Failure.Cause
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.QuoteMode
 
@@ -31,7 +33,7 @@ class DsvFormatEditor(
         headerComments: Array<String>?,
         autoFlush: Boolean,
     ) : FlowMaker<State>() {
-        val sourceFileFormat: FileFormat by flowMaker(sourceFileFormat)
+        val editingFileFormat: FileFormat by flowMaker(sourceFileFormat)
         var formatName: String by flowMaker(formatName)
         var errorMessage: String? by flowMaker(errorMessage)
         var delimiter: Char? by flowMaker(delimiter)
@@ -55,8 +57,9 @@ class DsvFormatEditor(
 
         companion object {
             fun createFrom(fileFormat: FileFormat): State {
-                check(fileFormat.parser is CsvParser) { "parser of FileFormat should be CsvParser" }
-                val csvFormat: CSVFormat = fileFormat.parser.csvFormat
+                val parser = fileFormat.parser
+                check(parser is CsvParser) { "parser of FileFormat should be CsvParser" }
+                val csvFormat: CSVFormat = parser.csvFormat
                 return State(
                     fileFormat,
                     fileFormat.name,
@@ -84,7 +87,12 @@ class DsvFormatEditor(
         }
     }
 
-    private val readOnly get() = state.sourceFileFormat.isPredefined
+    private val readOnly get() = state.editingFileFormat.isPredefined
+
+    fun setFormatName(formatName: String) {
+        if (readOnly) return
+        state.formatName = formatName
+    }
 
     fun setDelimiter(delimiter: Char?) {
         if (readOnly) return
@@ -287,14 +295,9 @@ class DsvFormatEditor(
         }
     }
 
-    fun rename(newName: String): Boolean {
-        // todo
-        return true
-    }
-
     fun isChanged(): Boolean {
-        val sourceCSVFormat = (state.sourceFileFormat.parser as CsvParser).csvFormat
-        return state.sourceFileFormat.name != state.formatName
+        val sourceCSVFormat = (state.editingFileFormat.parser as CsvParser).csvFormat
+        return state.editingFileFormat.name != state.formatName
                 || sourceCSVFormat.delimiter != state.delimiter
                 || sourceCSVFormat.trailingDelimiter != state.trailingDelimiter
                 || sourceCSVFormat.quoteCharacter != state.quoteCharacter
@@ -316,7 +319,7 @@ class DsvFormatEditor(
     }
 
     fun remove(): Boolean {
-        if (state.sourceFileFormat.isPredefined) {
+        if (state.editingFileFormat.isPredefined) {
             return false
         } else {
             // todo
@@ -325,24 +328,32 @@ class DsvFormatEditor(
     }
 
     fun save(): SaveResult {
-        // todo check name
-        val newCsvFormat: CSVFormat = validate() ?: return SaveResult.FAILED_VALIDATION
-        val parser = CsvParser(newCsvFormat)
-        val fileImport = state.sourceFileFormat.copy(
-            name = state.formatName,
-            parser = parser
-        )
-        with (fileImportStorage) {
-            customFileFormats[fileImport.id] = fileImport
-            customFileFormats = customFileFormats
+        if (state.formatName.isEmpty()) return SaveResult.Failure(Cause.NameIsEmpty)
+        val editingFileFormat = state.editingFileFormat
+        val occupiedNames = fileImportStorage.customFileFormats
+            .filter { fileFormat: FileFormat -> fileFormat.id != editingFileFormat.id }
+            .map { fileFormat: FileFormat -> fileFormat.name }
+        if (state.formatName in occupiedNames) return SaveResult.Failure(Cause.NameIsOccupied)
+        val newCsvFormat: CSVFormat = validate() ?: return SaveResult.Failure(Cause.InvalidFormat)
+        val newParser = CsvParser(newCsvFormat)
+        editingFileFormat.name = state.formatName
+        editingFileFormat.parser = newParser
+        if (editingFileFormat !in fileImportStorage.customFileFormats) {
+            fileImportStorage.customFileFormats =
+                fileImportStorage.customFileFormats + editingFileFormat
         }
-        return SaveResult.SUCCESS
+        return SaveResult.Success
     }
 
-    enum class SaveResult {
-        FAILED_FORMAT_NAME_EMPTY,
-        FAILED_FORMAT_NAME_OCCUPIED,
-        FAILED_VALIDATION,
-        SUCCESS
+    sealed class SaveResult {
+        class Failure(val cause: Cause) : SaveResult() {
+            enum class Cause {
+                NameIsEmpty,
+                NameIsOccupied,
+                InvalidFormat
+            }
+        }
+
+        object Success : SaveResult()
     }
 }

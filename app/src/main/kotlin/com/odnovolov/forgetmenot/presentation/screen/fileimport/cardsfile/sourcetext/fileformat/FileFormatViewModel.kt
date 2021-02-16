@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
@@ -41,7 +42,7 @@ class FileFormatViewModel(
         combine(
             currentFileFormat,
             fileImportStorage.flowOf(FileImportStorage::customFileFormats)
-        ) { currentFileFormat: FileFormat, customFileFormats: Map<Long, FileFormat> ->
+        ) { currentFileFormat: FileFormat, customFileFormats: CopyableCollection<FileFormat> ->
             FileFormat.predefinedFormats
                 .filter { predefinedFileFormat: FileFormat ->
                     when (predefinedFileFormat.extension) {
@@ -49,7 +50,7 @@ class FileFormatViewModel(
                         else -> false
                     }
                 }
-                .plus(customFileFormats.values)
+                .plus(customFileFormats)
                 .map { predefinedFileFormat: FileFormat ->
                     DsvFileFormat(
                         predefinedFileFormat,

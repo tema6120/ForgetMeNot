@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.SUCCESS
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -20,7 +19,7 @@ class DsvFormatController(
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<DsvFormatEvent, Command>() {
     sealed class Command {
-        class ShowSaveErrorMessage(val cause: SaveResult) : Command()
+        class ShowSaveErrorMessage(val cause: SaveResult.Failure.Cause) : Command()
     }
 
     override fun handle(event: DsvFormatEvent) {
@@ -34,20 +33,22 @@ class DsvFormatController(
             }
 
             DoneButtonClicked -> {
-                val result = dsvFormatEditor.save()
-                if (result == SUCCESS) {
-                    if (screenState.purpose == Purpose.CreateNew) {
-                        val newFileFormat = dsvFormatEditor.state.sourceFileFormat
-                        fileImporter.setFormat(newFileFormat)
+                when (val result: SaveResult = dsvFormatEditor.save()) {
+                    SaveResult.Success -> {
+                        if (screenState.purpose == Purpose.CreateNew) {
+                            val createdFileFormat = dsvFormatEditor.state.editingFileFormat
+                            fileImporter.setFormat(createdFileFormat)
+                        }
+                        navigator.navigateUp()
                     }
-                    navigator.navigateUp()
-                } else {
-                    sendCommand(ShowSaveErrorMessage(result))
+                    is SaveResult.Failure -> {
+                        sendCommand(ShowSaveErrorMessage(result.cause))
+                    }
                 }
             }
 
-            FormatNameButtonClicked -> {
-                // todo
+            is FormatNameChanged -> {
+                dsvFormatEditor.setFormatName(event.formatName)
             }
 
             DeleteFormatButtonClicked -> {

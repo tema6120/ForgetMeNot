@@ -30,7 +30,8 @@ class DsvFormatDiScope private constructor(
 
     val viewModel = DsvFormatViewModel(
         dsvFormatEditorState,
-        screenState
+        screenState,
+        FileImportDiScope.getOrRecreate().fileImportStorage
     )
 
     companion object : DiScopeManager<DsvFormatDiScope>() {

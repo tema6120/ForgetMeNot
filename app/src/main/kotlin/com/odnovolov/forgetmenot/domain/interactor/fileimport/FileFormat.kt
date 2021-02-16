@@ -1,14 +1,28 @@
 package com.odnovolov.forgetmenot.domain.interactor.fileimport
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 import org.apache.commons.csv.CSVFormat
 
-data class FileFormat(
-    val id: Long,
-    val name: String,
-    val extension: String,
-    val parser: Parser,
-    val isPredefined: Boolean
-) {
+class FileFormat(
+    override val id: Long,
+    name: String,
+    extension: String,
+    parser: Parser,
+    isPredefined: Boolean
+) : FlowMakerWithRegistry<FileFormat>() {
+    var name: String by flowMaker(name)
+    var extension: String by flowMaker(extension)
+    var parser: Parser by flowMaker(parser)
+    val isPredefined: Boolean by flowMaker(isPredefined)
+
+    override fun copy() = FileFormat(
+        id,
+        name,
+        extension,
+        parser,
+        isPredefined
+    )
+
     companion object {
         const val EXTENSION_TXT = "txt"
         const val EXTENSION_CSV = "csv"
@@ -76,7 +90,7 @@ data class FileFormat(
 
         val CSV_TDF = FileFormat(
             id = 6,
-            name = "TSV",
+            name = "Tab text",
             extension = EXTENSION_TSV,
             parser = CsvParser(CSVFormat.TDF),
             isPredefined = true
