@@ -916,5 +916,8 @@
     <string name="error_message_failed_to_save_dsv_format_occupied_name">Назва зайнята</string>
     <string name="error_message_failed_to_save_dsv_format_not_valid">Формат DSV недійсний</string>
     <string name="hint_enter_a_name">Введіть назву</string>
+    <string name="title_delete_dsv_format_dialog">Видалення DSV формату \'%1$s\'</string>
+    <string name="dialog_text_delete_dsv_format">Ви дійсно хочете видалити цей формат?</string>
+    <string name="message_dsv_format_is_deleted">DSV формат \'%1$s\' видалено</string>
 
 </resources>

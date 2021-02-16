@@ -8,6 +8,7 @@ sealed class DsvFormatEvent {
     object DoneButtonClicked : DsvFormatEvent()
     class FormatNameChanged(val formatName: String) : DsvFormatEvent()
     object DeleteFormatButtonClicked : DsvFormatEvent()
+    object DeleteFormatPositiveDialogButtonClicked : DsvFormatEvent()
     object CloseTipButtonClicked : DsvFormatEvent()
     class DelimiterChanged(val delimiter: Char?) : DsvFormatEvent()
     class TrailingDelimiterChanged(val trailingDelimiter: Boolean) : DsvFormatEvent()

@@ -7,9 +7,10 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command
-import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.ShowSaveErrorMessage
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState.Purpose
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState.Purpose.CreateNew
 
 class DsvFormatController(
     private val dsvFormatEditor: DsvFormatEditor,
@@ -20,12 +21,14 @@ class DsvFormatController(
 ) : BaseController<DsvFormatEvent, Command>() {
     sealed class Command {
         class ShowSaveErrorMessage(val cause: SaveResult.Failure.Cause) : Command()
+        class AskToDeleteDsvFormat(val formatName: String) : Command()
+        class ShowMessageDsvFormatIsDeleted(val formatName: String) : Command()
     }
 
     override fun handle(event: DsvFormatEvent) {
         when (event) {
             BackButtonClicked, CancelButtonClicked -> {
-                if (screenState.purpose != Purpose.View && dsvFormatEditor.isChanged()) {
+                if (screenState.purpose != Purpose.View && dsvFormatEditor.hasChanges()) {
                     // todo: ask to quit
                 } else {
                     navigator.navigateUp()
@@ -52,11 +55,16 @@ class DsvFormatController(
             }
 
             DeleteFormatButtonClicked -> {
-                val success = dsvFormatEditor.remove()
-                // todo: check if it is used
-                if (success) {
-                    navigator.navigateUp()
+                if (screenState.purpose == CreateNew && !dsvFormatEditor.hasChanges()) {
+                    deleteFormatAndNavigateBack()
+                } else {
+                    val formatName: String = dsvFormatEditor.state.formatName
+                    sendCommand(AskToDeleteDsvFormat(formatName))
                 }
+            }
+
+            DeleteFormatPositiveDialogButtonClicked -> {
+                deleteFormatAndNavigateBack()
             }
 
             CloseTipButtonClicked -> {
@@ -134,6 +142,15 @@ class DsvFormatController(
             is AutoFlushChanged -> {
                 dsvFormatEditor.setAutoFlush(event.autoFlush)
             }
+        }
+    }
+
+    private fun deleteFormatAndNavigateBack() {
+        val formatName: String = dsvFormatEditor.state.formatName
+        val success = dsvFormatEditor.remove(fileImporter)
+        if (success) {
+            sendCommand(ShowMessageDsvFormatIsDeleted(formatName))
+            navigator.navigateUp()
         }
     }
 

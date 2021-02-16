@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.domain.interactor.fileimport
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.architecturecomponents.plus
+import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.Failure.Cause
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.QuoteMode
@@ -295,7 +296,7 @@ class DsvFormatEditor(
         }
     }
 
-    fun isChanged(): Boolean {
+    fun hasChanges(): Boolean {
         val sourceCSVFormat = (state.editingFileFormat.parser as CsvParser).csvFormat
         return state.editingFileFormat.name != state.formatName
                 || sourceCSVFormat.delimiter != state.delimiter
@@ -318,11 +319,18 @@ class DsvFormatEditor(
                 || sourceCSVFormat.autoFlush != state.autoFlush
     }
 
-    fun remove(): Boolean {
+    fun remove(fileImporter: FileImporter): Boolean {
         if (state.editingFileFormat.isPredefined) {
             return false
         } else {
-            // todo
+            fileImporter.state.files.forEach { file: CardsFile ->
+                if (file.format.id == state.editingFileFormat.id ) {
+                    file.format = FileFormat.CSV_DEFAULT
+                }
+            }
+            fileImportStorage.customFileFormats = fileImportStorage.customFileFormats
+                .filter { fileFormat: FileFormat -> fileFormat.id != state.editingFileFormat.id }
+                .toCopyableList()
             return true
         }
     }

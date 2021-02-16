@@ -10,7 +10,10 @@ import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
 import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -19,8 +22,9 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.Failure.Cause.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.ShowSaveErrorMessage
+import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
+import kotlinx.android.synthetic.main.dialog_delete_dsv_format.view.*
 import kotlinx.android.synthetic.main.fragment_dsv_format.*
 import kotlinx.android.synthetic.main.tip.*
 import kotlinx.coroutines.launch
@@ -33,6 +37,8 @@ class DsvFormatFragment : BaseFragment() {
 
     private var controller: DsvFormatController? = null
     private lateinit var viewModel: DsvFormatViewModel
+    private var deleteDialog: AlertDialog? = null
+    private var deleteDialogTitle: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,7 +75,44 @@ class DsvFormatFragment : BaseFragment() {
                     }
                 }
             }
+            is AskToDeleteDsvFormat -> {
+                val dialog: AlertDialog = requireDeleteDialog()
+                deleteDialogTitle!!.text = getString(
+                    R.string.title_delete_dsv_format_dialog,
+                    command.formatName
+                )
+                dialog.show()
+            }
+            is ShowMessageDsvFormatIsDeleted -> {
+                val message = getString(R.string.message_dsv_format_is_deleted, command.formatName)
+                showToast(message)
+            }
         }
+    }
+
+    private fun requireDeleteDialog(): AlertDialog {
+        if (deleteDialog == null) {
+            val contentView =
+                View.inflate(requireContext(), R.layout.dialog_delete_dsv_format, null).apply {
+                    deleteDialogTitle = deleteDsvFormatTitle
+                    deleteButton.setOnClickListener {
+                        controller?.dispatch(DeleteFormatPositiveDialogButtonClicked)
+                        deleteDialog!!.dismiss()
+                    }
+                    cancelDeletingButton.setOnClickListener {
+                        deleteDialog!!.dismiss()
+                    }
+                }
+            deleteDialog = AlertDialog.Builder(requireContext())
+                .setView(contentView)
+                .create()
+                .apply {
+                    window?.setBackgroundDrawable(
+                        ContextCompat.getDrawable(context, R.drawable.background_dialog)
+                    )
+                }
+        }
+        return deleteDialog!!
     }
 
     private fun setupView() {
@@ -504,6 +547,32 @@ class DsvFormatFragment : BaseFragment() {
         }
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState ?: return
+        val dialogState: Bundle? = savedInstanceState.getBundle(STATE_DELETE_DSV_FORMAT_DIALOG)
+        if (dialogState != null) {
+            val dialog: AlertDialog = requireDeleteDialog()
+            deleteDialogTitle!!.text =
+                savedInstanceState.getString(STATE_DELETE_DSV_FORMAT_DIALOG_TITLE)
+            dialog.onRestoreInstanceState(dialogState)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (deleteDialog?.isShowing == true) {
+            outState.putBundle(
+                STATE_DELETE_DSV_FORMAT_DIALOG,
+                deleteDialog!!.onSaveInstanceState()
+            )
+            outState.putString(
+                STATE_DELETE_DSV_FORMAT_DIALOG_TITLE,
+                deleteDialogTitle!!.text.toString()
+            )
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
@@ -511,11 +580,13 @@ class DsvFormatFragment : BaseFragment() {
         }
     }
 
-    companion object {
+    private companion object {
         const val APACHE_COMMONS_CSV_LIBRARY_URL =
             "https://commons.apache.org/proper/commons-csv/"
         const val CSV_FORMAT_URL =
             "https://commons.apache.org/proper/commons-csv/apidocs/org/apache/commons/csv/CSVFormat.html"
         val ESCAPE_SEQUENCES = listOf("\\n", "\\r", "\\t")
+        const val STATE_DELETE_DSV_FORMAT_DIALOG = "STATE_DELETE_DSV_FORMAT_DIALOG"
+        const val STATE_DELETE_DSV_FORMAT_DIALOG_TITLE = "STATE_DELETE_DSV_FORMAT_DIALOG_TITLE"
     }
 }

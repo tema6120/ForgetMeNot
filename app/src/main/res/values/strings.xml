@@ -910,5 +910,8 @@
     <string name="error_message_failed_to_save_dsv_format_occupied_name">Name is occupied</string>
     <string name="error_message_failed_to_save_dsv_format_not_valid">DSV format is not valid</string>
     <string name="hint_enter_a_name">Enter a name</string>
+    <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
+    <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
+    <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
 
 </resources>
