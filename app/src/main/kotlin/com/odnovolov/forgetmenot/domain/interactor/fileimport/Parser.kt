@@ -5,7 +5,7 @@ abstract class Parser {
 
     data class ParserResult(
         val cardMarkups: List<CardMarkup>,
-        val errorRanges: List<IntRange>
+        val errors: List<Error>
     )
 
     data class CardMarkup(
@@ -13,5 +13,10 @@ abstract class Parser {
         val questionRange: IntRange?,
         val answerText: String,
         val answerRange: IntRange?
+    )
+
+    data class Error(
+        val message: String,
+        val errorRange: IntRange
     )
 }

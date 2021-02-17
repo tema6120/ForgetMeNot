@@ -78,7 +78,7 @@ class CardsFileViewModel(
         deckWhereToAdd.map { deckWhereToAdd: AbstractDeck -> deckWhereToAdd is NewDeck }
 
     val hasErrorsInSourceText: Flow<Boolean> = cardsFile.flatMapLatest { cardsFile: CardsFile ->
-        cardsFile.flowOf(CardsFile::errorRanges)
+        cardsFile.flowOf(CardsFile::errors)
     }
         .map { it.isNotEmpty() }
         .distinctUntilChanged()

@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.Error
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -37,7 +38,10 @@ class FileImporterStateProvider(
                         is ExistingDeck -> SerializableExistingDeck(deckWhereToAdd.deck.id)
                         else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
                     }
-                val errors = cardsFile.errorRanges.map { it.first to it.last }
+                val errors = cardsFile.errors.map { error: Error ->
+                    val pair = error.errorRange.first to error.errorRange.last
+                    SerializableError(error.message, pair)
+                }
                 SerializableCardsFile(
                     cardsFile.id,
                     cardsFile.sourceBytes,
@@ -56,21 +60,25 @@ class FileImporterStateProvider(
             .map { serializableCardsFile: SerializableCardsFile ->
                 val deckWhereToAdd: AbstractDeck =
                     when (val file = serializableCardsFile.serializableAbstractDeck) {
-                    is SerializableNewDeck -> NewDeck(file.deckName)
-                    is SerializableExistingDeck -> {
-                        val deck: Deck = globalState.decks.first { it.id == file.deckId }
-                        ExistingDeck(deck)
+                        is SerializableNewDeck -> NewDeck(file.deckName)
+                        is SerializableExistingDeck -> {
+                            val deck: Deck = globalState.decks.first { it.id == file.deckId }
+                            ExistingDeck(deck)
+                        }
                     }
-                }
-                val errorRanges: List<IntRange> = serializableCardsFile.errors
-                    .map { (errorStart, errorEnd) -> errorStart..errorEnd }
+                val errors: List<Error> = serializableCardsFile.errors
+                    .map { serializableError: SerializableError ->
+                        val errorRange =
+                            serializableError.errorPair.first..serializableError.errorPair.second
+                        Error(serializableError.message, errorRange)
+                    }
                 CardsFile(
                     id = serializableCardsFile.id,
                     sourceBytes = serializableCardsFile.sourceBytes,
                     charset = Charset.forName(serializableCardsFile.charsetName),
                     text = serializableCardsFile.text,
                     format = FileFormat.FMN_FORMAT, // TODO
-                    errorRanges = errorRanges,
+                    errors = errors,
                     cardPrototypes = serializableCardsFile.cardPrototypes,
                     deckWhereToAdd = deckWhereToAdd
                 )
@@ -85,9 +93,15 @@ data class SerializableCardsFile(
     val sourceBytes: ByteArray,
     val charsetName: String,
     val text: String,
-    val errors: List<Pair<Int, Int>>,
+    val errors: List<SerializableError>,
     val cardPrototypes: List<CardPrototype>,
     val serializableAbstractDeck: SerializableAbstractDeck
+)
+
+@Serializable
+data class SerializableError(
+    val message: String,
+    val errorPair: Pair<Int, Int>
 )
 
 @Serializable

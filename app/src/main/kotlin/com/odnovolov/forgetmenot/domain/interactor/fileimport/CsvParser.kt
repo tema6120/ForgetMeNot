@@ -9,7 +9,7 @@ class CsvParser(
 ) : Parser() {
     private lateinit var text: String
     private val cardMarkups: MutableList<CardMarkup> = ArrayList()
-    private val errors: MutableList<IntRange> = ArrayList()
+    private val errors: MutableList<Error> = ArrayList()
     private val newLineCharLocations: MutableList<Int> = ArrayList()
 
     override fun parse(text: String): ParserResult {
@@ -34,13 +34,25 @@ class CsvParser(
                         newLineCharLocations[currentLineNumber]
                     }
                 if (csvRecord.size() < 2) {
-                    errors.add(recordStart..recordEnd)
+                    val errorMessage = "Record has less than 2 values"
+                    val errorRange = recordStart..recordEnd
+                    val error = Error(errorMessage, errorRange)
+                    errors.add(error)
                     continue
                 }
                 val questionText = csvRecord[0].trim()
                 val answerText = csvRecord[1].trim()
                 if (questionText.isEmpty() || answerText.isEmpty()) {
-                    errors.add(recordStart..recordEnd)
+                    val errorMessage = when {
+                        questionText.isEmpty() && answerText.isEmpty() ->
+                            "Question and answer are blank"
+                        questionText.isEmpty() -> "Question is blank"
+                        answerText.isEmpty() -> "Answer is blank"
+                        else -> "This can't be"
+                    }
+                    val errorRange = recordStart..recordEnd
+                    val error = Error(errorMessage, errorRange)
+                    errors.add(error)
                     continue
                 }
 
@@ -72,9 +84,12 @@ class CsvParser(
                 cardMarkups.add(cardPrototype)
             }
         } catch (e: Exception) {
+            val errorMessage: String = e.message ?: e::class.java.simpleName
             val errorEnd = text.lastIndex
             val errorStart = minOf(recordEnd + 1, text.lastIndex)
-            errors.add(errorStart..errorEnd)
+            val errorRange = errorStart..errorEnd
+            val error = Error(errorMessage, errorRange)
+            errors.add(error)
         }
         return ParserResult(cardMarkups, errors)
     }

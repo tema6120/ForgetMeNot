@@ -1,17 +1,20 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.Error
+
 data class ErrorBlock(
+    val errorMessage: String,
     val lines: List<Int>
 )
 
-fun findErrorBlocks(text: String, errorRanges: List<IntRange>): List<ErrorBlock> {
+fun findErrorBlocks(text: String, errors: List<Error>): List<ErrorBlock> {
     val newLineCharLocations: MutableList<Int> = ArrayList()
     text.forEachIndexed { index, ch ->
         if (ch == '\n') newLineCharLocations.add(index)
     }
-    return errorRanges.map { errorRange: IntRange ->
-        val errorStart = errorRange.first
-        val errorEnd = errorRange.last
+    return errors.map { error: Error ->
+        val errorStart = error.errorRange.first
+        val errorEnd = error.errorRange.last
         val errorLines: MutableList<Int> = ArrayList()
         if (newLineCharLocations.isEmpty()) {
             errorLines.add(0)
@@ -35,6 +38,6 @@ fun findErrorBlocks(text: String, errorRanges: List<IntRange>): List<ErrorBlock>
             }
 
         }
-        ErrorBlock(errorLines)
+        ErrorBlock(error.message, errorLines)
     }
 }

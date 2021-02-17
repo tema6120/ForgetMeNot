@@ -10,7 +10,7 @@ class FmnFormatParser : Parser() {
 
     private lateinit var text: String
     private val cardMarkups: MutableList<CardMarkup> = ArrayList()
-    private val errors: MutableList<IntRange> = ArrayList()
+    private val errors: MutableList<Error> = ArrayList()
     private val newLineCharLocations: MutableList<Int> = ArrayList()
 
     override fun parse(text: String): ParserResult {
@@ -52,7 +52,10 @@ class FmnFormatParser : Parser() {
         val cardBlock: String = text.substring(cardBlockStartIndex..cardBlockEndIndex)
         if (cardBlock.isBlank()) return
         if (!cardBlock.matches(cardRegex)) {
-            errors.add(cardBlockStartIndex..cardBlockEndIndex)
+            val errorMessage = "Invalid record"
+            val errorRange = cardBlockStartIndex..cardBlockEndIndex
+            val error = Error(errorMessage, errorRange)
+            errors.add(error)
             return
         }
         val cardMatchResult = cardRegex.find(cardBlock)!!
@@ -60,14 +63,20 @@ class FmnFormatParser : Parser() {
         val questionGroup: MatchGroup = cardMatchResult.groups[1]!!
         val questionMatchResult = cardContentRegex.find(questionGroup.value)
         if (questionMatchResult == null) {
-            errors.add(cardBlockStartIndex..cardBlockEndIndex)
+            val errorMessage = "Cannot find question"
+            val errorRange = cardBlockStartIndex..cardBlockEndIndex
+            val error = Error(errorMessage, errorRange)
+            errors.add(error)
             return
         }
 
         val answerGroup: MatchGroup = cardMatchResult.groups[3]!!
         val answerMatchResult = cardContentRegex.find(answerGroup.value)
         if (answerMatchResult == null) {
-            errors.add(cardBlockStartIndex..cardBlockEndIndex)
+            val errorMessage = "Cannot find answer"
+            val errorRange = cardBlockStartIndex..cardBlockEndIndex
+            val error = Error(errorMessage, errorRange)
+            errors.add(error)
             return
         }
 

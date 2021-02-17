@@ -10,6 +10,7 @@ import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.CardMarkup
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.Error
 import com.odnovolov.forgetmenot.domain.removeFirst
 import java.nio.charset.Charset
 
@@ -37,7 +38,7 @@ class FileImporter(
                         val text: String = content.toString(charset)
                             .normalizeForParser(format.parser)
                         val parseResult = format.parser.parse(text)
-                        val errorRanges: List<IntRange> = parseResult.errorRanges
+                        val errors: List<Error> = parseResult.errors
                         val cardPrototypes: List<CardPrototype> =
                             parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
                                 val question: String = cardMarkup.questionText
@@ -57,7 +58,7 @@ class FileImporter(
                             charset,
                             text,
                             format,
-                            errorRanges,
+                            errors,
                             cardPrototypes,
                             deckWhereToAdd
                         )
@@ -108,7 +109,7 @@ class FileImporter(
     fun updateText(text: String): Parser.ParserResult {
         val parseResult: Parser.ParserResult = currentFile.format.parser.parse(text)
         currentFile.text = text
-        currentFile.errorRanges = parseResult.errorRanges
+        currentFile.errors = parseResult.errors
         val oldCardPrototypes: MutableList<CardPrototype> =
             currentFile.cardPrototypes.toMutableList()
         currentFile.cardPrototypes = parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
