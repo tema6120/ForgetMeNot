@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.addcards
 
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.ImportedFile
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -20,6 +21,7 @@ import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialog
 class AddCardsController(
     private val homeScreenState: HomeScreenState,
     private val fileFromIntentReader: FileFromIntentReader,
+    private val fileImportStorage: FileImportStorage,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<AddCardsEvent, Command>() {
@@ -53,7 +55,8 @@ class AddCardsController(
                 }
                 if (importedFiles.isNotEmpty()) {
                     navigator.navigateToFileImport {
-                        val fileImporterState = FileImporter.State.fromFiles(importedFiles)
+                        val fileImporterState =
+                            FileImporter.State.fromFiles(importedFiles, fileImportStorage)
                         FileImportDiScope.create(fileImporterState)
                     }
                 }

@@ -44,6 +44,7 @@ class FileImporterStateProvider(
                 }
                 SerializableCardsFile(
                     cardsFile.id,
+                    cardsFile.extension,
                     cardsFile.sourceBytes,
                     cardsFile.charset.name(),
                     cardsFile.text,
@@ -74,6 +75,7 @@ class FileImporterStateProvider(
                     }
                 CardsFile(
                     id = serializableCardsFile.id,
+                    extension = serializableCardsFile.extension,
                     sourceBytes = serializableCardsFile.sourceBytes,
                     charset = Charset.forName(serializableCardsFile.charsetName),
                     text = serializableCardsFile.text,
@@ -90,6 +92,7 @@ class FileImporterStateProvider(
 @Serializable
 data class SerializableCardsFile(
     val id: Long,
+    val extension: String,
     val sourceBytes: ByteArray,
     val charsetName: String,
     val text: String,

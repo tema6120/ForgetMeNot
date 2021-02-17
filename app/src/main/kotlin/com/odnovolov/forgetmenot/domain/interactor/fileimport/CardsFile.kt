@@ -7,6 +7,7 @@ import java.nio.charset.Charset
 
 class CardsFile(
     id: Long,
+    extension: String,
     sourceBytes: ByteArray,
     charset: Charset,
     text: String,
@@ -16,6 +17,7 @@ class CardsFile(
     deckWhereToAdd: AbstractDeck,
 ) : FlowMaker<CardsFile>() {
     val id: Long by flowMaker(id)
+    val extension: String by flowMaker(extension)
     val sourceBytes: ByteArray by flowMaker(sourceBytes)
     var charset: Charset by flowMaker(charset)
     var text: String by flowMaker(text)

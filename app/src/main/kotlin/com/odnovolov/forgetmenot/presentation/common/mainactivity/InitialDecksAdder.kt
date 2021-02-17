@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.architecturecomponents.plus
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.ImportedFile
@@ -19,6 +20,7 @@ class InitialDecksAdder(
     private val state: State,
     private val assetManager: AssetManager,
     private val globalState: GlobalState,
+    private val fileImportStorage: FileImportStorage,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<Event, Nothing>() {
     class State(areInitialDecksAdded: Boolean = false) : FlowMakerWithRegistry<State>() {
@@ -64,8 +66,8 @@ class InitialDecksAdder(
             val fileContent: ByteArray = assetManager.open(fileName).use { it.readBytes() }
             ImportedFile(fileName, fileContent)
         }
-        val fileImporterState = FileImporter.State.fromFiles(files)
-        val fileImporter = FileImporter(fileImporterState, globalState)
+        val fileImporterState = FileImporter.State.fromFiles(files, fileImportStorage)
+        val fileImporter = FileImporter(fileImporterState, globalState, fileImportStorage)
         val results: List<ImportResult> = fileImporter.import()
         if (results.any { it == ImportResult.Failure }) {
             error("Fail to add initial decks from Assets")

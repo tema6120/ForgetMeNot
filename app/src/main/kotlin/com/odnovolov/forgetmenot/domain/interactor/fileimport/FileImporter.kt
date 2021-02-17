@@ -7,6 +7,10 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.Ok
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_CSV
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_TSV
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_TXT
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.Companion.normalizeForParser
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.CardMarkup
@@ -17,22 +21,27 @@ import java.nio.charset.Charset
 class FileImporter(
     val state: State,
     private val globalState: GlobalState,
+    private val fileImportStorage: FileImportStorage
 ) {
     class State(
         files: List<CardsFile>,
-        currentPosition: Int = 0
+        currentPosition: Int = 0,
+        maxVisitedPosition: Int = 0
     ) : FlowMaker<State>() {
         var files: List<CardsFile> by flowMaker(files)
         var currentPosition: Int by flowMaker(currentPosition)
+        var maxVisitedPosition: Int by flowMaker(maxVisitedPosition)
 
         companion object {
-            fun fromFiles(files: List<ImportedFile>): State {
+            fun fromFiles(files: List<ImportedFile>, fileImportStorage: FileImportStorage): State {
                 val cardsFile: List<CardsFile> =
                     files.map { (fileName: String, content: ByteArray) ->
                         val charset: Charset = Charset.defaultCharset()
-                        val format = when (fileName.substringAfterLast('.', "")) {
-                            "tsv" -> FileFormat.CSV_TDF
-                            "csv" -> FileFormat.CSV_DEFAULT
+                        val extension = fileName.substringAfterLast('.', "")
+                        val format = when (extension) {
+                            EXTENSION_TXT -> fileImportStorage.lastUsedFormatForTxt
+                            EXTENSION_CSV -> fileImportStorage.lastUsedFormatForCsv
+                            EXTENSION_TSV -> fileImportStorage.lastUsedFormatForTsv
                             else -> FileFormat.FMN_FORMAT
                         }
                         val text: String = content.toString(charset)
@@ -54,6 +63,7 @@ class FileImporter(
                         val deckWhereToAdd: AbstractDeck = NewDeck(deckName)
                         CardsFile(
                             id = generateId(),
+                            extension,
                             sourceBytes = content,
                             charset,
                             text,
@@ -68,11 +78,16 @@ class FileImporter(
         }
     }
 
-    private val currentFile get() = with(state) { files[currentPosition] }
+    private val currentFile: CardsFile get() = with(state) { files[currentPosition] }
 
     fun setCurrentPosition(position: Int) {
-        if (position !in 0..state.files.lastIndex || position == state.currentPosition) return
-        state.currentPosition = position
+        with(state) {
+            if (position !in 0..files.lastIndex || position == currentPosition) return
+            currentPosition = position
+            if (position > maxVisitedPosition) {
+                maxVisitedPosition = position
+            }
+        }
     }
 
     fun skip() {
@@ -93,26 +108,54 @@ class FileImporter(
     }
 
     fun setCharset(newCharset: Charset) {
-        with(currentFile) {
-            if (charset == newCharset) return
-            val text: String = sourceBytes.toString(newCharset).normalizeForParser(format.parser)
-            updateText(text)
-            charset = newCharset
+        setCharsetForPosition(newCharset, state.currentPosition)
+        for (position in state.files.indices) {
+            if (position > state.maxVisitedPosition) {
+                setCharsetForPosition(newCharset, position)
+            }
         }
+        fileImportStorage.lastUsedEncodingName = newCharset.name()
+    }
+
+    private fun setCharsetForPosition(newCharset: Charset, position: Int) {
+        val file: CardsFile = state.files[position]
+        if (file.charset == newCharset) return
+        val reencodedText: String = file.sourceBytes.toString(newCharset)
+            .normalizeForParser(file.format.parser)
+        updateTextForPosition(reencodedText, position)
+        file.charset = newCharset
     }
 
     fun setFormat(format: FileFormat) {
-        currentFile.format = format
-        updateText(currentFile.text)
+        setFormatForPosition(format, state.currentPosition)
+        state.files.forEachIndexed { index, cardsFile ->
+            if (index > state.maxVisitedPosition && cardsFile.extension == currentFile.extension) {
+                setFormatForPosition(format, index)
+            }
+        }
+        when (currentFile.extension) {
+            EXTENSION_TXT -> fileImportStorage.lastUsedFormatForTxt = format
+            EXTENSION_CSV -> fileImportStorage.lastUsedFormatForCsv = format
+            EXTENSION_TSV -> fileImportStorage.lastUsedFormatForTsv = format
+        }
     }
 
-    fun updateText(text: String): Parser.ParserResult {
-        val parseResult: Parser.ParserResult = currentFile.format.parser.parse(text)
-        currentFile.text = text
-        currentFile.errors = parseResult.errors
-        val oldCardPrototypes: MutableList<CardPrototype> =
-            currentFile.cardPrototypes.toMutableList()
-        currentFile.cardPrototypes = parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
+    private fun setFormatForPosition(format: FileFormat, position: Int) {
+        val file: CardsFile = state.files[position]
+        file.format = format
+        updateTextForPosition(file.text, position)
+    }
+
+    fun updateText(text: String): Parser.ParserResult =
+        updateTextForPosition(text, state.currentPosition)
+
+    private fun updateTextForPosition(text: String, position: Int): Parser.ParserResult {
+        val file: CardsFile = state.files[position]
+        val parseResult: Parser.ParserResult = file.format.parser.parse(text)
+        file.text = text
+        file.errors = parseResult.errors
+        val oldCardPrototypes: MutableList<CardPrototype> = file.cardPrototypes.toMutableList()
+        file.cardPrototypes = parseResult.cardMarkups.map { cardMarkup: CardMarkup ->
             val question: String = cardMarkup.questionText
             val answer: String = cardMarkup.answerText
             oldCardPrototypes.removeFirst { cardPrototype: CardPrototype ->
@@ -190,8 +233,8 @@ class FileImporter(
         object Failure : ImportResult()
     }
 
-    companion object {
-        private val unwantedEOL by lazy { Regex("""\r\n?""") }
+    private companion object {
+        val unwantedEOL by lazy { Regex("""\r\n?""") }
 
         fun String.normalizeForParser(parser: Parser): String {
             return when (parser) {

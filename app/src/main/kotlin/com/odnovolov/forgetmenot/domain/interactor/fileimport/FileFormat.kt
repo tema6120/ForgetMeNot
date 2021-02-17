@@ -40,60 +40,74 @@ class FileFormat(
             )
         }
 
-        val FMN_FORMAT = FileFormat(
-            id = 0,
-            name = "Q:A:",
-            extension = EXTENSION_TXT,
-            parser = FmnFormatParser(),
-            isPredefined = true
-        )
+        val FMN_FORMAT by lazy {
+            FileFormat(
+                id = 0,
+                name = "Q:A:",
+                extension = EXTENSION_TXT,
+                parser = FmnFormatParser(),
+                isPredefined = true
+            )
+        }
 
-        val CSV_DEFAULT = FileFormat(
-            id = 1,
-            name = "CSV | Default",
-            extension = EXTENSION_CSV,
-            parser = CsvParser(CSVFormat.DEFAULT),
-            isPredefined = true,
-        )
+        val CSV_DEFAULT by lazy {
+            FileFormat(
+                id = 1,
+                name = "CSV | Default",
+                extension = EXTENSION_CSV,
+                parser = CsvParser(CSVFormat.DEFAULT),
+                isPredefined = true,
+            )
+        }
 
-        val CSV_EXCEL = FileFormat(
-            id = 2,
-            name = "CSV | Excel",
-            extension = EXTENSION_CSV,
-            parser = CsvParser(CSVFormat.EXCEL),
-            isPredefined = true
-        )
+        val CSV_EXCEL by lazy {
+            FileFormat(
+                id = 2,
+                name = "CSV | Excel",
+                extension = EXTENSION_CSV,
+                parser = CsvParser(CSVFormat.EXCEL),
+                isPredefined = true
+            )
+        }
 
-        val CSV_EXCEL_SEMICOLON = FileFormat(
-            id = 3,
-            name = "CSV | Excel (semicolon)",
-            extension = EXTENSION_CSV,
-            parser = CsvParser(CSVFormat.EXCEL.withDelimiter(';')),
-            isPredefined = true
-        )
+        val CSV_EXCEL_SEMICOLON by lazy {
+            FileFormat(
+                id = 3,
+                name = "CSV | Excel (semicolon)",
+                extension = EXTENSION_CSV,
+                parser = CsvParser(CSVFormat.EXCEL.withDelimiter(';')),
+                isPredefined = true
+            )
+        }
 
-        val CSV_MYSQL = FileFormat(
-            id = 4,
-            name = "CSV | MySQL",
-            extension = EXTENSION_CSV,
-            parser = CsvParser(CSVFormat.MYSQL),
-            isPredefined = true
-        )
+        val CSV_MYSQL by lazy {
+            FileFormat(
+                id = 4,
+                name = "CSV | MySQL",
+                extension = EXTENSION_CSV,
+                parser = CsvParser(CSVFormat.MYSQL),
+                isPredefined = true
+            )
+        }
 
-        val CSV_RFC4180 = FileFormat(
-            id = 5,
-            name = "CSV | RFC-4180",
-            extension = EXTENSION_CSV,
-            parser = CsvParser(CSVFormat.RFC4180),
-            isPredefined = true
-        )
+        val CSV_RFC4180 by lazy {
+            FileFormat(
+                id = 5,
+                name = "CSV | RFC-4180",
+                extension = EXTENSION_CSV,
+                parser = CsvParser(CSVFormat.RFC4180),
+                isPredefined = true
+            )
+        }
 
-        val CSV_TDF = FileFormat(
-            id = 6,
-            name = "Tab text",
-            extension = EXTENSION_TSV,
-            parser = CsvParser(CSVFormat.TDF),
-            isPredefined = true
-        )
+        val CSV_TDF by lazy {
+            FileFormat(
+                id = 6,
+                name = "Tab text",
+                extension = EXTENSION_TSV,
+                parser = CsvParser(CSVFormat.TDF),
+                isPredefined = true
+            )
+        }
     }
 }

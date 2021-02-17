@@ -12,6 +12,7 @@ class AddCardsDiScope {
     val controller = AddCardsController(
         HomeDiScope.getOrRecreate().screenState,
         fileFromIntentReader,
+        AppDiScope.get().fileImportStorage,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )

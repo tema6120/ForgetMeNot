@@ -1,7 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.common.di
 
 import com.odnovolov.forgetmenot.Database
+import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.persistence.DatabaseInitializer
 import com.odnovolov.forgetmenot.persistence.longterm.LongTermStateSaverImpl
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision.GlobalStateProvider
@@ -27,7 +29,20 @@ class AppDiScope(
     val walkingModePreference: WalkingModePreference =
         WalkingModePreferenceProvider(database).load()
 
-    init { TipStateProvider(database).load() }
+    val fileImportStorage: FileImportStorage by lazy {
+        // todo: load from db
+        FileImportStorage(
+            customFileFormats = copyableListOf(),
+            lastUsedEncodingName = FileImportStorage.DEFAULT_ENCODING_NAME,
+            lastUsedFormatForTxt = FileImportStorage.DEFAULT_FILE_FORMAT_FOR_TXT,
+            lastUsedFormatForCsv = FileImportStorage.DEFAULT_FILE_FORMAT_FOR_CSV,
+            lastUsedFormatForTsv = FileImportStorage.DEFAULT_FILE_FORMAT_FOR_TSV
+        )
+    }
+
+    init {
+        TipStateProvider(database).load()
+    }
 
     val longTermStateSaver: LongTermStateSaver = LongTermStateSaverImpl(database)
 
