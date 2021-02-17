@@ -12,6 +12,10 @@
     <string name="no">Ні</string>
     <string name="disabled">Вимкнено</string>
     <string name="label_name">Назва</string>
+    <string name="quit_editor_message">Ваші незбережені зміни буде втрачено. Зберегти зміни
+        перед виходом?</string>
+    <string name="button_save">Зберегти</string>
+    <string name="button_quit_without_saving">Вийти без збереження</string>
 
 
     <!-- Main drawer -->
@@ -292,10 +296,6 @@
     <string name="snackbar_action_cancel" tools:ignore="ButtonCase">скасувати</string>
     <string name="description_done_button">Готово</string>
     <string name="description_cancel_button">Скасувати</string>
-    <string name="message_quit_cards_editor">Ваші незбережені зміни буде втрачено. Зберегти зміни
-        перед виходом?</string>
-    <string name="button_save">Зберегти</string>
-    <string name="button_quit_without_saving">Вийти без збереження</string>
     <string name="toast_fill_in_the_card">Заповніть картку</string>
 
 
@@ -912,7 +912,7 @@
     <string name="dsv_quote_mode_minimal">По мінімуму</string>
     <string name="dsv_quote_mode_non_numeric">Нечислові</string>
     <string name="dsv_quote_mode_none">Не використовувати</string>
-    <string name="error_message_failed_to_save_dsv_format_empty_name">Не вказано назву</string>
+    <string name="error_message_failed_to_save_dsv_format_empty_name">Назва не вказана</string>
     <string name="error_message_failed_to_save_dsv_format_occupied_name">Назва зайнята</string>
     <string name="error_message_failed_to_save_dsv_format_not_valid">Формат DSV недійсний</string>
     <string name="hint_enter_a_name">Введіть назву</string>

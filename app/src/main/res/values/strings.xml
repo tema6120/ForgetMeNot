@@ -13,6 +13,10 @@
     <string name="no">No</string>
     <string name="disabled">Disabled</string>
     <string name="label_name">Name</string>
+    <string name="quit_editor_message">Your unsaved changes will be lost. Save changes before
+        quitting?</string>
+    <string name="button_save">Save</string>
+    <string name="button_quit_without_saving">Quit without saving</string>
 
 
     <!-- Main drawer -->
@@ -282,10 +286,6 @@
     <string name="snackbar_action_cancel" tools:ignore="ButtonCase">cancel</string>
     <string name="description_done_button">Done</string>
     <string name="description_cancel_button">Cancel</string>
-    <string name="message_quit_cards_editor">Your unsaved changes will be lost. Save changes before
-        quitting?</string>
-    <string name="button_save">Save</string>
-    <string name="button_quit_without_saving">Quit without saving</string>
     <string name="toast_fill_in_the_card">Fill in the card</string>
 
 

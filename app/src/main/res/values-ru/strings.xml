@@ -12,6 +12,10 @@
     <string name="no">Нет</string>
     <string name="disabled">Выключено</string>
     <string name="label_name">Название</string>
+    <string name="quit_editor_message">Ваши несохраненные изменения будут потеряны. Сохранить
+        изменения перед выходом?</string>
+    <string name="button_save">Сохранить</string>
+    <string name="button_quit_without_saving">Выйти без сохранения</string>
 
 
     <!-- Main drawer -->
@@ -289,10 +293,6 @@
     <string name="snackbar_action_cancel" tools:ignore="ButtonCase">отменить</string>
     <string name="description_done_button">Готово</string>
     <string name="description_cancel_button">Отменить</string>
-    <string name="message_quit_cards_editor">Ваши несохраненные изменения будут потеряны. Сохранить
-        изменения перед выходом?</string>
-    <string name="button_save">Сохранить</string>
-    <string name="button_quit_without_saving">Выйти без сохранения</string>
     <string name="toast_fill_in_the_card">Заполните карточку</string>
 
 

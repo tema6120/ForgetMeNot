@@ -10,7 +10,6 @@ import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatControll
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState.Purpose
-import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState.Purpose.CreateNew
 
 class DsvFormatController(
     private val dsvFormatEditor: DsvFormatEditor,
@@ -23,19 +22,20 @@ class DsvFormatController(
         class ShowSaveErrorMessage(val cause: SaveResult.Failure.Cause) : Command()
         class AskToDeleteDsvFormat(val formatName: String) : Command()
         class ShowMessageDsvFormatIsDeleted(val formatName: String) : Command()
+        object AskUserToConfirmExit : Command()
     }
 
     override fun handle(event: DsvFormatEvent) {
         when (event) {
             BackButtonClicked, CancelButtonClicked -> {
                 if (screenState.purpose != Purpose.View && dsvFormatEditor.hasChanges()) {
-                    // todo: ask to quit
+                    sendCommand(AskUserToConfirmExit)
                 } else {
                     navigator.navigateUp()
                 }
             }
 
-            DoneButtonClicked -> {
+            DoneButtonClicked, SaveButtonClicked -> {
                 when (val result: SaveResult = dsvFormatEditor.save()) {
                     SaveResult.Success -> {
                         if (screenState.purpose == Purpose.CreateNew) {
@@ -55,7 +55,7 @@ class DsvFormatController(
             }
 
             DeleteFormatButtonClicked -> {
-                if (screenState.purpose == CreateNew && !dsvFormatEditor.hasChanges()) {
+                if (screenState.purpose == Purpose.CreateNew && !dsvFormatEditor.hasChanges()) {
                     deleteFormatAndNavigateBack()
                 } else {
                     val formatName: String = dsvFormatEditor.state.formatName
@@ -69,6 +69,10 @@ class DsvFormatController(
 
             CloseTipButtonClicked -> {
                 screenState.isTipVisible = false
+            }
+
+            UserConfirmedExit -> {
+                navigator.navigateUp()
             }
 
             is DelimiterChanged -> {

@@ -22,6 +22,7 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.Failure.Cause.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
 import kotlinx.android.synthetic.main.dialog_delete_dsv_format.view.*
@@ -86,6 +87,9 @@ class DsvFormatFragment : BaseFragment() {
             is ShowMessageDsvFormatIsDeleted -> {
                 val message = getString(R.string.message_dsv_format_is_deleted, command.formatName)
                 showToast(message)
+            }
+            AskUserToConfirmExit -> {
+                QuitDsvFormatBottomSheet().show(childFragmentManager, "QuitDsvFormatBottomSheet")
             }
         }
     }
@@ -532,11 +536,13 @@ class DsvFormatFragment : BaseFragment() {
         super.onResume()
         appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
         hideKeyboardForcibly(requireActivity())
     }
 
@@ -578,6 +584,11 @@ class DsvFormatFragment : BaseFragment() {
         if (needToCloseDiScope()) {
             DsvFormatDiScope.close()
         }
+    }
+
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        controller?.dispatch(BackButtonClicked)
+        true
     }
 
     private companion object {
