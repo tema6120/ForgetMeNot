@@ -23,16 +23,19 @@ class CsvParser(
         val reader = StringReader(text)
         val parser = csvFormat.parse(reader)
         var recordEnd = -1
+        var lastParserLineNumber: Int = parser.currentLineNumber.toInt()
         try {
             for (csvRecord: CSVRecord in parser) {
                 val recordStart = csvRecord.characterPosition.toInt()
-                val currentLineNumber = parser.currentLineNumber.toInt() - 1
+                val currentParserLinePosition = parser.currentLineNumber.toInt()
+                val isLastLine = lastParserLineNumber == currentParserLinePosition
                 recordEnd =
-                    if (currentLineNumber > newLineCharLocations.lastIndex) {
+                    if (isLastLine) {
                         text.lastIndex
                     } else {
-                        newLineCharLocations[currentLineNumber]
+                        newLineCharLocations[lastParserLineNumber]
                     }
+                lastParserLineNumber = currentParserLinePosition
                 if (csvRecord.size() < 2) {
                     val errorMessage = "Record has less than 2 values"
                     val errorRange = recordStart..recordEnd
