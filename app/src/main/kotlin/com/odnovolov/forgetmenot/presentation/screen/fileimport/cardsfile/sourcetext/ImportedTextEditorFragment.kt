@@ -113,8 +113,10 @@ class ImportedTextEditorFragment : BaseFragment() {
         with(viewModel) {
             updateTextCommand.observe(editor::setTextContent)
             errors.observe { errors: List<ErrorBlock> ->
+                if (this@ImportedTextEditorFragment.errors.isNotEmpty()) {
+                    editor.clearErrorLines()
+                }
                 this@ImportedTextEditorFragment.errors = errors
-                //editor.clearErrorLines()
                 errors.forEach { errorBlock: ErrorBlock ->
                     errorBlock.lines.forEach { errorLine: Int ->
                         editor.setErrorLine(errorLine + 1)

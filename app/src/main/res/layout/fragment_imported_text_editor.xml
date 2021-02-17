@@ -78,50 +78,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
-            <ImageButton
-                    android:id="@+id/undoButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="4dp"
-                    android:background="@drawable/ripple_light_borderless"
-                    android:contentDescription="@string/description_undo_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_undo_24"
-                    app:tint="@color/image_button_on_control_panel_enabled" />
-
-            <ImageButton
-                    android:id="@+id/redoButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="2dp"
-                    android:background="@drawable/ripple_light_borderless"
-                    android:contentDescription="@string/description_redo_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/undoButton"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_redo_24"
-                    app:tint="@color/image_button_on_control_panel_enabled" />
-
-            <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fileFormatFragment"
-                    android:name="com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat.FileFormatFragment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/redoButton"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout="@layout/fragment_file_format" />
-
             <TextView
                     android:id="@+id/charsetButton"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="6dp"
                     android:background="@drawable/background_outlined_button_on_dark"
                     android:drawablePadding="4dp"
@@ -133,8 +95,7 @@
                     android:textSize="@dimen/text_size_file_import_screen_control_panel_button"
                     app:drawableEndCompat="@drawable/ic_round_expand_more_24"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/fileFormatFragment"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="UTF-8" />
 
@@ -156,6 +117,44 @@
                     app:layout_constraintEnd_toEndOf="@+id/charsetButton"
                     app:layout_constraintStart_toStartOf="@+id/charsetButton"
                     app:layout_constraintTop_toTopOf="@+id/charsetButton" />
+
+            <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fileFormatFragment"
+                    android:name="com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat.FileFormatFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/charsetButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout="@layout/fragment_file_format" />
+
+            <ImageButton
+                    android:id="@+id/undoButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_undo_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/fileFormatFragment"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_round_undo_24"
+                    app:tint="@color/image_button_on_control_panel_enabled" />
+
+            <ImageButton
+                    android:id="@+id/redoButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_redo_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/undoButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_round_redo_24"
+                    app:tint="@color/image_button_on_control_panel_enabled" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

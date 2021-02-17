@@ -51,12 +51,12 @@ class DsvFormatViewModel(
     val recordSeparator: String? get() = dsvFormatEditorState.recordSeparator
     val commentMarker: Flow<Char?> = dsvFormatEditorState.flowOf(DsvFormatEditor.State::commentMarker)
     val skipHeaderRecord: Flow<Boolean> = dsvFormatEditorState.flowOf(DsvFormatEditor.State::skipHeaderRecord)
-    val header: Array<String>? get() = dsvFormatEditorState.header
+    val header: Array<String?>? get() = dsvFormatEditorState.header
     val headerColumnCount: Flow<Int> = dsvFormatEditorState.flowOf(DsvFormatEditor.State::header).map { it?.size ?: 0 }
     val ignoreHeaderCase: Flow<Boolean> = dsvFormatEditorState.flowOf(DsvFormatEditor.State::ignoreHeaderCase)
     val allowDuplicateHeaderNames: Flow<Boolean> = dsvFormatEditorState.flowOf(DsvFormatEditor.State::allowDuplicateHeaderNames)
     val allowMissingColumnNames: Flow<Boolean> = dsvFormatEditorState.flowOf(DsvFormatEditor.State::allowMissingColumnNames)
-    val headerComments: Array<String>? get() = dsvFormatEditorState.headerComments
+    val headerComments: Array<String?>? get() = dsvFormatEditorState.headerComments
     val headerCommentsCount: Flow<Int> = dsvFormatEditorState.flowOf(DsvFormatEditor.State::headerComments).map { it?.size ?: 0 }
     val autoFlush: Flow<Boolean> = dsvFormatEditorState.flowOf(DsvFormatEditor.State::autoFlush)
 }

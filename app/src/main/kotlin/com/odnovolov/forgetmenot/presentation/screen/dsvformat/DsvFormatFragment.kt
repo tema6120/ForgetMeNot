@@ -210,8 +210,8 @@ class DsvFormatFragment : BaseFragment() {
                 yesSkipHeaderRecordButton.isSelected = skipHeaderRecord
                 noSkipHeaderRecordButton.isSelected = !skipHeaderRecord
             }
-            header?.let { headerColumnNames: Array<String> ->
-                headerColumnNames.forEachIndexed { index: Int, columnName: String ->
+            header?.let { headerColumnNames: Array<String?> ->
+                headerColumnNames.forEachIndexed { index: Int, columnName: String? ->
                     if (index == 0) {
                         firstHeaderColumnNameEditText.setText(columnName)
                     } else {
@@ -271,8 +271,8 @@ class DsvFormatFragment : BaseFragment() {
                 yesAllowMissingColumnNamesButton.isSelected = allowMissingColumnNames
                 noAllowMissingColumnNamesButton.isSelected = !allowMissingColumnNames
             }
-            headerComments?.let { headerComments: Array<String> ->
-                headerComments.forEachIndexed { index: Int, comment: String ->
+            headerComments?.let { headerComments: Array<String?> ->
+                headerComments.forEachIndexed { index: Int, comment: String? ->
                     if (index == 0) {
                         firstHeaderCommentEditText.setText(comment)
                     } else {

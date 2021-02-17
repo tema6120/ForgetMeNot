@@ -27,11 +27,11 @@ class DsvFormatEditor(
         recordSeparator: String?,
         commentMarker: Char?,
         skipHeaderRecord: Boolean,
-        header: Array<String>?,
+        header: Array<String?>?,
         ignoreHeaderCase: Boolean,
         allowDuplicateHeaderNames: Boolean,
         allowMissingColumnNames: Boolean,
-        headerComments: Array<String>?,
+        headerComments: Array<String?>?,
         autoFlush: Boolean,
     ) : FlowMaker<State>() {
         val editingFileFormat: FileFormat by flowMaker(sourceFileFormat)
@@ -49,11 +49,11 @@ class DsvFormatEditor(
         var recordSeparator: String? by flowMaker(recordSeparator)
         var commentMarker: Char? by flowMaker(commentMarker)
         var skipHeaderRecord: Boolean by flowMaker(skipHeaderRecord)
-        var header: Array<String>? by flowMaker(header)
+        var header: Array<String?>? by flowMaker(header)
         var ignoreHeaderCase: Boolean by flowMaker(ignoreHeaderCase)
         var allowDuplicateHeaderNames: Boolean by flowMaker(allowDuplicateHeaderNames)
         var allowMissingColumnNames: Boolean by flowMaker(allowMissingColumnNames)
-        var headerComments: Array<String>? by flowMaker(headerComments)
+        var headerComments: Array<String?>? by flowMaker(headerComments)
         var autoFlush: Boolean by flowMaker(autoFlush)
 
         companion object {
@@ -311,12 +311,24 @@ class DsvFormatEditor(
                 || sourceCSVFormat.recordSeparator != state.recordSeparator
                 || sourceCSVFormat.commentMarker != state.commentMarker
                 || sourceCSVFormat.skipHeaderRecord != state.skipHeaderRecord
-                || !(sourceCSVFormat.header contentEquals state.header)
+                || !contentEqualsTakingIntoAccountNullContent(sourceCSVFormat.header, state.header)
                 || sourceCSVFormat.ignoreHeaderCase != state.ignoreHeaderCase
                 || sourceCSVFormat.allowDuplicateHeaderNames != state.allowDuplicateHeaderNames
                 || sourceCSVFormat.allowMissingColumnNames != state.allowMissingColumnNames
-                || !(sourceCSVFormat.headerComments contentEquals state.headerComments)
+                || !contentEqualsTakingIntoAccountNullContent(sourceCSVFormat.headerComments, state.headerComments)
                 || sourceCSVFormat.autoFlush != state.autoFlush
+    }
+
+    private fun contentEqualsTakingIntoAccountNullContent(
+        first: Array<String?>?,
+        second: Array<String?>?
+    ): Boolean {
+        val firstHasNullContent = first == null || first.all { it == null }
+        val secondHasNullContent = second == null || second.all { it == null }
+        return if (firstHasNullContent && secondHasNullContent)
+            true
+        else
+            first contentEquals second
     }
 
     fun remove(fileImporter: FileImporter): Boolean {
@@ -324,7 +336,7 @@ class DsvFormatEditor(
             return false
         } else {
             fileImporter.state.files.forEach { file: CardsFile ->
-                if (file.format.id == state.editingFileFormat.id ) {
+                if (file.format.id == state.editingFileFormat.id) {
                     file.format = FileFormat.CSV_DEFAULT
                 }
             }

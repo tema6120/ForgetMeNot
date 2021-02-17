@@ -78,7 +78,7 @@ class FileImportFragment : BaseFragment() {
             val fragment = CardsFileFragment.create(viewModel.currentCardsFileId)
             childFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
-                .commitNow()
+                .commit()
         }
     }
 

@@ -50,6 +50,7 @@ class ImportedTextEditorViewModel(
 
     val errors: Flow<List<ErrorBlock>> = cardsFile.flatMapLatest { cardsFile: CardsFile ->
         cardsFile.flowOf(CardsFile::errorRanges)
+            .debounce(50)
             .map { errorRanges: List<IntRange> -> findErrorBlocks(cardsFile.text, errorRanges) }
     }
         .flowOn(businessLogicThread)
