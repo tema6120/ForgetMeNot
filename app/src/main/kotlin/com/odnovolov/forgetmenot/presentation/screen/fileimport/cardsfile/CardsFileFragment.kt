@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import com.brackeys.ui.editorkit.span.ErrorSpan
@@ -22,11 +24,14 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileController.Command.AskToUseSelectedDeckForImportNextFiles
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileViewModel.FileImportScreenTitle
+import kotlinx.android.synthetic.main.dialog_ask_to_use_existing_deck_for_import_next_files.view.*
 import kotlinx.android.synthetic.main.fragment_cards_file.*
 import kotlinx.android.synthetic.main.popup_change_deck_for_import.view.*
 import kotlinx.android.synthetic.main.popup_charsets.view.*
+import kotlinx.android.synthetic.main.popup_charsets.view.title
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -47,6 +52,8 @@ class CardsFileFragment : BaseFragment() {
     private var changeDeckPopup: PopupWindow? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var sourceTextTab: TextView? = null
+    private var askToUseDeckDialog: AlertDialog? = null
+    private var askToUseDeckDialogTitle: TextView? = null
     var isAppearingWithAnimation = false
 
     override fun onCreateView(
@@ -68,7 +75,50 @@ class CardsFileFragment : BaseFragment() {
             fileImportController!!.dispatch(CardsFileIsOpened(id))
             viewModel = diScope.cardsFileViewModel(id)
             observeViewModel()
+            controller?.commands!!.observe(::executeCommand)
         }
+    }
+
+    private fun executeCommand(command: CardsFileController.Command) {
+        when (command) {
+            is AskToUseSelectedDeckForImportNextFiles -> {
+                val dialog = requireAskToUseDeckDialog()
+                askToUseDeckDialogTitle!!.text = resources.getQuantityString(
+                    R.plurals.dialog_title_ask_to_use_existing_deck_for_import_next_files,
+                    command.countOfNextFiles,
+                    command.nameOfSelectedDeck, command.countOfNextFiles
+                )
+                dialog.show()
+            }
+        }
+    }
+
+    private fun requireAskToUseDeckDialog(): AlertDialog {
+        if (askToUseDeckDialog == null) {
+            val contentView = View.inflate(
+                requireContext(),
+                R.layout.dialog_ask_to_use_existing_deck_for_import_next_files,
+                null
+            ).apply {
+                askToUseDeckDialogTitle = title
+                yesButton.setOnClickListener {
+                    controller?.dispatch(UserAcceptedToUseSelectedDeckForImportNextFiles)
+                    askToUseDeckDialog!!.dismiss()
+                }
+                noButton.setOnClickListener {
+                    askToUseDeckDialog!!.dismiss()
+                }
+            }
+            askToUseDeckDialog = AlertDialog.Builder(requireContext())
+                .setView(contentView)
+                .create()
+                .apply {
+                    window?.setBackgroundDrawable(
+                        ContextCompat.getDrawable(context, R.drawable.background_dialog)
+                    )
+                }
+        }
+        return askToUseDeckDialog!!
     }
 
     private fun setupView() {

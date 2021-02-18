@@ -913,5 +913,9 @@
     <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
     <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
+    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files">
+        <item quantity="one">Do you want to use this deck (%1$s) for import the next file?</item>
+        <item quantity="other">Do you want to use this deck (%1$s) for import the next %2$d files?</item>
+    </plurals>
 
 </resources>

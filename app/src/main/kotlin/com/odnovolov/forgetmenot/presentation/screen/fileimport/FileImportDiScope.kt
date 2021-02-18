@@ -17,6 +17,8 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.source
 class FileImportDiScope private constructor(
     initialFileImporterState: FileImporter.State? = null
 ) {
+    val screenState = FileImportScreenState() // fixme
+
     val fileImporterStateProvider = FileImporterStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
@@ -46,6 +48,7 @@ class FileImportDiScope private constructor(
     val cardsFileController = CardsFileController(
         fileImporter,
         AppDiScope.get().navigator,
+        screenState,
         AppDiScope.get().longTermStateSaver,
         fileImporterStateProvider
     )

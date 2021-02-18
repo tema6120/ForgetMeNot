@@ -190,6 +190,15 @@ class FileImporter(
         }
     }
 
+    fun useCurrentDeckForNextFiles() {
+        val first = state.currentPosition + 1
+        val last = state.files.lastIndex
+        for (i in first..last) {
+            val file = state.files[i]
+            file.deckWhereToAdd = currentFile.deckWhereToAdd
+        }
+    }
+
     fun import(): List<ImportResult> {
         return state.files.map { cardsFile: CardsFile ->
             val deckWhereToAdd = cardsFile.deckWhereToAdd

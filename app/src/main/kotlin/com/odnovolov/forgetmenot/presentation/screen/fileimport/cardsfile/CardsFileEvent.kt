@@ -8,4 +8,5 @@ sealed class CardsFileEvent {
     class SubmittedNameForNewDeck(val deckName: String) : CardsFileEvent()
     object AddCardsToExistingDeckButtonClicked : CardsFileEvent()
     class TargetDeckIsSelected(val deck: Deck) : CardsFileEvent()
+    object UserAcceptedToUseSelectedDeckForImportNextFiles : CardsFileEvent()
 }

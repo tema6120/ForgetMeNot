@@ -926,5 +926,11 @@
     <string name="title_delete_dsv_format_dialog">Удаление DSV формата \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Вы действительно хотите удалить этот формат?</string>
     <string name="message_dsv_format_is_deleted">DSV формат \'%1$s\' удален</string>
+    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files" tools:ignore="MissingQuantity">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Вы хотите использовать эту колоду (%1$s)
+            для импорта следующего файла?</item>
+        <item quantity="other">Вы хотите использовать эту колоду (%1$s) для импорта следующих %2$d
+            файлов?</item>
+    </plurals>
 
 </resources>

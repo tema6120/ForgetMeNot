@@ -61,64 +61,6 @@ class DsvFormatFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: DsvFormatController.Command) {
-        when (command) {
-            is ShowSaveErrorMessage -> {
-                when (command.cause) {
-                    NameIsEmpty -> {
-                        showToast(R.string.error_message_failed_to_save_dsv_format_empty_name)
-                    }
-                    NameIsOccupied -> {
-                        showToast(R.string.error_message_failed_to_save_dsv_format_occupied_name)
-                    }
-                    InvalidFormat -> {
-                        showToast(R.string.error_message_failed_to_save_dsv_format_not_valid)
-                    }
-                }
-            }
-            is AskToDeleteDsvFormat -> {
-                val dialog: AlertDialog = requireDeleteDialog()
-                deleteDialogTitle!!.text = getString(
-                    R.string.title_delete_dsv_format_dialog,
-                    command.formatName
-                )
-                dialog.show()
-            }
-            is ShowMessageDsvFormatIsDeleted -> {
-                val message = getString(R.string.message_dsv_format_is_deleted, command.formatName)
-                showToast(message)
-            }
-            AskUserToConfirmExit -> {
-                QuitDsvFormatBottomSheet().show(childFragmentManager, "QuitDsvFormatBottomSheet")
-            }
-        }
-    }
-
-    private fun requireDeleteDialog(): AlertDialog {
-        if (deleteDialog == null) {
-            val contentView =
-                View.inflate(requireContext(), R.layout.dialog_delete_dsv_format, null).apply {
-                    deleteDialogTitle = deleteDsvFormatTitle
-                    deleteButton.setOnClickListener {
-                        controller?.dispatch(DeleteFormatPositiveDialogButtonClicked)
-                        deleteDialog!!.dismiss()
-                    }
-                    cancelDeletingButton.setOnClickListener {
-                        deleteDialog!!.dismiss()
-                    }
-                }
-            deleteDialog = AlertDialog.Builder(requireContext())
-                .setView(contentView)
-                .create()
-                .apply {
-                    window?.setBackgroundDrawable(
-                        ContextCompat.getDrawable(context, R.drawable.background_dialog)
-                    )
-                }
-        }
-        return deleteDialog!!
-    }
-
     private fun setupView() {
         tipTextView.setTextWithClickableAnnotations(
             stringId = R.string.tip_dsv_format,
@@ -530,6 +472,64 @@ class DsvFormatFragment : BaseFragment() {
                 return if (finalText.length == 1 || finalText in ESCAPE_SEQUENCES) null else ""
             }
         })
+    }
+
+    private fun executeCommand(command: DsvFormatController.Command) {
+        when (command) {
+            is ShowSaveErrorMessage -> {
+                when (command.cause) {
+                    NameIsEmpty -> {
+                        showToast(R.string.error_message_failed_to_save_dsv_format_empty_name)
+                    }
+                    NameIsOccupied -> {
+                        showToast(R.string.error_message_failed_to_save_dsv_format_occupied_name)
+                    }
+                    InvalidFormat -> {
+                        showToast(R.string.error_message_failed_to_save_dsv_format_not_valid)
+                    }
+                }
+            }
+            is AskToDeleteDsvFormat -> {
+                val dialog: AlertDialog = requireDeleteDialog()
+                deleteDialogTitle!!.text = getString(
+                    R.string.title_delete_dsv_format_dialog,
+                    command.formatName
+                )
+                dialog.show()
+            }
+            is ShowMessageDsvFormatIsDeleted -> {
+                val message = getString(R.string.message_dsv_format_is_deleted, command.formatName)
+                showToast(message)
+            }
+            AskUserToConfirmExit -> {
+                QuitDsvFormatBottomSheet().show(childFragmentManager, "QuitDsvFormatBottomSheet")
+            }
+        }
+    }
+
+    private fun requireDeleteDialog(): AlertDialog {
+        if (deleteDialog == null) {
+            val contentView =
+                View.inflate(requireContext(), R.layout.dialog_delete_dsv_format, null).apply {
+                    deleteDialogTitle = deleteDsvFormatTitle
+                    deleteButton.setOnClickListener {
+                        controller?.dispatch(DeleteFormatPositiveDialogButtonClicked)
+                        deleteDialog!!.dismiss()
+                    }
+                    cancelDeletingButton.setOnClickListener {
+                        deleteDialog!!.dismiss()
+                    }
+                }
+            deleteDialog = AlertDialog.Builder(requireContext())
+                .setView(contentView)
+                .create()
+                .apply {
+                    window?.setBackgroundDrawable(
+                        ContextCompat.getDrawable(context, R.drawable.background_dialog)
+                    )
+                }
+        }
+        return deleteDialog!!
     }
 
     override fun onResume() {

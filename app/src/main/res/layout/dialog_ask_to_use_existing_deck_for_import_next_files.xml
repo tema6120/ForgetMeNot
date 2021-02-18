@@ -1,0 +1,65 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/background_dialog"
+        tools:elevation="24dp"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center"
+            android:padding="16dp"
+            android:textColor="@color/text_title"
+            android:textSize="@dimen/text_size_dialog_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Do you want to use this deck (Vocabulary) for import the next 6 files?" />
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/noButton"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/background_dialog_cancel_button"
+            android:fontFamily="@font/nunito_extrabold"
+            android:text="@string/no"
+            android:textAllCaps="false"
+            android:textColor="@color/text_button_secondary"
+            android:textSize="@dimen/text_size_dialog_cancel_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/yesButton"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/yesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/nunito_extrabold"
+            android:outlineAmbientShadowColor="@color/colorAccent"
+            android:outlineSpotShadowColor="@color/colorAccent"
+            android:stateListAnimator="@animator/material_button"
+            android:text="@string/yes"
+            android:textAllCaps="false"
+            android:textColor="@color/text_ok_button_in_interval_dialog"
+            android:textSize="@dimen/text_size_dialog_ok_button"
+            app:backgroundTint="@color/colorAccent"
+            app:cornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/noButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/noButton"
+            app:layout_constraintTop_toTopOf="@+id/noButton"
+            app:rippleColor="@android:color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
