@@ -1,8 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +12,6 @@ import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.brackeys.ui.editorkit.span.ErrorSpan
 import com.brackeys.ui.editorkit.widget.TextProcessor
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.Error
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
@@ -33,6 +30,8 @@ import java.nio.charset.Charset
 class ImportedTextEditorFragment : BaseFragment() {
     companion object {
         const val ARG_ID = "ARG_ID"
+        const val MAX_TEXT_LENGTH_TO_EDIT = 20_000
+        const val MAX_ERROR_LINES_TO_SHOW = 50
 
         fun create(id: Long) = ImportedTextEditorFragment().apply {
             arguments = Bundle(1).apply {
@@ -79,6 +78,8 @@ class ImportedTextEditorFragment : BaseFragment() {
         errorButton.setOnClickListener {
             showNextError()
         }
+        undoButton.isEnabled = false
+        redoButton.isEnabled = false
         undoButton.setOnClickListener {
             if (editor.canUndo()) editor.undo()
         }
@@ -96,7 +97,9 @@ class ImportedTextEditorFragment : BaseFragment() {
     private fun showNextError() {
         if (errorBlocks.isEmpty()) return
         determineNextErrorBlock()
-        editorScrollView.smoothScrollTo(0, determineErrorLineVerticalPosition(), 500)
+        if (editor.isVisible) {
+            editorScrollView.smoothScrollTo(0, determineErrorLineVerticalPosition(), 500)
+        }
         errorButton.text = composeErrorMessage()
     }
 
@@ -128,17 +131,22 @@ class ImportedTextEditorFragment : BaseFragment() {
 
     private fun observeViewModel(isRecreated: Boolean) {
         with(viewModel) {
-            updateTextCommand.observe(editor::setTextContent)
+            updateTextCommand.observe { text: String ->
+                if (text.length <= MAX_TEXT_LENGTH_TO_EDIT) {
+                    editor.setTextContent(text)
+                    editor.isVisible = true
+                    editOffTextView.isVisible = false
+                } else {
+                    editor.isVisible = false
+                    editOffTextView.isVisible = true
+                }
+            }
             errors.observe { errors: List<ErrorBlock> ->
                 if (this@ImportedTextEditorFragment.errorBlocks.isNotEmpty()) {
                     editor.clearErrorLines()
                 }
                 this@ImportedTextEditorFragment.errorBlocks = errors
-                errors.forEach { errorBlock: ErrorBlock ->
-                    errorBlock.lines.forEach { errorLine: Int ->
-                        editor.setErrorLine(errorLine + 1)
-                    }
-                }
+                applyErrors(errors)
                 if (errors.isEmpty()) {
                     editor.clearErrorLines()
                 }
@@ -169,6 +177,17 @@ class ImportedTextEditorFragment : BaseFragment() {
             }
             currentCharset.observe { charset: Charset ->
                 charsetButton.text = charset.name()
+            }
+        }
+    }
+
+    private fun applyErrors(errors: List<ErrorBlock>) {
+        var numberOfErrorLines = 0
+        errors.forEach { errorBlock: ErrorBlock ->
+            errorBlock.lines.forEach { errorLine: Int ->
+                editor.setErrorLine(errorLine + 1)
+                numberOfErrorLines++
+                if (numberOfErrorLines == MAX_ERROR_LINES_TO_SHOW) return
             }
         }
     }

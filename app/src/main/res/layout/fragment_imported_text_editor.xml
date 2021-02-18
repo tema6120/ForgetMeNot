@@ -23,12 +23,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            <com.brackeys.ui.editorkit.widget.TextProcessor
-                    android:id="@+id/editor"
+            <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="top|start"
-                    android:textColor="@color/textSecondary" />
+                    android:layout_height="match_parent">
+
+                <com.brackeys.ui.editorkit.widget.TextProcessor
+                        android:id="@+id/editor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top|start"
+                        android:textColor="@color/textSecondary" />
+
+                <TextView
+                        android:id="@+id/editOffTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:drawablePadding="8dp"
+                        android:layout_margin="32dp"
+                        android:text="@string/text_file_edit_off"
+                        android:textColor="@color/text_no_search_result"
+                        android:textSize="@dimen/text_size_no_search_result"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        app:drawableTint="@color/text_no_search_result"
+                        app:drawableTopCompat="@drawable/ic_edit_off_54" />
+
+            </FrameLayout>
 
         </androidx.core.widget.NestedScrollView>
 

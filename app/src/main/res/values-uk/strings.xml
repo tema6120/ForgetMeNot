@@ -925,5 +925,6 @@
         <item quantity="other">Ви бажаєте використати цю колоду (%1$s) для імпорту наступних %2$d
             файлів?</item>
     </plurals>
+    <string name="text_file_edit_off">Занадто великий файл для редагування</string>
 
 </resources>
