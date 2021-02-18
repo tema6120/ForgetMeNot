@@ -926,5 +926,6 @@
             файлів?</item>
     </plurals>
     <string name="text_file_edit_off">Занадто великий файл для редагування</string>
+    <string name="cannot_extract_any_cards">Неможливо дістати жодної картки</string>
 
 </resources>

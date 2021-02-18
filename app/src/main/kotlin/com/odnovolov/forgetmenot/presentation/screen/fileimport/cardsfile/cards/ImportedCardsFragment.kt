@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.plurals
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
@@ -62,6 +63,9 @@ class ImportedCardsFragment : BaseFragment() {
         with(viewModel) {
             cardPrototypes.observe { cardPrototypes: List<CardPrototype> ->
                 (cardsRecycler.adapter as CardPrototypeAdapter).submitList(cardPrototypes)
+            }
+            hasCards.observe { hasCards: Boolean ->
+                cannotExtractAnyCardsTextView.isVisible = !hasCards
             }
             numberOfSelectedCards.observe { numberOfSelectedCards: Int ->
                 numberOfSelectedCardsTextView.text = resources.getQuantityString(

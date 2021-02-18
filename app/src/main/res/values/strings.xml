@@ -918,5 +918,6 @@
         <item quantity="other">Do you want to use this deck (%1$s) for import the next %2$d files?</item>
     </plurals>
     <string name="text_file_edit_off">Too large file to be edited</string>
+    <string name="cannot_extract_any_cards">Cannot extract any cards</string>
 
 </resources>

@@ -22,6 +22,8 @@ class ImportedCardsViewModel(
             cardsFile.flowOf(CardsFile::cardPrototypes)
         }
 
+    val hasCards: Flow<Boolean> = cardPrototypes.map { it.isNotEmpty() }
+
     val numberOfSelectedCards: Flow<Int> = cardPrototypes
         .map { cardPrototype -> cardPrototype.count { it.isSelected } }
         .flowOn(businessLogicThread)

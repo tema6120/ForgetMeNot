@@ -6,13 +6,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cardsRecycler"
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_card_overview" />
+            android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cardsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_card_overview" />
+
+        <TextView
+                android:id="@+id/cannotExtractAnyCardsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/cannot_extract_any_cards"
+                android:textColor="@color/text_no_search_result"
+                android:textSize="@dimen/text_size_no_search_result"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:drawableTint="@color/text_no_search_result"
+                app:drawableTopCompat="@drawable/ic_round_search_54" />
+
+    </FrameLayout>
 
     <LinearLayout
             android:id="@+id/selectionToolbar"
