@@ -2,13 +2,14 @@ package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure.Cause
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.State
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
@@ -31,6 +32,10 @@ class FileImportController(
                 SwipeToPreviousDroppingCurrent
             }
         }
+
+        class ShowMessageNumberOfImportedCards(val numberOfImportedCards: Int) : Command()
+        object ShowMessageNoCardsToImport : Command()
+        object ShowMessageInvalidDeckName : Command()
     }
 
     override fun handle(event: FileImportEvent) {
@@ -82,8 +87,26 @@ class FileImportController(
 
             DoneButtonClicked -> {
                 val result = fileImporter.import()
-                if (result[0] is ImportResult.Success) {
-                    navigator.navigateUp()
+                when (result) {
+                    is ImportResult.Success -> {
+                        sendCommand(ShowMessageNumberOfImportedCards(result.numberOfImportedCards))
+                        // todo: navigate to deck settings
+                        navigator.navigateUp()
+                    }
+                    is ImportResult.Failure -> {
+                        when (val cause = result.cause) {
+                            Cause.NoCards -> {
+                                sendCommand(ShowMessageNoCardsToImport)
+                            }
+                            is Cause.InvalidName -> {
+                                sendCommand(ShowMessageInvalidDeckName)
+                                if (cause.position != fileImporter.state.files.lastIndex) {
+                                    val cardsFileId = fileImporter.state.files[cause.position].id
+                                    sendCommand(Navigate(cardsFileId, SwipeToPrevious))
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

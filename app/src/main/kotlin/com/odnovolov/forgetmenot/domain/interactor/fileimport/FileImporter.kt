@@ -10,8 +10,8 @@ import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_CSV
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_TSV
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_TXT
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.Companion.normalizeForParser
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure.Cause
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.CardMarkup
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.Error
@@ -199,25 +199,26 @@ class FileImporter(
         }
     }
 
-    fun import(): List<ImportResult> {
-        return state.files.map { cardsFile: CardsFile ->
+    fun import(): ImportResult {
+        for ((position: Int, cardsFile: CardsFile) in state.files.withIndex()) {
             val deckWhereToAdd = cardsFile.deckWhereToAdd
             if (deckWhereToAdd is NewDeck) {
                 val nameCheckResult: NameCheckResult =
                     checkDeckName(deckWhereToAdd.deckName, globalState)
                 if (nameCheckResult != Ok) {
-                    return@map Failure
+                    return Failure(Cause.InvalidName(position))
                 }
             }
-            val cardPrototypes: List<CardPrototype> = cardsFile.cardPrototypes
-            if (cardPrototypes.isEmpty()) {
-                return@map Failure
-            }
-            val newCards: CopyableList<Card> = cardPrototypes
+        }
+        val importedDecks: MutableList<Deck> = ArrayList(state.files.size)
+        var numberOfImportedCards = 0
+        for (cardsFile: CardsFile in state.files) {
+            val newCards: CopyableList<Card> = cardsFile.cardPrototypes
                 .filter { cardPrototype -> cardPrototype.isSelected }
                 .map { cardPrototype -> cardPrototype.toCard() }
                 .toCopyableList()
-            when (deckWhereToAdd) {
+            if (newCards.isEmpty()) continue
+            when (val deckWhereToAdd = cardsFile.deckWhereToAdd) {
                 is NewDeck -> {
                     val deck = Deck(
                         id = generateId(),
@@ -225,21 +226,32 @@ class FileImporter(
                         cards = newCards
                     )
                     globalState.decks = (globalState.decks + deck).toCopyableList()
-                    return@map Success(deck)
+                    importedDecks.add(deck)
                 }
                 is ExistingDeck -> {
                     deckWhereToAdd.deck.cards =
                         (deckWhereToAdd.deck.cards + newCards).toCopyableList()
-                    return@map Success(deckWhereToAdd.deck)
+                    importedDecks.add(deckWhereToAdd.deck)
                 }
                 else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
             }
+            numberOfImportedCards += newCards.size
+        }
+        return if (numberOfImportedCards == 0) {
+            Failure(Cause.NoCards)
+        } else {
+            Success(importedDecks, numberOfImportedCards)
         }
     }
 
     sealed class ImportResult {
-        class Success(val deck: Deck) : ImportResult()
-        object Failure : ImportResult()
+        class Success(val decks: List<Deck>, val numberOfImportedCards: Int) : ImportResult()
+        class Failure(val cause: Cause) : ImportResult() {
+            sealed class Cause {
+                class InvalidName(val position: Int) : Cause()
+                object NoCards : Cause()
+            }
+        }
     }
 
     private companion object {

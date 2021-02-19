@@ -921,7 +921,7 @@
     <string name="dsv_quote_mode_none">Не использовать</string>
     <string name="error_message_failed_to_save_dsv_format_empty_name">Не указано название</string>
     <string name="error_message_failed_to_save_dsv_format_occupied_name">Название занятое</string>
-    <string name="error_message_failed_to_save_dsv_format_not_valid">Формат DSV недействителен</string>
+    <string name="error_message_failed_to_save_dsv_format_not_valid">Формат DSV недопустимый</string>
     <string name="hint_enter_a_name">Введите название</string>
     <string name="title_delete_dsv_format_dialog">Удаление DSV формата \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Вы действительно хотите удалить этот формат?</string>
@@ -934,5 +934,12 @@
     </plurals>
     <string name="text_file_edit_off">Слишком большой файл для редактирования</string>
     <string name="cannot_extract_any_cards">Не удается извлечь ни одной карточки</string>
+    <plurals name="toast_number_of_imported_cards">
+        <item quantity="one">%d карточка была импортирована</item>
+        <item quantity="few">%d карточка было импортировано</item>
+        <item quantity="many">%d карточек было импортировано</item>
+    </plurals>
+    <string name="toast_no_cards_to_import">Нет карточек для импорта</string>
+    <string name="toast_invalid_deck_name">Недопустимое название колоды</string>
 
 </resources>

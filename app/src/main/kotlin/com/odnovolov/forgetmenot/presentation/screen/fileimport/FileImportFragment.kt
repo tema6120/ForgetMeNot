@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate
+import com.odnovolov.forgetmenot.presentation.common.showToast
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileFragment
 import kotlinx.android.synthetic.main.fragment_file_import.*
@@ -69,6 +70,20 @@ class FileImportFragment : BaseFragment() {
                     .setCustomAnimations(enterAnim, exitAnim)
                     .replace(R.id.fragmentContainer, fragment)
                     .commit()
+            }
+            is ShowMessageNumberOfImportedCards -> {
+                val message = resources.getQuantityString(
+                    R.plurals.toast_number_of_imported_cards,
+                    command.numberOfImportedCards,
+                    command.numberOfImportedCards
+                )
+                showToast(message)
+            }
+            ShowMessageNoCardsToImport -> {
+                showToast(R.string.toast_no_cards_to_import)
+            }
+            ShowMessageInvalidDeckName -> {
+                showToast(R.string.toast_invalid_deck_name)
             }
         }
     }

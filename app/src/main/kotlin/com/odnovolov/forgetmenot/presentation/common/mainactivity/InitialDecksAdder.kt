@@ -68,13 +68,17 @@ class InitialDecksAdder(
         }
         val fileImporterState = FileImporter.State.fromFiles(files, fileImportStorage)
         val fileImporter = FileImporter(fileImporterState, globalState, fileImportStorage)
-        val results: List<ImportResult> = fileImporter.import()
-        if (results.any { it == ImportResult.Failure }) {
-            error("Fail to add initial decks from Assets")
-        }
-        val exercisePreferenceForNewDecks: ExercisePreference = createExercisePreference()
-        for (result in results) {
-            (result as ImportResult.Success).deck.exercisePreference = exercisePreferenceForNewDecks
+        val result: ImportResult = fileImporter.import()
+        when (result) {
+            is ImportResult.Failure -> {
+                error("Fail to add initial decks from Assets")
+            }
+            is ImportResult.Success -> {
+                val exercisePreferenceForNewDecks: ExercisePreference = createExercisePreference()
+                for (deck in result.decks) {
+                    deck.exercisePreference = exercisePreferenceForNewDecks
+                }
+            }
         }
     }
 

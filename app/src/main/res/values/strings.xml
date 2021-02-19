@@ -919,5 +919,11 @@
     </plurals>
     <string name="text_file_edit_off">Too large file to be edited</string>
     <string name="cannot_extract_any_cards">Cannot extract any cards</string>
+    <plurals name="toast_number_of_imported_cards">
+        <item quantity="one">One card has been imported</item>
+        <item quantity="other">%d cards have been imported</item>
+    </plurals>
+    <string name="toast_no_cards_to_import">No cards to import</string>
+    <string name="toast_invalid_deck_name">Invalid deck name</string>
 
 </resources>
