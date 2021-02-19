@@ -5,17 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.plurals
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.ControllingTheScrollPosition
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.CardClicked
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.SelectAllButtonClicked
 import kotlinx.android.synthetic.main.fragment_imported_cards.*
 import kotlinx.coroutines.launch
 
-class ImportedCardsFragment : BaseFragment() {
+class ImportedCardsFragment : BaseFragment(), ControllingTheScrollPosition {
     companion object {
         private const val ARG_ID = "ARG_ID"
 
@@ -75,6 +77,20 @@ class ImportedCardsFragment : BaseFragment() {
                 )
             }
         }
+    }
+
+    override fun getScrollPosition(): Float {
+        val offset: Float = cardsRecycler.computeVerticalScrollOffset().toFloat()
+        val extent: Int = cardsRecycler.computeVerticalScrollExtent()
+        val range: Int = cardsRecycler.computeVerticalScrollRange()
+        return offset / (range - extent)
+    }
+
+    override fun scrollTo(scrollPercentage: Float) {
+        val extent: Int = cardsRecycler.computeVerticalScrollExtent()
+        val range: Int = cardsRecycler.computeVerticalScrollRange()
+        val offset: Int = ((range - extent) * scrollPercentage).toInt()
+        (cardsRecycler.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, -offset)
     }
 
     override fun onDestroyView() {

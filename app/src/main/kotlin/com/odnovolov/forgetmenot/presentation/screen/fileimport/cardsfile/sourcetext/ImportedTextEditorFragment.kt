@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileFragment
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.ControllingTheScrollPosition
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorEvent.EncodingIsChanged
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.editorColorScheme
 import kotlinx.android.synthetic.main.fragment_cards_file.*
@@ -27,7 +29,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.nio.charset.Charset
 
-class ImportedTextEditorFragment : BaseFragment() {
+class ImportedTextEditorFragment : BaseFragment(), ControllingTheScrollPosition {
     companion object {
         const val ARG_ID = "ARG_ID"
         const val MAX_TEXT_LENGTH_TO_EDIT = 20_000
@@ -225,6 +227,22 @@ class ImportedTextEditorFragment : BaseFragment() {
                 charsetAdapter!!.items = availableCharsets
             }
         }
+    }
+
+    @SuppressLint("RestrictedApi")
+    override fun getScrollPosition(): Float {
+        val offset: Float = editorScrollView.computeVerticalScrollOffset().toFloat()
+        val extent: Int = editorScrollView.computeVerticalScrollExtent()
+        val range: Int = editorScrollView.computeVerticalScrollRange()
+        return offset / (range - extent)
+    }
+
+    @SuppressLint("RestrictedApi")
+    override fun scrollTo(scrollPercentage: Float) {
+        val extent: Int = editorScrollView.computeVerticalScrollExtent()
+        val range: Int = editorScrollView.computeVerticalScrollRange()
+        val offset: Int = ((range - extent) * scrollPercentage).toInt()
+        editorScrollView.scrollTo(0, offset)
     }
 
     override fun onPause() {

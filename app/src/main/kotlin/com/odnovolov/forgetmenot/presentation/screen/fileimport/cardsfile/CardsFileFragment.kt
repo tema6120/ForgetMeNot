@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.viewpager2.widget.ViewPager2
 import com.brackeys.ui.editorkit.span.ErrorSpan
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
@@ -180,6 +181,33 @@ class CardsFileFragment : BaseFragment() {
                         sourceTextTabTitle
             }
         }
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            private var isViewPagerScrolling = false
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                val isScrolling = positionOffset != 0.0f
+                if (this.isViewPagerScrolling == isScrolling) return
+                if (isScrolling) {
+                    val tagFrom = "f" + viewPager.currentItem
+                    val tagTo = "f" + (if (viewPager.currentItem == 0) 1 else 0)
+                    val scrollControllerFrom: ControllingTheScrollPosition =
+                        childFragmentManager.findFragmentByTag(tagFrom)
+                                as? ControllingTheScrollPosition
+                            ?: return
+                    val scrollControllerTo: ControllingTheScrollPosition =
+                        childFragmentManager.findFragmentByTag(tagTo)
+                                as? ControllingTheScrollPosition
+                            ?: return
+                    val scrollPercentage = scrollControllerFrom.getScrollPosition()
+                    scrollControllerTo.scrollTo(scrollPercentage)
+                }
+                this.isViewPagerScrolling = isScrolling
+            }
+        })
     }
 
     private fun observeViewModel() {
