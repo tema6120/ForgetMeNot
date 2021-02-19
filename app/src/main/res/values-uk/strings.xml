@@ -134,7 +134,7 @@
     </plurals>
     <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files" tools:ignore="MissingQuantity">
         <item quantity="one" tools:ignore="ImpliedQuantity">Ви бажаєте використати цю колоду (%1$s)
-            для імпорту наступного файлу?</item>
+            для імпорту наступного файлу(ів)?</item>
         <item quantity="other">Ви бажаєте використати цю колоду (%1$s) для імпорту наступних %2$d
             файлів?</item>
     </plurals>

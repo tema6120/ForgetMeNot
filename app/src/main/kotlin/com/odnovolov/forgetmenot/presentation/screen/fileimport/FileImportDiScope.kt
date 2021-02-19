@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.persistence.shortterm.FileImportScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
@@ -15,14 +16,22 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.source
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat.FileFormatViewModel
 
 class FileImportDiScope private constructor(
+    initialScreenState: FileImportScreenState? = null,
     initialFileImporterState: FileImporter.State? = null
 ) {
-    val screenState = FileImportScreenState() // fixme
+    private val screenStateProvider = FileImportScreenStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database
+    )
 
-    val fileImporterStateProvider = FileImporterStateProvider(
+    private val screenState: FileImportScreenState =
+        initialScreenState ?: screenStateProvider.load()
+
+    private val fileImporterStateProvider = FileImporterStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        AppDiScope.get().globalState
+        AppDiScope.get().globalState,
+        AppDiScope.get().fileImportStorage
     )
 
     private val fileImporterState: FileImporter.State =
@@ -50,7 +59,8 @@ class FileImportDiScope private constructor(
         AppDiScope.get().navigator,
         screenState,
         AppDiScope.get().longTermStateSaver,
-        fileImporterStateProvider
+        fileImporterStateProvider,
+        screenStateProvider
     )
 
     fun cardsFileViewModel(id: Long) = CardsFileViewModel(
@@ -88,7 +98,8 @@ class FileImportDiScope private constructor(
     val fileFormatController = FileFormatController(
         fileImporter,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        fileImporterStateProvider
     )
 
     fun fileFormatViewModel(id: Long) = FileFormatViewModel(
@@ -98,7 +109,13 @@ class FileImportDiScope private constructor(
     )
 
     companion object : DiScopeManager<FileImportDiScope>() {
-        fun create(fileImporterState: FileImporter.State) = FileImportDiScope(fileImporterState)
+        fun create(
+            screenState: FileImportScreenState,
+            fileImporterState: FileImporter.State
+        ) = FileImportDiScope(
+            screenState,
+            fileImporterState
+        )
 
         override fun recreateDiScope() = FileImportDiScope()
 

@@ -2,10 +2,7 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.*
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.Error
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider.SerializableState
 import kotlinx.serialization.Serializable
@@ -16,6 +13,7 @@ class FileImporterStateProvider(
     json: Json,
     database: Database,
     private val globalState: GlobalState,
+    private val fileImportStorage: FileImportStorage,
     override val key: String = FileImporter.State::class.qualifiedName!!
 ) : BaseSerializableStateProvider<FileImporter.State, SerializableState>(
     json,
@@ -24,7 +22,8 @@ class FileImporterStateProvider(
     @Serializable
     data class SerializableState(
         val files: List<SerializableCardsFile>,
-        val currentPosition: Int
+        val currentPosition: Int,
+        val maxVisitedPosition: Int
     )
 
     override val serializer = SerializableState.serializer()
@@ -47,13 +46,18 @@ class FileImporterStateProvider(
                     cardsFile.extension,
                     cardsFile.sourceBytes,
                     cardsFile.charset.name(),
+                    cardsFile.format.id,
                     cardsFile.text,
                     errors,
                     cardsFile.cardPrototypes,
                     serializableAbstractDeck
                 )
             }
-        return SerializableState(serializableCardsFiles, state.currentPosition)
+        return SerializableState(
+            serializableCardsFiles,
+            state.currentPosition,
+            state.maxVisitedPosition
+        )
     }
 
     override fun toOriginal(serializableState: SerializableState): FileImporter.State {
@@ -67,6 +71,10 @@ class FileImporterStateProvider(
                             ExistingDeck(deck)
                         }
                     }
+                val format: FileFormat = FileFormat.predefinedFormats
+                    .find { it.id == serializableCardsFile.formatId }
+                    ?: fileImportStorage.customFileFormats
+                        .first { it.id == serializableCardsFile.formatId }
                 val errors: List<Error> = serializableCardsFile.errors
                     .map { serializableError: SerializableError ->
                         val errorRange =
@@ -79,13 +87,17 @@ class FileImporterStateProvider(
                     sourceBytes = serializableCardsFile.sourceBytes,
                     charset = Charset.forName(serializableCardsFile.charsetName),
                     text = serializableCardsFile.text,
-                    format = FileFormat.FMN_FORMAT, // TODO
+                    format = format,
                     errors = errors,
                     cardPrototypes = serializableCardsFile.cardPrototypes,
                     deckWhereToAdd = deckWhereToAdd
                 )
             }
-        return FileImporter.State(cardsFiles, serializableState.currentPosition)
+        return FileImporter.State(
+            cardsFiles,
+            serializableState.currentPosition,
+            serializableState.maxVisitedPosition
+        )
     }
 }
 
@@ -95,6 +107,7 @@ data class SerializableCardsFile(
     val extension: String,
     val sourceBytes: ByteArray,
     val charsetName: String,
+    val formatId: Long,
     val text: String,
     val errors: List<SerializableError>,
     val cardPrototypes: List<CardPrototype>,

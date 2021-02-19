@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportScreenState
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
@@ -55,9 +56,10 @@ class AddCardsController(
                 }
                 if (importedFiles.isNotEmpty()) {
                     navigator.navigateToFileImport {
+                        val screenState = FileImportScreenState()
                         val fileImporterState =
                             FileImporter.State.fromFiles(importedFiles, fileImportStorage)
-                        FileImportDiScope.create(fileImporterState)
+                        FileImportDiScope.create(screenState, fileImporterState)
                     }
                 }
             }

@@ -25,7 +25,8 @@ class CardsFileController(
     private val navigator: Navigator,
     private val screenState: FileImportScreenState,
     private val longTermStateSaver: LongTermStateSaver,
-    private val fileImporterStateProvider: ShortTermStateProvider<FileImporter.State>
+    private val fileImporterStateProvider: ShortTermStateProvider<FileImporter.State>,
+    private val screenStateProvider: ShortTermStateProvider<FileImportScreenState>
 ) : BaseController<CardsFileEvent, Command>() {
     sealed class Command {
         class AskToUseSelectedDeckForImportNextFiles(
@@ -104,5 +105,6 @@ class CardsFileController(
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
         fileImporterStateProvider.save(fileImporter.state)
+        screenStateProvider.save(screenState)
     }
 }

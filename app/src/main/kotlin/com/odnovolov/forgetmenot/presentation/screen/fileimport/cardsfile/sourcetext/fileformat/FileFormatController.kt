@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Compani
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatDiScope
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState
@@ -18,7 +19,8 @@ import org.apache.commons.csv.CSVFormat
 class FileFormatController(
     private val fileImporter: FileImporter,
     private val navigator: Navigator,
-    private val longTermStateSaver: LongTermStateSaver
+    private val longTermStateSaver: LongTermStateSaver,
+    private val fileImporterStateProvider: ShortTermStateProvider<FileImporter.State>
 ) : BaseController<FileFormatEvent, Nothing>() {
     private val currentFileFormat: FileFormat
         get() = with(fileImporter.state) {
@@ -64,5 +66,6 @@ class FileFormatController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        fileImporterStateProvider.save(fileImporter.state)
     }
 }

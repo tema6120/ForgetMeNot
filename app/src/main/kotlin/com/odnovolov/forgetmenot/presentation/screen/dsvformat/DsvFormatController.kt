@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.persistence.shortterm.DsvFormatEditorStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.DsvFormatScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -16,7 +18,9 @@ class DsvFormatController(
     private val fileImporter: FileImporter,
     private val screenState: DsvFormatScreenState,
     private val navigator: Navigator,
-    private val longTermStateSaver: LongTermStateSaver
+    private val longTermStateSaver: LongTermStateSaver,
+    private val dsvFormatEditorStateProvider: DsvFormatEditorStateProvider,
+    private val screenStateProvider: DsvFormatScreenStateProvider
 ) : BaseController<DsvFormatEvent, Command>() {
     sealed class Command {
         class ShowSaveErrorMessage(val cause: SaveResult.Failure.Cause) : Command()
@@ -160,5 +164,7 @@ class DsvFormatController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        dsvFormatEditorStateProvider.save(dsvFormatEditor.state)
+        screenStateProvider.save(screenState)
     }
 }

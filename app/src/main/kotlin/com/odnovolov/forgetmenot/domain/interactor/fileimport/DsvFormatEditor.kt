@@ -15,7 +15,7 @@ class DsvFormatEditor(
         sourceFileFormat: FileFormat,
         formatName: String,
         errorMessage: String?,
-        delimiter: Char,
+        delimiter: Char?,
         trailingDelimiter: Boolean,
         quoteCharacter: Char?,
         quoteMode: QuoteMode?,
