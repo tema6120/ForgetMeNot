@@ -85,6 +85,9 @@ class FileImportFragment : BaseFragment() {
             ShowMessageInvalidDeckName -> {
                 showToast(R.string.toast_invalid_deck_name)
             }
+            AskToImportIgnoringErrors -> {
+                ImportErrorsBottomSheet().show(childFragmentManager, "ImportErrorsBottomSheet")
+            }
         }
     }
 

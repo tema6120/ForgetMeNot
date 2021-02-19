@@ -6,4 +6,6 @@ sealed class FileImportEvent {
     object NextButtonClicked : FileImportEvent()
     object SkipButtonClicked : FileImportEvent()
     object DoneButtonClicked : FileImportEvent()
+    object FixErrorsButtonClicked : FileImportEvent()
+    object ImportIgnoringErrorsButtonClicked : FileImportEvent()
 }

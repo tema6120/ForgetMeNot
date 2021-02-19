@@ -925,5 +925,15 @@
     </plurals>
     <string name="toast_no_cards_to_import">No cards to import</string>
     <string name="toast_invalid_deck_name">Invalid deck name</string>
+    <plurals name="import_error_message_1_part">
+        <item quantity="one">One file contains</item>
+        <item quantity="other">%d file contain</item>
+    </plurals>
+    <plurals name="import_error_message_2_part">
+        <item quantity="one">one error.</item>
+        <item quantity="other">%d errors.</item>
+    </plurals>
+    <string name="button_fix_errors">Fix errors</string>
+    <string name="button_import_ignoring_errors">Import ignoring errors</string>
 
 </resources>

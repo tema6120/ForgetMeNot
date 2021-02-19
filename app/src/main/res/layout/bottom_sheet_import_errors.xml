@@ -30,7 +30,7 @@
                 app:srcCompat="@drawable/icon_import_master" />
 
         <TextView
-                android:id="@+id/quitEditorMessageTextView"
+                android:id="@+id/messageTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="48dp"
@@ -38,15 +38,15 @@
                 android:layout_marginEnd="48dp"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
-                android:text="@string/quit_editor_message"
                 android:textColor="@color/textSecondary"
                 android:textSize="@dimen/text_size_bottom_sheet_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/importMasterImage" />
+                app:layout_constraintTop_toBottomOf="@+id/importMasterImage"
+                tools:text="3 files contains 24 errors." />
 
         <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/saveButton"
+                android:id="@+id/fixErrorsButton"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
@@ -58,17 +58,17 @@
                 android:outlineAmbientShadowColor="@color/colorAccent"
                 android:outlineSpotShadowColor="@color/colorAccent"
                 android:stateListAnimator="@animator/material_button"
-                android:text="@string/button_save"
+                android:text="@string/button_fix_errors"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_bottom_sheet_preferred_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/quitEditorMessageTextView"
+                app:layout_constraintTop_toBottomOf="@+id/messageTextView"
                 app:layout_constraintWidth_max="400dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/quitWithoutSavingButton"
+                android:id="@+id/importIgnoringErrorsButton"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
@@ -78,14 +78,14 @@
                 android:background="@drawable/background_undesirable_button_on_quitting_bottom_sheet"
                 android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
-                android:text="@string/button_quit_without_saving"
+                android:text="@string/button_import_ignoring_errors"
                 android:textAllCaps="false"
                 android:textColor="@color/text_button_secondary"
                 android:textSize="@dimen/text_size_bottom_sheet_undesirable_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/saveButton"
+                app:layout_constraintTop_toBottomOf="@+id/fixErrorsButton"
                 app:layout_constraintWidth_max="400dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

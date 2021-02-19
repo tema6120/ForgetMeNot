@@ -934,5 +934,17 @@
     </plurals>
     <string name="toast_no_cards_to_import">Немає карток для імпорту</string>
     <string name="toast_invalid_deck_name">Неприпустима назва колоди</string>
+    <plurals name="import_error_message_1_part">
+        <item quantity="one">%d файл містить</item>
+        <item quantity="few">%d файли містять</item>
+        <item quantity="many">%d файлів містять</item>
+    </plurals>
+    <plurals name="import_error_message_2_part">
+        <item quantity="one">%d помилку.</item>
+        <item quantity="few">%d помилки.</item>
+        <item quantity="many">%d помилок.</item>
+    </plurals>
+    <string name="button_fix_errors">Виправити помилки</string>
+    <string name="button_import_ignoring_errors">Імпортувати ігноруючи помилки</string>
 
 </resources>
