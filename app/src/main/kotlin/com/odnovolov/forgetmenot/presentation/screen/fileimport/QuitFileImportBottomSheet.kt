@@ -10,12 +10,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.FixErrorsButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.ImportIgnoringErrorsButtonClicked
-import kotlinx.android.synthetic.main.bottom_sheet_import_errors.*
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
+import kotlinx.android.synthetic.main.bottom_sheet_quit_file_import.*
 import kotlinx.coroutines.launch
 
-class ImportErrorsBottomSheet : BaseBottomSheetDialogFragment() {
+class QuitFileImportBottomSheet : BaseBottomSheetDialogFragment() {
     init {
         FileImportDiScope.reopenIfClosed()
     }
@@ -27,7 +26,7 @@ class ImportErrorsBottomSheet : BaseBottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_import_errors, container, false)
+        return inflater.inflate(R.layout.bottom_sheet_quit_file_import, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,18 +35,16 @@ class ImportErrorsBottomSheet : BaseBottomSheetDialogFragment() {
         viewCoroutineScope!!.launch {
             val diScope = FileImportDiScope.getAsync() ?: return@launch
             controller = diScope.fileImportController
-            observeViewModel(diScope.fileImportViewModel)
         }
     }
 
     private fun setupView() {
         setBottomSheetAlwaysExpanded()
-        fixErrorsButton.setOnClickListener {
-            controller?.dispatch(FixErrorsButtonClicked)
+        yesButton.setOnClickListener {
+            controller?.dispatch(UserConfirmedExit)
             dismiss()
         }
-        importIgnoringErrorsButton.setOnClickListener {
-            controller?.dispatch(ImportIgnoringErrorsButtonClicked)
+        noButton.setOnClickListener {
             dismiss()
         }
     }
@@ -63,22 +60,6 @@ class ImportErrorsBottomSheet : BaseBottomSheetDialogFragment() {
                 BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun observeViewModel(viewModel: FileImportViewModel) {
-        val errorsInfo = viewModel.errorsInfo
-        val part1 = resources.getQuantityString(
-            R.plurals.import_error_message_1_part,
-            errorsInfo.numberOfDecksContainingErrors,
-            errorsInfo.numberOfDecksContainingErrors
-        )
-        val part2 = resources.getQuantityString(
-            R.plurals.import_error_message_2_part,
-            errorsInfo.totalNumberOfErrors,
-            errorsInfo.totalNumberOfErrors
-        )
-        messageTextView.text = "$part1 $part2"
     }
 
     override fun getTheme(): Int {

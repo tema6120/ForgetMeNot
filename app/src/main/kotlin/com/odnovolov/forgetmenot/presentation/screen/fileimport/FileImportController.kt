@@ -40,6 +40,7 @@ class FileImportController(
         object ShowMessageNoCardsToImport : Command()
         object ShowMessageInvalidDeckName : Command()
         object AskToImportIgnoringErrors : Command()
+        object AskToConfirmExit : Command()
     }
 
     override fun handle(event: FileImportEvent) {
@@ -98,6 +99,10 @@ class FileImportController(
                 tryToImport()
             }
 
+            CancelButtonClicked, BackButtonClicked -> {
+                sendCommand(AskToConfirmExit)
+            }
+
             FixErrorsButtonClicked -> {
                 for ((position: Int, file: CardsFile) in fileImporter.state.files.withIndex()) {
                     if (file.errors.isEmpty()) continue
@@ -111,6 +116,10 @@ class FileImportController(
 
             ImportIgnoringErrorsButtonClicked -> {
                 tryToImport()
+            }
+
+            UserConfirmedExit -> {
+                navigator.navigateUp()
             }
         }
     }

@@ -124,7 +124,7 @@ class CardsFileFragment : BaseFragment() {
 
     private fun setupView() {
         cancelButton.setOnClickListener {
-            requireActivity().onBackPressed()
+            fileImportController?.dispatch(CancelButtonClicked)
         }
         doneButton.setOnClickListener {
             fileImportController?.dispatch(DoneButtonClicked)

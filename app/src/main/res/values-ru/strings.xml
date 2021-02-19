@@ -126,6 +126,34 @@
         <item quantity="few">%d карточки</item>
         <item quantity="many">%d карточек</item>
     </plurals>
+    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files" tools:ignore="MissingQuantity">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Вы хотите использовать эту колоду (%1$s)
+            для импорта следующего файла?</item>
+        <item quantity="other">Вы хотите использовать эту колоду (%1$s) для импорта следующих %2$d
+            файлов?</item>
+    </plurals>
+    <string name="text_file_edit_off">Слишком большой файл для редактирования</string>
+    <string name="cannot_extract_any_cards">Не удается извлечь ни одной карточки</string>
+    <plurals name="toast_number_of_imported_cards">
+        <item quantity="one">%d карточка была импортирована</item>
+        <item quantity="few">%d карточка было импортировано</item>
+        <item quantity="many">%d карточек было импортировано</item>
+    </plurals>
+    <string name="toast_no_cards_to_import">Нет карточек для импорта</string>
+    <string name="toast_invalid_deck_name">Недопустимое название колоды</string>
+    <plurals name="import_error_message_1_part">
+        <item quantity="one">%d файл содержит</item>
+        <item quantity="few">%d файла содержат</item>
+        <item quantity="many">%d файлов содержат</item>
+    </plurals>
+    <plurals name="import_error_message_2_part">
+        <item quantity="one">%d ошибку.</item>
+        <item quantity="few">%d ошибки.</item>
+        <item quantity="many">%d ошибок.</item>
+    </plurals>
+    <string name="button_fix_errors">Исправить ошибки</string>
+    <string name="button_import_ignoring_errors">Импортировать игнорируя ошибки</string>
+    <string name="text_quit_file_import_bottom_sheet">Вы действительно хотите отменить импортирование?</string>
 
 
     <!-- Exercise screen -->
@@ -927,32 +955,5 @@
     <string name="title_delete_dsv_format_dialog">Удаление DSV формата \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Вы действительно хотите удалить этот формат?</string>
     <string name="message_dsv_format_is_deleted">DSV формат \'%1$s\' удален</string>
-    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files" tools:ignore="MissingQuantity">
-        <item quantity="one" tools:ignore="ImpliedQuantity">Вы хотите использовать эту колоду (%1$s)
-            для импорта следующего файла?</item>
-        <item quantity="other">Вы хотите использовать эту колоду (%1$s) для импорта следующих %2$d
-            файлов?</item>
-    </plurals>
-    <string name="text_file_edit_off">Слишком большой файл для редактирования</string>
-    <string name="cannot_extract_any_cards">Не удается извлечь ни одной карточки</string>
-    <plurals name="toast_number_of_imported_cards">
-        <item quantity="one">%d карточка была импортирована</item>
-        <item quantity="few">%d карточка было импортировано</item>
-        <item quantity="many">%d карточек было импортировано</item>
-    </plurals>
-    <string name="toast_no_cards_to_import">Нет карточек для импорта</string>
-    <string name="toast_invalid_deck_name">Недопустимое название колоды</string>
-    <plurals name="import_error_message_1_part">
-        <item quantity="one">%d файл содержит</item>
-        <item quantity="few">%d файла содержат</item>
-        <item quantity="many">%d файлов содержат</item>
-    </plurals>
-    <plurals name="import_error_message_2_part">
-        <item quantity="one">%d ошибку.</item>
-        <item quantity="few">%d ошибки.</item>
-        <item quantity="many">%d ошибок.</item>
-    </plurals>
-    <string name="button_fix_errors">Исправить ошибки</string>
-    <string name="button_import_ignoring_errors">Импортировать игнорируя ошибки</string>
 
 </resources>

@@ -1,0 +1,90 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_gravity="bottom">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_bottom_sheet_round_corner">
+
+        <View
+                android:id="@+id/handle"
+                android:layout_width="76dp"
+                android:layout_height="4dp"
+                android:background="@drawable/bottom_sheet_handler"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+                android:id="@+id/importMasterImage"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_marginTop="36dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_import_master" />
+
+        <TextView
+                android:id="@+id/messageTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="48dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="@string/text_quit_file_import_bottom_sheet"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/text_size_bottom_sheet_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/importMasterImage" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/noButton"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/background_dialog_cancel_button"
+                android:fontFamily="@font/nunito_extrabold"
+                android:text="@string/no"
+                android:textAllCaps="false"
+                android:textColor="@color/text_button_secondary"
+                android:textSize="@dimen/text_size_dialog_cancel_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/yesButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/messageTextView" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/yesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:outlineAmbientShadowColor="@color/colorAccent"
+                android:outlineSpotShadowColor="@color/colorAccent"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@string/yes"
+                android:textAllCaps="false"
+                android:textColor="@color/text_ok_button_in_interval_dialog"
+                android:textSize="@dimen/text_size_dialog_ok_button"
+                app:backgroundTint="@color/colorAccent"
+                app:cornerRadius="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/noButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/noButton"
+                app:layout_constraintTop_toTopOf="@+id/noButton"
+                app:rippleColor="@android:color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

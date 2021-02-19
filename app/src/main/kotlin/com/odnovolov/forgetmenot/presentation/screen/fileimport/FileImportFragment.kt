@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition.*
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.BackButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileFragment
 import kotlinx.android.synthetic.main.fragment_file_import.*
 import kotlinx.coroutines.launch
@@ -88,6 +90,9 @@ class FileImportFragment : BaseFragment() {
             AskToImportIgnoringErrors -> {
                 ImportErrorsBottomSheet().show(childFragmentManager, "ImportErrorsBottomSheet")
             }
+            AskToConfirmExit -> {
+                QuitFileImportBottomSheet().show(childFragmentManager, "QuitFileImportBottomSheet")
+            }
         }
     }
 
@@ -100,10 +105,25 @@ class FileImportFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             FileImportDiScope.close()
         }
+    }
+
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        controller?.dispatch(BackButtonClicked)
+        true
     }
 }

@@ -124,6 +124,29 @@
         <item quantity="one">%d card</item>
         <item quantity="other">%d cards</item>
     </plurals>
+    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files">
+        <item quantity="one">Do you want to use this deck (%1$s) for import the next file?</item>
+        <item quantity="other">Do you want to use this deck (%1$s) for import the next %2$d files?</item>
+    </plurals>
+    <string name="text_file_edit_off">Too large file to be edited</string>
+    <string name="cannot_extract_any_cards">Cannot extract any cards</string>
+    <plurals name="toast_number_of_imported_cards">
+        <item quantity="one">One card has been imported</item>
+        <item quantity="other">%d cards have been imported</item>
+    </plurals>
+    <string name="toast_no_cards_to_import">No cards to import</string>
+    <string name="toast_invalid_deck_name">Invalid deck name</string>
+    <plurals name="import_error_message_1_part">
+        <item quantity="one">One file contains</item>
+        <item quantity="other">%d file contain</item>
+    </plurals>
+    <plurals name="import_error_message_2_part">
+        <item quantity="one">one error.</item>
+        <item quantity="other">%d errors.</item>
+    </plurals>
+    <string name="button_fix_errors">Fix errors</string>
+    <string name="button_import_ignoring_errors">Import ignoring errors</string>
+    <string name="text_quit_file_import_bottom_sheet">Are you sure you want to cancel the import?</string>
 
 
     <!-- Exercise screen -->
@@ -914,27 +937,5 @@
     <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
     <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
-    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files">
-        <item quantity="one">Do you want to use this deck (%1$s) for import the next file?</item>
-        <item quantity="other">Do you want to use this deck (%1$s) for import the next %2$d files?</item>
-    </plurals>
-    <string name="text_file_edit_off">Too large file to be edited</string>
-    <string name="cannot_extract_any_cards">Cannot extract any cards</string>
-    <plurals name="toast_number_of_imported_cards">
-        <item quantity="one">One card has been imported</item>
-        <item quantity="other">%d cards have been imported</item>
-    </plurals>
-    <string name="toast_no_cards_to_import">No cards to import</string>
-    <string name="toast_invalid_deck_name">Invalid deck name</string>
-    <plurals name="import_error_message_1_part">
-        <item quantity="one">One file contains</item>
-        <item quantity="other">%d file contain</item>
-    </plurals>
-    <plurals name="import_error_message_2_part">
-        <item quantity="one">one error.</item>
-        <item quantity="other">%d errors.</item>
-    </plurals>
-    <string name="button_fix_errors">Fix errors</string>
-    <string name="button_import_ignoring_errors">Import ignoring errors</string>
 
 </resources>

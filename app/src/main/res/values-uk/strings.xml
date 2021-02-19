@@ -131,6 +131,34 @@
         <item quantity="few">%d картки</item>
         <item quantity="many">%d карток</item>
     </plurals>
+    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files" tools:ignore="MissingQuantity">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Ви бажаєте використати цю колоду (%1$s)
+            для імпорту наступного файлу?</item>
+        <item quantity="other">Ви бажаєте використати цю колоду (%1$s) для імпорту наступних %2$d
+            файлів?</item>
+    </plurals>
+    <string name="text_file_edit_off">Занадто великий файл для редагування</string>
+    <string name="cannot_extract_any_cards">Неможливо дістати жодної картки</string>
+    <plurals name="toast_number_of_imported_cards">
+        <item quantity="one">%d картка була імпортована</item>
+        <item quantity="few">%d картки було імпортовано</item>
+        <item quantity="many">%d карток було імпортовано</item>
+    </plurals>
+    <string name="toast_no_cards_to_import">Немає карток для імпорту</string>
+    <string name="toast_invalid_deck_name">Неприпустима назва колоди</string>
+    <plurals name="import_error_message_1_part">
+        <item quantity="one">%d файл містить</item>
+        <item quantity="few">%d файли містять</item>
+        <item quantity="many">%d файлів містять</item>
+    </plurals>
+    <plurals name="import_error_message_2_part">
+        <item quantity="one">%d помилку.</item>
+        <item quantity="few">%d помилки.</item>
+        <item quantity="many">%d помилок.</item>
+    </plurals>
+    <string name="button_fix_errors">Виправити помилки</string>
+    <string name="button_import_ignoring_errors">Імпортувати ігноруючи помилки</string>
+    <string name="text_quit_file_import_bottom_sheet">Ви дійсно бажаєте скасувати імпортування?</string>
 
 
     <!-- Exercise screen -->
@@ -920,32 +948,5 @@
     <string name="title_delete_dsv_format_dialog">Видалення DSV формату \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Ви дійсно хочете видалити цей формат?</string>
     <string name="message_dsv_format_is_deleted">DSV формат \'%1$s\' видалено</string>
-    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files" tools:ignore="MissingQuantity">
-        <item quantity="one" tools:ignore="ImpliedQuantity">Ви бажаєте використати цю колоду (%1$s)
-            для імпорту наступного файлу?</item>
-        <item quantity="other">Ви бажаєте використати цю колоду (%1$s) для імпорту наступних %2$d
-            файлів?</item>
-    </plurals>
-    <string name="text_file_edit_off">Занадто великий файл для редагування</string>
-    <string name="cannot_extract_any_cards">Неможливо дістати жодної картки</string>
-    <plurals name="toast_number_of_imported_cards">
-        <item quantity="one">%d картка була імпортована</item>
-        <item quantity="few">%d картки було імпортовано</item>
-        <item quantity="many">%d карток було імпортовано</item>
-    </plurals>
-    <string name="toast_no_cards_to_import">Немає карток для імпорту</string>
-    <string name="toast_invalid_deck_name">Неприпустима назва колоди</string>
-    <plurals name="import_error_message_1_part">
-        <item quantity="one">%d файл містить</item>
-        <item quantity="few">%d файли містять</item>
-        <item quantity="many">%d файлів містять</item>
-    </plurals>
-    <plurals name="import_error_message_2_part">
-        <item quantity="one">%d помилку.</item>
-        <item quantity="few">%d помилки.</item>
-        <item quantity="many">%d помилок.</item>
-    </plurals>
-    <string name="button_fix_errors">Виправити помилки</string>
-    <string name="button_import_ignoring_errors">Імпортувати ігноруючи помилки</string>
 
 </resources>
