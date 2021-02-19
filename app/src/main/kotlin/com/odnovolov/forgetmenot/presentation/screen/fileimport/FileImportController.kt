@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
+import com.odnovolov.forgetmenot.domain.entity.NewDeck
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure
@@ -11,6 +12,10 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition
@@ -129,8 +134,18 @@ class FileImportController(
         when (result) {
             is Success -> {
                 sendCommand(ShowMessageNumberOfImportedCards(result.numberOfImportedCards))
-                // todo: navigate to deck settings
-                navigator.navigateUp()
+                if (result.decks.size == 1 &&
+                    fileImporter.state.files.first().deckWhereToAdd is NewDeck
+                ) {
+                    navigator.navigateToDeckEditorFromFileImport {
+                        val deck = result.decks[0]
+                        val tabs = DeckEditorTabs.All(initialTab = DeckEditorScreenTab.Settings)
+                        val screenState = DeckEditorScreenState(deck, tabs)
+                        DeckEditorDiScope.create(screenState)
+                    }
+                } else {
+                    navigator.navigateUp()
+                }
             }
             is Failure -> {
                 when (val cause = result.cause) {

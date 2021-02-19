@@ -64,6 +64,12 @@
                 android:id="@+id/file_import_to_dsv_format"
                 app:destination="@id/dsv_format" />
 
+        <action
+                android:id="@+id/file_import_to_deck_editor"
+                app:destination="@+id/deck_editor"
+                app:popUpTo="@+id/file_import"
+                app:popUpToInclusive="true" />
+
     </fragment>
 
     <fragment
