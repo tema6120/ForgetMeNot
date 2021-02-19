@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/cannot_extract_any_cards"
                 android:textColor="@color/text_no_search_result"
                 android:textSize="@dimen/text_size_no_search_result"

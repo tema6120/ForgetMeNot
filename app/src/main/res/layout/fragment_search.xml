@@ -45,9 +45,9 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="@dimen/text_size_search_edittext"
                     android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
+                    android:paddingEnd="8dp"
+                    android:textSize="@dimen/text_size_search_edittext" />
 
             <ImageButton
                     android:id="@+id/pasteClearButton"
@@ -87,6 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/no_matching_cards"
                 android:textColor="@color/text_no_search_result"
                 android:textSize="@dimen/text_size_no_search_result"

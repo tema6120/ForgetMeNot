@@ -39,17 +39,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
-                        android:drawablePadding="8dp"
                         android:layout_margin="32dp"
+                        android:drawablePadding="8dp"
+                        android:gravity="center"
                         android:text="@string/text_file_edit_off"
                         android:textColor="@color/text_no_search_result"
                         android:textSize="@dimen/text_size_no_search_result"
                         android:textStyle="bold"
                         android:visibility="gone"
-                        tools:visibility="visible"
                         app:drawableTint="@color/text_no_search_result"
-                        app:drawableTopCompat="@drawable/ic_edit_off_54" />
+                        app:drawableTopCompat="@drawable/ic_edit_off_54"
+                        tools:visibility="visible" />
 
             </FrameLayout>
 
@@ -71,6 +71,7 @@
                 android:id="@+id/errorButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:alpha="0.9"
                 android:background="@drawable/background_source_text_error_button"
                 android:fontFamily="@font/comfortaa"
@@ -82,12 +83,11 @@
                 android:textSize="@dimen/text_size_card_label"
                 android:textStyle="bold"
                 android:visibility="gone"
-                android:layout_marginStart="32dp"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:text="3 errors"
                 tools:visibility="visible" />
 

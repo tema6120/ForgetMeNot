@@ -45,6 +45,7 @@
     <string name="tab_cards">Cards</string>
     <string name="no_matching_decks">No matching decks</string>
     <string name="no_matching_cards">No matching cards</string>
+    <string name="no_decks">No decks</string>
     <string name="deck_list_title_all_decks">All decks</string>
     <string name="deck_list_title_decks_available_for_exercise">Decks available for exercise</string>
     <string name="text_add_cards_button">Add cards</string>

@@ -47,6 +47,7 @@
     <string name="tab_cards">Картки</string>
     <string name="no_matching_decks">Немає відповідних колод</string>
     <string name="no_matching_cards">Немає відповідних карток</string>
+    <string name="no_decks">Немає колод</string>
     <string name="deck_list_title_all_decks">Всі колоди</string>
     <string name="deck_list_title_decks_available_for_exercise">Колоди, доступні для вправи</string>
     <string name="text_add_cards_button">Додати картки</string>

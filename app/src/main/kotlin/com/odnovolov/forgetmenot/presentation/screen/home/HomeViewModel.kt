@@ -51,10 +51,14 @@ class HomeViewModel(
 
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = globalState.flowOf(GlobalState::decks)
         .flatMapLatest { decks: Collection<Deck> ->
-            val deckNameFlows: List<Flow<String>> = decks.map { deck: Deck ->
-                deck.flowOf(Deck::name)
+            if (decks.isEmpty()) {
+                flowOf(emptyList())
+            } else {
+                val deckNameFlows: List<Flow<String>> = decks.map { deck: Deck ->
+                    deck.flowOf(Deck::name)
+                }
+                combine(deckNameFlows) { decks }
             }
-            combine(deckNameFlows) { decks }
         }
         .combine(fiveSeconds) { decks: Collection<Deck>, _ -> decks }
         .map { decks: Collection<Deck> ->
@@ -217,33 +221,47 @@ class HomeViewModel(
     }
         .distinctUntilChanged()
 
+    val hasDecks: Flow<Boolean> = combine(
+        hasSearchText,
+        decksPreview
+    ) { hasSearchText: Boolean, decksPreview: List<DeckPreview> ->
+        decksPreview.isNotEmpty() || hasSearchText
+    }
+        .distinctUntilChanged()
+
     val areCardsBeingSearched: Flow<Boolean> =
         searcherState.flowOf(CardsSearcher.State::isSearching)
 
     val isExerciseButtonVisible: Flow<Boolean> = combine(
+        hasDecks,
         deckSelection,
         hasSearchText
-    ) { deckSelection: DeckSelection?, hasSearchText: Boolean ->
-        if (deckSelection == null) {
-            !hasSearchText
-        } else {
-            deckSelection.selectedDeckIds.isNotEmpty() &&
-                    (deckSelection.purpose == DeckSelection.Purpose.ForExercise ||
-                            deckSelection.purpose == DeckSelection.Purpose.General)
+    ) { hasDecks: Boolean, deckSelection: DeckSelection?, hasSearchText: Boolean ->
+        when {
+            !hasDecks -> false
+            deckSelection == null -> !hasSearchText
+            else -> {
+                deckSelection.selectedDeckIds.isNotEmpty() &&
+                        (deckSelection.purpose == DeckSelection.Purpose.ForExercise ||
+                                deckSelection.purpose == DeckSelection.Purpose.General)
+            }
         }
     }
         .distinctUntilChanged()
 
     val isAutoplayButtonVisible: Flow<Boolean> = combine(
+        hasDecks,
         deckSelection,
         hasSearchText
-    ) { deckSelection: DeckSelection?, hasSearchText: Boolean ->
-        if (deckSelection == null) {
-            !hasSearchText
-        } else {
-            deckSelection.selectedDeckIds.isNotEmpty() &&
-                    (deckSelection.purpose == DeckSelection.Purpose.ForAutoplay ||
-                            deckSelection.purpose == DeckSelection.Purpose.General)
+    ) { hasDecks: Boolean, deckSelection: DeckSelection?, hasSearchText: Boolean ->
+        when {
+            !hasDecks -> false
+            deckSelection == null -> !hasSearchText
+            else -> {
+                deckSelection.selectedDeckIds.isNotEmpty() &&
+                        (deckSelection.purpose == DeckSelection.Purpose.ForAutoplay ||
+                                deckSelection.purpose == DeckSelection.Purpose.General)
+            }
         }
     }
         .distinctUntilChanged()

@@ -132,6 +132,10 @@ class DeckListFragment : BaseFragment() {
                 deckPreviewAdapter?.deckSelection = deckSelection
                 filterButton?.isVisible = deckSelection == null
             }
+            hasDecks.observe { hasDecks: Boolean ->
+                noDecksTextView.isVisible = !hasDecks
+                progressBar.visibility = View.GONE
+            }
         }
     }
 
