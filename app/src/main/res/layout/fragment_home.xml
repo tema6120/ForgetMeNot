@@ -199,16 +199,34 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:layout="@layout/fragment_deck_list" />
 
-    <ProgressBar
+    <LinearLayout
             android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/background_add_deck_progress_bar"
+            android:elevation="4dp"
+            android:orientation="vertical"
             android:padding="32dp"
             android:visibility="gone"
-            tools:visibility="visible" />
+            tools:visibility="visible">
+
+        <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/nunito_bold"
+                android:text="@string/progress_bar_reading_files"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/text_size_progress_bar" />
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottomButtonsRow"

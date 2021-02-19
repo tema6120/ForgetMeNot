@@ -93,6 +93,7 @@
     <string name="text_autoplay_button">Автопрогравання</string>
     <string name="text_exercise_button">Вправа</string>
     <string name="text_exercise_button_with_cards_count">Вправа (%d)</string>
+    <string name="progress_bar_reading_files">Читання файлів ..</string>
 
 
     <!-- File import screen -->

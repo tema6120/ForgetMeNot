@@ -88,6 +88,7 @@
     <string name="text_autoplay_button">Autoplay</string>
     <string name="text_exercise_button">Exercise</string>
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
+    <string name="progress_bar_reading_files">Reading files ..</string>
 
 
     <!-- File import screen -->
