@@ -574,12 +574,12 @@
                         android:id="@+id/headerColumnNamesTitle"
                         style="@style/DSVFormatItemTitle"
                         android:text="@string/dsv_format_setting_header_column_names"
-                        app:layout_constraintEnd_toStartOf="@id/headerColumnNamesLinearLayout"
+                        app:layout_constraintEnd_toStartOf="@id/headerContainer"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/barrier11" />
 
                 <LinearLayout
-                        android:id="@+id/headerColumnNamesLinearLayout"
+                        android:id="@+id/headerContainer"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
@@ -605,7 +605,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="headerColumnNamesTitle,headerColumnNamesLinearLayout" />
+                        app:constraint_referenced_ids="headerColumnNamesTitle,headerContainer" />
 
                 <!-- Ignore header names case -->
 
@@ -709,12 +709,12 @@
                         android:id="@+id/headerCommentsTitle"
                         style="@style/DSVFormatItemTitle"
                         android:text="@string/dsv_format_setting_header_comments"
-                        app:layout_constraintEnd_toStartOf="@id/headerCommentsLinearLayout"
+                        app:layout_constraintEnd_toStartOf="@id/headerCommentsContainer"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/barrier15" />
 
                 <LinearLayout
-                        android:id="@+id/headerCommentsLinearLayout"
+                        android:id="@+id/headerCommentsContainer"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
@@ -740,7 +740,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="headerCommentsTitle,headerCommentsLinearLayout" />
+                        app:constraint_referenced_ids="headerCommentsTitle,headerCommentsContainer" />
 
                 <!-- Auto-flush -->
 

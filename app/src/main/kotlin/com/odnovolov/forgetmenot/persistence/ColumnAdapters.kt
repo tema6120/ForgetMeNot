@@ -5,6 +5,9 @@ import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting
 import com.soywiz.klock.*
 import com.squareup.sqldelight.ColumnAdapter
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
 import java.util.*
 
 val localeAdapter = object : ColumnAdapter<Locale, String> {
@@ -60,5 +63,26 @@ val pronunciationEventsAdapter = object : ColumnAdapter<List<PronunciationEvent>
                     }
                 }
             }
+    }
+}
+
+@Serializable
+data class SerializableStringArray(
+    val stringArray: Array<String?>
+)
+
+val stringArrayAdapter = object : ColumnAdapter<Array<String?>, String> {
+    override fun encode(value: Array<String?>): String {
+        val serializable = SerializableStringArray(value)
+        return Json.encodeToString(SerializableStringArray.serializer(), serializable)
+    }
+
+    override fun decode(databaseValue: String): Array<String?> {
+        val serializable = try {
+            Json.decodeFromString(SerializableStringArray.serializer(), databaseValue)
+        } catch (e: SerializationException) {
+            return arrayOf()
+        }
+        return serializable.stringArray
     }
 }

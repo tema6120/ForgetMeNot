@@ -237,8 +237,7 @@ class DsvFormatEditor(
                         }
                     }
             }
-            position == currentHeaderComments.lastIndex
-                    && headerComment.isEmpty() -> {
+            position == currentHeaderComments.lastIndex && headerComment.isEmpty() -> {
                 state.headerComments =
                     if (currentHeaderComments.size <= 1) {
                         null
@@ -280,12 +279,12 @@ class DsvFormatEditor(
                         .withRecordSeparator(recordSeparator)
                         .withCommentMarker(commentMarker)
                         .withSkipHeaderRecord(skipHeaderRecord)
+                        .let { format -> header?.let { format.withHeader(*it) } ?: format }
                         .withIgnoreHeaderCase(ignoreHeaderCase)
                         .withAllowDuplicateHeaderNames(allowDuplicateHeaderNames)
                         .withAllowMissingColumnNames(allowMissingColumnNames)
-                        .withHeaderComments(headerComments)
+                        .let { format -> headerComments?.let { format.withHeaderComments(*it) } ?: format }
                         .withAutoFlush(autoFlush)
-                    header?.let { format.withHeader(*it) }
                     errorMessage = null
                     format
                 } catch (e: Exception) {

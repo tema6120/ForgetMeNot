@@ -2,7 +2,10 @@ package com.odnovolov.forgetmenot.persistence
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.CsvParser
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.persistence.globalstate.*
+import org.apache.commons.csv.CSVFormat
 
 fun DeckDb.toDeck(
     cards: CopyableList<Card>,
@@ -128,4 +131,66 @@ fun PronunciationPlan.toPronunciationPlanDb(): PronunciationPlanDb = Pronunciati
 
 inline fun <reified T : Enum<T>> String.toEnumOrNull(): T? {
     return enumValues<T>().find { it.name == this }
+}
+
+fun FileFormat.toFileFormatDb(): FileFormatDb {
+    val csvFormat: CSVFormat = (parser as CsvParser).csvFormat
+    return FileFormatDb(
+        id,
+        name,
+        extension,
+        csvFormat.delimiter.toString(),
+        csvFormat.trailingDelimiter,
+        csvFormat.quoteCharacter?.toString(),
+        csvFormat.quoteMode,
+        csvFormat.escapeCharacter?.toString(),
+        csvFormat.nullString,
+        csvFormat.ignoreSurroundingSpaces,
+        csvFormat.trim,
+        csvFormat.ignoreEmptyLines,
+        csvFormat.recordSeparator,
+        csvFormat.commentMarker?.toString(),
+        csvFormat.skipHeaderRecord,
+        csvFormat.header?.let(stringArrayAdapter::encode),
+        csvFormat.ignoreHeaderCase,
+        csvFormat.allowDuplicateHeaderNames,
+        csvFormat.allowMissingColumnNames,
+        csvFormat.headerComments?.let(stringArrayAdapter::encode),
+        csvFormat.autoFlush
+    )
+}
+
+fun FileFormatDb.toFileFormat(): FileFormat {
+    val csvFormat = CSVFormat.newFormat(delimiter[0])
+        .withTrailingDelimiter(trailingDelimiter)
+        .withQuote(quoteCharacter?.get(0))
+        .withEscape(escapeCharacter?.get(0))
+        .withQuoteMode(quoteMode)
+        .withNullString(nullString)
+        .withIgnoreSurroundingSpaces(ignoreSurroundingSpaces)
+        .withTrim(trim)
+        .withIgnoreEmptyLines(ignoreEmptyLines)
+        .withRecordSeparator(recordSeparator)
+        .withCommentMarker(commentMarker?.get(0))
+        .withSkipHeaderRecord(skipHeaderRecord)
+        .let { format -> header?.let {
+            val decodedHeader: Array<String?> = stringArrayAdapter.decode(header)
+            format.withHeader(*decodedHeader) } ?: format
+        }
+        .withIgnoreHeaderCase(ignoreHeaderCase)
+        .withAllowDuplicateHeaderNames(allowDuplicateHeaderNames)
+        .withAllowMissingColumnNames(allowMissingColumnNames)
+        .let { format -> headerComments?.let {
+            val decodedHeaderComments: Array<String?> = stringArrayAdapter.decode(headerComments)
+            format.withHeaderComments(*decodedHeaderComments) } ?: format
+        }
+        .withAutoFlush(autoFlush)
+    val parser = CsvParser(csvFormat)
+    return FileFormat(
+        id,
+        name,
+        extension,
+        parser,
+        isPredefined = false
+    )
 }

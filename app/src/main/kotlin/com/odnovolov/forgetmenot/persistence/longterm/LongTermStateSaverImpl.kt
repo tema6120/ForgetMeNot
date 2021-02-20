@@ -5,7 +5,11 @@ import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferencePropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileFormatPropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileImportStoragePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.*
 import com.odnovolov.forgetmenot.persistence.longterm.initialdecksadderstate.InitialDecksAdderStatePropertyChangeHandler
@@ -55,6 +59,8 @@ class LongTermStateSaverImpl(
             put(FullscreenPreference::class, FullscreenPreferencePropertyChangeHandler(database))
             put(InitialDecksAdder.State::class, InitialDecksAdderStatePropertyChangeHandler(database))
             put(TipState::class, TipStatePropertyChangeHandler(database))
+            put(FileImportStorage::class, FileImportStoragePropertyChangeHandler(database))
+            put(FileFormat::class, FileFormatPropertyChangeHandler(database))
         }
 
     override fun saveStateByRegistry() {

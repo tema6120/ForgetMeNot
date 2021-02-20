@@ -1,0 +1,65 @@
+import org.apache.commons.csv.QuoteMode;
+
+CREATE TABLE FileFormatDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    extension TEXT NOT NULL,
+    delimiter TEXT NOT NULL,
+    trailingDelimiter INTEGER AS Boolean NOT NULL,
+    quoteCharacter TEXT,
+    quoteMode TEXT AS QuoteMode,
+    escapeCharacter TEXT,
+    nullString TEXT,
+    ignoreSurroundingSpaces INTEGER AS Boolean NOT NULL,
+    trim INTEGER AS Boolean NOT NULL,
+    ignoreEmptyLines INTEGER AS Boolean NOT NULL,
+    recordSeparator TEXT,
+    commentMarker TEXT,
+    skipHeaderRecord INTEGER AS Boolean NOT NULL,
+    header TEXT,
+    ignoreHeaderCase INTEGER AS Boolean NOT NULL,
+    allowDuplicateHeaderNames INTEGER AS Boolean NOT NULL,
+    allowMissingColumnNames INTEGER AS Boolean NOT NULL,
+    headerComments TEXT,
+    autoFlush INTEGER AS Boolean NOT NULL
+);
+
+insert:
+INSERT INTO FileFormatDb VALUES ?;
+
+selectAll:
+SELECT * FROM FileFormatDb;
+
+updateName:
+UPDATE FileFormatDb SET name = ? WHERE id = ?;
+
+updateExtension:
+UPDATE FileFormatDb SET extension = ? WHERE id = ?;
+
+updateCSVFormat:
+UPDATE FileFormatDb
+SET delimiter = ?,
+    trailingDelimiter = ?,
+    quoteCharacter = ?,
+    quoteMode = ?,
+    escapeCharacter = ?,
+    nullString = ?,
+    ignoreSurroundingSpaces = ?,
+    trim = ?,
+    ignoreEmptyLines = ?,
+    recordSeparator = ?,
+    commentMarker = ?,
+    skipHeaderRecord = ?,
+    header = ?,
+    ignoreHeaderCase = ?,
+    allowDuplicateHeaderNames = ?,
+    allowMissingColumnNames = ?,
+    headerComments = ?,
+    autoFlush = ?
+WHERE id = ?;
+
+delete:
+DELETE FROM FileFormatDb WHERE id = ?;
+
+exists:
+SELECT EXISTS (SELECT * FROM FileFormatDb WHERE id = ?);

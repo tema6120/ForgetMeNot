@@ -51,6 +51,9 @@ object DatabaseInitializer {
                 testingMethodAdapter = EnumColumnAdapter(),
                 cardInversionAdapter = EnumColumnAdapter()
             ),
+            FileFormatDb.Adapter(
+                quoteModeAdapter = EnumColumnAdapter()
+            ),
             IntervalDb.Adapter(
                 valueAdapter = dateTimeSpanAdapter
             ),

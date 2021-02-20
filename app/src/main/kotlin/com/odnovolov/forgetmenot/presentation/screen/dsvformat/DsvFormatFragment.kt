@@ -28,7 +28,7 @@ import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
 import kotlinx.android.synthetic.main.dialog_delete_dsv_format.view.*
 import kotlinx.android.synthetic.main.fragment_dsv_format.*
 import kotlinx.android.synthetic.main.tip.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.apache.commons.csv.QuoteMode
 
 class DsvFormatFragment : BaseFragment() {
@@ -40,6 +40,7 @@ class DsvFormatFragment : BaseFragment() {
     private lateinit var viewModel: DsvFormatViewModel
     private var deleteDialog: AlertDialog? = null
     private var deleteDialogTitle: TextView? = null
+    private var resumePauseCoroutineScope: CoroutineScope? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -125,6 +126,7 @@ class DsvFormatFragment : BaseFragment() {
                 escapeCharacterEditText.isSelected = escapeCharacter != null
                 disabledEscapeCharacterButton.isSelected = escapeCharacter == null
             }
+            nullStringEditText.setText(nullString.firstBlocking()?.toDisplayedString())
             nullString.observe { nullString: String? ->
                 nullStringEditText.isSelected = nullString != null
             }
@@ -152,55 +154,6 @@ class DsvFormatFragment : BaseFragment() {
                 yesSkipHeaderRecordButton.isSelected = skipHeaderRecord
                 noSkipHeaderRecordButton.isSelected = !skipHeaderRecord
             }
-            header?.let { headerColumnNames: Array<String?> ->
-                headerColumnNames.forEachIndexed { index: Int, columnName: String? ->
-                    if (index == 0) {
-                        firstHeaderColumnNameEditText.setText(columnName)
-                    } else {
-                        with(headerColumnNamesLinearLayout) {
-                            if (childCount < index + 1) {
-                                val newInput =
-                                    View.inflate(context, R.layout.dsv_list_input, null) as EditText
-                                val position = childCount
-                                newInput.isEnabled = !isReadOnly
-                                newInput.observeText { newText: String ->
-                                    controller?.dispatch(HeaderColumnNameChanged(position, newText))
-                                }
-                                addView(newInput)
-                                newInput.updateLayoutParams<MarginLayoutParams> {
-                                    topMargin = -(2.dp)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            headerColumnCount.observe { headerColumnCount: Int ->
-                val inputCountShouldBe = headerColumnCount + 1
-                with(headerColumnNamesLinearLayout) {
-                    while (childCount > inputCountShouldBe) {
-                        val lastViewPosition = childCount - 1
-                        removeViewAt(lastViewPosition)
-                    }
-                    while (childCount < inputCountShouldBe) {
-                        val newInput =
-                            View.inflate(context, R.layout.dsv_list_input, null) as EditText
-                        val position = childCount
-                        newInput.isEnabled = !isReadOnly
-                        newInput.observeText { newText: String ->
-                            controller?.dispatch(HeaderColumnNameChanged(position, newText))
-                        }
-                        addView(newInput)
-                        newInput.updateLayoutParams<MarginLayoutParams> {
-                            topMargin = -(2.dp)
-                        }
-                    }
-                    children.toList().forEachIndexed { index, view ->
-                        val isLastView = index == childCount - 1
-                        view.isSelected = !isLastView
-                    }
-                }
-            }
             ignoreHeaderCase.observe { ignoreHeaderCase: Boolean ->
                 yesIgnoreHeaderNamesCaseButton.isSelected = ignoreHeaderCase
                 noIgnoreHeaderNamesCaseButton.isSelected = !ignoreHeaderCase
@@ -212,55 +165,6 @@ class DsvFormatFragment : BaseFragment() {
             allowMissingColumnNames.observe { allowMissingColumnNames: Boolean ->
                 yesAllowMissingColumnNamesButton.isSelected = allowMissingColumnNames
                 noAllowMissingColumnNamesButton.isSelected = !allowMissingColumnNames
-            }
-            headerComments?.let { headerComments: Array<String?> ->
-                headerComments.forEachIndexed { index: Int, comment: String? ->
-                    if (index == 0) {
-                        firstHeaderCommentEditText.setText(comment)
-                    } else {
-                        with(headerCommentsLinearLayout) {
-                            if (childCount < index + 1) {
-                                val newInput =
-                                    View.inflate(context, R.layout.dsv_list_input, null) as EditText
-                                val position = childCount
-                                newInput.isEnabled = !isReadOnly
-                                newInput.observeText { newText: String ->
-                                    controller?.dispatch(HeaderCommentChanged(position, newText))
-                                }
-                                addView(newInput)
-                                newInput.updateLayoutParams<MarginLayoutParams> {
-                                    topMargin = -(2.dp)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            headerCommentsCount.observe { headerCommentsCount: Int ->
-                val inputCountShouldBe = headerCommentsCount + 1
-                with(headerCommentsLinearLayout) {
-                    while (childCount > inputCountShouldBe) {
-                        val lastViewPosition = childCount - 1
-                        removeViewAt(lastViewPosition)
-                    }
-                    while (childCount < inputCountShouldBe) {
-                        val newInput =
-                            View.inflate(context, R.layout.dsv_list_input, null) as EditText
-                        val position = childCount
-                        newInput.isEnabled = !isReadOnly
-                        newInput.observeText { newText: String ->
-                            controller?.dispatch(HeaderCommentChanged(position, newText))
-                        }
-                        addView(newInput)
-                        newInput.updateLayoutParams<MarginLayoutParams> {
-                            topMargin = -(2.dp)
-                        }
-                    }
-                    children.toList().forEachIndexed { index, view ->
-                        val isLastView = index == childCount - 1
-                        view.isSelected = !isLastView
-                    }
-                }
             }
             autoFlush.observe { autoFlush: Boolean ->
                 yesAutoFlushButton.isSelected = autoFlush
@@ -537,6 +441,104 @@ class DsvFormatFragment : BaseFragment() {
         appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+        resumePauseCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        resumePauseCoroutineScope!!.launch {
+            val diScope = DsvFormatDiScope.getAsync() ?: return@launch
+            with(diScope.viewModel) {
+                header?.let { headerColumnNames: Array<String?> ->
+                    headerColumnNames.forEachIndexed { index: Int, columnName: String? ->
+                        if (index == 0) {
+                            firstHeaderColumnNameEditText.setText(columnName)
+                        } else if (index >= headerContainer.childCount) {
+                            val newInput = View.inflate(
+                                context,
+                                R.layout.dsv_list_input,
+                                null
+                            ) as EditText
+                            newInput.isEnabled = !isReadOnly
+                            newInput.setText(columnName)
+                            newInput.observeText { newText: String ->
+                                controller?.dispatch(HeaderColumnNameChanged(index, newText))
+                            }
+                            headerContainer.addView(newInput)
+                            newInput.updateLayoutParams<MarginLayoutParams> {
+                                topMargin = -(2.dp)
+                            }
+                        }
+                    }
+                }
+                headerColumnCount.observe { headerColumnCount: Int ->
+                    val inputCountShouldBe = headerColumnCount + 1
+                    while (headerContainer.childCount > inputCountShouldBe) {
+                        val lastViewPosition = headerContainer.childCount - 1
+                        headerContainer.removeViewAt(lastViewPosition)
+                    }
+                    while (headerContainer.childCount < inputCountShouldBe) {
+                        val newInput =
+                            View.inflate(context, R.layout.dsv_list_input, null) as EditText
+                        val position = headerContainer.childCount
+                        newInput.isEnabled = !isReadOnly
+                        newInput.observeText { newText: String ->
+                            controller?.dispatch(HeaderColumnNameChanged(position, newText))
+                        }
+                        headerContainer.addView(newInput)
+                        newInput.updateLayoutParams<MarginLayoutParams> {
+                            topMargin = -(2.dp)
+                        }
+                    }
+                    headerContainer.children.toList().forEachIndexed { index, view ->
+                        val isLastView = index == headerContainer.childCount - 1
+                        view.isSelected = !isLastView
+                    }
+                }
+                headerComments?.let { headerComments: Array<String?> ->
+                    headerComments.forEachIndexed { index: Int, comment: String? ->
+                        if (index == 0) {
+                            firstHeaderCommentEditText.setText(comment)
+                        } else if (index >= headerCommentsContainer.childCount) {
+                            val newInput = View.inflate(
+                                context,
+                                R.layout.dsv_list_input,
+                                null
+                            ) as EditText
+                            newInput.isEnabled = !isReadOnly
+                            newInput.setText(comment)
+                            newInput.observeText { newText: String ->
+                                controller?.dispatch(HeaderCommentChanged(index, newText))
+                            }
+                            headerCommentsContainer.addView(newInput)
+                            newInput.updateLayoutParams<MarginLayoutParams> {
+                                topMargin = -(2.dp)
+                            }
+                        }
+                    }
+                }
+                headerCommentsCount.observe { headerCommentsCount: Int ->
+                    val inputCountShouldBe = headerCommentsCount + 1
+                    while (headerCommentsContainer.childCount > inputCountShouldBe) {
+                        val lastViewPosition = headerCommentsContainer.childCount - 1
+                        headerCommentsContainer.removeViewAt(lastViewPosition)
+                    }
+                    while (headerCommentsContainer.childCount < inputCountShouldBe) {
+                        val newInput =
+                            View.inflate(context, R.layout.dsv_list_input, null) as EditText
+                        val position = headerCommentsContainer.childCount
+                        newInput.isEnabled = !isReadOnly
+                        newInput.observeText { newText: String ->
+                            controller?.dispatch(HeaderCommentChanged(position, newText))
+                        }
+                        headerCommentsContainer.addView(newInput)
+                        newInput.updateLayoutParams<MarginLayoutParams> {
+                            topMargin = -(2.dp)
+                        }
+                    }
+                    headerCommentsContainer.children.toList().forEachIndexed { index, view ->
+                        val isLastView = index == headerCommentsContainer.childCount - 1
+                        view.isSelected = !isLastView
+                    }
+                }
+            }
+        }
     }
 
     override fun onPause() {
@@ -544,6 +546,8 @@ class DsvFormatFragment : BaseFragment() {
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
         (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
         hideKeyboardForcibly(requireActivity())
+        resumePauseCoroutineScope!!.cancel()
+        resumePauseCoroutineScope = null
     }
 
     private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
