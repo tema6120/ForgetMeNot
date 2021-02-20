@@ -1,0 +1,23 @@
+CREATE TABLE FileFormatDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    extension TEXT NOT NULL,
+    delimiter TEXT NOT NULL,
+    trailingDelimiter INTEGER NOT NULL,
+    quoteCharacter TEXT,
+    quoteMode TEXT,
+    escapeCharacter TEXT,
+    nullString TEXT,
+    ignoreSurroundingSpaces INTEGER NOT NULL,
+    trim INTEGER NOT NULL,
+    ignoreEmptyLines INTEGER NOT NULL,
+    recordSeparator TEXT,
+    commentMarker TEXT,
+    skipHeaderRecord INTEGER NOT NULL,
+    header TEXT,
+    ignoreHeaderCase INTEGER NOT NULL,
+    allowDuplicateHeaderNames INTEGER NOT NULL,
+    allowMissingColumnNames INTEGER NOT NULL,
+    headerComments TEXT,
+    autoFlush INTEGER NOT NULL
+);
