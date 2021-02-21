@@ -39,6 +39,7 @@ import kotlinx.coroutines.launch
 class CardsFileFragment : BaseFragment() {
     companion object {
         private const val ARG_ID = "ARG_ID"
+        private const val STATE_CHANGE_DECK_POPUP = "STATE_CHANGE_DECK_POPUP"
 
         fun create(id: Long) = CardsFileFragment().apply {
             arguments = Bundle(1).apply {
@@ -301,6 +302,20 @@ class CardsFileFragment : BaseFragment() {
             changeDeckPopup = LightPopupWindow(content)
         }
         return changeDeckPopup!!
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            val needToShowChangeDeckPopup = getBoolean(STATE_CHANGE_DECK_POPUP, false)
+            if (needToShowChangeDeckPopup) showChangeDeckPopup()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val isChangeDeckPopupShowing = changeDeckPopup?.isShowing ?: false
+        outState.putBoolean(STATE_CHANGE_DECK_POPUP, isChangeDeckPopupShowing)
     }
 
     override fun onDestroyView() {

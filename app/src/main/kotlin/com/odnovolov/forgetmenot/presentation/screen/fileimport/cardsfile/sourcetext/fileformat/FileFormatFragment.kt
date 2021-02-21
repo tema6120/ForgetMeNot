@@ -131,9 +131,27 @@ class FileFormatFragment : BaseFragment() {
         }
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            val needToShowFormatPopup = getBoolean(STATE_FORMAT_POPUP, false)
+            if (needToShowFormatPopup) showFormatPopup()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val isFormatPopupShowing = formatPopup?.isShowing ?: false
+        outState.putBoolean(STATE_FORMAT_POPUP, isFormatPopupShowing)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         formatPopup?.dismiss()
         formatPopup = null
+    }
+
+    companion object {
+        const val STATE_FORMAT_POPUP = "STATE_FORMAT_POPUP"
     }
 }

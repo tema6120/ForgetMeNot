@@ -34,6 +34,7 @@ class ImportedTextEditorFragment : BaseFragment(), ControllingTheScrollPosition 
         const val ARG_ID = "ARG_ID"
         const val MAX_TEXT_LENGTH_TO_EDIT = 20_000
         const val MAX_ERROR_LINES_TO_SHOW = 50
+        const val STATE_CHARSET_POPUP = "STATE_CHARSET_POPUP"
 
         fun create(id: Long) = ImportedTextEditorFragment().apply {
             arguments = Bundle(1).apply {
@@ -243,6 +244,20 @@ class ImportedTextEditorFragment : BaseFragment(), ControllingTheScrollPosition 
         val range: Int = editorScrollView.computeVerticalScrollRange()
         val offset: Int = ((range - extent) * scrollPercentage).toInt()
         editorScrollView.scrollTo(0, offset)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            val needToShowCharsetPopup = getBoolean(STATE_CHARSET_POPUP, false)
+            if (needToShowCharsetPopup) showCharsetPopup()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val isCharsetPopupShowing = charsetPopup?.isShowing ?: false
+        outState.putBoolean(STATE_CHARSET_POPUP, isCharsetPopupShowing)
     }
 
     override fun onPause() {
