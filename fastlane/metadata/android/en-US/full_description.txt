@@ -3,7 +3,8 @@ ForgetMeNot is an app for memorizing information via flashcards. Simplicity, usa
 
 The features that are supported are:
 
-    • Import/export of decks.
+    • Import/export of files.
+    • Support CSV, Tab text or any other kind of Delimiter-Separated Values.
     • Intervals (Spaced repetition). You can specified your own interval scheme for each deck.
     • Several test methods. There are 'Self testing', 'Testing with variants', 'Spell check'.
     • Pronunciation of the text via TTS. You can choose languages for questions and answers, enable autospeaking of them.
@@ -15,7 +16,7 @@ The features that are supported are:
     • Editing and searching cards right in the exercise.
     • 'Walking mode' that enables you do the exercise without looking at the screen.
     • 'Autoplaying mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
-    • Catalog of pre-made decks. The catalog is constantly growing and already contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
+    • Catalog of pre-made decks. The catalog contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
 
 
 What makes ForgetMeNot so efficient for memorizing:

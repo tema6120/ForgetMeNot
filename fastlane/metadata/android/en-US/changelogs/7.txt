@@ -1,0 +1,6 @@
+- support comma-separated values (CSV), tab-separated values (TSV) or any other kind of delimiter-separated values
+- support multiple encodings
+- multiple file import
+- ability to import cards into existing deck
+- ability to correct errors of imported file
+- ability to filter out imported cards
