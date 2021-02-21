@@ -583,7 +583,7 @@
     <string name="screen_title_help">Допомога</string>
     <string name="title_articles">Статті</string>
     <string name="description_help_article_icon">іконка статті допомоги</string>
-    <string name="help_article_title_import_of_deck">Імпорт колоди</string>
+    <string name="help_article_title_import_of_file">Імпорт файлу</string>
     <string name="help_article_title_exercise">Вправа</string>
     <string name="help_article_title_testing_methods">Методи тестування</string>
     <string name="help_article_title_grade_and_intervals">Оцінка та інтервали</string>
@@ -602,10 +602,11 @@
     <string name="description_show_table_of_contents_button">Показати зміст</string>
     <string name="description_previous_button">Попередня</string>
     <string name="description_next_button">Наступна</string>
-    <string name="article_import_of_deck_paragraph_1">1. Створіть на своєму комп’ютері текстовий
-        файл у такому форматі:</string>
+    <string name="article_import_of_file_paragraph_1">ForgetMeNot може імпортувати текстові файли в
+        двох форматах:</string>
+    <string name="article_import_of_file_qa_format_section_title">1. \'Q:A:\' формат</string>
     <string name="description_window_frame_icons">іконки віконної рами</string>
-    <string name="example_of_text_file_for_creating_deck">Q:
+    <string name="example_of_text_file_qa_format">Q:
         \nЯке місто було першою столицею США?
         \nA:
         \nНью-Йорк
@@ -624,11 +625,44 @@
         \nКоли закінчилася війна за незалежність США?
         \nA:
         \n3 вересня 1783</string>
-    <string name="example_file_name">Американська історія.txt</string>
-    <string name="article_import_of_deck_paragraph_2">2. Збережіть цей файл в кодуванні UTF-8.
-        \n\n3. Скопіюйте його на диск вашого пристрою або в Google Drive.
-        \n\n3. Натисніть \"Додати картки\" -> \"Імпортувати файл\" в ForgetMeNot.
-        \n\n4. Виберіть цей файл.</string>
+    <string name="example_qa_format_file_name">Історія США.txt</string>
+    <string name="article_import_of_file_qa_format_description">Це свій власний формат ForgetMeNot.
+        Він був винайдений для ручного створення карток в текстовому файлі. Цей формат інтуїтивно
+        зрозумілий і легкий для читання. Рекомендується використовувати цей формат, якщо ви
+        складаєте картки на комп\'ютері.</string>
+    <string name="article_import_of_file_dsv_format_section_title">2. Значення, розділені розділювачем</string>
+    <string name="example_of_text_file_dsv_format">\"nature\";\"природа\"
+        \n\"beach\";\"берег, пляж\"
+        \n\"coast\";\"морське узбережжя\"
+        \n\"desert\";\"пустеля\"
+        \n\"glacier\";\"льодовик\"
+        \n\"forest\";\"ліс\"
+        \n\"field\";\"поле, луг\"
+        \n\"canyon\";\"каньйон\"
+        \n\"island\";\"острів\"
+        \n\"jungle\";\"джунглі, нетрі\"
+        \n\"lake\";\"озеро\"
+        \n\"mountain\";\"гора\"
+        \n\"hill\";\"пагорб, височина\"
+        \n\"plain\";\"рівнина\"
+        \n\"hollow\";\"низина, западина\"
+        \n\"pond\";\"ставок\"
+        \n\"rock\";\"скеля, камінь\"
+        \n\"ocean\";\"океан\"
+        \n\"sea\";\"море\"
+        \n\"river\";\"річка\"</string>
+    <string name="example_dsv_format_file_name">Природа.csv</string>
+    <string name="article_import_of_file_dsv_format_description">Це загальна назва для
+        <a href="https://uk.wikipedia.org/wiki/CSV">CSV</a> або
+        <a href="https://uk.wikipedia.org/wiki/%D0%97%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%BD%D1%8F_%D1%80%D0%BE%D0%B7%D0%B4%D1%96%D0%BB%D0%B5%D0%BD%D1%96_%D1%82%D0%B0%D0%B1%D1%83%D0%BB%D1%8F%D1%86%D1%96%D1%94%D1%8E">TSV</a>
+        файлів. Цей формат використовується для представлення табличних даних. Багато програм, такі
+        як Microsoft Excel, Google Sheets, дозволяють експортувати дані в цьому форматі. ForgetMeNot
+        інтерпретує кожен запис (рядок) як окрему картку, перший стовпець як питання, а другий - як
+        відповідь. Ви також можете створити такі файли вручну. Наприклад, створіть файл з
+        розширенням .tsv, в якому символ табуляції буде розділяти питання і відповіді.
+
+        \n\nОскільки цей формат не є строгим, вам пропонується вибрати уточнюючий формат із
+        попередньо визначених або створити свій власний.</string>
     <string name="article_exercise_paragraph_1">У вправі слід відповідати на запитання. Для кожної
         колоди можна вказати унікальні налаштування, які можуть суттєво змінити характер тестування:
 

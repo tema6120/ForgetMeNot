@@ -62,6 +62,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.file_import_to_deck_editor)
     }
 
+    fun navigateToHelpArticleFromFileImport(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.file_import_to_help)
+    }
+
     fun navigateToExercise(createDiScope: () -> ExerciseDiScope) {
         ExerciseDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_exercise)

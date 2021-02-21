@@ -566,7 +566,7 @@
     <string name="screen_title_help">Help</string>
     <string name="title_articles">Articles</string>
     <string name="description_help_article_icon">Help article icon</string>
-    <string name="help_article_title_import_of_deck">Import of deck</string>
+    <string name="help_article_title_import_of_file">Import of file</string>
     <string name="help_article_title_exercise">Exercise</string>
     <string name="help_article_title_testing_methods">Testing methods</string>
     <string name="help_article_title_grade_and_intervals">Grade and intervals</string>
@@ -585,10 +585,10 @@
     <string name="description_show_table_of_contents_button">Show table of contents</string>
     <string name="description_previous_button">Previous</string>
     <string name="description_next_button">Next</string>
-    <string name="article_import_of_deck_paragraph_1">1. Create a text file on your computer in
-        this format:</string>
+    <string name="article_import_of_file_paragraph_1">ForgetMeNot can import text files in two formats:</string>
+    <string name="article_import_of_file_qa_format_section_title">1. \'Q:A:\' format</string>
     <string name="description_window_frame_icons">Window frame icons</string>
-    <string name="example_of_text_file_for_creating_deck">Q:
+    <string name="example_of_text_file_qa_format">Q:
         \nWhat city was the first capital of the United States?
         \nA:
         \nNew York City
@@ -607,11 +607,44 @@
         \nWhen did the Revolutionary War end?
         \nA:
         \nSeptember 3, 1783</string>
-    <string name="example_file_name">American history.txt</string>
-    <string name="article_import_of_deck_paragraph_2">2. Save this file with encoding UTF-8.
-        \n\n3. Put it on your device disk or Google Drive.
-        \n\n3. Press \'Add cards\' -> \'Import file\' in ForgetMeNot.
-        \n\n4. Select this file.</string>
+    <string name="example_qa_format_file_name">American history.txt</string>
+    <string name="article_import_of_file_qa_format_description">This is a proprietary format of
+        ForgetMeNot. It was invented for manually creating cards in a text file.
+        This format is intuitive and readable. It is recommended to use this format if you compose
+        cards on a computer.</string>
+    <string name="article_import_of_file_dsv_format_section_title">2. Delimiter-separated values</string>
+    <string name="example_of_text_file_dsv_format">\"nature\";\"природа\"
+        \n\"beach\";\"берег, пляж\"
+        \n\"coast\";\"морское побережье\"
+        \n\"desert\";\"пустыня\"
+        \n\"glacier\";\"ледник\"
+        \n\"forest\";\"лес\"
+        \n\"field\";\"поле, луг\"
+        \n\"canyon\";\"каньон\"
+        \n\"island\";\"остров\"
+        \n\"jungle\";\"джунгли, дебри\"
+        \n\"lake\";\"озеро\"
+        \n\"mountain\";\"гора\"
+        \n\"hill\";\"холм, возвышенность\"
+        \n\"plain\";\"равнина\"
+        \n\"hollow\";\"низина, впадина\"
+        \n\"pond\";\"пруд\"
+        \n\"rock\";\"скала, камень\"
+        \n\"ocean\";\"океан\"
+        \n\"sea\";\"море\"
+        \n\"river\";\"река\"</string>
+    <string name="example_dsv_format_file_name">Nature.csv</string>
+    <string name="article_import_of_file_dsv_format_description">This is the generic name for
+        <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> or
+        <a href="https://en.wikipedia.org/wiki/Tab-separated_values">TSV</a>
+        files. This format is used to represent tabular data. Many programs such as Microsoft
+        Excel, Google Sheets allow you to export data in this format. ForgetMeNot interpret each
+        record (row) as a separate card, the first column as a question, the second column as an
+        answer. You can also manually create such files. For example, create a file with a .tsv
+        extension where the tab character will separate questions and answers.
+
+        \n\nSince this format is not strict, you are invited to choose a clarifying format among
+        the predefined ones or create your own.</string>
     <string name="article_exercise_paragraph_1">In the exercise, you should answer questions. For
         each deck, you can specify unique settings, which can significantly change the examination
         manner:

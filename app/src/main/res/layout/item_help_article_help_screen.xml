@@ -32,7 +32,7 @@
                 android:padding="16dp"
                 android:textColor="@color/textSecondary"
                 android:textSize="@dimen/text_size_help_screen_article_title"
-                tools:text="@string/help_article_title_import_of_deck" />
+                tools:text="@string/help_article_title_import_of_file" />
 
         <ImageView
                 android:layout_width="24dp"

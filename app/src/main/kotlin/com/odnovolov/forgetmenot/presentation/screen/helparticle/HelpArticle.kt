@@ -9,10 +9,10 @@ enum class HelpArticle(
     val iconRes: Int,
     val createFragment: () -> Fragment
 ) {
-    ImportOfDeck(
-        R.string.help_article_title_import_of_deck,
+    ImportOfFile(
+        R.string.help_article_title_import_of_file,
         R.drawable.ic_outline_description_24,
-        { ImportOfDeckHelpArticleFragment() }),
+        { ImportOfFileHelpArticleFragment() }),
     Exercise(
         R.string.help_article_title_exercise,
         R.drawable.ic_outline_school_24,

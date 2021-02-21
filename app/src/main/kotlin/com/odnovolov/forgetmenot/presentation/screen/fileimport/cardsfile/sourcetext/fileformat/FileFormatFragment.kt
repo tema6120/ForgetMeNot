@@ -57,6 +57,10 @@ class FileFormatFragment : BaseFragment() {
     private fun requireFormatPopup(): PopupWindow {
         if (formatPopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_file_format, null).apply {
+                helpButton.setOnClickListener {
+                    controller?.dispatch(HelpButtonClicked)
+                    formatPopup?.dismiss()
+                }
                 fmnFormatRadioButtonFrame.setOnClickListener {
                     controller?.dispatch(FileFormatRadioButtonClicked(FileFormat.FMN_FORMAT))
                     formatPopup?.dismiss()

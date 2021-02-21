@@ -70,6 +70,10 @@
                 app:popUpTo="@+id/file_import"
                 app:popUpToInclusive="true" />
 
+        <action
+                android:id="@+id/file_import_to_help"
+                app:destination="@+id/help_article" />
+
     </fragment>
 
     <fragment

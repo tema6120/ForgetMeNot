@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourc
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 
 sealed class FileFormatEvent{
+    object HelpButtonClicked : FileFormatEvent()
     class FileFormatRadioButtonClicked(val fileFormat: FileFormat) : FileFormatEvent()
     class ViewFileFormatSettingsButtonClicked(val fileFormat: FileFormat) : FileFormatEvent()
     class EditFileFormatSettingsButtonClicked(val fileFormat: FileFormat) : FileFormatEvent()

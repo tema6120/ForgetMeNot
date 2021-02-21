@@ -1,0 +1,152 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/paragraph1"
+            style="@style/ArticleParagraph"
+            android:layout_marginTop="8dp"
+            android:text="@string/article_import_of_file_paragraph_1" />
+
+    <TextView
+            android:id="@+id/qa_format_section_title"
+            style="@style/ArticleParagraph"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nunito_extrabold"
+            android:text="@string/article_import_of_file_qa_format_section_title"
+            android:textColor="@color/textSecondary" />
+
+    <LinearLayout
+            android:id="@+id/qa_format_example"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/text_file_frame"
+            android:orientation="vertical">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/description_window_frame_icons"
+                android:padding="16dp"
+                app:srcCompat="@drawable/ic_window_frame_icons" />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/text_primary_blue" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:padding="16dp"
+                android:text="@string/example_of_text_file_qa_format"
+                android:textColor="@color/textSecondary"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_size_import_of_deck_help_article_text_file_content" />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/text_primary_blue" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="16dp"
+                android:text="@string/example_qa_format_file_name"
+                android:textColor="@color/textSecondary"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_size_import_of_deck_help_article_file_name"
+                android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/qa_format_description"
+            style="@style/ArticleParagraph"
+            android:layout_marginTop="8dp"
+            android:text="@string/article_import_of_file_qa_format_description" />
+
+    <TextView
+            android:id="@+id/dsv_format_section_title"
+            style="@style/ArticleParagraph"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nunito_extrabold"
+            android:text="@string/article_import_of_file_dsv_format_section_title"
+            android:textColor="@color/textSecondary" />
+
+    <LinearLayout
+            android:id="@+id/dsv_format_example"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/text_file_frame"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qa_format_section_title">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/description_window_frame_icons"
+                android:padding="16dp"
+                app:srcCompat="@drawable/ic_window_frame_icons" />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/text_primary_blue" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:padding="16dp"
+                android:text="@string/example_of_text_file_dsv_format"
+                android:textColor="@color/textSecondary"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_size_import_of_deck_help_article_text_file_content" />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/text_primary_blue" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="16dp"
+                android:text="@string/example_dsv_format_file_name"
+                android:textColor="@color/textSecondary"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_size_import_of_deck_help_article_file_name"
+                android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/dsvFormatDescriptionTextView"
+            style="@style/ArticleParagraph"
+            android:layout_marginTop="8dp"
+            android:text="@string/article_import_of_file_dsv_format_description" />
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/description_window_frame_icons"
+            android:padding="16dp"
+            app:srcCompat="@drawable/dsv_screenshots" />
+
+</LinearLayout>

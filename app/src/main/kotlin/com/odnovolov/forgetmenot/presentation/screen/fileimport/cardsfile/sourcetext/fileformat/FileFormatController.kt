@@ -14,6 +14,9 @@ import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatDiScope
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenState.Purpose
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat.FileFormatEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import org.apache.commons.csv.CSVFormat
 
 class FileFormatController(
@@ -29,6 +32,13 @@ class FileFormatController(
 
     override fun handle(event: FileFormatEvent) {
         when (event) {
+            HelpButtonClicked -> {
+                navigator.navigateToHelpArticleFromFileImport {
+                    val screenState = HelpArticleScreenState(HelpArticle.ImportOfFile)
+                    HelpArticleDiScope.create(screenState)
+                }
+            }
+
             is FileFormatRadioButtonClicked -> {
                 fileImporter.setFormat(event.fileFormat)
             }

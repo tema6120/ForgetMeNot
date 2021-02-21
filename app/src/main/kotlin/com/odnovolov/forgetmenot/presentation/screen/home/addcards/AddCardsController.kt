@@ -67,7 +67,7 @@ class AddCardsController(
 
             HelpImportFileButtonClicked -> {
                 navigator.navigateToHelpArticleFromNavHost {
-                    val screenState = HelpArticleScreenState(HelpArticle.ImportOfDeck)
+                    val screenState = HelpArticleScreenState(HelpArticle.ImportOfFile)
                     HelpArticleDiScope.create(screenState)
                 }
             }
