@@ -11,8 +11,9 @@ The app doesn’t collect your personal data. Anyway, some data are saved on you
 Permissions
 -----------
 
-* Control vibration - used in exercise when you answer incorrectly with 'Quiz' or 'Entry' test methods.
-* Run foreground service - used to pronounce questions and answers in background in 'Repetition mode'.
+* Control vibration - used in exercise when you answer incorrectly with 'Testing with variants' or 'Spell check' or when the timer runs out.
+* Run foreground service - used to pronounce questions and answers in background in 'Autoplaying mode'.
+* Prevent device from sleeping - used when Autoplaying is active so that Android does not stop playback.
 
 Changes
 -------

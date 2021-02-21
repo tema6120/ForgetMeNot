@@ -23,14 +23,15 @@ Download
       height="80">](https://appgallery.huawei.com/#/app/C103089961)
 [<img src="https://raw.githubusercontent.com/tema6120/ForgetMeNot/master/.github/readme/direct_apk_download.png"
       alt="Get direct apk"
-      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.3/ForgetMeNot_v1.3.apk)
+      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.4/ForgetMeNot_v1.4.apk)
 
 Features
 --------
 
 <img src="/.github/readme/preview.gif" align="right" width="32%"/>
 
-* Import/export of decks.
+* Import/export of files.
+* Support of CSV, Tab text or any other kind of Delimiter-Separated Values.
 * Intervals ([Spaced repetition](https://en.wikipedia.org/wiki/Spaced_repetition)). You can specified your own interval scheme for each deck.
 * Several testing methods. There are 'Self testing', 'Testing with variants', 'Spell check'.
 * Pronunciation of the text via TTS. You can choose languages for questions and answers, autospeaking of them.
@@ -42,7 +43,7 @@ Features
 * Editing and searching cards right in the exercise.
 * 'Walking mode' that enables you do the exercise without looking at the screen.
 * 'Autoplaying mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
-* Catalog of pre-made decks. The catalog is constantly growing and already contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
+* Catalog of pre-made decks. The catalog contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
 
 Video
 -----
@@ -78,6 +79,8 @@ Libraries Used
 * [sqldelight](https://github.com/cashapp/sqldelight)
 * [klock](https://github.com/korlibs/klock)
 * [materialrangebar](https://github.com/oli107/material-range-bar)
+* [Brackeys-IDE](https://github.com/massivemadness/Brackeys-IDE)
+* [Apache Commons CSV](https://commons.apache.org/proper/commons-csv/)
 
 License
 -------
