@@ -8,13 +8,14 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.documentfile.provider.DocumentFile
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,6 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.plurals
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -36,11 +36,14 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.GotFilesCreationResult.FileCreationResult
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import java.io.FileNotFoundException
+import java.io.OutputStream
 import kotlin.math.abs
 
 class HomeFragment : BaseFragment() {
@@ -50,12 +53,21 @@ class HomeFragment : BaseFragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
-    private var pendingEvent: FileForExportDeckIsReady? = null
+    private var pendingEvent: GotFilesCreationResult? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var isSearchingAfterPasteButtonClicked: Boolean = false
     private var appbarLayoutOffset: Int = 0
     private var backPressInterceptor: MainActivity.BackPressInterceptor? = null
     private var isAntiJumpingViewActivated = false
+    private var exportedFileNames: List<String>? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        savedInstanceState?.let {
+            exportedFileNames =
+                savedInstanceState.getStringArray(STATE_EXPORTED_FILE_NAMES)?.toList()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -121,12 +133,19 @@ class HomeFragment : BaseFragment() {
         cancelSelectionButton.setOnClickListener {
             controller?.dispatch(SelectionCancelled)
         }
+        exportButton.setOnClickListener {
+            controller?.dispatch(ExportButtonClicked)
+        }
         selectAllButton.setOnClickListener {
             controller?.dispatch(SelectAllDecksButtonClicked)
         }
         removeDecksButton.setOnClickListener {
             controller?.dispatch(RemoveDecksButtonClicked)
         }
+        cancelSelectionButton.setTooltipTextFromContentDescription()
+        exportButton.setTooltipTextFromContentDescription()
+        selectAllButton.setTooltipTextFromContentDescription()
+        removeDecksButton.setTooltipTextFromContentDescription()
     }
 
     private fun observeAppbarOffset() {
@@ -219,7 +238,7 @@ class HomeFragment : BaseFragment() {
                 }
             }.observe()
             areFilesBeingReading.observe { areFilesBeingReading: Boolean ->
-                progressBar.isVisible = areFilesBeingReading
+                progressBarFrame.isVisible = areFilesBeingReading
             }
         }
     }
@@ -286,7 +305,7 @@ class HomeFragment : BaseFragment() {
         if (deckSelection == null) return
         if (deckSelection.selectedDeckIds.isNotEmpty()) {
             numberOfSelectedDecksTextView.text = resources.getQuantityString(
-                plurals.title_deck_selection_toolbar_number_of_selected_decks,
+                R.plurals.title_deck_selection_toolbar_number_of_selected_decks,
                 deckSelection.selectedDeckIds.size,
                 deckSelection.selectedDeckIds.size
             )
@@ -337,38 +356,74 @@ class HomeFragment : BaseFragment() {
                     )
                     .show()
             }
-            is ShowCreateFileDialog -> {
-                openFileCreator(CREATE_FILE_REQUEST_CODE, command.fileName)
+            is CreateFiles -> {
+                exportedFileNames = command.fileNames
+                openDocumentTree(OPEN_DOCUMENT_TREE_REQUEST_CODE)
             }
-            ShowDeckIsExportedMessage -> {
-                showToast(R.string.toast_deck_is_exported)
-            }
-            is ShowExportErrorMessage -> {
-                val errorMessage = getString(
-                    R.string.toast_error_while_exporting_deck,
-                    command.e.message
-                )
-                showToast(errorMessage)
+            is ShowDeckExportResultMessage -> {
+                val message = composeDeckExportResultMessage(
+                    command.exportedDeckNames,
+                    command.failedDeckNames
+                ) ?: return
+                showToast(message, duration = Toast.LENGTH_LONG)
             }
         }
     }
 
+    private fun composeDeckExportResultMessage(
+        exportedDeckNames: List<String>,
+        failedDeckNames: List<String>
+    ): String? {
+        val exportedDeckNamesString: String = resources.getQuantityString(
+            R.plurals.toast_decks_are_exported,
+            exportedDeckNames.size,
+            exportedDeckNames.size
+        )
+        val listOfFailedDeckNames: String = failedDeckNames
+            .joinToString(separator = ",\n") { deckName -> "\t'$deckName'" }
+        val failedDeckNamesString: String =
+            getString(R.string.toast_error_while_exporting_deck_with_arg, listOfFailedDeckNames)
+        return when {
+            exportedDeckNames.isNotEmpty()
+                    && failedDeckNames.isNotEmpty() -> {
+                "$exportedDeckNamesString\n\n$failedDeckNamesString"
+            }
+            exportedDeckNames.isNotEmpty() -> {
+                exportedDeckNamesString
+            }
+            failedDeckNames.isNotEmpty() -> {
+                failedDeckNamesString
+            }
+            else -> return null
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (requestCode != CREATE_FILE_REQUEST_CODE
+        if (requestCode != OPEN_DOCUMENT_TREE_REQUEST_CODE
             || resultCode != Activity.RESULT_OK
             || intent == null
         ) {
             return
         }
         val uri = intent.data ?: return
-        val outputStream = requireContext().contentResolver?.openOutputStream(uri)
-        if (outputStream != null) {
-            val event = FileForExportDeckIsReady(outputStream)
-            if (controller == null) {
-                pendingEvent = event
-            } else {
-                controller!!.dispatch(event)
+        val fileNames: List<String> = exportedFileNames ?: return
+        val pickedDir: DocumentFile = DocumentFile.fromTreeUri(requireContext(), uri) ?: return
+        val filesCreationResult: List<FileCreationResult> = fileNames.map { fileName: String ->
+            try {
+                val newFile: DocumentFile = pickedDir.createFile("text/plain", fileName)
+                    ?: return@map FileCreationResult(fileName, null)
+                val outputStream: OutputStream? =
+                    requireContext().contentResolver?.openOutputStream(newFile.uri)
+                FileCreationResult(fileName, outputStream)
+            } catch (e: FileNotFoundException) {
+                FileCreationResult(fileName, null)
             }
+        }
+        val event = GotFilesCreationResult(filesCreationResult)
+        if (controller == null) {
+            pendingEvent = event
+        } else {
+            controller!!.dispatch(event)
         }
     }
 
@@ -508,6 +563,13 @@ class HomeFragment : BaseFragment() {
             .drawerLayout.openDrawer(GravityCompat.START)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        exportedFileNames?.let {
+            outState.putStringArray(STATE_EXPORTED_FILE_NAMES, it.toTypedArray())
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         homePager.adapter = null
@@ -524,7 +586,8 @@ class HomeFragment : BaseFragment() {
     }
 
     companion object {
-        const val CREATE_FILE_REQUEST_CODE = 40
+        const val OPEN_DOCUMENT_TREE_REQUEST_CODE = 40
+        const val STATE_EXPORTED_FILE_NAMES = "STATE_EXPORTED_FILE_NAMES"
     }
 
     private val appBarElevationManager = object {

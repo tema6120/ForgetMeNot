@@ -25,28 +25,24 @@ class DeckContentController(
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<DeckContentEvent, Command>() {
     sealed class Command {
-        class ShowCreateFileDialog(val fileName: String) : Command()
+        class CreateFile(val fileName: String) : Command()
         object ShowDeckIsExportedMessage : Command()
-        class ShowExportErrorMessage(val e: IOException) : Command()
+        object ShowExportErrorMessage : Command()
     }
 
     override fun handle(event: DeckContentEvent) {
         when (event) {
             ExportButtonClicked -> {
                 val fileName = deckEditorScreenState.deck.name
-                sendCommand(ShowCreateFileDialog(fileName))
+                sendCommand(CreateFile(fileName))
             }
 
             is OutputStreamOpened -> {
-                try {
-                    deckExporter.export(
-                        deck = deckEditorScreenState.deck,
-                        outputStream = event.outputStream
-                    )
-                    sendCommand(ShowDeckIsExportedMessage)
-                } catch (e: IOException) {
-                    sendCommand(ShowExportErrorMessage(e))
-                }
+                val success: Boolean = deckExporter.export(
+                    deck = deckEditorScreenState.deck,
+                    outputStream = event.outputStream
+                )
+                sendCommand(if (success) ShowDeckIsExportedMessage else ShowExportErrorMessage)
             }
 
             SearchButtonClicked -> {

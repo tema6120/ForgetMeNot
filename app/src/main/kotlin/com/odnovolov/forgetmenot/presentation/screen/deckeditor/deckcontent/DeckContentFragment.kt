@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.openFileCreator
+import com.odnovolov.forgetmenot.presentation.common.openDocumentTree
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentEvent.OutputStreamOpened
@@ -28,6 +29,14 @@ class DeckContentFragment : BaseFragment() {
     private var pendingEvent: OutputStreamOpened? = null
     private var isInflated = false
     lateinit var scrollListener: OnScrollListener
+    private var exportedFileName: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        savedInstanceState?.let {
+            exportedFileName = savedInstanceState.getString(STATE_EXPORTED_FILE_NAME)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,31 +83,31 @@ class DeckContentFragment : BaseFragment() {
 
     private fun executeCommand(command: DeckContentController.Command) {
         when (command) {
-            is ShowCreateFileDialog -> {
-                openFileCreator(CREATE_FILE_REQUEST_CODE, command.fileName)
+            is CreateFile -> {
+                exportedFileName = command.fileName
+                openDocumentTree(OPEN_DOCUMENT_TREE_REQUEST_CODE)
             }
             ShowDeckIsExportedMessage -> {
                 showToast(R.string.toast_deck_is_exported)
             }
-            is ShowExportErrorMessage -> {
-                val errorMessage = getString(
-                    R.string.toast_error_while_exporting_deck,
-                    command.e.message
-                )
-                showToast(errorMessage)
+            ShowExportErrorMessage -> {
+                showToast(R.string.toast_error_while_exporting_deck)
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (requestCode != CREATE_FILE_REQUEST_CODE
+        if (requestCode != OPEN_DOCUMENT_TREE_REQUEST_CODE
             || resultCode != Activity.RESULT_OK
             || intent == null
         ) {
             return
         }
         val uri = intent.data ?: return
-        val outputStream = requireContext().contentResolver?.openOutputStream(uri)
+        val fileName = exportedFileName ?: return
+        val pickedDir: DocumentFile = DocumentFile.fromTreeUri(requireContext(), uri) ?: return
+        val newFile: DocumentFile = pickedDir.createFile("text/plain", fileName) ?: return
+        val outputStream = requireContext().contentResolver?.openOutputStream(newFile.uri)
         if (outputStream != null) {
             val event = OutputStreamOpened(outputStream)
             if (controller == null) {
@@ -106,6 +115,13 @@ class DeckContentFragment : BaseFragment() {
             } else {
                 controller!!.dispatch(event)
             }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        exportedFileName?.let {
+            outState.putString(STATE_EXPORTED_FILE_NAME, it)
         }
     }
 
@@ -123,6 +139,7 @@ class DeckContentFragment : BaseFragment() {
     }
 
     companion object {
-        const val CREATE_FILE_REQUEST_CODE = 40
+        const val OPEN_DOCUMENT_TREE_REQUEST_CODE = 80
+        const val STATE_EXPORTED_FILE_NAME = "STATE_EXPORTED_FILE_NAME"
     }
 }

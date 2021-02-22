@@ -165,6 +165,15 @@
                     tools:text="43 decks" />
 
             <ImageButton
+                    android:id="@+id/exportButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_export"
+                    app:srcCompat="@drawable/ic_outline_unarchive_24" />
+
+            <ImageButton
                     android:id="@+id/selectAllButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -200,7 +209,7 @@
             tools:layout="@layout/fragment_deck_list" />
 
     <LinearLayout
-            android:id="@+id/progressBar"
+            android:id="@+id/progressBarFrame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

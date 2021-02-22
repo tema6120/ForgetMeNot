@@ -5,11 +5,14 @@ import java.io.OutputStream
 
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
-    class FileForExportDeckIsReady(val outputStream: OutputStream) : HomeEvent()
+    class GotFilesCreationResult(val filesCreationResult: List<FileCreationResult>) : HomeEvent() {
+        data class FileCreationResult(val fileName: String, val outputStream: OutputStream?)
+    }
     object DecksRemovedSnackbarCancelButtonClicked : HomeEvent()
 
     // Selection toolbar:
     object SelectionCancelled : HomeEvent()
+    object ExportButtonClicked : HomeEvent()
     object SelectAllDecksButtonClicked : HomeEvent()
     object RemoveDecksButtonClicked : HomeEvent()
 

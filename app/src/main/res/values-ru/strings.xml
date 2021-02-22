@@ -39,6 +39,7 @@
         <item quantity="many">%d колод</item>
     </plurals>
     <string name="description_cancel_selection">Отменить избрание</string>
+    <string name="description_export">Экспорт</string>
     <string name="description_select_all">Выбрать все</string>
     <string name="description_remove_decks">Удалить колоды</string>
     <string name="tab_decks">Колоды</string>
@@ -81,10 +82,16 @@
     <string name="deck_option_remove">Удалить</string>
     <string name="toast_text_no_cards_ready_for_exercise">Нет карточек, готовых для упражнения</string>
     <plurals name="numberOfDecksRemoved">
-        <item quantity="one">%d колода удалена</item>
+        <item quantity="one">%d колода удалена(ы)</item>
         <item quantity="few">Удалено %d колоды</item>
         <item quantity="many">Удалено %d колод</item>
     </plurals>
+    <plurals name="toast_decks_are_exported">
+        <item quantity="one">%d колода успешно экспортирована(ы)</item>
+        <item quantity="few">%d колоды успешно экспортированы</item>
+        <item quantity="many">%d колод успешно экспортированы</item>
+    </plurals>
+    <string name="toast_error_while_exporting_deck_with_arg">Ошибка при экспорте колод:\n\'%1$s\'</string>
     <string name="text_autoplay_button">Автопроигрывание</string>
     <string name="text_exercise_button">Упражнение</string>
     <string name="text_exercise_button_with_cards_count">Упражнение (%d)</string>
@@ -297,8 +304,8 @@
 
     <string name="button_export">Экспорт</string>
     <string name="button_search">Поиск</string>
-    <string name="toast_deck_is_exported">Колода экспортирована.</string>
-    <string name="toast_error_while_exporting_deck">Ошибка при экспорте колоды: \'%1$s\'</string>
+    <string name="toast_deck_is_exported">Колода экспортирована</string>
+    <string name="toast_error_while_exporting_deck">Ошибка при экспорте колоды</string>
 
 
     <!-- Search screen -->

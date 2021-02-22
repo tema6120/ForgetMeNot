@@ -29,13 +29,14 @@ import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.GotFilesCreationResult.FileCreationResult
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeck
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.io.IOException
+import java.io.OutputStream
 
 class HomeController(
     private val homeScreenState: HomeScreenState,
@@ -53,9 +54,11 @@ class HomeController(
         object ShowNoCardIsReadyForExerciseMessage : Command()
         object ShowDeckOption : Command()
         class ShowDeckRemovingMessage(val numberOfDecksRemoved: Int) : Command()
-        class ShowCreateFileDialog(val fileName: String) : Command()
-        object ShowDeckIsExportedMessage : Command()
-        class ShowExportErrorMessage(val e: IOException) : Command()
+        class CreateFiles(val fileNames: List<String>) : Command()
+        class ShowDeckExportResultMessage(
+            val exportedDeckNames: List<String>,
+            val failedDeckNames: List<String>
+        ) : Command()
     }
 
     init {
@@ -82,20 +85,37 @@ class HomeController(
                 cardsSearcher.search(event.searchText)
             }
 
-            is FileForExportDeckIsReady -> {
-                try {
-                    deckExporter.export(
-                        deck = homeScreenState.deckForDeckOptionMenu ?: return,
-                        outputStream = event.outputStream
-                    )
-                    sendCommand(ShowDeckIsExportedMessage)
-                } catch (e: IOException) {
-                    sendCommand(ShowExportErrorMessage(e))
+            is GotFilesCreationResult -> {
+                val exportedDeckNames: MutableList<String> = ArrayList()
+                val failedDeckNames: MutableList<String> = ArrayList()
+                for (fileCreationResult: FileCreationResult in event.filesCreationResult) {
+                    val (fileName: String, outputStream: OutputStream?) = fileCreationResult
+                    if (outputStream == null) {
+                        failedDeckNames.add(fileName)
+                        continue
+                    }
+                    val deck = globalState.decks.first { deck: Deck -> deck.name == fileName }
+                    val success: Boolean = deckExporter.export(deck, outputStream)
+                    if (success) {
+                        exportedDeckNames.add(fileName)
+                    } else {
+                        failedDeckNames.add(fileName)
+                    }
                 }
+                sendCommand(ShowDeckExportResultMessage(exportedDeckNames, failedDeckNames))
             }
 
             DecksRemovedSnackbarCancelButtonClicked -> {
                 deckRemover.restoreDecks()
+            }
+
+            ExportButtonClicked -> {
+                val selectedDeckIds: List<Long> =
+                    homeScreenState.deckSelection?.selectedDeckIds ?: return
+                val deckNames: List<String> = globalState.decks
+                    .filter { deck: Deck -> deck.id in selectedDeckIds }
+                    .map { deck: Deck -> deck.name }
+                sendCommand(CreateFiles(fileNames = deckNames))
             }
 
             SelectionCancelled -> {
@@ -195,7 +215,8 @@ class HomeController(
 
             ExportDeckOptionSelected -> {
                 val fileName = homeScreenState.deckForDeckOptionMenu?.name ?: return
-                sendCommand(ShowCreateFileDialog(fileName))
+                val fileNames = listOf(fileName)
+                sendCommand(CreateFiles(fileNames))
             }
 
             RemoveDeckOptionSelected -> {

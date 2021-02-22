@@ -39,6 +39,7 @@
         <item quantity="other">%d decks</item>
     </plurals>
     <string name="description_cancel_selection">Cancel selection</string>
+    <string name="description_export">Export</string>
     <string name="description_select_all">Select all</string>
     <string name="description_remove_decks">Remove decks</string>
     <string name="tab_decks">Decks</string>
@@ -85,6 +86,11 @@
         <item quantity="one">Deck has been removed</item>
         <item quantity="other">%d decks have been removed</item>
     </plurals>
+    <plurals name="toast_decks_are_exported">
+        <item quantity="one">Deck is exported successfully</item>
+        <item quantity="other">%d decks are exported successfully</item>
+    </plurals>
+    <string name="toast_error_while_exporting_deck_with_arg">Error while exporting decks:\n\'%1$s\'</string>
     <string name="text_autoplay_button">Autoplay</string>
     <string name="text_exercise_button">Exercise</string>
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
@@ -286,7 +292,7 @@
     <string name="button_export">Export</string>
     <string name="button_search">Search</string>
     <string name="toast_deck_is_exported">Deck is exported</string>
-    <string name="toast_error_while_exporting_deck">Error while exporting deck: \'%1$s\'</string>
+    <string name="toast_error_while_exporting_deck">Error while exporting deck</string>
 
 
     <!-- Search screen -->
