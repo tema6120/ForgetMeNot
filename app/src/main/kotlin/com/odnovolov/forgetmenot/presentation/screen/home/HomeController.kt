@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -39,7 +40,7 @@ import kotlinx.coroutines.flow.onEach
 import java.io.OutputStream
 
 class HomeController(
-    private val homeScreenState: HomeScreenState,
+    private val screenState: HomeScreenState,
     private val deckReviewPreference: DeckReviewPreference,
     private val deckExporter: DeckExporter,
     private val deckRemover: DeckRemover,
@@ -48,7 +49,7 @@ class HomeController(
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val homeScreenStateProvider: ShortTermStateProvider<HomeScreenState>
+    private val screenStateProvider: ShortTermStateProvider<HomeScreenState>
 ) : BaseController<HomeEvent, Command>() {
     sealed class Command {
         object ShowNoCardIsReadyForExerciseMessage : Command()
@@ -70,22 +71,22 @@ class HomeController(
             }
         }
             .launchIn(coroutineScope)
-        if (homeScreenState.searchText.isNotEmpty()) {
-            cardsSearcher.search(homeScreenState.searchText)
+        if (screenState.searchText.isNotEmpty()) {
+            cardsSearcher.search(screenState.searchText)
         }
     }
-
 
     lateinit var displayedDeckIds: Flow<List<Long>>
 
     override fun handle(event: HomeEvent) {
         when (event) {
             is SearchTextChanged -> {
-                homeScreenState.searchText = event.searchText
+                screenState.searchText = event.searchText
                 cardsSearcher.search(event.searchText)
             }
 
             is GotFilesCreationResult -> {
+                val fileFormat: FileFormat = screenState.fileFormatForExport ?: return
                 val exportedDeckNames: MutableList<String> = ArrayList()
                 val failedDeckNames: MutableList<String> = ArrayList()
                 for (fileCreationResult: FileCreationResult in event.filesCreationResult) {
@@ -94,8 +95,9 @@ class HomeController(
                         failedDeckNames.add(fileName)
                         continue
                     }
-                    val deck = globalState.decks.first { deck: Deck -> deck.name == fileName }
-                    val success: Boolean = deckExporter.export(deck, outputStream)
+                    val deckName = fileName.substringBeforeLast(".")
+                    val deck = globalState.decks.first { deck: Deck -> deck.name == deckName }
+                    val success: Boolean = deckExporter.export(deck, fileFormat, outputStream)
                     if (success) {
                         exportedDeckNames.add(fileName)
                     } else {
@@ -109,30 +111,31 @@ class HomeController(
                 deckRemover.restoreDecks()
             }
 
-            ExportButtonClicked -> {
+            is SelectedFileFormatForExport -> {
+                screenState.fileFormatForExport = event.fileFormat
                 val selectedDeckIds: List<Long> =
-                    homeScreenState.deckSelection?.selectedDeckIds ?: return
-                val deckNames: List<String> = globalState.decks
+                    screenState.deckSelection?.selectedDeckIds ?: return
+                val fileNames: List<String> = globalState.decks
                     .filter { deck: Deck -> deck.id in selectedDeckIds }
-                    .map { deck: Deck -> deck.name }
-                sendCommand(CreateFiles(fileNames = deckNames))
+                    .map { deck: Deck -> "${deck.name}.${event.fileFormat.extension}" }
+                sendCommand(CreateFiles(fileNames = fileNames))
             }
 
             SelectionCancelled -> {
-                homeScreenState.deckSelection = null
+                screenState.deckSelection = null
             }
 
             SelectAllDecksButtonClicked -> {
                 val allDisplayedDeckIds: List<Long> = displayedDeckIds.firstBlocking()
-                homeScreenState.deckSelection =
-                    homeScreenState.deckSelection?.copy(selectedDeckIds = allDisplayedDeckIds)
+                screenState.deckSelection =
+                    screenState.deckSelection?.copy(selectedDeckIds = allDisplayedDeckIds)
             }
 
             RemoveDecksButtonClicked -> {
                 val deckIdsToRemove: List<Long> =
-                    homeScreenState.deckSelection?.selectedDeckIds ?: return
+                    screenState.deckSelection?.selectedDeckIds ?: return
                 deckRemover.removeDecks(deckIdsToRemove)
-                homeScreenState.deckSelection = null
+                screenState.deckSelection = null
             }
 
             DecksAvailableForExerciseCheckboxClicked -> {
@@ -160,7 +163,7 @@ class HomeController(
             }
 
             is DeckButtonClicked -> {
-                if (homeScreenState.deckSelection != null) {
+                if (screenState.deckSelection != null) {
                     toggleDeckSelection(event.deckId)
                 } else {
                     startExercise(listOf(event.deckId))
@@ -177,22 +180,22 @@ class HomeController(
 
             is DeckOptionButtonClicked -> {
                 val deck: Deck = globalState.decks.first { it.id == event.deckId }
-                homeScreenState.deckForDeckOptionMenu = deck
+                screenState.deckForDeckOptionMenu = deck
                 sendCommand(ShowDeckOption)
             }
 
             StartExerciseDeckOptionSelected -> {
-                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 startExercise(deckIds = listOf(deckId))
             }
 
             AutoplayDeckOptionSelected -> {
-                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigateToAutoplaySettings(deckIds = listOf(deckId))
             }
 
             RenameDeckOptionSelected -> {
-                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigator.showRenameDeckDialogFromNavHost {
                     val deck = globalState.decks.first { it.id == deckId }
                     val dialogState = RenameDeckDialogState(
@@ -204,28 +207,28 @@ class HomeController(
             }
 
             EditCardsDeckOptionSelected -> {
-                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigateToDeckEditor(deckId, DeckEditorScreenTab.Content)
             }
 
             SetupDeckOptionSelected -> {
-                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigateToDeckEditor(deckId, DeckEditorScreenTab.Settings)
             }
 
             ExportDeckOptionSelected -> {
-                val fileName = homeScreenState.deckForDeckOptionMenu?.name ?: return
+                val fileName = screenState.deckForDeckOptionMenu?.name ?: return
                 val fileNames = listOf(fileName)
                 sendCommand(CreateFiles(fileNames))
             }
 
             RemoveDeckOptionSelected -> {
-                val deckId: Long = homeScreenState.deckForDeckOptionMenu?.id ?: return
+                val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 deckRemover.removeDeck(deckId)
             }
 
             AutoplayButtonClicked -> {
-                homeScreenState.deckSelection?.let { deckSelection: DeckSelection ->
+                screenState.deckSelection?.let { deckSelection: DeckSelection ->
                     if (deckSelection.selectedDeckIds.isEmpty()
                         || deckSelection.purpose !in listOf(
                             DeckSelection.Purpose.General,
@@ -236,7 +239,7 @@ class HomeController(
                     }
                     navigateToAutoplaySettings(deckSelection.selectedDeckIds)
                 } ?: kotlin.run {
-                    homeScreenState.deckSelection = DeckSelection(
+                    screenState.deckSelection = DeckSelection(
                         selectedDeckIds = emptyList(),
                         purpose = DeckSelection.Purpose.ForAutoplay
                     )
@@ -244,7 +247,7 @@ class HomeController(
             }
 
             ExerciseButtonClicked -> {
-                homeScreenState.deckSelection?.let { deckSelection: DeckSelection ->
+                screenState.deckSelection?.let { deckSelection: DeckSelection ->
                     if (deckSelection.selectedDeckIds.isEmpty()
                         || deckSelection.purpose !in listOf(
                             DeckSelection.Purpose.General,
@@ -255,7 +258,7 @@ class HomeController(
                     }
                     startExercise(deckSelection.selectedDeckIds)
                 } ?: kotlin.run {
-                    homeScreenState.deckSelection = DeckSelection(
+                    screenState.deckSelection = DeckSelection(
                         selectedDeckIds = emptyList(),
                         purpose = DeckSelection.Purpose.ForExercise
                     )
@@ -263,7 +266,7 @@ class HomeController(
             }
 
             is FoundCardClicked -> {
-                homeScreenState.deckSelection = null
+                screenState.deckSelection = null
                 navigator.navigateToCardsEditorFromNavHost {
                     val editableCard = EditableCard(
                         event.searchCard.card,
@@ -284,7 +287,7 @@ class HomeController(
         deckId: Long,
         initialTab: DeckEditorScreenTab
     ) {
-        homeScreenState.deckSelection = null
+        screenState.deckSelection = null
         navigator.navigateToDeckEditorFromNavHost {
             val deck: Deck = globalState.decks.first { it.id == deckId }
             val tabs = DeckEditorTabs.All(initialTab)
@@ -294,7 +297,7 @@ class HomeController(
     }
 
     private fun toggleDeckSelection(deckId: Long) {
-        homeScreenState.deckSelection?.let { deckSelection: DeckSelection ->
+        screenState.deckSelection?.let { deckSelection: DeckSelection ->
             val newSelectedDeckIds =
                 if (deckId in deckSelection.selectedDeckIds)
                     deckSelection.selectedDeckIds - deckId else
@@ -302,13 +305,13 @@ class HomeController(
             if (newSelectedDeckIds.isEmpty()
                 && deckSelection.purpose == DeckSelection.Purpose.General
             ) {
-                homeScreenState.deckSelection = null
+                screenState.deckSelection = null
             } else {
-                homeScreenState.deckSelection =
+                screenState.deckSelection =
                     deckSelection.copy(selectedDeckIds = newSelectedDeckIds)
             }
         } ?: kotlin.run {
-            homeScreenState.deckSelection = DeckSelection(
+            screenState.deckSelection = DeckSelection(
                 selectedDeckIds = listOf(deckId),
                 purpose = DeckSelection.Purpose.General
             )
@@ -316,7 +319,7 @@ class HomeController(
     }
 
     private fun navigateToAutoplaySettings(deckIds: List<Long>) {
-        homeScreenState.deckSelection = null
+        screenState.deckSelection = null
         navigator.navigateToAutoplaySettings {
             val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
             val playerCreatorState = PlayerStateCreator.State(
@@ -333,7 +336,7 @@ class HomeController(
                 val exerciseState: Exercise.State = exerciseStateCreator.create(deckIds)
                 ExerciseDiScope.create(exerciseState)
             }
-            homeScreenState.deckSelection = null
+            screenState.deckSelection = null
         } else {
             sendCommand(ShowNoCardIsReadyForExerciseMessage)
         }
@@ -341,6 +344,6 @@ class HomeController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
-        homeScreenStateProvider.save(homeScreenState)
+        screenStateProvider.save(screenState)
     }
 }

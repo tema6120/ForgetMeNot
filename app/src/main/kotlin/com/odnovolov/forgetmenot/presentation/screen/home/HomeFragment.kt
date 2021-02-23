@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,18 +29,21 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSelection.Purpose.General
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.GotFilesCreationResult.FileCreationResult
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
+import kotlinx.android.synthetic.main.popup_export_as.view.*
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
@@ -60,6 +64,8 @@ class HomeFragment : BaseFragment() {
     private var backPressInterceptor: MainActivity.BackPressInterceptor? = null
     private var isAntiJumpingViewActivated = false
     private var exportedFileNames: List<String>? = null
+    private var exportAsPopup: PopupWindow? = null
+    private var dsvFileFormatAdapter: DsvFileFormatAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +140,7 @@ class HomeFragment : BaseFragment() {
             controller?.dispatch(SelectionCancelled)
         }
         exportButton.setOnClickListener {
-            controller?.dispatch(ExportButtonClicked)
+            showExportAsPopup()
         }
         selectAllButton.setOnClickListener {
             controller?.dispatch(SelectAllDecksButtonClicked)
@@ -146,6 +152,49 @@ class HomeFragment : BaseFragment() {
         exportButton.setTooltipTextFromContentDescription()
         selectAllButton.setTooltipTextFromContentDescription()
         removeDecksButton.setTooltipTextFromContentDescription()
+    }
+
+    private fun showExportAsPopup() {
+        requireExportAsPopup().show(anchor = exportButton, gravity = Gravity.TOP)
+    }
+
+    private fun requireExportAsPopup(): PopupWindow {
+        if (exportAsPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_export_as, null).apply {
+                fmnFormatRadioButton.setOnClickListener {
+                    controller?.dispatch(SelectedFileFormatForExport(FileFormat.FMN_FORMAT))
+                    exportAsPopup?.dismiss()
+                }
+                dsvFormatListExpander.setOnClickListener {
+                    dsvFormatRecycler.isVisible = !dsvFormatRecycler.isVisible
+                    val expandIconRes = if (dsvFormatRecycler.isVisible)
+                        R.drawable.ic_round_expand_less_32 else
+                        R.drawable.ic_round_expand_more_32
+                    dsvFormatListExpander.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0, 0, expandIconRes, 0
+                    )
+                }
+            }
+            dsvFileFormatAdapter = DsvFileFormatAdapter(
+                onItemClicked = { fileFormat: FileFormat ->
+                    controller?.dispatch(SelectedFileFormatForExport(fileFormat))
+                    exportAsPopup?.dismiss()
+                }
+            )
+            content.dsvFormatRecycler.adapter = dsvFileFormatAdapter
+            exportAsPopup = LightPopupWindow(content)
+            subscribeExportAsPopupToViewModel()
+        }
+        return exportAsPopup!!
+    }
+
+    private fun subscribeExportAsPopupToViewModel() {
+        viewCoroutineScope!!.launch {
+            val diScope = HomeDiScope.getAsync() ?: return@launch
+            diScope.viewModel.dsvFileFormats.observe { dsvFileFormats: List<FileFormat> ->
+                dsvFileFormatAdapter!!.items = dsvFileFormats
+            }
+        }
     }
 
     private fun observeAppbarOffset() {
@@ -199,8 +248,7 @@ class HomeFragment : BaseFragment() {
                     searchEditText.requestFocus()
                 }
                 updateSelectionToolbarTitle(deckSelection)
-                removeDecksButton.isVisible = deckSelection != null
-                        && deckSelection.purpose == DeckSelection.Purpose.General
+                updateSelectionToolbarButtons(deckSelection)
                 updateStatusBarColor(deckSelection != null)
                 updateDrawerLayoutLockMode()
                 updateViewPagerLocking()
@@ -325,6 +373,12 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun updateSelectionToolbarButtons(deckSelection: DeckSelection?) {
+        val isGeneralSelection: Boolean = deckSelection != null && deckSelection.purpose == General
+        exportButton.isVisible = isGeneralSelection
+        removeDecksButton.isVisible = isGeneralSelection
+    }
+
     private fun updateExerciseButtonMargin() {
         exerciseButton.updateLayoutParams<ConstraintLayout.LayoutParams> {
             marginStart = if (autoplayButton.isVisible) 0 else 20.dp
@@ -410,7 +464,7 @@ class HomeFragment : BaseFragment() {
         val pickedDir: DocumentFile = DocumentFile.fromTreeUri(requireContext(), uri) ?: return
         val filesCreationResult: List<FileCreationResult> = fileNames.map { fileName: String ->
             try {
-                val newFile: DocumentFile = pickedDir.createFile("text/plain", fileName)
+                val newFile: DocumentFile = pickedDir.createFile("*/*", fileName)
                     ?: return@map FileCreationResult(fileName, null)
                 val outputStream: OutputStream? =
                     requireContext().contentResolver?.openOutputStream(newFile.uri)
@@ -576,6 +630,8 @@ class HomeFragment : BaseFragment() {
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
         updateStatusBarColor(isSelectionMode = false)
+        exportAsPopup?.dismiss()
+        exportAsPopup = null
     }
 
     override fun onDestroy() {

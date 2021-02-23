@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingExistingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -16,7 +17,6 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.Deck
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
-import java.io.IOException
 
 class DeckContentController(
     private val deckExporter: DeckExporter,
@@ -40,6 +40,7 @@ class DeckContentController(
             is OutputStreamOpened -> {
                 val success: Boolean = deckExporter.export(
                     deck = deckEditorScreenState.deck,
+                    fileFormat = FileFormat.FMN_FORMAT,
                     outputStream = event.outputStream
                 )
                 sendCommand(if (success) ShowDeckIsExportedMessage else ShowExportErrorMessage)

@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import java.io.OutputStream
 
@@ -12,7 +13,7 @@ sealed class HomeEvent {
 
     // Selection toolbar:
     object SelectionCancelled : HomeEvent()
-    object ExportButtonClicked : HomeEvent()
+    class SelectedFileFormatForExport(val fileFormat: FileFormat) : HomeEvent()
     object SelectAllDecksButtonClicked : HomeEvent()
     object RemoveDecksButtonClicked : HomeEvent()
 

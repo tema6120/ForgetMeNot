@@ -18,7 +18,8 @@ class HomeDiScope private constructor(
     private val homeScreenStateProvider = HomeScreenStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        AppDiScope.get().globalState
+        AppDiScope.get().globalState,
+        AppDiScope.get().fileImportStorage
     )
 
     val screenState: HomeScreenState =
@@ -50,7 +51,8 @@ class HomeDiScope private constructor(
         AppDiScope.get().globalState,
         deckReviewPreference,
         controller,
-        cardsSearcher.state
+        cardsSearcher.state,
+        AppDiScope.get().fileImportStorage
     )
 
     companion object : DiScopeManager<HomeDiScope>() {

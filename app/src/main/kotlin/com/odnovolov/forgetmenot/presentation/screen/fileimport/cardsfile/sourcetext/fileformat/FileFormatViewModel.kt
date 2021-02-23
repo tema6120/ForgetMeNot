@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.*
 class FileFormatViewModel(
     private val cardsFileId: Long,
     fileImporterState: FileImporter.State,
-    private val fileImportStorage: FileImportStorage
+    fileImportStorage: FileImportStorage
 ) {
     private val cardsFile: Flow<CardsFile> =
         fileImporterState.flowOf(FileImporter.State::files)

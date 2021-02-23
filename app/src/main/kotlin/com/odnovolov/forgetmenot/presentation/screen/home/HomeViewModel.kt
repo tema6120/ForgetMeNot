@@ -1,9 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
@@ -18,7 +21,8 @@ class HomeViewModel(
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
     controller: HomeController,
-    searcherState: CardsSearcher.State
+    searcherState: CardsSearcher.State,
+    fileImportStorage: FileImportStorage
 ) {
     data class RawDeckPreview(
         val deckId: Long,
@@ -279,6 +283,19 @@ class HomeViewModel(
 
     val areFilesBeingReading: Flow<Boolean> =
         homeScreenState.flowOf(HomeScreenState::areFilesBeingReading)
+
+    val dsvFileFormats: Flow<List<FileFormat>> = fileImportStorage
+        .flowOf(FileImportStorage::customFileFormats)
+        .map { customFileFormats: CopyableCollection<FileFormat> ->
+            FileFormat.predefinedFormats
+                .filter { predefinedFileFormat: FileFormat ->
+                    when (predefinedFileFormat.extension) {
+                        FileFormat.EXTENSION_CSV, FileFormat.EXTENSION_TSV -> true
+                        else -> false
+                    }
+                }
+                .plus(customFileFormats)
+        }
 
     init {
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->

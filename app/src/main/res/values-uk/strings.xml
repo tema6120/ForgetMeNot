@@ -91,6 +91,7 @@
         <item quantity="few">Видалено %d колоди</item>
         <item quantity="many">Видалено %d колод</item>
     </plurals>
+    <string name="popup_title_file_format_for_export">Експортувати як</string>
     <plurals name="toast_decks_are_exported">
         <item quantity="one">%d колода успішно експортована(і)</item>
         <item quantity="few">%d колоди успішно експортовані</item>
