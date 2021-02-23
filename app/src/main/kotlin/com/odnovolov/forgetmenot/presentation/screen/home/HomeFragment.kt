@@ -627,6 +627,25 @@ class HomeFragment : BaseFragment() {
             .drawerLayout.openDrawer(GravityCompat.START)
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            val needToShowExportAsPopup = getBoolean(STATE_EXPORT_AS_POPUP, false)
+            if (needToShowExportAsPopup) {
+                viewCoroutineScope!!.launch {
+                    val diScope = HomeDiScope.getAsync() ?: return@launch
+                    val hasSelection: Boolean =
+                        diScope.viewModel.deckSelection.firstBlocking() != null
+                    if (hasSelection) {
+                        requireExportAsPopup().show(anchor = exportButton, gravity = Gravity.TOP)
+                    } else {
+                        requireExportAsPopup().show(anchor = homeRootView, gravity = Gravity.CENTER)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         exportedDeckNames?.let {
@@ -635,6 +654,8 @@ class HomeFragment : BaseFragment() {
         extensionForExport?.let {
             outState.putString(STATE_EXTENSION_FOR_EXPORT, it)
         }
+        val isExportAsPopupShowing = exportAsPopup?.isShowing ?: false
+        outState.putBoolean(STATE_EXPORT_AS_POPUP, isExportAsPopupShowing)
     }
 
     override fun onDestroyView() {
@@ -658,6 +679,7 @@ class HomeFragment : BaseFragment() {
         const val OPEN_DOCUMENT_TREE_REQUEST_CODE = 40
         const val STATE_EXPORTED_FILE_NAMES = "STATE_EXPORTED_FILE_NAMES"
         const val STATE_EXTENSION_FOR_EXPORT = "STATE_EXTENSION_FOR_EXPORT"
+        const val STATE_EXPORT_AS_POPUP = "STATE_EXPORT_AS_POPUP"
     }
 
     private val appBarElevationManager = object {

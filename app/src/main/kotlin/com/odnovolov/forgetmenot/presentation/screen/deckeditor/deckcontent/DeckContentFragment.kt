@@ -94,10 +94,7 @@ class DeckContentFragment : BaseFragment() {
     private fun executeCommand(command: DeckContentController.Command) {
         when (command) {
             ShowFileFormatChooser -> {
-                requireExportAsPopup().show(
-                    anchor = cardsRecycler,
-                    gravity = GravityCompat.START or Gravity.TOP
-                )
+                showExportAsPopup()
             }
             is CreateFile -> {
                 exportedDeckName = command.deckName
@@ -152,6 +149,13 @@ class DeckContentFragment : BaseFragment() {
         }
     }
 
+    private fun showExportAsPopup() {
+        requireExportAsPopup().show(
+            anchor = cardsRecycler,
+            gravity = GravityCompat.START or Gravity.TOP
+        )
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (requestCode != OPEN_DOCUMENT_TREE_REQUEST_CODE
             || resultCode != Activity.RESULT_OK
@@ -191,10 +195,22 @@ class DeckContentFragment : BaseFragment() {
         extensionForExport = null
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.run {
+            val needToShowExportAsPopup = getBoolean(STATE_EXPORT_AS_POPUP, false)
+            if (needToShowExportAsPopup) {
+                showExportAsPopup()
+            }
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         exportedDeckName?.let { outState.putString(STATE_EXPORTED_FILE_NAME, it) }
         extensionForExport?.let { outState.putString(STATE_EXTENSION_FOR_EXPORT, it) }
+        val isExportAsPopupShowing = exportAsPopup?.isShowing ?: false
+        outState.putBoolean(STATE_EXPORT_AS_POPUP, isExportAsPopupShowing)
     }
 
     override fun onDestroyView() {
@@ -216,5 +232,6 @@ class DeckContentFragment : BaseFragment() {
         const val OPEN_DOCUMENT_TREE_REQUEST_CODE = 80
         const val STATE_EXPORTED_FILE_NAME = "STATE_EXPORTED_FILE_NAME"
         const val STATE_EXTENSION_FOR_EXPORT = "STATE_EXTENSION_FOR_EXPORT"
+        const val STATE_EXPORT_AS_POPUP = "STATE_EXPORT_AS_POPUP"
     }
 }

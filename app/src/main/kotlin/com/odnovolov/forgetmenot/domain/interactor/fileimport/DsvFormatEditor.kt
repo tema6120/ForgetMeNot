@@ -4,6 +4,8 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.architecturecomponents.plus
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.Failure.Cause
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_CSV
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat.Companion.EXTENSION_TSV
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.QuoteMode
 
@@ -357,6 +359,10 @@ class DsvFormatEditor(
         val newParser = CsvParser(newCsvFormat)
         editingFileFormat.name = state.formatName
         editingFileFormat.parser = newParser
+        editingFileFormat.extension =
+            if (newCsvFormat.delimiter == '\t')
+                EXTENSION_TSV else
+                EXTENSION_CSV
         if (editingFileFormat !in fileImportStorage.customFileFormats) {
             fileImportStorage.customFileFormats =
                 fileImportStorage.customFileFormats + editingFileFormat
