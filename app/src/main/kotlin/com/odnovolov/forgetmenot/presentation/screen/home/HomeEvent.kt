@@ -7,7 +7,7 @@ import java.io.OutputStream
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
     class GotFilesCreationResult(val filesCreationResult: List<FileCreationResult>) : HomeEvent() {
-        data class FileCreationResult(val fileName: String, val outputStream: OutputStream?)
+        data class FileCreationResult(val deckName: String, val outputStream: OutputStream?)
     }
     object DecksRemovedSnackbarCancelButtonClicked : HomeEvent()
 

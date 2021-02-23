@@ -55,7 +55,8 @@ class HomeController(
         object ShowNoCardIsReadyForExerciseMessage : Command()
         object ShowDeckOption : Command()
         class ShowDeckRemovingMessage(val numberOfDecksRemoved: Int) : Command()
-        class CreateFiles(val fileNames: List<String>) : Command()
+        object ShowFileFormatChooser : Command()
+        class CreateFiles(val deckNames: List<String>, val extension: String) : Command()
         class ShowDeckExportResultMessage(
             val exportedDeckNames: List<String>,
             val failedDeckNames: List<String>
@@ -90,18 +91,17 @@ class HomeController(
                 val exportedDeckNames: MutableList<String> = ArrayList()
                 val failedDeckNames: MutableList<String> = ArrayList()
                 for (fileCreationResult: FileCreationResult in event.filesCreationResult) {
-                    val (fileName: String, outputStream: OutputStream?) = fileCreationResult
+                    val (deckName: String, outputStream: OutputStream?) = fileCreationResult
                     if (outputStream == null) {
-                        failedDeckNames.add(fileName)
+                        failedDeckNames.add(deckName)
                         continue
                     }
-                    val deckName = fileName.substringBeforeLast(".")
                     val deck = globalState.decks.first { deck: Deck -> deck.name == deckName }
                     val success: Boolean = deckExporter.export(deck, fileFormat, outputStream)
                     if (success) {
-                        exportedDeckNames.add(fileName)
+                        exportedDeckNames.add(deckName)
                     } else {
-                        failedDeckNames.add(fileName)
+                        failedDeckNames.add(deckName)
                     }
                 }
                 sendCommand(ShowDeckExportResultMessage(exportedDeckNames, failedDeckNames))
@@ -113,12 +113,15 @@ class HomeController(
 
             is SelectedFileFormatForExport -> {
                 screenState.fileFormatForExport = event.fileFormat
-                val selectedDeckIds: List<Long> =
-                    screenState.deckSelection?.selectedDeckIds ?: return
-                val fileNames: List<String> = globalState.decks
-                    .filter { deck: Deck -> deck.id in selectedDeckIds }
-                    .map { deck: Deck -> "${deck.name}.${event.fileFormat.extension}" }
-                sendCommand(CreateFiles(fileNames = fileNames))
+                val decksToExport: List<Deck> =
+                    screenState.deckSelection?.let { deckSelection: DeckSelection ->
+                        globalState.decks
+                            .filter { deck: Deck -> deck.id in deckSelection.selectedDeckIds }
+                    }
+                        ?: screenState.deckForDeckOptionMenu?.let { listOf(it) }
+                        ?: return
+                val deckNames: List<String> = decksToExport.map { deck: Deck -> deck.name }
+                sendCommand(CreateFiles(deckNames, event.fileFormat.extension))
             }
 
             SelectionCancelled -> {
@@ -217,9 +220,7 @@ class HomeController(
             }
 
             ExportDeckOptionSelected -> {
-                val fileName = screenState.deckForDeckOptionMenu?.name ?: return
-                val fileNames = listOf(fileName)
-                sendCommand(CreateFiles(fileNames))
+                sendCommand(ShowFileFormatChooser)
             }
 
             RemoveDeckOptionSelected -> {

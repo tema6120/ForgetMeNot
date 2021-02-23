@@ -1,11 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import kotlinx.serialization.Serializable
 
 data class DeckEditorScreenState(
     val deck: Deck,
-    val tabs: DeckEditorTabs
+    val tabs: DeckEditorTabs,
+    var fileFormatForExport: FileFormat? = null
 )
 
 @Serializable

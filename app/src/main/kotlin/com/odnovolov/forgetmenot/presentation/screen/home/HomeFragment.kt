@@ -63,15 +63,17 @@ class HomeFragment : BaseFragment() {
     private var appbarLayoutOffset: Int = 0
     private var backPressInterceptor: MainActivity.BackPressInterceptor? = null
     private var isAntiJumpingViewActivated = false
-    private var exportedFileNames: List<String>? = null
+    private var exportedDeckNames: List<String>? = null
+    private var extensionForExport: String? = null
     private var exportAsPopup: PopupWindow? = null
     private var dsvFileFormatAdapter: DsvFileFormatAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         savedInstanceState?.let {
-            exportedFileNames =
+            exportedDeckNames =
                 savedInstanceState.getStringArray(STATE_EXPORTED_FILE_NAMES)?.toList()
+            extensionForExport = savedInstanceState.getString(STATE_EXTENSION_FOR_EXPORT)
         }
     }
 
@@ -140,7 +142,7 @@ class HomeFragment : BaseFragment() {
             controller?.dispatch(SelectionCancelled)
         }
         exportButton.setOnClickListener {
-            showExportAsPopup()
+            requireExportAsPopup().show(anchor = exportButton, gravity = Gravity.TOP)
         }
         selectAllButton.setOnClickListener {
             controller?.dispatch(SelectAllDecksButtonClicked)
@@ -152,10 +154,6 @@ class HomeFragment : BaseFragment() {
         exportButton.setTooltipTextFromContentDescription()
         selectAllButton.setTooltipTextFromContentDescription()
         removeDecksButton.setTooltipTextFromContentDescription()
-    }
-
-    private fun showExportAsPopup() {
-        requireExportAsPopup().show(anchor = exportButton, gravity = Gravity.TOP)
     }
 
     private fun requireExportAsPopup(): PopupWindow {
@@ -393,6 +391,9 @@ class HomeFragment : BaseFragment() {
             ShowDeckOption -> {
                 DeckOptionsBottomSheet().show(childFragmentManager, "DeckOptionsBottomSheet")
             }
+            ShowFileFormatChooser -> {
+                requireExportAsPopup().show(anchor = homeRootView, gravity = Gravity.CENTER)
+            }
             is ShowDeckRemovingMessage -> {
                 Snackbar
                     .make(
@@ -411,7 +412,8 @@ class HomeFragment : BaseFragment() {
                     .show()
             }
             is CreateFiles -> {
-                exportedFileNames = command.fileNames
+                exportedDeckNames = command.deckNames
+                extensionForExport = command.extension
                 openDocumentTree(OPEN_DOCUMENT_TREE_REQUEST_CODE)
             }
             is ShowDeckExportResultMessage -> {
@@ -460,17 +462,23 @@ class HomeFragment : BaseFragment() {
             return
         }
         val uri = intent.data ?: return
-        val fileNames: List<String> = exportedFileNames ?: return
+        val deckNames: List<String> = exportedDeckNames ?: return
+        val mimeType: String = when (extensionForExport) {
+            FileFormat.EXTENSION_TXT -> "text/plain"
+            FileFormat.EXTENSION_CSV -> "text/comma-separated-values"
+            FileFormat.EXTENSION_TSV -> "text/tab-separated-values"
+            else -> return
+        }
         val pickedDir: DocumentFile = DocumentFile.fromTreeUri(requireContext(), uri) ?: return
-        val filesCreationResult: List<FileCreationResult> = fileNames.map { fileName: String ->
+        val filesCreationResult: List<FileCreationResult> = deckNames.map { deckName: String ->
             try {
-                val newFile: DocumentFile = pickedDir.createFile("*/*", fileName)
-                    ?: return@map FileCreationResult(fileName, null)
+                val newFile: DocumentFile = pickedDir.createFile(mimeType, deckName)
+                    ?: return@map FileCreationResult(deckName, null)
                 val outputStream: OutputStream? =
                     requireContext().contentResolver?.openOutputStream(newFile.uri)
-                FileCreationResult(fileName, outputStream)
+                FileCreationResult(deckName, outputStream)
             } catch (e: FileNotFoundException) {
-                FileCreationResult(fileName, null)
+                FileCreationResult(deckName, null)
             }
         }
         val event = GotFilesCreationResult(filesCreationResult)
@@ -479,6 +487,8 @@ class HomeFragment : BaseFragment() {
         } else {
             controller!!.dispatch(event)
         }
+        exportedDeckNames = null
+        extensionForExport = null
     }
 
     override fun onAttachFragment(childFragment: Fragment) {
@@ -619,8 +629,11 @@ class HomeFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        exportedFileNames?.let {
+        exportedDeckNames?.let {
             outState.putStringArray(STATE_EXPORTED_FILE_NAMES, it.toTypedArray())
+        }
+        extensionForExport?.let {
+            outState.putString(STATE_EXTENSION_FOR_EXPORT, it)
         }
     }
 
@@ -644,6 +657,7 @@ class HomeFragment : BaseFragment() {
     companion object {
         const val OPEN_DOCUMENT_TREE_REQUEST_CODE = 40
         const val STATE_EXPORTED_FILE_NAMES = "STATE_EXPORTED_FILE_NAMES"
+        const val STATE_EXTENSION_FOR_EXPORT = "STATE_EXTENSION_FOR_EXPORT"
     }
 
     private val appBarElevationManager = object {

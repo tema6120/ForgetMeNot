@@ -7,10 +7,11 @@ import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 class DeckEditorDiScope private constructor(
     initialScreenState: DeckEditorScreenState? = null
 ) {
-    private val screenStateProvider = DeckEditorScreenStateProvider(
+    val screenStateProvider = DeckEditorScreenStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        AppDiScope.get().globalState
+        AppDiScope.get().globalState,
+        AppDiScope.get().fileImportStorage
     )
 
     val screenState: DeckEditorScreenState =

@@ -10,11 +10,13 @@ class DeckContentDiScope {
         DeckExporter(),
         DeckEditorDiScope.getOrRecreate().screenState,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        DeckEditorDiScope.getOrRecreate().screenStateProvider
     )
 
     val viewModel = DeckContentViewModel(
-        DeckEditorDiScope.getOrRecreate().screenState
+        DeckEditorDiScope.getOrRecreate().screenState,
+        AppDiScope.get().fileImportStorage
     )
 
     companion object : DiScopeManager<DeckContentDiScope>() {
