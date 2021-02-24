@@ -107,8 +107,16 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/ripple_light_borderless"
-                    android:contentDescription="@string/description_edit"
+                    android:contentDescription="@string/description_edit_card"
                     app:srcCompat="@drawable/ic_edit_white_24dp" />
+
+            <ImageButton
+                    android:id="@+id/editDeckSettingsButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/ripple_light_borderless"
+                    android:contentDescription="@string/description_edit_deck_settings"
+                    app:srcCompat="@drawable/ic_round_build_24" />
 
             <ImageButton
                     android:id="@+id/searchButton"

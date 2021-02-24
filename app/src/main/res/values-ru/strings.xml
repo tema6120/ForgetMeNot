@@ -220,11 +220,8 @@
         таймер может привести к недоразумению.</string>
     <string name="timer_stopped">Таймер остановлен</string>
     <string name="time_is_over">Время истекло!</string>
-    <string name="description_edit">Редактировать</string>
-    <string name="description_editing_icon">иконка \"Редактирование\"</string>
-    <string name="popup_title_editing">Редактирование</string>
-    <string name="text_edit_deck_settings_button">Редактировать настройки колоды</string>
-    <string name="text_edit_card_content_button">Редактировать содержимое карточки</string>
+    <string name="description_edit_card">Редактировать карточку</string>
+    <string name="description_edit_deck_settings">Редактировать настройки колоды</string>
     <string name="description_search_button">Искать</string>
     <string name="description_walking_mode_button">Режим прогулки</string>
     <string name="popup_title_walking_mode">Режим прогулки</string>

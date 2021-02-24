@@ -39,7 +39,6 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGest
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.NO_ACTION
 import kotlinx.android.synthetic.main.fragment_exercise.*
-import kotlinx.android.synthetic.main.popup_editing_card.view.*
 import kotlinx.android.synthetic.main.popup_hints.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
@@ -59,7 +58,6 @@ class ExerciseFragment : BaseFragment() {
     private var speakErrorPopup: PopupWindow? = null
     private var timerPopup: PopupWindow? = null
     private var hintsPopup: PopupWindow? = null
-    private var editingPopup: PopupWindow? = null
     private var walkingModePopup: PopupWindow? = null
     private val toast: Toast by lazy { Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT) }
     private val vibrator: Vibrator? by lazy {
@@ -117,7 +115,11 @@ class ExerciseFragment : BaseFragment() {
             setTooltipTextFromContentDescription()
         }
         editCardButton.run {
-            setOnClickListener { showEditingPopup() }
+            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
+        editDeckSettingsButton.run {
+            setOnClickListener { controller?.dispatch(EditDeckSettingsButtonClicked) }
             setTooltipTextFromContentDescription()
         }
         searchButton.run {
@@ -638,27 +640,6 @@ class ExerciseFragment : BaseFragment() {
         requireHintsPopup().show(anchor = hintButton, gravity = Gravity.BOTTOM)
     }
 
-    private fun requireEditingPopup(): PopupWindow {
-        if (editingPopup == null) {
-            val content = View.inflate(requireContext(), R.layout.popup_editing_card, null).apply {
-                editDeckSettingsButton.setOnClickListener {
-                    editingPopup?.dismiss()
-                    controller?.dispatch(EditDeckSettingsButtonClicked)
-                }
-                editCardContentButton.setOnClickListener {
-                    editingPopup?.dismiss()
-                    controller?.dispatch(EditCardContentButtonClicked)
-                }
-            }
-            editingPopup = DarkPopupWindow(content)
-        }
-        return editingPopup!!
-    }
-
-    private fun showEditingPopup() {
-        requireEditingPopup().show(anchor = editCardButton, gravity = Gravity.BOTTOM)
-    }
-
     private fun requireWalkingModePopup(): PopupWindow {
         if (walkingModePopup == null) {
             val content = View.inflate(requireContext(), R.layout.popup_walking_mode, null)
@@ -721,7 +702,6 @@ class ExerciseFragment : BaseFragment() {
                 getBoolean(STATE_SPEAK_ERROR_POPUP, false) -> showSpeakErrorPopup()
                 getBoolean(STATE_TIMER_POPUP, false) -> showTimerPopup()
                 getBoolean(STATE_HINTS_POPUP, false) -> showHintsPopup()
-                getBoolean(STATE_EDITING_POPUP, false) -> showEditingPopup()
                 getBoolean(STATE_WALKING_MODE_POPUP, false) -> showWalkingModePopup()
             }
         }
@@ -733,7 +713,6 @@ class ExerciseFragment : BaseFragment() {
         savePopupState(outState, speakErrorPopup, STATE_SPEAK_ERROR_POPUP)
         savePopupState(outState, timerPopup, STATE_TIMER_POPUP)
         savePopupState(outState, hintsPopup, STATE_HINTS_POPUP)
-        savePopupState(outState, editingPopup, STATE_EDITING_POPUP)
         savePopupState(outState, walkingModePopup, STATE_WALKING_MODE_POPUP)
     }
 
@@ -759,8 +738,6 @@ class ExerciseFragment : BaseFragment() {
         timerPopup = null
         hintsPopup?.dismiss()
         hintsPopup = null
-        editingPopup?.dismiss()
-        editingPopup = null
         walkingModePopup?.dismiss()
         walkingModePopup = null
     }
@@ -797,7 +774,6 @@ class ExerciseFragment : BaseFragment() {
         const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
         const val STATE_TIMER_POPUP = "STATE_TIMER_POPUP"
         const val STATE_HINTS_POPUP = "STATE_HINTS_POPUP"
-        const val STATE_EDITING_POPUP = "STATE_EDITING_POPUP"
         const val STATE_WALKING_MODE_POPUP = "STATE_WALKING_MODE_POPUP"
     }
 }

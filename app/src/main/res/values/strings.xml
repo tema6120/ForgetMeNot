@@ -211,11 +211,8 @@
         be confusing.</string>
     <string name="timer_stopped">The timer is stopped</string>
     <string name="time_is_over">Time is over!</string>
-    <string name="description_edit">Edit</string>
-    <string name="description_editing_icon">Editing icon</string>
-    <string name="popup_title_editing">Editing</string>
-    <string name="text_edit_deck_settings_button">Edit deck settings</string>
-    <string name="text_edit_card_content_button">Edit card content</string>
+    <string name="description_edit_card">Edit card</string>
+    <string name="description_edit_deck_settings">Edit deck settings</string>
     <string name="description_search_button">Search</string>
     <string name="description_walking_mode_button">Walking mode</string>
     <string name="popup_title_walking_mode">Walking mode</string>

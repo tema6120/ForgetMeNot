@@ -32,7 +32,6 @@ import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewContr
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewController.Command.ShowCannotGetAudioFocusMessage
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewModel.Laps
 import kotlinx.android.synthetic.main.dialog_laps_in_player.*
-import kotlinx.android.synthetic.main.fragment_exercise.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.editCardButton
 import kotlinx.android.synthetic.main.fragment_player.gradeButton
@@ -43,7 +42,6 @@ import kotlinx.android.synthetic.main.fragment_player.progressBar
 import kotlinx.android.synthetic.main.fragment_player.searchButton
 import kotlinx.android.synthetic.main.fragment_player.speakButton
 import kotlinx.android.synthetic.main.fragment_player.speakProgressBar
-import kotlinx.android.synthetic.main.popup_editing_card.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.coroutines.*
@@ -59,7 +57,6 @@ class PlayerFragment : BaseFragment() {
     private var intervalsAdapter: IntervalsAdapter? = null
     private var speakErrorPopup: PopupWindow? = null
     private val toast: Toast by lazy { Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT) }
-    private var editingPopup: PopupWindow? = null
     private var resumePauseCoroutineScope: CoroutineScope? = null
 
     override fun onCreateView(
@@ -97,7 +94,11 @@ class PlayerFragment : BaseFragment() {
             setTooltipTextFromContentDescription()
         }
         editCardButton.run {
-            setOnClickListener { showEditingPopup() }
+            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
+        editDeckSettingsButton.run {
+            setOnClickListener { controller?.dispatch(EditDeckSettingsButtonClicked) }
             setTooltipTextFromContentDescription()
         }
         searchButton.run {
@@ -397,34 +398,12 @@ class PlayerFragment : BaseFragment() {
         requireSpeakErrorPopup().show(anchor = speakButton, gravity = Gravity.BOTTOM)
     }
 
-    private fun requireEditingPopup(): PopupWindow {
-        if (editingPopup == null) {
-            val content = View.inflate(requireContext(), R.layout.popup_editing_card, null).apply {
-                editDeckSettingsButton.setOnClickListener {
-                    editingPopup?.dismiss()
-                    controller?.dispatch(EditDeckSettingsButtonClicked)
-                }
-                editCardContentButton.setOnClickListener {
-                    editingPopup?.dismiss()
-                    controller?.dispatch(EditCardContentButtonClicked)
-                }
-            }
-            editingPopup = DarkPopupWindow(content)
-        }
-        return editingPopup!!
-    }
-
-    private fun showEditingPopup() {
-        requireEditingPopup().show(anchor = editCardButton, gravity = Gravity.BOTTOM)
-    }
-
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
             when {
                 getBoolean(STATE_INTERVALS_POPUP, false) -> showIntervalsPopup()
                 getBoolean(STATE_SPEAK_ERROR_POPUP, false) -> showSpeakErrorPopup()
-                getBoolean(STATE_EDITING_POPUP, false) -> showEditingPopup()
             }
         }
     }
@@ -433,7 +412,6 @@ class PlayerFragment : BaseFragment() {
         super.onSaveInstanceState(outState)
         savePopupState(outState, intervalsPopup, STATE_INTERVALS_POPUP)
         savePopupState(outState, speakErrorPopup, STATE_SPEAK_ERROR_POPUP)
-        savePopupState(outState, editingPopup, STATE_EDITING_POPUP)
     }
 
     private fun savePopupState(outState: Bundle, popupWindow: PopupWindow?, key: String) {
@@ -449,8 +427,6 @@ class PlayerFragment : BaseFragment() {
         intervalsPopup = null
         speakErrorPopup?.dismiss()
         speakErrorPopup = null
-        editingPopup?.dismiss()
-        editingPopup = null
     }
 
     override fun onDestroy() {
@@ -474,6 +450,5 @@ class PlayerFragment : BaseFragment() {
         const val TAG_PLAYING_FINISHED_BOTTOM_SHEET = "TAG_PLAYING_FINISHED_BOTTOM_SHEET"
         private const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
         private const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
-        private const val STATE_EDITING_POPUP = "STATE_EDITING_POPUP"
     }
 }

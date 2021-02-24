@@ -72,18 +72,7 @@ class ExerciseController(
                 exercise.stopSpeaking()
             }
 
-            EditDeckSettingsButtonClicked -> {
-                exercise.stopSpeaking()
-                screenState.wereDeckSettingsEdited = true
-                navigator.navigateToDeckEditorFromExercise {
-                    val deck: Deck = exercise.currentExerciseCard.base.deck
-                    val tabs = DeckEditorTabs.OnlyDeckSettings
-                    val screenState = DeckEditorScreenState(deck, tabs)
-                    DeckEditorDiScope.create(screenState)
-                }
-            }
-
-            EditCardContentButtonClicked -> {
+            EditCardButtonClicked -> {
                 exercise.stopSpeaking()
                 navigator.navigateToCardsEditorFromExercise {
                     val editableCard = EditableCard(
@@ -97,6 +86,17 @@ class ExerciseController(
                         state = cardsEditorState
                     )
                     CardsEditorDiScope.create(cardsEditor)
+                }
+            }
+
+            EditDeckSettingsButtonClicked -> {
+                exercise.stopSpeaking()
+                screenState.wereDeckSettingsEdited = true
+                navigator.navigateToDeckEditorFromExercise {
+                    val deck: Deck = exercise.currentExerciseCard.base.deck
+                    val tabs = DeckEditorTabs.OnlyDeckSettings
+                    val screenState = DeckEditorScreenState(deck, tabs)
+                    DeckEditorDiScope.create(screenState)
                 }
             }
 

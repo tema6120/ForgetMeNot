@@ -90,18 +90,7 @@ class PlayerViewController(
                 player.stopSpeaking()
             }
 
-            EditDeckSettingsButtonClicked -> {
-                player.pause()
-                screenState.wereDeckSettingsEdited = true
-                navigator.navigateToDeckEditorFromPlayer {
-                    val deck: Deck = player.currentPlayingCard.deck
-                    val tabs = DeckEditorTabs.OnlyDeckSettings
-                    val screenState = DeckEditorScreenState(deck, tabs)
-                    DeckEditorDiScope.create(screenState)
-                }
-            }
-
-            EditCardContentButtonClicked -> {
+            EditCardButtonClicked -> {
                 player.pause()
                 navigator.navigateToCardEditorFromPlayer {
                     val editableCard = EditableCard(
@@ -115,6 +104,17 @@ class PlayerViewController(
                         state = cardsEditorState
                     )
                     CardsEditorDiScope.create(cardsEditor)
+                }
+            }
+
+            EditDeckSettingsButtonClicked -> {
+                player.pause()
+                screenState.wereDeckSettingsEdited = true
+                navigator.navigateToDeckEditorFromPlayer {
+                    val deck: Deck = player.currentPlayingCard.deck
+                    val tabs = DeckEditorTabs.OnlyDeckSettings
+                    val screenState = DeckEditorScreenState(deck, tabs)
+                    DeckEditorDiScope.create(screenState)
                 }
             }
 
