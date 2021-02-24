@@ -94,4 +94,5 @@
     <color name="name_label">#999999</color>
     <color name="dsv_controller_disabled">#BABABA</color>
     <color name="dsv_controller_background_disabled">#FCFCFC</color>
+    <color name="card_position_label">#999999</color>
 </resources>

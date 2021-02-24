@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -7,31 +7,34 @@
         android:orientation="vertical"
         tools:context="presentation.screen.exercise.ExerciseFragment">
 
-    <FrameLayout
-            android:layout_width="match_parent"
+    <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/controlPanelScroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/exerciseViewPager"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
-        <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-        <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/exerciseViewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-    </FrameLayout>
+            app:layout_constraintBottom_toTopOf="@+id/controlPanelScroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <HorizontalScrollView
             android:id="@+id/controlPanelScroll"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
                 android:layout_width="wrap_content"
@@ -146,4 +149,20 @@
 
     </HorizontalScrollView>
 
-</LinearLayout>
+    <TextView
+            android:id="@+id/positionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_card_position"
+            android:paddingStart="8dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="2dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_progress_in_exercise"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/controlPanelScroll"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="12/35" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

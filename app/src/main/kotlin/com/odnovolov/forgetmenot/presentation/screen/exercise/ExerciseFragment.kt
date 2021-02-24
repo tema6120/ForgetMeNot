@@ -184,6 +184,9 @@ class ExerciseFragment : BaseFragment() {
             if (exerciseViewPager.currentItem != currentPosition) {
                 exerciseViewPager.setCurrentItem(currentPosition, false)
             }
+            cardPosition.observe { cardPosition: CardPosition ->
+                positionTextView.text = cardPosition.toString()
+            }
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()

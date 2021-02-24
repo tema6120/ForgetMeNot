@@ -39,6 +39,13 @@ open class ExerciseViewModel(
         .distinctUntilChanged()
         .share()
 
+    val cardPosition: Flow<CardPosition> = combine(
+        exerciseState.flowOf(Exercise.State::currentPosition),
+        exerciseCards
+    ) { currentPosition: Int, exerciseCards: List<ExerciseCard> ->
+        CardPosition(currentPosition, exerciseCards.size)
+    }
+
     val gradeOfCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::grade)
