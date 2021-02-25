@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -424,14 +423,7 @@ class DsvFormatFragment : BaseFragment() {
                         deleteDialog!!.dismiss()
                     }
                 }
-            deleteDialog = AlertDialog.Builder(requireContext())
-                .setView(contentView)
-                .create()
-                .apply {
-                    window?.setBackgroundDrawable(
-                        ContextCompat.getDrawable(context, R.drawable.background_dialog)
-                    )
-                }
+            deleteDialog = createDialog(contentView)
         }
         return deleteDialog!!
     }

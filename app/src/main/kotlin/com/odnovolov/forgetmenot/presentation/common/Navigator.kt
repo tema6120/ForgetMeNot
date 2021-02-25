@@ -24,6 +24,7 @@ import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
@@ -109,6 +110,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun showRenameDeckDialogFromNavHost(createDiScope: () -> RenameDeckDiScope) {
         RenameDeckDiScope.open(createDiScope)
         navigate(R.id.nav_host_shows_rename_deck_dialog)
+    }
+
+    fun navigateToExportFromNavHost(createDiScope: () -> ExportDiScope) {
+        ExportDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_export)
     }
 
     fun navigateToCardsEditorFromRenameDeckDialog(createDiScope: () -> CardsEditorDiScope) {
@@ -234,7 +240,12 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.deck_editor_to_help_article)
     }
 
-    fun navigateToSearchFromDeckSetup(createDiScope: () -> SearchDiScope) {
+    fun navigateToExportFromDeckEditor(createDiScope: () -> ExportDiScope) {
+        ExportDiScope.open(createDiScope)
+        navigate(R.id.deck_editor_to_export)
+    }
+
+    fun navigateToSearchFromDeckEditor(createDiScope: () -> SearchDiScope) {
         SearchDiScope.open(createDiScope)
         navigate(R.id.deck_editor_to_search)
     }

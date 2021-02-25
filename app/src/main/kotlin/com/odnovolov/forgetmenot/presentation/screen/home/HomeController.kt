@@ -6,12 +6,10 @@ import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
-import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -25,24 +23,23 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreen
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.export.ExportDialogState
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.GotFilesCreationResult.FileCreationResult
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeck
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.io.OutputStream
 
 class HomeController(
     private val screenState: HomeScreenState,
     private val deckReviewPreference: DeckReviewPreference,
-    private val deckExporter: DeckExporter,
     private val deckRemover: DeckRemover,
     private val exerciseStateCreator: ExerciseStateCreator,
     private val cardsSearcher: CardsSearcher,
@@ -55,12 +52,6 @@ class HomeController(
         object ShowNoCardIsReadyForExerciseMessage : Command()
         object ShowDeckOption : Command()
         class ShowDeckRemovingMessage(val numberOfDecksRemoved: Int) : Command()
-        object ShowFileFormatChooser : Command()
-        class CreateFiles(val deckNames: List<String>, val extension: String) : Command()
-        class ShowDeckExportResultMessage(
-            val exportedDeckNames: List<String>,
-            val failedDeckNames: List<String>
-        ) : Command()
     }
 
     init {
@@ -86,42 +77,8 @@ class HomeController(
                 cardsSearcher.search(event.searchText)
             }
 
-            is GotFilesCreationResult -> {
-                val fileFormat: FileFormat = screenState.fileFormatForExport ?: return
-                val exportedDeckNames: MutableList<String> = ArrayList()
-                val failedDeckNames: MutableList<String> = ArrayList()
-                for (fileCreationResult: FileCreationResult in event.filesCreationResult) {
-                    val (deckName: String, outputStream: OutputStream?) = fileCreationResult
-                    if (outputStream == null) {
-                        failedDeckNames.add(deckName)
-                        continue
-                    }
-                    val deck = globalState.decks.first { deck: Deck -> deck.name == deckName }
-                    val success: Boolean = deckExporter.export(deck, fileFormat, outputStream)
-                    if (success) {
-                        exportedDeckNames.add(deckName)
-                    } else {
-                        failedDeckNames.add(deckName)
-                    }
-                }
-                sendCommand(ShowDeckExportResultMessage(exportedDeckNames, failedDeckNames))
-            }
-
             DecksRemovedSnackbarCancelButtonClicked -> {
                 deckRemover.restoreDecks()
-            }
-
-            is SelectedFileFormatForExport -> {
-                screenState.fileFormatForExport = event.fileFormat
-                val decksToExport: List<Deck> =
-                    screenState.deckSelection?.let { deckSelection: DeckSelection ->
-                        globalState.decks
-                            .filter { deck: Deck -> deck.id in deckSelection.selectedDeckIds }
-                    }
-                        ?: screenState.deckForDeckOptionMenu?.let { listOf(it) }
-                        ?: return
-                val deckNames: List<String> = decksToExport.map { deck: Deck -> deck.name }
-                sendCommand(CreateFiles(deckNames, event.fileFormat.extension))
             }
 
             SelectionCancelled -> {
@@ -139,6 +96,18 @@ class HomeController(
                     screenState.deckSelection?.selectedDeckIds ?: return
                 deckRemover.removeDecks(deckIdsToRemove)
                 screenState.deckSelection = null
+            }
+
+            ExportButtonClicked -> {
+                val selectedDeckIds: List<Long> =
+                    screenState.deckSelection?.selectedDeckIds ?: return
+                if (selectedDeckIds.isEmpty()) return
+                navigator.navigateToExportFromNavHost {
+                    val decks: List<Deck> =
+                        globalState.decks.filter { deck: Deck -> deck.id in selectedDeckIds }
+                    val dialogState = ExportDialogState(decks)
+                    ExportDiScope.create(dialogState)
+                }
             }
 
             DecksAvailableForExerciseCheckboxClicked -> {
@@ -220,7 +189,11 @@ class HomeController(
             }
 
             ExportDeckOptionSelected -> {
-                sendCommand(ShowFileFormatChooser)
+                val deck = screenState.deckForDeckOptionMenu ?: return
+                navigator.navigateToExportFromNavHost {
+                    val dialogState = ExportDialogState(listOf(deck))
+                    ExportDiScope.create(dialogState)
+                }
             }
 
             RemoveDeckOptionSelected -> {

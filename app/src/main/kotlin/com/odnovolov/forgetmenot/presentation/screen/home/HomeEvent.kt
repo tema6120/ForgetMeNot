@@ -1,21 +1,16 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
-import java.io.OutputStream
 
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
-    class GotFilesCreationResult(val filesCreationResult: List<FileCreationResult>) : HomeEvent() {
-        data class FileCreationResult(val deckName: String, val outputStream: OutputStream?)
-    }
     object DecksRemovedSnackbarCancelButtonClicked : HomeEvent()
 
     // Selection toolbar:
     object SelectionCancelled : HomeEvent()
-    class SelectedFileFormatForExport(val fileFormat: FileFormat) : HomeEvent()
     object SelectAllDecksButtonClicked : HomeEvent()
     object RemoveDecksButtonClicked : HomeEvent()
+    object ExportButtonClicked : HomeEvent()
 
     // Filters:
     object DecksAvailableForExerciseCheckboxClicked : HomeEvent()

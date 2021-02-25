@@ -21,8 +21,7 @@ class HomeViewModel(
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
     controller: HomeController,
-    searcherState: CardsSearcher.State,
-    fileImportStorage: FileImportStorage
+    searcherState: CardsSearcher.State
 ) {
     data class RawDeckPreview(
         val deckId: Long,
@@ -283,19 +282,6 @@ class HomeViewModel(
 
     val areFilesBeingReading: Flow<Boolean> =
         homeScreenState.flowOf(HomeScreenState::areFilesBeingReading)
-
-    val dsvFileFormats: Flow<List<FileFormat>> = fileImportStorage
-        .flowOf(FileImportStorage::customFileFormats)
-        .map { customFileFormats: CopyableCollection<FileFormat> ->
-            FileFormat.predefinedFormats
-                .filter { predefinedFileFormat: FileFormat ->
-                    when (predefinedFileFormat.extension) {
-                        FileFormat.EXTENSION_CSV, FileFormat.EXTENSION_TSV -> true
-                        else -> false
-                    }
-                }
-                .plus(customFileFormats)
-        }
 
     init {
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->

@@ -26,6 +26,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -357,3 +358,12 @@ fun TextView.setFont(fontRes: Int) {
         return
     }
 }
+
+fun Fragment.createDialog(contentView: View) = AlertDialog.Builder(requireContext())
+    .setView(contentView)
+    .create()
+    .apply {
+        window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(context, R.drawable.background_dialog)
+        )
+    }

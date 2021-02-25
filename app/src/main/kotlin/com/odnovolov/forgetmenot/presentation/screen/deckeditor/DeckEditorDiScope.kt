@@ -10,8 +10,7 @@ class DeckEditorDiScope private constructor(
     val screenStateProvider = DeckEditorScreenStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        AppDiScope.get().globalState,
-        AppDiScope.get().fileImportStorage
+        AppDiScope.get().globalState
     )
 
     val screenState: DeckEditorScreenState =

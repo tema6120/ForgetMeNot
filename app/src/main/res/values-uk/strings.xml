@@ -91,17 +91,26 @@
         <item quantity="few">Видалено %d колоди</item>
         <item quantity="many">Видалено %d колод</item>
     </plurals>
-    <string name="popup_title_file_format_for_export">Експортувати як</string>
-    <plurals name="toast_decks_are_exported">
-        <item quantity="one">%d колода успішно експортована(і)</item>
-        <item quantity="few">%d колоди успішно експортовані</item>
-        <item quantity="many">%d колод успішно експортовані</item>
-    </plurals>
-    <string name="toast_error_while_exporting_deck_with_arg">Помилка під час експорту колод:\n\'%1$s\'</string>
     <string name="text_autoplay_button">Автопрогравання</string>
     <string name="text_exercise_button">Вправа</string>
     <string name="text_exercise_button_with_cards_count">Вправа (%d)</string>
     <string name="progress_bar_reading_files">Читання файлів ..</string>
+
+
+    <!-- Export dialog -->
+
+    <string name="dialog_title_export">Експорт</string>
+    <string name="title_choose_format">Оберіть формат</string>
+    <string name="title_waiting_for_destination">Очікування розташування ..</string>
+    <string name="button_select_destination">Обрати розташування</string>
+    <string name="toast_couldnt_get_destination">Неможливо отримати розташування!</string>
+    <string name="progress_bar_exporting">Експортування ..</string>
+    <plurals name="export_result_successful">
+        <item quantity="one">%d колода успішно експортована(і)</item>
+        <item quantity="few">%d колоди успішно експортовані</item>
+        <item quantity="many">%d колод успішно експортовані</item>
+    </plurals>
+    <string name="export_result_error">Помилка під час експорту колод:\n\'%1$s\'</string>
 
 
     <!-- File import screen -->
@@ -305,8 +314,6 @@
 
     <string name="button_export">Експорт</string>
     <string name="button_search">Пошук</string>
-    <string name="toast_deck_is_exported">Колода експортована</string>
-    <string name="toast_error_while_exporting_deck">Помилка під час експорту колоди</string>
 
 
     <!-- Search screen -->

@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.home
+package com.odnovolov.forgetmenot.presentation.screen.export
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

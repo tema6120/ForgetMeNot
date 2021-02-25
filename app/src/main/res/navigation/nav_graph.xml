@@ -45,6 +45,10 @@
                 android:id="@+id/nav_host_to_help_article"
                 app:destination="@id/help_article" />
 
+        <action
+                android:id="@+id/nav_host_to_export"
+                app:destination="@+id/export" />
+
     </fragment>
 
     <fragment
@@ -190,6 +194,10 @@
                 app:exitAnim="@anim/slide_out_left"
                 app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+                android:id="@+id/deck_editor_to_export"
+                app:destination="@+id/export" />
 
         <action
                 android:id="@+id/deck_editor_to_search"
@@ -397,5 +405,10 @@
             android:id="@+id/laps_in_player_dialog"
             android:name="com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDialog"
             tools:layout="@layout/dialog_laps_in_player" />
+
+    <dialog
+            android:id="@+id/export"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.export.ExportDialog"
+            tools:layout="@layout/dialog_export" />
 
 </navigation>

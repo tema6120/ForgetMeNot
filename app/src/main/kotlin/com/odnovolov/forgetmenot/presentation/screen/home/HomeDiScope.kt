@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
 import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
@@ -36,7 +35,6 @@ class HomeDiScope private constructor(
     val controller = HomeController(
         screenState,
         deckReviewPreference,
-        DeckExporter(),
         deckRemover,
         exerciseStateCreator,
         cardsSearcher,
@@ -51,8 +49,7 @@ class HomeDiScope private constructor(
         AppDiScope.get().globalState,
         deckReviewPreference,
         controller,
-        cardsSearcher.state,
-        AppDiScope.get().fileImportStorage
+        cardsSearcher.state
     )
 
     companion object : DiScopeManager<HomeDiScope>() {

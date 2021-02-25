@@ -1,0 +1,266 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/exportRootView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/background_dialog"
+        tools:elevation="24dp"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/dialogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="16dp"
+                android:text="@string/dialog_title_export"
+                android:textColor="@color/text_title"
+                android:textSize="@dimen/text_size_dialog_title"
+                app:drawableStartCompat="@drawable/ic_outline_unarchive_24"
+                app:drawableTint="@color/iconGray"
+                app:layout_constraintEnd_toStartOf="@+id/closeButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+                android:id="@+id/closeButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_close"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_close_28" />
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/waitingForFileFormatGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="chooseFormatTextView,fmnFormatRadioButton,dsvFormatListExpander,bottomMargin" />
+
+        <TextView
+                android:id="@+id/chooseFormatTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_extrabold"
+                android:gravity="center"
+                android:paddingStart="32dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="8dp"
+                android:text="@string/title_choose_format"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
+
+        <TextView
+                android:id="@+id/fmnFormatRadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ripple_rectangular_colored"
+                android:button="@null"
+                android:clickable="false"
+                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:focusable="false"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
+                android:text="@string/item_file_format_fmn_format"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/text_size_radiobutton"
+                app:drawableTint="@color/textSecondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chooseFormatTextView" />
+
+        <TextView
+                android:id="@+id/dsvFormatListExpander"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_rectangular_colored"
+                android:button="@null"
+                android:drawableEnd="@drawable/ic_round_expand_more_32"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
+                android:text="@string/text_dsv_format_radiobutton"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/text_size_radiobutton"
+                android:visibility="visible"
+                app:drawableTint="@color/textSecondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fmnFormatRadioButton"
+                tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dsvFormatRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:visibility="gone"
+                app:layoutManager="LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dsvFormatListExpander"
+                tools:listitem="@layout/item_dsv_file_format_for_export" />
+
+        <Space
+                android:id="@+id/bottomMargin"
+                android:layout_width="0dp"
+                android:layout_height="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dsvFormatRecycler" />
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/waitingForDestinationGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="waitingForDestinationTextView,selectDestinationButton"
+                tools:visibility="visible" />
+
+        <TextView
+                android:id="@+id/waitingForDestinationTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_extrabold"
+                android:gravity="center"
+                android:paddingStart="32dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="8dp"
+                android:text="@string/title_waiting_for_destination"
+                android:textColor="@color/text_title"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
+
+        <TextView
+                android:id="@+id/selectDestinationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/background_button_on_support_app_screen"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/button_select_destination"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_support_app_screen_button"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/waitingForDestinationTextView" />
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/exportingGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="exportingProgressBar, exportingTextView" />
+
+        <ProgressBar
+                android:id="@+id/exportingProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
+
+        <TextView
+                android:id="@+id/exportingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="32dp"
+                android:fontFamily="@font/nunito_bold"
+                android:text="@string/progress_bar_exporting"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/text_size_progress_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/exportingProgressBar" />
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/finishedGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="exportedDeckNamesTextView,failedDeckNamesTextView,bottomMargin2" />
+
+        <TextView
+                android:id="@+id/exportedDeckNamesTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:textColor="@color/correct_answer"
+                android:textSize="@dimen/text_size_dialog_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialogTitle"
+                tools:text="7 decks are exported successfully" />
+
+        <TextView
+                android:id="@+id/failedDeckNamesTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:textColor="@color/wrong_answer"
+                android:textSize="@dimen/text_size_dialog_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/exportedDeckNamesTextView"
+                tools:text="Error while exporting decks:\n\'Vocabulary 25'" />
+
+        <Space
+                android:id="@+id/bottomMargin2"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/failedDeckNamesTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -6,8 +6,7 @@ import kotlinx.serialization.Serializable
 
 data class DeckEditorScreenState(
     val deck: Deck,
-    val tabs: DeckEditorTabs,
-    var fileFormatForExport: FileFormat? = null
+    val tabs: DeckEditorTabs
 )
 
 @Serializable
