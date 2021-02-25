@@ -10,8 +10,10 @@ import android.os.Build.VERSION_CODES
 import androidx.core.app.NotificationCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.exercise.CardPosition
 
 class NotificationBuilder(private val context: Context) {
+    var cardPosition: CardPosition? = null
     var contextText: CharSequence? = null
     var isPlaying: Boolean = true
     var isCompleted: Boolean = false
@@ -19,12 +21,19 @@ class NotificationBuilder(private val context: Context) {
     fun build(): Notification {
         return NotificationCompat.Builder(context, PlayerService.CHANNEL_ID)
             .setSmallIcon(R.mipmap.fmn_launcher)
-            .setContentTitle(context.getString(R.string.player_notification_title))
+            .setContentTitle(contentTitle())
             .setContentText(contextText)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(contentIntent())
             .addAction(if (isPlaying) pauseAction() else resumeAction())
             .build()
+    }
+
+    private fun contentTitle(): String {
+        val baseTitle = context.getString(R.string.player_notification_title)
+        return cardPosition?.let { cardPosition: CardPosition ->
+            "$baseTitle ($cardPosition)"
+        } ?: baseTitle
     }
 
     fun update() {

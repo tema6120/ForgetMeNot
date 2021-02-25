@@ -5,6 +5,6 @@ data class CardPosition(
     val total: Int
 ) {
     override fun toString(): String {
-        return "$position/$total"
+        return "${position + 1}/$total"
     }
 }

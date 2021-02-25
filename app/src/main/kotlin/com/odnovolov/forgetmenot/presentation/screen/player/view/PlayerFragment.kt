@@ -125,6 +125,9 @@ class PlayerFragment : BaseFragment() {
                 }
                 progressBar.visibility = GONE
             }
+            cardPosition.observe { cardPosition: CardPosition ->
+                positionTextView.text = cardPosition.toString()
+            }
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()

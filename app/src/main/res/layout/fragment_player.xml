@@ -158,6 +158,22 @@
 
     </LinearLayout>
 
+    <TextView
+            android:id="@+id/positionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/background_card_position"
+            android:paddingStart="8dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="2dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_progress_in_exercise"
+            android:textStyle="bold"
+            tools:text="12/35" />
+
     <ImageButton
             android:id="@+id/playButton"
             android:layout_width="74dp"
