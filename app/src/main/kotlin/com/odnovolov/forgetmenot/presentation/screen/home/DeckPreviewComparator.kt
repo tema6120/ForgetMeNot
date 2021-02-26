@@ -27,6 +27,7 @@ class DeckPreviewComparator(
             Name -> leftDeck.deckName.compareTo(rightDeck.deckName)
             CreatedAt -> leftDeck.createdAt.compareTo(rightDeck.createdAt)
             LastTestedAt -> leftDeck.lastTestedAt!!.compareTo(rightDeck.lastTestedAt!!)
+            FrequencyOfUse -> leftDeck.averageLaps.compareTo(rightDeck.averageLaps)
         }
     }
 }

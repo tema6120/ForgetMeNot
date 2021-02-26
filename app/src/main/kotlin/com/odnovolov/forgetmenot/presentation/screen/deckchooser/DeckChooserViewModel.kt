@@ -27,10 +27,9 @@ class DeckChooserViewModel(
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = globalState.flowOf(GlobalState::decks)
         .map { decks: Collection<Deck> ->
             decks.map { deck: Deck ->
-                val averageLaps: String = deck.cards
+                val averageLaps: Double = deck.cards
                     .map { it.lap }
                     .average()
-                    .let { avgLaps: Double -> "%.1f".format(avgLaps) }
                 val learnedCount = deck.cards.count { it.isLearned }
                 val numberOfCardsReadyForExercise =
                     if (deck.exercisePreference.intervalScheme == null) {

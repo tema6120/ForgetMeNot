@@ -27,7 +27,7 @@ class HomeViewModel(
         val deckId: Long,
         val deckName: String,
         val createdAt: DateTime,
-        val averageLaps: String,
+        val averageLaps: Double,
         val learnedCount: Int,
         val totalCount: Int,
         val numberOfCardsReadyForExercise: Int?,
@@ -38,7 +38,7 @@ class HomeViewModel(
             deckId,
             deckName,
             searchMatchingRanges,
-            averageLaps,
+            "%.1f".format(averageLaps),
             learnedCount,
             totalCount,
             numberOfCardsReadyForExercise,
@@ -70,10 +70,9 @@ class HomeViewModel(
         .combine(fiveSeconds) { decks: Collection<Deck>, _ -> decks }
         .map { decks: Collection<Deck> ->
             decks.map { deck: Deck ->
-                val averageLaps: String = deck.cards
+                val averageLaps: Double = deck.cards
                     .map { it.lap }
                     .average()
-                    .let { avgLaps: Double -> "%.1f".format(avgLaps) }
                 val learnedCount = deck.cards.count { it.isLearned }
                 val numberOfCardsReadyForExercise =
                     if (deck.exercisePreference.intervalScheme == null) {

@@ -89,6 +89,23 @@
             app:layout_constraintStart_toEndOf="@+id/sortingDirectionButton"
             app:layout_constraintTop_toBottomOf="@+id/sortByTimeCreatedTextView" />
 
+    <View
+            android:id="@+id/sortByFrequencyOfUseButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ripple_rectangular_colored"
+            app:layout_constraintBottom_toBottomOf="@+id/sortByFrequencyOfUseTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sortByFrequencyOfUseTextView" />
+
+    <TextView
+            android:id="@+id/sortByFrequencyOfUseTextView"
+            style="@style/SortingItem"
+            android:text="@string/deck_sorting_by_frequency_of_use"
+            app:layout_constraintStart_toEndOf="@+id/sortingDirectionButton"
+            app:layout_constraintTop_toBottomOf="@+id/sortByTimeLastTestedTextView" />
+
     <ImageButton
             android:id="@+id/sortingDirectionButton"
             android:layout_width="48dp"

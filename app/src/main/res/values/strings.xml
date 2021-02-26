@@ -63,11 +63,13 @@
     <string name="sort_by_name">By name</string>
     <string name="sort_by_time_created">By time created</string>
     <string name="sort_by_time_last_tested">By time last tested</string>
+    <string name="sort_by_frequency_of_use">By frequency of use</string>
     <string name="title_deck_sorting_popup">Sort by</string>
     <string name="description_change_sorting_direction">Change sorting direction</string>
     <string name="deck_sorting_name">Name</string>
     <string name="deck_sorting_time_created">Time created</string>
     <string name="deck_sorting_by_time_last_tested">Time last tested</string>
+    <string name="deck_sorting_by_frequency_of_use">Frequency of use</string>
     <string name="description_pin_icon">Pin icon</string>
     <string name="deck_summary_table_average_laps">Avg. laps</string>
     <string name="deck_summary_table_learned">Learned</string>

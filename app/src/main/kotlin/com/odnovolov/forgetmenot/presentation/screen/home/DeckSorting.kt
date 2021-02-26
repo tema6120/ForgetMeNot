@@ -10,7 +10,8 @@ data class DeckSorting(
     enum class Criterion {
         Name,
         CreatedAt,
-        LastTestedAt
+        LastTestedAt,
+        FrequencyOfUse
     }
 
     enum class Direction {
