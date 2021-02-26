@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
@@ -36,6 +37,14 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun setupView() {
+        pinDeckSelectionOptionItem.setOnClickListener {
+            controller?.dispatch(PinDeckSelectionOptionSelected)
+            dismiss()
+        }
+        unpinDeckSelectionOptionItem.setOnClickListener {
+            controller?.dispatch(UnpinDeckSelectionOptionSelected)
+            dismiss()
+        }
         exportDeckSelectionOptionItem.setOnClickListener {
             controller?.dispatch(ExportDeckSelectionOptionSelected)
             dismiss()
@@ -51,12 +60,20 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun observeViewModel(viewModel: HomeViewModel) {
-        viewModel.numberOfSelectedDecks.observe { numberOfSelectedDecks: Int ->
-            numberOfSelectedDecksTextView.text = resources.getQuantityString(
-                R.plurals.title_deck_selection_toolbar_number_of_selected_decks,
-                numberOfSelectedDecks,
-                numberOfSelectedDecks
-            )
+        with(viewModel) {
+            numberOfSelectedDecks.observe { numberOfSelectedDecks: Int ->
+                numberOfSelectedDecksTextView.text = resources.getQuantityString(
+                    R.plurals.title_deck_selection_toolbar_number_of_selected_decks,
+                    numberOfSelectedDecks,
+                    numberOfSelectedDecks
+                )
+            }
+            isPinDeckSelectionOptionAvailable.observe { isAvailable: Boolean ->
+                pinDeckSelectionOptionItem.isVisible = isAvailable
+            }
+            isUnpinDeckSelectionOptionAvailable.observe { isAvailable: Boolean ->
+                unpinDeckSelectionOptionItem.isVisible = isAvailable
+            }
         }
     }
 }

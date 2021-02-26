@@ -68,6 +68,7 @@
     <string name="deck_sorting_name">Name</string>
     <string name="deck_sorting_time_created">Time created</string>
     <string name="deck_sorting_by_time_last_tested">Time last tested</string>
+    <string name="description_pin_icon">Pin icon</string>
     <string name="deck_summary_table_average_laps">Avg. laps</string>
     <string name="deck_summary_table_learned">Learned</string>
     <string name="deck_summary_table_task">Task</string>
@@ -79,6 +80,8 @@
     <string name="deck_option_rename">Rename</string>
     <string name="deck_option_edit_cards">Edit cards</string>
     <string name="deck_option_setup">Setup</string>
+    <string name="deck_option_pin">Pin</string>
+    <string name="deck_option_unpin">Unpin</string>
     <string name="deck_option_export">Export</string>
     <string name="deck_option_merge_into">Merge into</string>
     <string name="deck_option_remove">Remove</string>

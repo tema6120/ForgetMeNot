@@ -1,148 +1,125 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/deckButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/background_deck_preview"
-        tools:context="presentation.screen.home.HomeFragment">
+        android:layout_height="wrap_content">
 
-    <LinearLayout
+    <FrameLayout
+            android:id="@+id/deckButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ripple"
-            android:orientation="vertical"
-            tools:context="presentation.screen.home.HomeFragment">
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/background_deck_preview">
 
-        <TextView
-                android:id="@+id/deckNameTextView"
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="56dp"
-                android:layout_marginBottom="8dp"
-                android:drawablePadding="12dp"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/text_title"
-                android:textSize="@dimen/text_size_home_screen_deck_name"
-                android:textStyle="bold"
-                app:drawableStartCompat="@drawable/deck_indicator"
-                app:drawableTint="@color/iconDark"
-                tools:text="Английский №8" />
+                android:background="@drawable/ripple"
+                android:orientation="vertical"
+                tools:context="presentation.screen.home.HomeFragment">
 
-        <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="36dp"
-                android:layout_marginEnd="52dp"
-                android:background="?android:attr/listDivider" />
+            <TextView
+                    android:id="@+id/deckNameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="56dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="12dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:textColor="@color/text_title"
+                    android:textSize="@dimen/text_size_home_screen_deck_name"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/deck_indicator"
+                    app:drawableTint="@color/iconDark"
+                    tools:text="Английский №8" />
 
-        <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="29sp"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:shrinkColumns="*"
-                android:stretchColumns="0,1,2">
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="52dp"
+                    android:background="?android:attr/listDivider" />
 
-            <TableRow android:id="@+id/row_1">
+            <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="29sp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="0,1,2">
 
-                <TextView
-                        android:id="@+id/avgLapsTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:paddingEnd="4dp"
-                        android:text="@string/deck_summary_table_average_laps"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
-
-                <TextView
-                        android:id="@+id/learnedTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:paddingEnd="4dp"
-                        android:text="@string/deck_summary_table_learned"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
-
-                <TextView
-                        android:id="@+id/taskTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:paddingEnd="4dp"
-                        android:text="@string/deck_summary_table_task"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
-
-                <TextView
-                        android:id="@+id/match_parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/deck_summary_table_last_tested"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
-
-            </TableRow>
-
-            <TableRow android:id="@+id/row_2">
-
-                <TextView
-                        android:id="@+id/avgLapsValueTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
-                        android:textStyle="bold"
-                        tools:text="3.6" />
-
-                <TextView
-                        android:id="@+id/learnedValueTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
-                        android:textStyle="bold"
-                        tools:text="12/50" />
-
-                <TextView
-                        android:id="@+id/taskValueTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/text_task"
-                        android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
-                        android:textStyle="bold"
-                        tools:text="24" />
-
-                <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                <TableRow android:id="@+id/row_1">
 
                     <TextView
-                            android:id="@+id/lastTestedValueTextView"
+                            android:id="@+id/avgLapsTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingEnd="4dp"
+                            android:text="@string/deck_summary_table_average_laps"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
+
+                    <TextView
+                            android:id="@+id/learnedTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingEnd="4dp"
+                            android:text="@string/deck_summary_table_learned"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
+
+                    <TextView
+                            android:id="@+id/taskTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingEnd="4dp"
+                            android:text="@string/deck_summary_table_task"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
+
+                    <TextView
+                            android:id="@+id/match_parent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@string/deck_summary_table_last_tested"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
+
+                </TableRow>
+
+                <TableRow android:id="@+id/row_2">
+
+                    <TextView
+                            android:id="@+id/avgLapsValueTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
+                            android:textStyle="bold"
+                            tools:text="3.6" />
+
+                    <TextView
+                            android:id="@+id/learnedValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
@@ -150,57 +127,98 @@
                             android:textColor="@color/textPrimary"
                             android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
                             android:textStyle="bold"
-                            tools:text="Nov 2"
-                            tools:visibility="gone" />
+                            tools:text="12/50" />
 
                     <TextView
-                            android:id="@+id/newDeckLabelTextView"
+                            android:id="@+id/taskValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start|bottom"
-                            android:background="@drawable/background_new_deck"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:text="@string/label_new_deck"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/text_size_deck_preview_item_summary_table_new_deck_label"
+                            android:textColor="@color/text_task"
+                            android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
                             android:textStyle="bold"
-                            android:visibility="gone"
-                            tools:visibility="visible" />
+                            tools:text="24" />
 
-                </FrameLayout>
+                    <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
 
-            </TableRow>
+                        <TextView
+                                android:id="@+id/lastTestedValueTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
+                                android:textStyle="bold"
+                                tools:text="Nov 2"
+                                tools:visibility="gone" />
 
-        </TableLayout>
+                        <TextView
+                                android:id="@+id/newDeckLabelTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|bottom"
+                                android:background="@drawable/background_new_deck"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:text="@string/label_new_deck"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_deck_preview_item_summary_table_new_deck_label"
+                                android:textStyle="bold"
+                                android:visibility="gone"
+                                tools:visibility="visible" />
 
-    </LinearLayout>
+                    </FrameLayout>
 
-    <ImageButton
-            android:id="@+id/deckOptionButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+        <ImageButton
+                android:id="@+id/deckOptionButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/deck_options"
+                android:tint="@color/iconDark"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
+
+        <ImageButton
+                android:id="@+id/deckSelector"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/deck_options"
+                android:visibility="gone"
+                app:srcCompat="@drawable/deck_selector" />
+
+    </FrameLayout>
+
+    <ImageView
+            android:id="@+id/pinIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_gravity="top|end"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/deck_options"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/description_pin_icon"
+            android:rotation="30"
             android:tint="@color/iconDark"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
-
-    <ImageButton
-            android:id="@+id/deckSelector"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="top|end"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/deck_options"
-            android:visibility="gone"
-            app:srcCompat="@drawable/deck_selector" />
+            app:srcCompat="@drawable/ic_round_push_pin_20"
+            tools:visibility="visible" />
 
 </FrameLayout>

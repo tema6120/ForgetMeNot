@@ -29,8 +29,8 @@ abstract class BaseController<Event, Command> {
 
     protected abstract fun saveState()
 
-    protected fun sendCommand(command: Command) {
-        commandFlow.send(command)
+    protected fun sendCommand(command: Command, postponeIfNotActive: Boolean = false) {
+        commandFlow.send(command, postponeIfNotActive)
     }
 
     fun dispose() {

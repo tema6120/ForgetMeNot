@@ -24,9 +24,9 @@ class EventFlow<Event> {
         }
     }
 
-    fun send(event: Event) {
+    fun send(event: Event, postponeIfNotActive: Boolean = false) {
         if (channels.isEmpty()) {
-            pendingEvents.add(event)
+            if (postponeIfNotActive) pendingEvents.add(event)
         } else {
             channels.forEach { it.offer(event) }
         }

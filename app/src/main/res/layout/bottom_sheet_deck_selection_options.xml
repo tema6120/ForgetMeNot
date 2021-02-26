@@ -47,6 +47,18 @@
                 android:orientation="vertical">
 
             <TextView
+                    android:id="@+id/pinDeckSelectionOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_pin"
+                    app:drawableStartCompat="@drawable/ic_round_push_pin_20" />
+
+            <TextView
+                    android:id="@+id/unpinDeckSelectionOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_unpin"
+                    app:drawableStartCompat="@drawable/ic_outline_push_pin_20" />
+
+            <TextView
                     android:id="@+id/exportDeckSelectionOptionItem"
                     style="@style/DeckOptionItem"
                     android:text="@string/deck_option_export"

@@ -73,6 +73,7 @@
     <string name="deck_sorting_name">Назвою</string>
     <string name="deck_sorting_time_created">Часом створення</string>
     <string name="deck_sorting_by_time_last_tested">Часом ост. тест.</string>
+    <string name="description_pin_icon">іконка \"Шпилька\"</string>
     <string name="deck_summary_table_average_laps">Кіл</string>
     <string name="deck_summary_table_learned">Вивчено</string>
     <string name="deck_summary_table_task">Завдання</string>
@@ -83,6 +84,8 @@
     <string name="deck_option_rename">Перейменувати</string>
     <string name="deck_option_edit_cards">Редагувати картки</string>
     <string name="deck_option_setup">Налаштувати</string>
+    <string name="deck_option_pin">Закріпити</string>
+    <string name="deck_option_unpin">Відкріпити</string>
     <string name="deck_option_export">Експортувати</string>
     <string name="deck_option_merge_into">Злити в</string>
     <string name="deck_option_remove">Видалити</string>

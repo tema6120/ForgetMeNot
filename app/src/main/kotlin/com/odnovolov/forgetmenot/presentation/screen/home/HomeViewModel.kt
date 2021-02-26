@@ -31,7 +31,8 @@ class HomeViewModel(
         val learnedCount: Int,
         val totalCount: Int,
         val numberOfCardsReadyForExercise: Int?,
-        val lastTestedAt: DateTime?
+        val lastTestedAt: DateTime?,
+        val isPinned: Boolean
     ) {
         fun toDeckPreview(searchMatchingRanges: List<IntRange>?) = DeckPreview(
             deckId,
@@ -41,7 +42,8 @@ class HomeViewModel(
             learnedCount,
             totalCount,
             numberOfCardsReadyForExercise,
-            lastTestedAt?.format("MMM d")
+            lastTestedAt?.format("MMM d"),
+            isPinned
         )
     }
 
@@ -57,10 +59,12 @@ class HomeViewModel(
             if (decks.isEmpty()) {
                 flowOf(emptyList())
             } else {
-                val deckNameFlows: List<Flow<String>> = decks.map { deck: Deck ->
-                    deck.flowOf(Deck::name)
+                val flowsForUpdating: MutableList<Flow<Unit>> = ArrayList(decks.size * 2)
+                for (deck in decks) {
+                    flowsForUpdating.add(deck.flowOf(Deck::name).map {  })
+                    flowsForUpdating.add(deck.flowOf(Deck::isPinned).map {  })
                 }
-                combine(deckNameFlows) { decks }
+                combine(flowsForUpdating) { decks }.debounce(10)
             }
         }
         .combine(fiveSeconds) { decks: Collection<Deck>, _ -> decks }
@@ -87,7 +91,8 @@ class HomeViewModel(
                     learnedCount = learnedCount,
                     totalCount = deck.cards.size,
                     numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
-                    lastTestedAt = deck.lastTestedAt
+                    lastTestedAt = deck.lastTestedAt,
+                    isPinned = deck.isPinned
                 )
             }
         }
@@ -219,6 +224,36 @@ class HomeViewModel(
     val deckNameInDeckOptionMenu: Flow<String?> =
         homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu)
             .map { deck: Deck? -> deck?.name }
+
+    val isDeckInDeckOptionPinned: Flow<Boolean> =
+        homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu)
+            .map { deck: Deck? -> deck?.isPinned ?: false }
+
+    val isPinDeckSelectionOptionAvailable: Flow<Boolean> = combine(
+        deckSelection,
+        decksPreview
+    ) { deckSelection: DeckSelection?, decksPreview: List<DeckPreview> ->
+        if (deckSelection == null) {
+            false
+        } else {
+            decksPreview.any { deckPreview: DeckPreview ->
+                deckPreview.deckId in deckSelection.selectedDeckIds && !deckPreview.isPinned
+            }
+        }
+    }
+
+    val isUnpinDeckSelectionOptionAvailable: Flow<Boolean> = combine(
+        deckSelection,
+        decksPreview
+    ) { deckSelection: DeckSelection?, decksPreview: List<DeckPreview> ->
+        if (deckSelection == null) {
+            false
+        } else {
+            decksPreview.any { deckPreview: DeckPreview ->
+                deckPreview.deckId in deckSelection.selectedDeckIds && deckPreview.isPinned
+            }
+        }
+    }
 
     val decksNotFound: Flow<Boolean> = combine(
         hasSearchText,

@@ -71,9 +71,33 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun observeViewModel(viewModel: HomeViewModel) {
-        viewModel.deckNameInDeckOptionMenu.observe { deckName: String? ->
-            if (deckName != null) {
-                deckNameTextView.text = deckName
+        with(viewModel) {
+            deckNameInDeckOptionMenu.observe { deckName: String? ->
+                if (deckName != null) {
+                    deckNameTextView.text = deckName
+                }
+            }
+            isDeckInDeckOptionPinned.observe { isPinned: Boolean ->
+                pinDeckOptionItem.setText(
+                    if (isPinned)
+                        R.string.deck_option_unpin else
+                        R.string.deck_option_pin
+                )
+                pinDeckOptionItem.setOnClickListener {
+                    controller?.dispatch(
+                        if (isPinned)
+                            UnpinDeckOptionSelected else
+                            PinDeckOptionSelected
+                    )
+                    dismiss()
+                }
+                val drawableResStart: Int =
+                    if (isPinned)
+                        R.drawable.ic_outline_push_pin_20 else
+                        R.drawable.ic_round_push_pin_20
+                pinDeckOptionItem.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    drawableResStart, 0, 0, 0
+                )
             }
         }
     }

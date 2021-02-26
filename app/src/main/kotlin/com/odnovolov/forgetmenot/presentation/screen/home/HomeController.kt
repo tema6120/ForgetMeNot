@@ -85,6 +85,28 @@ class HomeController(
                     screenState.deckSelection?.copy(selectedDeckIds = allDisplayedDeckIds)
             }
 
+            PinDeckSelectionOptionSelected -> {
+                val selectedDeckIds: List<Long> =
+                    screenState.deckSelection?.selectedDeckIds ?: return
+                for (deck in globalState.decks) {
+                    if (deck.id in selectedDeckIds && !deck.isPinned) {
+                        deck.isPinned = true
+                    }
+                }
+                screenState.deckSelection = null
+            }
+
+            UnpinDeckSelectionOptionSelected -> {
+                val selectedDeckIds: List<Long> =
+                    screenState.deckSelection?.selectedDeckIds ?: return
+                for (deck in globalState.decks) {
+                    if (deck.id in selectedDeckIds && deck.isPinned) {
+                        deck.isPinned = false
+                    }
+                }
+                screenState.deckSelection = null
+            }
+
             ExportDeckSelectionOptionSelected -> {
                 val selectedDeckIds: List<Long> =
                     screenState.deckSelection?.selectedDeckIds ?: return
@@ -115,7 +137,10 @@ class HomeController(
                         is ExistingDeck -> event.abstractDeck.deck.name
                         else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
                     }
-                    sendCommand(ShowDeckMergingMessage(numberOfMergedDecks, deckNameMergedInto))
+                    sendCommand(
+                        command = ShowDeckMergingMessage(numberOfMergedDecks, deckNameMergedInto),
+                        postponeIfNotActive = true
+                    )
                 }
                 screenState.deckSelection = null
             }
@@ -212,6 +237,14 @@ class HomeController(
             SetupDeckOptionSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigateToDeckEditor(deckId, DeckEditorScreenTab.Settings)
+            }
+
+            PinDeckOptionSelected -> {
+                screenState.deckForDeckOptionMenu?.isPinned = true
+            }
+
+            UnpinDeckOptionSelected -> {
+                screenState.deckForDeckOptionMenu?.isPinned = false
             }
 
             ExportDeckOptionSelected -> {

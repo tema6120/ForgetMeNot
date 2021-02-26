@@ -119,6 +119,7 @@ class DeckPreviewAdapter(
                 lastTestedValueTextView.text = deckPreview.lastTestedAt
             }
             updateDeckItemSelectionState(itemView = this, deckPreview.deckId)
+            pinIcon.isVisible = deckPreview.isPinned
         }
     }
 

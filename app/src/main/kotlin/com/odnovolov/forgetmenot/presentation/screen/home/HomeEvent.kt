@@ -9,6 +9,8 @@ sealed class HomeEvent {
     // Selection toolbar:
     object SelectionCancelled : HomeEvent()
     object SelectAllDecksButtonClicked : HomeEvent()
+    object PinDeckSelectionOptionSelected : HomeEvent()
+    object UnpinDeckSelectionOptionSelected : HomeEvent()
     object ExportDeckSelectionOptionSelected : HomeEvent()
     object MergeIntoDeckSelectionOptionSelected : HomeEvent()
     class DeckToMergeIntoIsSelected(val abstractDeck: AbstractDeck) : HomeEvent()
@@ -35,6 +37,8 @@ sealed class HomeEvent {
     object RenameDeckOptionSelected : HomeEvent()
     object EditCardsDeckOptionSelected : HomeEvent()
     object SetupDeckOptionSelected : HomeEvent()
+    object PinDeckOptionSelected : HomeEvent()
+    object UnpinDeckOptionSelected : HomeEvent()
     object ExportDeckOptionSelected : HomeEvent()
     object MergeIntoDeckOptionSelected : HomeEvent()
     object RemoveDeckOptionSelected : HomeEvent()

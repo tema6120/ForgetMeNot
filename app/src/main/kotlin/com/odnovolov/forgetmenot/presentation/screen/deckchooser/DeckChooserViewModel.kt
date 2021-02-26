@@ -48,7 +48,8 @@ class DeckChooserViewModel(
                     learnedCount = learnedCount,
                     totalCount = deck.cards.size,
                     numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
-                    lastTestedAt = deck.lastTestedAt
+                    lastTestedAt = deck.lastTestedAt,
+                    isPinned = deck.isPinned
                 )
             }
         }

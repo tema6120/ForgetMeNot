@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import androidx.transition.Transition
@@ -465,6 +466,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun updateStatusBarColor(isSelectionMode: Boolean) {
+        if (findNavController().currentDestination?.id == R.id.deck_chooser) return
         if (isSelectionMode) {
             setStatusBarColor(requireActivity(), R.color.colorAccent)
         } else {
