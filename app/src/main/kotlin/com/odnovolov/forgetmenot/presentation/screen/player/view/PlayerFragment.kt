@@ -78,6 +78,7 @@ class PlayerFragment : BaseFragment() {
                 viewCoroutineScope!!,
                 diScope.playingCardController
             )
+            progressBarForViewPager2.attach(playerViewPager)
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }
@@ -125,9 +126,7 @@ class PlayerFragment : BaseFragment() {
                 }
                 progressBar.visibility = GONE
             }
-            cardPosition.observe { cardPosition: CardPosition ->
-                positionTextView.text = cardPosition.toString()
-            }
+            cardPosition.observe(positionTextView::setText)
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()

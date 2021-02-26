@@ -8,7 +8,6 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
-import com.odnovolov.forgetmenot.presentation.screen.exercise.CardPosition
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
@@ -34,11 +33,11 @@ class PlayerViewModel(
         .distinctUntilChanged()
         .share()
 
-    val cardPosition: Flow<CardPosition> = combine(
+    val cardPosition: Flow<String> = combine(
         playerState.flowOf(Player.State::currentPosition),
         playingCards
     ) { currentPosition: Int, playingCards: List<PlayingCard> ->
-        CardPosition(currentPosition, playingCards.size)
+        "${currentPosition + 1}/${playingCards.size}"
     }
 
     val gradeOfCurrentCard: Flow<Int> =

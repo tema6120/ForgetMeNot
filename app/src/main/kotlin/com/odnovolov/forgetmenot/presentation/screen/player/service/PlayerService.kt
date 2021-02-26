@@ -7,7 +7,6 @@ import android.os.PowerManager
 import android.widget.Toast
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseService
-import com.odnovolov.forgetmenot.presentation.screen.exercise.CardPosition
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceController.Command.ShowCannotGetAudioFocusMessage
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceEvent.*
@@ -46,7 +45,7 @@ class PlayerService : BaseService() {
 
     private fun observeServiceModel(serviceModel: PlayerServiceModel) {
         with(serviceModel) {
-            cardPosition.observe { cardPosition: CardPosition ->
+            cardPosition.observe { cardPosition: String ->
                 notificationBuilder.cardPosition = cardPosition
                 notificationBuilder.update()
             }

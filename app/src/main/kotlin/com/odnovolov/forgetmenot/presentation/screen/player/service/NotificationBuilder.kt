@@ -10,10 +10,9 @@ import android.os.Build.VERSION_CODES
 import androidx.core.app.NotificationCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.screen.exercise.CardPosition
 
 class NotificationBuilder(private val context: Context) {
-    var cardPosition: CardPosition? = null
+    var cardPosition: String? = null
     var contextText: CharSequence? = null
     var isPlaying: Boolean = true
     var isCompleted: Boolean = false
@@ -31,7 +30,7 @@ class NotificationBuilder(private val context: Context) {
 
     private fun contentTitle(): String {
         val baseTitle = context.getString(R.string.player_notification_title)
-        return cardPosition?.let { cardPosition: CardPosition ->
+        return cardPosition?.let { cardPosition: String ->
             "$baseTitle ($cardPosition)"
         } ?: baseTitle
     }

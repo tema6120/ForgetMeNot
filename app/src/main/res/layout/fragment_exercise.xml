@@ -165,4 +165,14 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="12/35" />
 
+    <com.odnovolov.forgetmenot.presentation.common.customview.ProgressBarForViewPager2
+            android:id="@+id/progressBarForViewPager2"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            app:layout_constraintBottom_toTopOf="@+id/controlPanelScroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:background="@color/colorAccent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

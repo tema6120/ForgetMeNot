@@ -39,11 +39,11 @@ open class ExerciseViewModel(
         .distinctUntilChanged()
         .share()
 
-    val cardPosition: Flow<CardPosition> = combine(
+    val cardPosition: Flow<String> = combine(
         exerciseState.flowOf(Exercise.State::currentPosition),
         exerciseCards
     ) { currentPosition: Int, exerciseCards: List<ExerciseCard> ->
-        CardPosition(currentPosition, exerciseCards.size)
+        "${currentPosition + 1}/${exerciseCards.size}"
     }
 
     val gradeOfCurrentCard: Flow<Int> =

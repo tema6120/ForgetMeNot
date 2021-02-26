@@ -86,6 +86,7 @@ class ExerciseFragment : BaseFragment() {
             val diScope = ExerciseDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!)
+            progressBarForViewPager2.attach(exerciseViewPager)
             viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
@@ -184,9 +185,7 @@ class ExerciseFragment : BaseFragment() {
             if (exerciseViewPager.currentItem != currentPosition) {
                 exerciseViewPager.setCurrentItem(currentPosition, false)
             }
-            cardPosition.observe { cardPosition: CardPosition ->
-                positionTextView.text = cardPosition.toString()
-            }
+            cardPosition.observe(positionTextView::setText)
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()
