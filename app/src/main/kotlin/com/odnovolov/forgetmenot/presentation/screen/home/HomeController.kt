@@ -99,15 +99,14 @@ class HomeController(
             }
 
             MergeIntoDeckSelectionOptionSelected -> {
-                navigator.navigateToDeckChooserFromNavHost {
-                    val screenState = DeckChooserScreenState(purpose = ToMergeInto)
-                    DeckChooserDiScope.create(screenState)
-                }
+                navigateToDeckChooser()
             }
 
             is DeckToMergeIntoIsSelected -> {
                 val selectedDeckIds: List<Long> =
-                    screenState.deckSelection?.selectedDeckIds ?: return
+                    screenState.deckSelection?.selectedDeckIds
+                        ?: screenState.deckForDeckOptionMenu?.let { deck -> listOf(deck.id) }
+                        ?: return
                 val selectedDecks: List<Deck> =
                     globalState.decks.filter { deck: Deck -> deck.id in selectedDeckIds }
                 val numberOfMergedDecks = deckMerger.merge(selectedDecks into event.deck)
@@ -220,6 +219,10 @@ class HomeController(
                 }
             }
 
+            MergeIntoDeckOptionSelected -> {
+                navigateToDeckChooser()
+            }
+
             RemoveDeckOptionSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 val numberOfRemovedDecks = deckRemover.removeDeck(deckId)
@@ -279,6 +282,13 @@ class HomeController(
                     CardsEditorDiScope.create(cardsEditor)
                 }
             }
+        }
+    }
+
+    private fun navigateToDeckChooser() {
+        navigator.navigateToDeckChooserFromNavHost {
+            val screenState = DeckChooserScreenState(purpose = ToMergeInto)
+            DeckChooserDiScope.create(screenState)
         }
     }
 

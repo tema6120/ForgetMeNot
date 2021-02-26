@@ -41,9 +41,9 @@
         <item quantity="many">%d колод</item>
     </plurals>
     <string name="description_cancel_selection">Скасувати обрання</string>
-    <string name="description_export">Експорт</string>
     <string name="description_select_all">Вибрати все</string>
     <string name="description_remove_decks">Видалити колоди</string>
+    <string name="description_more_options">Більше опцій</string>
     <string name="tab_decks">Колоди</string>
     <string name="tab_cards">Картки</string>
     <string name="no_matching_decks">Немає відповідних колод</string>
@@ -84,12 +84,8 @@
     <string name="deck_option_edit_cards">Редагувати картки</string>
     <string name="deck_option_setup">Налаштувати</string>
     <string name="deck_option_export">Експортувати</string>
+    <string name="deck_option_merge_into">Злити в</string>
     <string name="deck_option_remove">Видалити</string>
-    <string name="description_more_options">Більше опцій</string>
-    <string name="deck_selection_option_export">Експортувати</string>
-    <string name="deck_selection_option_merge_into">Злити в</string>
-    <string name="deck_selection_option_remove">Видалити</string>
-    <string name="toast_text_no_cards_ready_for_exercise">Немає карток, готових для вправи</string>
     <plurals name="toast_decks_removing">
         <item quantity="one">%d колода видалена(і)</item>
         <item quantity="few">Видалено %d колоди</item>
@@ -103,6 +99,7 @@
     <string name="text_autoplay_button">Автопрогравання</string>
     <string name="text_exercise_button">Вправа</string>
     <string name="text_exercise_button_with_cards_count">Вправа (%d)</string>
+    <string name="toast_text_no_cards_ready_for_exercise">Немає карток, готових для вправи</string>
     <string name="progress_bar_reading_files">Читання файлів ..</string>
 
 

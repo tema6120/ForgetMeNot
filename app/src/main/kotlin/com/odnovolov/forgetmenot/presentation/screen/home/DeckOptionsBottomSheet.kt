@@ -60,6 +60,10 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             controller?.dispatch(ExportDeckOptionSelected)
             dismiss()
         }
+        mergeIntoDeckOptionItem.setOnClickListener {
+            controller?.dispatch(MergeIntoDeckOptionSelected)
+            dismiss()
+        }
         removeDeckOptionItem.setOnClickListener {
             controller?.dispatch(RemoveDeckOptionSelected)
             dismiss()

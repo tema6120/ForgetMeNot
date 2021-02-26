@@ -36,6 +36,7 @@ sealed class HomeEvent {
     object EditCardsDeckOptionSelected : HomeEvent()
     object SetupDeckOptionSelected : HomeEvent()
     object ExportDeckOptionSelected : HomeEvent()
+    object MergeIntoDeckOptionSelected : HomeEvent()
     object RemoveDeckOptionSelected : HomeEvent()
 
     // Bottom buttons:

@@ -39,9 +39,9 @@
         <item quantity="many">%d колод</item>
     </plurals>
     <string name="description_cancel_selection">Отменить избрание</string>
-    <string name="description_export">Экспорт</string>
     <string name="description_select_all">Выбрать все</string>
     <string name="description_remove_decks">Удалить колоды</string>
+    <string name="description_more_options">Больше опций</string>
     <string name="tab_decks">Колоды</string>
     <string name="tab_cards">Карточки</string>
     <string name="no_matching_decks">Нет соответствующих колод</string>
@@ -79,12 +79,8 @@
     <string name="deck_option_edit_cards">Редактировать карточки</string>
     <string name="deck_option_setup">Настроить</string>
     <string name="deck_option_export">Экспортировать</string>
+    <string name="deck_option_merge_into">Слить в</string>
     <string name="deck_option_remove">Удалить</string>
-    <string name="description_more_options">Больше опций</string>
-    <string name="deck_selection_option_export">Экспортировать</string>
-    <string name="deck_selection_option_merge_into">Слить в</string>
-    <string name="deck_selection_option_remove">Удалить</string>
-    <string name="toast_text_no_cards_ready_for_exercise">Нет карточек, готовых для упражнения</string>
     <plurals name="toast_decks_removing">
         <item quantity="one">%d колода удалена(ы)</item>
         <item quantity="few">Удалено %d колоды</item>
@@ -98,6 +94,7 @@
     <string name="text_autoplay_button">Автопроигрывание</string>
     <string name="text_exercise_button">Упражнение</string>
     <string name="text_exercise_button_with_cards_count">Упражнение (%d)</string>
+    <string name="toast_text_no_cards_ready_for_exercise">Нет карточек, готовых для упражнения</string>
     <string name="progress_bar_reading_files">Чтение файлов ..</string>
 
 

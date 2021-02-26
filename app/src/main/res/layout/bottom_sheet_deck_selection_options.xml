@@ -47,21 +47,21 @@
                 android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/exportDecSelectionOptionItem"
+                    android:id="@+id/exportDeckSelectionOptionItem"
                     style="@style/DeckOptionItem"
-                    android:text="@string/deck_selection_option_export"
+                    android:text="@string/deck_option_export"
                     app:drawableStartCompat="@drawable/ic_round_unarchive_20" />
 
             <TextView
-                    android:id="@+id/mergeIntoDecSelectionOptionItem"
+                    android:id="@+id/mergeIntoDeckSelectionOptionItem"
                     style="@style/DeckOptionItem"
-                    android:text="@string/deck_selection_option_merge_into"
+                    android:text="@string/deck_option_merge_into"
                     app:drawableStartCompat="@drawable/ic_round_merge_type_20" />
 
             <TextView
-                    android:id="@+id/removeDecSelectionOptionItem"
+                    android:id="@+id/removeDeckSelectionOptionItem"
                     style="@style/DeckOptionItem"
-                    android:text="@string/deck_selection_option_remove"
+                    android:text="@string/deck_option_remove"
                     app:drawableStartCompat="@drawable/ic_round_delete_20" />
 
         </LinearLayout>

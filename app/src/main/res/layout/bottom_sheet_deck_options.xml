@@ -117,6 +117,12 @@
                     app:drawableStartCompat="@drawable/ic_round_unarchive_20" />
 
             <TextView
+                    android:id="@+id/mergeIntoDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_merge_into"
+                    app:drawableStartCompat="@drawable/ic_round_merge_type_20" />
+
+            <TextView
                     android:id="@+id/removeDeckOptionItem"
                     style="@style/DeckOptionItem"
                     android:text="@string/deck_option_remove"

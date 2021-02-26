@@ -36,15 +36,15 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun setupView() {
-        exportDecSelectionOptionItem.setOnClickListener {
+        exportDeckSelectionOptionItem.setOnClickListener {
             controller?.dispatch(ExportDeckSelectionOptionSelected)
             dismiss()
         }
-        mergeIntoDecSelectionOptionItem.setOnClickListener {
+        mergeIntoDeckSelectionOptionItem.setOnClickListener {
             controller?.dispatch(MergeIntoDeckSelectionOptionSelected)
             dismiss()
         }
-        removeDecSelectionOptionItem.setOnClickListener {
+        removeDeckSelectionOptionItem.setOnClickListener {
             controller?.dispatch(RemoveDeckSelectionOptionSelected)
             dismiss()
         }
