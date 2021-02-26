@@ -1,10 +1,10 @@
-package com.odnovolov.forgetmenot.domain.interactor.deckremover
+package com.odnovolov.forgetmenot.domain.interactor.operationsondecks
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover.Event.DecksHasRemoved
 import kotlinx.coroutines.flow.Flow
 
 class DeckRemover(

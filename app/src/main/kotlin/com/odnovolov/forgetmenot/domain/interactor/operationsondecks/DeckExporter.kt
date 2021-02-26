@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.domain.interactor.deckexporter
+package com.odnovolov.forgetmenot.domain.interactor.operationsondecks
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck

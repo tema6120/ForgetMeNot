@@ -10,6 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToImportCards
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportScreenState
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileController.Command
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileController.Command.AskToUseSelectedDeckForImportNextFiles
@@ -66,9 +67,7 @@ class CardsFileController(
 
             AddCardsToExistingDeckButtonClicked -> {
                 navigator.navigateToDeckChooserFromFileImport {
-                    val screenState = DeckChooserScreenState(
-                        purpose = DeckChooserScreenState.Purpose.ChooseDeckWhereToImportCards
-                    )
+                    val screenState = DeckChooserScreenState(purpose = ToImportCards)
                     DeckChooserDiScope.create(screenState)
                 }
             }

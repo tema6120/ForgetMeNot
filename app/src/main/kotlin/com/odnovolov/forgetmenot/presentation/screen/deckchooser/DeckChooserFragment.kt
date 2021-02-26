@@ -16,7 +16,8 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ChooseDeckWhereToImportCards
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToImportCards
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMergeInto
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting
@@ -24,9 +25,6 @@ import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import kotlinx.android.synthetic.main.fragment_deck_chooser.*
-import kotlinx.android.synthetic.main.fragment_deck_chooser.decksPreviewRecycler
-import kotlinx.android.synthetic.main.fragment_deck_chooser.progressBar
-import kotlinx.android.synthetic.main.fragment_deck_chooser.searchEditText
 import kotlinx.android.synthetic.main.item_deck_preview_header.view.*
 import kotlinx.android.synthetic.main.popup_deck_sorting.view.*
 import kotlinx.coroutines.launch
@@ -97,10 +95,12 @@ class DeckChooserFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
-            screenTitleTextView.text = when (purpose) {
-                ChooseDeckWhereToImportCards ->
-                    getString(R.string.screen_title_choose_a_deck_to_import_cards_to)
-            }
+            screenTitleTextView.setText(
+                when (purpose) {
+                    ToImportCards -> R.string.screen_title_choose_a_deck_to_import_cards_to
+                    ToMergeInto -> R.string.screen_title_choose_a_deck_to_merge_into
+                }
+            )
             deckListItems.observe { deckListItems: List<DeckListItem> ->
                 deckPreviewAdapter?.submitList(deckListItems)
                 progressBar.visibility = View.GONE

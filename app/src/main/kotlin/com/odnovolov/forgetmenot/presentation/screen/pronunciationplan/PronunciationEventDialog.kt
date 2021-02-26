@@ -5,11 +5,10 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
+import com.odnovolov.forgetmenot.presentation.common.createDialog
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.common.uncover
@@ -38,14 +37,7 @@ class PronunciationEventDialog : BaseDialogFragment() {
             controller = diScope.controller
             observeViewModel(diScope.viewModel, isRestoring)
         }
-        return AlertDialog.Builder(requireContext())
-            .setView(rootView)
-            .create()
-            .apply {
-                window?.setBackgroundDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
-                )
-            }
+        return createDialog(rootView)
     }
 
     private fun setupView() {

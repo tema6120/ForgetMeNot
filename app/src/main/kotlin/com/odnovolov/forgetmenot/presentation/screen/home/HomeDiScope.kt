@@ -1,7 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider
@@ -24,9 +25,17 @@ class HomeDiScope private constructor(
     val screenState: HomeScreenState =
         initialHomeScreenState ?: homeScreenStateProvider.load()
 
-    private val deckRemover = DeckRemover(AppDiScope.get().globalState)
+    private val deckRemover = DeckRemover(
+        AppDiScope.get().globalState
+    )
 
-    private val exerciseStateCreator = ExerciseStateCreator(AppDiScope.get().globalState)
+    private val deckMerger = DeckMerger(
+        AppDiScope.get().globalState
+    )
+
+    private val exerciseStateCreator = ExerciseStateCreator(
+        AppDiScope.get().globalState
+    )
 
     private val cardsSearcher = CardsSearcher(
         AppDiScope.get().globalState
@@ -36,6 +45,7 @@ class HomeDiScope private constructor(
         screenState,
         deckReviewPreference,
         deckRemover,
+        deckMerger,
         exerciseStateCreator,
         cardsSearcher,
         AppDiScope.get().globalState,

@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
@@ -111,14 +110,7 @@ class CardsFileFragment : BaseFragment() {
                     askToUseDeckDialog!!.dismiss()
                 }
             }
-            askToUseDeckDialog = AlertDialog.Builder(requireContext())
-                .setView(contentView)
-                .create()
-                .apply {
-                    window?.setBackgroundDrawable(
-                        ContextCompat.getDrawable(context, R.drawable.background_dialog)
-                    )
-                }
+            askToUseDeckDialog = createDialog(contentView)
         }
         return askToUseDeckDialog!!
     }

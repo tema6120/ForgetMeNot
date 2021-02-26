@@ -3,14 +3,9 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view.laps
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showSoftInput
-import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerEvent.*
 import kotlinx.android.synthetic.main.dialog_laps_in_player.view.*
 import kotlinx.coroutines.launch
@@ -34,14 +29,7 @@ class LapsInPlayerDialog : BaseDialogFragment() {
             viewModel = diScope.viewModel
             observeViewModel()
         }
-        return AlertDialog.Builder(requireContext())
-            .setView(rootView)
-            .create()
-            .apply {
-                window?.setBackgroundDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
-                )
-            }
+        return createDialog(rootView)
     }
 
     private fun setupView() {

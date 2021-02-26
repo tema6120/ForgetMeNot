@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:background="@drawable/background_bottom_sheet_round_corner"
+        tools:layout_gravity="bottom">
+
+    <View
+            android:id="@+id/handle"
+            android:layout_width="76dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bottom_sheet_handler" />
+
+    <TextView
+            android:id="@+id/numberOfSelectedDecksTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/text_size_deck_option_bottom_sheet_title"
+            android:textStyle="bold"
+            tools:text="3 decks" />
+
+    <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/exportDecSelectionOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_selection_option_export"
+                    app:drawableStartCompat="@drawable/ic_round_unarchive_20" />
+
+            <TextView
+                    android:id="@+id/mergeIntoDecSelectionOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_selection_option_merge_into"
+                    app:drawableStartCompat="@drawable/ic_round_merge_type_20" />
+
+            <TextView
+                    android:id="@+id/removeDecSelectionOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_selection_option_remove"
+                    app:drawableStartCompat="@drawable/ic_round_delete_20" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

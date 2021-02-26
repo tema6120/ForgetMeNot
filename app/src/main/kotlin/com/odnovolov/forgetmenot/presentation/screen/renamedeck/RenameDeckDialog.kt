@@ -3,12 +3,11 @@ package com.odnovolov.forgetmenot.presentation.screen.renamedeck
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
+import com.odnovolov.forgetmenot.presentation.common.createDialog
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
@@ -36,15 +35,9 @@ class RenameDeckDialog : BaseDialogFragment() {
             viewModel = diScope.viewModel
             observeViewModel(isRecreated = savedInstanceState != null)
         }
-        return AlertDialog.Builder(requireContext())
-            .setView(rootView)
-            .create()
-            .apply {
-                window?.setBackgroundDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
-                )
-                setOnShowListener { rootView.dialogInput.showSoftInput() }
-            }
+        return createDialog(rootView).apply {
+            setOnShowListener { rootView.dialogInput.showSoftInput() }
+        }
     }
 
     private fun setupView() {

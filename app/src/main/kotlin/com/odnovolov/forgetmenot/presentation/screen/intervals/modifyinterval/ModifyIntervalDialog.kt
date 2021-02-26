@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.NumberPicker
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
@@ -42,15 +41,9 @@ class ModifyIntervalDialog : BaseDialogFragment() {
             controller = diScope.controller
             observeViewModel(diScope.viewModel, isRestoring)
         }
-        return AlertDialog.Builder(requireContext())
-            .setView(rootView)
-            .create()
-            .apply {
-                setOnShowListener { rootView.numberEditText.showSoftInput() }
-                window?.setBackgroundDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.background_dialog)
-                )
-            }
+        return createDialog(rootView).apply {
+            setOnShowListener { rootView.numberEditText.showSoftInput() }
+        }
     }
 
     private fun setupView() {
@@ -83,7 +76,7 @@ class ModifyIntervalDialog : BaseDialogFragment() {
         val intervalUnits = DisplayedInterval.IntervalUnit.values()
             .map { intervalUnit: DisplayedInterval.IntervalUnit ->
                 val pluralsId: Int = when (intervalUnit) {
-                    DisplayedInterval.IntervalUnit.Minutes ->  R.plurals.interval_unit_minutes
+                    DisplayedInterval.IntervalUnit.Minutes -> R.plurals.interval_unit_minutes
                     DisplayedInterval.IntervalUnit.Hours -> R.plurals.interval_unit_hours
                     DisplayedInterval.IntervalUnit.Days -> R.plurals.interval_unit_days
                     DisplayedInterval.IntervalUnit.Months -> R.plurals.interval_unit_months

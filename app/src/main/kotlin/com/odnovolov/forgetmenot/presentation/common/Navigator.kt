@@ -97,6 +97,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.exercise_to_help_article)
     }
 
+    fun navigateToDeckChooserFromNavHost(createDiScope: () -> DeckChooserDiScope) {
+        DeckChooserDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_deck_chooser)
+    }
+
     fun navigateToCardsEditorFromNavHost(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_cards_editor)

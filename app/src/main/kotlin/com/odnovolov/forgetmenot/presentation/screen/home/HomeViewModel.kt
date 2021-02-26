@@ -161,6 +161,10 @@ class HomeViewModel(
     val deckSelection: Flow<DeckSelection?> = homeScreenState.flowOf(HomeScreenState::deckSelection)
         .share()
 
+    val numberOfSelectedDecks: Flow<Int> = deckSelection.map { deckSelection: DeckSelection? ->
+        deckSelection?.selectedDeckIds?.size ?: 0
+    }
+
     val hasSearchText: Flow<Boolean> =
         homeScreenState.flowOf(HomeScreenState::searchText)
             .map { it.isNotEmpty() }

@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.export
 
-import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckExporter
 import com.odnovolov.forgetmenot.persistence.shortterm.ExportDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager

@@ -6,10 +6,12 @@ import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
-import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover
-import com.odnovolov.forgetmenot.domain.interactor.deckremover.DeckRemover.Event.DecksHasRemoved
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.into
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -18,6 +20,9 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMergeInto
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
@@ -41,6 +46,7 @@ class HomeController(
     private val screenState: HomeScreenState,
     private val deckReviewPreference: DeckReviewPreference,
     private val deckRemover: DeckRemover,
+    private val deckMerger: DeckMerger,
     private val exerciseStateCreator: ExerciseStateCreator,
     private val cardsSearcher: CardsSearcher,
     private val globalState: GlobalState,
@@ -91,14 +97,7 @@ class HomeController(
                     screenState.deckSelection?.copy(selectedDeckIds = allDisplayedDeckIds)
             }
 
-            RemoveDecksButtonClicked -> {
-                val deckIdsToRemove: List<Long> =
-                    screenState.deckSelection?.selectedDeckIds ?: return
-                deckRemover.removeDecks(deckIdsToRemove)
-                screenState.deckSelection = null
-            }
-
-            ExportButtonClicked -> {
+            ExportDeckSelectionOptionSelected -> {
                 val selectedDeckIds: List<Long> =
                     screenState.deckSelection?.selectedDeckIds ?: return
                 if (selectedDeckIds.isEmpty()) return
@@ -108,6 +107,29 @@ class HomeController(
                     val dialogState = ExportDialogState(decks)
                     ExportDiScope.create(dialogState)
                 }
+            }
+
+            MergeIntoDeckSelectionOptionSelected -> {
+                navigator.navigateToDeckChooserFromNavHost {
+                    val screenState = DeckChooserScreenState(purpose = ToMergeInto)
+                    DeckChooserDiScope.create(screenState)
+                }
+            }
+
+            is DeckToMergeIntoIsSelected -> {
+                val selectedDeckIds: List<Long> =
+                    screenState.deckSelection?.selectedDeckIds ?: return
+                val selectedDecks: List<Deck> =
+                    globalState.decks.filter { deck: Deck -> deck.id in selectedDeckIds }
+                deckMerger.merge(selectedDecks into event.deck)
+                screenState.deckSelection = null
+            }
+
+            RemoveDeckSelectionOptionSelected -> {
+                val deckIdsToRemove: List<Long> =
+                    screenState.deckSelection?.selectedDeckIds ?: return
+                deckRemover.removeDecks(deckIdsToRemove)
+                screenState.deckSelection = null
             }
 
             DecksAvailableForExerciseCheckboxClicked -> {

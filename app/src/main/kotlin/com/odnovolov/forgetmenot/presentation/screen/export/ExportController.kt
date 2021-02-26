@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.export
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.deckexporter.DeckExporter
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckExporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider

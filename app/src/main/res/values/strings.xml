@@ -81,6 +81,10 @@
     <string name="deck_option_setup">Setup</string>
     <string name="deck_option_export">Export</string>
     <string name="deck_option_remove">Remove</string>
+    <string name="description_more_options">More options</string>
+    <string name="deck_selection_option_export">Export</string>
+    <string name="deck_selection_option_merge_into">Merge into</string>
+    <string name="deck_selection_option_remove">Remove</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
     <plurals name="numberOfDecksRemoved">
         <item quantity="one">Deck has been removed</item>
@@ -116,7 +120,6 @@
     <string name="deck_label_in_file_import_existing">Existing deck</string>
     <string name="popup_change_deck_for_import_new_button">New deck</string>
     <string name="popup_change_deck_for_import_existing_button">Existing deck</string>
-    <string name="screen_title_choose_a_deck_to_import_cards_to">Choose a deck to import cards to</string>
     <string name="tab_name_source_text">Source text</string>
     <string name="tab_name_cards">Cards</string>
     <plurals name="source_text_error_button">
@@ -164,6 +167,12 @@
     <string name="button_fix_errors">Fix errors</string>
     <string name="button_import_ignoring_errors">Import ignoring errors</string>
     <string name="text_quit_file_import_bottom_sheet">Are you sure you want to cancel the import?</string>
+
+
+    <!-- Deck chooser screen -->
+
+    <string name="screen_title_choose_a_deck_to_import_cards_to">Choose a deck to import cards to</string>
+    <string name="screen_title_choose_a_deck_to_merge_into">Choose a deck to merge into</string>
 
 
     <!-- Exercise screen -->

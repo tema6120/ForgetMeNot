@@ -80,6 +80,10 @@
     <string name="deck_option_setup">Настроить</string>
     <string name="deck_option_export">Экспортировать</string>
     <string name="deck_option_remove">Удалить</string>
+    <string name="description_more_options">Больше опций</string>
+    <string name="deck_selection_option_export">Экспортировать</string>
+    <string name="deck_selection_option_merge_into">Слить в</string>
+    <string name="deck_selection_option_remove">Удалить</string>
     <string name="toast_text_no_cards_ready_for_exercise">Нет карточек, готовых для упражнения</string>
     <plurals name="numberOfDecksRemoved">
         <item quantity="one">%d колода удалена(ы)</item>
@@ -117,8 +121,6 @@
     <string name="deck_label_in_file_import_existing">Существующая колода</string>
     <string name="popup_change_deck_for_import_new_button">Новой колоде</string>
     <string name="popup_change_deck_for_import_existing_button">Существующей колоде</string>
-    <string name="screen_title_choose_a_deck_to_import_cards_to">Выберите колоду, куда нужно
-        импортировать карточки</string>
     <string name="tab_name_source_text">Исходный текст</string>
     <string name="tab_name_cards">Карточки</string>
     <plurals name="source_text_error_button">
@@ -172,6 +174,14 @@
     <string name="button_fix_errors">Исправить ошибки</string>
     <string name="button_import_ignoring_errors">Импортировать игнорируя ошибки</string>
     <string name="text_quit_file_import_bottom_sheet">Вы действительно хотите отменить импортирование?</string>
+
+
+    <!-- Deck chooser screen -->
+
+    <string name="screen_title_choose_a_deck_to_import_cards_to">Выберите колоду, куда нужно
+        импортировать карточки</string>
+    <string name="screen_title_choose_a_deck_to_merge_into">Выберите колоду, в которую нужно
+        слить карточки</string>
 
 
     <!-- Exercise screen -->

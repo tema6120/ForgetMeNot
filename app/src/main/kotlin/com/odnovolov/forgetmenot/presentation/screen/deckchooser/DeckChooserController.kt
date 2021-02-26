@@ -7,12 +7,15 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ChooseDeckWhereToImportCards
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToImportCards
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMergeInto
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.TargetDeckIsSelected
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.DeckToMergeIntoIsSelected
 
 class DeckChooserController(
     private val deckReviewPreference: DeckReviewPreference,
@@ -53,9 +56,13 @@ class DeckChooserController(
             is DeckButtonClicked -> {
                 val deck: Deck = globalState.decks.first { it.id == event.deckId }
                 when (screenState.purpose) {
-                    ChooseDeckWhereToImportCards -> {
+                    ToImportCards -> {
                         FileImportDiScope.getOrRecreate().cardsFileController
                             .dispatch(TargetDeckIsSelected(deck))
+                    }
+                    ToMergeInto -> {
+                        HomeDiScope.getOrRecreate().controller
+                            .dispatch(DeckToMergeIntoIsSelected(deck))
                     }
                 }
                 navigator.navigateUp()

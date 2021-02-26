@@ -119,15 +119,16 @@ class HomeFragment : BaseFragment() {
             controller?.dispatch(SelectAllDecksButtonClicked)
         }
         removeDecksButton.setOnClickListener {
-            controller?.dispatch(RemoveDecksButtonClicked)
+            controller?.dispatch(RemoveDeckSelectionOptionSelected)
         }
-        exportButton.setOnClickListener {
-            controller?.dispatch(ExportButtonClicked)
+        moreDeckSelectionOptionsButton.setOnClickListener {
+            DeckSelectionOptionsBottomSheet()
+                .show(childFragmentManager, "DeckSelectionOptionsBottomSheet")
         }
         cancelSelectionButton.setTooltipTextFromContentDescription()
-        exportButton.setTooltipTextFromContentDescription()
         selectAllButton.setTooltipTextFromContentDescription()
         removeDecksButton.setTooltipTextFromContentDescription()
+        moreDeckSelectionOptionsButton.setTooltipTextFromContentDescription()
     }
 
     private fun observeAppbarOffset() {
@@ -308,8 +309,8 @@ class HomeFragment : BaseFragment() {
 
     private fun updateSelectionToolbarButtons(deckSelection: DeckSelection?) {
         val isGeneralSelection: Boolean = deckSelection != null && deckSelection.purpose == General
-        exportButton.isVisible = isGeneralSelection
         removeDecksButton.isVisible = isGeneralSelection
+        moreDeckSelectionOptionsButton.isVisible = isGeneralSelection
     }
 
     private fun updateExerciseButtonMargin() {

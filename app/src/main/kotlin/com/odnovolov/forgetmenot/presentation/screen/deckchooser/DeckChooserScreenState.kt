@@ -9,6 +9,7 @@ class DeckChooserScreenState(
     var searchText: String by flowMaker("")
 
     enum class Purpose {
-        ChooseDeckWhereToImportCards
+        ToImportCards,
+        ToMergeInto
     }
 }
