@@ -86,9 +86,13 @@
     <string name="deck_selection_option_merge_into">Merge into</string>
     <string name="deck_selection_option_remove">Remove</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
-    <plurals name="numberOfDecksRemoved">
+    <plurals name="toast_decks_removing">
         <item quantity="one">Deck has been removed</item>
         <item quantity="other">%d decks have been removed</item>
+    </plurals>
+    <plurals name="toast_decks_merging">
+        <item quantity="one">%1$d deck has been merged into \'%2$s\'</item>
+        <item quantity="other">%1$d decks have been merged into \'%2$s\'</item>
     </plurals>
     <string name="text_autoplay_button">Autoplay</string>
     <string name="text_exercise_button">Exercise</string>
@@ -108,7 +112,7 @@
         <item quantity="one">Deck is exported successfully</item>
         <item quantity="other">%d decks are exported successfully</item>
     </plurals>
-    <string name="export_result_error">Error while exporting decks:\n\'%1$s\'</string>
+    <string name="export_result_error">Error while exporting decks:\n\'%s\'</string>
 
 
     <!-- File import screen -->

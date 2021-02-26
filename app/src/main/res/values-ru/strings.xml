@@ -85,10 +85,15 @@
     <string name="deck_selection_option_merge_into">Слить в</string>
     <string name="deck_selection_option_remove">Удалить</string>
     <string name="toast_text_no_cards_ready_for_exercise">Нет карточек, готовых для упражнения</string>
-    <plurals name="numberOfDecksRemoved">
+    <plurals name="toast_decks_removing">
         <item quantity="one">%d колода удалена(ы)</item>
         <item quantity="few">Удалено %d колоды</item>
         <item quantity="many">Удалено %d колод</item>
+    </plurals>
+    <plurals name="toast_decks_merging">
+        <item quantity="one">%1$d колода была слита в \'%2$s\'</item>
+        <item quantity="few">%1$d колоды было слито в \'%2$s\'</item>
+        <item quantity="many">%1$d колод было слито в \'%2$s\'</item>
     </plurals>
     <string name="text_autoplay_button">Автопроигрывание</string>
     <string name="text_exercise_button">Упражнение</string>

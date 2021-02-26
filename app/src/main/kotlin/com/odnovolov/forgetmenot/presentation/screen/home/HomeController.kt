@@ -6,11 +6,10 @@ import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
-import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover
-import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover.Event.DecksHasRemoved
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
+import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.into
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -39,8 +38,6 @@ import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScop
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeck
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 class HomeController(
     private val screenState: HomeScreenState,
@@ -57,18 +54,14 @@ class HomeController(
     sealed class Command {
         object ShowNoCardIsReadyForExerciseMessage : Command()
         object ShowDeckOption : Command()
-        class ShowDeckRemovingMessage(val numberOfDecksRemoved: Int) : Command()
+        class ShowDeckRemovingMessage(val numberOfRemovedDecks: Int) : Command()
+        class ShowDeckMergingMessage(
+            val numberOfMergedDecks: Int,
+            val deckNameMergedInto: String
+        ) : Command()
     }
 
     init {
-        deckRemover.events.onEach { event: DeckRemover.Event ->
-            when (event) {
-                is DecksHasRemoved -> {
-                    sendCommand(ShowDeckRemovingMessage(numberOfDecksRemoved = event.count))
-                }
-            }
-        }
-            .launchIn(coroutineScope)
         if (screenState.searchText.isNotEmpty()) {
             cardsSearcher.search(screenState.searchText)
         }
@@ -81,10 +74,6 @@ class HomeController(
             is SearchTextChanged -> {
                 screenState.searchText = event.searchText
                 cardsSearcher.search(event.searchText)
-            }
-
-            DecksRemovedSnackbarCancelButtonClicked -> {
-                deckRemover.restoreDecks()
             }
 
             SelectionCancelled -> {
@@ -121,15 +110,28 @@ class HomeController(
                     screenState.deckSelection?.selectedDeckIds ?: return
                 val selectedDecks: List<Deck> =
                     globalState.decks.filter { deck: Deck -> deck.id in selectedDeckIds }
-                deckMerger.merge(selectedDecks into event.deck)
+                val numberOfMergedDecks = deckMerger.merge(selectedDecks into event.deck)
+                if (numberOfMergedDecks > 0) {
+                    val deckNameMergedInto: String = event.deck.name
+                    sendCommand(ShowDeckMergingMessage(numberOfMergedDecks, deckNameMergedInto))
+                }
                 screenState.deckSelection = null
+            }
+
+            MergedDecksSnackbarCancelButtonClicked -> {
+                deckMerger.cancel()
             }
 
             RemoveDeckSelectionOptionSelected -> {
                 val deckIdsToRemove: List<Long> =
                     screenState.deckSelection?.selectedDeckIds ?: return
-                deckRemover.removeDecks(deckIdsToRemove)
+                val numberOfRemovedDecks = deckRemover.removeDecks(deckIdsToRemove)
+                sendCommand(ShowDeckRemovingMessage(numberOfRemovedDecks))
                 screenState.deckSelection = null
+            }
+
+            RemovedDecksSnackbarCancelButtonClicked -> {
+                deckRemover.restoreDecks()
             }
 
             DecksAvailableForExerciseCheckboxClicked -> {
@@ -220,7 +222,8 @@ class HomeController(
 
             RemoveDeckOptionSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
-                deckRemover.removeDeck(deckId)
+                val numberOfRemovedDecks = deckRemover.removeDeck(deckId)
+                sendCommand(ShowDeckRemovingMessage(numberOfRemovedDecks))
             }
 
             AutoplayButtonClicked -> {

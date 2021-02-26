@@ -332,15 +332,33 @@ class HomeFragment : BaseFragment() {
                     .make(
                         homeRootView,
                         resources.getQuantityString(
-                            R.plurals.numberOfDecksRemoved,
-                            command.numberOfDecksRemoved,
-                            command.numberOfDecksRemoved
+                            R.plurals.toast_decks_removing,
+                            command.numberOfRemovedDecks,
+                            command.numberOfRemovedDecks
                         ),
                         resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
                     )
                     .setAction(
                         R.string.snackbar_action_cancel,
-                        { controller?.dispatch(DecksRemovedSnackbarCancelButtonClicked) }
+                        { controller?.dispatch(RemovedDecksSnackbarCancelButtonClicked) }
+                    )
+                    .show()
+            }
+            is ShowDeckMergingMessage -> {
+                Snackbar
+                    .make(
+                        homeRootView,
+                        resources.getQuantityString(
+                            R.plurals.toast_decks_merging,
+                            command.numberOfMergedDecks,
+                            command.numberOfMergedDecks,
+                            command.deckNameMergedInto
+                        ),
+                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+                    )
+                    .setAction(
+                        R.string.snackbar_action_cancel,
+                        { controller?.dispatch(MergedDecksSnackbarCancelButtonClicked) }
                     )
                     .show()
             }

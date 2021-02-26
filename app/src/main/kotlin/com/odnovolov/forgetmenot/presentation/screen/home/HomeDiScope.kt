@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
@@ -30,7 +31,8 @@ class HomeDiScope private constructor(
     )
 
     private val deckMerger = DeckMerger(
-        AppDiScope.get().globalState
+        AppDiScope.get().globalState,
+        coroutineContext = businessLogicThread
     )
 
     private val exerciseStateCreator = ExerciseStateCreator(
@@ -68,8 +70,11 @@ class HomeDiScope private constructor(
         override fun recreateDiScope() = HomeDiScope()
 
         override fun onCloseDiScope(diScope: HomeDiScope) {
-            diScope.controller.dispose()
-            diScope.cardsSearcher.dispose()
+            with(diScope) {
+                controller.dispose()
+                cardsSearcher.dispose()
+                deckMerger.dispose()
+            }
         }
     }
 }

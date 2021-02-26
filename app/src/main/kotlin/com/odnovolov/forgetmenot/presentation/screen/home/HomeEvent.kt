@@ -5,7 +5,6 @@ import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
-    object DecksRemovedSnackbarCancelButtonClicked : HomeEvent()
 
     // Selection toolbar:
     object SelectionCancelled : HomeEvent()
@@ -13,7 +12,9 @@ sealed class HomeEvent {
     object ExportDeckSelectionOptionSelected : HomeEvent()
     object MergeIntoDeckSelectionOptionSelected : HomeEvent()
     class DeckToMergeIntoIsSelected(val deck: Deck) : HomeEvent()
+    object MergedDecksSnackbarCancelButtonClicked : HomeEvent()
     object RemoveDeckSelectionOptionSelected : HomeEvent()
+    object RemovedDecksSnackbarCancelButtonClicked : HomeEvent()
 
     // Filters:
     object DecksAvailableForExerciseCheckboxClicked : HomeEvent()

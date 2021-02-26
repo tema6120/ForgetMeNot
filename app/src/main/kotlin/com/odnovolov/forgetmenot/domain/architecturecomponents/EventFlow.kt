@@ -8,9 +8,12 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 class EventFlow<Event> {
     private val channels: MutableList<Channel<Event>> = CopyOnWriteArrayList()
+    private val pendingEvents: MutableList<Event> = CopyOnWriteArrayList()
 
     fun get(): Flow<Event> = flow {
         val channel = Channel<Event>(capacity = UNLIMITED)
+        pendingEvents.forEach(channel::offer)
+        pendingEvents.clear()
         channels.add(channel)
         try {
             for (event: Event in channel) {
@@ -22,6 +25,10 @@ class EventFlow<Event> {
     }
 
     fun send(event: Event) {
-        channels.forEach { it.offer(event) }
+        if (channels.isEmpty()) {
+            pendingEvents.add(event)
+        } else {
+            channels.forEach { it.offer(event) }
+        }
     }
 }

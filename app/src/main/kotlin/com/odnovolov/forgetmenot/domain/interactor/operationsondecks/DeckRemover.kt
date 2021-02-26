@@ -1,31 +1,22 @@
 package com.odnovolov.forgetmenot.domain.interactor.operationsondecks
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover.Event.DecksHasRemoved
-import kotlinx.coroutines.flow.Flow
 
 class DeckRemover(
     private val globalState: GlobalState
 ) {
-    sealed class Event {
-        class DecksHasRemoved(val count: Int) : Event()
-    }
-
     private var deckBackup: List<Deck>? = null
-    private val eventFlow = EventFlow<Event>()
-    val events: Flow<Event> = eventFlow.get()
 
-    fun removeDeck(deckId: Long) = removeDecks(listOf(deckId))
+    fun removeDeck(deckId: Long): Int = removeDecks(listOf(deckId))
 
-    fun removeDecks(deckIds: List<Long>) {
+    fun removeDecks(deckIds: List<Long>): Int {
         val (removingDecks: List<Deck>, remainingDecks: List<Deck>) =
             globalState.decks.partition { deck: Deck -> deck.id in deckIds }
         globalState.decks = remainingDecks.toCopyableList()
         deckBackup = removingDecks
-        eventFlow.send(DecksHasRemoved(removingDecks.size))
+        return removingDecks.size
     }
 
     fun restoreDecks() {

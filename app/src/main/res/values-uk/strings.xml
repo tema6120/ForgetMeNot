@@ -90,10 +90,15 @@
     <string name="deck_selection_option_merge_into">Злити в</string>
     <string name="deck_selection_option_remove">Видалити</string>
     <string name="toast_text_no_cards_ready_for_exercise">Немає карток, готових для вправи</string>
-    <plurals name="numberOfDecksRemoved">
+    <plurals name="toast_decks_removing">
         <item quantity="one">%d колода видалена(і)</item>
         <item quantity="few">Видалено %d колоди</item>
         <item quantity="many">Видалено %d колод</item>
+    </plurals>
+    <plurals name="toast_decks_merging">
+        <item quantity="one">%1$d колода була злита в \'%2$s\'</item>
+        <item quantity="few">%1$d колоди було злито в \'%2$s\'</item>
+        <item quantity="many">%1$d колод було злито в \'%2$s\'</item>
     </plurals>
     <string name="text_autoplay_button">Автопрогравання</string>
     <string name="text_exercise_button">Вправа</string>
