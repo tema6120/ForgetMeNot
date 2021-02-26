@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
@@ -109,9 +108,13 @@ class HomeController(
                         ?: return
                 val selectedDecks: List<Deck> =
                     globalState.decks.filter { deck: Deck -> deck.id in selectedDeckIds }
-                val numberOfMergedDecks = deckMerger.merge(selectedDecks into event.deck)
+                val numberOfMergedDecks = deckMerger.merge(selectedDecks into event.abstractDeck)
                 if (numberOfMergedDecks > 0) {
-                    val deckNameMergedInto: String = event.deck.name
+                    val deckNameMergedInto: String = when (event.abstractDeck) {
+                        is NewDeck -> event.abstractDeck.deckName
+                        is ExistingDeck -> event.abstractDeck.deck.name
+                        else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
+                    }
                     sendCommand(ShowDeckMergingMessage(numberOfMergedDecks, deckNameMergedInto))
                 }
                 screenState.deckSelection = null

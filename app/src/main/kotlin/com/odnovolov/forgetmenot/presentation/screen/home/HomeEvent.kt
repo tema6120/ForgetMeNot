@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 
 sealed class HomeEvent {
@@ -11,7 +11,7 @@ sealed class HomeEvent {
     object SelectAllDecksButtonClicked : HomeEvent()
     object ExportDeckSelectionOptionSelected : HomeEvent()
     object MergeIntoDeckSelectionOptionSelected : HomeEvent()
-    class DeckToMergeIntoIsSelected(val deck: Deck) : HomeEvent()
+    class DeckToMergeIntoIsSelected(val abstractDeck: AbstractDeck) : HomeEvent()
     object MergedDecksSnackbarCancelButtonClicked : HomeEvent()
     object RemoveDeckSelectionOptionSelected : HomeEvent()
     object RemovedDecksSnackbarCancelButtonClicked : HomeEvent()

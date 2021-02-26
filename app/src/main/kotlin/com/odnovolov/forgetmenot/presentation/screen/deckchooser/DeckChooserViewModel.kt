@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMergeInto
 import com.odnovolov.forgetmenot.presentation.screen.home.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeViewModel.RawDeckPreview
@@ -21,7 +22,7 @@ class DeckChooserViewModel(
     private val searchText: Flow<String> = screenState.flowOf(DeckChooserScreenState::searchText)
 
     private val hasSearchText: Flow<Boolean> = searchText.map { it.isNotEmpty() }
-            .distinctUntilChanged()
+        .distinctUntilChanged()
 
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = globalState.flowOf(GlobalState::decks)
         .map { decks: Collection<Deck> ->
@@ -125,4 +126,6 @@ class DeckChooserViewModel(
         hasSearchText && decksPreview.isEmpty()
     }
         .distinctUntilChanged()
+
+    val isAddDeckButtonVisible: Boolean get() = screenState.purpose == ToMergeInto
 }

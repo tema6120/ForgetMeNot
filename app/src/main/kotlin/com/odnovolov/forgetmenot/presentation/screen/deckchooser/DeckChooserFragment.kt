@@ -69,6 +69,9 @@ class DeckChooserFragment : BaseFragment() {
         searchEditText.observeText { newText: String ->
             controller?.dispatch(SearchTextChanged(newText))
         }
+        addDeckButton.setOnClickListener {
+            controller?.dispatch(AddDeckButtonClicked)
+        }
     }
 
     private fun initDeckPreviewAdapter() {
@@ -108,6 +111,11 @@ class DeckChooserFragment : BaseFragment() {
             decksNotFound.observe { decksNotFound: Boolean ->
                 emptyTextView.isVisible = decksNotFound
                 progressBar.visibility = View.GONE
+            }
+            if (isAddDeckButtonVisible) {
+                addDeckButton.show()
+            } else {
+                addDeckButton.hide()
             }
         }
     }

@@ -1,7 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckchooser
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.ExistingDeck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.entity.NewDeck
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -16,6 +18,9 @@ import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.DeckToMergeIntoIsSelected
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToCreateNewForDeckChooser
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 
 class DeckChooserController(
     private val deckReviewPreference: DeckReviewPreference,
@@ -61,8 +66,29 @@ class DeckChooserController(
                             .dispatch(TargetDeckIsSelected(deck))
                     }
                     ToMergeInto -> {
+                        val abstractDeck = ExistingDeck(deck)
                         HomeDiScope.getOrRecreate().controller
-                            .dispatch(DeckToMergeIntoIsSelected(deck))
+                            .dispatch(DeckToMergeIntoIsSelected(abstractDeck))
+                    }
+                }
+                navigator.navigateUp()
+            }
+
+            AddDeckButtonClicked -> {
+                navigator.showRenameDeckDialogFromDeckChooser {
+                    val dialogState = RenameDeckDialogState(purpose = ToCreateNewForDeckChooser)
+                    RenameDeckDiScope.create(dialogState)
+                }
+            }
+
+            is SubmittedNewDeckName -> {
+                when (screenState.purpose) {
+                    ToMergeInto -> {
+                        val abstractDeck = NewDeck(event.deckName)
+                        HomeDiScope.getOrRecreate().controller
+                            .dispatch(DeckToMergeIntoIsSelected(abstractDeck))
+                    }
+                    else -> {
                     }
                 }
                 navigator.navigateUp()

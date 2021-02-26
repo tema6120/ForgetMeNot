@@ -184,6 +184,7 @@
         импортировать карточки</string>
     <string name="screen_title_choose_a_deck_to_merge_into">Выберите колоду, в которую нужно
         слить карточки</string>
+    <string name="description_add_deck_button">Добавить колоду</string>
 
 
     <!-- Exercise screen -->

@@ -11,6 +11,8 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.SubmittedNewDeckName
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.SubmittedNameForNewDeck
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.*
@@ -50,6 +52,13 @@ class RenameDeckController(
                             navigator.navigateToCardsEditorFromRenameDeckDialog {
                                 CardsEditorDiScope.create(cardsEditor)
                             }
+                        }
+                    }
+                    ToCreateNewForDeckChooser -> {
+                        if (checkDeckName(newName, globalState) == NameCheckResult.Ok) {
+                            DeckChooserDiScope.getOrRecreate().controller
+                                .dispatch(SubmittedNewDeckName(dialogState.typedDeckName))
+                            navigator.navigateUp()
                         }
                     }
                 }

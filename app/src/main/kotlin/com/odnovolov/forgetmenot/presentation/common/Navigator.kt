@@ -323,6 +323,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.help_article_to_walking_mode_settings)
     }
 
+    fun showRenameDeckDialogFromDeckChooser(createDiScope: () -> RenameDeckDiScope) {
+        RenameDeckDiScope.open(createDiScope)
+        navigate(R.id.show_rename_deck_dialog_from_deck_chooser)
+    }
+
     fun navigateUp() {
         GlobalScope.launch(Dispatchers.Main.immediate) {
             try {

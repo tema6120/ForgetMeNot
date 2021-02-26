@@ -104,6 +104,19 @@
                 app:drawableTint="@color/text_no_search_result"
                 app:drawableTopCompat="@drawable/ic_round_search_54" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/addDeckButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="24dp"
+                android:contentDescription="@string/description_add_deck_button"
+                android:visibility="invisible"
+                app:backgroundTint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_round_add_24"
+                app:tint="@android:color/white"
+                tools:visibility="visible" />
+
     </FrameLayout>
 
 </LinearLayout>

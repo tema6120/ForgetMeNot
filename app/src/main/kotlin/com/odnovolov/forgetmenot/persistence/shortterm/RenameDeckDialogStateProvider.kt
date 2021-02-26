@@ -34,6 +34,8 @@ class RenameDeckDialogStateProvider(
                 SerializableRenameDeckDialogPurpose.ToRenameNewDeckForFileImport
             ToCreateNewDeck ->
                 SerializableRenameDeckDialogPurpose.ToCreateNewDeck
+            ToCreateNewForDeckChooser ->
+                SerializableRenameDeckDialogPurpose.ToCreateNewForDeckChooser
         }
         return SerializableState(
             serializablePurpose,
@@ -53,6 +55,9 @@ class RenameDeckDialogStateProvider(
             SerializableRenameDeckDialogPurpose.ToCreateNewDeck -> {
                 ToCreateNewDeck
             }
+            SerializableRenameDeckDialogPurpose.ToCreateNewForDeckChooser -> {
+                ToCreateNewForDeckChooser
+            }
         }
         return RenameDeckDialogState(
             purpose,
@@ -71,4 +76,7 @@ sealed class SerializableRenameDeckDialogPurpose {
 
     @Serializable
     object ToCreateNewDeck : SerializableRenameDeckDialogPurpose()
+
+    @Serializable
+    object ToCreateNewForDeckChooser : SerializableRenameDeckDialogPurpose()
 }

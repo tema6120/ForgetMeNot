@@ -189,6 +189,7 @@
         імпортувати картки</string>
     <string name="screen_title_choose_a_deck_to_merge_into">Виберіть колоду, в яку потрібно злити
         картки</string>
+    <string name="description_add_deck_button">Додати колоду</string>
 
 
     <!-- Exercise screen -->

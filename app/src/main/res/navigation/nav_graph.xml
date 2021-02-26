@@ -87,7 +87,13 @@
     <fragment
             android:id="@+id/deck_chooser"
             android:name="com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserFragment"
-            tools:layout="@layout/fragment_deck_chooser" />
+            tools:layout="@layout/fragment_deck_chooser">
+
+        <action
+                android:id="@+id/show_rename_deck_dialog_from_deck_chooser"
+                app:destination="@+id/rename_deck_dialog" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/dsv_format"
