@@ -130,8 +130,7 @@ class FileImportController(
     }
 
     private fun tryToImport() {
-        val result = fileImporter.import()
-        when (result) {
+        when (val result = fileImporter.import()) {
             is Success -> {
                 sendCommand(ShowMessageNumberOfImportedCards(result.numberOfImportedCards))
                 if (result.decks.size == 1 &&
@@ -154,9 +153,13 @@ class FileImportController(
                     }
                     is InvalidName -> {
                         sendCommand(ShowMessageInvalidDeckName)
-                        if (cause.position != fileImporter.state.files.lastIndex) {
+                        if (cause.position != fileImporter.state.currentPosition) {
+                            val filePageTransition: FilePageTransition =
+                                if (cause.position > fileImporter.state.currentPosition)
+                                    SwipeToNext else
+                                    SwipeToPrevious
                             val cardsFileId = fileImporter.state.files[cause.position].id
-                            sendCommand(Navigate(cardsFileId, SwipeToPrevious))
+                            sendCommand(Navigate(cardsFileId, filePageTransition))
                         }
                     }
                 }

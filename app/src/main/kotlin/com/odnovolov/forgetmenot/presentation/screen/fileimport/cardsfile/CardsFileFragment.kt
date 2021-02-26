@@ -128,6 +128,10 @@ class CardsFileFragment : BaseFragment() {
         nextButton.setOnClickListener {
             fileImportController?.dispatch(NextButtonClicked)
         }
+        nextButton.setOnLongClickListener {
+            fileImportController?.dispatch(DoneButtonClicked)
+            true
+        }
         skipButton.setOnClickListener {
             fileImportController?.dispatch(SkipButtonClicked)
         }
