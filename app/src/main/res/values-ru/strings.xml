@@ -84,7 +84,7 @@
     <string name="deck_option_pin">Закрепить</string>
     <string name="deck_option_unpin">Открепить</string>
     <string name="deck_option_export">Экспортировать</string>
-    <string name="deck_option_merge_into">Слить в</string>
+    <string name="deck_option_merge_into">Объединить</string>
     <string name="deck_option_remove">Удалить</string>
     <plurals name="toast_decks_removing">
         <item quantity="one">%d колода удалена(ы)</item>
@@ -92,9 +92,9 @@
         <item quantity="many">Удалено %d колод</item>
     </plurals>
     <plurals name="toast_decks_merging">
-        <item quantity="one">%1$d колода была слита в \'%2$s\'</item>
-        <item quantity="few">%1$d колоды было слито в \'%2$s\'</item>
-        <item quantity="many">%1$d колод было слито в \'%2$s\'</item>
+        <item quantity="one">%1$d колода была объединена в \'%2$s\'</item>
+        <item quantity="few">%1$d колоды было объединено в \'%2$s\'</item>
+        <item quantity="many">%1$d колод было объединено в \'%2$s\'</item>
     </plurals>
     <string name="text_autoplay_button">Автопроигрывание</string>
     <string name="text_exercise_button">Упражнение</string>
@@ -188,7 +188,7 @@
     <string name="screen_title_choose_a_deck_to_import_cards_to">Выберите колоду, куда нужно
         импортировать карточки</string>
     <string name="screen_title_choose_a_deck_to_merge_into">Выберите колоду, в которую нужно
-        слить карточки</string>
+        переместить карточки</string>
     <string name="description_add_deck_button">Добавить колоду</string>
 
 

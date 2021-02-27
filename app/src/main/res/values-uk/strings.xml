@@ -89,7 +89,7 @@
     <string name="deck_option_pin">Закріпити</string>
     <string name="deck_option_unpin">Відкріпити</string>
     <string name="deck_option_export">Експортувати</string>
-    <string name="deck_option_merge_into">Злити в</string>
+    <string name="deck_option_merge_into">Об\'єднати в</string>
     <string name="deck_option_remove">Видалити</string>
     <plurals name="toast_decks_removing">
         <item quantity="one">%d колода видалена(і)</item>
@@ -97,9 +97,9 @@
         <item quantity="many">Видалено %d колод</item>
     </plurals>
     <plurals name="toast_decks_merging">
-        <item quantity="one">%1$d колода була злита в \'%2$s\'</item>
-        <item quantity="few">%1$d колоди було злито в \'%2$s\'</item>
-        <item quantity="many">%1$d колод було злито в \'%2$s\'</item>
+        <item quantity="one">%1$d колода була об\'єднана в \'%2$s\'</item>
+        <item quantity="few">%1$d колоди було об\'єднано в \'%2$s\'</item>
+        <item quantity="many">%1$d колод було об\'єднано в \'%2$s\'</item>
     </plurals>
     <string name="text_autoplay_button">Автопрогравання</string>
     <string name="text_exercise_button">Вправа</string>
@@ -192,8 +192,8 @@
 
     <string name="screen_title_choose_a_deck_to_import_cards_to">Виберіть колоду, куди потрібно
         імпортувати картки</string>
-    <string name="screen_title_choose_a_deck_to_merge_into">Виберіть колоду, в яку потрібно злити
-        картки</string>
+    <string name="screen_title_choose_a_deck_to_merge_into">Виберіть колоду, в яку потрібно
+        перемістити картки</string>
     <string name="description_add_deck_button">Додати колоду</string>
 
 
