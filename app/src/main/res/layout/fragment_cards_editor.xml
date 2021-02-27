@@ -23,6 +23,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+            <TextView
+                    android:id="@+id/noCardsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/no_cards"
+                    android:textColor="@color/text_no_search_result"
+                    android:textSize="@dimen/text_size_no_search_result"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:drawableTint="@color/text_no_search_result"
+                    app:drawableTopCompat="@drawable/ic_round_view_carousel_64"
+                    tools:visibility="visible" />
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <HorizontalScrollView
@@ -111,8 +126,8 @@
                 android:id="@+id/cancelButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginStart="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/ripple_borderless_colored"
                 android:contentDescription="@string/description_cancel_button"
                 android:tint="@color/iconDark"
@@ -126,13 +141,12 @@
                 android:layout_marginBottom="22dp"
                 android:background="@color/colorAccent" />
 
-
         <ImageButton
                 android:id="@+id/doneButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginEnd="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/ripple_borderless_colored"
                 android:contentDescription="@string/description_done_button"
                 android:tint="@color/iconDark"

@@ -16,6 +16,8 @@
         перед виходом?</string>
     <string name="button_save">Зберегти</string>
     <string name="button_quit_without_saving">Вийти без збереження</string>
+    <string name="no_cards">Немає карток</string>
+    <string name="button_go_back">Повернутися назад</string>
 
 
     <!-- Main drawer -->
@@ -316,6 +318,7 @@
     <string name="description_playing_completed">Програвання завершено</string>
     <string name="button_end">Закінчити</string>
     <string name="button_play_again">Програти знову</string>
+    <string name="no_cards_to_play">Немає карток для програвання</string>
 
 
     <!-- Deck editor screen -->

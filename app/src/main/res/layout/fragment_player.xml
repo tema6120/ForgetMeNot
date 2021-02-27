@@ -22,12 +22,48 @@
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    tools:visibility="gone" />
 
             <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/playerViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+            <TextView
+                    android:id="@+id/noCardsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:text="@string/no_cards_to_play"
+                    android:textColor="@color/text_no_search_result"
+                    android:textSize="@dimen/text_size_no_search_result"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:drawableTint="@color/text_no_search_result"
+                    app:drawableTopCompat="@drawable/ic_round_play_disabled_64"
+                    tools:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/goBackButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="24dp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:outlineAmbientShadowColor="@color/colorAccent"
+                    android:outlineSpotShadowColor="@color/colorAccent"
+                    android:stateListAnimator="@animator/material_button"
+                    android:text="@string/button_go_back"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_floating_button"
+                    android:visibility="gone"
+                    app:cornerRadius="30dp"
+                    app:rippleColor="@android:color/white" />
 
         </FrameLayout>
 
@@ -69,6 +105,7 @@
                         app:srcCompat="@drawable/ic_mark_as_learned" />
 
                 <FrameLayout
+                        android:id="@+id/speakFrame"
                         android:layout_width="48dp"
                         android:layout_height="48dp">
 
@@ -118,7 +155,8 @@
                         android:id="@+id/lapsButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:background="@drawable/ripple_light_borderless">
+                        android:background="@drawable/ripple_light_borderless"
+                        android:contentDescription="@string/description_laps_button">
 
                     <ImageView
                             android:id="@+id/lapsIcon"

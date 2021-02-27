@@ -126,6 +126,22 @@ class PlayerFragment : BaseFragment() {
                 }
                 progressBar.visibility = GONE
             }
+            hasPlayingCards.observe { hasPlayingCards: Boolean ->
+                if (!hasPlayingCards) {
+                    positionTextView.isVisible = false
+                    progressBarForViewPager2.isVisible = false
+                    gradeButton.isVisible = false
+                    markAsLearnedButton.isVisible = false
+                    speakFrame.isVisible = false
+                    editCardButton.isVisible = false
+                    editDeckSettingsButton.isVisible = false
+                    noCardsTextView.isVisible = true
+                    goBackButton.isVisible = true
+                    goBackButton.setOnClickListener {
+                        requireActivity().onBackPressed()
+                    }
+                }
+            }
             cardPosition.observe(positionTextView::setText)
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)

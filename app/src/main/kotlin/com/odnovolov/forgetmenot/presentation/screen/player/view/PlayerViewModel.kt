@@ -7,11 +7,11 @@ import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
-import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import java.util.*
 
@@ -22,14 +22,17 @@ class PlayerViewModel(
 ) {
     val playingCards: Flow<List<PlayingCard>> =
         playerState.flowOf(Player.State::playingCards)
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
+
+    val hasPlayingCards: Flow<Boolean> = playingCards.map { it.isNotEmpty() }
 
     private val currentPlayingCard: Flow<PlayingCard> = combine(
         playingCards,
         playerState.flowOf(Player.State::currentPosition)
     ) { playingCards: List<PlayingCard>, position: Int ->
-        playingCards[position]
+        playingCards.getOrNull(position)
     }
+        .filterNotNull()
         .distinctUntilChanged()
         .share()
 
@@ -45,7 +48,7 @@ class PlayerViewModel(
             playingCard.card.flowOf(Card::grade)
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val intervalItems: Flow<List<IntervalItem>?> =
         currentPlayingCard.flatMapLatest { playingCard: PlayingCard ->
@@ -62,14 +65,14 @@ class PlayerViewModel(
                 }
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val isCurrentCardLearned: Flow<Boolean> =
         currentPlayingCard.flatMapLatest { playingCard: PlayingCard ->
             playingCard.card.flowOf(Card::isLearned)
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     private val hasQuestionSelection: Flow<Boolean> = playerState
         .flowOf(Player.State::questionSelection)
@@ -159,12 +162,12 @@ class PlayerViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isSpeakerPreparingToPronounce: Flow<Boolean> =
         speakerImpl.state.flowOf(SpeakerImpl.State::isPreparingToSpeak)
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val reasonForInabilityToSpeak: Flow<ReasonForInabilityToSpeak?> = combine(
         speakerImpl.state.flowOf(SpeakerImpl.State::status),
@@ -197,14 +200,14 @@ class PlayerViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val speakerEvents: Flow<SpeakerImpl.Event> = speakerImpl.events
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isPlaying: Flow<Boolean> = playerState.flowOf(Player.State::isPlaying)
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     sealed class Laps {
         class SpecificNumberOfText(val text: String) : Laps()
@@ -225,7 +228,7 @@ class PlayerViewModel(
 
     val isCompleted: Flow<Boolean> = playerState.flowOf(Player.State::isCompleted)
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val currentPosition: Int get() = playerState.currentPosition
 }

@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
@@ -59,6 +60,11 @@ class PlayerViewController(
             .launchIn(coroutineScope)
     }
 
+    private val currentPlayingCard: PlayingCard?
+        get() = with(player.state) {
+            playingCards.getOrNull(currentPosition)
+        }
+
     override fun handle(event: PlayerFragmentEvent) {
         when (event) {
             is NewPageBecameSelected -> {
@@ -91,11 +97,12 @@ class PlayerViewController(
             }
 
             EditCardButtonClicked -> {
+                val currentPlayingCard: PlayingCard = currentPlayingCard ?: return
                 player.pause()
                 navigator.navigateToCardEditorFromPlayer {
                     val editableCard = EditableCard(
-                        player.currentPlayingCard.card,
-                        player.currentPlayingCard.deck
+                        currentPlayingCard.card,
+                        currentPlayingCard.deck
                     )
                     val editableCards = listOf(editableCard)
                     val cardsEditorState = CardsEditor.State(editableCards)
@@ -108,10 +115,11 @@ class PlayerViewController(
             }
 
             EditDeckSettingsButtonClicked -> {
+                val currentPlayingCard: PlayingCard = currentPlayingCard ?: return
                 player.pause()
                 screenState.wereDeckSettingsEdited = true
                 navigator.navigateToDeckEditorFromPlayer {
-                    val deck: Deck = player.currentPlayingCard.deck
+                    val deck: Deck = currentPlayingCard.deck
                     val tabs = DeckEditorTabs.OnlyDeckSettings
                     val screenState = DeckEditorScreenState(deck, tabs)
                     DeckEditorDiScope.create(screenState)

@@ -17,6 +17,8 @@
         quitting?</string>
     <string name="button_save">Save</string>
     <string name="button_quit_without_saving">Quit without saving</string>
+    <string name="no_cards">No cards</string>
+    <string name="button_go_back">Go back</string>
 
 
     <!-- Main drawer -->
@@ -298,6 +300,7 @@
     <string name="description_playing_completed">Playing completed</string>
     <string name="button_end">End</string>
     <string name="button_play_again">Play again</string>
+    <string name="no_cards_to_play">No cards to play</string>
 
 
     <!-- Deck editor screen -->

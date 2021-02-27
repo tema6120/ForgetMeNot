@@ -26,7 +26,7 @@ class Player(
         questionSelection: String = "",
         answerSelection: String = ""
     ) : FlowMaker<State>() {
-        val playingCards: List<PlayingCard> by flowMaker(playingCards)
+        var playingCards: List<PlayingCard> by flowMaker(playingCards)
         var currentPosition: Int by flowMaker(currentPosition)
         var pronunciationEventPosition: Int by flowMaker(pronunciationEventPosition)
         var currentLap: Int by flowMaker(currentLap)
@@ -36,7 +36,7 @@ class Player(
         var answerSelection: String by flowMaker(answerSelection)
     }
 
-    val currentPlayingCard: PlayingCard
+    private val currentPlayingCard: PlayingCard
         get() = with(state) { playingCards[currentPosition] }
 
     private val currentPronunciation
@@ -76,7 +76,10 @@ class Player(
     }
 
     fun setCurrentPosition(position: Int) {
-        if (position >= state.playingCards.size || position == state.currentPosition) {
+        if (position < 0
+            || position >= state.playingCards.size
+            || position == state.currentPosition
+        ) {
             return
         }
         pause()
@@ -85,10 +88,12 @@ class Player(
     }
 
     fun showQuestion() {
+        if (state.playingCards.isEmpty()) return
         currentPlayingCard.isQuestionDisplayed = true
     }
 
     fun showAnswer() {
+        if (state.playingCards.isEmpty()) return
         showQuestion()
         currentPlayingCard.isAnswerDisplayed = true
     }
@@ -104,10 +109,12 @@ class Player(
     }
 
     fun setIsCardLearned(isLearned: Boolean) {
+        if (state.playingCards.isEmpty()) return
         currentPlayingCard.card.isLearned = isLearned
     }
 
     fun speak() {
+        if (state.playingCards.isEmpty()) return
         pause()
         when {
             hasQuestionSelection() -> speakQuestionSelection()
@@ -162,6 +169,7 @@ class Player(
     }
 
     fun setGrade(grade: Int) {
+        if (state.playingCards.isEmpty()) return
         currentPlayingCard.card.grade = grade
     }
 
@@ -173,6 +181,7 @@ class Player(
     }
 
     fun resume() {
+        if (state.playingCards.isEmpty()) return
         if (state.isPlaying) return
         if (!hasOneMorePronunciationEventForCurrentPlayingCard() && !hasOneMorePlayingCard()) {
             nextLap()
@@ -184,6 +193,7 @@ class Player(
     }
 
     fun playOneMoreLap() {
+        if (state.playingCards.isEmpty()) return
         nextLap()
         resume()
     }
@@ -275,5 +285,10 @@ class Player(
             playingCard.isQuestionDisplayed = playingCard.isAnswerDisplayed
                     || playingCard.deck.exercisePreference.isQuestionDisplayed
         }
+    }
+
+    fun notifyCardsRemoved(cardIds: List<Long>) {
+        state.playingCards = state.playingCards
+            .filter { playingCard: PlayingCard -> playingCard.card.id !in cardIds }
     }
 }

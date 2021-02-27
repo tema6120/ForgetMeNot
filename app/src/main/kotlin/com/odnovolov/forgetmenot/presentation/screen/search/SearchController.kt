@@ -2,10 +2,10 @@ package com.odnovolov.forgetmenot.presentation.screen.search
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
-import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -14,7 +14,8 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
-import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.CardClicked
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.SearchTextChanged
 
 class SearchController(
     private val searcher: CardsSearcher,
@@ -38,7 +39,7 @@ class SearchController(
                             val currentPosition: Int = deck.cards.indexOfFirst { card ->
                                 card.id == event.searchCard.card.id
                             }
-                            val cardsEditorState = State(editableCards, currentPosition)
+                            val cardsEditorState = CardsEditor.State(editableCards, currentPosition)
                             val cardsEditor = CardsEditorForEditingExistingDeck(
                                 deck,
                                 cardsEditorState
@@ -57,7 +58,7 @@ class SearchController(
                                 exercise.currentExerciseCard.base.card.id
                             ) {
                                 val editableCards: List<EditableCard> = listOf(foundEditableCard)
-                                State(editableCards)
+                                CardsEditor.State(editableCards)
                             } else {
                                 val editableCardFromExercise = EditableCard(
                                     exercise.currentExerciseCard.base.card,
@@ -65,7 +66,7 @@ class SearchController(
                                 )
                                 val editableCards: List<EditableCard> =
                                     listOf(editableCardFromExercise, foundEditableCard)
-                                State(editableCards, currentPosition = 1)
+                                CardsEditor.State(editableCards, currentPosition = 1)
                             }
                             val cardsEditor = CardsEditorForExercise(
                                 exercise,
@@ -75,26 +76,31 @@ class SearchController(
                         }
                     }
                     PlayerDiScope.isOpen() -> {
+                        val player: Player = PlayerDiScope.getOrRecreate().player
+                        val currentPlayingCard: PlayingCard = with(player.state) {
+                            playingCards.getOrNull(currentPosition)
+                        } ?: return
                         navigator.navigateToCardsEditorFromSearch {
-                            val player: Player = PlayerDiScope.getOrRecreate().player
                             val foundEditableCard = EditableCard(
                                 event.searchCard.card,
                                 event.searchCard.deck
                             )
-                            val cardsEditorState = if (event.searchCard.card.id ==
-                                player.currentPlayingCard.card.id
-                            ) {
-                                val editableCards: List<EditableCard> = listOf(foundEditableCard)
-                                State(editableCards)
-                            } else {
-                                val editableCardFromPlayer = EditableCard(
-                                    player.currentPlayingCard.card,
-                                    player.currentPlayingCard.deck
-                                )
-                                val editableCards: List<EditableCard> =
-                                    listOf(editableCardFromPlayer, foundEditableCard)
-                                State(editableCards, currentPosition = 1)
-                            }
+                            val cardsEditorState =
+                                if (event.searchCard.card.id ==
+                                    currentPlayingCard.card.id
+                                ) {
+                                    val editableCards: List<EditableCard> =
+                                        listOf(foundEditableCard)
+                                    CardsEditor.State(editableCards)
+                                } else {
+                                    val editableCardFromPlayer = EditableCard(
+                                        currentPlayingCard.card,
+                                        currentPlayingCard.deck
+                                    )
+                                    val editableCards: List<EditableCard> =
+                                        listOf(editableCardFromPlayer, foundEditableCard)
+                                    CardsEditor.State(editableCards, currentPosition = 1)
+                                }
                             val cardsEditor = CardsEditorForAutoplay(
                                 player,
                                 state = cardsEditorState
@@ -109,7 +115,7 @@ class SearchController(
                                 event.searchCard.deck
                             )
                             val editableCards: List<EditableCard> = listOf(editableCard)
-                            val cardsEditorState = State(editableCards)
+                            val cardsEditorState = CardsEditor.State(editableCards)
                             val cardsEditor = CardsEditorForEditingSpecificCards(
                                 state = cardsEditorState
                             )

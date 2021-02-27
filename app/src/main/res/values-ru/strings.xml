@@ -16,6 +16,8 @@
         изменения перед выходом?</string>
     <string name="button_save">Сохранить</string>
     <string name="button_quit_without_saving">Выйти без сохранения</string>
+    <string name="no_cards">Нет карточек</string>
+    <string name="button_go_back">Вернуться</string>
 
 
     <!-- Main drawer -->
@@ -313,6 +315,7 @@
     <string name="description_playing_completed">Проигрывание закончено</string>
     <string name="button_end">Выйти</string>
     <string name="button_play_again">Проиграть снова</string>
+    <string name="no_cards_to_play">Нет карточек для проигрывания</string>
 
 
     <!-- Deck editor screen -->

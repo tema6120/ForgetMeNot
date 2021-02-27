@@ -2,9 +2,9 @@ package com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
-import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.CardContent.AnsweredCard
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.CardContent.UnansweredCard
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class PlayingCardViewModel(
@@ -36,17 +36,17 @@ class PlayingCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isQuestionDisplayed: Flow<Boolean> = playingCardFlow.flatMapLatest { playingCard ->
         playingCard.flowOf(PlayingCard::isQuestionDisplayed)
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isLearned: Flow<Boolean> = playingCardFlow.flatMapLatest { playingCard ->
         playingCard.card.flowOf(Card::isLearned)
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 }

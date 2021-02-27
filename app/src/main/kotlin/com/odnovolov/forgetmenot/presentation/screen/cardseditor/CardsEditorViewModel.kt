@@ -30,6 +30,8 @@ class CardsEditorViewModel(
     }
         .share()
 
+    val hasCards: Flow<Boolean> = cardIds.map { it.isNotEmpty() }
+
     val gradeOfCurrentCard: Flow<Int?> =
         if (cardsEditor is CardsEditorForDeckCreation) {
             flowOf(null)

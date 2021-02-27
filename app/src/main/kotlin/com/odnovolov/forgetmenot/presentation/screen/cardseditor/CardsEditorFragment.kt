@@ -89,6 +89,9 @@ class CardsEditorFragment : BaseFragment() {
                     cardsViewPager.setCurrentItem(currentPosition, false)
                 }
             }
+            hasCards.observe { hasCards: Boolean ->
+                noCardsTextView.isVisible = !hasCards
+            }
             gradeOfCurrentCard.observe { grade: Int? ->
                 gradeButton.isVisible = grade != null
                 if (grade != null) {

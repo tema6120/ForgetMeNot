@@ -45,11 +45,11 @@ class PlayerService : BaseService() {
 
     private fun observeServiceModel(serviceModel: PlayerServiceModel) {
         with(serviceModel) {
-            cardPosition.observe { cardPosition: String ->
+            cardPosition.observe { cardPosition: String? ->
                 notificationBuilder.cardPosition = cardPosition
                 notificationBuilder.update()
             }
-            question.observe { question ->
+            question.observe { question: String ->
                 notificationBuilder.contextText = question
                 notificationBuilder.update()
             }
