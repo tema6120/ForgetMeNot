@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotRemember
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.Remember
+import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.isAnswered
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -46,6 +47,11 @@ class ExerciseController(
         object ShowQuitExerciseBottomSheet : Command()
     }
 
+    private val currentExerciseCard: ExerciseCard?
+        get() = with(exercise.state) {
+            exerciseCards.getOrNull(currentPosition)
+        }
+
     override fun handle(event: ExerciseEvent) {
         when (event) {
             is PageSelected -> {
@@ -73,11 +79,12 @@ class ExerciseController(
             }
 
             EditCardButtonClicked -> {
+                val currentExerciseCard = currentExerciseCard ?: return
                 exercise.stopSpeaking()
                 navigator.navigateToCardsEditorFromExercise {
                     val editableCard = EditableCard(
-                        exercise.currentExerciseCard.base.card,
-                        exercise.currentExerciseCard.base.deck
+                        currentExerciseCard.base.card,
+                        currentExerciseCard.base.deck
                     )
                     val editableCards = listOf(editableCard)
                     val cardsEditorState = CardsEditor.State(editableCards)
@@ -90,10 +97,11 @@ class ExerciseController(
             }
 
             EditDeckSettingsButtonClicked -> {
+                val currentExerciseCard = currentExerciseCard ?: return
                 exercise.stopSpeaking()
                 screenState.wereDeckSettingsEdited = true
                 navigator.navigateToDeckEditorFromExercise {
-                    val deck: Deck = exercise.currentExerciseCard.base.deck
+                    val deck: Deck = currentExerciseCard.base.deck
                     val tabs = DeckEditorTabs.OnlyDeckSettings
                     val screenState = DeckEditorScreenState(deck, tabs)
                     DeckEditorDiScope.create(screenState)

@@ -267,6 +267,7 @@
     </plurals>
     <string name="button_show_unanswered_card">Показати картку без відповіді</string>
     <string name="button_quit_exercise">Вийти все одно</string>
+    <string name="no_cards_to_exercise">Немає карток для вправи</string>
 
 
     <!-- Card filter for autoplay screen -->

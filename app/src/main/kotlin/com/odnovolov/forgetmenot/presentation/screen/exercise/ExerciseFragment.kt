@@ -185,6 +185,24 @@ class ExerciseFragment : BaseFragment() {
             if (exerciseViewPager.currentItem != currentPosition) {
                 exerciseViewPager.setCurrentItem(currentPosition, false)
             }
+            hasExerciseCards.observe { hasExerciseCards: Boolean ->
+                if (!hasExerciseCards) {
+                    gradeButton.isVisible = false
+                    markAsLearnedButton.isVisible = false
+                    speakFrame.isVisible = false
+                    timerButton.isVisible = false
+                    hintButton.isVisible = false
+                    editCardButton.isVisible = false
+                    editDeckSettingsButton.isVisible = false
+                    positionTextView.isVisible = false
+                    progressBarForViewPager2.isVisible = false
+                    noCardsTextView.isVisible = true
+                    goBackButton.isVisible = true
+                    goBackButton.setOnClickListener {
+                        requireActivity().onBackPressed()
+                    }
+                }
+            }
             cardPosition.observe(positionTextView::setText)
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)

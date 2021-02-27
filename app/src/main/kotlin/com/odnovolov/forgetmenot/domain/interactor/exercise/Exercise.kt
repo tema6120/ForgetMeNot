@@ -35,7 +35,7 @@ class Exercise(
     private val isWalkingMode
         get() = globalState.isWalkingModeEnabled
 
-    val currentExerciseCard: ExerciseCard
+    private val currentExerciseCard: ExerciseCard
         get() = state.exerciseCards[state.currentPosition]
 
     private val currentPronunciation
@@ -62,13 +62,21 @@ class Exercise(
             currentPronunciation.answerAutoSpeaking
 
     init {
-        autoSpeakQuestionIfNeed()
-        updateLastOpenedAt()
-        startTimer()
+        if (isPositionValid()) {
+            autoSpeakQuestionIfNeed()
+            updateLastOpenedAt()
+            startTimer()
+        }
     }
 
+    private fun isPositionValid(): Boolean =
+        state.currentPosition in 0..state.exerciseCards.lastIndex
+
     fun setCurrentPosition(position: Int) {
-        if (position >= state.exerciseCards.size || position == state.currentPosition) {
+        if (position < 0
+            || position >= state.exerciseCards.size
+            || position == state.currentPosition
+        ) {
             return
         }
         resetTimer()
@@ -79,24 +87,29 @@ class Exercise(
     }
 
     private fun updateLastOpenedAt() {
+        if (!isPositionValid()) return
         currentExerciseCard.base.deck.lastTestedAt = DateTime.now()
     }
 
     fun showQuestion() {
+        if (!isPositionValid()) return
         currentExerciseCard.base.isQuestionDisplayed = true
     }
 
     fun setQuestionSelection(selection: String) {
+        if (!isPositionValid()) return
         state.questionSelection = selection
         state.answerSelection = ""
     }
 
     fun setAnswerSelection(selection: String) {
+        if (!isPositionValid()) return
         state.answerSelection = selection
         state.questionSelection = ""
     }
 
     fun setIsCardLearned(isLearned: Boolean) {
+        if (!isPositionValid()) return
         if (currentExerciseCard.base.card.isLearned == isLearned) return
         currentExerciseCard.base.card.isLearned = isLearned
         if (isLearned) {
@@ -113,6 +126,7 @@ class Exercise(
     }
 
     fun speak() {
+        if (!isPositionValid()) return
         when {
             hasQuestionSelection() -> speakQuestionSelection()
             hasAnswerSelection() -> speakAnswerSelection()
@@ -159,6 +173,7 @@ class Exercise(
     }
 
     fun speakQuestion() {
+        if (!isPositionValid()) return
         with(currentExerciseCard.base) {
             val question = if (isInverted) card.answer else card.question
             speak(question, questionLanguage)
@@ -166,6 +181,7 @@ class Exercise(
     }
 
     fun speakAnswer() {
+        if (!isPositionValid()) return
         with(currentExerciseCard.base) {
             val answer = if (isInverted) card.question else card.answer
             speak(answer, answerLanguage)
@@ -183,6 +199,11 @@ class Exercise(
         speaker.stop()
     }
 
+    fun notifyCardsRemoved(removedCardIds: List<Long>) {
+        state.exerciseCards = state.exerciseCards
+            .filter { exerciseCard: ExerciseCard -> exerciseCard.base.card.id !in removedCardIds }
+    }
+
     fun notifyCardChanged(
         card: Card,
         isQuestionChanged: Boolean,
@@ -190,6 +211,7 @@ class Exercise(
         isGradeChanged: Boolean,
         isIsLearnedChanged: Boolean
     ) {
+        if (!isPositionValid()) return
         val currentPosition = state.currentPosition
         state.exerciseCards.forEachIndexed { position, exerciseCard ->
             if (card.id != exerciseCard.base.card.id) return@forEachIndexed
@@ -220,18 +242,24 @@ class Exercise(
     }
 
     fun notifyExercisePreferenceChanged() {
+        if (!isPositionValid()) return
         exerciseCardConformer.conform()
     }
 
     fun setWalkingModeEnabled(enabled: Boolean) {
         if (isWalkingMode == enabled) return
-        stopTimer()
-        globalState.isWalkingModeEnabled = enabled
-        exerciseCardConformer.conform()
-        startTimer()
+        if (!isPositionValid()) {
+            globalState.isWalkingModeEnabled = enabled
+        } else {
+            stopTimer()
+            globalState.isWalkingModeEnabled = enabled
+            exerciseCardConformer.conform()
+            startTimer()
+        }
     }
 
     fun setGrade(grade: Int) {
+        if (!isPositionValid()) return
         if (grade < 0) return
         currentExerciseCard.base.card.grade = grade
         state.exerciseCards.filter { exerciseCard: ExerciseCard ->
@@ -243,10 +271,12 @@ class Exercise(
     }
 
     fun setHintSelection(startIndex: Int, endIndex: Int) {
+        if (!isPositionValid()) return
         state.hintSelection = HintSelection(startIndex, endIndex)
     }
 
     fun showHint() {
+        if (!isPositionValid()) return
         val hasHint: Boolean = currentExerciseCard.base.hint != null
         val hasHintSelection: Boolean = state.hintSelection.endIndex - state.hintSelection.startIndex > 0
         val answer: String = with(currentExerciseCard.base) {
@@ -267,6 +297,7 @@ class Exercise(
     }
 
     fun getVariants() {
+        if (!isPositionValid()) return
         if (isWalkingMode
             || currentExerciseCard is QuizTestExerciseCard
             || currentExerciseCard.base.card.isLearned
@@ -287,6 +318,7 @@ class Exercise(
     }
 
     fun startTimer() {
+        if (!isPositionValid()) return
         with(currentExerciseCard.base) {
             if (isWalkingMode
                 || card.isLearned
@@ -311,6 +343,7 @@ class Exercise(
     }
 
     fun resetTimer() {
+        if (!isPositionValid()) return
         with(currentExerciseCard.base) {
             if (isWalkingMode
                 || card.isLearned
@@ -325,6 +358,7 @@ class Exercise(
     }
 
     fun stopTimer() {
+        if (!isPositionValid()) return
         with(currentExerciseCard.base) {
             if (isWalkingMode
                 || isExpired
@@ -338,6 +372,7 @@ class Exercise(
     }
 
     fun setUserInput(userInput: String?) {
+        if (!isPositionValid()) return
         currentExerciseCard.let { currentExerciseCard: ExerciseCard ->
             if (currentExerciseCard !is EntryTestExerciseCard || currentExerciseCard.isAnswered) {
                 return
@@ -347,6 +382,7 @@ class Exercise(
     }
 
     fun answer(answer: Answer) {
+        if (!isPositionValid()) return
         if (!isAnswerRelevant(answer)) return
         stopTimer()
         when (answer) {

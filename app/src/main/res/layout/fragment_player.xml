@@ -56,6 +56,8 @@
                     android:fontFamily="@font/nunito_extrabold"
                     android:outlineAmbientShadowColor="@color/colorAccent"
                     android:outlineSpotShadowColor="@color/colorAccent"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
                     android:stateListAnimator="@animator/material_button"
                     android:text="@string/button_go_back"
                     android:textAllCaps="false"

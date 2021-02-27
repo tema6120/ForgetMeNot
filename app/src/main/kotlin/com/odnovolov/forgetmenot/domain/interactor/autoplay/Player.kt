@@ -65,11 +65,16 @@ class Player(
     private var skipDelay = true
 
     init {
-        speaker.setOnSpeakingFinished(::tryToExecuteNextPronunciationEvent)
-        if (state.isPlaying) {
-            executePronunciationEvent()
+        if (isPositionValid()) {
+            speaker.setOnSpeakingFinished(::tryToExecuteNextPronunciationEvent)
+            if (state.isPlaying) {
+                executePronunciationEvent()
+            }
         }
     }
+
+    private fun isPositionValid(): Boolean =
+        state.currentPosition in 0..state.playingCards.lastIndex
 
     fun setNumberOfLaps(numberOfLaps: Int) {
         globalState.numberOfLapsInPlayer = numberOfLaps
@@ -88,12 +93,12 @@ class Player(
     }
 
     fun showQuestion() {
-        if (state.playingCards.isEmpty()) return
+        if (!isPositionValid()) return
         currentPlayingCard.isQuestionDisplayed = true
     }
 
     fun showAnswer() {
-        if (state.playingCards.isEmpty()) return
+        if (!isPositionValid()) return
         showQuestion()
         currentPlayingCard.isAnswerDisplayed = true
     }
@@ -109,12 +114,12 @@ class Player(
     }
 
     fun setIsCardLearned(isLearned: Boolean) {
-        if (state.playingCards.isEmpty()) return
+        if (!isPositionValid()) return
         currentPlayingCard.card.isLearned = isLearned
     }
 
     fun speak() {
-        if (state.playingCards.isEmpty()) return
+        if (!isPositionValid()) return
         pause()
         when {
             hasQuestionSelection() -> speakQuestionSelection()
@@ -169,7 +174,7 @@ class Player(
     }
 
     fun setGrade(grade: Int) {
-        if (state.playingCards.isEmpty()) return
+        if (!isPositionValid()) return
         currentPlayingCard.card.grade = grade
     }
 
@@ -181,7 +186,7 @@ class Player(
     }
 
     fun resume() {
-        if (state.playingCards.isEmpty()) return
+        if (!isPositionValid()) return
         if (state.isPlaying) return
         if (!hasOneMorePronunciationEventForCurrentPlayingCard() && !hasOneMorePlayingCard()) {
             nextLap()
@@ -193,7 +198,7 @@ class Player(
     }
 
     fun playOneMoreLap() {
-        if (state.playingCards.isEmpty()) return
+        if (!isPositionValid()) return
         nextLap()
         resume()
     }
@@ -287,8 +292,8 @@ class Player(
         }
     }
 
-    fun notifyCardsRemoved(cardIds: List<Long>) {
+    fun notifyCardsRemoved(removedCardIds: List<Long>) {
         state.playingCards = state.playingCards
-            .filter { playingCard: PlayingCard -> playingCard.card.id !in cardIds }
+            .filter { playingCard: PlayingCard -> playingCard.card.id !in removedCardIds }
     }
 }

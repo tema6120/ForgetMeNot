@@ -12,10 +12,10 @@ class CardsEditorForAutoplay(
     state
 ) {
     override fun save(): SavingResult {
-        val removedCardIds: List<Long> =
-            removedCards.map { editableCard: EditableCard -> editableCard.card.id }
         return super.save().also { result ->
             if (result is Success) {
+                val removedCardIds: List<Long> =
+                    removedCards.map { editableCard: EditableCard -> editableCard.card.id }
                 player.notifyCardsRemoved(removedCardIds)
             }
         }

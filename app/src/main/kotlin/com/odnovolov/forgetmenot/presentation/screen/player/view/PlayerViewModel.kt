@@ -42,6 +42,8 @@ class PlayerViewModel(
     ) { currentPosition: Int, playingCards: List<PlayingCard> ->
         "${currentPosition + 1}/${playingCards.size}"
     }
+        .debounce(10)
+        .flowOn(Dispatchers.Default)
 
     val gradeOfCurrentCard: Flow<Int> =
         currentPlayingCard.flatMapLatest { playingCard: PlayingCard ->

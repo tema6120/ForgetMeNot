@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCa
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class ManualTestExerciseCardViewModel(
@@ -41,34 +42,34 @@ class ManualTestExerciseCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isQuestionDisplayed: Flow<Boolean> =
         exerciseCardFlow.flatMapLatest { exerciseCard ->
             exerciseCard.base.flowOf(ExerciseCard.Base::isQuestionDisplayed)
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val isAnswerCorrect: Flow<Boolean?> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isExpired: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::isExpired)
     }
         .distinctUntilChanged()
         .share()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isLearned: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
     }
         .distinctUntilChanged()
         .share()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val cardLabel: Flow<CardLabel?> = combine(isLearned, isExpired) { isLearned: Boolean,
                                                                       isExpired: Boolean ->
@@ -79,5 +80,5 @@ class ManualTestExerciseCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 }

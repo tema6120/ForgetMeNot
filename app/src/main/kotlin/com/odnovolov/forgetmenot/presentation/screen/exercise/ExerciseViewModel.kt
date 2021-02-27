@@ -6,13 +6,13 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LanguageStatus
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
-import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
 import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.MaskingLettersAction.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import java.util.*
 
@@ -23,10 +23,12 @@ open class ExerciseViewModel(
     globalState: GlobalState
 ) {
     val isWalkingModeEnabled: Flow<Boolean> = globalState.flowOf(GlobalState::isWalkingModeEnabled)
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val exerciseCards: Flow<List<ExerciseCard>> =
         exerciseState.flowOf(Exercise.State::exerciseCards)
+
+    val hasExerciseCards: Flow<Boolean> = exerciseCards.map { it.isNotEmpty() }
 
     val currentPosition: Int get() = exerciseState.currentPosition
 
@@ -34,8 +36,9 @@ open class ExerciseViewModel(
         exerciseCards,
         exerciseState.flowOf(Exercise.State::currentPosition)
     ) { exerciseCards: List<ExerciseCard>, currentPosition: Int ->
-        exerciseCards[currentPosition]
+        exerciseCards.getOrNull(currentPosition)
     }
+        .filterNotNull()
         .distinctUntilChanged()
         .share()
 
@@ -45,20 +48,22 @@ open class ExerciseViewModel(
     ) { currentPosition: Int, exerciseCards: List<ExerciseCard> ->
         "${currentPosition + 1}/${exerciseCards.size}"
     }
+        .debounce(10)
+        .flowOn(Dispatchers.Default)
 
     val gradeOfCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::grade)
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val isGradeEditedManually: Flow<Boolean> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.flowOf(ExerciseCard.Base::isGradeEditedManually)
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val intervalItems: Flow<List<IntervalItem>?> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
@@ -75,14 +80,14 @@ open class ExerciseViewModel(
                 }
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val isCurrentExerciseCardLearned: Flow<Boolean> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
             exerciseCard.base.card.flowOf(Card::isLearned)
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     private val hasQuestionSelection: Flow<Boolean> = exerciseState
         .flowOf(Exercise.State::questionSelection)
@@ -170,12 +175,12 @@ open class ExerciseViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isSpeakerPreparingToPronounce: Flow<Boolean> =
         speakerImpl.state.flowOf(SpeakerImpl.State::isPreparingToSpeak)
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val reasonForInabilityToSpeak: Flow<ReasonForInabilityToSpeak?> = combine(
         speakerImpl.state.flowOf(SpeakerImpl.State::status),
@@ -209,7 +214,7 @@ open class ExerciseViewModel(
     }
 
     val speakerEvents: Flow<SpeakerImpl.Event> = speakerImpl.events
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     open val timerStatus: Flow<TimerStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
@@ -240,7 +245,7 @@ open class ExerciseViewModel(
                 }
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val hintStatus: Flow<HintStatus> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
@@ -279,7 +284,7 @@ open class ExerciseViewModel(
             }
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val vibrateCommand: Flow<Unit> = currentExerciseCard.flatMapLatest { exerciseCard ->
         when (exerciseCard) {
@@ -296,7 +301,7 @@ open class ExerciseViewModel(
         }
     }
         .filterNotNull()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val learnedCardSoundNotification: Flow<Unit> =
         isWalkingModeEnabled.flatMapLatest { isWalkingModeEnabled: Boolean ->
@@ -312,11 +317,11 @@ open class ExerciseViewModel(
             }
         }
             .filterNotNull()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val keyGestureMap: Flow<Map<KeyGesture, KeyGestureAction>> =
         walkingModePreference.flowOf(WalkingModePreference::keyGestureMap)
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val unansweredCardCount: Int
         get() = exerciseState.exerciseCards.count { exerciseCard: ExerciseCard ->

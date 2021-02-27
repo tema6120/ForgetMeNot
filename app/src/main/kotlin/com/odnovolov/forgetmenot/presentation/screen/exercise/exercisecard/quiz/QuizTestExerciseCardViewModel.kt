@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz.VariantStatus.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class QuizTestExerciseCardViewModel(
@@ -40,14 +41,14 @@ class QuizTestExerciseCardViewModel(
             }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isQuestionDisplayed: Flow<Boolean> =
         exerciseCardFlow.flatMapLatest { exerciseCard ->
             exerciseCard.base.flowOf(ExerciseCard.Base::isQuestionDisplayed)
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     fun variantStatus(variantIndex: Int): Flow<VariantStatus> =
         exerciseCardFlow.flatMapLatest { exerciseCard ->
@@ -67,14 +68,14 @@ class QuizTestExerciseCardViewModel(
                 }
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val isAnswered: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
     }
         .map { isAnswerCorrect: Boolean? -> isAnswerCorrect != null }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isExpired: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         combine(
@@ -85,13 +86,13 @@ class QuizTestExerciseCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isLearned: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val cardLabel: Flow<CardLabel?> = combine(isLearned, isExpired) { isLearned: Boolean,
                                                                       isExpired: Boolean ->
@@ -102,5 +103,5 @@ class QuizTestExerciseCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 }

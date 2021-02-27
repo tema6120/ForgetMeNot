@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.CardContent.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class OffTestExerciseCardViewModel(
@@ -41,14 +42,14 @@ class OffTestExerciseCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isQuestionDisplayed: Flow<Boolean> =
         exerciseCardFlow.flatMapLatest { exerciseCard ->
             exerciseCard.base.flowOf(ExerciseCard.Base::isQuestionDisplayed)
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val isExpired: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         combine(
@@ -59,13 +60,13 @@ class OffTestExerciseCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val isLearned: Flow<Boolean> = exerciseCardFlow.flatMapLatest { exerciseCard ->
         exerciseCard.base.card.flowOf(Card::isLearned)
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val cardLabel: Flow<CardLabel?> = combine(isLearned, isExpired) { isLearned: Boolean,
                                                                       isExpired: Boolean ->
@@ -76,5 +77,5 @@ class OffTestExerciseCardViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 }

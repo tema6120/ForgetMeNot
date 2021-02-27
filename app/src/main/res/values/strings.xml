@@ -251,6 +251,7 @@
     </plurals>
     <string name="button_show_unanswered_card">Show unanswered card</string>
     <string name="button_quit_exercise">Quit anyway</string>
+    <string name="no_cards_to_exercise">No cards to exercise</string>
 
 
     <!-- Card filter for autoplay screen -->

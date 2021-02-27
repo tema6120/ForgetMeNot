@@ -12,9 +12,6 @@ class CardsEditorForExercise(
     removedCards,
     state
 ) {
-    override fun isCurrentCardRemovable(): Boolean =
-        state.editableCards.isNotEmpty() && !currentEditableCard.card.isInExercise()
-
     private fun Card.isInExercise(): Boolean =
         id in exercise.state.exerciseCards.map { it.base.card.id }
 
@@ -26,6 +23,9 @@ class CardsEditorForExercise(
     }
 
     private fun applyChanges() {
+        val removedCardIds: List<Long> =
+            removedCards.map { editableCard: EditableCard -> editableCard.card.id }
+        exercise.notifyCardsRemoved(removedCardIds)
         state.editableCards.forEach { editableCard: EditableCard ->
             val originalCard = editableCard.card
             var isQuestionChanged = false

@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
+import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
@@ -48,21 +49,24 @@ class SearchController(
                         }
                     }
                     ExerciseDiScope.isOpen() -> {
+                        val exercise: Exercise = ExerciseDiScope.getOrRecreate().exercise
+                        val currentExerciseCard: ExerciseCard = with(exercise.state) {
+                            exerciseCards.getOrNull(currentPosition)
+                        } ?: return
                         navigator.navigateToCardsEditorFromSearch {
-                            val exercise: Exercise = ExerciseDiScope.getOrRecreate().exercise
                             val foundEditableCard = EditableCard(
                                 event.searchCard.card,
                                 event.searchCard.deck
                             )
                             val cardsEditorState = if (event.searchCard.card.id ==
-                                exercise.currentExerciseCard.base.card.id
+                                currentExerciseCard.base.card.id
                             ) {
                                 val editableCards: List<EditableCard> = listOf(foundEditableCard)
                                 CardsEditor.State(editableCards)
                             } else {
                                 val editableCardFromExercise = EditableCard(
-                                    exercise.currentExerciseCard.base.card,
-                                    exercise.currentExerciseCard.base.deck
+                                    currentExerciseCard.base.card,
+                                    currentExerciseCard.base.deck
                                 )
                                 val editableCards: List<EditableCard> =
                                     listOf(editableCardFromExercise, foundEditableCard)
