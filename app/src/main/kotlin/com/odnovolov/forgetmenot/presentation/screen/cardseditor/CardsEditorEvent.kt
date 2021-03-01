@@ -15,6 +15,7 @@ sealed class CardsEditorEvent {
     object CopyCardButtonClicked : CardsEditorEvent()
     class DeckToCopyCardToIsSelected(val abstractDeck: AbstractDeck) : CardsEditorEvent()
     object CancelLastCopyingButtonClicked : CardsEditorEvent()
+    object CardInfoButtonClicked : CardsEditorEvent()
     object HelpButtonClicked : CardsEditorEvent()
     object CancelButtonClicked : CardsEditorEvent()
     object DoneButtonClicked : CardsEditorEvent()

@@ -22,6 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEven
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
 import kotlinx.android.synthetic.main.fragment_cards_editor.*
+import kotlinx.android.synthetic.main.popup_card_info.view.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.coroutines.launch
 
@@ -34,6 +35,7 @@ class CardsEditorFragment : BaseFragment() {
     private lateinit var viewModel: CardsEditorViewModel
     private var intervalsPopup: PopupWindow? = null
     private var intervalsAdapter: IntervalsAdapter? = null
+    private var cardInfoPopup: PopupWindow? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +74,10 @@ class CardsEditorFragment : BaseFragment() {
         }
         copyCardButton.run {
             setOnClickListener { controller?.dispatch(CopyCardButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
+        cardInfoButton.run {
+            setOnClickListener { controller?.dispatch(CardInfoButtonClicked) }
             setTooltipTextFromContentDescription()
         }
         helpButton.run {
@@ -141,6 +147,7 @@ class CardsEditorFragment : BaseFragment() {
             isCurrentCardRemovable.observe { isCurrentCardRemovable: Boolean ->
                 removeCardButton.isVisible = isCurrentCardRemovable
             }
+            cardInfoButton.isVisible = isCardInfoButtonVisible
             helpButton.isVisible = isHelpButtonVisible
         }
     }
@@ -205,6 +212,9 @@ class CardsEditorFragment : BaseFragment() {
                     )
                     .show()
             }
+            is ShowCardInfo -> {
+                showCardInfoPopup(command.cardInfo)
+            }
             AskUserToConfirmExit -> {
                 QuitCardsEditorBottomSheet().show(
                     childFragmentManager,
@@ -212,6 +222,10 @@ class CardsEditorFragment : BaseFragment() {
                 )
             }
         }
+    }
+
+    private fun showIntervalsPopup() {
+        requireIntervalsPopup().show(anchor = gradeButton, gravity = Gravity.BOTTOM)
     }
 
     private fun requireIntervalsPopup(): PopupWindow {
@@ -243,6 +257,24 @@ class CardsEditorFragment : BaseFragment() {
         }
     }
 
+    private fun showCardInfoPopup(cardInfo: CardInfo) {
+        val cardInfoPopup: PopupWindow = requireCardInfoPopup()
+        cardInfoPopup.contentView.apply {
+            deckNameTextView.text = cardInfo.deckName
+            numberOfTestsTextView.text = cardInfo.numberOfTests
+            timeOfLastTestTextView.text = cardInfo.timeOfLastTest
+        }
+        cardInfoPopup.show(anchor = cardInfoButton, gravity = Gravity.BOTTOM)
+    }
+
+    private fun requireCardInfoPopup(): PopupWindow {
+        if (cardInfoPopup == null) {
+            val content = View.inflate(requireContext(), R.layout.popup_card_info, null)
+            cardInfoPopup = DarkPopupWindow(content)
+        }
+        return cardInfoPopup!!
+    }
+
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
@@ -250,17 +282,19 @@ class CardsEditorFragment : BaseFragment() {
             if (needToShowIntervalsPopup) {
                 showIntervalsPopup()
             }
+            val needToShowCardInfoPopup = getBoolean(STATE_CARD_INFO_POPUP, false)
+            if (needToShowCardInfoPopup) {
+                controller?.dispatch(CardInfoButtonClicked)
+            }
         }
-    }
-
-    private fun showIntervalsPopup() {
-        requireIntervalsPopup().show(anchor = gradeButton, gravity = Gravity.BOTTOM)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val isPopupShowing = intervalsPopup?.isShowing ?: false
-        outState.putBoolean(STATE_INTERVALS_POPUP, isPopupShowing)
+        val isIntervalsPopupShowing = intervalsPopup?.isShowing ?: false
+        outState.putBoolean(STATE_INTERVALS_POPUP, isIntervalsPopupShowing)
+        val isCardInfoPopupShowing = cardInfoPopup?.isShowing ?: false
+        outState.putBoolean(STATE_CARD_INFO_POPUP, isCardInfoPopupShowing)
     }
 
     override fun onResume() {
@@ -280,6 +314,8 @@ class CardsEditorFragment : BaseFragment() {
         intervalsPopup?.dismiss()
         intervalsPopup = null
         intervalsAdapter = null
+        cardInfoPopup?.dismiss()
+        cardInfoPopup = null
     }
 
     override fun onDestroy() {
@@ -303,5 +339,6 @@ class CardsEditorFragment : BaseFragment() {
 
     companion object {
         private const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
+        private const val STATE_CARD_INFO_POPUP = "STATE_CARD_INFO_POPUP"
     }
 }

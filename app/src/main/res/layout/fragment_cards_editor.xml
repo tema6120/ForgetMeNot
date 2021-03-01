@@ -121,6 +121,16 @@
                             tools:visibility="visible" />
 
                     <ImageButton
+                            android:id="@+id/cardInfoButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple_light_borderless"
+                            android:contentDescription="@string/description_card_info_button"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_round_info_24"
+                            tools:visibility="visible" />
+
+                    <ImageButton
                             android:id="@+id/helpButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"

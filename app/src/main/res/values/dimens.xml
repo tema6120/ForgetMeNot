@@ -107,4 +107,6 @@
     <dimen name="text_size_dsv_format_screen_item_controller">16sp</dimen>
     <dimen name="text_size_progress_bar">14sp</dimen>
     <dimen name="text_size_progress_in_exercise">12sp</dimen>
+    <dimen name="text_size_popup_item_title">13sp</dimen>
+    <dimen name="text_size_popup_item_value">15sp</dimen>
 </resources>

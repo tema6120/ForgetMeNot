@@ -342,10 +342,16 @@
     <string name="description_remove_card_button">Remove card</string>
     <string name="description_move_card_button">Move card to another deck</string>
     <string name="description_copy_card_button">Copy card to another deck</string>
+    <string name="description_card_info_button">Card info</string>
     <string name="card_is_removed">Card is removed</string>
     <string name="card_is_moved">Card is moved</string>
     <string name="card_is_copied">Card is copied</string>
     <string name="snackbar_action_cancel" tools:ignore="ButtonCase">cancel</string>
+    <string name="popup_title_card_info">Card info</string>
+    <string name="description_info_icon">Info icon</string>
+    <string name="card_info_popup_deck_title">Deck</string>
+    <string name="card_info_popup_number_of_tests_title">Number of tests</string>
+    <string name="card_info_popup_time_of_the_last_test_title">Time of the last test</string>
     <string name="description_done_button">Done</string>
     <string name="description_cancel_button">Cancel</string>
     <string name="toast_fill_in_the_card">Fill in the card</string>

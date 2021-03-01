@@ -1,10 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.CardMoving
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Failure
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingDeck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -19,11 +22,8 @@ import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScre
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMoveCard
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs.All
-import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle.AdviceOnCompilingDeck
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
@@ -39,8 +39,14 @@ class CardsEditorController(
         object ShowCardIsRemovedMessage : Command()
         object ShowCardIsMovedMessage : Command()
         object ShowCardIsCopiedMessage : Command()
+        class ShowCardInfo(val cardInfo: CardInfo) : Command()
         object AskUserToConfirmExit : Command()
     }
+
+    private val currentEditableCard: EditableCard?
+        get() = with(cardsEditor.state) {
+            editableCards.getOrNull(currentPosition)
+        }
 
     override fun handle(event: CardsEditorEvent) {
         when (event) {
@@ -105,6 +111,23 @@ class CardsEditorController(
 
             CancelLastCopyingButtonClicked -> {
                 cardsEditor.cancelLastCopying()
+            }
+
+            CardInfoButtonClicked -> {
+                val currentEditableCard: EditableCard = currentEditableCard ?: return
+                val deckOfCurrentCard: Deck = cardsEditor.state.movements
+                    .find { cardMoving: CardMoving ->
+                        cardMoving.editableCard.card.id == currentEditableCard.card.id
+                    }
+                    ?.targetDeck
+                    ?: currentEditableCard.deck
+                val deckName: String = deckOfCurrentCard.name
+                val numberOfTests: String = currentEditableCard.card.lap.toString()
+                val timeOfLastTest: String = currentEditableCard.card.lastTestedAt
+                    ?.local
+                    ?.format("HH:mm MMM d yyyy") ?: "-"
+                val cardInfo = CardInfo(deckName, numberOfTests, timeOfLastTest)
+                sendCommand(ShowCardInfo(cardInfo))
             }
 
             HelpButtonClicked -> {

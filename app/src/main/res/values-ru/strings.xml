@@ -359,10 +359,16 @@
     <string name="description_remove_card_button">Удалить карточку</string>
     <string name="description_move_card_button">Переместить карточку в другую колоду</string>
     <string name="description_copy_card_button">Копировать карточку в другую колоду</string>
+    <string name="description_card_info_button">Информация о карточке</string>
     <string name="card_is_removed">Карточка удалена</string>
     <string name="card_is_moved">Карточка перемещена</string>
     <string name="card_is_copied">Карточка скопирована</string>
     <string name="snackbar_action_cancel" tools:ignore="ButtonCase">отменить</string>
+    <string name="popup_title_card_info">Информация о карточке</string>
+    <string name="description_info_icon">иконка \"Инфо\"</string>
+    <string name="card_info_popup_deck_title">Колода</string>
+    <string name="card_info_popup_number_of_tests_title">Количество тестов</string>
+    <string name="card_info_popup_time_of_the_last_test_title">Время последнего теста</string>
     <string name="description_done_button">Готово</string>
     <string name="description_cancel_button">Отменить</string>
     <string name="toast_fill_in_the_card">Заполните карточку</string>

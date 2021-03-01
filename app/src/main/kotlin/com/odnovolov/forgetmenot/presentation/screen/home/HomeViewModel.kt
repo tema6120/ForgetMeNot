@@ -42,7 +42,7 @@ class HomeViewModel(
             learnedCount,
             totalCount,
             numberOfCardsReadyForExercise,
-            lastTestedAt?.format("MMM d"),
+            lastTestedAt?.local?.format("MMM d"),
             isPinned
         )
     }

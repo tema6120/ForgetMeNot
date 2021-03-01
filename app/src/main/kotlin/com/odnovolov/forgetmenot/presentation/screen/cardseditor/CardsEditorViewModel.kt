@@ -81,15 +81,15 @@ class CardsEditorViewModel(
 
     private val questionOrAnswerUpdate: Flow<Unit> =
         currentEditableCard.flatMapLatest { currentEditableCard: EditableCard? ->
-        if (currentEditableCard == null) {
-            flowOf(Unit)
-        } else {
-            combine(
-                currentEditableCard.flowOf(EditableCard::question),
-                currentEditableCard.flowOf(EditableCard::answer),
-            ) { _, _ -> }
+            if (currentEditableCard == null) {
+                flowOf(Unit)
+            } else {
+                combine(
+                    currentEditableCard.flowOf(EditableCard::question),
+                    currentEditableCard.flowOf(EditableCard::answer),
+                ) { _, _ -> }
+            }
         }
-    }
 
     val isCurrentCardMovable: Flow<Boolean> =
         if (isEditingNewDeck) {
@@ -100,6 +100,8 @@ class CardsEditorViewModel(
 
     val isCurrentCardRemovable: Flow<Boolean> =
         questionOrAnswerUpdate.map { cardsEditor.isCurrentCardRemovable() }
+
+    val isCardInfoButtonVisible: Boolean get() = !isEditingNewDeck
 
     val isHelpButtonVisible: Boolean get() = isEditingNewDeck
 }
