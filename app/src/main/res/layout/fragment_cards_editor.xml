@@ -40,86 +40,105 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <HorizontalScrollView
-                android:id="@+id/controlPanelScroll"
+        <FrameLayout
+                android:id="@+id/controlPanel"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:paddingEnd="116dp"
-                android:background="@color/colorPrimary"
-                android:theme="@style/AppTheme.AppBarOverlay">
+                android:background="@color/colorPrimary">
 
-            <LinearLayout
-                    android:id="@+id/controlPanel"
-                    android:layout_width="wrap_content"
+            <HorizontalScrollView
+                    android:id="@+id/controlPanelScroll"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginEnd="116dp"
+                    android:theme="@style/AppTheme.AppBarOverlay">
 
-                <TextView
-                        android:id="@+id/gradeButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="2dp"
-                        android:background="@drawable/background_grade_button"
-                        android:contentDescription="@string/description_grade_button"
-                        android:elevation="14dp"
-                        android:gravity="center"
-                        android:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
-                        android:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_grade"
-                        android:visibility="gone"
-                        tools:text="0"
-                        tools:visibility="visible" />
+                <LinearLayout
+                        android:id="@+id/controlPanelRow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                <ImageButton
-                        android:id="@+id/markAsLearnedButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/ripple_light_borderless"
-                        android:contentDescription="@string/description_mark_as_learned_button"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_mark_as_learned"
-                        tools:visibility="visible" />
+                    <Space
+                            android:layout_width="2dp"
+                            android:layout_height="0dp" />
 
-                <ImageButton
-                        android:id="@+id/removeCardButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/ripple_light_borderless"
-                        android:contentDescription="@string/description_remove_card_button"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_delete_white_24dp"
-                        tools:visibility="visible" />
+                    <TextView
+                            android:id="@+id/gradeButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/background_grade_button"
+                            android:contentDescription="@string/description_grade_button"
+                            android:elevation="14dp"
+                            android:gravity="center"
+                            android:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
+                            android:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_grade"
+                            android:visibility="gone"
+                            tools:text="0"
+                            tools:visibility="visible" />
 
-                <ImageButton
-                        android:id="@+id/moveCardButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/ripple_light_borderless"
-                        android:contentDescription="@string/description_move_card_button"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_round_drive_file_move_24"
-                        tools:visibility="visible" />
+                    <ImageButton
+                            android:id="@+id/markAsLearnedButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple_light_borderless"
+                            android:contentDescription="@string/description_mark_as_learned_button"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_mark_as_learned"
+                            tools:visibility="visible" />
 
-                <ImageButton
-                        android:id="@+id/helpButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/ripple_light_borderless"
-                        android:contentDescription="@string/description_help_button"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_baseline_help_outline_24"
-                        tools:visibility="visible" />
+                    <ImageButton
+                            android:id="@+id/removeCardButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple_light_borderless"
+                            android:contentDescription="@string/description_remove_card_button"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_delete_white_24dp"
+                            tools:visibility="visible" />
 
-                <Space
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                    <ImageButton
+                            android:id="@+id/moveCardButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple_light_borderless"
+                            android:contentDescription="@string/description_move_card_button"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_round_drive_file_move_24"
+                            tools:visibility="visible" />
 
-            </LinearLayout>
+                    <ImageButton
+                            android:id="@+id/copyCardButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple_light_borderless"
+                            android:contentDescription="@string/description_copy_card_button"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_content_copy_24"
+                            tools:visibility="visible" />
 
-        </HorizontalScrollView>
+                    <ImageButton
+                            android:id="@+id/helpButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple_light_borderless"
+                            android:contentDescription="@string/description_help_button"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_baseline_help_outline_24"
+                            tools:visibility="visible" />
+
+                    <Space
+                            android:layout_width="14dp"
+                            android:layout_height="0dp" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </FrameLayout>
 
     </LinearLayout>
 

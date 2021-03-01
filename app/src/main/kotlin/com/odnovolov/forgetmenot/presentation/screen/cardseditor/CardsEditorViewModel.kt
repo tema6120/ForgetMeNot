@@ -79,10 +79,27 @@ class CardsEditorViewModel(
             }
         }
 
-    val isCurrentCardMovable: Flow<Boolean> = combine(
-        cardsEditor.state.flowOf(CardsEditor.State::editableCards),
-        cardsEditor.state.flowOf(CardsEditor.State::currentPosition)
-    ) { _, _ -> cardsEditor.isCurrentCardMovable() }
+    private val questionOrAnswerUpdate: Flow<Unit> =
+        currentEditableCard.flatMapLatest { currentEditableCard: EditableCard? ->
+        if (currentEditableCard == null) {
+            flowOf(Unit)
+        } else {
+            combine(
+                currentEditableCard.flowOf(EditableCard::question),
+                currentEditableCard.flowOf(EditableCard::answer),
+            ) { _, _ -> }
+        }
+    }
+
+    val isCurrentCardMovable: Flow<Boolean> =
+        if (isEditingNewDeck) {
+            flowOf(false)
+        } else {
+            questionOrAnswerUpdate.map { cardsEditor.isCurrentCardMovable() }
+        }
+
+    val isCurrentCardRemovable: Flow<Boolean> =
+        questionOrAnswerUpdate.map { cardsEditor.isCurrentCardRemovable() }
 
     val isHelpButtonVisible: Boolean get() = isEditingNewDeck
 }

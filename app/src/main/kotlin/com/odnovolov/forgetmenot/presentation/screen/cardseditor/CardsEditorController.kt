@@ -15,12 +15,16 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorCont
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToCopyCard
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMoveCard
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs.All
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle.AdviceOnCompilingDeck
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 
@@ -34,6 +38,7 @@ class CardsEditorController(
         class ShowUnfilledTextInputAt(val position: Int) : Command()
         object ShowCardIsRemovedMessage : Command()
         object ShowCardIsMovedMessage : Command()
+        object ShowCardIsCopiedMessage : Command()
         object AskUserToConfirmExit : Command()
     }
 
@@ -84,9 +89,27 @@ class CardsEditorController(
                 cardsEditor.cancelLastMovement()
             }
 
+            CopyCardButtonClicked -> {
+                navigator.navigateToDeckChooserFromCardsEditor {
+                    val screenState = DeckChooserScreenState(purpose = ToCopyCard)
+                    DeckChooserDiScope.create(screenState)
+                }
+            }
+
+            is DeckToCopyCardToIsSelected -> {
+                val success = cardsEditor.copyTo(event.abstractDeck)
+                if (success) {
+                    sendCommand(ShowCardIsCopiedMessage, postponeIfNotActive = true)
+                }
+            }
+
+            CancelLastCopyingButtonClicked -> {
+                cardsEditor.cancelLastCopying()
+            }
+
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromCardsEditor {
-                    val screenState = HelpArticleScreenState(HelpArticle.AdviceOnCompilingDeck)
+                    val screenState = HelpArticleScreenState(AdviceOnCompilingDeck)
                     HelpArticleDiScope.create(screenState)
                 }
             }
@@ -105,8 +128,8 @@ class CardsEditorController(
                         Success -> {
                             if (cardsEditor is CardsEditorForEditingDeck && cardsEditor.isNewDeck) {
                                 navigator.navigateToDeckEditorFromCardsEditor {
-                                    val tabs = DeckEditorTabs.All(
-                                        initialTab = DeckEditorScreenTab.Settings
+                                    val tabs = All(
+                                        initialTab = Settings
                                     )
                                     val screenState = DeckEditorScreenState(cardsEditor.deck, tabs)
                                     DeckEditorDiScope.create(screenState)

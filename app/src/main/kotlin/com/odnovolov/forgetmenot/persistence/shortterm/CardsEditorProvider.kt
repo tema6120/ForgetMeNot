@@ -6,8 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.CardMoving
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.CardRemoving
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
@@ -36,6 +35,9 @@ class CardsEditorProvider(
         val serializableMovements: List<SerializableCardMoving> =
             cardsEditor.state.movements
                 .map { cardMoving: CardMoving -> cardMoving.toSerializable() }
+        val serializableCopyOperations: List<SerializableCardCopying> =
+            cardsEditor.state.copyOperations
+                .map { cardCopying: CardCopying -> cardCopying.toSerializable() }
         val createdDeckIds: List<Long> =
             cardsEditor.state.createdDecks
                 .map { deck: Deck -> deck.id }
@@ -48,6 +50,7 @@ class CardsEditorProvider(
                     cardsEditor.state.currentPosition,
                     serializableRemovals,
                     serializableMovements,
+                    serializableCopyOperations,
                     createdDeckIds
                 )
             }
@@ -62,6 +65,7 @@ class CardsEditorProvider(
                     cardsEditor.state.currentPosition,
                     serializableRemovals,
                     serializableMovements,
+                    serializableCopyOperations,
                     createdDeckIds,
                     screen
                 )
@@ -92,6 +96,12 @@ class CardsEditorProvider(
         targetDeck.id
     )
 
+    private fun CardCopying.toSerializable() = SerializableCardCopying(
+        copyOfQuestion,
+        copyOfAnswer,
+        targetDeck.id
+    )
+
     override fun toOriginal(serializableState: SerializableCardsEditorState): CardsEditor {
         val deckIdDeckMap: Map<Long, Deck> = globalState.decks.associateBy { deck -> deck.id }
         val cardIdCardMap: Map<Long, Card> = globalState.decks
@@ -114,6 +124,12 @@ class CardsEditorProvider(
                     serializableCardMoving.toOriginal(deckIdDeckMap, cardIdCardMap)
                 }
                 .toMutableList()
+        val copyOperations: MutableList<CardCopying> =
+            serializableState.serializableCopyOperations
+                .map { serializableCardCopying: SerializableCardCopying ->
+                    serializableCardCopying.toOriginal(deckIdDeckMap)
+                }
+                .toMutableList()
         val createdDecks: MutableList<Deck> =
             serializableState.createdDeckIds
                 .map { createdDeckId: Long -> deckIdDeckMap.getValue(createdDeckId) }
@@ -123,6 +139,7 @@ class CardsEditorProvider(
             serializableState.currentPosition,
             removals,
             movements,
+            copyOperations,
             createdDecks
         )
         return when (serializableState) {
@@ -189,6 +206,13 @@ class CardsEditorProvider(
         val targetDeck: Deck = deckIdDeckMap.getValue(targetDeckId)
         return CardMoving(editableCard, positionInSource, targetDeck)
     }
+
+    private fun SerializableCardCopying.toOriginal(
+        deckIdDeckMap: Map<Long, Deck>
+    ): CardCopying {
+        val targetDeck: Deck = deckIdDeckMap.getValue(targetDeckId)
+        return CardCopying(copyOfQuestion, copyOfAnswer, targetDeck)
+    }
 }
 
 @Serializable
@@ -197,6 +221,7 @@ sealed class SerializableCardsEditorState {
     abstract val currentPosition: Int
     abstract val serializableRemovals: List<SerializableCardRemoving>
     abstract val serializableMovements: List<SerializableCardMoving>
+    abstract val serializableCopyOperations: List<SerializableCardCopying>
     abstract val createdDeckIds: List<Long>
 }
 
@@ -208,6 +233,7 @@ class SerializableCardsEditorStateForEditingDeck(
     override val currentPosition: Int,
     override val serializableRemovals: List<SerializableCardRemoving>,
     override val serializableMovements: List<SerializableCardMoving>,
+    override val serializableCopyOperations: List<SerializableCardCopying>,
     override val createdDeckIds: List<Long>
 ) : SerializableCardsEditorState()
 
@@ -217,6 +243,7 @@ class SerializableStateForEditingSpecificCards(
     override val currentPosition: Int,
     override val serializableRemovals: List<SerializableCardRemoving>,
     override val serializableMovements: List<SerializableCardMoving>,
+    override val serializableCopyOperations: List<SerializableCardCopying>,
     override val createdDeckIds: List<Long>,
     val screen: EditingSpecificCardsScreen
 ) : SerializableCardsEditorState()
@@ -247,5 +274,12 @@ data class SerializableCardRemoving(
 data class SerializableCardMoving(
     val serializableEditableCard: SerializableEditableCard,
     val positionInSource: Int,
+    val targetDeckId: Long
+)
+
+@Serializable
+data class SerializableCardCopying(
+    val copyOfQuestion: String,
+    val copyOfAnswer: String,
     val targetDeckId: Long
 )

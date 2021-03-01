@@ -6,8 +6,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
-import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMergeInto
-import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMoveCard
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.*
 import com.odnovolov.forgetmenot.presentation.screen.home.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeViewModel.RawDeckPreview
@@ -130,7 +129,7 @@ class DeckChooserViewModel(
 
     val isAddDeckButtonVisible: Boolean
         get() = when (screenState.purpose) {
-            ToMergeInto, ToMoveCard -> true
+            ToMergeInto, ToMoveCard, ToCopyCard -> true
             else -> false
         }
 }

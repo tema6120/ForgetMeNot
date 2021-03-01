@@ -102,6 +102,7 @@ class DeckChooserFragment : BaseFragment() {
                     ToImportCards -> R.string.screen_title_choose_a_deck_to_import_cards_to
                     ToMergeInto -> R.string.screen_title_choose_a_deck_to_merge_into
                     ToMoveCard -> R.string.screen_title_choose_a_deck_to_move_card
+                    ToCopyCard -> R.string.screen_title_choose_a_deck_to_copy_card
                 }
             )
             deckListItems.observe { deckListItems: List<DeckListItem> ->

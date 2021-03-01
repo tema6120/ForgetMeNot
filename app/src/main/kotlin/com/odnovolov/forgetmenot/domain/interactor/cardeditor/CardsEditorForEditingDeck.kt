@@ -1,8 +1,10 @@
 package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.generateId
 
 class CardsEditorForEditingDeck(
@@ -27,10 +29,10 @@ class CardsEditorForEditingDeck(
 
     private fun ensureLastEmptyCard() {
         with(state) {
-            if (editableCards.last().isBlank()) {
+            if (editableCards.last().isFullyBlank()) {
                 var redundantCardCount = 0
                 for (i in editableCards.lastIndex - 1 downTo currentPosition) {
-                    if (editableCards[i].isBlank()) {
+                    if (editableCards[i].isFullyBlank()) {
                         redundantCardCount++
                     } else {
                         break
@@ -49,32 +51,13 @@ class CardsEditorForEditingDeck(
         }
     }
 
-    override fun isCurrentCardMovable(): Boolean =
-        state.currentPosition != state.editableCards.lastIndex
+    override fun isCurrentCardRemovable(): Boolean =
+        isPositionValid() && state.currentPosition != state.editableCards.lastIndex
 
     override fun moveTo(abstractDeck: AbstractDeck): Boolean {
         if (!isPositionValid()) return false
         if (!isCurrentCardMovable()) return false
-        val deck: Deck = when (abstractDeck) {
-            is ExistingDeck -> abstractDeck.deck
-            is NewDeck -> {
-                val sourceExercisePreference = currentEditableCard.deck.exercisePreference
-                val exercisePreferenceForNewDeck =
-                    if (sourceExercisePreference.isShared())
-                        sourceExercisePreference else
-                        ExercisePreference.Default
-                val newDeck = Deck(
-                    id = generateId(),
-                    name = abstractDeck.deckName,
-                    cards = copyableListOf(),
-                    exercisePreference = exercisePreferenceForNewDeck
-                )
-                globalState.decks = (globalState.decks + newDeck).toCopyableList()
-                state.createdDecks.add(newDeck)
-                newDeck
-            }
-            else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
-        }
+        val deck: Deck = getOrCreateDeckFrom(abstractDeck)
         with(state) {
             editableCards = editableCards.toMutableList().apply {
                 val movedCard = removeAt(currentPosition)
@@ -92,7 +75,7 @@ class CardsEditorForEditingDeck(
     override fun cancelLastMovement() {
         with(state) {
             if (movements.isEmpty()) return
-            val lastCardMoving: CardMoving = movements.removeAt(movements.lastIndex)
+            val lastCardMoving: CardMoving = movements.removeLast()
             val lastMovedCard: EditableCard = lastCardMoving.editableCard
             val insertPosition: Int = minOf(lastCardMoving.positionInSource, editableCards.size)
             editableCards = editableCards.toMutableList().apply {
@@ -103,6 +86,9 @@ class CardsEditorForEditingDeck(
     }
 
     override fun areCardsEdited(): Boolean {
+        if (state.removals.isNotEmpty()) return true
+        if (state.movements.isNotEmpty()) return true
+        if (state.copyOperations.isNotEmpty()) return true
         with(state) {
             val originalCards = deck.cards
             if (originalCards.size != editableCards.size - 1) return true
@@ -125,6 +111,7 @@ class CardsEditorForEditingDeck(
 
     override fun save(): SavingResult {
         checkDeck()?.let { failure -> return failure }
+        applyCopying()
         applyChangesInThisDeck()
         applyMovements()
         return SavingResult.Success
@@ -133,7 +120,7 @@ class CardsEditorForEditingDeck(
     private fun checkDeck(): SavingResult.Failure? {
         val underfilledPositions: List<Int> = state.editableCards
             .mapIndexedNotNull { index, editableCard ->
-                if (editableCard.isUnderfilled()) index else null
+                if (editableCard.isHalfFilled()) index else null
             }
         return if (underfilledPositions.isEmpty()) null
         else SavingResult.Failure(underfilledPositions)
@@ -141,7 +128,7 @@ class CardsEditorForEditingDeck(
 
     private fun applyChangesInThisDeck() {
         deck.cards = state.editableCards
-            .filterNot(EditableCard::isBlank)
+            .filterNot(EditableCard::isFullyBlank)
             .map { editableCard ->
                 editableCard.card.apply {
                     question = editableCard.question
@@ -156,7 +143,14 @@ class CardsEditorForEditingDeck(
     private fun applyMovements() {
         state.movements.groupBy(
             keySelector = { cardMoving: CardMoving -> cardMoving.targetDeck },
-            valueTransform = { cardMoving: CardMoving -> cardMoving.editableCard.card }
+            valueTransform = { cardMoving: CardMoving ->
+                cardMoving.editableCard.card.apply {
+                    question = cardMoving.editableCard.question
+                    answer = cardMoving.editableCard.answer
+                    isLearned = cardMoving.editableCard.isLearned
+                    grade = cardMoving.editableCard.grade
+                }
+            }
         ).forEach { (deckToMoveTo: Deck, movingCards: List<Card>) ->
             deckToMoveTo.cards = (deckToMoveTo.cards + movingCards).toCopyableList()
         }

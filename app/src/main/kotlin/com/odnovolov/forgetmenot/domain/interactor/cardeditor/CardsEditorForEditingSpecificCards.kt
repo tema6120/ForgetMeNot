@@ -1,9 +1,10 @@
 package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.generateId
+import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
+import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
@@ -14,31 +15,12 @@ open class CardsEditorForEditingSpecificCards(
     val exercise: Exercise? = null,
     val player: Player? = null
 ) : CardsEditor(state, globalState) {
-    override fun isCurrentCardMovable(): Boolean = isPositionValid()
+    override fun isCurrentCardRemovable(): Boolean = isCurrentCardMovable()
 
     override fun moveTo(abstractDeck: AbstractDeck): Boolean {
         if (!isPositionValid()) return false
         if (!isCurrentCardMovable()) return false
-        val deck: Deck = when (abstractDeck) {
-            is ExistingDeck -> abstractDeck.deck
-            is NewDeck -> {
-                val sourceExercisePreference = currentEditableCard.deck.exercisePreference
-                val exercisePreferenceForNewDeck =
-                    if (sourceExercisePreference.isShared())
-                        sourceExercisePreference else
-                        ExercisePreference.Default
-                val newDeck = Deck(
-                    id = generateId(),
-                    name = abstractDeck.deckName,
-                    cards = copyableListOf(),
-                    exercisePreference = exercisePreferenceForNewDeck
-                )
-                globalState.decks = (globalState.decks + newDeck).toCopyableList()
-                state.createdDecks.add(newDeck)
-                newDeck
-            }
-            else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
-        }
+        val deck: Deck = getOrCreateDeckFrom(abstractDeck)
         val cardMoving = CardMoving(currentEditableCard, state.currentPosition, deck)
         removeExistingCardMoving(cardMoving)
         state.movements.add(cardMoving)
@@ -64,6 +46,7 @@ open class CardsEditorForEditingSpecificCards(
     override fun areCardsEdited(): Boolean {
         if (state.removals.isNotEmpty()) return true
         if (state.movements.isNotEmpty()) return true
+        if (state.copyOperations.isNotEmpty()) return true
         return state.editableCards.any { editableCard: EditableCard ->
             val originalCard = editableCard.card
             originalCard.question != editableCard.question
@@ -75,6 +58,7 @@ open class CardsEditorForEditingSpecificCards(
 
     override fun save(): SavingResult {
         check()?.let { failure -> return failure }
+        applyCopying()
         applyRemovals()
         applyMovements()
         applyChanges()
@@ -84,7 +68,7 @@ open class CardsEditorForEditingSpecificCards(
     protected fun check(): SavingResult.Failure? {
         val underfilledPositions: List<Int> =
             state.editableCards.mapIndexedNotNull { index, editableCard ->
-                if (editableCard.question.isBlank() || editableCard.answer.isBlank()) index
+                if (editableCard.hasBlankField()) index
                 else null
             }
         return if (underfilledPositions.isEmpty()) null
@@ -116,7 +100,14 @@ open class CardsEditorForEditingSpecificCards(
         with(state) {
             movements.groupBy(
                 keySelector = { cardMoving: CardMoving -> cardMoving.targetDeck },
-                valueTransform = { cardMoving: CardMoving -> cardMoving.editableCard.card }
+                valueTransform = { cardMoving: CardMoving ->
+                    cardMoving.editableCard.card.apply {
+                        question = cardMoving.editableCard.question
+                        answer = cardMoving.editableCard.answer
+                        isLearned = cardMoving.editableCard.isLearned
+                        grade = cardMoving.editableCard.grade
+                    }
+                }
             ).forEach { (deckToMoveTo: Deck, movingCards: List<Card>) ->
                 deckToMoveTo.cards = (deckToMoveTo.cards + movingCards).toCopyableList()
             }

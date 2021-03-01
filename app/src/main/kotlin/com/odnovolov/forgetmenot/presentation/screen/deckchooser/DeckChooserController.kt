@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.DeckToCopyCardToIsSelected
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.DeckToMoveCardToIsSelected
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.*
@@ -76,6 +77,11 @@ class DeckChooserController(
                         CardsEditorDiScope.getOrRecreate().controller
                             .dispatch(DeckToMoveCardToIsSelected(abstractDeck))
                     }
+                    ToCopyCard -> {
+                        val abstractDeck = ExistingDeck(deck)
+                        CardsEditorDiScope.getOrRecreate().controller
+                            .dispatch(DeckToCopyCardToIsSelected(abstractDeck))
+                    }
                 }
                 navigator.navigateUp()
             }
@@ -98,6 +104,11 @@ class DeckChooserController(
                         val abstractDeck = NewDeck(event.deckName)
                         CardsEditorDiScope.getOrRecreate().controller
                             .dispatch(DeckToMoveCardToIsSelected(abstractDeck))
+                    }
+                    ToCopyCard -> {
+                        val abstractDeck = NewDeck(event.deckName)
+                        CardsEditorDiScope.getOrRecreate().controller
+                            .dispatch(DeckToCopyCardToIsSelected(abstractDeck))
                     }
                     else -> {
                     }

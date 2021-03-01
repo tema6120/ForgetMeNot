@@ -182,6 +182,7 @@
     <string name="screen_title_choose_a_deck_to_import_cards_to">Choose a deck to import cards to</string>
     <string name="screen_title_choose_a_deck_to_merge_into">Choose a deck to merge into</string>
     <string name="screen_title_choose_a_deck_to_move_card">Choose a deck to move the card to</string>
+    <string name="screen_title_choose_a_deck_to_copy_card">Choose a deck to copy the card to</string>
     <string name="description_add_deck_button">Add deck</string>
 
 
@@ -340,8 +341,10 @@
     <string name="description_clear_button">Clear</string>
     <string name="description_remove_card_button">Remove card</string>
     <string name="description_move_card_button">Move card to another deck</string>
+    <string name="description_copy_card_button">Copy card to another deck</string>
     <string name="card_is_removed">Card is removed</string>
     <string name="card_is_moved">Card is moved</string>
+    <string name="card_is_copied">Card is copied</string>
     <string name="snackbar_action_cancel" tools:ignore="ButtonCase">cancel</string>
     <string name="description_done_button">Done</string>
     <string name="description_cancel_button">Cancel</string>

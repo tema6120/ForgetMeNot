@@ -198,6 +198,8 @@
         перемістити картки</string>
     <string name="screen_title_choose_a_deck_to_move_card">Виберіть колоду, в яку потрібно
         перемістити картку</string>
+    <string name="screen_title_choose_a_deck_to_copy_card">Виберіть колоду, в яку потрібно
+        скопіювати картку</string>
     <string name="description_add_deck_button">Додати колоду</string>
 
 
@@ -359,8 +361,10 @@
     <string name="description_clear_button">Очистити</string>
     <string name="description_remove_card_button">Видалити картку</string>
     <string name="description_move_card_button">Перемістити картку в іншу колоду</string>
+    <string name="description_copy_card_button">Копіювати картку в іншу колоду</string>
     <string name="card_is_removed">Картка видалена</string>
     <string name="card_is_moved">Картка переміщена</string>
+    <string name="card_is_copied">Картка скопійована</string>
     <string name="snackbar_action_cancel" tools:ignore="ButtonCase">скасувати</string>
     <string name="description_done_button">Готово</string>
     <string name="description_cancel_button">Скасувати</string>

@@ -17,6 +17,7 @@ class EditableCard(
     var isLearned: Boolean by flowMaker(isLearned)
     var grade: Int by flowMaker(grade)
 
-    fun isBlank(): Boolean = question.isBlank() && answer.isBlank()
-    fun isUnderfilled(): Boolean = question.isBlank() xor answer.isBlank()
+    fun isFullyBlank(): Boolean = question.isBlank() && answer.isBlank()
+    fun hasBlankField(): Boolean = question.isBlank() || answer.isBlank()
+    fun isHalfFilled(): Boolean = question.isBlank() xor answer.isBlank()
 }

@@ -70,6 +70,10 @@ class CardsEditorFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(MoveCardButtonClicked) }
             setTooltipTextFromContentDescription()
         }
+        copyCardButton.run {
+            setOnClickListener { controller?.dispatch(CopyCardButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
         helpButton.run {
             setOnClickListener { controller?.dispatch(HelpButtonClicked) }
             setTooltipTextFromContentDescription()
@@ -130,9 +134,12 @@ class CardsEditorFragment : BaseFragment() {
                     }
                 }
             }
-            isCurrentCardMovable.observe { isVisible: Boolean ->
-                removeCardButton.isVisible = isVisible
-                moveCardButton.isVisible = isVisible
+            isCurrentCardMovable.observe { isCurrentCardMovable: Boolean ->
+                moveCardButton.isVisible = isCurrentCardMovable
+                copyCardButton.isVisible = isCurrentCardMovable
+            }
+            isCurrentCardRemovable.observe { isCurrentCardRemovable: Boolean ->
+                removeCardButton.isVisible = isCurrentCardRemovable
             }
             helpButton.isVisible = isHelpButtonVisible
         }
@@ -182,6 +189,19 @@ class CardsEditorFragment : BaseFragment() {
                     .setAction(
                         R.string.snackbar_action_cancel,
                         { controller?.dispatch(CancelLastMovementButtonClicked) }
+                    )
+                    .show()
+            }
+            ShowCardIsCopiedMessage -> {
+                Snackbar
+                    .make(
+                        coordinatorLayout,
+                        R.string.card_is_copied,
+                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+                    )
+                    .setAction(
+                        R.string.snackbar_action_cancel,
+                        { controller?.dispatch(CancelLastCopyingButtonClicked) }
                     )
                     .show()
             }
