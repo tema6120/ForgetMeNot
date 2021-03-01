@@ -44,7 +44,7 @@
                 android:id="@+id/controlPanelScroll"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginEnd="116dp"
+                android:paddingEnd="116dp"
                 android:background="@color/colorPrimary"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -90,6 +90,16 @@
                         android:contentDescription="@string/description_remove_card_button"
                         android:visibility="gone"
                         app:srcCompat="@drawable/ic_delete_white_24dp"
+                        tools:visibility="visible" />
+
+                <ImageButton
+                        android:id="@+id/moveCardButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/ripple_light_borderless"
+                        android:contentDescription="@string/description_move_card_button"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_round_drive_file_move_24"
                         tools:visibility="visible" />
 
                 <ImageButton

@@ -1,16 +1,16 @@
 package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
+import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.AllCardsAreEmpty
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
+import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.generateId
 
-abstract class CardsEditorForEditingDeck(
-    state: State
-) : CardsEditor(state) {
-    private var cardBackup: CardBackup? = null
-
+class CardsEditorForEditingDeck(
+    val deck: Deck,
+    val isNewDeck: Boolean,
+    state: State,
+    globalState: GlobalState
+) : CardsEditor(state, globalState) {
     init {
         ensureLastEmptyCard()
     }
@@ -40,64 +40,107 @@ abstract class CardsEditorForEditingDeck(
                     editableCards = editableCards.dropLast(redundantCardCount)
                 }
             } else {
-                editableCards = editableCards + newEditableCard()
-            }
-        }
-    }
-
-    protected abstract fun newEditableCard(): EditableCard
-
-    override fun isCurrentCardRemovable(): Boolean {
-        return state.currentPosition != state.editableCards.lastIndex
-    }
-
-    override fun removeCard(): Boolean {
-        if (!isCurrentCardRemovable()) return false
-        with(state) {
-            cardBackup = CardBackup(
-                editableCards[currentPosition],
-                currentPosition
-            )
-            editableCards = editableCards.toMutableList().apply { removeAt(currentPosition) }
-            return true
-        }
-    }
-
-    override fun restoreLastRemovedCard() {
-        cardBackup?.let { cardBackup: CardBackup ->
-            with(state) {
-                // Because size of editableCards can be changed,
-                // we correct insertPosition to avoid IndexOutOfBoundsException during inserting
-                val insertPosition = minOf(cardBackup.position, editableCards.size)
-                editableCards = editableCards.toMutableList().apply {
-                    add(insertPosition, cardBackup.editableCard)
-                }
-            }
-            ensureLastEmptyCard()
-        }
-        cardBackup = null
-    }
-
-    protected fun checkDeck(): SavingResult.Failure? {
-        return when {
-            state.editableCards.all(EditableCard::isBlank) -> SavingResult.Failure(
-                AllCardsAreEmpty
-            )
-            state.editableCards.any(EditableCard::isUnderfilled) -> {
-                val positions: List<Int> = state.editableCards
-                    .mapIndexedNotNull { index, editableCard ->
-                        if (editableCard.isUnderfilled()) index else null
-                    }
-                SavingResult.Failure(
-                    HasUnderfilledCards(positions)
+                val newEditableCard = EditableCard(
+                    Card(id = generateId(), question = "", answer = ""),
+                    deck
                 )
+                editableCards = editableCards + newEditableCard
             }
-            else -> null
         }
     }
 
-    protected fun applyChanges(): CopyableList<Card> {
-        return state.editableCards
+    override fun isCurrentCardMovable(): Boolean =
+        state.currentPosition != state.editableCards.lastIndex
+
+    override fun moveTo(abstractDeck: AbstractDeck): Boolean {
+        if (!isPositionValid()) return false
+        if (!isCurrentCardMovable()) return false
+        val deck: Deck = when (abstractDeck) {
+            is ExistingDeck -> abstractDeck.deck
+            is NewDeck -> {
+                val sourceExercisePreference = currentEditableCard.deck.exercisePreference
+                val exercisePreferenceForNewDeck =
+                    if (sourceExercisePreference.isShared())
+                        sourceExercisePreference else
+                        ExercisePreference.Default
+                val newDeck = Deck(
+                    id = generateId(),
+                    name = abstractDeck.deckName,
+                    cards = copyableListOf(),
+                    exercisePreference = exercisePreferenceForNewDeck
+                )
+                globalState.decks = (globalState.decks + newDeck).toCopyableList()
+                state.createdDecks.add(newDeck)
+                newDeck
+            }
+            else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
+        }
+        with(state) {
+            editableCards = editableCards.toMutableList().apply {
+                val movedCard = removeAt(currentPosition)
+                movements.add(CardMoving(movedCard, currentPosition, deck))
+            }
+            currentPosition = when {
+                editableCards.isEmpty() -> -1
+                currentPosition > editableCards.lastIndex -> editableCards.lastIndex
+                else -> currentPosition
+            }
+        }
+        return true
+    }
+
+    override fun cancelLastMovement() {
+        with(state) {
+            if (movements.isEmpty()) return
+            val lastCardMoving: CardMoving = movements.removeAt(movements.lastIndex)
+            val lastMovedCard: EditableCard = lastCardMoving.editableCard
+            val insertPosition: Int = minOf(lastCardMoving.positionInSource, editableCards.size)
+            editableCards = editableCards.toMutableList().apply {
+                add(insertPosition, lastMovedCard)
+            }
+            currentPosition = insertPosition
+        }
+    }
+
+    override fun areCardsEdited(): Boolean {
+        with(state) {
+            val originalCards = deck.cards
+            if (originalCards.size != editableCards.size - 1) return true
+            repeat(originalCards.size) { i: Int ->
+                val originalCard: Card = originalCards[i]
+                val editableCard: EditableCard = editableCards[i]
+                if (isEdited(originalCard, editableCard)) return true
+            }
+        }
+        return false
+    }
+
+    private fun isEdited(originalCard: Card, editableCard: EditableCard): Boolean {
+        return originalCard.id != editableCard.card.id
+                || originalCard.question != editableCard.question
+                || originalCard.answer != editableCard.answer
+                || originalCard.isLearned != editableCard.isLearned
+                || originalCard.grade != editableCard.grade
+    }
+
+    override fun save(): SavingResult {
+        checkDeck()?.let { failure -> return failure }
+        applyChangesInThisDeck()
+        applyMovements()
+        return SavingResult.Success
+    }
+
+    private fun checkDeck(): SavingResult.Failure? {
+        val underfilledPositions: List<Int> = state.editableCards
+            .mapIndexedNotNull { index, editableCard ->
+                if (editableCard.isUnderfilled()) index else null
+            }
+        return if (underfilledPositions.isEmpty()) null
+        else SavingResult.Failure(underfilledPositions)
+    }
+
+    private fun applyChangesInThisDeck() {
+        deck.cards = state.editableCards
             .filterNot(EditableCard::isBlank)
             .map { editableCard ->
                 editableCard.card.apply {
@@ -110,8 +153,12 @@ abstract class CardsEditorForEditingDeck(
             .toCopyableList()
     }
 
-    private class CardBackup(
-        val editableCard: EditableCard,
-        val position: Int
-    )
+    private fun applyMovements() {
+        state.movements.groupBy(
+            keySelector = { cardMoving: CardMoving -> cardMoving.targetDeck },
+            valueTransform = { cardMoving: CardMoving -> cardMoving.editableCard.card }
+        ).forEach { (deckToMoveTo: Deck, movingCards: List<Card>) ->
+            deckToMoveTo.cards = (deckToMoveTo.cards + movingCards).toCopyableList()
+        }
+    }
 }

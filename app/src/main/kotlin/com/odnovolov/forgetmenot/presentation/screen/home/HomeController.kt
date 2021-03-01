@@ -229,14 +229,14 @@ class HomeController(
                 }
             }
 
-            EditCardsDeckOptionSelected -> {
-                val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
-                navigateToDeckEditor(deckId, DeckEditorScreenTab.Content)
-            }
-
             SetupDeckOptionSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigateToDeckEditor(deckId, DeckEditorScreenTab.Settings)
+            }
+
+            EditCardsDeckOptionSelected -> {
+                val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
+                navigateToDeckEditor(deckId, DeckEditorScreenTab.Content)
             }
 
             PinDeckOptionSelected -> {
@@ -313,7 +313,8 @@ class HomeController(
                     val editableCards: List<EditableCard> = listOf(editableCard)
                     val cardsEditorState = State(editableCards)
                     val cardsEditor = CardsEditorForEditingSpecificCards(
-                        state = cardsEditorState
+                        cardsEditorState,
+                        globalState
                     )
                     CardsEditorDiScope.create(cardsEditor)
                 }

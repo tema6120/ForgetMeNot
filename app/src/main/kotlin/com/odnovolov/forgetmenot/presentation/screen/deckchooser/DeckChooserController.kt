@@ -8,9 +8,10 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.DeckToMoveCardToIsSelected
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToImportCards
-import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMergeInto
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.TargetDeckIsSelected
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
@@ -70,6 +71,11 @@ class DeckChooserController(
                         HomeDiScope.getOrRecreate().controller
                             .dispatch(DeckToMergeIntoIsSelected(abstractDeck))
                     }
+                    ToMoveCard -> {
+                        val abstractDeck = ExistingDeck(deck)
+                        CardsEditorDiScope.getOrRecreate().controller
+                            .dispatch(DeckToMoveCardToIsSelected(abstractDeck))
+                    }
                 }
                 navigator.navigateUp()
             }
@@ -87,6 +93,11 @@ class DeckChooserController(
                         val abstractDeck = NewDeck(event.deckName)
                         HomeDiScope.getOrRecreate().controller
                             .dispatch(DeckToMergeIntoIsSelected(abstractDeck))
+                    }
+                    ToMoveCard -> {
+                        val abstractDeck = NewDeck(event.deckName)
+                        CardsEditorDiScope.getOrRecreate().controller
+                            .dispatch(DeckToMoveCardToIsSelected(abstractDeck))
                     }
                     else -> {
                     }

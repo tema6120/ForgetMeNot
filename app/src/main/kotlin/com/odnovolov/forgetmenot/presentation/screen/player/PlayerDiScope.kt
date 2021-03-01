@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.player
 
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
-import com.odnovolov.forgetmenot.persistence.shortterm.PlayerScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.ReadyToUseSerializableStateProvider
 import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
@@ -30,9 +30,11 @@ class PlayerDiScope private constructor(
     private val playerState: Player.State =
         initialPlayerState ?: playerStateProvider.load()
 
-    private val screenStateProvider = PlayerScreenStateProvider(
+    private val screenStateProvider = ReadyToUseSerializableStateProvider(
+        PlayerScreenState.serializer(),
         AppDiScope.get().json,
-        AppDiScope.get().database
+        AppDiScope.get().database,
+        key = PlayerScreenState::class.qualifiedName!!
     )
 
     private val screenState: PlayerScreenState =

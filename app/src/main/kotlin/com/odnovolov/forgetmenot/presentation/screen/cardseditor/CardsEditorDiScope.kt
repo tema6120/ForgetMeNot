@@ -40,7 +40,7 @@ class CardsEditorDiScope private constructor(
 
     fun qaEditorViewModel(cardId: Long) = QAEditorViewModel(
         cardId,
-        cardsEditor.state
+        cardsEditor
     )
 
     companion object : DiScopeManager<CardsEditorDiScope>() {
@@ -51,6 +51,7 @@ class CardsEditorDiScope private constructor(
 
         override fun onCloseDiScope(diScope: CardsEditorDiScope) {
             diScope.controller.dispose()
+            diScope.cardsEditor.dispose()
         }
     }
 }

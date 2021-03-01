@@ -19,7 +19,8 @@ class DeckEditorDiScope private constructor(
 
     val controller = DeckEditorController(
         screenState,
-        AppDiScope.get().navigator
+        AppDiScope.get().navigator,
+        AppDiScope.get().globalState
     )
 
     val viewModel = DeckEditorViewModel(

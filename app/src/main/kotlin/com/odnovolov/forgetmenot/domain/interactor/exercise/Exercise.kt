@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.domain.interactor.exercise
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.*
@@ -28,6 +29,7 @@ class Exercise(
         var answerSelection: String by flowMaker(answerSelection)
         var hintSelection: HintSelection by flowMaker(hintSelection)
     }
+
     private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private val exerciseCardConformer = ExerciseCardConformer(state, globalState)
     private var timerJob: Job? = null
@@ -199,53 +201,6 @@ class Exercise(
         speaker.stop()
     }
 
-    fun notifyCardsRemoved(removedCardIds: List<Long>) {
-        state.exerciseCards = state.exerciseCards
-            .filter { exerciseCard: ExerciseCard -> exerciseCard.base.card.id !in removedCardIds }
-    }
-
-    fun notifyCardChanged(
-        card: Card,
-        isQuestionChanged: Boolean,
-        isAnswerChanged: Boolean,
-        isGradeChanged: Boolean,
-        isIsLearnedChanged: Boolean
-    ) {
-        if (!isPositionValid()) return
-        val currentPosition = state.currentPosition
-        state.exerciseCards.forEachIndexed { position, exerciseCard ->
-            if (card.id != exerciseCard.base.card.id) return@forEachIndexed
-            state.currentPosition = position
-            val isReverse = exerciseCard.base.isInverted
-            val isActualAnswerChanged: Boolean =
-                isReverse && isQuestionChanged || !isReverse && isAnswerChanged
-            if (isActualAnswerChanged) {
-                exerciseCard.base.hint = null
-                if (exerciseCard is EntryTestExerciseCard && exerciseCard.isAnswered) {
-                    checkEntry()
-                }
-            }
-            if (isGradeChanged) {
-                exerciseCard.base.isGradeEditedManually = true
-            }
-            if (isIsLearnedChanged && currentPosition == position) {
-                if (currentExerciseCard.base.card.isLearned) {
-                    deleteCardsForRetesting()
-                    stopTimer()
-                } else if (currentExerciseCard.base.isAnswerCorrect == false) {
-                    updateGrade()
-                    addExerciseCardToRetestIfNeed()
-                }
-            }
-        }
-        state.currentPosition = currentPosition
-    }
-
-    fun notifyExercisePreferenceChanged() {
-        if (!isPositionValid()) return
-        exerciseCardConformer.conform()
-    }
-
     fun setWalkingModeEnabled(enabled: Boolean) {
         if (isWalkingMode == enabled) return
         if (!isPositionValid()) {
@@ -278,7 +233,8 @@ class Exercise(
     fun showHint() {
         if (!isPositionValid()) return
         val hasHint: Boolean = currentExerciseCard.base.hint != null
-        val hasHintSelection: Boolean = state.hintSelection.endIndex - state.hintSelection.startIndex > 0
+        val hasHintSelection: Boolean =
+            state.hintSelection.endIndex - state.hintSelection.startIndex > 0
         val answer: String = with(currentExerciseCard.base) {
             if (isInverted) card.question else card.answer
         }
@@ -538,6 +494,76 @@ class Exercise(
     private fun updateLastAnsweredAt() {
         currentExerciseCard.base.card.lastTestedAt = DateTime.now()
     }
+
+    fun notifyCardsRemoved(removedCardIds: List<Long>) {
+        state.exerciseCards = state.exerciseCards
+            .filter { exerciseCard: ExerciseCard -> exerciseCard.base.card.id !in removedCardIds }
+    }
+
+    fun notifyCardsMoved(cardMovement: List<CardMoving>) {
+        var isExercisePreferenceChanged = false
+        for (cardMoving: CardMoving in cardMovement) {
+            for (exerciseCard: ExerciseCard in state.exerciseCards) {
+                if (exerciseCard.base.card.id != cardMoving.cardId) continue
+                if (exerciseCard.base.deck.exercisePreference.id
+                    != cardMoving.deckMovedTo.exercisePreference.id
+                ) {
+                    isExercisePreferenceChanged = true
+                }
+                exerciseCard.base.deck = cardMoving.deckMovedTo
+            }
+        }
+        if (isExercisePreferenceChanged) {
+            exerciseCardConformer.conform()
+        }
+    }
+
+    fun notifyExercisePreferenceChanged() {
+        if (!isPositionValid()) return
+        exerciseCardConformer.conform()
+    }
+
+    fun notifyCardChanged(
+        card: Card,
+        isQuestionChanged: Boolean,
+        isAnswerChanged: Boolean,
+        isGradeChanged: Boolean,
+        isIsLearnedChanged: Boolean
+    ) {
+        if (!isPositionValid()) return
+        val currentPosition = state.currentPosition
+        for ((position: Int, exerciseCard: ExerciseCard) in state.exerciseCards.withIndex()) {
+            if (card.id != exerciseCard.base.card.id) continue
+            state.currentPosition = position
+            val isReverse = exerciseCard.base.isInverted
+            val isActualAnswerChanged: Boolean =
+                isReverse && isQuestionChanged || !isReverse && isAnswerChanged
+            if (isActualAnswerChanged) {
+                exerciseCard.base.hint = null
+                if (exerciseCard is EntryTestExerciseCard && exerciseCard.isAnswered) {
+                    checkEntry()
+                }
+            }
+            if (isGradeChanged) {
+                exerciseCard.base.isGradeEditedManually = true
+            }
+            if (isIsLearnedChanged && currentPosition == position) {
+                if (currentExerciseCard.base.card.isLearned) {
+                    deleteCardsForRetesting()
+                    stopTimer()
+                } else if (currentExerciseCard.base.isAnswerCorrect == false) {
+                    updateGrade()
+                    addExerciseCardToRetestIfNeed()
+                }
+            }
+        }
+        state.currentPosition = currentPosition
+    }
+
+    data class CardMoving(
+        val cardId: Long,
+        val deckMovedTo: Deck
+    )
 
     sealed class Answer {
         object Show : Answer()

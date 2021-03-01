@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForExercise
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.NotRemember
@@ -88,9 +88,10 @@ class ExerciseController(
                     )
                     val editableCards = listOf(editableCard)
                     val cardsEditorState = CardsEditor.State(editableCards)
-                    val cardsEditor = CardsEditorForExercise(
-                        exercise,
-                        state = cardsEditorState
+                    val cardsEditor = CardsEditorForEditingSpecificCards(
+                        cardsEditorState,
+                        globalState,
+                        exercise
                     )
                     CardsEditorDiScope.create(cardsEditor)
                 }

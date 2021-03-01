@@ -61,6 +61,8 @@ fun ExercisePreference.isDefault(): Boolean = this.id == ExercisePreference.Defa
 
 fun ExercisePreference.isIndividual(): Boolean = !isDefault() && name.isEmpty()
 
+fun ExercisePreference.isShared(): Boolean = name.isNotEmpty()
+
 fun checkExercisePreferenceName(testingName: String, globalState: GlobalState): NameCheckResult {
     return when {
         testingName.isEmpty() -> NameCheckResult.Empty

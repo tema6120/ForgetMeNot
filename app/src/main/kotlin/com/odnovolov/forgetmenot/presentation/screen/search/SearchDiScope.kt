@@ -27,6 +27,7 @@ class SearchDiScope private constructor(
     val controller = SearchController(
         cardsSearcher,
         AppDiScope.get().navigator,
+        AppDiScope.get().globalState,
         AppDiScope.get().longTermStateSaver
     )
 

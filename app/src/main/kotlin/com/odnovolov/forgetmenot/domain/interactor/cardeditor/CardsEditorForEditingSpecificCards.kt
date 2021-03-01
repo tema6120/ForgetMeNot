@@ -1,43 +1,69 @@
 package com.odnovolov.forgetmenot.domain.interactor.cardeditor
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
-import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
+import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.generateId
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 
 open class CardsEditorForEditingSpecificCards(
-    val removedCards: MutableList<EditableCard> = ArrayList(),
-    state: State
-) : CardsEditor(state) {
-    override fun isCurrentCardRemovable(): Boolean {
-        return state.editableCards.isNotEmpty()
+    state: State,
+    globalState: GlobalState,
+    val exercise: Exercise? = null,
+    val player: Player? = null
+) : CardsEditor(state, globalState) {
+    override fun isCurrentCardMovable(): Boolean = isPositionValid()
+
+    override fun moveTo(abstractDeck: AbstractDeck): Boolean {
+        if (!isPositionValid()) return false
+        if (!isCurrentCardMovable()) return false
+        val deck: Deck = when (abstractDeck) {
+            is ExistingDeck -> abstractDeck.deck
+            is NewDeck -> {
+                val sourceExercisePreference = currentEditableCard.deck.exercisePreference
+                val exercisePreferenceForNewDeck =
+                    if (sourceExercisePreference.isShared())
+                        sourceExercisePreference else
+                        ExercisePreference.Default
+                val newDeck = Deck(
+                    id = generateId(),
+                    name = abstractDeck.deckName,
+                    cards = copyableListOf(),
+                    exercisePreference = exercisePreferenceForNewDeck
+                )
+                globalState.decks = (globalState.decks + newDeck).toCopyableList()
+                state.createdDecks.add(newDeck)
+                newDeck
+            }
+            else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
+        }
+        val cardMoving = CardMoving(currentEditableCard, state.currentPosition, deck)
+        removeExistingCardMoving(cardMoving)
+        state.movements.add(cardMoving)
+        return true
     }
 
-    override fun removeCard(): Boolean {
-        with(state) {
-            if (!isCurrentCardRemovable()) return false
-            editableCards = editableCards.toMutableList().apply {
-                val removedCard = removeAt(currentPosition)
-                removedCards.add(removedCard)
+    private fun removeExistingCardMoving(cardMoving: CardMoving) {
+        for (i in state.movements.lastIndex downTo 0) {
+            val testedCardMoving = state.movements[i]
+            if (testedCardMoving.editableCard.card.id == cardMoving.editableCard.card.id) {
+                state.movements.removeAt(i)
             }
-            currentPosition = when {
-                editableCards.isEmpty() -> -1
-                currentPosition > editableCards.lastIndex -> editableCards.lastIndex
-                else -> currentPosition
-            }
-            return true
         }
     }
 
-    override fun restoreLastRemovedCard() {
-        if (removedCards.isEmpty()) return
-        val lastRemovedCard: EditableCard = removedCards.removeAt(removedCards.lastIndex)
-        state.editableCards = state.editableCards + lastRemovedCard
-        state.currentPosition = state.editableCards.lastIndex
+    override fun cancelLastMovement() {
+        with(state) {
+            if (movements.isEmpty()) return
+            movements.removeLast()
+        }
     }
 
     override fun areCardsEdited(): Boolean {
-        if (removedCards.isNotEmpty()) return true
+        if (state.removals.isNotEmpty()) return true
+        if (state.movements.isNotEmpty()) return true
         return state.editableCards.any { editableCard: EditableCard ->
             val originalCard = editableCard.card
             originalCard.question != editableCard.question
@@ -49,7 +75,8 @@ open class CardsEditorForEditingSpecificCards(
 
     override fun save(): SavingResult {
         check()?.let { failure -> return failure }
-        reallyRemoveCards()
+        applyRemovals()
+        applyMovements()
         applyChanges()
         return Success
     }
@@ -61,25 +88,92 @@ open class CardsEditorForEditingSpecificCards(
                 else null
             }
         return if (underfilledPositions.isEmpty()) null
-        else SavingResult.Failure(HasUnderfilledCards(underfilledPositions))
+        else SavingResult.Failure(underfilledPositions)
     }
 
-    protected fun reallyRemoveCards() {
-        removedCards.forEach { editableCard: EditableCard ->
-            val deck = editableCard.deck!!
-            deck.cards = deck.cards
-                .filter { card: Card -> card.id != editableCard.card.id }
-                .toCopyableList()
+    private fun applyRemovals() {
+        with(state) {
+            (removals.map { it.editableCard } + movements.map { it.editableCard })
+                .groupBy(
+                    keySelector = { editableCard: EditableCard -> editableCard.deck },
+                    valueTransform = { editableCard: EditableCard -> editableCard.card.id }
+                )
+                .forEach { (deck: Deck, cardIdsToRemove: List<Long>) ->
+                    deck.cards = deck.cards
+                        .filter { card: Card -> card.id !in cardIdsToRemove }
+                        .toCopyableList()
+                }
+            if (exercise != null || player != null) {
+                val removedCardIds: List<Long> =
+                    removals.map { cardRemoving: CardRemoving -> cardRemoving.editableCard.card.id }
+                exercise?.notifyCardsRemoved(removedCardIds)
+                player?.notifyCardsRemoved(removedCardIds)
+            }
+        }
+    }
+
+    private fun applyMovements() {
+        with(state) {
+            movements.groupBy(
+                keySelector = { cardMoving: CardMoving -> cardMoving.targetDeck },
+                valueTransform = { cardMoving: CardMoving -> cardMoving.editableCard.card }
+            ).forEach { (deckToMoveTo: Deck, movingCards: List<Card>) ->
+                deckToMoveTo.cards = (deckToMoveTo.cards + movingCards).toCopyableList()
+            }
+            if (exercise != null) {
+                val cardMovement: List<Exercise.CardMoving> =
+                    movements.map { cardMoving: CardMoving ->
+                        val cardId: Long = cardMoving.editableCard.card.id
+                        val deckMoveTo: Deck = cardMoving.targetDeck
+                        Exercise.CardMoving(cardId, deckMoveTo)
+                    }
+                exercise.notifyCardsMoved(cardMovement)
+            }
+            if (player != null) {
+                movements.forEach { cardMoving: CardMoving ->
+                    val cardId: Long = cardMoving.editableCard.card.id
+                    val deckMovedTo: Deck = cardMoving.targetDeck
+                    player.notifyCardMoved(cardId, deckMovedTo)
+                }
+            }
         }
     }
 
     private fun applyChanges() {
         state.editableCards.forEach { editableCard: EditableCard ->
-            editableCard.card.apply {
-                question = editableCard.question
-                answer = editableCard.answer
-                isLearned = editableCard.isLearned
-                grade = editableCard.grade
+            val originalCard = editableCard.card
+            var isQuestionChanged = false
+            var isAnswerChanged = false
+            var isGradeChanged = false
+            var isIsLearnedChanged = false
+            if (editableCard.question != originalCard.question) {
+                originalCard.question = editableCard.question
+                isQuestionChanged = true
+            }
+            if (editableCard.answer != originalCard.answer) {
+                originalCard.answer = editableCard.answer
+                isAnswerChanged = true
+            }
+            if (editableCard.grade != originalCard.grade) {
+                originalCard.grade = editableCard.grade
+                isGradeChanged = true
+            }
+            if (editableCard.isLearned != originalCard.isLearned) {
+                originalCard.isLearned = editableCard.isLearned
+                isIsLearnedChanged = true
+            }
+            if (exercise != null) {
+                val isCardChanged: Boolean = isQuestionChanged || isAnswerChanged
+                        || isGradeChanged || isIsLearnedChanged
+                if (isCardChanged) {
+                    exercise.notifyCardChanged(
+                        originalCard,
+                        isQuestionChanged,
+                        isAnswerChanged,
+                        isGradeChanged,
+                        isIsLearnedChanged
+                    )
+                }
             }
         }
     }

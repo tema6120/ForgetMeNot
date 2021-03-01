@@ -116,7 +116,7 @@
     <string name="title_choose_format">Оберіть формат</string>
     <string name="title_waiting_for_destination">Очікування розташування ..</string>
     <string name="button_select_destination">Обрати розташування</string>
-    <string name="toast_couldnt_get_destination">Неможливо отримати розташування!</string>
+    <string name="toast_couldnt_get_destination">Не вдається отримати розташування!</string>
     <string name="progress_bar_exporting">Експортування ..</string>
     <plurals name="export_result_successful">
         <item quantity="one">%d колода успішно експортована(і)</item>
@@ -167,7 +167,7 @@
             файлів?</item>
     </plurals>
     <string name="text_file_edit_off">Занадто великий файл для редагування</string>
-    <string name="cannot_extract_any_cards">Неможливо дістати жодної картки</string>
+    <string name="cannot_extract_any_cards">Не вдається дістати жодної картки</string>
     <plurals name="toast_number_of_imported_cards">
         <item quantity="one">%d картка була імпортована</item>
         <item quantity="few">%d картки було імпортовано</item>
@@ -196,6 +196,8 @@
         імпортувати картки</string>
     <string name="screen_title_choose_a_deck_to_merge_into">Виберіть колоду, в яку потрібно
         перемістити картки</string>
+    <string name="screen_title_choose_a_deck_to_move_card">Виберіть колоду, в яку потрібно
+        перемістити картку</string>
     <string name="description_add_deck_button">Додати колоду</string>
 
 
@@ -232,7 +234,7 @@
         Поточна система TTS (%1$s) не підтримує %2$s</string>
     <string name="speak_error_description_missing_data_for_language">Відсутні дані для %1$s</string>
     <string name="error_message_failed_to_speak">Не вдалося вимовити</string>
-    <string name="error_message_cannot_get_audio_focus">Неможливо отримати аудіофокус</string>
+    <string name="error_message_cannot_get_audio_focus">Не вдається отримати аудіофокус</string>
     <string name="description_hint_button">Підказати</string>
     <string name="popup_title_hints">Підказки</string>
     <string name="description_hint_icon">іконка \"Підказка\"</string>
@@ -356,7 +358,9 @@
     <string name="description_paste_button">Вставити</string>
     <string name="description_clear_button">Очистити</string>
     <string name="description_remove_card_button">Видалити картку</string>
+    <string name="description_move_card_button">Перемістити картку в іншу колоду</string>
     <string name="card_is_removed">Картка видалена</string>
+    <string name="card_is_moved">Картка переміщена</string>
     <string name="snackbar_action_cancel" tools:ignore="ButtonCase">скасувати</string>
     <string name="description_done_button">Готово</string>
     <string name="description_cancel_button">Скасувати</string>
@@ -810,7 +814,7 @@
 
         \n\nМожливо, з якихось причин ви захочете змінити оцінку. Просто натисніть на іконку
         \"Оцінка\" і виберіть потрібну. Зазвичай, коли ви змінюєте оцінку, ви хочете уточнити,
-        скільки часу знадобиться, щоб ця картка була знову запитана. Якщо ви вручну змінили оцінку,
+        скільки часу потрібно, щоб ця картка була знову запитана. Якщо ви вручну змінили оцінку,
         стандартна схема не застосовується до цієї картки протягом цього заняття.</string>
     <string name="article_question_display_paragraph_1">Ви можете вимкнути відображення запитань.
         У цьому випадку передбачається, що ви будете отримувати запитання за допомогою відтворення
@@ -899,7 +903,7 @@
         відповіді. Тому вам потрібно створити колоду, де для запитань використовується тільки одна
         мова, і також одна мова для відповідей.
 
-        \n\n\t- Якщо ви хочете використовувати \"Інверсію картки\", то створюйте така картки, щоб
+        \n\n\t- Якщо ви хочете використовувати \"Інверсію картки\", то створюйте такі картки, щоб
         відповідь могла виглядати як питання.
 
         \n\n3. Якщо ви створюєте колоду у вигляді файла на своєму комп’ютері, ви можете завантажити

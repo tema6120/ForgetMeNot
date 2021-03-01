@@ -1,9 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent
 
 import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingExistingDeck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -19,6 +20,7 @@ import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 
 class DeckContentController(
     private val screenState: DeckEditorScreenState,
+    private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val screenStateProvider: ShortTermStateProvider<DeckEditorScreenState>
@@ -47,7 +49,12 @@ class DeckContentController(
                             .plus(EditableCard(Card(generateId(), "", ""), deck))
                     val position: Int = deck.cards.indexOfFirst { card -> card.id == event.cardId }
                     val cardsEditorState = State(editableCards, position)
-                    val cardsEditor = CardsEditorForEditingExistingDeck(deck, cardsEditorState)
+                    val cardsEditor = CardsEditorForEditingDeck(
+                        deck,
+                        isNewDeck = false,
+                        cardsEditorState,
+                        globalState
+                    )
                     CardsEditorDiScope.create(cardsEditor)
                 }
             }

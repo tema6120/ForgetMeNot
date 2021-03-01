@@ -66,6 +66,10 @@ class CardsEditorFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(RemoveCardButtonClicked) }
             setTooltipTextFromContentDescription()
         }
+        moveCardButton.run {
+            setOnClickListener { controller?.dispatch(MoveCardButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
         helpButton.run {
             setOnClickListener { controller?.dispatch(HelpButtonClicked) }
             setTooltipTextFromContentDescription()
@@ -126,8 +130,9 @@ class CardsEditorFragment : BaseFragment() {
                     }
                 }
             }
-            isRemoveCardButtonVisible.observe { isVisible: Boolean ->
+            isCurrentCardMovable.observe { isVisible: Boolean ->
                 removeCardButton.isVisible = isVisible
+                moveCardButton.isVisible = isVisible
             }
             helpButton.isVisible = isHelpButtonVisible
         }
@@ -164,6 +169,19 @@ class CardsEditorFragment : BaseFragment() {
                     .setAction(
                         R.string.snackbar_action_cancel,
                         { controller?.dispatch(RestoreLastRemovedCardButtonClicked) }
+                    )
+                    .show()
+            }
+            ShowCardIsMovedMessage -> {
+                Snackbar
+                    .make(
+                        coordinatorLayout,
+                        R.string.card_is_moved,
+                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+                    )
+                    .setAction(
+                        R.string.snackbar_action_cancel,
+                        { controller?.dispatch(CancelLastMovementButtonClicked) }
                     )
                     .show()
             }

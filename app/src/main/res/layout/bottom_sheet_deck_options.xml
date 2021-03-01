@@ -90,16 +90,16 @@
                     app:drawableStartCompat="@drawable/ic_round_font_download_20" />
 
             <TextView
-                    android:id="@+id/editCardsDeckOptionItem"
-                    style="@style/DeckOptionItem"
-                    android:text="@string/deck_option_edit_cards"
-                    app:drawableStartCompat="@drawable/ic_round_edit_20" />
-
-            <TextView
                     android:id="@+id/setupDeckOptionItem"
                     style="@style/DeckOptionItem"
                     android:text="@string/deck_option_setup"
                     app:drawableStartCompat="@drawable/ic_round_build_20" />
+
+            <TextView
+                    android:id="@+id/editCardsDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_edit_cards"
+                    app:drawableStartCompat="@drawable/ic_round_edit_20" />
 
             <View
                     android:id="@+id/divider3"

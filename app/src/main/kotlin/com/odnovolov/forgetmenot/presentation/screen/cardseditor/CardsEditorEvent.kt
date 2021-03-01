@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
+import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
+
 sealed class CardsEditorEvent {
     class PageSelected(val position: Int) : CardsEditorEvent()
     class GradeWasChanged(val grade: Int) : CardsEditorEvent()
@@ -7,6 +9,9 @@ sealed class CardsEditorEvent {
     object MarkAsUnlearnedButtonClicked : CardsEditorEvent()
     object RemoveCardButtonClicked : CardsEditorEvent()
     object RestoreLastRemovedCardButtonClicked : CardsEditorEvent()
+    object MoveCardButtonClicked : CardsEditorEvent()
+    class DeckToMoveCardToIsSelected(val abstractDeck: AbstractDeck) : CardsEditorEvent()
+    object CancelLastMovementButtonClicked : CardsEditorEvent()
     object HelpButtonClicked : CardsEditorEvent()
     object CancelButtonClicked : CardsEditorEvent()
     object DoneButtonClicked : CardsEditorEvent()

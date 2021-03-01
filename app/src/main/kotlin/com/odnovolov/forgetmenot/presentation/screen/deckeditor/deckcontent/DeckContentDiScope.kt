@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 class DeckContentDiScope {
     val controller = DeckContentController(
         DeckEditorDiScope.getOrRecreate().screenState,
+        AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         DeckEditorDiScope.getOrRecreate().screenStateProvider

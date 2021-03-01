@@ -10,6 +10,7 @@ class DeckChooserScreenState(
 
     enum class Purpose {
         ToImportCards,
-        ToMergeInto
+        ToMergeInto,
+        ToMoveCard
     }
 }

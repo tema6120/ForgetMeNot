@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
 import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
@@ -21,6 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.SearchTe
 class SearchController(
     private val searcher: CardsSearcher,
     private val navigator: Navigator,
+    private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<SearchEvent, Nothing>() {
     override fun handle(event: SearchEvent) {
@@ -41,9 +43,11 @@ class SearchController(
                                 card.id == event.searchCard.card.id
                             }
                             val cardsEditorState = CardsEditor.State(editableCards, currentPosition)
-                            val cardsEditor = CardsEditorForEditingExistingDeck(
+                            val cardsEditor = CardsEditorForEditingDeck(
                                 deck,
-                                cardsEditorState
+                                isNewDeck = false,
+                                cardsEditorState,
+                                globalState
                             )
                             CardsEditorDiScope.create(cardsEditor)
                         }
@@ -72,9 +76,10 @@ class SearchController(
                                     listOf(editableCardFromExercise, foundEditableCard)
                                 CardsEditor.State(editableCards, currentPosition = 1)
                             }
-                            val cardsEditor = CardsEditorForExercise(
-                                exercise,
-                                state = cardsEditorState
+                            val cardsEditor = CardsEditorForEditingSpecificCards(
+                                cardsEditorState,
+                                globalState,
+                                exercise
                             )
                             CardsEditorDiScope.create(cardsEditor)
                         }
@@ -105,9 +110,10 @@ class SearchController(
                                         listOf(editableCardFromPlayer, foundEditableCard)
                                     CardsEditor.State(editableCards, currentPosition = 1)
                                 }
-                            val cardsEditor = CardsEditorForAutoplay(
-                                player,
-                                state = cardsEditorState
+                            val cardsEditor = CardsEditorForEditingSpecificCards(
+                                cardsEditorState,
+                                globalState,
+                                player = player
                             )
                             CardsEditorDiScope.create(cardsEditor)
                         }
@@ -121,7 +127,8 @@ class SearchController(
                             val editableCards: List<EditableCard> = listOf(editableCard)
                             val cardsEditorState = CardsEditor.State(editableCards)
                             val cardsEditor = CardsEditorForEditingSpecificCards(
-                                state = cardsEditorState
+                                cardsEditorState,
+                                globalState
                             )
                             CardsEditorDiScope.create(cardsEditor)
                         }

@@ -48,12 +48,12 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             controller?.dispatch(RenameDeckOptionSelected)
             dismiss()
         }
-        editCardsDeckOptionItem.setOnClickListener {
-            controller?.dispatch(EditCardsDeckOptionSelected)
-            dismiss()
-        }
         setupDeckOptionItem.setOnClickListener {
             controller?.dispatch(SetupDeckOptionSelected)
+            dismiss()
+        }
+        editCardsDeckOptionItem.setOnClickListener {
+            controller?.dispatch(EditCardsDeckOptionSelected)
             dismiss()
         }
         exportDeckOptionItem.setOnClickListener {

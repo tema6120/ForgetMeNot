@@ -16,8 +16,7 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToImportCards
-import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMergeInto
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckPreviewAdapter
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting
@@ -102,6 +101,7 @@ class DeckChooserFragment : BaseFragment() {
                 when (purpose) {
                     ToImportCards -> R.string.screen_title_choose_a_deck_to_import_cards_to
                     ToMergeInto -> R.string.screen_title_choose_a_deck_to_merge_into
+                    ToMoveCard -> R.string.screen_title_choose_a_deck_to_move_card
                 }
             )
             deckListItems.observe { deckListItems: List<DeckListItem> ->

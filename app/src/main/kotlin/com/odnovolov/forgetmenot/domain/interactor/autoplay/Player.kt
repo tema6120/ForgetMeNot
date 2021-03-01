@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.domain.interactor.autoplay
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.entity.CardInversion.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.Delay
 import com.odnovolov.forgetmenot.domain.interactor.exercise.TextInBracketsRemover
@@ -279,21 +280,36 @@ class Player(
 
     private fun hasOneMoreLap(): Boolean = state.currentLap + 1 < globalState.numberOfLapsInPlayer
 
-    fun notifyExercisePreferenceChanged() {
-        state.playingCards.forEach { playingCard: PlayingCard ->
-            playingCard.isInverted = when (playingCard.deck.exercisePreference.cardInversion) {
-                CardInversion.Off -> false
-                CardInversion.On -> true
-                CardInversion.EveryOtherLap -> playingCard.card.lap % 2 == 1
-                CardInversion.Randomly -> Random.nextBoolean()
-            }
-            playingCard.isQuestionDisplayed = playingCard.isAnswerDisplayed
-                    || playingCard.deck.exercisePreference.isQuestionDisplayed
-        }
-    }
-
     fun notifyCardsRemoved(removedCardIds: List<Long>) {
         state.playingCards = state.playingCards
             .filter { playingCard: PlayingCard -> playingCard.card.id !in removedCardIds }
+    }
+
+    fun notifyCardMoved(cardId: Long, deckMovedTo: Deck) {
+        for (playingCard: PlayingCard in state.playingCards) {
+            if (playingCard.card.id != cardId) continue
+            val isExercisePreferenceChanged: Boolean =
+                playingCard.deck.exercisePreference.id != deckMovedTo.exercisePreference.id
+            playingCard.deck = deckMovedTo
+            if (isExercisePreferenceChanged) {
+                playingCard.conformToNewExercisePreference()
+            }
+        }
+    }
+
+    fun notifyExercisePreferenceChanged() {
+        state.playingCards.forEach { playingCard: PlayingCard ->
+            playingCard.conformToNewExercisePreference()
+        }
+    }
+
+    private fun PlayingCard.conformToNewExercisePreference() {
+        isInverted = when (deck.exercisePreference.cardInversion) {
+            Off -> false
+            On -> true
+            EveryOtherLap -> card.lap % 2 == 1
+            Randomly -> Random.nextBoolean()
+        }
+        isQuestionDisplayed = isAnswerDisplayed || deck.exercisePreference.isQuestionDisplayed
     }
 }

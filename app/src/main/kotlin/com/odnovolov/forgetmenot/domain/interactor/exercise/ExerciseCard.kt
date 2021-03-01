@@ -22,7 +22,7 @@ interface ExerciseCard {
     ) : FlowMaker<Base>() {
         val id: Long by flowMaker(id)
         val card: Card by flowMaker(card)
-        val deck: Deck by flowMaker(deck)
+        var deck: Deck by flowMaker(deck)
         var isInverted: Boolean by flowMaker(isInverted)
         var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
         var isAnswerCorrect: Boolean? by flowMaker(isAnswerCorrect)

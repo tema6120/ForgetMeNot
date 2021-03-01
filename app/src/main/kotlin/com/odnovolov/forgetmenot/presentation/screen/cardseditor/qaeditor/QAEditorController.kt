@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor
 
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -16,16 +17,23 @@ class QAEditorController(
     override fun handle(event: QAEditorEvent) {
         when (event) {
             is QuestionInputChanged -> {
-                if (cardsEditor.currentEditableCard.card.id != cardId) return
+                if (cannotEdit) return
                 cardsEditor.setQuestion(event.text)
             }
 
             is AnswerInputChanged -> {
-                if (cardsEditor.currentEditableCard.card.id != cardId) return
+                if (cannotEdit) return
                 cardsEditor.setAnswer(event.text)
             }
         }
     }
+
+    private val cannotEdit: Boolean
+        get() {
+            val currentEditableCard: EditableCard? =
+                with(cardsEditor.state) { editableCards.getOrNull(currentPosition) }
+            return currentEditableCard?.card?.id != cardId
+        }
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()

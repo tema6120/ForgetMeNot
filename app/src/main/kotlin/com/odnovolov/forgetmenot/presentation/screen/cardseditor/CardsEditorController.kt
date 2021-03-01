@@ -3,10 +3,8 @@ package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Failure
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.AllCardsAreEmpty
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.FailureCause.HasUnderfilledCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForDeckCreation
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingDeck
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -15,6 +13,9 @@ import com.odnovolov.forgetmenot.presentation.common.doWithCatchingExceptions
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.ToMoveCard
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
@@ -32,6 +33,7 @@ class CardsEditorController(
     sealed class Command {
         class ShowUnfilledTextInputAt(val position: Int) : Command()
         object ShowCardIsRemovedMessage : Command()
+        object ShowCardIsMovedMessage : Command()
         object AskUserToConfirmExit : Command()
     }
 
@@ -64,6 +66,24 @@ class CardsEditorController(
                 cardsEditor.restoreLastRemovedCard()
             }
 
+            MoveCardButtonClicked -> {
+                navigator.navigateToDeckChooserFromCardsEditor {
+                    val screenState = DeckChooserScreenState(purpose = ToMoveCard)
+                    DeckChooserDiScope.create(screenState)
+                }
+            }
+
+            is DeckToMoveCardToIsSelected -> {
+                val success = cardsEditor.moveTo(event.abstractDeck)
+                if (success) {
+                    sendCommand(ShowCardIsMovedMessage, postponeIfNotActive = true)
+                }
+            }
+
+            CancelLastMovementButtonClicked -> {
+                cardsEditor.cancelLastMovement()
+            }
+
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromCardsEditor {
                     val screenState = HelpArticleScreenState(HelpArticle.AdviceOnCompilingDeck)
@@ -83,27 +103,20 @@ class CardsEditorController(
                 doWithCatchingExceptions {
                     when (val savingResult: SavingResult = cardsEditor.save()) {
                         Success -> {
-                            when (cardsEditor) {
-                                is CardsEditorForDeckCreation -> {
-                                    navigator.navigateToDeckEditorFromCardsEditor {
-                                        val deck = cardsEditor.createdDeck!!
-                                        val tabs = DeckEditorTabs.All(
-                                            initialTab = DeckEditorScreenTab.Settings
-                                        )
-                                        val screenState = DeckEditorScreenState(deck, tabs)
-                                        DeckEditorDiScope.create(screenState)
-                                    }
+                            if (cardsEditor is CardsEditorForEditingDeck && cardsEditor.isNewDeck) {
+                                navigator.navigateToDeckEditorFromCardsEditor {
+                                    val tabs = DeckEditorTabs.All(
+                                        initialTab = DeckEditorScreenTab.Settings
+                                    )
+                                    val screenState = DeckEditorScreenState(cardsEditor.deck, tabs)
+                                    DeckEditorDiScope.create(screenState)
                                 }
-                                else -> {
-                                    navigator.navigateUp()
-                                }
+                            } else {
+                                navigator.navigateUp()
                             }
                         }
                         is Failure -> {
-                            val problemPosition: Int = when (savingResult.failureCause) {
-                                AllCardsAreEmpty -> cardsEditor.state.currentPosition
-                                is HasUnderfilledCards -> savingResult.failureCause.positions[0]
-                            }
+                            val problemPosition: Int = savingResult.underfilledPositions[0]
                             sendCommand(ShowUnfilledTextInputAt(problemPosition))
                         }
                     }

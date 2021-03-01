@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
-import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseScreenStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.ReadyToUseSerializableStateProvider
 import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
@@ -30,9 +30,11 @@ class ExerciseDiScope private constructor(
     private val exerciseState: Exercise.State =
         initialExerciseState ?: exerciseStateProvider.load()
 
-    private val exerciseScreenStateProvider = ExerciseScreenStateProvider(
+    private val exerciseScreenStateProvider = ReadyToUseSerializableStateProvider(
+        ExerciseScreenState.serializer(),
         AppDiScope.get().json,
-        AppDiScope.get().database
+        AppDiScope.get().database,
+        key = ExerciseScreenState::class.qualifiedName!!
     )
 
     private val screenState: ExerciseScreenState =

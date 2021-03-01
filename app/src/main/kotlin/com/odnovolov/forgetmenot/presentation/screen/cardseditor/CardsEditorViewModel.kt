@@ -1,14 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
-import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForDeckCreation
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
-import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class CardsEditorViewModel(
@@ -32,8 +31,11 @@ class CardsEditorViewModel(
 
     val hasCards: Flow<Boolean> = cardIds.map { it.isNotEmpty() }
 
+    private val isEditingNewDeck: Boolean =
+        cardsEditor is CardsEditorForEditingDeck && cardsEditor.isNewDeck
+
     val gradeOfCurrentCard: Flow<Int?> =
-        if (cardsEditor is CardsEditorForDeckCreation) {
+        if (isEditingNewDeck) {
             flowOf(null)
         } else {
             currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
@@ -42,7 +44,7 @@ class CardsEditorViewModel(
         }
 
     val intervalItems: Flow<List<IntervalItem>?> =
-        if (cardsEditor is CardsEditorForDeckCreation) {
+        if (isEditingNewDeck) {
             flowOf(null)
         } else {
             currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
@@ -50,11 +52,7 @@ class CardsEditorViewModel(
                     flowOf(null)
                 } else {
                     val intervalScheme: IntervalScheme? =
-                        if (cardsEditor.currentEditableCard.deck == null) {
-                            ExercisePreference.Default.intervalScheme
-                        } else {
-                            cardsEditor.currentEditableCard.deck!!.exercisePreference.intervalScheme
-                        }
+                        editableCard.deck.exercisePreference.intervalScheme
                     editableCard.flowOf(EditableCard::grade)
                         .map { currentGrade: Int ->
                             intervalScheme?.intervals
@@ -70,10 +68,10 @@ class CardsEditorViewModel(
             }
         }
             .distinctUntilChanged()
-            .flowOn(businessLogicThread)
+            .flowOn(Dispatchers.Default)
 
     val isCurrentEditableCardLearned: Flow<Boolean?> =
-        if (cardsEditor is CardsEditorForDeckCreation) {
+        if (isEditingNewDeck) {
             flowOf(null)
         } else {
             currentEditableCard.flatMapLatest { editableCard: EditableCard? ->
@@ -81,10 +79,10 @@ class CardsEditorViewModel(
             }
         }
 
-    val isRemoveCardButtonVisible: Flow<Boolean> = combine(
+    val isCurrentCardMovable: Flow<Boolean> = combine(
         cardsEditor.state.flowOf(CardsEditor.State::editableCards),
         cardsEditor.state.flowOf(CardsEditor.State::currentPosition)
-    ) { _, _ -> cardsEditor.isCurrentCardRemovable() }
+    ) { _, _ -> cardsEditor.isCurrentCardMovable() }
 
-    val isHelpButtonVisible: Boolean = cardsEditor is CardsEditorForDeckCreation
+    val isHelpButtonVisible: Boolean get() = isEditingNewDeck
 }
