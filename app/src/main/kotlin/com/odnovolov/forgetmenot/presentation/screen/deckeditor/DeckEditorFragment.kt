@@ -23,7 +23,7 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar.CardSelectionFragment
+import com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar.CardSelectionOptionsBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
@@ -32,7 +32,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Dec
 import kotlinx.android.synthetic.main.fragment_deck_editor.*
 import kotlinx.android.synthetic.main.fragment_deck_editor.antiJumpingView
 import kotlinx.android.synthetic.main.fragment_deck_editor.appBarLayout
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.toolbar_item_selection.*
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -42,6 +42,7 @@ class DeckEditorFragment : BaseFragment() {
     }
 
     private var tabLayoutMediator: TabLayoutMediator? = null
+    private var diScope: DeckEditorDiScope? = null
     private var controller: DeckEditorController? = null
     private lateinit var viewModel: DeckEditorViewModel
     private var needTabs = true
@@ -62,17 +63,10 @@ class DeckEditorFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            val diScope = DeckEditorDiScope.getAsync() ?: return@launch
-            controller = diScope.controller
-            viewModel = diScope.viewModel
+            diScope = DeckEditorDiScope.getAsync() ?: return@launch
+            controller = diScope!!.controller
+            viewModel = diScope!!.viewModel
             observeViewModel(isRecreated = savedInstanceState != null)
-            val cardSelectionFragment = childFragmentManager
-                .findFragmentById(R.id.cardSelectionFragment) as CardSelectionFragment
-            cardSelectionFragment.inject(
-                controller = diScope.cardSelectionController,
-                viewModel = diScope.cardSelectionViewModel,
-                onSelectAllButtonClicked = { controller?.dispatch(SelectAllCardsButtonClicked) }
-            )
         }
     }
 
@@ -88,7 +82,32 @@ class DeckEditorFragment : BaseFragment() {
             setTooltipTextFromContentDescription()
         }
         observeAppbarOffset()
+        setupSelectionToolbar()
         setupViewPager()
+    }
+
+    private fun setupSelectionToolbar() {
+        cancelSelectionButton.run {
+            setOnClickListener { controller?.dispatch(CancelledCardSelection) }
+            setTooltipTextFromContentDescription()
+        }
+        selectAllButton.run {
+            setOnClickListener { controller?.dispatch(SelectAllCardsButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
+        removeOptionItem.run {
+            setOnClickListener { controller?.dispatch(RemoveCardsOptionSelected) }
+            setTooltipTextFromContentDescription()
+        }
+        moreOptionsButton.run {
+            setOnClickListener {
+                if (diScope != null) {
+                    CardSelectionOptionsBottomSheet()
+                        .show(childFragmentManager, "CardSelectionOptionsBottomSheet")
+                }
+            }
+            setTooltipTextFromContentDescription()
+        }
     }
 
     private fun observeAppbarOffset() {
@@ -134,6 +153,14 @@ class DeckEditorFragment : BaseFragment() {
                     updateViewPagerLocking()
                     updateAddCardButtonVisibility()
                 }
+                numberOfSelectedCards.observe { numberOfSelectedCards: Int ->
+                    numberOfSelectedItemsTextView.text =
+                        resources.getQuantityString(
+                            R.plurals.title_card_selection_toolbar,
+                            numberOfSelectedCards,
+                            numberOfSelectedCards
+                        )
+                }
             }
         }
     }
@@ -177,7 +204,7 @@ class DeckEditorFragment : BaseFragment() {
     }
 
     private fun preventCardItemsJumping() {
-        if (!cardSelectionFragment.isVisible && isSelectionMode) {
+        if (!selectionToolbar.isVisible && isSelectionMode) {
             antiJumpingView.isVisible = true
             val appBarRealHeight: Int = appBarLayout.height + appbarLayoutOffset
             val gap: Int = appBarRealHeight - 48.dp
@@ -185,7 +212,7 @@ class DeckEditorFragment : BaseFragment() {
                 height = gap
             }
             isAntiJumpingViewActivated = true
-        } else if (cardSelectionFragment.isVisible && !isSelectionMode) {
+        } else if (selectionToolbar.isVisible && !isSelectionMode) {
             antiJumpingView.isVisible = false
             isAntiJumpingViewActivated = false
         }
@@ -209,12 +236,12 @@ class DeckEditorFragment : BaseFragment() {
     }
 
     private fun setSelectionToolbarVisibility(isVisible: Boolean) {
-        if (cardSelectionFragment.isVisible == isVisible) return
+        if (selectionToolbar.isVisible == isVisible) return
         val transition: Transition = Slide(Gravity.TOP)
         transition.duration = 200
-        transition.addTarget(cardSelectionFragment)
+        transition.addTarget(selectionToolbar)
         TransitionManager.beginDelayedTransition(appBarLayout, transition)
-        cardSelectionFragment.isVisible = isVisible
+        selectionToolbar.isVisible = isVisible
     }
 
     private fun updateAppbarScrollBehavior() {
@@ -273,6 +300,10 @@ class DeckEditorFragment : BaseFragment() {
                         }
                     }
                 }
+            }
+            is CardSelectionOptionsBottomSheet -> {
+                childFragment.controller = diScope!!.cardSelectionController
+                childFragment.viewModel = diScope!!.cardSelectionViewModel
             }
         }
     }

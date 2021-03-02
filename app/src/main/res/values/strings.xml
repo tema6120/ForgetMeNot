@@ -40,10 +40,6 @@
         <item quantity="one">%d deck</item>
         <item quantity="other">%d decks</item>
     </plurals>
-    <string name="description_cancel_selection">Cancel selection</string>
-    <string name="description_select_all">Select all</string>
-    <string name="description_remove_decks">Remove decks</string>
-    <string name="description_more_options">More options</string>
     <string name="tab_decks">Decks</string>
     <string name="tab_cards">Cards</string>
     <string name="no_matching_decks">No matching decks</string>
@@ -312,9 +308,16 @@
     <string name="description_add_card_button">Add card</string>
 
 
+    <!-- Selection toolbar -->
+
+    <string name="description_cancel_selection">Cancel selection</string>
+    <string name="description_select_all">Select all</string>
+    <string name="description_remove">Remove</string>
+    <string name="description_more_options">More options</string>
+
+
     <!-- Card selection toolbar -->
 
-    <string name="description_remove_cards">Remove cards</string>
     <plurals name="title_card_selection_toolbar">
         <item quantity="one">%d card</item>
         <item quantity="other">%d cards</item>

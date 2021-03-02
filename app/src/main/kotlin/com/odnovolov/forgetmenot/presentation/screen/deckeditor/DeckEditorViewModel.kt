@@ -14,7 +14,11 @@ class DeckEditorViewModel(
 
     val deckName: Flow<String> = screenState.deck.flowOf(Deck::name)
 
-    val isSelectionMode: Flow<Boolean> = batchCardEditorState
-        .flowOf(BatchCardEditor.State::editableCards)
-        .map { editableCards: List<EditableCard> -> editableCards.isNotEmpty() }
+    val isSelectionMode: Flow<Boolean> =
+        batchCardEditorState.flowOf(BatchCardEditor.State::editableCards)
+            .map { editableCards: Collection<EditableCard> -> editableCards.isNotEmpty() }
+
+    val numberOfSelectedCards: Flow<Int> =
+        batchCardEditorState.flowOf(BatchCardEditor.State::editableCards)
+            .map { editableCards: Collection<EditableCard> -> editableCards.size }
 }

@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 
 import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
@@ -56,6 +57,16 @@ class DeckEditorController(
 
             CancelledCardSelection -> {
                 batchCardEditor.clearEditableCards()
+            }
+
+            SelectAllCardsButtonClicked -> {
+                val deck: Deck = screenState.deck
+                val allEditableCards: List<EditableCard> =
+                    deck.cards.map { card: Card -> EditableCard(card, deck) }
+                batchCardEditor.addEditableCards(allEditableCards)
+            }
+
+            RemoveCardsOptionSelected -> {
             }
         }
     }

@@ -34,12 +34,12 @@ class DeckEditorDiScope private constructor(
         batchCardEditor.state
     )
 
-    val cardSelectionController = CardSelectionController(
+    val cardSelectionController get() = CardSelectionController(
         batchCardEditor,
         AppDiScope.get().longTermStateSaver
     )
 
-    val cardSelectionViewModel = CardSelectionViewModel(
+    val cardSelectionViewModel get() = CardSelectionViewModel(
         batchCardEditor.state
     )
 

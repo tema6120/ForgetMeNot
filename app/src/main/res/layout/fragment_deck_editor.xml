@@ -59,15 +59,7 @@
                     app:tabMode="scrollable"
                     app:tabSelectedTextColor="@color/colorAccent" />
 
-            <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/cardSelectionFragment"
-                    android:name="com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar.CardSelectionFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:tag="CardSelectionFragment"
-                    android:visibility="gone"
-                    tools:layout="@layout/toolbar_card_selection"
-                    tools:visibility="visible" />
+            <include layout="@layout/toolbar_item_selection" />
 
             <View
                     android:id="@+id/antiJumpingView"

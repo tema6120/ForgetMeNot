@@ -42,10 +42,6 @@
         <item quantity="few">%d колоди</item>
         <item quantity="many">%d колод</item>
     </plurals>
-    <string name="description_cancel_selection">Скасувати обрання</string>
-    <string name="description_select_all">Вибрати все</string>
-    <string name="description_remove_decks">Видалити колоди</string>
-    <string name="description_more_options">Більше опцій</string>
     <string name="tab_decks">Колоди</string>
     <string name="tab_cards">Картки</string>
     <string name="no_matching_decks">Немає відповідних колод</string>
@@ -331,9 +327,16 @@
     <string name="description_add_card_button">Додати картку</string>
 
 
+    <!-- Selection toolbar -->
+
+    <string name="description_cancel_selection">Скасувати обрання</string>
+    <string name="description_select_all">Вибрати все</string>
+    <string name="description_remove">Видалити</string>
+    <string name="description_more_options">Більше опцій</string>
+
+
     <!-- Card selection toolbar -->
 
-    <string name="description_remove_cards">Видалити картки</string>
     <plurals name="title_card_selection_toolbar">
         <item quantity="one">%d картка</item>
         <item quantity="few">%d картки</item>

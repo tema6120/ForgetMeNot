@@ -4,6 +4,8 @@
         android:id="@+id/selectionToolbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:background="@color/colorAccent"
         android:orientation="horizontal">
 
@@ -17,7 +19,7 @@
             app:srcCompat="@drawable/ic_round_clear_24" />
 
     <TextView
-            android:id="@+id/numberOfSelectedCardsTextView"
+            android:id="@+id/numberOfSelectedItemsTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -41,12 +43,12 @@
             app:srcCompat="@drawable/ic_round_select_all_24" />
 
     <ImageButton
-            android:id="@+id/removeCardsButton"
+            android:id="@+id/removeOptionItem"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/ripple_light_borderless"
-            android:contentDescription="@string/description_remove_cards"
+            android:contentDescription="@string/description_remove"
             app:srcCompat="@drawable/ic_round_delete_outline_24" />
 
     <ImageButton

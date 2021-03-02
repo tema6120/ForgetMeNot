@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar
 
 sealed class CardSelectionEvent {
-    object CancelledSelection : CardSelectionEvent()
     object InvertOptionSelected : CardSelectionEvent()
     object ChangeGradeOptionSelected : CardSelectionEvent()
     object MarkAsLearnedOptionSelected : CardSelectionEvent()

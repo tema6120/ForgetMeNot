@@ -69,7 +69,7 @@ class ImportedCardsFragment : BaseFragment(), ControllingTheScrollPosition {
                 cannotExtractAnyCardsTextView.isVisible = !hasCards
             }
             numberOfSelectedCards.observe { numberOfSelectedCards: Int ->
-                numberOfSelectedCardsTextView.text = resources.getQuantityString(
+                numberOfSelectedItemsTextView.text = resources.getQuantityString(
                     R.plurals.title_card_selection_toolbar,
                     numberOfSelectedCards,
                     numberOfSelectedCards

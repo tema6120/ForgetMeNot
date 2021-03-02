@@ -11,10 +11,6 @@ class CardSelectionController(
 ) : BaseController<CardSelectionEvent, Nothing>() {
     override fun handle(event: CardSelectionEvent) {
         when (event) {
-            CancelledSelection -> {
-                batchCardEditor.clearEditableCards()
-            }
-
             InvertOptionSelected -> {
 
             }

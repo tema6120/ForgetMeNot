@@ -6,13 +6,24 @@ class BatchCardEditor(
     val state: State
 ) {
     class State(
-        editableCards: List<EditableCard> = emptyList()
+        editableCards: Collection<EditableCard> = emptyList()
     ) : FlowMaker<State>() {
-        var editableCards: List<EditableCard> by flowMaker(editableCards)
+        var editableCards: Collection<EditableCard> by flowMaker(editableCards)
     }
 
     fun addEditableCard(editableCard: EditableCard) {
-        state.editableCards = state.editableCards + editableCard
+        state.editableCards =
+            state.editableCards.associateBy { it.card.id }
+                .plus(editableCard.card.id to editableCard)
+                .values
+    }
+
+    fun addEditableCards(editableCards: Collection<EditableCard>) {
+        val addedAssociatedEditableCards = editableCards.associateBy { it.card.id }
+        state.editableCards =
+            state.editableCards.associateBy { it.card.id }
+                .plus(addedAssociatedEditableCards)
+                .values
     }
 
     fun removeEditableCard(cardId: Long) {

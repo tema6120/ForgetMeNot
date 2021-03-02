@@ -62,7 +62,7 @@ class CardSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             numberOfSelectedCards.observe { numberOfSelectedCards: Int ->
-                numberOfSelectedCardsTextView.text =
+                numberOfSelectedItemsTextView.text =
                     resources.getQuantityString(
                         R.plurals.title_card_selection_toolbar,
                         numberOfSelectedCards,
@@ -72,5 +72,10 @@ class CardSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             markAsLearnedOptionItem.isVisible = isMarkAsLearnedOptionAvailable
             markAsUnlearnedOptionItem.isVisible = isMarkAsUnlearnedOptionAvailable
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        controller.dispose()
     }
 }
