@@ -15,7 +15,7 @@
             android:background="@drawable/bottom_sheet_handler" />
 
     <TextView
-            android:id="@+id/numberOfSelectedDecksTextView"
+            android:id="@+id/numberOfSelectedCardsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -26,7 +26,7 @@
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/text_size_option_bottom_sheet_title"
             android:textStyle="bold"
-            tools:text="3 decks" />
+            tools:text="59 cards" />
 
     <View
             android:id="@+id/divider1"
@@ -47,34 +47,55 @@
                 android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/pinDeckSelectionOptionItem"
+                    android:id="@+id/invertOptionItem"
                     style="@style/DeckOptionItem"
-                    android:text="@string/deck_option_pin"
-                    app:drawableStartCompat="@drawable/ic_round_push_pin_20" />
+                    android:text="@string/card_selection_option_invert"
+                    app:drawableStartCompat="@drawable/ic_round_import_export_20" />
 
             <TextView
-                    android:id="@+id/unpinDeckSelectionOptionItem"
+                    android:id="@+id/changeGradeOptionItem"
                     style="@style/DeckOptionItem"
-                    android:text="@string/deck_option_unpin"
-                    app:drawableStartCompat="@drawable/ic_outline_push_pin_20" />
+                    android:text="@string/card_selection_option_change_grade"
+                    app:drawableStartCompat="@drawable/ic_medal_20" />
 
             <TextView
-                    android:id="@+id/exportDeckSelectionOptionItem"
+                    android:id="@+id/markAsLearnedOptionItem"
                     style="@style/DeckOptionItem"
-                    android:text="@string/deck_option_export"
-                    app:drawableStartCompat="@drawable/ic_round_unarchive_20" />
+                    android:text="@string/card_selection_option_mark_as_learned"
+                    app:drawableStartCompat="@drawable/ic_mark_as_learned_20" />
 
             <TextView
-                    android:id="@+id/mergeIntoDeckSelectionOptionItem"
+                    android:id="@+id/markAsUnlearnedOptionItem"
                     style="@style/DeckOptionItem"
-                    android:text="@string/deck_option_merge_into"
-                    app:drawableStartCompat="@drawable/ic_round_merge_type_20" />
+                    android:text="@string/card_selection_option_mark_as_unlearned"
+                    app:drawableStartCompat="@drawable/ic_mark_as_unlearned_20" />
+
+            <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="84dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/divider" />
 
             <TextView
-                    android:id="@+id/removeDeckSelectionOptionItem"
+                    android:id="@+id/removeOptionItem"
                     style="@style/DeckOptionItem"
-                    android:text="@string/deck_option_remove"
+                    android:text="@string/card_selection_option_remove"
                     app:drawableStartCompat="@drawable/ic_round_delete_20" />
+
+            <TextView
+                    android:id="@+id/moveOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/card_selection_option_move_to"
+                    app:drawableStartCompat="@drawable/ic_round_drive_file_move_20" />
+
+            <TextView
+                    android:id="@+id/copyOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/card_selection_option_copy_to"
+                    app:drawableStartCompat="@drawable/ic_round_file_copy_20" />
 
         </LinearLayout>
 

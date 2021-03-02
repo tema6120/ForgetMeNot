@@ -6,7 +6,7 @@
     <dimen name="text_size_help_article_paragraph">14sp</dimen>
     <dimen name="text_size_import_of_deck_help_article_text_file_content">12sp</dimen>
     <dimen name="text_size_import_of_deck_help_article_file_name">14sp</dimen>
-    <dimen name="text_size_deck_option_bottom_sheet_title">17sp</dimen>
+    <dimen name="text_size_option_bottom_sheet_title">17sp</dimen>
     <dimen name="text_size_deck_option_bottom_sheet_item">14sp</dimen>
     <dimen name="text_size_bottom_sheet_description">16sp</dimen>
     <dimen name="text_size_bottom_sheet_preferred_button">16sp</dimen>
@@ -44,7 +44,7 @@
     <dimen name="text_size_search_edittext">16sp</dimen>
     <dimen name="text_size_home_screen_deck_list_title">21sp</dimen>
     <dimen name="text_size_home_screen_add_cards_button">14sp</dimen>
-    <dimen name="text_size_home_screen_number_of_selected_decks">20sp</dimen>
+    <dimen name="text_size_selection_toolbar_title">20sp</dimen>
     <dimen name="text_size_edittext">16sp</dimen>
     <dimen name="text_size_motivational_timer_screen_saved_textview">18sp</dimen>
     <dimen name="text_size_pronunciation_screen_section_title">16sp</dimen>

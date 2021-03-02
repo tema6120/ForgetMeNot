@@ -148,10 +148,6 @@
     <string name="label_encoding">Encoding</string>
     <string name="description_charset_icon">Encoding icon</string>
     <string name="popup_title_charset">Encoding</string>
-    <plurals name="title_cards_selection_toolbar_in_file_import">
-        <item quantity="one">%d card</item>
-        <item quantity="other">%d cards</item>
-    </plurals>
     <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files">
         <item quantity="one">Do you want to use this deck (%1$s) for import the next file?</item>
         <item quantity="other">Do you want to use this deck (%1$s) for import the next %2$d files?</item>
@@ -314,6 +310,22 @@
     <string name="tab_name_settings">Settings</string>
     <string name="tab_name_content">Content</string>
     <string name="description_add_card_button">Add card</string>
+
+
+    <!-- Card selection toolbar -->
+
+    <string name="description_remove_cards">Remove cards</string>
+    <plurals name="title_card_selection_toolbar">
+        <item quantity="one">%d card</item>
+        <item quantity="other">%d cards</item>
+    </plurals>
+    <string name="card_selection_option_invert">Invert</string>
+    <string name="card_selection_option_change_grade">Change grade</string>
+    <string name="card_selection_option_mark_as_learned">Mark as \'Learned\'</string>
+    <string name="card_selection_option_mark_as_unlearned">Mark as \'Unlearned\'</string>
+    <string name="card_selection_option_remove">Remove</string>
+    <string name="card_selection_option_move_to">Move to</string>
+    <string name="card_selection_option_copy_to">Copy to</string>
 
 
     <!-- Deck content screen -->

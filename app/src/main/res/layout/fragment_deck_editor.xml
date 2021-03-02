@@ -59,6 +59,22 @@
                     app:tabMode="scrollable"
                     app:tabSelectedTextColor="@color/colorAccent" />
 
+            <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/cardSelectionFragment"
+                    android:name="com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar.CardSelectionFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:tag="CardSelectionFragment"
+                    android:visibility="gone"
+                    tools:layout="@layout/toolbar_card_selection"
+                    tools:visibility="visible" />
+
+            <View
+                    android:id="@+id/antiJumpingView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="gone" />
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager2.widget.ViewPager2

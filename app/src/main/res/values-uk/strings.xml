@@ -155,11 +155,6 @@
     <string name="label_encoding">Кодування</string>
     <string name="description_charset_icon">іконка \"Кодування\"</string>
     <string name="popup_title_charset">Кодування</string>
-    <plurals name="title_cards_selection_toolbar_in_file_import">
-        <item quantity="one">%d картка</item>
-        <item quantity="few">%d картки</item>
-        <item quantity="many">%d карток</item>
-    </plurals>
     <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files" tools:ignore="MissingQuantity">
         <item quantity="one" tools:ignore="ImpliedQuantity">Ви бажаєте використати цю колоду (%1$s)
             для імпорту наступного файлу(ів)?</item>
@@ -334,6 +329,23 @@
     <string name="tab_name_settings">Налаштування</string>
     <string name="tab_name_content">Зміст</string>
     <string name="description_add_card_button">Додати картку</string>
+
+
+    <!-- Card selection toolbar -->
+
+    <string name="description_remove_cards">Видалити картки</string>
+    <plurals name="title_card_selection_toolbar">
+        <item quantity="one">%d картка</item>
+        <item quantity="few">%d картки</item>
+        <item quantity="many">%d карток</item>
+    </plurals>
+    <string name="card_selection_option_invert">Інвертувати</string>
+    <string name="card_selection_option_change_grade">Змінити оцінку</string>
+    <string name="card_selection_option_mark_as_learned">Позначити як \"Вивчена\"</string>
+    <string name="card_selection_option_mark_as_unlearned">Позначити як  \"Невивчена\"</string>
+    <string name="card_selection_option_remove">Видалити</string>
+    <string name="card_selection_option_move_to">Перемістити в</string>
+    <string name="card_selection_option_copy_to">Копіювати в</string>
 
 
     <!-- Deck content screen -->

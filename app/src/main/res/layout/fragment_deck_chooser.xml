@@ -44,7 +44,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="8dp"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_home_screen_number_of_selected_decks"
+                    android:textSize="@dimen/text_size_selection_toolbar_title"
                     tools:text="@string/screen_title_choose_a_deck_to_import_cards_to" />
 
         </LinearLayout>

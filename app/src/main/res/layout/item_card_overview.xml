@@ -8,14 +8,18 @@
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="10dp"
             android:elevation="4dp"
-            android:foreground="?selectableItemBackground"
+            android:foreground="@drawable/background_selectable_card"
             app:cardCornerRadius="16dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/ripple"
                 android:orientation="vertical">
 
             <TextView
@@ -44,5 +48,16 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+            android:id="@+id/checkIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="60dp"
+            android:elevation="4dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:srcCompat="@drawable/ic_check_circle_24" />
 
 </FrameLayout>

@@ -21,7 +21,6 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
@@ -114,7 +113,7 @@ class HomeFragment : BaseFragment() {
 
     private fun setupSelectionToolbar() {
         cancelSelectionButton.setOnClickListener {
-            controller?.dispatch(SelectionCancelled)
+            controller?.dispatch(CancelledSelection)
         }
         selectAllButton.setOnClickListener {
             controller?.dispatch(SelectAllDecksButtonClicked)
@@ -134,7 +133,9 @@ class HomeFragment : BaseFragment() {
 
     private fun observeAppbarOffset() {
         appBarLayout.addOnOffsetChangedListener(
-            OnOffsetChangedListener { _, verticalOffset -> appbarLayoutOffset = verticalOffset }
+            AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+                appbarLayoutOffset = verticalOffset
+            }
         )
     }
 
@@ -264,7 +265,7 @@ class HomeFragment : BaseFragment() {
         if (!selectionToolbar.isVisible && deckSelection != null) {
             antiJumpingView.isVisible = true
             val appBarRealHeight: Int = appBarLayout.height + appbarLayoutOffset
-            val gap = appBarRealHeight - 48.dp
+            val gap: Int = appBarRealHeight - 48.dp
             antiJumpingView.updateLayoutParams {
                 height = gap
             }
@@ -402,7 +403,7 @@ class HomeFragment : BaseFragment() {
         backPressInterceptor = MainActivity.BackPressInterceptor {
             when {
                 selectionToolbar.isVisible -> {
-                    controller?.dispatch(SelectionCancelled)
+                    controller?.dispatch(CancelledSelection)
                     true
                 }
                 searchEditText.hasFocus() -> {

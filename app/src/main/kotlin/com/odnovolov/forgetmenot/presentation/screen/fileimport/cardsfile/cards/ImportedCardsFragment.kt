@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.plurals
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
@@ -71,7 +70,7 @@ class ImportedCardsFragment : BaseFragment(), ControllingTheScrollPosition {
             }
             numberOfSelectedCards.observe { numberOfSelectedCards: Int ->
                 numberOfSelectedCardsTextView.text = resources.getQuantityString(
-                    plurals.title_cards_selection_toolbar_in_file_import,
+                    R.plurals.title_card_selection_toolbar,
                     numberOfSelectedCards,
                     numberOfSelectedCards
                 )

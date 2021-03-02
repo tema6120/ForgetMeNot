@@ -2,20 +2,21 @@ package com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.ItemInDeckContentList.SelectableCard
 import kotlinx.android.synthetic.main.item_card_overview.view.*
 import kotlinx.android.synthetic.main.toolbar_deck_content.view.*
 
 class CardOverviewAdapter(
     private val controller: DeckContentController
-) : ListAdapter<Card, SimpleRecyclerViewHolder>(DiffCallback()) {
+) : ListAdapter<ItemInDeckContentList, SimpleRecyclerViewHolder>(DiffCallback()) {
     init {
         stateRestorationPolicy = PREVENT_WHEN_EMPTY
     }
@@ -42,27 +43,45 @@ class CardOverviewAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
+        val item: ItemInDeckContentList = getItem(position)
+        if (item == ItemInDeckContentList.Header) return
+        val selectableCard: SelectableCard = item as SelectableCard
+        val card = selectableCard.card
         if (position == 0) return
-        val item: Card = getItem(position)
         with(viewHolder.itemView) {
-            questionTextView.text = item.question
-            questionTextView.isEnabled = !item.isLearned
-            answerTextView.text = item.answer
-            answerTextView.isEnabled = !item.isLearned
-            cardView.setOnClickListener { controller.dispatch(CardClicked(item.id)) }
+            questionTextView.text = card.question
+            questionTextView.isEnabled = !card.isLearned
+            answerTextView.text = card.answer
+            answerTextView.isEnabled = !card.isLearned
+            cardView.isSelected = selectableCard.isSelected
+            checkIcon.isVisible = selectableCard.isSelected
+            cardView.setOnClickListener { controller.dispatch(CardClicked(card.id)) }
+            cardView.setOnLongClickListener {
+                controller.dispatch(CardLongClicked(card.id))
+                true
+            }
         }
     }
 
-    fun submitItems(items: List<Card>) {
-        val headerCard = Card(-1, "Faked Card for", "header")
-        super.submitList(listOf(headerCard) + items)
-    }
+    class DiffCallback : DiffUtil.ItemCallback<ItemInDeckContentList>() {
+        override fun areItemsTheSame(
+            oldItem: ItemInDeckContentList,
+            newItem: ItemInDeckContentList
+        ): Boolean {
+            return when {
+                oldItem === newItem -> true
+                oldItem is SelectableCard && newItem is SelectableCard -> {
+                    oldItem.card.id == newItem.card.id
+                }
+                else -> false
+            }
+        }
 
-    class DiffCallback : DiffUtil.ItemCallback<Card>() {
-        override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean =
-            oldItem.id == newItem.id
-
-        override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean =
-            oldItem == newItem
+        override fun areContentsTheSame(
+            oldItem: ItemInDeckContentList,
+            newItem: ItemInDeckContentList
+        ): Boolean {
+            return oldItem == newItem
+        }
     }
 }

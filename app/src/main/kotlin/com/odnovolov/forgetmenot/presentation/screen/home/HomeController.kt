@@ -75,7 +75,7 @@ class HomeController(
                 cardsSearcher.search(event.searchText)
             }
 
-            SelectionCancelled -> {
+            CancelledSelection -> {
                 screenState.deckSelection = null
             }
 

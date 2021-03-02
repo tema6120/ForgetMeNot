@@ -1,29 +1,40 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
-import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar.CardSelectionFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsFragment
-import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.fragment_deck_editor.*
+import kotlinx.android.synthetic.main.fragment_deck_editor.antiJumpingView
+import kotlinx.android.synthetic.main.fragment_deck_editor.appBarLayout
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 class DeckEditorFragment : BaseFragment() {
     init {
@@ -33,6 +44,11 @@ class DeckEditorFragment : BaseFragment() {
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var controller: DeckEditorController? = null
     private lateinit var viewModel: DeckEditorViewModel
+    private var needTabs = true
+    private var isSelectionMode = false
+    private var isFullyOnContentPage = false
+    private var appbarLayoutOffset: Int = 0
+    private var isAntiJumpingViewActivated = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +66,13 @@ class DeckEditorFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             observeViewModel(isRecreated = savedInstanceState != null)
+            val cardSelectionFragment = childFragmentManager
+                .findFragmentById(R.id.cardSelectionFragment) as CardSelectionFragment
+            cardSelectionFragment.inject(
+                controller = diScope.cardSelectionController,
+                viewModel = diScope.cardSelectionViewModel,
+                onSelectAllButtonClicked = { controller?.dispatch(SelectAllCardsButtonClicked) }
+            )
         }
     }
 
@@ -64,7 +87,16 @@ class DeckEditorFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(AddCardButtonClicked) }
             setTooltipTextFromContentDescription()
         }
+        observeAppbarOffset()
         setupViewPager()
+    }
+
+    private fun observeAppbarOffset() {
+        appBarLayout.addOnOffsetChangedListener(
+            AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+                appbarLayoutOffset = verticalOffset
+            }
+        )
     }
 
     private fun setupViewPager() {
@@ -72,14 +104,6 @@ class DeckEditorFragment : BaseFragment() {
         deckEditorViewPager.adapter = DeckEditorPagerAdapter(this)
         deckEditorViewPager.registerOnPageChangeCallback(
             object : ViewPager2.OnPageChangeCallback() {
-                private var isAddCardButtonVisible = false
-                    set(value) {
-                        if (field != value) {
-                            field = value
-                            with(addCardButton) { if (value) show() else hide() }
-                        }
-                    }
-
                 override fun onPageSelected(position: Int) {
                     appBarElevationManager.viewPagerPosition = position
                 }
@@ -89,7 +113,8 @@ class DeckEditorFragment : BaseFragment() {
                     positionOffset: Float,
                     positionOffsetPixels: Int
                 ) {
-                    isAddCardButtonVisible = position == 1 && positionOffset == 0f
+                    isFullyOnContentPage = position == 1 && positionOffset == 0f
+                    updateAddCardButtonVisibility()
                 }
             }
         )
@@ -99,11 +124,23 @@ class DeckEditorFragment : BaseFragment() {
         with(viewModel) {
             setupViewPager(tabs, isRecreated)
             deckName.observe(deckNameTextView::setText)
+            if (needTabs) {
+                isSelectionMode.observe { isSelectionMode: Boolean ->
+                    this@DeckEditorFragment.isSelectionMode = isSelectionMode
+                    preventCardItemsJumping()
+                    updateStatusBarColor()
+                    updateAppbarItemsVisibility()
+                    updateAppbarScrollBehavior()
+                    updateViewPagerLocking()
+                    updateAddCardButtonVisibility()
+                }
+            }
         }
     }
 
     private fun setupViewPager(tabs: DeckEditorTabs, isRecreated: Boolean) {
         val needTabs: Boolean = tabs is DeckEditorTabs.All
+        this.needTabs = needTabs
         deckEditorTabLayout.isVisible = needTabs
         deckEditorViewPager.offscreenPageLimit =
             if (needTabs) 1
@@ -139,6 +176,77 @@ class DeckEditorFragment : BaseFragment() {
         }
     }
 
+    private fun preventCardItemsJumping() {
+        if (!cardSelectionFragment.isVisible && isSelectionMode) {
+            antiJumpingView.isVisible = true
+            val appBarRealHeight: Int = appBarLayout.height + appbarLayoutOffset
+            val gap: Int = appBarRealHeight - 48.dp
+            antiJumpingView.updateLayoutParams {
+                height = gap
+            }
+            isAntiJumpingViewActivated = true
+        } else if (cardSelectionFragment.isVisible && !isSelectionMode) {
+            antiJumpingView.isVisible = false
+            isAntiJumpingViewActivated = false
+        }
+    }
+
+    private fun updateStatusBarColor(isSelectionMode: Boolean = this.isSelectionMode) {
+        if (findNavController().currentDestination?.id == R.id.deck_chooser) return
+        if (isSelectionMode) {
+            setStatusBarColor(requireActivity(), R.color.colorAccent)
+        } else {
+            setTransparentStatusBar(requireActivity())
+        }
+    }
+
+    private fun updateAppbarItemsVisibility() {
+        setSelectionToolbarVisibility(isVisible = isSelectionMode)
+        backButton.isVisible = !isSelectionMode
+        deckNameTextView.isVisible = !isSelectionMode
+        deckEditorTabLayout.isVisible = !isSelectionMode
+        appBarLayout.requestLayout()
+    }
+
+    private fun setSelectionToolbarVisibility(isVisible: Boolean) {
+        if (cardSelectionFragment.isVisible == isVisible) return
+        val transition: Transition = Slide(Gravity.TOP)
+        transition.duration = 200
+        transition.addTarget(cardSelectionFragment)
+        TransitionManager.beginDelayedTransition(appBarLayout, transition)
+        cardSelectionFragment.isVisible = isVisible
+    }
+
+    private fun updateAppbarScrollBehavior() {
+        val scrollFlags =
+            if (isSelectionMode) {
+                0
+            } else {
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+            }
+        (backButton.layoutParams as AppBarLayout.LayoutParams).scrollFlags = scrollFlags
+        (deckNameTextView.layoutParams as AppBarLayout.LayoutParams).scrollFlags = scrollFlags
+        appBarLayout.requestLayout()
+    }
+
+    private fun updateViewPagerLocking() {
+        if (!needTabs) return
+        deckEditorViewPager.isUserInputEnabled = !isSelectionMode
+        if (isSelectionMode) {
+            deckEditorViewPager.setCurrentItem(1, true)
+        }
+    }
+
+    private fun updateAddCardButtonVisibility() {
+        val shouldBeVisible: Boolean = !isSelectionMode && isFullyOnContentPage
+        with(addCardButton) {
+            if (isVisible != shouldBeVisible) {
+                if (shouldBeVisible) show() else hide()
+            }
+        }
+    }
+
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         when (childFragment) {
@@ -154,10 +262,29 @@ class DeckEditorFragment : BaseFragment() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         appBarElevationManager.canDeckContentScrollUp =
                             recyclerView.canScrollVertically(-1)
+                        if (isAntiJumpingViewActivated) {
+                            antiJumpingView.updateLayoutParams {
+                                height -= abs(dy) / 2
+                            }
+                            if (antiJumpingView.height <= 0) {
+                                antiJumpingView.isVisible = false
+                                isAntiJumpingViewActivated = false
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onDestroyView() {
@@ -165,12 +292,23 @@ class DeckEditorFragment : BaseFragment() {
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
         deckEditorViewPager.adapter = null
+        updateStatusBarColor(isSelectionMode = false)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             DeckEditorDiScope.close()
+        }
+    }
+
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        when {
+            isSelectionMode -> {
+                controller?.dispatch(CancelledCardSelection)
+                true
+            }
+            else -> false
         }
     }
 

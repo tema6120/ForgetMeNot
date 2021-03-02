@@ -3,19 +3,20 @@ package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.generateId
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.AddCardButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.RenameDeckButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeck
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 
 class DeckEditorController(
+    private val batchCardEditor: BatchCardEditor,
     private val screenState: DeckEditorScreenState,
     private val navigator: Navigator,
     private val globalState: GlobalState
@@ -51,6 +52,10 @@ class DeckEditorController(
                     )
                     CardsEditorDiScope.create(cardsEditor)
                 }
+            }
+
+            CancelledCardSelection -> {
+                batchCardEditor.clearEditableCards()
             }
         }
     }

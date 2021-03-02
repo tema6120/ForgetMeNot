@@ -161,7 +161,7 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_home_screen_number_of_selected_decks"
+                    android:textSize="@dimen/text_size_selection_toolbar_title"
                     tools:text="43 decks" />
 
             <ImageButton

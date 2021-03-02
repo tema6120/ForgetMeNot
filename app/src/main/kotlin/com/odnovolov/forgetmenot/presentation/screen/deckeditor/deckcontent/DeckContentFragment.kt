@@ -57,7 +57,7 @@ class DeckContentFragment : BaseFragment() {
         if (viewCoroutineScope == null || controller == null || !isInflated) return
         val adapter = CardOverviewAdapter(controller!!)
         cardsRecycler.adapter = adapter
-        viewModel.cards.observe(adapter::submitItems)
+        viewModel.cards.observe(adapter::submitList)
         cardsRecycler.addOnScrollListener(scrollListener)
     }
 

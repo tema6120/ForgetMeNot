@@ -7,7 +7,7 @@ sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
 
     // Selection toolbar:
-    object SelectionCancelled : HomeEvent()
+    object CancelledSelection : HomeEvent()
     object SelectAllDecksButtonClicked : HomeEvent()
     object PinDeckSelectionOptionSelected : HomeEvent()
     object UnpinDeckSelectionOptionSelected : HomeEvent()

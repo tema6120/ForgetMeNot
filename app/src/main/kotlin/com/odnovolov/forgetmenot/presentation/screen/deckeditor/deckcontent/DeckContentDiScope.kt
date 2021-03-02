@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 
 class DeckContentDiScope {
     val controller = DeckContentController(
+        DeckEditorDiScope.getOrRecreate().batchCardEditor,
         DeckEditorDiScope.getOrRecreate().screenState,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
@@ -14,7 +15,8 @@ class DeckContentDiScope {
     )
 
     val viewModel = DeckContentViewModel(
-        DeckEditorDiScope.getOrRecreate().screenState
+        DeckEditorDiScope.getOrRecreate().screenState,
+        DeckEditorDiScope.getOrRecreate().batchCardEditor.state
     )
 
     companion object : DiScopeManager<DeckContentDiScope>() {
