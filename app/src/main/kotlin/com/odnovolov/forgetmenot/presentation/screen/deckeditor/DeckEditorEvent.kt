@@ -8,4 +8,5 @@ sealed class DeckEditorEvent {
     object CancelledCardSelection : DeckEditorEvent()
     object SelectAllCardsButtonClicked : DeckEditorEvent()
     object RemoveCardsOptionSelected : DeckEditorEvent()
+    object CancelSnackbarButtonClicked : DeckEditorEvent()
 }

@@ -346,6 +346,11 @@
     <string name="card_selection_option_remove">Удалить</string>
     <string name="card_selection_option_move_to">Переместить в</string>
     <string name="card_selection_option_copy_to">Копировать в</string>
+    <plurals name="snackbar_cards_removing">
+        <item quantity="one">Удалено %d карточка</item>
+        <item quantity="few">Удалено %d карточки</item>
+        <item quantity="many">Удалено %d карточек</item>
+    </plurals>
 
 
     <!-- Deck content screen -->

@@ -37,7 +37,7 @@ class DeckContentController(
             }
 
             SearchButtonClicked -> {
-                batchCardEditor.clearEditableCards()
+                batchCardEditor.clearSelection()
                 navigator.navigateToSearchFromDeckEditor {
                     val cardsSearcher = CardsSearcher(screenState.deck)
                     SearchDiScope.create(cardsSearcher)
@@ -76,18 +76,18 @@ class DeckContentController(
         }
     }
 
-    private fun hasSelection(): Boolean = batchCardEditor.state.editableCards.isNotEmpty()
+    private fun hasSelection(): Boolean = batchCardEditor.state.selectedCards.isNotEmpty()
 
     private fun toggleCardSelection(cardId: Long) {
-        val selectedCardIds: List<Long> = batchCardEditor.state.editableCards
+        val selectedCardIds: List<Long> = batchCardEditor.state.selectedCards
             .map { editableCard: EditableCard -> editableCard.card.id }
         if (cardId in selectedCardIds) {
-            batchCardEditor.removeEditableCard(cardId)
+            batchCardEditor.removeCardFromSelection(cardId)
         } else {
             val card: Card = screenState.deck.cards
                 .find { card: Card -> card.id == cardId } ?: return
             val editableCard = EditableCard(card, screenState.deck)
-            batchCardEditor.addEditableCard(editableCard)
+            batchCardEditor.addCardToSelection(editableCard)
         }
     }
 

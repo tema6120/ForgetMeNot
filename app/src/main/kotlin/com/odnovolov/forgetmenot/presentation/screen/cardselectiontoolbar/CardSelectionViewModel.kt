@@ -9,16 +9,16 @@ class CardSelectionViewModel(
     private val batchCardEditorState: BatchCardEditor.State
 ) {
     val numberOfSelectedCards: Flow<Int> =
-        batchCardEditorState.flowOf(BatchCardEditor.State::editableCards)
+        batchCardEditorState.flowOf(BatchCardEditor.State::selectedCards)
             .map { editableCards: Collection<EditableCard> -> editableCards.size }
 
     val isMarkAsLearnedOptionAvailable: Boolean
-        get() = batchCardEditorState.editableCards.any { editableCard: EditableCard ->
+        get() = batchCardEditorState.selectedCards.any { editableCard: EditableCard ->
             !editableCard.card.isLearned
         }
 
     val isMarkAsUnlearnedOptionAvailable: Boolean
-        get() = batchCardEditorState.editableCards.any { editableCard: EditableCard ->
+        get() = batchCardEditorState.selectedCards.any { editableCard: EditableCard ->
             editableCard.card.isLearned
         }
 }

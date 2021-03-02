@@ -11,6 +11,8 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.ShowCardsAreRemovedMessage
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeck
@@ -21,7 +23,11 @@ class DeckEditorController(
     private val screenState: DeckEditorScreenState,
     private val navigator: Navigator,
     private val globalState: GlobalState
-) : BaseController<DeckEditorEvent, Nothing>() {
+) : BaseController<DeckEditorEvent, Command>() {
+    sealed class Command {
+        class ShowCardsAreRemovedMessage(val numberOfRemovedCards: Int) : Command()
+    }
+
     override val autoSave = false
 
     override fun handle(event: DeckEditorEvent) {
@@ -56,17 +62,24 @@ class DeckEditorController(
             }
 
             CancelledCardSelection -> {
-                batchCardEditor.clearEditableCards()
+                batchCardEditor.clearSelection()
             }
 
             SelectAllCardsButtonClicked -> {
                 val deck: Deck = screenState.deck
                 val allEditableCards: List<EditableCard> =
                     deck.cards.map { card: Card -> EditableCard(card, deck) }
-                batchCardEditor.addEditableCards(allEditableCards)
+                batchCardEditor.addCardsToSelection(allEditableCards)
             }
 
             RemoveCardsOptionSelected -> {
+                val numberOfRemovedCards: Int = batchCardEditor.state.selectedCards.size
+                batchCardEditor.remove()
+                sendCommand(ShowCardsAreRemovedMessage(numberOfRemovedCards))
+            }
+
+            CancelSnackbarButtonClicked -> {
+                batchCardEditor.cancelLastAction()
             }
         }
     }

@@ -329,6 +329,10 @@
     <string name="card_selection_option_remove">Remove</string>
     <string name="card_selection_option_move_to">Move to</string>
     <string name="card_selection_option_copy_to">Copy to</string>
+    <plurals name="snackbar_cards_removing">
+        <item quantity="one">Card has been removed</item>
+        <item quantity="other">%d cards have been removed</item>
+    </plurals>
 
 
     <!-- Deck content screen -->

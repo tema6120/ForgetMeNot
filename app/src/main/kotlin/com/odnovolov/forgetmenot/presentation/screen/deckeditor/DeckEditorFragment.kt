@@ -17,6 +17,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
@@ -24,14 +25,13 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar.CardSelectionOptionsBottomSheet
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.ShowCardsAreRemovedMessage
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsFragment
 import kotlinx.android.synthetic.main.fragment_deck_editor.*
-import kotlinx.android.synthetic.main.fragment_deck_editor.antiJumpingView
-import kotlinx.android.synthetic.main.fragment_deck_editor.appBarLayout
 import kotlinx.android.synthetic.main.toolbar_item_selection.*
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -67,6 +67,30 @@ class DeckEditorFragment : BaseFragment() {
             controller = diScope!!.controller
             viewModel = diScope!!.viewModel
             observeViewModel(isRecreated = savedInstanceState != null)
+            controller!!.commands.observe(::executeCommand)
+        }
+    }
+
+    private fun executeCommand(command: DeckEditorController.Command) {
+        when (command) {
+            is ShowCardsAreRemovedMessage -> {
+                val message: String = resources.getQuantityString(
+                    R.plurals.snackbar_cards_removing,
+                    command.numberOfRemovedCards,
+                    command.numberOfRemovedCards
+                )
+                Snackbar
+                    .make(
+                        coordinatorLayout,
+                        message,
+                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+                    )
+                    .setAction(
+                        R.string.snackbar_action_cancel,
+                        { controller?.dispatch(CancelSnackbarButtonClicked) }
+                    )
+                    .show()
+            }
         }
     }
 

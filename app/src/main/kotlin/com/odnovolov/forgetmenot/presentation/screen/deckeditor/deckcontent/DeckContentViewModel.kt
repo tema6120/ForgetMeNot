@@ -16,7 +16,7 @@ class DeckContentViewModel(
 ) {
     val cards: Flow<List<ItemInDeckContentList>> = combine(
         deckEditorScreenState.deck.flowOf(Deck::cards),
-        batchCardEditorState.flowOf(BatchCardEditor.State::editableCards)
+        batchCardEditorState.flowOf(BatchCardEditor.State::selectedCards)
     ) { cards: CopyableList<Card>, editableCards: Collection<EditableCard> ->
         val result = ArrayList<ItemInDeckContentList>(cards.size + 1)
         result.add(ItemInDeckContentList.Header)
