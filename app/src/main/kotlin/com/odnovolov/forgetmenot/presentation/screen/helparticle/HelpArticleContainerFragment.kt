@@ -49,14 +49,14 @@ class HelpArticleContainerFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             initAdapter()
-            observeViewModel(isFirstCreated = savedInstanceState == null)
+            observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }
     }
 
-    private fun observeViewModel(isFirstCreated: Boolean) {
+    private fun observeViewModel() {
         with(viewModel) {
-            if (isFirstCreated) {
+            if (isViewFirstCreated) {
                 openArticle(currentArticle.firstBlocking(), needToClearBackStack = true)
             }
             currentArticle.observe { currentArticle: HelpArticle ->

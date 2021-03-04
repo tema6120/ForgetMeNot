@@ -8,14 +8,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
 open class BaseFragment : Fragment() {
-    var viewCoroutineScope: CoroutineScope? = null
+    protected var viewCoroutineScope: CoroutineScope? = null
+    private var hasSavedInstanceState = false
+    private var numberOfOnViewCreatedInvocation = 0
+    protected val isViewFirstCreated: Boolean
+        get() = !hasSavedInstanceState && numberOfOnViewCreatedInvocation <= 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        hasSavedInstanceState = savedInstanceState != null
+        numberOfOnViewCreatedInvocation++
         viewCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         super.onViewCreated(view, savedInstanceState)
     }
 
-    inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit = {}) {
+    protected inline fun <T> Flow<T>.observe(crossinline onEach: (value: T) -> Unit = {}) {
         viewCoroutineScope?.launch {
             collect {
                 if (isActive) {

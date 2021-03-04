@@ -78,6 +78,30 @@ class ExerciseController(
                 exercise.stopSpeaking()
             }
 
+            StopTimerButtonClicked -> {
+                exercise.stopTimer()
+            }
+
+            GetVariantsButtonClicked -> {
+                exercise.getVariants()
+            }
+
+            MaskLettersButtonClicked -> {
+                exercise.showHint()
+            }
+
+            EditDeckSettingsButtonClicked -> {
+                val currentExerciseCard = currentExerciseCard ?: return
+                exercise.stopSpeaking()
+                screenState.wereDeckSettingsEdited = true
+                navigator.navigateToDeckEditorFromExercise {
+                    val deck: Deck = currentExerciseCard.base.deck
+                    val tabs = DeckEditorTabs.OnlyDeckSettings
+                    val screenState = DeckEditorScreenState(deck, tabs)
+                    DeckEditorDiScope.create(screenState)
+                }
+            }
+
             EditCardButtonClicked -> {
                 val currentExerciseCard = currentExerciseCard ?: return
                 exercise.stopSpeaking()
@@ -95,30 +119,6 @@ class ExerciseController(
                     )
                     CardsEditorDiScope.create(cardsEditor)
                 }
-            }
-
-            EditDeckSettingsButtonClicked -> {
-                val currentExerciseCard = currentExerciseCard ?: return
-                exercise.stopSpeaking()
-                screenState.wereDeckSettingsEdited = true
-                navigator.navigateToDeckEditorFromExercise {
-                    val deck: Deck = currentExerciseCard.base.deck
-                    val tabs = DeckEditorTabs.OnlyDeckSettings
-                    val screenState = DeckEditorScreenState(deck, tabs)
-                    DeckEditorDiScope.create(screenState)
-                }
-            }
-
-            StopTimerButtonClicked -> {
-                exercise.stopTimer()
-            }
-
-            GetVariantsButtonClicked -> {
-                exercise.getVariants()
-            }
-
-            MaskLettersButtonClicked -> {
-                exercise.showHint()
             }
 
             SearchButtonClicked -> {

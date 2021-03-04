@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentStateRestorer
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
@@ -19,18 +20,16 @@ class DeckContentFragment : BaseFragment() {
     private var controller: DeckContentController? = null
     private lateinit var viewModel: DeckContentViewModel
     private var isInflated = false
+    private val fragmentStateRestorer = FragmentStateRestorer(this)
     var scrollListener: OnScrollListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return if (savedInstanceState == null) {
-            inflater.inflateAsync(R.layout.fragment_deck_content, ::onViewInflated)
-        } else {
-            inflater.inflate(R.layout.fragment_deck_content, container, false)
-        }
+    ): View {
+        fragmentStateRestorer.interceptSavedState()
+        return inflater.inflateAsync(R.layout.fragment_deck_content, ::onViewInflated)
     }
 
     private fun onViewInflated() {
@@ -42,9 +41,6 @@ class DeckContentFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState != null) {
-            isInflated = true
-        }
         viewCoroutineScope!!.launch {
             val diScope = DeckContentDiScope.getAsync() ?: return@launch
             controller = diScope.controller
@@ -55,6 +51,7 @@ class DeckContentFragment : BaseFragment() {
 
     private fun setupIfReady() {
         if (viewCoroutineScope == null || controller == null || !isInflated) return
+        fragmentStateRestorer.restoreState()
         val adapter = CardOverviewAdapter(controller!!)
         cardsRecycler.adapter = adapter
         viewModel.cards.observe(adapter::submitList)

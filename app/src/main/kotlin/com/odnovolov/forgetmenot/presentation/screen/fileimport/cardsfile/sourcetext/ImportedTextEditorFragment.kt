@@ -69,7 +69,7 @@ class ImportedTextEditorFragment : BaseFragment(), ControllingTheScrollPosition 
             val id = requireArguments().getLong(ARG_ID)
             viewModel = diScope.importedTextEditorViewModel(id)
             editor.language = diScope.syntaxHighlighting
-            observeViewModel(isRecreated = savedInstanceState != null)
+            observeViewModel()
         }
     }
 
@@ -132,7 +132,7 @@ class ImportedTextEditorFragment : BaseFragment(), ControllingTheScrollPosition 
         return "Error $errorOrdinal/${errorBlocks.size}: ${lastShownErrorBlock!!.errorMessage} ($linesString)"
     }
 
-    private fun observeViewModel(isRecreated: Boolean) {
+    private fun observeViewModel() {
         with(viewModel) {
             updateTextCommand.observe { text: String ->
                 if (text.length <= MAX_TEXT_LENGTH_TO_EDIT) {
@@ -164,7 +164,7 @@ class ImportedTextEditorFragment : BaseFragment(), ControllingTheScrollPosition 
                     )
                 }
             }
-            if (!isRecreated) {
+            if (isViewFirstCreated) {
                 viewCoroutineScope!!.launch {
                     val errorLinesAtStart = errors.first()
                     this@ImportedTextEditorFragment.errorBlocks = errorLinesAtStart

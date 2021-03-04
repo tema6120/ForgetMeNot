@@ -115,12 +115,12 @@ class ExerciseFragment : BaseFragment() {
             setOnClickListener { showHintsPopup() }
             setTooltipTextFromContentDescription()
         }
-        editCardButton.run {
-            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
-            setTooltipTextFromContentDescription()
-        }
         editDeckSettingsButton.run {
             setOnClickListener { controller?.dispatch(EditDeckSettingsButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
+        editCardButton.run {
+            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
             setTooltipTextFromContentDescription()
         }
         searchButton.run {

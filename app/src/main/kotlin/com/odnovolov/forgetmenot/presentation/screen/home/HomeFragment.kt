@@ -522,31 +522,28 @@ class HomeFragment : BaseFragment() {
     private val appBarElevationManager = object {
         var viewPagerPosition = 0
             set(value) {
-                if (field != value) {
-                    field = value
-                    updateAppBarElevation()
-                }
+                field = value
+                updateAppBarElevation()
             }
 
         var canDeckListScrollUp = false
             set(value) {
-                if (field != value) {
-                    field = value
-                    updateAppBarElevation()
-                }
+                field = value
+                updateAppBarElevation()
             }
 
         var canCardListScrollUp = false
             set(value) {
-                if (field != value) {
-                    field = value
-                    updateAppBarElevation()
-                }
+                field = value
+                updateAppBarElevation()
             }
 
         private fun updateAppBarElevation() {
-            appBarLayout.isActivated = viewPagerPosition == 0 && canDeckListScrollUp ||
+            val shouldBeElevated = viewPagerPosition == 0 && canDeckListScrollUp ||
                     viewPagerPosition == 1 && canCardListScrollUp
+            if (appBarLayout.isActivated != shouldBeElevated) {
+                appBarLayout.isActivated = shouldBeElevated
+            }
         }
     }
 }

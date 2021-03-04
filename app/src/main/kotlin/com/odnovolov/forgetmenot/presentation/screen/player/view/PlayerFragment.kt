@@ -94,12 +94,12 @@ class PlayerFragment : BaseFragment() {
             }
             setTooltipTextFromContentDescription()
         }
-        editCardButton.run {
-            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
-            setTooltipTextFromContentDescription()
-        }
         editDeckSettingsButton.run {
             setOnClickListener { controller?.dispatch(EditDeckSettingsButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
+        editCardButton.run {
+            setOnClickListener { controller?.dispatch(EditCardButtonClicked) }
             setTooltipTextFromContentDescription()
         }
         searchButton.run {

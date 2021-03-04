@@ -40,7 +40,7 @@ class SearchFragment : BaseFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             initAdapter()
-            observeViewModel(isFirstCreated = savedInstanceState == null)
+            observeViewModel()
         }
     }
 
@@ -89,7 +89,7 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    private fun observeViewModel(isFirstCreated: Boolean) {
+    private fun observeViewModel() {
         with(viewModel) {
             searchDeckName.observe { searchDeckName: String? ->
                 searchEditText.hint = (if (searchDeckName == null)
@@ -100,7 +100,7 @@ class SearchFragment : BaseFragment() {
                 cardsRecycler.isInvisible = isSearching
                 progressBar.isVisible = isSearching
             }
-            if (isFirstCreated) {
+            if (isViewFirstCreated) {
                 if (initialSearchText.isEmpty()) {
                     searchEditText.post {
                         searchEditText.showSoftInput()

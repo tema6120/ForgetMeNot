@@ -24,7 +24,6 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.screen.changegrade.GradeItem
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
@@ -66,7 +65,7 @@ class DeckEditorFragment : BaseFragment() {
             diScope = DeckEditorDiScope.getAsync() ?: return@launch
             controller = diScope!!.controller
             viewModel = diScope!!.viewModel
-            observeViewModel(isRecreated = savedInstanceState != null)
+            observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }
     }
@@ -140,9 +139,9 @@ class DeckEditorFragment : BaseFragment() {
         )
     }
 
-    private fun observeViewModel(isRecreated: Boolean) {
+    private fun observeViewModel() {
         with(viewModel) {
-            setupViewPager(tabs, isRecreated)
+            setupViewPager(tabs)
             deckName.observe(deckNameTextView::setText)
             if (needTabs) {
                 isSelectionMode.observe { isSelectionMode: Boolean ->
@@ -166,7 +165,7 @@ class DeckEditorFragment : BaseFragment() {
         }
     }
 
-    private fun setupViewPager(tabs: DeckEditorTabs, isRecreated: Boolean) {
+    private fun setupViewPager(tabs: DeckEditorTabs) {
         val needTabs: Boolean = tabs is DeckEditorTabs.All
         this.needTabs = needTabs
         deckEditorTabLayout.isVisible = needTabs
@@ -174,7 +173,7 @@ class DeckEditorFragment : BaseFragment() {
             if (needTabs) 1
             else ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
         deckEditorViewPager.isUserInputEnabled = needTabs
-        if (!isRecreated) {
+        if (isViewFirstCreated) {
             val activeTab: Int = when (tabs) {
                 is DeckEditorTabs.All -> {
                     when (tabs.initialTab) {
@@ -259,7 +258,6 @@ class DeckEditorFragment : BaseFragment() {
     }
 
     private fun updateViewPagerLocking() {
-        if (!needTabs) return
         deckEditorViewPager.isUserInputEnabled = !isSelectionMode
         if (isSelectionMode) {
             deckEditorViewPager.setCurrentItem(1, true)
@@ -421,31 +419,28 @@ class DeckEditorFragment : BaseFragment() {
     private val appBarElevationManager = object {
         var viewPagerPosition = 0
             set(value) {
-                if (field != value) {
-                    field = value
-                    updateAppBarElevation()
-                }
+                field = value
+                updateAppBarElevation()
             }
 
         var canDeckSettingsScrollUp = false
             set(value) {
-                if (field != value) {
-                    field = value
-                    updateAppBarElevation()
-                }
+                field = value
+                updateAppBarElevation()
             }
 
         var canDeckContentScrollUp = false
             set(value) {
-                if (field != value) {
-                    field = value
-                    updateAppBarElevation()
-                }
+                field = value
+                updateAppBarElevation()
             }
 
         private fun updateAppBarElevation() {
-            appBarLayout.isActivated = viewPagerPosition == 0 && canDeckSettingsScrollUp ||
+            val shouldBeElevated = viewPagerPosition == 0 && canDeckSettingsScrollUp ||
                     viewPagerPosition == 1 && canDeckContentScrollUp
+            if (appBarLayout.isActivated != shouldBeElevated) {
+                appBarLayout.isActivated = shouldBeElevated
+            }
         }
     }
 }
