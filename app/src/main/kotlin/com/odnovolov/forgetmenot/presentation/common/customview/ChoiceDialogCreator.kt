@@ -20,7 +20,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import kotlinx.android.synthetic.main.dialog_choice.view.*
-import kotlinx.android.synthetic.main.title_choice_dialog.view.*
+import kotlinx.android.synthetic.main.dialog_title.view.*
 
 object ChoiceDialogCreator {
     fun create(
@@ -32,7 +32,7 @@ object ChoiceDialogCreator {
     ): Dialog {
         val adapter = ItemAdapter(itemForm, onItemClick)
         takeAdapter(adapter)
-        val customTitleLayout = View.inflate(context, R.layout.title_choice_dialog, null)
+        val customTitleLayout = View.inflate(context, R.layout.dialog_title, null)
         takeTitle(customTitleLayout.dialogTitle)
         val contentView = View.inflate(context, R.layout.dialog_choice, null)
         contentView.recycler.adapter = adapter

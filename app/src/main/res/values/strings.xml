@@ -175,6 +175,8 @@
     <string name="screen_title_choose_a_deck_to_merge_into">Choose a deck to merge into</string>
     <string name="screen_title_choose_a_deck_to_move_card">Choose a deck to move the card to</string>
     <string name="screen_title_choose_a_deck_to_copy_card">Choose a deck to copy the card to</string>
+    <string name="screen_title_choose_a_deck_to_move_cards">Choose a deck to move the cards to</string>
+    <string name="screen_title_choose_a_deck_to_copy_cards">Choose a deck to copy the cards to</string>
     <string name="description_add_deck_button">Add deck</string>
 
 
@@ -329,9 +331,34 @@
     <string name="card_selection_option_remove">Remove</string>
     <string name="card_selection_option_move_to">Move to</string>
     <string name="card_selection_option_copy_to">Copy to</string>
-    <plurals name="snackbar_cards_removing">
-        <item quantity="one">Card has been removed</item>
+    <string name="dialog_title_change_grade">Select grade</string>
+    <plurals name="snackbar_card_selection_action_completed_invert">
+        <item quantity="one">%d card has been inverted</item>
+        <item quantity="other">%d cards have been inverted</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_change_grade">
+        <item quantity="one">Grade has been changed to %1$d in %2$d card</item>
+        <item quantity="other">Grade has been changed to %1$d in %2$d cards</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_mark_as_learned">
+        <item quantity="one">%d card has been marked as \'Learned\'</item>
+        <item quantity="other">%d cards have been marked as \'Learned\'</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_mark_as_unlearned">
+        <item quantity="one">%d card has been marked as \'Unlearned\'</item>
+        <item quantity="other">%d cards have been marked as \'Unlearned\'</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_remove">
+        <item quantity="one">%d card has been removed</item>
         <item quantity="other">%d cards have been removed</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_move">
+        <item quantity="one">%1$d card has been moved to \'%2$s\'</item>
+        <item quantity="other">%1$d cards have been moved to \'%2$s\'</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_copy">
+        <item quantity="one">%1$d card has been copied to \'%2$s\'</item>
+        <item quantity="other">%1$d cards have been copied to \'%2$s\'</item>
     </plurals>
 
 

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 class DeckEditorViewModel(
     private val screenState: DeckEditorScreenState,
-    batchCardEditorState: BatchCardEditor.State
+    private val batchCardEditorState: BatchCardEditor.State
 ) {
     val tabs: DeckEditorTabs get() = screenState.tabs
 
@@ -21,4 +21,14 @@ class DeckEditorViewModel(
     val numberOfSelectedCards: Flow<Int> =
         batchCardEditorState.flowOf(BatchCardEditor.State::selectedCards)
             .map { editableCards: Collection<EditableCard> -> editableCards.size }
+
+    val isMarkAsLearnedOptionAvailable: Boolean
+        get() = batchCardEditorState.selectedCards.any { editableCard: EditableCard ->
+            !editableCard.card.isLearned
+        }
+
+    val isMarkAsUnlearnedOptionAvailable: Boolean
+        get() = batchCardEditorState.selectedCards.any { editableCard: EditableCard ->
+            editableCard.card.isLearned
+        }
 }

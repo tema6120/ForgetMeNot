@@ -10,6 +10,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScre
 import com.odnovolov.forgetmenot.presentation.screen.home.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeViewModel.RawDeckPreview
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class DeckChooserViewModel(
@@ -88,7 +89,7 @@ class DeckChooserViewModel(
         }
     }
         .share()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     private fun findMatchingRange(source: String, search: String): List<IntRange>? {
         if (search.isEmpty()) return null
@@ -117,7 +118,7 @@ class DeckChooserViewModel(
         }
     }
         .distinctUntilChanged()
-        .flowOn(businessLogicThread)
+        .flowOn(Dispatchers.Default)
 
     val decksNotFound: Flow<Boolean> = combine(
         hasSearchText,
@@ -129,7 +130,7 @@ class DeckChooserViewModel(
 
     val isAddDeckButtonVisible: Boolean
         get() = when (screenState.purpose) {
-            ToMergeInto, ToMoveCard, ToCopyCard -> true
-            else -> false
+            ToImportCards -> false
+            else -> true
         }
 }

@@ -24,8 +24,8 @@ import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar.CardSelectionOptionsBottomSheet
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.ShowCardsAreRemovedMessage
+import com.odnovolov.forgetmenot.presentation.screen.changegrade.GradeItem
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
@@ -71,29 +71,6 @@ class DeckEditorFragment : BaseFragment() {
         }
     }
 
-    private fun executeCommand(command: DeckEditorController.Command) {
-        when (command) {
-            is ShowCardsAreRemovedMessage -> {
-                val message: String = resources.getQuantityString(
-                    R.plurals.snackbar_cards_removing,
-                    command.numberOfRemovedCards,
-                    command.numberOfRemovedCards
-                )
-                Snackbar
-                    .make(
-                        coordinatorLayout,
-                        message,
-                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
-                    )
-                    .setAction(
-                        R.string.snackbar_action_cancel,
-                        { controller?.dispatch(CancelSnackbarButtonClicked) }
-                    )
-                    .show()
-            }
-        }
-    }
-
     private fun setupView() {
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
@@ -120,7 +97,7 @@ class DeckEditorFragment : BaseFragment() {
             setTooltipTextFromContentDescription()
         }
         removeOptionItem.run {
-            setOnClickListener { controller?.dispatch(RemoveCardsOptionSelected) }
+            setOnClickListener { controller?.dispatch(RemoveCardsCardSelectionOptionSelected) }
             setTooltipTextFromContentDescription()
         }
         moreOptionsButton.run {
@@ -298,6 +275,84 @@ class DeckEditorFragment : BaseFragment() {
         }
     }
 
+    private fun executeCommand(command: DeckEditorController.Command) {
+        when (command) {
+            is ShowCardsAreInvertedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_invert,
+                    command.numberOfInvertedCards,
+                    command.numberOfInvertedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowGradeIsChangedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_change_grade,
+                    command.numberOfAffectedCards,
+                    command.grade,
+                    command.numberOfAffectedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreMarkedAsLearnedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_mark_as_learned,
+                    command.numberOfMarkedCards,
+                    command.numberOfMarkedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreMarkedAsUnlearnedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_mark_as_unlearned,
+                    command.numberOfMarkedCards,
+                    command.numberOfMarkedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreRemovedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_remove,
+                    command.numberOfRemovedCards,
+                    command.numberOfRemovedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreMovedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_move,
+                    command.numberOfMovedCards,
+                    command.numberOfMovedCards,
+                    command.deckNameToWhichCardsWereMoved
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreCopiedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_invert,
+                    command.numberOfCopiedCards,
+                    command.numberOfCopiedCards,
+                    command.deckNameToWhichCardsWereCopied
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+        }
+    }
+
+    private fun showCardSelectionActionIsCompletedSnackbar(message: String) {
+        Snackbar
+            .make(
+                coordinatorLayout,
+                message,
+                resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+            )
+            .setAction(
+                R.string.snackbar_action_cancel,
+                { controller?.dispatch(CancelSnackbarButtonClicked) }
+            )
+            .show()
+    }
+
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         when (childFragment) {
@@ -324,10 +379,6 @@ class DeckEditorFragment : BaseFragment() {
                         }
                     }
                 }
-            }
-            is CardSelectionOptionsBottomSheet -> {
-                childFragment.controller = diScope!!.cardSelectionController
-                childFragment.viewModel = diScope!!.cardSelectionViewModel
             }
         }
     }

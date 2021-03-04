@@ -7,29 +7,30 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
-import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
-import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
-import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
-import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
-import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatDiScope
-import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
+import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
+import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.view.laps.LapsInPlayerDiScope
-import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationDiScope
 import com.odnovolov.forgetmenot.presentation.screen.pronunciationplan.PronunciationPlanDiScope
 import com.odnovolov.forgetmenot.presentation.screen.questiondisplay.QuestionDisplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 import com.odnovolov.forgetmenot.presentation.screen.testingmethod.TestingMethodDiScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -260,6 +261,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.deck_editor_to_search)
     }
 
+    fun navigateToDeckChooserFromDeckEditor(createDiScope: () -> DeckChooserDiScope) {
+        DeckChooserDiScope.open(createDiScope)
+        navigate(R.id.deck_editor_to_deck_chooser)
+    }
+
     fun navigateToCardsEditorFromSearch(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.search_to_cards_editor)
@@ -268,6 +274,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToCardsEditorFromDeckEditor(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.deck_editor_to_cards_editor)
+    }
+
+    fun showChangeGradeDialogFromDeckEditor(createDiScope: () -> ChangeGradeDiScope) {
+        ChangeGradeDiScope.open(createDiScope)
+        navigate(R.id.show_change_grade_dialog_from_deck_editor)
     }
 
     fun navigateToAutoplaySettings(createDiScope: () -> CardFilterForAutoplayDiScope) {

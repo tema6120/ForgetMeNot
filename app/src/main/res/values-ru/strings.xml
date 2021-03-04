@@ -186,6 +186,10 @@
         переместить карточку</string>
     <string name="screen_title_choose_a_deck_to_copy_card">Выберите колоду, в которую нужно
         скопировать карточку</string>
+    <string name="screen_title_choose_a_deck_to_move_cards">Выберите колоду, в которую нужно
+        переместить карточки</string>
+    <string name="screen_title_choose_a_deck_to_copy_cards">Выберите колоду, в которую нужно
+        скопировать карточки</string>
     <string name="description_add_deck_button">Добавить колоду</string>
 
 
@@ -341,15 +345,46 @@
     </plurals>
     <string name="card_selection_option_invert">Инвертировать</string>
     <string name="card_selection_option_change_grade">Изменить оценку</string>
-    <string name="card_selection_option_mark_as_learned">Отметить как \"Изучена\"</string>
-    <string name="card_selection_option_mark_as_unlearned">Отметить как \"Неизучена\"</string>
+    <string name="card_selection_option_mark_as_learned">Отметить как \"Изученые\"</string>
+    <string name="card_selection_option_mark_as_unlearned">Отметить как \"Неизученые\"</string>
     <string name="card_selection_option_remove">Удалить</string>
     <string name="card_selection_option_move_to">Переместить в</string>
     <string name="card_selection_option_copy_to">Копировать в</string>
-    <plurals name="snackbar_cards_removing">
+    <string name="dialog_title_change_grade">Выберите оценку</string>
+    <plurals name="snackbar_card_selection_action_completed_invert">
+        <item quantity="one">%d карточка были инвертированы</item>
+        <item quantity="few">%d карточки были инвертированы</item>
+        <item quantity="many">%d карточек были инвертированы</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_change_grade">
+        <item quantity="one">Оценки были изменены на %1$d в %2$d карточках</item>
+        <item quantity="few">Оценки были изменены на %1$d в %2$d карточках</item>
+        <item quantity="many">Оценки были изменены на %1$d в %2$d карточках</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_mark_as_learned">
+        <item quantity="one">%d карточка были отмечены как \"Изученые\"</item>
+        <item quantity="few">%d карточки были отмечены как \"Изученые\"</item>
+        <item quantity="many">%d карточке были отмечены как \"Изученые\"</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_mark_as_unlearned">
+        <item quantity="one">%d карточка были отмечены как \"Неизученые\"</item>
+        <item quantity="few">%d карточки были отмечены как \"Неизученые\"</item>
+        <item quantity="many">%d карточке были отмечены как \"Неизученые\"</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_remove">
         <item quantity="one">Удалено %d карточка</item>
         <item quantity="few">Удалено %d карточки</item>
         <item quantity="many">Удалено %d карточек</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_move">
+        <item quantity="one">%1$d карточка были перемещены в \'%2$s\'</item>
+        <item quantity="few">%1$d карточки были перемещены в \'%2$s\'</item>
+        <item quantity="many">%1$d карточек были перемещены в \'%2$s\'</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_copy">
+        <item quantity="one">%1$d карточка были скопированы в \'%2$s\'</item>
+        <item quantity="few">%1$d карточки были скопированы в \'%2$s\'</item>
+        <item quantity="many">%1$d карточек были скопированы в \'%2$s\'</item>
     </plurals>
 
 

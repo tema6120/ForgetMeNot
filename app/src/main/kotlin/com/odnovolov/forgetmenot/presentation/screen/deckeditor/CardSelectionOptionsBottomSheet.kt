@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar
+package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.cardselectiontoolbar.CardSelectionEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
 import kotlinx.android.synthetic.main.bottom_sheet_card_selection_options.*
+import kotlinx.coroutines.launch
 
 class CardSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
-    lateinit var controller: CardSelectionController
-    lateinit var viewModel: CardSelectionViewModel
+    init {
+        DeckEditorDiScope.reopenIfClosed()
+    }
+
+    private var controller: DeckEditorController? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,41 +29,45 @@ class CardSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        observeViewModel()
+        viewCoroutineScope!!.launch {
+            val diScope = DeckEditorDiScope.getAsync() ?: return@launch
+            controller = diScope.controller
+            observeViewModel(diScope.viewModel)
+        }
     }
 
     private fun setupView() {
         invertOptionItem.setOnClickListener {
-            controller.dispatch(InvertOptionSelected)
+            controller?.dispatch(InvertCardSelectionOptionSelected)
             dismiss()
         }
         changeGradeOptionItem.setOnClickListener {
-            controller.dispatch(ChangeGradeOptionSelected)
+            controller?.dispatch(ChangeGradeCardSelectionOptionSelected)
             dismiss()
         }
         markAsLearnedOptionItem.setOnClickListener {
-            controller.dispatch(MarkAsLearnedOptionSelected)
+            controller?.dispatch(MarkAsLearnedCardSelectionOptionSelected)
             dismiss()
         }
         markAsUnlearnedOptionItem.setOnClickListener {
-            controller.dispatch(MarkAsUnlearnedOptionSelected)
+            controller?.dispatch(MarkAsUnlearnedCardSelectionOptionSelected)
             dismiss()
         }
         removeOptionItem.setOnClickListener {
-            controller.dispatch(RemoveCardsOptionSelected)
+            controller?.dispatch(RemoveCardsCardSelectionOptionSelected)
             dismiss()
         }
         moveOptionItem.setOnClickListener {
-            controller.dispatch(MoveOptionSelected)
+            controller?.dispatch(MoveCardSelectionOptionSelected)
             dismiss()
         }
         copyOptionItem.setOnClickListener {
-            controller.dispatch(CopyOptionSelected)
+            controller?.dispatch(CopyCardSelectionOptionSelected)
             dismiss()
         }
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(viewModel: DeckEditorViewModel) {
         with(viewModel) {
             numberOfSelectedCards.observe { numberOfSelectedCards: Int ->
                 numberOfSelectedItemsTextView.text =
@@ -72,10 +80,5 @@ class CardSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             markAsLearnedOptionItem.isVisible = isMarkAsLearnedOptionAvailable
             markAsUnlearnedOptionItem.isVisible = isMarkAsUnlearnedOptionAvailable
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        controller.dispose()
     }
 }

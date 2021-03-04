@@ -12,4 +12,12 @@ class NewDeck(
 
 class ExistingDeck(val deck: Deck) : AbstractDeck
 
-const val ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK = "Unknown implementation of AbstractDeck"
+const val ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK =
+    "Unknown implementation of AbstractDeck"
+
+val AbstractDeck.name: String
+    get() = when (this) {
+        is NewDeck -> deckName
+        is ExistingDeck -> deck.name
+        else -> error(ERROR_MESSAGE_UNKNOWN_IMPLEMENTATION_OF_ABSTRACT_DECK)
+    }

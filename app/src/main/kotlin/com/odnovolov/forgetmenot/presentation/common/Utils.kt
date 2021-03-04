@@ -359,7 +359,11 @@ fun TextView.setFont(fontRes: Int) {
     }
 }
 
-fun Fragment.createDialog(contentView: View) = AlertDialog.Builder(requireContext())
+fun Fragment.createDialog(
+    contentView: View,
+    titleView: View? = null
+) = AlertDialog.Builder(requireContext())
+    .run { if (titleView != null) setCustomTitle(titleView) else this }
     .setView(contentView)
     .create()
     .apply {

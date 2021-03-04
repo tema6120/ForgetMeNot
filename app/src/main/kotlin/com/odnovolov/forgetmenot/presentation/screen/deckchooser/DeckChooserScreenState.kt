@@ -12,6 +12,8 @@ class DeckChooserScreenState(
         ToImportCards,
         ToMergeInto,
         ToMoveCard,
-        ToCopyCard
+        ToCopyCard,
+        ToMoveCardsInDeckEditor,
+        ToCopyCardsInDeckEditor
     }
 }

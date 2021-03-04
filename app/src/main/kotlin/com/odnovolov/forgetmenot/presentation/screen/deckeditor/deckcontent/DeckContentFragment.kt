@@ -19,7 +19,7 @@ class DeckContentFragment : BaseFragment() {
     private var controller: DeckContentController? = null
     private lateinit var viewModel: DeckContentViewModel
     private var isInflated = false
-    lateinit var scrollListener: OnScrollListener
+    var scrollListener: OnScrollListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,11 +58,11 @@ class DeckContentFragment : BaseFragment() {
         val adapter = CardOverviewAdapter(controller!!)
         cardsRecycler.adapter = adapter
         viewModel.cards.observe(adapter::submitList)
-        cardsRecycler.addOnScrollListener(scrollListener)
+        scrollListener?.let(cardsRecycler::addOnScrollListener)
     }
 
     override fun onDestroyView() {
-        cardsRecycler.removeOnScrollListener(scrollListener)
+        scrollListener?.let(cardsRecycler::removeOnScrollListener)
         super.onDestroyView()
         isInflated = false
     }

@@ -24,7 +24,7 @@ class DeckContentViewModel(
             editableCards.map { editableCard: EditableCard -> editableCard.card.id }
         for (card: Card in cards) {
             val isSelected = card.id in selectedCardIds
-            val selectableCard = SelectableCard(card, isSelected)
+            val selectableCard = SelectableCard(card.copy(), isSelected)
             result.add(selectableCard)
         }
         result

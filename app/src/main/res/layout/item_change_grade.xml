@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        tools:background="@android:color/white">
+
+    <TextView
+            android:id="@+id/gradeIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/oval"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_grade"
+            tools:backgroundTint="@color/grade_unsatisfactory"
+            tools:text="0" />
+
+    <TextView
+            android:id="@+id/waitingPeriodTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/text_size_intervals_popup_waiting_period"
+            tools:text="8 hours" />
+
+</LinearLayout>
