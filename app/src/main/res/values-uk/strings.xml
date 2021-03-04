@@ -395,6 +395,7 @@
 
     <string name="button_export">Експорт</string>
     <string name="button_search">Пошук</string>
+    <string name="the_deck_does_not_yet_contain_cards">У колоді поки немає карт</string>
 
 
     <!-- Search screen -->

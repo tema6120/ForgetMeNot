@@ -366,6 +366,7 @@
 
     <string name="button_export">Export</string>
     <string name="button_search">Search</string>
+    <string name="the_deck_does_not_yet_contain_cards">The deck does not yet contain cards</string>
 
 
     <!-- Search screen -->

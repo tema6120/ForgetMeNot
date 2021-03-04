@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentStateRestorer
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
@@ -54,7 +55,10 @@ class DeckContentFragment : BaseFragment() {
         fragmentStateRestorer.restoreState()
         val adapter = CardOverviewAdapter(controller!!)
         cardsRecycler.adapter = adapter
-        viewModel.cards.observe(adapter::submitList)
+        viewModel.cards.observe { cards: List<ItemInDeckContentList> ->
+            adapter.submitList(cards)
+            emptyTextView.isVisible = cards.isEmpty()
+        }
         scrollListener?.let(cardsRecycler::addOnScrollListener)
     }
 

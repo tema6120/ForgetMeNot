@@ -392,6 +392,7 @@
 
     <string name="button_export">Экспорт</string>
     <string name="button_search">Поиск</string>
+    <string name="the_deck_does_not_yet_contain_cards">В колоде пока нет карт</string>
 
 
     <!-- Search screen -->
