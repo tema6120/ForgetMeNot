@@ -46,7 +46,6 @@ class PlayerStateCreator(
                     .map { card: Card -> cardToPlayingCard(card, deck) }
             }
             .flattenWithShallowShuffling()
-        if (playingCards.isEmpty()) throw NoCardIsReadyForAutoplay
         return Player.State(
             playingCards = playingCards
         )
@@ -95,6 +94,4 @@ class PlayerStateCreator(
             isInverted = isInverted
         )
     }
-
-    object NoCardIsReadyForAutoplay : Exception("no card is ready for autoplay")
 }

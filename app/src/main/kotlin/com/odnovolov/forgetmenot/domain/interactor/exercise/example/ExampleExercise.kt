@@ -23,6 +23,9 @@ class ExampleExercise(
     private var timerJob: Job? = null
     private var isExerciseActive = false
 
+    private fun isPositionValid(): Boolean =
+        state.currentPosition in 0..state.exerciseCards.lastIndex
+
     private val currentExerciseCard: ExerciseCard
         get() = state.exerciseCards[state.currentPosition]
 
@@ -50,18 +53,21 @@ class ExampleExercise(
             currentPronunciation.answerAutoSpeaking
 
     fun begin() {
+        if (!isPositionValid()) return
         isExerciseActive = true
         autoSpeakQuestionIfNeed()
         startTimer()
     }
 
     fun end() {
+        if (!isPositionValid()) return
         speaker.stop()
         resetTimer()
         isExerciseActive = false
     }
 
     fun notifyExercisePreferenceChanged() {
+        if (!isPositionValid()) return
         var isExerciseCardsListChanged = false
         val newExerciseCards: List<ExerciseCard> =
             state.exerciseCards.map { exerciseCard: ExerciseCard ->
@@ -139,7 +145,10 @@ class ExampleExercise(
     }
 
     fun setPosition(position: Int) {
-        if (position >= state.exerciseCards.size || position == state.currentPosition) {
+        if (position < 0
+            || position >= state.exerciseCards.size
+            || position == state.currentPosition
+        ) {
             return
         }
         resetTimer()
@@ -149,20 +158,24 @@ class ExampleExercise(
     }
 
     fun showQuestion() {
+        if (!isPositionValid()) return
         currentExerciseCard.base.isQuestionDisplayed = true
     }
 
     fun setQuestionSelection(selection: String) {
+        if (!isPositionValid()) return
         state.questionSelection = selection
         state.answerSelection = ""
     }
 
     fun setAnswerSelection(selection: String) {
+        if (!isPositionValid()) return
         state.answerSelection = selection
         state.questionSelection = ""
     }
 
     fun speak() {
+        if (!isPositionValid()) return
         when {
             hasQuestionSelection() -> speakQuestionSelection()
             hasAnswerSelection() -> speakAnswerSelection()
@@ -222,10 +235,12 @@ class ExampleExercise(
     }
 
     fun stopSpeaking() {
+        if (!isPositionValid()) return
         speaker.stop()
     }
 
     fun startTimer() {
+        if (!isPositionValid()) return
         with(currentExerciseCard.base) {
             if (!useTimer
                 || !isExerciseActive
@@ -250,6 +265,7 @@ class ExampleExercise(
     }
 
     fun resetTimer() {
+        if (!isPositionValid()) return
         with(currentExerciseCard.base) {
             if (!useTimer
                 || !isExerciseActive
@@ -264,6 +280,7 @@ class ExampleExercise(
     }
 
     fun stopTimer() {
+        if (!isPositionValid()) return
         with(currentExerciseCard.base) {
             if (!useTimer
                 || !isExerciseActive
@@ -278,6 +295,7 @@ class ExampleExercise(
     }
 
     fun setUserInput(userInput: String?) {
+        if (!isPositionValid()) return
         currentExerciseCard.let { currentExerciseCard: ExerciseCard ->
             if (currentExerciseCard !is EntryTestExerciseCard || currentExerciseCard.isAnswered) {
                 return
@@ -287,6 +305,7 @@ class ExampleExercise(
     }
 
     fun answer(answer: Answer) {
+        if (!isPositionValid()) return
         if (!isAnswerRelevant(answer)) return
         stopTimer()
         when (answer) {

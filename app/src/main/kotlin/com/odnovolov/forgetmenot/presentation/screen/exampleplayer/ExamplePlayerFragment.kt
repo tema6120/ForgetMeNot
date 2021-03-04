@@ -85,6 +85,12 @@ class ExamplePlayerFragment : BaseFragment() {
             if (playerViewPager.currentItem != currentPosition) {
                 playerViewPager.setCurrentItem(currentPosition, false)
             }
+            hasPlayingCards.observe { hasPlayingCards: Boolean ->
+                if (!hasPlayingCards) {
+                    speakFrame.isVisible = false
+                    emptyCardView.isVisible = true
+                }
+            }
             speakingStatus.observe { speakingStatus: SpeakingStatus ->
                 with(speakButton) {
                     setImageResource(

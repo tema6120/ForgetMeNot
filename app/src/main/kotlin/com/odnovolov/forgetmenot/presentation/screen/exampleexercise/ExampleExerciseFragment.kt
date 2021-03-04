@@ -92,6 +92,13 @@ class ExampleExerciseFragment : BaseFragment() {
             if (exampleExerciseViewPager.currentItem != currentPosition) {
                 exampleExerciseViewPager.setCurrentItem(currentPosition, false)
             }
+            hasExerciseCards.observe { hasExerciseCards: Boolean ->
+                if (!hasExerciseCards) {
+                    speakFrame.isVisible = false
+                    timerButton.isVisible = false
+                    emptyCardView.isVisible = true
+                }
+            }
             speakingStatus.observe { speakingStatus: SpeakingStatus ->
                 with(speakButton) {
                     setImageResource(

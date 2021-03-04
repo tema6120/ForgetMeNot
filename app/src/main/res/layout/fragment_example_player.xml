@@ -35,6 +35,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/emptyCardView"
+                    style="@style/ExerciseCard"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                <TextView
+                        android:id="@+id/noCardsTextView"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/deck_has_no_cards_to_show_example"
+                        android:textColor="@color/text_no_search_result"
+                        android:textSize="@dimen/text_size_no_search_result"
+                        android:textStyle="bold"
+                        app:drawableTint="@color/text_no_search_result"
+                        app:drawableTopCompat="@drawable/ic_mmm"
+                        app:layout_constraintBottom_toTopOf="@+id/controlPanelScroll"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.cardview.widget.CardView>
+
         </FrameLayout>
 
         <HorizontalScrollView
@@ -53,6 +78,7 @@
                     android:orientation="horizontal">
 
                 <FrameLayout
+                        android:id="@+id/speakFrame"
                         android:layout_width="48dp"
                         android:layout_height="48dp">
 

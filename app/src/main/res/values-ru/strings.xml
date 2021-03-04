@@ -263,6 +263,7 @@
     <string name="button_show_unanswered_card">Показать карточку без ответа</string>
     <string name="button_quit_exercise">Выйти все равно</string>
     <string name="no_cards_to_exercise">Нет карточек для упражнения</string>
+    <string name="deck_has_no_cards_to_show_example">В колоде нет карточек, чтобы показать пример</string>
 
 
     <!-- Card filter for autoplay screen -->

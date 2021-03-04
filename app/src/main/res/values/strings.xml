@@ -248,6 +248,7 @@
     <string name="button_show_unanswered_card">Show unanswered card</string>
     <string name="button_quit_exercise">Quit anyway</string>
     <string name="no_cards_to_exercise">No cards to exercise</string>
+    <string name="deck_has_no_cards_to_show_example">Deck has no cards to show example</string>
 
 
     <!-- Card filter for autoplay screen -->

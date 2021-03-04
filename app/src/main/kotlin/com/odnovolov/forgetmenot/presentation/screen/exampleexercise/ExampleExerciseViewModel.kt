@@ -7,10 +7,10 @@ import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
-import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.TimerStatus
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class ExampleExerciseViewModel(
@@ -54,6 +54,6 @@ class ExampleExerciseViewModel(
                     }
             }
                 .distinctUntilChanged()
-                .flowOn(businessLogicThread)
+                .flowOn(Dispatchers.Default)
         }
 }
