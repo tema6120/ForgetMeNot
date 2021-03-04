@@ -353,7 +353,7 @@
     <string name="card_selection_option_remove">Видалити</string>
     <string name="card_selection_option_move_to">Перемістити в</string>
     <string name="card_selection_option_copy_to">Копіювати в</string>
-    <string name="dialog_title_change_grade">Выберите оценку</string>
+    <string name="dialog_title_change_grade">Оберіть оцінку</string>
     <plurals name="snackbar_card_selection_action_completed_invert">
         <item quantity="one">%d картка були інвертовані</item>
         <item quantity="few">%d картки були інвертовані</item>

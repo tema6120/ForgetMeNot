@@ -3,6 +3,7 @@
     <dimen name="text_size_question">19sp</dimen>
     <dimen name="text_size_answer">17sp</dimen>
     <dimen name="text_size_grade">15sp</dimen>
+    <dimen name="text_size_grade_small">13sp</dimen>
     <dimen name="text_size_help_article_paragraph">14sp</dimen>
     <dimen name="text_size_import_of_deck_help_article_text_file_content">12sp</dimen>
     <dimen name="text_size_import_of_deck_help_article_file_name">14sp</dimen>

@@ -60,4 +60,19 @@
             tools:visibility="visible"
             app:srcCompat="@drawable/ic_check_circle_24" />
 
+    <TextView
+            android:id="@+id/gradeIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="1dp"
+            android:layout_marginTop="3dp"
+            android:elevation="4dp"
+            android:background="@drawable/oval"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_grade_small"
+            tools:backgroundTint="@color/grade_unsatisfactory"
+            tools:text="0" />
+
 </FrameLayout>

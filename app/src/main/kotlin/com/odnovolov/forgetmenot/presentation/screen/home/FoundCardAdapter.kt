@@ -3,11 +3,13 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
 import com.odnovolov.forgetmenot.presentation.common.highlight
 import kotlinx.android.synthetic.main.item_card_overview.view.*
 
@@ -40,6 +42,9 @@ class FoundCardAdapter(
             answerTextView.text = item.card.answer
                 .highlight(item.answerMatchingRanges, context)
             answerTextView.isEnabled = !item.card.isLearned
+            val gradeColorRes = getGradeColorRes(item.card.grade)
+            gradeIcon.backgroundTintList = ContextCompat.getColorStateList(context, gradeColorRes)
+            gradeIcon.text = item.card.grade.toString()
             cardView.setOnClickListener { onCardClicked(item) }
         }
     }
