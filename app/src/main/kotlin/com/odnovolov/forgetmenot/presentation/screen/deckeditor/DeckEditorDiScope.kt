@@ -19,7 +19,7 @@ class DeckEditorDiScope private constructor(
             ?: screenStateProvider.load()
 
     val batchCardEditor = BatchCardEditor(
-        BatchCardEditor.State(),
+        BatchCardEditor.State(), // todo save state
         AppDiScope.get().globalState
     )
 

@@ -41,7 +41,6 @@ class DeckEditorFragment : BaseFragment() {
     }
 
     private var tabLayoutMediator: TabLayoutMediator? = null
-    private var diScope: DeckEditorDiScope? = null
     private var controller: DeckEditorController? = null
     private lateinit var viewModel: DeckEditorViewModel
     private var needTabs = true
@@ -62,9 +61,9 @@ class DeckEditorFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         viewCoroutineScope!!.launch {
-            diScope = DeckEditorDiScope.getAsync() ?: return@launch
-            controller = diScope!!.controller
-            viewModel = diScope!!.viewModel
+            val diScope = DeckEditorDiScope.getAsync() ?: return@launch
+            controller = diScope.controller
+            viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
         }
@@ -101,10 +100,8 @@ class DeckEditorFragment : BaseFragment() {
         }
         moreOptionsButton.run {
             setOnClickListener {
-                if (diScope != null) {
-                    CardSelectionOptionsBottomSheet()
-                        .show(childFragmentManager, "CardSelectionOptionsBottomSheet")
-                }
+                CardSelectionOptionsBottomSheet()
+                    .show(childFragmentManager, "CardSelectionOptionsBottomSheet")
             }
             setTooltipTextFromContentDescription()
         }
@@ -327,7 +324,7 @@ class DeckEditorFragment : BaseFragment() {
             }
             is ShowCardsAreCopiedMessage -> {
                 val message = resources.getQuantityString(
-                    R.plurals.snackbar_card_selection_action_completed_invert,
+                    R.plurals.snackbar_card_selection_action_completed_copy,
                     command.numberOfCopiedCards,
                     command.numberOfCopiedCards,
                     command.deckNameToWhichCardsWereCopied

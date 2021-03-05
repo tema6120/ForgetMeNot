@@ -61,7 +61,7 @@
 
             <include layout="@layout/toolbar_item_selection" />
 
-            <View
+            <Space
                     android:id="@+id/antiJumpingView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

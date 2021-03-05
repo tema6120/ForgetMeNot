@@ -4,7 +4,9 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeEvent.GradeSelected
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.SelectedGrade
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent
 
 class ChangeGradeController(
     private val dialogState: ChangeGradeDialogState,
@@ -16,7 +18,11 @@ class ChangeGradeController(
                 when (dialogState.caller) {
                     ChangeGradeCaller.DeckEditor -> {
                         DeckEditorDiScope.getOrRecreate().controller
-                            .dispatch(SelectedGrade(event.grade))
+                            .dispatch(DeckEditorEvent.SelectedGrade(event.grade))
+                    }
+                    ChangeGradeCaller.Search -> {
+                        SearchDiScope.getOrRecreate().controller
+                            .dispatch(SearchEvent.SelectedGrade(event.grade))
                     }
                 }
             }

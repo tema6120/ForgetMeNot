@@ -79,16 +79,10 @@ class DeckContentController(
     private fun hasSelection(): Boolean = batchCardEditor.state.selectedCards.isNotEmpty()
 
     private fun toggleCardSelection(cardId: Long) {
-        val selectedCardIds: List<Long> = batchCardEditor.state.selectedCards
-            .map { editableCard: EditableCard -> editableCard.card.id }
-        if (cardId in selectedCardIds) {
-            batchCardEditor.removeCardFromSelection(cardId)
-        } else {
-            val card: Card = screenState.deck.cards
-                .find { card: Card -> card.id == cardId } ?: return
-            val editableCard = EditableCard(card, screenState.deck)
-            batchCardEditor.addCardToSelection(editableCard)
-        }
+        val card: Card = screenState.deck.cards
+            .find { card: Card -> card.id == cardId } ?: return
+        val editableCard = EditableCard(card, screenState.deck)
+        batchCardEditor.toggleSelected(editableCard)
     }
 
     override fun saveState() {

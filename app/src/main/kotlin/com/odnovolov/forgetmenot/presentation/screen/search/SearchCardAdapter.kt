@@ -4,19 +4,20 @@ import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
 import com.odnovolov.forgetmenot.presentation.common.highlight
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.CardClicked
+import com.odnovolov.forgetmenot.presentation.screen.search.SearchEvent.CardLongClicked
 import kotlinx.android.synthetic.main.item_card_overview.view.*
 
 class SearchCardAdapter(
     private val controller: SearchController
 ) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
-    var items: List<SearchCard> = emptyList()
+    var items: List<SelectableSearchCard> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -29,19 +30,28 @@ class SearchCardAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
-        val item: SearchCard = items[position]
+        val selectableSearchCard = items[position]
+        val card = selectableSearchCard.card
         with(viewHolder.itemView) {
-            questionTextView.text = item.card.question
-                .highlight(item.questionMatchingRanges, context)
-            questionTextView.isEnabled = !item.card.isLearned
-            SpannableStringBuilder(item.card.answer)
-            answerTextView.text = item.card.answer
-                .highlight(item.answerMatchingRanges, context)
-            answerTextView.isEnabled = !item.card.isLearned
-            val gradeColorRes = getGradeColorRes(item.card.grade)
+            questionTextView.text = card.question
+                .highlight(selectableSearchCard.questionMatchingRanges, context)
+            questionTextView.isEnabled = !card.isLearned
+            SpannableStringBuilder(card.answer)
+            answerTextView.text = card.answer
+                .highlight(selectableSearchCard.answerMatchingRanges, context)
+            answerTextView.isEnabled = !card.isLearned
+            val gradeColorRes = getGradeColorRes(card.grade)
             gradeIcon.backgroundTintList = ContextCompat.getColorStateList(context, gradeColorRes)
-            gradeIcon.text = item.card.grade.toString()
-            cardView.setOnClickListener { controller.dispatch(CardClicked(item)) }
+            gradeIcon.text = card.grade.toString()
+            checkIcon.isVisible = selectableSearchCard.isSelected
+            cardView.isSelected = selectableSearchCard.isSelected
+            cardView.setOnClickListener {
+                controller.dispatch(CardClicked(selectableSearchCard))
+            }
+            cardView.setOnLongClickListener {
+                controller.dispatch(CardLongClicked(selectableSearchCard))
+                true
+            }
         }
     }
 

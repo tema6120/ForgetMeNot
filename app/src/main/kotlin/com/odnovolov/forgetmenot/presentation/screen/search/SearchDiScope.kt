@@ -1,5 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.persistence.shortterm.CardsSearcherProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -24,8 +26,14 @@ class SearchDiScope private constructor(
     private val cardsSearcher: CardsSearcher =
         initialCardsSearcher ?: cardsSearcherProvider.load()
 
+    val batchCardEditor = BatchCardEditor(
+        State(), // todo save state
+        AppDiScope.get().globalState
+    )
+
     val controller = SearchController(
         cardsSearcher,
+        batchCardEditor,
         AppDiScope.get().navigator,
         AppDiScope.get().globalState,
         AppDiScope.get().longTermStateSaver
@@ -33,7 +41,8 @@ class SearchDiScope private constructor(
 
     val viewModel = SearchViewModel(
         initialSearchText,
-        cardsSearcher.state
+        cardsSearcher.state,
+        batchCardEditor.state
     )
 
     companion object : DiScopeManager<SearchDiScope>() {

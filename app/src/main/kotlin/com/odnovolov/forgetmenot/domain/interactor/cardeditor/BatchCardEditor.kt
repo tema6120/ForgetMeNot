@@ -19,24 +19,22 @@ class BatchCardEditor(
 
     private var cancelLastAction: (() -> Unit)? = null
 
-    fun addCardToSelection(editableCard: EditableCard) {
-        state.selectedCards =
-            state.selectedCards.associateBy { it.card.id }
-                .plus(editableCard.card.id to editableCard)
-                .values
+    fun toggleSelected(editableCard: EditableCard) {
+        val selectedCardIds: List<Long> = state.selectedCards.map { it.card.id }
+        if (editableCard.card.id in selectedCardIds) {
+            state.selectedCards = state.selectedCards.filter { selectedEditableCard: EditableCard ->
+                selectedEditableCard.card.id != editableCard.card.id
+            }
+        } else {
+            state.selectedCards += editableCard
+        }
     }
 
     fun addCardsToSelection(editableCards: Collection<EditableCard>) {
         val addedAssociatedEditableCards = editableCards.associateBy { it.card.id }
-        state.selectedCards =
-            state.selectedCards.associateBy { it.card.id }
-                .plus(addedAssociatedEditableCards)
-                .values
-    }
-
-    fun removeCardFromSelection(cardId: Long) {
-        state.selectedCards = state.selectedCards
-            .filter { editableCard: EditableCard -> editableCard.card.id != cardId }
+        state.selectedCards = state.selectedCards.associateBy { it.card.id }
+            .plus(addedAssociatedEditableCards)
+            .values
     }
 
     fun invert() {
@@ -171,12 +169,13 @@ class BatchCardEditor(
             is ExistingDeck -> abstractDeck.deck
             is NewDeck -> {
                 val exercisePreferences: List<ExercisePreference> = state.selectedCards
-                        .map { editableCard: EditableCard -> editableCard.deck.exercisePreference }
-                        .distinctBy { exercisePreference -> exercisePreference.id }
+                    .map { editableCard: EditableCard -> editableCard.deck.exercisePreference }
+                    .distinctBy { exercisePreference -> exercisePreference.id }
                 val decksHaveTheSameExercisePreference: Boolean = exercisePreferences.size == 1
                 val exercisePreferenceForNewDeck: ExercisePreference =
                     if (decksHaveTheSameExercisePreference
-                        && exercisePreferences.first().isShared()) {
+                        && exercisePreferences.first().isShared()
+                    ) {
                         exercisePreferences.first()
                     } else {
                         ExercisePreference.Default

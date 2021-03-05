@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentStateRestorer
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
@@ -22,7 +22,7 @@ class DeckContentFragment : BaseFragment() {
     private lateinit var viewModel: DeckContentViewModel
     private var isInflated = false
     private val fragmentStateRestorer = FragmentStateRestorer(this)
-    var scrollListener: OnScrollListener? = null
+    var scrollListener: RecyclerView.OnScrollListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

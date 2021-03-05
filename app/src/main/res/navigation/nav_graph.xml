@@ -111,6 +111,14 @@
                 app:popUpTo="@+id/search"
                 app:popUpToInclusive="true" />
 
+        <action
+            android:id="@+id/show_change_grade_dialog_from_search"
+            app:destination="@+id/change_grade_dialog" />
+
+        <action
+            android:id="@+id/search_to_deck_chooser"
+            app:destination="@+id/deck_chooser" />
+
     </fragment>
 
     <fragment

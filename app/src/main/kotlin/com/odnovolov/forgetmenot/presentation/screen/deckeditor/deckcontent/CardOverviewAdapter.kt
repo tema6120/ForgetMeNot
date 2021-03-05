@@ -58,9 +58,11 @@ class CardOverviewAdapter(
             val gradeColorRes = getGradeColorRes(card.grade)
             gradeIcon.backgroundTintList = ContextCompat.getColorStateList(context, gradeColorRes)
             gradeIcon.text = card.grade.toString()
-            cardView.isSelected = selectableCard.isSelected
             checkIcon.isVisible = selectableCard.isSelected
-            cardView.setOnClickListener { controller.dispatch(CardClicked(card.id)) }
+            cardView.isSelected = selectableCard.isSelected
+            cardView.setOnClickListener {
+                controller.dispatch(CardClicked(card.id))
+            }
             cardView.setOnLongClickListener {
                 controller.dispatch(CardLongClicked(card.id))
                 true

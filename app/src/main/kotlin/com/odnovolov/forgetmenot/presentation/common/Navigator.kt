@@ -271,6 +271,16 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.search_to_cards_editor)
     }
 
+    fun showChangeGradeDialogFromSearch(createDiScope: () -> ChangeGradeDiScope) {
+        ChangeGradeDiScope.open(createDiScope)
+        navigate(R.id.show_change_grade_dialog_from_search)
+    }
+
+    fun navigateToDeckChooserFromSearch(createDiScope: () -> DeckChooserDiScope) {
+        DeckChooserDiScope.open(createDiScope)
+        navigate(R.id.search_to_deck_chooser)
+    }
+
     fun navigateToCardsEditorFromDeckEditor(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.deck_editor_to_cards_editor)
