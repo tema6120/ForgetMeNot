@@ -48,6 +48,7 @@ class DeckEditorFragment : BaseFragment() {
     private var isFullyOnContentPage = false
     private var appbarLayoutOffset: Int = 0
     private var isAntiJumpingViewActivated = false
+    private var lastShownSnackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -335,7 +336,7 @@ class DeckEditorFragment : BaseFragment() {
     }
 
     private fun showCardSelectionActionIsCompletedSnackbar(message: String) {
-        Snackbar
+        lastShownSnackbar = Snackbar
             .make(
                 coordinatorLayout,
                 message,
@@ -345,7 +346,9 @@ class DeckEditorFragment : BaseFragment() {
                 R.string.snackbar_action_cancel,
                 { controller?.dispatch(CancelSnackbarButtonClicked) }
             )
-            .show()
+            .apply {
+                show()
+            }
     }
 
     override fun onAttachFragment(childFragment: Fragment) {
@@ -393,6 +396,8 @@ class DeckEditorFragment : BaseFragment() {
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
         deckEditorViewPager.adapter = null
+        lastShownSnackbar?.dismiss()
+        lastShownSnackbar = null
         updateStatusBarColor(isSelectionMode = false)
     }
 

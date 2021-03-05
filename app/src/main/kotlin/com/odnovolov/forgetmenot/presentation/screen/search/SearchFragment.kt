@@ -35,6 +35,7 @@ class SearchFragment : BaseFragment() {
     private lateinit var viewModel: SearchViewModel
     private var isSelectionMode = false
     private var isAntiJumpingViewActivated = false
+    private var lastShownSnackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -195,6 +196,7 @@ class SearchFragment : BaseFragment() {
 
     private fun updateAppbarItemsVisibility() {
         setSelectionToolbarVisibility(isVisible = isSelectionMode)
+        searchEditText.isEnabled = !isSelectionMode
         searchFrame.isVisible = !isSelectionMode
     }
 
@@ -272,7 +274,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun showCardSelectionActionIsCompletedSnackbar(message: String) {
-        Snackbar
+        lastShownSnackbar = Snackbar
             .make(
                 searchRootView,
                 message,
@@ -281,8 +283,9 @@ class SearchFragment : BaseFragment() {
             .setAction(
                 R.string.snackbar_action_cancel,
                 { controller?.dispatch(CancelSnackbarButtonClicked) }
-            )
-            .show()
+            ).apply {
+                show()
+            }
     }
 
     override fun onResume() {
@@ -303,6 +306,8 @@ class SearchFragment : BaseFragment() {
         super.onDestroyView()
         cardsRecycler.adapter = null
         updateStatusBarColor(isSelectionMode = false)
+        lastShownSnackbar?.dismiss()
+        lastShownSnackbar = null
     }
 
     override fun onDestroy() {

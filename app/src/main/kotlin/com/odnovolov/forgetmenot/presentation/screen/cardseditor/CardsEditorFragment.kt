@@ -36,6 +36,7 @@ class CardsEditorFragment : BaseFragment() {
     private var intervalsPopup: PopupWindow? = null
     private var intervalsAdapter: IntervalsAdapter? = null
     private var cardInfoPopup: PopupWindow? = null
+    private var lastShownSnackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -174,7 +175,7 @@ class CardsEditorFragment : BaseFragment() {
                 showToast(R.string.toast_fill_in_the_card)
             }
             ShowCardIsRemovedMessage -> {
-                Snackbar
+                lastShownSnackbar = Snackbar
                     .make(
                         coordinatorLayout,
                         R.string.card_is_removed,
@@ -183,11 +184,12 @@ class CardsEditorFragment : BaseFragment() {
                     .setAction(
                         R.string.snackbar_action_cancel,
                         { controller?.dispatch(RestoreLastRemovedCardButtonClicked) }
-                    )
-                    .show()
+                    ).apply {
+                        show()
+                    }
             }
             ShowCardIsMovedMessage -> {
-                Snackbar
+                lastShownSnackbar = Snackbar
                     .make(
                         coordinatorLayout,
                         R.string.card_is_moved,
@@ -196,11 +198,12 @@ class CardsEditorFragment : BaseFragment() {
                     .setAction(
                         R.string.snackbar_action_cancel,
                         { controller?.dispatch(CancelLastMovementButtonClicked) }
-                    )
-                    .show()
+                    ).apply {
+                        show()
+                    }
             }
             ShowCardIsCopiedMessage -> {
-                Snackbar
+                lastShownSnackbar = Snackbar
                     .make(
                         coordinatorLayout,
                         R.string.card_is_copied,
@@ -209,8 +212,9 @@ class CardsEditorFragment : BaseFragment() {
                     .setAction(
                         R.string.snackbar_action_cancel,
                         { controller?.dispatch(CancelLastCopyingButtonClicked) }
-                    )
-                    .show()
+                    ).apply {
+                        show()
+                    }
             }
             is ShowCardInfo -> {
                 showCardInfoPopup(command.cardInfo)
@@ -316,6 +320,8 @@ class CardsEditorFragment : BaseFragment() {
         intervalsAdapter = null
         cardInfoPopup?.dismiss()
         cardInfoPopup = null
+        lastShownSnackbar?.dismiss()
+        lastShownSnackbar = null
     }
 
     override fun onDestroy() {

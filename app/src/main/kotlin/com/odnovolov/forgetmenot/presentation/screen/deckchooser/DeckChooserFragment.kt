@@ -261,7 +261,6 @@ class DeckChooserFragment : BaseFragment() {
         super.onDestroy()
         if (needToCloseDiScope()) {
             DeckChooserDiScope.close()
-            setTransparentStatusBar(requireActivity())
         }
     }
 

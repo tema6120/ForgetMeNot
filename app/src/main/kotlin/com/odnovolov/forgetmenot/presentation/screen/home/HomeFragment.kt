@@ -52,6 +52,7 @@ class HomeFragment : BaseFragment() {
     private var appbarLayoutOffset: Int = 0
     private var backPressInterceptor: MainActivity.BackPressInterceptor? = null
     private var isAntiJumpingViewActivated = false
+    private var lastShownSnackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -178,6 +179,7 @@ class HomeFragment : BaseFragment() {
                 preventDeckItemsJumping(deckSelection)
                 setSelectionToolbarVisibilityWithTransition(isVisible = deckSelection != null)
                 updateSearchFrameScrollFlags()
+                searchEditText.isEnabled = deckSelection == null
                 searchFrame.isVisible = deckSelection == null
                 headline.isVisible = deckSelection == null
                 if (searchFrame.isVisible && searchEditText.text.isNotEmpty()) {
@@ -330,7 +332,7 @@ class HomeFragment : BaseFragment() {
                 DeckOptionsBottomSheet().show(childFragmentManager, "DeckOptionsBottomSheet")
             }
             is ShowDeckRemovingMessage -> {
-                Snackbar
+                lastShownSnackbar = Snackbar
                     .make(
                         homeRootView,
                         resources.getQuantityString(
@@ -343,11 +345,12 @@ class HomeFragment : BaseFragment() {
                     .setAction(
                         R.string.snackbar_action_cancel,
                         { controller?.dispatch(RemovedDecksSnackbarCancelButtonClicked) }
-                    )
-                    .show()
+                    ).apply {
+                        show()
+                    }
             }
             is ShowDeckMergingMessage -> {
-                Snackbar
+                lastShownSnackbar = Snackbar
                     .make(
                         homeRootView,
                         resources.getQuantityString(
@@ -361,8 +364,9 @@ class HomeFragment : BaseFragment() {
                     .setAction(
                         R.string.snackbar_action_cancel,
                         { controller?.dispatch(MergedDecksSnackbarCancelButtonClicked) }
-                    )
-                    .show()
+                    ).apply {
+                        show()
+                    }
             }
         }
     }
@@ -509,6 +513,8 @@ class HomeFragment : BaseFragment() {
         homePager.adapter = null
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
+        lastShownSnackbar?.dismiss()
+        lastShownSnackbar = null
         updateStatusBarColor(isSelectionMode = false)
     }
 

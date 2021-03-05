@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.setTransparentStatusBar
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition.*
@@ -29,6 +30,7 @@ class FileImportFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setTransparentStatusBar(requireActivity())
         return inflater.inflate(R.layout.fragment_file_import, container, false)
     }
 
