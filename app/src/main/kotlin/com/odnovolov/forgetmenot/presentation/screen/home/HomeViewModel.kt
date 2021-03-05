@@ -1,14 +1,11 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
-import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
+import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
 import com.soywiz.klock.DateTime
@@ -307,13 +304,13 @@ class HomeViewModel(
     }
         .distinctUntilChanged()
 
-    val foundCards: Flow<List<SearchCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
+    val foundCards: Flow<List<FoundCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
 
     val cardsNotFound: Flow<Boolean> = combine(
         hasSearchText,
         areCardsBeingSearched,
         foundCards
-    ) { hasSearchText: Boolean, areCardsBeingSearched: Boolean, foundCards: List<SearchCard> ->
+    ) { hasSearchText: Boolean, areCardsBeingSearched: Boolean, foundCards: List<FoundCard> ->
         hasSearchText && !areCardsBeingSearched && foundCards.isEmpty()
     }
         .distinctUntilChanged()

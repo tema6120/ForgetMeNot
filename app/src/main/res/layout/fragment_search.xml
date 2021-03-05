@@ -51,6 +51,16 @@
                     android:paddingEnd="8dp"
                     android:textSize="@dimen/text_size_search_edittext" />
 
+            <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
+
             <ImageButton
                     android:id="@+id/pasteClearButton"
                     android:layout_width="48dp"
@@ -77,22 +87,6 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cardsRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/item_card_overview" />
-
-        <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
         <TextView
                 android:id="@+id/emptyTextView"
                 android:layout_width="wrap_content"
@@ -106,6 +100,14 @@
                 android:visibility="gone"
                 app:drawableTint="@color/text_no_search_result"
                 app:drawableTopCompat="@drawable/ic_round_search_54" />
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cardsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_card_overview" />
 
     </FrameLayout>
 

@@ -307,8 +307,8 @@ class HomeController(
                 screenState.deckSelection = null
                 navigator.navigateToCardsEditorFromNavHost {
                     val editableCard = EditableCard(
-                        event.searchCard.card,
-                        event.searchCard.deck
+                        event.foundCard.card,
+                        event.foundCard.deck
                     )
                     val editableCards: List<EditableCard> = listOf(editableCard)
                     val cardsEditorState = State(editableCards)

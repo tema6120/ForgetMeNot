@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
-import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
+import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 
 sealed class HomeEvent {
     class SearchTextChanged(val searchText: String) : HomeEvent()
@@ -48,5 +48,5 @@ sealed class HomeEvent {
     object ExerciseButtonClicked : HomeEvent()
 
     // Card item:
-    class FoundCardClicked(val searchCard: SearchCard) : HomeEvent()
+    class FoundCardClicked(val foundCard: FoundCard) : HomeEvent()
 }

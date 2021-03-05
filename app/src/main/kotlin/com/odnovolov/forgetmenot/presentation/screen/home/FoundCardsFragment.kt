@@ -8,7 +8,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
+import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.FoundCardClicked
 import kotlinx.android.synthetic.main.fragment_found_cards.*
@@ -43,8 +43,8 @@ class FoundCardsFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        val onCardClicked: (SearchCard) -> Unit = { searchCard: SearchCard ->
-            controller?.dispatch(FoundCardClicked(searchCard))
+        val onCardClicked: (FoundCard) -> Unit = { foundCard: FoundCard ->
+            controller?.dispatch(FoundCardClicked(foundCard))
         }
         cardsRecycler.adapter = FoundCardAdapter(onCardClicked)
     }
@@ -55,7 +55,7 @@ class FoundCardsFragment : BaseFragment() {
                 cardsRecycler.isInvisible = isSearching
                 searchingCardsProgressBar.isVisible = isSearching
             }
-            foundCards.observe { cards: List<SearchCard> ->
+            foundCards.observe { cards: List<FoundCard> ->
                 (cardsRecycler.adapter as FoundCardAdapter).items = cards
             }
             cardsNotFound.observe { cardsNotFound: Boolean ->

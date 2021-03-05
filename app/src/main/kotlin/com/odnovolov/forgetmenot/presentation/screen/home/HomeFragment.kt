@@ -24,7 +24,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
+import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
@@ -211,7 +211,7 @@ class HomeFragment : BaseFragment() {
                         getString(R.string.text_exercise_button_with_cards_count, cardsCount)
             }
             combine(decksPreview, foundCards) { foundDecks: List<DeckPreview>,
-                                                foundCards: List<SearchCard>
+                                                foundCards: List<FoundCard>
                 ->
                 if (isSearchingAfterPasteButtonClicked
                     && foundDecks.isEmpty()

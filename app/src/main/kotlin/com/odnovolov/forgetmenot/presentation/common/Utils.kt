@@ -276,6 +276,36 @@ fun String.highlight(
     }
 }
 
+fun String.highlightMatches(
+    search: String,
+    context: Context
+): SpannableString {
+    val ranges: List<IntRange> = findMatchingRange(source = this, search)
+    val highlightedColor = ContextCompat.getColor(context, R.color.highlighted_text)
+    return SpannableString(this).apply {
+        ranges.forEach { selection: IntRange ->
+            setSpan(
+                BackgroundColorSpan(highlightedColor),
+                selection.first,
+                selection.last,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+    }
+}
+
+fun findMatchingRange(source: String, search: String): List<IntRange> {
+    var start = source.indexOf(search, ignoreCase = true)
+    if (start < 0) return emptyList()
+    val result = ArrayList<IntRange>()
+    while (start >= 0) {
+        val end = start + search.length
+        result += start..end
+        start = source.indexOf(search, startIndex = end, ignoreCase = true)
+    }
+    return result
+}
+
 fun View.isVisibleOnScreen(): Boolean {
     val actualPosition = Rect().also(::getGlobalVisibleRect)
     val screenWidth = Resources.getSystem().displayMetrics.widthPixels

@@ -63,9 +63,14 @@ class SearchFragment : BaseFragment() {
             setTooltipTextFromContentDescription()
         }
         updatePasteClearButton()
+        var needToSkipFirstText = !isViewFirstCreated
         searchEditText.observeText { newText: String ->
-            controller?.dispatch(SearchTextChanged(newText))
-            updatePasteClearButton()
+            if (needToSkipFirstText) {
+                needToSkipFirstText = false
+            } else {
+                controller?.dispatch(SearchTextChanged(newText))
+                updatePasteClearButton()
+            }
         }
         setupSelectionToolbar()
     }
@@ -123,9 +128,7 @@ class SearchFragment : BaseFragment() {
     private fun initAdapter() {
         val adapter = SearchCardAdapter(controller!!)
         cardsRecycler.adapter = adapter
-        viewModel.foundCards.observe { cards: List<SelectableSearchCard> ->
-            adapter.items = cards
-        }
+        viewModel.foundCards.observe(adapter::submitList)
     }
 
     private fun observeViewModel() {
@@ -136,8 +139,7 @@ class SearchFragment : BaseFragment() {
                     getString(R.string.hint_search_in_specific_deck, searchDeckName))
             }
             isSearching.observe { isSearching: Boolean ->
-                cardsRecycler.isInvisible = isSearching
-                progressBar.isVisible = isSearching
+                progressBar.isInvisible = !isSearching
             }
             if (isViewFirstCreated) {
                 if (initialSearchText.isEmpty()) {
@@ -146,11 +148,6 @@ class SearchFragment : BaseFragment() {
                     }
                 } else {
                     searchEditText.setText(initialSearchText)
-                }
-            } else {
-                val searchText = searchEditText.text.toString()
-                if (searchText.isNotEmpty()) {
-                    controller!!.dispatch(SearchTextChanged(searchText))
                 }
             }
             cardsNotFound.observe { cardsNotFound: Boolean ->

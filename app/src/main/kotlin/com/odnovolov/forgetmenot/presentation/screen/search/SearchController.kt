@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
-import com.odnovolov.forgetmenot.domain.interactor.searcher.SearchCard
+import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -52,6 +52,8 @@ class SearchController(
         ) : Command()
     }
 
+    private var needToResearchOnCancel = false
+
     override fun handle(event: SearchEvent) {
         when (event) {
             is SearchTextChanged -> {
@@ -59,29 +61,32 @@ class SearchController(
             }
 
             is CardClicked -> {
-                val selectableSearchCard: SelectableSearchCard = event.selectableSearchCard
+                val foundCard: FoundCard = searcher.state.searchResult
+                    .find { it.card.id == event.cardId } ?: return
                 if (hasSelection()) {
-                    toggleCardSelection(selectableSearchCard)
+                    toggleCardSelection(foundCard)
                 } else {
                     when {
                         DeckEditorDiScope.isOpen() -> {
-                            navigateToCardEditorForEditingDeck(selectableSearchCard)
+                            navigateToCardEditorForEditingDeck(foundCard)
                         }
                         ExerciseDiScope.isOpen() -> {
-                            navigateToCardEditorForExercise(selectableSearchCard)
+                            navigateToCardEditorForExercise(foundCard)
                         }
                         PlayerDiScope.isOpen() -> {
-                            navigateToCardEditorForPlayer(selectableSearchCard)
+                            navigateToCardEditorForPlayer(foundCard)
                         }
                         else -> {
-                            navigateToCardEditorForEditingSpecificCard(selectableSearchCard)
+                            navigateToCardEditorForEditingSpecificCard(foundCard)
                         }
                     }
                 }
             }
 
             is CardLongClicked -> {
-                toggleCardSelection(event.selectableSearchCard)
+                val foundCard: FoundCard = searcher.state.searchResult
+                    .find { it.card.id == event.cardId } ?: return
+                toggleCardSelection(foundCard)
             }
 
             CancelledCardSelection -> {
@@ -90,10 +95,10 @@ class SearchController(
 
             SelectAllCardsButtonClicked -> {
                 val allEditableCards: List<EditableCard> = searcher.state.searchResult
-                    .map { searchCard: SearchCard ->
+                    .map { foundCard: FoundCard ->
                         EditableCard(
-                            searchCard.card,
-                            searchCard.deck
+                            foundCard.card,
+                            foundCard.deck
                         )
                     }
                 batchCardEditor.addCardsToSelection(allEditableCards)
@@ -103,6 +108,7 @@ class SearchController(
                 val numberOfInvertedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.invert()
                 sendCommand(ShowCardsAreInvertedMessage(numberOfInvertedCards))
+                needToResearchOnCancel = false
             }
 
             ChangeGradeCardSelectionOptionSelected -> {
@@ -119,25 +125,29 @@ class SearchController(
                 val numberOfAffectedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.changeGrade(event.grade)
                 sendCommand(ShowGradeIsChangedMessage(event.grade, numberOfAffectedCards))
+                needToResearchOnCancel = false
             }
 
             MarkAsLearnedCardSelectionOptionSelected -> {
                 val numberOfMarkedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.markAsLearned()
                 sendCommand(ShowCardsAreMarkedAsLearnedMessage(numberOfMarkedCards))
+                needToResearchOnCancel = false
             }
 
             MarkAsUnlearnedCardSelectionOptionSelected -> {
                 val numberOfMarkedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.markAsUnlearned()
                 sendCommand(ShowCardsAreMarkedAsUnlearnedMessage(numberOfMarkedCards))
+                needToResearchOnCancel = false
             }
 
             RemoveCardsCardSelectionOptionSelected -> {
                 val numberOfRemovedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.remove()
-                updateSearchResult()
+                searcher.research()
                 sendCommand(ShowCardsAreRemovedMessage(numberOfRemovedCards))
+                needToResearchOnCancel = true
             }
 
             MoveCardSelectionOptionSelected -> {
@@ -151,11 +161,12 @@ class SearchController(
                 val numberOfMovedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.moveTo(event.abstractDeck)
                 val deckName: String = event.abstractDeck.name
-                updateSearchResult()
+                searcher.research()
                 sendCommand(
                     command = ShowCardsAreMovedMessage(numberOfMovedCards, deckName),
                     postponeIfNotActive = true
                 )
+                needToResearchOnCancel = true
             }
 
             CopyCardSelectionOptionSelected -> {
@@ -169,29 +180,29 @@ class SearchController(
                 val numberOfCopiedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.copyTo(event.abstractDeck)
                 val deckName: String = event.abstractDeck.name
-                updateSearchResult()
+                searcher.research()
                 sendCommand(
                     command = ShowCardsAreCopiedMessage(numberOfCopiedCards, deckName),
                     postponeIfNotActive = true
                 )
+                needToResearchOnCancel = true
             }
 
             CancelSnackbarButtonClicked -> {
                 batchCardEditor.cancelLastAction()
-                updateSearchResult()
+                if (needToResearchOnCancel) {
+                    needToResearchOnCancel = false
+                    searcher.research()
+                }
             }
         }
     }
 
-    private fun updateSearchResult() {
-        searcher.search(searcher.state.searchText)
-    }
-
     private fun determineGradeItems(): List<GradeItem> {
         var baseIntervalScheme: IntervalScheme? = null
-        for (searchCard: SearchCard in searcher.state.searchResult) {
+        for (foundCard: FoundCard in searcher.state.searchResult) {
             val intervalScheme: IntervalScheme =
-                searchCard.deck.exercisePreference.intervalScheme ?: continue
+                foundCard.deck.exercisePreference.intervalScheme ?: continue
             when {
                 baseIntervalScheme == null -> {
                     baseIntervalScheme = intervalScheme
@@ -220,19 +231,19 @@ class SearchController(
 
     private fun hasSelection(): Boolean = batchCardEditor.state.selectedCards.isNotEmpty()
 
-    private fun toggleCardSelection(selectableSearchCard: SelectableSearchCard) {
-        val editableCard = EditableCard(selectableSearchCard.card, selectableSearchCard.deck)
+    private fun toggleCardSelection(foundCard: FoundCard) {
+        val editableCard = EditableCard(foundCard.card, foundCard.deck)
         batchCardEditor.toggleSelected(editableCard)
     }
 
-    private fun navigateToCardEditorForEditingDeck(selectableSearchCard: SelectableSearchCard) {
+    private fun navigateToCardEditorForEditingDeck(foundCard: FoundCard) {
         navigator.navigateToCardsEditorFromSearch {
             val deck = DeckEditorDiScope.getOrRecreate().screenState.deck
             val editableCards: List<EditableCard> =
                 deck.cards.map { card -> EditableCard(card, deck) }
                     .plus(EditableCard(Card(generateId(), "", ""), deck))
             val currentPosition: Int = deck.cards.indexOfFirst { card ->
-                card.id == selectableSearchCard.card.id
+                card.id == foundCard.card.id
             }
             val cardsEditorState = CardsEditor.State(editableCards, currentPosition)
             val cardsEditor = CardsEditorForEditingDeck(
@@ -245,17 +256,17 @@ class SearchController(
         }
     }
 
-    private fun navigateToCardEditorForExercise(selectableSearchCard: SelectableSearchCard) {
+    private fun navigateToCardEditorForExercise(foundCard: FoundCard) {
         val exercise: Exercise = ExerciseDiScope.getOrRecreate().exercise
         val currentExerciseCard: ExerciseCard = with(exercise.state) {
             exerciseCards.getOrNull(currentPosition)
         } ?: return
         navigator.navigateToCardsEditorFromSearch {
             val foundEditableCard = EditableCard(
-                selectableSearchCard.card,
-                selectableSearchCard.deck
+                foundCard.card,
+                foundCard.deck
             )
-            val cardsEditorState = if (selectableSearchCard.card.id ==
+            val cardsEditorState = if (foundCard.card.id ==
                 currentExerciseCard.base.card.id
             ) {
                 val editableCards: List<EditableCard> = listOf(foundEditableCard)
@@ -278,18 +289,18 @@ class SearchController(
         }
     }
 
-    private fun navigateToCardEditorForPlayer(selectableSearchCard: SelectableSearchCard) {
+    private fun navigateToCardEditorForPlayer(foundCard: FoundCard) {
         val player: Player = PlayerDiScope.getOrRecreate().player
         val currentPlayingCard: PlayingCard = with(player.state) {
             playingCards.getOrNull(currentPosition)
         } ?: return
         navigator.navigateToCardsEditorFromSearch {
             val foundEditableCard = EditableCard(
-                selectableSearchCard.card,
-                selectableSearchCard.deck
+                foundCard.card,
+                foundCard.deck
             )
             val cardsEditorState =
-                if (selectableSearchCard.card.id == currentPlayingCard.card.id) {
+                if (foundCard.card.id == currentPlayingCard.card.id) {
                     val editableCards: List<EditableCard> =
                         listOf(foundEditableCard)
                     CardsEditor.State(editableCards)
@@ -311,13 +322,11 @@ class SearchController(
         }
     }
 
-    private fun navigateToCardEditorForEditingSpecificCard(
-        selectableSearchCard: SelectableSearchCard
-    ) {
+    private fun navigateToCardEditorForEditingSpecificCard(foundCard: FoundCard) {
         navigator.navigateToCardsEditorFromSearch {
             val editableCard = EditableCard(
-                selectableSearchCard.card,
-                selectableSearchCard.deck
+                foundCard.card,
+                foundCard.deck
             )
             val editableCards: List<EditableCard> = listOf(editableCard)
             val cardsEditorState = CardsEditor.State(editableCards)

@@ -4,8 +4,8 @@ import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
 
 sealed class SearchEvent {
     class SearchTextChanged(val text: String) : SearchEvent()
-    class CardClicked(val selectableSearchCard: SelectableSearchCard) : SearchEvent()
-    class CardLongClicked(val selectableSearchCard: SelectableSearchCard) : SearchEvent()
+    class CardClicked(val cardId: Long) : SearchEvent()
+    class CardLongClicked(val cardId: Long) : SearchEvent()
 
     // Card selection toolbar
     object CancelledCardSelection : SearchEvent()
