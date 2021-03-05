@@ -1,21 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/languageItemButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_selectable_item"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_width="250dp"
+        android:layout_height="wrap_content">
+
+    <FrameLayout
+            android:id="@+id/languageItemButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/background_selectable_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/flagTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
             android:hint="🇺🇦"
             android:textColor="#000"
             android:textSize="@dimen/text_size_language_popup_flag"
             android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="🇺🇦"
             tools:visibility="visible" />
 
@@ -23,12 +33,28 @@
             android:id="@+id/languageNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="12dp"
-            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/nunito_bold"
             android:textColor="@color/textSecondary"
             android:textSize="@dimen/text_size_language_popup_language_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/favoriteLanguageButton"
+            app:layout_constraintStart_toEndOf="@+id/flagTextView"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Ukranian" />
 
-</LinearLayout>
+    <ImageButton
+            android:id="@+id/favoriteLanguageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:background="?selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/ic_round_star_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

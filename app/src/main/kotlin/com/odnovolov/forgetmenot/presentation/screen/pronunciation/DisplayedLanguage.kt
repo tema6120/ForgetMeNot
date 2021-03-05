@@ -4,5 +4,6 @@ import java.util.*
 
 data class DisplayedLanguage(
     val language: Locale?,
-    val isSelected: Boolean
+    val isSelected: Boolean,
+    val isFavorite: Boolean?
 )

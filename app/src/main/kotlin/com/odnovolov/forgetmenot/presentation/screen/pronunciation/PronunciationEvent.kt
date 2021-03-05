@@ -10,4 +10,6 @@ sealed class PronunciationEvent {
     class AnswerLanguageSelected(val language: Locale?) : PronunciationEvent()
     object AnswerAutoSpeakSwitchToggled : PronunciationEvent()
     object SpeakTextInBracketsSwitchToggled : PronunciationEvent()
+    class MarkedLanguageAsFavorite(val language: Locale) : PronunciationEvent()
+    class UnmarkedLanguageAsFavorite(val language: Locale) : PronunciationEvent()
 }

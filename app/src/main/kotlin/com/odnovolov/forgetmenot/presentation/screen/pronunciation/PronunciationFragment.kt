@@ -31,16 +31,28 @@ class PronunciationFragment : BaseFragment() {
     private lateinit var viewModel: PronunciationViewModel
     private var questionLanguagePopup: PopupWindow? = null
     private val questionLanguageAdapter = LanguageAdapter(
-        onItemClick = { language: Locale? ->
+        onItemClicked = { language: Locale? ->
             controller?.dispatch(QuestionLanguageSelected(language))
             questionLanguagePopup?.dismiss()
+        },
+        onMarkLanguageAsFavoriteButtonClicked = { language: Locale ->
+            controller?.dispatch(MarkedLanguageAsFavorite(language))
+        },
+        onUnmarkLanguageAsFavoriteButtonClicked = { language: Locale ->
+            controller?.dispatch(UnmarkedLanguageAsFavorite(language))
         }
     )
     private var answerLanguagePopup: PopupWindow? = null
     private val answerLanguageAdapter = LanguageAdapter(
-        onItemClick = { language: Locale? ->
+        onItemClicked = { language: Locale? ->
             controller?.dispatch(AnswerLanguageSelected(language))
             answerLanguagePopup?.dismiss()
+        },
+        onMarkLanguageAsFavoriteButtonClicked = { language: Locale ->
+            controller?.dispatch(MarkedLanguageAsFavorite(language))
+        },
+        onUnmarkLanguageAsFavoriteButtonClicked = { language: Locale ->
+            controller?.dispatch(UnmarkedLanguageAsFavorite(language))
         }
     )
     private lateinit var exampleFragment: ExampleExerciseFragment

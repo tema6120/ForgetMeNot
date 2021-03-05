@@ -13,43 +13,50 @@ import com.odnovolov.forgetmenot.presentation.screen.pronunciation.Pronunciation
 class PronunciationController(
     private val pronunciationSettings: PronunciationSettings,
     private val screenState: PronunciationScreenState,
+    private val pronunciationPreferences: PronunciationPreferences,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val screenStateProvider: ShortTermStateProvider<PronunciationScreenState>
 ) : BaseController<PronunciationEvent, Nothing>() {
-    override fun handle(event: PronunciationEvent) {
-        when (event) {
-            HelpButtonClicked -> {
-                navigator.navigateToHelpArticleFromPronunciation {
-                    val screenState = HelpArticleScreenState(HelpArticle.Pronunciation)
-                    HelpArticleDiScope.create(screenState)
-                }
+    override fun handle(event: PronunciationEvent) = when (event) {
+        HelpButtonClicked -> {
+            navigator.navigateToHelpArticleFromPronunciation {
+                val screenState = HelpArticleScreenState(HelpArticle.Pronunciation)
+                HelpArticleDiScope.create(screenState)
             }
+        }
 
-            CloseTipButtonClicked -> {
-                screenState.tip?.state?.needToShow = false
-                screenState.tip = null
-            }
+        CloseTipButtonClicked -> {
+            screenState.tip?.state?.needToShow = false
+            screenState.tip = null
+        }
 
-            is QuestionLanguageSelected -> {
-                pronunciationSettings.setQuestionLanguage(event.language)
-            }
+        is QuestionLanguageSelected -> {
+            pronunciationSettings.setQuestionLanguage(event.language)
+        }
 
-            QuestionAutoSpeakSwitchToggled -> {
-                pronunciationSettings.toggleQuestionAutoSpeaking()
-            }
+        QuestionAutoSpeakSwitchToggled -> {
+            pronunciationSettings.toggleQuestionAutoSpeaking()
+        }
 
-            is AnswerLanguageSelected -> {
-                pronunciationSettings.setAnswerLanguage(event.language)
-            }
+        is AnswerLanguageSelected -> {
+            pronunciationSettings.setAnswerLanguage(event.language)
+        }
 
-            AnswerAutoSpeakSwitchToggled -> {
-                pronunciationSettings.toggleAnswerAutoSpeaking()
-            }
+        AnswerAutoSpeakSwitchToggled -> {
+            pronunciationSettings.toggleAnswerAutoSpeaking()
+        }
 
-            SpeakTextInBracketsSwitchToggled -> {
-                pronunciationSettings.toggleSpeakTextInBrackets()
-            }
+        SpeakTextInBracketsSwitchToggled -> {
+            pronunciationSettings.toggleSpeakTextInBrackets()
+        }
+
+        is MarkedLanguageAsFavorite -> {
+            pronunciationPreferences.favoriteLanguages += event.language
+        }
+
+        is UnmarkedLanguageAsFavorite -> {
+            pronunciationPreferences.favoriteLanguages -= event.language
         }
     }
 

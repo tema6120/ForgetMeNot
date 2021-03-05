@@ -16,7 +16,8 @@ import java.util.*
 class PronunciationViewModel(
     deckSettingsState: DeckSettings.State,
     speakerImpl: SpeakerImpl,
-    screenState: PronunciationScreenState
+    screenState: PronunciationScreenState,
+    pronunciationPreferences: PronunciationPreferences
 ) {
     val tip: Flow<Tip?> = screenState.flowOf(PronunciationScreenState::tip)
 
@@ -27,10 +28,24 @@ class PronunciationViewModel(
         }
         .share()
 
+    private data class FavorableLanguage(
+        val language: Locale,
+        val isFavorite: Boolean
+    )
+
     private val availableLanguages: Flow<List<Locale>> = speakerImpl.state
         .flowOf(SpeakerImpl.State::availableLanguages)
         .map { availableLanguages: Set<Locale> ->
-            availableLanguages.sortedBy { locale: Locale -> locale.displayName }
+            val favoriteLanguages = pronunciationPreferences.favoriteLanguages
+            availableLanguages.map { locale: Locale ->
+                    val isFavorite = locale in favoriteLanguages
+                    FavorableLanguage(locale, isFavorite)
+                }
+                .sortedWith(
+                    compareByDescending<FavorableLanguage> { it.isFavorite }
+                        .thenBy { it.language.displayName }
+                )
+                .map { it.language }
         }
 
     val selectedQuestionLanguage: Flow<Locale?> = currentPronunciation
@@ -38,19 +53,28 @@ class PronunciationViewModel(
             currentPronunciation.flowOf(Pronunciation::questionLanguage)
         }
 
+    private var favoriteLanguages: Flow<Set<Locale>> =
+        pronunciationPreferences.flowOf(PronunciationPreferences::favoriteLanguages)
+
     val displayedQuestionLanguages: Flow<List<DisplayedLanguage>> = combine(
         availableLanguages,
-        selectedQuestionLanguage
-    ) { availableLanguages: List<Locale>, selectedQuestionLanguage: Locale? ->
+        selectedQuestionLanguage,
+        favoriteLanguages
+    ) { availableLanguages: List<Locale>,
+        selectedQuestionLanguage: Locale?,
+        favoriteLanguages: Set<Locale>
+        ->
         val defaultLanguage = DisplayedLanguage(
             language = null,
-            isSelected = selectedQuestionLanguage == null
+            isSelected = selectedQuestionLanguage == null,
+            isFavorite = null
         )
         val concreteLanguages = availableLanguages
             .map { language: Locale ->
                 DisplayedLanguage(
                     language = language,
-                    isSelected = selectedQuestionLanguage == language
+                    isSelected = selectedQuestionLanguage == language,
+                    isFavorite = language in favoriteLanguages
                 )
             }
         listOf(defaultLanguage) + concreteLanguages
@@ -68,17 +92,22 @@ class PronunciationViewModel(
 
     val displayedAnswerLanguages: Flow<List<DisplayedLanguage>> = combine(
         availableLanguages,
-        selectedAnswerLanguage
-    ) { availableLanguages: List<Locale>, selectedAnswerLanguage: Locale? ->
+        selectedAnswerLanguage,
+        favoriteLanguages
+    ) { availableLanguages: List<Locale>,
+        selectedAnswerLanguage: Locale?,
+        favoriteLanguages: Set<Locale> ->
         val defaultLanguage = DisplayedLanguage(
             language = null,
-            isSelected = selectedAnswerLanguage == null
+            isSelected = selectedAnswerLanguage == null,
+            isFavorite = null
         )
         val concreteLanguages = availableLanguages
             .map { language: Locale ->
                 DisplayedLanguage(
                     language = language,
-                    isSelected = selectedAnswerLanguage == language
+                    isSelected = selectedAnswerLanguage == language,
+                    isFavorite = language in favoriteLanguages
                 )
             }
         listOf(defaultLanguage) + concreteLanguages

@@ -3,16 +3,18 @@ package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.odnovolov.forgetmenot.R.layout
-import com.odnovolov.forgetmenot.R.string
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.toFlagEmoji
 import kotlinx.android.synthetic.main.item_language.view.*
 import java.util.*
 
 class LanguageAdapter(
-    private val onItemClick: (language: Locale?) -> Unit
+    private val onItemClicked: (language: Locale?) -> Unit,
+    private val onMarkLanguageAsFavoriteButtonClicked: (language: Locale) -> Unit,
+    private val onUnmarkLanguageAsFavoriteButtonClicked: (language: Locale) -> Unit,
 ) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
     var items: List<DisplayedLanguage> = emptyList()
         set(value) {
@@ -24,7 +26,7 @@ class LanguageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(layout.item_language, parent, false)
+            .inflate(R.layout.item_language, parent, false)
         return SimpleRecyclerViewHolder(view)
     }
 
@@ -32,7 +34,7 @@ class LanguageAdapter(
         val displayedLanguage: DisplayedLanguage = items[position]
         with(viewHolder.itemView) {
             if (displayedLanguage.language == null) {
-                languageNameTextView.text = context.getString(string.default_language)
+                languageNameTextView.text = context.getString(R.string.default_language)
             } else {
                 languageNameTextView.text = displayedLanguage.language.displayLanguage
             }
@@ -43,9 +45,28 @@ class LanguageAdapter(
             } else {
                 flagTextView.visibility = View.INVISIBLE
             }
-            isSelected = displayedLanguage.isSelected
+            with(favoriteLanguageButton) {
+                when (displayedLanguage.isFavorite) {
+                    null -> isVisible = false
+                    true -> {
+                        isVisible = true
+                        setImageResource(R.drawable.ic_round_star_24)
+                        setOnClickListener {
+                            onUnmarkLanguageAsFavoriteButtonClicked(displayedLanguage.language!!)
+                        }
+                    }
+                    false -> {
+                        isVisible = true
+                        setImageResource(R.drawable.ic_round_star_border_24)
+                        setOnClickListener {
+                            onMarkLanguageAsFavoriteButtonClicked(displayedLanguage.language!!)
+                        }
+                    }
+                }
+            }
+            languageItemButton.isSelected = displayedLanguage.isSelected
             languageItemButton.setOnClickListener {
-                onItemClick(displayedLanguage.language)
+                onItemClicked(displayedLanguage.language)
             }
         }
     }

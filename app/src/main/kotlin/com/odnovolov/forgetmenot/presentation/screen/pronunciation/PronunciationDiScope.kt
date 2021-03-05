@@ -27,6 +27,8 @@ class PronunciationDiScope private constructor(
         AppDiScope.get().app
     )
 
+    private val pronunciationPreferences = PronunciationPreferences(emptySet()) // todo
+
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,
         AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
@@ -36,6 +38,7 @@ class PronunciationDiScope private constructor(
     val controller = PronunciationController(
         pronunciationSettings,
         screenState,
+        pronunciationPreferences,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
         screenStateProvider
@@ -44,7 +47,8 @@ class PronunciationDiScope private constructor(
     val viewModel = PronunciationViewModel(
         DeckSettingsDiScope.getOrRecreate().deckSettings.state,
         speakerImpl,
-        screenState
+        screenState,
+        pronunciationPreferences
     )
 
     companion object : DiScopeManager<PronunciationDiScope>() {
