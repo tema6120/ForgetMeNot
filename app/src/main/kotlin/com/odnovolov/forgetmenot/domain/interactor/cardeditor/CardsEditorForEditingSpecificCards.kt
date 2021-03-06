@@ -111,21 +111,15 @@ open class CardsEditorForEditingSpecificCards(
             ).forEach { (deckToMoveTo: Deck, movingCards: List<Card>) ->
                 deckToMoveTo.cards = (deckToMoveTo.cards + movingCards).toCopyableList()
             }
-            if (exercise != null) {
+            if (exercise != null || player != null) {
                 val cardMovement: List<Exercise.CardMoving> =
                     movements.map { cardMoving: CardMoving ->
                         val cardId: Long = cardMoving.editableCard.card.id
                         val deckMoveTo: Deck = cardMoving.targetDeck
                         Exercise.CardMoving(cardId, deckMoveTo)
                     }
-                exercise.notifyCardsMoved(cardMovement)
-            }
-            if (player != null) {
-                movements.forEach { cardMoving: CardMoving ->
-                    val cardId: Long = cardMoving.editableCard.card.id
-                    val deckMovedTo: Deck = cardMoving.targetDeck
-                    player.notifyCardMoved(cardId, deckMovedTo)
-                }
+                exercise?.notifyCardsMoved(cardMovement)
+                player?.notifyCardsMoved(cardMovement)
             }
         }
     }
@@ -158,7 +152,7 @@ open class CardsEditorForEditingSpecificCards(
                         || isGradeChanged || isIsLearnedChanged
                 if (isCardChanged) {
                     exercise.notifyCardChanged(
-                        originalCard,
+                        originalCard.id,
                         isQuestionChanged,
                         isAnswerChanged,
                         isGradeChanged,

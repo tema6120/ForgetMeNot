@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.createDialog
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeEvent.GradeSelected
 import kotlinx.android.synthetic.main.dialog_change_grade.view.*
 import kotlinx.android.synthetic.main.dialog_title.view.*
@@ -79,7 +79,7 @@ class ChangeGradeDialog : BaseDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             ChangeGradeDiScope.close()
         }
     }

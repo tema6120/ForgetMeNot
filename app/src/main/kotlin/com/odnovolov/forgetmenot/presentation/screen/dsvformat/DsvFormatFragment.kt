@@ -577,7 +577,7 @@ class DsvFormatFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             DsvFormatDiScope.close()
         }
     }

@@ -11,7 +11,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.createDialog
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.common.openDocumentTree
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportController.Command.CreateFiles
@@ -195,7 +195,7 @@ class ExportDialog : BaseDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             ExportDiScope.close()
         }
     }

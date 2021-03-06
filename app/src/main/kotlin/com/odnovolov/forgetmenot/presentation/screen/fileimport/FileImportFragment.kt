@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.common.setTransparentStatusBar
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.*
@@ -119,7 +119,7 @@ class FileImportFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             FileImportDiScope.close()
         }
     }

@@ -13,7 +13,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.TestingMethod
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.common.needToCloseDiScope
+import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseFragment
@@ -136,7 +136,7 @@ class TestingMethodFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             TestingMethodDiScope.close()
         }
     }

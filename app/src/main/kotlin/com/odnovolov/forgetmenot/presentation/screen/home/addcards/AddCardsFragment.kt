@@ -134,7 +134,7 @@ class AddCardsFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             AddCardsDiScope.close()
         }
     }

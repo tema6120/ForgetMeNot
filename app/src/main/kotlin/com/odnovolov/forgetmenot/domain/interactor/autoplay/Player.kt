@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.CardInversion.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.Delay
+import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.TextInBracketsRemover
 import kotlinx.coroutines.*
 import java.util.*
@@ -285,14 +286,16 @@ class Player(
             .filter { playingCard: PlayingCard -> playingCard.card.id !in removedCardIds }
     }
 
-    fun notifyCardMoved(cardId: Long, deckMovedTo: Deck) {
-        for (playingCard: PlayingCard in state.playingCards) {
-            if (playingCard.card.id != cardId) continue
-            val isExercisePreferenceChanged: Boolean =
-                playingCard.deck.exercisePreference.id != deckMovedTo.exercisePreference.id
-            playingCard.deck = deckMovedTo
-            if (isExercisePreferenceChanged) {
-                playingCard.conformToNewExercisePreference()
+    fun notifyCardsMoved(cardMovement: List<Exercise.CardMoving>) {
+        for (cardMoving: Exercise.CardMoving in cardMovement) {
+            for (playingCard: PlayingCard in state.playingCards) {
+                if (playingCard.card.id != cardMoving.cardId) continue
+                val isExercisePreferenceChanged: Boolean =
+                    playingCard.deck.exercisePreference.id != cardMoving.deckMovedTo.exercisePreference.id
+                playingCard.deck = cardMoving.deckMovedTo
+                if (isExercisePreferenceChanged) {
+                    playingCard.conformToNewExercisePreference()
+                }
             }
         }
     }

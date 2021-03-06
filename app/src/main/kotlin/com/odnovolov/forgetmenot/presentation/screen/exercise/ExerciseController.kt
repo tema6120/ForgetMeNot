@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
@@ -124,7 +125,7 @@ class ExerciseController(
             SearchButtonClicked -> {
                 exercise.stopSpeaking()
                 navigator.navigateToSearchFromExercise {
-                    val searchText = with(exercise.state) {
+                    val initialSearchText = with(exercise.state) {
                         when {
                             questionSelection.isNotEmpty() -> questionSelection
                             answerSelection.isNotEmpty() -> answerSelection
@@ -132,7 +133,12 @@ class ExerciseController(
                         }
                     }
                     val cardsSearcher = CardsSearcher(globalState)
-                    SearchDiScope.create(cardsSearcher, searchText)
+                    val batchCardEditor = BatchCardEditor(
+                        BatchCardEditor.State(),
+                        globalState,
+                        exercise
+                    )
+                    SearchDiScope.create(cardsSearcher, batchCardEditor, initialSearchText)
                 }
             }
 

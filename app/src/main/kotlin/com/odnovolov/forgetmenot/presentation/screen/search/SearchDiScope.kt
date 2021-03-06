@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.search
 
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.persistence.shortterm.CardsSearcherProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -9,6 +8,7 @@ import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
 class SearchDiScope private constructor(
     initialCardsSearcher: CardsSearcher? = null,
+    initialBatchCardEditor: BatchCardEditor? = null,
     initialSearchText: String = ""
 ) {
     private val cardsSearcherProvider = CardsSearcherProvider(
@@ -26,10 +26,8 @@ class SearchDiScope private constructor(
     private val cardsSearcher: CardsSearcher =
         initialCardsSearcher ?: cardsSearcherProvider.load()
 
-    val batchCardEditor = BatchCardEditor(
-        State(), // todo save state
-        AppDiScope.get().globalState
-    )
+    val batchCardEditor: BatchCardEditor =
+        initialBatchCardEditor ?: TODO()
 
     val controller = SearchController(
         cardsSearcher,
@@ -48,9 +46,11 @@ class SearchDiScope private constructor(
     companion object : DiScopeManager<SearchDiScope>() {
         fun create(
             cardsSearcher: CardsSearcher,
+            batchCardEditor: BatchCardEditor,
             initialSearchText: String = ""
         ) = SearchDiScope(
             cardsSearcher,
+            batchCardEditor,
             initialSearchText
         )
 
@@ -59,6 +59,7 @@ class SearchDiScope private constructor(
         override fun onCloseDiScope(diScope: SearchDiScope) {
             diScope.controller.dispose()
             diScope.cardsSearcher.dispose()
+            diScope.batchCardEditor.finish()
         }
     }
 }

@@ -148,7 +148,7 @@ class ModifyIntervalDialog : BaseDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             ModifyIntervalDiScope.close()
         }
     }

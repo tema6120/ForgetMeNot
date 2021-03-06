@@ -43,6 +43,7 @@ class CardsEditorFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setTransparentStatusBar(requireActivity())
         return inflater.inflate(R.layout.fragment_cards_editor, container, false)
     }
 
@@ -327,7 +328,7 @@ class CardsEditorFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity as AppCompatActivity).supportActionBar?.show()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             CardsEditorDiScope.close()
         }
     }

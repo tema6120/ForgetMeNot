@@ -437,7 +437,7 @@ class ExampleExerciseFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             ExampleExerciseDiScope.close()
         }
     }

@@ -43,6 +43,7 @@ class DeckEditorDiScope private constructor(
 
         override fun onCloseDiScope(diScope: DeckEditorDiScope) {
             diScope.controller.dispose()
+            diScope.batchCardEditor.finish()
         }
     }
 }

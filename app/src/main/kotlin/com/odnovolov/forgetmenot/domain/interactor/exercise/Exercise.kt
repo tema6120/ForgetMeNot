@@ -3,7 +3,6 @@ package com.odnovolov.forgetmenot.domain.interactor.exercise
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.*
@@ -524,7 +523,7 @@ class Exercise(
     }
 
     fun notifyCardChanged(
-        card: Card,
+        cardId: Long,
         isQuestionChanged: Boolean,
         isAnswerChanged: Boolean,
         isGradeChanged: Boolean,
@@ -533,7 +532,7 @@ class Exercise(
         if (!isPositionValid()) return
         val currentPosition = state.currentPosition
         for ((position: Int, exerciseCard: ExerciseCard) in state.exerciseCards.withIndex()) {
-            if (card.id != exerciseCard.base.card.id) continue
+            if (cardId != exerciseCard.base.card.id) continue
             state.currentPosition = position
             val isReverse = exerciseCard.base.isInverted
             val isActualAnswerChanged: Boolean =

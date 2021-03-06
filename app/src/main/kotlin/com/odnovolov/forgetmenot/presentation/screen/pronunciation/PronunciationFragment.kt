@@ -228,7 +228,7 @@ class PronunciationFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             PronunciationDiScope.close()
         }
     }

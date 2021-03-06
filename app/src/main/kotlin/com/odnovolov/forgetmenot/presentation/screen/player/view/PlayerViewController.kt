@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
@@ -130,7 +131,7 @@ class PlayerViewController(
             SearchButtonClicked -> {
                 player.pause()
                 navigator.navigateToSearchFromPlayer {
-                    val searchText = with(player.state) {
+                    val initialSearchText = with(player.state) {
                         when {
                             questionSelection.isNotEmpty() -> questionSelection
                             answerSelection.isNotEmpty() -> answerSelection
@@ -138,7 +139,12 @@ class PlayerViewController(
                         }
                     }
                     val cardsSearcher = CardsSearcher(globalState)
-                    SearchDiScope.create(cardsSearcher, searchText)
+                    val batchCardEditor = BatchCardEditor(
+                        BatchCardEditor.State(),
+                        globalState,
+                        player = player
+                    )
+                    SearchDiScope.create(cardsSearcher, batchCardEditor, initialSearchText)
                 }
             }
 

@@ -40,7 +40,8 @@ class DeckContentController(
                 batchCardEditor.clearSelection()
                 navigator.navigateToSearchFromDeckEditor {
                     val cardsSearcher = CardsSearcher(screenState.deck)
-                    SearchDiScope.create(cardsSearcher)
+                    val batchCardEditor = BatchCardEditor(BatchCardEditor.State(), globalState)
+                    SearchDiScope.create(cardsSearcher, batchCardEditor)
                 }
             }
 

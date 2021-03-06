@@ -453,7 +453,7 @@ class PlayerFragment : BaseFragment() {
             val intent = Intent(context, PlayerService::class.java)
             requireContext().stopService(intent)
         }
-        if (needToCloseDiScope()) {
+        if (isFinishing()) {
             PlayerDiScope.isFragmentAlive = false
         }
     }

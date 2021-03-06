@@ -154,7 +154,7 @@ abstract class CardsEditor(
     abstract fun areCardsEdited(): Boolean
     abstract fun save(): SavingResult
 
-    fun dispose() {
+    fun finish() {
         val emptyCreatedDeckIds = state.createdDecks.mapNotNull { deck: Deck ->
             if (deck.cards.isEmpty()) deck.id else null
         }

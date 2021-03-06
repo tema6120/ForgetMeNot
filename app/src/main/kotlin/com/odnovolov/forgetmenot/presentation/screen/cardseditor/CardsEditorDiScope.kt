@@ -51,7 +51,7 @@ class CardsEditorDiScope private constructor(
 
         override fun onCloseDiScope(diScope: CardsEditorDiScope) {
             diScope.controller.dispose()
-            diScope.cardsEditor.dispose()
+            diScope.cardsEditor.finish()
         }
     }
 }

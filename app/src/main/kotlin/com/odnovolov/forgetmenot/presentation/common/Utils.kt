@@ -181,9 +181,7 @@ fun TextView.fixTextSelection() {
     post { setTextIsSelectable(true) }
 }
 
-fun Fragment.needToCloseDiScope(): Boolean {
-    return isRemoving || !requireActivity().isChangingConfigurations
-}
+fun Fragment.isFinishing(): Boolean = isRemoving && !isStateSaved
 
 fun LayoutInflater.inflateAsync(
     layoutResId: Int,
