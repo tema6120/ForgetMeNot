@@ -4,11 +4,11 @@ import com.odnovolov.forgetmenot.Database
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-class ExampleExerciseStateProvider(
+class ExampleExerciseStateUseTimerProvider(
     json: Json,
     database: Database,
-    override val key: String = "ExampleExerciseState"
-) : BaseSerializableStateProvider<Boolean, ExampleExerciseStateProvider.SerializableState>(
+    override val key: String
+) : BaseSerializableStateProvider<Boolean, ExampleExerciseStateUseTimerProvider.SerializableState>(
     json,
     database
 ) {

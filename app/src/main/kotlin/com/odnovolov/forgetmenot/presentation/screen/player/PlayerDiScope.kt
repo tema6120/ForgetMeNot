@@ -24,7 +24,8 @@ class PlayerDiScope private constructor(
     private val playerStateProvider = PlayerStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        AppDiScope.get().globalState
+        AppDiScope.get().globalState,
+        key = "PlayerState"
     )
 
     private val playerState: Player.State =

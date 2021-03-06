@@ -2,7 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
-import com.odnovolov.forgetmenot.persistence.shortterm.ExampleExerciseStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.ExampleExerciseStateUseTimerProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
@@ -21,23 +21,25 @@ class ExampleExerciseDiScope private constructor(
     private val exerciseStateProvider = ExerciseStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        AppDiScope.get().globalState
+        AppDiScope.get().globalState,
+        key = "ExampleExerciseState"
     )
 
     private val exerciseState: Exercise.State =
         initialExerciseState ?: exerciseStateProvider.load()
 
-    private val exampleExerciseStateProvider = ExampleExerciseStateProvider(
+    private val useTimerProvider = ExampleExerciseStateUseTimerProvider(
         AppDiScope.get().json,
-        AppDiScope.get().database
+        AppDiScope.get().database,
+        key = "ExampleExerciseState useTimer"
     )
 
     private val useTimer: Boolean =
         if (initialUseTimer != null) {
-            exampleExerciseStateProvider.save(initialUseTimer)
+            useTimerProvider.save(initialUseTimer)
             initialUseTimer
         } else {
-            exampleExerciseStateProvider.load()
+            useTimerProvider.load()
         }
 
     private val audioFocusManager = AudioFocusManager(

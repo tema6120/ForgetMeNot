@@ -24,7 +24,8 @@ class ExerciseDiScope private constructor(
     private val exerciseStateProvider = ExerciseStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        AppDiScope.get().globalState
+        AppDiScope.get().globalState,
+        key = "ExerciseState"
     )
 
     private val exerciseState: Exercise.State =

@@ -22,7 +22,8 @@ class ExamplePlayerDiScope private constructor(
         PlayerStateProvider(
             AppDiScope.get().json,
             AppDiScope.get().database,
-            AppDiScope.get().globalState
+            AppDiScope.get().globalState,
+            key = "ExamplePlayerState"
         )
     }
 

@@ -12,7 +12,7 @@ class PlayerStateProvider(
     json: Json,
     database: Database,
     private val globalState: GlobalState,
-    override val key: String = Player.State::class.qualifiedName!!
+    override val key: String
 ) : BaseSerializableStateProvider<Player.State, SerializableState>(
     json,
     database

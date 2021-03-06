@@ -15,7 +15,7 @@ class ExerciseStateProvider(
     json: Json,
     database: Database,
     private val globalState: GlobalState,
-    override val key: String = Exercise.State::class.qualifiedName!!
+    override val key: String
 ) : BaseSerializableStateProvider<Exercise.State, SerializableExerciseState>(
     json,
     database
