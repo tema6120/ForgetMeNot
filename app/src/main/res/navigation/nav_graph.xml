@@ -53,6 +53,10 @@
                 android:id="@+id/nav_host_to_export"
                 app:destination="@+id/export" />
 
+        <action
+            android:id="@+id/show_change_grade_dialog_from_nav_host"
+            app:destination="@+id/change_grade_dialog" />
+
     </fragment>
 
     <fragment

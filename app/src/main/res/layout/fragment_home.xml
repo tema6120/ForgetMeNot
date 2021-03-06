@@ -53,6 +53,16 @@
                     android:paddingEnd="8dp"
                     android:textSize="@dimen/text_size_search_edittext" />
 
+            <ProgressBar
+                    android:id="@+id/searchProgressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
+
             <ImageButton
                     android:id="@+id/pasteButton"
                     android:layout_width="48dp"
@@ -130,70 +140,9 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-                android:id="@+id/selectionToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/colorAccent"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                app:layout_scrollFlags="noScroll"
-                tools:visibility="visible">
+        <include layout="@layout/toolbar_item_selection" />
 
-            <ImageButton
-                    android:id="@+id/cancelSelectionButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ripple_light_borderless"
-                    android:contentDescription="@string/description_cancel_selection"
-                    app:srcCompat="@drawable/ic_round_clear_24" />
-
-            <TextView
-                    android:id="@+id/numberOfSelectedDecksTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/nunito_bold"
-                    android:maxLines="1"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_selection_toolbar_title"
-                    tools:text="43 decks" />
-
-            <ImageButton
-                    android:id="@+id/selectAllButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ripple_light_borderless"
-                    android:contentDescription="@string/description_select_all"
-                    app:srcCompat="@drawable/ic_round_select_all_24" />
-
-            <ImageButton
-                    android:id="@+id/removeDecksButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ripple_light_borderless"
-                    android:contentDescription="@string/description_remove"
-                    app:srcCompat="@drawable/ic_round_delete_outline_24" />
-
-            <ImageButton
-                    android:id="@+id/moreDeckSelectionOptionsButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ripple_light_borderless"
-                    android:contentDescription="@string/description_more_options"
-                    app:srcCompat="@drawable/ic_round_more_vert_24" />
-
-        </LinearLayout>
-
-        <View
+        <Space
                 android:id="@+id/antiJumpingView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

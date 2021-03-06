@@ -32,10 +32,10 @@ class SearchFragment : BaseFragment() {
     }
 
     private var controller: SearchController? = null
-    private lateinit var viewModel: SearchViewModel
     private var isSelectionMode = false
     private var isAntiJumpingViewActivated = false
     private var lastShownSnackbar: Snackbar? = null
+    private lateinit var adapter: SelectableSearchCardAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,14 +51,18 @@ class SearchFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = SearchDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            viewModel = diScope.viewModel
-            initAdapter()
-            observeViewModel()
+            observeViewModel(diScope.viewModel)
             controller!!.commands.observe(::executeCommand)
         }
     }
 
     private fun setupView() {
+        setupSearchFrame()
+        setupSelectionToolbar()
+        initAdapter()
+    }
+
+    private fun setupSearchFrame() {
         backButton.run {
             setOnClickListener { activity?.onBackPressed() }
             setTooltipTextFromContentDescription()
@@ -72,31 +76,6 @@ class SearchFragment : BaseFragment() {
                 controller?.dispatch(SearchTextChanged(newText))
                 updatePasteClearButton()
             }
-        }
-        setupSelectionToolbar()
-    }
-
-    private fun setupSelectionToolbar() {
-        cancelSelectionButton.run {
-            setOnClickListener { controller?.dispatch(CancelledCardSelection) }
-            setTooltipTextFromContentDescription()
-        }
-        selectAllButton.run {
-            setOnClickListener { controller?.dispatch(SelectAllCardsButtonClicked) }
-            setTooltipTextFromContentDescription()
-        }
-        removeOptionItem.run {
-            setOnClickListener { controller?.dispatch(RemoveCardsCardSelectionOptionSelected) }
-            setTooltipTextFromContentDescription()
-        }
-        moreOptionsButton.run {
-            setOnClickListener {
-                if (controller != null) {
-                    CardSelectionOptionsBottomSheet()
-                        .show(childFragmentManager, "CardSelectionOptionsBottomSheet")
-                }
-            }
-            setTooltipTextFromContentDescription()
         }
     }
 
@@ -126,14 +105,41 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    private fun initAdapter() {
-        val adapter = SearchCardAdapter(controller!!)
-        cardsRecycler.adapter = adapter
-        viewModel.foundCards.observe(adapter::submitList)
+    private fun setupSelectionToolbar() {
+        cancelSelectionButton.run {
+            setOnClickListener { controller?.dispatch(CancelledCardSelection) }
+            setTooltipTextFromContentDescription()
+        }
+        selectAllButton.run {
+            setOnClickListener { controller?.dispatch(SelectAllCardsButtonClicked) }
+            setTooltipTextFromContentDescription()
+        }
+        removeOptionItem.run {
+            setOnClickListener { controller?.dispatch(RemoveCardsCardSelectionOptionSelected) }
+            setTooltipTextFromContentDescription()
+        }
+        moreOptionsButton.run {
+            setOnClickListener {
+                if (controller != null) {
+                    CardSelectionOptionsBottomSheet()
+                        .show(childFragmentManager, "CardSelectionOptionsBottomSheet")
+                }
+            }
+            setTooltipTextFromContentDescription()
+        }
     }
 
-    private fun observeViewModel() {
+    private fun initAdapter() {
+        adapter = SelectableSearchCardAdapter(
+            onCardClicked = { cardId: Long -> controller?.dispatch(CardClicked(cardId)) },
+            onCardLongClicked = { cardId: Long -> controller?.dispatch(CardLongClicked(cardId)) }
+        )
+        cardsRecycler.adapter = adapter
+    }
+
+    private fun observeViewModel(viewModel: SearchViewModel) {
         with(viewModel) {
+            foundCards.observe(adapter::submitList)
             searchDeckName.observe { searchDeckName: String? ->
                 searchEditText.hint = (if (searchDeckName == null)
                     getString(R.string.hint_search_in_all_cards) else

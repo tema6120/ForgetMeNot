@@ -10,5 +10,6 @@ data class ChangeGradeDialogState(
 
 enum class ChangeGradeCaller {
     DeckEditor,
-    Search
+    Search,
+    HomeSearch
 }

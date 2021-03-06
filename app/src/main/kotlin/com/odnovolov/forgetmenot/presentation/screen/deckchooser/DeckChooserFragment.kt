@@ -103,9 +103,9 @@ class DeckChooserFragment : BaseFragment() {
                     ToMergeInto -> R.string.screen_title_choose_a_deck_to_merge_into
                     ToMoveCard -> R.string.screen_title_choose_a_deck_to_move_card
                     ToCopyCard -> R.string.screen_title_choose_a_deck_to_copy_card
-                    ToMoveCardsInDeckEditor, ToMoveCardsInSearch ->
+                    ToMoveCardsInDeckEditor, ToMoveCardsInSearch, ToMoveCardsInHomeSearch ->
                         R.string.screen_title_choose_a_deck_to_move_cards
-                    ToCopyCardsInDeckEditor, ToCopyCardsInSearch ->
+                    ToCopyCardsInDeckEditor, ToCopyCardsInSearch, ToCopyCardsInHomeSearch ->
                         R.string.screen_title_choose_a_deck_to_copy_cards
                 }
             )

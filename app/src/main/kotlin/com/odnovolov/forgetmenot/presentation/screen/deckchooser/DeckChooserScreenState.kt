@@ -16,6 +16,8 @@ class DeckChooserScreenState(
         ToMoveCardsInDeckEditor,
         ToCopyCardsInDeckEditor,
         ToMoveCardsInSearch,
-        ToCopyCardsInSearch
+        ToCopyCardsInSearch,
+        ToMoveCardsInHomeSearch,
+        ToCopyCardsInHomeSearch
     }
 }

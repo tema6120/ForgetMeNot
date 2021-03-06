@@ -1,22 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
-import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 
 sealed class HomeEvent {
+    // Search:
     class SearchTextChanged(val searchText: String) : HomeEvent()
-
-    // Selection toolbar:
-    object CancelledSelection : HomeEvent()
-    object SelectAllDecksButtonClicked : HomeEvent()
-    object PinDeckSelectionOptionSelected : HomeEvent()
-    object UnpinDeckSelectionOptionSelected : HomeEvent()
-    object ExportDeckSelectionOptionSelected : HomeEvent()
-    object MergeIntoDeckSelectionOptionSelected : HomeEvent()
-    class DeckToMergeIntoIsSelected(val abstractDeck: AbstractDeck) : HomeEvent()
-    object MergedDecksSnackbarCancelButtonClicked : HomeEvent()
-    object RemoveDeckSelectionOptionSelected : HomeEvent()
-    object RemovedDecksSnackbarCancelButtonClicked : HomeEvent()
 
     // Filters:
     object DecksAvailableForExerciseCheckboxClicked : HomeEvent()
@@ -48,5 +36,35 @@ sealed class HomeEvent {
     object ExerciseButtonClicked : HomeEvent()
 
     // Card item:
-    class FoundCardClicked(val foundCard: FoundCard) : HomeEvent()
+    class FoundCardClicked(val cardId: Long) : HomeEvent()
+    class FoundCardLongClicked(val cardId: Long) : HomeEvent()
+
+    // Selection toolbar:
+    object CancelledSelection : HomeEvent()
+    object SelectAllSelectionToolbarButtonClicked : HomeEvent()
+    object RemoveSelectionToolbarButtonClicked : HomeEvent()
+    object MoreSelectionToolbarButtonClicked : HomeEvent()
+
+    // Deck selection options
+    object PinDeckSelectionOptionSelected : HomeEvent()
+    object UnpinDeckSelectionOptionSelected : HomeEvent()
+    object ExportDeckSelectionOptionSelected : HomeEvent()
+    object MergeIntoDeckSelectionOptionSelected : HomeEvent()
+    class DeckToMergeIntoIsSelected(val abstractDeck: AbstractDeck) : HomeEvent()
+    object MergedDecksSnackbarCancelButtonClicked : HomeEvent()
+    object RemoveDeckSelectionOptionSelected : HomeEvent()
+    object RemovedDecksSnackbarCancelButtonClicked : HomeEvent()
+
+    // Card selection options
+    object InvertCardSelectionOptionSelected : HomeEvent()
+    object ChangeGradeCardSelectionOptionSelected : HomeEvent()
+    class SelectedGrade(val grade: Int) : HomeEvent()
+    object MarkAsLearnedCardSelectionOptionSelected : HomeEvent()
+    object MarkAsUnlearnedCardSelectionOptionSelected : HomeEvent()
+    object RemoveCardsCardSelectionOptionSelected : HomeEvent()
+    object MoveCardSelectionOptionSelected : HomeEvent()
+    class DeckToMoveCardsToIsSelected(val abstractDeck: AbstractDeck) : HomeEvent()
+    object CopyCardSelectionOptionSelected : HomeEvent()
+    class DeckToCopyCardsToIsSelected(val abstractDeck: AbstractDeck) : HomeEvent()
+    object CancelCardSelectionActionSnackbarButtonClicked : HomeEvent()
 }

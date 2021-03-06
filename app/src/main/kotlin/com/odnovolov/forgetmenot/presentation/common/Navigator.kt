@@ -123,6 +123,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_export)
     }
 
+    fun showChangeGradeDialogFromNavHost(createDiScope: () -> ChangeGradeDiScope) {
+        ChangeGradeDiScope.open(createDiScope)
+        navigate(R.id.show_change_grade_dialog_from_nav_host)
+    }
+
     fun navigateToCardsEditorFromRenameDeckDialog(createDiScope: () -> CardsEditorDiScope) {
         CardsEditorDiScope.open(createDiScope)
         navigate(R.id.rename_deck_dialog_to_cards_editor)

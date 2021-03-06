@@ -4,10 +4,14 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
+import com.odnovolov.forgetmenot.presentation.screen.search.SelectableSearchCard
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -18,7 +22,8 @@ class HomeViewModel(
     globalState: GlobalState,
     deckReviewPreference: DeckReviewPreference,
     controller: HomeController,
-    searcherState: CardsSearcher.State
+    searcherState: CardsSearcher.State,
+    private val batchCardEditorState: BatchCardEditor.State
 ) {
     data class RawDeckPreview(
         val deckId: Long,
@@ -58,8 +63,8 @@ class HomeViewModel(
             } else {
                 val flowsForUpdating: MutableList<Flow<Unit>> = ArrayList(decks.size * 2)
                 for (deck in decks) {
-                    flowsForUpdating.add(deck.flowOf(Deck::name).map {  })
-                    flowsForUpdating.add(deck.flowOf(Deck::isPinned).map {  })
+                    flowsForUpdating.add(deck.flowOf(Deck::name).map { })
+                    flowsForUpdating.add(deck.flowOf(Deck::isPinned).map { })
                 }
                 combine(flowsForUpdating) { decks }.debounce(10)
             }
@@ -304,19 +309,100 @@ class HomeViewModel(
     }
         .distinctUntilChanged()
 
-    val foundCards: Flow<List<FoundCard>> = searcherState.flowOf(CardsSearcher.State::searchResult)
+    val foundCards: Flow<List<SelectableSearchCard>> = combine(
+        searcherState.flowOf(CardsSearcher.State::searchResult),
+        batchCardEditorState.flowOf(BatchCardEditor.State::selectedCards)
+    ) { foundCards: List<FoundCard>, selectedCards: Collection<EditableCard> ->
+        val selectedCardIds: List<Long> =
+            selectedCards.map { editableCard: EditableCard -> editableCard.card.id }
+        foundCards.map { foundCard: FoundCard ->
+            val isSelected: Boolean = foundCard.card.id in selectedCardIds
+            SelectableSearchCard(
+                foundCard.card.id,
+                foundCard.card.question,
+                foundCard.card.answer,
+                foundCard.card.isLearned,
+                foundCard.card.grade,
+                foundCard.searchText,
+                isSelected
+            )
+        }
+    }.flowOn(businessLogicThread)
 
     val cardsNotFound: Flow<Boolean> = combine(
         hasSearchText,
         areCardsBeingSearched,
         foundCards
-    ) { hasSearchText: Boolean, areCardsBeingSearched: Boolean, foundCards: List<FoundCard> ->
+    ) { hasSearchText: Boolean,
+        areCardsBeingSearched: Boolean,
+        foundCards: List<SelectableSearchCard>
+        ->
         hasSearchText && !areCardsBeingSearched && foundCards.isEmpty()
     }
         .distinctUntilChanged()
 
     val areFilesBeingReading: Flow<Boolean> =
         homeScreenState.flowOf(HomeScreenState::areFilesBeingReading)
+
+    val selectionMode: Flow<SelectionMode> = combine(
+        homeScreenState.flowOf(HomeScreenState::deckSelection),
+        batchCardEditorState.flowOf(BatchCardEditor.State::selectedCards)
+    ) { deckSelection: DeckSelection?, selectedCards: Collection<EditableCard> ->
+        when {
+            deckSelection != null -> SelectionMode.DeckSelection
+            selectedCards.isNotEmpty() -> SelectionMode.CardSelection
+            else -> SelectionMode.Off
+        }
+    }
+        .distinctUntilChanged()
+
+    val selectionToolbarTitle: Flow<SelectionToolbarTitle?> = combine(
+        homeScreenState.flowOf(HomeScreenState::deckSelection),
+        batchCardEditorState.flowOf(BatchCardEditor.State::selectedCards)
+    ) { deckSelection: DeckSelection?, selectedCards: Collection<EditableCard> ->
+        when {
+            deckSelection != null -> {
+                when (deckSelection.purpose) {
+                    DeckSelection.Purpose.General -> {
+                        val numberOfSelectedDecks: Int = deckSelection.selectedDeckIds.size
+                        SelectionToolbarTitle.NumberOfSelectedDecks(numberOfSelectedDecks)
+                    }
+                    DeckSelection.Purpose.ForAutoplay -> SelectionToolbarTitle.ChooseDecksToPlay
+                    DeckSelection.Purpose.ForExercise ->
+                        SelectionToolbarTitle.ChooseDecksForExercise
+                }
+            }
+            selectedCards.isNotEmpty() -> {
+                val numberOfSelectedCards: Int = selectedCards.size
+                SelectionToolbarTitle.NumberOfSelectedCards(numberOfSelectedCards)
+            }
+            else -> null
+        }
+    }
+        .distinctUntilChanged()
+
+    val numberOfSelectedCards: Flow<Int> =
+        batchCardEditorState.flowOf(BatchCardEditor.State::selectedCards)
+            .map { editableCards: Collection<EditableCard> -> editableCards.size }
+
+    val isMarkAsLearnedOptionAvailable: Boolean
+        get() = batchCardEditorState.selectedCards.any { editableCard: EditableCard ->
+            !editableCard.card.isLearned
+        }
+
+    val isMarkAsUnlearnedOptionAvailable: Boolean
+        get() = batchCardEditorState.selectedCards.any { editableCard: EditableCard ->
+            editableCard.card.isLearned
+        }
+
+    val searchResultFromOnlyCards: Flow<Unit> = combineTransform(
+        decksPreview.map { it.isNotEmpty() }.distinctUntilChanged(),
+        foundCards.map { it.isNotEmpty() }.distinctUntilChanged()
+    ) { hasFoundDecks: Boolean, hasFoundCards: Boolean ->
+        if (!hasFoundDecks && hasFoundCards) {
+            emit(Unit)
+        }
+    }
 
     init {
         controller.displayedDeckIds = decksPreview.map { decksPreview: List<DeckPreview> ->

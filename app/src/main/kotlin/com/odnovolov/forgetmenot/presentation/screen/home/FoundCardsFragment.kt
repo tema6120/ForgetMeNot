@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.FoundCardClicked
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.FoundCardLongClicked
+import com.odnovolov.forgetmenot.presentation.screen.search.SelectableSearchCardAdapter
 import kotlinx.android.synthetic.main.fragment_found_cards.*
 import kotlinx.coroutines.launch
 
@@ -19,9 +19,9 @@ class FoundCardsFragment : BaseFragment() {
         HomeDiScope.reopenIfClosed()
     }
 
-    private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
     lateinit var scrollListener: RecyclerView.OnScrollListener
+    private lateinit var adapter: SelectableSearchCardAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,27 +37,21 @@ class FoundCardsFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            viewModel = diScope.viewModel
-            observeViewModel()
+            observeViewModel(diScope.viewModel)
         }
     }
 
     private fun setupView() {
-        val onCardClicked: (FoundCard) -> Unit = { foundCard: FoundCard ->
-            controller?.dispatch(FoundCardClicked(foundCard))
-        }
-        cardsRecycler.adapter = FoundCardAdapter(onCardClicked)
+        adapter = SelectableSearchCardAdapter(
+            onCardClicked = { cardId: Long -> controller?.dispatch(FoundCardClicked(cardId)) },
+            onCardLongClicked = { cardId: Long -> controller?.dispatch(FoundCardLongClicked(cardId)) },
+        )
+        cardsRecycler.adapter = adapter
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(viewModel: HomeViewModel) {
         with(viewModel) {
-            areCardsBeingSearched.observe { isSearching: Boolean ->
-                cardsRecycler.isInvisible = isSearching
-                searchingCardsProgressBar.isVisible = isSearching
-            }
-            foundCards.observe { cards: List<FoundCard> ->
-                (cardsRecycler.adapter as FoundCardAdapter).items = cards
-            }
+            foundCards.observe(adapter::submitList)
             cardsNotFound.observe { cardsNotFound: Boolean ->
                 emptyTextView.isVisible = cardsNotFound
             }

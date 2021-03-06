@@ -36,7 +36,7 @@
     <string name="hint_search_edittext">Search</string>
     <string name="title_deck_selection_toolbar_choose_decks_to_play">Choose decks to play</string>
     <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Choose decks for exercise</string>
-    <plurals name="title_deck_selection_toolbar_number_of_selected_decks">
+    <plurals name="title_selection_toolbar_number_of_selected_decks">
         <item quantity="one">%d deck</item>
         <item quantity="other">%d decks</item>
     </plurals>

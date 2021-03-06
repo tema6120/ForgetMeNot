@@ -35,7 +35,7 @@
     <string name="hint_search_edittext">Поиск</string>
     <string name="title_deck_selection_toolbar_choose_decks_to_play">Выберите колоды для проигрывания</string>
     <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Выберите колоды для упражнения</string>
-    <plurals name="title_deck_selection_toolbar_number_of_selected_decks">
+    <plurals name="title_selection_toolbar_number_of_selected_decks">
         <item quantity="one">%d колода</item>
         <item quantity="few">%d колоды</item>
         <item quantity="many">%d колод</item>

@@ -216,9 +216,9 @@ class DeckEditorFragment : BaseFragment() {
         }
     }
 
-    private fun updateStatusBarColor(isSelectionMode: Boolean = this.isSelectionMode) {
+    private fun updateStatusBarColor(isColorful: Boolean = this.isSelectionMode) {
         if (findNavController().currentDestination?.id == R.id.deck_chooser) return
-        if (isSelectionMode) {
+        if (isColorful) {
             setStatusBarColor(requireActivity(), R.color.colorAccent)
         } else {
             setTransparentStatusBar(requireActivity())
@@ -226,20 +226,20 @@ class DeckEditorFragment : BaseFragment() {
     }
 
     private fun updateAppbarItemsVisibility() {
-        setSelectionToolbarVisibility(isVisible = isSelectionMode)
+        updateSelectionToolbarVisibility()
         backButton.isVisible = !isSelectionMode
         deckNameTextView.isVisible = !isSelectionMode
         deckEditorTabLayout.isVisible = !isSelectionMode
         appBarLayout.requestLayout()
     }
 
-    private fun setSelectionToolbarVisibility(isVisible: Boolean) {
-        if (selectionToolbar.isVisible == isVisible) return
+    private fun updateSelectionToolbarVisibility() {
+        if (selectionToolbar.isVisible == isSelectionMode) return
         val transition: Transition = Slide(Gravity.TOP)
         transition.duration = 200
         transition.addTarget(selectionToolbar)
         TransitionManager.beginDelayedTransition(appBarLayout, transition)
-        selectionToolbar.isVisible = isVisible
+        selectionToolbar.isVisible = isSelectionMode
     }
 
     private fun updateAppbarScrollBehavior() {
@@ -398,7 +398,7 @@ class DeckEditorFragment : BaseFragment() {
         deckEditorViewPager.adapter = null
         lastShownSnackbar?.dismiss()
         lastShownSnackbar = null
-        updateStatusBarColor(isSelectionMode = false)
+        updateStatusBarColor(isColorful = false)
     }
 
     override fun onDestroy() {

@@ -11,8 +11,8 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import java.util.*
 
 class BatchCardEditor(
-    val state: State,
     private val globalState: GlobalState,
+    val state: State = State(),
     val exercise: Exercise? = null,
     val player: Player? = null
 ) {

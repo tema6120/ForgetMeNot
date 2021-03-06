@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
@@ -24,19 +25,16 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPreview
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSelection.Purpose.General
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
-import kotlinx.coroutines.flow.combine
+import kotlinx.android.synthetic.main.toolbar_item_selection.*
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -48,11 +46,12 @@ class HomeFragment : BaseFragment() {
     private lateinit var viewModel: HomeViewModel
     private var controller: HomeController? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
-    private var isSearchingAfterPasteButtonClicked: Boolean = false
     private var appbarLayoutOffset: Int = 0
     private var backPressInterceptor: MainActivity.BackPressInterceptor? = null
     private var isAntiJumpingViewActivated = false
     private var lastShownSnackbar: Snackbar? = null
+    private var selectionMode = SelectionMode.Off
+    private val isSelectionMode: Boolean get() = selectionMode != SelectionMode.Off
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,40 +95,33 @@ class HomeFragment : BaseFragment() {
                 searchEditText.hideSoftInput()
             }
         }
+        var needToSkipFirstText = !isViewFirstCreated
         searchEditText.observeText { newText: String ->
-            controller?.dispatch(SearchTextChanged(newText))
-            isSearchingAfterPasteButtonClicked = false
-        }
-    }
-
-    private fun setupBottomButtons() {
-        bottomButtonsRow.layoutTransition.disableTransitionType(LayoutTransition.APPEARING)
-        autoplayButton.setOnClickListener {
-            controller?.dispatch(AutoplayButtonClicked)
-        }
-        exerciseButton.setOnClickListener {
-            controller?.dispatch(ExerciseButtonClicked)
+            if (needToSkipFirstText) {
+                needToSkipFirstText = false
+            } else {
+                controller?.dispatch(SearchTextChanged(newText))
+            }
         }
     }
 
     private fun setupSelectionToolbar() {
-        cancelSelectionButton.setOnClickListener {
-            controller?.dispatch(CancelledSelection)
+        cancelSelectionButton.run {
+            setOnClickListener { controller?.dispatch(CancelledSelection) }
+            setTooltipTextFromContentDescription()
         }
-        selectAllButton.setOnClickListener {
-            controller?.dispatch(SelectAllDecksButtonClicked)
+        selectAllButton.run {
+            setOnClickListener { controller?.dispatch(SelectAllSelectionToolbarButtonClicked) }
+            setTooltipTextFromContentDescription()
         }
-        removeDecksButton.setOnClickListener {
-            controller?.dispatch(RemoveDeckSelectionOptionSelected)
+        removeOptionItem.run {
+            setOnClickListener { controller?.dispatch(RemoveSelectionToolbarButtonClicked) }
+            setTooltipTextFromContentDescription()
         }
-        moreDeckSelectionOptionsButton.setOnClickListener {
-            DeckSelectionOptionsBottomSheet()
-                .show(childFragmentManager, "DeckSelectionOptionsBottomSheet")
+        moreOptionsButton.run {
+            setOnClickListener { controller?.dispatch(MoreSelectionToolbarButtonClicked) }
+            setTooltipTextFromContentDescription()
         }
-        cancelSelectionButton.setTooltipTextFromContentDescription()
-        selectAllButton.setTooltipTextFromContentDescription()
-        removeDecksButton.setTooltipTextFromContentDescription()
-        moreDeckSelectionOptionsButton.setTooltipTextFromContentDescription()
     }
 
     private fun observeAppbarOffset() {
@@ -166,6 +158,16 @@ class HomeFragment : BaseFragment() {
         })
     }
 
+    private fun setupBottomButtons() {
+        bottomButtonsRow.layoutTransition.disableTransitionType(LayoutTransition.APPEARING)
+        autoplayButton.setOnClickListener {
+            controller?.dispatch(AutoplayButtonClicked)
+        }
+        exerciseButton.setOnClickListener {
+            controller?.dispatch(ExerciseButtonClicked)
+        }
+    }
+
     private fun observeViewModel() {
         with(viewModel) {
             hasSearchText.observe { hasSearchText: Boolean ->
@@ -175,22 +177,16 @@ class HomeFragment : BaseFragment() {
                 updatePasteButton(hasSearchText)
                 updateViewPagerLocking()
             }
-            deckSelection.observe { deckSelection: DeckSelection? ->
-                preventDeckItemsJumping(deckSelection)
-                setSelectionToolbarVisibilityWithTransition(isVisible = deckSelection != null)
+            selectionMode.observe { selectionMode: SelectionMode ->
+                this@HomeFragment.selectionMode = selectionMode
+                preventSelectedItemsFromJumping()
+                updateStatusBarColor()
+                updateAppbarItemsVisibility()
                 updateSearchFrameScrollFlags()
-                searchEditText.isEnabled = deckSelection == null
-                searchFrame.isVisible = deckSelection == null
-                headline.isVisible = deckSelection == null
-                if (searchFrame.isVisible && searchEditText.text.isNotEmpty()) {
-                    searchEditText.requestFocus()
-                }
-                updateSelectionToolbarTitle(deckSelection)
-                updateSelectionToolbarButtons(deckSelection)
-                updateStatusBarColor(deckSelection != null)
                 updateDrawerLayoutLockMode()
                 updateViewPagerLocking()
             }
+            selectionToolbarTitle.observe(::updateSelectionToolbarTitle)
             displayOnlyDecksAvailableForExercise.observe { displayOnlyDecksAvailableForExercise: Boolean ->
                 deckListTitleTextView.text = getString(
                     if (displayOnlyDecksAvailableForExercise)
@@ -212,19 +208,16 @@ class HomeFragment : BaseFragment() {
                         getString(R.string.text_exercise_button) else
                         getString(R.string.text_exercise_button_with_cards_count, cardsCount)
             }
-            combine(decksPreview, foundCards) { foundDecks: List<DeckPreview>,
-                                                foundCards: List<FoundCard>
-                ->
-                if (isSearchingAfterPasteButtonClicked
-                    && foundDecks.isEmpty()
-                    && foundCards.isNotEmpty()
-                    && homePager.isUserInputEnabled
-                ) {
+            searchResultFromOnlyCards.observe {
+                if (homePager.currentItem == 0 && homePager.isUserInputEnabled) {
                     homePager.setCurrentItem(1, true)
                 }
-            }.observe()
+            }
             areFilesBeingReading.observe { areFilesBeingReading: Boolean ->
                 progressBarFrame.isVisible = areFilesBeingReading
+            }
+            areCardsBeingSearched.observe { isSearching: Boolean ->
+                searchProgressBar.isInvisible = !isSearching
             }
         }
     }
@@ -243,7 +236,6 @@ class HomeFragment : BaseFragment() {
                 } else {
                     searchEditText.paste()
                     searchEditText.requestFocus()
-                    isSearchingAfterPasteButtonClicked = true
                 }
             }
             contentDescription = getString(
@@ -256,15 +248,16 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun updateViewPagerLocking() {
-        val isLocked: Boolean = selectionToolbar.isVisible || !searchTabLayout.isVisible
+        val isLocked: Boolean = isSelectionMode || !searchTabLayout.isVisible
         homePager.isUserInputEnabled = !isLocked
         if (isLocked) {
-            homePager.setCurrentItem(0, true)
+            val currentViewPagerItem = if (selectionMode == SelectionMode.CardSelection) 1 else 0
+            homePager.setCurrentItem(currentViewPagerItem, true)
         }
     }
 
-    private fun preventDeckItemsJumping(deckSelection: DeckSelection?) {
-        if (!selectionToolbar.isVisible && deckSelection != null) {
+    private fun preventSelectedItemsFromJumping() {
+        if (!selectionToolbar.isVisible && isSelectionMode) {
             antiJumpingView.isVisible = true
             val appBarRealHeight: Int = appBarLayout.height + appbarLayoutOffset
             val gap: Int = appBarRealHeight - 48.dp
@@ -272,49 +265,89 @@ class HomeFragment : BaseFragment() {
                 height = gap
             }
             isAntiJumpingViewActivated = true
-        } else if (selectionToolbar.isVisible && deckSelection == null) {
+        } else if (selectionToolbar.isVisible && !isSelectionMode) {
             antiJumpingView.isVisible = false
             isAntiJumpingViewActivated = false
         }
     }
 
-    private fun setSelectionToolbarVisibilityWithTransition(isVisible: Boolean) {
-        if (selectionToolbar.isVisible == isVisible) return
+    private fun updateStatusBarColor(isColorful: Boolean = isSelectionMode) {
+        if (findNavController().currentDestination?.id == R.id.deck_chooser) return
+        if (isColorful) {
+            setStatusBarColor(requireActivity(), R.color.colorAccent)
+        } else {
+            setTransparentStatusBar(requireActivity())
+        }
+    }
+
+    private fun updateAppbarItemsVisibility() {
+        updateSelectionToolbarVisibility()
+        searchEditText.isEnabled = !isSelectionMode
+        searchFrame.isVisible = !isSelectionMode
+        headline.isVisible = !isSelectionMode
+        if (searchFrame.isVisible && searchEditText.text.isNotEmpty()) {
+            searchEditText.requestFocus()
+        }
+    }
+
+    private fun updateSelectionToolbarVisibility() {
+        if (selectionToolbar.isVisible == isSelectionMode) return
         val transition: Transition = Slide(Gravity.TOP)
         transition.duration = 200
         transition.addTarget(selectionToolbar)
         TransitionManager.beginDelayedTransition(appBarLayout, transition)
-        selectionToolbar.isVisible = isVisible
+        selectionToolbar.isVisible = isSelectionMode
     }
 
-    private fun updateSelectionToolbarTitle(deckSelection: DeckSelection?) {
-        if (deckSelection == null) return
-        if (deckSelection.selectedDeckIds.isNotEmpty()) {
-            numberOfSelectedDecksTextView.text = resources.getQuantityString(
-                R.plurals.title_deck_selection_toolbar_number_of_selected_decks,
-                deckSelection.selectedDeckIds.size,
-                deckSelection.selectedDeckIds.size
-            )
-        } else {
-            when (deckSelection.purpose) {
-                DeckSelection.Purpose.ForAutoplay -> {
-                    numberOfSelectedDecksTextView.text =
-                        getString(R.string.title_deck_selection_toolbar_choose_decks_to_play)
-                }
-                DeckSelection.Purpose.ForExercise -> {
-                    numberOfSelectedDecksTextView.text =
-                        getString(R.string.title_deck_selection_toolbar_choose_decks_for_exercise)
-                }
-                else -> {
-                }
+    private fun updateSearchFrameScrollFlags() {
+        val searchFrameLayoutParams = searchFrame.layoutParams as AppBarLayout.LayoutParams
+        searchFrameLayoutParams.scrollFlags =
+            if (searchEditText.hasFocus() || isSelectionMode) {
+                0
+            } else {
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+            }
+    }
+
+    private fun updateDrawerLayoutLockMode() {
+        val isLocked: Boolean = searchEditText.hasFocus() || isSelectionMode
+        (parentFragment as NavHostFragment).drawerLayout.setDrawerLockMode(
+            if (isLocked)
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED else
+                DrawerLayout.LOCK_MODE_UNLOCKED
+        )
+    }
+
+    private fun updateSelectionToolbarTitle(selectionToolbarTitle: SelectionToolbarTitle?) {
+        if (selectionToolbarTitle == null) return
+        numberOfSelectedItemsTextView.text = when (selectionToolbarTitle) {
+            is SelectionToolbarTitle.NumberOfSelectedDecks -> {
+                resources.getQuantityString(
+                    R.plurals.title_selection_toolbar_number_of_selected_decks,
+                    selectionToolbarTitle.numberOfSelectedDecks,
+                    selectionToolbarTitle.numberOfSelectedDecks
+                )
+            }
+            SelectionToolbarTitle.ChooseDecksToPlay -> {
+                getString(R.string.title_deck_selection_toolbar_choose_decks_to_play)
+            }
+            SelectionToolbarTitle.ChooseDecksForExercise -> {
+                getString(R.string.title_deck_selection_toolbar_choose_decks_for_exercise)
+            }
+            is SelectionToolbarTitle.NumberOfSelectedCards -> {
+                resources.getQuantityString(
+                    R.plurals.title_card_selection_toolbar,
+                    selectionToolbarTitle.numberOfSelectedCards,
+                    selectionToolbarTitle.numberOfSelectedCards
+                )
             }
         }
-    }
-
-    private fun updateSelectionToolbarButtons(deckSelection: DeckSelection?) {
-        val isGeneralSelection: Boolean = deckSelection != null && deckSelection.purpose == General
-        removeDecksButton.isVisible = isGeneralSelection
-        moreDeckSelectionOptionsButton.isVisible = isGeneralSelection
+        val areSelectionButtonsVisible: Boolean =
+            selectionToolbarTitle != SelectionToolbarTitle.ChooseDecksToPlay
+                    && selectionToolbarTitle != SelectionToolbarTitle.ChooseDecksForExercise
+        removeOptionItem.isVisible = areSelectionButtonsVisible
+        moreOptionsButton.isVisible = areSelectionButtonsVisible
     }
 
     private fun updateExerciseButtonMargin() {
@@ -323,13 +356,66 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun updateAppbarScrollBehavior() {
+        val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        appBarLayoutParams.behavior =
+            if (searchEditText.hasFocus()) {
+                null
+            } else {
+                AppBarLayout.Behavior()
+            }
+        appBarLayout.requestLayout()
+    }
+
+    private fun updateDrawerButton() {
+        val isSearchMode: Boolean = searchEditText.hasFocus()
+        with(drawerButton) {
+            setImageResource(
+                if (isSearchMode)
+                    R.drawable.ic_round_keyboard_backspace_24_colored else
+                    R.drawable.ic_drawer_colored
+            )
+            setOnClickListener {
+                if (isSearchMode) {
+                    cancelSearch()
+                } else {
+                    openDrawer()
+                }
+            }
+            contentDescription = getString(
+                if (isSearchMode)
+                    R.string.description_back_button2 else
+                    R.string.description_drawer_button
+            )
+            setTooltipTextFromContentDescription()
+        }
+    }
+
+    private fun cancelSearch() {
+        searchEditText.text.clear()
+        searchEditText.clearFocus()
+    }
+
+    private fun openDrawer() {
+        (parentFragment as NavHostFragment)
+            .drawerLayout.openDrawer(GravityCompat.START)
+    }
+
     private fun executeCommand(command: HomeController.Command) {
         when (command) {
             ShowNoCardIsReadyForExerciseMessage -> {
                 showToast(R.string.toast_text_no_cards_ready_for_exercise)
             }
-            ShowDeckOption -> {
+            ShowDeckOptions -> {
                 DeckOptionsBottomSheet().show(childFragmentManager, "DeckOptionsBottomSheet")
+            }
+            ShowDeckSelectionOptions -> {
+                DeckSelectionOptionsBottomSheet()
+                    .show(childFragmentManager, "DeckSelectionOptionsBottomSheet")
+            }
+            ShowCardSelectionOptions -> {
+                CardSelectionOptionsBottomSheet()
+                    .show(childFragmentManager, "CardSelectionOptionsBottomSheet")
             }
             is ShowDeckRemovingMessage -> {
                 lastShownSnackbar = Snackbar
@@ -368,7 +454,81 @@ class HomeFragment : BaseFragment() {
                         show()
                     }
             }
+            is ShowCardsAreInvertedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_invert,
+                    command.numberOfInvertedCards,
+                    command.numberOfInvertedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowGradeIsChangedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_change_grade,
+                    command.numberOfAffectedCards,
+                    command.grade,
+                    command.numberOfAffectedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreMarkedAsLearnedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_mark_as_learned,
+                    command.numberOfMarkedCards,
+                    command.numberOfMarkedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreMarkedAsUnlearnedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_mark_as_unlearned,
+                    command.numberOfMarkedCards,
+                    command.numberOfMarkedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreRemovedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_remove,
+                    command.numberOfRemovedCards,
+                    command.numberOfRemovedCards
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreMovedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_move,
+                    command.numberOfMovedCards,
+                    command.numberOfMovedCards,
+                    command.deckNameToWhichCardsWereMoved
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            is ShowCardsAreCopiedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_card_selection_action_completed_copy,
+                    command.numberOfCopiedCards,
+                    command.numberOfCopiedCards,
+                    command.deckNameToWhichCardsWereCopied
+                )
+                showCardSelectionActionIsCompletedSnackbar(message)
+            }
         }
+    }
+
+    private fun showCardSelectionActionIsCompletedSnackbar(message: String) {
+        lastShownSnackbar = Snackbar
+            .make(
+                homeRootView,
+                message,
+                resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+            )
+            .setAction(
+                R.string.snackbar_action_cancel,
+                { controller?.dispatch(CancelCardSelectionActionSnackbarButtonClicked) }
+            ).apply {
+                show()
+            }
     }
 
     override fun onAttachFragment(childFragment: Fragment) {
@@ -434,80 +594,6 @@ class HomeFragment : BaseFragment() {
         searchEditText.hideSoftInput()
     }
 
-    private fun cancelSearch() {
-        searchEditText.text.clear()
-        searchEditText.clearFocus()
-    }
-
-    private fun updateDrawerLayoutLockMode() {
-        val isLocked: Boolean = searchEditText.hasFocus() || selectionToolbar.isVisible
-        (parentFragment as NavHostFragment).drawerLayout.setDrawerLockMode(
-            if (isLocked)
-                DrawerLayout.LOCK_MODE_LOCKED_CLOSED else
-                DrawerLayout.LOCK_MODE_UNLOCKED
-        )
-    }
-
-    private fun updateSearchFrameScrollFlags() {
-        val searchFrameLayoutParams = searchFrame.layoutParams as AppBarLayout.LayoutParams
-        searchFrameLayoutParams.scrollFlags =
-            if (searchEditText.hasFocus() || selectionToolbar.isVisible) {
-                0
-            } else {
-                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-            }
-    }
-
-    private fun updateAppbarScrollBehavior() {
-        val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
-        appBarLayoutParams.behavior =
-            if (searchEditText.hasFocus()) {
-                null
-            } else {
-                AppBarLayout.Behavior()
-            }
-        appBarLayout.requestLayout()
-    }
-
-    private fun updateStatusBarColor(isSelectionMode: Boolean) {
-        if (findNavController().currentDestination?.id == R.id.deck_chooser) return
-        if (isSelectionMode) {
-            setStatusBarColor(requireActivity(), R.color.colorAccent)
-        } else {
-            setTransparentStatusBar(requireActivity())
-        }
-    }
-
-    private fun updateDrawerButton() {
-        val isSearchMode: Boolean = searchEditText.hasFocus()
-        with(drawerButton) {
-            setImageResource(
-                if (isSearchMode)
-                    R.drawable.ic_round_keyboard_backspace_24_colored else
-                    R.drawable.ic_drawer_colored
-            )
-            setOnClickListener {
-                if (isSearchMode) {
-                    cancelSearch()
-                } else {
-                    openDrawer()
-                }
-            }
-            contentDescription = getString(
-                if (isSearchMode)
-                    R.string.description_back_button2 else
-                    R.string.description_drawer_button
-            )
-            setTooltipTextFromContentDescription()
-        }
-    }
-
-    private fun openDrawer() {
-        (parentFragment as NavHostFragment)
-            .drawerLayout.openDrawer(GravityCompat.START)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         homePager.adapter = null
@@ -515,7 +601,7 @@ class HomeFragment : BaseFragment() {
         tabLayoutMediator = null
         lastShownSnackbar?.dismiss()
         lastShownSnackbar = null
-        updateStatusBarColor(isSelectionMode = false)
+        updateStatusBarColor(isColorful = false)
     }
 
     override fun onDestroy() {

@@ -95,12 +95,7 @@ class SearchController(
 
             SelectAllCardsButtonClicked -> {
                 val allEditableCards: List<EditableCard> = searcher.state.searchResult
-                    .map { foundCard: FoundCard ->
-                        EditableCard(
-                            foundCard.card,
-                            foundCard.deck
-                        )
-                    }
+                    .map { foundCard: FoundCard -> EditableCard(foundCard.card, foundCard.deck) }
                 batchCardEditor.addCardsToSelection(allEditableCards)
             }
 

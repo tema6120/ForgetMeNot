@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
@@ -11,7 +12,8 @@ import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
 class HomeDiScope private constructor(
-    initialHomeScreenState: HomeScreenState? = null
+    initialHomeScreenState: HomeScreenState? = null,
+    initialBatchCardEditor: BatchCardEditor? = null
 ) {
     private val deckReviewPreference: DeckReviewPreference =
         DeckReviewPreferenceProvider(AppDiScope.get().database).load()
@@ -43,6 +45,9 @@ class HomeDiScope private constructor(
         AppDiScope.get().globalState
     )
 
+    val batchCardEditor: BatchCardEditor =
+        initialBatchCardEditor ?: TODO()
+
     val controller = HomeController(
         screenState,
         deckReviewPreference,
@@ -50,6 +55,7 @@ class HomeDiScope private constructor(
         deckMerger,
         exerciseStateCreator,
         cardsSearcher,
+        batchCardEditor,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
@@ -61,11 +67,18 @@ class HomeDiScope private constructor(
         AppDiScope.get().globalState,
         deckReviewPreference,
         controller,
-        cardsSearcher.state
+        cardsSearcher.state,
+        batchCardEditor.state
     )
 
     companion object : DiScopeManager<HomeDiScope>() {
-        fun create(initialHomeScreenState: HomeScreenState) = HomeDiScope(initialHomeScreenState)
+        fun create(
+            initialHomeScreenState: HomeScreenState,
+            batchCardEditor: BatchCardEditor
+        ) = HomeDiScope(
+            initialHomeScreenState,
+            batchCardEditor
+        )
 
         override fun recreateDiScope() = HomeDiScope()
 

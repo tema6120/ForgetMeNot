@@ -140,7 +140,6 @@ class PlayerViewController(
                     }
                     val cardsSearcher = CardsSearcher(globalState)
                     val batchCardEditor = BatchCardEditor(
-                        BatchCardEditor.State(),
                         globalState,
                         player = player
                     )

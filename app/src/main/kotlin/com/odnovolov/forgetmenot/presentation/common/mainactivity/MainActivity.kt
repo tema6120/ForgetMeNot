@@ -12,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.persistence.DbCleaner
+import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
+import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder.Event.AppStarted
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeScreenState
@@ -73,7 +76,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openFirstScreenDiScopes() {
-        HomeDiScope.open { HomeDiScope.create(HomeScreenState()) }
+        HomeDiScope.open {
+            HomeDiScope.create(
+                HomeScreenState(),
+                BatchCardEditor(AppDiScope.get().globalState)
+            )
+        }
         AddCardsDiScope.open { AddCardsDiScope() }
     }
 

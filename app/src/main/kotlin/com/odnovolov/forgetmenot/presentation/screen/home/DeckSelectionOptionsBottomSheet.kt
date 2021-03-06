@@ -63,7 +63,7 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
         with(viewModel) {
             numberOfSelectedDecks.observe { numberOfSelectedDecks: Int ->
                 numberOfSelectedDecksTextView.text = resources.getQuantityString(
-                    R.plurals.title_deck_selection_toolbar_number_of_selected_decks,
+                    R.plurals.title_selection_toolbar_number_of_selected_decks,
                     numberOfSelectedDecks,
                     numberOfSelectedDecks
                 )

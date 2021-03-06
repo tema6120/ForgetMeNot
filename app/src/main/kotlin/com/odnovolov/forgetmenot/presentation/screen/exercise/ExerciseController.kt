@@ -134,9 +134,8 @@ class ExerciseController(
                     }
                     val cardsSearcher = CardsSearcher(globalState)
                     val batchCardEditor = BatchCardEditor(
-                        BatchCardEditor.State(),
                         globalState,
-                        exercise
+                        exercise = exercise
                     )
                     SearchDiScope.create(cardsSearcher, batchCardEditor, initialSearchText)
                 }
