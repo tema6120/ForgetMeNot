@@ -289,7 +289,8 @@ class SearchFragment : BaseFragment() {
             .setAction(
                 R.string.snackbar_action_cancel,
                 { controller?.dispatch(CancelSnackbarButtonClicked) }
-            ).apply {
+            )
+            .apply {
                 show()
             }
     }

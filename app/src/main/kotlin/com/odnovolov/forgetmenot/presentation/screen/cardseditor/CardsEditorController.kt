@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardseditor
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.CardMoving
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult
@@ -31,6 +33,7 @@ import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScre
 class CardsEditorController(
     private val cardsEditor: CardsEditor,
     private val navigator: Navigator,
+    private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver,
     private val cardsEditorProvider: ShortTermStateProvider<CardsEditor>
 ) : BaseController<CardsEditorEvent, Command>() {
@@ -155,7 +158,8 @@ class CardsEditorController(
                                         initialTab = Settings
                                     )
                                     val screenState = DeckEditorScreenState(cardsEditor.deck, tabs)
-                                    DeckEditorDiScope.create(screenState)
+                                    val batchCardEditor = BatchCardEditor(globalState)
+                                    DeckEditorDiScope.create(screenState, batchCardEditor)
                                 }
                             } else {
                                 navigator.navigateUp()

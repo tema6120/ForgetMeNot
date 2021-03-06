@@ -99,7 +99,8 @@ class ExerciseController(
                     val deck: Deck = currentExerciseCard.base.deck
                     val tabs = DeckEditorTabs.OnlyDeckSettings
                     val screenState = DeckEditorScreenState(deck, tabs)
-                    DeckEditorDiScope.create(screenState)
+                    val batchCardEditor = BatchCardEditor(globalState, exercise = exercise)
+                    DeckEditorDiScope.create(screenState, batchCardEditor)
                 }
             }
 

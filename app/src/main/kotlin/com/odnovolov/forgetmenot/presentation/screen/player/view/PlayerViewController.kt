@@ -105,7 +105,8 @@ class PlayerViewController(
                     val deck: Deck = currentPlayingCard.deck
                     val tabs = DeckEditorTabs.OnlyDeckSettings
                     val screenState = DeckEditorScreenState(deck, tabs)
-                    DeckEditorDiScope.create(screenState)
+                    val batchCardEditor = BatchCardEditor(globalState, player = player)
+                    DeckEditorDiScope.create(screenState, batchCardEditor)
                 }
             }
 

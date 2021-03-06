@@ -526,7 +526,8 @@ class HomeFragment : BaseFragment() {
             .setAction(
                 R.string.snackbar_action_cancel,
                 { controller?.dispatch(CancelCardSelectionActionSnackbarButtonClicked) }
-            ).apply {
+            )
+            .apply {
                 show()
             }
     }

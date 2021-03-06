@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeCaller
@@ -28,7 +29,8 @@ class DeckEditorController(
     private val batchCardEditor: BatchCardEditor,
     private val screenState: DeckEditorScreenState,
     private val navigator: Navigator,
-    private val globalState: GlobalState
+    private val globalState: GlobalState,
+    private val batchCardEditorProvider: ShortTermStateProvider<BatchCardEditor>
 ) : BaseController<DeckEditorEvent, Command>() {
     sealed class Command {
         class ShowCardsAreInvertedMessage(val numberOfInvertedCards: Int) : Command()
@@ -46,8 +48,6 @@ class DeckEditorController(
             val deckNameToWhichCardsWereCopied: String
         ) : Command()
     }
-
-    override val autoSave = false
 
     override fun handle(event: DeckEditorEvent) {
         when (event) {
@@ -188,5 +188,7 @@ class DeckEditorController(
         }
     }
 
-    override fun saveState() {}
+    override fun saveState() {
+        batchCardEditorProvider.save(batchCardEditor)
+    }
 }

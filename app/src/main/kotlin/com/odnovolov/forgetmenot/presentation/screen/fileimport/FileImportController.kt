@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
+import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NewDeck
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure
@@ -25,6 +27,7 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.
 class FileImportController(
     private val fileImporter: FileImporter,
     private val navigator: Navigator,
+    private val globalState: GlobalState,
     private val longTermStateSaver: LongTermStateSaver,
     private val fileImporterStateProvider: ShortTermStateProvider<State>
 ) : BaseController<FileImportEvent, Command>() {
@@ -140,7 +143,8 @@ class FileImportController(
                         val deck = result.decks[0]
                         val tabs = DeckEditorTabs.All(initialTab = DeckEditorScreenTab.Settings)
                         val screenState = DeckEditorScreenState(deck, tabs)
-                        DeckEditorDiScope.create(screenState)
+                        val batchCardEditor = BatchCardEditor(globalState)
+                        DeckEditorDiScope.create(screenState, batchCardEditor)
                     }
                 } else {
                     navigator.navigateUp()

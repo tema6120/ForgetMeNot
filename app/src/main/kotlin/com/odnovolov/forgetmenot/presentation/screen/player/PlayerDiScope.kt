@@ -21,14 +21,14 @@ class PlayerDiScope private constructor(
     initialPlayerState: Player.State? = null,
     initialScreenState: PlayerScreenState? = null
 ) {
-    private val playerStateProvider = PlayerStateProvider(
+    val playerStateProvider = PlayerStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
         AppDiScope.get().globalState,
         key = "PlayerState"
     )
 
-    private val playerState: Player.State =
+    val playerState: Player.State =
         initialPlayerState ?: playerStateProvider.load()
 
     private val screenStateProvider = ReadyToUseSerializableStateProvider(

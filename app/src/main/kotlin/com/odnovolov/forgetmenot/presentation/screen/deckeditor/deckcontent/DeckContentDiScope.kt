@@ -11,7 +11,8 @@ class DeckContentDiScope {
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
-        DeckEditorDiScope.getOrRecreate().screenStateProvider
+        DeckEditorDiScope.getOrRecreate().screenStateProvider,
+        DeckEditorDiScope.getOrRecreate().batchCardEditorProvider
     )
 
     val viewModel = DeckContentViewModel(

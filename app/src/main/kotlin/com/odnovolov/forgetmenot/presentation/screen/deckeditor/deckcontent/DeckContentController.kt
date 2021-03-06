@@ -25,7 +25,8 @@ class DeckContentController(
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val screenStateProvider: ShortTermStateProvider<DeckEditorScreenState>
+    private val screenStateProvider: ShortTermStateProvider<DeckEditorScreenState>,
+    private val batchCardEditorProvider: ShortTermStateProvider<BatchCardEditor>
 ) : BaseController<DeckContentEvent, Nothing>() {
     override fun handle(event: DeckContentEvent) {
         when (event) {
@@ -89,5 +90,6 @@ class DeckContentController(
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
         screenStateProvider.save(screenState)
+        batchCardEditorProvider.save(batchCardEditor)
     }
 }

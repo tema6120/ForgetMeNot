@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.domain.interactor.searcher.FoundCard
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeCaller
@@ -33,7 +34,8 @@ class SearchController(
     private val batchCardEditor: BatchCardEditor,
     private val navigator: Navigator,
     private val globalState: GlobalState,
-    private val longTermStateSaver: LongTermStateSaver
+    private val longTermStateSaver: LongTermStateSaver,
+    private val batchCardEditorProvider: ShortTermStateProvider<BatchCardEditor>
 ) : BaseController<SearchEvent, Command>() {
     sealed class Command {
         class ShowCardsAreInvertedMessage(val numberOfInvertedCards: Int) : Command()
@@ -104,6 +106,7 @@ class SearchController(
                 batchCardEditor.invert()
                 sendCommand(ShowCardsAreInvertedMessage(numberOfInvertedCards))
                 needToResearchOnCancel = false
+                saveCardEditorDependentState()
             }
 
             ChangeGradeCardSelectionOptionSelected -> {
@@ -121,6 +124,7 @@ class SearchController(
                 batchCardEditor.changeGrade(event.grade)
                 sendCommand(ShowGradeIsChangedMessage(event.grade, numberOfAffectedCards))
                 needToResearchOnCancel = false
+                saveCardEditorDependentState()
             }
 
             MarkAsLearnedCardSelectionOptionSelected -> {
@@ -128,6 +132,7 @@ class SearchController(
                 batchCardEditor.markAsLearned()
                 sendCommand(ShowCardsAreMarkedAsLearnedMessage(numberOfMarkedCards))
                 needToResearchOnCancel = false
+                saveCardEditorDependentState()
             }
 
             MarkAsUnlearnedCardSelectionOptionSelected -> {
@@ -135,6 +140,7 @@ class SearchController(
                 batchCardEditor.markAsUnlearned()
                 sendCommand(ShowCardsAreMarkedAsUnlearnedMessage(numberOfMarkedCards))
                 needToResearchOnCancel = false
+                saveCardEditorDependentState()
             }
 
             RemoveCardsCardSelectionOptionSelected -> {
@@ -143,6 +149,7 @@ class SearchController(
                 searcher.research()
                 sendCommand(ShowCardsAreRemovedMessage(numberOfRemovedCards))
                 needToResearchOnCancel = true
+                saveCardEditorDependentState()
             }
 
             MoveCardSelectionOptionSelected -> {
@@ -162,6 +169,7 @@ class SearchController(
                     postponeIfNotActive = true
                 )
                 needToResearchOnCancel = true
+                saveCardEditorDependentState()
             }
 
             CopyCardSelectionOptionSelected -> {
@@ -188,6 +196,22 @@ class SearchController(
                 if (needToResearchOnCancel) {
                     needToResearchOnCancel = false
                     searcher.research()
+                }
+                saveCardEditorDependentState()
+            }
+        }
+    }
+
+    private fun saveCardEditorDependentState() {
+        when {
+            batchCardEditor.exercise != null -> {
+                ExerciseDiScope.getOrRecreate().run {
+                    exerciseStateProvider.save(exerciseState)
+                }
+            }
+            batchCardEditor.player != null -> {
+                PlayerDiScope.getOrRecreate().run {
+                    playerStateProvider.save(playerState)
                 }
             }
         }
@@ -335,5 +359,6 @@ class SearchController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        batchCardEditorProvider.save(batchCardEditor)
     }
 }

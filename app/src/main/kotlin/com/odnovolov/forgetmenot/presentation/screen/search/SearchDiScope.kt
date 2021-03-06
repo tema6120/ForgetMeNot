@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.search
 
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
+import com.odnovolov.forgetmenot.persistence.shortterm.BatchCardEditorProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.CardsSearcherProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
@@ -17,24 +18,27 @@ class SearchDiScope private constructor(
         AppDiScope.get().database
     )
 
-    init {
-        if (initialCardsSearcher != null) {
-            cardsSearcherProvider.save(initialCardsSearcher)
-        }
-    }
-
     private val cardsSearcher: CardsSearcher =
-        initialCardsSearcher ?: cardsSearcherProvider.load()
+        initialCardsSearcher?.also(cardsSearcherProvider::save)
+            ?: cardsSearcherProvider.load()
+
+    private val batchCardEditorProvider = BatchCardEditorProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database,
+        AppDiScope.get().globalState,
+        key = "BatchCardEditor For Search"
+    )
 
     val batchCardEditor: BatchCardEditor =
-        initialBatchCardEditor ?: TODO()
+        initialBatchCardEditor ?: batchCardEditorProvider.load()
 
     val controller = SearchController(
         cardsSearcher,
         batchCardEditor,
         AppDiScope.get().navigator,
         AppDiScope.get().globalState,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        batchCardEditorProvider
     )
 
     val viewModel = SearchViewModel(
@@ -59,7 +63,6 @@ class SearchDiScope private constructor(
         override fun onCloseDiScope(diScope: SearchDiScope) {
             diScope.controller.dispose()
             diScope.cardsSearcher.dispose()
-            diScope.batchCardEditor.finish()
         }
     }
 }

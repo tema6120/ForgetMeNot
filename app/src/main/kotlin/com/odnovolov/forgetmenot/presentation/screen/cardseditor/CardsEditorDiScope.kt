@@ -23,6 +23,7 @@ class CardsEditorDiScope private constructor(
     val controller = CardsEditorController(
         cardsEditor,
         AppDiScope.get().navigator,
+        AppDiScope.get().globalState,
         AppDiScope.get().longTermStateSaver,
         cardsEditorProvider
     )

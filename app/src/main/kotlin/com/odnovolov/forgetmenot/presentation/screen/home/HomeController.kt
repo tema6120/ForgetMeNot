@@ -55,7 +55,8 @@ class HomeController(
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
-    private val screenStateProvider: ShortTermStateProvider<HomeScreenState>
+    private val screenStateProvider: ShortTermStateProvider<HomeScreenState>,
+    private val batchCardEditorProvider: ShortTermStateProvider<BatchCardEditor>
 ) : BaseController<HomeEvent, Command>() {
     sealed class Command {
         object ShowNoCardIsReadyForExerciseMessage : Command()
@@ -502,7 +503,8 @@ class HomeController(
             val deck: Deck = globalState.decks.first { it.id == deckId }
             val tabs = DeckEditorTabs.All(initialTab)
             val screenState = DeckEditorScreenState(deck, tabs)
-            DeckEditorDiScope.create(screenState)
+            val batchCardEditor = BatchCardEditor(globalState)
+            DeckEditorDiScope.create(screenState, batchCardEditor)
         }
     }
 
@@ -599,5 +601,6 @@ class HomeController(
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
         screenStateProvider.save(screenState)
+        batchCardEditorProvider.save(batchCardEditor)
     }
 }

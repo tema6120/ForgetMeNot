@@ -145,7 +145,7 @@ class ExerciseStateProvider(
                         val variants: List<Card?> = quizAddition.variantIds
                             .map { variantId: Long? ->
                                 variantId?.let {
-                                    cardIdCardMap.getValue(variantId)
+                                    cardIdCardMap[variantId]
                                 }
                             }
                         QuizTestExerciseCard(

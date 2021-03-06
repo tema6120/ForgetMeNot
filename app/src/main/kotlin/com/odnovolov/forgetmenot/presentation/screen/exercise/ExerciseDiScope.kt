@@ -21,14 +21,14 @@ class ExerciseDiScope private constructor(
     initialExerciseState: Exercise.State? = null,
     initialExerciseScreenState: ExerciseScreenState? = null
 ) {
-    private val exerciseStateProvider = ExerciseStateProvider(
+    val exerciseStateProvider = ExerciseStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
         AppDiScope.get().globalState,
         key = "ExerciseState"
     )
 
-    private val exerciseState: Exercise.State =
+    val exerciseState: Exercise.State =
         initialExerciseState ?: exerciseStateProvider.load()
 
     private val exerciseScreenStateProvider = ReadyToUseSerializableStateProvider(

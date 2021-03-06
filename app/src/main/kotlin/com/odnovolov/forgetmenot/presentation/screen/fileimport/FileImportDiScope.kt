@@ -46,6 +46,7 @@ class FileImportDiScope private constructor(
     val fileImportController = FileImportController(
         fileImporter,
         AppDiScope.get().navigator,
+        AppDiScope.get().globalState,
         AppDiScope.get().longTermStateSaver,
         fileImporterStateProvider
     )

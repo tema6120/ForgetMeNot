@@ -76,15 +76,6 @@ class CardsEditorProvider(
         }
     }
 
-    private fun EditableCard.toSerializable() = SerializableEditableCard(
-        card.id,
-        deck.id,
-        question,
-        answer,
-        isLearned,
-        grade
-    )
-
     private fun CardRemoving.toSerializable() = SerializableCardRemoving(
         editableCard.toSerializable(),
         positionInSource
@@ -175,15 +166,6 @@ class CardsEditorProvider(
         }
     }
 
-    private fun SerializableEditableCard.toOriginal(
-        deckIdDeckMap: Map<Long, Deck>,
-        cardIdCardMap: Map<Long, Card>
-    ): EditableCard {
-        val card: Card = cardIdCardMap[cardId] ?: Card(cardId, question = "", answer = "")
-        val deck: Deck = deckIdDeckMap.getValue(deckId)
-        return EditableCard(card, deck, question, answer, isLearned, grade)
-    }
-
     private fun SerializableCardRemoving.toOriginal(
         deckIdDeckMap: Map<Long, Deck>,
         cardIdCardMap: Map<Long, Card>
@@ -254,6 +236,15 @@ enum class EditingSpecificCardsScreen {
     Other
 }
 
+fun EditableCard.toSerializable() = SerializableEditableCard(
+    card.id,
+    deck.id,
+    question,
+    answer,
+    isLearned,
+    grade
+)
+
 @Serializable
 data class SerializableEditableCard(
     val cardId: Long,
@@ -262,7 +253,16 @@ data class SerializableEditableCard(
     val answer: String,
     val isLearned: Boolean,
     val grade: Int
-)
+) {
+    fun toOriginal(
+        deckIdDeckMap: Map<Long, Deck>,
+        cardIdCardMap: Map<Long, Card>
+    ): EditableCard {
+        val card: Card = cardIdCardMap[cardId] ?: Card(cardId, question = "", answer = "")
+        val deck: Deck = deckIdDeckMap.getValue(deckId)
+        return EditableCard(card, deck, question, answer, isLearned, grade)
+    }
+}
 
 @Serializable
 data class SerializableCardRemoving(

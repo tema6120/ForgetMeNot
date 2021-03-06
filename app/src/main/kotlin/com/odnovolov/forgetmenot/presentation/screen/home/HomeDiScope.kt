@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
 import com.odnovolov.forgetmenot.domain.interactor.searcher.CardsSearcher
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferenceProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.BatchCardEditorProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -45,8 +46,15 @@ class HomeDiScope private constructor(
         AppDiScope.get().globalState
     )
 
+    private val batchCardEditorProvider = BatchCardEditorProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database,
+        AppDiScope.get().globalState,
+        key = "BatchCardEditor For Home Search"
+    )
+
     val batchCardEditor: BatchCardEditor =
-        initialBatchCardEditor ?: TODO()
+        initialBatchCardEditor ?: batchCardEditorProvider.load()
 
     val controller = HomeController(
         screenState,
@@ -59,7 +67,8 @@ class HomeDiScope private constructor(
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
-        homeScreenStateProvider
+        homeScreenStateProvider,
+        batchCardEditorProvider
     )
 
     val viewModel = HomeViewModel(
