@@ -22,4 +22,5 @@ object DbKeys {
     const val LAST_USED_FILE_FORMAT_ID_FOR_TXT = 18L
     const val LAST_USED_FILE_FORMAT_ID_FOR_CSV = 19L
     const val LAST_USED_FILE_FORMAT_ID_FOR_TSV = 20L
+    const val FAVORITE_LANGUAGES = 21L
 }

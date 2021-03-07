@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.pronunciation
 
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.PronunciationSettings
+import com.odnovolov.forgetmenot.persistence.longterm.pronunciationpreference.PronunciationPreferenceProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.PronunciationScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
@@ -27,7 +28,9 @@ class PronunciationDiScope private constructor(
         AppDiScope.get().app
     )
 
-    private val pronunciationPreferences = PronunciationPreferences(emptySet()) // todo
+    private val pronunciationPreferences: PronunciationPreference =
+        PronunciationPreferenceProvider(AppDiScope.get().database)
+            .load()
 
     private val speakerImpl = SpeakerImpl(
         AppDiScope.get().app,

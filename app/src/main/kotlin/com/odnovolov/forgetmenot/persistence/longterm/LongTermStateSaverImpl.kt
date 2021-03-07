@@ -13,6 +13,7 @@ import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileImpo
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.*
 import com.odnovolov.forgetmenot.persistence.longterm.initialdecksadderstate.InitialDecksAdderStatePropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.pronunciationpreference.PronunciationPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.tipstate.TipStatePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -20,6 +21,7 @@ import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.TipState
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
+import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationPreference
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -61,6 +63,7 @@ class LongTermStateSaverImpl(
             put(TipState::class, TipStatePropertyChangeHandler(database))
             put(FileImportStorage::class, FileImportStoragePropertyChangeHandler(database))
             put(FileFormat::class, FileFormatPropertyChangeHandler(database))
+            put(PronunciationPreference::class, PronunciationPreferencePropertyChangeHandler(database))
         }
 
     override fun saveStateByRegistry() {

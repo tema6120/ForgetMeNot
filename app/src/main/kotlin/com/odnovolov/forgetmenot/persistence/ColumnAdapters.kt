@@ -20,6 +20,25 @@ val localeAdapter = object : ColumnAdapter<Locale, String> {
     }
 }
 
+val setOfLocalesAdapter = object : ColumnAdapter<Set<Locale>, String> {
+    private val SEPARATOR = ";"
+
+    override fun encode(value: Set<Locale>): String {
+        return value.joinToString(SEPARATOR) { locale: Locale -> locale.toLanguageTag() }
+    }
+
+    override fun decode(databaseValue: String): Set<Locale> {
+        return databaseValue.split(SEPARATOR).mapNotNull { chunk: String ->
+            try {
+                Locale.forLanguageTag(chunk)
+            } catch (e: Exception) {
+                null
+            }
+        }
+            .toSet()
+    }
+}
+
 val dateTimeAdapter = object : ColumnAdapter<DateTime, Long> {
     override fun encode(value: DateTime): Long = value.unixMillisLong
     override fun decode(databaseValue: Long): DateTime = DateTime.fromUnix(databaseValue)

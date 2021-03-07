@@ -13,7 +13,7 @@ import com.odnovolov.forgetmenot.presentation.screen.pronunciation.Pronunciation
 class PronunciationController(
     private val pronunciationSettings: PronunciationSettings,
     private val screenState: PronunciationScreenState,
-    private val pronunciationPreferences: PronunciationPreferences,
+    private val pronunciationPreference: PronunciationPreference,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val screenStateProvider: ShortTermStateProvider<PronunciationScreenState>
@@ -52,11 +52,11 @@ class PronunciationController(
         }
 
         is MarkedLanguageAsFavorite -> {
-            pronunciationPreferences.favoriteLanguages += event.language
+            pronunciationPreference.favoriteLanguages += event.language
         }
 
         is UnmarkedLanguageAsFavorite -> {
-            pronunciationPreferences.favoriteLanguages -= event.language
+            pronunciationPreference.favoriteLanguages -= event.language
         }
     }
 

@@ -17,7 +17,7 @@ class PronunciationViewModel(
     deckSettingsState: DeckSettings.State,
     speakerImpl: SpeakerImpl,
     screenState: PronunciationScreenState,
-    pronunciationPreferences: PronunciationPreferences
+    pronunciationPreference: PronunciationPreference
 ) {
     val tip: Flow<Tip?> = screenState.flowOf(PronunciationScreenState::tip)
 
@@ -36,7 +36,7 @@ class PronunciationViewModel(
     private val availableLanguages: Flow<List<Locale>> = speakerImpl.state
         .flowOf(SpeakerImpl.State::availableLanguages)
         .map { availableLanguages: Set<Locale> ->
-            val favoriteLanguages = pronunciationPreferences.favoriteLanguages
+            val favoriteLanguages = pronunciationPreference.favoriteLanguages
             availableLanguages.map { locale: Locale ->
                     val isFavorite = locale in favoriteLanguages
                     FavorableLanguage(locale, isFavorite)
@@ -54,7 +54,7 @@ class PronunciationViewModel(
         }
 
     private var favoriteLanguages: Flow<Set<Locale>> =
-        pronunciationPreferences.flowOf(PronunciationPreferences::favoriteLanguages)
+        pronunciationPreference.flowOf(PronunciationPreference::favoriteLanguages)
 
     val displayedQuestionLanguages: Flow<List<DisplayedLanguage>> = combine(
         availableLanguages,
