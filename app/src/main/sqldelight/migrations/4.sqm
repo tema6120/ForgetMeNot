@@ -1,0 +1,23 @@
+COMMIT;
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+CREATE TABLE new_DeckDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    createdAt INTEGER NOT NULL,
+    lastTestedAt INTEGER,
+    exercisePreferenceId INTEGER NOT NULL,
+    isPinned INTEGER NOT NULL
+);
+
+INSERT INTO new_DeckDb
+SELECT id, name, createdAt, lastTestedAt, exercisePreferenceId, 0 FROM DeckDb;
+
+DROP TABLE DeckDb;
+
+ALTER TABLE new_DeckDb RENAME TO DeckDb;
+
+COMMIT;
+PRAGMA foreign_keys = on;
+BEGIN TRANSACTION;

@@ -5,7 +5,8 @@ CREATE TABLE DeckDb (
     name TEXT NOT NULL,
     createdAt INTEGER AS DateTime NOT NULL,
     lastTestedAt INTEGER AS DateTime,
-    exercisePreferenceId INTEGER NOT NULL
+    exercisePreferenceId INTEGER NOT NULL,
+    isPinned INTEGER AS Boolean NOT NULL
 );
 
 insert:
@@ -22,6 +23,9 @@ UPDATE DeckDb SET lastTestedAt = ? WHERE id = ?;
 
 updateExercisePreferenceId:
 UPDATE DeckDb SET exercisePreferenceId = ? WHERE id = ?;
+
+updateIsPinned:
+UPDATE DeckDb SET isPinned = ? WHERE id = ?;
 
 delete:
 DELETE FROM DeckDb WHERE id = ?;

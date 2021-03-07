@@ -68,6 +68,11 @@ class DeckPropertyChangeHandler(
                 insertExercisePreferenceIfNotExists(linkedExercisePreference)
                 database.deckQueries.updateExercisePreferenceId(linkedExercisePreference.id, deckId)
             }
+            Deck::isPinned -> {
+                if (change !is PropertyValueChange) return
+                val isPinned = change.newValue as Boolean
+                database.deckQueries.updateIsPinned(isPinned, deckId)
+            }
         }
     }
 

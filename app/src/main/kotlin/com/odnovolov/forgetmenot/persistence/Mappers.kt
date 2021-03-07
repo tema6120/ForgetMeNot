@@ -16,7 +16,8 @@ fun DeckDb.toDeck(
     createdAt,
     lastTestedAt,
     cards,
-    exercisePreference
+    exercisePreference,
+    isPinned
 )
 
 fun Deck.toDeckDb(): DeckDb = DeckDb(
@@ -24,7 +25,8 @@ fun Deck.toDeckDb(): DeckDb = DeckDb(
     name,
     createdAt,
     lastTestedAt,
-    exercisePreference.id
+    exercisePreference.id,
+    isPinned
 )
 
 fun CardDb.toCard() = Card(
