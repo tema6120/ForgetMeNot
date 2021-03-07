@@ -1,0 +1,10 @@
+- multiple export
+- export as .csv .tsv
+- card position is displayed in exercise & player
+- merging decks
+- decks can be pinned
+- new deck sorting 'By frequency of use'
+- cards can be moved or copied to another deck
+- card selection, that enables you to do actions on multiple cards, such as removing, marking as learned
+- improved search
+- languages can be marked as favorite

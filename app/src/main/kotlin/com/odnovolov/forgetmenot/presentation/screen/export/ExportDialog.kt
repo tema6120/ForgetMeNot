@@ -55,6 +55,10 @@ class ExportDialog : BaseDialogFragment() {
             viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
+            if (pendingEvent != null) {
+                controller!!.dispatch(pendingEvent!!)
+                pendingEvent = null
+            }
         }
         return createDialog(rootView)
     }

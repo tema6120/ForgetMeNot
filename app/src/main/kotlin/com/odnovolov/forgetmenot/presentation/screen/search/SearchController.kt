@@ -59,6 +59,7 @@ class SearchController(
     override fun handle(event: SearchEvent) {
         when (event) {
             is SearchTextChanged -> {
+                if (searcher.state.searchText == event.text) return
                 searcher.search(event.text)
             }
 

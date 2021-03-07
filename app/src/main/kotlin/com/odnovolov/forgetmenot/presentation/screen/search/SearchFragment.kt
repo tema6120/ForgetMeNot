@@ -53,6 +53,9 @@ class SearchFragment : BaseFragment() {
             controller = diScope.controller
             observeViewModel(diScope.viewModel)
             controller!!.commands.observe(::executeCommand)
+            if (searchEditText.text.isNotEmpty()) {
+                controller!!.dispatch(SearchTextChanged(searchEditText.text.toString()))
+            }
         }
     }
 
@@ -67,15 +70,9 @@ class SearchFragment : BaseFragment() {
             setOnClickListener { activity?.onBackPressed() }
             setTooltipTextFromContentDescription()
         }
-        updatePasteClearButton()
-        var needToSkipFirstText = !isViewFirstCreated
         searchEditText.observeText { newText: String ->
-            if (needToSkipFirstText) {
-                needToSkipFirstText = false
-            } else {
-                controller?.dispatch(SearchTextChanged(newText))
-                updatePasteClearButton()
-            }
+            controller?.dispatch(SearchTextChanged(newText))
+            updatePasteClearButton()
         }
     }
 
@@ -300,6 +297,7 @@ class SearchFragment : BaseFragment() {
         appBar.post { appBar.isActivated = cardsRecycler.canScrollVertically(-1) }
         cardsRecycler.addOnScrollListener(scrollListener)
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
+        updatePasteClearButton()
     }
 
     override fun onPause() {
