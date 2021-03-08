@@ -17,11 +17,11 @@ class ExercisePreference(
     var name: String by flowMaker(name)
     var randomOrder: Boolean by flowMaker(randomOrder)
     var testingMethod: TestingMethod by flowMaker(testingMethod)
-    var intervalScheme: IntervalScheme? by flowMaker(intervalScheme)
-    var pronunciation: Pronunciation by flowMaker(pronunciation)
+    var intervalScheme: IntervalScheme? by flowMakerForCopyable(intervalScheme)
+    var pronunciation: Pronunciation by flowMakerForCopyable(pronunciation)
     var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
     var cardInversion: CardInversion by flowMaker(cardInversion)
-    var pronunciationPlan: PronunciationPlan by flowMaker(pronunciationPlan)
+    var pronunciationPlan: PronunciationPlan by flowMakerForCopyable(pronunciationPlan)
     var timeForAnswer: Int by flowMaker(timeForAnswer)
 
     override fun copy() = ExercisePreference(

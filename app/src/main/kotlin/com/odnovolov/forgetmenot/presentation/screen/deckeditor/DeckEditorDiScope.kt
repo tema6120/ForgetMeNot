@@ -35,6 +35,7 @@ class DeckEditorDiScope private constructor(
         screenState,
         AppDiScope.get().navigator,
         AppDiScope.get().globalState,
+        AppDiScope.get().longTermStateSaver,
         batchCardEditorProvider
     )
 

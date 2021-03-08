@@ -1,9 +1,12 @@
 package com.odnovolov.forgetmenot.domain.architecturecomponents
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change
+import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KClass
@@ -13,7 +16,7 @@ import kotlin.reflect.KProperty1
 abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<PropertyOwner>>
     : Copyable, Flowable<PropertyOwner> {
     open val id: Long = -1
-    private val properties = mutableMapOf<String, WrappingRWProperty<PropertyOwner, *>>()
+    private val properties = mutableMapOf<String, BaseDelegateProvider<PropertyOwner, *>>()
 
     fun <PropertyValue> flowOf(
         property: KProperty1<PropertyOwner, PropertyValue>
@@ -23,83 +26,42 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
     }
 
     protected fun <PropertyValue> flowMaker(
-        initialValue: PropertyValue,
-        preferredChangeClass: KClass<*>? = null
+        initialValue: PropertyValue
     ): DelegateProvider<PropertyOwner, PropertyValue> {
-        return DelegateProviderImpl(initialValue, preferredChangeClass)
+        return BaseDelegateProvider(id, initialValue, properties)
     }
 
-    protected interface DelegateProvider<PropertyOwner, PropertyValue> {
-        operator fun provideDelegate(
-            thisRef: PropertyOwner,
-            prop: KProperty<*>
-        ): ReadWriteProperty<PropertyOwner, PropertyValue>
+    protected fun <PropertyValue : Copyable?> flowMakerForCopyable(
+        initialValue: PropertyValue
+    ): DelegateProvider<PropertyOwner, PropertyValue> {
+        return CopyableDelegateProvider(id, initialValue, properties)
     }
 
-    private inner class DelegateProviderImpl<PropertyValue>(
-        private val initialValue: PropertyValue,
-        private val preferredChangeClass: KClass<*>?
-    ) : DelegateProvider<PropertyOwner, PropertyValue> {
-        override fun provideDelegate(
-            thisRef: PropertyOwner,
-            prop: KProperty<*>
-        ): ReadWriteProperty<PropertyOwner, PropertyValue> {
-            val property =
-                WrappingRWProperty<PropertyOwner, PropertyValue>(
-                    value = initialValue,
-                    propertyOwnerId = id,
-                    preferredChangeClass = preferredChangeClass
-                )
-            properties[prop.name] = property
-            return property
-        }
+    protected fun <CollectionItem> flowMakerForCollection(
+        initialValue: Collection<CollectionItem>
+    ): DelegateProvider<PropertyOwner, Collection<CollectionItem>> {
+        return CollectionDelegateProvider(id, initialValue, properties)
     }
 
-    private class WrappingRWProperty<PropertyOwner : Any, PropertyValue>(
-        var value: PropertyValue,
-        private val propertyOwnerId: Long,
-        private val preferredChangeClass: KClass<*>? = null
-    ) : ReadWriteProperty<PropertyOwner, PropertyValue>, Flowable<PropertyValue> {
-        private val channels: MutableList<Channel<PropertyValue>> = CopyOnWriteArrayList()
-
-        override operator fun getValue(
-            thisRef: PropertyOwner,
-            property: KProperty<*>
-        ): PropertyValue {
-            return value
-        }
-
-        override operator fun setValue(
-            thisRef: PropertyOwner,
-            property: KProperty<*>,
-            value: PropertyValue
-        ) {
-            PropertyChangeRegistry.add(
-                propertyOwnerClass = thisRef::class,
-                propertyOwnerId = propertyOwnerId,
-                property = property,
-                oldValue = this.value,
-                newValue = value,
-                preferredChangeClass = preferredChangeClass
-            )
-            this.value = value
-            channels.forEach { it.offer(value) }
-        }
-
-        override fun asFlow(): Flow<PropertyValue> = flow {
-            emit(value)
-            val channel = Channel<PropertyValue>(Channel.CONFLATED)
-            channels.add(channel)
-            try {
-                for (item: PropertyValue in channel) {
-                    emit(item)
-                }
-            } finally {
-                channels.remove(channel)
-            }
-        }
+    protected fun <CollectionItem : Copyable> flowMakerForCopyableCollection(
+        initialValue: CopyableCollection<CollectionItem>
+    ): DelegateProvider<PropertyOwner, CopyableCollection<CollectionItem>> {
+        return CopyableCollectionDelegateProvider(id, initialValue, properties)
     }
 
+    protected fun <ListItem> flowMakerForList(
+        initialValue: List<ListItem>
+    ): DelegateProvider<PropertyOwner, List<ListItem>> {
+        return ListDelegateProvider(id, initialValue, properties)
+    }
+
+    protected fun <ListItem : Copyable> flowMakerForCopyableList(
+        initialValue: CopyableList<ListItem>
+    ): DelegateProvider<PropertyOwner, CopyableList<ListItem>> {
+        return CopyableListDelegateProvider(id, initialValue, properties)
+    }
+
+    @Suppress("UNCHECKED_CAST")
     override fun asFlow(): Flow<PropertyOwner> {
         val propertyFlows: List<Flow<Any?>> = properties.map { it.value.asFlow() }
         return combine(propertyFlows) { this as PropertyOwner }
@@ -127,5 +89,282 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
         return listOf("id=$id")
             .plus(properties.entries.map { entry -> "${entry.key}=${entry.value.value}" })
             .joinToString(prefix = "(", postfix = ")")
+    }
+
+    protected interface DelegateProvider<PropertyOwner, PropertyValue> {
+        operator fun provideDelegate(
+            thisRef: PropertyOwner,
+            prop: KProperty<*>
+        ): ReadWriteProperty<PropertyOwner, PropertyValue>
+    }
+
+    private open class BaseDelegateProvider<PropertyOwner : Any, PropertyValue>(
+        private val propertyOwnerId: Long,
+        var value: PropertyValue,
+        private val properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
+    ) : DelegateProvider<PropertyOwner, PropertyValue>,
+        ReadWriteProperty<PropertyOwner, PropertyValue>,
+        Flowable<PropertyValue> {
+        private val channels: MutableList<Channel<PropertyValue>> = CopyOnWriteArrayList()
+
+        override fun provideDelegate(
+            thisRef: PropertyOwner,
+            prop: KProperty<*>
+        ): ReadWriteProperty<PropertyOwner, PropertyValue> {
+            properties[prop.name] = this
+            return this
+        }
+
+        override operator fun getValue(
+            thisRef: PropertyOwner,
+            property: KProperty<*>
+        ): PropertyValue {
+            return value
+        }
+
+        override operator fun setValue(
+            thisRef: PropertyOwner,
+            property: KProperty<*>,
+            value: PropertyValue
+        ) {
+            val change: Change = calculateChange(
+                propertyOwnerClass = thisRef::class,
+                propertyOwnerId = propertyOwnerId,
+                property = property,
+                oldValue = this.value,
+                newValue = value
+            )
+            PropertyChangeRegistry.register(change)
+            this.value = value
+            channels.forEach { it.offer(value) }
+        }
+
+        override fun asFlow(): Flow<PropertyValue> = flow {
+            emit(value)
+            val channel = Channel<PropertyValue>(Channel.CONFLATED)
+            channels.add(channel)
+            try {
+                for (item: PropertyValue in channel) {
+                    emit(item)
+                }
+            } finally {
+                channels.remove(channel)
+            }
+        }
+
+        protected open fun calculateChange(
+            propertyOwnerClass: KClass<*>,
+            propertyOwnerId: Long,
+            property: KProperty<*>,
+            oldValue: PropertyValue,
+            newValue: PropertyValue
+        ): Change {
+            return if (oldValue === newValue) {
+                TheSameValueAssignment(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    newValue
+                )
+            } else {
+                PropertyValueChange(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    oldValue,
+                    newValue
+                )
+            }
+        }
+    }
+
+    private class CopyableDelegateProvider<PropertyOwner : Any, PropertyValue : Copyable?>(
+        propertyOwnerId: Long,
+        value: PropertyValue,
+        properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
+    ) : BaseDelegateProvider<PropertyOwner, PropertyValue>(
+        propertyOwnerId,
+        value,
+        properties
+    ) {
+        override fun calculateChange(
+            propertyOwnerClass: KClass<*>,
+            propertyOwnerId: Long,
+            property: KProperty<*>,
+            oldValue: PropertyValue,
+            newValue: PropertyValue
+        ): Change {
+            return if (oldValue === newValue) {
+                TheSameValueAssignment(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    newValue?.copy()
+                )
+            } else {
+                PropertyValueChange(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    oldValue?.copy(),
+                    newValue?.copy()
+                )
+            }
+        }
+    }
+
+    private class CollectionDelegateProvider<PropertyOwner : Any, CollectionItem>(
+        propertyOwnerId: Long,
+        value: Collection<CollectionItem>,
+        properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
+    ) : BaseDelegateProvider<PropertyOwner, Collection<CollectionItem>>(
+        propertyOwnerId,
+        value,
+        properties
+    ) {
+        override fun calculateChange(
+            propertyOwnerClass: KClass<*>,
+            propertyOwnerId: Long,
+            property: KProperty<*>,
+            oldValue: Collection<CollectionItem>,
+            newValue: Collection<CollectionItem>
+        ): Change {
+            return if (oldValue === newValue) {
+                TheSameValueAssignment(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    newValue
+                )
+            } else {
+                val collectionDiffResult: CollectionDiffResult<CollectionItem> =
+                    calculateCollectionDiff(oldValue, newValue)
+                CollectionChange(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    collectionDiffResult.removedItems,
+                    collectionDiffResult.addedItems
+                )
+            }
+        }
+    }
+
+    private class CopyableCollectionDelegateProvider<PropertyOwner : Any, CollectionItem : Copyable>(
+        propertyOwnerId: Long,
+        value: CopyableCollection<CollectionItem>,
+        properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
+    ) : BaseDelegateProvider<PropertyOwner, CopyableCollection<CollectionItem>>(
+        propertyOwnerId,
+        value,
+        properties
+    ) {
+        override fun calculateChange(
+            propertyOwnerClass: KClass<*>,
+            propertyOwnerId: Long,
+            property: KProperty<*>,
+            oldValue: CopyableCollection<CollectionItem>,
+            newValue: CopyableCollection<CollectionItem>
+        ): Change {
+            return if (oldValue === newValue) {
+                TheSameValueAssignment(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    newValue.copy()
+                )
+            } else {
+                val collectionDiffResult: CollectionDiffResult<CollectionItem> =
+                    calculateCollectionDiff(oldValue, newValue)
+                val removedItems = collectionDiffResult.removedItems.map { it.copy() }
+                val addedItems = collectionDiffResult.addedItems.map { it.copy() }
+                CollectionChange(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    removedItems,
+                    addedItems
+                )
+            }
+        }
+    }
+
+    private class ListDelegateProvider<PropertyOwner : Any, ListItem>(
+        propertyOwnerId: Long,
+        value: List<ListItem>,
+        properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
+    ) : BaseDelegateProvider<PropertyOwner, List<ListItem>>(
+        propertyOwnerId,
+        value,
+        properties
+    ) {
+        override fun calculateChange(
+            propertyOwnerClass: KClass<*>,
+            propertyOwnerId: Long,
+            property: KProperty<*>,
+            oldValue: List<ListItem>,
+            newValue: List<ListItem>
+        ): Change {
+            return if (oldValue === newValue) {
+                TheSameValueAssignment(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    newValue
+                )
+            } else {
+                val listDiffResult: ListDiffResult<ListItem> = calculateListDiff(oldValue, newValue)
+                ListChange(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    listDiffResult.removedItemsAt,
+                    listDiffResult.movedItemsAt,
+                    listDiffResult.addedItems
+                )
+            }
+        }
+    }
+
+    private class CopyableListDelegateProvider<PropertyOwner : Any, ListItem : Copyable>(
+        propertyOwnerId: Long,
+        value: CopyableList<ListItem>,
+        properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
+    ) : BaseDelegateProvider<PropertyOwner, CopyableList<ListItem>>(
+        propertyOwnerId,
+        value,
+        properties
+    ) {
+        override fun calculateChange(
+            propertyOwnerClass: KClass<*>,
+            propertyOwnerId: Long,
+            property: KProperty<*>,
+            oldValue: CopyableList<ListItem>,
+            newValue: CopyableList<ListItem>
+        ): Change {
+            return if (oldValue === newValue) {
+                TheSameValueAssignment(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    newValue.copy()
+                )
+            } else {
+                val listDiffResult: ListDiffResult<ListItem> = calculateListDiff(oldValue, newValue)
+                val addedItems = HashMap<Int, Copyable>().apply {
+                    for ((position, item: ListItem) in listDiffResult.addedItems) {
+                        put(position, item.copy())
+                    }
+                }
+                ListChange(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    listDiffResult.removedItemsAt,
+                    listDiffResult.movedItemsAt,
+                    addedItems
+                )
+            }
+        }
     }
 }

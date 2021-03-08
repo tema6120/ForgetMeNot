@@ -13,7 +13,7 @@ class IntervalScheme(
     override val id: Long,
     intervals: CopyableList<Interval>
 ) : FlowMakerWithRegistry<IntervalScheme>() {
-    var intervals: CopyableList<Interval> by flowMaker(intervals, CollectionChange::class)
+    var intervals: CopyableList<Interval> by flowMakerForCopyableList(intervals)
 
     override fun copy() = IntervalScheme(id, intervals.copy())
 

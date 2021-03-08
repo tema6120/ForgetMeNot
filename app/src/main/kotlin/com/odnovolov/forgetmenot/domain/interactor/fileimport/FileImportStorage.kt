@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.domain.interactor.fileimport
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
-import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
 
 class FileImportStorage(
     customFileFormats: CopyableCollection<FileFormat>,
@@ -12,12 +11,12 @@ class FileImportStorage(
     lastUsedFormatForTsv: FileFormat
 ) : FlowMakerWithRegistry<FileImportStorage>() {
     var customFileFormats: CopyableCollection<FileFormat>
-            by flowMaker(customFileFormats, CollectionChange::class)
+            by flowMakerForCopyableCollection(customFileFormats)
 
     var lastUsedEncodingName: String by flowMaker(lastUsedEncodingName)
-    var lastUsedFormatForTxt: FileFormat by flowMaker(lastUsedFormatForTxt)
-    var lastUsedFormatForCsv: FileFormat by flowMaker(lastUsedFormatForCsv)
-    var lastUsedFormatForTsv: FileFormat by flowMaker(lastUsedFormatForTsv)
+    var lastUsedFormatForTxt: FileFormat by flowMakerForCopyable(lastUsedFormatForTxt)
+    var lastUsedFormatForCsv: FileFormat by flowMakerForCopyable(lastUsedFormatForCsv)
+    var lastUsedFormatForTsv: FileFormat by flowMakerForCopyable(lastUsedFormatForTsv)
 
     override fun copy() = FileImportStorage(
         customFileFormats,

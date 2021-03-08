@@ -16,8 +16,8 @@ class Deck(
     var name: String by flowMaker(name)
     val createdAt: DateTime by flowMaker(createdAt)
     var lastTestedAt: DateTime? by flowMaker(lastTestedAt)
-    var cards: CopyableList<Card> by flowMaker(cards)
-    var exercisePreference: ExercisePreference by flowMaker(exercisePreference)
+    var cards: CopyableList<Card> by flowMakerForCopyableList(cards)
+    var exercisePreference: ExercisePreference by flowMakerForCopyable(exercisePreference)
     var isPinned: Boolean by flowMaker(isPinned)
 
     override fun copy() = Deck(

@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.domain.architecturecomponents
 
-import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.*
 import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -8,89 +7,9 @@ import kotlin.reflect.KProperty
 object PropertyChangeRegistry {
     private var changes: MutableList<Change> = ArrayList()
 
-    fun <PropertyValue> add(
-        propertyOwnerClass: KClass<*>,
-        propertyOwnerId: Long,
-        property: KProperty<*>,
-        oldValue: PropertyValue,
-        newValue: PropertyValue,
-        preferredChangeClass: KClass<*>?
-    ) {
-        val change = when (determineChangeClass(oldValue, newValue, preferredChangeClass)) {
-            TheSameValueAssignment::class -> {
-                TheSameValueAssignment(
-                    propertyOwnerClass,
-                    propertyOwnerId,
-                    property,
-                    newValue.copyIfAble()
-                )
-            }
-            ListChange::class -> {
-                val listDiffResult: ListDiffResult<*> =
-                    calculateListDiff(oldValue as List<*>, newValue as List<*>)
-                val addedItems = HashMap<Int, Any?>().apply {
-                    for ((position, item) in listDiffResult.addedItems) {
-                        put(position, item.copyIfAble())
-                    }
-                }
-                ListChange(
-                    propertyOwnerClass,
-                    propertyOwnerId,
-                    property,
-                    listDiffResult.removedItemsAt,
-                    listDiffResult.movedItemsAt,
-                    addedItems
-                )
-            }
-            CollectionChange::class -> {
-                val collectionDiffResult: CollectionDiffResult<*> =
-                    calculateCollectionDiff(oldValue as Collection<*>, newValue as Collection<*>)
-                val removedItems = collectionDiffResult.removedItems.map { it.copyIfAble() }
-                val addedItems = collectionDiffResult.addedItems.map { it.copyIfAble() }
-                CollectionChange(
-                    propertyOwnerClass,
-                    propertyOwnerId,
-                    property,
-                    removedItems,
-                    addedItems
-                )
-            }
-            else -> {
-                PropertyValueChange(
-                    propertyOwnerClass,
-                    propertyOwnerId,
-                    property,
-                    oldValue.copyIfAble(),
-                    newValue.copyIfAble()
-                )
-            }
-        }
+    fun register(change: Change) {
         changes.add(change)
     }
-
-    private fun <PropertyValue> determineChangeClass(
-        oldValue: PropertyValue,
-        newValue: PropertyValue,
-        preferredChangeClass: KClass<*>?
-    ): KClass<*> {
-        if (oldValue === newValue) return TheSameValueAssignment::class
-        if (preferredChangeClass == PropertyValueChange::class) return PropertyValueChange::class
-        return when {
-            oldValue === newValue -> TheSameValueAssignment::class
-            preferredChangeClass == PropertyValueChange::class -> preferredChangeClass
-            preferredChangeClass == CollectionChange::class
-                    && oldValue is Collection<*>
-                    && newValue is Collection<*> -> preferredChangeClass
-            preferredChangeClass == ListChange::class
-                    && oldValue is List<*>
-                    && newValue is List<*> -> preferredChangeClass
-            oldValue is List<*> && newValue is List<*> -> ListChange::class
-            oldValue is Collection<*> && newValue is Collection<*> -> CollectionChange::class
-            else -> PropertyValueChange::class
-        }
-    }
-
-    private fun Any?.copyIfAble() = if (this is Copyable) copy() else this
 
     fun removeAll(): List<Change> {
         val result = changes

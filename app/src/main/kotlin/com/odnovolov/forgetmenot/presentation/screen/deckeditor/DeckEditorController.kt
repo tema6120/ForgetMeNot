@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
+import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -30,6 +31,7 @@ class DeckEditorController(
     private val screenState: DeckEditorScreenState,
     private val navigator: Navigator,
     private val globalState: GlobalState,
+    private val longTermStateSaver: LongTermStateSaver,
     private val batchCardEditorProvider: ShortTermStateProvider<BatchCardEditor>
 ) : BaseController<DeckEditorEvent, Command>() {
     sealed class Command {
@@ -189,6 +191,7 @@ class DeckEditorController(
     }
 
     override fun saveState() {
+        longTermStateSaver.saveStateByRegistry()
         batchCardEditorProvider.save(batchCardEditor)
     }
 }

@@ -557,6 +557,15 @@ class HomeFragment : BaseFragment() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         appBarElevationManager.canCardListScrollUp =
                             recyclerView.canScrollVertically(-1)
+                        if (isAntiJumpingViewActivated) {
+                            antiJumpingView.updateLayoutParams {
+                                height -= abs(dy) / 2
+                            }
+                            if (antiJumpingView.height <= 0) {
+                                antiJumpingView.isVisible = false
+                                isAntiJumpingViewActivated = false
+                            }
+                        }
                     }
                 }
             }
