@@ -1,0 +1,1 @@
+- fixed saving state in 'Deck Editor'
