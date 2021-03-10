@@ -107,6 +107,21 @@ class HomeController(
                 }
             }
 
+            EditDeckListsButtonClicked -> {
+                // todo
+            }
+
+            is DeckListSelected -> {
+                val selectedDeckList: DeckList? = event.deckListId?.let { deckListId: Long ->
+                    globalState.deckLists.find { deckList: DeckList -> deckList.id == deckListId }
+                }
+                deckReviewPreference.currentDeckList = selectedDeckList
+            }
+
+            CreateDeckListButtonClicked -> {
+                // todo
+            }
+
             SortingDirectionButtonClicked -> {
                 with(deckReviewPreference) {
                     val newDirection = if (deckSorting.direction == Asc) Desc else Asc

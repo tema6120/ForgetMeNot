@@ -34,6 +34,6 @@ class DeckReviewPreferenceProvider(
             keyValues[DbKeys.DISPLAY_ONLY_DECKS_AVAILABLE_FOR_EXERCISE]
                 ?.toBoolean()
                 ?: DeckReviewPreference.DEFAULT_DISPLAY_ONLY_DECKS_AVAILABLE_FOR_EXERCISE
-        return DeckReviewPreference(deckSorting, displayOnlyDecksAvailableForExercise)
+        return DeckReviewPreference(null, deckSorting, displayOnlyDecksAvailableForExercise) // todo
     }
 }

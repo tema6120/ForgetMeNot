@@ -1,7 +1,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="8dp"
@@ -12,16 +12,21 @@
 
     <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/nunito_bold"
             android:text="@string/title_deck_filters_popup"
+            android:textColor="@color/text_title"
             android:textSize="@dimen/text_size_deck_filters_popup_title"
+            app:drawableStartCompat="@drawable/ic_filter_12"
+            app:drawableTint="@color/text_title"
             app:layout_constraintBottom_toBottomOf="@+id/closeButton"
+            app:layout_constraintEnd_toStartOf="@+id/closeButton"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/closeButton" />
 
@@ -39,7 +44,7 @@
 
     <FrameLayout
             android:id="@+id/availableForExerciseButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,19 +52,100 @@
 
         <CheckBox
                 android:id="@+id/availableForExerciseCheckBox"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:clickable="false"
                 android:focusable="false"
                 android:fontFamily="@font/nunito_bold"
-                android:maxWidth="250dp"
                 android:padding="12dp"
                 android:text="@string/deck_filter_only_decks_available_for_exercise"
                 android:textColor="@color/textSecondary"
                 android:textSize="@dimen/text_size_checkbox" />
 
     </FrameLayout>
+
+    <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/availableForExerciseButton" />
+
+    <TextView
+            android:id="@+id/deckListsTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/nunito_bold"
+            android:maxLines="1"
+            android:text="@string/section_title_in_filters_popup_deck_lists"
+            android:textColor="@color/text_description"
+            android:textSize="@dimen/text_size_deck_filters_popup_section_title_deck_lists"
+            app:layout_constraintBottom_toBottomOf="@+id/editDeckListsButton"
+            app:layout_constraintEnd_toStartOf="@+id/editDeckListsButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editDeckListsButton" />
+
+    <ImageButton
+            android:id="@+id/editDeckListsButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="6dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:srcCompat="@drawable/ic_round_edit_20"
+            app:tint="@color/textSecondary" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/deckListRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:overScrollMode="never"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editDeckListsButton"
+            tools:listitem="@layout/item_deck_list" />
+
+    <TextView
+            android:id="@+id/createDeckListButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ripple_corner_radius_8dp"
+            android:drawableStart="@drawable/ic_round_add_16"
+            android:drawablePadding="12dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingStart="10dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="12dp"
+            android:text="@string/create_new_deck_list"
+            android:textColor="@color/hint"
+            android:textSize="@dimen/text_size_deck_filters_popup_deck_list_title"
+            app:drawableTint="@color/hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deckListRecycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

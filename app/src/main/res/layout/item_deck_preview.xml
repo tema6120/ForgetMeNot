@@ -34,22 +34,21 @@
                     android:textColor="@color/text_title"
                     android:textSize="@dimen/text_size_home_screen_deck_name"
                     android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/deck_indicator"
-                    app:drawableTint="@color/iconDark"
+                    app:drawableStartCompat="@drawable/deck_list_indicator"
                     tools:text="Английский №8" />
 
             <View
                     android:id="@+id/divider"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginStart="36dp"
+                    android:layout_marginStart="38dp"
                     android:layout_marginEnd="52dp"
                     android:background="?android:attr/listDivider" />
 
             <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="29sp"
-                    android:layout_marginStart="36dp"
+                    android:layout_marginStart="38dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"

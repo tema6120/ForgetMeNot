@@ -58,6 +58,8 @@
     <string name="text_filter_button">Filters</string>
     <string name="title_deck_filters_popup">Filters</string>
     <string name="deck_filter_only_decks_available_for_exercise">Only decks available for exercise</string>
+    <string name="section_title_in_filters_popup_deck_lists">Deck lists</string>
+    <string name="create_new_deck_list">Create new list</string>
     <string name="sort_by_name">By name</string>
     <string name="sort_by_time_created">By time created</string>
     <string name="sort_by_time_last_tested">By time last tested</string>

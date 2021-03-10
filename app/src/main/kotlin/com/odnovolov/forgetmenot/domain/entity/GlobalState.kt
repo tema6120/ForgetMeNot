@@ -5,12 +5,15 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegi
 
 class GlobalState(
     decks: CopyableCollection<Deck>,
+    deckLists: CopyableCollection<DeckList>,
     sharedExercisePreferences: CopyableCollection<ExercisePreference>,
     cardFilterForAutoplay: CardFilterForAutoplay,
     isWalkingModeEnabled: Boolean,
     numberOfLapsInPlayer: Int
 ) : FlowMakerWithRegistry<GlobalState>() {
     var decks: CopyableCollection<Deck> by flowMakerForCopyableCollection(decks)
+
+    var deckLists: CopyableCollection<DeckList> by flowMakerForCopyableCollection(deckLists)
 
     var sharedExercisePreferences: CopyableCollection<ExercisePreference>
             by flowMakerForCopyableCollection(sharedExercisePreferences)
@@ -23,6 +26,7 @@ class GlobalState(
 
     override fun copy() = GlobalState(
         decks.copy(),
+        deckLists.copy(),
         sharedExercisePreferences.copy(),
         cardFilterForAutoplay.copy(),
         isWalkingModeEnabled,

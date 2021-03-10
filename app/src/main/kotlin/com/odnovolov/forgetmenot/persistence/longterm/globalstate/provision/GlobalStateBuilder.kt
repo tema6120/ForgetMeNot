@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
+import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.*
@@ -25,6 +26,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val numberOfLapsInPlayer = buildNumberOfLapsInPlayer()
         return GlobalState(
             decks,
+            copyableListOf(DeckList(id = 45, name = "English", color = 0xFFE0007E.toInt(), listOf(6771052483725754624L))), // todo
             sharedExercisePreferences,
             cardFilterForAutoplay,
             isWalkingModeEnabled,

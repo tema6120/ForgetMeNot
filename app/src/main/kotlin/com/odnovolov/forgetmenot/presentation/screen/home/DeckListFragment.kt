@@ -12,11 +12,8 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.LightPopupWindow
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.observe
-import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
-import com.odnovolov.forgetmenot.presentation.common.show
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
@@ -43,6 +40,11 @@ class DeckListFragment : BaseFragment() {
     private var filterButton: View? = null
     private var needToShowFiltersPopup = false
     private var needToShowSortingPopup = false
+    private val selectableDeckListAdapter = SelectableDeckListAdapter(
+        onDeckListButtonClicked = { deckListId: Long? ->
+            controller?.dispatch(DeckListSelected(deckListId))
+        }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -151,17 +153,33 @@ class DeckListFragment : BaseFragment() {
                     availableForExerciseButton.setOnClickListener {
                         controller?.dispatch(DecksAvailableForExerciseCheckboxClicked)
                     }
-                }
-            filtersPopup = LightPopupWindow(content)
-            viewModel.displayOnlyDecksAvailableForExercise
-                .observe { displayOnlyDecksAvailableForExercise: Boolean ->
-                    filtersPopup?.contentView?.run {
-                        availableForExerciseCheckBox.isChecked =
-                            displayOnlyDecksAvailableForExercise
+                    editDeckListsButton.setOnClickListener {
+                        controller?.dispatch(EditDeckListsButtonClicked)
+                    }
+                    deckListRecycler.adapter = selectableDeckListAdapter
+                    createDeckListButton.setOnClickListener {
+                        controller?.dispatch(CreateDeckListButtonClicked)
                     }
                 }
+            filtersPopup = LightPopupWindow(content).apply {
+                width = 250.dp
+            }
+            subscribeFiltersPopupToViewModel(content)
         }
         return filtersPopup!!
+    }
+
+    private fun subscribeFiltersPopupToViewModel(contentView: View) {
+        with(viewModel) {
+            displayOnlyDecksAvailableForExercise
+                .observe { displayOnlyDecksAvailableForExercise: Boolean ->
+                    contentView.availableForExerciseCheckBox.isChecked =
+                            displayOnlyDecksAvailableForExercise
+                }
+            selectableDeckLists.observe { deckList: List<SelectableDeckList> ->
+                selectableDeckListAdapter.items = deckList
+            }
+        }
     }
 
     private fun requireSortingPopup(): PopupWindow {

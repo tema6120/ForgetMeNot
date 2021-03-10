@@ -3,9 +3,9 @@ package com.odnovolov.forgetmenot.presentation.screen.deckchooser
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.DeckList
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
-import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.*
 import com.odnovolov.forgetmenot.presentation.screen.home.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.*
@@ -25,8 +25,20 @@ class DeckChooserViewModel(
     private val hasSearchText: Flow<Boolean> = searchText.map { it.isNotEmpty() }
         .distinctUntilChanged()
 
-    private val rawDecksPreview: Flow<List<RawDeckPreview>> = globalState.flowOf(GlobalState::decks)
-        .map { decks: Collection<Deck> ->
+    private val rawDecksPreview: Flow<List<RawDeckPreview>> = combine(
+        globalState.flowOf(GlobalState::decks),
+        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
+    ) { decks: Collection<Deck>, currentDeckList: DeckList? ->
+        if (currentDeckList == null) {
+            decks
+        } else {
+            decks.filter { deck: Deck ->
+                deck.id in currentDeckList.deckIds
+            }
+        }
+    }
+        .combine(globalState.flowOf(GlobalState::deckLists)) { decks: Collection<Deck>,
+                                                               deckLists: Collection<DeckList> ->
             decks.map { deck: Deck ->
                 val averageLaps: Double = deck.cards
                     .map { it.lap }
@@ -40,6 +52,9 @@ class DeckChooserViewModel(
                             isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
                         }
                     }
+                val deckListColors: List<Int> = deckLists.mapNotNull { deckList: DeckList ->
+                    if (deck.id in deckList.deckIds) deckList.color else null
+                }
                 RawDeckPreview(
                     deckId = deck.id,
                     deckName = deck.name,
@@ -49,7 +64,8 @@ class DeckChooserViewModel(
                     totalCount = deck.cards.size,
                     numberOfCardsReadyForExercise = numberOfCardsReadyForExercise,
                     lastTestedAt = deck.lastTestedAt,
-                    isPinned = deck.isPinned
+                    isPinned = deck.isPinned,
+                    deckListColors = deckListColors
                 )
             }
         }
@@ -104,7 +120,6 @@ class DeckChooserViewModel(
         return result
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     val deckListItems: Flow<List<DeckListItem>> = combine(
         decksPreview,
         hasSearchText

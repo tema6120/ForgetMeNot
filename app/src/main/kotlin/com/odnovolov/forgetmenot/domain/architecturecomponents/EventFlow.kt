@@ -11,7 +11,7 @@ class EventFlow<Event> {
     private val pendingEvents: MutableList<Event> = CopyOnWriteArrayList()
 
     fun get(): Flow<Event> = flow {
-        val channel = Channel<Event>(capacity = UNLIMITED)
+        val channel = Channel<Event>()
         pendingEvents.forEach(channel::offer)
         pendingEvents.clear()
         channels.add(channel)

@@ -58,6 +58,8 @@
     <string name="text_filter_button">Фильтры</string>
     <string name="title_deck_filters_popup">Фильтры</string>
     <string name="deck_filter_only_decks_available_for_exercise">Только колоды, доступные для упражнения</string>
+    <string name="section_title_in_filters_popup_deck_lists">Списки колод</string>
+    <string name="create_new_deck_list">Создать новый список</string>
     <string name="sort_by_name">По названию</string>
     <string name="sort_by_time_created">По времени создания</string>
     <string name="sort_by_time_last_tested">По времени посл. тест.</string>

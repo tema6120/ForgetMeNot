@@ -97,4 +97,5 @@
     <color name="card_position_label">#999999</color>
     <color name="favorite_language_checked">#E7D900</color>
     <color name="favorite_language_unchecked">#D6D2E6</color>
+    <color name="hint">#61000000</color>
 </resources>

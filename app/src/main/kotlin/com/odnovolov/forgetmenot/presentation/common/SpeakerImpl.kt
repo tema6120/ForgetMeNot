@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.collections.ArrayList
 
 class SpeakerImpl(
@@ -84,7 +85,7 @@ class SpeakerImpl(
     private var speakingTask: SpeakingTask? = null
     private var onSpeakingFinishedListener: (() -> Unit)? = null
     private val channelsForObservingLanguageStatus: MutableList<Pair<Locale?, Channel<LanguageStatus?>>> =
-        ArrayList()
+        CopyOnWriteArrayList()
     private val toneGenerator: ToneGenerator
             by lazy { ToneGenerator(AudioManager.STREAM_MUSIC, 100) }
     private var errorSoundJob: Job? = null

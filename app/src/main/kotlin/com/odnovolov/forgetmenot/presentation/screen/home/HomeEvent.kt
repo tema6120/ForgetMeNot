@@ -8,6 +8,9 @@ sealed class HomeEvent {
 
     // Filters:
     object DecksAvailableForExerciseCheckboxClicked : HomeEvent()
+    object EditDeckListsButtonClicked : HomeEvent()
+    class DeckListSelected(val deckListId: Long?) : HomeEvent()
+    object CreateDeckListButtonClicked : HomeEvent()
 
     // Sorting:
     object SortingDirectionButtonClicked : HomeEvent()

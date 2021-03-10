@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.MeasureSpec
@@ -118,6 +120,11 @@ class DeckPreviewAdapter(
             if (!isDeckNew) {
                 lastTestedValueTextView.text = deckPreview.lastTestedAt
             }
+            val deckListIcon: Drawable = DeckListDrawableGenerator.generateIcon(
+                strokeColors = deckPreview.deckListColors,
+                backgroundColor = Color.WHITE
+            )
+            deckNameTextView.setCompoundDrawablesRelative(deckListIcon, null, null, null)
             updateDeckItemSelectionState(itemView = this, deckPreview.deckId)
             pinIcon.isVisible = deckPreview.isPinned
         }
@@ -211,7 +218,7 @@ class DeckPreviewAdapter(
             }
             return
         }
-        val widthForDeckNameTextView: Int = parentWidth - 116.dp
+        val widthForDeckNameTextView: Int = parentWidth - 118.dp
 
         val textViewForMeasure = textViewForMeasure!!
         textViewForMeasure.text = deckName

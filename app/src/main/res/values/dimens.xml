@@ -77,7 +77,10 @@
     <dimen name="text_size_add_cards_popup_title">16sp</dimen>
     <dimen name="text_size_add_cards_popup_item">14sp</dimen>
     <dimen name="text_size_card_label_tip_popup_explanation">13sp</dimen>
-    <dimen name="text_size_deck_filters_popup_title">15sp</dimen>
+    <dimen name="text_size_deck_filters_popup_title">18sp</dimen>
+    <dimen name="text_size_deck_filters_popup_section_title_deck_lists">14sp</dimen>
+    <dimen name="text_size_deck_filters_popup_deck_list_title">15sp</dimen>
+    <dimen name="text_size_deck_filters_popup_number_decks_in_deck_list">12sp</dimen>
     <dimen name="text_size_deck_sorting_popup_title">15sp</dimen>
     <dimen name="text_size_deck_sorting_popup_item">16sp</dimen>
     <dimen name="text_size_popup_in_exercise_title">18sp</dimen>

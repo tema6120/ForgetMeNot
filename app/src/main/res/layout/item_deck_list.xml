@@ -1,0 +1,66 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <FrameLayout
+            android:id="@+id/deckListButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:foreground="@drawable/ripple_corner_radius_8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:id="@+id/deckListIcon"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/deck_list_indicator" />
+
+    <TextView
+            android:id="@+id/deckListNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/text_size_deck_filters_popup_deck_list_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/numberOfDecksTextView"
+            app:layout_constraintStart_toEndOf="@+id/deckListIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="English" />
+
+    <TextView
+            android:id="@+id/numberOfDecksTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/background_number_of_deck_in_deck_list"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center"
+            android:minWidth="24dp"
+            android:paddingStart="6dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/text_description"
+            android:textSize="@dimen/text_size_deck_filters_popup_number_decks_in_deck_list"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

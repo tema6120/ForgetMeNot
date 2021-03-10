@@ -27,7 +27,7 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginStart="32dp"
-                android:background="@drawable/deck_indicator"
+                android:background="@drawable/deck_list_indicator"
                 android:backgroundTint="@color/iconDark" />
 
         <TextView
