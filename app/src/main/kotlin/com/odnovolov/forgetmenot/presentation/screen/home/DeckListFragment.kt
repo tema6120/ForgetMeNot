@@ -43,6 +43,7 @@ class DeckListFragment : BaseFragment() {
     private val selectableDeckListAdapter = SelectableDeckListAdapter(
         onDeckListButtonClicked = { deckListId: Long? ->
             controller?.dispatch(DeckListSelected(deckListId))
+            filtersPopup?.dismiss()
         }
     )
 

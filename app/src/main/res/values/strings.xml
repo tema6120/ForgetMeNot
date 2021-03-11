@@ -47,6 +47,7 @@
     <string name="no_decks">No decks</string>
     <string name="deck_list_title_all_decks">All decks</string>
     <string name="deck_list_title_decks_available_for_exercise">Decks available for exercise</string>
+    <string name="deck_list_title_specific_deck_list_available_for_exercise">\'%1$s\' available for exercise</string>
     <string name="text_add_cards_button">Add cards</string>
     <string name="title_add_cards_popup">Add cards</string>
     <string name="text_import_file_button">Import file</string>

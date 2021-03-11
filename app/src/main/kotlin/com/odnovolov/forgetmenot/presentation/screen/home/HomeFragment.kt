@@ -187,12 +187,24 @@ class HomeFragment : BaseFragment() {
                 updateViewPagerLocking()
             }
             selectionToolbarTitle.observe(::updateSelectionToolbarTitle)
-            displayOnlyDecksAvailableForExercise.observe { displayOnlyDecksAvailableForExercise: Boolean ->
-                deckListTitleTextView.text = getString(
-                    if (displayOnlyDecksAvailableForExercise)
-                        R.string.deck_list_title_decks_available_for_exercise else
-                        R.string.deck_list_title_all_decks
-                )
+            deckListTitle.observe { deckListTitle: DeckListTitle ->
+                deckListTitleTextView.text =
+                    if (deckListTitle.deckListName == null) {
+                        getString(
+                            if (deckListTitle.onlyDecksAvailableForExercise)
+                                R.string.deck_list_title_decks_available_for_exercise else
+                                R.string.deck_list_title_all_decks
+                        )
+                    } else {
+                        if (deckListTitle.onlyDecksAvailableForExercise) {
+                            getString(
+                                R.string.deck_list_title_specific_deck_list_available_for_exercise,
+                                deckListTitle.deckListName
+                            )
+                        } else {
+                            "'${deckListTitle.deckListName}'"
+                        }
+                    }
             }
             isAutoplayButtonVisible.observe { isVisible: Boolean ->
                 autoplayButton.isVisible = isVisible

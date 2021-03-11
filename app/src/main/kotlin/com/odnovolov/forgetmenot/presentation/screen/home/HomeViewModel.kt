@@ -134,6 +134,13 @@ class HomeViewModel(
     val displayOnlyDecksAvailableForExercise: Flow<Boolean> =
         deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyDecksAvailableForExercise)
 
+    val deckListTitle: Flow<DeckListTitle> = combine(
+        displayOnlyDecksAvailableForExercise,
+        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
+    ) { displayOnlyDecksAvailableForExercise: Boolean, currentDeckList: DeckList? ->
+        DeckListTitle(displayOnlyDecksAvailableForExercise, currentDeckList?.name)
+    }
+
     private val searchText: Flow<String> = homeScreenState.flowOf(HomeScreenState::searchText)
 
     val decksPreview: Flow<List<DeckPreview>> = combine(
@@ -278,6 +285,15 @@ class HomeViewModel(
     val deckNameInDeckOptionMenu: Flow<String?> =
         homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu)
             .map { deck: Deck? -> deck?.name }
+
+    val deckListColorsOfDeckInDeckOptionMenu: Flow<List<Int>> = combine(
+        homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu),
+        globalState.flowOf(GlobalState::deckLists)
+    ) { deck: Deck?, deckLists: Collection<DeckList> ->
+        deckLists.mapNotNull { deckList: DeckList ->
+            if (deck?.id in deckList.deckIds) deckList.color else null
+        }
+    }
 
     val isDeckInDeckOptionPinned: Flow<Boolean> =
         homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu)

@@ -49,6 +49,7 @@
     <string name="no_decks">Немає колод</string>
     <string name="deck_list_title_all_decks">Всі колоди</string>
     <string name="deck_list_title_decks_available_for_exercise">Колоди, доступні для вправи</string>
+    <string name="deck_list_title_specific_deck_list_available_for_exercise">\'%1$s\', доступні для вправи</string>
     <string name="text_add_cards_button">Додати картки</string>
     <string name="title_add_cards_popup">Додати картки</string>
     <string name="text_import_file_button">Імпортувати файл</string>

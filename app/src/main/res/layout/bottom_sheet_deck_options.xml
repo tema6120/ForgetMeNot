@@ -23,12 +23,11 @@
             android:orientation="horizontal">
 
         <View
-                android:id="@+id/deckIndicator"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
+                android:id="@+id/deckListIndicator"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:layout_marginStart="32dp"
-                android:background="@drawable/deck_list_indicator"
-                android:backgroundTint="@color/iconDark" />
+                android:background="@drawable/deck_list_indicator" />
 
         <TextView
                 android:id="@+id/deckNameTextView"
@@ -36,7 +35,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/nunito_bold"
-                android:padding="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="16dp"
                 android:textColor="@color/textPrimary"
                 android:textSize="@dimen/text_size_option_bottom_sheet_title"
                 android:textStyle="bold"

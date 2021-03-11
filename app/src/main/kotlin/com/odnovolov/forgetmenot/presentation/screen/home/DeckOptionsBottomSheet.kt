@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -72,6 +73,12 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
 
     private fun observeViewModel(viewModel: HomeViewModel) {
         with(viewModel) {
+            deckListColorsOfDeckInDeckOptionMenu.observe { deckListColors: List<Int> ->
+                deckListIndicator.background = DeckListDrawableGenerator.generateIcon(
+                    strokeColors = deckListColors,
+                    backgroundColor = Color.WHITE
+                )
+            }
             deckNameInDeckOptionMenu.observe { deckName: String? ->
                 if (deckName != null) {
                     deckNameTextView.text = deckName
