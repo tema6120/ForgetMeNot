@@ -119,6 +119,12 @@
                     app:drawableStartCompat="@drawable/ic_round_push_pin_20" />
 
             <TextView
+                    android:id="@+id/addToDeckListDeckOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_add_to_deck_list"
+                    app:drawableStartCompat="@drawable/ic_round_playlist_add_20" />
+
+            <TextView
                     android:id="@+id/exportDeckOptionItem"
                     style="@style/DeckOptionItem"
                     android:text="@string/deck_option_export"

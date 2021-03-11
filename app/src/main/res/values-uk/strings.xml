@@ -89,6 +89,7 @@
     <string name="deck_option_setup">Налаштувати</string>
     <string name="deck_option_pin">Закріпити</string>
     <string name="deck_option_unpin">Відкріпити</string>
+    <string name="deck_option_add_to_deck_list">Додати до списку колод</string>
     <string name="deck_option_export">Експортувати</string>
     <string name="deck_option_merge_into">Об\'єднати в</string>
     <string name="deck_option_remove">Видалити</string>
@@ -107,6 +108,11 @@
     <string name="text_exercise_button_with_cards_count">Вправа (%d)</string>
     <string name="toast_text_no_cards_ready_for_exercise">Немає карток, готових для вправи</string>
     <string name="progress_bar_reading_files">Читання файлів ..</string>
+
+
+    <!-- Choose deck list dialog -->
+
+    <string name="dialog_title_choose_deck_list">Оберіть список колод</string>
 
 
     <!-- Deck lists editor -->

@@ -85,6 +85,7 @@
     <string name="deck_option_setup">Setup</string>
     <string name="deck_option_pin">Pin</string>
     <string name="deck_option_unpin">Unpin</string>
+    <string name="deck_option_add_to_deck_list">Add to some deck list</string>
     <string name="deck_option_export">Export</string>
     <string name="deck_option_merge_into">Merge into</string>
     <string name="deck_option_remove">Remove</string>
@@ -101,6 +102,11 @@
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
     <string name="progress_bar_reading_files">Reading files ..</string>
+
+
+    <!-- Choose deck list dialog -->
+
+    <string name="dialog_title_choose_deck_list">Choose deck list</string>
 
 
     <!-- Deck lists editor -->

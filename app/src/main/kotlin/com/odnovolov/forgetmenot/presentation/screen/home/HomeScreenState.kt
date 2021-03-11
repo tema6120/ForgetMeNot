@@ -11,6 +11,7 @@ class HomeScreenState : FlowMaker<HomeScreenState>() {
     var deckForDeckOptionMenu: Deck? by flowMaker(null)
     var areFilesBeingReading: Boolean by flowMaker(false)
     var fileFormatForExport: FileFormat? by flowMaker(null)
+    var chooseDeckListDialogPurpose: ChooseDeckListDialogPurpose? by flowMaker(null)
 }
 
 @Serializable
@@ -23,4 +24,9 @@ data class DeckSelection(
         ForExercise,
         ForAutoplay
     }
+}
+
+enum class ChooseDeckListDialogPurpose {
+    ToAddDeckToDeckList,
+    ToRemoveDeckFromDeckList
 }

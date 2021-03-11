@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.addDeckIds
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
@@ -22,6 +23,7 @@ import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeCaller
+import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeCaller.HomeSearch
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDialogState
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.GradeItem
@@ -31,11 +33,15 @@ import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScre
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDialogState
+import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose.ToAddDeckToDeckList
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSelection.Purpose.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
@@ -85,6 +91,8 @@ class HomeController(
             val numberOfCopiedCards: Int,
             val deckNameToWhichCardsWereCopied: String
         ) : Command()
+
+        object ShowDeckListsChooser : Command()
     }
 
     init {
@@ -95,6 +103,10 @@ class HomeController(
 
     lateinit var displayedDeckIds: Flow<List<Long>>
     private var needToResearchOnCancel = false
+    private val deckIdsInOptionsMenu: List<Long>
+        get() = screenState.deckSelection?.selectedDeckIds
+                ?: screenState.deckForDeckOptionMenu?.let { listOf(it.id) }
+                ?: emptyList()
 
     override fun handle(event: HomeEvent) {
         when (event) {
@@ -208,6 +220,11 @@ class HomeController(
 
             UnpinDeckOptionSelected -> {
                 screenState.deckForDeckOptionMenu?.isPinned = false
+            }
+
+            AddToDeckListDeckOptionSelected, AddToDeckListDeckSelectionOptionSelected -> {
+                screenState.chooseDeckListDialogPurpose = ToAddDeckToDeckList
+                sendCommand(ShowDeckListsChooser)
             }
 
             ExportDeckOptionSelected -> {
@@ -482,6 +499,18 @@ class HomeController(
                     needToResearchOnCancel = false
                     cardsSearcher.research()
                 }
+            }
+
+            is DeckListForAddingDecksSelected -> {
+                val deckList: DeckList = globalState.deckLists
+                    .find { deckList: DeckList -> deckList.id == event.deckListId }
+                    ?: return
+                deckList.addDeckIds(deckIdsInOptionsMenu)
+                screenState.deckSelection = null
+            }
+
+            CreateDeckListForAddingDecksButtonClicked -> {
+
             }
         }
     }

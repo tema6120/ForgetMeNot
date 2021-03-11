@@ -26,7 +26,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val numberOfLapsInPlayer = buildNumberOfLapsInPlayer()
         return GlobalState(
             decks,
-            copyableListOf(DeckList(id = 45, name = "English", color = 0xFFE0007E.toInt(), listOf(6771052483725754624L))), // todo
+            copyableListOf(DeckList(id = 45, name = "English", color = 0xFFE0007E.toInt(), setOf(6771052483725754624L))), // todo
             sharedExercisePreferences,
             cardFilterForAutoplay,
             isWalkingModeEnabled,

@@ -11,6 +11,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.home.choosedecklist.ChooseDeckListViewModel
 
 class HomeDiScope private constructor(
     initialHomeScreenState: HomeScreenState? = null,
@@ -78,6 +79,12 @@ class HomeDiScope private constructor(
         controller,
         cardsSearcher.state,
         batchCardEditor.state
+    )
+
+    val chooseDeckListViewModel = ChooseDeckListViewModel(
+        screenState,
+        AppDiScope.get().globalState,
+        deckReviewPreference
     )
 
     companion object : DiScopeManager<HomeDiScope>() {

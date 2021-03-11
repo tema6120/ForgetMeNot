@@ -41,6 +41,12 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
         return CollectionDelegateProvider(id, initialValue, properties)
     }
 
+    protected fun <SetItem> flowMakerForSet(
+        initialValue: Set<SetItem>
+    ): DelegateProvider<PropertyOwner, Set<SetItem>> {
+        return SetDelegateProvider(id, initialValue, properties)
+    }
+
     protected fun <CollectionItem : Copyable> flowMakerForCopyableCollection(
         initialValue: CopyableCollection<CollectionItem>
     ): DelegateProvider<PropertyOwner, CopyableCollection<CollectionItem>> {
@@ -225,6 +231,43 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
                 )
             } else {
                 val collectionDiffResult: CollectionDiffResult<CollectionItem> =
+                    calculateCollectionDiff(oldValue, newValue)
+                CollectionChange(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    collectionDiffResult.removedItems,
+                    collectionDiffResult.addedItems
+                )
+            }
+        }
+    }
+
+    private class SetDelegateProvider<PropertyOwner : Any, SetItem>(
+        propertyOwnerId: Long,
+        value: Set<SetItem>,
+        properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
+    ) : BaseDelegateProvider<PropertyOwner, Set<SetItem>>(
+        propertyOwnerId,
+        value,
+        properties
+    ) {
+        override fun calculateChange(
+            propertyOwnerClass: KClass<*>,
+            propertyOwnerId: Long,
+            property: KProperty<*>,
+            oldValue: Set<SetItem>,
+            newValue: Set<SetItem>
+        ): Change {
+            return if (oldValue === newValue) {
+                TheSameValueAssignment(
+                    propertyOwnerClass,
+                    propertyOwnerId,
+                    property,
+                    newValue
+                )
+            } else {
+                val collectionDiffResult: CollectionDiffResult<SetItem> =
                     calculateCollectionDiff(oldValue, newValue)
                 CollectionChange(
                     propertyOwnerClass,

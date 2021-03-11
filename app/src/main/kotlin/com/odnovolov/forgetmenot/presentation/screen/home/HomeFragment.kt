@@ -31,6 +31,7 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.choosedecklist.ChooseDeckListDialog
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
@@ -524,6 +525,9 @@ class HomeFragment : BaseFragment() {
                     command.deckNameToWhichCardsWereCopied
                 )
                 showCardSelectionActionIsCompletedSnackbar(message)
+            }
+            ShowDeckListsChooser -> {
+                ChooseDeckListDialog().show(childFragmentManager, "ChooseDeckListDialog")
             }
         }
     }

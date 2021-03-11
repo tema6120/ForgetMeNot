@@ -23,7 +23,7 @@ class DeckListsEditor(
                         id = generateId(),
                         name = "",
                         color = 0xFF64CFA2.toInt(), // todo
-                        deckIds = emptyList()
+                        deckIds = emptySet()
                     )
                     add(newDeckList)
                     val existingSortedDeckLists = globalState.deckLists.sortedBy { it.name }
@@ -40,7 +40,7 @@ class DeckListsEditor(
             id = generateId(),
             name = "",
             color = 0xFF345FBB.toInt(), // todo
-            deckIds = emptyList()
+            deckIds = emptySet()
         )
         state.editingDeckLists = buildList {
             add(newDeckList)
@@ -75,4 +75,12 @@ class DeckListsEditor(
         object Success : SaveResult()
         class Failure(val position: Int) : SaveResult()
     }
+}
+
+fun DeckList.addDeckIds(deckIdsToAdd: List<Long>) {
+    deckIds += deckIdsToAdd
+}
+
+fun DeckList.removeDeckIds(deckIdsToRemove: List<Long>) {
+    deckIds -= deckIdsToRemove
 }

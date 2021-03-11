@@ -30,6 +30,7 @@ sealed class HomeEvent {
     object EditCardsDeckOptionSelected : HomeEvent()
     object PinDeckOptionSelected : HomeEvent()
     object UnpinDeckOptionSelected : HomeEvent()
+    object AddToDeckListDeckOptionSelected : HomeEvent()
     object ExportDeckOptionSelected : HomeEvent()
     object MergeIntoDeckOptionSelected : HomeEvent()
     object RemoveDeckOptionSelected : HomeEvent()
@@ -51,6 +52,7 @@ sealed class HomeEvent {
     // Deck selection options
     object PinDeckSelectionOptionSelected : HomeEvent()
     object UnpinDeckSelectionOptionSelected : HomeEvent()
+    object AddToDeckListDeckSelectionOptionSelected : HomeEvent()
     object ExportDeckSelectionOptionSelected : HomeEvent()
     object MergeIntoDeckSelectionOptionSelected : HomeEvent()
     class DeckToMergeIntoIsSelected(val abstractDeck: AbstractDeck) : HomeEvent()
@@ -70,4 +72,8 @@ sealed class HomeEvent {
     object CopyCardSelectionOptionSelected : HomeEvent()
     class DeckToCopyCardsToIsSelected(val abstractDeck: AbstractDeck) : HomeEvent()
     object CancelCardSelectionActionSnackbarButtonClicked : HomeEvent()
+
+    // ChooseDeckListDialog
+    class DeckListForAddingDecksSelected(val deckListId: Long) : HomeEvent()
+    object CreateDeckListForAddingDecksButtonClicked : HomeEvent()
 }
