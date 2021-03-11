@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.State
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingSpecificCards
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
@@ -31,6 +32,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDialogState
@@ -108,7 +110,10 @@ class HomeController(
             }
 
             EditDeckListsButtonClicked -> {
-                // todo
+                navigator.navigateToDeckListsEditor {
+                    val deckListsEditorState = DeckListsEditor.State.create(globalState)
+                    DeckListsEditorDiScope.create(deckListsEditorState)
+                }
             }
 
             is DeckListSelected -> {
@@ -119,7 +124,10 @@ class HomeController(
             }
 
             CreateDeckListButtonClicked -> {
-                // todo
+                navigator.navigateToDeckListsEditor {
+                    val deckListsEditorState = DeckListsEditor.State.create(globalState)
+                    DeckListsEditorDiScope.create(deckListsEditorState)
+                }
             }
 
             SortingDirectionButtonClicked -> {

@@ -103,6 +103,12 @@
     <string name="progress_bar_reading_files">Чтение файлов ..</string>
 
 
+    <!-- Deck lists editor -->
+
+    <string name="screen_title_deck_lists">Списки колод</string>
+    <string name="hint_deck_list_edittext">Название списка</string>
+
+
     <!-- Export dialog -->
 
     <string name="dialog_title_export">Экспорт</string>

@@ -102,6 +102,13 @@
     <string name="progress_bar_reading_files">Reading files ..</string>
 
 
+    <!-- Deck lists editor -->
+
+    <string name="screen_title_deck_lists">Deck lists</string>
+    <string name="hint_deck_list_edittext">List name</string>
+
+
+
     <!-- Export dialog -->
 
     <string name="dialog_title_export">Export</string>

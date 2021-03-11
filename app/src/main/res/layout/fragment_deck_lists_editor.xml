@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+    <FrameLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_window"
+            android:orientation="horizontal"
+            android:stateListAnimator="@animator/app_bar">
+
+        <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="12dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_back_button"
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+        <TextView
+                android:id="@+id/screenTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/jura"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/screen_title_deck_lists"
+                android:textColor="@color/text_title"
+                android:textSize="@dimen/text_size_screen_title"
+                android:textStyle="bold" />
+
+        <ImageButton
+                android:id="@+id/doneButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="12dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description_done_button"
+                app:srcCompat="@drawable/ic_round_done_24"
+                app:tint="@color/text_title" />
+
+    </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/contentScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:id="@+id/createNewDeckListFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/createDeckListButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_corner_radius_8dp"
+                        android:drawableStart="@drawable/ic_round_add_20"
+                        android:drawablePadding="12dp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="start|center_vertical"
+                        android:paddingStart="15dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="12dp"
+                        android:text="@string/create_new_deck_list"
+                        android:textColor="@color/hint"
+                        android:textSize="17sp"
+                        app:drawableTint="@color/hint" />
+
+                <ImageView
+                        android:id="@+id/newDeckListIndicator"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="20dp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/deck_list_indicator"
+                        tools:visibility="visible" />
+
+                <EditText
+                        android:id="@+id/newDeckListNameEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_bold"
+                        android:hint="@string/hint_deck_list_edittext"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/text_deck_list_name_edittext"
+                        android:textSize="17sp"
+                        android:visibility="gone" />
+
+                <ImageButton
+                        android:id="@+id/saveNewDeckListButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/ripple"
+                        android:tint="@color/iconDark"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_round_done_24"
+                        tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/deckListsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:overScrollMode="never"
+                    app:layoutManager="LinearLayoutManager"
+                    tools:listitem="@layout/item_editing_deck_list" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

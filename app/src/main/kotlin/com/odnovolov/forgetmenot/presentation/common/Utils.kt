@@ -65,8 +65,8 @@ fun TextView.setTextSizeFromRes(dimenRes: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(dimenRes))
 }
 
-fun EditText.observeText(onTextChanged: (newText: String) -> Unit) {
-    addTextChangedListener(object : TextWatcher {
+fun EditText.observeText(onTextChanged: (newText: String) -> Unit): TextWatcher {
+    val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
@@ -74,7 +74,9 @@ fun EditText.observeText(onTextChanged: (newText: String) -> Unit) {
         }
 
         override fun afterTextChanged(s: Editable?) {}
-    })
+    }
+    addTextChangedListener(textWatcher)
+    return textWatcher
 }
 
 fun getBackgroundResForGrade(grade: Int) = when (grade) {

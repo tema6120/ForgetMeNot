@@ -54,8 +54,12 @@
                 app:destination="@+id/export" />
 
         <action
-            android:id="@+id/show_change_grade_dialog_from_nav_host"
-            app:destination="@+id/change_grade_dialog" />
+                android:id="@+id/show_change_grade_dialog_from_nav_host"
+                app:destination="@+id/change_grade_dialog" />
+
+        <action
+            android:id="@+id/nav_host_to_deck_lists_editor"
+            app:destination="@+id/deck_lists_editor" />
 
     </fragment>
 
@@ -116,12 +120,12 @@
                 app:popUpToInclusive="true" />
 
         <action
-            android:id="@+id/show_change_grade_dialog_from_search"
-            app:destination="@+id/change_grade_dialog" />
+                android:id="@+id/show_change_grade_dialog_from_search"
+                app:destination="@+id/change_grade_dialog" />
 
         <action
-            android:id="@+id/search_to_deck_chooser"
-            app:destination="@+id/deck_chooser" />
+                android:id="@+id/search_to_deck_chooser"
+                app:destination="@+id/deck_chooser" />
 
     </fragment>
 
@@ -449,5 +453,10 @@
             android:id="@+id/change_grade_dialog"
             android:name="com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDialog"
             tools:layout="@layout/dialog_change_grade" />
+
+    <fragment
+            android:id="@+id/deck_lists_editor"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorFragment"
+            tools:layout="@layout/fragment_deck_lists_editor" />
 
 </navigation>

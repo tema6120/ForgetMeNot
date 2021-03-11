@@ -51,6 +51,7 @@
                     android:maxLines="1"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
+                    android:textColor="@color/textPrimary"
                     android:textSize="@dimen/text_size_search_edittext" />
 
             <ProgressBar

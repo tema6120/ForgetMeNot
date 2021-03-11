@@ -14,6 +14,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiSc
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
@@ -42,6 +43,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToFileImport(createDiScope: () -> FileImportDiScope) {
         FileImportDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_file_import)
+    }
+
+    fun navigateToDeckListsEditor(createDiScope: () -> DeckListsEditorDiScope) {
+        DeckListsEditorDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_deck_lists_editor)
     }
 
     fun showRenameDeckDialogFromFileImport(createDiScope: () -> RenameDeckDiScope) {

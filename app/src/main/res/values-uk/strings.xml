@@ -108,6 +108,12 @@
     <string name="progress_bar_reading_files">Читання файлів ..</string>
 
 
+    <!-- Deck lists editor -->
+
+    <string name="screen_title_deck_lists">Списки колод</string>
+    <string name="hint_deck_list_edittext">Назва списка</string>
+
+
     <!-- Export dialog -->
 
     <string name="dialog_title_export">Експорт</string>
