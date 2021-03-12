@@ -13,6 +13,7 @@ class RenameDeckDialogState(
 
 sealed class RenameDeckDialogPurpose {
     class ToRenameExistingDeck(val deck: Deck) : RenameDeckDialogPurpose()
+    class ToRenameExistingDeckOnHomeScreen(val deck: Deck) : RenameDeckDialogPurpose()
     object ToRenameNewDeckForFileImport : RenameDeckDialogPurpose()
     object ToCreateNewDeck : RenameDeckDialogPurpose()
     object ToCreateNewForDeckChooser : RenameDeckDialogPurpose()

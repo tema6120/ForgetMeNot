@@ -15,6 +15,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiSc
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.SubmittedNewDeckName
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.SubmittedNameForNewDeck
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.OkButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.TextChanged
@@ -38,6 +39,13 @@ class RenameDeckController(
                     is ToRenameExistingDeck -> {
                         val success: Boolean = renameDeck(newName, purpose.deck, globalState)
                         if (success) navigator.navigateUp()
+                    }
+                    is ToRenameExistingDeckOnHomeScreen -> {
+                        val success: Boolean = renameDeck(newName, purpose.deck, globalState)
+                        if (success) {
+                            HomeDiScope.getOrRecreate().screenState.updateDeckListSignal = Unit
+                            navigator.navigateUp()
+                        }
                     }
                     ToRenameNewDeckForFileImport -> {
                         if (checkDeckName(newName, globalState) == NameCheckResult.Ok) {

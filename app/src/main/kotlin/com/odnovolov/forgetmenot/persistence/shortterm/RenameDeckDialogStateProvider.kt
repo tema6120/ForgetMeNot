@@ -30,6 +30,8 @@ class RenameDeckDialogStateProvider(
         val serializablePurpose = when (val purpose = state.purpose) {
             is ToRenameExistingDeck ->
                 SerializableRenameDeckDialogPurpose.ToRenameExistingDeck(purpose.deck.id)
+            is ToRenameExistingDeckOnHomeScreen ->
+                SerializableRenameDeckDialogPurpose.ToRenameExistingDeckOnHomeScreen(purpose.deck.id)
             ToRenameNewDeckForFileImport ->
                 SerializableRenameDeckDialogPurpose.ToRenameNewDeckForFileImport
             ToCreateNewDeck ->
@@ -48,6 +50,10 @@ class RenameDeckDialogStateProvider(
             is SerializableRenameDeckDialogPurpose.ToRenameExistingDeck -> {
                 val deck: Deck = globalState.decks.first { deck: Deck -> deck.id == purpose.deckId }
                 ToRenameExistingDeck(deck)
+            }
+            is SerializableRenameDeckDialogPurpose.ToRenameExistingDeckOnHomeScreen -> {
+                val deck: Deck = globalState.decks.first { deck: Deck -> deck.id == purpose.deckId }
+                ToRenameExistingDeckOnHomeScreen(deck)
             }
             SerializableRenameDeckDialogPurpose.ToRenameNewDeckForFileImport -> {
                 ToRenameNewDeckForFileImport
@@ -70,6 +76,9 @@ class RenameDeckDialogStateProvider(
 sealed class SerializableRenameDeckDialogPurpose {
     @Serializable
     class ToRenameExistingDeck(val deckId: Long) : SerializableRenameDeckDialogPurpose()
+
+    @Serializable
+    class ToRenameExistingDeckOnHomeScreen(val deckId: Long) : SerializableRenameDeckDialogPurpose()
 
     @Serializable
     object ToRenameNewDeckForFileImport : SerializableRenameDeckDialogPurpose()

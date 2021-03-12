@@ -62,8 +62,9 @@ class HomeViewModel(
 
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
-        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
-    ) { decks: Collection<Deck>, currentDeckList: DeckList? ->
+        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList),
+        homeScreenState.flowOf(HomeScreenState::updateDeckListSignal)
+    ) { decks: Collection<Deck>, currentDeckList: DeckList?, _ ->
         if (currentDeckList == null) {
             decks
         } else {
@@ -72,18 +73,6 @@ class HomeViewModel(
             }
         }
     }
-        .flatMapLatest { decks: Collection<Deck> ->
-            if (decks.isEmpty()) {
-                flowOf(emptyList())
-            } else {
-                val flowsForUpdating: MutableList<Flow<Unit>> = ArrayList(decks.size * 2)
-                for (deck in decks) {
-                    flowsForUpdating.add(deck.flowOf(Deck::name).map { })
-                    flowsForUpdating.add(deck.flowOf(Deck::isPinned).map { })
-                }
-                combine(flowsForUpdating) { decks }.debounce(10)
-            }
-        }
         .combine(fiveSeconds) { decks: Collection<Deck>, _ -> decks }
         .combine(globalState.flowOf(GlobalState::deckLists)) { decks: Collection<Deck>,
                                                                deckLists: Collection<DeckList> ->
@@ -117,7 +106,6 @@ class HomeViewModel(
                 )
             }
         }
-        .share()
 
     val deckSorting: Flow<DeckSorting> =
         deckReviewPreference.flowOf(DeckReviewPreference::deckSorting)
@@ -129,7 +117,6 @@ class HomeViewModel(
         val comparator = DeckPreviewComparator(deckSorting)
         rawDecksPreview.sortedWith(comparator)
     }
-        .share()
 
     val displayOnlyDecksAvailableForExercise: Flow<Boolean> =
         deckReviewPreference.flowOf(DeckReviewPreference::displayOnlyDecksAvailableForExercise)

@@ -46,7 +46,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
-import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeck
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToRenameExistingDeckOnHomeScreen
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
 import kotlinx.coroutines.flow.Flow
 
@@ -103,8 +103,8 @@ class HomeController(
     private var needToResearchOnCancel = false
     private val deckIdsInOptionsMenu: List<Long>
         get() = screenState.deckSelection?.selectedDeckIds
-                ?: screenState.deckForDeckOptionMenu?.let { listOf(it.id) }
-                ?: emptyList()
+            ?: screenState.deckForDeckOptionMenu?.let { listOf(it.id) }
+            ?: emptyList()
 
     override fun handle(event: HomeEvent) {
         when (event) {
@@ -195,7 +195,7 @@ class HomeController(
                 navigator.showRenameDeckDialogFromNavHost {
                     val deck = globalState.decks.first { it.id == deckId }
                     val dialogState = RenameDeckDialogState(
-                        purpose = ToRenameExistingDeck(deck),
+                        purpose = ToRenameExistingDeckOnHomeScreen(deck),
                         typedDeckName = deck.name
                     )
                     RenameDeckDiScope.create(dialogState)
@@ -214,10 +214,12 @@ class HomeController(
 
             PinDeckOptionSelected -> {
                 screenState.deckForDeckOptionMenu?.isPinned = true
+                notifyDeckListUpdated()
             }
 
             UnpinDeckOptionSelected -> {
                 screenState.deckForDeckOptionMenu?.isPinned = false
+                notifyDeckListUpdated()
             }
 
             AddToDeckListDeckOptionSelected, AddToDeckListDeckSelectionOptionSelected -> {
@@ -235,7 +237,8 @@ class HomeController(
                                     theOnlyDeckListToWhichRelevantDecksBelong = deckList
                                 }
                                 deckList.id != theOnlyDeckListToWhichRelevantDecksBelong.id -> {
-                                    screenState.chooseDeckListDialogPurpose = ToRemoveDeckFromDeckList
+                                    screenState.chooseDeckListDialogPurpose =
+                                        ToRemoveDeckFromDeckList
                                     sendCommand(ShowDeckListsChooser)
                                     return
                                 }
@@ -366,6 +369,7 @@ class HomeController(
                     }
                 }
                 screenState.deckSelection = null
+                notifyDeckListUpdated()
             }
 
             UnpinDeckSelectionOptionSelected -> {
@@ -377,6 +381,7 @@ class HomeController(
                     }
                 }
                 screenState.deckSelection = null
+                notifyDeckListUpdated()
             }
 
             ExportDeckSelectionOptionSelected -> {
@@ -527,6 +532,7 @@ class HomeController(
                     ?: return
                 deckList.addDeckIds(deckIdsInOptionsMenu)
                 screenState.deckSelection = null
+                notifyDeckListUpdated()
             }
 
             CreateDeckListForAddingDecksButtonClicked -> {
@@ -539,8 +545,13 @@ class HomeController(
                     ?: return
                 deckList.removeDeckIds(deckIdsInOptionsMenu)
                 screenState.deckSelection = null
+                notifyDeckListUpdated()
             }
         }
+    }
+
+    private fun notifyDeckListUpdated() {
+        screenState.updateDeckListSignal = Unit
     }
 
     private fun startExercise(deckIds: List<Long>) {

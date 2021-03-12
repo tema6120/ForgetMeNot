@@ -2,10 +2,12 @@ package com.odnovolov.forgetmenot.domain.architecturecomponents
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -104,13 +106,12 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
 
     private open class BaseDelegateProvider<PropertyOwner : Any, PropertyValue>(
         private val propertyOwnerId: Long,
-        value: PropertyValue,
+        var value: PropertyValue,
         private val properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
     ) : DelegateProvider<PropertyOwner, PropertyValue>,
         ReadWriteProperty<PropertyOwner, PropertyValue>,
         Flowable<PropertyValue> {
-        private val stateFlow = MutableStateFlow(value)
-        val value: PropertyValue get() = stateFlow.value
+        private val channels: MutableList<Channel<PropertyValue>> = CopyOnWriteArrayList()
 
         override fun provideDelegate(
             thisRef: PropertyOwner,
@@ -140,10 +141,22 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
                 newValue = value
             )
             PropertyChangeRegistry.register(change)
-            stateFlow.value = value
+            this.value = value
+            channels.forEach { it.offer(value) }
         }
 
-        override fun asFlow(): Flow<PropertyValue> = stateFlow
+        override fun asFlow(): Flow<PropertyValue> = flow {
+            emit(value)
+            val channel = Channel<PropertyValue>(Channel.CONFLATED)
+            channels.add(channel)
+            try {
+                for (item: PropertyValue in channel) {
+                    emit(item)
+                }
+            } finally {
+                channels.remove(channel)
+            }
+        }
 
         protected open fun calculateChange(
             propertyOwnerClass: KClass<*>,

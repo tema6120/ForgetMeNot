@@ -12,6 +12,7 @@ class HomeScreenState : FlowMaker<HomeScreenState>() {
     var areFilesBeingReading: Boolean by flowMaker(false)
     var fileFormatForExport: FileFormat? by flowMaker(null)
     var chooseDeckListDialogPurpose: ChooseDeckListDialogPurpose? by flowMaker(null)
+    var updateDeckListSignal: Unit by flowMaker(Unit)
 }
 
 @Serializable
