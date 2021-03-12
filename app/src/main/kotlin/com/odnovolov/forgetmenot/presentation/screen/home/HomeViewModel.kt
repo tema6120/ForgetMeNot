@@ -194,10 +194,6 @@ class HomeViewModel(
     val deckSelection: Flow<DeckSelection?> = homeScreenState.flowOf(HomeScreenState::deckSelection)
         .share()
 
-    val numberOfSelectedDecks: Flow<Int> = deckSelection.map { deckSelection: DeckSelection? ->
-        deckSelection?.selectedDeckIds?.size ?: 0
-    }
-
     val hasSearchText: Flow<Boolean> =
         homeScreenState.flowOf(HomeScreenState::searchText)
             .map { it.isNotEmpty() }
@@ -281,49 +277,6 @@ class HomeViewModel(
     }
         .distinctUntilChanged()
         .flowOn(Dispatchers.Default)
-
-    val deckNameInDeckOptionMenu: Flow<String?> =
-        homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu)
-            .map { deck: Deck? -> deck?.name }
-
-    val deckListColorsOfDeckInDeckOptionMenu: Flow<List<Int>> = combine(
-        homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu),
-        globalState.flowOf(GlobalState::deckLists)
-    ) { deck: Deck?, deckLists: Collection<DeckList> ->
-        deckLists.mapNotNull { deckList: DeckList ->
-            if (deck?.id in deckList.deckIds) deckList.color else null
-        }
-    }
-
-    val isDeckInDeckOptionPinned: Flow<Boolean> =
-        homeScreenState.flowOf(HomeScreenState::deckForDeckOptionMenu)
-            .map { deck: Deck? -> deck?.isPinned ?: false }
-
-    val isPinDeckSelectionOptionAvailable: Flow<Boolean> = combine(
-        deckSelection,
-        decksPreview
-    ) { deckSelection: DeckSelection?, decksPreview: List<DeckPreview> ->
-        if (deckSelection == null) {
-            false
-        } else {
-            decksPreview.any { deckPreview: DeckPreview ->
-                deckPreview.deckId in deckSelection.selectedDeckIds && !deckPreview.isPinned
-            }
-        }
-    }
-
-    val isUnpinDeckSelectionOptionAvailable: Flow<Boolean> = combine(
-        deckSelection,
-        decksPreview
-    ) { deckSelection: DeckSelection?, decksPreview: List<DeckPreview> ->
-        if (deckSelection == null) {
-            false
-        } else {
-            decksPreview.any { deckPreview: DeckPreview ->
-                deckPreview.deckId in deckSelection.selectedDeckIds && deckPreview.isPinned
-            }
-        }
-    }
 
     val decksNotFound: Flow<Boolean> = combine(
         hasSearchText,

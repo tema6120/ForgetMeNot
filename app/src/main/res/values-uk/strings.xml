@@ -90,6 +90,8 @@
     <string name="deck_option_pin">Закріпити</string>
     <string name="deck_option_unpin">Відкріпити</string>
     <string name="deck_option_add_to_deck_list">Додати до списку колод</string>
+    <string name="deck_option_remove_from_deck_list">Вилучити зі списку колод</string>
+    <string name="deck_option_remove_from_deck_list_with_arg">Вилучити зі списку колод \'%1$s\'</string>
     <string name="deck_option_export">Експортувати</string>
     <string name="deck_option_merge_into">Об\'єднати в</string>
     <string name="deck_option_remove">Видалити</string>

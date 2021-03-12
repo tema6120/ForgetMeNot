@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.home
+package com.odnovolov.forgetmenot.presentation.screen.home.deckselectionoptions
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeController
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
+import kotlinx.android.synthetic.main.bottom_sheet_deck_options.*
 import kotlinx.android.synthetic.main.bottom_sheet_deck_selection_options.*
 import kotlinx.coroutines.launch
 
@@ -32,7 +35,7 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
         viewCoroutineScope!!.launch {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            observeViewModel(diScope.viewModel)
+            observeViewModel(diScope.deckSelectionOptionsViewModel)
         }
     }
 
@@ -49,6 +52,10 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             controller?.dispatch(AddToDeckListDeckSelectionOptionSelected)
             dismiss()
         }
+        removeFromDeckListDeckSelectionOptionItem.setOnClickListener {
+            controller?.dispatch(RemoveFromDeckListDeckSelectionOptionSelected)
+            dismiss()
+        }
         exportDeckSelectionOptionItem.setOnClickListener {
             controller?.dispatch(ExportDeckSelectionOptionSelected)
             dismiss()
@@ -63,7 +70,7 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun observeViewModel(viewModel: HomeViewModel) {
+    private fun observeViewModel(viewModel: DeckSelectionOptionsViewModel) {
         with(viewModel) {
             numberOfSelectedDecks.observe { numberOfSelectedDecks: Int ->
                 numberOfSelectedDecksTextView.text = resources.getQuantityString(
@@ -72,11 +79,21 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
                     numberOfSelectedDecks
                 )
             }
-            isPinDeckSelectionOptionAvailable.observe { isAvailable: Boolean ->
-                pinDeckSelectionOptionItem.isVisible = isAvailable
+            canBePinned.observe { canBePinned: Boolean ->
+                pinDeckSelectionOptionItem.isVisible = canBePinned
             }
-            isUnpinDeckSelectionOptionAvailable.observe { isAvailable: Boolean ->
-                unpinDeckSelectionOptionItem.isVisible = isAvailable
+            canBeUnpinned.observe { canBeUnpinned: Boolean ->
+                unpinDeckSelectionOptionItem.isVisible = canBeUnpinned
+            }
+            namesOfDeckListsToWhichDecksBelong.observe { namesOfDeckLists: List<String> ->
+                removeFromDeckListDeckSelectionOptionItem.isVisible = namesOfDeckLists.isNotEmpty()
+                if (namesOfDeckLists.size == 1) {
+                    removeFromDeckListDeckSelectionOptionItem.text = getString(
+                        R.string.deck_option_remove_from_deck_list_with_arg,
+                        namesOfDeckLists[0]
+                    )
+                }
+
             }
         }
     }

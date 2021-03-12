@@ -65,6 +65,12 @@
                     app:drawableStartCompat="@drawable/ic_round_playlist_add_20" />
 
             <TextView
+                    android:id="@+id/removeFromDeckListDeckSelectionOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_remove_from_deck_list"
+                    app:drawableStartCompat="@drawable/ic_remove_from_list_20" />
+
+            <TextView
                     android:id="@+id/exportDeckSelectionOptionItem"
                     style="@style/DeckOptionItem"
                     android:text="@string/deck_option_export"

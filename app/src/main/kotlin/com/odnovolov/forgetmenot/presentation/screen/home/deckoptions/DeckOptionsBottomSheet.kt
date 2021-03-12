@@ -1,12 +1,16 @@
-package com.odnovolov.forgetmenot.presentation.screen.home
+package com.odnovolov.forgetmenot.presentation.screen.home.deckoptions
 
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckListDrawableGenerator
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeController
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.bottom_sheet_deck_options.*
 import kotlinx.coroutines.launch
@@ -32,7 +36,7 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
         viewCoroutineScope!!.launch {
             val diScope = HomeDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            observeViewModel(diScope.viewModel)
+            observeViewModel(diScope.deckOptionsViewModel)
         }
     }
 
@@ -61,6 +65,10 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             controller?.dispatch(AddToDeckListDeckOptionSelected)
             dismiss()
         }
+        removeFromDeckListDeckOptionItem.setOnClickListener {
+            controller?.dispatch(RemoveFromDeckListDeckOptionSelected)
+            dismiss()
+        }
         exportDeckOptionItem.setOnClickListener {
             controller?.dispatch(ExportDeckOptionSelected)
             dismiss()
@@ -75,20 +83,20 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun observeViewModel(viewModel: HomeViewModel) {
+    private fun observeViewModel(viewModel: DeckOptionsViewModel) {
         with(viewModel) {
-            deckListColorsOfDeckInDeckOptionMenu.observe { deckListColors: List<Int> ->
+            deckListIndicatorColors.observe { deckListColors: List<Int> ->
                 deckListIndicator.background = DeckListDrawableGenerator.generateIcon(
                     strokeColors = deckListColors,
                     backgroundColor = Color.WHITE
                 )
             }
-            deckNameInDeckOptionMenu.observe { deckName: String? ->
+            deckName.observe { deckName: String? ->
                 if (deckName != null) {
                     deckNameTextView.text = deckName
                 }
             }
-            isDeckInDeckOptionPinned.observe { isPinned: Boolean ->
+            isDeckPinned.observe { isPinned: Boolean ->
                 pinDeckOptionItem.setText(
                     if (isPinned)
                         R.string.deck_option_unpin else
@@ -109,6 +117,15 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
                 pinDeckOptionItem.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     drawableResStart, 0, 0, 0
                 )
+            }
+            namesOfDeckListsToWhichDeckBelongs.observe { namesOfDeckLists: List<String> ->
+                removeFromDeckListDeckOptionItem.isVisible = namesOfDeckLists.isNotEmpty()
+                if (namesOfDeckLists.size == 1) {
+                    removeFromDeckListDeckOptionItem.text = getString(
+                        R.string.deck_option_remove_from_deck_list_with_arg,
+                        namesOfDeckLists[0]
+                    )
+                }
             }
         }
     }

@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEdit
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.addDeckIds
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.removeDeckIds
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
@@ -23,7 +24,6 @@ import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeCaller
-import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeCaller.HomeSearch
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDialogState
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.GradeItem
@@ -33,15 +33,13 @@ import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScre
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDialogState
 import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose.ToAddDeckToDeckList
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSelection.Purpose.*
+import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose.ToRemoveDeckFromDeckList
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command
@@ -225,6 +223,28 @@ class HomeController(
             AddToDeckListDeckOptionSelected, AddToDeckListDeckSelectionOptionSelected -> {
                 screenState.chooseDeckListDialogPurpose = ToAddDeckToDeckList
                 sendCommand(ShowDeckListsChooser)
+            }
+
+            RemoveFromDeckListDeckOptionSelected, RemoveFromDeckListDeckSelectionOptionSelected -> {
+                var theOnlyDeckListToWhichRelevantDecksBelong: DeckList? = null
+                for (deckId: Long in deckIdsInOptionsMenu) {
+                    for (deckList: DeckList in globalState.deckLists) {
+                        if (deckId in deckList.deckIds) {
+                            when {
+                                theOnlyDeckListToWhichRelevantDecksBelong == null -> {
+                                    theOnlyDeckListToWhichRelevantDecksBelong = deckList
+                                }
+                                deckList.id != theOnlyDeckListToWhichRelevantDecksBelong.id -> {
+                                    screenState.chooseDeckListDialogPurpose = ToRemoveDeckFromDeckList
+                                    sendCommand(ShowDeckListsChooser)
+                                    return
+                                }
+                            }
+                        }
+                    }
+                }
+                theOnlyDeckListToWhichRelevantDecksBelong?.removeDeckIds(deckIdsInOptionsMenu)
+                screenState.deckSelection = null
             }
 
             ExportDeckOptionSelected -> {
@@ -511,6 +531,14 @@ class HomeController(
 
             CreateDeckListForAddingDecksButtonClicked -> {
 
+            }
+
+            is DeckListForRemovingDecksSelected -> {
+                val deckList: DeckList = globalState.deckLists
+                    .find { deckList: DeckList -> deckList.id == event.deckListId }
+                    ?: return
+                deckList.removeDeckIds(deckIdsInOptionsMenu)
+                screenState.deckSelection = null
             }
         }
     }

@@ -85,6 +85,8 @@
     <string name="deck_option_pin">Закрепить</string>
     <string name="deck_option_unpin">Открепить</string>
     <string name="deck_option_add_to_deck_list">Добавить в список колод</string>
+    <string name="deck_option_remove_from_deck_list">Удалить из списка колод</string>
+    <string name="deck_option_remove_from_deck_list_with_arg">Удалить из списка колод \'%1$s\'</string>
     <string name="deck_option_export">Экспортировать</string>
     <string name="deck_option_merge_into">Объединить</string>
     <string name="deck_option_remove">Удалить</string>

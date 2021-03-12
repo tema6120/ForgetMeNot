@@ -107,6 +107,8 @@
         <item name="android:textSize">@dimen/text_size_deck_option_bottom_sheet_item</item>
         <item name="android:background">@drawable/ripple_rectangular_colored</item>
         <item name="drawableTint">@color/textSecondary</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="RoundCornerBottomSheet" parent="ShapeAppearance.MaterialComponents.LargeComponent">

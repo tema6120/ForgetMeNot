@@ -86,6 +86,8 @@
     <string name="deck_option_pin">Pin</string>
     <string name="deck_option_unpin">Unpin</string>
     <string name="deck_option_add_to_deck_list">Add to some deck list</string>
+    <string name="deck_option_remove_from_deck_list">Remove from some deck list</string>
+    <string name="deck_option_remove_from_deck_list_with_arg">Remove from deck list \'%1$s\'</string>
     <string name="deck_option_export">Export</string>
     <string name="deck_option_merge_into">Merge into</string>
     <string name="deck_option_remove">Remove</string>
