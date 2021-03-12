@@ -59,11 +59,14 @@ class DeckListsEditorFragment : BaseFragment() {
         }
         newDeckListNameEditText.setOnFocusChangeListener { v, hasFocus ->
             createNewDeckListFrame.background =
-            if (hasFocus) {
-                ContextCompat.getDrawable(requireContext(), R.drawable.background_editing_deck_list)
-            } else {
-                null
-            }
+                if (hasFocus) {
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.background_editing_deck_list
+                    )
+                } else {
+                    null
+                }
             updateVisibility()
         }
         saveNewDeckListButton.setOnClickListener {
@@ -94,6 +97,12 @@ class DeckListsEditorFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             deckLists.observe(adapter!!::submitList)
+            if (isForCreation && isViewFirstCreated) {
+                newDeckListNameEditText.isVisible = true
+                newDeckListNameEditText.post {
+                    newDeckListNameEditText.showSoftInput()
+                }
+            }
         }
     }
 

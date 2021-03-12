@@ -34,6 +34,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScop
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
@@ -122,7 +123,8 @@ class HomeController(
             EditDeckListsButtonClicked -> {
                 navigator.navigateToDeckListsEditor {
                     val deckListsEditorState = DeckListsEditor.State.create(globalState)
-                    DeckListsEditorDiScope.create(deckListsEditorState)
+                    val screenState = DeckListEditorScreenState(isForCreation = false)
+                    DeckListsEditorDiScope.create(deckListsEditorState, screenState)
                 }
             }
 
@@ -136,7 +138,8 @@ class HomeController(
             CreateDeckListButtonClicked -> {
                 navigator.navigateToDeckListsEditor {
                     val deckListsEditorState = DeckListsEditor.State.create(globalState)
-                    DeckListsEditorDiScope.create(deckListsEditorState)
+                    val screenState = DeckListEditorScreenState(isForCreation = true)
+                    DeckListsEditorDiScope.create(deckListsEditorState, screenState)
                 }
             }
 
@@ -248,6 +251,7 @@ class HomeController(
                 }
                 theOnlyDeckListToWhichRelevantDecksBelong?.removeDeckIds(deckIdsInOptionsMenu)
                 screenState.deckSelection = null
+                notifyDeckListUpdated()
             }
 
             ExportDeckOptionSelected -> {
@@ -536,7 +540,14 @@ class HomeController(
             }
 
             CreateDeckListForAddingDecksButtonClicked -> {
-
+                navigator.navigateToDeckListsEditor {
+                    val deckListsEditorState = DeckListsEditor.State.create(
+                        globalState,
+                        deckIdsForNewDeckList = deckIdsInOptionsMenu.toSet()
+                    )
+                    val screenState = DeckListEditorScreenState(isForCreation = true)
+                    DeckListsEditorDiScope.create(deckListsEditorState, screenState)
+                }
             }
 
             is DeckListForRemovingDecksSelected -> {

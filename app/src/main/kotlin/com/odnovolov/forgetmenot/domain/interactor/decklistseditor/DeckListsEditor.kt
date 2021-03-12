@@ -17,13 +17,16 @@ class DeckListsEditor(
 
         companion object {
             @OptIn(ExperimentalStdlibApi::class)
-            fun create(globalState: GlobalState): State {
+            fun create(
+                globalState: GlobalState,
+                deckIdsForNewDeckList: Set<Long> = emptySet()
+            ): State {
                 val editingDeckLists: List<DeckList> = buildList {
                     val newDeckList = DeckList(
                         id = generateId(),
                         name = "",
                         color = 0xFF64CFA2.toInt(), // todo
-                        deckIds = emptySet()
+                        deckIds = deckIdsForNewDeckList
                     )
                     add(newDeckList)
                     val existingSortedDeckLists = globalState.deckLists.sortedBy { it.name }

@@ -5,10 +5,14 @@ import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
 class DeckListsEditorDiScope private constructor(
-    initialDeckListsEditorState: DeckListsEditor.State? = null
+    initialDeckListsEditorState: DeckListsEditor.State? = null,
+    initialScreenState: DeckListEditorScreenState? = null
 ) {
     private val deckListsEditorState: DeckListsEditor.State =
         initialDeckListsEditorState ?: TODO()
+
+    private val screenState: DeckListEditorScreenState =
+        initialScreenState ?: TODO()
 
     private val deckListsEditor = DeckListsEditor(
         deckListsEditorState,
@@ -22,14 +26,17 @@ class DeckListsEditorDiScope private constructor(
     )
 
     val viewModel = DeckListsEditorViewModel(
-        deckListsEditorState
+        deckListsEditorState,
+        screenState
     )
 
     companion object : DiScopeManager<DeckListsEditorDiScope>() {
         fun create(
-            deckListsEditorState: DeckListsEditor.State
+            deckListsEditorState: DeckListsEditor.State,
+            screenState: DeckListEditorScreenState
         ) = DeckListsEditorDiScope(
-            deckListsEditorState
+            deckListsEditorState,
+            screenState
         )
 
         override fun recreateDiScope() = DeckListsEditorDiScope()

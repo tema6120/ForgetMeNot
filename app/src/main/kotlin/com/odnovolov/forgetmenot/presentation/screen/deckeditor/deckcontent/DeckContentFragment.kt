@@ -63,7 +63,7 @@ class DeckContentFragment : BaseFragment() {
     }
 
     override fun onDestroyView() {
-        scrollListener?.let(cardsRecycler::removeOnScrollListener)
+        if (isInflated) scrollListener?.let(cardsRecycler::removeOnScrollListener)
         super.onDestroyView()
         isInflated = false
     }

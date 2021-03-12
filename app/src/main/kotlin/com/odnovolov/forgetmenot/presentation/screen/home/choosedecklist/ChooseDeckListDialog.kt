@@ -11,8 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.createDialog
 import com.odnovolov.forgetmenot.presentation.screen.home.*
 import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose.ToAddDeckToDeckList
 import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose.ToRemoveDeckFromDeckList
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.DeckListForAddingDecksSelected
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.DeckListForRemovingDecksSelected
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import kotlinx.android.synthetic.main.dialog_change_grade.view.*
 import kotlinx.android.synthetic.main.dialog_choose_deck_list.view.*
 import kotlinx.android.synthetic.main.dialog_title.view.*
@@ -54,8 +53,13 @@ class ChooseDeckListDialog : BaseDialogFragment() {
     }
 
     private fun initContentView() {
-        contentView = View.inflate(requireContext(), R.layout.dialog_choose_deck_list, null)
-        contentView.deckListRecycler.adapter = adapter
+        contentView = View.inflate(requireContext(), R.layout.dialog_choose_deck_list, null).apply {
+            deckListRecycler.adapter = adapter
+            createDeckListButton.setOnClickListener {
+                controller?.dispatch(CreateDeckListForAddingDecksButtonClicked)
+                dismiss()
+            }
+        }
     }
 
     private fun initTitleView() {
