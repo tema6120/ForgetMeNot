@@ -2,14 +2,14 @@ package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 
 import androidx.core.graphics.toColorInt
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor.SaveResult.Failure
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor.SaveResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.EditableDeckList
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command
-import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowColorChooserFor
-import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowDeckListIsRemovedMessage
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorEvent.*
 
 class DeckListsEditorController(
@@ -21,6 +21,7 @@ class DeckListsEditorController(
     sealed class Command {
         class ShowColorChooserFor(val deckListId: Long) : Command()
         object ShowDeckListIsRemovedMessage : Command()
+        class ShowNameCannotBeEmptyMessage(val deckListId: Long) : Command()
     }
 
     override fun handle(event: DeckListsEditorEvent) {
@@ -72,10 +73,9 @@ class DeckListsEditorController(
 
             DoneButtonClicked -> {
                 val saveResult: DeckListsEditor.SaveResult = deckListsEditor.save()
-                if (saveResult == Success) {
-                    navigator.navigateUp()
-                } else {
-                    // todo
+                when (saveResult) {
+                    Success -> navigator.navigateUp()
+                    is Failure -> sendCommand(ShowNameCannotBeEmptyMessage(saveResult.deckListId))
                 }
             }
         }

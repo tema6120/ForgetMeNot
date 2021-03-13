@@ -114,4 +114,11 @@ class DeckListViewHolder(
                 }
         }
     }
+
+    fun pointAtEmptyName() {
+        with(itemView.deckListNameEditText) {
+            error = context.getString(string.error_message_empty_name)
+            showSoftInput()
+        }
+    }
 }

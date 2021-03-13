@@ -107,11 +107,10 @@ class DeckListsEditor(
     }
 
     private fun check(): SaveResult.Failure? {
-        for ((position: Int, editableDeckList: EditableDeckList) in state.editingDeckLists.withIndex()) {
-            if (position == 0) continue
-            if (editableDeckList.name.isBlank()) return SaveResult.Failure(position)
-        }
-        return null
+        return state.editingDeckLists
+            .drop(1)
+            .find { editableDeckList -> editableDeckList.name.isBlank() }
+            ?.let { editableDeckList -> SaveResult.Failure(editableDeckList.deckList.id) }
     }
 
     private fun EditableDeckList.applyChanges() {
@@ -121,7 +120,7 @@ class DeckListsEditor(
 
     sealed class SaveResult {
         object Success : SaveResult()
-        class Failure(val position: Int) : SaveResult()
+        class Failure(val deckListId: Long) : SaveResult()
     }
 }
 

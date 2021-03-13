@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
@@ -19,8 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowColorChooserFor
-import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowDeckListIsRemovedMessage
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListDrawableGenerator
 import kotlinx.android.synthetic.main.fragment_deck_lists_editor.*
@@ -110,13 +106,13 @@ class DeckListsEditorFragment : BaseFragment() {
         expandIcon.isVisible =
             newDeckListNameEditText.hasFocus()
         createDeckListButton.isVisible =
-            !newDeckListNameEditText.hasFocus() && newDeckListNameEditText.text.isEmpty()
+            !newDeckListNameEditText.hasFocus() && newDeckListNameEditText.text.isBlank()
         newDeckListIndicator.isVisible =
-            newDeckListNameEditText.hasFocus() || newDeckListNameEditText.text.isNotEmpty()
+            newDeckListNameEditText.hasFocus() || newDeckListNameEditText.text.isNotBlank()
         newDeckListNameEditText.isVisible =
-            newDeckListNameEditText.hasFocus() || newDeckListNameEditText.text.isNotEmpty()
+            newDeckListNameEditText.hasFocus() || newDeckListNameEditText.text.isNotBlank()
         saveNewDeckListButton.isVisible =
-            newDeckListNameEditText.text.isNotEmpty()
+            newDeckListNameEditText.text.isNotBlank()
     }
 
     private fun initDeckListAdapter() {
@@ -173,6 +169,12 @@ class DeckListsEditorFragment : BaseFragment() {
                     ).apply {
                         show()
                     }
+            }
+            is ShowNameCannotBeEmptyMessage -> {
+                val viewHolder =
+                    deckListsRecyclerView.findViewHolderForItemId(command.deckListId) ?: return
+                viewHolder as DeckListViewHolder
+                viewHolder.pointAtEmptyName()
             }
         }
     }
@@ -265,9 +267,16 @@ class DeckListsEditorFragment : BaseFragment() {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+        appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
+        contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+    }
+
     override fun onPause() {
         super.onPause()
         hideKeyboardForcibly(requireActivity())
+        contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
     }
 
     override fun onDestroyView() {
@@ -282,6 +291,13 @@ class DeckListsEditorFragment : BaseFragment() {
         super.onDestroy()
         if (isFinishing()) {
             DeckListsEditorDiScope.close()
+        }
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = contentScrollView.canScrollVertically(-1)
+        if (appBar.isActivated != canScrollUp) {
+            appBar.isActivated = canScrollUp
         }
     }
 }
