@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 
+import androidx.core.graphics.toColorInt
 import com.odnovolov.forgetmenot.domain.entity.DeckList
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor.SaveResult.Success
@@ -7,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command
-import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowColorChooser
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowColorChooserFor
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorEvent.*
 
 class DeckListsEditorController(
@@ -17,10 +18,7 @@ class DeckListsEditorController(
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<DeckListsEditorEvent, Command>() {
     sealed class Command {
-        class ShowColorChooser(
-            val deckListId: Long,
-            val selectableColors: List<SelectableDeckListColor>
-        ) : Command()
+        class ShowColorChooserFor(val deckListId: Long) : Command()
     }
 
     override fun handle(event: DeckListsEditorEvent) {
@@ -30,14 +28,16 @@ class DeckListsEditorController(
                     .find { deckList: DeckList -> deckList.id == event.deckListId }
                     ?: return
                 screenState.deckListForColorChooser = deckListForColorChooser
-                val selectableColors: List<SelectableDeckListColor> =
-                    predefinedDeckListColors.map { predefinedDeckListColor: Int ->
-                        SelectableDeckListColor(
-                            predefinedDeckListColor,
-                            isSelected = predefinedDeckListColor == deckListForColorChooser.color
-                        )
+                sendCommand(ShowColorChooserFor(deckListForColorChooser.id))
+            }
+
+            is ColorHexTextIsChanged -> {
+                screenState.deckListForColorChooser?.color =
+                    try {
+                        "#${event.text}".toColorInt()
+                    } catch (e: IllegalArgumentException) {
+                        return
                     }
-                sendCommand(ShowColorChooser(deckListForColorChooser.id, selectableColors))
             }
 
             is ColorIsSelected -> {

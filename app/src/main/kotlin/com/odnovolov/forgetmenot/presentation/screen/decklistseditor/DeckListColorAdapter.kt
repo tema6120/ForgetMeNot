@@ -11,7 +11,7 @@ import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 class DeckListColorAdapter(
     private val onItemClicked: (color: Int) -> Unit,
 ) : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
-    var items: List<SelectableDeckListColor> = emptyList()
+    var items: List<SelectableColor> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -26,12 +26,12 @@ class DeckListColorAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
-        val selectableDeckListColor: SelectableDeckListColor = items[position]
+        val selectableColor: SelectableColor = items[position]
         with(viewHolder.itemView as ImageButton) {
-            isSelected = selectableDeckListColor.isSelected
-            setColorFilter(selectableDeckListColor.color, PorterDuff.Mode.SRC_ATOP)
+            isSelected = selectableColor.isSelected
+            setColorFilter(selectableColor.color, PorterDuff.Mode.SRC_ATOP)
             setOnClickListener {
-                onItemClicked(selectableDeckListColor.color)
+                onItemClicked(selectableColor.color)
             }
         }
     }

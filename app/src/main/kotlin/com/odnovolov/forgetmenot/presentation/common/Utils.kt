@@ -30,6 +30,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.fragment.app.Fragment
@@ -401,3 +402,11 @@ fun Fragment.createDialog(
             ContextCompat.getDrawable(context, R.drawable.background_dialog)
         )
     }
+
+fun TextView.setDrawableTint(color: Int) {
+    for (compoundDrawable in compoundDrawables) {
+        compoundDrawable ?: continue
+        val wrappedDrawable = DrawableCompat.wrap(compoundDrawable)
+        DrawableCompat.setTint(wrappedDrawable, color)
+    }
+}

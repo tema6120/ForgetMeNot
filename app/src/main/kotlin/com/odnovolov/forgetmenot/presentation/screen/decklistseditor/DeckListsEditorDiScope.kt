@@ -31,6 +31,10 @@ class DeckListsEditorDiScope private constructor(
         screenState
     )
 
+    val colorChooserViewModel = ColorChooserViewModel(
+        screenState
+    )
+
     companion object : DiScopeManager<DeckListsEditorDiScope>() {
         fun create(
             deckListsEditorState: DeckListsEditor.State,

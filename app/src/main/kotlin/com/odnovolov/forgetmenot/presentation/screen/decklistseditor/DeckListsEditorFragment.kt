@@ -1,10 +1,14 @@
 package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -14,12 +18,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowColorChooser
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowColorChooserFor
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListDrawableGenerator
 import kotlinx.android.synthetic.main.fragment_deck_lists_editor.*
 import kotlinx.android.synthetic.main.item_editing_deck_list.view.*
-import kotlinx.android.synthetic.main.popup_select_deck_list_color.view.*
+import kotlinx.android.synthetic.main.popup_deck_list_color_chooser.view.*
 import kotlinx.coroutines.launch
 
 class DeckListsEditorFragment : BaseFragment() {
@@ -32,11 +36,11 @@ class DeckListsEditorFragment : BaseFragment() {
     private var deckListAdapter: DeckListAdapter? = null
     private var newDeckListId: Long? = null
     private var newDeckListColor: Int? = null
-    private var colorsPopup: PopupWindow? = null
+    private var colorChooserPopup: PopupWindow? = null
     private val colorAdapter = DeckListColorAdapter(
         onItemClicked = { color: Int ->
             controller?.dispatch(ColorIsSelected(color))
-            colorsPopup?.dismiss()
+            colorChooserPopup?.dismiss()
         }
     )
 
@@ -141,8 +145,7 @@ class DeckListsEditorFragment : BaseFragment() {
 
     private fun executeCommand(command: DeckListsEditorController.Command) {
         when (command) {
-            is ShowColorChooser -> {
-                colorAdapter.items = command.selectableColors
+            is ShowColorChooserFor -> {
                 val anchor: View = if (command.deckListId == newDeckListId) {
                     selectColorForNewDeckListButton
                 } else {
@@ -150,24 +153,78 @@ class DeckListsEditorFragment : BaseFragment() {
                         deckListsRecyclerView.findViewHolderForItemId(command.deckListId) ?: return
                     viewHolder.itemView.selectDeckListColorButton
                 }
-                requireColorsPopup().show(anchor, gravity = Gravity.TOP or Gravity.START)
+                requireColorChooserPopup().show(anchor, gravity = Gravity.TOP or Gravity.START)
             }
         }
     }
 
-    private fun requireColorsPopup(): PopupWindow {
-        if (colorsPopup == null) {
+    private fun requireColorChooserPopup(): PopupWindow {
+        if (colorChooserPopup == null) {
             val contentView =
-                View.inflate(requireContext(), R.layout.popup_select_deck_list_color, null).apply {
+                View.inflate(requireContext(), R.layout.popup_deck_list_color_chooser, null).apply {
                     closeButton.setOnClickListener {
-                        colorsPopup?.dismiss()
+                        colorChooserPopup?.dismiss()
                     }
                     colorRecycler.layoutManager = GridLayoutManager(requireContext(), 8)
                     colorRecycler.adapter = colorAdapter
+                    colorEdittext.filters += object : InputFilter {
+                        private val hexRegex = Regex("""^\p{XDigit}+${'$'}""")
+
+                        @SuppressLint("DefaultLocale")
+                        override fun filter(
+                            source: CharSequence,
+                            start: Int,
+                            end: Int,
+                            dest: Spanned,
+                            dstart: Int,
+                            dend: Int
+                        ): CharSequence {
+                            return if (source.matches(hexRegex)) {
+                                source.toString().toUpperCase()
+                            } else {
+                                ""
+                            }
+                        }
+                    }
+                    colorEdittext.observeText { text: String ->
+                        if (text.length == 6) {
+                            controller?.dispatch(ColorHexTextIsChanged(text))
+                        }
+                    }
+                    colorEdittext.setOnEditorActionListener { _, actionId, _ ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            colorChooserPopup?.dismiss()
+                            true
+                        } else {
+                            false
+                        }
+                    }
                 }
-            colorsPopup = LightPopupWindow(contentView)
+            colorChooserPopup = LightPopupWindow(contentView)
+            subscribeColorChooserPopupToViewModel(contentView)
         }
-        return colorsPopup!!
+        return colorChooserPopup!!
+    }
+
+    private fun subscribeColorChooserPopupToViewModel(contentView: View) {
+        viewCoroutineScope!!.launch {
+            val diScope = DeckListsEditorDiScope.getAsync() ?: return@launch
+            val viewModel = diScope.colorChooserViewModel
+            with(viewModel) {
+                predefinedColors.observe { predefinedColors: List<SelectableColor> ->
+                    colorAdapter.items = predefinedColors
+                }
+                selectedColor.observe { selectedColor: Int ->
+                    contentView.colorEdittext.setDrawableTint(selectedColor)
+                }
+                hex.observe { hex: String ->
+                    if (contentView.colorEdittext.text.toString() != hex) {
+                        contentView.colorEdittext.setText(hex)
+                    }
+                    contentView.colorEdittext.hint = hex
+                }
+            }
+        }
     }
 
     private fun updateSelectDeckListButtonColor() {
@@ -196,8 +253,8 @@ class DeckListsEditorFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        colorsPopup?.dismiss()
-        colorsPopup = null
+        colorChooserPopup?.dismiss()
+        colorChooserPopup = null
     }
 
     override fun onDestroy() {

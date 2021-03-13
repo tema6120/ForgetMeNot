@@ -98,6 +98,8 @@
     <color name="favorite_language_checked">#E7D900</color>
     <color name="favorite_language_unchecked">#D6D2E6</color>
     <color name="hint">#61000000</color>
+    <color name="hint2">#3D000000</color>
     <color name="select_deck_list_color_button">#1F000000</color>
     <color name="stroke_of_selected_deck_list_color">#47000000</color>
+    <color name="deck_list_color_edittext">#17000000</color>
 </resources>

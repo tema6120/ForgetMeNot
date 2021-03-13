@@ -3,9 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.DeckList
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class DeckListsEditorViewModel(
     deckListsEditorState: DeckListsEditor.State,

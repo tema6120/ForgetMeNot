@@ -190,10 +190,12 @@ class HomeViewModel(
     val selectableDeckLists: Flow<List<SelectableDeckList>> = combine(
         globalState.flowOf(GlobalState::decks),
         globalState.flowOf(GlobalState::deckLists),
-        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
+        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList),
+        homeScreenState.flowOf(HomeScreenState::updateDeckListSignal)
     ) { decks: CopyableCollection<Deck>,
         deckLists: CopyableCollection<DeckList>,
-        currentDeckList: DeckList?
+        currentDeckList: DeckList?,
+        _
         ->
         buildList {
             val allDecksDeckList = SelectableDeckList(
