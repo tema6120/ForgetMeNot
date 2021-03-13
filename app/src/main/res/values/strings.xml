@@ -115,6 +115,8 @@
 
     <string name="screen_title_deck_lists">Deck lists</string>
     <string name="hint_deck_list_edittext">List name</string>
+    <string name="description_deck_list_icon">Deck list icon</string>
+    <string name="title_select_deck_list_color_popup">Deck list color</string>
 
 
 

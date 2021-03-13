@@ -1,0 +1,6 @@
+<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/background_item_deck_list_color"
+        app:srcCompat="@drawable/deck_list_color_filled_icon" />

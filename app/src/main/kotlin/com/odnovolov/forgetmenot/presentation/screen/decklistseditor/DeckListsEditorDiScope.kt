@@ -21,6 +21,7 @@ class DeckListsEditorDiScope private constructor(
 
     val controller = DeckListsEditorController(
         deckListsEditor,
+        screenState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )

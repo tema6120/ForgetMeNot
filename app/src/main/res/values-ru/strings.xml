@@ -116,6 +116,8 @@
 
     <string name="screen_title_deck_lists">Списки колод</string>
     <string name="hint_deck_list_edittext">Название списка</string>
+    <string name="description_deck_list_icon">иконка списка колод</string>
+    <string name="title_select_deck_list_color_popup">Цвет списка колод</string>
 
 
     <!-- Export dialog -->

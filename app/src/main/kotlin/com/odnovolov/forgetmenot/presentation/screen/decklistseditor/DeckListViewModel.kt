@@ -15,6 +15,8 @@ class DeckListViewModel(
         deckListFlow.value = deckList
     }
 
+    val deckListId: Flow<Long> = deckListFlow.map { deckList: DeckList -> deckList.id }
+
     val deckListColor: Flow<Int> = deckListFlow.flatMapLatest { deckList: DeckList ->
         deckList.flowOf(DeckList::color)
     }

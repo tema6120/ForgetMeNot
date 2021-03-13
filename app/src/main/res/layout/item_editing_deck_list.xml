@@ -5,22 +5,42 @@
         android:layout_height="wrap_content"
         android:minHeight="54dp">
 
-    <ImageView
-            android:id="@+id/deckListIndicator"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
+    <LinearLayout
+            android:id="@+id/selectDeckListColorButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/deck_list_indicator" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+                android:id="@+id/deckListIndicator"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/description_deck_list_icon"
+                app:srcCompat="@drawable/deck_list_indicator" />
+
+        <ImageView
+                android:id="@+id/expandIcon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_expand_more_thick_24"
+                app:tint="@color/hint" />
+
+    </LinearLayout>
 
     <EditText
             android:id="@+id/deckListNameEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:background="@null"
             android:fontFamily="@font/nunito_bold"
@@ -32,7 +52,7 @@
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/barrier"
-            app:layout_constraintStart_toEndOf="@+id/deckListIndicator"
+            app:layout_constraintStart_toEndOf="@+id/selectDeckListColorButton"
             app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -71,7 +91,6 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="12dp"
             android:layout_marginEnd="4dp"
             android:background="@drawable/ripple"
             android:tint="@color/iconDark"

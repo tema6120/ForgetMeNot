@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.DeckList
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.generateId
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.predefinedDeckListColors
 
 class DeckListsEditor(
     val state: State,
@@ -25,7 +26,7 @@ class DeckListsEditor(
                     val newDeckList = DeckList(
                         id = generateId(),
                         name = "",
-                        color = 0xFF64CFA2.toInt(), // todo
+                        color = predefinedDeckListColors.random(),
                         deckIds = deckIdsForNewDeckList
                     )
                     add(newDeckList)
@@ -42,7 +43,7 @@ class DeckListsEditor(
         val newDeckList = DeckList(
             id = generateId(),
             name = "",
-            color = 0xFF345FBB.toInt(), // todo
+            color = predefinedDeckListColors.random(),
             deckIds = emptySet()
         )
         state.editingDeckLists = buildList {

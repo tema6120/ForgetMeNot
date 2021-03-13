@@ -23,6 +23,10 @@ class DeckListAdapter(
         viewHolder.bind(deckList)
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position).id
+    }
+
     class DiffCallBack : DiffUtil.ItemCallback<DeckList>() {
         override fun areItemsTheSame(oldItem: DeckList, newItem: DeckList): Boolean {
             return oldItem.id == newItem.id
