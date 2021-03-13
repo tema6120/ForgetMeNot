@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowColorChooserFor
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowDeckListIsRemovedMessage
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorEvent.*
 
 class DeckListsEditorController(
@@ -19,6 +20,7 @@ class DeckListsEditorController(
 ) : BaseController<DeckListsEditorEvent, Command>() {
     sealed class Command {
         class ShowColorChooserFor(val deckListId: Long) : Command()
+        object ShowDeckListIsRemovedMessage : Command()
     }
 
     override fun handle(event: DeckListsEditorEvent) {
@@ -58,7 +60,14 @@ class DeckListsEditorController(
             }
 
             is RemoveDeckListButtonClicked -> {
+                val success: Boolean = deckListsEditor.remove(event.deckListId)
+                if (success) {
+                    sendCommand(ShowDeckListIsRemovedMessage)
+                }
+            }
 
+            CancelDeckListRemovingButtonClicked -> {
+                deckListsEditor.cancelRemoving()
             }
 
             DoneButtonClicked -> {

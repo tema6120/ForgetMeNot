@@ -15,10 +15,12 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat.SRC_ATOP
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowColorChooserFor
+import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.ShowDeckListIsRemovedMessage
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListDrawableGenerator
 import kotlinx.android.synthetic.main.fragment_deck_lists_editor.*
@@ -43,6 +45,7 @@ class DeckListsEditorFragment : BaseFragment() {
             colorChooserPopup?.dismiss()
         }
     )
+    private var lastShownSnackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -155,6 +158,22 @@ class DeckListsEditorFragment : BaseFragment() {
                 }
                 requireColorChooserPopup().show(anchor, gravity = Gravity.TOP or Gravity.START)
             }
+            ShowDeckListIsRemovedMessage -> {
+                deckListsEditorRootView.requestFocus()
+                hideKeyboardForcibly(requireActivity())
+                lastShownSnackbar = Snackbar
+                    .make(
+                        deckListsEditorRootView,
+                        R.string.toast_deck_list_is_removed,
+                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+                    )
+                    .setAction(
+                        R.string.snackbar_action_cancel,
+                        { controller?.dispatch(CancelDeckListRemovingButtonClicked) }
+                    ).apply {
+                        show()
+                    }
+            }
         }
     }
 
@@ -255,6 +274,8 @@ class DeckListsEditorFragment : BaseFragment() {
         super.onDestroyView()
         colorChooserPopup?.dismiss()
         colorChooserPopup = null
+        lastShownSnackbar?.dismiss()
+        lastShownSnackbar = null
     }
 
     override fun onDestroy() {

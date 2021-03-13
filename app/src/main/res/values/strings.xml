@@ -118,6 +118,7 @@
     <string name="description_deck_list_icon">Deck list icon</string>
     <string name="title_select_deck_list_color_popup">Deck list color</string>
     <string name="custom_color">Custom color</string>
+    <string name="toast_deck_list_is_removed">Deck list has been removed</string>
 
 
 

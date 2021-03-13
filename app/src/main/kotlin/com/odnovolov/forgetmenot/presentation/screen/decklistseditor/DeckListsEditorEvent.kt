@@ -8,5 +8,6 @@ sealed class DeckListsEditorEvent {
     object SaveNewDeckListButtonClicked : DeckListsEditorEvent()
     class DeckListNameChanged(val name: String, val deckListId: Long) : DeckListsEditorEvent()
     class RemoveDeckListButtonClicked(val deckListId: Long) : DeckListsEditorEvent()
+    object CancelDeckListRemovingButtonClicked : DeckListsEditorEvent()
     object DoneButtonClicked : DeckListsEditorEvent()
 }

@@ -41,6 +41,8 @@ class DeckListsEditor(
         }
     }
 
+    private var restoreLastRemovedDeckList: (() -> Unit)? = null
+
     @OptIn(ExperimentalStdlibApi::class)
     fun createNewDeckList() {
         val newDeckList = DeckList(
@@ -61,6 +63,29 @@ class DeckListsEditor(
             editableDeckList.deckList.id == deckListId
         }
             ?.name = newName
+    }
+
+    fun remove(deckListId: Long): Boolean {
+        val position = state.editingDeckLists.indexOfFirst { editableDeckList: EditableDeckList ->
+            editableDeckList.deckList.id == deckListId
+        }
+        if (position == -1) return false
+        val removingEditableDeckList = state.editingDeckLists[position]
+        restoreLastRemovedDeckList = {
+            state.editingDeckLists = state.editingDeckLists.toMutableList().apply {
+                val insertPosition = minOf(position, lastIndex + 1)
+                add(insertPosition, removingEditableDeckList)
+            }
+        }
+        state.editingDeckLists = state.editingDeckLists.toMutableList().apply {
+            removeAt(position)
+        }
+        return true
+    }
+
+    fun cancelRemoving() {
+        restoreLastRemovedDeckList?.invoke()
+        restoreLastRemovedDeckList = null
     }
 
     fun save(): SaveResult {

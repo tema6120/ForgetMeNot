@@ -119,6 +119,7 @@
     <string name="description_deck_list_icon">иконка списка колод</string>
     <string name="title_select_deck_list_color_popup">Цвет списка колод</string>
     <string name="custom_color">Свой цвет</string>
+    <string name="toast_deck_list_is_removed">Список колод удален</string>
 
 
     <!-- Export dialog -->
