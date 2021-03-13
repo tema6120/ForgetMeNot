@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.string
-import com.odnovolov.forgetmenot.domain.entity.DeckList
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.EditableDeckList
 import com.odnovolov.forgetmenot.presentation.common.observe
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
@@ -54,21 +54,21 @@ class DeckListViewHolder(
         }
     }
 
-    fun bind(deckList: DeckList) {
+    fun bind(editableDeckList: EditableDeckList) {
         if (textWatcher != null) {
             itemView.deckListNameEditText.removeTextChangedListener(textWatcher)
         }
         textWatcher = itemView.deckListNameEditText.observeText { newText: String ->
-            controller.dispatch(DeckListNameChanged(newText, deckList.id))
+            controller.dispatch(DeckListNameChanged(newText, editableDeckList.deckList.id))
         }
         itemView.removeDeckListButton.setOnClickListener {
-            controller.dispatch(RemoveDeckListButtonClicked(deckList.id))
+            controller.dispatch(RemoveDeckListButtonClicked(editableDeckList.deckList.id))
         }
         if (viewModel == null) {
-            viewModel = DeckListViewModel(deckList)
+            viewModel = DeckListViewModel(editableDeckList)
             observeViewModel()
         } else {
-            viewModel!!.setDeckList(deckList)
+            viewModel!!.setDeckList(editableDeckList)
         }
     }
 

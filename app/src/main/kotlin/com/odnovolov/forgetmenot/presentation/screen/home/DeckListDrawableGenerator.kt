@@ -31,24 +31,24 @@ object DeckListDrawableGenerator {
     private fun generateIcon(strokeColor: Int): Drawable {
         return GradientDrawable().mutate {
             cornerRadius = 2.5f.dp
-            setStroke(2.dp, strokeColor)
+            setStroke(2.5f.dp.toInt(), strokeColor)
             setBounds(0, 0, 10.dp, 10.dp)
         }
     }
 
     private fun generateIcon(firstColor: Int, secondColor: Int, backgroundColor: Int): Drawable {
         val stroke = GradientDrawable().mutate {
-            cornerRadius = 3.125f.dp
+            cornerRadius = 3.333f.dp
             colors = intArrayOf(firstColor, secondColor)
             orientation = Orientation.TL_BR
             setBounds(0, 0, 10.dp, 10.dp)
         }
         val backgroundWithoutInset = GradientDrawable().mutate {
-            cornerRadius = 1.875f.dp
+            cornerRadius = 1.667f.dp
             setColor(backgroundColor)
-            setBounds(0, 0, 6.dp, 6.dp)
+            setBounds(0, 0, 5.dp, 5.dp)
         }
-        val background = InsetDrawable(backgroundWithoutInset, 2.dp, 2.dp, 2.dp, 2.dp)
+        val background = InsetDrawable(backgroundWithoutInset, 2.5f.dp.toInt())
         return LayerDrawable(arrayOf(stroke, background)).mutate {
             setBounds(0, 0, 10.dp, 10.dp)
         }

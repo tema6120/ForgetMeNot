@@ -1,17 +1,20 @@
 package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
-import com.odnovolov.forgetmenot.domain.entity.DeckList
-import kotlinx.coroutines.flow.*
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.EditableDeckList
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 
 class ColorChooserViewModel(
     screenState: DeckListEditorScreenState
 ) {
     val selectedColor: Flow<Int> =
-        screenState.flowOf(DeckListEditorScreenState::deckListForColorChooser)
+        screenState.flowOf(DeckListEditorScreenState::editableDeckListForColorChooser)
             .filterNotNull()
-            .flatMapLatest { deckListForColorChooser: DeckList ->
-                deckListForColorChooser.flowOf(DeckList::color)
+            .flatMapLatest { editableDeckListForColorChooser: EditableDeckList ->
+                editableDeckListForColorChooser.flowOf(EditableDeckList::color)
             }
             .share()
 

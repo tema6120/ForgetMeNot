@@ -12,9 +12,9 @@ class DeckListsEditor(
     private val globalState: GlobalState
 ) {
     class State(
-        editingDeckLists: List<DeckList>
+        editingDeckLists: List<EditableDeckList>
     ) : FlowMaker<State>() {
-        var editingDeckLists: List<DeckList> by flowMaker(editingDeckLists)
+        var editingDeckLists: List<EditableDeckList> by flowMaker(editingDeckLists)
 
         companion object {
             @OptIn(ExperimentalStdlibApi::class)
@@ -22,15 +22,18 @@ class DeckListsEditor(
                 globalState: GlobalState,
                 deckIdsForNewDeckList: Set<Long> = emptySet()
             ): State {
-                val editingDeckLists: List<DeckList> = buildList {
+                val editingDeckLists: List<EditableDeckList> = buildList {
                     val newDeckList = DeckList(
                         id = generateId(),
                         name = "",
                         color = predefinedDeckListColors.random(),
                         deckIds = deckIdsForNewDeckList
                     )
-                    add(newDeckList)
-                    val existingSortedDeckLists = globalState.deckLists.sortedBy { it.name }
+                    val newEditableDeckList = EditableDeckList(newDeckList)
+                    add(newEditableDeckList)
+                    val existingSortedDeckLists = globalState.deckLists
+                        .sortedBy(DeckList::name)
+                        .map(::EditableDeckList)
                     addAll(existingSortedDeckLists)
                 }
                 return State(editingDeckLists)
@@ -46,33 +49,49 @@ class DeckListsEditor(
             color = predefinedDeckListColors.random(),
             deckIds = emptySet()
         )
+        val newEditableDeckList = EditableDeckList(newDeckList)
         state.editingDeckLists = buildList {
-            add(newDeckList)
+            add(newEditableDeckList)
             addAll(state.editingDeckLists)
         }
     }
 
     fun rename(deckListId: Long, newName: String) {
-        state.editingDeckLists.find { deckList: DeckList -> deckList.id == deckListId }
+        state.editingDeckLists.find { editableDeckList: EditableDeckList ->
+            editableDeckList.deckList.id == deckListId
+        }
             ?.name = newName
     }
 
     fun save(): SaveResult {
+        check()?.let { failure -> return failure }
         val newDeckLists = ArrayList<DeckList>()
-        for ((position: Int, deckList: DeckList) in state.editingDeckLists.withIndex()) {
+        for ((position: Int, editableDeckList: EditableDeckList) in state.editingDeckLists.withIndex()) {
             if (position == 0) {
-                if (deckList.name.isNotBlank()) {
-                    newDeckLists.add(deckList)
+                if (editableDeckList.name.isNotBlank()) {
+                    editableDeckList.applyChanges()
+                    newDeckLists.add(editableDeckList.deckList)
                 }
             } else {
-                if (deckList.name.isBlank()) {
-                    return SaveResult.Failure(position)
-                }
-                newDeckLists.add(deckList)
+                editableDeckList.applyChanges()
+                newDeckLists.add(editableDeckList.deckList)
             }
         }
         globalState.deckLists = newDeckLists.toCopyableList()
         return SaveResult.Success
+    }
+
+    private fun check(): SaveResult.Failure? {
+        for ((position: Int, editableDeckList: EditableDeckList) in state.editingDeckLists.withIndex()) {
+            if (position == 0) continue
+            if (editableDeckList.name.isBlank()) return SaveResult.Failure(position)
+        }
+        return null
+    }
+
+    private fun EditableDeckList.applyChanges() {
+        deckList.name = name
+        deckList.color = color
     }
 
     sealed class SaveResult {
@@ -81,10 +100,10 @@ class DeckListsEditor(
     }
 }
 
-fun DeckList.addDeckIds(deckIdsToAdd: List<Long>) {
+fun DeckList.addDeckIds(deckIdsToAdd: Collection<Long>) {
     deckIds += deckIdsToAdd
 }
 
-fun DeckList.removeDeckIds(deckIdsToRemove: List<Long>) {
+fun DeckList.removeDeckIds(deckIdsToRemove: Collection<Long>) {
     deckIds -= deckIdsToRemove
 }

@@ -33,7 +33,7 @@ class DeckListsEditorFragment : BaseFragment() {
 
     private var controller: DeckListsEditorController? = null
     private lateinit var viewModel: DeckListsEditorViewModel
-    private var deckListAdapter: DeckListAdapter? = null
+    private var editingDeckListAdapter: EditingDeckListAdapter? = null
     private var newDeckListId: Long? = null
     private var newDeckListColor: Int? = null
     private var colorChooserPopup: PopupWindow? = null
@@ -117,14 +117,14 @@ class DeckListsEditorFragment : BaseFragment() {
     }
 
     private fun initDeckListAdapter() {
-        deckListAdapter = DeckListAdapter(viewCoroutineScope!!, controller!!)
-        deckListAdapter!!.setHasStableIds(true)
-        deckListsRecyclerView.adapter = deckListAdapter
+        editingDeckListAdapter = EditingDeckListAdapter(viewCoroutineScope!!, controller!!)
+        editingDeckListAdapter!!.setHasStableIds(true)
+        deckListsRecyclerView.adapter = editingDeckListAdapter
     }
 
     private fun observeViewModel() {
         with(viewModel) {
-            deckLists.observe(deckListAdapter!!::submitList)
+            deckLists.observe(editingDeckListAdapter!!::submitList)
             newDeckListId.observe { newDeckListId: Long ->
                 this@DeckListsEditorFragment.newDeckListId = newDeckListId
             }

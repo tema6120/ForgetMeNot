@@ -1,9 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 
 import androidx.core.graphics.toColorInt
-import com.odnovolov.forgetmenot.domain.entity.DeckList
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor.SaveResult.Success
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.EditableDeckList
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -24,15 +24,15 @@ class DeckListsEditorController(
     override fun handle(event: DeckListsEditorEvent) {
         when (event) {
             is SelectDeckListColorButtonClicked -> {
-                val deckListForColorChooser = deckListsEditor.state.editingDeckLists
-                    .find { deckList: DeckList -> deckList.id == event.deckListId }
-                    ?: return
-                screenState.deckListForColorChooser = deckListForColorChooser
-                sendCommand(ShowColorChooserFor(deckListForColorChooser.id))
+                screenState.editableDeckListForColorChooser = deckListsEditor.state.editingDeckLists
+                    .find { editableDeckList: EditableDeckList ->
+                        editableDeckList.deckList.id == event.deckListId
+                    } ?: return
+                sendCommand(ShowColorChooserFor(event.deckListId))
             }
 
             is ColorHexTextIsChanged -> {
-                screenState.deckListForColorChooser?.color =
+                screenState.editableDeckListForColorChooser?.color =
                     try {
                         "#${event.text}".toColorInt()
                     } catch (e: IllegalArgumentException) {
@@ -41,11 +41,11 @@ class DeckListsEditorController(
             }
 
             is ColorIsSelected -> {
-                screenState.deckListForColorChooser?.color = event.color
+                screenState.editableDeckListForColorChooser?.color = event.color
             }
 
             is NewDeckListNameChanged -> {
-                val newDeckListId: Long = deckListsEditor.state.editingDeckLists.first().id
+                val newDeckListId: Long = deckListsEditor.state.editingDeckLists.first().deckList.id
                 deckListsEditor.rename(newDeckListId, event.name)
             }
 

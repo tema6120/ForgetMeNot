@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.DeckList
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.EditableDeckList
 import kotlinx.coroutines.CoroutineScope
 
-class DeckListAdapter(
+class EditingDeckListAdapter(
     private val coroutineScope: CoroutineScope,
     private val controller: DeckListsEditorController
-) : ListAdapter<DeckList, DeckListViewHolder>(DiffCallBack()) {
+) : ListAdapter<EditableDeckList, DeckListViewHolder>(DiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckListViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_editing_deck_list, parent, false)
@@ -19,19 +19,25 @@ class DeckListAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: DeckListViewHolder, position: Int) {
-        val deckList: DeckList = getItem(position)
-        viewHolder.bind(deckList)
+        val editableDeckList: EditableDeckList = getItem(position)
+        viewHolder.bind(editableDeckList)
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position).id
+        return getItem(position).deckList.id
     }
 
-    class DiffCallBack : DiffUtil.ItemCallback<DeckList>() {
-        override fun areItemsTheSame(oldItem: DeckList, newItem: DeckList): Boolean {
-            return oldItem.id == newItem.id
+    class DiffCallBack : DiffUtil.ItemCallback<EditableDeckList>() {
+        override fun areItemsTheSame(
+            oldItem: EditableDeckList,
+            newItem: EditableDeckList
+        ): Boolean {
+            return oldItem.deckList.id == newItem.deckList.id
         }
 
-        override fun areContentsTheSame(oldItem: DeckList, newItem: DeckList): Boolean = true
+        override fun areContentsTheSame(
+            oldItem: EditableDeckList,
+            newItem: EditableDeckList
+        ): Boolean = true
     }
 }

@@ -1,27 +1,37 @@
 package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 
-import com.odnovolov.forgetmenot.domain.entity.DeckList
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.EditableDeckList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class DeckListViewModel(
-    initialDeckList: DeckList
+    initialEditableDeckList: EditableDeckList
 ) {
-    private val deckListFlow = MutableStateFlow(initialDeckList)
+    private val editableDeckListFlow = MutableStateFlow(initialEditableDeckList)
 
-    fun setDeckList(deckList: DeckList) {
-        deckListFlow.value = deckList
+    fun setDeckList(editableDeckList: EditableDeckList) {
+        editableDeckListFlow.value = editableDeckList
     }
 
-    val deckListId: Flow<Long> = deckListFlow.map { deckList: DeckList -> deckList.id }
+    val deckListId: Flow<Long> =
+        editableDeckListFlow.map { editableDeckList: EditableDeckList ->
+            editableDeckList.deckList.id
+        }
 
-    val deckListColor: Flow<Int> = deckListFlow.flatMapLatest { deckList: DeckList ->
-        deckList.flowOf(DeckList::color)
-    }
+    val deckListColor: Flow<Int> =
+        editableDeckListFlow.flatMapLatest { editableDeckList: EditableDeckList ->
+            editableDeckList.flowOf(EditableDeckList::color)
+        }
 
-    val deckListName: Flow<String> = deckListFlow.map { deckList: DeckList -> deckList.name }
+    val deckListName: Flow<String> =
+        editableDeckListFlow.map { editableDeckList: EditableDeckList ->
+            editableDeckList.name
+        }
 
-    val deckListSize: Flow<Int> = deckListFlow.map { deckList: DeckList -> deckList.deckIds.size }
+    val deckListSize: Flow<Int> =
+        editableDeckListFlow.map { editableDeckList: EditableDeckList ->
+            editableDeckList.deckList.deckIds.size
+        }
 }
