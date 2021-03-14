@@ -7,6 +7,7 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
+import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 import com.odnovolov.forgetmenot.domain.entity.Speaker
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.presentation.common.ActivityLifecycleCallbacksInterceptor.ActivityLifecycleEvent
@@ -30,7 +31,7 @@ class SpeakerImpl(
     private val applicationContext: Context,
     private val activityLifecycleEvents: Flow<ActivityLifecycleEvent>,
     private val audioFocusManager: AudioFocusManager,
-    private val initialLanguage: Locale? = null // todo
+    private val lastUsedLanguages: LastUsedLanguages
 ) : Speaker {
     class State : FlowMaker<State>() {
         var status: Status by flowMaker(Initialization)
@@ -39,6 +40,16 @@ class SpeakerImpl(
         var availableLanguages: Set<Locale> by flowMaker(emptySet())
         var isPreparingToSpeak: Boolean by flowMaker(false)
         var isSpeaking: Boolean by flowMaker(false)
+    }
+
+    class LastUsedLanguages(
+        language1: Locale?,
+        language2: Locale?
+    ) : FlowMakerWithRegistry<LastUsedLanguages>() {
+        var language1: Locale? by flowMaker(language1)
+        var language2: Locale? by flowMaker(language2)
+
+        override fun copy() = LastUsedLanguages(language1, language2)
     }
 
     enum class Status {
@@ -92,7 +103,10 @@ class SpeakerImpl(
 
     init {
         coroutineScope.launch {
-            registerNewTts(initialLanguage)
+            with(lastUsedLanguages) {
+                language1?.let(::registerNewTts)
+                language2?.let(::registerNewTts)
+            }
             observeActivityLifecycleEvents()
             observeAudioFocusState()
         }
@@ -392,6 +406,8 @@ class SpeakerImpl(
                 eventFlow.send(SpeakError)
                 audioFocusManager.abandonRequest(AUDIOFOCUS_KEY)
                 updateLanguageStatus()
+            } else {
+                language?.let(::saveLastUsedLanguage)
             }
         }
     }
@@ -404,6 +420,13 @@ class SpeakerImpl(
                 listeners.forEach { it.invoke() }
                 errorSoundJob = null
             }
+        }
+    }
+
+    private fun saveLastUsedLanguage(language: Locale) {
+        if (lastUsedLanguages.language1 != language) {
+            lastUsedLanguages.language2 = lastUsedLanguages.language1
+            lastUsedLanguages.language1 = language
         }
     }
 

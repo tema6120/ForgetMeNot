@@ -13,10 +13,12 @@ import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileImpo
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.*
 import com.odnovolov.forgetmenot.persistence.longterm.initialdecksadderstate.InitialDecksAdderStatePropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.lastusedlanguages.LastUsedLanguagesPropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.pronunciationpreference.PronunciationPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.tipstate.TipStatePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
+import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.LastUsedLanguages
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.TipState
@@ -64,6 +66,7 @@ class LongTermStateSaverImpl(
             put(FileImportStorage::class, FileImportStoragePropertyChangeHandler(database))
             put(FileFormat::class, FileFormatPropertyChangeHandler(database))
             put(PronunciationPreference::class, PronunciationPreferencePropertyChangeHandler(database))
+            put(LastUsedLanguages::class, LastUsedLanguagesPropertyChangeHandler(database))
         }
 
     override fun saveStateByRegistry() {
