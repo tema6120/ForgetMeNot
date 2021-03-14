@@ -49,9 +49,12 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
         return SetDelegateProvider(id, initialValue, properties)
     }
 
-    protected fun <CollectionItem : Copyable> flowMakerForCopyableCollection(
-        initialValue: CopyableCollection<CollectionItem>
-    ): DelegateProvider<PropertyOwner, CopyableCollection<CollectionItem>> {
+    protected fun <
+            CollectionItem : Copyable,
+            Collection : CopyableCollection<CollectionItem>
+            > flowMakerForCopyableCollection(
+        initialValue: Collection
+    ): DelegateProvider<PropertyOwner, Collection> {
         return CopyableCollectionDelegateProvider(id, initialValue, properties)
     }
 
@@ -293,11 +296,15 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
         }
     }
 
-    private class CopyableCollectionDelegateProvider<PropertyOwner : Any, CollectionItem : Copyable>(
+    private class CopyableCollectionDelegateProvider<
+            PropertyOwner : Any,
+            CollectionItem : Copyable,
+            Collection : CopyableCollection<CollectionItem>
+            >(
         propertyOwnerId: Long,
-        value: CopyableCollection<CollectionItem>,
+        value: Collection,
         properties: MutableMap<String, BaseDelegateProvider<PropertyOwner, *>>
-    ) : BaseDelegateProvider<PropertyOwner, CopyableCollection<CollectionItem>>(
+    ) : BaseDelegateProvider<PropertyOwner, Collection>(
         propertyOwnerId,
         value,
         properties
@@ -306,8 +313,8 @@ abstract class FlowMakerWithRegistry<PropertyOwner : FlowMakerWithRegistry<Prope
             propertyOwnerClass: KClass<*>,
             propertyOwnerId: Long,
             property: KProperty<*>,
-            oldValue: CopyableCollection<CollectionItem>,
-            newValue: CopyableCollection<CollectionItem>
+            oldValue: Collection,
+            newValue: Collection
         ): Change {
             return if (oldValue === newValue) {
                 TheSameValueAssignment(

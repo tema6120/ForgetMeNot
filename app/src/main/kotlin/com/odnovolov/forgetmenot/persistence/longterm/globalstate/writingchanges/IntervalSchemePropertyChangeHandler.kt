@@ -2,8 +2,7 @@ package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchange
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
-import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.CollectionChange
-import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
+import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.*
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
