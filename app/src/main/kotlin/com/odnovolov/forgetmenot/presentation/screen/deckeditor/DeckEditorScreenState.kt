@@ -20,5 +20,5 @@ sealed class DeckEditorTabs {
 
 enum class DeckEditorScreenTab {
     Settings,
-    Content
+    Cards
 }

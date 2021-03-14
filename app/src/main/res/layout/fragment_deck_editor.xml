@@ -18,34 +18,82 @@
                 android:background="@color/background_window"
                 android:stateListAnimator="@animator/app_bar">
 
-            <ImageButton
-                    android:id="@+id/backButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_back_button"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
-
-            <TextView
-                    android:id="@+id/deckNameTextView"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/outgoingPartOfAppbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/ripple_corner_radius_8dp"
-                    android:fontFamily="@font/nunito_bold"
-                    android:paddingStart="12dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="8dp"
-                    android:textColor="@color/text_title"
-                    android:textSize="@dimen/text_size_deck_editor_screen_deck_name"
-                    android:textStyle="bold"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    tools:text="Английский №8" />
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                <ImageButton
+                        android:id="@+id/backButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="12dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/description_back_button"
+                        app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
+                        app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+                <TextView
+                        android:id="@+id/screenTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/jura"
+                        android:textColor="@color/text_title"
+                        android:textSize="@dimen/text_size_screen_title"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/screen_title_deck_editor" />
+
+                <TextView
+                        android:id="@+id/deckNameTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@drawable/background_outlined_button"
+                        android:fontFamily="@font/nunito_bold"
+                        android:paddingStart="24dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="24dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/text_title"
+                        android:textSize="@dimen/text_size_deck_editor_screen_deck_name"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/screenTitleTextView"
+                        tools:text="Английский №8" />
+
+                <TextView
+                        android:id="@+id/nameLabelTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="56dp"
+                        android:background="@drawable/background_name_label"
+                        android:paddingStart="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="2dp"
+                        android:text="@string/label_name"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_file_import_screen_deck_label"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/deckNameTextView"
+                        app:layout_constraintEnd_toEndOf="@+id/deckNameTextView"
+                        app:layout_constraintTop_toTopOf="@+id/deckNameTextView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.tabs.TabLayout
                     android:id="@+id/deckEditorTabLayout"

@@ -212,7 +212,7 @@ class HomeController(
 
             EditCardsDeckOptionSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
-                navigateToDeckEditor(deckId, DeckEditorScreenTab.Content)
+                navigateToDeckEditor(deckId, DeckEditorScreenTab.Cards)
             }
 
             PinDeckOptionSelected -> {

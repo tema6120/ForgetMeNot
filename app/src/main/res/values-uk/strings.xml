@@ -153,7 +153,6 @@
     <string name="popup_change_deck_for_import_new_button">Нової колоди</string>
     <string name="popup_change_deck_for_import_existing_button">Існуючої колоди</string>
     <string name="tab_name_source_text">Вихідний текст</string>
-    <string name="tab_name_cards">Картки</string>
     <plurals name="source_text_error_button">
         <item quantity="one">%d помилка</item>
         <item quantity="few">%d помилки</item>
@@ -345,11 +344,13 @@
 
     <!-- Deck editor screen -->
 
+    <string name="screen_title_deck_editor">Редактор колоди</string>
+    <string name="screen_title_deck_settings">Налаштування колоди</string>
     <string name="title_rename_deck_dialog">Назва колоди</string>
     <string name="error_message_empty_name">Назва не може бути порожньою</string>
     <string name="error_message_occupied_name">Ця назва - зайнята</string>
     <string name="tab_name_settings">Налаштування</string>
-    <string name="tab_name_content">Зміст</string>
+    <string name="tab_name_cards">Картки</string>
     <string name="description_add_card_button">Додати картку</string>
 
 

@@ -26,8 +26,6 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Content
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenTab.Settings
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsFragment
 import kotlinx.android.synthetic.main.fragment_deck_editor.*
@@ -166,6 +164,11 @@ class DeckEditorFragment : BaseFragment() {
     private fun setupViewPager(tabs: DeckEditorTabs) {
         val needTabs: Boolean = tabs is DeckEditorTabs.All
         this.needTabs = needTabs
+        screenTitleTextView.setText(
+            if (needTabs)
+                R.string.screen_title_deck_editor else
+                R.string.screen_title_deck_settings
+        )
         deckEditorTabLayout.isVisible = needTabs
         deckEditorViewPager.offscreenPageLimit =
             if (needTabs) 1
@@ -175,8 +178,8 @@ class DeckEditorFragment : BaseFragment() {
             val activeTab: Int = when (tabs) {
                 is DeckEditorTabs.All -> {
                     when (tabs.initialTab) {
-                        Settings -> 0
-                        Content -> 1
+                        DeckEditorScreenTab.Settings -> 0
+                        DeckEditorScreenTab.Cards -> 1
                     }
                 }
                 DeckEditorTabs.OnlyDeckSettings -> 0
@@ -192,7 +195,7 @@ class DeckEditorFragment : BaseFragment() {
                 customTab.text = getString(
                     when (position) {
                         0 -> R.string.tab_name_settings
-                        1 -> R.string.tab_name_content
+                        1 -> R.string.tab_name_cards
                         else -> throw IllegalArgumentException("position must be in 0..1")
                     }
                 )
@@ -227,8 +230,7 @@ class DeckEditorFragment : BaseFragment() {
 
     private fun updateAppbarItemsVisibility() {
         updateSelectionToolbarVisibility()
-        backButton.isVisible = !isSelectionMode
-        deckNameTextView.isVisible = !isSelectionMode
+        outgoingPartOfAppbar.isVisible = !isSelectionMode
         deckEditorTabLayout.isVisible = !isSelectionMode
         appBarLayout.requestLayout()
     }
@@ -250,8 +252,7 @@ class DeckEditorFragment : BaseFragment() {
                 AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
                         AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
             }
-        (backButton.layoutParams as AppBarLayout.LayoutParams).scrollFlags = scrollFlags
-        (deckNameTextView.layoutParams as AppBarLayout.LayoutParams).scrollFlags = scrollFlags
+        (outgoingPartOfAppbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags = scrollFlags
         appBarLayout.requestLayout()
     }
 

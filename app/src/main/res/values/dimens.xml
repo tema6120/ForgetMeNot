@@ -38,7 +38,7 @@
     <dimen name="text_size_range_bar_pin_min_font">11sp</dimen>
     <dimen name="text_size_range_bar_tick_label">5sp</dimen>
     <dimen name="text_size_last_tested_button">14sp</dimen>
-    <dimen name="text_size_deck_editor_screen_deck_name">24sp</dimen>
+    <dimen name="text_size_deck_editor_screen_deck_name">20sp</dimen>
     <dimen name="text_size_no_search_result">16sp</dimen>
     <dimen name="text_size_card_label">14sp</dimen>
     <dimen name="text_size_help_article_screen_article_title">24sp</dimen>

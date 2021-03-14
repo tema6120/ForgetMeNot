@@ -147,7 +147,6 @@
     <string name="popup_change_deck_for_import_new_button">New deck</string>
     <string name="popup_change_deck_for_import_existing_button">Existing deck</string>
     <string name="tab_name_source_text">Source text</string>
-    <string name="tab_name_cards">Cards</string>
     <plurals name="source_text_error_button">
         <item quantity="one">%d error</item>
         <item quantity="other">%d errors</item>
@@ -325,11 +324,13 @@
 
     <!-- Deck editor screen -->
 
+    <string name="screen_title_deck_editor">Deck editor</string>
+    <string name="screen_title_deck_settings">Deck settings</string>
     <string name="title_rename_deck_dialog">Deck name</string>
     <string name="error_message_empty_name">Name cannot be empty</string>
     <string name="error_message_occupied_name">This name is occupied</string>
     <string name="tab_name_settings">Settings</string>
-    <string name="tab_name_content">Content</string>
+    <string name="tab_name_cards">Cards</string>
     <string name="description_add_card_button">Add card</string>
 
 

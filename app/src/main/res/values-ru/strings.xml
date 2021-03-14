@@ -148,7 +148,6 @@
     <string name="popup_change_deck_for_import_new_button">Новой колоде</string>
     <string name="popup_change_deck_for_import_existing_button">Существующей колоде</string>
     <string name="tab_name_source_text">Исходный текст</string>
-    <string name="tab_name_cards">Карточки</string>
     <plurals name="source_text_error_button">
         <item quantity="one">%d ошибка</item>
         <item quantity="few">%d ошибки</item>
@@ -342,11 +341,13 @@
 
     <!-- Deck editor screen -->
 
+    <string name="screen_title_deck_editor">Редактор колоды</string>
+    <string name="screen_title_deck_settings">Настройки колоды</string>
     <string name="title_rename_deck_dialog">Название колоды</string>
     <string name="error_message_empty_name">Название не может быть пустым</string>
     <string name="error_message_occupied_name">Это название - занятое</string>
     <string name="tab_name_settings">Настройки</string>
-    <string name="tab_name_content">Содержание</string>
+    <string name="tab_name_cards">Карточки</string>
     <string name="description_add_card_button">Добавить карточку</string>
 
 
