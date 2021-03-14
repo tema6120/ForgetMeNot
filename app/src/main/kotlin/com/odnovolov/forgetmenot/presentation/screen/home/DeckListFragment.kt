@@ -1,10 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -162,8 +159,19 @@ class DeckListFragment : BaseFragment() {
                         controller?.dispatch(CreateDeckListButtonClicked)
                     }
                 }
+            val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+                val canScrollUp = content.contentScrollView.canScrollVertically(-1)
+                if (content.divider.isVisible != canScrollUp) {
+                    content.divider.isVisible = canScrollUp
+                }
+            }
+            content.contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
             filtersPopup = LightPopupWindow(content).apply {
                 width = 250.dp
+                setOnDismissListener {
+                    content.contentScrollView.viewTreeObserver
+                        .removeOnScrollChangedListener(scrollListener)
+                }
             }
             subscribeFiltersPopupToViewModel(content)
         }
@@ -175,7 +183,7 @@ class DeckListFragment : BaseFragment() {
             displayOnlyDecksAvailableForExercise
                 .observe { displayOnlyDecksAvailableForExercise: Boolean ->
                     contentView.availableForExerciseCheckBox.isChecked =
-                            displayOnlyDecksAvailableForExercise
+                        displayOnlyDecksAvailableForExercise
                 }
             selectableDeckLists.observe { deckList: List<SelectableDeckList> ->
                 selectableDeckListAdapter.items = deckList
