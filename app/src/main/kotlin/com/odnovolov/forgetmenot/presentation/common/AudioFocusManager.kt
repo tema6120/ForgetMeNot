@@ -96,13 +96,4 @@ class AudioFocusManager(
             focusRequest = null
         }
     }
-
-    fun abandonAllRequests() {
-        keys.clear()
-        state.audioFocusState = AudiofocusState.LOSS
-        focusRequest?.let { focusRequest ->
-            AudioManagerCompat.abandonAudioFocusRequest(audioManager, focusRequest)
-        }
-        focusRequest = null
-    }
 }

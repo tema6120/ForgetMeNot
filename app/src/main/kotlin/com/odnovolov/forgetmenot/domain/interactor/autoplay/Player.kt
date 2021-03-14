@@ -16,8 +16,8 @@ class Player(
     val state: State,
     private val globalState: GlobalState,
     private val speaker: Speaker,
-    override val coroutineContext: CoroutineContext
-) : CoroutineScope {
+    coroutineContext: CoroutineContext
+) {
     class State(
         playingCards: List<PlayingCard>,
         currentPosition: Int = 0,
@@ -37,6 +37,8 @@ class Player(
         var questionSelection: String by flowMaker(questionSelection)
         var answerSelection: String by flowMaker(answerSelection)
     }
+
+    private val coroutineScope = CoroutineScope(coroutineContext)
 
     private val currentPlayingCard: PlayingCard
         get() = with(state) { playingCards[currentPosition] }
@@ -65,10 +67,11 @@ class Player(
     private val textInBracketsRemover by lazy(::TextInBracketsRemover)
     private var delayJob: Job? = null
     private var skipDelay = true
+    private val onSpeakingFinished = ::tryToExecuteNextPronunciationEvent
 
     init {
         if (isPositionValid()) {
-            speaker.setOnSpeakingFinished(::tryToExecuteNextPronunciationEvent)
+            speaker.addOnSpeakingFinishedListener(onSpeakingFinished)
             if (state.isPlaying) {
                 executePronunciationEvent()
             }
@@ -220,7 +223,7 @@ class Player(
                 if (skipDelay) {
                     tryToExecuteNextPronunciationEvent()
                 } else {
-                    delayJob = launch {
+                    delayJob = coroutineScope.launch {
                         delay(pronunciationEvent.timeSpan.millisecondsLong)
                         if (isActive) {
                             tryToExecuteNextPronunciationEvent()
@@ -314,5 +317,11 @@ class Player(
             Randomly -> Random.nextBoolean()
         }
         isQuestionDisplayed = isAnswerDisplayed || deck.exercisePreference.isQuestionDisplayed
+    }
+
+    fun dispose() {
+        speaker.removeOnSpeakingFinishedListener(onSpeakingFinished)
+        speaker.stop()
+        coroutineScope.cancel()
     }
 }

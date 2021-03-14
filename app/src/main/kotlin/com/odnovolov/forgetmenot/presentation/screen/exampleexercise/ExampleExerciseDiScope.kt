@@ -4,8 +4,6 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
 import com.odnovolov.forgetmenot.persistence.shortterm.ExampleExerciseStateUseTimerProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
-import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
@@ -42,20 +40,10 @@ class ExampleExerciseDiScope private constructor(
             useTimerProvider.load()
         }
 
-    private val audioFocusManager = AudioFocusManager(
-        AppDiScope.get().app
-    )
-
-    private val speakerImpl = SpeakerImpl(
-        AppDiScope.get().app,
-        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        audioFocusManager
-    )
-
     val exercise = ExampleExercise(
         exerciseState,
         useTimer,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
 
@@ -67,7 +55,7 @@ class ExampleExerciseDiScope private constructor(
     val viewModel = ExampleExerciseViewModel(
         exercise.state,
         useTimer,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         AppDiScope.get().walkingModePreference,
         AppDiScope.get().globalState
     )
@@ -115,9 +103,8 @@ class ExampleExerciseDiScope private constructor(
 
         override fun onCloseDiScope(diScope: ExampleExerciseDiScope) {
             with(diScope) {
+                AppDiScope.get().speakerImpl.stop()
                 exercise.cancel()
-                audioFocusManager.abandonAllRequests()
-                speakerImpl.shutdown()
                 controller.dispose()
                 offTestCardController.dispose()
                 manualTestCardController.dispose()

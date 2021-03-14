@@ -33,7 +33,7 @@ abstract class BaseController<Event, Command> {
         commandFlow.send(command, postponeIfNotActive)
     }
 
-    fun dispose() {
+    open fun dispose() {
         coroutineScope.cancel()
     }
 }

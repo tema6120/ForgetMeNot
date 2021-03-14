@@ -4,8 +4,6 @@ import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerStateProvider
-import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
@@ -13,7 +11,6 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Dec
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewModel
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.PlayingCardController
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 
 class ExamplePlayerDiScope private constructor(
     isRecreated: Boolean
@@ -43,38 +40,22 @@ class ExamplePlayerDiScope private constructor(
             playerStateCreator.create().apply { isPlaying = false }
         }
 
-    private val audioFocusManager = AudioFocusManager(
-        AppDiScope.get().app
-    )
-
-    private val speakerImpl = SpeakerImpl(
-        AppDiScope.get().app,
-        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        audioFocusManager,
-        initialLanguage = playerState.playingCards.getOrNull(0)?.run {
-            val pronunciation = deck.exercisePreference.pronunciation
-            if (isInverted)
-                pronunciation.answerLanguage else
-                pronunciation.questionLanguage
-        }
-    )
-
     val player = Player(
         playerState,
         AppDiScope.get().globalState,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
 
     val controller = ExamplePlayerController(
         player,
-        audioFocusManager,
+        AppDiScope.get().audioFocusManager,
         playerStateProvider
     )
 
     val viewModel = PlayerViewModel(
         playerState,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         AppDiScope.get().globalState
     )
 
@@ -91,9 +72,7 @@ class ExamplePlayerDiScope private constructor(
 
         override fun onCloseDiScope(diScope: ExamplePlayerDiScope) {
             with(diScope) {
-                audioFocusManager.abandonAllRequests()
-                speakerImpl.shutdown()
-                player.cancel()
+                player.dispose()
                 controller.dispose()
                 playingCardController.dispose()
             }

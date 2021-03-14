@@ -41,26 +41,10 @@ class ExerciseDiScope private constructor(
     private val screenState: ExerciseScreenState =
         initialExerciseScreenState ?: exerciseScreenStateProvider.load()
 
-    private val audioFocusManager = AudioFocusManager(
-        AppDiScope.get().app
-    )
-
-    private val speakerImpl = SpeakerImpl(
-        AppDiScope.get().app,
-        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        audioFocusManager,
-        initialLanguage = exerciseState.exerciseCards.getOrNull(0)?.let { exerciseCard: ExerciseCard ->
-            val pronunciation = exerciseCard.base.deck.exercisePreference.pronunciation
-            if (exerciseCard.base.isInverted)
-                pronunciation.answerLanguage else
-                pronunciation.questionLanguage
-        }
-    )
-
     val exercise = Exercise(
         exerciseState,
         AppDiScope.get().globalState,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
 
@@ -77,7 +61,7 @@ class ExerciseDiScope private constructor(
 
     val viewModel = ExerciseViewModel(
         exerciseState,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         AppDiScope.get().walkingModePreference,
         AppDiScope.get().globalState
     )
@@ -124,9 +108,8 @@ class ExerciseDiScope private constructor(
 
         override fun onCloseDiScope(diScope: ExerciseDiScope) {
             with(diScope) {
+                AppDiScope.get().speakerImpl.stop()
                 exercise.cancel()
-                audioFocusManager.abandonAllRequests()
-                speakerImpl.shutdown()
                 controller.dispose()
                 offTestExerciseCardController.dispose()
                 manualTestExerciseCardController.dispose()

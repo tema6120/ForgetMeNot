@@ -24,6 +24,18 @@ class PlayerServiceController(
     private var resumeOnFocusGain = false
 
     init {
+        player.state.flowOf(Player.State::isPlaying).observe(coroutineScope) { isPlaying: Boolean ->
+            if (isPlaying) {
+                val success = audioFocusManager.request(AUDIO_FOCUS_KEY)
+                if (!success) {
+                    player.pause()
+                }
+            } else {
+                if (!resumeOnFocusGain) {
+                    audioFocusManager.abandonRequest(AUDIO_FOCUS_KEY)
+                }
+            }
+        }
         audioFocusManager.state.flowOf(AudioFocusManager.State::audioFocusState)
             .observe(coroutineScope) { audioFocusState: AudiofocusState ->
                 when (audioFocusState) {
@@ -44,18 +56,6 @@ class PlayerServiceController(
                     }
                 }
             }
-        player.state.flowOf(Player.State::isPlaying).observe(coroutineScope) { isPlaying: Boolean ->
-            if (isPlaying) {
-                val success = audioFocusManager.request(AUDIO_FOCUS_KEY)
-                if (!success) {
-                    player.pause()
-                }
-            } else {
-                if (!resumeOnFocusGain) {
-                    audioFocusManager.abandonRequest(AUDIO_FOCUS_KEY)
-                }
-            }
-        }
     }
 
     override fun handle(event: PlayerServiceEvent) {
@@ -78,6 +78,11 @@ class PlayerServiceController(
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
         playerStateProvider.save(player.state)
+    }
+
+    override fun dispose() {
+        super.dispose()
+        audioFocusManager.abandonRequest(AUDIO_FOCUS_KEY)
     }
 
     companion object {

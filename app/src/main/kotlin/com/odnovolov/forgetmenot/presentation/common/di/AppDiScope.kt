@@ -41,6 +41,14 @@ class AppDiScope(
 
     val json = Json
 
+    val audioFocusManager = AudioFocusManager(app)
+
+    val speakerImpl = SpeakerImpl(
+        app,
+        activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
+        audioFocusManager
+    )
+
     init {
         recheckDeckIdsInDeckLists(globalState)
         longTermStateSaver.saveStateByRegistry()

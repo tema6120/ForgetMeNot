@@ -5,5 +5,6 @@ import java.util.*
 interface Speaker {
     fun speak(text: String, language: Locale?)
     fun stop()
-    fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit)
+    fun addOnSpeakingFinishedListener(onSpeakingFinished: () -> Unit)
+    fun removeOnSpeakingFinishedListener(onSpeakingFinished: () -> Unit)
 }

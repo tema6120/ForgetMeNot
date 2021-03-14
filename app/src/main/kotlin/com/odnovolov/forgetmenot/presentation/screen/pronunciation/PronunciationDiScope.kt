@@ -24,19 +24,9 @@ class PronunciationDiScope private constructor(
         DeckSettingsDiScope.getOrRecreate().deckSettings
     )
 
-    private val audioFocusManager = AudioFocusManager(
-        AppDiScope.get().app
-    )
-
     private val pronunciationPreferences: PronunciationPreference =
         PronunciationPreferenceProvider(AppDiScope.get().database)
             .load()
-
-    private val speakerImpl = SpeakerImpl(
-        AppDiScope.get().app,
-        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        audioFocusManager
-    )
 
     val controller = PronunciationController(
         pronunciationSettings,
@@ -49,7 +39,7 @@ class PronunciationDiScope private constructor(
 
     val viewModel = PronunciationViewModel(
         DeckSettingsDiScope.getOrRecreate().deckSettings.state,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         screenState,
         pronunciationPreferences
     )
@@ -61,9 +51,8 @@ class PronunciationDiScope private constructor(
         override fun recreateDiScope() = PronunciationDiScope()
 
         override fun onCloseDiScope(diScope: PronunciationDiScope) {
-            diScope.audioFocusManager.abandonAllRequests()
+            AppDiScope.get().speakerImpl.stop()
             diScope.controller.dispose()
-            diScope.speakerImpl.shutdown()
         }
     }
 }

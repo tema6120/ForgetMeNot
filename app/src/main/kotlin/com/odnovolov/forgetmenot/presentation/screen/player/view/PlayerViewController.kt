@@ -207,4 +207,9 @@ class PlayerViewController(
         playerStateProvider.save(player.state)
         screenStateProvider.save(screenState)
     }
+
+    override fun dispose() {
+        super.dispose()
+        audioFocusManager.abandonRequest(PlayerServiceController.AUDIO_FOCUS_KEY)
+    }
 }

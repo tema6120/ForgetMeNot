@@ -3,8 +3,6 @@ package com.odnovolov.forgetmenot.presentation.screen.player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ReadyToUseSerializableStateProvider
-import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
@@ -15,7 +13,6 @@ import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewContr
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewModel
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.PlayingCardController
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 
 class PlayerDiScope private constructor(
     initialPlayerState: Player.State? = null,
@@ -41,26 +38,12 @@ class PlayerDiScope private constructor(
     private val screenState: PlayerScreenState =
         initialScreenState ?: screenStateProvider.load()
 
-    private val audioFocusManager = AudioFocusManager(
-        AppDiScope.get().app
-    )
-
-    private val speakerImpl = SpeakerImpl(
-        AppDiScope.get().app,
-        AppDiScope.get().activityLifecycleCallbacksInterceptor.activityLifecycleEventFlow,
-        audioFocusManager,
-        initialLanguage = playerState.playingCards.getOrNull(0)?.run {
-            val pronunciation = deck.exercisePreference.pronunciation
-            if (isInverted)
-                pronunciation.answerLanguage else
-                pronunciation.questionLanguage
-        }
-    )
+    private val audioFocusManager = AppDiScope.get().audioFocusManager
 
     val player = Player(
         playerState,
         AppDiScope.get().globalState,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
 
@@ -88,7 +71,7 @@ class PlayerDiScope private constructor(
 
     val viewModel = PlayerViewModel(
         playerState,
-        speakerImpl,
+        AppDiScope.get().speakerImpl,
         AppDiScope.get().globalState
     )
 
@@ -125,9 +108,7 @@ class PlayerDiScope private constructor(
 
         override fun onCloseDiScope(diScope: PlayerDiScope) {
             with(diScope) {
-                speakerImpl.shutdown()
-                player.cancel()
-                audioFocusManager.abandonAllRequests()
+                player.dispose()
                 serviceController.dispose()
                 viewController.dispose()
                 playingCardController.dispose()

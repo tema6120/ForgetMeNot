@@ -120,4 +120,9 @@ class ExamplePlayerController(
     override fun saveState() {
         playerStateProvider.save(player.state)
     }
+
+    override fun dispose() {
+        super.dispose()
+        audioFocusManager.abandonRequest(PlayerServiceController.AUDIO_FOCUS_KEY)
+    }
 }

@@ -30,7 +30,7 @@ class SpeakerImpl(
     private val applicationContext: Context,
     private val activityLifecycleEvents: Flow<ActivityLifecycleEvent>,
     private val audioFocusManager: AudioFocusManager,
-    private val initialLanguage: Locale? = null
+    private val initialLanguage: Locale? = null // todo
 ) : Speaker {
     class State : FlowMaker<State>() {
         var status: Status by flowMaker(Initialization)
@@ -83,7 +83,7 @@ class SpeakerImpl(
     private var needToRestartSpeakingTts = false
     private var isAppBackground = false
     private var speakingTask: SpeakingTask? = null
-    private var onSpeakingFinishedListener: (() -> Unit)? = null
+    private var listeners: MutableList<() -> Unit> = ArrayList()
     private val channelsForObservingLanguageStatus: MutableList<Pair<Locale?, Channel<LanguageStatus?>>> =
         CopyOnWriteArrayList()
     private val toneGenerator: ToneGenerator
@@ -271,7 +271,7 @@ class SpeakerImpl(
                 coroutineScope.launch {
                     state.isSpeaking = false
                     isSpeaking = false
-                    onSpeakingFinishedListener?.invoke()
+                    listeners.forEach { it.invoke() }
                     if (needToRestartSpeakingTts) {
                         restartTts()
                         needToRestartSpeakingTts = false
@@ -286,7 +286,7 @@ class SpeakerImpl(
                     state.isPreparingToSpeak = false
                     state.isSpeaking = false
                     isSpeaking = false
-                    onSpeakingFinishedListener?.invoke()
+                    listeners.forEach { it.invoke() }
                     speakingTask = null
                     audioFocusManager.abandonRequest(AUDIOFOCUS_KEY)
                 }
@@ -401,7 +401,7 @@ class SpeakerImpl(
             toneGenerator.startTone(ToneGenerator.TONE_CDMA_ABBR_REORDER, ERROR_SOUND_DURATION)
             delay(ERROR_SOUND_DURATION.toLong())
             if (isActive) {
-                onSpeakingFinishedListener?.invoke()
+                listeners.forEach { it.invoke() }
                 errorSoundJob = null
             }
         }
@@ -425,9 +425,15 @@ class SpeakerImpl(
         .distinctUntilChanged()
         .flowOn(speakerThreadContext)
 
-    override fun setOnSpeakingFinished(onSpeakingFinished: () -> Unit) {
+    override fun addOnSpeakingFinishedListener(onSpeakingFinished: () -> Unit) {
         coroutineScope.launch {
-            onSpeakingFinishedListener = onSpeakingFinished
+            listeners.add(onSpeakingFinished)
+        }
+    }
+
+    override fun removeOnSpeakingFinishedListener(onSpeakingFinished: () -> Unit) {
+        coroutineScope.launch {
+            listeners.remove(onSpeakingFinished)
         }
     }
 
