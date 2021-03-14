@@ -11,14 +11,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat.SRC_ATOP
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckListDrawableGenerator
+import com.odnovolov.forgetmenot.presentation.screen.quitwithoutsaving.QuitWithoutSavingBottomSheet
 import kotlinx.android.synthetic.main.fragment_deck_lists_editor.*
 import kotlinx.android.synthetic.main.item_editing_deck_list.view.*
 import kotlinx.android.synthetic.main.popup_deck_list_color_chooser.view.*
@@ -66,7 +69,7 @@ class DeckListsEditorFragment : BaseFragment() {
 
     private fun setupView() {
         backButton.setOnClickListener {
-            requireActivity().onBackPressed()
+            controller?.dispatch(BackButtonClicked)
         }
         doneButton.setOnClickListener {
             controller?.dispatch(DoneButtonClicked)
@@ -176,6 +179,10 @@ class DeckListsEditorFragment : BaseFragment() {
                 viewHolder as DeckListViewHolder
                 viewHolder.pointAtEmptyName()
             }
+            is AskUserToConfirmExit -> {
+                QuitWithoutSavingBottomSheet()
+                    .show(childFragmentManager, "QuitWithoutSavingBottomSheet")
+            }
         }
     }
 
@@ -267,16 +274,32 @@ class DeckListsEditorFragment : BaseFragment() {
             }
     }
 
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+        when (childFragment) {
+            is QuitWithoutSavingBottomSheet -> {
+                childFragment.onSaveButtonClicked = {
+                    controller?.dispatch(SaveButtonClicked)
+                }
+                childFragment.onQuitWithoutSavingButtonClicked = {
+                    controller?.dispatch(UserConfirmedExit)
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         hideKeyboardForcibly(requireActivity())
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onDestroyView() {
@@ -292,6 +315,11 @@ class DeckListsEditorFragment : BaseFragment() {
         if (isFinishing()) {
             DeckListsEditorDiScope.close()
         }
+    }
+
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        controller?.dispatch(BackButtonClicked)
+        true
     }
 
     private val scrollListener = ViewTreeObserver.OnScrollChangedListener {

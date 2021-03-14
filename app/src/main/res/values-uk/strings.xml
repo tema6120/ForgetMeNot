@@ -12,7 +12,7 @@
     <string name="no">Ні</string>
     <string name="disabled">Вимкнено</string>
     <string name="label_name">Назва</string>
-    <string name="quit_editor_message">Ваші незбережені зміни буде втрачено. Зберегти зміни
+    <string name="quit_without_saving_message">Ваші незбережені зміни буде втрачено. Зберегти зміни
         перед виходом?</string>
     <string name="button_save">Зберегти</string>
     <string name="button_quit_without_saving">Вийти без збереження</string>

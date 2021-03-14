@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.Failure.Cause.*
@@ -24,6 +25,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.quitwithoutsaving.QuitWithoutSavingBottomSheet
 import kotlinx.android.synthetic.main.dialog_delete_dsv_format.view.*
 import kotlinx.android.synthetic.main.fragment_dsv_format.*
 import kotlinx.android.synthetic.main.tip.*
@@ -405,7 +407,7 @@ class DsvFormatFragment : BaseFragment() {
                 showToast(message)
             }
             AskUserToConfirmExit -> {
-                QuitDsvFormatBottomSheet().show(childFragmentManager, "QuitDsvFormatBottomSheet")
+                QuitWithoutSavingBottomSheet().show(childFragmentManager, "QuitDsvFormatBottomSheet")
             }
         }
     }
@@ -426,6 +428,20 @@ class DsvFormatFragment : BaseFragment() {
             deleteDialog = createDialog(contentView)
         }
         return deleteDialog!!
+    }
+
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+        when (childFragment) {
+            is QuitWithoutSavingBottomSheet -> {
+                childFragment.onSaveButtonClicked = {
+                    controller?.dispatch(SaveButtonClicked)
+                }
+                childFragment.onQuitWithoutSavingButtonClicked = {
+                    controller?.dispatch(UserConfirmedExit)
+                }
+            }
+        }
     }
 
     override fun onResume() {

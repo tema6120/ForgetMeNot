@@ -22,6 +22,7 @@ class DeckListsEditorController(
         class ShowColorChooserFor(val deckListId: Long) : Command()
         object ShowDeckListIsRemovedMessage : Command()
         class ShowNameCannotBeEmptyMessage(val deckListId: Long) : Command()
+        object AskUserToConfirmExit : Command()
     }
 
     override fun handle(event: DeckListsEditorEvent) {
@@ -71,12 +72,23 @@ class DeckListsEditorController(
                 deckListsEditor.cancelRemoving()
             }
 
-            DoneButtonClicked -> {
-                val saveResult: DeckListsEditor.SaveResult = deckListsEditor.save()
-                when (saveResult) {
+            BackButtonClicked -> {
+                if (deckListsEditor.hasChanges()) {
+                    sendCommand(AskUserToConfirmExit)
+                } else {
+                    navigator.navigateUp()
+                }
+            }
+
+            DoneButtonClicked, SaveButtonClicked -> {
+                when (val saveResult: DeckListsEditor.SaveResult = deckListsEditor.save()) {
                     Success -> navigator.navigateUp()
                     is Failure -> sendCommand(ShowNameCannotBeEmptyMessage(saveResult.deckListId))
                 }
+            }
+
+            UserConfirmedExit -> {
+                navigator.navigateUp()
             }
         }
     }

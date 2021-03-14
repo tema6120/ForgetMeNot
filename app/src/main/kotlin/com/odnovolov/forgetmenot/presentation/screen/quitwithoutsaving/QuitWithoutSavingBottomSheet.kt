@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.dsvformat
+package com.odnovolov.forgetmenot.presentation.screen.quitwithoutsaving
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,45 +7,36 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.SaveButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatEvent.UserConfirmedExit
 import kotlinx.android.synthetic.main.bottom_sheet_quit_cards_editor.*
-import kotlinx.coroutines.launch
 
-class QuitDsvFormatBottomSheet : BaseBottomSheetDialogFragment() {
-    init {
-        DsvFormatDiScope.reopenIfClosed()
-    }
-
-    private var controller: DsvFormatController? = null
+class QuitWithoutSavingBottomSheet : BottomSheetDialogFragment() {
+    var onSaveButtonClicked: (() -> Unit)? = null
+    var onQuitWithoutSavingButtonClicked: (() -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_quit_dsv_format, container, false)
+        return inflater.inflate(R.layout.bottom_sheet_quit_without_saving, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        viewCoroutineScope!!.launch {
-            val diScope = DsvFormatDiScope.getAsync() ?: return@launch
-            controller = diScope.controller
-        }
     }
 
     private fun setupView() {
         setBottomSheetAlwaysExpanded()
         saveButton.setOnClickListener {
-            controller?.dispatch(SaveButtonClicked)
+            onSaveButtonClicked?.invoke()
             dismiss()
         }
         quitWithoutSavingButton.setOnClickListener {
-            controller?.dispatch(UserConfirmedExit)
+            onQuitWithoutSavingButtonClicked?.invoke()
+            dismiss()
         }
     }
 

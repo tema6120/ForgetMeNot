@@ -13,8 +13,8 @@
     <string name="no">No</string>
     <string name="disabled">Disabled</string>
     <string name="label_name">Name</string>
-    <string name="quit_editor_message">Your unsaved changes will be lost. Save changes before
-        quitting?</string>
+    <string name="quit_without_saving_message">Your unsaved changes will be lost. Save changes
+        before quitting?</string>
     <string name="button_save">Save</string>
     <string name="button_quit_without_saving">Quit without saving</string>
     <string name="no_cards">No cards</string>

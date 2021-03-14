@@ -88,6 +88,20 @@ class DeckListsEditor(
         restoreLastRemovedDeckList = null
     }
 
+    fun hasChanges(): Boolean {
+        if (state.editingDeckLists.first().name.isNotBlank()) return true
+        val existingDeckListIds = globalState.deckLists.map { it.id }
+        for ((position: Int, editableDeckList: EditableDeckList) in state.editingDeckLists.withIndex()) {
+            if (position == 0 && editableDeckList.deckList.deckIds.isNotEmpty()) return true
+            if (position != 0) {
+                if (editableDeckList.deckList.id !in existingDeckListIds) return true
+                if (editableDeckList.color != editableDeckList.deckList.color) return true
+            }
+            if (editableDeckList.name != editableDeckList.deckList.name) return true
+        }
+        return false
+    }
+
     fun save(): SaveResult {
         check()?.let { failure -> return failure }
         val newDeckLists = ArrayList<DeckList>()
