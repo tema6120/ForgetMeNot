@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.common.di
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.recheckDeckIdsInDeckLists
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.persistence.DatabaseInitializer
 import com.odnovolov.forgetmenot.persistence.longterm.LongTermStateSaverImpl
@@ -39,6 +40,11 @@ class AppDiScope(
     val longTermStateSaver: LongTermStateSaver = LongTermStateSaverImpl(database)
 
     val json = Json
+
+    init {
+        recheckDeckIdsInDeckLists(globalState)
+        longTermStateSaver.saveStateByRegistry()
+    }
 
     companion object {
         @Volatile

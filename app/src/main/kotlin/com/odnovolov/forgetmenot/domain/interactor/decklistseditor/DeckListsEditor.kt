@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.domain.interactor.decklistseditor
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
+import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.DeckList
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.generateId
@@ -144,4 +145,20 @@ fun DeckList.addDeckIds(deckIdsToAdd: Collection<Long>) {
 
 fun DeckList.removeDeckIds(deckIdsToRemove: Collection<Long>) {
     deckIds -= deckIdsToRemove
+}
+
+fun recheckDeckIdsInDeckLists(globalState: GlobalState) {
+    val existingDeckIds: List<Long> = globalState.decks.map(Deck::id)
+    for (deckList: DeckList in globalState.deckLists) {
+        val hasChanges = deckList.deckIds.any { deckId: Long -> deckId !in existingDeckIds }
+        if (hasChanges) {
+            val newDeckIds: MutableSet<Long> = HashSet()
+            for (deckId in deckList.deckIds) {
+                if (deckId in existingDeckIds) {
+                    newDeckIds.add(deckId)
+                }
+            }
+            deckList.deckIds = newDeckIds
+        }
+    }
 }

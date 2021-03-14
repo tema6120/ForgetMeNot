@@ -270,6 +270,7 @@ class HomeController(
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 val numberOfRemovedDecks = deckRemover.removeDeck(deckId)
                 sendCommand(ShowDeckRemovingMessage(numberOfRemovedDecks))
+                notifyDeckListUpdated()
             }
 
             AutoplayButtonClicked -> {
@@ -435,7 +436,8 @@ class HomeController(
             }
 
             RemovedDecksSnackbarCancelButtonClicked -> {
-                deckRemover.restoreDecks()
+                deckRemover.cancelRemoving()
+                notifyDeckListUpdated()
             }
 
             InvertCardSelectionOptionSelected -> {
@@ -659,6 +661,7 @@ class HomeController(
         val numberOfRemovedDecks = deckRemover.removeDecks(deckIdsToRemove)
         sendCommand(ShowDeckRemovingMessage(numberOfRemovedDecks))
         screenState.deckSelection = null
+        notifyDeckListUpdated()
     }
 
     private fun removeSelectedCards() {
