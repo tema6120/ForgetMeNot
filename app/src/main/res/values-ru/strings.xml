@@ -65,12 +65,14 @@
     <string name="sort_by_time_created">По времени создания</string>
     <string name="sort_by_time_last_tested">По времени посл. тест.</string>
     <string name="sort_by_frequency_of_use">По частоте использ.</string>
+    <string name="sort_by_task">По заданию</string>
     <string name="title_deck_sorting_popup">Сортировать по</string>
     <string name="description_change_sorting_direction">Изменить направление сортировки</string>
     <string name="deck_sorting_name">Названию</string>
     <string name="deck_sorting_time_created">Времени создания</string>
     <string name="deck_sorting_by_time_last_tested">Времени посл. тест.</string>
     <string name="deck_sorting_by_frequency_of_use">Частоте использ.</string>
+    <string name="deck_sorting_by_task">Заданию</string>
     <string name="description_pin_icon">иконка \"Шпилька\"</string>
     <string name="deck_summary_table_average_laps">Кругов</string>
     <string name="deck_summary_table_learned">Изучено</string>

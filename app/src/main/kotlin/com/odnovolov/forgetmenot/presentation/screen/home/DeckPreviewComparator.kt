@@ -28,6 +28,17 @@ class DeckPreviewComparator(
             CreatedAt -> leftDeck.createdAt.compareTo(rightDeck.createdAt)
             LastTestedAt -> leftDeck.lastTestedAt!!.compareTo(rightDeck.lastTestedAt!!)
             FrequencyOfUse -> leftDeck.averageLaps.compareTo(rightDeck.averageLaps)
+            Task -> {
+                when {
+                    leftDeck.numberOfCardsReadyForExercise == null -> -1
+                    rightDeck.numberOfCardsReadyForExercise == null -> 1
+                    else -> {
+                        leftDeck.numberOfCardsReadyForExercise
+                            .compareTo(rightDeck.numberOfCardsReadyForExercise)
+                    }
+                }
+
+            }
         }
     }
 }

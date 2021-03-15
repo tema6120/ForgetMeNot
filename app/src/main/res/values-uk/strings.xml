@@ -70,12 +70,14 @@
     <string name="sort_by_time_created">За часом створення</string>
     <string name="sort_by_time_last_tested">За часом остан. тест.</string>
     <string name="sort_by_frequency_of_use">За частотою використ.</string>
+    <string name="sort_by_task">За завданням</string>
     <string name="title_deck_sorting_popup">Сортувати за</string>
     <string name="description_change_sorting_direction">Змінити напрямок сортування</string>
     <string name="deck_sorting_name">Назвою</string>
     <string name="deck_sorting_time_created">Часом створення</string>
     <string name="deck_sorting_by_time_last_tested">Часом остан. тест.</string>
     <string name="deck_sorting_by_frequency_of_use">Частотою використ.</string>
+    <string name="deck_sorting_by_task">Завданням</string>
     <string name="description_pin_icon">іконка \"Шпилька\"</string>
     <string name="deck_summary_table_average_laps">Кіл</string>
     <string name="deck_summary_table_learned">Вивчено</string>

@@ -139,6 +139,7 @@ class DeckChooserFragment : BaseFragment() {
                 CreatedAt -> R.string.sort_by_time_created
                 LastTestedAt -> R.string.sort_by_time_last_tested
                 FrequencyOfUse -> R.string.sort_by_frequency_of_use
+                Task -> R.string.sort_by_task
             }
         )
         val directionIconId: Int = when (deckSorting.direction) {
@@ -170,6 +171,9 @@ class DeckChooserFragment : BaseFragment() {
                     sortByFrequencyOfUseButton.setOnClickListener {
                         controller?.dispatch(SortByButtonClicked(FrequencyOfUse))
                     }
+                    sortByTaskButton.setOnClickListener {
+                        controller?.dispatch(SortByButtonClicked(Task))
+                    }
                     sortingDirectionButton.setOnClickListener {
                         controller?.dispatch(SortingDirectionButtonClicked)
                     }
@@ -196,6 +200,7 @@ class DeckChooserFragment : BaseFragment() {
                 CreatedAt -> sortByTimeCreatedTextView
                 LastTestedAt -> sortByTimeLastTestedTextView
                 FrequencyOfUse -> sortByFrequencyOfUseTextView
+                Task -> sortByTaskTextView
             }
             sortingDirectionButton.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 topToTop = directionButtonAnchor.id
@@ -205,6 +210,7 @@ class DeckChooserFragment : BaseFragment() {
             sortByTimeCreatedTextView.isSelected = deckSorting.criterion == CreatedAt
             sortByTimeLastTestedTextView.isSelected = deckSorting.criterion == LastTestedAt
             sortByFrequencyOfUseTextView.isSelected = deckSorting.criterion == FrequencyOfUse
+            sortByTaskTextView.isSelected = deckSorting.criterion == Task
         }
     }
 

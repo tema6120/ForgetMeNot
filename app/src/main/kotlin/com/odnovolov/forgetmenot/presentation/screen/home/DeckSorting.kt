@@ -11,7 +11,8 @@ data class DeckSorting(
         Name,
         CreatedAt,
         LastTestedAt,
-        FrequencyOfUse
+        FrequencyOfUse,
+        Task
     }
 
     enum class Direction {
