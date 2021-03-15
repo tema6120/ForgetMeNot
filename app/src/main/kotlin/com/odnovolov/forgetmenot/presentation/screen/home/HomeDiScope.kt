@@ -1,6 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
+import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckPresetSetter
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
@@ -12,6 +13,7 @@ import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.home.choosedecklist.ChooseDeckListViewModel
+import com.odnovolov.forgetmenot.presentation.screen.home.choosepreset.ChoosePresetViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.deckoptions.DeckOptionsViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.deckselectionoptions.DeckSelectionOptionsViewModel
 
@@ -67,6 +69,7 @@ class HomeDiScope private constructor(
         exerciseStateCreator,
         cardsSearcher,
         batchCardEditor,
+        DeckPresetSetter(),
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,
@@ -100,6 +103,12 @@ class HomeDiScope private constructor(
             screenState,
             AppDiScope.get().globalState,
             deckReviewPreference
+        )
+
+    val choosePresetViewModel: ChoosePresetViewModel
+        get() = ChoosePresetViewModel(
+            screenState,
+            AppDiScope.get().globalState
         )
 
     companion object : DiScopeManager<HomeDiScope>() {

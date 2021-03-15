@@ -13,7 +13,6 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import kotlinx.coroutines.launch
 
@@ -95,101 +94,38 @@ class DeckSettingsFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             randomOrder.observe { randomOrder: Boolean ->
-                selectedRandomOrderTextView.text = getString(
-                    if (randomOrder)
-                        R.string.on else
-                        R.string.off
-                )
-            }
-            selectedTestMethod.observe { selectedTestMethod ->
-                selectedTestingMethodTextView.setText(
-                    when (selectedTestMethod) {
-                        TestingMethod.Off -> R.string.testing_method_without_testing
-                        TestingMethod.Manual -> R.string.testing_method_self_testing
-                        TestingMethod.Quiz -> R.string.testing_method_testing_with_variants
-                        TestingMethod.Entry -> R.string.testing_method_spell_check
-                    }
-                )
-            }
-            intervalScheme.observe { intervalScheme: IntervalScheme? ->
-                selectedIntervalsTextView.text = composeIntervalSchemeDisplayText(intervalScheme)
+                selectedRandomOrderTextView.text =
+                    getRandomOrderDisplayText(randomOrder, requireContext())
             }
             pronunciation.observe { pronunciation: Pronunciation ->
-                selectedPronunciationTextView.text = composePronunciationDisplayText(pronunciation)
+                selectedPronunciationTextView.text =
+                    getPronunciationDisplayText(pronunciation, requireContext())
+            }
+            cardInversion.observe { cardInversion: CardInversion ->
+                selectedCardInversionTextView.text =
+                    getCardInversionDisplayText(cardInversion, requireContext())
             }
             isQuestionDisplayed.observe { isQuestionDisplayed: Boolean ->
-                selectedQuestionDisplayTextView.text = getString(
-                    if (isQuestionDisplayed)
-                        R.string.on else
-                        R.string.off
-                )
+                selectedQuestionDisplayTextView.text =
+                    getQuestionDisplayDisplayText(isQuestionDisplayed, requireContext())
             }
-            selectedCardInversion.observe { selectedCardInversion: CardInversion ->
-                selectedCardInversionTextView.setText(
-                    when (selectedCardInversion) {
-                        CardInversion.Off -> R.string.item_card_inversion_off
-                        CardInversion.On -> R.string.item_card_inversion_on
-                        CardInversion.EveryOtherLap -> R.string.item_card_inversion_every_other_lap
-                        CardInversion.Randomly -> R.string.item_card_inversion_randomly
-                    }
-                )
+            testingMethod.observe { testingMethod: TestingMethod ->
+                selectedTestingMethodTextView.text =
+                    getTestingMethodDisplayText(testingMethod, requireContext())
             }
-            pronunciationPlan.observe { pronunciationPlan: PronunciationPlan ->
-                selectedPronunciationPlanTextView.text =
-                    composePronunciationPlanDisplayText(pronunciationPlan)
+            intervalScheme.observe { intervalScheme: IntervalScheme? ->
+                selectedIntervalsTextView.text =
+                    getIntervalsDisplayText(intervalScheme, requireContext())
             }
             timeForAnswer.observe { timeForAnswer: Int ->
                 selectedMotivationalTimerTextView.text =
-                    if (timeForAnswer == NOT_TO_USE_TIMER)
-                        getString(R.string.off) else
-                        getString(R.string.time_for_answer, timeForAnswer)
+                    getMotivationalTimerDisplayText(timeForAnswer, requireContext())
+            }
+            pronunciationPlan.observe { pronunciationPlan: PronunciationPlan ->
+                selectedPronunciationPlanTextView.text =
+                    getPronunciationPlanDisplayText(pronunciationPlan, requireContext())
             }
         }
-    }
-
-    private fun composeIntervalSchemeDisplayText(intervalScheme: IntervalScheme?): String {
-        return if (intervalScheme == null) {
-            getString(R.string.off)
-        } else {
-            intervalScheme.intervals.joinToString(separator = "  ") { interval: Interval ->
-                DisplayedInterval.fromDateTimeSpan(interval.value)
-                    .getAbbreviation(requireContext())
-            }
-        }
-    }
-
-    private fun composePronunciationDisplayText(pronunciation: Pronunciation): String {
-        return buildString {
-            append(
-                pronunciation.questionLanguage?.displayLanguage
-                    ?: getString(R.string.default_language)
-            )
-            if (pronunciation.questionAutoSpeaking) {
-                append(" (A)")
-            }
-            append("  |  ")
-            append(
-                pronunciation.answerLanguage?.displayLanguage
-                    ?: getString(R.string.default_language)
-            )
-            if (pronunciation.answerAutoSpeaking) {
-                append(" (A)")
-            }
-        }
-    }
-
-    private fun composePronunciationPlanDisplayText(pronunciationPlan: PronunciationPlan): String {
-        return pronunciationPlan.pronunciationEvents
-            .joinToString(separator = "  ") { pronunciationEvent: PronunciationEvent ->
-                when (pronunciationEvent) {
-                    SpeakQuestion -> getString(R.string.speak_event_abbr_speak_question)
-                    SpeakAnswer -> getString(R.string.speak_event_abbr_speak_answer)
-                    is Delay -> getString(
-                        R.string.speak_event_abbr_delay,
-                        pronunciationEvent.timeSpan.seconds.toInt()
-                    )
-                }
-            }
     }
 
     override fun onDestroyView() {

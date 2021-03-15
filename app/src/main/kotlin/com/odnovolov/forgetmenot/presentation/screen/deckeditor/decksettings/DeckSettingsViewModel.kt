@@ -17,7 +17,7 @@ class DeckSettingsViewModel(
             exercisePreference.flowOf(ExercisePreference::randomOrder)
         }
 
-    val selectedTestMethod: Flow<TestingMethod> = currentExercisePreference
+    val testingMethod: Flow<TestingMethod> = currentExercisePreference
         .flatMapLatest { exercisePreference: ExercisePreference ->
             exercisePreference.flowOf(ExercisePreference::testingMethod)
         }
@@ -37,7 +37,7 @@ class DeckSettingsViewModel(
             exercisePreference.flowOf(ExercisePreference::isQuestionDisplayed)
         }
 
-    val selectedCardInversion: Flow<CardInversion> = currentExercisePreference
+    val cardInversion: Flow<CardInversion> = currentExercisePreference
         .flatMapLatest { exercisePreference: ExercisePreference ->
             exercisePreference.flowOf(ExercisePreference::cardInversion)
         }

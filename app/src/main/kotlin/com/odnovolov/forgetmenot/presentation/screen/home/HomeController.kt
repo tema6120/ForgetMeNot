@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.addDeckIds
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.removeDeckIds
+import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckPresetSetter
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
@@ -59,6 +60,7 @@ class HomeController(
     private val exerciseStateCreator: ExerciseStateCreator,
     private val cardsSearcher: CardsSearcher,
     private val batchCardEditor: BatchCardEditor,
+    private val deckPresetSetter: DeckPresetSetter,
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
@@ -92,6 +94,12 @@ class HomeController(
         ) : Command()
 
         object ShowDeckListsChooser : Command()
+        object ShowPresetChooser : Command()
+
+        class ShowPresetHasBeenAppliedMessage(
+            val numberOfAffectedDecks: Int,
+            val presetName: String
+        ) : Command()
     }
 
     init {
@@ -252,6 +260,38 @@ class HomeController(
                 theOnlyDeckListToWhichRelevantDecksBelong?.removeDeckIds(deckIdsInOptionsMenu)
                 screenState.deckSelection = null
                 notifyDeckListUpdated()
+            }
+
+            SetPresetDeckSelectionOptionSelected -> {
+                sendCommand(ShowPresetChooser)
+            }
+
+            is PresetButtonClicked -> {
+                val selectedDeckIds = screenState.deckSelection?.selectedDeckIds ?: return
+                val decks = globalState.decks.filter { deck: Deck -> deck.id in selectedDeckIds }
+                val exercisePreference: ExercisePreference =
+                    if (event.exercisePreferenceId == ExercisePreference.Default.id) {
+                        ExercisePreference.Default
+                    } else {
+                        globalState.sharedExercisePreferences.find { sharedExercisePreference ->
+                            sharedExercisePreference.id == event.exercisePreferenceId
+                        } ?: return
+                    }
+                val numberOfAffectedDecks: Int =
+                    deckPresetSetter.setDeckPreset(decks, exercisePreference)
+                if (numberOfAffectedDecks > 0) {
+                    sendCommand(
+                        ShowPresetHasBeenAppliedMessage(
+                            numberOfAffectedDecks,
+                            exercisePreference.name
+                        )
+                    )
+                }
+                screenState.deckSelection = null
+            }
+
+            PresetHasBeenAppliedSnackbarCancelButtonClicked -> {
+                deckPresetSetter.cancel()
             }
 
             ExportDeckOptionSelected -> {

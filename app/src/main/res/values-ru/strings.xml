@@ -87,29 +87,37 @@
     <string name="deck_option_add_to_deck_list">Добавить в список колод</string>
     <string name="deck_option_remove_from_deck_list">Удалить из списка колод</string>
     <string name="deck_option_remove_from_deck_list_with_arg">Удалить из списка колод \'%1$s\'</string>
+    <string name="deck_option_set_preset">Установить предустановку</string>
     <string name="deck_option_export">Экспортировать</string>
     <string name="deck_option_merge_into">Объединить</string>
     <string name="deck_option_remove">Удалить</string>
-    <plurals name="toast_decks_removing">
+    <plurals name="snackbar_decks_removing">
         <item quantity="one">%d колода удалена(ы)</item>
         <item quantity="few">Удалено %d колоды</item>
         <item quantity="many">Удалено %d колод</item>
     </plurals>
-    <plurals name="toast_decks_merging">
+    <plurals name="snackbar_decks_merging">
         <item quantity="one">%1$d колода была объединена в \'%2$s\'</item>
         <item quantity="few">%1$d колоды было объединено в \'%2$s\'</item>
         <item quantity="many">%1$d колод было объединено в \'%2$s\'</item>
+    </plurals>
+    <string name="dialog_title_choose_deck_list">Выберите список колод</string>
+    <string name="dialog_title_choose_preset">Выберите предустановку</string>
+    <plurals name="snackbar_default_preset_has_been_applied">
+        <item quantity="one">Стандартная предустановка применена к %d колоде</item>
+        <item quantity="few">Стандартная предустановка применена к %d колодам</item>
+        <item quantity="many">Стандартная предустановка применена к %d колодам</item>
+    </plurals>
+    <plurals name="snackbar_preset_has_been_applied">
+        <item quantity="one">Предустановка \'%1$s\' применена к %2$d колоде</item>
+        <item quantity="few">Предустановка \'%1$s\' применена к %2$d колодам</item>
+        <item quantity="many">Предустановка \'%1$s\' применена к %2$d колодам</item>
     </plurals>
     <string name="text_autoplay_button">Автопроигрывание</string>
     <string name="text_exercise_button">Упражнение</string>
     <string name="text_exercise_button_with_cards_count">Упражнение (%d)</string>
     <string name="toast_text_no_cards_ready_for_exercise">Нет карточек, готовых для упражнения</string>
     <string name="progress_bar_reading_files">Чтение файлов ..</string>
-
-
-    <!-- Choose deck list dialog -->
-
-    <string name="dialog_title_choose_deck_list">Выберите список колод</string>
 
 
     <!-- Deck lists editor -->

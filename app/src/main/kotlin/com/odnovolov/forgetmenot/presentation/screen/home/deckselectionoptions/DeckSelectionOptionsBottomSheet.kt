@@ -56,6 +56,10 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             controller?.dispatch(RemoveFromDeckListDeckSelectionOptionSelected)
             dismiss()
         }
+        setPresetDeckSelectionOptionItem.setOnClickListener {
+            controller?.dispatch(SetPresetDeckSelectionOptionSelected)
+            dismiss()
+        }
         exportDeckSelectionOptionItem.setOnClickListener {
             controller?.dispatch(ExportDeckSelectionOptionSelected)
             dismiss()

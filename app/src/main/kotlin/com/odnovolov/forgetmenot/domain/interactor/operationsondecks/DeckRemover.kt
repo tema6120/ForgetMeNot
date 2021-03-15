@@ -9,7 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.recheckDeckId
 class DeckRemover(
     private val globalState: GlobalState
 ) {
-    private var restore: (() -> Unit)? =null
+    private var restore: (() -> Unit)? = null
 
     fun removeDeck(deckId: Long): Int = removeDecks(listOf(deckId))
 

@@ -91,6 +91,7 @@ class DeckListsEditor(
 
     fun hasChanges(): Boolean {
         if (state.editingDeckLists.first().name.isNotBlank()) return true
+        if (globalState.deckLists.size != state.editingDeckLists.size - 1) return true
         val existingDeckListIds = globalState.deckLists.map { it.id }
         for ((position: Int, editableDeckList: EditableDeckList) in state.editingDeckLists.withIndex()) {
             if (position == 0 && editableDeckList.deckList.deckIds.isNotEmpty()) return true

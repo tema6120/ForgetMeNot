@@ -1,0 +1,60 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
+
+    <RadioButton
+            android:id="@+id/presetRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    <TextView
+            android:id="@+id/presetNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/text_title"
+            android:textSize="@dimen/text_size_choose_preset_dialog_preset_name"
+            app:layout_constraintBottom_toTopOf="@+id/presetDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/presetRadioButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Default" />
+
+    <TextView
+            android:id="@+id/presetDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/text_description"
+            android:textSize="@dimen/text_size_choose_preset_dialog_preset_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/presetRadioButton"
+            app:layout_constraintTop_toBottomOf="@+id/presetNameTextView"
+            tools:text="Random order: On    Pronunciation: Default language  |  Default language    Card inversion: Off    Question display: On    Testing method: Self testing    Intervals: 8h, 2d, 7d, 21d, 2m, 6m    Motivational timer: Off    Pronunciation plan: Q, 2s, A, 1s" />
+
+    <View
+            android:id="@+id/presetButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ripple_borderless_colored"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

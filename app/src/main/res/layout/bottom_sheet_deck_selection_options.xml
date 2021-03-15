@@ -71,6 +71,12 @@
                     app:drawableStartCompat="@drawable/ic_remove_from_list_20" />
 
             <TextView
+                    android:id="@+id/setPresetDeckSelectionOptionItem"
+                    style="@style/DeckOptionItem"
+                    android:text="@string/deck_option_set_preset"
+                    app:drawableStartCompat="@drawable/ic_round_tune_20" />
+
+            <TextView
                     android:id="@+id/exportDeckSelectionOptionItem"
                     style="@style/DeckOptionItem"
                     android:text="@string/deck_option_export"

@@ -92,29 +92,37 @@
     <string name="deck_option_add_to_deck_list">Додати до списку колод</string>
     <string name="deck_option_remove_from_deck_list">Вилучити зі списку колод</string>
     <string name="deck_option_remove_from_deck_list_with_arg">Вилучити зі списку колод \'%1$s\'</string>
+    <string name="deck_option_set_preset">Встановити пресет</string>
     <string name="deck_option_export">Експортувати</string>
     <string name="deck_option_merge_into">Об\'єднати в</string>
     <string name="deck_option_remove">Видалити</string>
-    <plurals name="toast_decks_removing">
+    <plurals name="snackbar_decks_removing">
         <item quantity="one">%d колода видалена(і)</item>
         <item quantity="few">Видалено %d колоди</item>
         <item quantity="many">Видалено %d колод</item>
     </plurals>
-    <plurals name="toast_decks_merging">
+    <plurals name="snackbar_decks_merging">
         <item quantity="one">%1$d колода була об\'єднана в \'%2$s\'</item>
         <item quantity="few">%1$d колоди було об\'єднано в \'%2$s\'</item>
         <item quantity="many">%1$d колод було об\'єднано в \'%2$s\'</item>
+    </plurals>
+    <string name="dialog_title_choose_deck_list">Оберіть список колод</string>
+    <string name="dialog_title_choose_preset">Оберіть пресет</string>
+    <plurals name="snackbar_default_preset_has_been_applied">
+        <item quantity="one">Стандартний пресет застосований до %d колоди</item>
+        <item quantity="few">Стандартний пресет застосований до %d колод</item>
+        <item quantity="many">Стандартний пресет застосований до %d колод</item>
+    </plurals>
+    <plurals name="snackbar_preset_has_been_applied">
+        <item quantity="one">Пресет \'%1$s\' застосований до %2$d колоди</item>
+        <item quantity="few">Пресет \'%1$s\' застосований до %2$d колод</item>
+        <item quantity="many">Пресет \'%1$s\' застосований до %2$d колод</item>
     </plurals>
     <string name="text_autoplay_button">Автопрогравання</string>
     <string name="text_exercise_button">Вправа</string>
     <string name="text_exercise_button_with_cards_count">Вправа (%d)</string>
     <string name="toast_text_no_cards_ready_for_exercise">Немає карток, готових для вправи</string>
     <string name="progress_bar_reading_files">Читання файлів ..</string>
-
-
-    <!-- Choose deck list dialog -->
-
-    <string name="dialog_title_choose_deck_list">Оберіть список колод</string>
 
 
     <!-- Deck lists editor -->

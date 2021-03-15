@@ -32,6 +32,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.paste
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.home.choosedecklist.ChooseDeckListDialog
+import com.odnovolov.forgetmenot.presentation.screen.home.choosepreset.ChoosePresetDialog
 import com.odnovolov.forgetmenot.presentation.screen.home.deckoptions.DeckOptionsBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.home.deckselectionoptions.DeckSelectionOptionsBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
@@ -437,7 +438,7 @@ class HomeFragment : BaseFragment() {
                     .make(
                         homeRootView,
                         resources.getQuantityString(
-                            R.plurals.toast_decks_removing,
+                            R.plurals.snackbar_decks_removing,
                             command.numberOfRemovedDecks,
                             command.numberOfRemovedDecks
                         ),
@@ -455,7 +456,7 @@ class HomeFragment : BaseFragment() {
                     .make(
                         homeRootView,
                         resources.getQuantityString(
-                            R.plurals.toast_decks_merging,
+                            R.plurals.snackbar_decks_merging,
                             command.numberOfMergedDecks,
                             command.numberOfMergedDecks,
                             command.deckNameMergedInto
@@ -530,6 +531,38 @@ class HomeFragment : BaseFragment() {
             }
             ShowDeckListsChooser -> {
                 ChooseDeckListDialog().show(childFragmentManager, "ChooseDeckListDialog")
+            }
+            ShowPresetChooser -> {
+                ChoosePresetDialog().show(childFragmentManager, "ChoosePresetDialog")
+            }
+            is ShowPresetHasBeenAppliedMessage -> {
+                val message: String =
+                    if (command.presetName.isEmpty()) {
+                        resources.getQuantityString(
+                            R.plurals.snackbar_default_preset_has_been_applied,
+                            command.numberOfAffectedDecks,
+                            command.numberOfAffectedDecks
+                        )
+                    } else {
+                        resources.getQuantityString(
+                            R.plurals.snackbar_preset_has_been_applied,
+                            command.numberOfAffectedDecks,
+                            command.presetName,
+                            command.numberOfAffectedDecks
+                        )
+                    }
+                lastShownSnackbar = Snackbar
+                    .make(
+                        homeRootView,
+                        message,
+                        resources.getInteger(R.integer.duration_deck_is_deleted_snackbar)
+                    )
+                    .setAction(
+                        R.string.snackbar_action_cancel,
+                        { controller?.dispatch(PresetHasBeenAppliedSnackbarCancelButtonClicked) }
+                    ).apply {
+                        show()
+                    }
             }
         }
     }

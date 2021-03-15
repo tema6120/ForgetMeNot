@@ -88,27 +88,33 @@
     <string name="deck_option_add_to_deck_list">Add to some deck list</string>
     <string name="deck_option_remove_from_deck_list">Remove from some deck list</string>
     <string name="deck_option_remove_from_deck_list_with_arg">Remove from deck list \'%1$s\'</string>
+    <string name="deck_option_set_preset">Set preset</string>
     <string name="deck_option_export">Export</string>
     <string name="deck_option_merge_into">Merge into</string>
     <string name="deck_option_remove">Remove</string>
-    <plurals name="toast_decks_removing">
+    <plurals name="snackbar_decks_removing">
         <item quantity="one">Deck has been removed</item>
         <item quantity="other">%d decks have been removed</item>
     </plurals>
-    <plurals name="toast_decks_merging">
+    <plurals name="snackbar_decks_merging">
         <item quantity="one">%1$d deck has been merged into \'%2$s\'</item>
         <item quantity="other">%1$d decks have been merged into \'%2$s\'</item>
+    </plurals>
+    <string name="dialog_title_choose_deck_list">Choose deck list</string>
+    <string name="dialog_title_choose_preset">Choose preset</string>
+    <plurals name="snackbar_default_preset_has_been_applied">
+        <item quantity="one">Default preset has been applied to %d deck</item>
+        <item quantity="other">Default preset has been applied to %d decks</item>
+    </plurals>
+    <plurals name="snackbar_preset_has_been_applied">
+        <item quantity="one">Preset \'%1$s\' has been applied to %2$d deck</item>
+        <item quantity="other">Preset \'%1$s\' has been applied to %2$d decks</item>
     </plurals>
     <string name="text_autoplay_button">Autoplay</string>
     <string name="text_exercise_button">Exercise</string>
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
     <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
     <string name="progress_bar_reading_files">Reading files ..</string>
-
-
-    <!-- Choose deck list dialog -->
-
-    <string name="dialog_title_choose_deck_list">Choose deck list</string>
 
 
     <!-- Deck lists editor -->
@@ -435,7 +441,7 @@
     <string name="deck_settings_section_autoplay">Autoplay</string>
     <string name="deck_settings_item_random_order">Random order</string>
     <string name="deck_settings_item_pronunciation">Pronunciation</string>
-    <string name="deck_settings_item_card_inversion">Card Inversion</string>
+    <string name="deck_settings_item_card_inversion">Card inversion</string>
     <string name="deck_settings_item_question_display">Question display</string>
     <string name="deck_settings_item_testing_method">Testing method</string>
     <string name="deck_settings_item_intervals">Intervals</string>

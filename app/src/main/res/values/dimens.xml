@@ -113,4 +113,6 @@
     <dimen name="text_size_progress_in_exercise">12sp</dimen>
     <dimen name="text_size_popup_item_title">13sp</dimen>
     <dimen name="text_size_popup_item_value">15sp</dimen>
+    <dimen name="text_size_choose_preset_dialog_preset_name">18sp</dimen>
+    <dimen name="text_size_choose_preset_dialog_preset_description">12sp</dimen>
 </resources>
