@@ -98,6 +98,9 @@ class SettingsFragment : BaseFragment() {
         fullscreenSettingsSettingsButton.setOnClickListener {
             fullscreenModeDialog.show()
         }
+        cardAppearanceButton.setOnClickListener {
+            controller?.dispatch(CardAppearanceButtonClicked)
+        }
     }
 
     @ExperimentalStdlibApi

@@ -103,36 +103,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/white_rectangle_4dp_corner_radius"
-                    android:orientation="vertical">
+            <LinearLayout style="@style/SettingsSurface">
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="16dp"
-                        android:drawablePadding="8dp"
-                        android:fontFamily="@font/nunito_bold"
+                        style="@style/SettingsTitleOnSettingsSurface"
                         android:text="@string/title_card_filter_state"
-                        android:textColor="@color/text_title"
-                        android:textSize="@dimen/text_size_section_title"
                         app:drawableStartCompat="@drawable/ic_round_emoji_flags_24" />
 
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:background="?android:listDivider" />
+                <View style="@style/DividerOnSettingsSurface" />
 
                 <FrameLayout
                         android:id="@+id/availableForExerciseButton"
@@ -222,36 +200,14 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/white_rectangle_4dp_corner_radius"
-                    android:orientation="vertical">
+            <LinearLayout style="@style/SettingsSurface">
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="16dp"
-                        android:drawablePadding="8dp"
-                        android:fontFamily="@font/nunito_bold"
+                        style="@style/SettingsTitleOnSettingsSurface"
                         android:text="@string/title_card_filter_grade"
-                        android:textColor="@color/text_title"
-                        android:textSize="@dimen/text_size_section_title"
                         app:drawableStartCompat="@drawable/ic_medal_24" />
 
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:background="?android:listDivider" />
+                <View style="@style/DividerOnSettingsSurface" />
 
                 <com.appyvet.materialrangebar.RangeBar
                         android:id="@+id/gradeRangeBar"
@@ -283,36 +239,14 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/white_rectangle_4dp_corner_radius"
-                    android:orientation="vertical">
+            <LinearLayout style="@style/SettingsSurface">
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="16dp"
-                        android:drawablePadding="8dp"
-                        android:fontFamily="@font/nunito_bold"
+                        style="@style/SettingsTitleOnSettingsSurface"
                         android:text="@string/title_card_filter_last_tested"
-                        android:textColor="@color/text_title"
-                        android:textSize="@dimen/text_size_section_title"
                         app:drawableStartCompat="@drawable/ic_round_history_24" />
 
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:background="?android:listDivider" />
+                <View style="@style/DividerOnSettingsSurface" />
 
                 <HorizontalScrollView
                         android:id="@+id/lastTestedScrollView"

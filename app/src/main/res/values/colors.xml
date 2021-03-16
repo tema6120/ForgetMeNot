@@ -102,4 +102,6 @@
     <color name="select_deck_list_color_button">#1F000000</color>
     <color name="stroke_of_selected_deck_list_color">#47000000</color>
     <color name="deck_list_color_edittext">#17000000</color>
+    <color name="button_in_card_appearance_selected">#6E6E6E</color>
+    <color name="button_in_card_appearance_unselected">#D9D9D9</color>
 </resources>

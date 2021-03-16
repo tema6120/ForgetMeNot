@@ -34,6 +34,10 @@ class SettingsController(
                     isEnabledInOtherPlaces = !isEnabledInOtherPlaces
                 }
             }
+
+            CardAppearanceButtonClicked -> {
+                navigator.navigateToCardAppearanceSettings()
+            }
         }
     }
 

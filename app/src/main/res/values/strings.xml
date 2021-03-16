@@ -627,6 +627,18 @@
     <string name="item_text_fullscreen_in_exercise">In exercise</string>
     <string name="item_text_fullscreen_in_card_player">In card player</string>
     <string name="item_text_fullscreen_in_other_places">In other places</string>
+    <string name="text_card_appearance_settings_title">Card appearance</string>
+    <string name="text_card_appearance_settings_description">How a card looks in the exercise</string>
+
+
+    <!-- Card appearance -->
+
+    <string name="screen_title_card_appearance">Card appearance</string>
+    <string name="title_question_field">Question field</string>
+    <string name="title_answer_field">Answer field</string>
+    <string name="text_alignment">Text alignment</string>
+    <string name="text_size">Text size</string>
+    <string name="text_size_unit_sp" translatable="false">sp</string>
 
 
     <!-- Walking mode settings screen -->

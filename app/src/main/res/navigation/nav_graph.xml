@@ -58,8 +58,16 @@
                 app:destination="@+id/change_grade_dialog" />
 
         <action
-            android:id="@+id/nav_host_to_deck_lists_editor"
-            app:destination="@+id/deck_lists_editor" />
+                android:id="@+id/nav_host_to_deck_lists_editor"
+                app:destination="@+id/deck_lists_editor" />
+
+        <action
+                android:id="@+id/nav_host_to_card_appearance"
+                app:destination="@+id/card_appearance"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_right"
+                app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
@@ -378,6 +386,11 @@
                 app:destination="@id/help_article" />
 
     </fragment>
+
+    <fragment
+            android:id="@+id/card_appearance"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceFragment"
+            tools:layout="@layout/fragment_card_appearance" />
 
     <fragment
             android:id="@+id/help_article"

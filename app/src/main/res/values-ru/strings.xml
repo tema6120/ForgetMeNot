@@ -661,6 +661,17 @@
     <string name="item_text_fullscreen_in_exercise">В упражнение</string>
     <string name="item_text_fullscreen_in_card_player">В проигрывателе карточек</string>
     <string name="item_text_fullscreen_in_other_places">В других местах</string>
+    <string name="text_card_appearance_settings_title">Внешний вид карточки</string>
+    <string name="text_card_appearance_settings_description">Как карточка выглядит в упражнении</string>
+
+
+    <!-- Card appearance -->
+
+    <string name="screen_title_card_appearance">Внешний вид карточки</string>
+    <string name="title_question_field">Поле вопроса</string>
+    <string name="title_answer_field">Поле ответа</string>
+    <string name="text_alignment">Выравнивание текста</string>
+    <string name="text_size">Размер текста</string>
 
 
     <!-- Walking mode settings screen -->

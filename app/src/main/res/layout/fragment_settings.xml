@@ -59,13 +59,11 @@
                     <TextView
                             android:id="@+id/walkingModeSettingsTitle"
                             style="@style/SettingsItemTitle"
-                            android:fontFamily="@font/nunito_bold"
                             android:text="@string/text_walking_mode_title" />
 
                     <TextView
                             android:id="@+id/walkingModeSettingsDescription"
                             style="@style/SettingsItemDescription"
-                            android:fontFamily="@font/nunito_bold"
                             android:text="@string/text_walking_mode_settings_description" />
 
                 </LinearLayout>
@@ -88,14 +86,39 @@
                     <TextView
                             android:id="@+id/fullscreenSettingsTitle"
                             style="@style/SettingsItemTitle"
-                            android:fontFamily="@font/nunito_bold"
                             android:text="@string/text_fullscreen_settings_title" />
 
                     <TextView
                             android:id="@+id/fullscreenSettingsDescription"
                             style="@style/SettingsItemDescription"
-                            android:fontFamily="@font/nunito_bold"
                             tools:text="Everywhere" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/SettingsItemNavigationIcon" />
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/divider_with_margins" />
+
+            <LinearLayout
+                    android:id="@+id/cardAppearanceButton"
+                    style="@style/SettingsItemButton">
+
+                <LinearLayout style="@style/SettingsTextColumn">
+
+                    <TextView
+                            android:id="@+id/cardAppearanceTitle"
+                            style="@style/SettingsItemTitle"
+                            android:text="@string/text_card_appearance_settings_title" />
+
+                    <TextView
+                            android:id="@+id/cardAppearanceDescription"
+                            style="@style/SettingsItemDescription"
+                            android:text="@string/text_card_appearance_settings_description" />
 
                 </LinearLayout>
 

@@ -346,6 +346,10 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_walking_mode_settings)
     }
 
+    fun navigateToCardAppearanceSettings() {
+        navigate(R.id.nav_host_to_card_appearance)
+    }
+
     fun navigateToHelpArticleFromWalkingModeSettings(createDiScope: () -> HelpArticleDiScope) {
         HelpArticleDiScope.open(createDiScope)
         navigate(R.id.walking_mode_settings_to_help_article)
