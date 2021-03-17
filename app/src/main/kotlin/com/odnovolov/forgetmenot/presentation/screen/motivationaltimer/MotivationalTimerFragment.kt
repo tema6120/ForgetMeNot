@@ -191,6 +191,9 @@ class MotivationalTimerFragment : BaseFragment() {
     private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             exampleFragment.notifyBottomSheetStateChanged(newState)
+            if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                appBar.requestFocus()
+            }
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {

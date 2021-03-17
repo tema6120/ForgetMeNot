@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceEvent.*
@@ -105,6 +106,7 @@ class CardAppearanceFragment : BaseFragment() {
         val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
         behavior.addBottomSheetCallback(bottomSheetCallback)
         exampleFragment.notifyBottomSheetStateChanged(behavior.state)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
@@ -112,6 +114,7 @@ class CardAppearanceFragment : BaseFragment() {
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
         val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
         behavior.removeBottomSheetCallback(bottomSheetCallback)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onDestroy() {
@@ -131,11 +134,38 @@ class CardAppearanceFragment : BaseFragment() {
     private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             exampleFragment.notifyBottomSheetStateChanged(newState)
+            if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                appBar.requestFocus()
+            }
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             screenFrame.alpha = 1f - slideOffset
             exampleFragment.notifyBottomSheetSlideOffsetChanged(slideOffset)
+        }
+    }
+
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        when {
+            behavior.state != BottomSheetBehavior.STATE_COLLAPSED -> {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                true
+            }
+            questionTextSizeEditText.text.isEmpty() -> {
+                questionTextSizeEditText.error =
+                    getString(R.string.error_message_indicate_text_size)
+                questionTextSizeEditText.showSoftInput()
+                true
+            }
+            answerTextSizeEditText.text.isEmpty() -> {
+                answerTextSizeEditText.error = getString(R.string.error_message_indicate_text_size)
+                answerTextSizeEditText.showSoftInput()
+                true
+            }
+            else -> {
+                false
+            }
         }
     }
 }

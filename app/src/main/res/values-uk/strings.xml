@@ -673,6 +673,7 @@
     <string name="title_answer_field">Поле відповіді</string>
     <string name="text_alignment">Вирівнювання тексту</string>
     <string name="text_size">Розмір тексту</string>
+    <string name="error_message_indicate_text_size">Вкажіть розмір тексту</string>
 
 
     <!-- Walking mode settings screen -->

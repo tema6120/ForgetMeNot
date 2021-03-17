@@ -672,6 +672,7 @@
     <string name="title_answer_field">Поле ответа</string>
     <string name="text_alignment">Выравнивание текста</string>
     <string name="text_size">Размер текста</string>
+    <string name="error_message_indicate_text_size">Укажите размер текста</string>
 
 
     <!-- Walking mode settings screen -->
