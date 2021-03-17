@@ -219,9 +219,7 @@ class ExampleExerciseFragment : BaseFragment() {
         when (newState) {
             BottomSheetBehavior.STATE_EXPANDED -> {
                 blocker.setOnTouchListener(null)
-                exampleTextView.isVisible = false
                 controller?.dispatch(BottomSheetExpanded)
-                exampleExerciseFragmentRootView.isActivated = true
                 val currentViewHolder = exampleExerciseViewPager
                     .findViewHolderForAdapterPosition(exampleExerciseViewPager.currentItem)
                 if (currentViewHolder is EntryTestExerciseCardViewHolder) {
@@ -230,11 +228,7 @@ class ExampleExerciseFragment : BaseFragment() {
             }
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 blocker.setOnTouchListener { _, _ -> true }
-                exampleTextView.isVisible = true
                 controller?.dispatch(BottomSheetCollapsed)
-                if (exampleExerciseFragmentRootView.isActivated) {
-                    exampleExerciseFragmentRootView.isActivated = false
-                }
                 val currentViewHolder = exampleExerciseViewPager
                     .findViewHolderForAdapterPosition(exampleExerciseViewPager.currentItem)
                 if (currentViewHolder is EntryTestExerciseCardViewHolder) {
@@ -243,12 +237,11 @@ class ExampleExerciseFragment : BaseFragment() {
                 timerButtonPaintingAnimation?.cancel()
                 timerButtonPaintingAnimation = null
             }
-            else -> {
-                if (exampleExerciseFragmentRootView.isActivated) {
-                    exampleExerciseFragmentRootView.isActivated = false
-                }
-            }
         }
+    }
+
+    fun notifyBottomSheetSlideOffsetChanged(slideOffset: Float) {
+        exampleTextView.alpha = 1f - slideOffset
     }
 
     private fun requireSpeakErrorPopup(): PopupWindow {

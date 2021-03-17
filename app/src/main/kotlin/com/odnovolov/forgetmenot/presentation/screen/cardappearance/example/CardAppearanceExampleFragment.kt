@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
@@ -65,13 +64,16 @@ class CardAppearanceExampleFragment : BaseFragment() {
         when (newState) {
             BottomSheetBehavior.STATE_EXPANDED -> {
                 blocker.setOnTouchListener(null)
-                exampleTextView.isVisible = false
             }
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 blocker.setOnTouchListener { _, _ -> true }
-                exampleTextView.isVisible = true
             }
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun notifyBottomSheetSlideOffsetChanged(slideOffset: Float) {
+        exampleTextView.alpha = 1f - slideOffset
     }
 
     override fun onDestroyView() {

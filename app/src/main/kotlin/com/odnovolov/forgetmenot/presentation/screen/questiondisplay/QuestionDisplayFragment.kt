@@ -134,6 +134,8 @@ class QuestionDisplayFragment : BaseFragment() {
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            exampleFragment.notifyBottomSheetSlideOffsetChanged(slideOffset)
+            screenFrame.alpha = 1f - slideOffset
         }
     }
 

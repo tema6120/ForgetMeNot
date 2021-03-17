@@ -193,7 +193,7 @@ fun LayoutInflater.inflateAsync(
     val frameLayout = FrameLayout(context)
     GlobalScope.launch(Dispatchers.IO) {
         val view = inflate(layoutResId, frameLayout, false)
-        withContext(Dispatchers.Main.immediate) {
+        withContext(Dispatchers.Main) {
             frameLayout.addView(view)
             onInflated()
         }

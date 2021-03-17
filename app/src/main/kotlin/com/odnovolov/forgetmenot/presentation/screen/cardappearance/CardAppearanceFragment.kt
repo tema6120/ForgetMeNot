@@ -134,6 +134,8 @@ class CardAppearanceFragment : BaseFragment() {
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            screenFrame.alpha = 1f - slideOffset
+            exampleFragment.notifyBottomSheetSlideOffsetChanged(slideOffset)
         }
     }
 }

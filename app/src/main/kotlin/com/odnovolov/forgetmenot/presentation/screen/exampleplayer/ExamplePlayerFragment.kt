@@ -178,24 +178,17 @@ class ExamplePlayerFragment : BaseFragment() {
         when (newState) {
             BottomSheetBehavior.STATE_EXPANDED -> {
                 blocker.setOnTouchListener(null)
-                exampleTextView.isVisible = false
                 controller?.dispatch(BottomSheetExpanded)
-                backgroundView.isActivated = true
             }
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 blocker.setOnTouchListener { _, _ -> true }
-                exampleTextView.isVisible = true
                 controller?.dispatch(BottomSheetCollapsed)
-                if (backgroundView.isActivated) {
-                    backgroundView.isActivated = false
-                }
-            }
-            else -> {
-                if (backgroundView.isActivated) {
-                    backgroundView.isActivated = false
-                }
             }
         }
+    }
+
+    fun notifyBottomSheetSlideOffsetChanged(slideOffset: Float) {
+        exampleTextView.alpha = 1f - slideOffset
     }
 
     private fun requireSpeakErrorPopup(): PopupWindow {

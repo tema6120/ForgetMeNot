@@ -7,12 +7,6 @@
         android:fitsSystemWindows="true"
         tools:context="presentation.screen.exampleplayer.ExamplePlayerFragment">
 
-    <View
-            android:id="@+id/backgroundView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background_example_fragment" />
-
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

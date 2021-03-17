@@ -66,7 +66,8 @@ class CardAdapter : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_card_in_card_appearance_settings, parent, false)
         itemViews.add(itemView)
-        applyCardAppearance(itemView)
+        // if we don't post, it causes incorrect work of 'fitsSystemWindows'
+        parent.post { applyCardAppearance(itemView) }
         return SimpleRecyclerViewHolder(itemView)
     }
 
