@@ -60,12 +60,18 @@ class HomeViewModel(
         }
     }
 
+    val hasSearchText: Flow<Boolean> =
+        homeScreenState.flowOf(HomeScreenState::searchText)
+            .map { it.isNotEmpty() }
+            .distinctUntilChanged()
+
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
         deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList),
+        hasSearchText,
         homeScreenState.flowOf(HomeScreenState::updateDeckListSignal)
-    ) { decks: Collection<Deck>, currentDeckList: DeckList?, _ ->
-        if (currentDeckList == null) {
+    ) { decks: Collection<Deck>, currentDeckList: DeckList?, hasSearchText: Boolean, _ ->
+        if (hasSearchText || currentDeckList == null) {
             decks
         } else {
             decks.filter { deck: Deck ->
@@ -180,11 +186,6 @@ class HomeViewModel(
 
     val deckSelection: Flow<DeckSelection?> = homeScreenState.flowOf(HomeScreenState::deckSelection)
         .share()
-
-    val hasSearchText: Flow<Boolean> =
-        homeScreenState.flowOf(HomeScreenState::searchText)
-            .map { it.isNotEmpty() }
-            .distinctUntilChanged()
 
     @OptIn(ExperimentalStdlibApi::class)
     val selectableDeckLists: Flow<List<SelectableDeckList>> = combine(
