@@ -1,0 +1,38 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/cardAppearanceExampleViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    <FrameLayout
+            android:id="@+id/blocker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/exampleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_card_label"
+                android:backgroundTint="@color/card_label_example"
+                android:clickable="false"
+                android:focusable="false"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="center_vertical"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:text="@string/title_example_in_settings_bottom_sheet"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_card_label"
+                android:textStyle="bold" />
+
+    </FrameLayout>
+
+</FrameLayout>

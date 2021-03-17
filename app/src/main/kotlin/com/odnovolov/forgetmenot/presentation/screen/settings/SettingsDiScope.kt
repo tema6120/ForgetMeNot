@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivityDi
 
 class SettingsDiScope {
     val controller = SettingsController(
+        AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         MainActivityDiScope.getOrRecreate().fullScreenPreference,
         AppDiScope.get().longTermStateSaver

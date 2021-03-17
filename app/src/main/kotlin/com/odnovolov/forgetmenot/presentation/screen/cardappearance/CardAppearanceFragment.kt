@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.example.CardAppearanceExampleFragment
 import kotlinx.android.synthetic.main.fragment_card_appearance.*
 import kotlinx.coroutines.launch
 
@@ -20,6 +22,7 @@ class CardAppearanceFragment : BaseFragment() {
     }
 
     private var controller: CardAppearanceController? = null
+    private lateinit var exampleFragment: CardAppearanceExampleFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +44,8 @@ class CardAppearanceFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        exampleFragment = childFragmentManager.findFragmentByTag("CardAppearanceExampleFragment")
+                as CardAppearanceExampleFragment
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -97,11 +102,16 @@ class CardAppearanceFragment : BaseFragment() {
         super.onResume()
         appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.addBottomSheetCallback(bottomSheetCallback)
+        exampleFragment.notifyBottomSheetStateChanged(behavior.state)
     }
 
     override fun onPause() {
         super.onPause()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.removeBottomSheetCallback(bottomSheetCallback)
     }
 
     override fun onDestroy() {
@@ -115,6 +125,15 @@ class CardAppearanceFragment : BaseFragment() {
         val canScrollUp = contentScrollView.canScrollVertically(-1)
         if (appBar.isActivated != canScrollUp) {
             appBar.isActivated = canScrollUp
+        }
+    }
+
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            exampleFragment.notifyBottomSheetStateChanged(newState)
+        }
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
         }
     }
 }

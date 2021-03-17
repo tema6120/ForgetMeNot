@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
@@ -346,7 +347,8 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_walking_mode_settings)
     }
 
-    fun navigateToCardAppearanceSettings() {
+    fun navigateToCardAppearanceSettings(createDiScope: () -> CardAppearanceDiScope) {
+        CardAppearanceDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_card_appearance)
     }
 

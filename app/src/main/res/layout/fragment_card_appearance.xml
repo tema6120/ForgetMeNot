@@ -1,165 +1,288 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rootView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-    <FrameLayout
-            android:id="@+id/appBar"
+    <LinearLayout
+            android:id="@+id/screenFrame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_window"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal"
-            android:stateListAnimator="@animator/app_bar">
+            android:orientation="vertical">
 
-        <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginStart="12dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_back_button"
-                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
-
-        <TextView
-                android:id="@+id/screenTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/jura"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:text="@string/screen_title_card_appearance"
-                android:textColor="@color/text_title"
-                android:textSize="@dimen/text_size_screen_title"
-                android:textStyle="bold" />
-
-    </FrameLayout>
-
-    <androidx.core.widget.NestedScrollView
-            android:id="@+id/contentScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scrollbars="vertical">
-
-        <LinearLayout
+        <FrameLayout
+                android:id="@+id/appBar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="@color/background_window"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:stateListAnimator="@animator/app_bar">
 
-            <LinearLayout style="@style/SettingsSurface">
+            <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/description_back_button"
+                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
-                <TextView
-                        style="@style/SettingsTitleOnSettingsSurface"
-                        android:text="@string/title_question_field"
-                        app:drawableStartCompat="@drawable/ic_question_field" />
+            <TextView
+                    android:id="@+id/screenTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/jura"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/screen_title_card_appearance"
+                    android:textColor="@color/text_title"
+                    android:textSize="@dimen/text_size_screen_title"
+                    android:textStyle="bold" />
 
-                <View style="@style/DividerOnSettingsSurface" />
+        </FrameLayout>
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        android:paddingStart="24dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="24dp"
-                        android:paddingBottom="12dp">
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/contentScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="100dp"
+                    android:orientation="vertical">
+
+                <LinearLayout style="@style/SettingsSurface">
 
                     <TextView
-                            android:layout_width="0dp"
+                            style="@style/SettingsTitleOnSettingsSurface"
+                            android:text="@string/title_question_field"
+                            app:drawableStartCompat="@drawable/ic_question_field" />
+
+                    <View style="@style/DividerOnSettingsSurface" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="12dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_bold"
-                            android:text="@string/text_alignment"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="@dimen/text_size_settings_item_title" />
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            android:paddingStart="24dp"
+                            android:paddingTop="12dp"
+                            android:paddingEnd="24dp"
+                            android:paddingBottom="12dp">
 
-                    <View
-                            android:id="@+id/alignQuestionToEdgeButton"
-                            android:layout_width="72dp"
-                            android:layout_height="36dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/button_align_to_edge"
-                            android:stateListAnimator="@animator/button_in_card_appearance" />
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_bold"
+                                android:text="@string/text_alignment"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="@dimen/text_size_settings_item_title" />
 
-                    <View
-                            android:id="@+id/alignQuestionToCenterButton"
-                            android:layout_width="72dp"
-                            android:layout_height="36dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="-1.5dp"
-                            android:background="@drawable/button_align_to_center"
-                            android:stateListAnimator="@animator/button_in_card_appearance" />
+                        <View
+                                android:id="@+id/alignQuestionToEdgeButton"
+                                android:layout_width="72dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/button_align_to_edge"
+                                android:stateListAnimator="@animator/button_in_card_appearance" />
+
+                        <View
+                                android:id="@+id/alignQuestionToCenterButton"
+                                android:layout_width="72dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="-1.5dp"
+                                android:background="@drawable/button_align_to_center"
+                                android:stateListAnimator="@animator/button_in_card_appearance" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal"
+                            android:paddingStart="24dp"
+                            android:paddingTop="12dp"
+                            android:paddingEnd="24dp"
+                            android:paddingBottom="12dp">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_bold"
+                                android:text="@string/text_size"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="@dimen/text_size_settings_item_title" />
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:background="@drawable/background_card_text_size_edittext">
+
+                            <EditText
+                                    android:id="@+id/questionTextSizeEditText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@null"
+                                    android:fontFamily="@font/nunito_bold"
+                                    android:gravity="center_vertical|end"
+                                    android:hint="00"
+                                    android:importantForAutofill="no"
+                                    android:inputType="number"
+                                    android:maxLength="2"
+                                    android:maxLines="1"
+                                    android:paddingStart="20dp"
+                                    android:paddingEnd="6dp"
+                                    android:textColor="@color/textSecondary"
+                                    android:textColorHint="@android:color/transparent"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText"
+                                    tools:text="19" />
+
+                            <TextView
+                                    android:id="@+id/qspTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/nunito_bold"
+                                    android:gravity="center_vertical|end"
+                                    android:paddingEnd="20dp"
+                                    android:text="@string/text_size_unit_sp"
+                                    android:textColor="@color/textSecondary"
+                                    android:textSize="14sp"
+                                    tools:ignore="RtlSymmetry" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal"
-                        android:paddingStart="24dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="24dp"
-                        android:paddingBottom="12dp">
+                <LinearLayout style="@style/SettingsSurface">
 
                     <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="12dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_bold"
-                            android:text="@string/text_size"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="@dimen/text_size_settings_item_title" />
+                            style="@style/SettingsTitleOnSettingsSurface"
+                            android:text="@string/title_answer_field"
+                            app:drawableStartCompat="@drawable/ic_answer_field" />
+
+                    <View style="@style/DividerOnSettingsSurface" />
 
                     <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:background="@drawable/background_card_text_size_edittext">
-
-                        <EditText
-                                android:id="@+id/questionTextSizeEditText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center_vertical"
-                                android:background="@null"
-                                android:fontFamily="@font/nunito_bold"
-                                android:gravity="center_vertical|end"
-                                android:hint="00"
-                                android:importantForAutofill="no"
-                                android:inputType="number"
-                                android:maxLength="2"
-                                android:maxLines="1"
-                                android:paddingStart="20dp"
-                                android:paddingEnd="6dp"
-                                android:textColor="@color/textSecondary"
-                                android:textColorHint="@android:color/transparent"
-                                android:textSize="14sp"
-                                tools:ignore="HardcodedText"
-                                tools:text="19" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            android:paddingStart="24dp"
+                            android:paddingTop="12dp"
+                            android:paddingEnd="24dp"
+                            android:paddingBottom="12dp">
 
                         <TextView
-                                android:id="@+id/qspTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/nunito_bold"
-                                android:gravity="center_vertical|end"
-                                android:paddingEnd="20dp"
-                                android:text="@string/text_size_unit_sp"
+                                android:text="@string/text_alignment"
                                 android:textColor="@color/textSecondary"
-                                android:textSize="14sp"
-                                tools:ignore="RtlSymmetry" />
+                                android:textSize="@dimen/text_size_settings_item_title" />
+
+                        <View
+                                android:id="@+id/alignAnswerToEdgeButton"
+                                android:layout_width="72dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/button_align_to_edge"
+                                android:stateListAnimator="@animator/button_in_card_appearance" />
+
+                        <View
+                                android:id="@+id/alignAnswerToCenterButton"
+                                android:layout_width="72dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="-1.5dp"
+                                android:background="@drawable/button_align_to_center"
+                                android:stateListAnimator="@animator/button_in_card_appearance" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal"
+                            android:paddingStart="24dp"
+                            android:paddingTop="12dp"
+                            android:paddingEnd="24dp"
+                            android:paddingBottom="12dp">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_bold"
+                                android:text="@string/text_size"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="@dimen/text_size_settings_item_title" />
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:background="@drawable/background_card_text_size_edittext">
+
+                            <EditText
+                                    android:id="@+id/answerTextSizeEditText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@null"
+                                    android:fontFamily="@font/nunito_bold"
+                                    android:gravity="center_vertical|end"
+                                    android:hint="00"
+                                    android:importantForAutofill="no"
+                                    android:inputType="number"
+                                    android:maxLength="2"
+                                    android:maxLines="1"
+                                    android:paddingStart="20dp"
+                                    android:paddingEnd="6dp"
+                                    android:textColor="@color/textSecondary"
+                                    android:textColorHint="@android:color/transparent"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText"
+                                    tools:text="17" />
+
+                            <TextView
+                                    android:id="@+id/aspTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/nunito_bold"
+                                    android:gravity="center_vertical|end"
+                                    android:paddingEnd="20dp"
+                                    android:text="@string/text_size_unit_sp"
+                                    android:textColor="@color/textSecondary"
+                                    android:textSize="14sp"
+                                    tools:ignore="RtlSymmetry" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -167,122 +290,19 @@
 
             </LinearLayout>
 
-            <LinearLayout style="@style/SettingsSurface">
+        </androidx.core.widget.NestedScrollView>
 
-                <TextView
-                        style="@style/SettingsTitleOnSettingsSurface"
-                        android:text="@string/title_answer_field"
-                        app:drawableStartCompat="@drawable/ic_answer_field" />
+    </LinearLayout>
 
-                <View style="@style/DividerOnSettingsSurface" />
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/exampleFragmentContainerView"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardappearance.example.CardAppearanceExampleFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tag="CardAppearanceExampleFragment"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="100dp"
+            app:behavior_skipCollapsed="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        android:paddingStart="24dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="24dp"
-                        android:paddingBottom="12dp">
-
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="12dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_bold"
-                            android:text="@string/text_alignment"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="@dimen/text_size_settings_item_title" />
-
-                    <View
-                            android:id="@+id/alignAnswerToEdgeButton"
-                            android:layout_width="72dp"
-                            android:layout_height="36dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/button_align_to_edge"
-                            android:stateListAnimator="@animator/button_in_card_appearance" />
-
-                    <View
-                            android:id="@+id/alignAnswerToCenterButton"
-                            android:layout_width="72dp"
-                            android:layout_height="36dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="-1.5dp"
-                            android:background="@drawable/button_align_to_center"
-                            android:stateListAnimator="@animator/button_in_card_appearance" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal"
-                        android:paddingStart="24dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="24dp"
-                        android:paddingBottom="12dp">
-
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="12dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_bold"
-                            android:text="@string/text_size"
-                            android:textColor="@color/textSecondary"
-                            android:textSize="@dimen/text_size_settings_item_title" />
-
-                    <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:background="@drawable/background_card_text_size_edittext">
-
-                        <EditText
-                                android:id="@+id/answerTextSizeEditText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center_vertical"
-                                android:background="@null"
-                                android:fontFamily="@font/nunito_bold"
-                                android:gravity="center_vertical|end"
-                                android:hint="00"
-                                android:importantForAutofill="no"
-                                android:inputType="number"
-                                android:maxLength="2"
-                                android:maxLines="1"
-                                android:paddingStart="20dp"
-                                android:paddingEnd="6dp"
-                                android:textColor="@color/textSecondary"
-                                android:textColorHint="@android:color/transparent"
-                                android:textSize="14sp"
-                                tools:ignore="HardcodedText"
-                                tools:text="17" />
-
-                        <TextView
-                                android:id="@+id/aspTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:fontFamily="@font/nunito_bold"
-                                android:gravity="center_vertical|end"
-                                android:paddingEnd="20dp"
-                                android:text="@string/text_size_unit_sp"
-                                android:textColor="@color/textSecondary"
-                                android:textSize="14sp"
-                                tools:ignore="RtlSymmetry" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
