@@ -6,6 +6,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.ReadyToUseSerializableSta
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceController
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerServiceModel
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerScreenState
@@ -46,6 +47,8 @@ class PlayerDiScope private constructor(
         AppDiScope.get().speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
+
+    val cardAppearance: CardAppearance = AppDiScope.get().cardAppearance
 
     val serviceController = PlayerServiceController(
         player,

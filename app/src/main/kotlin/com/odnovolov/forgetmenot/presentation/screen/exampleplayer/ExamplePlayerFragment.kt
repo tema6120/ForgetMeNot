@@ -60,7 +60,8 @@ class ExamplePlayerFragment : BaseFragment() {
             viewModel = diScope.viewModel
             playerViewPager.adapter = PlayingCardAdapter(
                 viewCoroutineScope!!,
-                diScope.playingCardController
+                diScope.playingCardController,
+                diScope.cardAppearance
             )
             observeViewModel()
             controller!!.commands.observe(::executeCommand)

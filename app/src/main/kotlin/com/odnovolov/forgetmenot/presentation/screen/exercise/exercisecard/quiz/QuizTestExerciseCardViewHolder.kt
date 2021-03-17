@@ -25,6 +25,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.QuizTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -38,7 +39,8 @@ import kotlinx.coroutines.CoroutineScope
 class QuizTestExerciseCardViewHolder(
     private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: BaseController<QuizTestExerciseCardEvent, Nothing>
+    private val controller: BaseController<QuizTestExerciseCardEvent, Nothing>,
+    private val cardAppearance: CardAppearance
 ) : ExerciseCardViewHolder<QuizTestExerciseCard>(
     asyncItemView
 ) {
@@ -68,7 +70,7 @@ class QuizTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            setTextSizeFromRes(R.dimen.text_size_question)
+            textSize = cardAppearance.questionTextSize.toFloat()
         }
     }
 
@@ -80,7 +82,7 @@ class QuizTestExerciseCardViewHolder(
                     minHeight = 56.dp // if text is smaller than compound drawable
                 }
                 setPadding(56.dp, 16.dp, 16.dp, 16.dp)
-                setTextSizeFromRes(R.dimen.text_size_answer)
+                textSize = cardAppearance.answerTextSize.toFloat()
             }
         }
     }
@@ -124,12 +126,13 @@ class QuizTestExerciseCardViewHolder(
     private fun setupView() {
         with(asyncItemView) {
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
-            questionTextView.setTextSizeFromRes(R.dimen.text_size_question)
+            questionTextView.gravity = cardAppearance.questionTextAlignment.gravity
+            questionTextView.textSize = cardAppearance.questionTextSize.toFloat()
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
             forEachVariantButton { variant: Int ->
-                setTextSizeFromRes(R.dimen.text_size_answer)
+                textSize = cardAppearance.answerTextSize.toFloat()
                 setOnClickListener { controller.dispatch(VariantSelected(variant)) }
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))

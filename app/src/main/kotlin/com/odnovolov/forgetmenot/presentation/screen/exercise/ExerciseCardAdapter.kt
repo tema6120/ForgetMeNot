@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.ExerciseCardViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardEvent
@@ -23,7 +24,8 @@ class ExerciseCardAdapter(
     private val offTestExerciseCardController: BaseController<OffTestExerciseCardEvent, Nothing>,
     private val manualTestExerciseCardController: BaseController<ManualTestExerciseCardEvent, Nothing>,
     private val quizTestExerciseCardController: BaseController<QuizTestExerciseCardEvent, Nothing>,
-    private val entryTestExerciseCardController: BaseController<EntryTestExerciseCardEvent, Nothing>
+    private val entryTestExerciseCardController: BaseController<EntryTestExerciseCardEvent, Nothing>,
+    private val cardAppearance: CardAppearance
 ) : ListAdapter<ExerciseCard, ExerciseCardViewHolder<ExerciseCard>>(
     DiffCallback()
 ) {
@@ -49,28 +51,32 @@ class ExerciseCardAdapter(
                 OffTestExerciseCardViewHolder(
                     itemView,
                     coroutineScope,
-                    offTestExerciseCardController
+                    offTestExerciseCardController,
+                    cardAppearance
                 ) as ExerciseCardViewHolder<ExerciseCard>
             }
             R.layout.item_exercise_card_manual_test -> {
                 ManualTestExerciseCardViewHolder(
                     itemView,
                     coroutineScope,
-                    manualTestExerciseCardController
+                    manualTestExerciseCardController,
+                    cardAppearance
                 ) as ExerciseCardViewHolder<ExerciseCard>
             }
             R.layout.item_exercise_card_quiz_test -> {
                 QuizTestExerciseCardViewHolder(
                     itemView,
                     coroutineScope,
-                    quizTestExerciseCardController
+                    quizTestExerciseCardController,
+                    cardAppearance
                 ) as ExerciseCardViewHolder<ExerciseCard>
             }
             R.layout.item_exercise_card_entry_test -> {
                 EntryTestExerciseCardViewHolder(
                     itemView,
                     coroutineScope,
-                    entryTestExerciseCardController
+                    entryTestExerciseCardController,
+                    cardAppearance
                 ) as ExerciseCardViewHolder<ExerciseCard>
             }
             else -> throw AssertionError()

@@ -1,14 +1,12 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
-import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ReadyToUseSerializableStateProvider
-import com.odnovolov.forgetmenot.presentation.common.AudioFocusManager
-import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardController
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off.OffTestExerciseCardController
@@ -47,6 +45,8 @@ class ExerciseDiScope private constructor(
         AppDiScope.get().speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
+
+    private val cardAppearance: CardAppearance = AppDiScope.get().cardAppearance
 
     val controller = ExerciseController(
         exercise,
@@ -97,7 +97,8 @@ class ExerciseDiScope private constructor(
         offTestExerciseCardController,
         manualTestExerciseCardController,
         quizTestExerciseCardController,
-        entryTestExerciseCardController
+        entryTestExerciseCardController,
+        cardAppearance
     )
 
     companion object : DiScopeManager<ExerciseDiScope>() {

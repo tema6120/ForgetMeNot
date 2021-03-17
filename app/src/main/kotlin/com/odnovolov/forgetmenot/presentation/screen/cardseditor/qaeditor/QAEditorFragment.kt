@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.AnswerInputChanged
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.QuestionInputChanged
@@ -64,6 +65,7 @@ class QAEditorFragment : BaseFragment() {
             val cardId = requireArguments().getLong(ARG_ID)
             controller = diScope.qaEditorController(cardId)
             viewModel = diScope.qaEditorViewModel(cardId)
+            setupCardAppearance(diScope.cardAppearance)
             observeViewModel()
         }
     }
@@ -169,6 +171,13 @@ class QAEditorFragment : BaseFragment() {
         answerPasteButton.isEnabled = isEnabled
         answerClearButton.isEnabled = isEnabled
         invertCardButton.isEnabled = isEnabled
+    }
+
+    private fun setupCardAppearance(cardAppearance: CardAppearance) {
+        questionEditText.gravity = cardAppearance.questionTextAlignment.gravity
+        questionEditText.textSize = cardAppearance.questionTextSize.toFloat()
+        answerEditText.gravity = cardAppearance.answerTextAlignment.gravity
+        answerEditText.textSize = cardAppearance.answerTextSize.toFloat()
     }
 
     private fun observeViewModel() {

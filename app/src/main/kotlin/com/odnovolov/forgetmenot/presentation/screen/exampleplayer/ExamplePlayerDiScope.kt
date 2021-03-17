@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.PlayerStateProvider
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.view.PlayerViewModel
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.PlayingCardController
@@ -46,6 +47,8 @@ class ExamplePlayerDiScope private constructor(
         AppDiScope.get().speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
+
+    val cardAppearance: CardAppearance = AppDiScope.get().cardAppearance
 
     val controller = ExamplePlayerController(
         player,

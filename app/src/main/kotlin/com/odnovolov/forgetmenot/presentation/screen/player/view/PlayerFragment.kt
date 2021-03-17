@@ -76,7 +76,8 @@ class PlayerFragment : BaseFragment() {
             viewModel = diScope.viewModel
             playerViewPager.adapter = PlayingCardAdapter(
                 viewCoroutineScope!!,
-                diScope.playingCardController
+                diScope.playingCardController,
+                diScope.cardAppearance
             )
             progressBarForViewPager2.attach(playerViewPager)
             observeViewModel()

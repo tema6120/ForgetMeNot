@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.PlayingCardController
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.PlayingCardViewHolder
@@ -11,7 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 
 class PlayingCardAdapter(
     private val coroutineScope: CoroutineScope,
-    private val playingCardController: PlayingCardController
+    private val playingCardController: PlayingCardController,
+    private val cardAppearance: CardAppearance
 ) : RecyclerView.Adapter<PlayingCardViewHolder>() {
     var items: List<PlayingCard> = emptyList()
         set(value) {
@@ -25,7 +27,8 @@ class PlayingCardAdapter(
         return PlayingCardViewHolder(
             itemView,
             coroutineScope,
-            playingCardController
+            playingCardController,
+            cardAppearance
         )
     }
 

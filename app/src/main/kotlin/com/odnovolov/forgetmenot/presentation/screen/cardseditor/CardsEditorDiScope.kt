@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.CardsEditorProvider
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorViewModel
 
@@ -19,6 +20,8 @@ class CardsEditorDiScope private constructor(
 
     private val cardsEditor: CardsEditor =
         initialCardsEditor ?: cardsEditorProvider.load()
+
+    val cardAppearance: CardAppearance = AppDiScope.get().cardAppearance
 
     val controller = CardsEditorController(
         cardsEditor,

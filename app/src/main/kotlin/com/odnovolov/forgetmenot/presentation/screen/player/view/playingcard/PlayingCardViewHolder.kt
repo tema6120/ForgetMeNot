@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.CardContent.AnsweredCard
@@ -29,7 +30,8 @@ import kotlinx.coroutines.CoroutineScope
 class PlayingCardViewHolder(
     private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: PlayingCardController
+    private val controller: PlayingCardController,
+    private val cardAppearance: CardAppearance
 ) : RecyclerView.ViewHolder(
     asyncItemView
 ) {
@@ -50,7 +52,7 @@ class PlayingCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            setTextSizeFromRes(R.dimen.text_size_question)
+            textSize = cardAppearance.questionTextSize.toFloat()
         }
     }
 
@@ -58,7 +60,7 @@ class PlayingCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            setTextSizeFromRes(R.dimen.text_size_answer)
+            textSize = cardAppearance.answerTextSize.toFloat()
         }
     }
 
@@ -110,11 +112,13 @@ class PlayingCardViewHolder(
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
-            questionTextView.setTextSizeFromRes(R.dimen.text_size_question)
+            questionTextView.gravity = cardAppearance.questionTextAlignment.gravity
+            questionTextView.textSize = cardAppearance.questionTextSize.toFloat()
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
-            answerTextView.setTextSizeFromRes(R.dimen.text_size_answer)
+            answerTextView.gravity = cardAppearance.answerTextAlignment.gravity
+            answerTextView.textSize = cardAppearance.answerTextSize.toFloat()
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             asyncItemView.viewTreeObserver.addOnScrollChangedListener {

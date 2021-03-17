@@ -1,13 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardappearance
 
-import com.odnovolov.forgetmenot.persistence.longterm.cardappearance.CardAppearanceProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
 class CardAppearanceDiScope {
-    private val cardAppearance: CardAppearance = CardAppearanceProvider(
-        AppDiScope.get().database
-    ).load()
+    private val cardAppearance: CardAppearance = AppDiScope.get().cardAppearance
 
     val controller = CardAppearanceController(
         cardAppearance,

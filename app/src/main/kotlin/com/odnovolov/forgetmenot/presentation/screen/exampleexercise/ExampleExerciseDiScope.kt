@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseCardAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -52,6 +53,8 @@ class ExampleExerciseDiScope private constructor(
         exerciseStateProvider
     )
 
+    private val cardAppearance: CardAppearance = AppDiScope.get().cardAppearance
+
     val viewModel = ExampleExerciseViewModel(
         exercise.state,
         useTimer,
@@ -87,7 +90,8 @@ class ExampleExerciseDiScope private constructor(
         offTestCardController,
         manualTestCardController,
         quizTestCardController,
-        entryTestCardController
+        entryTestCardController,
+        cardAppearance
     )
 
     companion object : DiScopeManager<ExampleExerciseDiScope>() {

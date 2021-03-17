@@ -6,12 +6,14 @@ import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.recheckDeckId
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.persistence.DatabaseInitializer
 import com.odnovolov.forgetmenot.persistence.longterm.LongTermStateSaverImpl
+import com.odnovolov.forgetmenot.persistence.longterm.cardappearance.CardAppearanceProvider
 import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileImportStorageProvider
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision.GlobalStateProvider
 import com.odnovolov.forgetmenot.persistence.longterm.lastusedlanguages.LastUsedLanguagesProvider
 import com.odnovolov.forgetmenot.persistence.longterm.tipstate.TipStateProvider
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferenceProvider
 import com.odnovolov.forgetmenot.presentation.common.*
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -50,6 +52,8 @@ class AppDiScope(
         audioFocusManager,
         lastUsedLanguages = LastUsedLanguagesProvider(database).load()
     )
+
+    val cardAppearance: CardAppearance = CardAppearanceProvider(database).load()
 
     init {
         recheckDeckIdsInDeckLists(globalState)

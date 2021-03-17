@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardappearance
 
+import android.view.Gravity
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
 
 class CardAppearance(
@@ -28,7 +29,7 @@ class CardAppearance(
     }
 }
 
-enum class CardTextAlignment {
-    Edge,
-    Center
+enum class CardTextAlignment(val gravity: Int) {
+    Edge(Gravity.TOP or Gravity.START),
+    Center(Gravity.CENTER)
 }

@@ -21,6 +21,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -34,7 +35,8 @@ import kotlinx.coroutines.CoroutineScope
 class ManualTestExerciseCardViewHolder(
     private val asyncItemView: AsyncCardFrame,
     private val coroutineScope: CoroutineScope,
-    private val controller: BaseController<ManualTestExerciseCardEvent, Nothing>
+    private val controller: BaseController<ManualTestExerciseCardEvent, Nothing>,
+    private val cardAppearance: CardAppearance
 ) : ExerciseCardViewHolder<ManualTestExerciseCard>(
     asyncItemView
 ) {
@@ -52,7 +54,7 @@ class ManualTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp)
-            setTextSizeFromRes(R.dimen.text_size_question)
+            textSize = cardAppearance.questionTextSize.toFloat()
         }
     }
 
@@ -60,7 +62,7 @@ class ManualTestExerciseCardViewHolder(
         TextView(itemView.context).apply {
             layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             setPadding(16.dp, 16.dp, 16.dp, 80.dp)
-            setTextSizeFromRes(R.dimen.text_size_answer)
+            textSize = cardAppearance.answerTextSize.toFloat()
         }
     }
 
@@ -106,7 +108,8 @@ class ManualTestExerciseCardViewHolder(
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
-            questionTextView.setTextSizeFromRes(R.dimen.text_size_question)
+            questionTextView.gravity = cardAppearance.questionTextAlignment.gravity
+            questionTextView.textSize = cardAppearance.questionTextSize.toFloat()
             rememberButton.setOnClickListener {
                 controller.dispatch(RememberButtonClicked)
             }
@@ -116,11 +119,13 @@ class ManualTestExerciseCardViewHolder(
             hintTextView.observeSelectedRange { startIndex: Int, endIndex: Int ->
                 controller.dispatch(HintSelectionChanged(startIndex, endIndex))
             }
-            hintTextView.setTextSizeFromRes(R.dimen.text_size_answer)
+            hintTextView.gravity = cardAppearance.answerTextAlignment.gravity
+            hintTextView.textSize = cardAppearance.answerTextSize.toFloat()
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
-            answerTextView.setTextSizeFromRes(R.dimen.text_size_answer)
+            answerTextView.gravity = cardAppearance.answerTextAlignment.gravity
+            answerTextView.textSize = cardAppearance.answerTextSize.toFloat()
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             addScrollListener {
