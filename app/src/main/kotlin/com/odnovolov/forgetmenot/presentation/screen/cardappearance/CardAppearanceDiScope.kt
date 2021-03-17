@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardappearance
 
+import com.odnovolov.forgetmenot.persistence.shortterm.CardAppearanceScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.example.CardAppearanceExampleViewModel
@@ -9,8 +10,15 @@ class CardAppearanceDiScope private constructor(
 ) {
     private val cardAppearance: CardAppearance = AppDiScope.get().cardAppearance
 
+    private val screenStateProvider
+        get() = CardAppearanceScreenStateProvider(
+            AppDiScope.get().json,
+            AppDiScope.get().database,
+            AppDiScope.get().globalState
+        )
+
     private val screenState: CardAppearanceScreenState =
-        initialScreenState ?: TODO()
+        initialScreenState?.also(screenStateProvider::save) ?: screenStateProvider.load()
 
     val controller = CardAppearanceController(
         cardAppearance,

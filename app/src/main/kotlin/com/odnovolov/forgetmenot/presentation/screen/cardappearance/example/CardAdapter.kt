@@ -20,6 +20,12 @@ class CardAdapter : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
         stateRestorationPolicy = PREVENT_WHEN_EMPTY
     }
 
+    var items: List<Card> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     private val itemViews = ArrayList<View>()
 
     var questionTextAlignment: CardTextAlignment = DEFAULT_QUESTION_TEXT_ALIGNMENT
@@ -52,12 +58,6 @@ class CardAdapter : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
             itemViews.forEach { itemView: View ->
                 itemView.answerTextView.textSize = value.toFloat()
             }
-        }
-
-    var items: List<Card> = emptyList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
         }
 
     override fun getItemCount(): Int = items.size

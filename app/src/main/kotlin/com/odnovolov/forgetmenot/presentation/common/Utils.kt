@@ -34,6 +34,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
 import kotlinx.coroutines.*
@@ -409,4 +410,19 @@ fun TextView.setDrawableTint(color: Int) {
         val wrappedDrawable = DrawableCompat.wrap(compoundDrawable)
         DrawableCompat.setTint(wrappedDrawable, color)
     }
+}
+
+fun View.addBottomSheetCallbackWithInitialNotification(
+    bottomSheetCallback : BottomSheetBehavior.BottomSheetCallback
+) {
+    val behavior = BottomSheetBehavior.from(this)
+    behavior.addBottomSheetCallback(bottomSheetCallback)
+    bottomSheetCallback.onStateChanged(this, behavior.state)
+    val slideOffset = when(behavior.state) {
+        BottomSheetBehavior.STATE_EXPANDED -> 1f
+        BottomSheetBehavior.STATE_COLLAPSED -> 0f
+        BottomSheetBehavior.STATE_HIDDEN -> -1f
+        else -> return
+    }
+    bottomSheetCallback.onSlide(this, slideOffset)
 }

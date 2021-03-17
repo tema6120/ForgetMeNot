@@ -169,8 +169,8 @@ class MotivationalTimerFragment : BaseFragment() {
         super.onPause()
         timeForAnswerEditText.hideSoftInput()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
-        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
-        behavior.removeBottomSheetCallback(bottomSheetCallback)
+        exampleFragmentContainerView
+            .addBottomSheetCallbackWithInitialNotification(bottomSheetCallback)
         (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
     }
 

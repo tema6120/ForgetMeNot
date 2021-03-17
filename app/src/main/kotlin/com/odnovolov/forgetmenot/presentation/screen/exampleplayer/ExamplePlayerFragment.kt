@@ -81,10 +81,10 @@ class ExamplePlayerFragment : BaseFragment() {
             playingCards.observe { playingCards: List<PlayingCard> ->
                 val adapter = playerViewPager.adapter as PlayingCardAdapter
                 adapter.items = playingCards
+                if (playerViewPager.currentItem != currentPosition) {
+                    playerViewPager.setCurrentItem(currentPosition, false)
+                }
                 progressBar.visibility = View.GONE
-            }
-            if (playerViewPager.currentItem != currentPosition) {
-                playerViewPager.setCurrentItem(currentPosition, false)
             }
             hasPlayingCards.observe { hasPlayingCards: Boolean ->
                 if (!hasPlayingCards) {

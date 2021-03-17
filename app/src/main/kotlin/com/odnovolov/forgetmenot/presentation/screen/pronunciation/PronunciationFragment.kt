@@ -204,9 +204,8 @@ class PronunciationFragment : BaseFragment() {
         super.onResume()
         appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
-        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
-        behavior.addBottomSheetCallback(bottomSheetCallback)
-        exampleFragment.notifyBottomSheetStateChanged(behavior.state)
+        exampleFragmentContainerView
+            .addBottomSheetCallbackWithInitialNotification(bottomSheetCallback)
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 

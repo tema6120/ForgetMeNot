@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.TestingMethod
+import com.odnovolov.forgetmenot.presentation.common.addBottomSheetCallbackWithInitialNotification
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
@@ -120,9 +121,8 @@ class TestingMethodFragment : BaseFragment() {
         super.onResume()
         appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
-        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
-        behavior.addBottomSheetCallback(bottomSheetCallback)
-        exampleFragment.notifyBottomSheetStateChanged(behavior.state)
+        exampleFragmentContainerView
+            .addBottomSheetCallbackWithInitialNotification(bottomSheetCallback)
         (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
