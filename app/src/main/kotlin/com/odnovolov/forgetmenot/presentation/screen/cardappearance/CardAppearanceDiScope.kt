@@ -1,19 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardappearance
 
+import com.odnovolov.forgetmenot.persistence.longterm.cardappearance.CardAppearanceProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance.Companion.DEFAULT_ANSWER_TEXT_ALIGNMENT
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance.Companion.DEFAULT_ANSWER_TEXT_SIZE
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance.Companion.DEFAULT_QUESTION_TEXT_ALIGNMENT
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance.Companion.DEFAULT_QUESTION_TEXT_SIZE
 
 class CardAppearanceDiScope {
-    private val cardAppearance = CardAppearance(
-        questionTextAlignment = DEFAULT_QUESTION_TEXT_ALIGNMENT,
-        questionTextSize = DEFAULT_QUESTION_TEXT_SIZE,
-        answerTextAlignment = DEFAULT_ANSWER_TEXT_ALIGNMENT,
-        answerTextSize = DEFAULT_ANSWER_TEXT_SIZE
-    )
+    private val cardAppearance: CardAppearance = CardAppearanceProvider(
+        AppDiScope.get().database
+    ).load()
 
     val controller = CardAppearanceController(
         cardAppearance,

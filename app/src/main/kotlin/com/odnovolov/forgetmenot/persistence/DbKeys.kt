@@ -25,4 +25,8 @@ object DbKeys {
     const val FAVORITE_LANGUAGES = 21L
     const val LAST_USED_LANGUAGE_1 = 22L
     const val LAST_USED_LANGUAGE_2 = 23L
+    const val QUESTION_TEXT_ALIGNMENT = 24L
+    const val QUESTION_TEXT_SIZE = 25L
+    const val ANSWER_TEXT_ALIGNMENT = 26L
+    const val ANSWER_TEXT_SIZE = 27L
 }
