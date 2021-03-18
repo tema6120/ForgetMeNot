@@ -13,6 +13,7 @@ class TablesForGlobalState private constructor(
     val pronunciationTable: List<PronunciationDb>,
     val pronunciationPlanTable: List<PronunciationPlanDb>,
     val sharedExercisePreferenceTable: List<Long>,
+    val deckListTable: List<DeckListDb>,
     val keyValueTable: Map<Long, String?>
 ) {
     companion object {
@@ -27,7 +28,8 @@ class TablesForGlobalState private constructor(
                     pronunciationTable = pronunciationQueries.selectAll().executeAsList(),
                     pronunciationPlanTable = pronunciationPlanQueries.selectAll().executeAsList(),
                     sharedExercisePreferenceTable = sharedExercisePreferenceQueries.selectAll().executeAsList(),
-                    keyValueTable = keyValueQueries.selectAll().executeAsList().associate { it.key to it.value }
+                    keyValueTable = keyValueQueries.selectAll().executeAsList().associate { it.key to it.value },
+                    deckListTable = deckListQueries.selectAll().executeAsList()
                 )
             }
         }

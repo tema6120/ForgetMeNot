@@ -78,6 +78,7 @@ class InitialDecksAdder(
                 for (deck in result.decks) {
                     deck.exercisePreference = exercisePreferenceForNewDecks
                 }
+                createDeckListFor(result.decks)
             }
         }
     }
@@ -106,6 +107,16 @@ class InitialDecksAdder(
         globalState.sharedExercisePreferences =
             globalState.sharedExercisePreferences + exercisePreference
         return exercisePreference
+    }
+
+    private fun createDeckListFor(decks: List<Deck>) {
+        val deckList = DeckList(
+            id = generateId(),
+            name = "English irregular verbs",
+            color = 0xFF7F7F7F.toInt(),
+            deckIds = decks.map { deck -> deck.id }.toSet()
+        )
+        globalState.deckLists += deckList
     }
 
     override fun saveState() {

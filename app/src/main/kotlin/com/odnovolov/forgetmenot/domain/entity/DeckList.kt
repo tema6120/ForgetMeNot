@@ -10,7 +10,7 @@ class DeckList(
 ) : FlowMakerWithRegistry<DeckList>() {
     var name: String by flowMaker(name)
     var color: Int by flowMaker(color)
-    var deckIds: Set<Long> by flowMakerForSet(deckIds)
+    var deckIds: Set<Long> by flowMaker(deckIds)
 
     override fun copy() = DeckList(id, name, color, deckIds)
 }

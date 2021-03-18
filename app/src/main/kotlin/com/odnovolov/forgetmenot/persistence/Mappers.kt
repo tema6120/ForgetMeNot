@@ -196,3 +196,17 @@ fun FileFormatDb.toFileFormat(): FileFormat {
         isPredefined = false
     )
 }
+
+fun DeckListDb.toDeckList() = DeckList(
+    id,
+    name,
+    color,
+    deckIds
+)
+
+fun DeckList.toDeckListDb() = DeckListDb(
+    id,
+    name,
+    color,
+    deckIds
+)

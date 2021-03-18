@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
-import com.odnovolov.forgetmenot.domain.architecturecomponents.copyableListOf
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.*
+import com.odnovolov.forgetmenot.persistence.globalstate.DeckListDb
 import com.soywiz.klock.DateTimeSpan
 
 class GlobalStateBuilder private constructor(private val tables: TablesForGlobalState) {
@@ -19,6 +19,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val exercisePreferences: List<ExercisePreference> =
             buildExercisePreferences(intervalSchemes, pronunciations, pronunciationPlans)
         val decks: CopyableList<Deck> = buildDecks(exercisePreferences)
+        val deckLists: CopyableList<DeckList> = buildDeckLists()
         val sharedExercisePreferences: CopyableList<ExercisePreference> =
             buildSharedExercisePreferences(exercisePreferences)
         val cardFilterForAutoplay: CardFilterForAutoplay = buildCardFilterForAutoplay()
@@ -26,7 +27,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val numberOfLapsInPlayer = buildNumberOfLapsInPlayer()
         return GlobalState(
             decks,
-            copyableListOf(DeckList(id = 45, name = "English", color = 0xFFE0007E.toInt(), setOf(6771052483725754624L))), // todo
+            deckLists,
             sharedExercisePreferences,
             cardFilterForAutoplay,
             isWalkingModeEnabled,
@@ -106,6 +107,10 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                 deckDb.toDeck(cards, exercisePreference)
             }
             .toCopyableList()
+    }
+
+    private fun buildDeckLists(): CopyableList<DeckList> {
+        return tables.deckListTable.map(DeckListDb::toDeckList).toCopyableList()
     }
 
     private fun buildSharedExercisePreferences(

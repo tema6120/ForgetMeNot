@@ -70,6 +70,7 @@ class LongTermStateSaverImpl(
             put(PronunciationPreference::class, PronunciationPreferencePropertyChangeHandler(database))
             put(LastUsedLanguages::class, LastUsedLanguagesPropertyChangeHandler(database))
             put(CardAppearance::class, CardAppearancePropertyChangeHandler(database))
+            put(DeckList::class, DeckListPropertyChangeHandler(database))
         }
 
     override fun saveStateByRegistry() {

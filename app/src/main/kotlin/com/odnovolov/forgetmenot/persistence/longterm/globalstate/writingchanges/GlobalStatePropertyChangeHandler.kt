@@ -6,9 +6,11 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.DbKeys
+import com.odnovolov.forgetmenot.persistence.globalstate.DeckListDb
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.toCardDb
 import com.odnovolov.forgetmenot.persistence.toDeckDb
+import com.odnovolov.forgetmenot.persistence.toDeckListDb
 
 class GlobalStatePropertyChangeHandler(
     private val database: Database,
@@ -33,6 +35,20 @@ class GlobalStatePropertyChangeHandler(
                     deckPropertyChangeHandler.insertExercisePreferenceIfNotExists(
                         deck.exercisePreference
                     )
+                }
+            }
+            GlobalState::deckLists -> {
+                if (change !is CollectionChange) return
+
+                val removedDeckLists = change.removedItems as Collection<DeckList>
+                removedDeckLists.forEach { deckList: DeckList ->
+                    database.deckListQueries.delete(deckList.id)
+                }
+
+                val addedDeckLists = change.addedItems as Collection<DeckList>
+                addedDeckLists.forEach { deckList: DeckList ->
+                    val deckListDb: DeckListDb = deckList.toDeckListDb()
+                    database.deckListQueries.insert(deckListDb)
                 }
             }
             GlobalState::sharedExercisePreferences -> {

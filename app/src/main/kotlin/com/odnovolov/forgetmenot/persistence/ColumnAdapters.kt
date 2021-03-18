@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.persistence
 
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting
 import com.soywiz.klock.*
 import com.squareup.sqldelight.ColumnAdapter
 import kotlinx.serialization.Serializable
@@ -103,5 +102,19 @@ val stringArrayAdapter = object : ColumnAdapter<Array<String?>, String> {
             return arrayOf()
         }
         return serializable.stringArray
+    }
+}
+
+val setOfLongAdapter = object : ColumnAdapter<Set<Long>, String> {
+    private val SEPARATOR = ";"
+
+    override fun encode(value: Set<Long>): String {
+        return value.joinToString(SEPARATOR, transform = Long::toString)
+    }
+
+    override fun decode(databaseValue: String): Set<Long> {
+        return databaseValue.split(SEPARATOR)
+            .mapNotNull { chunk: String -> if (chunk.isEmpty()) null else chunk.toLong() }
+            .toSet()
     }
 }

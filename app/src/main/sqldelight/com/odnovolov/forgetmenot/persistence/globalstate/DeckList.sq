@@ -1,0 +1,29 @@
+import kotlin.collections.Set;
+
+CREATE TABLE DeckListDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    color INTEGER AS Int NOT NULL,
+    deckIds TEXT AS Set<Long> NOT NULL
+);
+
+insert:
+INSERT INTO DeckListDb VALUES ?;
+
+selectAll:
+SELECT * FROM DeckListDb;
+
+updateName:
+UPDATE DeckListDb SET name = ? WHERE id = ?;
+
+updateColor:
+UPDATE DeckListDb SET color = ? WHERE id = ?;
+
+updateDeckIds:
+UPDATE DeckListDb SET deckIds = ? WHERE id = ?;
+
+delete:
+DELETE FROM DeckListDb WHERE id = ?;
+
+exists:
+SELECT EXISTS (SELECT * FROM DeckListDb WHERE id = ?);
