@@ -1,0 +1,4 @@
+- grouping decks into separate lists
+- applying deck preset for multiple decks at once
+- sorting decks by task
+- ability to specify text size and alignment on card
