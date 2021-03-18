@@ -27,12 +27,12 @@ class DeckChooserViewModel(
         .distinctUntilChanged()
 
     val currentDeckList: Flow<DeckList?> =
-        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
+        deckReviewPreference.flowOf(DeckReviewPreference::deckList)
 
     val selectableDeckLists: Flow<List<SelectableDeckList>> = combine(
         globalState.flowOf(GlobalState::decks),
         globalState.flowOf(GlobalState::deckLists),
-        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
+        deckReviewPreference.flowOf(DeckReviewPreference::deckList)
     ) { decks: CopyableCollection<Deck>,
         deckLists: CopyableCollection<DeckList>,
         currentDeckList: DeckList?

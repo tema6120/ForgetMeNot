@@ -175,16 +175,21 @@ fun FileFormatDb.toFileFormat(): FileFormat {
         .withRecordSeparator(recordSeparator)
         .withCommentMarker(commentMarker?.get(0))
         .withSkipHeaderRecord(skipHeaderRecord)
-        .let { format -> header?.let {
-            val decodedHeader: Array<String?> = stringArrayAdapter.decode(header)
-            format.withHeader(*decodedHeader) } ?: format
+        .let { format ->
+            header?.let {
+                val decodedHeader: Array<String?> = stringArrayAdapter.decode(header)
+                format.withHeader(*decodedHeader)
+            } ?: format
         }
         .withIgnoreHeaderCase(ignoreHeaderCase)
         .withAllowDuplicateHeaderNames(allowDuplicateHeaderNames)
         .withAllowMissingColumnNames(allowMissingColumnNames)
-        .let { format -> headerComments?.let {
-            val decodedHeaderComments: Array<String?> = stringArrayAdapter.decode(headerComments)
-            format.withHeaderComments(*decodedHeaderComments) } ?: format
+        .let { format ->
+            headerComments?.let {
+                val decodedHeaderComments: Array<String?> =
+                    stringArrayAdapter.decode(headerComments)
+                format.withHeaderComments(*decodedHeaderComments)
+            } ?: format
         }
         .withAutoFlush(autoFlush)
     val parser = CsvParser(csvFormat)

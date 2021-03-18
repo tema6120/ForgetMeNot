@@ -27,7 +27,11 @@ class DeckChooserDiScope private constructor(
             ToCopyCard, ToCopyCardsInDeckEditor, ToCopyCardsInSearch, ToCopyCardsInHomeSearch ->
                 DeckReviewPreference.ID_TO_COPY
         }
-        DeckReviewPreferenceProvider(AppDiScope.get().database).load()
+        DeckReviewPreferenceProvider(
+            deckReviewPreferenceId,
+            AppDiScope.get().database,
+            AppDiScope.get().globalState
+        ).load()
     }
 
     val controller = DeckChooserController(

@@ -5,17 +5,17 @@ import com.odnovolov.forgetmenot.domain.entity.DeckList
 
 class DeckReviewPreference(
     override val id: Long,
-    currentDeckList: DeckList?,
+    deckList: DeckList?,
     deckSorting: DeckSorting,
     displayOnlyDecksAvailableForExercise: Boolean
 ) : FlowMakerWithRegistry<DeckReviewPreference>() {
-    var currentDeckList: DeckList? by flowMakerForCopyable(currentDeckList)
+    var deckList: DeckList? by flowMakerForCopyable(deckList)
     var deckSorting: DeckSorting by flowMaker(deckSorting)
     var displayOnlyDecksAvailableForExercise: Boolean by flowMaker(displayOnlyDecksAvailableForExercise)
 
     override fun copy() = DeckReviewPreference(
         id,
-        currentDeckList,
+        deckList,
         deckSorting,
         displayOnlyDecksAvailableForExercise
     )

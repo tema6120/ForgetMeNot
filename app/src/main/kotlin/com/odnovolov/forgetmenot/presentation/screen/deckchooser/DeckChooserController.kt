@@ -49,7 +49,7 @@ class DeckChooserController(
                 val deckList: DeckList? = event.deckListId?.let { deckListId: Long ->
                     globalState.deckLists.find { deckList: DeckList -> deckList.id == deckListId }
                 }
-                deckReviewPreference.currentDeckList = deckList
+                deckReviewPreference.deckList = deckList
             }
 
             SortingDirectionButtonClicked -> {

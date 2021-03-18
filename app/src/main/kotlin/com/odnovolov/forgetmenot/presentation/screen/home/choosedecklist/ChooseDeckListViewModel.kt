@@ -46,7 +46,7 @@ class ChooseDeckListViewModel(
             }
         }
         val sortedDeckLists: List<DeckList> = filteredDeckLists.sortedBy { it.name }
-        val currentDeckList = deckReviewPreference.currentDeckList
+        val currentDeckList = deckReviewPreference.deckList
         sortedDeckLists.map { deckList: DeckList ->
             SelectableDeckList(
                 deckList.id,

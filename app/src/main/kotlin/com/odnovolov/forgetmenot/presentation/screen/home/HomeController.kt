@@ -140,7 +140,7 @@ class HomeController(
                 val selectedDeckList: DeckList? = event.deckListId?.let { deckListId: Long ->
                     globalState.deckLists.find { deckList: DeckList -> deckList.id == deckListId }
                 }
-                deckReviewPreference.currentDeckList = selectedDeckList
+                deckReviewPreference.deckList = selectedDeckList
             }
 
             CreateDeckListButtonClicked -> {

@@ -1,0 +1,29 @@
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting;
+
+CREATE TABLE DeckReviewPreferenceDb (
+    id INTEGER PRIMARY KEY,
+    deckListId INTEGER,
+    deckSortingCriterion TEXT AS DeckSorting.Criterion NOT NULL,
+    deckSortingDirection TEXT AS DeckSorting.Direction NOT NULL,
+    displayOnlyDecksAvailableForExercise INTEGER AS Boolean NOT NULL
+);
+
+INSERT INTO DeckReviewPreferenceDb
+VALUES
+    (0, NULL, 'LastTestedAt', 'Asc', 0),
+    (1, NULL, 'LastTestedAt', 'Asc', 0),
+    (2, NULL, 'LastTestedAt', 'Asc', 0),
+    (3, NULL, 'LastTestedAt', 'Asc', 0),
+    (4, NULL, 'LastTestedAt', 'Asc', 0);
+
+select:
+SELECT * FROM DeckReviewPreferenceDb WHERE id = ?;
+
+updateDeckListId:
+UPDATE DeckReviewPreferenceDb SET deckListId = ? WHERE id = ?;
+
+updateDeckSorting:
+UPDATE DeckReviewPreferenceDb SET deckSortingCriterion = ?, deckSortingDirection = ? WHERE id = ?;
+
+updateDisplayOnlyDecksAvailableForExercise:
+UPDATE DeckReviewPreferenceDb SET displayOnlyDecksAvailableForExercise = ? WHERE id = ?;

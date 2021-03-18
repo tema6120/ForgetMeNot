@@ -67,7 +67,7 @@ class HomeViewModel(
 
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
-        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList),
+        deckReviewPreference.flowOf(DeckReviewPreference::deckList),
         hasSearchText,
         homeScreenState.flowOf(HomeScreenState::updateDeckListSignal)
     ) { decks: Collection<Deck>, currentDeckList: DeckList?, hasSearchText: Boolean, _ ->
@@ -129,7 +129,7 @@ class HomeViewModel(
 
     val deckListTitle: Flow<DeckListTitle> = combine(
         displayOnlyDecksAvailableForExercise,
-        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
+        deckReviewPreference.flowOf(DeckReviewPreference::deckList)
     ) { displayOnlyDecksAvailableForExercise: Boolean, currentDeckList: DeckList? ->
         DeckListTitle(displayOnlyDecksAvailableForExercise, currentDeckList?.name)
     }
@@ -191,7 +191,7 @@ class HomeViewModel(
     val selectableDeckLists: Flow<List<SelectableDeckList>> = combine(
         globalState.flowOf(GlobalState::decks),
         globalState.flowOf(GlobalState::deckLists),
-        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList),
+        deckReviewPreference.flowOf(DeckReviewPreference::deckList),
         homeScreenState.flowOf(HomeScreenState::updateDeckListSignal)
     ) { decks: CopyableCollection<Deck>,
         deckLists: CopyableCollection<DeckList>,
