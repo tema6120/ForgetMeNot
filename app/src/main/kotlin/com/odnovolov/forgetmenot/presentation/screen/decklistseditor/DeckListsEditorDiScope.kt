@@ -1,6 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEditor
+import com.odnovolov.forgetmenot.persistence.shortterm.DeckListEditorScreenStateProvider
+import com.odnovolov.forgetmenot.persistence.shortterm.DeckListsEditorStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 
@@ -8,11 +10,23 @@ class DeckListsEditorDiScope private constructor(
     initialDeckListsEditorState: DeckListsEditor.State? = null,
     initialScreenState: DeckListEditorScreenState? = null
 ) {
+    private val deckListsEditorStateProvider = DeckListsEditorStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database,
+        AppDiScope.get().globalState
+    )
+
     private val deckListsEditorState: DeckListsEditor.State =
-        initialDeckListsEditorState ?: TODO()
+        initialDeckListsEditorState ?: deckListsEditorStateProvider.load()
+
+    val screenStateProvider = DeckListEditorScreenStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database,
+        deckListsEditorState.editingDeckLists
+    )
 
     private val screenState: DeckListEditorScreenState =
-        initialScreenState ?: TODO()
+        initialScreenState ?: screenStateProvider.load()
 
     private val deckListsEditor = DeckListsEditor(
         deckListsEditorState,
@@ -23,7 +37,9 @@ class DeckListsEditorDiScope private constructor(
         deckListsEditor,
         screenState,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        deckListsEditorStateProvider,
+        screenStateProvider
     )
 
     val viewModel = DeckListsEditorViewModel(

@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.DeckListsEdit
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.EditableDeckList
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.*
@@ -16,7 +17,9 @@ class DeckListsEditorController(
     private val deckListsEditor: DeckListsEditor,
     private val screenState: DeckListEditorScreenState,
     private val navigator: Navigator,
-    private val longTermStateSaver: LongTermStateSaver
+    private val longTermStateSaver: LongTermStateSaver,
+    private val deckListsEditorStateProvider: ShortTermStateProvider<DeckListsEditor.State>,
+    private val screenStateProvider: ShortTermStateProvider<DeckListEditorScreenState>
 ) : BaseController<DeckListsEditorEvent, Command>() {
     sealed class Command {
         class ShowColorChooserFor(val deckListId: Long) : Command()
@@ -95,5 +98,7 @@ class DeckListsEditorController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        deckListsEditorStateProvider.save(deckListsEditor.state)
+        screenStateProvider.save(screenState)
     }
 }
