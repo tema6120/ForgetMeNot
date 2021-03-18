@@ -1,9 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckchooser
 
-import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.entity.ExistingDeck
-import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.NewDeck
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -14,7 +11,6 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEven
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.DeckToCopyCardsToIsSelected
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.DeckToMoveCardsToIsSelected
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
@@ -47,6 +43,13 @@ class DeckChooserController(
 
             is SearchTextChanged -> {
                 screenState.searchText = event.searchText
+            }
+
+            is DeckListSelected -> {
+                val deckList: DeckList? = event.deckListId?.let { deckListId: Long ->
+                    globalState.deckLists.find { deckList: DeckList -> deckList.id == deckListId }
+                }
+                deckReviewPreference.currentDeckList = deckList
             }
 
             SortingDirectionButtonClicked -> {

@@ -64,7 +64,9 @@ class DeckListFragment : BaseFragment() {
     }
 
     private fun initDeckPreviewAdapter() {
-        val setupHeader: (View) -> Unit = { header: View ->
+        val createHeader: (ViewGroup) -> View = { parent: ViewGroup ->
+            val header: View = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_deck_preview_header, parent, false)
             filterButton = header.filterButton
             header.filterButton.setOnClickListener {
                 showFiltersPopup(anchor = header.filterButton)
@@ -83,9 +85,10 @@ class DeckListFragment : BaseFragment() {
                 needToShowSortingPopup = false
                 showSortingPopup(anchor = header.sortingButton)
             }
+            header
         }
         deckPreviewAdapter = DeckPreviewAdapter(
-            setupHeader,
+            createHeader,
             onDeckButtonClicked = { deckId -> controller?.dispatch(DeckButtonClicked(deckId)) },
             onDeckButtonLongClicked = { deckId -> controller?.dispatch(DeckButtonLongClicked(deckId)) },
             onDeckOptionButtonClicked = { deckId -> controller?.dispatch(DeckOptionButtonClicked(deckId)) },

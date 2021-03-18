@@ -4,14 +4,12 @@ import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckR
 import com.odnovolov.forgetmenot.persistence.shortterm.DeckChooserScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
+import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 
 class DeckChooserDiScope private constructor(
     initialScreenState: DeckChooserScreenState? = null
 ) {
-    private val deckReviewPreference: DeckReviewPreference =
-        DeckReviewPreferenceProvider(AppDiScope.get().database).load()
-
     private val screenStateProvider = DeckChooserScreenStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database
@@ -19,6 +17,18 @@ class DeckChooserDiScope private constructor(
 
     private val screenState: DeckChooserScreenState =
         initialScreenState ?: screenStateProvider.load()
+
+    private val deckReviewPreference: DeckReviewPreference = run {
+        val deckReviewPreferenceId: Long = when (screenState.purpose) {
+            ToImportCards -> DeckReviewPreference.ID_TO_IMPORT_CARDS
+            ToMergeInto -> DeckReviewPreference.ID_TO_MERGE
+            ToMoveCard, ToMoveCardsInDeckEditor, ToMoveCardsInSearch, ToMoveCardsInHomeSearch ->
+                DeckReviewPreference.ID_TO_MOVE
+            ToCopyCard, ToCopyCardsInDeckEditor, ToCopyCardsInSearch, ToCopyCardsInHomeSearch ->
+                DeckReviewPreference.ID_TO_COPY
+        }
+        DeckReviewPreferenceProvider(AppDiScope.get().database).load()
+    }
 
     val controller = DeckChooserController(
         deckReviewPreference,

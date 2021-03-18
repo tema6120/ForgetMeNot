@@ -25,7 +25,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.DeckListItem.DeckPrevi
 import kotlinx.android.synthetic.main.item_deck_preview.view.*
 
 class DeckPreviewAdapter(
-    private val setupHeader: (View) -> Unit,
+    private val createHeader: (parent: ViewGroup) -> View,
     private val onDeckButtonClicked: (deckId: Long) -> Unit,
     private val onDeckButtonLongClicked: ((deckId: Long) -> Unit)? = null,
     private val onDeckOptionButtonClicked: ((deckId: Long) -> Unit)? = null,
@@ -54,8 +54,7 @@ class DeckPreviewAdapter(
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = when (viewType) {
             TYPE_HEADER -> {
-                layoutInflater.inflate(R.layout.item_deck_preview_header, parent, false)
-                    .also(setupHeader)
+                createHeader(parent)
             }
             TYPE_FOOTER -> {
                 layoutInflater.inflate(R.layout.item_deck_preview_footer, parent, false)

@@ -1,5 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckchooser
 
+import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
@@ -25,11 +26,47 @@ class DeckChooserViewModel(
     private val hasSearchText: Flow<Boolean> = searchText.map { it.isNotEmpty() }
         .distinctUntilChanged()
 
+    val currentDeckList: Flow<DeckList?> =
+        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
+
+    val selectableDeckLists: Flow<List<SelectableDeckList>> = combine(
+        globalState.flowOf(GlobalState::decks),
+        globalState.flowOf(GlobalState::deckLists),
+        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
+    ) { decks: CopyableCollection<Deck>,
+        deckLists: CopyableCollection<DeckList>,
+        currentDeckList: DeckList?
+        ->
+        val selectableDeckLists = ArrayList<SelectableDeckList>()
+        val allDecksDeckList = SelectableDeckList(
+            id = null,
+            name = null,
+            color = DeckReviewPreference.DEFAULT_DECK_LIST_COLOR,
+            size = decks.size,
+            isSelected = currentDeckList == null
+        )
+        selectableDeckLists.add(allDecksDeckList)
+        val createdDeckLists = deckLists
+            .sortedBy { deckList: DeckList -> deckList.name }
+            .map { deckList: DeckList ->
+                SelectableDeckList(
+                    deckList.id,
+                    deckList.name,
+                    deckList.color,
+                    deckList.deckIds.size,
+                    isSelected = deckList.id == currentDeckList?.id
+                )
+            }
+        selectableDeckLists.addAll(createdDeckLists)
+        selectableDeckLists
+    }
+
     private val rawDecksPreview: Flow<List<RawDeckPreview>> = combine(
         globalState.flowOf(GlobalState::decks),
-        deckReviewPreference.flowOf(DeckReviewPreference::currentDeckList)
-    ) { decks: Collection<Deck>, currentDeckList: DeckList? ->
-        if (currentDeckList == null) {
+        currentDeckList,
+        hasSearchText
+    ) { decks: Collection<Deck>, currentDeckList: DeckList?, hasSearchText: Boolean ->
+        if (hasSearchText || currentDeckList == null) {
             decks
         } else {
             decks.filter { deck: Deck ->
