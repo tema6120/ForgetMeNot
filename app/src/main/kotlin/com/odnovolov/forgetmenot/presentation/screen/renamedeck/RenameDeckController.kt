@@ -1,11 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.renamedeck
 
+import com.odnovolov.forgetmenot.domain.entity.DeckList
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEditingDeck
 import com.odnovolov.forgetmenot.domain.interactor.deckcreator.createDeck
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.renameDeck
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.addDeckIds
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
@@ -55,8 +57,12 @@ class RenameDeckController(
                         }
                     }
                     ToCreateNewDeck -> {
-                        val cardsEditor: CardsEditor? = createDeck(newName, globalState)
+                        val cardsEditor: CardsEditorForEditingDeck? =
+                            createDeck(newName, globalState)
                         if (cardsEditor != null) {
+                            val deckListToView: DeckList? =
+                                HomeDiScope.getOrRecreate().deckReviewPreference.deckList
+                            deckListToView?.addDeckIds(listOf(cardsEditor.deck.id))
                             navigator.navigateToCardsEditorFromRenameDeckDialog {
                                 CardsEditorDiScope.create(cardsEditor)
                             }

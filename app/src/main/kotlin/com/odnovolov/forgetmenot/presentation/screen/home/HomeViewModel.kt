@@ -43,7 +43,7 @@ class HomeViewModel(
             deckId,
             deckName,
             searchMatchingRanges,
-            "%.1f".format(averageLaps),
+            if (averageLaps.isNaN()) "0.0" else "%.1f".format(averageLaps),
             learnedCount,
             totalCount,
             numberOfCardsReadyForExercise,

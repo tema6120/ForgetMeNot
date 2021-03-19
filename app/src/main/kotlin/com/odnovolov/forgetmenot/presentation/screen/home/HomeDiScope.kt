@@ -21,7 +21,7 @@ class HomeDiScope private constructor(
     initialHomeScreenState: HomeScreenState? = null,
     initialBatchCardEditor: BatchCardEditor? = null
 ) {
-    private val deckReviewPreference: DeckReviewPreference =
+    val deckReviewPreference: DeckReviewPreference =
         DeckReviewPreferenceProvider(
             DeckReviewPreference.ID_TO_VIEW,
             AppDiScope.get().database,

@@ -1,8 +1,10 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
+import com.odnovolov.forgetmenot.domain.entity.DeckList
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.NewDeck
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.BatchCardEditor
+import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.addDeckIds
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardsFile
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult.Failure
@@ -23,6 +25,7 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportContro
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportController.Command.Navigate.FilePageTransition.*
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 
 class FileImportController(
     private val fileImporter: FileImporter,
@@ -136,6 +139,7 @@ class FileImportController(
         when (val result = fileImporter.import()) {
             is Success -> {
                 sendCommand(ShowMessageNumberOfImportedCards(result.numberOfImportedCards))
+                addNewDecksToCurrentViewingDeckList(result)
                 if (result.decks.size == 1 &&
                     fileImporter.state.files.first().deckWhereToAdd is NewDeck
                 ) {
@@ -168,6 +172,20 @@ class FileImportController(
                     }
                 }
             }
+        }
+    }
+
+    private fun addNewDecksToCurrentViewingDeckList(result: Success) {
+        val deckListToView: DeckList? = HomeDiScope.getOrRecreate().deckReviewPreference.deckList
+        deckListToView?.let { deckList: DeckList ->
+            val newDeckIds: List<Long> = result.decks.mapIndexedNotNull { index, deck ->
+                if (fileImporter.state.files[index].deckWhereToAdd is NewDeck) {
+                    deck.id
+                } else {
+                    null
+                }
+            }
+            deckList.addDeckIds(newDeckIds)
         }
     }
 

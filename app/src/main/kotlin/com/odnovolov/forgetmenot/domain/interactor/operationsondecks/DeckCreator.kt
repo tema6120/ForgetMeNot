@@ -12,7 +12,7 @@ import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditorForEdit
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.EditableCard
 import com.odnovolov.forgetmenot.domain.interactor.deckeditor.checkDeckName
 
-fun createDeck(deckName: String, globalState: GlobalState): CardsEditor? {
+fun createDeck(deckName: String, globalState: GlobalState): CardsEditorForEditingDeck? {
     return when (checkDeckName(deckName, globalState)) {
         NameCheckResult.Ok -> {
             val newDeck = Deck(id = generateId(), name = deckName, cards = copyableListOf())
