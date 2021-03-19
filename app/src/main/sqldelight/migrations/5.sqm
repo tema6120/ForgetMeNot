@@ -1,0 +1,24 @@
+CREATE TABLE DeckListDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    color INTEGER NOT NULL,
+    deckIds TEXT NOT NULL
+);
+
+CREATE TABLE DeckReviewPreferenceDb (
+    id INTEGER PRIMARY KEY,
+    deckListId INTEGER,
+    deckSortingCriterion TEXT NOT NULL,
+    deckSortingDirection TEXT NOT NULL,
+    displayOnlyDecksAvailableForExercise INTEGER NOT NULL
+);
+
+INSERT INTO DeckReviewPreferenceDb
+VALUES
+    (0, NULL, 'LastTestedAt', 'Asc', 0),
+    (1, NULL, 'LastTestedAt', 'Asc', 0),
+    (2, NULL, 'LastTestedAt', 'Asc', 0),
+    (3, NULL, 'LastTestedAt', 'Asc', 0),
+    (4, NULL, 'LastTestedAt', 'Asc', 0);
+
+DELETE FROM KeyValue WHERE key IN (8, 10, 11, 12);
