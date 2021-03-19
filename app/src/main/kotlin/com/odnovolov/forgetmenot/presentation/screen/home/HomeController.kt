@@ -600,6 +600,16 @@ class HomeController(
                 screenState.deckSelection = null
                 notifyDeckListUpdated()
             }
+
+            FragmentResumed -> {
+                val isCurrentDeckListExists = deckReviewPreference.deckList
+                    ?.let { deckList: DeckList -> deckList in globalState.deckLists}
+                    ?: true
+                if (!isCurrentDeckListExists) {
+                    deckReviewPreference.deckList = null
+                    notifyDeckListUpdated()
+                }
+            }
         }
     }
 

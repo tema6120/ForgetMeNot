@@ -133,6 +133,7 @@ class HomeViewModel(
     ) { displayOnlyDecksAvailableForExercise: Boolean, currentDeckList: DeckList? ->
         DeckListTitle(displayOnlyDecksAvailableForExercise, currentDeckList?.name)
     }
+        .flowOn(Dispatchers.Default)
 
     private val searchText: Flow<String> = homeScreenState.flowOf(HomeScreenState::searchText)
 

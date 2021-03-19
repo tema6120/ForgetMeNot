@@ -137,6 +137,9 @@ class DeckListsEditorFragment : BaseFragment() {
                 updateSelectDeckListButtonColor()
             }
             if (isForCreation && isViewFirstCreated) {
+                createDeckListButton.isVisible = false
+                newDeckListIndicator.isVisible = true
+                expandIcon.isVisible = true
                 newDeckListNameEditText.isVisible = true
                 newDeckListNameEditText.post {
                     newDeckListNameEditText.showSoftInput()

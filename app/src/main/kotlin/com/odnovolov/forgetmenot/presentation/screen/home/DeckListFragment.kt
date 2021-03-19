@@ -264,6 +264,7 @@ class DeckListFragment : BaseFragment() {
         resumePauseCoroutineScope!!.launch {
             val coroutineScope = this
             val diScope = HomeDiScope.getAsync() ?: return@launch
+            diScope.controller.dispatch(FragmentResumed)
             val viewModel = diScope.viewModel
             with(viewModel) {
                 deckListItems.observe(coroutineScope) { deckListItems: List<DeckListItem> ->
