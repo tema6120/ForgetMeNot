@@ -362,7 +362,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="108dp"
+                        android:layout_marginBottom="@dimen/example_bottom_sheet_peek_height"
                         android:fontFamily="@font/nunito_extrabold"
                         android:text="@string/text_go_to_tts_settings_button"
                         android:textAllCaps="false"
@@ -385,7 +385,7 @@
             android:layout_height="match_parent"
             android:tag="ExampleExerciseFragment"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="100dp"
+            app:behavior_peekHeight="@dimen/example_bottom_sheet_peek_height"
             app:behavior_skipCollapsed="true"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 

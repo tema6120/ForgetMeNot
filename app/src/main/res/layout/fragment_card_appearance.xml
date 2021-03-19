@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="100dp"
+                    android:layout_marginBottom="@dimen/example_bottom_sheet_peek_height"
                     android:orientation="vertical">
 
                 <LinearLayout style="@style/SettingsSurface">
@@ -303,7 +303,7 @@
             android:layout_height="match_parent"
             android:tag="CardAppearanceExampleFragment"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="100dp"
+            app:behavior_peekHeight="@dimen/example_bottom_sheet_peek_height"
             app:behavior_skipCollapsed="true"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 

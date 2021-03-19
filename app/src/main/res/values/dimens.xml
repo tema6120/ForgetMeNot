@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="example_bottom_sheet_peek_height">120dp</dimen>
     <dimen name="text_size_question">19sp</dimen>
     <dimen name="text_size_answer">17sp</dimen>
     <dimen name="text_size_grade">15sp</dimen>

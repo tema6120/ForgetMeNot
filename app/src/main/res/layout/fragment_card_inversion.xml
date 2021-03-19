@@ -86,7 +86,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="100dp"
+                        android:layout_marginBottom="@dimen/example_bottom_sheet_peek_height"
                         android:background="@drawable/white_rectangle_4dp_corner_radius"
                         android:orientation="vertical"
                         android:paddingTop="8dp"
@@ -225,7 +225,7 @@
             android:layout_height="match_parent"
             android:tag="ExampleExerciseFragment"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="100dp"
+            app:behavior_peekHeight="@dimen/example_bottom_sheet_peek_height"
             app:behavior_skipCollapsed="true"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 

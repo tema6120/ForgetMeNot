@@ -156,7 +156,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="100dp"
+                        android:layout_marginBottom="@dimen/example_bottom_sheet_peek_height"
                         android:backgroundTint="@android:color/white"
                         android:text="@android:string/ok"
                         android:textColor="@color/colorAccent"
@@ -173,7 +173,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="100dp"
+                        android:layout_marginBottom="@dimen/example_bottom_sheet_peek_height"
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/saved"
                         android:textColor="@color/text_edittext"
@@ -199,7 +199,7 @@
             android:layout_height="match_parent"
             android:tag="ExampleExerciseFragment"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="100dp"
+            app:behavior_peekHeight="@dimen/example_bottom_sheet_peek_height"
             app:behavior_skipCollapsed="true"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 

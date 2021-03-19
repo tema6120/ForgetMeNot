@@ -106,7 +106,7 @@
                         android:layout_height="48dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="76dp"
+                        android:layout_marginBottom="@dimen/example_bottom_sheet_peek_height"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/description_add_pronunciation_event_button"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,7 +128,7 @@
             android:layout_height="match_parent"
             android:tag="ExamplePlayerFragment"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="100dp"
+            app:behavior_peekHeight="@dimen/example_bottom_sheet_peek_height"
             app:behavior_skipCollapsed="true"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 

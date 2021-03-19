@@ -7,12 +7,9 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.addBottomSheetCallbackWithInitialNotification
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
-import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
-import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.example.CardAppearanceExampleFragment
 import kotlinx.android.synthetic.main.fragment_card_appearance.*
@@ -115,6 +112,7 @@ class CardAppearanceFragment : BaseFragment() {
         val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
         behavior.removeBottomSheetCallback(bottomSheetCallback)
         (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+        hideKeyboardForcibly(requireActivity())
     }
 
     override fun onDestroy() {
