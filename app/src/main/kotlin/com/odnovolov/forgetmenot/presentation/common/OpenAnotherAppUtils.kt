@@ -50,7 +50,8 @@ fun Fragment.openFileChooser(requestCode: Int) {
     val mimeTypes = arrayOf(
         "text/plain", "text/txt",
         "text/comma-separated-values", "text/csv",
-        "text/tab-separated-values", "text/tsv"
+        "text/tab-separated-values", "text/tsv",
+        "application/zip"
     )
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         .addCategory(Intent.CATEGORY_OPENABLE)
