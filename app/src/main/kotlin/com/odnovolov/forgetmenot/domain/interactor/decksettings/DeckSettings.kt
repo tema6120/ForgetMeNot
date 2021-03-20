@@ -70,8 +70,13 @@ class DeckSettings(
     }
 
     private fun createNewSharedExercisePreferenceAndSetToCurrentDeck(name: String) {
-        val newSharedExercisePreference = ExercisePreference.Default
-            .shallowCopy(id = generateId(), name = name)
+        val newSharedExercisePreference = currentExercisePreference.shallowCopy(
+            id = generateId(),
+            name = name,
+            intervalScheme = currentExercisePreference.intervalScheme?.copyWithNewId(),
+            pronunciation = currentExercisePreference.pronunciation.copyWithNewId(),
+            pronunciationPlan = currentExercisePreference.pronunciationPlan.copyWithNewId()
+        )
         addNewSharedExercisePreference(newSharedExercisePreference)
         setCurrentExercisePreference(newSharedExercisePreference)
     }
@@ -220,16 +225,6 @@ class DeckSettings(
         )
     }
 
-    fun recheckIndividualExercisePreferences() {
-        globalState.decks.forEach { deck: Deck ->
-            with(deck) {
-                if (exercisePreference.shouldBeDefault()) {
-                    exercisePreference = ExercisePreference.Default
-                }
-            }
-        }
-    }
-
     private inline fun updateExercisePreference(
         isValueChanged: Boolean,
         createNewIndividualExercisePreference: () -> ExercisePreference,
@@ -280,4 +275,29 @@ class DeckSettings(
     private fun ExercisePreference.shouldBeDefault(): Boolean {
         return this.shallowCopy(id = ExercisePreference.Default.id) == ExercisePreference.Default
     }
+
+    private fun Pronunciation.copyWithNewId() = Pronunciation(
+        id = generateId(),
+        questionLanguage,
+        questionAutoSpeaking,
+        answerLanguage,
+        answerAutoSpeaking,
+        speakTextInBrackets
+    )
+
+    private fun IntervalScheme.copyWithNewId() = IntervalScheme(
+        id = generateId(),
+        intervals = intervals.map { interval: Interval ->
+            Interval(
+                id = generateId(),
+                grade = interval.grade,
+                value = interval.value
+            )
+        }.toCopyableList()
+    )
+
+    private fun PronunciationPlan.copyWithNewId() = PronunciationPlan(
+        id = generateId(),
+        pronunciationEvents
+    )
 }

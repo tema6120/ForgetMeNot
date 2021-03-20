@@ -946,7 +946,7 @@
         чувствуете, что вам не хватает времени, нажмите \"Остановить\" в всплывающем окне таймера.
     </string>
     <string name="question_in_motivational_timer_article">Сколько 0,0193 км в дециметрах?</string>
-    <string name="answer_in_motivational_timer_article">193</string>
+    <string name="answer_in_motivational_timer_article" translatable="false">193</string>
     <string name="article_pronunciation">Эта программа поддерживает произношение текста с помощью
         TTS API, предоставляемого ОС Android. Для каждой колоды можно выбрать язык, на котором нужно
         озвучивать вопрос, и один язык для ответа. Поэтому при создании колоды важно использовать
