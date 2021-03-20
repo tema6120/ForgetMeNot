@@ -2,3 +2,4 @@
 - applying deck preset for multiple decks at once
 - sorting decks by task
 - ability to specify text size and alignment on card
+- app translation (Spanish - 98%, French - 24%, German - 7%)

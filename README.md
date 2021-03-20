@@ -23,7 +23,7 @@ Download
       height="80">](https://appgallery.huawei.com/#/app/C103089961)
 [<img src="https://raw.githubusercontent.com/tema6120/ForgetMeNot/master/.github/readme/direct_apk_download.png"
       alt="Get direct apk"
-      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.5.1/ForgetMeNot_v1.5.1.apk)
+      height="80">](https://github.com/tema6120/ForgetMeNot/releases/download/1.5.1/ForgetMeNot_v1.6.apk)
 
 Features
 --------
@@ -44,6 +44,8 @@ Features
 * 'Walking mode' that enables you do the exercise without looking at the screen.
 * 'Autoplaying mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
 * Catalog of pre-made decks. The catalog contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
+* Grouping decks into separate lists
+* Customizing the card appearance
 
 Video
 -----
