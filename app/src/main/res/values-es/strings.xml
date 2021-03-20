@@ -1,0 +1,1026 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Common -->
+    <string name="description_help_button">Ayuda</string>
+    <string name="description_back_button">Navegar atrás</string>
+    <string name="description_back_button2">Atrás</string>
+    <string name="description_close">cerrar</string>
+    <string name="description_attention_icon">Icono de atención</string>
+    <string name="title_example_in_settings_bottom_sheet">Ejemplo</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="disabled">Deshabilitado</string>
+    <string name="label_name">Nombre</string>
+    <string name="quit_without_saving_message">Se perderán los cambios no guardados. ¿Guardar los cambios
+        antes de salir?</string>
+    <string name="button_save">Guardar</string>
+    <string name="button_quit_without_saving">Salir sin guardar</string>
+    <string name="no_cards">No tarjetas</string>
+    <string name="button_go_back">Volver atrás</string>
+    <!-- Main drawer -->
+    <string name="drawer_item_decks">Mazos</string>
+    <string name="drawer_item_settings">Configuración</string>
+    <string name="drawer_item_support_app">Apoyar la app</string>
+    <string name="drawer_item_help">Ayuda</string>
+    <string name="drawer_item_about">Sobre la app</string>
+    <!-- Deck list screen -->
+    <string name="description_drawer_button">Abrir menú de navegación</string>
+    <string name="hint_search_edittext">Buscar</string>
+    <string name="title_deck_selection_toolbar_choose_decks_to_play">Elija mazos para auto-reproducir</string>
+    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Elija mazos para el ejercicio</string>
+    <plurals name="title_selection_toolbar_number_of_selected_decks">
+        <item quantity="one">%d mazo</item>
+        <item quantity="other">%d mazos</item>
+    </plurals>
+    <string name="tab_decks">Mazos</string>
+    <string name="tab_cards">Tarjetas</string>
+    <string name="no_matching_decks">No se encontró ningún mazo</string>
+    <string name="no_matching_cards">No se encontró ninguna tarjeta</string>
+    <string name="no_decks">No mazos</string>
+    <string name="deck_list_title_all_decks">Todos los mazos</string>
+    <string name="deck_list_title_decks_available_for_exercise">Mazos disponibles para un ejercicio</string>
+    <string name="deck_list_title_specific_deck_list_available_for_exercise">\'%1$s\' disponible para un ejercicio</string>
+    <string name="text_add_cards_button">Agregar tarjetas</string>
+    <string name="title_add_cards_popup">Agregar tarjetas</string>
+    <string name="text_import_file_button">Importar archivo</string>
+    <string name="text_browse_catalog_button">Mirar catálogo</string>
+    <string name="text_create_new_deck_button">Crear nuevo mazo</string>
+    <string name="toast_no_file_manager_to_load">No tiene un administrador de archivos para cargar un archivo</string>
+    <string name="toast_no_file_manager_to_create">No tiene un administrador de archivos para crear un archivo</string>
+    <string name="error_loading_file">Error al leer archivos:\n\n%1$s</string>
+    <string name="text_filter_button">Filtros</string>
+    <string name="title_deck_filters_popup">Filtros</string>
+    <string name="deck_filter_only_decks_available_for_exercise">Solo mazos disponibles para un ejercicio</string>
+    <string name="section_title_in_filters_popup_deck_lists">Listas de mazos</string>
+    <string name="create_new_deck_list">Crear nueva lista de mazo</string>
+    <string name="sort_by_name">Orden: nombre</string>
+    <string name="sort_by_time_created">Orden: fecha de creación</string>
+    <string name="sort_by_time_last_tested">Orden: última vez revisado</string>
+    <string name="sort_by_frequency_of_use">Orden: frecuencia de uso</string>
+    <string name="sort_by_task">Por tarea</string>
+    <string name="title_deck_sorting_popup">Ordenar por</string>
+    <string name="description_change_sorting_direction">Cambiar dirección del orden</string>
+    <string name="deck_sorting_name">Nombre</string>
+    <string name="deck_sorting_time_created">Fecha de creación</string>
+    <string name="deck_sorting_by_time_last_tested">Última vez revisado</string>
+    <string name="deck_sorting_by_frequency_of_use">Frecuencia de uso</string>
+    <string name="deck_sorting_by_task">Tarea</string>
+    <string name="description_pin_icon">Fijar icono</string>
+    <string name="deck_summary_table_average_laps">Pasadas</string>
+    <string name="deck_summary_table_learned">Aprendido</string>
+    <string name="deck_summary_table_task">Pendiente</string>
+    <string name="deck_summary_table_last_tested">Última vez revisado</string>
+    <string name="deck_options">Opciones del mazo</string>
+    <string name="deck_option_start_exercise">Empezar ejercicio</string>
+    <string name="deck_option_autoplay">Auto-reproducir</string>
+    <string name="deck_option_rename">Renombrar</string>
+    <string name="deck_option_edit_cards">Editar tarjetas</string>
+    <string name="deck_option_setup">Configuración</string>
+    <string name="deck_option_pin">Anclar</string>
+    <string name="deck_option_unpin">Desanclar</string>
+    <string name="deck_option_add_to_deck_list">Agregar a una lista de mazos</string>
+    <string name="deck_option_remove_from_deck_list">Eliminar de una lista de mazos</string>
+    <string name="deck_option_remove_from_deck_list_with_arg">Eliminar de la lista de mazos \'%1$s\'</string>
+    <string name="deck_option_set_preset">Definir preestablecido</string>
+    <string name="deck_option_export">Exportar</string>
+    <string name="deck_option_merge_into">Mezclar</string>
+    <string name="deck_option_remove">Eliminar</string>
+    <plurals name="snackbar_decks_removing">
+        <item quantity="one">El mazo ha sido eliminado</item>
+        <item quantity="other">%d mazos han sido eliminados</item>
+    </plurals>
+    <plurals name="snackbar_decks_merging">
+        <item quantity="one">%1$d mazo ha sido fusionado en \'%2$s\'</item>
+        <item quantity="other">%1$d mazos han sido fusionados en \'%2$s\'</item>
+    </plurals>
+    <string name="dialog_title_choose_deck_list">Elegir lista de mazos</string>
+    <string name="dialog_title_choose_preset">Choose preset</string>
+    <plurals name="snackbar_default_preset_has_been_applied">
+        <item quantity="one">Default preset has been applied to %d deck</item>
+        <item quantity="other">Default preset has been applied to %d decks</item>
+    </plurals>
+    <plurals name="snackbar_preset_has_been_applied">
+        <item quantity="one">Preset \'%1$s\' has been applied to %2$d deck</item>
+        <item quantity="other">Preset \'%1$s\' has been applied to %2$d decks</item>
+    </plurals>
+    <string name="text_autoplay_button">Auto</string>
+    <string name="text_exercise_button">Ejercicio</string>
+    <string name="text_exercise_button_with_cards_count">Ejercicio (%d)</string>
+    <string name="toast_text_no_cards_ready_for_exercise">No hay tarjetas listas para un ejercicio</string>
+    <string name="progress_bar_reading_files">Cargando archivos...</string>
+    <!-- Deck lists editor -->
+    <string name="screen_title_deck_lists">Lista de mazos</string>
+    <string name="hint_deck_list_edittext">Nombre de la lista</string>
+    <string name="description_deck_list_icon">Deck list icon</string>
+    <string name="title_select_deck_list_color_popup">Deck list color</string>
+    <string name="custom_color">Custom color</string>
+    <string name="toast_deck_list_is_removed">Deck list has been removed</string>
+    <!-- Export dialog -->
+    <string name="dialog_title_export">Exportar</string>
+    <string name="title_choose_format">Elegir formato</string>
+    <string name="title_waiting_for_destination">Esperando el destino...</string>
+    <string name="button_select_destination">Elegir destino</string>
+    <string name="toast_couldnt_get_destination">¡No se pudo encontrar el destino!</string>
+    <string name="progress_bar_exporting">Exportando...</string>
+    <plurals name="export_result_successful">
+        <item quantity="one">El mazo se exportó exitosamente</item>
+        <item quantity="other">%d mazos exportados exitosamente</item>
+    </plurals>
+    <string name="export_result_error">Error exportando mazos:\n\'%s\'</string>
+    <!-- File import screen -->
+    <string name="screen_title_file_import">Importar archivo</string>
+    <string name="text_skip_button">Saltar</string>
+    <string name="add_to">Agregar a:</string>
+    <string name="deck_label_in_file_import_new">Nuevo mazo</string>
+    <string name="deck_label_in_file_import_existing">Mazo existente</string>
+    <string name="popup_change_deck_for_import_new_button">Nuevo mazo</string>
+    <string name="popup_change_deck_for_import_existing_button">Mazo existente</string>
+    <string name="tab_name_source_text">Texto fuente</string>
+    <plurals name="source_text_error_button">
+        <item quantity="one">%d error</item>
+        <item quantity="other">%d errores</item>
+    </plurals>
+    <string name="description_undo_button">Deshacer</string>
+    <string name="description_redo_button">Rehacer</string>
+    <string name="label_file_format">Formato</string>
+    <string name="description_file_format_icon">Icono del formato de archivo</string>
+    <string name="popup_title_file_format">Formato</string>
+    <string name="item_file_format_fmn_format">\'Q:A:\' formato</string>
+    <string name="text_dsv_format_radiobutton">Valores separados por un delimitador</string>
+    <string name="description_view_format_settings">Ver configuración de formato</string>
+    <string name="description_edit_format_settings">Editar configuración de formato</string>
+    <string name="description_add_new_format_settings">Agregar una nueva configuración de formato</string>
+    <string name="label_encoding">Codificación</string>
+    <string name="description_charset_icon">Icono de codificación</string>
+    <string name="popup_title_charset">Codificación</string>
+    <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files">
+        <item quantity="one">¿Quiere usar este mazo (%1$s) para importar el próximo archivo?</item>
+        <item quantity="other">¿Quiere usar este mazo (%1$s) para importar los próximos %2$d archivos?</item>
+    </plurals>
+    <string name="text_file_edit_off">El archivo es demasiado grande para editar</string>
+    <string name="cannot_extract_any_cards">No se puede extraer ninguna tarjeta</string>
+    <plurals name="toast_number_of_imported_cards">
+        <item quantity="one">Una tarjeta se importó</item>
+        <item quantity="other">%d tarjetas se importaron</item>
+    </plurals>
+    <string name="toast_no_cards_to_import">No hay tarjetas para importar</string>
+    <string name="toast_invalid_deck_name">Nombre de mazo inválido</string>
+    <plurals name="import_error_message_1_part">
+        <item quantity="one">Un archivo contiene</item>
+        <item quantity="other">%d archivos contienen</item>
+    </plurals>
+    <plurals name="import_error_message_2_part">
+        <item quantity="one">un error.</item>
+        <item quantity="other">%d errores.</item>
+    </plurals>
+    <string name="button_fix_errors">Arreglar errores</string>
+    <string name="button_import_ignoring_errors">Importar, ignorando errores</string>
+    <string name="text_quit_file_import_bottom_sheet">¿Seguro que quiere cancelar la importación?</string>
+    <!-- Deck chooser screen -->
+    <string name="screen_title_choose_a_deck_to_import_cards_to">Elija un mazo para importar tarjetas</string>
+    <string name="screen_title_choose_a_deck_to_merge_into">Elija un mazo con que mezclar</string>
+    <string name="screen_title_choose_a_deck_to_move_card">Elija un mazo al que mover la tarjeta</string>
+    <string name="screen_title_choose_a_deck_to_copy_card">Elija un mazo al que copiar la tarjeta</string>
+    <string name="screen_title_choose_a_deck_to_move_cards">Elija un mazo al que mover las tarjetas</string>
+    <string name="screen_title_choose_a_deck_to_copy_cards">Elija un mazo al que copiar las tarjetas</string>
+    <string name="description_add_deck_button">Agregar mazo</string>
+    <!-- Exercise screen -->
+    <string name="card_label_learned">Aprendido</string>
+    <string name="card_label_expired">¡Se acabó el tiempo!</string>
+    <string name="explanation_card_label_learned">\'Aprendido\' significa que no se va a presentar
+        otra vez la tarjeta en el ejercicio</string>
+    <string name="explanation_card_label_expired">\'Se acabó el tiempo\' significa que no respondió
+        la pregunta dentro del tiempo dado</string>
+    <string name="text_show_question_button">Mostrar pregunta</string>
+    <string name="text_show_answer_button">Mostrar respuesta</string>
+    <string name="text_remember_button">Lo recuerdo</string>
+    <string name="text_not_remember_button">No lo recuerdo</string>
+    <string name="text_check_button">Comprobar</string>
+    <string name="description_grade_button">Calificar</string>
+    <string name="popup_title_intervals">Intervalos</string>
+    <string name="description_intervals_icon">Icono de intervalos</string>
+    <string name="description_intervals_are_off">Intervalos están deshabilitados para esta tarjeta</string>
+    <string name="description_mark_as_learned_button">Marcar como \'Aprendido\'</string>
+    <string name="description_mark_as_unlearned_button">Marcar como \'No aprendido\'</string>
+    <string name="description_speak_button">Pronunciar</string>
+    <string name="description_stop_speaking_button">Dejar de pronunciar</string>
+    <string name="description_cannot_speak_button">Descripción de error de iniciar pronunciación</string>
+    <string name="title_speak_error_popup">La pronunciación no está disponible</string>
+    <string name="description_issue_icon">Icono de incidente</string>
+    <string name="speak_error_description_failed_to_initialized">Error al inicializar motor de texto a voz</string>
+    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Error
+        al inicializar motor de texto a voz (%1$s)</string>
+    <string name="speak_error_description_language_is_not_supported">Motor actual de texto a voz no
+        soporta %1$s</string>
+    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Motor
+        de texto a voz (%1$s) no soporta %2$s</string>
+    <string name="speak_error_description_missing_data_for_language">Le faltan datos para %1$s</string>
+    <string name="error_message_failed_to_speak">Error al pronunciar</string>
+    <string name="error_message_cannot_get_audio_focus">No se puede tomar el control del audio</string>
+    <string name="description_hint_button">Pista</string>
+    <string name="popup_title_hints">Pistas</string>
+    <string name="description_hint_icon">Icono de pista</string>
+    <string name="text_hint_get_variants">Generar opciones</string>
+    <string name="text_hint_mask_letters_button">Cubrir letras</string>
+    <string name="text_unmask_the_first_letter_button">Mostrar la primera letra</string>
+    <string name="text_unmask_selected_region_button">Mostrar la región seleccionada</string>
+    <string name="hints_are_not_accessible_because_the_card_is_answered">Las pistas no son
+        accesibles porque la tarjeta ya fue respondida</string>
+    <string name="hints_are_not_accessible_because_the_card_is_learned">Las pistas no son
+        accesibles porque la tarjeta ya fue aprendida</string>
+    <string name="description_timer_button">Temporizador</string>
+    <string name="popup_title_timer">Temporizador</string>
+    <string name="description_timer_icon">Icono de temporizador</string>
+    <string name="text_stop_timer_button">Parar</string>
+    <string name="timer_is_off_because_walking_mode">El temporizador está deshabilitado porque
+        \'Modo caminar\' está habilitado. Porque en este modo percibimos las tarjetas fonéticamente
+        en vez de visualmente, el temporizador puede ser confuso.</string>
+    <string name="timer_stopped">El temporizador está detenido</string>
+    <string name="time_is_over">¡Se acabó el tiempo!</string>
+    <string name="description_edit_card">Editar tarjeta</string>
+    <string name="description_edit_deck_settings">Editar configuración del mazo</string>
+    <string name="description_search_button">Buscar</string>
+    <string name="description_walking_mode_button">Modo caminar</string>
+    <string name="popup_title_walking_mode">Modo caminar</string>
+    <string name="description_walking_mode_icon">Icono modo caminar</string>
+    <string name="description_walking_mode_settings_button">Configuración de modo caminar</string>
+    <plurals name="message_quit_exercise">
+        <item quantity="one">Queda %d tarjeta por responder</item>
+        <item quantity="other">Quedan %d tarjetas por responder</item>
+    </plurals>
+    <string name="button_show_unanswered_card">Mostrar tarjeta no respondida</string>
+    <string name="button_quit_exercise">Salir de todos modos</string>
+    <string name="no_cards_to_exercise">No hay tarjetas para practicar</string>
+    <string name="deck_has_no_cards_to_show_example">El mazo no tiene tarjetas para mostrar un ejemplo</string>
+    <!-- Card filter for autoplay screen -->
+    <string name="screen_title_card_filter_for_autoplay">Filtro de tarjetas</string>
+    <plurals name="matching_cards_number_label">
+        <item quantity="one">tarjeta coincide con el filtro</item>
+        <item quantity="other">tarjetas coinciden con el filtro</item>
+    </plurals>
+    <string name="title_card_filter_state">Estado</string>
+    <string name="text_available_for_exercise_group_checkbox">Disponible para un ejercicio</string>
+    <string name="text_awaiting_group_checkbox">Pendiente</string>
+    <string name="text_learned_group_checkbox">Aprendido</string>
+    <string name="title_card_filter_grade">Calificacación</string>
+    <string name="title_card_filter_last_tested">Última vez revisado</string>
+    <string name="title_last_tested_from">Desde</string>
+    <string name="title_last_tested_to">hasta</string>
+    <string name="zero_time">el primer momento</string>
+    <string name="now">Ahora</string>
+    <string name="time_ago">Hace %1$s</string>
+    <string name="title_dialog_last_tested_from">Última vez revisado desde</string>
+    <string name="title_dialog_last_tested_to">Última vez revisado hasta</string>
+    <string name="ago"></string>
+    <string name="text_start_playing_button">Reproducir</string>
+    <string name="toast_text_no_card_matches_filter_conditions">Ninguna tarjeta coincide con el filtro</string>
+    <!-- Player screen -->
+    <string name="player_notification_channel_name">Reproductor de tarjetas</string>
+    <string name="player_notification_channel_description">Pronunciación de 
+        preguntas y respuestas</string>
+    <string name="player_notification_title">Reproductor de tarjetas</string>
+    <string name="pause_in_notification">Pausa</string>
+    <string name="resume_in_notification">Reanudar</string>
+    <string name="play_one_more_lap_in_notification">Reproducir otro repaso</string>
+    <string name="description_laps_button">Pasadas</string>
+    <string name="title_dialog_laps_in_player">Número de repasos</string>
+    <string name="radiobutton_infinitely">Infinitamente</string>
+    <plurals name="radiobutton_specific_number_of_laps">
+        <item quantity="one">repaso</item>
+        <item quantity="other">repasos</item>
+    </plurals>
+    <string name="description_pause_button">Pausa</string>
+    <string name="description_resume_button">Reanudar</string>
+    <string name="description_completed_cards">Tarjetas revisadas</string>
+    <string name="description_playing_completed">Reproducción terminada</string>
+    <string name="button_end">Fin</string>
+    <string name="button_play_again">Reproducir otra vez</string>
+    <string name="no_cards_to_play">No hay tarjetas para reproducir</string>
+    <!-- Deck editor screen -->
+    <string name="screen_title_deck_editor">Deck editor</string>
+    <string name="screen_title_deck_settings">Deck settings</string>
+    <string name="title_rename_deck_dialog">Nombre del mazo</string>
+    <string name="error_message_empty_name">El nombre no puede estar vacío</string>
+    <string name="error_message_occupied_name">Este nombre ya está en uso</string>
+    <string name="tab_name_settings">Configuración</string>
+    <string name="tab_name_cards">Tarjetas</string>
+    <string name="description_add_card_button">Agregar tarjeta</string>
+    <!-- Selection toolbar -->
+    <string name="description_cancel_selection">Cancelar selección</string>
+    <string name="description_select_all">Seleccionar todos</string>
+    <string name="description_remove">Eliminar</string>
+    <string name="description_more_options">Más opciones</string>
+    <!-- Card selection toolbar -->
+    <plurals name="title_card_selection_toolbar">
+        <item quantity="one">%d tarjeta</item>
+        <item quantity="other">%d tarjetas</item>
+    </plurals>
+    <string name="card_selection_option_invert">Cambiar el sentido</string>
+    <string name="card_selection_option_change_grade">Cambiar calificación</string>
+    <string name="card_selection_option_mark_as_learned">Marcar como \'Aprendido\'</string>
+    <string name="card_selection_option_mark_as_unlearned">Marcar como \'No aprendido\'</string>
+    <string name="card_selection_option_remove">Eliminar</string>
+    <string name="card_selection_option_move_to">Mover a</string>
+    <string name="card_selection_option_copy_to">Copiar a</string>
+    <string name="dialog_title_change_grade">Elegir calificación</string>
+    <plurals name="snackbar_card_selection_action_completed_invert">
+        <item quantity="one">%d tarjeta cambió de sentido</item>
+        <item quantity="other">%d tarjetas cambiaron de sentido</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_change_grade">
+        <item quantity="one">La calificación cambió a %1$d en %2$d tarjeta</item>
+        <item quantity="other">La calificación cambió a %1$d en %2$d tarjetas</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_mark_as_learned">
+        <item quantity="one">%d tarjeta ha sido marcado como \'Aprendido\'</item>
+        <item quantity="other">%d tarjetas han sido marcados como \'Aprendido\'</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_mark_as_unlearned">
+        <item quantity="one">%d tarjeta ha sido marcado como \'No aprendido\'</item>
+        <item quantity="other">%d tarjetas han sido marcados como \'No aprendido\'</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_remove">
+        <item quantity="one">%d tarjeta se eliminó</item>
+        <item quantity="other">%d tarjetas se eliminaron</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_move">
+        <item quantity="one">%1$d tarjeta movió a \'%2$s\'</item>
+        <item quantity="other">%1$d tarjetas movieron a \'%2$s\'</item>
+    </plurals>
+    <plurals name="snackbar_card_selection_action_completed_copy">
+        <item quantity="one">%1$d tarjeta copió a \'%2$s\'</item>
+        <item quantity="other">%1$d tarjetas copiaron a \'%2$s\'</item>
+    </plurals>
+    <!-- Deck content screen -->
+    <string name="button_export">Exportar</string>
+    <string name="button_search">Buscar</string>
+    <string name="the_deck_does_not_yet_contain_cards">El mazo todavía no tiene tarjetas</string>
+    <!-- Search screen -->
+    <string name="hint_search_in_all_cards">Buscar por todas las tarjetas</string>
+    <string name="hint_search_in_specific_deck">Buscar en \'%1$s\'</string>
+    <string name="message_no_paste_data">El portapapeles no contiene texto</string>
+    <!-- Cards Editor screen -->
+    <string name="card_label_duplicated">Duplicado</string>
+    <string name="explanation_card_label_duplicated">Hay otra tarjeta con la misma pregunta y
+        respuesta en este mazo.</string>
+    <string name="hint_question_edittext">Escribir la pregunta</string>
+    <string name="hint_answer_edittext">Escribir la respuesta</string>
+    <string name="description_invert_card_button">Cambiar sentido de la tarjeta</string>
+    <string name="description_paste_button">Pegar</string>
+    <string name="description_clear_button">Despejar</string>
+    <string name="description_remove_card_button">Eliminar tarjeta</string>
+    <string name="description_move_card_button">Mover tarjeta a otro mazo</string>
+    <string name="description_copy_card_button">Copiar tarjeta a otro mazo</string>
+    <string name="description_card_info_button">Información de la tarjeta</string>
+    <string name="card_is_removed">Se eliminó la tarjeta</string>
+    <string name="card_is_moved">Movió la tarjeta</string>
+    <string name="card_is_copied">Copió la tarjeta</string>
+    <string name="snackbar_action_cancel" tools:ignore="ButtonCase">cancelar</string>
+    <string name="popup_title_card_info">Información de la tarjeta</string>
+    <string name="description_info_icon">Icono de información</string>
+    <string name="card_info_popup_deck_title">Mazo</string>
+    <string name="card_info_popup_number_of_tests_title">Número de repasos</string>
+    <string name="card_info_popup_time_of_the_last_test_title">Tiempo del último repaso</string>
+    <string name="description_done_button">Hecho</string>
+    <string name="description_cancel_button">Cancelar</string>
+    <string name="toast_fill_in_the_card">Llenar la tarjeta</string>
+    <!-- Deck settings screen -->
+    <string name="deck_settings_section_general">General</string>
+    <string name="deck_settings_section_exercise">Ejercicio</string>
+    <string name="deck_settings_section_autoplay">Auto-reproducir</string>
+    <string name="deck_settings_item_random_order">Orden aleatorio</string>
+    <string name="deck_settings_item_pronunciation">Pronunciación</string>
+    <string name="deck_settings_item_card_inversion">Cambio de sentido de tarjetas</string>
+    <string name="deck_settings_item_question_display">Mostrar texto de la pregunta</string>
+    <string name="deck_settings_item_testing_method">Método de repaso</string>
+    <string name="deck_settings_item_intervals">Intervalos</string>
+    <string name="deck_settings_item_motivational_timer">Temporizador motivacional</string>
+    <string name="deck_settings_item_pronunciation_plan">Plan de pronunciación</string>
+    <string name="description_navigate_icon">Icono de navegación</string>
+    <string name="speak_event_abbr_speak_question">P</string>
+    <string name="speak_event_abbr_speak_answer">R</string>
+    <string name="speak_event_abbr_delay">%ds</string>
+    <string name="on">Sí</string>
+    <string name="off">No</string>
+    <string name="interval_unit_abbreviation_minutes">min</string>
+    <string name="interval_unit_abbreviation_hours">h</string>
+    <string name="interval_unit_abbreviation_days">d</string>
+    <string name="interval_unit_abbreviation_months">m</string>
+    <string name="time_for_answer">%d seg.</string>
+    <!-- Presets -->
+    <string name="title_preset_name_input_dialog">Nombre para la nueva configuración preestablecida</string>
+    <string name="preset_name_default">Por defecto</string>
+    <string name="preset_name_individual">Individual</string>
+    <string name="description_save_preset">Guardar la configuración preestablecida</string>
+    <string name="title_preset_popup">Configuración</string>
+    <string name="description_rename_preset_button">Renombrar la configuración preestablecidas</string>
+    <string name="description_delete_preset_button">Eliminar la configuración preestablecida</string>
+    <string name="description_add_new_preset">Agregar la configuración preestablecida</string>
+    <string name="title_remove_preset_dialog">Eliminando la configuración preestablecida \'%1$s\'</string>
+    <string name="top_dialog_text_remove_preset">Esta configuración preestablecida está en uso por
+        estos mazos:</string>
+    <string name="bottom_dialog_text_remove_preset">Si elimina esta configuración preestablecida,
+        se usará la configuración por defecto para estos mazos. ¿Seguro que quiere eliminar esta
+        configuración preestablecida?</string>
+    <string name="button_delete">Eliminar</string>
+    <!-- Pronunciation screen -->
+    <string name="screen_title_pronunciation">Pronunciación</string>
+    <string name="tip_pronunciation_screen_select_languages">Elija los idiomas de las preguntas y
+        respuestas para que se pronuncian correctamente.</string>
+    <string name="tip_pronunciation_screen_about_tts">La pronunciación está implementada con la
+        API de texto a voz de Android. Si quiere personalizar la pronunciación, por ejemplo para
+        cambiar el motor, la voz, el tono, el ritmo... simplemente vaya a la configuración de
+        texto a voz.</string>
+    <string name="tip_pronunciation_screen_about_autospeaking">Es altamente recomendable habilitar
+        la pronunciación de un idioma nuevo. Así entenderá inmediatamente como deben sonar las
+        palabras y esto le ayudará a memorizar el vocabulario más rápidamente.</string>
+    <string name="tip_pronunciation_screen_about_selection">Para pronunciar un fragmento de texto,
+        simplemente resáltelo y haga clic en el icono de \'Pronunciar\'.</string>
+    <string name="tip_pronunciation_screen_about_brackets">Siempre que \'Pronunciar texto en
+        paréntesis\' está deshabilitado, es fácil separar el texto que se debe pronunciar del texto
+        que no. Puede usar () [] {} &lt;&gt; para delimitar el texto que no se debe pronunciar.
+        Por ejemplo, puede delimitar así una transcripción, sinónimos o definiciones.</string>
+    <string name="text_question_title_textview">Pregunta</string>
+    <string name="text_answer_title_textview">Respuesta</string>
+    <string name="default_language">Idioma por defecto</string>
+    <string name="text_autospeaking_switch">Auto-pronunciar</string>
+    <string name="text_speak_text_in_brackets">Pronunciar texto en paréntesis</string>
+    <string name="text_go_to_tts_settings_button">Ir a la configuración de texto a voz</string>
+    <string name="toast_no_tts_settings">Su dispositivo no tiene una configuración de texto a voz</string>
+    <!-- Card inversion screen -->
+    <string name="screen_title_card_inversion">Cambio de sentido de tarjetas</string>
+    <string name="tip_card_inversion_screen">Cambiar el sentido de las tarjetas para que
+        las respuestas sean las preguntas, y vice versa. Por ejemplo, se puede usar esto para
+        tarjetas de traducción de palabras.
+    </string>
+    <string name="item_card_inversion_off">Deshabilitado</string>
+    <string name="item_card_inversion_on">Habilitado</string>
+    <string name="item_card_inversion_every_other_lap">Cada repaso</string>
+    <string name="item_card_inversion_randomly">Aleatoriamente</string>
+    <!-- Question display screen -->
+    <string name="screen_title_question_display">Mostrar pregunta</string>
+    <string name="tip_question_display_screen_why">Se supone que si el texto de una pregunta está
+        escondido, va a percibir la pregunta de oído. Esto puede ser una ayuda para mejorar su
+        capacidad de escucha mientras aprende un idioma.</string>
+    <string name="tip_question_display_screen_do_not_forget_autospeaking">Como usted ha
+        deshabilitado \'Mostrar pregunta\', va a percibir la pregunta fonéticamente. Por eso,
+        no se olvide de habilitar \'Auto-pronunciar\' para hacer más cómodo el ejercicio.</string>
+    <!-- Testing method screen -->
+    <string name="screen_title_testing_method">Método de repaso</string>
+    <string name="tip_testing_method_screen_without_testing">\'Sin calificar\' es adecuado cuando
+        usted piensa revisar el mazo solo una o dos veces.</string>
+    <string name="tip_testing_method_screen_self_testing">En la mayoría de los casos,
+        \'Auto-calificar\' es la mejor elección. Usted mismo decide si sabe la respuesta o no.</string>
+    <string name="tip_testing_method_screen_testing_with_variants">\'Elección múltiple\' es un
+        método divertido para jugar. Elija la respuesta adecuada entre cuatro opciones. Las opciones
+        se toman del mismo mazo.</string>
+    <string name="tip_testing_method_screen_spell_check">Con \'Escribir respuesta\', se comprueba
+        si lo que usted escribe coincide con la respuesta. Es adecuado si quiere practicar la
+        ortografía.</string>
+    <string name="testing_method_without_testing">Sin calificar</string>
+    <string name="testing_method_self_testing">Auto-calificar</string>
+    <string name="testing_method_testing_with_variants">Elección múltiple</string>
+    <string name="testing_method_spell_check">Escribir respuesta</string>
+    <!-- Intervals screen -->
+    <string name="screen_title_intervals">Intervalos</string>
+    <string name="tip_intervals_screen_importance">Con repaso espaciado, se refuerza
+        la memoria a largo plazo.</string>
+    <string name="tip_intervals_screen_adjust_interval_scheme">Ajusta el esquema de intervalos
+        según sus preferencias. Consejo general: \'Más alta la calificación, más largo debe ser
+        el intervalo.</string>
+    <plurals name="interval_unit_minutes">
+        <item quantity="one">minuto</item>
+        <item quantity="other">minutos</item>
+    </plurals>
+    <plurals name="interval_unit_hours">
+        <item quantity="one">hora</item>
+        <item quantity="other">horas</item>
+    </plurals>
+    <plurals name="interval_unit_days">
+        <item quantity="one">día</item>
+        <item quantity="other">días</item>
+    </plurals>
+    <plurals name="interval_unit_months">
+        <item quantity="one">mes</item>
+        <item quantity="other">meses</item>
+    </plurals>
+    <!-- Motivational timer screen -->
+    <string name="screen_title_motivational_timer">Temporizador motivacional</string>
+    <string name="tip_motivational_timer_screen_description">El \'temporizador motivacional\'
+        está diseñado para mantenerse libre de distracciones. Si no responde en el tiempo dado,
+        se marcará la tarjeta como \'No lo recuerdo\' y le tocará repetirla luego.</string>
+    <string name="tip_motivational_timer_screen_how_to_do_with_this">Darse tiempo suficiente para
+        responder a la pregunta sin preocuparse sobre la cuenta regresiva. Si siente que necesita
+        más tiempo, puede parar el temporizador.</string>
+    <string name="error_motivational_timer_input">El número debe ser mayor que cero</string>
+    <string name="saved">¡Guardado!</string>
+    <string name="message_quit_motivational_timer">Se cambió el temporizador desde \'%1$s\'
+        a \'%2$s\'. ¿Quiere guardar los cambios?</string>
+    <!-- Pronunciation plan screen -->
+    <string name="screen_title_pronunciation_plan">Plan de pronunciación</string>
+    <string name="tip_pronunciation_plan_screen_description">Describe como quiere que se pronuncia
+        la tarjeta en modo \'auto-reproducción\'.</string>
+    <string name="tip_pronunciation_plan_screen_about_longer_delay">Intenta responder a la pregunta
+        antes de que la app la pronuncia. Si necesita más tiempo para responder, simplemente
+        aumenta la demora entre la pronunciación de la pregunta y la respuesta. Por ejemplo, la
+        traducción de una oración puede demorar 5 o más segundos.</string>
+    <string name="tip_pronunciation_plan_screen_about_repetition_pronunciation">Si apenas ha
+        empezado a aprender un idioma, configure un plan de pronunciación para que se pronuncian
+        las palabras nuevas dos veces.</string>
+    <string name="description_drag_handle_button">Arrastra manija</string>
+    <string name="description_speak_icon">Icono de pronunciación</string>
+    <string name="pronunciation_event_speak_question">Pronunciar pregunta</string>
+    <string name="pronunciation_event_speak_answer">Pronunciar respuesta</string>
+    <string name="pronunciation_event_delay">Demora</string>
+    <string name="pronunciation_event_delay_with_args">Demora de %d seg.</string>
+    <string name="description_remove_pronunciation_event_button">Eliminar evento de pronunciación</string>
+    <string name="description_add_pronunciation_event_button">Agregar evento de pronunciación</string>
+    <string name="title_dialog_pronunciation_event">Elegir evento</string>
+    <string name="sec">seg.</string>
+    <string name="error_message_cannot_change_last_speak_question">No se puede cambiar el último
+        evento de \'Pronunciar pregunta\'</string>
+    <string name="error_message_cannot_change_last_speak_answer">No se puede cambiar el último
+        evento de \'Pronunciar respuesta\'</string>
+    <!-- Settings screen -->
+    <string name="screen_title_settings">Configuración</string>
+    <string name="text_walking_mode_title">Modo caminar</string>
+    <string name="text_walking_mode_settings_description">Usar botones de volumen</string>
+    <string name="text_fullscreen_settings_title">Modo pantalla completa</string>
+    <string name="everywhere">Siempre</string>
+    <string name="nowhere">Nunca</string>
+    <string name="title_fullscreen_mode_dialog">Modo pantalla completa</string>
+    <string name="item_text_fullscreen_in_exercise">En ejercicios</string>
+    <string name="item_text_fullscreen_in_card_player">En auto-reproducción</string>
+    <string name="item_text_fullscreen_in_other_places">En otros lugares</string>
+    <string name="text_card_appearance_settings_title">Card appearance</string>
+    <string name="text_card_appearance_settings_description">How a card looks in the exercise</string>
+    <!-- Card appearance -->
+    <string name="screen_title_card_appearance">Card appearance</string>
+    <string name="title_question_field">Question field</string>
+    <string name="title_answer_field">Answer field</string>
+    <string name="text_alignment">Text alignment</string>
+    <string name="text_size">Text size</string>
+    <string name="error_message_indicate_text_size">Specify the text size</string>
+    <!-- Walking mode settings screen -->
+    <string name="screen_title_walking_mode_settings">Configuración de modo caminar</string>
+    <string name="text_volume_up_button_section">Botón de subir volumen</string>
+    <string name="text_volume_down_button_section">Botón de bajar volumen</string>
+    <string name="text_single_press_title">Pulsar una vez</string>
+    <string name="text_double_press_title">Pulsar dos veces</string>
+    <string name="text_long_press_title">Pulsación larga</string>
+    <string name="key_gesture_action_no_action">Sin acción</string>
+    <string name="key_gesture_action_move_to_next_card">Pasar a la próxima tarjeta</string>
+    <string name="key_gesture_action_move_to_previous_card">Volver a la tarjeta anterior</string>
+    <string name="key_gesture_action_mark_as_remember">Marcar como \'Lo recuerdo\'</string>
+    <string name="key_gesture_action_mark_as_not_remember">Marcar como \'No lo recuerdo\'</string>
+    <string name="key_gesture_action_mark_card_as_learned">Marcar como \'Aprendido\'</string>
+    <string name="key_gesture_action_speak_question">Pronunciar pregunta</string>
+    <string name="key_gesture_action_speak_answer">Pronunciar respuesta</string>
+    <!-- Support app screen -->
+    <string name="screen_title_support_app">Apoyar app</string>
+    <string name="cta_rate_the_app_on_google_play">Puntuar la app en Google Play</string>
+    <string name="cta_rate_the_app_on_google_play_description">La puntuación de la app afecta
+        la decisión de descargarla o no. Una puntuación positiva nos ayuda a llegar a más usuarios.
+        Con más descargas, podríamos recibir retroalimentación desde varias perspectivas, lo cual
+        nos ayudará a hacer ForgetMeNot mejor que nunca.</string>
+    <string name="text_rate_us_button">Puntuar la app</string>
+    <string name="cta_give_us_feedback">Envíanos retroalimentación</string>
+    <string name="cta_give_us_feedback_description">Díganos que está funcionando y que no.
+        Queremos darle la mejor experiencia, entonces su retroalimentación es muy valiosa. Cuéntanos
+        como podemos mejorar.</string>
+    <string name="text_write_review_on_google_play_button">Escribir una revisión en Google Play</string>
+    <string name="text_submit_new_issue_on_github_button">Crear un nuevo incidente en Github</string>
+    <string name="text_send_email_to_author_button">Enviar un correo al autor</string>
+    <string name="cta_help_us_with_translation">Ayúdanos con una traducción</string>
+    <string name="cta_help_us_with_translation_description">La traducción es necesaria para que
+        usuarios que hablen otros idiomas pueden disfrutar la app. También, permite que la app
+        sea más accesible y útil a una audiencia más amplia.</string>
+    <string name="text_help_translate_button">Ayudar traducir</string>
+    <string name="cta_share_with_friends">Compartir con amigos</string>
+    <string name="cta_share_with_friends_description">Tal vez a sus amigos también les gustaría la app.
+        Comparta su experiencia con ellos.</string>
+    <string name="text_share_with_friends_button">Compartir con amigos</string>
+    <string name="share_with">Compartir con</string>
+    <string name="text_share_with_friends">Acuérdese de todo con tarjetas de memoria.</string>
+    <string name="cta_join_us_on_social_media">Únase con nosotros en las redes sociales</string>
+    <string name="cta_join_us_on_social_media_description">Lee las noticias más recientes, comparte
+        artículos interesantes y haga preguntas.</string>
+    <!-- Help screen -->
+    <string name="screen_title_help">Ayuda</string>
+    <string name="title_articles">Artículos</string>
+    <string name="description_help_article_icon">Icono de articulo de ayuda</string>
+    <string name="help_article_title_import_of_file">Importar un archivo</string>
+    <string name="help_article_title_exercise">Ejercicio</string>
+    <string name="help_article_title_testing_methods">Métodos de repaso</string>
+    <string name="help_article_title_grade_and_intervals">Calificaciones e intervalos</string>
+    <string name="help_article_title_pronunciation">Pronunciación</string>
+    <string name="help_article_title_question_display">Mostrar pregunta</string>
+    <string name="help_article_title_motivational_timer">Temporizador motivacional</string>
+    <string name="help_article_title_walking_mode">Modo caminar</string>
+    <string name="help_article_title_autoplaying_cards">Auto-reproducir tarjetas</string>
+    <string name="help_article_title_presets">Configuraciones preestablecidas</string>
+    <string name="help_article_title_advice_on_compiling_deck">Consejos para crear un mazo</string>
+    <string name="help_article_title_advice_on_studying">Consejos para estudiar</string>
+    <!-- Help article screen -->
+    <string name="description_show_table_of_contents_button">Mostrar tabla de contenidos</string>
+    <string name="description_previous_button">Anterior</string>
+    <string name="description_next_button">Siguiente</string>
+    <string name="article_import_of_file_paragraph_1">ForgetMeNot puede importar archivos de texto en dos formatos:</string>
+    <string name="article_import_of_file_qa_format_section_title">1. Formato \'Q:A:\' (Pregunta:Respuesta)</string>
+    <string name="description_window_frame_icons">Iconos del borde de la ventana</string>
+    <string name="example_of_text_file_qa_format">Q:
+        \n¿Cuál ciudad fue la primera capital de los Estados Unidos?
+        \nA:
+        \nNueva York
+
+        \n\n\n\nQ:
+        \n¿Quién fue el primer europeo en descubrir América?
+        \nA:
+        \nLeif Erikson
+
+        \n\n\n\nQ:
+        \n¿Quién invento el primer automóvil?
+        \nA:
+        \nKarl Benz
+
+        \n\n\n\nQ:
+        \n¿Cuándo terminó la guerra de independencia de los Estados Unidos?
+        \nA:
+        \n3 de septiembre de 1783</string>
+    <string name="example_qa_format_file_name">Historia de los EEUU.txt</string>
+    <string name="article_import_of_file_qa_format_description">Esto es un formato propio de
+        ForgetMeNot. Fue inventado para crear tarjetas en un archivo de texto. Es un formato
+        intuitivo y leíble. Se recomienda usar este formato si quiere crear un mazo en un
+        computador de mesa o portátil.</string>
+    <string name="article_import_of_file_dsv_format_section_title">2. Valores separados por un delimitador</string>
+    <string name="example_of_text_file_dsv_format">\"naturaleza\";\"природа\"
+        \n\"playa\";\"берег, пляж\"
+        \n\"costa\";\"морское побережье\"
+        \n\"desierto\";\"пустыня\"
+        \n\"glacial\";\"ледник\"
+        \n\"bosque\";\"лес\"
+        \n\"prado\";\"поле, луг\"
+        \n\"cañón\";\"каньон\"
+        \n\"isla\";\"остров\"
+        \n\"jungla\";\"джунгли, дебри\"
+        \n\"lago\";\"озеро\"
+        \n\"montaña\";\"гора\"
+        \n\"cerro\";\"холм, возвышенность\"
+        \n\"llano\";\"равнина\"
+        \n\"hondonada\";\"низина, впадина\"
+        \n\"estanque\";\"пруд\"
+        \n\"roca\";\"скала, камень\"
+        \n\"océano\";\"океан\"
+        \n\"mar\";\"море\"
+        \n\"río\";\"река\"</string>
+    <string name="example_dsv_format_file_name">Naturaleza.csv</string>
+    <string name="article_import_of_file_dsv_format_description">Este es el nombre genérico para
+        archivos de <a href="https://es.wikipedia.org/wiki/Valores_separados_por_comas">CSV</a> o
+        <a href="https://en.wikipedia.org/wiki/Tab-separated_values">TSV</a>.
+        Este formato se usa para representar datos en forma de tabla. Muchos programas como Microsoft
+        Excel o Google Sheets le permiten exportar datos en este formato. ForgetMeNot interpreta cada
+        registro (fila) como una tarjeta individual, con la primera columna como la pregunta y la
+        segunda columna como la respuesta. También puede crear archivos así con un editor de texto.
+        Por ejemplo, usted puede crear un archivo con la extensión .tsv donde el tabulador separa
+        las preguntas y respuestas.
+
+        \n\nPorque este formato tiene muchas variaciones, puede elegir un formato más específico entre
+        los formatos predeterminados o definir su propio formato.</string>
+    <string name="article_exercise_paragraph_1">En un ejercicio, usted responde preguntas. Para cada
+        mazo puede especificar una configuración única, lo que puede cambiar significativamente la
+        forma del ejercicio:
+
+        \n\n\t- mostrar tarjetas en un orden aleatorio o no (Orden aleatorio)
+        \n\n\t- cambiar como comprobar la respuesta
+        (<annotation clickable="testing_method">Método de repaso</annotation>)
+        \n\n\t- presentar la pregunta visualmente o fonéticamente
+        (<annotation clickable="question_display">Mostrar pregunta</annotation>,
+        <annotation clickable="pronunciation">Pronunciación</annotation>)
+        \n\n\t- si se pronuncia la pregunta o la respuesta automáticamente
+        (<annotation clickable="pronunciation">Pronunciación</annotation>)
+        \n\n\t- si se cambia el orden de la pregunta y la respuesta. Puede ser útil si se puede
+        intercambiar la respuesta con la pregunta. (Cambiar sentido de la tarjeta)
+        \n\n\t- si hay un límite de tiempo para responder o no
+        (<annotation clickable="motivational_timer">Temporizador motivacional</annotation>)
+
+        \n\nIndependientemente del
+        <annotation clickable="testing_method">método de repaso</annotation>,
+        la respuesta puede ser correcta o equivocada. Si la respuesta es equivocada, se presentará
+        la tarjeta otra vez al final, hasta que la respuesta sea correcta. Esto es necesario para
+        que usted memorice la respuesta.</string>
+    <string name="question1_in_exercise_article">Un sombrero</string>
+    <string name="answer1_in_exercise_article">Hat</string>
+    <string name="question2_in_exercise_article">Unos guantes</string>
+    <string name="answer2_in_exercise_article">Gloves</string>
+    <string name="question3_in_exercise_article">Un abrigo</string>
+    <string name="answer3_in_exercise_article">Coat</string>
+    <string name="article_exercise_paragraph_2">Sus respuestas influyen
+        <annotation clickable="grade">la calificación</annotation> de la tarjeta. Si
+        <annotation clickable="grade">los intervalos</annotation> de repaso
+        están habilitados, la calificación determina cuando se presentará la tarjeta otra vez.
+
+        \n\nSi conoce bien la pregunta y quiere que no se vuelva a presentar la tarjeta o no quiere
+        estudiarla, haga clic en el icono de \'Marcar como aprendido\'. Nunca se volverá a mostrar
+        la tarjeta.</string>
+    <string name="question4_in_exercise_article">¿Cómo te llamas?</string>
+    <string name="answer4_in_exercise_article">What\'s your name?</string>
+    <string name="question5_in_exercise_article">Buenos días</string>
+    <string name="answer5_in_exercise_article">Good morning</string>
+    <string name="variant2_in_exercise_article">Good afternoon</string>
+    <string name="variant3_in_exercise_article">Good evening</string>
+    <string name="variant4_in_exercise_article">Good night</string>
+    <string name="article_exercise_paragraph_3">Puede editar la tarjeta durante el ejercicio,
+        tal vez para corregir un error, pero posiblemente para mejorar la tarjeta si es difícil
+        de recordar.
+
+        \n\nHay dos tipos de pistas disponibles en un ejercicio:
+
+        \n\n\t- \'Cubrir letras\'. Esta pista se puede aplicar varias veces. La primera vez que
+        usted habilita la pista, todas las letras en la respuesta se reemplazan por el carácter ■.
+        Puede ver cuantas palabras tiene la respuesta y cuantas letras hay en cada palabra. Si
+        esto no es suficiente, puede mostrar parte de la respuesta. Simplemente resalte un
+        fragmento del texto y presione \'Mostrar región seleccionada\' en la ventana emergente de la
+        pista.
+
+        \n\n\t- \'Elección múltiple\'. Se presentarán cuatro opciones para elegir. Las opciones se
+        toman desde el mismo mazo al que pertenece la tarjeta. Esto puede hacer muy fácil
+        responder si el mazo no está diseñado para \'Elección múltiple\'.</string>
+    <string name="article_exercise_paragraph_4">Puede hacer un ejercicio sin mirar la pantalla con el
+        <annotation clickable="walking_mode">\'Modo caminar\'</annotation>.</string>
+    <string name="article_testing_methods_paragraph_1">El método de repaso define como se va a
+        comprobar la respuesta. Hay 4 opciones:</string>
+    <string name="article_testing_methods_off_section_title">1. Sin calificar</string>
+    <string name="question_example_off_testing_method">Всі діти в цьому класі дуже ввічливі.</string>
+    <string name="answer_example_off_testing_method">Todos los niños en esta clase son muy corteses.</string>
+    <string name="article_testing_methods_off_section_description">Se puede usar para mazos con los
+        que no piensa trabajar por mucho tiempo. Por ejemplo, puede ser que un mazo contiene frases
+        en su idioma nativo y una idioma nuevo y quiere traducirlas una sola vez sin repetir.</string>
+    <string name="article_testing_methods_manual_section_title">2. Auto-calificar</string>
+    <string name="question_example_manual_testing_method">mimar\n\n\\verbo\\</string>
+    <string name="answer_example_manual_testing_method">representar algo mediante gestos y movimientos
+        sin palabras</string>
+    <string name="article_testing_methods_manual_section_description">Método de repaso básico.
+        Usted decide si recuerda la respuesta o no. La ventaja principal es la eficiencia de
+        la memorización.</string>
+    <string name="article_testing_methods_quiz_section_title">3. Elección múltiple</string>
+    <string name="question_example_quiz_testing_method">окунь</string>
+    <string name="answer_example_quiz_testing_method_variant1">arenque</string>
+    <string name="answer_example_quiz_testing_method_variant2">trucha</string>
+    <string name="answer_example_quiz_testing_method_variant3">salmón</string>
+    <string name="answer_example_quiz_testing_method_variant4">lubina</string>
+    <string name="article_testing_methods_quiz_section_description">En este modo, tiene que elegir
+        la opción correcta entre las cuatro que se presentan. Las opciones son tomadas del mismo
+        mazo al que pertenece la tarjeta. Entonces si va a usar este método de repaso, es importante
+        crear un mazo donde las opciones son adecuadas. Por ejemplo, si es un mazo de vocabulario, debe
+        contener palabras de la misma parte de la oración (verbos, sustantivos, adjetivos, etc.) Esto
+        es una forma más divertida de estudiar, entonces es buenísimo para los niños. La desventaja es
+        menor eficiencia promedio en la memorización, dado que las opciones dan una pista
+        significativa.</string>
+    <string name="article_testing_methods_entry_section_title">4. Escribir respuesta</string>
+    <string name="question_example_entry_testing_method">Participio de \'volver\'</string>
+    <string name="answer_example_entry_testing_method">vuelto</string>
+    <string name="article_testing_methods_entry_section_description">Este método será útil si
+        quiere comprobar la ortografía de las palabras. Se puede usar como un ejercicio de dictado.
+        Para hacer esto, cree un mazo donde la pregunta y respuesta son lo mismo, deshabilite
+        \'Mostrar pregunta\' y habilite auto-pronunciación de la pregunta, con el idioma adecuado
+        en la configuración del mazo.</string>
+    <string name="article_grade_and_intervals_paragraph1">Cada tarjeta tiene una calificación.
+        Cada respuesta en un ejercicio afecta la calificación de la siguiente forma:
+
+        \n\n\t- resta uno para cada respuesta equivocada (solo cuando la calificación es mayor que
+        cero)
+
+        \n\n\t- suma uno para cada respuesta correcta, pero solo si usted responde correctamente la
+        primera vez que se presenta la tarjeta en un ejercicio
+
+        \n\n\t- no cambia si la respuesta es correcta, pero no es la primera vez que se ha presentado
+        la tarjeta debido a una respuesta equivocada anteriormente</string>
+    <string name="question_in_grade_and_intervals_article">цинк</string>
+    <string name="answer_in_grade_and_intervals_article">zinc</string>
+    <string name="article_grade_and_intervals_paragraph2">La calificación está directamente
+        relacionada con los intervalos de repaso que se especifican para el mazo. Los intervalos afectan
+        en cuanto tiempo la tarjeta volverá a estar disponible para un nuevo ejercicio. Típicamente,
+        más alta la calificación, más largo el intervalo de repaso. Es decir, los intervalos son
+        necesarios para que usted repasa con mayor frecuencia las tarjetas con las que tiene
+        dificultades.
+
+        \n\nTal vez por alguna razón, quiere cambiar la calificación. Simplemente presione el icono
+        de \'Calificar\' y elija. Típicamente cuando cambia la calificación, le gustaría aclarar
+        en cuanto tiempo se va a presentar de nuevo esta tarjeta. Si cambió manualmente la
+        calificación, no aplicaría a esta tarjeta durante el ejercicio actual.</string>
+    <string name="article_question_display_paragraph_1">Puede elegir no mostrar el texto de las preguntas.
+        En este caso, se supone que va a percibir la pregunta fonéticamente. Esto le ayudará a mejorar
+        sus capacidades de escucha mientras aprende un idioma nuevo. Junto con esto, es aconsejable
+        habilitar la pronunciación automática de la pregunta. Si todavía quiere ver la pregunta, presione
+        \'Mostrar pregunta\'.</string>
+    <string name="question_in_question_display_article">Je demande à voir un avocat!</string>
+    <string name="answer_in_question_display_article">¡Yo exijo ver un aguacate!</string>
+    <string name="article_motivational_timer">El \'temporizador motivacional\' está diseñado para
+        enfocar su atención en aprender el contenido. Si está habilitado, tendrá algún tiempo
+        para responder a la pregunta. Si se le pasa el tiempo, se considera la tarjeta caducada, y se
+        marca la respuesta como equivocada automáticamente. Si se acaba el tiempo porque usted se
+        distrajo, el temporizador servirá como un recordatorio para mantener la concentración. Si
+        está pensando en la respuesta y siente que no tiene suficiente tiempo, presione \'Parar\' en
+        la ventana emergente del icono del temporizador.</string>
+    <string name="question_in_motivational_timer_article">¿Cuántos decímetros son 0.0193 km?</string>
+    <string name="answer_in_motivational_timer_article">193</string>
+    <string name="article_pronunciation">La app soporta la pronunciación del texto a través de la API
+        de texto a voz de Android. Para cada mazo, usted puede elegir independientemente el idioma en
+        que se pronuncia la pregunta y la respuesta. Por eso, cuando cree un mazo, use un solo idioma
+        para las preguntas y un solo idioma para las respuestas. Es importante que todas las preguntas
+        en un mazo estén en el mismo idioma, y que todas las respuestas en un mazo estén en el mismo
+        idioma así sea diferente al de las preguntas. Se recomienda siempre configurar explícitamente
+        los idiomas de los mazos.
+
+        \n\nTambién puede elegir pronunciar automáticamente la pregunta o la respuesta. Esto puede ser
+        útil para aprender un idioma nuevo.
+
+        \n\nSi \'Pronunciar texto en paréntesis\' está deshabilitado, la app no pronunciará
+        el texto encerrado en cualquiera los siguientes pares de símbolos: () {} [] &lt;&gt;. Así
+        puede agregar información adicional, como transcripciones de palabras, sinónimos y palabras
+        para aclarar la traducción.
+
+        \n\nPara pronunciar una parte del texto, simplemente resáltelo y presione el icono de
+        pronunciación.</string>
+    <string name="article_walking_mode">\'Modo caminar\' es un modo especial donde usted puede
+        responder las preguntas sin mirar la pantalla. Usted puede controlar la app usando
+        <annotation clickable="walking_mode_settings">gestos con los botones de volumen</annotation>.
+        Cada acción está acompañada con pronunciación. Por ejemplo, cuando pasa a la próxima tarjeta,
+        se pronuncia la pregunta, y cuando responde (\'lo recuerdo\'/\'no lo recuerdo\'), se
+        pronuncia la respuesta.
+
+        \n\nSe puede usar este modo cuando usted está caminando a algún lago y quiere aprovechar el
+        tiempo. De allí viene el nombre del modo.
+
+        \n\n⚠️ Advertencias:
+
+        \n\n- Se debe mantener prendida la pantalla. Esto es debido a como funciona el sistema
+        Android: las apps solo pueden utilizar los botones de volumen cuando una app está corriendo
+        en el primer plano.
+
+        \n\n- Los métodos \'Elección múltiple\' y \'Escribir respuesta\' no son adecuados
+        para usar en este modo y por eso se cambia al método \'Auto-calificar\' automáticamente
+        cuando se habilita el \'modo caminar\'.
+
+        \n\n- La auto-pronunciación de las preguntas y respuestas se habilita automáticamente.
+        No se olvide de especificar los idiomas adecuados en la configuración de pronunciación
+        del mazo.
+
+        \n\n- Se deshabilita automáticamente el \'temporizador motivacional\'.</string>
+    <string name="article_autoplaying_cards">\'Auto-reproducir\' es un modo en el cual las
+        preguntas y respuestas se pronuncian sucesivamente. Se puede comparar con un reproductor
+        de audio, pero en vez de pistas, se reproducen las preguntas y las respuestas. Este modo
+        es apto cuando está haciendo algo, pero puede escuchar al mismo tiempo, por ejemplo,
+        mientras prepara la comida.
+
+        \n\nPara cada mazo, puede personalizar el plan de pronunciación, por ejemplo, para
+        pronunciar una pregunta dos veces, o para aumentar el tiempo entre pronunciar la
+        pregunta y la respuesta para que tenga tiempo suficiente de recordar la respuesta antes
+        de escucharla.</string>
+    <string name="article_presets">Una \'configuración preestablecida\' es un conjunto de
+        configuraciones para los mazos creados que se pueden reutilizar. Con \'configuraciones
+        preestablecidas\', puede evitar la rutina de configurar cada mazo
+        individualmente.
+
+        \n\nLo que significan los nombres de las configuraciones preestablecidas es:
+
+        \n\n\t\'Por defecto\' - la configuración estándar invariable.
+
+        \n\n\t\'Individual\' - no se usa ninguna configuración preestablecida.
+
+        \n\n\t\'Nombre para la nueva configuración preestablecida\' - una configuración guardada que se
+        puede reutilizar. Cualquier cambio a esta configuración afectaría todos los mazos que
+        la usan.</string>
+    <string name="article_advice_on_compiling_deck">1. Intente mantener sus tarjetas lo más cortas
+        posible. Es mejor crear varias tarjetas en vez de poner todo en una sola. Por ejemplo, si
+        crea una tarjeta para memorizar una palabra nueva, debe escribir una sola interpretación
+        de ella, lo cual puede expresar en no más que 3 palabras. Puede agregar información
+        adicional en paréntesis, pero la respuesta en si debe ser corta.
+
+        \n\n2. Cree mazos tomando en cuenta la configuración que les va a dar.
+
+        \n\n\t- Para el método \'Elección múltiple\', las opciones se toman del mismo mazo.
+        Entonces, las tarjetas deben contener respuestas que son adecuadas como opciones.
+
+        \n\n\t- En la configuración de pronunciación de un mazo, puede especificar un idioma para
+        las preguntas y otro para las respuestas. Por eso, es necesario crear un mazo donde se
+        usa el mismo idioma para las preguntas y el mismo idioma para las respuestas, así sea
+        un idioma diferente de las preguntas.
+
+        \n\n\t- Si quiere usar la opción de \'Cambiar sentido de las tarjetas\', cree las tarjetas
+        para que una respuesta puede servir también como una pregunta.
+
+        \n\n3. Si está creando un mazo como un archivo en su computador, puede descargar
+        <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">esta plantilla</a>.
+        Solo tiene que reemplazar \'pregunta\' con su pregunta y \'respuesta\' con su respuesta.
+        Use Copiar/Pegar para ahorrar tiempo. Si está creando un mazo en su dispositivo Android,
+        intente con el modo multi-ventana.
+
+        \n\n4. Piense en el acto de crear un mazo como parte del proceso de aprendizaje. Trate de
+        aprender las palabras mientras escribe.</string>
+    <string name="article_advice_on_studying">1. No memorice una respuesta palabra por palabra.
+        Lo principal es que usted entienda la respuesta. Siempre visualice la pregunta al
+        responder.
+
+        \n\n2. Si usted está aprendiendo un nuevo idioma, diga la respuesta en voz alta. Esto le
+        ayudará a pronunciar las palabras correctamente, y también le permite enfocarse en sus
+        estudios.
+
+        \n\n3. Use herramientas que le ayuden a enfocarse en sus estudios. Puede usar el
+        <annotation clickable="motivational_timer">\'temporizador motivacional\'</annotation>,
+        encender el modo pantalla completa o activar el modo \'No molestar\' en la configuración del
+        sonido de su dispositivo.
+
+        \n\n4. Si la pregunta es difícil de recordar para usted, edite la tarjeta, reformule la
+        pregunta o elimine lo innecesario de la respuesta. Si usted confunde respuestas, use
+        la búsqueda y revise las tarjetas confusas.
+
+        \n\n5. Haga una regla: una vez al día, no deben quedar tarjetas pendientes para estudiar.</string>
+    <!-- About screen -->
+    <string name="description_app_logo">Logo de app</string>
+    <string name="about_item_developer">Odnovolov Artem</string>
+    <string name="about_item_source_code">Código fuente</string>
+    <string name="about_item_privacy_policy">Política de privacidad</string>
+    <string name="toast_no_email_client">No tiene un cliente de correo para enviar un correo</string>
+    <string name="toast_no_browser">No tiene un navegador para abrir la dirección</string>
+    <string name="forgetmenot_brief_description">ForgetMeNot está diseñado para ayudarle a memorizar
+        información. Se basa en repaso espaciado de tarjetas. La app soporta texto a voz, importar
+        tarjetas de un archivo, configuración individual de cada mazo y muchas otras capacidades
+        interesantes. Además de permitir memorización tradicional, también hay un modo de
+        auto-reproducción. ForgetMeNot es una herramienta excelente para aprender un idioma y más.</string>
+    <string name="developer_story_title">Historia del desarrollador</string>
+    <string name="developer_story">Hace más de un año, cuando empecé a aprender un idioma
+        extranjero, decidí usar tarjetas para memorizar palabras. Probé docenas de apps diferentes
+        en Google Play, pero ninguna me dejó completamente satisfecho. Entonces decidí crear mi
+        propia app.
+
+        \n\nEn primer lugar, quise que mi app tuviera una interfaz limpia para poder enfocarme en
+        mis estudios. Mi app tenía que ser fácil de usar y súper rápida para que pudiera repetir 10
+        palabras en un minuto. También mis requisitos incluían repaso espaciado, pronunciación e
+        importar tarjetas desde un archivo (porque se puede crear un mazo muy rápidamente en un
+        computador usando copiar-pegar).
+
+        \n\nDespués de implementar la pronunciación, me di cuenta que con esto, podría expandir
+        enormemente las posibilidades del proceso de aprendizaje. Primero, podría esconder el texto
+        de una tarjeta para percibir el texto no visualmente, sino fonéticamente. Esto contribuiría
+        a mis capacidades de escucha. Segundo, durante algunas actividades, podría repetir el
+        material de otra forma si la app pudiera cambiar el orden de las tarjetas. Tercero,
+        (es una función algo inusual) podría repasar las tarjetas cuando estoy caminando a algún
+        lugar, no mirando la pantalla, sino controlando la app con los botones de volumen.
+        Bien, ya está.
+
+        \n\nAdemás, he implementado unas capacidades simples pero importantes, como por ejemplo,
+        editar una tarjeta al vuelo, cambiar el sentido de las tarjetas, reusar la configuración
+        de los mazos y muchas otras. También hay opciones adicionales para ayudarle a enfocarse en
+        sus estudios, como el \'Modo Pantalla Completa\' y el \'Temporizador Motivacional\'.
+
+        \n\n¿Ya estoy satisfecho con la app? No exactamente. Tengo algunas ideas más para mejorarla.
+        Pero pienso que en este momento se ve muy atractiva y puede servir a muchas personas que
+        están estudiando un idioma u otro tema.
+
+        \n\nNo busco fines comerciales de ninguna forma. Mi app es completamente software libre.
+        ¡Me gustaría saber que piensa de mi app!</string>
+    <string name="text_support_app_button">Apoyar app</string>
+    <!-- DSV format screen -->
+    <string name="screen_title_dsv_format">Formato DSV</string>
+    <string name="tip_dsv_format">Valores separados por delimitadores son procesados con la
+        <annotation clickable="csv_library">librería Apache Commons CSV</annotation>. Visita
+        <annotation clickable="CSVFormat">esta página</annotation> para aprender más sobre la
+        configuración de formato.
+
+        \n\nCaracteres especiales:
+        \n\t\\n - nueva línea
+        \n\t\\r - retorno de carro
+        \n\t\\t - tabulador horizontal</string>
+    <string name="description_delete_format_settings">Eliminar configuración de formato</string>
+    <string name="dsv_format_setting_delimiter">Delimitador</string>
+    <string name="dsv_format_setting_trailing_delimiter">Delimitador terminal</string>
+    <string name="dsv_format_setting_quote_character">Carácter de comilla</string>
+    <string name="dsv_format_setting_quote_mode">Modo de comilla\n(Usado para exportar)</string>
+    <string name="dsv_format_setting_escape_character">Carácter de escape</string>
+    <string name="dsv_format_setting_null_string">Cadena de caracteres nula</string>
+    <string name="dsv_format_setting_ignore_surrounding_spaces">Ignorar espacios adyacentes</string>
+    <string name="dsv_format_setting_trim">Recortar</string>
+    <string name="dsv_format_setting_ignore_empty_lines">Ignorar líneas vacías</string>
+    <string name="dsv_format_setting_record_separator">Separador de registros\n(Usado para exportar)</string>
+    <string name="dsv_format_setting_comment_character">Carácter de comentarios</string>
+    <string name="dsv_format_setting_skip_header_record">Saltar registro de cabecera</string>
+    <string name="dsv_format_setting_header_column_names">Nombres de las columnas en la cabecera</string>
+    <string name="dsv_format_setting_ignore_header_names_case">Ignorar mayúsculas y minúsculas en la cabecera</string>
+    <string name="dsv_format_setting_allow_duplicate_header_names">Permitir nombres duplicados en la cabecera</string>
+    <string name="dsv_format_setting_allow_missing_column_names">Permitir nombres faltantes de las columnas</string>
+    <string name="dsv_format_setting_header_comments">Comentarios en la cabecera</string>
+    <string name="dsv_format_setting_auto_flush">Auto-flush</string>
+    <string name="dsv_quote_mode_all">Todos</string>
+    <string name="dsv_quote_mode_all_non_null">Todos los no-nulos</string>
+    <string name="dsv_quote_mode_minimal">Mínimo</string>
+    <string name="dsv_quote_mode_non_numeric">No numéricos</string>
+    <string name="dsv_quote_mode_none">Ninguno</string>
+    <string name="error_message_failed_to_save_dsv_format_empty_name">El nombre está vacío</string>
+    <string name="error_message_failed_to_save_dsv_format_occupied_name">El nombre ya está en uso</string>
+    <string name="error_message_failed_to_save_dsv_format_not_valid">El formato DSV no es válido</string>
+    <string name="hint_enter_a_name">Escribir un nombre</string>
+    <string name="title_delete_dsv_format_dialog">Eliminando formato DSV \'%1$s\'</string>
+    <string name="dialog_text_delete_dsv_format">¿Seguro que quiere eliminar este formato?</string>
+    <string name="message_dsv_format_is_deleted">Se eliminó el formato DSV \'%1$s\'</string>
+</resources>
