@@ -8,10 +8,12 @@ import android.os.Build
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerService
+import com.odnovolov.forgetmenot.presentation.screen.settings.ThemeHelper
 
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+        ThemeHelper.init(this)
         AppDiScope.init(this)
         createNotificationChannel()
     }

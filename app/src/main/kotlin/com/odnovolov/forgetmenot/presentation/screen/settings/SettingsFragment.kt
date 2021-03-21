@@ -14,10 +14,12 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.Item
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
+import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.settings.ThemeHelper.Theme
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -31,10 +33,13 @@ class SettingsFragment : BaseFragment() {
     private var controller: SettingsController? = null
     private lateinit var fullscreenModeDialog: Dialog
     private lateinit var fullscreenPreferenceAdapter: ItemAdapter
+    private lateinit var themeDialog: Dialog
+    private lateinit var themeAdapter: ItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initFullscreenModeDialog()
+        initThemeDialog()
     }
 
     override fun onCreateView(
@@ -77,6 +82,29 @@ class SettingsFragment : BaseFragment() {
         )
     }
 
+    private fun initThemeDialog() {
+        themeDialog = ChoiceDialogCreator.create(
+            context = requireContext(),
+            itemForm = AsRadioButton,
+            takeTitle = { titleTextView: TextView ->
+                titleTextView.setText(R.string.title_theme_dialog)
+                val titleDrawable = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_round_brightness_medium_24
+                )
+                titleTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    titleDrawable, null, null, null
+                )
+            },
+            onItemClick = { item: Item ->
+                item as ThemeItem
+                ThemeHelper.applyTheme(item.theme, requireContext())
+                themeDialog.dismiss()
+            },
+            takeAdapter = { themeAdapter = it }
+        )
+    }
+
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,9 +129,11 @@ class SettingsFragment : BaseFragment() {
         cardAppearanceButton.setOnClickListener {
             controller?.dispatch(CardAppearanceButtonClicked)
         }
+        themeButton.setOnClickListener {
+            themeDialog.show()
+        }
     }
 
-    @ExperimentalStdlibApi
     private fun observeViewModel(viewModel: SettingsViewModel) {
         with(viewModel) {
             fullscreenPreference.observe { fullscreenPreference: FullscreenPreference ->
@@ -147,26 +177,33 @@ class SettingsFragment : BaseFragment() {
                 }
             }
         }
+        ThemeHelper.state.flowOf(ThemeHelper.State::currentTheme).observe { currentTheme: Theme ->
+            themeDescription.setText(currentTheme.stringRes)
+            val items: List<ThemeItem> = Theme.values().map { theme: Theme ->
+                ThemeItem(
+                    theme,
+                    text = getString(theme.stringRes),
+                    isSelected = theme == currentTheme
+                )
+            }
+            themeAdapter.submitList(items)
+        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.run {
-            val dialogSavedState: Bundle? = getBundle(STATE_FULLSCREEN_MODE_DIALOG)
-            if (dialogSavedState != null) {
-                fullscreenModeDialog.onRestoreInstanceState(dialogSavedState)
-            }
+            getBundle(STATE_FULLSCREEN_MODE_DIALOG)
+                ?.let(fullscreenModeDialog::onRestoreInstanceState)
+            getBundle(STATE_THEME_DIALOG)
+                ?.let(themeDialog::onRestoreInstanceState)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (fullscreenModeDialog.isShowing) {
-            outState.putBundle(
-                STATE_FULLSCREEN_MODE_DIALOG,
-                fullscreenModeDialog.onSaveInstanceState()
-            )
-        }
+        outState.putBundle(STATE_FULLSCREEN_MODE_DIALOG, fullscreenModeDialog.onSaveInstanceState())
+        outState.putBundle(STATE_THEME_DIALOG, themeDialog.onSaveInstanceState())
     }
 
     override fun onResume() {
@@ -200,7 +237,14 @@ class SettingsFragment : BaseFragment() {
         override val isSelected: Boolean
     ) : Item
 
+    data class ThemeItem(
+        val theme: Theme,
+        override val text: String,
+        override val isSelected: Boolean
+    ) : Item
+
     companion object {
         private const val STATE_FULLSCREEN_MODE_DIALOG = "STATE_FULLSCREEN_MODE_DIALOG"
+        private const val STATE_THEME_DIALOG = "STATE_THEME_DIALOG"
     }
 }

@@ -126,6 +126,33 @@
 
             </LinearLayout>
 
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/divider_with_margins" />
+
+            <LinearLayout
+                    android:id="@+id/themeButton"
+                    style="@style/SettingsItemButton">
+
+                <LinearLayout style="@style/SettingsTextColumn">
+
+                    <TextView
+                            android:id="@+id/themeTitle"
+                            style="@style/SettingsItemTitle"
+                            android:text="@string/text_theme_settings_title" />
+
+                    <TextView
+                            android:id="@+id/themeDescription"
+                            style="@style/SettingsItemDescription"
+                            tools:text="@string/theme_dark" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/SettingsItemNavigationIcon" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>

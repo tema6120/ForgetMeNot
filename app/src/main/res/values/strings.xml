@@ -1106,5 +1106,10 @@
     <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
     <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
+    <string name="text_theme_settings_title">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_default">Set by Battery Saver</string>
+    <string name="title_theme_dialog">Theme</string>
 
 </resources>

@@ -68,6 +68,7 @@ dependencies {
     implementation 'org.apache.commons:commons-csv:1.8'
     implementation 'com.brackeys.ui:editorkit:1.1.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
+    implementation 'androidx.preference:preference:1.1.1'
 }
 
 sqldelight {
