@@ -6,13 +6,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.GravityCompat
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
+import androidx.core.view.*
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -290,7 +288,7 @@ class HomeFragment : BaseFragment() {
     private fun updateStatusBarColor(isColorful: Boolean = isSelectionMode) {
         if (findNavController().currentDestination?.id == R.id.deck_chooser) return
         if (isColorful) {
-            setStatusBarColor(requireActivity(), R.color.colorAccent)
+            setStatusBarColor(requireActivity(), R.color.selection_toolbar)
         } else {
             setTransparentStatusBar(requireActivity())
         }

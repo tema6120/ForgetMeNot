@@ -91,7 +91,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/presetRecyclerView"
                     app:srcCompat="@drawable/ic_round_add_24"
-                    app:tint="@color/text_primary_brown" />
+                    app:tint="@color/on_add_cards_popup" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

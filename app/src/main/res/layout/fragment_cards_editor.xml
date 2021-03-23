@@ -169,7 +169,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/ripple_borderless_colored"
                 android:contentDescription="@string/description_cancel_button"
-                android:tint="@color/iconDark"
+                android:tint="@color/icon_on_surface"
                 app:srcCompat="@drawable/ic_cancel_white_24dp" />
 
         <View
@@ -188,7 +188,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/ripple_borderless_colored"
                 android:contentDescription="@string/description_done_button"
-                android:tint="@color/iconDark"
+                android:tint="@color/icon_on_surface"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

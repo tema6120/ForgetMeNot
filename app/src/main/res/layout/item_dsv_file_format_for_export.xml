@@ -12,9 +12,9 @@
         android:paddingTop="8dp"
         android:paddingEnd="20dp"
         android:paddingBottom="8dp"
-        android:textColor="@color/textSecondary"
+        android:textColor="@color/text_medium_emphasis"
         android:textSize="@dimen/text_size_radiobutton"
         android:visibility="visible"
-        app:drawableTint="@color/textSecondary"
+        app:drawableTint="@color/text_medium_emphasis"
         tools:background="@android:color/white"
         tools:text="CSV | Excel" />

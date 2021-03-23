@@ -35,7 +35,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/screenTitleTextView"
                         app:srcCompat="@drawable/ic_cancel_white_24dp"
-                        app:tint="@color/text_title" />
+                        app:tint="@color/text_high_emphasis" />
 
                 <ImageButton
                         android:id="@+id/previousButton"
@@ -57,7 +57,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/jura"
-                        android:textColor="@color/text_title"
+                        android:textColor="@color/text_high_emphasis"
                         android:textSize="@dimen/text_size_screen_title"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
                         android:fontFamily="@font/nunito_bold"
                         android:padding="8dp"
                         android:text="@string/text_skip_button"
-                        android:textColor="@color/textSecondary"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:visibility="gone"
@@ -105,7 +105,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
                         app:srcCompat="@drawable/done_button_selector"
-                        app:tint="@color/text_title" />
+                        app:tint="@color/text_high_emphasis" />
 
                 <TextView
                         android:id="@+id/add_to"
@@ -115,7 +115,7 @@
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/add_to"
-                        android:textColor="@color/text_description"
+                        android:textColor="@color/text_helper"
                         android:textSize="@dimen/text_size_file_import_screen_add_to"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/screenTitleTextView" />
@@ -146,7 +146,7 @@
                             android:paddingTop="16dp"
                             android:paddingEnd="4dp"
                             android:paddingBottom="16dp"
-                            android:textColor="@color/textSecondary"
+                            android:textColor="@color/text_medium_emphasis"
                             android:textSize="@dimen/text_size_file_import_screen_deck_name"
                             tools:text="My Vocabulary 35">
 
@@ -166,7 +166,7 @@
                             app:layout_constraintStart_toEndOf="@+id/deckNameTextView"
                             app:layout_constraintTop_toTopOf="@+id/deckNameTextView"
                             app:srcCompat="@drawable/ic_round_wifi_protected_setup_24"
-                            app:tint="@color/textSecondary" />
+                            app:tint="@color/text_medium_emphasis" />
 
                 </LinearLayout>
 

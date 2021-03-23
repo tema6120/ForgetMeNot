@@ -6,7 +6,7 @@
         android:layout_height="48dp"
         android:visibility="gone"
         tools:visibility="visible"
-        android:background="@color/colorAccent"
+        android:background="@color/selection_toolbar"
         android:orientation="horizontal">
 
     <ImageButton
@@ -16,6 +16,7 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/ripple_light_borderless"
             android:contentDescription="@string/description_cancel_selection"
+            app:tint="@color/on_selection_toolbar"
             app:srcCompat="@drawable/ic_round_clear_24" />
 
     <TextView
@@ -29,7 +30,7 @@
             android:maxLines="1"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/on_selection_toolbar"
             android:textSize="@dimen/text_size_selection_toolbar_title"
             tools:text="24 cards" />
 
@@ -38,6 +39,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
+            app:tint="@color/on_selection_toolbar"
             android:background="@drawable/ripple_light_borderless"
             android:contentDescription="@string/description_select_all"
             app:srcCompat="@drawable/ic_round_select_all_24" />
@@ -49,6 +51,7 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/ripple_light_borderless"
             android:contentDescription="@string/description_remove"
+            app:tint="@color/on_selection_toolbar"
             app:srcCompat="@drawable/ic_round_delete_outline_24" />
 
     <ImageButton
@@ -56,6 +59,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
+            app:tint="@color/on_selection_toolbar"
             android:background="@drawable/ripple_light_borderless"
             android:contentDescription="@string/description_more_options"
             app:srcCompat="@drawable/ic_round_more_vert_24" />

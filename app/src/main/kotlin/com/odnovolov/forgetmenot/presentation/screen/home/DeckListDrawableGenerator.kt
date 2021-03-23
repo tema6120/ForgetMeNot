@@ -1,28 +1,36 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.GradientDrawable.Orientation
 import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.LayerDrawable
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.dp
 
 object DeckListDrawableGenerator {
-    private val generatedIcons: MutableMap<Pair<Int, Int>, Drawable> = HashMap()
+    private val generatedIcons: MutableMap<IconColors, Drawable> = HashMap()
+
+    private data class IconColors(
+        val strokeColors: List<Int>,
+        val backgroundColor: Int
+    )
 
     fun generateIcon(strokeColors: List<Int>, backgroundColor: Int): Drawable {
         return if (strokeColors.size <= 1) {
             val strokeColor: Int =
                 strokeColors.getOrElse(0) { DeckReviewPreference.DEFAULT_DECK_LIST_COLOR }
-            generatedIcons.getOrPut(strokeColor to strokeColor) {
+            generatedIcons.getOrPut(IconColors(strokeColors, backgroundColor)) {
                 generateIcon(strokeColor)
             }
         } else {
             val firstColor: Int =
                 strokeColors.getOrElse(0) { DeckReviewPreference.DEFAULT_DECK_LIST_COLOR }
             val secondColor: Int = strokeColors.getOrElse(1) { firstColor }
-            generatedIcons.getOrPut(firstColor to secondColor) {
+            generatedIcons.getOrPut(IconColors(strokeColors, backgroundColor)) {
                 generateIcon(firstColor, secondColor, backgroundColor)
             }
         }
@@ -59,15 +67,15 @@ object DeckListDrawableGenerator {
         return this
     }
 
-    fun generateBackgroundForSelectedItem(color: Int): Drawable {
+    fun generateBackgroundForSelectedItem(color: Int, context: Context): Drawable {
         val startColor = ColorUtils.setAlphaComponent(color, ALPHA_BACKGROUND_START_COLOR)
+        val endColor = ContextCompat.getColor(context, R.color.background_selected_deck_list)
         return GradientDrawable().mutate {
             cornerRadius = 8f.dp
             orientation = Orientation.LEFT_RIGHT
-            colors = intArrayOf(startColor, BACKGROUND_COLOR, BACKGROUND_COLOR)
+            colors = intArrayOf(startColor, endColor, endColor)
         }
     }
 
     private const val ALPHA_BACKGROUND_START_COLOR = 31
-    private const val BACKGROUND_COLOR: Int = 0x0F000000
 }

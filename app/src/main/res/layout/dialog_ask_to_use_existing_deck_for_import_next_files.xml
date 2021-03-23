@@ -16,7 +16,7 @@
             android:fontFamily="@font/nunito_bold"
             android:gravity="center"
             android:padding="16dp"
-            android:textColor="@color/text_title"
+            android:textColor="@color/text_high_emphasis"
             android:textSize="@dimen/text_size_dialog_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

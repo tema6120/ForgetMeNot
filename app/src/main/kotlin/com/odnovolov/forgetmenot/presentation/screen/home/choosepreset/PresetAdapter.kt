@@ -66,7 +66,7 @@ class PresetAdapter(
             val value: String = displayingDeckSetting.getDisplayText(exercisePreference, context)
             val spannableValue = SpannableString(value)
             val boldSpan = StyleSpan(Typeface.BOLD)
-            val valueColor: Int = ContextCompat.getColor(context, R.color.textSecondary)
+            val valueColor: Int = ContextCompat.getColor(context, R.color.text_medium_emphasis)
             val colorSpan = ForegroundColorSpan(valueColor)
             spannableValue.setSpan(boldSpan, 0, value.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             spannableValue.setSpan(colorSpan, 0, value.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

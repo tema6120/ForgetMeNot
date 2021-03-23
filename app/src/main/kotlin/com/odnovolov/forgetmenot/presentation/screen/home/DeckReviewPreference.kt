@@ -21,8 +21,7 @@ class DeckReviewPreference(
     )
 
     companion object {
-        const val DEFAULT_DISPLAY_ONLY_DECKS_AVAILABLE_FOR_EXERCISE = false
-        const val DEFAULT_DECK_LIST_COLOR = 0xFF474747.toInt()
+        const val DEFAULT_DECK_LIST_COLOR = 0xFF7F7F7F.toInt()
 
         const val ID_TO_VIEW = 0L
         const val ID_TO_IMPORT_CARDS = 1L

@@ -67,7 +67,7 @@ class PresetView @JvmOverloads constructor(
         setBackgroundResource(R.drawable.ripple_corner_radius_8dp)
         val compoundDrawableEnd: Drawable? =
             ContextCompat.getDrawable(context, R.drawable.ic_more_expand_more_with_inset)?.also {
-                val color: Int = ContextCompat.getColor(context, R.color.text_title)
+                val color: Int = ContextCompat.getColor(context, R.color.text_high_emphasis)
                 val colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
                     color,
                     BlendModeCompat.SRC_ATOP
@@ -78,7 +78,7 @@ class PresetView @JvmOverloads constructor(
         ellipsize = TextUtils.TruncateAt.END
         maxLines = 1
         setPadding(12.dp)
-        setTextColor(ContextCompat.getColor(context, R.color.text_title))
+        setTextColor(ContextCompat.getColor(context, R.color.text_high_emphasis))
         setTextSizeFromRes(R.dimen.text_size_preset_button)
         setFont(R.font.nunito_bold, Typeface.BOLD)
     }

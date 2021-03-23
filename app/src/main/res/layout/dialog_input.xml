@@ -22,7 +22,7 @@
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/nunito_bold"
                 android:padding="16dp"
-                android:textColor="@color/text_title"
+                android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_dialog_title"
                 app:drawableStartCompat="@drawable/ic_outline_edit_24"
                 app:drawableTint="@color/iconGray"
@@ -39,7 +39,7 @@
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textColor="@color/textPrimary"
+                android:textColor="@color/text_input"
                 android:textSize="@dimen/text_size_dialog_edittext" />
 
         <LinearLayout

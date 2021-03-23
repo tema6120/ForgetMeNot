@@ -1,11 +1,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="@android:color/white" />
+            <solid android:color="@color/surface" />
         </shape>
     </item>
     <item
-            android:drawable="?android:listDivider"
+            android:drawable="@color/divider"
             android:left="16dp"
             android:right="16dp" />
 </layer-list>

@@ -32,7 +32,7 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:text="@string/screen_title_help"
-                android:textColor="@color/text_title"
+                android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_screen_title"
                 android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
                     android:fontFamily="@font/nunito_bold"
                     android:padding="16dp"
                     android:text="@string/title_articles"
-                    android:textColor="@color/text_description"
+                    android:textColor="@color/text_helper"
                     android:textSize="@dimen/text_size_help_screen_articles_title" />
 
             <androidx.recyclerview.widget.RecyclerView

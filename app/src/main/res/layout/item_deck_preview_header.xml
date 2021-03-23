@@ -17,10 +17,10 @@
             android:fontFamily="@font/nunito_bold"
             android:padding="8dp"
             android:text="@string/text_filter_button"
-            android:textColor="@color/textSecondary"
+            android:textColor="@color/text_medium_emphasis"
             android:textSize="@dimen/text_size_home_screen_filters_sorting_button"
             app:drawableStartCompat="@drawable/ic_filter_12"
-            app:drawableTint="@color/textSecondary" />
+            app:drawableTint="@color/text_medium_emphasis" />
 
     <Space
             android:layout_width="0dp"
@@ -35,10 +35,10 @@
             android:drawablePadding="8dp"
             android:fontFamily="@font/nunito_bold"
             android:padding="8dp"
-            android:textColor="@color/textSecondary"
+            android:textColor="@color/text_medium_emphasis"
             android:textSize="@dimen/text_size_home_screen_filters_sorting_button"
             app:drawableStartCompat="@drawable/ic_sorting_12"
-            app:drawableTint="@color/textSecondary"
+            app:drawableTint="@color/text_medium_emphasis"
             tools:drawableEndCompat="@drawable/ic_round_arrow_downward_12"
             tools:text="By time last tested" />
 

@@ -31,7 +31,7 @@
                     android:layout_marginBottom="8dp"
                     android:drawablePadding="12dp"
                     android:fontFamily="@font/nunito_bold"
-                    android:textColor="@color/text_title"
+                    android:textColor="@color/text_high_emphasis"
                     android:textSize="@dimen/text_size_home_screen_deck_name"
                     android:textStyle="bold"
                     app:drawableStartCompat="@drawable/deck_list_indicator"
@@ -43,7 +43,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="38dp"
                     android:layout_marginEnd="52dp"
-                    android:background="?android:attr/listDivider" />
+                    android:background="@color/divider" />
 
             <TableLayout
                     android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                             android:paddingEnd="4dp"
                             android:text="@string/deck_summary_table_average_laps"
                             android:textAllCaps="true"
-                            android:textColor="@color/textSecondary"
+                            android:textColor="@color/text_medium_emphasis"
                             android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
 
                     <TextView
@@ -78,7 +78,7 @@
                             android:paddingEnd="4dp"
                             android:text="@string/deck_summary_table_learned"
                             android:textAllCaps="true"
-                            android:textColor="@color/textSecondary"
+                            android:textColor="@color/text_medium_emphasis"
                             android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
 
                     <TextView
@@ -90,7 +90,7 @@
                             android:paddingEnd="4dp"
                             android:text="@string/deck_summary_table_task"
                             android:textAllCaps="true"
-                            android:textColor="@color/textSecondary"
+                            android:textColor="@color/text_medium_emphasis"
                             android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
 
                     <TextView
@@ -101,7 +101,7 @@
                             android:maxLines="1"
                             android:text="@string/deck_summary_table_last_tested"
                             android:textAllCaps="true"
-                            android:textColor="@color/textSecondary"
+                            android:textColor="@color/text_medium_emphasis"
                             android:textSize="@dimen/text_size_deck_preview_item_summary_table_title" />
 
                 </TableRow>
@@ -112,7 +112,7 @@
                             android:id="@+id/avgLapsValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/textPrimary"
+                            android:textColor="@color/text_high_emphasis"
                             android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
                             android:textStyle="bold"
                             tools:text="3.6" />
@@ -123,7 +123,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:textColor="@color/textPrimary"
+                            android:textColor="@color/text_high_emphasis"
                             android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
                             android:textStyle="bold"
                             tools:text="12/50" />
@@ -149,7 +149,7 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:textColor="@color/textPrimary"
+                                android:textColor="@color/text_high_emphasis"
                                 android:textSize="@dimen/text_size_deck_preview_item_summary_table_value"
                                 android:textStyle="bold"
                                 tools:text="Nov 2"
@@ -166,7 +166,7 @@
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
                                 android:text="@string/label_new_deck"
-                                android:textColor="@android:color/white"
+                                android:textColor="@color/text_label_new"
                                 android:textSize="@dimen/text_size_deck_preview_item_summary_table_new_deck_label"
                                 android:textStyle="bold"
                                 android:visibility="gone"
@@ -189,8 +189,9 @@
                 android:layout_marginEnd="4dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/deck_options"
-                android:tint="@color/iconDark"
+                android:tint="@color/icon_on_surface"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
 
         <ImageButton
@@ -215,7 +216,7 @@
             android:layout_marginEnd="10dp"
             android:contentDescription="@string/description_pin_icon"
             android:rotation="30"
-            android:tint="@color/iconDark"
+            android:tint="@color/icon_on_surface"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_round_push_pin_20"
             tools:visibility="visible" />

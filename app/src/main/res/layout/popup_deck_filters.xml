@@ -20,10 +20,10 @@
             android:drawablePadding="8dp"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/title_deck_filters_popup"
-            android:textColor="@color/text_title"
+            android:textColor="@color/text_high_emphasis"
             android:textSize="@dimen/text_size_deck_filters_popup_title"
             app:drawableStartCompat="@drawable/ic_filter_12"
-            app:drawableTint="@color/text_title"
+            app:drawableTint="@color/text_high_emphasis"
             app:layout_constraintBottom_toBottomOf="@+id/closeButton"
             app:layout_constraintEnd_toStartOf="@+id/closeButton"
             app:layout_constraintHorizontal_bias="0.0"
@@ -88,7 +88,7 @@
                         android:fontFamily="@font/nunito_bold"
                         android:padding="12dp"
                         android:text="@string/deck_filter_only_decks_available_for_exercise"
-                        android:textColor="@color/textSecondary"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textSize="@dimen/text_size_checkbox" />
 
             </FrameLayout>
@@ -116,7 +116,7 @@
                     android:fontFamily="@font/nunito_bold"
                     android:maxLines="1"
                     android:text="@string/section_title_in_filters_popup_deck_lists"
-                    android:textColor="@color/text_description"
+                    android:textColor="@color/text_helper"
                     android:textSize="@dimen/text_size_deck_filters_popup_section_title_deck_lists"
                     app:layout_constraintBottom_toBottomOf="@+id/editDeckListsButton"
                     app:layout_constraintEnd_toStartOf="@+id/editDeckListsButton"
@@ -136,7 +136,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider2"
                     app:srcCompat="@drawable/ic_round_edit_20"
-                    app:tint="@color/textSecondary" />
+                    app:tint="@color/text_medium_emphasis" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/deckListRecycler"
@@ -167,9 +167,9 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="12dp"
                     android:text="@string/create_new_deck_list"
-                    android:textColor="@color/hint"
+                    android:textColor="@color/text_hint"
                     android:textSize="@dimen/text_size_deck_filters_popup_deck_list_title"
-                    app:drawableTint="@color/hint"
+                    app:drawableTint="@color/text_hint"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

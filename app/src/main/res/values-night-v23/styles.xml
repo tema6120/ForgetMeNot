@@ -6,8 +6,17 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/ripple</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowBackground">@color/background_window</item>
+        <item name="bottomSheetDialogTheme">@style/DarkBottomSheetTheme</item>
         <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet</item>
+    </style>
+
+    <style name="DarkBottomSheetTheme" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/DarkBottomSheetStyle</item>
+    </style>
+
+    <style name="DarkBottomSheetStyle" parent="@style/Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:backgroundTint">@color/dialog</item>
     </style>
 </resources>

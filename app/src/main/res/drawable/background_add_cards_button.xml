@@ -4,9 +4,9 @@
     <item>
         <shape android:shape="rectangle">
             <gradient
-                    android:angle="180"
-                    android:endColor="#FFC400"
-                    android:startColor="#FF5500"
+                    android:angle="0"
+                    android:endColor="@color/add_cards_button_end"
+                    android:startColor="@color/add_cards_button_start"
                     android:type="linear" />
             <corners android:radius="32dp" />
 
@@ -18,7 +18,7 @@
             android:right="1.5dp"
             android:top="1.5dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/background_window" />
+            <solid android:color="@color/add_cards_button_solid" />
             <corners android:radius="32dp" />
         </shape>
     </item>

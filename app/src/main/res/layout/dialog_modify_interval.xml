@@ -92,7 +92,7 @@
                         android:inputType="number"
                         android:maxLength="3"
                         android:padding="8dp"
-                        android:textColor="@color/textSecondary"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textColorHint="@android:color/transparent"
                         android:textSize="@dimen/text_size_dialog_edittext"
                         android:theme="@style/IntervalsSettingsTheme"

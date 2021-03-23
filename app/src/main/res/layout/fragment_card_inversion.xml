@@ -39,7 +39,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_card_inversion"
-                    android:textColor="@color/text_title"
+                    android:textColor="@color/text_high_emphasis"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
@@ -118,7 +118,7 @@
                                 android:paddingEnd="24dp"
                                 android:paddingBottom="12dp"
                                 android:text="@string/item_card_inversion_off"
-                                android:textColor="@color/textSecondary"
+                                android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_radiobutton"
                                 android:visibility="invisible"
                                 tools:checked="true"
@@ -147,7 +147,7 @@
                                 android:paddingEnd="24dp"
                                 android:paddingBottom="12dp"
                                 android:text="@string/item_card_inversion_on"
-                                android:textColor="@color/textSecondary"
+                                android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_radiobutton"
                                 android:visibility="invisible"
                                 tools:visibility="visible" />
@@ -175,7 +175,7 @@
                                 android:paddingEnd="24dp"
                                 android:paddingBottom="12dp"
                                 android:text="@string/item_card_inversion_every_other_lap"
-                                android:textColor="@color/textSecondary"
+                                android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_radiobutton"
                                 android:visibility="invisible"
                                 tools:visibility="visible" />
@@ -203,7 +203,7 @@
                                 android:paddingEnd="24dp"
                                 android:paddingBottom="12dp"
                                 android:text="@string/item_card_inversion_randomly"
-                                android:textColor="@color/textSecondary"
+                                android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_radiobutton"
                                 android:visibility="invisible"
                                 tools:visibility="visible" />

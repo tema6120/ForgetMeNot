@@ -37,7 +37,7 @@ class SelectableDeckListAdapter(
             deckListButton.background =
                 if (selectableDeckList.isSelected) {
                     DeckListDrawableGenerator
-                        .generateBackgroundForSelectedItem(selectableDeckList.color)
+                        .generateBackgroundForSelectedItem(selectableDeckList.color, context)
                 } else {
                     null
                 }

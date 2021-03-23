@@ -20,7 +20,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="32dp"
             android:paddingBottom="12dp"
-            android:textColor="@color/textSecondary"
+            android:textColor="@color/text_medium_emphasis"
             android:textSize="@dimen/text_size_checkbox"
             tools:text="Whatever" />
 

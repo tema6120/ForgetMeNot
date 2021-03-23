@@ -194,7 +194,7 @@ class QAEditorFragment : BaseFragment() {
                 requireContext(),
                 if (isLearned)
                     R.color.textSecondaryDisabled else
-                    R.color.textSecondary
+                    R.color.text_medium_emphasis
             )
             questionEditText.setTextColor(color)
             answerEditText.setTextColor(color)

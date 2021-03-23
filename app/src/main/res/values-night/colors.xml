@@ -1,4 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorAccent">#F3E065</color>
+    <color name="colorAccentDisabled">#63FDD02E</color>
     <color name="background_window">#2A2A31</color>
+    <color name="surface">#35353B</color>
+    <color name="text_input">#FFFFFF</color>
+    <color name="text_high_emphasis">#B8FFFFFF</color>
+    <color name="text_medium_emphasis">#99FFFFFF</color>
+    <color name="text_hint">#4DFFFFFF</color>
+    <color name="text_helper">#73FFFFFF</color>
+    <color name="selected_item_stroke">#99FFFFFF</color>
+    <color name="icon_on_surface">#B8FFFFFF</color>
+    <color name="text_task">#EF88B9</color>
+    <color name="text_screen_title">#DEFFFFFF</color>
+    <color name="divider">#1effffff</color>
+    <color name="on_accent">@color/surface</color>
+    <color name="accent_on_surface">#FFFFFF</color>
+    <color name="add_cards_button_start">#EFF465</color>
+    <color name="add_cards_button_end">#F36565</color>
+    <color name="add_cards_button_solid">#F22A2A31</color>
+    <color name="popup_light">#3B3B41</color>
+    <color name="on_add_cards_popup">@color/text_high_emphasis</color>
+    <color name="ring_for_add_cards_popup_icon">#2AFFFFFF</color>
+    <color name="text_label_new">@color/text_high_emphasis</color>
+    <color name="selection_toolbar">#3D3D44</color>
+    <color name="on_selection_toolbar">@color/colorAccent</color>
+    <color name="light_floating_button">#48484E</color>
+    <color name="close_button">#47FFFFFF</color>
+    <color name="item_blue_selected">@color/text_high_emphasis</color>
+    <color name="item_blue_unselected">#40FFFFFF</color>
+    <color name="background_selected_deck_list">#0FFFFFFF</color>
+    <color name="background_number_of_deck_in_deck_list">#12FFFFFF</color>
+    <color name="dialog">#3B3B41</color>
+    <color name="tab_text_selected">#E0E0E0</color>
+    <color name="tab_text_unselected">#66E0E0E0</color>
+    <color name="item_drawer_selected">@color/colorAccent</color>
+    <color name="item_drawer_unselected">@color/item_blue_selected</color>
+    <color name="button_disabled">#1FFFFFFF</color>
+    <color name="text_disabled">#42FFFFFF</color>
+    <color name="text_button_secondary">#99D2D2D9</color>
+    <color name="text_no_search_result">#33FFFFFF</color>
+    <color name="ripple">#42FFFFFF</color>
+    <color name="ripple_on_accent">#99000000</color>
 </resources>

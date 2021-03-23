@@ -41,9 +41,9 @@
                 android:paddingEnd="16dp"
                 android:paddingBottom="12dp"
                 android:text="@string/create_new_deck_list"
-                android:textColor="@color/hint"
+                android:textColor="@color/text_hint"
                 android:textSize="@dimen/text_size_deck_filters_popup_deck_list_title"
-                app:drawableTint="@color/hint"
+                app:drawableTint="@color/text_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/deckListRecycler" />

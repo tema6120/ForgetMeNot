@@ -2,5 +2,5 @@
         android:shape="oval">
     <stroke
             android:width="1dp"
-            android:color="#2A330000" />
+            android:color="@color/ring_for_add_cards_popup_icon" />
 </shape>

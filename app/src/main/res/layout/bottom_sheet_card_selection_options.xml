@@ -23,7 +23,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="24dp"
             android:fontFamily="@font/nunito_bold"
-            android:textColor="@color/textPrimary"
+            android:textColor="@color/text_high_emphasis"
             android:textSize="@dimen/text_size_option_bottom_sheet_title"
             android:textStyle="bold"
             tools:text="59 cards" />

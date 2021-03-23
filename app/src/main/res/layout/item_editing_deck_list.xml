@@ -32,7 +32,7 @@
                 android:layout_marginStart="12dp"
                 android:visibility="gone"
                 app:srcCompat="@drawable/ic_expand_more_thick_24"
-                app:tint="@color/hint" />
+                app:tint="@color/text_hint" />
 
     </LinearLayout>
 
@@ -77,7 +77,7 @@
             android:paddingTop="4dp"
             android:paddingEnd="6dp"
             android:paddingBottom="4dp"
-            android:textColor="@color/text_description"
+            android:textColor="@color/text_helper"
             android:textSize="@dimen/text_size_deck_filters_popup_number_decks_in_deck_list"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +93,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="4dp"
             android:background="@drawable/ripple"
-            android:tint="@color/iconDark"
+            android:tint="@color/icon_on_surface"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

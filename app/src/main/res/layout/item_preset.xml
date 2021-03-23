@@ -23,7 +23,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/nunito_bold"
             android:maxLines="1"
-            android:textColor="@color/text_primary_brown"
+            android:textColor="@color/on_add_cards_popup"
             android:textSize="@dimen/text_size_preset_popup_preset_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/renamePresetButton"
@@ -42,7 +42,7 @@
             app:layout_constraintEnd_toStartOf="@+id/deletePresetButton"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_outline_edit_24"
-            app:tint="@color/text_primary_brown" />
+            app:tint="@color/on_add_cards_popup" />
 
     <ImageView
             android:id="@+id/deletePresetButton"
@@ -56,6 +56,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_round_delete_outline_24"
-            app:tint="@color/text_primary_brown" />
+            app:tint="@color/on_add_cards_popup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

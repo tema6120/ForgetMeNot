@@ -69,7 +69,7 @@
                         android:paddingTop="16dp"
                         android:paddingEnd="16dp"
                         android:paddingBottom="24dp"
-                        android:textColor="@color/textSecondary"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textSize="@dimen/text_size_question"
                         tools:text="Эти люди привычны к тяжелой работе." />
 
@@ -108,7 +108,7 @@
                         android:paddingTop="24dp"
                         android:paddingEnd="16dp"
                         android:paddingBottom="16dp"
-                        android:textColor="@color/textSecondary"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textSize="@dimen/text_size_answer"
                         tools:text="Эти люди привычны к тяжелой работе." />
 

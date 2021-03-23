@@ -16,7 +16,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_import_of_file_qa_format_section_title"
-            android:textColor="@color/textSecondary" />
+            android:textColor="@color/text_medium_emphasis" />
 
     <LinearLayout
             android:id="@+id/qa_format_example"
@@ -38,7 +38,7 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/text_primary_blue" />
+                android:background="@color/item_blue_selected" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -46,14 +46,14 @@
                 android:fontFamily="monospace"
                 android:padding="16dp"
                 android:text="@string/example_of_text_file_qa_format"
-                android:textColor="@color/textSecondary"
+                android:textColor="@color/text_medium_emphasis"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/text_size_import_of_deck_help_article_text_file_content" />
 
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/text_primary_blue" />
+                android:background="@color/item_blue_selected" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                 android:gravity="end"
                 android:padding="16dp"
                 android:text="@string/example_qa_format_file_name"
-                android:textColor="@color/textSecondary"
+                android:textColor="@color/text_medium_emphasis"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/text_size_import_of_deck_help_article_file_name"
                 android:textStyle="italic" />
@@ -80,7 +80,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_import_of_file_dsv_format_section_title"
-            android:textColor="@color/textSecondary" />
+            android:textColor="@color/text_medium_emphasis" />
 
     <LinearLayout
             android:id="@+id/dsv_format_example"
@@ -105,7 +105,7 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/text_primary_blue" />
+                android:background="@color/item_blue_selected" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -113,14 +113,14 @@
                 android:fontFamily="monospace"
                 android:padding="16dp"
                 android:text="@string/example_of_text_file_dsv_format"
-                android:textColor="@color/textSecondary"
+                android:textColor="@color/text_medium_emphasis"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/text_size_import_of_deck_help_article_text_file_content" />
 
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/text_primary_blue" />
+                android:background="@color/item_blue_selected" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                 android:gravity="end"
                 android:padding="16dp"
                 android:text="@string/example_dsv_format_file_name"
-                android:textColor="@color/textSecondary"
+                android:textColor="@color/text_medium_emphasis"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/text_size_import_of_deck_help_article_file_name"
                 android:textStyle="italic" />

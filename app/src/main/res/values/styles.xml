@@ -4,9 +4,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorControlHighlight</item>
+        <item name="colorControlHighlight">@color/ripple</item>
         <item name="android:windowBackground">@color/background_window</item>
         <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet</item>
+        <item name="bottomSheetDialogTheme">@style/bs</item>
+    </style>
+
+    <style name="bs" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="backgroundTint">#f0f</item>
+        <item name="colorSurface">#0f0</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ShoppingList.BottomSheetDialog</item>
+    </style>
+
+    <style name="ShoppingList.BottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="backgroundTint">#0f0</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
@@ -33,7 +47,7 @@
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingBottom">8dp</item>
-        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textColor">@color/text_medium_emphasis</item>
         <item name="android:textIsSelectable">true</item>
         <item name="android:textSize">@dimen/text_size_description</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
@@ -60,7 +74,7 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:layout_marginStart">24dp</item>
-        <item name="tint">@color/text_primary_blue_selector</item>
+        <item name="tint">@color/item_drawer</item>
     </style>
 
     <style name="DrawerItemText">
@@ -68,7 +82,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">32dp</item>
         <item name="android:layout_marginEnd">32dp</item>
-        <item name="android:textColor">@color/text_primary_blue_selector</item>
+        <item name="android:textColor">@color/item_drawer</item>
         <item name="android:textSize">@dimen/text_size_main_drawer_item</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
@@ -80,7 +94,7 @@
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingEnd">20dp</item>
-        <item name="android:textColor">@color/text_primary_blue_selector</item>
+        <item name="android:textColor">@color/item_blue_selector</item>
         <item name="android:textSize">@dimen/text_size_deck_sorting_popup_item</item>
     </style>
 
@@ -103,10 +117,10 @@
         <item name="android:paddingBottom">16dp</item>
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingEnd">32dp</item>
-        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textColor">@color/text_medium_emphasis</item>
         <item name="android:textSize">@dimen/text_size_deck_option_bottom_sheet_item</item>
         <item name="android:background">@drawable/ripple_rectangular_colored</item>
-        <item name="drawableTint">@color/textSecondary</item>
+        <item name="drawableTint">@color/text_medium_emphasis</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -133,10 +147,10 @@
         <item name="android:paddingBottom">16dp</item>
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingEnd">32dp</item>
-        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textColor">@color/text_medium_emphasis</item>
         <item name="android:textSize">@dimen/text_size_about_screen_item</item>
         <item name="android:background">@drawable/ripple_rectangular_colored</item>
-        <item name="drawableTint">@color/textSecondary</item>
+        <item name="drawableTint">@color/text_medium_emphasis</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
@@ -171,7 +185,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
-        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textColor">@color/text_medium_emphasis</item>
         <item name="android:textSize">@dimen/text_size_description</item>
     </style>
 
@@ -186,7 +200,7 @@
         <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/text_primary_blue</item>
+        <item name="android:textColor">@color/item_blue_selected</item>
         <item name="android:textSize">@dimen/text_size_support_app_screen_button</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -216,7 +230,7 @@
     <style name="IntervalsPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/floating_button_in_exercise</item>
         <item name="android:textSize">@dimen/text_size_intervals_number_picker</item>
-        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textColor">@color/text_medium_emphasis</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
@@ -247,7 +261,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
-        <item name="android:textColor">@color/text_primary_blue</item>
+        <item name="android:textColor">@color/item_blue_selected</item>
         <item name="android:textSize">@dimen/text_size_section_title</item>
         <item name="android:fontFamily">@font/nunito_extrabold</item>
     </style>
@@ -281,7 +295,7 @@
     <style name="SettingsItemTitle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_title</item>
+        <item name="android:textColor">@color/text_high_emphasis</item>
         <item name="android:textSize">@dimen/text_size_settings_item_title</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
@@ -289,7 +303,7 @@
     <style name="SettingsItemDescription">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_description</item>
+        <item name="android:textColor">@color/text_helper</item>
         <item name="android:textSize">@dimen/text_size_settings_item_description</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
@@ -328,7 +342,7 @@
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textColor">@color/text_medium_emphasis</item>
         <item name="android:textSize">@dimen/text_size_dsv_format_screen_item_title</item>
     </style>
 
@@ -376,7 +390,7 @@
         <item name="android:layout_marginEnd">24dp</item>
         <item name="android:layout_marginBottom">16dp</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
-        <item name="android:textColor">@color/text_title</item>
+        <item name="android:textColor">@color/text_high_emphasis</item>
         <item name="android:textSize">@dimen/text_size_section_title</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:gravity">center_vertical</item>

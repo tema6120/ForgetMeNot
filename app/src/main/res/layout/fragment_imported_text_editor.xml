@@ -32,7 +32,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="top|start"
-                        android:textColor="@color/textSecondary" />
+                        android:textColor="@color/text_medium_emphasis" />
 
                 <TextView
                         android:id="@+id/editOffTextView"

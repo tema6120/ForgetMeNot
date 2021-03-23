@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/ripple</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@color/background_window</item>
         <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet</item>
+        <item name="bottomSheetDialogTheme">@style/DarkBottomSheetStyle</item>
     </style>
 </resources>

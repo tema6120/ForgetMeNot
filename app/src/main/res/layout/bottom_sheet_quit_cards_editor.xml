@@ -39,7 +39,7 @@
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
                 android:text="@string/quit_without_saving_message"
-                android:textColor="@color/textSecondary"
+                android:textColor="@color/text_medium_emphasis"
                 android:textSize="@dimen/text_size_bottom_sheet_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

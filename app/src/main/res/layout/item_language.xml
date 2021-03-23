@@ -38,7 +38,7 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/nunito_bold"
-            android:textColor="@color/textSecondary"
+            android:textColor="@color/text_medium_emphasis"
             android:textSize="@dimen/text_size_language_popup_language_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/favoriteLanguageButton"

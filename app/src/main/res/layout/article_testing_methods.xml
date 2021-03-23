@@ -13,7 +13,7 @@
             style="@style/ArticleParagraph"
             android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_testing_methods_off_section_title"
-            android:textColor="@color/textSecondary" />
+            android:textColor="@color/text_medium_emphasis" />
 
     <include
             android:id="@+id/offTestExerciseCardExample"
@@ -31,7 +31,7 @@
             style="@style/ArticleParagraph"
             android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_testing_methods_manual_section_title"
-            android:textColor="@color/textSecondary" />
+            android:textColor="@color/text_medium_emphasis" />
 
     <include
             android:id="@+id/manualTestExerciseCardExample"
@@ -49,7 +49,7 @@
             style="@style/ArticleParagraph"
             android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_testing_methods_quiz_section_title"
-            android:textColor="@color/textSecondary" />
+            android:textColor="@color/text_medium_emphasis" />
 
     <include
             android:id="@+id/quizTestExerciseCardExample"
@@ -67,7 +67,7 @@
             style="@style/ArticleParagraph"
             android:fontFamily="@font/nunito_extrabold"
             android:text="@string/article_testing_methods_entry_section_title"
-            android:textColor="@color/textSecondary" />
+            android:textColor="@color/text_medium_emphasis" />
 
     <include
             android:id="@+id/entryTestExerciseCardExample"

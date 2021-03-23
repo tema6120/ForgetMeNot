@@ -87,7 +87,7 @@
             app:layout_constraintStart_toEndOf="@id/timeLineTop"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Speak question"
-            tools:textColor="@color/text_title" />
+            tools:textColor="@color/text_high_emphasis" />
 
     <ImageButton
             android:id="@+id/removePronunciationEventButton"

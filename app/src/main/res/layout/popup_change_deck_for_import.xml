@@ -19,7 +19,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="16dp"
             android:text="@string/popup_change_deck_for_import_new_button"
-            android:textColor="@color/text_title"
+            android:textColor="@color/text_high_emphasis"
             android:textSize="@dimen/text_size_change_deck_for_import_popup_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +55,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="16dp"
             android:text="@string/popup_change_deck_for_import_existing_button"
-            android:textColor="@color/text_title"
+            android:textColor="@color/text_high_emphasis"
             android:textSize="@dimen/text_size_change_deck_for_import_popup_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />

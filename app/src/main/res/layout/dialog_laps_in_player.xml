@@ -23,7 +23,7 @@
                 android:fontFamily="@font/nunito_bold"
                 android:padding="16dp"
                 android:text="@string/title_dialog_laps_in_player"
-                android:textColor="@color/text_title"
+                android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_dialog_title"
                 app:drawableStartCompat="@drawable/ic_round_repeat_24" />
 
@@ -57,7 +57,7 @@
                         android:paddingTop="12dp"
                         android:paddingEnd="16dp"
                         android:paddingBottom="12dp"
-                        android:textColor="@color/textSecondary"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textSize="@dimen/text_size_dialog_radiobutton"
                         android:visibility="invisible"
                         tools:checked="true"

@@ -58,7 +58,7 @@
                         android:paddingTop="8dp"
                         android:paddingEnd="12dp"
                         android:paddingBottom="8dp"
-                        android:textColor="@color/text_title"
+                        android:textColor="@color/text_high_emphasis"
                         android:textIsSelectable="true"
                         android:textSize="@dimen/text_size_help_article_screen_article_title"
                         app:layout_constraintEnd_toEndOf="parent"

@@ -39,7 +39,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_pronunciation_plan"
-                    android:textColor="@color/text_title"
+                    android:textColor="@color/text_high_emphasis"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_help_button"
                     app:srcCompat="@drawable/ic_round_help_outline_24"
-                    app:tint="@color/text_title" />
+                    app:tint="@color/text_high_emphasis" />
 
         </FrameLayout>
 

@@ -39,7 +39,7 @@
                     android:contentDescription="@string/description_cancel_button"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_cancel_white_24dp"
-                    app:tint="@color/text_title"
+                    app:tint="@color/text_high_emphasis"
                     tools:visibility="visible" />
 
             <TextView
@@ -53,7 +53,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_dsv_format"
-                    android:textColor="@color/text_title"
+                    android:textColor="@color/text_high_emphasis"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold">
 
@@ -71,7 +71,7 @@
                     android:contentDescription="@string/description_done_button"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_round_done_24"
-                    app:tint="@color/text_title"
+                    app:tint="@color/text_high_emphasis"
                     tools:visibility="visible" />
 
         </FrameLayout>
@@ -106,7 +106,7 @@
                         android:paddingTop="16dp"
                         android:paddingEnd="24dp"
                         android:paddingBottom="16dp"
-                        android:textColor="@color/textSecondary"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textColorHint="@color/divider"
                         android:textSize="@dimen/text_size_file_import_screen_deck_name"
                         app:layout_constraintEnd_toStartOf="@+id/deleteDSVFormatButton"
@@ -141,7 +141,7 @@
                         android:layout_marginEnd="12dp"
                         android:background="?selectableItemBackgroundBorderless"
                         android:contentDescription="@string/description_delete_format_settings"
-                        android:tint="@color/textSecondary"
+                        android:tint="@color/text_medium_emphasis"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/dsvFormatNameEditText"
                         app:layout_constraintEnd_toEndOf="parent"

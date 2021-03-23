@@ -91,7 +91,7 @@ class PronunciationEventAdapter(
                         context.getString(R.string.pronunciation_event_speak_question)
                     pronunciationEventTextView.setFont(R.font.nunito_extrabold, Typeface.BOLD)
                     pronunciationEventTextView.setTextColor(
-                        ContextCompat.getColor(context, R.color.text_title)
+                        ContextCompat.getColor(context, R.color.text_high_emphasis)
                     )
                     speakIcon.visibility = VISIBLE
                     timeLineCenter.visibility = INVISIBLE
@@ -101,7 +101,7 @@ class PronunciationEventAdapter(
                         context.getString(R.string.pronunciation_event_speak_answer)
                     pronunciationEventTextView.setFont(R.font.nunito_extrabold, Typeface.BOLD)
                     pronunciationEventTextView.setTextColor(
-                        ContextCompat.getColor(context, R.color.text_title)
+                        ContextCompat.getColor(context, R.color.text_high_emphasis)
                     )
                     speakIcon.visibility = VISIBLE
                     timeLineCenter.visibility = INVISIBLE
@@ -112,7 +112,7 @@ class PronunciationEventAdapter(
                         context.getString(R.string.pronunciation_event_delay_with_args, seconds)
                     pronunciationEventTextView.setTypeface(null, Typeface.ITALIC)
                     pronunciationEventTextView.setTextColor(
-                        ContextCompat.getColor(context, R.color.text_description)
+                        ContextCompat.getColor(context, R.color.text_helper)
                     )
                     speakIcon.visibility = INVISIBLE
                     timeLineCenter.visibility = VISIBLE

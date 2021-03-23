@@ -40,7 +40,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_card_appearance"
-                    android:textColor="@color/text_title"
+                    android:textColor="@color/text_high_emphasis"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
@@ -87,7 +87,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/nunito_bold"
                                 android:text="@string/text_alignment"
-                                android:textColor="@color/textSecondary"
+                                android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_settings_item_title" />
 
                         <View
@@ -127,7 +127,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/nunito_bold"
                                 android:text="@string/text_size"
-                                android:textColor="@color/textSecondary"
+                                android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_settings_item_title" />
 
                         <LinearLayout
@@ -151,7 +151,7 @@
                                     android:maxLines="1"
                                     android:paddingStart="20dp"
                                     android:paddingEnd="6dp"
-                                    android:textColor="@color/textSecondary"
+                                    android:textColor="@color/text_medium_emphasis"
                                     android:textColorHint="@android:color/transparent"
                                     android:textSize="14sp"
                                     tools:ignore="HardcodedText"
@@ -165,7 +165,7 @@
                                     android:gravity="center_vertical|end"
                                     android:paddingEnd="20dp"
                                     android:text="@string/text_size_unit_sp"
-                                    android:textColor="@color/textSecondary"
+                                    android:textColor="@color/text_medium_emphasis"
                                     android:textSize="14sp"
                                     tools:ignore="RtlSymmetry" />
 
@@ -202,7 +202,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/nunito_bold"
                                 android:text="@string/text_alignment"
-                                android:textColor="@color/textSecondary"
+                                android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_settings_item_title" />
 
                         <View
@@ -242,7 +242,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/nunito_bold"
                                 android:text="@string/text_size"
-                                android:textColor="@color/textSecondary"
+                                android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_settings_item_title" />
 
                         <LinearLayout
@@ -266,7 +266,7 @@
                                     android:maxLines="1"
                                     android:paddingStart="20dp"
                                     android:paddingEnd="6dp"
-                                    android:textColor="@color/textSecondary"
+                                    android:textColor="@color/text_medium_emphasis"
                                     android:textColorHint="@android:color/transparent"
                                     android:textSize="14sp"
                                     tools:ignore="HardcodedText"
@@ -280,7 +280,7 @@
                                     android:gravity="center_vertical|end"
                                     android:paddingEnd="20dp"
                                     android:text="@string/text_size_unit_sp"
-                                    android:textColor="@color/textSecondary"
+                                    android:textColor="@color/text_medium_emphasis"
                                     android:textSize="14sp"
                                     tools:ignore="RtlSymmetry" />
 

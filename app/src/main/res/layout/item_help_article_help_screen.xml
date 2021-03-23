@@ -19,7 +19,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
                 android:contentDescription="@string/description_help_article_icon"
-                app:tint="@color/textSecondary"
+                app:tint="@color/text_medium_emphasis"
                 tools:srcCompat="@drawable/ic_outline_description_24" />
 
         <TextView
@@ -30,7 +30,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/nunito_bold"
                 android:padding="16dp"
-                android:textColor="@color/textSecondary"
+                android:textColor="@color/text_medium_emphasis"
                 android:textSize="@dimen/text_size_help_screen_article_title"
                 tools:text="@string/help_article_title_import_of_file" />
 
@@ -41,7 +41,7 @@
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/description_navigate_icon"
                 app:srcCompat="@drawable/ic_round_chevron_right_28"
-                app:tint="@color/textSecondary" />
+                app:tint="@color/text_medium_emphasis" />
 
     </LinearLayout>
 

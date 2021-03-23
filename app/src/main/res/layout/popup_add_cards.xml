@@ -52,7 +52,7 @@
             android:background="?attr/selectableItemBackground"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/text_import_file_button"
-            android:textColor="@color/text_primary_brown"
+            android:textColor="@color/on_add_cards_popup"
             android:textSize="@dimen/text_size_add_cards_popup_item"
             app:layout_constraintBottom_toBottomOf="@+id/importFileButton"
             app:layout_constraintStart_toEndOf="@+id/importFileIcon"
@@ -72,7 +72,7 @@
             app:layout_constraintStart_toEndOf="@+id/importFileTextView"
             app:layout_constraintTop_toTopOf="@+id/importFileButton"
             app:srcCompat="@drawable/ic_round_help_outline_24"
-            app:tint="@color/text_primary_brown" />
+            app:tint="@color/on_add_cards_popup" />
 
     <View
             android:id="@+id/browseCatalogButton"
@@ -103,7 +103,7 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/text_browse_catalog_button"
-            android:textColor="@color/text_primary_brown"
+            android:textColor="@color/on_add_cards_popup"
             android:textSize="@dimen/text_size_add_cards_popup_item"
             app:layout_constraintBottom_toBottomOf="@+id/browseCatalogButton"
             app:layout_constraintEnd_toEndOf="@+id/browseCatalogButton"
@@ -140,7 +140,7 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/text_create_new_deck_button"
-            android:textColor="@color/text_primary_brown"
+            android:textColor="@color/on_add_cards_popup"
             android:textSize="@dimen/text_size_add_cards_popup_item"
             app:layout_constraintBottom_toBottomOf="@+id/createNewDeckButton"
             app:layout_constraintEnd_toEndOf="@+id/createNewDeckButton"
