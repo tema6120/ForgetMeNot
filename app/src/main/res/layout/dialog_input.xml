@@ -25,7 +25,7 @@
                 android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_dialog_title"
                 app:drawableStartCompat="@drawable/ic_outline_edit_24"
-                app:drawableTint="@color/iconGray"
+                app:drawableTint="@color/icon_gray"
                 tools:text="@string/title_preset_name_input_dialog" />
 
         <EditText
@@ -69,8 +69,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/nunito_extrabold"
-                    android:outlineAmbientShadowColor="@color/colorAccent"
-                    android:outlineSpotShadowColor="@color/colorAccent"
+                    android:outlineAmbientShadowColor="@color/accent"
+                    android:outlineSpotShadowColor="@color/accent"
                     android:stateListAnimator="@animator/material_button"
                     android:text="@android:string/ok"
                     android:textAllCaps="false"

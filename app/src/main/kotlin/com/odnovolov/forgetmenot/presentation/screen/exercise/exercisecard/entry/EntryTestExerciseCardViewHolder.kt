@@ -228,12 +228,12 @@ class EntryTestExerciseCardViewHolder(
                     }
                 }
                 isExpired.observe(coroutineScope) { isExpired: Boolean ->
+                    val cardBackgroundColorRes: Int =
+                        if (isExpired)
+                            R.color.card_expired else
+                            R.color.card
                     val cardBackgroundColor: Int =
-                        if (isExpired) {
-                            ContextCompat.getColor(context, R.color.background_expired_card)
-                        } else {
-                            Color.WHITE
-                        }
+                        ContextCompat.getColor(context, cardBackgroundColorRes)
                     cardView.setCardBackgroundColor(cardBackgroundColor)
                 }
                 isLearned.observe(coroutineScope) { isLearned: Boolean ->
@@ -249,11 +249,8 @@ class EntryTestExerciseCardViewHolder(
                     when (cardLabel) {
                         CardLabel.Learned -> {
                             cardLabelTextView.setText(R.string.card_label_learned)
-                            cardLabelTextView.background.colorFilter =
-                                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                                    ContextCompat.getColor(context, R.color.card_label_learned),
-                                    BlendModeCompat.SRC_ATOP
-                                )
+                            cardLabelTextView.backgroundTintList =
+                                ContextCompat.getColorStateList(context, R.color.card_label_learned)
                             cardLabelTextView.setOnClickListener {
                                 showCardLabelTipPopup(cardLabel)
                             }
@@ -261,11 +258,8 @@ class EntryTestExerciseCardViewHolder(
                         }
                         CardLabel.Expired -> {
                             cardLabelTextView.setText(R.string.card_label_expired)
-                            cardLabelTextView.background.colorFilter =
-                                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                                    ContextCompat.getColor(context, R.color.issue),
-                                    BlendModeCompat.SRC_ATOP
-                                )
+                            cardLabelTextView.backgroundTintList =
+                                ContextCompat.getColorStateList(context, R.color.card_label_expired)
                             cardLabelTextView.setOnClickListener {
                                 showCardLabelTipPopup(cardLabel)
                             }

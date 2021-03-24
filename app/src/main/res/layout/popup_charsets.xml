@@ -21,7 +21,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            app:tint="@color/colorAccent" />
+            app:tint="@color/accent" />
 
     <TextView
             android:id="@+id/title"

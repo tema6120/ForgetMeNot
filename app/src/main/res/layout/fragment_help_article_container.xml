@@ -135,7 +135,7 @@
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:background="@color/background_window"
+            android:background="@color/window"
             app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/item_help_article_drawer" />
 

@@ -20,7 +20,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            app:tint="@color/colorAccent" />
+            app:tint="@color/accent" />
 
     <TextView
             android:id="@+id/title"
@@ -60,7 +60,7 @@
             android:layout_marginEnd="12dp"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/card_info_popup_deck_title"
-            android:textColor="@color/description_text_on_popup"
+            android:textColor="@color/description_on_dark_popup"
             android:textSize="@dimen/text_size_popup_item_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -93,7 +93,7 @@
             android:layout_marginEnd="12dp"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/card_info_popup_number_of_tests_title"
-            android:textColor="@color/description_text_on_popup"
+            android:textColor="@color/description_on_dark_popup"
             android:textSize="@dimen/text_size_popup_item_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -126,7 +126,7 @@
             android:layout_marginEnd="12dp"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/card_info_popup_time_of_the_last_test_title"
-            android:textColor="@color/description_text_on_popup"
+            android:textColor="@color/description_on_dark_popup"
             android:textSize="@dimen/text_size_popup_item_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

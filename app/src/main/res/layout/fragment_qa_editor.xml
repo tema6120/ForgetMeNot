@@ -31,6 +31,7 @@
                             android:id="@+id/questionPasteButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:tint="@color/icon_on_surface"
                             android:background="?selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_paste_button"
                             app:srcCompat="@drawable/ic_content_paste_24px" />
@@ -39,9 +40,10 @@
                             android:id="@+id/questionClearButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:tint="@color/icon_on_surface"
                             android:background="?selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_clear_button"
-                            app:srcCompat="@drawable/ic_baseline_clear_24" />
+                            app:srcCompat="@drawable/ic_round_clear_24" />
 
                 </LinearLayout>
 
@@ -135,15 +137,17 @@
                             android:layout_height="48dp"
                             android:background="?selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_paste_button"
+                            android:tint="@color/icon_on_surface"
                             app:srcCompat="@drawable/ic_content_paste_24px" />
 
                     <ImageButton
                             android:id="@+id/answerClearButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:tint="@color/icon_on_surface"
                             android:background="?selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_clear_button"
-                            app:srcCompat="@drawable/ic_baseline_clear_24" />
+                            app:srcCompat="@drawable/ic_round_clear_24" />
 
                 </LinearLayout>
 

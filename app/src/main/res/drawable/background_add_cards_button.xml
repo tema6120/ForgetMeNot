@@ -26,7 +26,7 @@
         <ripple
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:color="@color/colorAccent"
+                android:color="@color/accent"
                 tools:targetApi="lollipop">
 
             <item android:id="@android:id/mask">

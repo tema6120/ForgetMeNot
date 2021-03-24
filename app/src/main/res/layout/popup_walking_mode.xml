@@ -14,13 +14,13 @@
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
             android:contentDescription="@string/description_walking_mode_icon"
-            android:src="@drawable/ic_round_directions_walk_24_on_popup"
+            android:src="@drawable/ic_round_directions_walk_24"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            tools:tint="@color/walking_mode_icon_on_popup" />
+            app:tint="@color/icon_walking_mode_on_popup" />
 
     <TextView
             android:id="@+id/title"
@@ -30,7 +30,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/popup_title_walking_mode"
-            android:textColor="@android:color/white"
+            android:textColor="@color/title_on_dark_popup"
             android:textSize="@dimen/text_size_popup_in_exercise_title"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,27 +55,29 @@
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/ripple_light_borderless"
+            android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_walking_mode_settings_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/walkingModeHelpButton"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
-            app:srcCompat="@drawable/ic_settings_white_24dp" />
+            android:tint="@color/icon_on_control_panel"
+            app:srcCompat="@drawable/ic_round_settings_24" />
 
     <ImageButton
             android:id="@+id/walkingModeHelpButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/ripple_light_borderless"
+            android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_help_button"
+            android:tint="@color/icon_on_control_panel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/walkingModeSwitchButton"
             app:layout_constraintStart_toEndOf="@+id/walkingModeSettingsButton"
             app:layout_constraintTop_toBottomOf="@id/divider"
-            app:srcCompat="@drawable/ic_baseline_help_outline_24" />
+            app:srcCompat="@drawable/ic_round_help_outline_24" />
 
     <FrameLayout
             android:id="@+id/walkingModeSwitchButton"

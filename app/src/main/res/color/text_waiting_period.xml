@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/description_text_on_popup" android:state_selected="false" />
+    <item android:color="@color/description_on_dark_popup" android:state_selected="false" />
     <item android:color="@color/intervals_icon_on_popup" />
 </selector>

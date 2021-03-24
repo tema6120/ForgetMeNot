@@ -96,8 +96,8 @@ class ExamplePlayerFragment : BaseFragment() {
                 with(speakButton) {
                     setImageResource(
                         when (speakingStatus) {
-                            Speaking -> R.drawable.ic_volume_off_white_24dp
-                            NotSpeaking -> R.drawable.ic_volume_up_white_24dp
+                            Speaking -> R.drawable.ic_round_volume_off_24
+                            NotSpeaking -> R.drawable.ic_round_volume_up_24
                             CannotSpeak -> R.drawable.ic_volume_error_24
                         }
                     )

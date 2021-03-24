@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -386,8 +385,8 @@ class HomeFragment : BaseFragment() {
         with(drawerButton) {
             setImageResource(
                 if (isSearchMode)
-                    R.drawable.ic_round_keyboard_backspace_24_colored else
-                    R.drawable.ic_drawer_colored
+                    R.drawable.ic_round_keyboard_backspace_24 else
+                    R.drawable.ic_round_drawer_24
             )
             setOnClickListener {
                 if (isSearchMode) {

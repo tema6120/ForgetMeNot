@@ -40,7 +40,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/ripple_light_borderless"
+                android:background="@drawable/ripple_on_control_panel"
                 android:contentDescription="@string/description_mark_as_learned_button"
                 app:srcCompat="@drawable/ic_mark_as_learned" />
 
@@ -78,9 +78,9 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/ripple_light_borderless"
+                android:background="@drawable/ripple_on_control_panel"
                 android:contentDescription="@string/description_hint_button"
-                app:srcCompat="@drawable/ic_lightbulb_outline_white_24dp"
+                app:srcCompat="@drawable/ic_lightbulb_outline_24"
                 tools:visibility="visible" />
 
     </FrameLayout>

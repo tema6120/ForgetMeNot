@@ -4,6 +4,6 @@
         android:viewportWidth="6"
         android:viewportHeight="4">
     <path
-            android:fillColor="@color/background_dark_popup"
+            android:fillColor="@color/popup_dark"
             android:pathData="M3,0l-3,4l6,0l-3,-4z" />
 </vector>

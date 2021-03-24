@@ -5,8 +5,8 @@
             android:right="8dp"
             android:top="8dp">
         <shape android:shape="oval">
-            <solid android:color="@color/grade_unsatisfactory" />
+            <solid android:color="@android:color/black" />
         </shape>
     </item>
-    <item android:drawable="@drawable/ripple_light_borderless" />
+    <item android:drawable="@drawable/ripple_on_control_panel" />
 </layer-list>

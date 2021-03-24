@@ -5,7 +5,7 @@
         </shape>
     </item>
     <item>
-        <ripple android:color="@color/colorAccent">
+        <ripple android:color="@color/accent">
             <item android:id="@android:id/mask">
                 <shape>
                     <solid android:color="@android:color/black" />

@@ -57,8 +57,8 @@ class QuestionDisplayArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             with(speakButton) {
                 setImageResource(
                     if (isSpeaking)
-                        R.drawable.ic_volume_off_white_24dp else
-                        R.drawable.ic_volume_up_white_24dp
+                        R.drawable.ic_round_volume_off_24 else
+                        R.drawable.ic_round_volume_up_24
                 )
                 setOnClickListener {
                     if (isSpeaking) speaker?.stop() else onSpeakButtonClicked()

@@ -17,7 +17,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/oval"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_grade"
             android:textSize="@dimen/text_size_grade"
             tools:backgroundTint="@color/grade_unsatisfactory"
             tools:text="0" />

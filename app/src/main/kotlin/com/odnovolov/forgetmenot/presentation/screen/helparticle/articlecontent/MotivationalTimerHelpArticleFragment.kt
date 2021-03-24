@@ -90,14 +90,14 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
             timerPopup?.contentView?.run {
                 timerIcon.setImageResource(
                     if (timerStatus is TimerStatus.Ticking && timerStatus.secondsLeft % 2 == 0)
-                        R.drawable.ic_round_timer_24_even_for_popup else
-                        R.drawable.ic_round_timer_24_for_popup
+                        R.drawable.ic_round_timer_24_even else
+                        R.drawable.ic_round_timer_24
                 )
 
                 val tintColorId: Int = when (timerStatus) {
                     is TimerStatus.Ticking -> R.color.ticking_timer_icon_on_popup
                     TimerStatus.TimeIsOver -> R.color.issue
-                    else -> R.color.description_text_on_popup
+                    else -> R.color.description_on_dark_popup
                 }
                 val tintColor: Int = ContextCompat.getColor(context, tintColorId)
                 timerIcon.setColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
@@ -115,7 +115,7 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
                 val descriptionTextColorId: Int =
                     if (timerStatus == TimerStatus.TimeIsOver)
                         R.color.issue else
-                        R.color.description_text_on_popup
+                        R.color.description_on_dark_popup
                 val descriptionTextColor: Int =
                     ContextCompat.getColor(context, descriptionTextColorId)
                 timerDescriptionTextView.setTextColor(descriptionTextColor)
@@ -130,7 +130,7 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
         state.flowOf(State::isExpired).observe { isExpired: Boolean ->
             cardView.setCardBackgroundColor(
                 if (isExpired) {
-                    ContextCompat.getColor(requireContext(), R.color.background_expired_card)
+                    ContextCompat.getColor(requireContext(), R.color.card_expired)
                 } else {
                     Color.WHITE
                 }
@@ -173,7 +173,7 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
                 is TimerStatus.Ticking -> Color.WHITE
                 TimerStatus.TimeIsOver -> ContextCompat.getColor(requireContext(), R.color.issue)
                 else ->
-                    ContextCompat.getColor(requireContext(), R.color.icon_exercise_button_unabled)
+                    ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel_deactivated)
             }
             timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
         }

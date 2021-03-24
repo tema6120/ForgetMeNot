@@ -191,7 +191,7 @@ class SearchFragment : BaseFragment() {
     private fun updateStatusBarColor(isSelectionMode: Boolean = this.isSelectionMode) {
         if (findNavController().currentDestination?.id == R.id.deck_chooser) return
         if (isSelectionMode) {
-            setStatusBarColor(requireActivity(), R.color.colorAccent)
+            setStatusBarColor(requireActivity(), R.color.accent)
         } else {
             setTransparentStatusBar(requireActivity())
         }

@@ -16,7 +16,7 @@
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_window"
+                android:background="@color/window"
                 android:elevation="4dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +34,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/screenTitleTextView"
-                        app:srcCompat="@drawable/ic_cancel_white_24dp"
+                        app:srcCompat="@drawable/ic_round_clear_24"
                         app:tint="@color/text_high_emphasis" />
 
                 <ImageButton
@@ -104,8 +104,8 @@
                         app:layout_constraintBottom_toBottomOf="@+id/screenTitleTextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
-                        app:srcCompat="@drawable/done_button_selector"
-                        app:tint="@color/text_high_emphasis" />
+                        app:srcCompat="@drawable/ic_round_done_24"
+                        app:tint="@color/icon_on_surface" />
 
                 <TextView
                         android:id="@+id/add_to"
@@ -200,9 +200,9 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/renameDeckButton"
                         app:tabIndicator="@drawable/tab_indicator"
-                        app:tabIndicatorColor="@color/colorAccent"
+                        app:tabIndicatorColor="@color/accent"
                         app:tabMode="scrollable"
-                        app:tabSelectedTextColor="@color/colorAccent" />
+                        app:tabSelectedTextColor="@color/accent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

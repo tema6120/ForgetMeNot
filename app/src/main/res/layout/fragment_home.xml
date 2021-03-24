@@ -10,7 +10,7 @@
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_window"
+            android:background="@color/window"
             android:stateListAnimator="@animator/app_bar">
 
         <LinearLayout
@@ -32,10 +32,11 @@
                     android:id="@+id/drawerButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:tint="@color/accent"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/ripple_borderless_colored"
                     android:contentDescription="@string/description_drawer_button"
-                    app:srcCompat="@drawable/ic_drawer_colored" />
+                    app:srcCompat="@drawable/ic_round_drawer_24" />
 
             <EditText
                     android:id="@+id/searchEditText"
@@ -136,9 +137,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tabIndicator="@drawable/tab_indicator"
-                    app:tabIndicatorColor="@color/colorAccent"
+                    app:tabIndicatorColor="@color/accent"
                     app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@color/colorAccent" />
+                    app:tabSelectedTextColor="@color/accent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -203,27 +204,27 @@
                 android:layout_margin="20dp"
                 android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
-                android:outlineAmbientShadowColor="@color/colorAccent"
-                android:outlineSpotShadowColor="@color/colorAccent"
+                android:outlineAmbientShadowColor="@color/accent"
+                android:outlineSpotShadowColor="@color/accent"
                 android:stateListAnimator="@animator/material_button"
                 android:text="@string/text_autoplay_button"
                 android:textAllCaps="false"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/accent"
                 android:textSize="@dimen/text_size_floating_button"
                 app:backgroundTint="@color/light_floating_button"
                 app:cornerRadius="16dp"
                 app:icon="@drawable/ic_play_20"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="@color/colorAccent"
+                app:iconTint="@color/accent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/exerciseButton"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_max="220dp"
-                app:rippleColor="@color/colorAccent"
-                app:strokeColor="@color/exercise_button_stroke"
+                app:rippleColor="@color/accent"
+                app:strokeColor="@color/accent"
                 app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -235,23 +236,21 @@
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
-                android:outlineAmbientShadowColor="@color/colorAccent"
-                android:outlineSpotShadowColor="@color/colorAccent"
+                android:outlineAmbientShadowColor="@color/accent"
+                android:outlineSpotShadowColor="@color/accent"
                 android:stateListAnimator="@animator/material_button"
                 android:text="@string/text_exercise_button"
                 android:textAllCaps="false"
                 android:textColor="@color/on_accent"
                 android:textSize="@dimen/text_size_floating_button"
-                app:backgroundTint="@color/exercise_button_background_tint"
+                app:backgroundTint="@color/accent"
                 app:cornerRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/autoplayButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_max="220dp"
-                app:rippleColor="@color/ripple_on_accent"
-                app:strokeColor="@color/exercise_button_stroke"
-                app:strokeWidth="2dp" />
+                app:rippleColor="@color/ripple_on_accent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

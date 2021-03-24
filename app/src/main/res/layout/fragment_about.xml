@@ -25,7 +25,7 @@
                 android:contentDescription="@string/description_back_button"
                 android:elevation="4dp"
                 android:tint="@android:color/white"
-                app:srcCompat="@drawable/ic_round_keyboard_backspace_24_colored" />
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
     </FrameLayout>
 
@@ -183,14 +183,14 @@
                     android:layout_margin="20dp"
                     android:fontFamily="@font/nunito_extrabold"
                     android:gravity="center"
-                    android:outlineAmbientShadowColor="@color/colorAccent"
-                    android:outlineSpotShadowColor="@color/colorAccent"
+                    android:outlineAmbientShadowColor="@color/accent"
+                    android:outlineSpotShadowColor="@color/accent"
                     android:stateListAnimator="@animator/material_button"
                     android:text="@string/text_support_app_button"
                     android:textAllCaps="false"
                     android:textColor="@color/on_accent"
                     android:textSize="@dimen/text_size_floating_button"
-                    app:backgroundTint="@color/exercise_button_background_tint"
+                    app:backgroundTint="@color/accent"
                     app:cornerRadius="16dp"
                     app:icon="@drawable/ic_round_favorite_24"
                     app:iconTint="@color/on_accent"

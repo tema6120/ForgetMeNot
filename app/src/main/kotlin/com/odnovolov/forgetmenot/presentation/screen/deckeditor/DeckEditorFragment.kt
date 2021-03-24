@@ -222,7 +222,7 @@ class DeckEditorFragment : BaseFragment() {
     private fun updateStatusBarColor(isColorful: Boolean = this.isSelectionMode) {
         if (findNavController().currentDestination?.id == R.id.deck_chooser) return
         if (isColorful) {
-            setStatusBarColor(requireActivity(), R.color.colorAccent)
+            setStatusBarColor(requireActivity(), R.color.accent)
         } else {
             setTransparentStatusBar(requireActivity())
         }

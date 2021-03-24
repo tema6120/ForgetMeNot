@@ -10,12 +10,12 @@
       android:pathData="M7.5,12.5L10.5,15.5"
       android:strokeWidth="1.5"
       android:fillColor="#00000000"
-      android:strokeColor="#fff"
+      android:strokeColor="@color/foreground_on_variant_icon_selector"
       android:strokeLineCap="round"/>
   <path
       android:pathData="M10.5,15.5L17.5,8.5"
       android:strokeWidth="1.5"
       android:fillColor="#00000000"
-      android:strokeColor="#fff"
+      android:strokeColor="@color/foreground_on_variant_icon_selector"
       android:strokeLineCap="round"/>
 </vector>

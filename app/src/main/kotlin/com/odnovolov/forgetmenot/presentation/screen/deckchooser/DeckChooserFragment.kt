@@ -53,7 +53,7 @@ class DeckChooserFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setStatusBarColor(requireActivity(), R.color.colorAccent)
+        setStatusBarColor(requireActivity(), R.color.accent)
         return inflater.inflate(R.layout.fragment_deck_chooser, container, false)
     }
 

@@ -9,7 +9,7 @@
             android:pathData="M12,1A11,11 0,1 1,1 12,11 11,0 0,1 12,1m0,-1A12,12 0,1 0,24 12,12 12,0 0,0 12,0Z"
             android:strokeAlpha="0.12" />
     <path
-            android:fillColor="@color/colorAccent"
+            android:fillColor="@color/accent"
             android:pathData="M13.5,11h-3a1,1 0,0 0,0 2h3a1,1 0,0 0,0 -2Z" />
     <path
             android:fillAlpha="0.12"
@@ -17,6 +17,6 @@
             android:pathData="M36,1A11,11 0,1 1,25 12,11 11,0 0,1 36,1m0,-1A12,12 0,1 0,48 12,12 12,0 0,0 36,0Z"
             android:strokeAlpha="0.12" />
     <path
-            android:fillColor="@color/colorAccent"
+            android:fillColor="@color/accent"
             android:pathData="M37.5,11h-3a1,1 0,0 0,0 2h3a1,1 0,0 0,0 -2Z" />
 </vector>

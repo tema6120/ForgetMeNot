@@ -8,11 +8,11 @@
       android:fillColor="#fff"/>
   <path
       android:pathData="M12,3a9,9 0,1 1,-9 9,9 9,0 0,1 9,-9m0,-1A10,10 0,1 0,22 12,10 10,0 0,0 12,2Z"
-      android:fillColor="@color/colorAccent"/>
+      android:fillColor="@color/accent"/>
   <path
       android:pathData="M12,18m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0"
-      android:fillColor="@color/colorAccent"/>
+      android:fillColor="@color/accent"/>
   <path
       android:pathData="M14.66,7.05 L14,13.37A1.88,1.88 0,0 1,12 15h0A1.88,1.88 0,0 1,10 13.37l-0.7,-6.32A2.72,2.72 0,0 1,12 4H12A2.72,2.72 0,0 1,14.66 7.05Z"
-      android:fillColor="@color/colorAccent"/>
+      android:fillColor="@color/accent"/>
 </vector>

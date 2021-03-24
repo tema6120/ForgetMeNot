@@ -11,7 +11,7 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_window"
+            android:background="@color/window"
             android:orientation="vertical"
             android:stateListAnimator="@animator/app_bar">
 
@@ -34,7 +34,8 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/ripple_borderless_colored"
                     android:contentDescription="@string/description_back_button"
-                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24_colored" />
+                    android:tint="@color/accent"
+                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
             <EditText
                     android:id="@+id/searchEditText"

@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="116dp"
-                    android:theme="@style/AppTheme.AppBarOverlay">
+                    style="@style/AppTheme.AppBarOverlay">
 
                 <LinearLayout
                         android:id="@+id/controlPanelRow"
@@ -84,7 +84,7 @@
                             android:id="@+id/markAsLearnedButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/ripple_light_borderless"
+                            android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_mark_as_learned_button"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_mark_as_learned"
@@ -94,17 +94,17 @@
                             android:id="@+id/removeCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/ripple_light_borderless"
+                            android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_remove_card_button"
                             android:visibility="gone"
-                            app:srcCompat="@drawable/ic_delete_white_24dp"
+                            app:srcCompat="@drawable/ic_round_delete_24"
                             tools:visibility="visible" />
 
                     <ImageButton
                             android:id="@+id/moveCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/ripple_light_borderless"
+                            android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_move_card_button"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_round_drive_file_move_24"
@@ -114,7 +114,7 @@
                             android:id="@+id/copyCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/ripple_light_borderless"
+                            android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_copy_card_button"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_content_copy_24"
@@ -124,7 +124,7 @@
                             android:id="@+id/cardInfoButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/ripple_light_borderless"
+                            android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_card_info_button"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_round_info_24"
@@ -134,10 +134,10 @@
                             android:id="@+id/helpButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/ripple_light_borderless"
+                            android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_help_button"
                             android:visibility="gone"
-                            app:srcCompat="@drawable/ic_baseline_help_outline_24"
+                            app:srcCompat="@drawable/ic_round_help_outline_24"
                             tools:visibility="visible" />
 
                     <Space
@@ -170,7 +170,7 @@
                 android:background="@drawable/ripple_borderless_colored"
                 android:contentDescription="@string/description_cancel_button"
                 android:tint="@color/icon_on_surface"
-                app:srcCompat="@drawable/ic_cancel_white_24dp" />
+                app:srcCompat="@drawable/ic_round_clear_24" />
 
         <View
                 android:layout_width="2.5dp"
@@ -178,7 +178,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="22dp"
                 android:layout_marginBottom="22dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/accent" />
 
         <ImageButton
                 android:id="@+id/doneButton"
@@ -192,7 +192,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/done_button_selector" />
+                app:srcCompat="@drawable/ic_round_done_24" />
 
     </LinearLayout>
 

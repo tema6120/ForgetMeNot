@@ -37,7 +37,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:padding="16dp"
-                            android:textColor="@color/text_secondary_selector"
+                            android:textColor="@color/text_on_card"
                             android:textIsSelectable="true"
                             android:textSize="@dimen/text_size_question"
                             tools:text="Эти люди привычны к тяжелой работе." />
@@ -79,7 +79,7 @@
                         android:paddingTop="16dp"
                         android:paddingEnd="16dp"
                         android:paddingBottom="80dp"
-                        android:textColor="@color/text_secondary_selector"
+                        android:textColor="@color/text_on_card"
                         android:textIsSelectable="true"
                         android:textSize="@dimen/text_size_answer" />
 
@@ -106,7 +106,7 @@
                             android:paddingTop="16dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="80dp"
-                            android:textColor="@color/text_secondary_selector"
+                            android:textColor="@color/text_on_card"
                             android:textIsSelectable="true"
                             android:textSize="@dimen/text_size_answer" />
 
@@ -134,7 +134,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_on_card_label"
                 android:textSize="@dimen/text_size_card_label"
                 android:textStyle="bold"
                 android:translationY="-37dp"

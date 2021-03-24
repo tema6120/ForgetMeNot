@@ -131,6 +131,7 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
+            android:tint="@color/item_blue_selected"
             android:contentDescription="@string/description_change_sorting_direction"
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="@+id/sortByNameTextView"

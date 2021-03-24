@@ -13,7 +13,8 @@
         android:paddingBottom="6dp"
         android:text="@string/text_add_cards_button"
         android:textAllCaps="true"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/accent"
         android:textSize="@dimen/text_size_home_screen_add_cards_button"
         android:textStyle="bold"
-        app:drawableStartCompat="@drawable/ic_add_colored" />
+        app:drawableTint="@color/accent"
+        app:drawableStartCompat="@drawable/ic_round_add_14" />

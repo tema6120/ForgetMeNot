@@ -8,5 +8,5 @@
             </item>
         </selector>
     </item>
-    <item android:drawable="@drawable/ripple_rectangular_light" />
+    <item android:drawable="@drawable/ripple_rectangular_on_dark_popup" />
 </layer-list>

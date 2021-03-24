@@ -245,11 +245,17 @@ class ExerciseFragment : BaseFragment() {
                 with(speakButton) {
                     setImageResource(
                         when (speakingStatus) {
-                            Speaking -> R.drawable.ic_volume_off_white_24dp
-                            NotSpeaking -> R.drawable.ic_volume_up_white_24dp
+                            Speaking -> R.drawable.ic_round_volume_off_24
+                            NotSpeaking -> R.drawable.ic_round_volume_up_24
                             CannotSpeak -> R.drawable.ic_volume_error_24
                         }
                     )
+                    val iconTintRes: Int =
+                        when (speakingStatus) {
+                            CannotSpeak -> R.color.issue
+                            else -> R.color.icon_on_control_panel
+                        }
+                    imageTintList = ContextCompat.getColorStateList(context, iconTintRes)
                     setOnClickListener {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)
@@ -327,12 +333,8 @@ class ExerciseFragment : BaseFragment() {
 
     private fun updateGradeButtonColor(grade: Int) {
         val gradeColorRes = getGradeColorRes(grade)
-        val gradeColor: Int = ContextCompat.getColor(requireContext(), gradeColorRes)
-        gradeButton.background.colorFilter =
-            BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                gradeColor,
-                BlendModeCompat.SRC_ATOP
-            )
+        gradeButton.backgroundTintList =
+            ContextCompat.getColorStateList(requireContext(), gradeColorRes)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val brightGradeColor: Int =
                 ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))
@@ -366,7 +368,7 @@ class ExerciseFragment : BaseFragment() {
             && timerStatus.secondsLeft * 1000L <= TIME_TO_PAINT_TIMER_BUTTON
         ) {
             if (timerButtonPaintingAnimation == null && isResumed) {
-                val colorFrom = Color.WHITE
+                val colorFrom = ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel)
                 val colorTo = ContextCompat.getColor(requireContext(), R.color.issue)
                 timerButtonPaintingAnimation =
                     ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo).apply {
@@ -374,7 +376,7 @@ class ExerciseFragment : BaseFragment() {
                         addUpdateListener { animator: ValueAnimator ->
                             timerButton.setColorFilter(
                                 animator.animatedValue as Int,
-                                PorterDuff.Mode.SRC_IN
+                                PorterDuff.Mode.SRC_ATOP
                             )
                         }
                         start()
@@ -382,12 +384,12 @@ class ExerciseFragment : BaseFragment() {
             }
         } else {
             val iconColor: Int = when (timerStatus) {
-                is TimerStatus.Ticking -> Color.WHITE
+                is TimerStatus.Ticking -> ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel)
                 TimerStatus.TimeIsOver -> ContextCompat.getColor(requireContext(), R.color.issue)
                 else ->
-                    ContextCompat.getColor(requireContext(), R.color.icon_exercise_button_unabled)
+                    ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel_deactivated)
             }
-            timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+            timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP)
         }
     }
 
@@ -560,17 +562,17 @@ class ExerciseFragment : BaseFragment() {
                 timerPopup?.contentView?.run {
                     timerIcon.setImageResource(
                         if (timerStatus is TimerStatus.Ticking && timerStatus.secondsLeft % 2 == 0)
-                            R.drawable.ic_round_timer_24_even_for_popup else
-                            R.drawable.ic_round_timer_24_for_popup
+                            R.drawable.ic_round_timer_24_even else
+                            R.drawable.ic_round_timer_24
                     )
 
                     val tintColorId: Int = when (timerStatus) {
                         is TimerStatus.Ticking -> R.color.ticking_timer_icon_on_popup
                         TimerStatus.TimeIsOver -> R.color.issue
-                        else -> R.color.description_text_on_popup
+                        else -> R.color.icon_on_control_panel_deactivated
                     }
                     val tintColor: Int = ContextCompat.getColor(context, tintColorId)
-                    timerIcon.setColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+                    timerIcon.setColorFilter(tintColor, PorterDuff.Mode.SRC_ATOP)
 
                     timerDescriptionTextView.text = when (timerStatus) {
                         TimerStatus.NotUsed -> null
@@ -585,7 +587,7 @@ class ExerciseFragment : BaseFragment() {
                     val descriptionTextColorId: Int =
                         if (timerStatus == TimerStatus.TimeIsOver)
                             R.color.issue else
-                            R.color.description_text_on_popup
+                            R.color.icon_on_control_panel_deactivated
                     val descriptionTextColor: Int =
                         ContextCompat.getColor(context, descriptionTextColorId)
                     timerDescriptionTextView.setTextColor(descriptionTextColor)

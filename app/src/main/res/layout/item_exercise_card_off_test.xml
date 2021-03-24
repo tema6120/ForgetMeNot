@@ -36,7 +36,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:padding="16dp"
-                            android:textColor="@color/text_secondary_selector"
+                            android:textColor="@color/text_on_card"
                             android:textIsSelectable="true"
                             android:textSize="@dimen/text_size_question"
                             tools:text="Эти люди привычны к тяжелой работе." />
@@ -76,7 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:textColor="@color/text_secondary_selector"
+                        android:textColor="@color/text_on_card"
                         android:textIsSelectable="true"
                         android:textSize="@dimen/text_size_answer"
                         tools:text="■■■■■ ■■■ are ■■■■ ■■ ■■■■ ■■■■." />
@@ -110,7 +110,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="16dp"
-                            android:textColor="@color/text_secondary_selector"
+                            android:textColor="@color/text_on_card"
                             android:textIsSelectable="true"
                             android:textSize="@dimen/text_size_answer"
                             tools:text="These men are used to hard work." />
@@ -145,7 +145,7 @@
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
                 android:text="@string/card_label_learned"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_on_card_label"
                 android:textSize="@dimen/text_size_card_label"
                 android:translationY="-37dp"
                 android:fontFamily="@font/comfortaa"

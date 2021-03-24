@@ -24,7 +24,7 @@ class ProgressBarForViewPager2 @JvmOverloads constructor(
     defStyleRes
 ) {
     private val paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.colorAccent)
+        color = ContextCompat.getColor(context, R.color.accent)
     }
     private var animator: ValueAnimator? = null
     private var itemCount = 0

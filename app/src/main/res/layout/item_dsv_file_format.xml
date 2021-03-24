@@ -4,13 +4,13 @@
         android:id="@+id/fmnFormatRadioButtonFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:background="@color/background_dark_popup">
+        tools:background="@color/popup_dark">
 
     <FrameLayout
             android:id="@+id/setFormatButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:foreground="@drawable/ripple_rectangular_light"
+            android:foreground="@drawable/ripple_rectangular_on_dark_popup"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
-            android:background="@drawable/ripple_light_borderless"
+            android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_edit_format_settings"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,7 +35,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
-            android:background="@drawable/ripple_light_borderless"
+            android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_view_format_settings"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

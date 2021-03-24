@@ -192,7 +192,7 @@
                 android:tint="@color/icon_on_surface"
                 android:visibility="gone"
                 tools:visibility="visible"
-                app:srcCompat="@drawable/ic_baseline_more_horiz_24" />
+                app:srcCompat="@drawable/ic_round_more_horiz_24" />
 
         <ImageButton
                 android:id="@+id/deckSelector"

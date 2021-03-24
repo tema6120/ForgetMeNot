@@ -80,9 +80,10 @@
                             android:id="@+id/speakButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/ripple_light_borderless"
+                            android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_speak_button"
-                            app:srcCompat="@drawable/ic_volume_up_white_24dp" />
+                            android:tint="@color/icon_on_control_panel"
+                            app:srcCompat="@drawable/ic_round_volume_up_24" />
 
                     <ProgressBar
                             android:id="@+id/speakProgressBar"
@@ -135,10 +136,10 @@
             android:layout_marginBottom="-12dp"
             android:background="@drawable/background_play_button"
             android:contentDescription="@string/description_pause_button"
-            android:outlineAmbientShadowColor="@color/colorAccent"
-            android:outlineSpotShadowColor="@color/colorAccent"
+            android:outlineAmbientShadowColor="@color/accent"
+            android:outlineSpotShadowColor="@color/accent"
             android:stateListAnimator="@animator/material_button"
-            android:tint="@color/colorAccent"
+            android:tint="@color/accent"
             app:srcCompat="@drawable/ic_pause_28" />
 
 </FrameLayout>

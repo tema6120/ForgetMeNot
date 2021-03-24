@@ -12,7 +12,7 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/accent"
             android:descendantFocusability="beforeDescendants"
             android:elevation="4dp"
             android:focusableInTouchMode="true"
@@ -112,7 +112,7 @@
                 android:layout_margin="24dp"
                 android:contentDescription="@string/description_add_deck_button"
                 android:visibility="invisible"
-                app:backgroundTint="@color/colorAccent"
+                app:backgroundTint="@color/accent"
                 app:srcCompat="@drawable/ic_round_add_24"
                 app:tint="@android:color/white"
                 tools:visibility="visible" />

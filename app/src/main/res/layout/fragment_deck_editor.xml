@@ -15,7 +15,7 @@
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_window"
+                android:background="@color/window"
                 android:stateListAnimator="@animator/app_bar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,9 +103,9 @@
                     android:layout_marginEnd="14dp"
                     android:background="@null"
                     app:tabIndicator="@drawable/tab_indicator"
-                    app:tabIndicatorColor="@color/colorAccent"
+                    app:tabIndicatorColor="@color/accent"
                     app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@color/colorAccent" />
+                    app:tabSelectedTextColor="@color/accent" />
 
             <include layout="@layout/toolbar_item_selection" />
 
@@ -131,7 +131,7 @@
                 android:layout_margin="24dp"
                 android:contentDescription="@string/description_add_card_button"
                 android:visibility="invisible"
-                app:backgroundTint="@color/colorAccent"
+                app:backgroundTint="@color/accent"
                 app:srcCompat="@drawable/ic_round_add_24"
                 app:tint="@android:color/white"
                 tools:visibility="visible" />
