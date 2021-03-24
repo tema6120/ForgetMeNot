@@ -93,7 +93,7 @@
                         android:id="@+id/settingsSurface"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:background="@drawable/white_rectangle_4dp_corner_radius"
+                        android:background="@drawable/surface_4dp_corner_radius"
                         app:layout_constraintBottom_toBottomOf="@id/speakTextInBracketsButton"
                         app:layout_constraintEnd_toEndOf="@id/answerTitle"
                         app:layout_constraintStart_toStartOf="@id/questionTitle"

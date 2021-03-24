@@ -179,6 +179,12 @@ class PlayerFragment : BaseFragment() {
                             CannotSpeak -> R.drawable.ic_volume_error_24
                         }
                     )
+                    val iconTintRes: Int =
+                        when (speakingStatus) {
+                            CannotSpeak -> R.color.issue
+                            else -> R.color.icon_on_control_panel
+                        }
+                    imageTintList = ContextCompat.getColorStateList(context, iconTintRes)
                     setOnClickListener {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)

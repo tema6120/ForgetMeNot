@@ -35,7 +35,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:padding="16dp"
-                            android:textColor="@color/text_on_card"
+                            android:textColor="@color/text_on_card_selector"
                             android:textIsSelectable="true"
                             android:textSize="@dimen/text_size_question"
                             tools:text="усердный, прилежный" />

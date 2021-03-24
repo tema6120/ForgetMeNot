@@ -193,8 +193,8 @@ class QAEditorFragment : BaseFragment() {
             val color: Int = ContextCompat.getColor(
                 requireContext(),
                 if (isLearned)
-                    R.color.textSecondaryDisabled else
-                    R.color.text_medium_emphasis
+                    R.color.text_on_card_learned else
+                    R.color.text_on_card
             )
             questionEditText.setTextColor(color)
             answerEditText.setTextColor(color)

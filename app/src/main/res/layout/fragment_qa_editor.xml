@@ -16,7 +16,7 @@
                     android:id="@+id/questionToolbarScrollView"
                     android:layout_width="50dp"
                     android:layout_height="0dp"
-                    android:background="@color/background_qa_editor_toolbar"
+                    android:background="@color/toolbar_qa_editor"
                     app:layout_constraintBottom_toTopOf="@id/divider"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -32,7 +32,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_surface"
-                            android:background="?selectableItemBackgroundBorderless"
+                            android:background="@drawable/ripple"
                             android:contentDescription="@string/description_paste_button"
                             app:srcCompat="@drawable/ic_content_paste_24px" />
 
@@ -41,7 +41,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_surface"
-                            android:background="?selectableItemBackgroundBorderless"
+                            android:background="@drawable/ripple"
                             android:contentDescription="@string/description_clear_button"
                             app:srcCompat="@drawable/ic_round_clear_24" />
 
@@ -65,13 +65,14 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="@string/hint_question_edittext"
+                        android:textColorHint="@color/hint"
                         android:importantForAutofill="no"
                         android:inputType="textMultiLine"
                         android:paddingStart="16dp"
                         android:paddingTop="16dp"
                         android:paddingEnd="16dp"
                         android:paddingBottom="24dp"
-                        android:textColor="@color/text_medium_emphasis"
+                        android:textColor="@color/text_on_card"
                         android:textSize="@dimen/text_size_question"
                         tools:text="Эти люди привычны к тяжелой работе." />
 
@@ -108,9 +109,10 @@
                         android:inputType="textMultiLine"
                         android:paddingStart="16dp"
                         android:paddingTop="24dp"
+                        android:textColorHint="@color/hint"
                         android:paddingEnd="16dp"
                         android:paddingBottom="16dp"
-                        android:textColor="@color/text_medium_emphasis"
+                        android:textColor="@color/text_on_card"
                         android:textSize="@dimen/text_size_answer"
                         tools:text="Эти люди привычны к тяжелой работе." />
 
@@ -120,7 +122,7 @@
                     android:id="@+id/answerToolbarScrollView"
                     android:layout_width="50dp"
                     android:layout_height="0dp"
-                    android:background="@color/background_qa_editor_toolbar"
+                    android:background="@color/toolbar_qa_editor"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider">
@@ -135,7 +137,7 @@
                             android:id="@+id/answerPasteButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="?selectableItemBackgroundBorderless"
+                            android:background="@drawable/ripple"
                             android:contentDescription="@string/description_paste_button"
                             android:tint="@color/icon_on_surface"
                             app:srcCompat="@drawable/ic_content_paste_24px" />
@@ -145,7 +147,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_surface"
-                            android:background="?selectableItemBackgroundBorderless"
+                            android:background="@drawable/ripple"
                             android:contentDescription="@string/description_clear_button"
                             app:srcCompat="@drawable/ic_round_clear_24" />
 
@@ -157,7 +159,7 @@
                     android:id="@+id/invertCardButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="@drawable/background_invert_card_button"
+                    android:background="@drawable/button_invert_card"
                     android:contentDescription="@string/description_invert_card_button"
                     app:layout_constraintBottom_toBottomOf="@id/divider"
                     app:layout_constraintEnd_toEndOf="parent"

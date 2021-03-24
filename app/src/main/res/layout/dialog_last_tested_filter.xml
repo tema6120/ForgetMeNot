@@ -20,13 +20,14 @@
             android:text="@string/title_dialog_last_tested_from"
             android:textColor="@color/text_high_emphasis"
             android:textSize="@dimen/text_size_dialog_title"
+            app:drawableTint="@color/icon_gray"
             app:drawableStartCompat="@drawable/ic_round_history_24" />
 
     <View
             android:id="@+id/topDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:listDivider"
+            android:background="@color/divider"
             android:visibility="gone" />
 
     <ScrollView
@@ -64,7 +65,7 @@
                         android:paddingTop="12dp"
                         android:paddingEnd="16dp"
                         android:paddingBottom="12dp"
-                        android:textColor="@color/text_on_card"
+                        android:textColor="@color/text_on_card_selector"
                         android:textSize="@dimen/text_size_dialog_radiobutton"
                         android:theme="@style/LastTestedTheme"
                         android:visibility="invisible"
@@ -111,7 +112,7 @@
                     android:inputType="number"
                     android:maxLength="3"
                     android:padding="8dp"
-                    android:textColor="@color/text_on_card"
+                    android:textColor="@color/text_on_card_selector"
                     android:textColorHint="@android:color/transparent"
                     android:textSize="@dimen/text_size_dialog_edittext"
                     android:theme="@style/LastTestedTheme"
@@ -129,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/text_on_card"
+                    android:textColor="@color/text_on_card_selector"
                     android:theme="@style/LastTestedPickerTheme"
                     app:layout_constraintEnd_toStartOf="@+id/agoTextView"
                     app:layout_constraintStart_toEndOf="@+id/valueEditText"
@@ -143,7 +144,7 @@
                     android:fontFamily="@font/nunito_bold"
                     android:padding="16dp"
                     android:text="@string/ago"
-                    android:textColor="@color/text_on_card"
+                    android:textColor="@color/text_on_card_selector"
                     android:textSize="@dimen/text_size_dialog_radiobutton"
                     app:layout_constraintBottom_toBottomOf="@id/unitPicker"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -176,7 +177,7 @@
             android:id="@+id/bottomDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:listDivider"
+            android:background="@color/divider"
             android:visibility="gone" />
 
     <LinearLayout
@@ -191,10 +192,11 @@
                 android:layout_height="64dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/background_dialog_cancel_button"
+                android:background="@drawable/dialog_cancel_button"
                 android:fontFamily="@font/nunito_extrabold"
                 android:text="@android:string/cancel"
                 android:textAllCaps="false"
+                android:layout_gravity="center_vertical"
                 android:textColor="@color/text_button_secondary"
                 android:textSize="@dimen/text_size_dialog_cancel_button" />
 
@@ -205,17 +207,18 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:layout_gravity="center_vertical"
                 android:fontFamily="@font/nunito_extrabold"
                 android:outlineAmbientShadowColor="@color/last_tested"
                 android:outlineSpotShadowColor="@color/last_tested"
                 android:stateListAnimator="@animator/material_button"
                 android:text="@android:string/ok"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_dialog_ok_button"
                 android:textSize="@dimen/text_size_dialog_ok_button"
-                app:backgroundTint="@color/background_tint_ok_button_in_last_tested_filter_dialog"
+                app:backgroundTint="@color/dialog_ok_button_last_tested_filter"
                 app:cornerRadius="16dp"
-                app:rippleColor="@android:color/white" />
+                app:rippleColor="@color/ripple_on_accent" />
 
     </LinearLayout>
 

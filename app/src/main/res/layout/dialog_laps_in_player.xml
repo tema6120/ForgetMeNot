@@ -25,6 +25,7 @@
                 android:text="@string/title_dialog_laps_in_player"
                 android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_dialog_title"
+                app:drawableTint="@color/icon_gray"
                 app:drawableStartCompat="@drawable/ic_round_repeat_24" />
 
         <LinearLayout
@@ -77,7 +78,7 @@
                         android:labelFor="@+id/specificNumberOfLapsRadioButton"
                         android:maxLength="1"
                         android:padding="8dp"
-                        android:textColor="@color/text_on_card"
+                        android:textColor="@color/text_on_card_selector"
                         android:textColorHint="@android:color/transparent"
                         android:textSize="@dimen/text_size_dialog_edittext"
                         tools:ignore="HardcodedText"
@@ -107,7 +108,7 @@
                         android:paddingEnd="16dp"
                         android:paddingBottom="12dp"
                         android:text="@string/radiobutton_infinitely"
-                        android:textColor="@color/text_on_card"
+                        android:textColor="@color/text_on_card_selector"
                         android:textSize="@dimen/text_size_dialog_radiobutton"
                         android:visibility="invisible"
                         tools:visibility="visible" />
@@ -126,9 +127,10 @@
                     android:id="@+id/cancelButton"
                     android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/background_dialog_cancel_button"
+                    android:background="@drawable/dialog_cancel_button"
                     android:fontFamily="@font/nunito_extrabold"
                     android:text="@android:string/cancel"
                     android:textAllCaps="false"
@@ -142,17 +144,18 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
+                    android:layout_gravity="center_vertical"
                     android:fontFamily="@font/nunito_extrabold"
                     android:outlineAmbientShadowColor="@color/accent"
                     android:outlineSpotShadowColor="@color/accent"
                     android:stateListAnimator="@animator/material_button"
                     android:text="@android:string/ok"
                     android:textAllCaps="false"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_dialog_ok_button"
                     android:textSize="@dimen/text_size_dialog_ok_button"
-                    app:backgroundTint="@color/background_tint_dialog_ok_button"
+                    app:backgroundTint="@color/dialog_ok_button"
                     app:cornerRadius="16dp"
-                    app:rippleColor="@android:color/white" />
+                    app:rippleColor="@color/ripple_on_accent" />
 
         </LinearLayout>
 

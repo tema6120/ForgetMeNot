@@ -39,6 +39,7 @@
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
+                android:drawablePadding="8dp"
                 android:textColor="@color/text_input"
                 android:textSize="@dimen/text_size_dialog_edittext" />
 
@@ -54,7 +55,8 @@
                     android:layout_height="64dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/background_dialog_cancel_button"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/dialog_cancel_button"
                     android:fontFamily="@font/nunito_extrabold"
                     android:text="@android:string/cancel"
                     android:textAllCaps="false"
@@ -74,11 +76,12 @@
                     android:stateListAnimator="@animator/material_button"
                     android:text="@android:string/ok"
                     android:textAllCaps="false"
-                    android:textColor="@color/text_ok_button_in_interval_dialog"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/text_dialog_ok_button"
                     android:textSize="@dimen/text_size_dialog_ok_button"
-                    app:backgroundTint="@color/background_tint_dialog_ok_button"
+                    app:backgroundTint="@color/dialog_ok_button"
                     app:cornerRadius="16dp"
-                    app:rippleColor="@android:color/white" />
+                    app:rippleColor="@color/ripple_on_accent" />
 
         </LinearLayout>
 

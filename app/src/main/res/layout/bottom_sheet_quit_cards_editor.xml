@@ -60,7 +60,7 @@
                 android:stateListAnimator="@animator/material_button"
                 android:text="@string/button_save"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/on_accent"
                 android:textSize="@dimen/text_size_bottom_sheet_preferred_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -101,6 +102,12 @@ class ExamplePlayerFragment : BaseFragment() {
                             CannotSpeak -> R.drawable.ic_volume_error_24
                         }
                     )
+                    val iconTintRes: Int =
+                        when (speakingStatus) {
+                            CannotSpeak -> R.color.issue
+                            else -> R.color.icon_on_control_panel
+                        }
+                    imageTintList = ContextCompat.getColorStateList(context, iconTintRes)
                     setOnClickListener {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)

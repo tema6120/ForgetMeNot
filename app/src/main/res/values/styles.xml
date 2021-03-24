@@ -154,7 +154,7 @@
         <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
-        <item name="android:background">@drawable/white_rectangle_4dp_corner_radius</item>
+        <item name="android:background">@drawable/surface_4dp_corner_radius</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -199,6 +199,7 @@
         <item name="android:layout_margin">16dp</item>
         <item name="cardCornerRadius">16dp</item>
         <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">@color/card</item>
     </style>
 
     <style name="WalkingModeSwitchStyle">
@@ -237,7 +238,7 @@
         <item name="android:drawablePadding">16dp</item>
         <item name="android:padding">16dp</item>
         <item name="android:gravity">start|center_vertical</item>
-        <item name="android:textColor">@color/text_on_card</item>
+        <item name="android:textColor">@color/text_on_card_selector</item>
         <item name="android:textSize">@dimen/text_size_exercise_screen_variant_button</item>
         <item name="drawableStartCompat">@drawable/ic_radiobutton_unchecked_24</item>
     </style>
@@ -365,7 +366,7 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginEnd">12dp</item>
         <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:background">@drawable/white_rectangle_4dp_corner_radius</item>
+        <item name="android:background">@drawable/surface_4dp_corner_radius</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -381,6 +382,7 @@
         <item name="android:textSize">@dimen/text_size_section_title</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="drawableTint">@color/icon_gray</item>
     </style>
 
     <style name="DividerOnSettingsSurface">

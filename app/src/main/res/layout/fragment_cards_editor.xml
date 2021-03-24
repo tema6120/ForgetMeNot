@@ -44,7 +44,7 @@
                 android:id="@+id/controlPanel"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/colorPrimary">
+                android:background="@color/control_panel">
 
             <HorizontalScrollView
                     android:id="@+id/controlPanelScroll"
@@ -72,9 +72,7 @@
                             android:contentDescription="@string/description_grade_button"
                             android:elevation="14dp"
                             android:gravity="center"
-                            android:outlineAmbientShadowColor="@color/grade_unsatisfactory_bright"
-                            android:outlineSpotShadowColor="@color/grade_unsatisfactory_bright"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/text_grade"
                             android:textSize="@dimen/text_size_grade"
                             android:visibility="gone"
                             tools:text="0"
@@ -87,6 +85,7 @@
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_mark_as_learned_button"
                             android:visibility="gone"
+                            android:tint="@color/icon_on_control_panel"
                             app:srcCompat="@drawable/ic_mark_as_learned"
                             tools:visibility="visible" />
 
@@ -94,6 +93,7 @@
                             android:id="@+id/removeCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:tint="@color/icon_on_control_panel"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_remove_card_button"
                             android:visibility="gone"
@@ -104,6 +104,7 @@
                             android:id="@+id/moveCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:tint="@color/icon_on_control_panel"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_move_card_button"
                             android:visibility="gone"
@@ -114,6 +115,7 @@
                             android:id="@+id/copyCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:tint="@color/icon_on_control_panel"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_copy_card_button"
                             android:visibility="gone"
@@ -124,6 +126,7 @@
                             android:id="@+id/cardInfoButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:tint="@color/icon_on_control_panel"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_card_info_button"
                             android:visibility="gone"
@@ -134,6 +137,7 @@
                             android:id="@+id/helpButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:tint="@color/icon_on_control_panel"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_help_button"
                             android:visibility="gone"
@@ -167,9 +171,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_borderless_colored"
+                android:background="@drawable/ripple_on_cards_editor_done_cancel_buttons"
                 android:contentDescription="@string/description_cancel_button"
-                android:tint="@color/icon_on_surface"
+                android:tint="@color/foreground_cards_editor_done_cancel_buttons"
                 app:srcCompat="@drawable/ic_round_clear_24" />
 
         <View
@@ -178,7 +182,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="22dp"
                 android:layout_marginBottom="22dp"
-                android:background="@color/accent" />
+                android:background="@color/divider_on_cards_editor_done_cancel_panel" />
 
         <ImageButton
                 android:id="@+id/doneButton"
@@ -186,9 +190,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_borderless_colored"
+                android:background="@drawable/ripple_on_cards_editor_done_cancel_buttons"
                 android:contentDescription="@string/description_done_button"
-                android:tint="@color/icon_on_surface"
+                android:tint="@color/foreground_cards_editor_done_cancel_buttons"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -3,6 +3,6 @@
     <corners android:radius="31dp" />
     <stroke
             android:width="3dp"
-            android:color="@color/accent" />
-    <solid android:color="@android:color/white" />
+            android:color="@color/background_cards_editor_done_cancel_buttons_stroke" />
+    <solid android:color="@color/background_cards_editor_done_cancel_buttons_solid" />
 </shape>

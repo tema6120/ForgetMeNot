@@ -52,7 +52,7 @@
                     android:maxLines="1"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:textColorHint="@color/text_hint"
+                    android:textColorHint="@color/hint"
                     android:textColor="@color/text_input"
                     android:textSize="@dimen/text_size_search_edittext" />
 
@@ -95,7 +95,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/jura"
                     android:maxLines="3"
-                    android:textColor="@color/text_screen_title"
+                    android:textColor="@color/screen_title"
                     android:textSize="@dimen/text_size_home_screen_deck_list_title"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"

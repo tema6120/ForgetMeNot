@@ -1,7 +1,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/background_qa_editor_toolbar" />
+            <solid android:color="@color/toolbar_qa_editor" />
             <stroke
                     android:width="1dp"
                     android:color="@color/divider_on_card" />

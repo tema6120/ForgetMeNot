@@ -3,12 +3,12 @@
         <shape android:shape="oval">
             <stroke
                     android:width="3dp"
-                    android:color="@color/accent" />
-            <solid android:color="@android:color/white" />
+                    android:color="@color/play_button_stroke" />
+            <solid android:color="@color/play_button_solid" />
         </shape>
     </item>
     <item>
-        <ripple android:color="@color/accent">
+        <ripple android:color="@color/play_button_ripple">
             <item android:id="@android:id/mask">
                 <shape android:shape="oval">
                     <solid android:color="#000" />

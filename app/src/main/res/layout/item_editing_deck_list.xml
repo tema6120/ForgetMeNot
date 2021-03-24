@@ -32,7 +32,7 @@
                 android:layout_marginStart="12dp"
                 android:visibility="gone"
                 app:srcCompat="@drawable/ic_expand_more_thick_24"
-                app:tint="@color/text_hint" />
+                app:tint="@color/hint" />
 
     </LinearLayout>
 

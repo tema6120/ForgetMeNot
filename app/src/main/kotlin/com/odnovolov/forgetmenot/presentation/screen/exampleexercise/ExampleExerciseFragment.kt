@@ -29,6 +29,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
+import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
 import kotlinx.android.synthetic.main.fragment_example_exercise.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
@@ -103,28 +104,34 @@ class ExampleExerciseFragment : BaseFragment() {
                 with(speakButton) {
                     setImageResource(
                         when (speakingStatus) {
-                            SpeakingStatus.Speaking -> R.drawable.ic_round_volume_off_24
-                            SpeakingStatus.NotSpeaking -> R.drawable.ic_round_volume_up_24
-                            SpeakingStatus.CannotSpeak -> R.drawable.ic_volume_error_24
+                            Speaking -> R.drawable.ic_round_volume_off_24
+                            NotSpeaking -> R.drawable.ic_round_volume_up_24
+                            CannotSpeak -> R.drawable.ic_volume_error_24
                         }
                     )
+                    val iconTintRes: Int =
+                        when (speakingStatus) {
+                            CannotSpeak -> R.color.issue
+                            else -> R.color.icon_on_control_panel
+                        }
+                    imageTintList = ContextCompat.getColorStateList(context, iconTintRes)
                     setOnClickListener {
                         when (speakingStatus) {
-                            SpeakingStatus.Speaking -> controller?.dispatch(StopSpeakButtonClicked)
-                            SpeakingStatus.NotSpeaking -> controller?.dispatch(SpeakButtonClicked)
-                            SpeakingStatus.CannotSpeak -> showSpeakErrorPopup()
+                            Speaking -> controller?.dispatch(StopSpeakButtonClicked)
+                            NotSpeaking -> controller?.dispatch(SpeakButtonClicked)
+                            CannotSpeak -> showSpeakErrorPopup()
                         }
                     }
                     contentDescription = getString(
                         when (speakingStatus) {
-                            SpeakingStatus.Speaking -> R.string.description_stop_speaking_button
-                            SpeakingStatus.NotSpeaking -> R.string.description_speak_button
-                            SpeakingStatus.CannotSpeak -> R.string.description_cannot_speak_button
+                            Speaking -> R.string.description_stop_speaking_button
+                            NotSpeaking -> R.string.description_speak_button
+                            CannotSpeak -> R.string.description_cannot_speak_button
                         }
                     )
                     setTooltipTextFromContentDescription()
                 }
-                if (speakingStatus != SpeakingStatus.CannotSpeak) {
+                if (speakingStatus != CannotSpeak) {
                     speakErrorPopup?.dismiss()
                 }
             }
@@ -192,7 +199,10 @@ class ExampleExerciseFragment : BaseFragment() {
                 is TimerStatus.Ticking -> Color.WHITE
                 TimerStatus.TimeIsOver -> ContextCompat.getColor(requireContext(), R.color.issue)
                 else ->
-                    ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel_deactivated)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.icon_on_control_panel_deactivated
+                    )
             }
             timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
         }

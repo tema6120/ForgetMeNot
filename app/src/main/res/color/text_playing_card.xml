@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/textSecondaryDisabled" android:state_activated="false" />
-    <item android:color="@color/text_medium_emphasis" />
+    <item android:color="@color/text_on_card_learned" android:state_activated="false" />
+    <item android:color="@color/text_on_card" />
 </selector>

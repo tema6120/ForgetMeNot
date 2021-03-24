@@ -24,7 +24,7 @@
     <color name="text_high_emphasis">#B8000000</color>
     <color name="text_medium_emphasis">#99000000</color>
     <color name="text_helper">#73000000</color>
-    <color name="text_hint">#61000000</color>
+    <color name="hint">#61000000</color>
     <color name="text_hint_low_emphasis">#3D000000</color>
     <color name="textSecondaryDisabled">#29000000</color>
     <color name="icon_on_surface">#DE000000</color>
@@ -44,12 +44,10 @@
     <color name="grade_excellent_bright">#04FF00</color>
     <color name="time_line">#cccccc</color>
     <color name="card_expired">#FFE7E3</color>
-    <color name="background_qa_editor_toolbar">#F5F5F5</color>
+    <color name="toolbar_qa_editor">#F5F5F5</color>
     <color name="window">#E9ECF0</color>
     <color name="last_tested">#3580FF</color>
     <color name="background_last_answer_button">#333580FF</color>
-    <color name="text_passed_laps">#05a1dc</color>
-    <color name="text_progress">#00bda6</color>
     <color name="text_task">#A70060</color>
     <color name="background_passed_laps_indicator">#2405A1DC</color>
     <color name="background_progress_indicator">#2400BDA6</color>
@@ -80,7 +78,7 @@
     <color name="icon_gray">#949DA6</color>
     <color name="item_blue_selected">#4B5875</color>
     <color name="item_blue_unselected">#664B5875</color>
-    <color name="text_description_blue">#A84B5875</color>
+    <color name="description_matching_cards_number">#A84B5875</color>
     <color name="icon_export">#6132D5</color>
     <color name="icon_export_background">#1A6132D5</color>
     <color name="text_export_icon">#9913004D</color>
@@ -103,7 +101,7 @@
     <color name="button_in_card_appearance_selected">#6E6E6E</color>
     <color name="button_in_card_appearance_unselected">#D9D9D9</color>
     <color name="selected_item_stroke">@color/accent</color>
-    <color name="text_screen_title">#B8000000</color>
+    <color name="screen_title">#B8000000</color>
     <color name="selection_toolbar">@color/accent</color>
     <color name="on_selection_toolbar">@android:color/white</color>
     <color name="on_accent">#FFFFFF</color>
@@ -131,8 +129,8 @@
     <color name="control_panel">@color/colorPrimary</color>
     <color name="icon_on_control_panel">@android:color/white</color>
     <color name="icon_on_control_panel_deactivated">#61FFFFFF</color>
-    <color name="text_on_card_enabled">@color/text_medium_emphasis</color>
-    <color name="text_on_card_disabled">@color/textSecondaryDisabled</color>
+    <color name="text_on_card">@color/text_medium_emphasis</color>
+    <color name="text_on_card_learned">@color/textSecondaryDisabled</color>
     <color name="close_tip_button">@android:color/white</color>
     <color name="foreground_on_variant_icon">@android:color/white</color>
     <color name="foreground_on_variant_icon_disabled">@android:color/white</color>
@@ -152,4 +150,18 @@
     <color name="ic_fancy_card_6">#150164</color>
     <color name="ic_fancy_card_7">#fff</color>
     <color name="ic_fancy_card_8">#ff487a</color>
+    <color name="ic_fancy_card_9">#962a48</color>
+    <color name="background_cards_editor_done_cancel_buttons_solid">@android:color/white</color>
+    <color name="background_cards_editor_done_cancel_buttons_stroke">@color/accent</color>
+    <color name="foreground_cards_editor_done_cancel_buttons">@color/icon_on_surface</color>
+    <color name="ripple_on_cards_editor_done_cancel_buttons">@color/accent</color>
+    <color name="divider_on_cards_editor_done_cancel_panel">@color/accent</color>
+    <color name="play_button_stroke">@color/accent</color>
+    <color name="play_button_solid">@android:color/white</color>
+    <color name="play_button_ripple">@color/accent</color>
+    <color name="play_button_icon">@color/accent</color>
+    <color name="mrb_pin">#888888</color>
+    <color name="mrb_pin_text">#ffffff</color>
+    <color name="mrb_range_bar">#cccccc</color>
+    <color name="mrb_tick_default">#888888</color>
 </resources>

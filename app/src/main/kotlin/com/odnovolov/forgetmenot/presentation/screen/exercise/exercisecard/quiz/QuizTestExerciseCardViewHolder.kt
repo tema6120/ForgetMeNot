@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.quiz
 
 import android.animation.AnimatorInflater
 import android.content.Context
-import android.graphics.Color
 import android.util.Size
 import android.util.TypedValue
 import android.view.View
@@ -15,8 +14,6 @@ import android.widget.LinearLayout.VERTICAL
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -338,7 +335,7 @@ class QuizTestExerciseCardViewHolder(
         val colorResId: Int = when (variantStatus) {
             Correct -> R.color.text_variant_status_correct
             Wrong -> R.color.text_variant_status_wrong
-            else -> R.color.text_on_card
+            else -> R.color.text_on_card_selector
         }
         val colorStateList = ContextCompat.getColorStateList(variantButton.context, colorResId)
         variantButton.setTextColor(colorStateList)
