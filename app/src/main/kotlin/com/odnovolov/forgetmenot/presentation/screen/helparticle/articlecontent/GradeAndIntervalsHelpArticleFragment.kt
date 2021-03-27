@@ -13,10 +13,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
-import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
-import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
-import com.odnovolov.forgetmenot.presentation.common.show
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalItem
 import com.odnovolov.forgetmenot.presentation.screen.exercise.IntervalsAdapter
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
@@ -46,14 +43,9 @@ class GradeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
             .observe(adapter::submitList)
         exercise.state.exerciseCards[0].card.flowOf(Card::grade)
             .observe { grade: Int ->
-                val gradeColorRes = getGradeColorRes(grade)
-                val gradeColor: Int = ContextCompat.getColor(requireContext(), gradeColorRes)
-                gradeButton.background.colorFilter =
-                    BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                        gradeColor,
-                        BlendModeCompat.SRC_ATOP
-                    )
                 gradeButton.text = grade.toString()
+                val gradeColorRes = getGradeColorRes(grade)
+                gradeButton.setBackgroundTintFromRes(gradeColorRes)
             }
         exercise.state.exerciseCards[0].card.flowOf(Card::isGradeEditedManually)
             .observe { isEdited: Boolean ->

@@ -28,6 +28,8 @@
                     android:layout_marginStart="12dp"
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_back_button"
+                    android:tintMode="src_in"
+                    android:tint="@color/screen_title"
                     app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
             <TextView
@@ -39,7 +41,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_testing_method"
-                    android:textColor="@color/text_high_emphasis"
+                    android:textColor="@color/screen_title"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
@@ -52,7 +54,8 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_help_button"
                     app:srcCompat="@drawable/ic_round_help_outline_24"
-                    app:tint="@color/text_high_emphasis" />
+                    android:tintMode="src_in"
+                    android:tint="@color/screen_title" />
 
         </FrameLayout>
 

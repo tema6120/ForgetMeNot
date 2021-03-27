@@ -26,6 +26,8 @@
                     android:layout_height="48dp"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="12dp"
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in"
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_back_button"
                     app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
@@ -39,7 +41,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_pronunciation_plan"
-                    android:textColor="@color/text_high_emphasis"
+                    android:textColor="@color/screen_title"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
@@ -52,7 +54,8 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_help_button"
                     app:srcCompat="@drawable/ic_round_help_outline_24"
-                    app:tint="@color/text_high_emphasis" />
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in" />
 
         </FrameLayout>
 
@@ -113,7 +116,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/pronunciationPlanRecyclerView"
-                        app:srcCompat="@drawable/ic_add" />
+                        app:srcCompat="@drawable/ic_plus" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

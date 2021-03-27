@@ -12,5 +12,5 @@
             android:pathData="M12,0.5L36,0.5A11.5,11.5 0,0 1,47.5 12L47.5,12A11.5,11.5 0,0 1,36 23.5L12,23.5A11.5,11.5 0,0 1,0.5 12L0.5,12A11.5,11.5 0,0 1,12 0.5z"
             android:strokeWidth="1"
             android:strokeAlpha="0.12"
-            android:strokeColor="#000" />
+            android:strokeColor="@color/ic_wm_volume_stroke" />
 </vector>

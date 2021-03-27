@@ -155,12 +155,8 @@ class CardsEditorFragment : BaseFragment() {
     }
 
     private fun updateGradeButtonColor(grade: Int) {
-        val gradeColor: Int = ContextCompat.getColor(requireContext(), getGradeColorRes(grade))
-        gradeButton.background.colorFilter =
-            BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                gradeColor,
-                BlendModeCompat.SRC_ATOP
-            )
+        val gradeColorRes: Int = getGradeColorRes(grade)
+        gradeButton.setBackgroundTintFromRes(gradeColorRes)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             val brightGradeColor: Int =
                 ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))

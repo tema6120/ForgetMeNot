@@ -3,14 +3,12 @@ package com.odnovolov.forgetmenot.presentation.screen.changegrade
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
-import com.odnovolov.forgetmenot.presentation.common.createDialog
-import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeEvent.GradeSelected
 import kotlinx.android.synthetic.main.dialog_change_grade.view.*
 import kotlinx.android.synthetic.main.dialog_title.view.*
@@ -39,13 +37,7 @@ class ChangeGradeDialog : BaseDialogFragment() {
     private fun createDialogTitle(): View {
         return View.inflate(context, R.layout.dialog_title, null).apply {
             dialogTitle.setText(R.string.dialog_title_change_grade)
-            val titleDrawable = ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.ic_medal_24
-            )
-            dialogTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                titleDrawable, null, null, null
-            )
+            dialogTitle.setDrawableStart(R.drawable.ic_medal_24, R.color.icon_gray)
             divider.isVisible = dialogContentView.gradeRecycler.canScrollVertically(-1)
             val scrollListener = object : OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

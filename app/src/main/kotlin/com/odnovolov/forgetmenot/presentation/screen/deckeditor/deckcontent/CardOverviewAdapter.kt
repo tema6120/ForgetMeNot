@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
+import com.odnovolov.forgetmenot.presentation.common.setBackgroundTintFromRes
 import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.ItemInDeckContentList.SelectableCard
@@ -55,8 +56,8 @@ class CardOverviewAdapter(
             questionTextView.isEnabled = !card.isLearned
             answerTextView.text = card.answer
             answerTextView.isEnabled = !card.isLearned
-            val gradeColorRes = getGradeColorRes(card.grade)
-            gradeIcon.backgroundTintList = ContextCompat.getColorStateList(context, gradeColorRes)
+            val gradeColorRes: Int = getGradeColorRes(card.grade)
+            gradeIcon.setBackgroundTintFromRes(gradeColorRes)
             gradeIcon.text = card.grade.toString()
             checkIcon.isVisible = selectableCard.isSelected
             cardView.isSelected = selectableCard.isSelected

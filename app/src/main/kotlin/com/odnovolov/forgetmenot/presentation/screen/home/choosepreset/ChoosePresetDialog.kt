@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.createDialog
+import com.odnovolov.forgetmenot.presentation.common.setDrawableStart
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeController
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.PresetButtonClicked
@@ -52,13 +53,7 @@ class ChoosePresetDialog : BaseDialogFragment() {
     private fun initTitleView() {
         titleView = View.inflate(context, R.layout.dialog_title, null).apply {
             dialogTitle.setText(R.string.dialog_title_choose_preset)
-            val titleDrawable = ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.ic_round_tune_24
-            )
-            dialogTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                titleDrawable, null, null, null
-            )
+            dialogTitle.setDrawableStart(R.drawable.ic_round_tune_24, R.color.icon_gray)
             closeButton.setOnClickListener {
                 dismiss()
             }

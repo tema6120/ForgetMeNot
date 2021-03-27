@@ -33,6 +33,8 @@
                         android:contentDescription="@string/description_back_button"
                         app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
                         app:layout_constraintStart_toStartOf="parent"
+                        android:tint="@color/screen_title"
+                        android:tintMode="src_in"
                         app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
                         app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
@@ -43,7 +45,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/jura"
-                        android:textColor="@color/text_high_emphasis"
+                        android:textColor="@color/screen_title"
                         android:textSize="@dimen/text_size_screen_title"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +88,7 @@
                         android:paddingBottom="2dp"
                         android:text="@string/label_name"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/text_label"
                         android:textSize="@dimen/text_size_file_import_screen_deck_label"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/deckNameTextView"
@@ -133,7 +135,8 @@
                 android:visibility="invisible"
                 app:backgroundTint="@color/accent"
                 app:srcCompat="@drawable/ic_round_add_24"
-                app:tint="@android:color/white"
+                app:tint="@color/on_accent"
+                app:rippleColor="@color/ripple_on_accent"
                 tools:visibility="visible" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

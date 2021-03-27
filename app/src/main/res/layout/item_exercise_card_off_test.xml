@@ -145,7 +145,7 @@
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
                 android:text="@string/card_label_learned"
-                android:textColor="@color/text_on_card_label"
+                android:textColor="@color/text_label"
                 android:textSize="@dimen/text_size_card_label"
                 android:translationY="-37dp"
                 android:fontFamily="@font/comfortaa"

@@ -35,6 +35,7 @@
                     android:background="@drawable/ripple_borderless_colored"
                     android:contentDescription="@string/description_back_button"
                     android:tint="@color/accent"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
             <EditText
@@ -71,7 +72,9 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/ripple_borderless_colored"
                     android:contentDescription="@string/description_paste_button"
-                    app:srcCompat="@drawable/ic_paste_colored" />
+                    android:tint="@color/accent"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_content_paste_24" />
 
         </LinearLayout>
 

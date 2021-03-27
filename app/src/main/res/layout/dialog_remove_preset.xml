@@ -115,7 +115,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cancelRemovingButton"
                 app:layout_constraintTop_toTopOf="@+id/cancelRemovingButton"
-                app:rippleColor="@android:color/white" />
+                app:rippleColor="@color/ripple_on_accent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -79,7 +79,7 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="32dp"
                 android:paddingBottom="4dp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_label"
                 android:textSize="@dimen/text_size_card_label"
                 android:textStyle="bold"
                 android:visibility="gone"
@@ -98,8 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:background="@color/control_panel"
+            style="@style/AppTheme.AppBarOverlay">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -118,9 +118,10 @@
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
                     android:paddingEnd="10dp"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/icon_on_control_panel"
                     android:textSize="@dimen/text_size_file_import_screen_control_panel_button"
                     app:drawableEndCompat="@drawable/ic_round_expand_more_24"
+                    app:drawableTint="@color/icon_on_control_panel"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -137,7 +138,7 @@
                     android:paddingBottom="1dp"
                     android:text="@string/label_encoding"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_label"
                     android:textSize="@dimen/text_size_file_import_screen_label_for_control_panel_button"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/charsetButton"
@@ -167,7 +168,8 @@
                     app:layout_constraintStart_toEndOf="@+id/fileFormatFragment"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_round_undo_24"
-                    app:tint="@color/image_button_on_control_panel_enabled" />
+                    android:tintMode="src_in"
+                    android:tint="@color/icon_on_control_panel_selector_enabled_disabled" />
 
             <ImageButton
                     android:id="@+id/redoButton"
@@ -181,7 +183,8 @@
                     app:layout_constraintStart_toEndOf="@+id/undoButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_round_redo_24"
-                    app:tint="@color/image_button_on_control_panel_enabled" />
+                    android:tintMode="src_in"
+                    android:tint="@color/icon_on_control_panel_selector_enabled_disabled" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

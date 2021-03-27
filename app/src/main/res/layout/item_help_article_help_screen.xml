@@ -20,6 +20,7 @@
                 android:layout_marginStart="16dp"
                 android:contentDescription="@string/description_help_article_icon"
                 app:tint="@color/text_medium_emphasis"
+                android:tintMode="src_in"
                 tools:srcCompat="@drawable/ic_outline_description_24" />
 
         <TextView
@@ -41,6 +42,7 @@
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/description_navigate_icon"
                 app:srcCompat="@drawable/ic_round_chevron_right_28"
+                android:tintMode="src_in"
                 app:tint="@color/text_medium_emphasis" />
 
     </LinearLayout>
@@ -51,6 +53,6 @@
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="?android:listDivider" />
+            android:background="@color/divider" />
 
 </LinearLayout>

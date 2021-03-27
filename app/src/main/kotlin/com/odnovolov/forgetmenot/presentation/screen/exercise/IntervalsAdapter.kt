@@ -8,6 +8,7 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.common.getGradeColorRes
+import com.odnovolov.forgetmenot.presentation.common.setBackgroundTintFromRes
 import com.soywiz.klock.DateTimeSpan
 import kotlinx.android.synthetic.main.item_grade.view.*
 
@@ -37,8 +38,8 @@ class IntervalsAdapter(
             setOnClickListener {
                 onItemClick(intervalItem.grade)
             }
-            val gradeColorRes = getGradeColorRes(intervalItem.grade)
-            gradeIcon.backgroundTintList = ContextCompat.getColorStateList(context, gradeColorRes)
+            val gradeColorRes: Int = getGradeColorRes(intervalItem.grade)
+            gradeIcon.setBackgroundTintFromRes(gradeColorRes)
             gradeIcon.text = intervalItem.grade.toString()
             val displayedInterval = DisplayedInterval.fromDateTimeSpan(intervalItem.waitingPeriod)
             waitingPeriodTextView.text = displayedInterval.toString(context)

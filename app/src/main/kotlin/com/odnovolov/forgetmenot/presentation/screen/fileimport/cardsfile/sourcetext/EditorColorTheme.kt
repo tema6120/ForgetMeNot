@@ -1,35 +1,38 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.editor
 
+import android.content.Context
 import android.graphics.Color
+import androidx.core.content.ContextCompat
 import com.brackeys.ui.editorkit.model.ColorScheme
 import com.brackeys.ui.language.base.model.SyntaxScheme
+import com.odnovolov.forgetmenot.R
 
-val editorColorScheme = ColorScheme(
-    textColor = Color.parseColor("#4C4C4C"),
-    backgroundColor = Color.parseColor("#FFFFFF"),
-    gutterColor = Color.parseColor("#FFFFFF"),
-    gutterDividerColor = Color.parseColor("#E1E1E1"),
-    gutterCurrentLineNumberColor = Color.parseColor("#6B6B6B"),
-    gutterTextColor = Color.parseColor("#C0C0C0"),
-    selectedLineColor = Color.parseColor("#F6F6F6"),
-    selectionColor = Color.parseColor("#63FF8C00"),
-    suggestionQueryColor = Color.parseColor("#000000"),
-    findResultBackgroundColor = Color.parseColor("#000000"),
-    delimiterBackgroundColor = Color.parseColor("#FF8C00"),
+fun getEditorColorScheme(context: Context) = ColorScheme(
+    textColor = ContextCompat.getColor(context, R.color.esc_text),
+    backgroundColor = ContextCompat.getColor(context, R.color.esc_background),
+    gutterColor = ContextCompat.getColor(context, R.color.esc_gutter),
+    gutterDividerColor = ContextCompat.getColor(context, R.color.esc_gutter_divider),
+    gutterCurrentLineNumberColor = ContextCompat.getColor(context, R.color.esc_gutter_current_line_number),
+    gutterTextColor = ContextCompat.getColor(context, R.color.esc_gutter_text),
+    selectedLineColor = ContextCompat.getColor(context, R.color.esc_selected_line),
+    selectionColor = ContextCompat.getColor(context, R.color.esc_selection),
+    suggestionQueryColor = -1,
+    findResultBackgroundColor = -1,
+    delimiterBackgroundColor = ContextCompat.getColor(context, R.color.esc_delimiter_background),
     syntaxScheme = SyntaxScheme(
-        numberColor = Color.parseColor("#000000"),
-        operatorColor = Color.parseColor("#8369C2"), // question text
-        keywordColor = Color.parseColor("#5E8DCB"), // answer text
-        typeColor = Color.parseColor("#000000"),
-        langConstColor = Color.parseColor("#000000"),
-        preprocessorColor = Color.parseColor("#000000"),
-        methodColor = Color.parseColor("#000000"),
-        stringColor = Color.parseColor("#000000"),
-        commentColor = Color.parseColor("#000000"),
-        tagColor = Color.parseColor("#000000"),
-        tagNameColor = Color.parseColor("#000000"),
-        attrNameColor = Color.parseColor("#000000"),
-        attrValueColor = Color.parseColor("#000000"),
-        entityRefColor = Color.parseColor("#000000")
+        numberColor = -1,
+        operatorColor = ContextCompat.getColor(context, R.color.esc_question_text),
+        keywordColor = ContextCompat.getColor(context, R.color.esc_answer_text),
+        typeColor = -1,
+        langConstColor = -1,
+        preprocessorColor = -1,
+        methodColor = -1,
+        stringColor = -1,
+        commentColor = -1,
+        tagColor = -1,
+        tagNameColor = -1,
+        attrNameColor = -1,
+        attrValueColor = -1,
+        entityRefColor = -1
     )
 )

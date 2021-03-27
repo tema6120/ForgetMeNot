@@ -53,7 +53,7 @@ class DeckChooserFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setStatusBarColor(requireActivity(), R.color.accent)
+        setStatusBarColor(requireActivity(), R.color.selection_toolbar)
         return inflater.inflate(R.layout.fragment_deck_chooser, container, false)
     }
 
@@ -226,11 +226,12 @@ class DeckChooserFragment : BaseFragment() {
                     text = deckList?.name ?: getString(R.string.deck_list_title_all_decks)
                     val deckListColor = deckList?.color ?: DEFAULT_DECK_LIST_COLOR
                     val deckListIcon: Drawable =
-                        DeckListDrawableGenerator.generateIcon(listOf(deckListColor), 0)
+                        DeckListDrawableGenerator.generateIcon(deckListColor)
                     val expandIcon: Drawable = ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.ic_expand_more_thick_12
                     )!!
+                    expandIcon.setTint(ContextCompat.getColor(context, R.color.text_medium_emphasis))
                     expandIcon.setBounds(
                         0,
                         0,

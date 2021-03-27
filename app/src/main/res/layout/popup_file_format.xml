@@ -22,6 +22,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
+            android:tintMode="src_in"
             app:tint="@color/icon_file_format" />
 
     <TextView
@@ -31,7 +32,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/popup_title_file_format"
-            android:textColor="@android:color/white"
+            android:textColor="@color/title_on_dark_popup"
             android:textSize="@dimen/text_size_popup_in_exercise_title"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/helpButton"
@@ -48,6 +49,8 @@
             android:src="@drawable/ic_round_help_outline_20"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
+            android:tint="@color/icon_on_control_panel"
+            android:tintMode="src_in"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/title"
             app:layout_constraintTop_toTopOf="@id/title" />
@@ -59,7 +62,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
-            android:background="@color/divider_light"
+            android:background="@color/divider_on_dark_popup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
@@ -70,7 +73,7 @@
             android:layout_height="wrap_content"
             android:overScrollMode="never"
             android:scrollbars="vertical"
-            android:theme="@style/AppTheme.AppBarOverlay"
+            style="@style/AppTheme.AppBarOverlay"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,10 +111,10 @@
                         android:paddingEnd="20dp"
                         android:paddingBottom="8dp"
                         android:text="@string/item_file_format_fmn_format"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/icon_on_control_panel"
                         android:textSize="@dimen/text_size_radiobutton"
                         android:visibility="visible"
-                        app:drawableTint="@android:color/white"
+                        app:drawableTint="@color/icon_on_control_panel"
                         tools:visibility="visible" />
 
             </FrameLayout>
@@ -141,10 +144,10 @@
                         android:paddingEnd="20dp"
                         android:paddingBottom="8dp"
                         android:text="@string/text_dsv_format_radiobutton"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/icon_on_control_panel"
                         android:textSize="@dimen/text_size_radiobutton"
                         android:visibility="visible"
-                        app:drawableTint="@android:color/white"
+                        app:drawableTint="@color/icon_on_control_panel"
                         tools:visibility="visible" />
 
             </FrameLayout>
@@ -170,6 +173,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:tint="@color/icon_on_control_panel"
+                    android:tintMode="src_in"
                     app:layout_constraintTop_toBottomOf="@+id/dsvFormatRecycler"
                     app:srcCompat="@drawable/ic_round_add_24" />
 

@@ -11,12 +11,4 @@
         <item name="bottomSheetDialogTheme">@style/DarkBottomSheetTheme</item>
         <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet</item>
     </style>
-
-    <style name="DarkBottomSheetTheme" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/DarkBottomSheetStyle</item>
-    </style>
-
-    <style name="DarkBottomSheetStyle" parent="@style/Widget.MaterialComponents.BottomSheet.Modal">
-        <item name="android:backgroundTint">@color/dialog</item>
-    </style>
 </resources>

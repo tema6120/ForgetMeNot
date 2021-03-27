@@ -19,7 +19,7 @@
             android:background="@drawable/background_grade_indicator"
             android:elevation="14dp"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_grade"
             android:textSize="@dimen/text_size_grade"
             app:layout_constraintEnd_toEndOf="@id/indicatorLine"
             app:layout_constraintStart_toStartOf="@id/indicatorLine"

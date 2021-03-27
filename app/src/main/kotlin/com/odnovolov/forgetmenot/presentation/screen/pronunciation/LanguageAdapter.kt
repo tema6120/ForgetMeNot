@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.common.setTintFromRes
 import com.odnovolov.forgetmenot.presentation.common.toFlagEmoji
 import kotlinx.android.synthetic.main.item_language.view.*
 import java.util.*
@@ -51,6 +52,7 @@ class LanguageAdapter(
                     true -> {
                         isVisible = true
                         setImageResource(R.drawable.ic_round_star_24)
+                        setTintFromRes(R.color.favorite_language_checked)
                         setOnClickListener {
                             onUnmarkLanguageAsFavoriteButtonClicked(displayedLanguage.language!!)
                         }
@@ -58,6 +60,7 @@ class LanguageAdapter(
                     false -> {
                         isVisible = true
                         setImageResource(R.drawable.ic_round_star_border_24)
+                        setTintFromRes(R.color.favorite_language_unchecked)
                         setOnClickListener {
                             onMarkLanguageAsFavoriteButtonClicked(displayedLanguage.language!!)
                         }

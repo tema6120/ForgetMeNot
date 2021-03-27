@@ -61,11 +61,11 @@
                     android:stateListAnimator="@animator/material_button"
                     android:text="@string/button_go_back"
                     android:textAllCaps="false"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/on_accent"
                     android:textSize="@dimen/text_size_floating_button"
                     android:visibility="gone"
                     app:cornerRadius="30dp"
-                    app:rippleColor="@android:color/white" />
+                    app:rippleColor="@color/ripple_on_accent" />
 
         </FrameLayout>
 
@@ -88,12 +88,12 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="2dp"
-                        android:background="@drawable/background_grade_button"
+                        android:background="@drawable/grade_button"
                         android:contentDescription="@string/description_grade_button"
                         android:elevation="14dp"
                         android:gravity="center"
-                        android:backgroundTint="@android:color/transparent"
                         android:textColor="@color/text_grade"
+                        android:visibility="invisible"
                         android:textSize="@dimen/text_size_grade"
                         tools:text="0" />
 
@@ -102,6 +102,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:tint="@color/icon_on_control_panel"
+                        android:tintMode="src_in"
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_mark_as_learned_button"
                         app:srcCompat="@drawable/ic_mark_as_learned" />
@@ -115,15 +116,19 @@
                             android:id="@+id/speakButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:visibility="invisible"
+                            tools:visibility="visible"
+                            tools:tint="@android:color/white"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_speak_button"
-                            android:tint="@color/icon_on_control_panel"
                             app:srcCompat="@drawable/ic_round_volume_up_24" />
 
                     <ProgressBar
                             android:id="@+id/speakProgressBar"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:indeterminate="true"
+                            android:indeterminateTintMode="src_in"
                             android:indeterminateTint="@color/icon_on_control_panel"
                             android:visibility="invisible"
                             tools:visibility="visible" />
@@ -135,6 +140,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:tint="@color/icon_on_control_panel"
+                        android:tintMode="src_in"
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_edit_deck_settings"
                         app:srcCompat="@drawable/ic_round_build_24" />
@@ -146,6 +152,7 @@
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_edit_card"
                         android:tint="@color/icon_on_control_panel"
+                        android:tintMode="src_in"
                         app:srcCompat="@drawable/ic_round_edit_24" />
 
                 <ImageButton
@@ -155,6 +162,7 @@
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_search_button"
                         android:tint="@color/icon_on_control_panel"
+                        android:tintMode="src_in"
                         app:srcCompat="@drawable/ic_round_search_24" />
 
                 <FrameLayout
@@ -170,6 +178,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:contentDescription="@string/description_laps_button"
                             tools:srcCompat="@drawable/ic_laps" />
 
@@ -194,6 +203,7 @@
                         android:layout_height="48dp"
                         android:layout_marginEnd="14dp"
                         android:tint="@color/icon_on_control_panel"
+                        android:tintMode="src_in"
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_help_button"
                         app:srcCompat="@drawable/ic_round_help_outline_24" />
@@ -240,6 +250,7 @@
             android:outlineSpotShadowColor="@color/accent"
             android:stateListAnimator="@animator/material_button"
             android:tint="@color/play_button_icon"
+            android:tintMode="src_in"
             app:srcCompat="@drawable/ic_pause_28" />
 
 </FrameLayout>

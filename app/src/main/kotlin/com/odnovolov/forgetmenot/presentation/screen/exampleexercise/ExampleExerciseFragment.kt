@@ -50,6 +50,7 @@ class ExampleExerciseFragment : BaseFragment() {
     private var speakErrorPopup: PopupWindow? = null
     private var timerPopup: PopupWindow? = null
     private var timerButtonPaintingAnimation: ValueAnimator? = null
+    private var isExpanded = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -114,7 +115,7 @@ class ExampleExerciseFragment : BaseFragment() {
                             CannotSpeak -> R.color.issue
                             else -> R.color.icon_on_control_panel
                         }
-                    imageTintList = ContextCompat.getColorStateList(context, iconTintRes)
+                    setTintFromRes(iconTintRes)
                     setOnClickListener {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)
@@ -130,6 +131,7 @@ class ExampleExerciseFragment : BaseFragment() {
                         }
                     )
                     setTooltipTextFromContentDescription()
+                    uncover()
                 }
                 if (speakingStatus != CannotSpeak) {
                     speakErrorPopup?.dismiss()
@@ -179,32 +181,26 @@ class ExampleExerciseFragment : BaseFragment() {
         if (timerStatus is TimerStatus.Ticking
             && timerStatus.secondsLeft * 1000L <= ExerciseFragment.TIME_TO_PAINT_TIMER_BUTTON
         ) {
-            if (timerButtonPaintingAnimation == null && isResumed && !exampleTextView.isVisible) {
-                val colorFrom = Color.WHITE
+            if (timerButtonPaintingAnimation == null && isResumed && isExpanded) {
+                val colorFrom =
+                    ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel)
                 val colorTo = ContextCompat.getColor(requireContext(), R.color.issue)
                 timerButtonPaintingAnimation =
                     ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo).apply {
                         duration = timerStatus.secondsLeft * 1000L
                         addUpdateListener { animator: ValueAnimator ->
-                            timerButton.setColorFilter(
-                                animator.animatedValue as Int,
-                                PorterDuff.Mode.SRC_IN
-                            )
+                            timerButton.setTint(animator.animatedValue as Int)
                         }
                         start()
                     }
             }
         } else {
-            val iconColor: Int = when (timerStatus) {
-                is TimerStatus.Ticking -> Color.WHITE
-                TimerStatus.TimeIsOver -> ContextCompat.getColor(requireContext(), R.color.issue)
-                else ->
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.icon_on_control_panel_deactivated
-                    )
+            val iconColorRes: Int = when (timerStatus) {
+                is TimerStatus.Ticking -> R.color.icon_on_control_panel
+                TimerStatus.TimeIsOver -> R.color.issue
+                else -> R.color.icon_on_control_panel_deactivated
             }
-            timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+            timerButton.setTintFromRes(iconColorRes)
         }
     }
 
@@ -228,6 +224,7 @@ class ExampleExerciseFragment : BaseFragment() {
     fun notifyBottomSheetStateChanged(newState: Int) {
         when (newState) {
             BottomSheetBehavior.STATE_EXPANDED -> {
+                isExpanded = true
                 blocker.setOnTouchListener(null)
                 controller?.dispatch(BottomSheetExpanded)
                 val currentViewHolder = exampleExerciseViewPager
@@ -237,6 +234,7 @@ class ExampleExerciseFragment : BaseFragment() {
                 }
             }
             BottomSheetBehavior.STATE_COLLAPSED -> {
+                isExpanded = false
                 blocker.setOnTouchListener { _, _ -> true }
                 controller?.dispatch(BottomSheetCollapsed)
                 val currentViewHolder = exampleExerciseViewPager
@@ -276,46 +274,10 @@ class ExampleExerciseFragment : BaseFragment() {
                     speakErrorPopup?.dismiss()
                 } else {
                     speakErrorPopup?.contentView?.run {
-                        speakErrorDescriptionTextView.text = getSpeakErrorDescription(reason)
+                        speakErrorDescriptionTextView.text =
+                            composeSpeakErrorDescription(reason, requireContext())
                     }
                 }
-            }
-        }
-    }
-
-    private fun getSpeakErrorDescription(
-        reasonForInabilityToSpeak: ReasonForInabilityToSpeak
-    ): String {
-        return when (reasonForInabilityToSpeak) {
-            is FailedToInitializeSpeaker -> {
-                if (reasonForInabilityToSpeak.ttsEngine == null) {
-                    getString(R.string.speak_error_description_failed_to_initialized)
-                } else {
-                    getString(
-                        R.string.speak_error_description_failed_to_initialized_with_specifying_tts_engine,
-                        reasonForInabilityToSpeak.ttsEngine
-                    )
-                }
-            }
-            is LanguageIsNotSupported -> {
-                if (reasonForInabilityToSpeak.ttsEngine == null) {
-                    getString(
-                        R.string.speak_error_description_language_is_not_supported,
-                        reasonForInabilityToSpeak.language.displayLanguage
-                    )
-                } else {
-                    getString(
-                        R.string.speak_error_description_language_is_not_supported_with_specifying_tts_engine,
-                        reasonForInabilityToSpeak.ttsEngine,
-                        reasonForInabilityToSpeak.language.displayLanguage
-                    )
-                }
-            }
-            is MissingDataForLanguage -> {
-                getString(
-                    R.string.speak_error_description_missing_data_for_language,
-                    reasonForInabilityToSpeak.language.displayLanguage
-                )
             }
         }
     }
@@ -358,8 +320,7 @@ class ExampleExerciseFragment : BaseFragment() {
                         TimerStatus.TimeIsOver -> R.color.issue
                         else -> R.color.description_on_dark_popup
                     }
-                    val tintColor: Int = ContextCompat.getColor(context, tintColorId)
-                    timerIcon.setColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+                    timerIcon.setTintFromRes(tintColorId)
 
                     timerDescriptionTextView.text = when (timerStatus) {
                         TimerStatus.NotUsed -> null
@@ -375,9 +336,7 @@ class ExampleExerciseFragment : BaseFragment() {
                         if (timerStatus == TimerStatus.TimeIsOver)
                             R.color.issue else
                             R.color.description_on_dark_popup
-                    val descriptionTextColor: Int =
-                        ContextCompat.getColor(context, descriptionTextColorId)
-                    timerDescriptionTextView.setTextColor(descriptionTextColor)
+                    timerDescriptionTextView.setTextColorFromRes(descriptionTextColorId)
 
                     stopTimerButton.isVisible = timerStatus is TimerStatus.Ticking
                 }

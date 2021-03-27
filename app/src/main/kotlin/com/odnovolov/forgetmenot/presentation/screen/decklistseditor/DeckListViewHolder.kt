@@ -80,7 +80,7 @@ class DeckListViewHolder(
                 }
             }
             deckListColor.observe(coroutineScope) { deckListColor: Int ->
-                val drawable = DeckListDrawableGenerator.generateIcon(listOf(deckListColor), 0)
+                val drawable = DeckListDrawableGenerator.generateIcon(deckListColor)
                 itemView.deckListIndicator.setImageDrawable(drawable)
                 this@DeckListViewHolder.deckListColor = deckListColor
                 updateSelectDeckListButtonColor()

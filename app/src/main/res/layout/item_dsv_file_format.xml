@@ -28,6 +28,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_outline_edit_24"
+            android:tint="@color/icon_on_control_panel"
+            android:tintMode="src_in"
             tools:visibility="visible" />
 
     <ImageButton
@@ -38,6 +40,8 @@
             android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_view_format_settings"
             android:visibility="gone"
+            android:tint="@color/icon_on_control_panel"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/editFormatSettingsButton"
             app:layout_constraintTop_toTopOf="parent"
@@ -57,9 +61,9 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:paddingEnd="20dp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/icon_on_control_panel"
             android:textSize="@dimen/text_size_radiobutton"
-            app:drawableTint="@android:color/white"
+            app:drawableTint="@color/icon_on_control_panel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/viewFormatSettingsButton"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="accent">#CEBE57</color>
     <color name="colorAccentDisabled">#63FDD02E</color>
     <color name="window">#2A2A31</color>
@@ -8,13 +8,14 @@
     <color name="text_high_emphasis">#B8FFFFFF</color>
     <color name="text_medium_emphasis">#99FFFFFF</color>
     <color name="hint">#40FFFFFF</color>
-    <color name="text_helper">#73FFFFFF</color>
-    <color name="selected_item_stroke">#99FFFFFF</color>
+    <color name="text_helper">#61FFFFFF</color>
+    <color name="search_frame_stroke">#99FFFFFF</color>
     <color name="icon_on_surface">#B8FFFFFF</color>
     <color name="text_task">#EF88B9</color>
     <color name="screen_title">#DEFFFFFF</color>
     <color name="divider">#1effffff</color>
     <color name="on_accent">@color/surface</color>
+    <color name="on_accent_disabled">#6135353B</color>
     <color name="accent_on_surface">#FFFFFF</color>
     <color name="add_cards_button_start">#EFF465</color>
     <color name="add_cards_button_end">#F36565</color>
@@ -39,7 +40,7 @@
     <color name="background_number_of_deck_in_deck_list">#12FFFFFF</color>
     <color name="dialog">#3B3B41</color>
     <color name="tab_text_selected">#E0E0E0</color>
-    <color name="tab_text_unselected">#66E0E0E0</color>
+    <color name="tab_text_unselected">#4DE0E0E0</color>
     <color name="item_drawer_selected">@color/accent</color>
     <color name="item_drawer_unselected">@color/item_blue_selected</color>
     <color name="button_disabled">#1FFFFFFF</color>
@@ -47,7 +48,7 @@
     <color name="text_button_secondary">#99D2D2D9</color>
     <color name="text_no_search_result">#33FFFFFF</color>
     <color name="ripple">#1FFFFFFF</color>
-    <color name="ripple_on_accent">@android:color/white</color>
+    <color name="ripple_on_accent">#1F000000</color>
     <color name="card">#3B3B41</color>
     <color name="card_expired">#443C42</color>
     <color name="issue">#C45050</color>
@@ -79,7 +80,7 @@
     <color name="grade_very_good">#75A027</color>
     <color name="grade_excellent">#50A250</color>
     <color name="text_grade">@color/text_high_emphasis</color>
-    <color name="text_on_card_label">@color/text_high_emphasis</color>
+    <color name="text_label">#D9FFFFFF</color>
     <color name="divider_on_card">#17FFFFFF</color>
     <color name="intervals_icon_on_popup">#E2E2E3</color>
     <color name="hint_icon_on_popup">#E2CC0A</color>
@@ -96,15 +97,6 @@
     <color name="ic_unanswered_card_number_1">#C42D4E</color>
     <color name="ic_unanswered_card_number_2">#A81B41</color>
     <color name="text_unanswered_card_number">@color/text_high_emphasis</color>
-    <color name="ic_fancy_card_1">#C49930</color>
-    <color name="ic_fancy_card_2">#C4AD3B</color>
-    <color name="ic_fancy_card_3">#C4BFAB</color>
-    <color name="ic_fancy_card_4">#42124F</color>
-    <color name="ic_fancy_card_5">#C4C4C6</color>
-    <color name="ic_fancy_card_6">#20125A</color>
-    <color name="ic_fancy_card_7">#C4C4C6</color>
-    <color name="ic_fancy_card_8">#C44469</color>
-    <color name="ic_fancy_card_9">#7B2F46</color>
     <color name="background_cards_editor_done_cancel_buttons_solid">@color/accent</color>
     <color name="background_cards_editor_done_cancel_buttons_stroke">@color/accent</color>
     <color name="foreground_cards_editor_done_cancel_buttons">@color/on_accent</color>
@@ -122,4 +114,44 @@
     <color name="mrb_tick_default">#99999C</color>
     <color name="last_tested">#89A8DD</color>
     <color name="background_last_answer_button">#3389A8DD</color>
+    <color name="app_bar_about_screen">@color/window</color>
+    <color name="ic_wm_volume_stroke">@android:color/white</color>
+    <color name="button_in_card_appearance_selected">#A8A8AB</color>
+    <color name="button_in_card_appearance_unselected">#535358</color>
+    <color name="card_label_example">#7E78C0</color>
+    <color name="cta_button_stroke">#1FFFFFFF</color>
+    <color name="tint_colorful_icon">#3335353B</color>
+    <color name="text_file_frame_stroke">#66FFFFFF</color>
+    <color name="deck_list_color_edittext">#12FFFFFF</color>
+    <color name="stroke_of_selected_deck_list_color">#6BFFFFFF</color>
+    <color name="background_search_edittext_in_deck_chooser">#4D4D53</color>
+    <color name="name_label">#79797D</color>
+    <color name="selected_item_background">@color/background_item_selected_on_dark_popup</color>
+    <color name="icon_export">#B099EA</color>
+    <color name="icon_export_background">#1FB098EB</color>
+    <color name="text_export_icon">#99B098EB</color>
+    <color name="icon_search">#8CE4EE</color>
+    <color name="icon_search_background">#1F8CE3ED</color>
+    <color name="text_search_icon">#998CE3ED</color>
+    <color name="text_on_go_to_tts_settings_button">@color/text_high_emphasis</color>
+    <color name="background_go_to_tts_settings_button">@color/floating_button_in_exercise</color>
+    <color name="surface_for_switch" tools:ignore="MissingDefaultResource">#999999</color>
+    <color name="plus_minus_icon">@color/accent</color>
+    <color name="ic_plus">@color/on_accent</color>
+    <color name="label_encoding">#FFA333</color>
+    <color name="label_format">#B059ED</color>
+    <color name="icon_file_format">#C07AF1</color>
+    <color name="esc_text">#B3B3B3</color>
+    <color name="esc_background">@color/window</color>
+    <color name="esc_gutter">@color/window</color>
+    <color name="esc_gutter_divider">@color/divider</color>
+    <color name="esc_gutter_current_line_number">@color/text_medium_emphasis</color>
+    <color name="esc_gutter_text">@color/text_disabled</color>
+    <color name="esc_selected_line">#303037</color>
+    <color name="esc_selection">@color/highlighted_text</color>
+    <color name="esc_delimiter_background">@color/accent</color>
+    <color name="esc_question_text">#9E93BB</color>
+    <color name="esc_answer_text">#8DA2BF</color>
+    <color name="dsv_controller_disabled">#59FFFFFF</color>
+    <color name="dsv_controller_background_disabled">#2E2E35</color>
 </resources>

@@ -78,7 +78,10 @@ class PronunciationEventAdapter(
     }
 
     private fun updateDraggingView(draggingView: View) {
-        draggingView.background = if (isDragging) ColorDrawable(Color.WHITE) else null
+        draggingView.background = if (isDragging) {
+            val color = ContextCompat.getColor(draggingView.context, R.color.surface)
+            ColorDrawable(color)
+        } else null
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {

@@ -131,7 +131,7 @@ class DeckListsEditorFragment : BaseFragment() {
                 this@DeckListsEditorFragment.newDeckListId = newDeckListId
             }
             newDeckListColor.observe { newDeckListColor: Int ->
-                val drawable = DeckListDrawableGenerator.generateIcon(listOf(newDeckListColor), 0)
+                val drawable = DeckListDrawableGenerator.generateIcon(newDeckListColor)
                 newDeckListIndicator.setImageDrawable(drawable)
                 this@DeckListsEditorFragment.newDeckListColor = newDeckListColor
                 updateSelectDeckListButtonColor()

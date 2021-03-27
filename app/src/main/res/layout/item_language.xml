@@ -44,14 +44,14 @@
             app:layout_constraintEnd_toStartOf="@id/favoriteLanguageButton"
             app:layout_constraintStart_toEndOf="@+id/flagTextView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Ukranian" />
+            tools:text="Ukrainian" />
 
     <ImageButton
             android:id="@+id/favoriteLanguageButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="12dp"
-            android:background="?selectableItemBackgroundBorderless"
+            android:background="@drawable/ripple"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

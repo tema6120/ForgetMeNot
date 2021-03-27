@@ -5,12 +5,6 @@
             <corners android:radius="16dp" />
         </shape>
     </item>
-    <item
-            android:bottom="14dp"
-            android:drawable="@drawable/ic_round_search_28"
-            android:left="14dp"
-            android:right="14dp"
-            android:top="14dp" />
     <item>
         <ripple android:color="@color/icon_search">
 

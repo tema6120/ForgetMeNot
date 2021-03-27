@@ -60,6 +60,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/noButton"
             app:layout_constraintTop_toTopOf="@+id/noButton"
-            app:rippleColor="@android:color/white" />
+            app:rippleColor="@color/ripple_on_accent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

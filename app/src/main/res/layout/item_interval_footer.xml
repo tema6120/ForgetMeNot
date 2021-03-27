@@ -29,7 +29,7 @@
             android:background="@drawable/background_grade_indicator"
             android:elevation="14dp"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_grade"
             android:textSize="@dimen/text_size_grade"
             app:layout_constraintEnd_toEndOf="@id/indicatorLine"
             app:layout_constraintStart_toStartOf="@id/indicatorLine"
@@ -52,7 +52,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/excellentGradeTextView"
-            app:srcCompat="@drawable/ic_remove" />
+            app:srcCompat="@drawable/ic_minus" />
 
     <ImageButton
             android:id="@+id/addIntervalButton"
@@ -64,6 +64,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/removeIntervalButton"
             app:layout_constraintTop_toTopOf="@id/removeIntervalButton"
-            app:srcCompat="@drawable/ic_add" />
+            app:srcCompat="@drawable/ic_plus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

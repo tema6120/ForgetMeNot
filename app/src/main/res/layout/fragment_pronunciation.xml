@@ -26,6 +26,8 @@
                     android:layout_height="48dp"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="12dp"
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in"
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_back_button"
                     app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
@@ -39,7 +41,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_pronunciation"
-                    android:textColor="@color/text_high_emphasis"
+                    android:textColor="@color/screen_title"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
@@ -52,7 +54,8 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_help_button"
                     app:srcCompat="@drawable/ic_round_help_outline_24"
-                    app:tint="@color/text_high_emphasis" />
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in" />
 
         </FrameLayout>
 
@@ -166,7 +169,8 @@
                         app:layout_constraintStart_toEndOf="@id/questionLanguageTextView"
                         app:layout_constraintTop_toTopOf="@id/questionLanguageTextView"
                         app:srcCompat="@drawable/ic_round_expand_more_24"
-                        app:tint="@color/text_medium_emphasis" />
+                        android:tintMode="src_in"
+                        android:tint="@color/text_medium_emphasis" />
 
                 <View
                         android:id="@+id/questionLanguageButton"
@@ -195,6 +199,7 @@
                             android:layout_height="wrap_content"
                             android:clickable="false"
                             android:focusable="false"
+                            android:theme="@style/SwitchStyle"
                             android:fontFamily="@font/nunito_bold"
                             android:paddingStart="16dp"
                             android:paddingTop="16dp"
@@ -215,7 +220,7 @@
                         android:layout_width="1dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="24dp"
-                        android:background="?android:attr/listDivider"
+                        android:background="@color/divider"
                         app:layout_constraintBottom_toBottomOf="@id/questionAutoSpeakButton"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -282,7 +287,8 @@
                         app:layout_constraintStart_toEndOf="@id/answerLanguageTextView"
                         app:layout_constraintTop_toTopOf="@id/answerLanguageTextView"
                         app:srcCompat="@drawable/ic_round_expand_more_24"
-                        app:tint="@color/text_medium_emphasis" />
+                        android:tintMode="src_in"
+                        android:tint="@color/text_medium_emphasis" />
 
                 <View
                         android:id="@+id/answerLanguageButton"
@@ -319,6 +325,7 @@
                             android:textSize="@dimen/text_size_pronunciation_screen_autospeaking_switch"
                             android:visibility="invisible"
                             app:switchPadding="8dp"
+                            android:theme="@style/SwitchStyle"
                             tools:visibility="visible" />
 
                 </FrameLayout>
@@ -368,6 +375,9 @@
                         android:textAllCaps="false"
                         android:textSize="@dimen/text_size_pronunciation_screen_speak_go_to_tts_settings_button"
                         app:cornerRadius="16dp"
+                        app:rippleColor="@color/ripple_on_accent"
+                        app:backgroundTint="@color/background_go_to_tts_settings_button"
+                        android:textColor="@color/text_on_go_to_tts_settings_button"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />

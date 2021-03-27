@@ -18,6 +18,8 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="12dp"
+                android:tint="@color/screen_title"
+                android:tintMode="src_in"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/description_back_button"
                 app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
@@ -31,7 +33,7 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:text="@string/screen_title_support_app"
-                android:textColor="@color/text_high_emphasis"
+                android:textColor="@color/screen_title"
                 android:textSize="@dimen/text_size_screen_title"
                 android:textStyle="bold" />
 
@@ -147,6 +149,8 @@
                             android:id="@+id/facebookButton"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
+                            android:tint="@color/tint_colorful_icon"
+                            android:tintMode="src_atop"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_facebook_button"
                             app:srcCompat="@drawable/ic_sm_facebook_32" />
@@ -155,6 +159,8 @@
                             android:id="@+id/instagramButton"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
+                            android:tint="@color/tint_colorful_icon"
+                            android:tintMode="src_atop"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_instagram_button"
                             app:srcCompat="@drawable/ic_sm_instagram_32" />
@@ -163,6 +169,8 @@
                             android:id="@+id/twitterButton"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
+                            android:tint="@color/tint_colorful_icon"
+                            android:tintMode="src_atop"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_twitter_button"
                             app:srcCompat="@drawable/ic_sm_twitter_32" />
@@ -171,6 +179,8 @@
                             android:id="@+id/youtubeButton"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
+                            android:tint="@color/tint_colorful_icon"
+                            android:tintMode="src_atop"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_youtube_button"
                             app:srcCompat="@drawable/ic_sm_youtube_32" />

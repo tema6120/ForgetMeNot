@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="4dp" />
+    <solid android:color="@color/background_search_edittext_in_deck_chooser" />
+</shape>

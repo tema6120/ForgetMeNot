@@ -82,7 +82,7 @@ class SearchFragment : BaseFragment() {
             setImageResource(
                 if (hasSearchText)
                     R.drawable.ic_clear_colored else
-                    R.drawable.ic_paste_colored
+                    R.drawable.ic_content_paste_24
             )
             setOnClickListener {
                 if (hasSearchText) {
@@ -191,7 +191,7 @@ class SearchFragment : BaseFragment() {
     private fun updateStatusBarColor(isSelectionMode: Boolean = this.isSelectionMode) {
         if (findNavController().currentDestination?.id == R.id.deck_chooser) return
         if (isSelectionMode) {
-            setStatusBarColor(requireActivity(), R.color.accent)
+            setStatusBarColor(requireActivity(), R.color.selection_toolbar)
         } else {
             setTransparentStatusBar(requireActivity())
         }

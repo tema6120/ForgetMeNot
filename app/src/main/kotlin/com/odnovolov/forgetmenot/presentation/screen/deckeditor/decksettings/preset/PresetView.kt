@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.pr
 
 import android.content.Context
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Looper
 import android.os.Parcel
@@ -11,7 +10,6 @@ import android.os.Parcelable.Creator
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.SparseArray
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -19,8 +17,6 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.odnovolov.forgetmenot.R
@@ -53,10 +49,11 @@ class PresetView @JvmOverloads constructor(
             gravity = Gravity.CENTER_VERTICAL
         }
         setPadding(12.dp)
-        setBackgroundResource(getBorderlessRippleId())
+        setBackgroundResource(R.drawable.ripple)
         contentDescription = context.getString(R.string.description_save_preset)
         visibility = GONE
         setImageResource(R.drawable.ic_round_save_24)
+        setTintFromRes(R.color.text_high_emphasis)
         setTooltipTextFromContentDescription()
     }
 
@@ -65,29 +62,13 @@ class PresetView @JvmOverloads constructor(
             gravity = Gravity.CENTER_VERTICAL
         }
         setBackgroundResource(R.drawable.ripple_corner_radius_8dp)
-        val compoundDrawableEnd: Drawable? =
-            ContextCompat.getDrawable(context, R.drawable.ic_more_expand_more_with_inset)?.also {
-                val color: Int = ContextCompat.getColor(context, R.color.text_high_emphasis)
-                val colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                    color,
-                    BlendModeCompat.SRC_ATOP
-                )
-                it.colorFilter = colorFilter
-            }
-        setCompoundDrawablesWithIntrinsicBounds(null, null, compoundDrawableEnd, null)
+        setDrawableEnd(R.drawable.ic_more_expand_more_with_inset, R.color.text_high_emphasis)
         ellipsize = TextUtils.TruncateAt.END
         maxLines = 1
         setPadding(12.dp)
-        setTextColor(ContextCompat.getColor(context, R.color.text_high_emphasis))
+        setTextColorFromRes(R.color.text_high_emphasis)
         setTextSizeFromRes(R.dimen.text_size_preset_button)
         setFont(R.font.nunito_bold, Typeface.BOLD)
-    }
-
-    private fun getBorderlessRippleId(): Int {
-        val resId = android.R.attr.selectableItemBackgroundBorderless
-        val outValue = TypedValue()
-        context.theme.resolveAttribute(resId, outValue, true)
-        return outValue.resourceId
     }
 
     init {
@@ -97,12 +78,12 @@ class PresetView @JvmOverloads constructor(
         addView(selectPresetButton)
     }
 
-    private lateinit var popup: PopupWindow
+    private var popup: PopupWindow? = null
     private lateinit var presetAdapter: PresetAdapter
-    private lateinit var nameInputDialog: AlertDialog
+    private var nameInputDialog: AlertDialog? = null
     private lateinit var nameEditText: EditText
     private lateinit var dialogOkButton: View
-    private lateinit var removePresetDialog: AlertDialog
+    private var removePresetDialog: AlertDialog? = null
     private val affectedDeckNameAdapter = AffectedDeckNameAdapter()
     private lateinit var removePresetTitleTextView: TextView
     private var coroutineScope: CoroutineScope? = null
@@ -164,7 +145,7 @@ class PresetView @JvmOverloads constructor(
                     NameCheckResult.Occupied ->
                         context.getString(R.string.error_message_occupied_name)
                 }
-                if (nameInputDialog.isShowing) {
+                if (nameInputDialog?.isShowing == true) {
                     dialogOkButton.isEnabled = nameCheckResult == NameCheckResult.Ok
                 }
             }
@@ -178,7 +159,7 @@ class PresetView @JvmOverloads constructor(
     private fun executeCommand(command: SkeletalPresetController.Command) {
         when (command) {
             is ShowPresetNameDialog -> {
-                nameInputDialog.show()
+                nameInputDialog?.show()
                 nameEditText.setText(command.presetName)
                 nameEditText.selectAll()
             }
@@ -187,7 +168,7 @@ class PresetView @JvmOverloads constructor(
                     R.string.title_remove_preset_dialog,
                     viewModel.presetNameToDelete
                 )
-                removePresetDialog.show()
+                removePresetDialog?.show()
             }
         }
     }
@@ -215,7 +196,7 @@ class PresetView @JvmOverloads constructor(
             presetAdapter = PresetAdapter(
                 onSetPresetButtonClick = { id: Long? ->
                     controller?.dispatch(SetPresetButtonClicked(id))
-                    popup.dismiss()
+                    popup?.dismiss()
                 },
                 onRenamePresetButtonClick = { id: Long ->
                     controller?.dispatch(RenamePresetButtonClicked(id))
@@ -228,7 +209,7 @@ class PresetView @JvmOverloads constructor(
                 presetRecyclerView.adapter = presetAdapter
                 presetHelpButton.setOnClickListener {
                     controller?.dispatch(HelpButtonClicked)
-                    popup.dismiss()
+                    popup?.dismiss()
                 }
                 addPresetButton.setOnClickListener {
                     controller?.dispatch(AddNewPresetButtonClicked)
@@ -247,10 +228,10 @@ class PresetView @JvmOverloads constructor(
             dialogOkButton = okButton
             okButton.setOnClickListener {
                 controller?.dispatch(PresetNamePositiveDialogButtonClicked)
-                nameInputDialog.dismiss()
+                nameInputDialog?.dismiss()
             }
             cancelButton.setOnClickListener {
-                nameInputDialog.dismiss()
+                nameInputDialog?.dismiss()
             }
         }
         nameInputDialog = AlertDialog.Builder(context)
@@ -270,10 +251,10 @@ class PresetView @JvmOverloads constructor(
             removePresetRecycler.adapter = affectedDeckNameAdapter
             deleteButton.setOnClickListener {
                 controller?.dispatch(RemovePresetPositiveDialogButtonClicked)
-                removePresetDialog.dismiss()
+                removePresetDialog?.dismiss()
             }
             cancelRemovingButton.setOnClickListener {
-                removePresetDialog.dismiss()
+                removePresetDialog?.dismiss()
             }
         }
         removePresetDialog = AlertDialog.Builder(context)
@@ -287,13 +268,13 @@ class PresetView @JvmOverloads constructor(
     }
 
     private fun showPopup() {
-        popup.show(anchor = selectPresetButton, gravity = Gravity.TOP or Gravity.END)
+        popup?.show(anchor = selectPresetButton, gravity = Gravity.TOP or Gravity.END)
     }
 
     private fun restoreByPendingState() {
-        pendingNameInputDialogState?.let(nameInputDialog::onRestoreInstanceState)
+        pendingNameInputDialogState?.let(nameInputDialog!!::onRestoreInstanceState)
         pendingRemovePresetDialogState?.let { dialogState: Bundle ->
-            removePresetDialog.onRestoreInstanceState(dialogState)
+            removePresetDialog!!.onRestoreInstanceState(dialogState)
             removePresetTitleTextView.text = context.getString(
                 R.string.title_remove_preset_dialog,
                 viewModel.presetNameToDelete
@@ -319,9 +300,9 @@ class PresetView @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable {
         return SavedState(super.onSaveInstanceState()).apply {
-            nameInputDialogState = nameInputDialog.onSaveInstanceState()
-            removePresetDialogState = removePresetDialog.onSaveInstanceState()
-            isPopupVisible = popup.isShowing
+            nameInputDialogState = nameInputDialog?.onSaveInstanceState()
+            removePresetDialogState = removePresetDialog?.onSaveInstanceState()
+            isPopupVisible = popup?.isShowing ?: false
         }
     }
 

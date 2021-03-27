@@ -11,8 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
-import com.odnovolov.forgetmenot.presentation.common.DarkPopupWindow
-import com.odnovolov.forgetmenot.presentation.common.show
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.exercise.TimerStatus
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
@@ -94,13 +93,12 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
                         R.drawable.ic_round_timer_24
                 )
 
-                val tintColorId: Int = when (timerStatus) {
+                val iconColorRes: Int = when (timerStatus) {
                     is TimerStatus.Ticking -> R.color.ticking_timer_icon_on_popup
                     TimerStatus.TimeIsOver -> R.color.issue
-                    else -> R.color.description_on_dark_popup
+                    else -> R.color.icon_on_control_panel_deactivated
                 }
-                val tintColor: Int = ContextCompat.getColor(context, tintColorId)
-                timerIcon.setColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+                timerIcon.setTintFromRes(iconColorRes)
 
                 timerDescriptionTextView.text = when (timerStatus) {
                     TimerStatus.NotUsed -> null
@@ -116,9 +114,7 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
                     if (timerStatus == TimerStatus.TimeIsOver)
                         R.color.issue else
                         R.color.description_on_dark_popup
-                val descriptionTextColor: Int =
-                    ContextCompat.getColor(context, descriptionTextColorId)
-                timerDescriptionTextView.setTextColor(descriptionTextColor)
+                timerDescriptionTextView.setTextColorFromRes(descriptionTextColorId)
 
                 stopTimerButton.isVisible = timerStatus is TimerStatus.Ticking
             }
@@ -128,13 +124,13 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
     private fun observeState() {
         timerStatus.observe(::onTimerStatusChanged)
         state.flowOf(State::isExpired).observe { isExpired: Boolean ->
-            cardView.setCardBackgroundColor(
-                if (isExpired) {
-                    ContextCompat.getColor(requireContext(), R.color.card_expired)
-                } else {
-                    Color.WHITE
-                }
-            )
+            val cardBackgroundColorRes: Int =
+                if (isExpired)
+                    R.color.card_expired else
+                    R.color.card
+            val cardBackgroundColor: Int =
+                ContextCompat.getColor(requireContext(), cardBackgroundColorRes)
+            cardView.setCardBackgroundColor(cardBackgroundColor)
         }
     }
 
@@ -154,28 +150,25 @@ class MotivationalTimerHelpArticleFragment : BaseHelpArticleFragmentForComplexUi
             && timerStatus.secondsLeft * 1000L <= ExerciseFragment.TIME_TO_PAINT_TIMER_BUTTON
         ) {
             if (timerButtonPaintingAnimation == null && isResumed) {
-                val colorFrom = Color.WHITE
+                val colorFrom =
+                    ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel)
                 val colorTo = ContextCompat.getColor(requireContext(), R.color.issue)
                 timerButtonPaintingAnimation =
                     ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo).apply {
                         duration = timerStatus.secondsLeft * 1000L
                         addUpdateListener { animator: ValueAnimator ->
-                            timerButton.setColorFilter(
-                                animator.animatedValue as Int,
-                                PorterDuff.Mode.SRC_IN
-                            )
+                            timerButton.setTint(animator.animatedValue as Int)
                         }
                         start()
                     }
             }
         } else {
-            val iconColor: Int = when (timerStatus) {
-                is TimerStatus.Ticking -> Color.WHITE
-                TimerStatus.TimeIsOver -> ContextCompat.getColor(requireContext(), R.color.issue)
-                else ->
-                    ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel_deactivated)
+            val iconColorRes: Int = when (timerStatus) {
+                is TimerStatus.Ticking -> R.color.icon_on_control_panel
+                TimerStatus.TimeIsOver -> R.color.issue
+                else -> R.color.icon_on_control_panel_deactivated
             }
-            timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+            timerButton.setTintFromRes(iconColorRes)
         }
     }
 

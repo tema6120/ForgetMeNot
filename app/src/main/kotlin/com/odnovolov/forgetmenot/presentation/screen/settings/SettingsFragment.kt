@@ -18,6 +18,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
+import com.odnovolov.forgetmenot.presentation.common.setDrawableStart
 import com.odnovolov.forgetmenot.presentation.screen.settings.SettingsEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.settings.ThemeHelper.Theme
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -56,12 +57,9 @@ class SettingsFragment : BaseFragment() {
             itemForm = AsCheckBox,
             takeTitle = { titleTextView: TextView ->
                 titleTextView.setText(R.string.title_fullscreen_mode_dialog)
-                val titleDrawable = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_round_fullscreen_24
-                )
-                titleTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    titleDrawable, null, null, null
+                titleTextView.setDrawableStart(
+                    R.drawable.ic_round_fullscreen_24,
+                    R.color.icon_gray
                 )
             },
             onItemClick = { item: Item ->
@@ -88,12 +86,9 @@ class SettingsFragment : BaseFragment() {
             itemForm = AsRadioButton,
             takeTitle = { titleTextView: TextView ->
                 titleTextView.setText(R.string.title_theme_dialog)
-                val titleDrawable = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_round_brightness_medium_24
-                )
-                titleTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    titleDrawable, null, null, null
+                titleTextView.setDrawableStart(
+                    R.drawable.ic_round_brightness_medium_24,
+                    R.color.icon_gray
                 )
             },
             onItemClick = { item: Item ->

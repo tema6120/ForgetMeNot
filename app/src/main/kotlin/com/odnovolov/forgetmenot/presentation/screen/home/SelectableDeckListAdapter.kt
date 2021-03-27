@@ -26,10 +26,7 @@ class SelectableDeckListAdapter(
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {
         val selectableDeckList: SelectableDeckList = items[position]
         with(viewHolder.itemView) {
-            val iconDrawable = DeckListDrawableGenerator.generateIcon(
-                strokeColors = listOf(selectableDeckList.color),
-                backgroundColor = Color.WHITE
-            )
+            val iconDrawable = DeckListDrawableGenerator.generateIcon(selectableDeckList.color)
             deckListIcon.setImageDrawable(iconDrawable)
             deckListNameTextView.text = selectableDeckList.name
                 ?: context.getString(R.string.deck_list_title_all_decks)

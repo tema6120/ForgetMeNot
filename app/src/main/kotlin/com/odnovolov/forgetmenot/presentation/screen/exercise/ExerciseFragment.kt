@@ -2,9 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.media.ToneGenerator
@@ -14,8 +12,7 @@ import android.view.View.GONE
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.findViewHolderForAdapterPosition
@@ -207,6 +204,7 @@ class ExerciseFragment : BaseFragment() {
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()
+                gradeButton.uncover()
             }
             isGradeEditedManually.observe { isEdited: Boolean ->
                 with(gradeButton) {
@@ -255,7 +253,7 @@ class ExerciseFragment : BaseFragment() {
                             CannotSpeak -> R.color.issue
                             else -> R.color.icon_on_control_panel
                         }
-                    imageTintList = ContextCompat.getColorStateList(context, iconTintRes)
+                    setTintFromRes(iconTintRes)
                     setOnClickListener {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)
@@ -271,13 +269,14 @@ class ExerciseFragment : BaseFragment() {
                         }
                     )
                     setTooltipTextFromContentDescription()
+                    uncover()
                 }
                 if (speakingStatus != CannotSpeak) {
                     speakErrorPopup?.dismiss()
                 }
             }
             isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
-                speakProgressBar.visibility = if (isPreparing) View.VISIBLE else View.INVISIBLE
+                speakProgressBar.isInvisible = !isPreparing
             }
             speakerEvents.observe { event: SpeakerImpl.Event ->
                 when (event) {
@@ -332,9 +331,8 @@ class ExerciseFragment : BaseFragment() {
     }
 
     private fun updateGradeButtonColor(grade: Int) {
-        val gradeColorRes = getGradeColorRes(grade)
-        gradeButton.backgroundTintList =
-            ContextCompat.getColorStateList(requireContext(), gradeColorRes)
+        val gradeColorRes: Int = getGradeColorRes(grade)
+        gradeButton.setBackgroundTintFromRes(gradeColorRes)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val brightGradeColor: Int =
                 ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))
@@ -368,28 +366,25 @@ class ExerciseFragment : BaseFragment() {
             && timerStatus.secondsLeft * 1000L <= TIME_TO_PAINT_TIMER_BUTTON
         ) {
             if (timerButtonPaintingAnimation == null && isResumed) {
-                val colorFrom = ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel)
+                val colorFrom =
+                    ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel)
                 val colorTo = ContextCompat.getColor(requireContext(), R.color.issue)
                 timerButtonPaintingAnimation =
                     ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo).apply {
                         duration = timerStatus.secondsLeft * 1000L
                         addUpdateListener { animator: ValueAnimator ->
-                            timerButton.setColorFilter(
-                                animator.animatedValue as Int,
-                                PorterDuff.Mode.SRC_ATOP
-                            )
+                            timerButton.setTint(animator.animatedValue as Int)
                         }
                         start()
                     }
             }
         } else {
-            val iconColor: Int = when (timerStatus) {
-                is TimerStatus.Ticking -> ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel)
-                TimerStatus.TimeIsOver -> ContextCompat.getColor(requireContext(), R.color.issue)
-                else ->
-                    ContextCompat.getColor(requireContext(), R.color.icon_on_control_panel_deactivated)
+            val iconColorRes: Int = when (timerStatus) {
+                is TimerStatus.Ticking -> R.color.icon_on_control_panel
+                TimerStatus.TimeIsOver -> R.color.issue
+                else -> R.color.icon_on_control_panel_deactivated
             }
-            timerButton.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP)
+            timerButton.setTintFromRes(iconColorRes)
         }
     }
 
@@ -489,46 +484,10 @@ class ExerciseFragment : BaseFragment() {
                     speakErrorPopup?.dismiss()
                 } else {
                     speakErrorPopup?.contentView?.run {
-                        speakErrorDescriptionTextView.text = getSpeakErrorDescription(reason)
+                        speakErrorDescriptionTextView.text =
+                            composeSpeakErrorDescription(reason, context)
                     }
                 }
-            }
-        }
-    }
-
-    private fun getSpeakErrorDescription(
-        reasonForInabilityToSpeak: ReasonForInabilityToSpeak
-    ): String {
-        return when (reasonForInabilityToSpeak) {
-            is FailedToInitializeSpeaker -> {
-                if (reasonForInabilityToSpeak.ttsEngine == null) {
-                    getString(R.string.speak_error_description_failed_to_initialized)
-                } else {
-                    getString(
-                        R.string.speak_error_description_failed_to_initialized_with_specifying_tts_engine,
-                        reasonForInabilityToSpeak.ttsEngine
-                    )
-                }
-            }
-            is LanguageIsNotSupported -> {
-                if (reasonForInabilityToSpeak.ttsEngine == null) {
-                    getString(
-                        R.string.speak_error_description_language_is_not_supported,
-                        reasonForInabilityToSpeak.language.displayLanguage
-                    )
-                } else {
-                    getString(
-                        R.string.speak_error_description_language_is_not_supported_with_specifying_tts_engine,
-                        reasonForInabilityToSpeak.ttsEngine,
-                        reasonForInabilityToSpeak.language.displayLanguage
-                    )
-                }
-            }
-            is MissingDataForLanguage -> {
-                getString(
-                    R.string.speak_error_description_missing_data_for_language,
-                    reasonForInabilityToSpeak.language.displayLanguage
-                )
             }
         }
     }
@@ -566,13 +525,12 @@ class ExerciseFragment : BaseFragment() {
                             R.drawable.ic_round_timer_24
                     )
 
-                    val tintColorId: Int = when (timerStatus) {
+                    val iconColorRes: Int = when (timerStatus) {
                         is TimerStatus.Ticking -> R.color.ticking_timer_icon_on_popup
                         TimerStatus.TimeIsOver -> R.color.issue
                         else -> R.color.icon_on_control_panel_deactivated
                     }
-                    val tintColor: Int = ContextCompat.getColor(context, tintColorId)
-                    timerIcon.setColorFilter(tintColor, PorterDuff.Mode.SRC_ATOP)
+                    timerIcon.setTintFromRes(iconColorRes)
 
                     timerDescriptionTextView.text = when (timerStatus) {
                         TimerStatus.NotUsed -> null
@@ -588,9 +546,7 @@ class ExerciseFragment : BaseFragment() {
                         if (timerStatus == TimerStatus.TimeIsOver)
                             R.color.issue else
                             R.color.icon_on_control_panel_deactivated
-                    val descriptionTextColor: Int =
-                        ContextCompat.getColor(context, descriptionTextColorId)
-                    timerDescriptionTextView.setTextColor(descriptionTextColor)
+                    timerDescriptionTextView.setTextColorFromRes(descriptionTextColorId)
 
                     stopTimerButton.isVisible = timerStatus is TimerStatus.Ticking
                 }

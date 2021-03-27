@@ -6,11 +6,28 @@
         <item name="colorControlHighlight">@color/ripple</item>
         <item name="android:windowBackground">@color/window</item>
         <item name="shapeAppearanceLargeComponent">@style/RoundCornerBottomSheet</item>
-        <item name="bottomSheetDialogTheme">@style/DarkBottomSheetStyle</item>
+        <item name="bottomSheetDialogTheme">@style/DarkBottomSheetTheme</item>
+    </style>
+
+    <style name="DarkBottomSheetTheme" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/DarkBottomSheetStyle</item>
+    </style>
+
+    <style name="DarkBottomSheetStyle" parent="@style/Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:backgroundTint">@color/dialog</item>
     </style>
 
     <style name="WalkingModeSwitchStyle" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="colorControlActivated">@color/walking_mode_icon_on_popup</item>
-        <item name="colorSurface">#D4D4D5</item>
+        <item name="colorSurface">@color/surface_for_switch</item>
+    </style>
+
+    <style name="SwitchStyle" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="colorSurface">@color/surface_for_switch</item>
+    </style>
+
+    <style name="IntervalsSettingsTheme">
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="colorSurface">#666666</item>
     </style>
 </resources>

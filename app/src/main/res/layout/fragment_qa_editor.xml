@@ -32,15 +32,17 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_surface"
+                            android:tintMode="src_in"
                             android:background="@drawable/ripple"
                             android:contentDescription="@string/description_paste_button"
-                            app:srcCompat="@drawable/ic_content_paste_24px" />
+                            app:srcCompat="@drawable/ic_content_paste_24" />
 
                     <ImageButton
                             android:id="@+id/questionClearButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_surface"
+                            android:tintMode="src_in"
                             android:background="@drawable/ripple"
                             android:contentDescription="@string/description_clear_button"
                             app:srcCompat="@drawable/ic_round_clear_24" />
@@ -140,13 +142,15 @@
                             android:background="@drawable/ripple"
                             android:contentDescription="@string/description_paste_button"
                             android:tint="@color/icon_on_surface"
-                            app:srcCompat="@drawable/ic_content_paste_24px" />
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_content_paste_24" />
 
                     <ImageButton
                             android:id="@+id/answerClearButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_surface"
+                            android:tintMode="src_in"
                             android:background="@drawable/ripple"
                             android:contentDescription="@string/description_clear_button"
                             app:srcCompat="@drawable/ic_round_clear_24" />

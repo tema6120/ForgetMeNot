@@ -21,7 +21,8 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            app:tint="@color/accent" />
+            android:tintMode="src_in"
+            app:tint="@color/label_encoding" />
 
     <TextView
             android:id="@+id/title"
@@ -31,7 +32,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:text="@string/popup_title_charset"
-            android:textColor="@android:color/white"
+            android:textColor="@color/title_on_dark_popup"
             android:textSize="@dimen/text_size_popup_in_exercise_title"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +46,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
-            android:background="@color/divider_light"
+            android:background="@color/divider_on_dark_popup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />

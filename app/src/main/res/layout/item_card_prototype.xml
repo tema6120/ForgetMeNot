@@ -13,12 +13,13 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="10dp"
             android:elevation="4dp"
-            android:foreground="?selectableItemBackground"
+            app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="16dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/ripple"
                 android:orientation="vertical">
 
             <TextView

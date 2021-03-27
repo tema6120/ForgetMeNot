@@ -4,34 +4,66 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-    <TextView
+    <LinearLayout
             android:id="@+id/exportButton"
-            android:layout_width="wrap_content"
+            android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:drawablePadding="4dp"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
-            android:text="@string/button_export"
-            android:textColor="@color/text_export_icon"
-            android:textSize="@dimen/text_size_deck_content_screen_toolbar_button"
-            app:drawableTopCompat="@drawable/export_button" />
+            android:orientation="vertical">
 
-    <TextView
+        <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="14dp"
+                android:background="@drawable/background_export_button"
+                android:tint="@color/icon_export"
+                app:srcCompat="@drawable/ic_round_unarchive_28" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/nunito_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:text="@string/button_export"
+                android:textColor="@color/text_export_icon"
+                android:textSize="@dimen/text_size_deck_content_screen_toolbar_button" />
+
+    </LinearLayout>
+
+    <LinearLayout
             android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
+            android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:drawablePadding="4dp"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
-            android:text="@string/button_search"
-            android:textColor="@color/text_search_icon"
-            android:textSize="@dimen/text_size_deck_content_screen_toolbar_button"
-            app:drawableTopCompat="@drawable/search_button" />
+            android:orientation="vertical">
+
+        <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="14dp"
+                android:background="@drawable/background_search_button"
+                android:tint="@color/icon_search"
+                app:srcCompat="@drawable/ic_round_search_28" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/nunito_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:text="@string/button_search"
+                android:textColor="@color/text_search_icon"
+                android:textSize="@dimen/text_size_deck_content_screen_toolbar_button" />
+
+    </LinearLayout>
 
 </LinearLayout>

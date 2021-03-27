@@ -27,6 +27,8 @@
                     android:layout_height="48dp"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="12dp"
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in"
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/description_back_button"
                     app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
@@ -40,7 +42,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_card_appearance"
-                    android:textColor="@color/text_high_emphasis"
+                    android:textColor="@color/screen_title"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold" />
 
@@ -90,19 +92,25 @@
                                 android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_settings_item_title" />
 
-                        <View
+                        <ImageButton
                                 android:id="@+id/alignQuestionToEdgeButton"
                                 android:layout_width="72dp"
                                 android:layout_height="36dp"
                                 android:layout_gravity="center_vertical"
+                                app:srcCompat="@drawable/ic_round_format_align_left_24"
+                                android:tint="@color/button_in_card_appearance"
+                                android:tintMode="src_in"
                                 android:background="@drawable/button_align_to_edge"
                                 android:stateListAnimator="@animator/button_in_card_appearance" />
 
-                        <View
+                        <ImageButton
                                 android:id="@+id/alignQuestionToCenterButton"
                                 android:layout_width="72dp"
                                 android:layout_height="36dp"
                                 android:layout_gravity="center_vertical"
+                                app:srcCompat="@drawable/ic_round_format_align_center_24"
+                                android:tint="@color/button_in_card_appearance"
+                                android:tintMode="src_in"
                                 android:layout_marginStart="-1.5dp"
                                 android:background="@drawable/button_align_to_center"
                                 android:stateListAnimator="@animator/button_in_card_appearance" />
@@ -205,20 +213,26 @@
                                 android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_settings_item_title" />
 
-                        <View
+                        <ImageButton
                                 android:id="@+id/alignAnswerToEdgeButton"
                                 android:layout_width="72dp"
                                 android:layout_height="36dp"
                                 android:layout_gravity="center_vertical"
+                                app:srcCompat="@drawable/ic_round_format_align_left_24"
+                                android:tint="@color/button_in_card_appearance"
+                                android:tintMode="src_in"
                                 android:background="@drawable/button_align_to_edge"
                                 android:stateListAnimator="@animator/button_in_card_appearance" />
 
-                        <View
+                        <ImageButton
                                 android:id="@+id/alignAnswerToCenterButton"
                                 android:layout_width="72dp"
                                 android:layout_height="36dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="-1.5dp"
+                                app:srcCompat="@drawable/ic_round_format_align_center_24"
+                                android:tint="@color/button_in_card_appearance"
+                                android:tintMode="src_in"
                                 android:background="@drawable/button_align_to_center"
                                 android:stateListAnimator="@animator/button_in_card_appearance" />
 

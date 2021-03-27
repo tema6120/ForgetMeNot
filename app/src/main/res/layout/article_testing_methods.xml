@@ -10,10 +10,8 @@
 
     <TextView
             android:id="@+id/off_section_title"
-            style="@style/ArticleParagraph"
-            android:fontFamily="@font/nunito_extrabold"
-            android:text="@string/article_testing_methods_off_section_title"
-            android:textColor="@color/text_medium_emphasis" />
+            style="@style/ArticleSectionTitle"
+            android:text="@string/article_testing_methods_off_section_title" />
 
     <include
             android:id="@+id/offTestExerciseCardExample"
@@ -28,10 +26,8 @@
 
     <TextView
             android:id="@+id/manual_section_title"
-            style="@style/ArticleParagraph"
-            android:fontFamily="@font/nunito_extrabold"
-            android:text="@string/article_testing_methods_manual_section_title"
-            android:textColor="@color/text_medium_emphasis" />
+            style="@style/ArticleSectionTitle"
+            android:text="@string/article_testing_methods_manual_section_title" />
 
     <include
             android:id="@+id/manualTestExerciseCardExample"
@@ -46,10 +42,8 @@
 
     <TextView
             android:id="@+id/quiz_section_title"
-            style="@style/ArticleParagraph"
-            android:fontFamily="@font/nunito_extrabold"
-            android:text="@string/article_testing_methods_quiz_section_title"
-            android:textColor="@color/text_medium_emphasis" />
+            style="@style/ArticleSectionTitle"
+            android:text="@string/article_testing_methods_quiz_section_title" />
 
     <include
             android:id="@+id/quizTestExerciseCardExample"
@@ -64,10 +58,8 @@
 
     <TextView
             android:id="@+id/entry_section_title"
-            style="@style/ArticleParagraph"
-            android:fontFamily="@font/nunito_extrabold"
-            android:text="@string/article_testing_methods_entry_section_title"
-            android:textColor="@color/text_medium_emphasis" />
+            style="@style/ArticleSectionTitle"
+            android:text="@string/article_testing_methods_entry_section_title" />
 
     <include
             android:id="@+id/entryTestExerciseCardExample"

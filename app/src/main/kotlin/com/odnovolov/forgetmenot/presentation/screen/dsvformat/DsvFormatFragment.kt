@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -72,7 +73,7 @@ class DsvFormatFragment : BaseFragment() {
                     "CSVFormat" -> openUrl(CSV_FORMAT_URL)
                 }
             },
-            linkColor = Color.WHITE
+            linkColor = ContextCompat.getColor(requireContext(), R.color.on_accent)
         )
         closeTipButton.setOnClickListener {
             controller?.dispatch(CloseTipButtonClicked)

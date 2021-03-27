@@ -34,7 +34,7 @@
                         android:background="@drawable/background_grade_indicator"
                         android:elevation="14dp"
                         android:gravity="center"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/text_grade"
                         android:textSize="@dimen/text_size_grade"
                         app:layout_constraintEnd_toEndOf="@id/indicatorLine"
                         app:layout_constraintStart_toStartOf="@id/indicatorLine"
@@ -62,7 +62,7 @@
                         android:background="@drawable/background_grade_indicator"
                         android:elevation="14dp"
                         android:gravity="center"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/text_grade"
                         android:textSize="@dimen/text_size_grade"
                         app:layout_constraintEnd_toEndOf="@id/indicatorLine"
                         app:layout_constraintStart_toStartOf="@id/indicatorLine"
@@ -92,7 +92,7 @@
                         android:inputType="number"
                         android:maxLength="3"
                         android:padding="8dp"
-                        android:textColor="@color/text_medium_emphasis"
+                        android:textColor="@color/text_input"
                         android:textColorHint="@android:color/transparent"
                         android:textSize="@dimen/text_size_dialog_edittext"
                         android:theme="@style/IntervalsSettingsTheme"
@@ -154,9 +154,9 @@
                 android:textAllCaps="false"
                 android:textColor="@color/text_dialog_ok_button"
                 android:textSize="@dimen/text_size_dialog_ok_button"
-                app:backgroundTint="@color/background_tint_ok_button_in_intervals_dialog"
+                app:backgroundTint="@color/ok_button_in_intervals_dialog"
                 app:cornerRadius="16dp"
-                app:rippleColor="@android:color/white" />
+                app:rippleColor="@color/ripple_on_accent" />
 
     </LinearLayout>
 

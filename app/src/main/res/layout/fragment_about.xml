@@ -9,7 +9,7 @@
             android:id="@+id/appBarSurface"
             android:layout_width="0dp"
             android:layout_height="260dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/app_bar_about_screen"
             android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/ripple_light_borderless"
+                android:background="@drawable/ripple_on_selection_toolbar"
                 android:contentDescription="@string/description_back_button"
                 android:elevation="4dp"
                 android:tint="@android:color/white"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@android:color/white"
+                    android:background="@color/surface"
                     android:orientation="vertical">
 
                 <TextView

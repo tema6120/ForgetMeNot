@@ -71,10 +71,10 @@
 
     <HorizontalScrollView
             android:id="@+id/controlPanelScroll"
+            style="@style/AppTheme.AppBarOverlay"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@color/control_panel"
-            style="@style/AppTheme.AppBarOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -90,22 +90,23 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="2dp"
-                    android:background="@drawable/background_grade_button"
+                    android:background="@drawable/grade_button"
                     android:contentDescription="@string/description_grade_button"
                     android:elevation="14dp"
                     android:gravity="center"
-                    android:backgroundTint="@android:color/transparent"
                     android:textColor="@color/text_grade"
                     android:textSize="@dimen/text_size_grade"
+                    android:visibility="invisible"
                     tools:text="0" />
 
             <ImageButton
                     android:id="@+id/markAsLearnedButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:tint="@color/icon_on_control_panel"
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_mark_as_learned_button"
+                    android:tint="@color/icon_on_control_panel"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_mark_as_learned" />
 
             <FrameLayout
@@ -119,14 +120,18 @@
                         android:layout_height="48dp"
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_speak_button"
-                        android:tint="@color/icon_on_control_panel"
-                        app:srcCompat="@drawable/ic_round_volume_up_24" />
+                        android:visibility="invisible"
+                        app:srcCompat="@drawable/ic_round_volume_up_24"
+                        tools:tint="@android:color/white"
+                        tools:visibility="visible" />
 
                 <ProgressBar
                         android:id="@+id/speakProgressBar"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        android:indeterminate="true"
                         android:indeterminateTint="@color/icon_on_control_panel"
+                        android:indeterminateTintMode="src_in"
                         android:visibility="invisible"
                         tools:visibility="visible" />
 
@@ -139,8 +144,8 @@
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_timer_button"
                     android:visibility="gone"
-                    android:tint="@color/icon_on_control_panel"
                     app:srcCompat="@drawable/ic_round_timer_24"
+                    tools:tint="@android:color/white"
                     tools:visibility="visible" />
 
             <ImageButton
@@ -150,6 +155,7 @@
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_hint_button"
                     android:tint="@color/icon_on_control_panel_selector"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_lightbulb_outline_24" />
 
             <ImageButton
@@ -159,6 +165,7 @@
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_edit_deck_settings"
                     android:tint="@color/icon_on_control_panel"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_build_24" />
 
             <ImageButton
@@ -168,6 +175,7 @@
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_edit_card"
                     android:tint="@color/icon_on_control_panel"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_edit_24" />
 
             <ImageButton
@@ -177,6 +185,7 @@
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_search_button"
                     android:tint="@color/icon_on_control_panel"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_search_24" />
 
             <ImageButton
@@ -186,6 +195,7 @@
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_walking_mode_button"
                     android:tint="@color/icon_on_control_panel_selector"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_directions_walk_24" />
 
             <ImageButton
@@ -195,6 +205,7 @@
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_help_button"
                     android:tint="@color/icon_on_control_panel"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_help_outline_24" />
 
         </LinearLayout>
@@ -206,25 +217,25 @@
             android:layout_width="0dp"
             android:layout_height="1.5dp"
             app:layout_constraintBottom_toTopOf="@+id/controlPanelScroll"
-            app:layout_constraintTop_toTopOf="@+id/controlPanelScroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/controlPanelScroll"
             tools:background="@color/accent" />
 
     <TextView
             android:id="@+id/positionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/background_card_position"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:textColor="@color/on_accent"
             android:textSize="@dimen/text_size_progress_in_exercise"
             android:textStyle="bold"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:background="@drawable/background_card_position"
-            app:layout_constraintTop_toTopOf="@+id/controlPanelScroll"
             app:layout_constraintBottom_toTopOf="@id/controlPanelScroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/controlPanelScroll"
             tools:text="12/35" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

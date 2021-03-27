@@ -59,7 +59,7 @@
                         android:paddingEnd="16dp"
                         android:paddingBottom="12dp"
                         android:textColor="@color/text_medium_emphasis"
-                        android:textSize="@dimen/text_size_dialog_radiobutton"
+                        android:textSize="@dimen/text_size_radiobutton"
                         android:visibility="invisible"
                         tools:checked="true"
                         tools:text="lap"
@@ -109,7 +109,7 @@
                         android:paddingBottom="12dp"
                         android:text="@string/radiobutton_infinitely"
                         android:textColor="@color/text_on_card_selector"
-                        android:textSize="@dimen/text_size_dialog_radiobutton"
+                        android:textSize="@dimen/text_size_radiobutton"
                         android:visibility="invisible"
                         tools:visibility="visible" />
 

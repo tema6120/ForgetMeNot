@@ -19,24 +19,28 @@ object DeckListDrawableGenerator {
         val backgroundColor: Int
     )
 
+    fun generateIcon(strokeColor: Int): Drawable {
+        return generateIcon(listOf(strokeColor), 0)
+    }
+
     fun generateIcon(strokeColors: List<Int>, backgroundColor: Int): Drawable {
         return if (strokeColors.size <= 1) {
             val strokeColor: Int =
                 strokeColors.getOrElse(0) { DeckReviewPreference.DEFAULT_DECK_LIST_COLOR }
             generatedIcons.getOrPut(IconColors(strokeColors, backgroundColor)) {
-                generateIcon(strokeColor)
+                generateIconInternal(strokeColor)
             }
         } else {
             val firstColor: Int =
                 strokeColors.getOrElse(0) { DeckReviewPreference.DEFAULT_DECK_LIST_COLOR }
             val secondColor: Int = strokeColors.getOrElse(1) { firstColor }
             generatedIcons.getOrPut(IconColors(strokeColors, backgroundColor)) {
-                generateIcon(firstColor, secondColor, backgroundColor)
+                generateIconInternal(firstColor, secondColor, backgroundColor)
             }
         }
     }
 
-    private fun generateIcon(strokeColor: Int): Drawable {
+    private fun generateIconInternal(strokeColor: Int): Drawable {
         return GradientDrawable().mutate {
             cornerRadius = 2.5f.dp
             setStroke(2.5f.dp.toInt(), strokeColor)
@@ -44,7 +48,11 @@ object DeckListDrawableGenerator {
         }
     }
 
-    private fun generateIcon(firstColor: Int, secondColor: Int, backgroundColor: Int): Drawable {
+    private fun generateIconInternal(
+        firstColor: Int,
+        secondColor: Int,
+        backgroundColor: Int
+    ): Drawable {
         val stroke = GradientDrawable().mutate {
             cornerRadius = 3.333f.dp
             colors = intArrayOf(firstColor, secondColor)

@@ -31,8 +31,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="12dp"
                 android:visibility="gone"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_expand_more_thick_24"
-                app:tint="@color/hint" />
+                android:tint="@color/hint" />
 
     </LinearLayout>
 
@@ -47,6 +48,7 @@
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:paddingTop="16dp"
+            android:gravity="start|center_vertical"
             android:paddingBottom="16dp"
             android:textColor="@color/text_deck_list_name_edittext"
             android:textSize="17sp"
@@ -94,6 +96,7 @@
             android:layout_marginEnd="4dp"
             android:background="@drawable/ripple"
             android:tint="@color/icon_on_surface"
+            android:tintMode="src_in"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

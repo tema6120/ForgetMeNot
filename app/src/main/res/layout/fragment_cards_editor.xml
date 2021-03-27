@@ -68,7 +68,7 @@
                             android:id="@+id/gradeButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/background_grade_button"
+                            android:background="@drawable/grade_button"
                             android:contentDescription="@string/description_grade_button"
                             android:elevation="14dp"
                             android:gravity="center"
@@ -86,6 +86,7 @@
                             android:contentDescription="@string/description_mark_as_learned_button"
                             android:visibility="gone"
                             android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_mark_as_learned"
                             tools:visibility="visible" />
 
@@ -94,6 +95,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_remove_card_button"
                             android:visibility="gone"
@@ -105,6 +107,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_move_card_button"
                             android:visibility="gone"
@@ -116,6 +119,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_copy_card_button"
                             android:visibility="gone"
@@ -127,6 +131,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_card_info_button"
                             android:visibility="gone"
@@ -138,6 +143,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_help_button"
                             android:visibility="gone"
@@ -174,6 +180,7 @@
                 android:background="@drawable/ripple_on_cards_editor_done_cancel_buttons"
                 android:contentDescription="@string/description_cancel_button"
                 android:tint="@color/foreground_cards_editor_done_cancel_buttons"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_round_clear_24" />
 
         <View
@@ -193,6 +200,7 @@
                 android:background="@drawable/ripple_on_cards_editor_done_cancel_buttons"
                 android:contentDescription="@string/description_done_button"
                 android:tint="@color/foreground_cards_editor_done_cancel_buttons"
+                android:tintMode="src_in"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

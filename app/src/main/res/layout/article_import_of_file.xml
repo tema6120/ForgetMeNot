@@ -12,11 +12,9 @@
 
     <TextView
             android:id="@+id/qa_format_section_title"
-            style="@style/ArticleParagraph"
+            style="@style/ArticleSectionTitle"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_extrabold"
-            android:text="@string/article_import_of_file_qa_format_section_title"
-            android:textColor="@color/text_medium_emphasis" />
+            android:text="@string/article_import_of_file_qa_format_section_title" />
 
     <LinearLayout
             android:id="@+id/qa_format_example"
@@ -33,12 +31,14 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/description_window_frame_icons"
                 android:padding="16dp"
+                android:tint="@color/tint_colorful_icon"
+                android:tintMode="src_atop"
                 app:srcCompat="@drawable/ic_window_frame_icons" />
 
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/item_blue_selected" />
+                android:background="@color/text_file_frame_stroke" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/item_blue_selected" />
+                android:background="@color/text_file_frame_stroke" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -76,11 +76,9 @@
 
     <TextView
             android:id="@+id/dsv_format_section_title"
-            style="@style/ArticleParagraph"
+            style="@style/ArticleSectionTitle"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_extrabold"
-            android:text="@string/article_import_of_file_dsv_format_section_title"
-            android:textColor="@color/text_medium_emphasis" />
+            android:text="@string/article_import_of_file_dsv_format_section_title" />
 
     <LinearLayout
             android:id="@+id/dsv_format_example"
@@ -105,7 +103,7 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/item_blue_selected" />
+                android:background="@color/text_file_frame_stroke" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -120,7 +118,7 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/item_blue_selected" />
+                android:background="@color/text_file_frame_stroke" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -147,6 +145,8 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/description_window_frame_icons"
             android:padding="16dp"
+            android:tint="@color/tint_colorful_icon"
+            android:tintMode="src_atop"
             app:srcCompat="@drawable/dsv_screenshots" />
 
 </LinearLayout>

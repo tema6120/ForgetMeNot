@@ -9,7 +9,7 @@
             android:id="@+id/pronunciationEventButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="?selectableItemBackground"
+            android:background="@drawable/ripple_rectangular_colored"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +20,13 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:background="?selectableItemBackgroundBorderless"
+            android:background="@drawable/ripple"
             android:contentDescription="@string/description_drag_handle_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:tint="@color/icon_on_surface"
+            android:tintMode="src_in"
             app:srcCompat="@drawable/ic_drag_handle_dark_24dp" />
 
     <View
@@ -32,7 +34,7 @@
             android:layout_width="2dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:background="@color/time_line"
+            android:background="@color/divider"
             app:layout_constraintBottom_toTopOf="@id/speakIcon"
             app:layout_constraintStart_toEndOf="@id/dragHandleButton"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,13 +49,15 @@
             app:layout_constraintEnd_toEndOf="@id/timeLineTop"
             app:layout_constraintStart_toStartOf="@id/timeLineTop"
             app:layout_constraintTop_toTopOf="parent"
+            android:tint="@color/icon_on_surface"
+            android:tintMode="src_in"
             app:srcCompat="@drawable/ic_round_volume_up_24" />
 
     <View
             android:id="@+id/timeLineCenter"
             android:layout_width="2dp"
             android:layout_height="0dp"
-            android:background="@color/time_line"
+            android:background="@color/divider"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/speakIcon"
             app:layout_constraintEnd_toEndOf="@id/timeLineTop"
@@ -64,7 +68,7 @@
             android:id="@+id/timeLineBottom"
             android:layout_width="2dp"
             android:layout_height="0dp"
-            android:background="@color/time_line"
+            android:background="@color/divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/timeLineTop"
             app:layout_constraintStart_toStartOf="@id/timeLineTop"
@@ -99,6 +103,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_remove" />
+            app:srcCompat="@drawable/ic_minus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

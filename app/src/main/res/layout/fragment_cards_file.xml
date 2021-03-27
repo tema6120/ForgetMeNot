@@ -29,25 +29,28 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="12dp"
-                        android:background="?selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/screenTitleTextView"
                         app:srcCompat="@drawable/ic_round_clear_24"
-                        app:tint="@color/text_high_emphasis" />
+                        android:tintMode="src_in"
+                        android:tint="@color/screen_title" />
 
                 <ImageButton
                         android:id="@+id/previousButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="12dp"
-                        android:background="?selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/screenTitleTextView"
                         app:srcCompat="@drawable/ic_round_keyboard_backspace_24"
+                        android:tintMode="src_in"
+                        android:tint="@color/screen_title"
                         tools:visibility="visible" />
 
                 <TextView
@@ -57,7 +60,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/jura"
-                        android:textColor="@color/text_high_emphasis"
+                        android:textColor="@color/screen_title"
                         android:textSize="@dimen/text_size_screen_title"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -86,8 +89,10 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginEnd="12dp"
-                        android:background="?selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple"
                         android:visibility="gone"
+                        android:tintMode="src_in"
+                        android:tint="@color/screen_title"
                         app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
@@ -99,13 +104,14 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginEnd="12dp"
-                        android:background="?selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/screenTitleTextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
                         app:srcCompat="@drawable/ic_round_done_24"
-                        app:tint="@color/icon_on_surface" />
+                        android:tintMode="src_in"
+                        android:tint="@color/screen_title" />
 
                 <TextView
                         android:id="@+id/add_to"
@@ -160,13 +166,14 @@
                             android:layout_height="48dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="8dp"
-                            android:background="?selectableItemBackgroundBorderless"
+                            android:background="@drawable/ripple"
                             app:layout_constraintBottom_toBottomOf="@+id/deckNameTextView"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/deckNameTextView"
                             app:layout_constraintTop_toTopOf="@+id/deckNameTextView"
                             app:srcCompat="@drawable/ic_round_wifi_protected_setup_24"
-                            app:tint="@color/text_medium_emphasis" />
+                            android:tintMode="src_in"
+                            android:tint="@color/text_medium_emphasis" />
 
                 </LinearLayout>
 
@@ -182,7 +189,7 @@
                         android:paddingBottom="2dp"
                         android:text="@string/deck_label_in_file_import_new"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/text_label"
                         android:textSize="@dimen/text_size_file_import_screen_deck_label"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/renameDeckButton"

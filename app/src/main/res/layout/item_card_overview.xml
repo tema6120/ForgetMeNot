@@ -71,7 +71,7 @@
             android:elevation="4dp"
             android:background="@drawable/oval"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_grade"
             android:textSize="@dimen/text_size_grade_small"
             tools:backgroundTint="@color/grade_unsatisfactory"
             tools:text="0" />

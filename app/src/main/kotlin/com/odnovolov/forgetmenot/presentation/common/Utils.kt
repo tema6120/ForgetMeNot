@@ -6,9 +6,8 @@ import android.content.ContextWrapper
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.content.res.Resources.NotFoundException
-import android.graphics.Color
-import android.graphics.Rect
-import android.graphics.Typeface
+import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.text.*
@@ -23,21 +22,21 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.R
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak
+import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.*
@@ -68,6 +67,11 @@ fun TextView.setTextSizeFromRes(dimenRes: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(dimenRes))
 }
 
+fun TextView.setTextColorFromRes(colorRes: Int) {
+    val textColor: Int = ContextCompat.getColor(context, colorRes)
+    setTextColor(textColor)
+}
+
 fun EditText.observeText(onTextChanged: (newText: String) -> Unit): TextWatcher {
     val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -80,16 +84,6 @@ fun EditText.observeText(onTextChanged: (newText: String) -> Unit): TextWatcher 
     }
     addTextChangedListener(textWatcher)
     return textWatcher
-}
-
-fun getBackgroundResForGrade(grade: Int) = when (grade) {
-    0 -> R.drawable.background_grade_unsatisfactory
-    1 -> R.drawable.background_grade_poor
-    2 -> R.drawable.background_grade_acceptable
-    3 -> R.drawable.background_grade_satisfactory
-    4 -> R.drawable.background_grade_good
-    5 -> R.drawable.background_grade_very_good
-    else -> R.drawable.background_grade_excellent
 }
 
 fun getGradeColorRes(grade: Int) = when (grade) {
@@ -419,10 +413,45 @@ fun Fragment.createDialog(
 
 fun TextView.setDrawableTint(color: Int) {
     for (compoundDrawable in compoundDrawables) {
-        compoundDrawable ?: continue
-        val wrappedDrawable = DrawableCompat.wrap(compoundDrawable)
-        DrawableCompat.setTint(wrappedDrawable, color)
+        compoundDrawable?.colorFilter =
+            BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                color,
+                BlendModeCompat.SRC_IN
+            )
     }
+}
+
+fun TextView.setDrawableStart(drawableRes: Int, tintRes: Int) {
+    val compoundDrawable = ContextCompat.getDrawable(context, drawableRes) ?: return
+    val tintColor = ContextCompat.getColor(context, tintRes)
+    compoundDrawable.setTint(tintColor)
+    setCompoundDrawablesRelativeWithIntrinsicBounds(compoundDrawable, null, null, null)
+}
+
+fun TextView.setDrawableEnd(drawableRes: Int, tintRes: Int) {
+    val compoundDrawable: Drawable = ContextCompat.getDrawable(context, drawableRes) ?: return
+    val tintColor = ContextCompat.getColor(context, tintRes)
+    compoundDrawable.setTint(tintColor)
+    setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, compoundDrawable, null)
+}
+
+fun View.setBackgroundTintFromRes(colorRes: Int) {
+    background.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+        ContextCompat.getColor(context, colorRes),
+        BlendModeCompat.SRC_IN
+    )
+}
+
+fun ImageView.setTintFromRes(colorRes: Int) {
+    val color = ContextCompat.getColor(context, colorRes)
+    setTint(color)
+}
+
+fun ImageView.setTint(color: Int) {
+    colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+        color,
+        BlendModeCompat.SRC_IN
+    )
 }
 
 fun View.addBottomSheetCallbackWithInitialNotification(
@@ -438,4 +467,42 @@ fun View.addBottomSheetCallbackWithInitialNotification(
         else -> return
     }
     bottomSheetCallback.onSlide(this, slideOffset)
+}
+
+fun composeSpeakErrorDescription(
+    reasonForInabilityToSpeak: ReasonForInabilityToSpeak,
+    context: Context
+): String {
+    return when (reasonForInabilityToSpeak) {
+        is FailedToInitializeSpeaker -> {
+            if (reasonForInabilityToSpeak.ttsEngine == null) {
+                context.getString(R.string.speak_error_description_failed_to_initialized)
+            } else {
+                context.getString(
+                    R.string.speak_error_description_failed_to_initialized_with_specifying_tts_engine,
+                    reasonForInabilityToSpeak.ttsEngine
+                )
+            }
+        }
+        is LanguageIsNotSupported -> {
+            if (reasonForInabilityToSpeak.ttsEngine == null) {
+                context.getString(
+                    R.string.speak_error_description_language_is_not_supported,
+                    reasonForInabilityToSpeak.language.displayLanguage
+                )
+            } else {
+                context.getString(
+                    R.string.speak_error_description_language_is_not_supported_with_specifying_tts_engine,
+                    reasonForInabilityToSpeak.ttsEngine,
+                    reasonForInabilityToSpeak.language.displayLanguage
+                )
+            }
+        }
+        is MissingDataForLanguage -> {
+            context.getString(
+                R.string.speak_error_description_missing_data_for_language,
+                reasonForInabilityToSpeak.language.displayLanguage
+            )
+        }
+    }
 }

@@ -24,6 +24,8 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="40dp"
+                android:tint="@color/tint_colorful_icon"
+                android:tintMode="src_atop"
                 android:contentDescription="@string/description_completed_cards"
                 app:layout_constraintBottom_toTopOf="@+id/playingCompletedDescription"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,12 +67,13 @@
                 android:textAllCaps="false"
                 android:textColor="@color/accent"
                 android:textSize="@dimen/text_size_playing_completed_bottom_sheet_button"
-                app:backgroundTint="@android:color/white"
+                app:backgroundTint="@color/light_floating_button"
                 app:cornerRadius="30dp"
                 app:icon="@drawable/ic_play_20"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
                 app:iconTint="@color/accent"
+                app:iconTintMode="src_in"
                 app:layout_constraintBottom_toBottomOf="@+id/endButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/endButton"
@@ -99,7 +102,7 @@
                 android:stateListAnimator="@animator/material_button"
                 android:text="@string/button_end"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/on_accent"
                 android:textSize="@dimen/text_size_playing_completed_bottom_sheet_button"
                 app:cornerRadius="30dp"
                 app:layout_constraintBottom_toTopOf="@+id/imageView"
@@ -108,7 +111,7 @@
                 app:layout_constraintStart_toEndOf="@+id/playAgainButton"
                 app:layout_constraintTop_toBottomOf="@+id/playingCompletedDescription"
                 app:layout_constraintWidth_max="200dp"
-                app:rippleColor="@android:color/white" />
+                app:rippleColor="@color/ripple_on_accent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

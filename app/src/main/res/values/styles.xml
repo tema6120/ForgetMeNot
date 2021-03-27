@@ -39,6 +39,19 @@
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
+    <style name="ArticleSectionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColor">@color/text_high_emphasis</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:textSize">@dimen/text_size_description</item>
+        <item name="android:fontFamily">@font/nunito_extrabold</item>
+    </style>
+
     <style name="DrawerItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -60,7 +73,8 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:layout_marginStart">24dp</item>
-        <item name="tint">@color/item_drawer</item>
+        <item name="android:tint">@color/item_drawer</item>
+        <item name="android:tintMode">src_in</item>
     </style>
 
     <style name="DrawerItemText">
@@ -270,6 +284,8 @@
         <item name="android:layout_height">36dp</item>
         <item name="android:layout_marginEnd">16dp</item>
         <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:tint">@color/tint_colorful_icon</item>
+        <item name="android:tintMode">src_atop</item>
     </style>
 
     <style name="SettingsTextColumn">
@@ -302,6 +318,8 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:contentDescription">@string/description_navigate_icon</item>
         <item name="srcCompat">@drawable/ic_round_chevron_right_32</item>
+        <item name="android:tint">@color/accent</item>
+        <item name="android:tintMode">src_in</item>
     </style>
 
     <style name="SettingsDivider">

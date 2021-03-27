@@ -32,6 +32,8 @@
                         android:contentDescription="@string/description_back_button"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:tint="@color/screen_title"
+                        android:tintMode="src_in"
                         app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
                 <ImageButton
@@ -41,6 +43,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="12dp"
+                        android:tint="@color/screen_title"
+                        android:tintMode="src_in"
                         android:background="?selectableItemBackgroundBorderless"
                         android:contentDescription="@string/description_show_table_of_contents_button"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +62,7 @@
                         android:paddingTop="8dp"
                         android:paddingEnd="12dp"
                         android:paddingBottom="8dp"
-                        android:textColor="@color/text_high_emphasis"
+                        android:textColor="@color/screen_title"
                         android:textIsSelectable="true"
                         android:textSize="@dimen/text_size_help_article_screen_article_title"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +109,8 @@
                     android:contentDescription="@string/description_previous_button"
                     android:paddingEnd="10dp"
                     app:srcCompat="@drawable/ic_round_chevron_left_28"
-                    app:tint="@color/image_button_on_control_panel_enabled" />
+                    android:tintMode="src_in"
+                    android:tint="@color/on_accent_selector" />
 
             <View
                     android:id="@+id/verticalDivider"
@@ -124,7 +129,8 @@
                     android:contentDescription="@string/description_next_button"
                     android:paddingStart="10dp"
                     app:srcCompat="@drawable/ic_round_chevron_right_28"
-                    app:tint="@color/image_button_on_control_panel_enabled" />
+                    android:tintMode="src_in"
+                    android:tint="@color/on_accent_selector" />
 
         </LinearLayout>
 

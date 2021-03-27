@@ -240,7 +240,7 @@ class HomeFragment : BaseFragment() {
             setImageResource(
                 if (hasSearchText)
                     R.drawable.ic_clear_colored else
-                    R.drawable.ic_paste_colored
+                    R.drawable.ic_content_paste_24
             )
             setOnClickListener {
                 if (hasSearchText) {

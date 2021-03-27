@@ -17,7 +17,7 @@
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
                 app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/item_card_overview" />
+                tools:listitem="@layout/item_card_prototype" />
 
         <TextView
                 android:id="@+id/cannotExtractAnyCardsTextView"
@@ -39,7 +39,7 @@
             android:id="@+id/selectionToolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/accent"
+            android:background="@color/selection_toolbar"
             android:orientation="horizontal">
 
         <TextView
@@ -53,7 +53,7 @@
                 android:maxLines="1"
                 android:paddingStart="16dp"
                 android:paddingEnd="8dp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/on_selection_toolbar"
                 android:textSize="@dimen/text_size_selection_toolbar_title"
                 tools:text="43 cards" />
 
@@ -62,8 +62,10 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/ripple_light_borderless"
+                android:background="@drawable/ripple_on_selection_toolbar"
                 android:contentDescription="@string/description_select_all"
+                android:tint="@color/on_selection_toolbar"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_round_select_all_24" />
 
     </LinearLayout>

@@ -24,9 +24,11 @@
                     android:layout_height="48dp"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="12dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple"
                     android:contentDescription="@string/description_back_button"
                     android:visibility="gone"
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
             <ImageButton
@@ -39,7 +41,8 @@
                     android:contentDescription="@string/description_cancel_button"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_round_clear_24"
-                    app:tint="@color/text_high_emphasis"
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in"
                     tools:visibility="visible" />
 
             <TextView
@@ -53,7 +56,7 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:text="@string/screen_title_dsv_format"
-                    android:textColor="@color/text_high_emphasis"
+                    android:textColor="@color/screen_title"
                     android:textSize="@dimen/text_size_screen_title"
                     android:textStyle="bold">
 
@@ -71,7 +74,8 @@
                     android:contentDescription="@string/description_done_button"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_round_done_24"
-                    app:tint="@color/text_high_emphasis"
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in"
                     tools:visibility="visible" />
 
         </FrameLayout>
@@ -127,7 +131,7 @@
                         android:paddingBottom="2dp"
                         android:text="@string/label_name"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/text_label"
                         android:textSize="@dimen/text_size_file_import_screen_deck_label"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/dsvFormatNameEditText"
@@ -139,9 +143,10 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginEnd="12dp"
-                        android:background="?selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple"
                         android:contentDescription="@string/description_delete_format_settings"
-                        android:tint="@color/text_medium_emphasis"
+                        android:tint="@color/icon_on_surface"
+                        android:tintMode="src_in"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/dsvFormatNameEditText"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -800,7 +805,7 @@
             android:paddingTop="4dp"
             android:paddingEnd="32dp"
             android:paddingBottom="4dp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_label"
             android:textSize="@dimen/text_size_card_label"
             android:textStyle="bold"
             android:visibility="gone"

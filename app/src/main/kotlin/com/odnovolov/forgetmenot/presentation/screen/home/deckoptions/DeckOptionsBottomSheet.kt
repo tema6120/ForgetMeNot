@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
@@ -88,7 +89,7 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
             deckListIndicatorColors.observe { deckListColors: List<Int> ->
                 deckListIndicator.background = DeckListDrawableGenerator.generateIcon(
                     strokeColors = deckListColors,
-                    backgroundColor = Color.WHITE
+                    backgroundColor = ContextCompat.getColor(requireContext(), R.color.dialog)
                 )
             }
             deckName.observe { deckName: String? ->

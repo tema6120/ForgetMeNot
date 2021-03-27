@@ -12,7 +12,7 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/accent"
+            android:background="@color/selection_toolbar"
             android:descendantFocusability="beforeDescendants"
             android:elevation="4dp"
             android:focusableInTouchMode="true"
@@ -28,8 +28,10 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/ripple_light_borderless"
+                    android:background="@drawable/ripple_on_selection_toolbar"
                     android:contentDescription="@string/description_cancel_selection"
+                    android:tint="@color/on_selection_toolbar"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_clear_24" />
 
             <TextView
@@ -43,7 +45,7 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="8dp"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/on_selection_toolbar"
                     android:textSize="@dimen/text_size_selection_toolbar_title"
                     tools:text="@string/screen_title_choose_a_deck_to_import_cards_to" />
 
@@ -57,13 +59,14 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/background_search_frame_selector"
+                android:background="@drawable/background_search_edittext_in_deck_chooser"
                 android:fontFamily="@font/nunito_bold"
                 android:hint="@string/hint_search_edittext"
                 android:imeOptions="actionNone"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
+                android:textColorHint="@color/hint"
                 android:paddingStart="16dp"
                 android:paddingEnd="8dp"
                 android:textSize="@dimen/text_size_search_edittext" />
@@ -114,7 +117,8 @@
                 android:visibility="invisible"
                 app:backgroundTint="@color/accent"
                 app:srcCompat="@drawable/ic_round_add_24"
-                app:tint="@android:color/white"
+                app:tint="@color/on_accent"
+                app:rippleColor="@color/ripple_on_accent"
                 tools:visibility="visible" />
 
     </FrameLayout>

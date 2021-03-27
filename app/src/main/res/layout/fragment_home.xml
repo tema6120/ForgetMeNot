@@ -33,6 +33,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:tint="@color/accent"
+                    android:tintMode="src_in"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/ripple_borderless_colored"
                     android:contentDescription="@string/description_drawer_button"
@@ -73,7 +74,9 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/ripple_borderless_colored"
                     android:contentDescription="@string/description_paste_button"
-                    app:srcCompat="@drawable/ic_paste_colored" />
+                    android:tint="@color/accent"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_content_paste_24" />
 
         </LinearLayout>
 
@@ -165,7 +168,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/background_add_deck_progress_bar"
+            android:background="@drawable/frame_reading_files"
             android:elevation="4dp"
             android:orientation="vertical"
             android:padding="32dp"
@@ -217,6 +220,7 @@
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
                 app:iconTint="@color/accent"
+                app:iconTintMode="src_in"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/exerciseButton"
                 app:layout_constraintHorizontal_chainStyle="packed"

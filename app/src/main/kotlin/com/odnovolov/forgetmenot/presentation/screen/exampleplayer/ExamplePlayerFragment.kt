@@ -107,7 +107,7 @@ class ExamplePlayerFragment : BaseFragment() {
                             CannotSpeak -> R.color.issue
                             else -> R.color.icon_on_control_panel
                         }
-                    imageTintList = ContextCompat.getColorStateList(context, iconTintRes)
+                    setTintFromRes(iconTintRes)
                     setOnClickListener {
                         when (speakingStatus) {
                             Speaking -> controller?.dispatch(StopSpeakButtonClicked)
@@ -123,6 +123,7 @@ class ExamplePlayerFragment : BaseFragment() {
                         }
                     )
                     setTooltipTextFromContentDescription()
+                    uncover()
                 }
             }
             isSpeakerPreparingToPronounce.observe { isPreparing: Boolean ->
@@ -220,46 +221,10 @@ class ExamplePlayerFragment : BaseFragment() {
                     speakErrorPopup?.dismiss()
                 } else {
                     speakErrorPopup?.contentView?.run {
-                        speakErrorDescriptionTextView.text = getSpeakErrorDescription(reason)
+                        speakErrorDescriptionTextView.text =
+                            composeSpeakErrorDescription(reason, requireContext())
                     }
                 }
-            }
-        }
-    }
-
-    private fun getSpeakErrorDescription(
-        reasonForInabilityToSpeak: ReasonForInabilityToSpeak
-    ): String {
-        return when (reasonForInabilityToSpeak) {
-            is FailedToInitializeSpeaker -> {
-                if (reasonForInabilityToSpeak.ttsEngine == null) {
-                    getString(R.string.speak_error_description_failed_to_initialized)
-                } else {
-                    getString(
-                        R.string.speak_error_description_failed_to_initialized_with_specifying_tts_engine,
-                        reasonForInabilityToSpeak.ttsEngine
-                    )
-                }
-            }
-            is LanguageIsNotSupported -> {
-                if (reasonForInabilityToSpeak.ttsEngine == null) {
-                    getString(
-                        R.string.speak_error_description_language_is_not_supported,
-                        reasonForInabilityToSpeak.language.displayLanguage
-                    )
-                } else {
-                    getString(
-                        R.string.speak_error_description_language_is_not_supported_with_specifying_tts_engine,
-                        reasonForInabilityToSpeak.ttsEngine,
-                        reasonForInabilityToSpeak.language.displayLanguage
-                    )
-                }
-            }
-            is MissingDataForLanguage -> {
-                getString(
-                    R.string.speak_error_description_missing_data_for_language,
-                    reasonForInabilityToSpeak.language.displayLanguage
-                )
             }
         }
     }

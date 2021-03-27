@@ -9,7 +9,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/background_selectable_item"
-            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,11 +37,12 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/description_rename_preset_button"
             android:padding="8dp"
+            android:tint="@color/on_add_cards_popup"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/deletePresetButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_outline_edit_24"
-            app:tint="@color/on_add_cards_popup" />
+            app:srcCompat="@drawable/ic_outline_edit_24" />
 
     <ImageView
             android:id="@+id/deletePresetButton"
@@ -52,10 +52,11 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/description_delete_preset_button"
             android:padding="8dp"
+            android:tint="@color/on_add_cards_popup"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_round_delete_outline_24"
-            app:tint="@color/on_add_cards_popup" />
+            app:srcCompat="@drawable/ic_round_delete_outline_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="16dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/control_panel"
             android:elevation="2dp">
 
         <ImageButton
@@ -32,6 +32,7 @@
                 android:background="@drawable/ripple_on_control_panel"
                 android:contentDescription="@string/description_speak_button"
                 android:tint="@color/icon_on_control_panel"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_round_volume_up_24" />
 
         <ProgressBar
@@ -40,7 +41,9 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="8dp"
-                android:indeterminateTint="@android:color/white"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/icon_on_control_panel"
+                android:indeterminateTintMode="src_in"
                 android:visibility="invisible"
                 tools:visibility="visible" />
 
