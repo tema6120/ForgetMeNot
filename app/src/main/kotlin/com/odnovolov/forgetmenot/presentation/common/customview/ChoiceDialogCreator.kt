@@ -1,16 +1,17 @@
 package com.odnovolov.forgetmenot.presentation.common.customview
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.CompoundButton
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog.Builder
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ import com.odnovolov.forgetmenot.R.drawable
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter.ViewHolder
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsCheckBox
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
+import com.odnovolov.forgetmenot.presentation.common.dp
 import kotlinx.android.synthetic.main.dialog_choice.view.*
 import kotlinx.android.synthetic.main.dialog_title.view.*
 
@@ -29,15 +31,15 @@ object ChoiceDialogCreator {
         takeTitle: (TextView) -> Unit,
         onItemClick: (Item) -> Unit,
         takeAdapter: (ItemAdapter) -> Unit
-    ): Dialog {
+    ): AlertDialog {
         val adapter = ItemAdapter(itemForm, onItemClick)
         takeAdapter(adapter)
         val customTitleLayout = View.inflate(context, R.layout.dialog_title, null)
         takeTitle(customTitleLayout.dialogTitle)
         val contentView = View.inflate(context, R.layout.dialog_choice, null)
-        contentView.recycler.adapter = adapter
+        contentView.choiceRecycler.adapter = adapter
         val divider = customTitleLayout.divider
-        divider.isVisible = contentView.recycler.canScrollVertically(-1)
+        divider.isVisible = contentView.choiceRecycler.canScrollVertically(-1)
         val scrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val canScrollUp = recyclerView.canScrollVertically(-1)
@@ -46,8 +48,8 @@ object ChoiceDialogCreator {
                 }
             }
         }
-        contentView.recycler.addOnScrollListener(scrollListener)
-        return Builder(context)
+        contentView.choiceRecycler.addOnScrollListener(scrollListener)
+        return AlertDialog.Builder(context)
             .setCustomTitle(customTitleLayout)
             .setView(contentView)
             .create()
@@ -57,7 +59,7 @@ object ChoiceDialogCreator {
                 )
                 customTitleLayout.closeButton.setOnClickListener { dismiss() }
                 setOnDismissListener {
-                    contentView.recycler.removeOnScrollListener(scrollListener)
+                    contentView.choiceRecycler.removeOnScrollListener(scrollListener)
                 }
             }
     }
@@ -90,6 +92,9 @@ object ChoiceDialogCreator {
             viewHolder.shamButton.isChecked = item.isSelected
             viewHolder.shamButton.text = item.text
             viewHolder.button.setOnClickListener { onItemClick(item) }
+            viewHolder.itemView.updateLayoutParams<MarginLayoutParams> {
+                bottomMargin = if (position == itemCount - 1) 16.dp else 0
+            }
         }
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

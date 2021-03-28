@@ -9,14 +9,17 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.content.ContextCompat
 import androidx.core.text.buildSpannedString
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.R.string
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.isDefault
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.common.dp
 import com.odnovolov.forgetmenot.presentation.common.uncover
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DisplayingDeckSetting
 import kotlinx.android.synthetic.main.item_preset_for_multiple_decks.view.*
@@ -50,6 +53,9 @@ class PresetAdapter(
             presetDescription.text = composePresetDescription(exercisePreference, context)
             presetButton.setOnClickListener {
                 onPresetButtonClicked(exercisePreference.id)
+            }
+            updateLayoutParams<MarginLayoutParams> {
+                bottomMargin = if (position == itemCount - 1) 16.dp else 0
             }
         }
     }

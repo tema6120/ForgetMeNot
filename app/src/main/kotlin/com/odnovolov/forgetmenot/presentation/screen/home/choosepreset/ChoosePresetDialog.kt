@@ -3,8 +3,8 @@ package com.odnovolov.forgetmenot.presentation.screen.home.choosepreset
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.createDialog
@@ -46,7 +46,7 @@ class ChoosePresetDialog : BaseDialogFragment() {
 
     private fun initContentView() {
         contentView = View.inflate(requireContext(), R.layout.dialog_choice, null)
-        contentView.recycler.adapter = adapter
+        contentView.choiceRecycler.adapter = adapter
     }
 
     private fun initTitleView() {
@@ -56,7 +56,7 @@ class ChoosePresetDialog : BaseDialogFragment() {
             closeButton.setOnClickListener {
                 dismiss()
             }
-            divider.isVisible = contentView.choiceDialogScrollView.canScrollVertically(-1)
+            divider.isVisible = contentView.choiceRecycler.canScrollVertically(-1)
         }
     }
 
@@ -68,25 +68,25 @@ class ChoosePresetDialog : BaseDialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        contentView.choiceDialogScrollView.viewTreeObserver
-            .addOnScrollChangedListener(scrollListener)
+        contentView.choiceRecycler.addOnScrollListener(scrollListener)
     }
 
     override fun onPause() {
         super.onPause()
-        contentView.choiceDialogScrollView.viewTreeObserver
-            .removeOnScrollChangedListener(scrollListener)
+        contentView.choiceRecycler.removeOnScrollListener(scrollListener)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        contentView.recycler.adapter = null
+        contentView.choiceRecycler.adapter = null
     }
 
-    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
-        val canScrollUp = contentView.choiceDialogScrollView.canScrollVertically(-1)
-        if (titleView.divider.isVisible != canScrollUp) {
-            titleView.divider.isVisible = canScrollUp
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val canScrollUp = recyclerView.canScrollVertically(-1)
+            if (titleView.divider.isVisible != canScrollUp) {
+                titleView.divider.isVisible = canScrollUp
+            }
         }
     }
 }
