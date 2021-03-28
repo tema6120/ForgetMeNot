@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -140,7 +139,7 @@ class DeckPreviewAdapter(
             colorNotHasTask!!
         } else {
             if (colorHasTask == null) {
-                colorHasTask = ContextCompat.getColor(context, R.color.text_task)
+                colorHasTask = ContextCompat.getColor(context, R.color.task)
             }
             colorHasTask!!
         }

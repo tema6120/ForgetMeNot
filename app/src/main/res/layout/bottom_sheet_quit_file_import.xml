@@ -58,7 +58,7 @@
                 android:fontFamily="@font/nunito_extrabold"
                 android:text="@string/no"
                 android:textAllCaps="false"
-                android:textColor="@color/text_button_secondary"
+                android:textColor="@color/text_dialog_button_undesirable"
                 android:textSize="@dimen/text_size_dialog_cancel_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/yesButton"
@@ -85,7 +85,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/noButton"
                 app:layout_constraintTop_toTopOf="@+id/noButton"
-                app:rippleColor="@android:color/white" />
+                app:rippleColor="@color/ripple_on_accent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

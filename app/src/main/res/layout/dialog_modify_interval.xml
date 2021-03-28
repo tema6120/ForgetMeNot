@@ -31,7 +31,7 @@
                         android:layout_height="32dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="20dp"
-                        android:background="@drawable/background_grade_indicator"
+                        android:background="@drawable/oval"
                         android:elevation="14dp"
                         android:gravity="center"
                         android:textColor="@color/text_grade"
@@ -59,7 +59,7 @@
                         android:layout_height="32dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="20dp"
-                        android:background="@drawable/background_grade_indicator"
+                        android:background="@drawable/oval"
                         android:elevation="14dp"
                         android:gravity="center"
                         android:textColor="@color/text_grade"
@@ -117,7 +117,7 @@
             android:id="@+id/bottomDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:listDivider"
+            android:background="@color/divider"
             android:visibility="gone" />
 
     <LinearLayout
@@ -136,7 +136,7 @@
                 android:fontFamily="@font/nunito_extrabold"
                 android:text="@android:string/cancel"
                 android:textAllCaps="false"
-                android:textColor="@color/text_button_secondary"
+                android:textColor="@color/text_dialog_button_undesirable"
                 android:textSize="@dimen/text_size_dialog_cancel_button" />
 
         <com.google.android.material.button.MaterialButton

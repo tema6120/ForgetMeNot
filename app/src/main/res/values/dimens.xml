@@ -115,4 +115,6 @@
     <dimen name="text_size_popup_item_value">15sp</dimen>
     <dimen name="text_size_choose_preset_dialog_preset_name">18sp</dimen>
     <dimen name="text_size_choose_preset_dialog_preset_description">12sp</dimen>
+    <dimen name="text_size_card_appearance_text_size_edittext">14sp</dimen>
+    <dimen name="text_size_cards_file_fragment_skip_button">14sp</dimen>
 </resources>

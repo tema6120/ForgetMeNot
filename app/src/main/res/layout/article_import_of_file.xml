@@ -98,6 +98,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/description_window_frame_icons"
                 android:padding="16dp"
+                android:tint="@color/tint_colorful_icon"
+                android:tintMode="src_atop"
                 app:srcCompat="@drawable/ic_window_frame_icons" />
 
         <View

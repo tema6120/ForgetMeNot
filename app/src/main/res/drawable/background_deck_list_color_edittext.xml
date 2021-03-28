@@ -1,4 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="8dp" />
-    <solid android:color="@color/deck_list_color_edittext" />
+    <solid android:color="@color/background_deck_list_color_edittext" />
 </shape>

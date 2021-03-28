@@ -30,13 +30,13 @@
                         android:layout_height="48dp"
                         android:layout_marginStart="12dp"
                         android:background="@drawable/ripple"
+                        android:tint="@color/screen_title"
+                        android:tintMode="src_in"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/screenTitleTextView"
-                        app:srcCompat="@drawable/ic_round_clear_24"
-                        android:tintMode="src_in"
-                        android:tint="@color/screen_title" />
+                        app:srcCompat="@drawable/ic_round_clear_24" />
 
                 <ImageButton
                         android:id="@+id/previousButton"
@@ -44,13 +44,13 @@
                         android:layout_height="48dp"
                         android:layout_marginStart="12dp"
                         android:background="@drawable/ripple"
+                        android:tint="@color/screen_title"
+                        android:tintMode="src_in"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/screenTitleTextView"
                         app:srcCompat="@drawable/ic_round_keyboard_backspace_24"
-                        android:tintMode="src_in"
-                        android:tint="@color/screen_title"
                         tools:visibility="visible" />
 
                 <TextView
@@ -76,7 +76,7 @@
                         android:padding="8dp"
                         android:text="@string/text_skip_button"
                         android:textColor="@color/text_medium_emphasis"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_cards_file_fragment_skip_button"
                         android:textStyle="bold"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@id/screenTitleTextView"
@@ -90,9 +90,9 @@
                         android:layout_height="48dp"
                         android:layout_marginEnd="12dp"
                         android:background="@drawable/ripple"
-                        android:visibility="gone"
-                        android:tintMode="src_in"
                         android:tint="@color/screen_title"
+                        android:tintMode="src_in"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
@@ -105,13 +105,13 @@
                         android:layout_height="48dp"
                         android:layout_marginEnd="12dp"
                         android:background="@drawable/ripple"
+                        android:tint="@color/screen_title"
+                        android:tintMode="src_in"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/screenTitleTextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
-                        app:srcCompat="@drawable/ic_round_done_24"
-                        android:tintMode="src_in"
-                        android:tint="@color/screen_title" />
+                        app:srcCompat="@drawable/ic_round_done_24" />
 
                 <TextView
                         android:id="@+id/add_to"
@@ -167,13 +167,13 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="8dp"
                             android:background="@drawable/ripple"
+                            android:tint="@color/text_medium_emphasis"
+                            android:tintMode="src_in"
                             app:layout_constraintBottom_toBottomOf="@+id/deckNameTextView"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/deckNameTextView"
                             app:layout_constraintTop_toTopOf="@+id/deckNameTextView"
-                            app:srcCompat="@drawable/ic_round_wifi_protected_setup_24"
-                            android:tintMode="src_in"
-                            android:tint="@color/text_medium_emphasis" />
+                            app:srcCompat="@drawable/ic_round_wifi_protected_setup_24" />
 
                 </LinearLayout>
 

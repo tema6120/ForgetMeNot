@@ -24,7 +24,7 @@
             android:id="@+id/topDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:listDivider"
+            android:background="@color/divider"
             android:visibility="gone" />
 
     <ScrollView
@@ -150,7 +150,7 @@
             android:id="@+id/bottomDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:listDivider"
+            android:background="@color/divider"
             android:visibility="gone" />
 
     <LinearLayout
@@ -169,7 +169,7 @@
                 android:fontFamily="@font/nunito_extrabold"
                 android:text="@android:string/cancel"
                 android:textAllCaps="false"
-                android:textColor="@color/text_button_secondary"
+                android:textColor="@color/text_dialog_button_undesirable"
                 android:textSize="@dimen/text_size_dialog_cancel_button" />
 
         <com.google.android.material.button.MaterialButton

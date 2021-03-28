@@ -14,13 +14,14 @@
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
             android:contentDescription="@string/description_hint_icon"
-            android:src="@drawable/ic_lightbulb_outline_24"
+            android:tint="@color/icon_hints_on_popup"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            app:tint="@color/icon_hints_on_popup" />
+            app:srcCompat="@drawable/ic_lightbulb_outline_24" />
 
     <TextView
             android:id="@+id/title"
@@ -88,7 +89,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:rippleColor="@android:color/white"
+            app:rippleColor="@color/ripple_on_accent"
             tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
@@ -109,7 +110,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/maskLettersButton"
-            app:rippleColor="@android:color/white"
+            app:rippleColor="@color/ripple_on_accent"
             tools:visibility="visible" />
 
     <Space

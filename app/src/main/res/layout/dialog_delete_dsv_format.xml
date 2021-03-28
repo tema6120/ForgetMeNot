@@ -19,7 +19,7 @@
             android:textColor="@color/text_high_emphasis"
             android:textSize="@dimen/text_size_dialog_title"
             app:drawableStartCompat="@drawable/ic_round_delete_outline_24"
-            app:drawableTint="@color/icon_gray"
+            app:drawableTint="@color/title_icon_in_dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +51,7 @@
             android:fontFamily="@font/nunito_extrabold"
             android:text="@android:string/cancel"
             android:textAllCaps="false"
-            android:textColor="@color/text_button_secondary"
+            android:textColor="@color/text_dialog_button_undesirable"
             android:textSize="@dimen/text_size_dialog_cancel_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/deleteButton"
@@ -80,6 +80,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cancelDeletingButton"
             app:layout_constraintTop_toTopOf="@+id/cancelDeletingButton"
-            app:rippleColor="@android:color/white" />
+            app:rippleColor="@color/ripple_on_accent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

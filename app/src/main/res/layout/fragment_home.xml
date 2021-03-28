@@ -32,11 +32,11 @@
                     android:id="@+id/drawerButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:tint="@color/accent"
-                    android:tintMode="src_in"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/ripple_borderless_colored"
                     android:contentDescription="@string/description_drawer_button"
+                    android:tint="@color/accent"
+                    android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_round_drawer_24" />
 
             <EditText
@@ -53,8 +53,8 @@
                     android:maxLines="1"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:textColorHint="@color/hint"
                     android:textColor="@color/text_input"
+                    android:textColorHint="@color/hint"
                     android:textSize="@dimen/text_size_search_edittext" />
 
             <ProgressBar

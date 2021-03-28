@@ -66,9 +66,9 @@
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textColorHint="@color/hint"
                 android:paddingStart="16dp"
                 android:paddingEnd="8dp"
+                android:textColorHint="@color/hint"
                 android:textSize="@dimen/text_size_search_edittext" />
 
     </LinearLayout>
@@ -100,11 +100,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/no_matching_decks"
-                android:textColor="@color/text_no_search_result"
+                android:textColor="@color/empty_list"
                 android:textSize="@dimen/text_size_no_search_result"
                 android:textStyle="bold"
                 android:visibility="gone"
-                app:drawableTint="@color/text_no_search_result"
+                app:drawableTint="@color/empty_list"
                 app:drawableTopCompat="@drawable/ic_round_search_54" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -116,9 +116,9 @@
                 android:contentDescription="@string/description_add_deck_button"
                 android:visibility="invisible"
                 app:backgroundTint="@color/accent"
+                app:rippleColor="@color/ripple_on_accent"
                 app:srcCompat="@drawable/ic_round_add_24"
                 app:tint="@color/on_accent"
-                app:rippleColor="@color/ripple_on_accent"
                 tools:visibility="visible" />
 
     </FrameLayout>

@@ -30,11 +30,11 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="@string/no_cards"
-                    android:textColor="@color/text_no_search_result"
+                    android:textColor="@color/empty_list"
                     android:textSize="@dimen/text_size_no_search_result"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    app:drawableTint="@color/text_no_search_result"
+                    app:drawableTint="@color/empty_list"
                     app:drawableTopCompat="@drawable/ic_round_view_carousel_64"
                     tools:visibility="visible" />
 
@@ -48,10 +48,10 @@
 
             <HorizontalScrollView
                     android:id="@+id/controlPanelScroll"
+                    style="@style/AppTheme.AppBarOverlay"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="116dp"
-                    style="@style/AppTheme.AppBarOverlay">
+                    android:layout_marginEnd="116dp">
 
                 <LinearLayout
                         android:id="@+id/controlPanelRow"
@@ -84,9 +84,9 @@
                             android:layout_height="48dp"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_mark_as_learned_button"
-                            android:visibility="gone"
                             android:tint="@color/icon_on_control_panel"
                             android:tintMode="src_in"
+                            android:visibility="gone"
                             app:srcCompat="@drawable/ic_mark_as_learned"
                             tools:visibility="visible" />
 
@@ -94,10 +94,10 @@
                             android:id="@+id/removeCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:tint="@color/icon_on_control_panel"
-                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_remove_card_button"
+                            android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_round_delete_24"
                             tools:visibility="visible" />
@@ -106,10 +106,10 @@
                             android:id="@+id/moveCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:tint="@color/icon_on_control_panel"
-                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_move_card_button"
+                            android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_round_drive_file_move_24"
                             tools:visibility="visible" />
@@ -118,10 +118,10 @@
                             android:id="@+id/copyCardButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:tint="@color/icon_on_control_panel"
-                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_copy_card_button"
+                            android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_content_copy_24"
                             tools:visibility="visible" />
@@ -130,10 +130,10 @@
                             android:id="@+id/cardInfoButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:tint="@color/icon_on_control_panel"
-                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_card_info_button"
+                            android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_round_info_24"
                             tools:visibility="visible" />
@@ -142,10 +142,10 @@
                             android:id="@+id/helpButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:tint="@color/icon_on_control_panel"
-                            android:tintMode="src_in"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_help_button"
+                            android:tint="@color/icon_on_control_panel"
+                            android:tintMode="src_in"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_round_help_outline_24"
                             tools:visibility="visible" />

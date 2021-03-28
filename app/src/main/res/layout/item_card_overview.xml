@@ -13,8 +13,8 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="10dp"
             android:elevation="4dp"
-            app:cardBackgroundColor="@color/surface"
             android:foreground="@drawable/background_selectable_card"
+            app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="16dp">
 
         <LinearLayout
@@ -58,18 +58,18 @@
             android:layout_marginStart="60dp"
             android:elevation="4dp"
             android:visibility="gone"
-            tools:visibility="visible"
-            app:srcCompat="@drawable/ic_check_circle_24" />
+            app:srcCompat="@drawable/ic_check_circle_24"
+            tools:visibility="visible" />
 
     <TextView
             android:id="@+id/gradeIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="top|end"
-            android:layout_marginEnd="1dp"
             android:layout_marginTop="3dp"
-            android:elevation="4dp"
+            android:layout_marginEnd="1dp"
             android:background="@drawable/oval"
+            android:elevation="4dp"
             android:gravity="center"
             android:textColor="@color/text_grade"
             android:textSize="@dimen/text_size_grade_small"

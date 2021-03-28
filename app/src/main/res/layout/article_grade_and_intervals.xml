@@ -30,7 +30,7 @@
                 android:background="@drawable/grade_button"
                 android:contentDescription="@string/description_grade_button"
                 android:gravity="center"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_grade"
                 android:textSize="@dimen/text_size_grade"
                 tools:text="0" />
 

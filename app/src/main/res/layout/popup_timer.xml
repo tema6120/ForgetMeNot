@@ -88,7 +88,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timerDescriptionTextView"
-            app:rippleColor="@android:color/white"
+            app:rippleColor="@color/ripple_on_accent"
             tools:visibility="visible" />
 
     <Space

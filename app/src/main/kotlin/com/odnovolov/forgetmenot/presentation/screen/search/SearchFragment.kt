@@ -81,7 +81,7 @@ class SearchFragment : BaseFragment() {
         with(pasteClearButton) {
             setImageResource(
                 if (hasSearchText)
-                    R.drawable.ic_clear_colored else
+                    R.drawable.ic_round_clear_24 else
                     R.drawable.ic_content_paste_24
             )
             setOnClickListener {

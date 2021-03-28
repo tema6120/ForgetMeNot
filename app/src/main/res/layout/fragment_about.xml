@@ -25,6 +25,7 @@
                 android:contentDescription="@string/description_back_button"
                 android:elevation="4dp"
                 android:tint="@android:color/white"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
     </FrameLayout>
@@ -105,7 +106,7 @@
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
+                        android:background="@color/divider" />
 
                 <TextView
                         android:id="@+id/developerButton"
@@ -116,7 +117,7 @@
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
+                        android:background="@color/divider" />
 
                 <TextView
                         android:id="@+id/sourceCodeButton"
@@ -127,7 +128,7 @@
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
+                        android:background="@color/divider" />
 
                 <TextView
                         android:id="@+id/privacyPolicyButton"
@@ -193,11 +194,11 @@
                     app:backgroundTint="@color/accent"
                     app:cornerRadius="16dp"
                     app:icon="@drawable/ic_round_favorite_24"
-                    app:iconTint="@color/on_accent"
                     app:iconGravity="start"
                     app:iconPadding="8dp"
                     app:iconSize="20dp"
-                    app:rippleColor="@android:color/white" />
+                    app:iconTint="@color/on_accent"
+                    app:rippleColor="@color/ripple_on_accent" />
 
         </LinearLayout>
 

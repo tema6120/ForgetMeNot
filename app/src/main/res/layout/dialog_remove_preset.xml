@@ -2,10 +2,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        tools:layout_margin="16dp"
-        tools:layout_gravity="center"
+        android:layout_height="wrap_content"
         tools:background="@drawable/background_dialog"
-        android:layout_height="wrap_content">
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_dialog_title"
                 app:drawableStartCompat="@drawable/ic_round_delete_outline_24"
-                app:drawableTint="@color/icon_gray"
+                app:drawableTint="@color/title_icon_in_dialog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
                 android:fontFamily="@font/nunito_extrabold"
                 android:text="@android:string/cancel"
                 android:textAllCaps="false"
-                android:textColor="@color/text_button_secondary"
+                android:textColor="@color/text_dialog_button_undesirable"
                 android:textSize="@dimen/text_size_dialog_cancel_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/deleteButton"

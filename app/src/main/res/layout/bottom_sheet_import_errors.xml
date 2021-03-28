@@ -82,7 +82,7 @@
                 android:gravity="center"
                 android:text="@string/button_import_ignoring_errors"
                 android:textAllCaps="false"
-                android:textColor="@color/text_button_secondary"
+                android:textColor="@color/text_dialog_button_undesirable"
                 android:textSize="@dimen/text_size_bottom_sheet_undesirable_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

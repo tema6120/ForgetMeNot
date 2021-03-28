@@ -4,10 +4,10 @@
         android:id="@+id/selectionToolbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:visibility="gone"
-        tools:visibility="visible"
         android:background="@color/selection_toolbar"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
 
     <ImageButton
             android:id="@+id/cancelSelectionButton"
@@ -40,10 +40,10 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:tint="@color/on_selection_toolbar"
-            android:tintMode="src_in"
             android:background="@drawable/ripple_on_selection_toolbar"
             android:contentDescription="@string/description_select_all"
+            android:tint="@color/on_selection_toolbar"
+            android:tintMode="src_in"
             app:srcCompat="@drawable/ic_round_select_all_24" />
 
     <ImageButton
@@ -62,10 +62,10 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:tint="@color/on_selection_toolbar"
-            android:tintMode="src_in"
             android:background="@drawable/ripple_on_selection_toolbar"
             android:contentDescription="@string/description_more_options"
+            android:tint="@color/on_selection_toolbar"
+            android:tintMode="src_in"
             app:srcCompat="@drawable/ic_round_more_vert_24" />
 
 </LinearLayout>

@@ -28,11 +28,11 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/no_matching_decks"
-            android:textColor="@color/text_no_search_result"
+            android:textColor="@color/empty_list"
             android:textSize="@dimen/text_size_no_search_result"
             android:textStyle="bold"
             android:visibility="gone"
-            app:drawableTint="@color/text_no_search_result"
+            app:drawableTint="@color/empty_list"
             app:drawableTopCompat="@drawable/ic_round_search_54" />
 
     <TextView
@@ -42,11 +42,11 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/no_decks"
-            android:textColor="@color/text_no_search_result"
+            android:textColor="@color/empty_list"
             android:textSize="@dimen/text_size_no_search_result"
             android:textStyle="bold"
             android:visibility="gone"
-            app:drawableTint="@color/text_no_search_result"
+            app:drawableTint="@color/empty_list"
             app:drawableTopCompat="@drawable/ic_round_view_carousel_64" />
 
 </FrameLayout>

@@ -6,7 +6,9 @@ import android.content.ContextWrapper
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.content.res.Resources.NotFoundException
-import android.graphics.*
+import android.graphics.Color
+import android.graphics.Rect
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
@@ -260,7 +262,7 @@ fun String.highlight(
     ranges: List<IntRange>,
     context: Context
 ): SpannableString {
-    val highlightedColor = ContextCompat.getColor(context, R.color.highlighted_text)
+    val highlightedColor = ContextCompat.getColor(context, R.color.background_highlighted_text)
     return SpannableString(this).apply {
         ranges.forEach { selection: IntRange ->
             setSpan(
@@ -278,7 +280,7 @@ fun String.highlightMatches(
     context: Context
 ): SpannableString {
     val ranges: List<IntRange> = findMatchingRange(source = this, search)
-    val highlightedColor = ContextCompat.getColor(context, R.color.highlighted_text)
+    val highlightedColor = ContextCompat.getColor(context, R.color.background_highlighted_text)
     return SpannableString(this).apply {
         ranges.forEach { selection: IntRange ->
             setSpan(

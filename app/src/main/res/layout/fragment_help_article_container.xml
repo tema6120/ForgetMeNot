@@ -28,12 +28,12 @@
                         android:layout_height="48dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="8dp"
-                        android:background="?selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple"
                         android:contentDescription="@string/description_back_button"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         android:tint="@color/screen_title"
                         android:tintMode="src_in"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
                 <ImageButton
@@ -43,10 +43,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="12dp"
+                        android:background="@drawable/ripple"
+                        android:contentDescription="@string/description_show_table_of_contents_button"
                         android:tint="@color/screen_title"
                         android:tintMode="src_in"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/description_show_table_of_contents_button"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_round_format_list_bulleted_24" />
@@ -108,9 +108,9 @@
                     android:clickable="false"
                     android:contentDescription="@string/description_previous_button"
                     android:paddingEnd="10dp"
-                    app:srcCompat="@drawable/ic_round_chevron_left_28"
+                    android:tint="@color/on_accent_selector"
                     android:tintMode="src_in"
-                    android:tint="@color/on_accent_selector" />
+                    app:srcCompat="@drawable/ic_round_chevron_left_28" />
 
             <View
                     android:id="@+id/verticalDivider"
@@ -128,9 +128,9 @@
                     android:clickable="false"
                     android:contentDescription="@string/description_next_button"
                     android:paddingStart="10dp"
-                    app:srcCompat="@drawable/ic_round_chevron_right_28"
+                    android:tint="@color/on_accent_selector"
                     android:tintMode="src_in"
-                    android:tint="@color/on_accent_selector" />
+                    app:srcCompat="@drawable/ic_round_chevron_right_28" />
 
         </LinearLayout>
 

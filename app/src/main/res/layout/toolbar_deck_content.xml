@@ -19,6 +19,7 @@
                 android:padding="14dp"
                 android:background="@drawable/background_export_button"
                 android:tint="@color/icon_export"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_round_unarchive_28" />
 
         <TextView
@@ -50,6 +51,7 @@
                 android:padding="14dp"
                 android:background="@drawable/background_search_button"
                 android:tint="@color/icon_search"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_round_search_28" />
 
         <TextView

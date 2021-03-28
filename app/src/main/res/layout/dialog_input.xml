@@ -25,7 +25,7 @@
                 android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_dialog_title"
                 app:drawableStartCompat="@drawable/ic_outline_edit_24"
-                app:drawableTint="@color/icon_gray"
+                app:drawableTint="@color/title_icon_in_dialog"
                 tools:text="@string/title_preset_name_input_dialog" />
 
         <EditText
@@ -35,11 +35,11 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
+                android:drawablePadding="8dp"
                 android:fontFamily="@font/nunito_bold"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
-                android:drawablePadding="8dp"
                 android:textColor="@color/text_input"
                 android:textSize="@dimen/text_size_dialog_edittext" />
 
@@ -53,20 +53,21 @@
                     android:id="@+id/cancelButton"
                     android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:layout_gravity="center_vertical"
                     android:background="@drawable/dialog_cancel_button"
                     android:fontFamily="@font/nunito_extrabold"
                     android:text="@android:string/cancel"
                     android:textAllCaps="false"
-                    android:textColor="@color/text_button_secondary"
+                    android:textColor="@color/text_dialog_button_undesirable"
                     android:textSize="@dimen/text_size_dialog_cancel_button" />
 
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/okButton"
                     android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
@@ -76,7 +77,6 @@
                     android:stateListAnimator="@animator/material_button"
                     android:text="@android:string/ok"
                     android:textAllCaps="false"
-                    android:layout_gravity="center_vertical"
                     android:textColor="@color/text_dialog_ok_button"
                     android:textSize="@dimen/text_size_dialog_ok_button"
                     app:backgroundTint="@color/dialog_ok_button"

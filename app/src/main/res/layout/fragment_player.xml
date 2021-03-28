@@ -38,11 +38,11 @@
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:text="@string/no_cards_to_play"
-                    android:textColor="@color/text_no_search_result"
+                    android:textColor="@color/empty_list"
                     android:textSize="@dimen/text_size_no_search_result"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    app:drawableTint="@color/text_no_search_result"
+                    app:drawableTint="@color/empty_list"
                     app:drawableTopCompat="@drawable/ic_round_play_disabled_64"
                     tools:visibility="visible" />
 
@@ -71,11 +71,11 @@
 
         <HorizontalScrollView
                 android:id="@+id/controlPanelScroll"
+                style="@style/AppTheme.AppBarOverlay"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginEnd="50dp"
-                android:background="@color/control_panel"
-                style="@style/AppTheme.AppBarOverlay">
+                android:background="@color/control_panel">
 
             <LinearLayout
                     android:layout_width="wrap_content"
@@ -93,18 +93,18 @@
                         android:elevation="14dp"
                         android:gravity="center"
                         android:textColor="@color/text_grade"
-                        android:visibility="invisible"
                         android:textSize="@dimen/text_size_grade"
+                        android:visibility="invisible"
                         tools:text="0" />
 
                 <ImageButton
                         android:id="@+id/markAsLearnedButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:tint="@color/icon_on_control_panel"
-                        android:tintMode="src_in"
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_mark_as_learned_button"
+                        android:tint="@color/icon_on_control_panel"
+                        android:tintMode="src_in"
                         app:srcCompat="@drawable/ic_mark_as_learned" />
 
                 <FrameLayout
@@ -116,20 +116,20 @@
                             android:id="@+id/speakButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:visibility="invisible"
-                            tools:visibility="visible"
-                            tools:tint="@android:color/white"
                             android:background="@drawable/ripple_on_control_panel"
                             android:contentDescription="@string/description_speak_button"
-                            app:srcCompat="@drawable/ic_round_volume_up_24" />
+                            android:visibility="invisible"
+                            app:srcCompat="@drawable/ic_round_volume_up_24"
+                            tools:tint="@android:color/white"
+                            tools:visibility="visible" />
 
                     <ProgressBar
                             android:id="@+id/speakProgressBar"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:indeterminate="true"
-                            android:indeterminateTintMode="src_in"
                             android:indeterminateTint="@color/icon_on_control_panel"
+                            android:indeterminateTintMode="src_in"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -139,10 +139,10 @@
                         android:id="@+id/editDeckSettingsButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:tint="@color/icon_on_control_panel"
-                        android:tintMode="src_in"
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_edit_deck_settings"
+                        android:tint="@color/icon_on_control_panel"
+                        android:tintMode="src_in"
                         app:srcCompat="@drawable/ic_round_build_24" />
 
                 <ImageButton
@@ -177,9 +177,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:contentDescription="@string/description_laps_button"
                             android:tint="@color/icon_on_control_panel"
                             android:tintMode="src_in"
-                            android:contentDescription="@string/description_laps_button"
                             tools:srcCompat="@drawable/ic_laps" />
 
                     <TextView
@@ -202,10 +202,10 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginEnd="14dp"
-                        android:tint="@color/icon_on_control_panel"
-                        android:tintMode="src_in"
                         android:background="@drawable/ripple_on_control_panel"
                         android:contentDescription="@string/description_help_button"
+                        android:tint="@color/icon_on_control_panel"
+                        android:tintMode="src_in"
                         app:srcCompat="@drawable/ic_round_help_outline_24" />
 
             </LinearLayout>

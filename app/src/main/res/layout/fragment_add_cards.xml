@@ -16,5 +16,5 @@
         android:textColor="@color/accent"
         android:textSize="@dimen/text_size_home_screen_add_cards_button"
         android:textStyle="bold"
-        app:drawableTint="@color/accent"
-        app:drawableStartCompat="@drawable/ic_round_add_14" />
+        app:drawableStartCompat="@drawable/ic_round_add_14"
+        app:drawableTint="@color/accent" />

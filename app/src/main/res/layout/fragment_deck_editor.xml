@@ -29,12 +29,12 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="12dp"
-                        android:background="?selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple"
                         android:contentDescription="@string/description_back_button"
-                        app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:tint="@color/screen_title"
                         android:tintMode="src_in"
+                        app:layout_constraintBottom_toBottomOf="@id/screenTitleTextView"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/screenTitleTextView"
                         app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
@@ -134,9 +134,9 @@
                 android:contentDescription="@string/description_add_card_button"
                 android:visibility="invisible"
                 app:backgroundTint="@color/accent"
+                app:rippleColor="@color/ripple_on_accent"
                 app:srcCompat="@drawable/ic_round_add_24"
                 app:tint="@color/on_accent"
-                app:rippleColor="@color/ripple_on_accent"
                 tools:visibility="visible" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -16,14 +16,14 @@
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
             android:contentDescription="@string/description_file_format_icon"
-            android:src="@drawable/ic_round_integration_instructions_24"
+            android:tint="@color/icon_file_format"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            android:tintMode="src_in"
-            app:tint="@color/icon_file_format" />
+            app:srcCompat="@drawable/ic_round_integration_instructions_24" />
 
     <TextView
             android:id="@+id/title"
@@ -47,10 +47,10 @@
             android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_file_format_icon"
             android:src="@drawable/ic_round_help_outline_20"
-            app:layout_constraintBottom_toBottomOf="@id/title"
-            app:layout_constraintEnd_toEndOf="parent"
             android:tint="@color/icon_on_control_panel"
             android:tintMode="src_in"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/title"
             app:layout_constraintTop_toTopOf="@id/title" />
@@ -69,11 +69,11 @@
 
     <androidx.core.widget.NestedScrollView
             android:id="@+id/contentScrollView"
+            style="@style/AppTheme.AppBarOverlay"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
             android:scrollbars="vertical"
-            style="@style/AppTheme.AppBarOverlay"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -170,11 +170,11 @@
                     android:layout_height="48dp"
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_add_new_format_settings"
+                    android:tint="@color/icon_on_control_panel"
+                    android:tintMode="src_in"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:tint="@color/icon_on_control_panel"
-                    android:tintMode="src_in"
                     app:layout_constraintTop_toBottomOf="@+id/dsvFormatRecycler"
                     app:srcCompat="@drawable/ic_round_add_24" />
 

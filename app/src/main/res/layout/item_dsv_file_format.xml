@@ -23,13 +23,13 @@
             android:layout_marginStart="20dp"
             android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_edit_format_settings"
+            android:tint="@color/icon_on_control_panel"
+            android:tintMode="src_in"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_outline_edit_24"
-            android:tint="@color/icon_on_control_panel"
-            android:tintMode="src_in"
             tools:visibility="visible" />
 
     <ImageButton
@@ -39,9 +39,9 @@
             android:layout_marginStart="20dp"
             android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_view_format_settings"
-            android:visibility="gone"
             android:tint="@color/icon_on_control_panel"
             android:tintMode="src_in"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/editFormatSettingsButton"
             app:layout_constraintTop_toTopOf="parent"

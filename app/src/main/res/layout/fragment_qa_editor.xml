@@ -31,20 +31,20 @@
                             android:id="@+id/questionPasteButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:tint="@color/icon_on_surface"
-                            android:tintMode="src_in"
                             android:background="@drawable/ripple"
                             android:contentDescription="@string/description_paste_button"
+                            android:tint="@color/icon_on_surface"
+                            android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_content_paste_24" />
 
                     <ImageButton
                             android:id="@+id/questionClearButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:tint="@color/icon_on_surface"
-                            android:tintMode="src_in"
                             android:background="@drawable/ripple"
                             android:contentDescription="@string/description_clear_button"
+                            android:tint="@color/icon_on_surface"
+                            android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_round_clear_24" />
 
                 </LinearLayout>
@@ -67,7 +67,6 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="@string/hint_question_edittext"
-                        android:textColorHint="@color/hint"
                         android:importantForAutofill="no"
                         android:inputType="textMultiLine"
                         android:paddingStart="16dp"
@@ -75,6 +74,7 @@
                         android:paddingEnd="16dp"
                         android:paddingBottom="24dp"
                         android:textColor="@color/text_on_card"
+                        android:textColorHint="@color/hint"
                         android:textSize="@dimen/text_size_question"
                         tools:text="Эти люди привычны к тяжелой работе." />
 
@@ -111,10 +111,10 @@
                         android:inputType="textMultiLine"
                         android:paddingStart="16dp"
                         android:paddingTop="24dp"
-                        android:textColorHint="@color/hint"
                         android:paddingEnd="16dp"
                         android:paddingBottom="16dp"
                         android:textColor="@color/text_on_card"
+                        android:textColorHint="@color/hint"
                         android:textSize="@dimen/text_size_answer"
                         tools:text="Эти люди привычны к тяжелой работе." />
 
@@ -149,10 +149,10 @@
                             android:id="@+id/answerClearButton"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:tint="@color/icon_on_surface"
-                            android:tintMode="src_in"
                             android:background="@drawable/ripple"
                             android:contentDescription="@string/description_clear_button"
+                            android:tint="@color/icon_on_surface"
+                            android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_round_clear_24" />
 
                 </LinearLayout>
@@ -186,7 +186,7 @@
                 android:paddingEnd="32dp"
                 android:stateListAnimator="@animator/card_label"
                 android:text="@string/card_label_duplicated"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_label"
                 android:textSize="@dimen/text_size_card_label"
                 android:textStyle="bold"
                 android:translationY="-37dp" />

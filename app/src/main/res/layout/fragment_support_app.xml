@@ -18,10 +18,10 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="12dp"
+                android:background="@drawable/ripple"
+                android:contentDescription="@string/description_back_button"
                 android:tint="@color/screen_title"
                 android:tintMode="src_in"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_back_button"
                 app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
         <TextView
@@ -149,40 +149,40 @@
                             android:id="@+id/facebookButton"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:tint="@color/tint_colorful_icon"
-                            android:tintMode="src_atop"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_facebook_button"
+                            android:tint="@color/tint_colorful_icon"
+                            android:tintMode="src_atop"
                             app:srcCompat="@drawable/ic_sm_facebook_32" />
 
                     <ImageButton
                             android:id="@+id/instagramButton"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:tint="@color/tint_colorful_icon"
-                            android:tintMode="src_atop"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_instagram_button"
+                            android:tint="@color/tint_colorful_icon"
+                            android:tintMode="src_atop"
                             app:srcCompat="@drawable/ic_sm_instagram_32" />
 
                     <ImageButton
                             android:id="@+id/twitterButton"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:tint="@color/tint_colorful_icon"
-                            android:tintMode="src_atop"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_twitter_button"
+                            android:tint="@color/tint_colorful_icon"
+                            android:tintMode="src_atop"
                             app:srcCompat="@drawable/ic_sm_twitter_32" />
 
                     <ImageButton
                             android:id="@+id/youtubeButton"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:tint="@color/tint_colorful_icon"
-                            android:tintMode="src_atop"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/description_youtube_button"
+                            android:tint="@color/tint_colorful_icon"
+                            android:tintMode="src_atop"
                             app:srcCompat="@drawable/ic_sm_youtube_32" />
 
                 </LinearLayout>

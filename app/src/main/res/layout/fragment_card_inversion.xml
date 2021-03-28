@@ -26,7 +26,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="12dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple"
                     android:contentDescription="@string/description_back_button"
                     android:tint="@color/screen_title"
                     android:tintMode="src_in"

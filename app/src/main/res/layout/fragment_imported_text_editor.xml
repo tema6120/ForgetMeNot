@@ -43,11 +43,11 @@
                         android:drawablePadding="8dp"
                         android:gravity="center"
                         android:text="@string/text_file_edit_off"
-                        android:textColor="@color/text_no_search_result"
+                        android:textColor="@color/empty_list"
                         android:textSize="@dimen/text_size_no_search_result"
                         android:textStyle="bold"
                         android:visibility="gone"
-                        app:drawableTint="@color/text_no_search_result"
+                        app:drawableTint="@color/empty_list"
                         app:drawableTopCompat="@drawable/ic_edit_off_54"
                         tools:visibility="visible" />
 
@@ -95,11 +95,11 @@
 
     <HorizontalScrollView
             android:id="@+id/controlPanelScroll"
+            style="@style/AppTheme.AppBarOverlay"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@color/control_panel"
-            style="@style/AppTheme.AppBarOverlay">
+            android:background="@color/control_panel">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -164,12 +164,12 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_undo_button"
+                    android:tint="@color/icon_on_control_panel_selector_enabled_disabled"
+                    android:tintMode="src_in"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/fileFormatFragment"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_undo_24"
-                    android:tintMode="src_in"
-                    android:tint="@color/icon_on_control_panel_selector_enabled_disabled" />
+                    app:srcCompat="@drawable/ic_round_undo_24" />
 
             <ImageButton
                     android:id="@+id/redoButton"
@@ -178,13 +178,13 @@
                     android:layout_marginEnd="4dp"
                     android:background="@drawable/ripple_on_control_panel"
                     android:contentDescription="@string/description_redo_button"
+                    android:tint="@color/icon_on_control_panel_selector_enabled_disabled"
+                    android:tintMode="src_in"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/undoButton"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_redo_24"
-                    android:tintMode="src_in"
-                    android:tint="@color/icon_on_control_panel_selector_enabled_disabled" />
+                    app:srcCompat="@drawable/ic_round_redo_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

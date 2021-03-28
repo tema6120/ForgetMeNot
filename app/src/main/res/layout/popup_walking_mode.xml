@@ -15,12 +15,13 @@
             android:layout_marginStart="16dp"
             android:contentDescription="@string/description_walking_mode_icon"
             android:src="@drawable/ic_round_directions_walk_24"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/title"
-            app:tint="@color/icon_walking_mode_on_popup" />
+            android:tint="@color/icon_walking_mode_on_popup" />
 
     <TextView
             android:id="@+id/title"
@@ -63,6 +64,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
             android:tint="@color/icon_on_control_panel"
+            android:tintMode="src_in"
             app:srcCompat="@drawable/ic_round_settings_24" />
 
     <ImageButton
@@ -73,6 +75,7 @@
             android:background="@drawable/ripple_on_control_panel"
             android:contentDescription="@string/description_help_button"
             android:tint="@color/icon_on_control_panel"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/walkingModeSwitchButton"
             app:layout_constraintStart_toEndOf="@+id/walkingModeSettingsButton"

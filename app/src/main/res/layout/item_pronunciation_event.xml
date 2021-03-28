@@ -22,11 +22,11 @@
             android:layout_marginStart="16dp"
             android:background="@drawable/ripple"
             android:contentDescription="@string/description_drag_handle_button"
+            android:tint="@color/icon_on_surface"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:tint="@color/icon_on_surface"
-            android:tintMode="src_in"
             app:srcCompat="@drawable/ic_drag_handle_dark_24dp" />
 
     <View
@@ -45,12 +45,12 @@
             android:layout_height="28dp"
             android:contentDescription="@string/description_speak_icon"
             android:padding="2dp"
+            android:tint="@color/icon_on_surface"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/timeLineTop"
             app:layout_constraintStart_toStartOf="@id/timeLineTop"
             app:layout_constraintTop_toTopOf="parent"
-            android:tint="@color/icon_on_surface"
-            android:tintMode="src_in"
             app:srcCompat="@drawable/ic_round_volume_up_24" />
 
     <View
@@ -98,7 +98,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="16dp"
-            android:background="?selectableItemBackgroundBorderless"
+            android:background="@drawable/ripple"
             android:contentDescription="@string/description_remove_pronunciation_event_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

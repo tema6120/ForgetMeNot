@@ -2,7 +2,7 @@
     <item>
         <shape>
             <corners android:radius="8dp" />
-            <solid android:color="@color/select_deck_list_color_button" />
+            <solid android:color="@color/button_select_deck_list_color" />
         </shape>
     </item>
     <item android:drawable="@drawable/ripple_corner_radius_8dp" />

@@ -1,8 +1,8 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/control_panel</item>
+        <item name="colorPrimaryDark">@color/control_panel</item>
         <item name="colorAccent">@color/accent</item>
         <item name="colorControlHighlight">@color/ripple</item>
         <item name="android:windowBackground">@color/window</item>
@@ -10,11 +10,6 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
-
-    <style name="DefaultNumberPickerTheme" parent="AppTheme">
-        <item name="colorControlNormal">@color/accent_selector</item>
-        <item name="android:textSize">@dimen/text_size_number_picker</item>
-    </style>
 
     <style name="LastTestedTheme" parent="AppTheme">
         <item name="colorAccent">@color/last_tested</item>
@@ -325,7 +320,7 @@
     <style name="SettingsDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@drawable/divider_with_margins</item>
+        <item name="android:background">@drawable/divider_on_surface_with_margins</item>
     </style>
 
     <style name="VolumeKeyIcon">
@@ -400,7 +395,7 @@
         <item name="android:textSize">@dimen/text_size_section_title</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="drawableTint">@color/icon_gray</item>
+        <item name="drawableTint">@color/title_icon_in_dialog</item>
     </style>
 
     <style name="DividerOnSettingsSurface">

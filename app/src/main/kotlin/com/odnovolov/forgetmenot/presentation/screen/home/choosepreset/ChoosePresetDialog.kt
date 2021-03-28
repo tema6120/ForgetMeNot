@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
@@ -53,7 +52,7 @@ class ChoosePresetDialog : BaseDialogFragment() {
     private fun initTitleView() {
         titleView = View.inflate(context, R.layout.dialog_title, null).apply {
             dialogTitle.setText(R.string.dialog_title_choose_preset)
-            dialogTitle.setDrawableStart(R.drawable.ic_round_tune_24, R.color.icon_gray)
+            dialogTitle.setDrawableStart(R.drawable.ic_round_tune_24, R.color.title_icon_in_dialog)
             closeButton.setOnClickListener {
                 dismiss()
             }

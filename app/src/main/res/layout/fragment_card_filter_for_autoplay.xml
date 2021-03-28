@@ -24,9 +24,10 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:tint="@color/screen_title"
-                android:background="?selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple"
                 android:contentDescription="@string/description_back_button"
+                android:tint="@color/screen_title"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
     </FrameLayout>
@@ -349,6 +350,7 @@
             app:iconGravity="textStart"
             app:iconPadding="8dp"
             app:iconTint="@color/accent"
+            app:iconTintMode="src_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

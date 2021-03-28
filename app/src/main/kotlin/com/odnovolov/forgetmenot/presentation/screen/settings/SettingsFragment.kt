@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator
@@ -59,7 +58,7 @@ class SettingsFragment : BaseFragment() {
                 titleTextView.setText(R.string.title_fullscreen_mode_dialog)
                 titleTextView.setDrawableStart(
                     R.drawable.ic_round_fullscreen_24,
-                    R.color.icon_gray
+                    R.color.title_icon_in_dialog
                 )
             },
             onItemClick = { item: Item ->
@@ -88,7 +87,7 @@ class SettingsFragment : BaseFragment() {
                 titleTextView.setText(R.string.title_theme_dialog)
                 titleTextView.setDrawableStart(
                     R.drawable.ic_round_brightness_medium_24,
-                    R.color.icon_gray
+                    R.color.title_icon_in_dialog
                 )
             },
             onItemClick = { item: Item ->

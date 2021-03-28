@@ -23,7 +23,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="12dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple"
                 android:contentDescription="@string/description_back_button"
                 android:tint="@color/screen_title"
                 android:tintMode="src_in"
@@ -48,11 +48,11 @@
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="12dp"
-                android:background="?selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple"
                 android:contentDescription="@string/description_done_button"
-                app:srcCompat="@drawable/ic_round_done_24"
                 android:tint="@color/screen_title"
-                android:tintMode="src_in" />
+                android:tintMode="src_in"
+                app:srcCompat="@drawable/ic_round_done_24" />
 
     </FrameLayout>
 
@@ -122,10 +122,10 @@
                             android:layout_height="8dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="12dp"
-                            android:visibility="gone"
+                            android:tint="@color/hint"
                             android:tintMode="src_in"
-                            app:srcCompat="@drawable/ic_expand_more_thick_24"
-                            android:tint="@color/hint" />
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_expand_more_thick_24" />
 
                 </LinearLayout>
 

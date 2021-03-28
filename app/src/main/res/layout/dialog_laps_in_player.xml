@@ -4,8 +4,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:background="@drawable/background_dialog"
-        tools:layout_gravity="center"
         tools:elevation="24dp"
+        tools:layout_gravity="center"
         tools:layout_margin="16dp">
 
     <LinearLayout
@@ -25,8 +25,8 @@
                 android:text="@string/title_dialog_laps_in_player"
                 android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_dialog_title"
-                app:drawableTint="@color/icon_gray"
-                app:drawableStartCompat="@drawable/ic_round_repeat_24" />
+                app:drawableStartCompat="@drawable/ic_round_repeat_24"
+                app:drawableTint="@color/title_icon_in_dialog" />
 
         <LinearLayout
                 android:layout_width="wrap_content"
@@ -134,17 +134,17 @@
                     android:fontFamily="@font/nunito_extrabold"
                     android:text="@android:string/cancel"
                     android:textAllCaps="false"
-                    android:textColor="@color/text_button_secondary"
+                    android:textColor="@color/text_dialog_button_undesirable"
                     android:textSize="@dimen/text_size_dialog_cancel_button" />
 
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/okButton"
                     android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:layout_gravity="center_vertical"
                     android:fontFamily="@font/nunito_extrabold"
                     android:outlineAmbientShadowColor="@color/accent"
                     android:outlineSpotShadowColor="@color/accent"

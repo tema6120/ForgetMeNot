@@ -40,10 +40,10 @@
                 android:layout_height="48dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="8dp"
-                android:tint="@color/icon_on_control_panel"
-                android:tintMode="src_in"
                 android:background="@drawable/ripple_on_control_panel"
                 android:contentDescription="@string/description_mark_as_learned_button"
+                android:tint="@color/icon_on_control_panel"
+                android:tintMode="src_in"
                 app:srcCompat="@drawable/ic_mark_as_learned" />
 
     </FrameLayout>

@@ -22,7 +22,7 @@ class AboutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setStatusBarColor(requireActivity(), R.color.colorPrimary)
+        setStatusBarColor(requireActivity(), R.color.app_bar_about_screen)
         return inflater.inflate(R.layout.fragment_about, container, false)
     }
 

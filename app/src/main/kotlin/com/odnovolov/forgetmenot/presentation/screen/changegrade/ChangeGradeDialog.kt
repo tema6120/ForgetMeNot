@@ -37,7 +37,7 @@ class ChangeGradeDialog : BaseDialogFragment() {
     private fun createDialogTitle(): View {
         return View.inflate(context, R.layout.dialog_title, null).apply {
             dialogTitle.setText(R.string.dialog_title_change_grade)
-            dialogTitle.setDrawableStart(R.drawable.ic_medal_24, R.color.icon_gray)
+            dialogTitle.setDrawableStart(R.drawable.ic_medal_24, R.color.title_icon_in_dialog)
             divider.isVisible = dialogContentView.gradeRecycler.canScrollVertically(-1)
             val scrollListener = object : OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

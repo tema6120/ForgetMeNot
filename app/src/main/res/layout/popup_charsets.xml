@@ -16,13 +16,13 @@
             android:layout_marginStart="16dp"
             android:contentDescription="@string/description_charset_icon"
             android:src="@drawable/ic_unicode_logo"
+            android:tint="@color/label_encoding"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/title"
-            android:tintMode="src_in"
-            app:tint="@color/label_encoding" />
+            app:layout_constraintTop_toTopOf="@id/title" />
 
     <TextView
             android:id="@+id/title"
@@ -56,8 +56,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:scrollbars="vertical"
             android:overScrollMode="never"
+            android:scrollbars="vertical"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:layoutManager="LinearLayoutManager"
             app:layout_constrainedHeight="true"

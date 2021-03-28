@@ -25,13 +25,13 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/nunito_bold"
-            tools:text="@string/tip_question_display_screen_why"
             android:textColor="@color/on_accent"
             android:textSize="@dimen/text_size_tip"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/closeTipButton"
             app:layout_constraintStart_toEndOf="@id/attentionIcon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/tip_question_display_screen_why" />
 
     <ImageButton
             android:id="@+id/closeTipButton"
@@ -39,10 +39,10 @@
             android:layout_height="48dp"
             android:background="@drawable/ripple_on_accent"
             android:contentDescription="@string/description_close"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:tint="@color/on_accent"
             android:tintMode="src_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close_tip" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

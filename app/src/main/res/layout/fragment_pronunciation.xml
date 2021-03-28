@@ -26,10 +26,10 @@
                     android:layout_height="48dp"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="12dp"
+                    android:background="@drawable/ripple"
+                    android:contentDescription="@string/description_back_button"
                     android:tint="@color/screen_title"
                     android:tintMode="src_in"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/description_back_button"
                     app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
 
             <TextView
@@ -51,11 +51,11 @@
                     android:layout_height="48dp"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginEnd="12dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple"
                     android:contentDescription="@string/description_help_button"
-                    app:srcCompat="@drawable/ic_round_help_outline_24"
                     android:tint="@color/screen_title"
-                    android:tintMode="src_in" />
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_round_help_outline_24" />
 
         </FrameLayout>
 
@@ -164,13 +164,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
                         android:paddingEnd="12dp"
+                        android:tint="@color/text_medium_emphasis"
+                        android:tintMode="src_in"
                         app:layout_constraintBottom_toBottomOf="@id/questionLanguageTextView"
                         app:layout_constraintEnd_toEndOf="@+id/questionTitle"
                         app:layout_constraintStart_toEndOf="@id/questionLanguageTextView"
                         app:layout_constraintTop_toTopOf="@id/questionLanguageTextView"
-                        app:srcCompat="@drawable/ic_round_expand_more_24"
-                        android:tintMode="src_in"
-                        android:tint="@color/text_medium_emphasis" />
+                        app:srcCompat="@drawable/ic_round_expand_more_24" />
 
                 <View
                         android:id="@+id/questionLanguageButton"
@@ -181,7 +181,6 @@
                         app:layout_constraintEnd_toEndOf="@id/questionMoreIcon"
                         app:layout_constraintStart_toStartOf="@id/questionFlagTextView"
                         app:layout_constraintTop_toTopOf="@id/questionLanguageTextView" />
-
 
                 <FrameLayout
                         android:id="@+id/questionAutoSpeakButton"
@@ -199,7 +198,6 @@
                             android:layout_height="wrap_content"
                             android:clickable="false"
                             android:focusable="false"
-                            android:theme="@style/SwitchStyle"
                             android:fontFamily="@font/nunito_bold"
                             android:paddingStart="16dp"
                             android:paddingTop="16dp"
@@ -208,6 +206,7 @@
                             android:text="@string/text_autospeaking_switch"
                             android:textColor="@color/text_medium_emphasis"
                             android:textSize="@dimen/text_size_pronunciation_screen_autospeaking_switch"
+                            android:theme="@style/SwitchStyle"
                             android:visibility="invisible"
                             app:switchPadding="8dp"
                             tools:checked="true"
@@ -282,13 +281,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
                         android:paddingEnd="12dp"
+                        android:tint="@color/text_medium_emphasis"
+                        android:tintMode="src_in"
                         app:layout_constraintBottom_toBottomOf="@id/answerLanguageTextView"
                         app:layout_constraintEnd_toEndOf="@+id/answerTitle"
                         app:layout_constraintStart_toEndOf="@id/answerLanguageTextView"
                         app:layout_constraintTop_toTopOf="@id/answerLanguageTextView"
-                        app:srcCompat="@drawable/ic_round_expand_more_24"
-                        android:tintMode="src_in"
-                        android:tint="@color/text_medium_emphasis" />
+                        app:srcCompat="@drawable/ic_round_expand_more_24" />
 
                 <View
                         android:id="@+id/answerLanguageButton"
@@ -323,9 +322,9 @@
                             android:text="@string/text_autospeaking_switch"
                             android:textColor="@color/text_medium_emphasis"
                             android:textSize="@dimen/text_size_pronunciation_screen_autospeaking_switch"
+                            android:theme="@style/SwitchStyle"
                             android:visibility="invisible"
                             app:switchPadding="8dp"
-                            android:theme="@style/SwitchStyle"
                             tools:visibility="visible" />
 
                 </FrameLayout>
@@ -373,14 +372,14 @@
                         android:fontFamily="@font/nunito_extrabold"
                         android:text="@string/text_go_to_tts_settings_button"
                         android:textAllCaps="false"
-                        android:textSize="@dimen/text_size_pronunciation_screen_speak_go_to_tts_settings_button"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="@color/ripple_on_accent"
-                        app:backgroundTint="@color/background_go_to_tts_settings_button"
                         android:textColor="@color/text_on_go_to_tts_settings_button"
+                        android:textSize="@dimen/text_size_pronunciation_screen_speak_go_to_tts_settings_button"
+                        app:backgroundTint="@color/background_go_to_tts_settings_button"
+                        app:cornerRadius="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:rippleColor="@color/ripple_on_accent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

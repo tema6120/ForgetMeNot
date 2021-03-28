@@ -14,12 +14,13 @@
             android:layout_marginStart="16dp"
             android:contentDescription="@string/description_issue_icon"
             android:tint="@color/issue"
-            android:src="@drawable/ic_round_error_outline_24"
+            android:tintMode="src_in"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/title" />
+            app:layout_constraintTop_toTopOf="@id/title"
+            app:srcCompat="@drawable/ic_round_error_outline_24" />
 
     <TextView
             android:id="@+id/title"
@@ -94,6 +95,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/speakErrorDescriptionTextView"
-            app:rippleColor="@android:color/white" />
+            app:rippleColor="@color/ripple_on_accent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

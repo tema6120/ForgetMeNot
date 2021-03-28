@@ -4,9 +4,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        tools:background="@drawable/background_dialog"
         tools:layout_gravity="center"
-        tools:layout_margin="16dp"
-        tools:background="@drawable/background_dialog">
+        tools:layout_margin="16dp">
 
     <TextView
             android:id="@+id/dialogTitle"
@@ -20,8 +20,8 @@
             android:text="@string/title_dialog_last_tested_from"
             android:textColor="@color/text_high_emphasis"
             android:textSize="@dimen/text_size_dialog_title"
-            app:drawableTint="@color/icon_gray"
-            app:drawableStartCompat="@drawable/ic_round_history_24" />
+            app:drawableStartCompat="@drawable/ic_round_history_24"
+            app:drawableTint="@color/title_icon_in_dialog" />
 
     <View
             android:id="@+id/topDivider"
@@ -121,8 +121,8 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/specificTimeSpanRadioButton"
                     app:layout_constraintTop_toTopOf="@+id/unitPicker"
-                    tools:text="7"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    tools:text="7" />
 
             <NumberPicker
                     android:id="@+id/unitPicker"
@@ -190,24 +190,24 @@
                 android:id="@+id/cancelButton"
                 android:layout_width="wrap_content"
                 android:layout_height="64dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/dialog_cancel_button"
                 android:fontFamily="@font/nunito_extrabold"
                 android:text="@android:string/cancel"
                 android:textAllCaps="false"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/text_button_secondary"
+                android:textColor="@color/text_dialog_button_undesirable"
                 android:textSize="@dimen/text_size_dialog_cancel_button" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/okButton"
                 android:layout_width="wrap_content"
                 android:layout_height="64dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:layout_gravity="center_vertical"
                 android:fontFamily="@font/nunito_extrabold"
                 android:outlineAmbientShadowColor="@color/last_tested"
                 android:outlineSpotShadowColor="@color/last_tested"

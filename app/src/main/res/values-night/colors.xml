@@ -1,61 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="accent">#CEBE57</color>
-    <color name="colorAccentDisabled">#63FDD02E</color>
+    <color name="on_accent">@color/surface</color>
+    <color name="on_accent_disabled">#6135353B</color>
+    <color name="ripple_on_accent">#80000000</color>
     <color name="window">#2A2A31</color>
     <color name="surface">#35353B</color>
+    <color name="icon_on_surface">#B8FFFFFF</color>
+    <color name="divider">#1effffff</color>
+    <color name="ripple">#1FFFFFFF</color>
+    <color name="background_highlighted_text">#60E7D900</color>
+    <color name="selected_item_background">@color/background_item_selected_on_dark_popup</color>
+    <color name="empty_list">#33FFFFFF</color>
+    <color name="issue">#C45050</color>
+    <color name="screen_title">#DEFFFFFF</color>
+    <color name="popup_light">@color/popup_dark</color>
+    <color name="popup_dark">#3B3B41</color>
+    <color name="divider_on_dark_popup">@color/divider</color>
+    <color name="light_floating_button">#48484E</color>
+    <color name="tint_colorful_icon">#3335353B</color>
+    <color name="surface_for_switch" tools:ignore="MissingDefaultResource">#999999</color>
+
+    <!-- Text | Common -->
     <color name="text_input">#FFFFFF</color>
     <color name="text_high_emphasis">#B8FFFFFF</color>
     <color name="text_medium_emphasis">#99FFFFFF</color>
-    <color name="hint">#40FFFFFF</color>
     <color name="text_helper">#61FFFFFF</color>
-    <color name="search_frame_stroke">#99FFFFFF</color>
-    <color name="icon_on_surface">#B8FFFFFF</color>
-    <color name="text_task">#EF88B9</color>
-    <color name="screen_title">#DEFFFFFF</color>
-    <color name="divider">#1effffff</color>
-    <color name="on_accent">@color/surface</color>
-    <color name="on_accent_disabled">#6135353B</color>
-    <color name="accent_on_surface">#FFFFFF</color>
-    <color name="add_cards_button_start">#EFF465</color>
-    <color name="add_cards_button_end">#F36565</color>
-    <color name="add_cards_button_solid">#F22A2A31</color>
-    <color name="popup_light">@color/popup_dark</color>
-    <color name="popup_dark">#3B3B41</color>
-    <color name="title_on_dark_popup">@color/text_high_emphasis</color>
-    <color name="description_on_dark_popup">#66FFFFFF</color>
-    <color name="background_item_selected_on_dark_popup">#1FFFFFFF</color>
-    <color name="button_on_dark_popup">#535358</color>
-    <color name="text_on_button_on_dark_popup">#E2E2E3</color>
-    <color name="on_add_cards_popup">@color/text_high_emphasis</color>
-    <color name="ring_for_add_cards_popup_icon">#2AFFFFFF</color>
-    <color name="text_label_new">@color/text_high_emphasis</color>
-    <color name="selection_toolbar">#3D3D44</color>
-    <color name="on_selection_toolbar">@color/accent</color>
-    <color name="light_floating_button">#48484E</color>
-    <color name="close_button">#47FFFFFF</color>
-    <color name="item_blue_selected">@color/text_high_emphasis</color>
-    <color name="item_blue_unselected">#40FFFFFF</color>
-    <color name="background_selected_deck_list">#0FFFFFFF</color>
-    <color name="background_number_of_deck_in_deck_list">#12FFFFFF</color>
-    <color name="dialog">#3B3B41</color>
+    <color name="text_disabled">#42FFFFFF</color>
+    <color name="hint">#40FFFFFF</color>
     <color name="tab_text_selected">#E0E0E0</color>
     <color name="tab_text_unselected">#4DE0E0E0</color>
-    <color name="item_drawer_selected">@color/accent</color>
-    <color name="item_drawer_unselected">@color/item_blue_selected</color>
-    <color name="button_disabled">#1FFFFFFF</color>
-    <color name="text_disabled">#42FFFFFF</color>
-    <color name="text_button_secondary">#99D2D2D9</color>
-    <color name="text_no_search_result">#33FFFFFF</color>
-    <color name="ripple">#1FFFFFFF</color>
-    <color name="ripple_on_accent">#1F000000</color>
+
+    <!-- Card -->
     <color name="card">#3B3B41</color>
     <color name="card_expired">#443C42</color>
-    <color name="issue">#C45050</color>
+    <color name="text_on_card">#ABFFFFFF</color>
+    <color name="text_on_card_learned">#2EFFFFFF</color>
     <color name="curtain">#333339</color>
     <color name="text_on_curtain">#40FFFFFF</color>
-    <color name="floating_button_in_exercise">#45454B</color>
-    <color name="ripple_floating_button_in_exercise">#4DFFFFFF</color>
+    <color name="divider_on_card">#17FFFFFF</color>
+    <color name="card_label_learned">#2E91C0</color>
+    <color name="card_label_expired">@color/issue</color>
+    <color name="card_label_example">#7E78C0</color>
+    <color name="text_label">#D9FFFFFF</color>
+
+    <!-- Answer in exercise -->
     <color name="correct_answer">#1C9383</color>
     <color name="correct_answer_background">#414D50</color>
     <color name="correct_answer_background_disabled">#80414D50</color>
@@ -64,14 +53,35 @@
     <color name="wrong_answer_background">#504549</color>
     <color name="wrong_answer_background_disabled">#80504549</color>
     <color name="text_wrong_answer_disabled">#36B24A3E</color>
-    <color name="control_panel">@color/surface</color>
-    <color name="card_position_label">#333333</color>
-    <color name="icon_on_control_panel">@color/icon_on_surface</color>
-    <color name="icon_on_control_panel_deactivated">#5CFFFFFF</color>
+    <color name="floating_button_in_exercise">#45454B</color>
     <color name="text_remember_button_selected">@android:color/white</color>
     <color name="text_remember_button_unselected">@color/text_medium_emphasis</color>
-    <color name="text_on_card">#ABFFFFFF</color>
-    <color name="text_on_card_learned">#2EFFFFFF</color>
+    <color name="ripple_on_floating_button_in_exercise">#4DFFFFFF</color>
+    <color name="variant_radiobutton_unchecked_enabled">#777582</color>
+    <color name="variant_radiobutton_unchecked_disabled">#63777582</color>
+    <color name="foreground_on_variant_icon">#BFFFFFFF</color>
+    <color name="foreground_on_variant_icon_disabled">#14FFFFFF</color>
+
+    <!-- Control panel -->
+    <color name="control_panel">@color/surface</color>
+    <color name="icon_on_control_panel">@color/icon_on_surface</color>
+    <color name="icon_on_control_panel_deactivated">#5CFFFFFF</color>
+    <color name="ripple_on_control_panel">@color/ripple</color>
+
+    <!-- Popup for control panel -->
+    <color name="title_on_dark_popup">@color/text_high_emphasis</color>
+    <color name="description_on_dark_popup">#66FFFFFF</color>
+    <color name="background_item_selected_on_dark_popup">#1FFFFFFF</color>
+    <color name="button_on_dark_popup">#535358</color>
+    <color name="text_on_button_on_dark_popup">#E2E2E3</color>
+    <color name="intervals_icon_on_popup">#E2E2E3</color>
+    <color name="hint_icon_on_popup">#E2CC0A</color>
+    <color name="walking_mode_icon_on_popup">#09A4E3</color>
+    <color name="ticking_timer_icon_on_popup">#09E27D</color>
+    <color name="infinite_playback_icon_on_popup">#DD84DD</color>
+
+    <!-- Grade -->
+    <color name="text_grade">@color/text_high_emphasis</color>
     <color name="grade_unsatisfactory">#BA4F4F</color>
     <color name="grade_poor">#BA613C</color>
     <color name="grade_acceptable">#BA8119</color>
@@ -79,68 +89,78 @@
     <color name="grade_good">#8E9E17</color>
     <color name="grade_very_good">#75A027</color>
     <color name="grade_excellent">#50A250</color>
-    <color name="text_grade">@color/text_high_emphasis</color>
-    <color name="text_label">#D9FFFFFF</color>
-    <color name="divider_on_card">#17FFFFFF</color>
-    <color name="intervals_icon_on_popup">#E2E2E3</color>
-    <color name="hint_icon_on_popup">#E2CC0A</color>
-    <color name="walking_mode_icon_on_popup">#09A4E3</color>
-    <color name="ticking_timer_icon_on_popup">#09E27D</color>
-    <color name="infinite_playback_icon_on_popup">#DD84DD</color>
-    <color name="card_label_learned">#2E91C0</color>
-    <color name="card_label_expired">@color/issue</color>
-    <color name="ripple_on_control_panel">@color/ripple</color>
-    <color name="variant_radiobutton_unchecked_enabled">#777582</color>
-    <color name="variant_radiobutton_unchecked_disabled">#63777582</color>
-    <color name="foreground_on_variant_icon">#BFFFFFFF</color>
-    <color name="foreground_on_variant_icon_disabled">#14FFFFFF</color>
-    <color name="ic_unanswered_card_number_1">#C42D4E</color>
-    <color name="ic_unanswered_card_number_2">#A81B41</color>
-    <color name="text_unanswered_card_number">@color/text_high_emphasis</color>
+
+    <!-- Dialog / Bottom sheet -->
+    <color name="dialog">#3B3B41</color>
+    <color name="title_icon_in_dialog">#949DA6</color>
+    <color name="text_dialog_button_undesirable">#99D2D2D9</color>
+    <color name="dialog_ok_button_disabled">#1FFFFFFF</color>
+    <color name="close_button">#47FFFFFF</color>
+
+    <!-- List item -->
+    <color name="item_blue_selected">@color/text_high_emphasis</color>
+    <color name="item_blue_unselected">#40FFFFFF</color>
+
+    <!-- Selection toolbar -->
+    <color name="selection_toolbar">#3D3D44</color>
+    <color name="on_selection_toolbar">@color/accent</color>
+
+    <!-- Drawer -->
+    <color name="item_drawer_selected">@color/accent</color>
+    <color name="item_drawer_unselected">@color/item_blue_selected</color>
+
+    <!-- Home screen -->
+    <color name="search_frame_stroke">#99FFFFFF</color>
+    <color name="add_cards_button_start">#EFF465</color>
+    <color name="add_cards_button_end">#F36565</color>
+    <color name="add_cards_button_solid">#F22A2A31</color>
+    <color name="on_add_cards_popup">@color/text_high_emphasis</color>
+    <color name="ring_for_add_cards_popup_icon">#2AFFFFFF</color>
+    <color name="task">#EF88B9</color>
+    <color name="text_label_new">@color/text_high_emphasis</color>
+    <color name="background_selected_deck_list">#0FFFFFFF</color>
+    <color name="background_number_of_deck_in_deck_list">#12FFFFFF</color>
+    <color name="frame_reading_files">@color/dialog</color>
+
+    <!-- Player screen -->
+    <color name="play_button_stroke">@color/accent</color>
+    <color name="play_button_solid">@color/accent</color>
+    <color name="play_button_ripple">@color/ripple_on_accent</color>
+    <color name="play_button_icon">@color/on_accent</color>
+
+    <!-- Cards editor screen -->
+    <color name="toolbar_qa_editor">#38383E</color>
     <color name="background_cards_editor_done_cancel_buttons_solid">@color/accent</color>
     <color name="background_cards_editor_done_cancel_buttons_stroke">@color/accent</color>
     <color name="foreground_cards_editor_done_cancel_buttons">@color/on_accent</color>
     <color name="ripple_on_cards_editor_done_cancel_buttons">@color/ripple_on_accent</color>
     <color name="divider_on_cards_editor_done_cancel_panel">@color/on_accent</color>
-    <color name="toolbar_qa_editor">#38383E</color>
-    <color name="play_button_stroke">@color/accent</color>
-    <color name="play_button_solid">@color/accent</color>
-    <color name="play_button_ripple">@color/ripple_on_accent</color>
-    <color name="play_button_icon">@color/on_accent</color>
+
+    <!-- Card filter screen -->
     <color name="description_matching_cards_number">@color/item_blue_selected</color>
+    <color name="last_tested">#89A8DD</color>
+    <color name="background_last_answer_button">#3389A8DD</color>
+
+    <!-- Material range bar -->
     <color name="mrb_pin">#7F7F83</color>
     <color name="mrb_pin_text">@color/text_high_emphasis</color>
     <color name="mrb_range_bar">#6A6A6F</color>
     <color name="mrb_tick_default">#99999C</color>
-    <color name="last_tested">#89A8DD</color>
-    <color name="background_last_answer_button">#3389A8DD</color>
-    <color name="app_bar_about_screen">@color/window</color>
-    <color name="ic_wm_volume_stroke">@android:color/white</color>
-    <color name="button_in_card_appearance_selected">#A8A8AB</color>
-    <color name="button_in_card_appearance_unselected">#535358</color>
-    <color name="card_label_example">#7E78C0</color>
-    <color name="cta_button_stroke">#1FFFFFFF</color>
-    <color name="tint_colorful_icon">#3335353B</color>
-    <color name="text_file_frame_stroke">#66FFFFFF</color>
-    <color name="deck_list_color_edittext">#12FFFFFF</color>
-    <color name="stroke_of_selected_deck_list_color">#6BFFFFFF</color>
-    <color name="background_search_edittext_in_deck_chooser">#4D4D53</color>
-    <color name="name_label">#79797D</color>
-    <color name="selected_item_background">@color/background_item_selected_on_dark_popup</color>
+
+    <!-- Deck content toolbar -->
     <color name="icon_export">#B099EA</color>
     <color name="icon_export_background">#1FB098EB</color>
     <color name="text_export_icon">#99B098EB</color>
     <color name="icon_search">#8CE4EE</color>
     <color name="icon_search_background">#1F8CE3ED</color>
     <color name="text_search_icon">#998CE3ED</color>
-    <color name="text_on_go_to_tts_settings_button">@color/text_high_emphasis</color>
-    <color name="background_go_to_tts_settings_button">@color/floating_button_in_exercise</color>
-    <color name="surface_for_switch" tools:ignore="MissingDefaultResource">#999999</color>
-    <color name="plus_minus_icon">@color/accent</color>
-    <color name="ic_plus">@color/on_accent</color>
+
+    <!-- File import screen -->
     <color name="label_encoding">#FFA333</color>
     <color name="label_format">#B059ED</color>
     <color name="icon_file_format">#C07AF1</color>
+
+    <!-- Brackeys IDE Editor color scheme -->
     <color name="esc_text">#B3B3B3</color>
     <color name="esc_background">@color/window</color>
     <color name="esc_gutter">@color/window</color>
@@ -148,10 +168,52 @@
     <color name="esc_gutter_current_line_number">@color/text_medium_emphasis</color>
     <color name="esc_gutter_text">@color/text_disabled</color>
     <color name="esc_selected_line">#303037</color>
-    <color name="esc_selection">@color/highlighted_text</color>
+    <color name="esc_selection">@color/background_highlighted_text</color>
     <color name="esc_delimiter_background">@color/accent</color>
     <color name="esc_question_text">#9E93BB</color>
     <color name="esc_answer_text">#8DA2BF</color>
+
+    <!-- DSV format screen -->
+    <color name="name_label">#79797D</color>
     <color name="dsv_controller_disabled">#59FFFFFF</color>
     <color name="dsv_controller_background_disabled">#2E2E35</color>
+
+    <!-- Pronunciation screen -->
+    <color name="favorite_language_checked">#E7D900</color>
+    <color name="favorite_language_unchecked">#D6D2E6</color>
+    <color name="text_on_go_to_tts_settings_button">@color/text_high_emphasis</color>
+    <color name="background_go_to_tts_settings_button">@color/floating_button_in_exercise</color>
+
+    <!-- Deck lists editor screen -->
+    <color name="button_select_deck_list_color">#1F000000</color>
+    <color name="stroke_of_selected_deck_list_color">#6BFFFFFF</color>
+    <color name="background_deck_list_color_edittext">#12FFFFFF</color>
+
+    <!-- Card appearance screen -->
+    <color name="button_in_card_appearance_selected">#A8A8AB</color>
+    <color name="button_in_card_appearance_unselected">#535358</color>
+
+    <!-- About screen -->
+    <color name="app_bar_about_screen">@color/window</color>
+
+    <!-- Walking mode settings screen -->
+    <color name="ic_wm_volume_stroke">@android:color/white</color>
+
+    <!-- Support app screen -->
+    <color name="cta_button_stroke">#1FFFFFFF</color>
+
+    <!-- Help article screen -->
+    <color name="text_file_frame_stroke">#66FFFFFF</color>
+
+    <!-- Deck chooser screen -->
+    <color name="background_search_edittext_in_deck_chooser">#4D4D53</color>
+
+    <!-- Plus/minus icon -->
+    <color name="plus_minus_icon">@color/accent</color>
+    <color name="ic_plus">@color/on_accent</color>
+
+    <!-- Icon 'Unanswered_card_number' -->
+    <color name="ic_unanswered_card_number_1">#C42D4E</color>
+    <color name="ic_unanswered_card_number_2">#A81B41</color>
+    <color name="text_unanswered_card_number">@color/text_high_emphasis</color>
 </resources>
