@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:stateListAnimator="@animator/app_bar">
 
-        <LinearLayout
+        <FrameLayout
                 android:id="@+id/searchFrame"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -23,61 +23,67 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/background_search_frame"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:background="@drawable/background_search_frame">
 
-            <ImageButton
-                    android:id="@+id/backButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ripple_borderless_colored"
-                    android:contentDescription="@string/description_back_button"
-                    android:tint="@color/accent"
-                    android:tintMode="src_in"
-                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
-
-            <EditText
-                    android:id="@+id/searchEditText"
-                    android:layout_width="0dp"
+            <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:fontFamily="@font/nunito_bold"
-                    android:hint="@string/hint_search_edittext"
-                    android:imeOptions="actionNone"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:textColor="@color/text_input"
-                    android:textColorHint="@color/hint"
-                    android:textSize="@dimen/text_size_search_edittext" />
+                    android:orientation="horizontal">
+
+                <ImageButton
+                        android:id="@+id/backButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ripple_borderless_colored"
+                        android:contentDescription="@string/description_back_button"
+                        android:tint="@color/accent"
+                        android:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+                <EditText
+                        android:id="@+id/searchEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_bold"
+                        android:hint="@string/hint_search_edittext"
+                        android:imeOptions="actionNone"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:textColor="@color/text_input"
+                        android:textColorHint="@color/hint"
+                        android:textSize="@dimen/text_size_search_edittext" />
+
+                <ImageButton
+                        android:id="@+id/pasteClearButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ripple_borderless_colored"
+                        android:contentDescription="@string/description_paste_button"
+                        android:tint="@color/accent"
+                        android:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_content_paste_24" />
+
+            </LinearLayout>
 
             <ProgressBar
                     android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_gravity="bottom"
+                    android:indeterminate="true"
+                    android:scaleY="1.5"
                     android:visibility="invisible"
                     tools:visibility="visible" />
 
-            <ImageButton
-                    android:id="@+id/pasteClearButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ripple_borderless_colored"
-                    android:contentDescription="@string/description_paste_button"
-                    android:tint="@color/accent"
-                    android:tintMode="src_in"
-                    app:srcCompat="@drawable/ic_content_paste_24" />
-
-        </LinearLayout>
+        </FrameLayout>
 
         <include layout="@layout/toolbar_item_selection" />
 
