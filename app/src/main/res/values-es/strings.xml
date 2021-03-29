@@ -94,14 +94,14 @@
         <item quantity="other">%1$d mazos han sido fusionados en \'%2$s\'</item>
     </plurals>
     <string name="dialog_title_choose_deck_list">Elegir lista de mazos</string>
-    <string name="dialog_title_choose_preset">Choose preset</string>
+    <string name="dialog_title_choose_preset">Elegir configuración preestablecida</string>
     <plurals name="snackbar_default_preset_has_been_applied">
-        <item quantity="one">Default preset has been applied to %d deck</item>
-        <item quantity="other">Default preset has been applied to %d decks</item>
+        <item quantity="one">Se ha aplicado la configuración preestablecida por defecto al mazo %d</item>
+        <item quantity="other">Se ha aplicado la configuración preestablecida por defecto a los mazos %d</item>
     </plurals>
     <plurals name="snackbar_preset_has_been_applied">
-        <item quantity="one">Preset \'%1$s\' has been applied to %2$d deck</item>
-        <item quantity="other">Preset \'%1$s\' has been applied to %2$d decks</item>
+        <item quantity="one">Se ha aplicado la configuración preestablecida \'%1$s\' al mazo %2$d</item>
+        <item quantity="other">Se ha aplicado la configuración preestablecida \'%1$s\' a los mazos %2$d</item>
     </plurals>
     <string name="text_autoplay_button">Auto</string>
     <string name="text_exercise_button">Ejercicio</string>
@@ -111,10 +111,10 @@
     <!-- Deck lists editor -->
     <string name="screen_title_deck_lists">Lista de mazos</string>
     <string name="hint_deck_list_edittext">Nombre de la lista</string>
-    <string name="description_deck_list_icon">Deck list icon</string>
-    <string name="title_select_deck_list_color_popup">Deck list color</string>
-    <string name="custom_color">Custom color</string>
-    <string name="toast_deck_list_is_removed">Deck list has been removed</string>
+    <string name="description_deck_list_icon">Ícono de la lista de mazos</string>
+    <string name="title_select_deck_list_color_popup">Color de la lista de mazos</string>
+    <string name="custom_color">Color personalizado</string>
+    <string name="toast_deck_list_is_removed">Se ha eliminado la lista de mazos</string>
     <!-- Export dialog -->
     <string name="dialog_title_export">Exportar</string>
     <string name="title_choose_format">Elegir formato</string>
@@ -276,7 +276,7 @@
     <string name="toast_text_no_card_matches_filter_conditions">Ninguna tarjeta coincide con el filtro</string>
     <!-- Player screen -->
     <string name="player_notification_channel_name">Reproductor de tarjetas</string>
-    <string name="player_notification_channel_description">Pronunciación de 
+    <string name="player_notification_channel_description">Pronunciación de
         preguntas y respuestas</string>
     <string name="player_notification_title">Reproductor de tarjetas</string>
     <string name="pause_in_notification">Pausa</string>
@@ -297,8 +297,8 @@
     <string name="button_play_again">Reproducir otra vez</string>
     <string name="no_cards_to_play">No hay tarjetas para reproducir</string>
     <!-- Deck editor screen -->
-    <string name="screen_title_deck_editor">Deck editor</string>
-    <string name="screen_title_deck_settings">Deck settings</string>
+    <string name="screen_title_deck_editor">Editor de mazos</string>
+    <string name="screen_title_deck_settings">Configuración del mazo</string>
     <string name="title_rename_deck_dialog">Nombre del mazo</string>
     <string name="error_message_empty_name">El nombre no puede estar vacío</string>
     <string name="error_message_occupied_name">Este nombre ya está en uso</string>
@@ -471,7 +471,7 @@
         usted piensa revisar el mazo solo una o dos veces.</string>
     <string name="tip_testing_method_screen_self_testing">En la mayoría de los casos,
         \'Auto-calificar\' es la mejor elección. Usted mismo decide si sabe la respuesta o no.</string>
-    <string name="tip_testing_method_screen_testing_with_variants">\'Elección múltiple\' es un
+    <string name="tip_testing_method_screen_testing_with_variants">\'Selección múltiple\' es un
         método divertido para jugar. Elija la respuesta adecuada entre cuatro opciones. Las opciones
         se toman del mismo mazo.</string>
     <string name="tip_testing_method_screen_spell_check">Con \'Escribir respuesta\', se comprueba
@@ -479,7 +479,7 @@
         ortografía.</string>
     <string name="testing_method_without_testing">Sin calificar</string>
     <string name="testing_method_self_testing">Auto-calificar</string>
-    <string name="testing_method_testing_with_variants">Elección múltiple</string>
+    <string name="testing_method_testing_with_variants">Selección múltiple</string>
     <string name="testing_method_spell_check">Escribir respuesta</string>
     <!-- Intervals screen -->
     <string name="screen_title_intervals">Intervalos</string>
@@ -552,15 +552,20 @@
     <string name="item_text_fullscreen_in_exercise">En ejercicios</string>
     <string name="item_text_fullscreen_in_card_player">En auto-reproducción</string>
     <string name="item_text_fullscreen_in_other_places">En otros lugares</string>
-    <string name="text_card_appearance_settings_title">Card appearance</string>
-    <string name="text_card_appearance_settings_description">How a card looks in the exercise</string>
+    <string name="text_card_appearance_settings_title">Apariencia de las tarjetas</string>
+    <string name="text_card_appearance_settings_description">Como se ve una tarjeta en un ejercicio</string>
+    <string name="text_theme_settings_title">Tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_default">Determinado por Ahorrador de energía</string>
+    <string name="title_theme_dialog">Tema</string>
     <!-- Card appearance -->
-    <string name="screen_title_card_appearance">Card appearance</string>
-    <string name="title_question_field">Question field</string>
-    <string name="title_answer_field">Answer field</string>
-    <string name="text_alignment">Text alignment</string>
-    <string name="text_size">Text size</string>
-    <string name="error_message_indicate_text_size">Specify the text size</string>
+    <string name="screen_title_card_appearance">Apariencia de las tarjetas</string>
+    <string name="title_question_field">Campo de pregunta</string>
+    <string name="title_answer_field">Campo de respuesta</string>
+    <string name="text_alignment">Alineación del texto</string>
+    <string name="text_size">Tamaño del texto</string>
+    <string name="error_message_indicate_text_size">Especificar el tamaño del texto</string>
     <!-- Walking mode settings screen -->
     <string name="screen_title_walking_mode_settings">Configuración de modo caminar</string>
     <string name="text_volume_up_button_section">Botón de subir volumen</string>
@@ -601,7 +606,7 @@
         Comparta su experiencia con ellos.</string>
     <string name="text_share_with_friends_button">Compartir con amigos</string>
     <string name="share_with">Compartir con</string>
-    <string name="text_share_with_friends">Acuérdese de todo con tarjetas de memoria.</string>
+    <string name="text_share_with_friends">Acuérdese de todo con tarjetas de memorización.</string>
     <string name="cta_join_us_on_social_media">Únase con nosotros en las redes sociales</string>
     <string name="cta_join_us_on_social_media_description">Lee las noticias más recientes, comparte
         artículos interesantes y haga preguntas.</string>
@@ -742,9 +747,9 @@
         fragmento del texto y presione \'Mostrar región seleccionada\' en la ventana emergente de la
         pista.
 
-        \n\n\t- \'Elección múltiple\'. Se presentarán cuatro opciones para elegir. Las opciones se
+        \n\n\t- \'Selección múltiple\'. Se presentarán cuatro opciones para elegir. Las opciones se
         toman desde el mismo mazo al que pertenece la tarjeta. Esto puede hacer muy fácil
-        responder si el mazo no está diseñado para \'Elección múltiple\'.</string>
+        responder si el mazo no está diseñado para \'Selección múltiple\'.</string>
     <string name="article_exercise_paragraph_4">Puede hacer un ejercicio sin mirar la pantalla con el
         <annotation clickable="walking_mode">\'Modo caminar\'</annotation>.</string>
     <string name="article_testing_methods_paragraph_1">El método de repaso define como se va a
@@ -762,7 +767,7 @@
     <string name="article_testing_methods_manual_section_description">Método de repaso básico.
         Usted decide si recuerda la respuesta o no. La ventaja principal es la eficiencia de
         la memorización.</string>
-    <string name="article_testing_methods_quiz_section_title">3. Elección múltiple</string>
+    <string name="article_testing_methods_quiz_section_title">3. Selección múltiple</string>
     <string name="question_example_quiz_testing_method">окунь</string>
     <string name="answer_example_quiz_testing_method_variant1">arenque</string>
     <string name="answer_example_quiz_testing_method_variant2">trucha</string>
@@ -805,9 +810,9 @@
         dificultades.
 
         \n\nTal vez por alguna razón, quiere cambiar la calificación. Simplemente presione el icono
-        de \'Calificar\' y elija. Típicamente cuando cambia la calificación, le gustaría aclarar
-        en cuanto tiempo se va a presentar de nuevo esta tarjeta. Si cambió manualmente la
-        calificación, no aplicaría a esta tarjeta durante el ejercicio actual.</string>
+        de \'Calificar\' y elija una nueva calificación. Típicamente cuando cambia la calificación,
+        le gustaría aclarar en cuanto tiempo se va a presentar de nuevo esta tarjeta. Si cambió
+        manualmente la calificación, no aplicaría a esta tarjeta durante el ejercicio actual.</string>
     <string name="article_question_display_paragraph_1">Puede elegir no mostrar el texto de las preguntas.
         En este caso, se supone que va a percibir la pregunta fonéticamente. Esto le ayudará a mejorar
         sus capacidades de escucha mientras aprende un idioma nuevo. Junto con esto, es aconsejable
@@ -858,7 +863,7 @@
         Android: las apps solo pueden utilizar los botones de volumen cuando una app está corriendo
         en el primer plano.
 
-        \n\n- Los métodos \'Elección múltiple\' y \'Escribir respuesta\' no son adecuados
+        \n\n- Los métodos \'Selección múltiple\' y \'Escribir respuesta\' no son adecuados
         para usar en este modo y por eso se cambia al método \'Auto-calificar\' automáticamente
         cuando se habilita el \'modo caminar\'.
 
@@ -879,8 +884,7 @@
         de escucharla.</string>
     <string name="article_presets">Una \'configuración preestablecida\' es un conjunto de
         configuraciones para los mazos creados que se pueden reutilizar. Con \'configuraciones
-        preestablecidas\', puede evitar la rutina de configurar cada mazo
-        individualmente.
+        preestablecidas\', puede evitar la rutina de configurar cada mazo.
 
         \n\nLo que significan los nombres de las configuraciones preestablecidas es:
 
@@ -899,7 +903,7 @@
 
         \n\n2. Cree mazos tomando en cuenta la configuración que les va a dar.
 
-        \n\n\t- Para el método \'Elección múltiple\', las opciones se toman del mismo mazo.
+        \n\n\t- Para el método \'Selección múltiple\', las opciones se toman del mismo mazo.
         Entonces, las tarjetas deben contener respuestas que son adecuadas como opciones.
 
         \n\n\t- En la configuración de pronunciación de un mazo, puede especificar un idioma para

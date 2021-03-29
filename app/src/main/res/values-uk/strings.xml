@@ -664,6 +664,11 @@
     <string name="item_text_fullscreen_in_other_places">В інших місцях</string>
     <string name="text_card_appearance_settings_title">Зовнішній вигляд картки</string>
     <string name="text_card_appearance_settings_description">Як картка виглядає у вправі</string>
+    <string name="text_theme_settings_title">Тема</string>
+    <string name="theme_light">Світла</string>
+    <string name="theme_dark">Темна</string>
+    <string name="theme_default">Відповідно до режиму енергозбереження</string>
+    <string name="title_theme_dialog">Тема</string>
 
 
     <!-- Card appearance -->
@@ -674,6 +679,8 @@
     <string name="text_alignment">Вирівнювання тексту</string>
     <string name="text_size">Розмір тексту</string>
     <string name="error_message_indicate_text_size">Вкажіть розмір тексту</string>
+    <string name="dialog_title_question_text_size">Розмір тексту запитання</string>
+    <string name="dialog_title_answer_text_size">Розмір тексту відповіді</string>
 
 
     <!-- Walking mode settings screen -->

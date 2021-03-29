@@ -629,6 +629,11 @@
     <string name="item_text_fullscreen_in_other_places">In other places</string>
     <string name="text_card_appearance_settings_title">Card appearance</string>
     <string name="text_card_appearance_settings_description">How a card looks in the exercise</string>
+    <string name="text_theme_settings_title">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_default">Set by Battery Saver</string>
+    <string name="title_theme_dialog">Theme</string>
 
 
     <!-- Card appearance -->
@@ -640,6 +645,8 @@
     <string name="text_size">Text size</string>
     <string name="text_size_unit_sp" translatable="false">sp</string>
     <string name="error_message_indicate_text_size">Specify the text size</string>
+    <string name="dialog_title_question_text_size">Question text size</string>
+    <string name="dialog_title_answer_text_size">Answer text size</string>
 
 
     <!-- Walking mode settings screen -->
@@ -1106,12 +1113,5 @@
     <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
     <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
-    <string name="text_theme_settings_title">Theme</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_default">Set by Battery Saver</string>
-    <string name="title_theme_dialog">Theme</string>
-    <string name="dialog_title_question_text_size">Question text size</string>
-    <string name="dialog_title_answer_text_size">Answer text size</string>
 
 </resources>
