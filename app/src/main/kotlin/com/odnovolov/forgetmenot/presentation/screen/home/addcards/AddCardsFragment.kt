@@ -142,7 +142,7 @@ class AddCardsFragment : BaseFragment() {
     companion object {
         const val GET_CONTENT_REQUEST_CODE = 39
         const val DECK_CATALOG_PAGE =
-            "https://drive.google.com/drive/folders/1sjHdkcChH2CvUi3jmhf--PNeVmA_716W?usp=sharing"
+            "https://drive.google.com/folderview?id=1sjHdkcChH2CvUi3jmhf--PNeVmA_716W"
         const val STATE_ADD_CARDS_POPUP = "STATE_ADD_CARDS_POPUP"
     }
 }

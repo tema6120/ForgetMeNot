@@ -3,17 +3,17 @@ package com.odnovolov.forgetmenot.presentation.screen.cardappearance
 import kotlinx.coroutines.flow.Flow
 
 class CardAppearanceViewModel(
-    private val cardAppearance: CardAppearance
+    cardAppearance: CardAppearance
 ) {
     val questionTextAlignment: Flow<CardTextAlignment> =
         cardAppearance.flowOf(CardAppearance::questionTextAlignment)
 
-    val questionTextSize: String
-        get() = cardAppearance.questionTextSize.toString()
+    val questionTextSize: Flow<Int> =
+        cardAppearance.flowOf(CardAppearance::questionTextSize)
 
     val answerTextAlignment: Flow<CardTextAlignment> =
         cardAppearance.flowOf(CardAppearance::answerTextAlignment)
 
-    val answerTextSize: String
-        get() = cardAppearance.answerTextSize.toString()
+    val answerTextSize: Flow<Int> =
+        cardAppearance.flowOf(CardAppearance::answerTextSize)
 }

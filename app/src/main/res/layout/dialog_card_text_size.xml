@@ -1,0 +1,108 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/inputDialogScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/background_dialog"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/dialogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="16dp"
+                android:textColor="@color/text_high_emphasis"
+                android:textSize="@dimen/text_size_dialog_title"
+                tools:text="@string/dialog_title_question_text_size" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+            <EditText
+                    android:id="@+id/dialogInput"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/nunito_bold"
+                    android:gravity="center_horizontal"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    android:textColor="@color/text_input"
+                    android:textSize="@dimen/text_size_dialog_edittext" />
+
+            <TextView
+                    android:id="@+id/aspTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="@string/text_size_unit_sp"
+                    android:textColor="@color/text_medium_emphasis"
+                    android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
+                    tools:ignore="RtlSymmetry" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/dialog_cancel_button"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:text="@android:string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_dialog_button_undesirable"
+                    android:textSize="@dimen/text_size_dialog_cancel_button" />
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/okButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:outlineAmbientShadowColor="@color/accent"
+                    android:outlineSpotShadowColor="@color/accent"
+                    android:stateListAnimator="@animator/material_button"
+                    android:text="@android:string/ok"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_dialog_ok_button"
+                    android:textSize="@dimen/text_size_dialog_ok_button"
+                    app:backgroundTint="@color/dialog_ok_button"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="@color/ripple_on_accent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

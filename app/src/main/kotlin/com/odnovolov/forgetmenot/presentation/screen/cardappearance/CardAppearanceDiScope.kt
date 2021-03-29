@@ -4,29 +4,43 @@ import com.odnovolov.forgetmenot.persistence.shortterm.CardAppearanceScreenState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.example.CardAppearanceExampleViewModel
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeController
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeViewModel
 
 class CardAppearanceDiScope private constructor(
     val initialScreenState: CardAppearanceScreenState? = null
 ) {
     private val cardAppearance: CardAppearance = AppDiScope.get().cardAppearance
 
-    private val screenStateProvider
-        get() = CardAppearanceScreenStateProvider(
-            AppDiScope.get().json,
-            AppDiScope.get().database,
-            AppDiScope.get().globalState
-        )
+    private val screenStateProvider = CardAppearanceScreenStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database,
+        AppDiScope.get().globalState
+    )
 
     private val screenState: CardAppearanceScreenState =
-        initialScreenState?.also(screenStateProvider::save) ?: screenStateProvider.load()
+        initialScreenState ?: screenStateProvider.load()
 
     val controller = CardAppearanceController(
         cardAppearance,
-        AppDiScope.get().longTermStateSaver
+        screenState,
+        AppDiScope.get().longTermStateSaver,
+        screenStateProvider
     )
 
     val viewModel = CardAppearanceViewModel(
         cardAppearance
+    )
+
+    val dialogController = CardTextSizeController(
+        cardAppearance,
+        screenState,
+        AppDiScope.get().longTermStateSaver,
+        screenStateProvider
+    )
+
+    val dialogViewModel = CardTextSizeViewModel(
+        screenState
     )
 
     val exampleViewModel = CardAppearanceExampleViewModel(
@@ -41,6 +55,7 @@ class CardAppearanceDiScope private constructor(
 
         override fun onCloseDiScope(diScope: CardAppearanceDiScope) {
             diScope.controller.dispose()
+            diScope.dialogController.dispose()
         }
     }
 }

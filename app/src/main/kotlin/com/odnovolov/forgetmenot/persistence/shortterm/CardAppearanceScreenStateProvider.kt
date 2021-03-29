@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.persistence.shortterm.CardAppearanceScreenStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextSizeDialogDestination
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -19,14 +20,20 @@ class CardAppearanceScreenStateProvider(
 ) {
     @Serializable
     data class SerializableState(
-        val exampleCardIds: List<Long>
+        val exampleCardIds: List<Long>,
+        val textSizeDialogText: String,
+        val textSizeDialogDestination: TextSizeDialogDestination?
     )
 
     override val serializer = SerializableState.serializer()
 
     override fun toSerializable(state: CardAppearanceScreenState): SerializableState {
         val exampleCardIds: List<Long> = state.exampleCards.map { card: Card -> card.id }
-        return SerializableState(exampleCardIds)
+        return SerializableState(
+            exampleCardIds,
+            state.textSizeDialogText,
+            state.textSizeDialogDestination
+        )
     }
 
     override fun toOriginal(serializableState: SerializableState): CardAppearanceScreenState {
@@ -36,6 +43,10 @@ class CardAppearanceScreenStateProvider(
         val exampleCards: List<Card> = serializableState.exampleCardIds.map { cardId: Long ->
             cardIdCardMap[cardId] ?: Card(cardId, question = "Question", answer = "Answer")
         }
-        return CardAppearanceScreenState(exampleCards)
+        return CardAppearanceScreenState(
+            exampleCards,
+            serializableState.textSizeDialogText,
+            serializableState.textSizeDialogDestination
+        )
     }
 }

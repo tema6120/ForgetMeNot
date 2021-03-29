@@ -138,46 +138,18 @@
                                 android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_settings_item_title" />
 
-                        <LinearLayout
+                        <TextView
+                                android:id="@+id/questionTextSizeButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="36dp"
-                                android:background="@drawable/background_card_text_size_edittext">
-
-                            <EditText
-                                    android:id="@+id/questionTextSizeEditText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@null"
-                                    android:drawablePadding="4dp"
-                                    android:fontFamily="@font/nunito_bold"
-                                    android:gravity="center_vertical|end"
-                                    android:hint="00"
-                                    android:importantForAutofill="no"
-                                    android:inputType="number"
-                                    android:maxLength="2"
-                                    android:maxLines="1"
-                                    android:paddingStart="20dp"
-                                    android:paddingEnd="6dp"
-                                    android:textColor="@color/text_medium_emphasis"
-                                    android:textColorHint="@android:color/transparent"
-                                    android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
-                                    tools:ignore="HardcodedText"
-                                    tools:text="19" />
-
-                            <TextView
-                                    android:id="@+id/qspTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:fontFamily="@font/nunito_bold"
-                                    android:gravity="center_vertical|end"
-                                    android:paddingEnd="20dp"
-                                    android:text="@string/text_size_unit_sp"
-                                    android:textColor="@color/text_medium_emphasis"
-                                    android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
-                                    tools:ignore="RtlSymmetry" />
-
-                        </LinearLayout>
+                                android:background="@drawable/button_card_text_size"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="center_vertical"
+                                android:paddingStart="20dp"
+                                android:paddingEnd="20dp"
+                                android:textColor="@color/text_medium_emphasis"
+                                android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
+                                tools:text="19 sp" />
 
                     </LinearLayout>
 
@@ -259,46 +231,19 @@
                                 android:textColor="@color/text_medium_emphasis"
                                 android:textSize="@dimen/text_size_settings_item_title" />
 
-                        <LinearLayout
+
+                        <TextView
+                                android:id="@+id/answerTextSizeButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="36dp"
-                                android:background="@drawable/background_card_text_size_edittext">
-
-                            <EditText
-                                    android:id="@+id/answerTextSizeEditText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@null"
-                                    android:drawablePadding="4dp"
-                                    android:fontFamily="@font/nunito_bold"
-                                    android:gravity="center_vertical|end"
-                                    android:hint="00"
-                                    android:importantForAutofill="no"
-                                    android:inputType="number"
-                                    android:maxLength="2"
-                                    android:maxLines="1"
-                                    android:paddingStart="20dp"
-                                    android:paddingEnd="6dp"
-                                    android:textColor="@color/text_medium_emphasis"
-                                    android:textColorHint="@android:color/transparent"
-                                    android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
-                                    tools:ignore="HardcodedText"
-                                    tools:text="17" />
-
-                            <TextView
-                                    android:id="@+id/aspTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:fontFamily="@font/nunito_bold"
-                                    android:gravity="center_vertical|end"
-                                    android:paddingEnd="20dp"
-                                    android:text="@string/text_size_unit_sp"
-                                    android:textColor="@color/text_medium_emphasis"
-                                    android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
-                                    tools:ignore="RtlSymmetry" />
-
-                        </LinearLayout>
+                                android:background="@drawable/button_card_text_size"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="center_vertical"
+                                android:paddingStart="20dp"
+                                android:paddingEnd="20dp"
+                                android:textColor="@color/text_medium_emphasis"
+                                android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
+                                tools:text="17 sp" />
 
                     </LinearLayout>
 
