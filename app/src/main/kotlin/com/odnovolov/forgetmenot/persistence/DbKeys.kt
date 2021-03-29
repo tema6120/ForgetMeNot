@@ -29,4 +29,6 @@ object DbKeys {
     const val QUESTION_TEXT_SIZE = 25L
     const val ANSWER_TEXT_ALIGNMENT = 26L
     const val ANSWER_TEXT_SIZE = 27L
+    const val CARD_TEXT_OPACITY_IN_LIGHT_THEME = 28L
+    const val CARD_TEXT_OPACITY_IN_DARK_THEME = 29L
 }

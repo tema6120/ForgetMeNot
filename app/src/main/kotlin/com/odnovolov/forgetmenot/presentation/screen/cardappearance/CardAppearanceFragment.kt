@@ -11,9 +11,11 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceController.Command.ShowTextOpacityDialog
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceController.Command.ShowTextSizeDialog
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.example.CardAppearanceExampleFragment
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityDialog
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialog
 import kotlinx.android.synthetic.main.fragment_card_appearance.*
 import kotlinx.coroutines.launch
@@ -70,6 +72,12 @@ class CardAppearanceFragment : BaseFragment() {
         answerTextSizeButton.setOnClickListener {
             controller?.dispatch(AnswerTextSizeButtonClicked)
         }
+        textOpacityInLightThemeButton.setOnClickListener {
+            controller?.dispatch(TextOpacityInLightThemeButtonClicked)
+        }
+        textOpacityInDarkThemeButton.setOnClickListener {
+            controller?.dispatch(TextOpacityInDarkThemeButtonClicked)
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -93,6 +101,14 @@ class CardAppearanceFragment : BaseFragment() {
             answerTextSize.observe { answerTextSize: Int ->
                 answerTextSizeButton.text = "$answerTextSize sp"
             }
+            textOpacityInLightTheme.observe { textOpacityInLightTheme: Float ->
+                val textOpacityPercent = (textOpacityInLightTheme * 100).toInt()
+                textOpacityInLightThemeButton.text = "$textOpacityPercent %"
+            }
+            textOpacityInDarkTheme.observe { textOpacityInDarkTheme: Float ->
+                val textOpacityPercent = (textOpacityInDarkTheme * 100).toInt()
+                textOpacityInDarkThemeButton.text = "$textOpacityPercent %"
+            }
         }
     }
 
@@ -100,6 +116,8 @@ class CardAppearanceFragment : BaseFragment() {
         when (command) {
             ShowTextSizeDialog ->
                 CardTextSizeDialog().show(childFragmentManager, "CardTextSizeDialog")
+            ShowTextOpacityDialog ->
+                CardTexOpacityDialog().show(childFragmentManager, "CardTexOpacityDialog")
         }
     }
 

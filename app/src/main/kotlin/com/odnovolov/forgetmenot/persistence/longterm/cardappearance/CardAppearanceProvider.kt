@@ -17,7 +17,9 @@ class CardAppearanceProvider(
                     DbKeys.QUESTION_TEXT_ALIGNMENT,
                     DbKeys.QUESTION_TEXT_SIZE,
                     DbKeys.ANSWER_TEXT_ALIGNMENT,
-                    DbKeys.ANSWER_TEXT_SIZE
+                    DbKeys.ANSWER_TEXT_SIZE,
+                    DbKeys.CARD_TEXT_OPACITY_IN_LIGHT_THEME,
+                    DbKeys.CARD_TEXT_OPACITY_IN_DARK_THEME
                 )
             )
             .executeAsList()
@@ -34,11 +36,19 @@ class CardAppearanceProvider(
         val answerTextSize: Int = keyValues[DbKeys.ANSWER_TEXT_SIZE]
             ?.toInt()
             ?: CardAppearance.DEFAULT_ANSWER_TEXT_SIZE
+        val textOpacityInLightTheme = keyValues[DbKeys.CARD_TEXT_OPACITY_IN_LIGHT_THEME]
+            ?.toFloat()
+            ?: CardAppearance.DEFAULT_TEXT_OPACITY_IN_LIGHT_THEME
+        val textOpacityInDarkTheme = keyValues[DbKeys.CARD_TEXT_OPACITY_IN_DARK_THEME]
+            ?.toFloat()
+            ?: CardAppearance.DEFAULT_TEXT_OPACITY_IN_DARK_THEME
         return CardAppearance(
             questionTextAlignment,
             questionTextSize,
             answerTextAlignment,
-            answerTextSize
+            answerTextSize,
+            textOpacityInLightTheme,
+            textOpacityInDarkTheme
         )
     }
 }

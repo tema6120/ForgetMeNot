@@ -7,4 +7,6 @@ sealed class CardAppearanceEvent{
     object AlignAnswerToEdgeButtonClicked : CardAppearanceEvent()
     object AlignAnswerToCenterButtonClicked : CardAppearanceEvent()
     object AnswerTextSizeButtonClicked : CardAppearanceEvent()
+    object TextOpacityInLightThemeButtonClicked : CardAppearanceEvent()
+    object TextOpacityInDarkThemeButtonClicked : CardAppearanceEvent()
 }

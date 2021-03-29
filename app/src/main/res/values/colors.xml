@@ -200,6 +200,8 @@
     <!-- Card appearance screen -->
     <color name="button_in_card_appearance_selected">#6E6E6E</color>
     <color name="button_in_card_appearance_unselected">#D9D9D9</color>
+    <color name="background_text_opacity_in_light_theme">@android:color/white</color>
+    <color name="background_text_opacity_in_dark_theme">#3B3B41</color>
 
     <!-- About screen -->
     <color name="app_bar_about_screen">#282828</color>
@@ -224,4 +226,7 @@
     <color name="ic_unanswered_card_number_1">#ff2754</color>
     <color name="ic_unanswered_card_number_2">#d60d41</color>
     <color name="text_unanswered_card_number">@android:color/white</color>
+
+    <!-- Slider -->
+    <color name="slider_track_inactive">#3DFF8C00</color>
 </resources>

@@ -11,8 +11,8 @@ import com.odnovolov.forgetmenot.presentation.common.showSoftInput
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextSizeDialogDestination.ForAnswer
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextSizeDialogDestination.ForQuestion
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialogEvent.TextSizeDialogOkButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialogEvent.TextSizeDialogTextChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialogEvent.OkButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialogEvent.TextChanged
 import kotlinx.android.synthetic.main.dialog_card_text_size.view.*
 import kotlinx.coroutines.launch
 
@@ -30,8 +30,8 @@ class CardTextSizeDialog : BaseDialogFragment() {
         setupView()
         viewCoroutineScope!!.launch {
             val diScope = CardAppearanceDiScope.getAsync() ?: return@launch
-            controller = diScope.dialogController
-            observeViewModel(diScope.dialogViewModel, isRecreated = savedInstanceState != null)
+            controller = diScope.cardTextSizeController
+            observeViewModel(diScope.cardTextSizeViewModel, isRecreated = savedInstanceState != null)
         }
         return createDialog(contentView).apply {
             setOnShowListener { contentView.dialogInput.showSoftInput() }
@@ -41,13 +41,13 @@ class CardTextSizeDialog : BaseDialogFragment() {
     private fun setupView() {
         with(contentView) {
             dialogInput.observeText { text: String ->
-                controller?.dispatch(TextSizeDialogTextChanged(text))
+                controller?.dispatch(TextChanged(text))
             }
             cancelButton.setOnClickListener {
                 dismiss()
             }
             okButton.setOnClickListener {
-                controller?.dispatch(TextSizeDialogOkButtonClicked)
+                controller?.dispatch(OkButtonClicked)
                 dismiss()
             }
         }

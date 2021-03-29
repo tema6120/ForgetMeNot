@@ -92,7 +92,7 @@
 
     <!-- Dialog / Bottom sheet -->
     <color name="dialog">#3B3B41</color>
-    <color name="title_icon_in_dialog">#949DA6</color>
+    <color name="title_icon_in_dialog">#686C74</color>
     <color name="text_dialog_button_undesirable">#99D2D2D9</color>
     <color name="dialog_ok_button_disabled">#1FFFFFFF</color>
     <color name="close_button">#47FFFFFF</color>
@@ -216,4 +216,7 @@
     <color name="ic_unanswered_card_number_1">#C42D4E</color>
     <color name="ic_unanswered_card_number_2">#A81B41</color>
     <color name="text_unanswered_card_number">@color/text_high_emphasis</color>
+
+    <!-- Slider -->
+    <color name="slider_track_inactive">#3DCEBE57</color>
 </resources>

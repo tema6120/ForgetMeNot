@@ -16,4 +16,10 @@ class CardAppearanceViewModel(
 
     val answerTextSize: Flow<Int> =
         cardAppearance.flowOf(CardAppearance::answerTextSize)
+
+    val textOpacityInLightTheme: Flow<Float> =
+        cardAppearance.flowOf(CardAppearance::textOpacityInLightTheme)
+
+    val textOpacityInDarkTheme: Flow<Float> =
+        cardAppearance.flowOf(CardAppearance::textOpacityInDarkTheme)
 }

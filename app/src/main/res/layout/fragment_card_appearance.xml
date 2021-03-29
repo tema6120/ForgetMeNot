@@ -249,6 +249,91 @@
 
                 </LinearLayout>
 
+                <LinearLayout style="@style/SettingsSurface">
+
+                    <TextView
+                            style="@style/SettingsTitleOnSettingsSurface"
+                            android:text="@string/title_common"
+                            app:drawableStartCompat="@drawable/ic_question_answer_field" />
+
+                    <View style="@style/DividerOnSettingsSurface" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            android:paddingStart="24dp"
+                            android:paddingTop="12dp"
+                            android:paddingEnd="24dp"
+                            android:paddingBottom="12dp">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_bold"
+                                android:text="@string/text_opacity_in_light_theme"
+                                android:textColor="@color/text_medium_emphasis"
+                                android:textSize="@dimen/text_size_settings_item_title" />
+
+
+                        <TextView
+                                android:id="@+id/textOpacityInLightThemeButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:background="@drawable/button_card_text_size"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="center_vertical"
+                                android:paddingStart="20dp"
+                                android:paddingEnd="20dp"
+                                android:textColor="@color/text_medium_emphasis"
+                                android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
+                                tools:text="60 %" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal"
+                            android:paddingStart="24dp"
+                            android:paddingTop="12dp"
+                            android:paddingEnd="24dp"
+                            android:paddingBottom="12dp">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_bold"
+                                android:text="@string/text_opacity_in_dark_theme"
+                                android:textColor="@color/text_medium_emphasis"
+                                android:textSize="@dimen/text_size_settings_item_title" />
+
+
+                        <TextView
+                                android:id="@+id/textOpacityInDarkThemeButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:background="@drawable/button_card_text_size"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="center_vertical"
+                                android:paddingStart="20dp"
+                                android:paddingEnd="20dp"
+                                android:textColor="@color/text_medium_emphasis"
+                                android:textSize="@dimen/text_size_card_appearance_text_size_edittext"
+                                tools:text="67 %" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

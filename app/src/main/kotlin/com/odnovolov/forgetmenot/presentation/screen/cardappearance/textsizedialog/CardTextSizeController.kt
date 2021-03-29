@@ -7,8 +7,8 @@ import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearan
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextSizeDialogDestination.ForAnswer
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextSizeDialogDestination.ForQuestion
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialogEvent.TextSizeDialogOkButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialogEvent.TextSizeDialogTextChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialogEvent.OkButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeDialogEvent.TextChanged
 
 class CardTextSizeController(
     private val cardAppearance: CardAppearance,
@@ -18,11 +18,11 @@ class CardTextSizeController(
 ) : BaseController<CardTextSizeDialogEvent, Nothing>() {
     override fun handle(event: CardTextSizeDialogEvent) {
         when (event) {
-            is TextSizeDialogTextChanged -> {
+            is TextChanged -> {
                 screenState.textSizeDialogText = event.text
             }
 
-            TextSizeDialogOkButtonClicked -> {
+            OkButtonClicked -> {
                 val textSize = screenState.textSizeDialogText.toIntOrNull() ?: return
                 if (textSize < 1) return
                 when (screenState.textSizeDialogDestination) {

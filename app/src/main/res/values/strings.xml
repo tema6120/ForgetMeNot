@@ -1113,5 +1113,10 @@
     <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
     <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
+    <string name="title_common">Common</string>
+    <string name="text_opacity_in_light_theme">Text opacity in light theme</string>
+    <string name="text_opacity_in_dark_theme">Text opacity in dark theme</string>
+    <string name="dialog_title_text_opacity">Text opacity</string>
+    <string name="text_opacity_example_text">Example\n\n%1$s</string>
 
 </resources>

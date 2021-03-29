@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.persistence.shortterm.CardAppearanceScreenStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextOpacityDialogDestination
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextSizeDialogDestination
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -22,7 +23,9 @@ class CardAppearanceScreenStateProvider(
     data class SerializableState(
         val exampleCardIds: List<Long>,
         val textSizeDialogText: String,
-        val textSizeDialogDestination: TextSizeDialogDestination?
+        val textSizeDialogDestination: TextSizeDialogDestination?,
+        val textOpacityInDialog: Float,
+        val textOpacityDialogDestination: TextOpacityDialogDestination?
     )
 
     override val serializer = SerializableState.serializer()
@@ -32,7 +35,9 @@ class CardAppearanceScreenStateProvider(
         return SerializableState(
             exampleCardIds,
             state.textSizeDialogText,
-            state.textSizeDialogDestination
+            state.textSizeDialogDestination,
+            state.textOpacityInDialog,
+            state.textOpacityDialogDestination
         )
     }
 
@@ -46,7 +51,9 @@ class CardAppearanceScreenStateProvider(
         return CardAppearanceScreenState(
             exampleCards,
             serializableState.textSizeDialogText,
-            serializableState.textSizeDialogDestination
+            serializableState.textSizeDialogDestination,
+            serializableState.textOpacityInDialog,
+            serializableState.textOpacityDialogDestination
         )
     }
 }

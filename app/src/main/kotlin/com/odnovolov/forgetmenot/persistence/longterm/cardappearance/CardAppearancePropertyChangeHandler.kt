@@ -44,6 +44,20 @@ class CardAppearancePropertyChangeHandler(
                     value = answerTextSize.toString()
                 )
             }
+            CardAppearance::textOpacityInLightTheme -> {
+                val textOpacityInLightTheme = change.newValue as Float
+                queries.replace(
+                    key = DbKeys.CARD_TEXT_OPACITY_IN_LIGHT_THEME,
+                    value = textOpacityInLightTheme.toString()
+                )
+            }
+            CardAppearance::textOpacityInDarkTheme -> {
+                val textOpacityInDarkTheme = change.newValue as Float
+                queries.replace(
+                    key = DbKeys.CARD_TEXT_OPACITY_IN_DARK_THEME,
+                    value = textOpacityInDarkTheme.toString()
+                )
+            }
         }
     }
 }

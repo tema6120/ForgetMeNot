@@ -4,6 +4,8 @@ import com.odnovolov.forgetmenot.persistence.shortterm.CardAppearanceScreenState
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.example.CardAppearanceExampleViewModel
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityController
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityViewModel
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeController
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textsizedialog.CardTextSizeViewModel
 
@@ -32,14 +34,25 @@ class CardAppearanceDiScope private constructor(
         cardAppearance
     )
 
-    val dialogController = CardTextSizeController(
+    val cardTextSizeController = CardTextSizeController(
         cardAppearance,
         screenState,
         AppDiScope.get().longTermStateSaver,
         screenStateProvider
     )
 
-    val dialogViewModel = CardTextSizeViewModel(
+    val cardTextSizeViewModel = CardTextSizeViewModel(
+        screenState
+    )
+
+    val cardTexOpacityController = CardTexOpacityController(
+        cardAppearance,
+        screenState,
+        AppDiScope.get().longTermStateSaver,
+        screenStateProvider
+    )
+
+    val cardTexOpacityViewModel = CardTexOpacityViewModel(
         screenState
     )
 
@@ -55,7 +68,7 @@ class CardAppearanceDiScope private constructor(
 
         override fun onCloseDiScope(diScope: CardAppearanceDiScope) {
             diScope.controller.dispose()
-            diScope.dialogController.dispose()
+            diScope.cardTextSizeController.dispose()
         }
     }
 }
