@@ -75,6 +75,10 @@ class MotivationalTimerFragment : BaseFragment() {
                 false
             }
         }
+        timeForAnswerEditText.setOnFocusChangeListener { _, hasFocus ->
+            okButton.isVisible = hasFocus
+            exampleFragmentContainerView.isVisible = !hasFocus
+        }
         okButton.setOnClickListener {
             controller?.dispatch(OkButtonClicked)
         }
@@ -112,20 +116,10 @@ class MotivationalTimerFragment : BaseFragment() {
                     uncover()
                 }
                 secTextView.isEnabled = isTimerEnabled
-                timeForAnswerEditText.run {
-                    if (isTimerEnabled) {
-                        isEnabled = true
-                        selectAll()
-                        showSoftInput()
-                    } else {
-                        setSelection(0)
-                        hideSoftInput()
-                        isEnabled = false
-                    }
+                timeForAnswerEditText.isEnabled = isTimerEnabled
+                if (!timeForAnswerEditText.isEnabled) {
+                    timeForAnswerEditText.clearFocus()
                 }
-            }
-            isOkButtonVisible.observe { isVisible: Boolean ->
-                okButton.isVisible = isVisible
             }
         }
     }
@@ -147,10 +141,8 @@ class MotivationalTimerFragment : BaseFragment() {
                 timeForAnswerEditText.clearFocus()
             }
             AskUserToSaveChanges -> {
-                QuitMotivationalTimerBottomSheet().show(
-                    childFragmentManager,
-                    "QuitMotivationalTimerBottomSheet"
-                )
+                QuitMotivationalTimerBottomSheet()
+                    .show(childFragmentManager, "QuitMotivationalTimerBottomSheet")
             }
         }
     }

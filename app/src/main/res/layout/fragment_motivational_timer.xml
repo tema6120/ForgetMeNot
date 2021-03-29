@@ -180,7 +180,7 @@
                         android:layout_marginBottom="@dimen/example_bottom_sheet_peek_height"
                         android:fontFamily="@font/nunito_bold"
                         android:text="@string/saved"
-                        android:textColor="@color/text_edittext"
+                        android:textColor="@color/text_high_emphasis"
                         android:textSize="@dimen/text_size_motivational_timer_screen_saved_textview"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
