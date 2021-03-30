@@ -243,11 +243,10 @@
     <style name="VariantButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">?selectableItemBackgroundBorderless</item>
+        <item name="android:background">@drawable/ripple</item>
         <item name="android:drawablePadding">16dp</item>
         <item name="android:padding">16dp</item>
         <item name="android:gravity">start|center_vertical</item>
-        <item name="android:textColor">@color/text_on_card_selector</item>
         <item name="android:textSize">@dimen/text_size_exercise_screen_variant_button</item>
         <item name="drawableStartCompat">@drawable/ic_radiobutton_unchecked_24</item>
     </style>

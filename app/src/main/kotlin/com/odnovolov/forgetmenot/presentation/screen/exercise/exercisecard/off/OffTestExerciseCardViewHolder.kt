@@ -2,7 +2,6 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.off
 
 import android.animation.AnimatorInflater
 import android.animation.LayoutTransition
-import android.graphics.Color
 import android.util.Size
 import android.view.View
 import android.view.View.MeasureSpec
@@ -13,8 +12,6 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -24,6 +21,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.OffTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.setCardTextColorStateList
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -110,6 +108,7 @@ class OffTestExerciseCardViewHolder(
             }
             questionTextView.gravity = cardAppearance.questionTextAlignment.gravity
             questionTextView.textSize = cardAppearance.questionTextSize.toFloat()
+            questionTextView.setCardTextColorStateList(cardAppearance)
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
@@ -121,11 +120,13 @@ class OffTestExerciseCardViewHolder(
             }
             hintTextView.gravity = cardAppearance.answerTextAlignment.gravity
             hintTextView.textSize = cardAppearance.answerTextSize.toFloat()
+            hintTextView.setCardTextColorStateList(cardAppearance)
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
             answerTextView.gravity = cardAppearance.answerTextAlignment.gravity
             answerTextView.textSize = cardAppearance.answerTextSize.toFloat()
+            answerTextView.setCardTextColorStateList(cardAppearance)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             addScrollListener {

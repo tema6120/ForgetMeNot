@@ -56,6 +56,7 @@ class CardAppearanceExampleFragment : BaseFragment() {
             questionTextSize.observe(cardAdapter::questionTextSize::set)
             answerTextAlignment.observe(cardAdapter::answerTextAlignment::set)
             answerTextSize.observe(cardAdapter::answerTextSize::set)
+            textOpacity.observe(cardAdapter::textOpacity::set)
         }
     }
 

@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.presentation.common.SimpleRecyclerViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance.Companion.DEFAULT_ANSWER_TEXT_ALIGNMENT
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance.Companion.DEFAULT_ANSWER_TEXT_SIZE
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance.Companion.DEFAULT_QUESTION_TEXT_ALIGNMENT
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance.Companion.DEFAULT_QUESTION_TEXT_SIZE
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardTextAlignment
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.setCardTextColorStateList
 import kotlinx.android.synthetic.main.item_card_in_card_appearance_settings.view.*
 
 class CardAdapter : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
@@ -60,6 +62,16 @@ class CardAdapter : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
             }
         }
 
+    var textOpacity: CardAppearance? = null
+        set(value) {
+            field = value
+            if (value == null) return
+            itemViews.forEach { itemView: View ->
+                itemView.questionTextView.setCardTextColorStateList(value)
+                itemView.answerTextView.setCardTextColorStateList(value)
+            }
+        }
+
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder {
@@ -76,6 +88,10 @@ class CardAdapter : RecyclerView.Adapter<SimpleRecyclerViewHolder>() {
         itemView.questionTextView.textSize = questionTextSize.toFloat()
         itemView.answerTextView.gravity = answerTextAlignment.gravity
         itemView.answerTextView.textSize = answerTextSize.toFloat()
+        textOpacity?.let { textOpacity: CardAppearance ->
+            itemView.questionTextView.setCardTextColorStateList(textOpacity)
+            itemView.answerTextView.setCardTextColorStateList(textOpacity)
+        }
     }
 
     override fun onBindViewHolder(viewHolder: SimpleRecyclerViewHolder, position: Int) {

@@ -11,11 +11,12 @@ import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.STATES_ACTIVATED_DEACTIVATED
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.setCardTextColorStateList
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.AnswerInputChanged
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.qaeditor.QAEditorEvent.QuestionInputChanged
@@ -176,8 +177,10 @@ class QAEditorFragment : BaseFragment() {
     private fun setupCardAppearance(cardAppearance: CardAppearance) {
         questionEditText.gravity = cardAppearance.questionTextAlignment.gravity
         questionEditText.textSize = cardAppearance.questionTextSize.toFloat()
+        questionEditText.setCardTextColorStateList(cardAppearance, STATES_ACTIVATED_DEACTIVATED)
         answerEditText.gravity = cardAppearance.answerTextAlignment.gravity
         answerEditText.textSize = cardAppearance.answerTextSize.toFloat()
+        answerEditText.setCardTextColorStateList(cardAppearance, STATES_ACTIVATED_DEACTIVATED)
     }
 
     private fun observeViewModel() {
@@ -190,14 +193,8 @@ class QAEditorFragment : BaseFragment() {
             answerEditText.setText(answer)
         }
         viewModel.isLearned.observe { isLearned: Boolean ->
-            val color: Int = ContextCompat.getColor(
-                requireContext(),
-                if (isLearned)
-                    R.color.text_on_card_learned else
-                    R.color.text_on_card
-            )
-            questionEditText.setTextColor(color)
-            answerEditText.setTextColor(color)
+            questionEditText.isActivated = !isLearned
+            answerEditText.isActivated = !isLearned
         }
     }
 

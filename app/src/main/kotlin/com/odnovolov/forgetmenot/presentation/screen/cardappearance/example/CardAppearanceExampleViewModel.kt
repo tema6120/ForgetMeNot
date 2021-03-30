@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearan
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardTextAlignment
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 
 class CardAppearanceExampleViewModel(
     cardAppearance: CardAppearance,
@@ -24,4 +25,9 @@ class CardAppearanceExampleViewModel(
 
     val answerTextSize: Flow<Int> =
         cardAppearance.flowOf(CardAppearance::answerTextSize)
+
+    val textOpacity: Flow<CardAppearance> = combine(
+        cardAppearance.flowOf(CardAppearance::textOpacityInLightTheme),
+        cardAppearance.flowOf(CardAppearance::textOpacityInDarkTheme)
+    ) { _, _ -> cardAppearance }
 }

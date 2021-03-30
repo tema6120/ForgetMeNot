@@ -19,6 +19,7 @@
     <color name="divider_on_dark_popup">#17FFFFFF</color>
     <color name="light_floating_button">@android:color/white</color>
     <color name="tint_colorful_icon">@android:color/transparent</color>
+    <color name="tint_colorful_icon_darker">@android:color/transparent</color>
 
     <!-- Text | Common -->
     <color name="text_input">#DE000000</color>
@@ -33,8 +34,8 @@
     <!-- Card -->
     <color name="card">@android:color/white</color>
     <color name="card_expired">#FFE7E3</color>
-    <color name="text_on_card">@color/text_medium_emphasis</color>
-    <color name="text_on_card_learned">#29000000</color>
+    <color name="text_on_card_overview">@color/text_medium_emphasis</color>
+    <color name="text_on_card_overview_learned">#29000000</color>
     <color name="curtain">#D9D9DE</color>
     <color name="text_on_curtain">#33000000</color>
     <color name="divider_on_card">#40000000</color>
@@ -48,12 +49,15 @@
     <color name="correct_answer_bright">#00FFD9</color>
     <color name="correct_answer_background">#F5D1EFEA</color>
     <color name="correct_answer_background_disabled">#F5F0FBFA</color>
-    <color name="text_correct_answer_disabled">#C3F0EA</color>
+    <color name="stroke_correct_variant_but_not_selected_learned">#C3F0EA</color>
+    <color name="icon_correct_answer_learned">#C3F0EA</color>
+    <color name="text_correct_answer">#00C2A5</color>
     <color name="wrong_answer">#f1523d</color>
     <color name="wrong_answer_bright">#FF2200</color>
     <color name="wrong_answer_background">#F5FDE3E0</color>
     <color name="wrong_answer_background_disabled">#F5FFF5F4</color>
-    <color name="text_wrong_answer_disabled">#FBD4CE</color>
+    <color name="icon_wrong_answer_learned">#FBD4CE</color>
+    <color name="text_wrong_answer">#F24730</color>
     <color name="floating_button_in_exercise">#454D59</color>
     <color name="text_remember_button_selected">#fff</color>
     <color name="text_remember_button_unselected">#C8D2DE</color>

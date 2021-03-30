@@ -78,7 +78,7 @@
                         android:labelFor="@+id/specificNumberOfLapsRadioButton"
                         android:maxLength="1"
                         android:padding="8dp"
-                        android:textColor="@color/text_on_card_selector"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textColorHint="@android:color/transparent"
                         android:textSize="@dimen/text_size_dialog_edittext"
                         tools:ignore="HardcodedText"
@@ -108,7 +108,7 @@
                         android:paddingEnd="16dp"
                         android:paddingBottom="12dp"
                         android:text="@string/radiobutton_infinitely"
-                        android:textColor="@color/text_on_card_selector"
+                        android:textColor="@color/text_medium_emphasis"
                         android:textSize="@dimen/text_size_radiobutton"
                         android:visibility="invisible"
                         tools:visibility="visible" />

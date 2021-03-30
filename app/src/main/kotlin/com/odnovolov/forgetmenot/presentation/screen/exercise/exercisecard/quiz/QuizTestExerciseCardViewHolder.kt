@@ -23,6 +23,7 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.customview.TextViewWithObservableSelection
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.setCardTextColorStateList
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -125,11 +126,13 @@ class QuizTestExerciseCardViewHolder(
             showQuestionButton.setOnClickListener { controller.dispatch(ShowQuestionButtonClicked) }
             questionTextView.gravity = cardAppearance.questionTextAlignment.gravity
             questionTextView.textSize = cardAppearance.questionTextSize.toFloat()
+            questionTextView.setCardTextColorStateList(cardAppearance)
             questionTextView.observeSelectedText { selection: String ->
                 controller.dispatch(QuestionTextSelectionChanged(selection))
             }
             forEachVariantButton { variant: Int ->
                 textSize = cardAppearance.answerTextSize.toFloat()
+                setCardTextColorStateList(cardAppearance)
                 setOnClickListener { controller.dispatch(VariantSelected(variant)) }
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))
@@ -332,13 +335,21 @@ class QuizTestExerciseCardViewHolder(
         variantButton: TextViewWithObservableSelection,
         variantStatus: VariantStatus
     ) {
-        val colorResId: Int = when (variantStatus) {
-            Correct -> R.color.text_variant_status_correct
-            Wrong -> R.color.text_variant_status_wrong
-            else -> R.color.text_on_card_selector
+        when (variantStatus) {
+            Correct -> {
+                val baseColor: Int =
+                    ContextCompat.getColor(variantButton.context, R.color.text_correct_answer)
+                variantButton.setCardTextColorStateList(cardAppearance, baseColor = baseColor)
+            }
+            Wrong -> {
+                val baseColor: Int =
+                    ContextCompat.getColor(variantButton.context, R.color.text_wrong_answer)
+                variantButton.setCardTextColorStateList(cardAppearance, baseColor = baseColor)
+            }
+            else -> {
+                variantButton.setCardTextColorStateList(cardAppearance)
+            }
         }
-        val colorStateList = ContextCompat.getColorStateList(variantButton.context, colorResId)
-        variantButton.setTextColor(colorStateList)
     }
 
     private fun showCardLabelTipPopup(cardLabel: CardLabel) {

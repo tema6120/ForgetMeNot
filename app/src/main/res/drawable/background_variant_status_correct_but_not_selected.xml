@@ -2,7 +2,7 @@
     <item android:state_enabled="false">
         <shape>
             <corners android:radius="16dp" />
-            <stroke android:width="1.5dp" android:color="@color/text_correct_answer_disabled" />
+            <stroke android:width="1.5dp" android:color="@color/stroke_correct_variant_but_not_selected_learned" />
         </shape>
     </item>
     <item>

@@ -13,14 +13,13 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.*
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ManualTestExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.setCardTextColorStateList
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardLabel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
@@ -109,6 +108,7 @@ class ManualTestExerciseCardViewHolder(
             }
             questionTextView.gravity = cardAppearance.questionTextAlignment.gravity
             questionTextView.textSize = cardAppearance.questionTextSize.toFloat()
+            questionTextView.setCardTextColorStateList(cardAppearance)
             rememberButton.setOnClickListener {
                 controller.dispatch(RememberButtonClicked)
             }
@@ -120,11 +120,13 @@ class ManualTestExerciseCardViewHolder(
             }
             hintTextView.gravity = cardAppearance.answerTextAlignment.gravity
             hintTextView.textSize = cardAppearance.answerTextSize.toFloat()
+            hintTextView.setCardTextColorStateList(cardAppearance)
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
             answerTextView.gravity = cardAppearance.answerTextAlignment.gravity
             answerTextView.textSize = cardAppearance.answerTextSize.toFloat()
+            answerTextView.setCardTextColorStateList(cardAppearance)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             addScrollListener {

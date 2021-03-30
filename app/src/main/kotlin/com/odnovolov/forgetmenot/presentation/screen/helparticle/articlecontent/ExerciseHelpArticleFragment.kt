@@ -318,7 +318,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             )
             val colorStateList = ContextCompat.getColorStateList(
                 variantButton.context,
-                R.color.text_variant_status_correct
+                R.color.icon_variant_status_correct
             )
             variantButton.setTextColor(colorStateList)
         }
@@ -340,7 +340,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
             )
             val colorStateList = ContextCompat.getColorStateList(
                 variantButton.context,
-                R.color.text_variant_status_wrong
+                R.color.icon_variant_status_wrong
             )
             variantButton.setTextColor(colorStateList)
         }

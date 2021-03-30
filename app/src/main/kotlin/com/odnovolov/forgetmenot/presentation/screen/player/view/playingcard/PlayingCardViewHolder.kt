@@ -18,6 +18,8 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayingCard
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.STATES_ACTIVATED_DEACTIVATED
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.setCardTextColorStateList
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.AsyncCardFrame
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.CardSpaceAllocator
 import com.odnovolov.forgetmenot.presentation.screen.player.view.playingcard.CardContent.AnsweredCard
@@ -114,11 +116,13 @@ class PlayingCardViewHolder(
             }
             questionTextView.gravity = cardAppearance.questionTextAlignment.gravity
             questionTextView.textSize = cardAppearance.questionTextSize.toFloat()
+            questionTextView.setCardTextColorStateList(cardAppearance, STATES_ACTIVATED_DEACTIVATED)
             answerTextView.observeSelectedText { selection: String ->
                 controller.dispatch(AnswerTextSelectionChanged(selection))
             }
             answerTextView.gravity = cardAppearance.answerTextAlignment.gravity
             answerTextView.textSize = cardAppearance.answerTextSize.toFloat()
+            answerTextView.setCardTextColorStateList(cardAppearance, STATES_ACTIVATED_DEACTIVATED)
             cardLabelTextView.stateListAnimator =
                 AnimatorInflater.loadStateListAnimator(context, R.animator.card_label)
             asyncItemView.viewTreeObserver.addOnScrollChangedListener {

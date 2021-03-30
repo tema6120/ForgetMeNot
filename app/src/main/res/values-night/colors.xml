@@ -19,6 +19,7 @@
     <color name="divider_on_dark_popup">@color/divider</color>
     <color name="light_floating_button">#48484E</color>
     <color name="tint_colorful_icon">#3335353B</color>
+    <color name="tint_colorful_icon_darker">#5935353B</color>
     <color name="surface_for_switch" tools:ignore="MissingDefaultResource">#999999</color>
 
     <!-- Text | Common -->
@@ -34,8 +35,8 @@
     <!-- Card -->
     <color name="card">#3B3B41</color>
     <color name="card_expired">#443C42</color>
-    <color name="text_on_card">#ABFFFFFF</color>
-    <color name="text_on_card_learned">#2EFFFFFF</color>
+    <color name="text_on_card_overview">#ABFFFFFF</color>
+    <color name="text_on_card_overview_learned">#2EFFFFFF</color>
     <color name="curtain">#333339</color>
     <color name="text_on_curtain">#40FFFFFF</color>
     <color name="divider_on_card">#17FFFFFF</color>
@@ -45,16 +46,18 @@
     <color name="text_label">#D9FFFFFF</color>
 
     <!-- Answer in exercise -->
-    <color name="correct_answer">#1C9383</color>
+    <color name="correct_answer">#1F8A7C</color>
     <color name="correct_answer_background">#414D50</color>
     <color name="correct_answer_background_disabled">#80414D50</color>
-    <color name="text_correct_answer_disabled">#361C9383</color>
-    <color name="wrong_answer">#B24A3E</color>
+    <color name="stroke_correct_variant_but_not_selected_learned">#361C9383</color>
+    <color name="icon_correct_answer_learned">#361C9383</color>
+    <color name="text_correct_answer">#00C2A5</color>
+    <color name="wrong_answer">#A6493E</color>
     <color name="wrong_answer_background">#504549</color>
     <color name="wrong_answer_background_disabled">#80504549</color>
-    <color name="text_wrong_answer_disabled">#36B24A3E</color>
+    <color name="icon_wrong_answer_learned">#36B24A3E</color>
     <color name="floating_button_in_exercise">#45454B</color>
-    <color name="text_remember_button_selected">@android:color/white</color>
+    <color name="text_remember_button_selected">@color/text_high_emphasis</color>
     <color name="text_remember_button_unselected">@color/text_medium_emphasis</color>
     <color name="ripple_on_floating_button_in_exercise">#4DFFFFFF</color>
     <color name="variant_radiobutton_unchecked_enabled">#777582</color>
