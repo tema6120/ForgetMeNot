@@ -7,6 +7,7 @@
     <color name="window">#2A2A31</color>
     <color name="surface">#35353B</color>
     <color name="icon_on_surface">#B8FFFFFF</color>
+    <color name="icon_on_surface_disabled">#29FFFFFF</color>
     <color name="divider">#1effffff</color>
     <color name="ripple">#1FFFFFFF</color>
     <color name="background_highlighted_text">#60E7D900</color>

@@ -47,6 +47,26 @@
                             android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_round_clear_24" />
 
+                    <ImageButton
+                            android:id="@+id/questionUndoButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple"
+                            android:contentDescription="@string/description_undo_button"
+                            android:tint="@color/icon_on_surface_selector"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_round_undo_24" />
+
+                    <ImageButton
+                            android:id="@+id/questionRedoButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple"
+                            android:contentDescription="@string/description_redo_button"
+                            android:tint="@color/icon_on_surface_selector"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_round_redo_24" />
+
                 </LinearLayout>
 
             </ScrollView>
@@ -60,7 +80,7 @@
                     app:layout_constraintStart_toEndOf="@id/questionToolbarScrollView"
                     app:layout_constraintTop_toTopOf="parent">
 
-                <EditText
+                <com.odnovolov.forgetmenot.presentation.common.customview.undoredoedittext.UndoRedoEditText
                         android:id="@+id/questionEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -99,7 +119,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider">
 
-                <EditText
+                <com.odnovolov.forgetmenot.presentation.common.customview.undoredoedittext.UndoRedoEditText
                         android:id="@+id/answerEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -152,6 +172,26 @@
                             android:tint="@color/icon_on_surface"
                             android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_round_clear_24" />
+
+                    <ImageButton
+                            android:id="@+id/answerUndoButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple"
+                            android:contentDescription="@string/description_undo_button"
+                            android:tint="@color/icon_on_surface_selector"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_round_undo_24" />
+
+                    <ImageButton
+                            android:id="@+id/answerRedoButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ripple"
+                            android:contentDescription="@string/description_redo_button"
+                            android:tint="@color/icon_on_surface_selector"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_round_redo_24" />
 
                 </LinearLayout>
 

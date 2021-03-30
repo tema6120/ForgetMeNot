@@ -14,6 +14,7 @@ import android.widget.PopupWindow
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.customview.undoredoedittext.UndoRedoEditText
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.STATES_ACTIVATED_DEACTIVATED
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.setCardTextColorStateList
@@ -78,27 +79,47 @@ class QAEditorFragment : BaseFragment() {
         questionEditText.observeText { text: String ->
             controller?.dispatch(QuestionInputChanged(text))
         }
-        answerEditText.observeText { text: String ->
-            controller?.dispatch(AnswerInputChanged(text))
+        questionPasteButton.run {
+            setOnClickListener { questionEditText.paste() }
+            setTooltipTextFromContentDescription()
+        }
+        questionClearButton.run {
+            setOnClickListener { questionEditText.setText("") }
+            setTooltipTextFromContentDescription()
+        }
+        questionUndoButton.run {
+            isEnabled = questionEditText.canUndo()
+            setOnClickListener { if (questionEditText.canUndo()) questionEditText.undo() }
+            setTooltipTextFromContentDescription()
+        }
+        questionRedoButton.run {
+            isEnabled = questionEditText.canRedo()
+            setOnClickListener { if (questionEditText.canRedo()) questionEditText.redo() }
+            setTooltipTextFromContentDescription()
         }
         invertCardButton.run {
             setOnClickListener { invertCardWithAnimation() }
             setTooltipTextFromContentDescription()
         }
-        questionPasteButton.run {
-            setOnClickListener { questionEditText.paste() }
-            setTooltipTextFromContentDescription()
+        answerEditText.observeText { text: String ->
+            controller?.dispatch(AnswerInputChanged(text))
         }
         answerPasteButton.run {
             setOnClickListener { answerEditText.paste() }
             setTooltipTextFromContentDescription()
         }
-        questionClearButton.run {
-            setOnClickListener { questionEditText.text.clear() }
+        answerClearButton.run {
+            setOnClickListener { answerEditText.setText("") }
             setTooltipTextFromContentDescription()
         }
-        answerClearButton.run {
-            setOnClickListener { answerEditText.text.clear() }
+        answerUndoButton.run {
+            isEnabled = answerEditText.canUndo()
+            setOnClickListener { if (answerEditText.canUndo()) answerEditText.undo() }
+            setTooltipTextFromContentDescription()
+        }
+        answerRedoButton.run {
+            isEnabled = answerEditText.canRedo()
+            setOnClickListener { if (answerEditText.canRedo()) answerEditText.redo() }
             setTooltipTextFromContentDescription()
         }
     }
@@ -187,10 +208,20 @@ class QAEditorFragment : BaseFragment() {
         viewCoroutineScope!!.launch {
             val question: String = viewModel.question.first()
             questionEditText.setText(question)
+            questionEditText.onUndoRedoChangedListener =
+                UndoRedoEditText.OnUndoRedoChangedListener {
+                    questionUndoButton.isEnabled = questionEditText.canUndo()
+                    questionRedoButton.isEnabled = questionEditText.canRedo()
+                }
         }
         viewCoroutineScope!!.launch {
             val answer: String = viewModel.answer.first()
             answerEditText.setText(answer)
+            answerEditText.onUndoRedoChangedListener =
+                UndoRedoEditText.OnUndoRedoChangedListener {
+                    answerUndoButton.isEnabled = answerEditText.canUndo()
+                    answerRedoButton.isEnabled = answerEditText.canRedo()
+                }
         }
         viewModel.isLearned.observe { isLearned: Boolean ->
             questionEditText.isActivated = !isLearned
