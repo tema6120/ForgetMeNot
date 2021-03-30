@@ -115,7 +115,6 @@
     <string name="text_autoplay_button">Autoplay</string>
     <string name="text_exercise_button">Exercise</string>
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
-    <string name="toast_text_no_cards_ready_for_exercise">There are no cards ready for exercise</string>
     <string name="progress_bar_reading_files">Reading files ..</string>
 
 
@@ -1118,5 +1117,30 @@
     <string name="text_opacity_in_dark_theme">Text opacity in dark theme</string>
     <string name="dialog_title_text_opacity">Text opacity</string>
     <string name="text_opacity_example_text">Example\n\n%1$s</string>
-
+    <string name="dialog_title_no_cards_ready_for_exercise">No card is ready for exercise</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1">According to
+        the intervals applied to these decks</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1_with_args">According to
+        the intervals applied to this deck (%1$s)</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_2">, no card is available
+        for exercise yet. The first card will be available in:</string>
+    <plurals name="days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <string name="description_no_exercise_card_dialog_paragraph_2">You can change or turn off
+        intervals in deck settings.</string>
+    <string name="button_go_to_deck_settings">Go to deck settings</string>
 </resources>

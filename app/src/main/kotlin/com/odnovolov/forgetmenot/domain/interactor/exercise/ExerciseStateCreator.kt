@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.TestingMethod.*
 import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
+import com.soywiz.klock.DateTime
 import kotlin.random.Random
 
 class ExerciseStateCreator(
@@ -16,6 +17,28 @@ class ExerciseStateCreator(
                 isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
             }
         }
+    }
+
+    fun calculateTimeWhenTheFirstCardWillBeAvailable(deckIds: List<Long>): DateTime? {
+        var minTime: DateTime? = null
+        for (deck in globalState.decks) {
+            if (deck.id !in deckIds) continue
+            if (deck.cards.all { it.isLearned }) continue
+            val intervals: List<Interval> = deck.exercisePreference.intervalScheme?.intervals
+                ?: return DateTime.now()
+            for (card in deck.cards) {
+                if (card.isLearned) continue
+                if (card.lastTestedAt == null) return DateTime.now()
+                val interval: Interval = intervals.find { interval: Interval ->
+                    interval.grade == card.grade
+                } ?: intervals.maxByOrNull { it.grade }!!
+                val timeToBeAvailable = card.lastTestedAt!! + interval.value
+                if (minTime == null || timeToBeAvailable < minTime) {
+                    minTime = timeToBeAvailable
+                }
+            }
+        }
+        return minTime
     }
 
     fun create(deckIds: List<Long>): Exercise.State {

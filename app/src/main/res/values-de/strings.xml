@@ -105,7 +105,6 @@
     <string name="text_autoplay_button">Automatische Wiedergabe</string>
     <string name="text_exercise_button">Übung</string>
     <string name="text_exercise_button_with_cards_count">Übung (%d)</string>
-    <string name="toast_text_no_cards_ready_for_exercise">Es sind keine Karten bereit für die Übung</string>
     <string name="progress_bar_reading_files">Reading files ..</string>
     <!-- Deck lists editor -->
     <string name="screen_title_deck_lists">Deck lists</string>

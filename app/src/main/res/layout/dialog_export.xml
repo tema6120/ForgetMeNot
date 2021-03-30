@@ -22,6 +22,7 @@
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
                 android:padding="16dp"
                 android:text="@string/dialog_title_export"
                 android:textColor="@color/text_high_emphasis"

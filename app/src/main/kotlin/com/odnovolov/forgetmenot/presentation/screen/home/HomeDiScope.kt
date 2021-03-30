@@ -16,6 +16,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.choosedecklist.ChooseD
 import com.odnovolov.forgetmenot.presentation.screen.home.choosepreset.ChoosePresetViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.deckoptions.DeckOptionsViewModel
 import com.odnovolov.forgetmenot.presentation.screen.home.deckselectionoptions.DeckSelectionOptionsViewModel
+import com.odnovolov.forgetmenot.presentation.screen.home.noexercisecard.NoExerciseCardViewModel
 
 class HomeDiScope private constructor(
     initialHomeScreenState: HomeScreenState? = null,
@@ -114,6 +115,10 @@ class HomeDiScope private constructor(
             screenState,
             AppDiScope.get().globalState
         )
+
+    val noExerciseCardViewModel = NoExerciseCardViewModel(
+        screenState
+    )
 
     companion object : DiScopeManager<HomeDiScope>() {
         fun create(

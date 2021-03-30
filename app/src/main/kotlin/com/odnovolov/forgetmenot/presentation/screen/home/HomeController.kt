@@ -68,7 +68,7 @@ class HomeController(
     private val batchCardEditorProvider: ShortTermStateProvider<BatchCardEditor>
 ) : BaseController<HomeEvent, Command>() {
     sealed class Command {
-        object ShowNoCardIsReadyForExerciseMessage : Command()
+        object ShowNoExerciseCardDialog : Command()
         object ShowDeckOptions : Command()
         object ShowDeckSelectionOptions : Command()
         object ShowCardSelectionOptions : Command()
@@ -601,9 +601,14 @@ class HomeController(
                 notifyDeckListUpdated()
             }
 
+            GoToDeckSettingsButtonClicked -> {
+                val deckId = screenState.deckRelatedToNoExerciseCardDialog?.id ?: return
+                navigateToDeckEditor(deckId, initialTab = DeckEditorScreenTab.Settings)
+            }
+
             FragmentResumed -> {
                 val isCurrentDeckListExists = deckReviewPreference.deckList
-                    ?.let { deckList: DeckList -> deckList in globalState.deckLists}
+                    ?.let { deckList: DeckList -> deckList in globalState.deckLists }
                     ?: true
                 if (!isCurrentDeckListExists) {
                     deckReviewPreference.deckList = null
@@ -625,7 +630,15 @@ class HomeController(
             }
             screenState.deckSelection = null
         } else {
-            sendCommand(ShowNoCardIsReadyForExerciseMessage)
+            screenState.deckRelatedToNoExerciseCardDialog =
+                if (deckIds.size != 1) {
+                    null
+                } else {
+                    globalState.decks.find { it.id == deckIds.first() } ?: return
+                }
+            screenState.timeWhenTheFirstCardWillBeAvailable =
+                exerciseStateCreator.calculateTimeWhenTheFirstCardWillBeAvailable(deckIds)
+            sendCommand(ShowNoExerciseCardDialog)
         }
     }
 

@@ -123,7 +123,6 @@
     <string name="text_autoplay_button">Автопрогравання</string>
     <string name="text_exercise_button">Вправа</string>
     <string name="text_exercise_button_with_cards_count">Вправа (%d)</string>
-    <string name="toast_text_no_cards_ready_for_exercise">Немає карток, готових для вправи</string>
     <string name="progress_bar_reading_files">Читання файлів ..</string>
 
 

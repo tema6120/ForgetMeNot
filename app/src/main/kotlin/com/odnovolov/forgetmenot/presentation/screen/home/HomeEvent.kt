@@ -83,5 +83,8 @@ sealed class HomeEvent {
     object CreateDeckListForAddingDecksButtonClicked : HomeEvent()
     class DeckListForRemovingDecksSelected(val deckListId: Long) : HomeEvent()
 
+    // NoExerciseCardDialog
+    object GoToDeckSettingsButtonClicked : HomeEvent()
+
     object FragmentResumed : HomeEvent()
 }

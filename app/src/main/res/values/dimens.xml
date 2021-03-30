@@ -117,4 +117,5 @@
     <dimen name="text_size_choose_preset_dialog_preset_description">12sp</dimen>
     <dimen name="text_size_card_appearance_text_size_edittext">14sp</dimen>
     <dimen name="text_size_cards_file_fragment_skip_button">14sp</dimen>
+    <dimen name="text_size_time_before_first_card_will_be_available_for_exercise">22sp</dimen>
 </resources>

@@ -32,6 +32,7 @@ import com.odnovolov.forgetmenot.presentation.screen.home.choosedecklist.ChooseD
 import com.odnovolov.forgetmenot.presentation.screen.home.choosepreset.ChoosePresetDialog
 import com.odnovolov.forgetmenot.presentation.screen.home.deckoptions.DeckOptionsBottomSheet
 import com.odnovolov.forgetmenot.presentation.screen.home.deckselectionoptions.DeckSelectionOptionsBottomSheet
+import com.odnovolov.forgetmenot.presentation.screen.home.noexercisecard.NoExerciseCardDialog
 import com.odnovolov.forgetmenot.presentation.screen.navhost.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_nav_host.*
@@ -416,8 +417,8 @@ class HomeFragment : BaseFragment() {
 
     private fun executeCommand(command: HomeController.Command) {
         when (command) {
-            ShowNoCardIsReadyForExerciseMessage -> {
-                showToast(R.string.toast_text_no_cards_ready_for_exercise)
+            ShowNoExerciseCardDialog -> {
+                NoExerciseCardDialog().show(childFragmentManager, "NoExerciseCardDialog")
             }
             ShowDeckOptions -> {
                 DeckOptionsBottomSheet().show(childFragmentManager, "DeckOptionsBottomSheet")

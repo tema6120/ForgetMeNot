@@ -118,7 +118,6 @@
     <string name="text_autoplay_button">Автопроигрывание</string>
     <string name="text_exercise_button">Упражнение</string>
     <string name="text_exercise_button_with_cards_count">Упражнение (%d)</string>
-    <string name="toast_text_no_cards_ready_for_exercise">Нет карточек, готовых для упражнения</string>
     <string name="progress_bar_reading_files">Чтение файлов ..</string>
 
 

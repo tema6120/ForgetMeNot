@@ -1,0 +1,130 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/exportRootView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/background_dialog"
+        tools:elevation="24dp"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/dialogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/dialog_title_no_cards_ready_for_exercise"
+                android:textColor="@color/issue"
+                android:textSize="@dimen/text_size_dialog_title"
+                app:drawableStartCompat="@drawable/ic_round_hourglass_empty_24"
+                app:drawableTint="@color/issue"
+                app:layout_constraintEnd_toStartOf="@+id/closeButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+                android:id="@+id/closeButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/ripple"
+                android:contentDescription="@string/description_close"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_close_28" />
+
+        <TextView
+                android:id="@+id/description1TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/nunito_bold"
+                android:textColor="@color/text_medium_emphasis"
+                android:textSize="@dimen/text_size_dialog_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogTitle"
+                tools:text="According to the intervals applied to this deck (8h  2d  7d), no card is available for exercise yet. The first card will be available in:" />
+
+        <TextView
+                android:id="@+id/timeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:gravity="center_horizontal"
+                android:textColor="@color/text_high_emphasis"
+                android:textSize="@dimen/text_size_time_before_first_card_will_be_available_for_exercise"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description1TextView"
+                tools:text="3 hours &amp; 12 minutes" />
+
+        <TextView
+                android:id="@+id/description2TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/nunito_bold"
+                android:text="@string/description_no_exercise_card_dialog_paragraph_2"
+                android:textColor="@color/text_medium_emphasis"
+                android:textSize="@dimen/text_size_dialog_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timeTextView" />
+
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/goToDeckSettingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:outlineAmbientShadowColor="@color/accent"
+                android:outlineSpotShadowColor="@color/accent"
+                android:stateListAnimator="@animator/material_button"
+                android:text="@string/button_go_to_deck_settings"
+                android:textAllCaps="false"
+                android:textColor="@color/text_dialog_ok_button"
+                android:textSize="@dimen/text_size_dialog_ok_button"
+                android:visibility="visible"
+                app:backgroundTint="@color/accent"
+                app:cornerRadius="16dp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description2TextView"
+                app:rippleColor="@color/ripple_on_accent"
+                tools:visibility="visible" />
+
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/goToDeckSettingsButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

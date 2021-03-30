@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.home
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
+import com.soywiz.klock.DateTime
 import kotlinx.serialization.Serializable
 
 class HomeScreenState : FlowMaker<HomeScreenState>() {
@@ -13,6 +14,8 @@ class HomeScreenState : FlowMaker<HomeScreenState>() {
     var fileFormatForExport: FileFormat? by flowMaker(null)
     var chooseDeckListDialogPurpose: ChooseDeckListDialogPurpose? by flowMaker(null)
     var updateDeckListSignal: Unit by flowMaker(Unit)
+    var deckRelatedToNoExerciseCardDialog: Deck? by flowMaker(null)
+    var timeWhenTheFirstCardWillBeAvailable: DateTime? by flowMaker(null)
 }
 
 @Serializable

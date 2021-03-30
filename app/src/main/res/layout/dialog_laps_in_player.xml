@@ -21,6 +21,7 @@
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
                 android:padding="16dp"
                 android:text="@string/title_dialog_laps_in_player"
                 android:textColor="@color/text_high_emphasis"
