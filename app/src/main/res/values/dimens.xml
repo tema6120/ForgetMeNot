@@ -28,8 +28,8 @@
     <dimen name="text_size_description">14sp</dimen>
     <dimen name="text_size_floating_button">14sp</dimen>
     <dimen name="text_size_screen_title">21sp</dimen>
-    <dimen name="text_size_card_filter_for_autoplay_screen_matching_cards_number">22sp</dimen>
-    <dimen name="text_size_card_filter_for_autoplay_screen_matching_cards_label">14sp</dimen>
+    <dimen name="text_size_card_filter_screen_matching_cards_number">22sp</dimen>
+    <dimen name="text_size_card_filter_screen_matching_cards_label">14sp</dimen>
     <dimen name="text_size_section_title">18sp</dimen>
     <dimen name="text_size_checkbox">15sp</dimen>
     <dimen name="text_size_radiobutton">15sp</dimen>

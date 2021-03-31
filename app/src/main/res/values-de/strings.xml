@@ -251,7 +251,7 @@
     <string name="no_cards_to_exercise">No cards to exercise</string>
     <string name="deck_has_no_cards_to_show_example">Deck has no cards to show example</string>
     <!-- Card filter for autoplay screen -->
-    <string name="screen_title_card_filter_for_autoplay">Card filter</string>
+    <string name="screen_title_card_filter">Card filter</string>
     <plurals name="matching_cards_number_label">
         <item quantity="one">card matches the filter</item>
         <item quantity="other">cards match the filter</item>

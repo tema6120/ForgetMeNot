@@ -23,6 +23,7 @@ import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.firstBlocking
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardfilterforexercise.CardFilterForExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeCaller
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDiScope
@@ -38,6 +39,9 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardPrefilterMode
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardPrefilterMode.*
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDialogState
 import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose.ToAddDeckToDeckList
@@ -61,6 +65,7 @@ class HomeController(
     private val cardsSearcher: CardsSearcher,
     private val batchCardEditor: BatchCardEditor,
     private val deckPresetSetter: DeckPresetSetter,
+    private val exerciseSettings: ExerciseSettings,
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
@@ -173,7 +178,7 @@ class HomeController(
                 if (screenState.deckSelection != null) {
                     toggleDeckSelection(event.deckId)
                 } else {
-                    startExercise(listOf(event.deckId))
+                    tryToStartExercise(listOf(event.deckId))
                 }
             }
 
@@ -193,7 +198,7 @@ class HomeController(
 
             StartExerciseDeckOptionSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
-                startExercise(deckIds = listOf(deckId))
+                tryToStartExercise(deckIds = listOf(deckId))
             }
 
             AutoplayDeckOptionSelected -> {
@@ -342,7 +347,7 @@ class HomeController(
                     ) {
                         return
                     }
-                    startExercise(deckSelection.selectedDeckIds)
+                    tryToStartExercise(deckSelection.selectedDeckIds)
                 } ?: kotlin.run {
                     screenState.deckSelection = DeckSelection(
                         selectedDeckIds = emptyList(),
@@ -622,14 +627,8 @@ class HomeController(
         screenState.updateDeckListSignal = Unit
     }
 
-    private fun startExercise(deckIds: List<Long>) {
-        if (exerciseStateCreator.hasAnyCardAvailableForExercise(deckIds)) {
-            navigator.navigateToExercise {
-                val exerciseState: Exercise.State = exerciseStateCreator.create(deckIds)
-                ExerciseDiScope.create(exerciseState)
-            }
-            screenState.deckSelection = null
-        } else {
+    private fun tryToStartExercise(deckIds: List<Long>) {
+        if (!exerciseStateCreator.areThereCardsAvailableForExerciseMoreThan(0, deckIds)) {
             screenState.deckRelatedToNoExerciseCardDialog =
                 if (deckIds.size != 1) {
                     null
@@ -639,6 +638,44 @@ class HomeController(
             screenState.timeWhenTheFirstCardWillBeAvailable =
                 exerciseStateCreator.calculateTimeWhenTheFirstCardWillBeAvailable(deckIds)
             sendCommand(ShowNoExerciseCardDialog)
+            return
+        }
+        when (val cardPrefilterMode = exerciseSettings.cardPrefilterMode) {
+            DoNotFilter -> {
+                navigateToExercise(deckIds, limit = null)
+            }
+            is LimitCardsTo -> {
+                navigateToExercise(deckIds, limit = cardPrefilterMode.numberOfCards)
+            }
+            is ShowFilterWhenCardsMoreThan -> {
+                val needToShowCardFilter =
+                    exerciseStateCreator.areThereCardsAvailableForExerciseMoreThan(
+                        cardPrefilterMode.numberOfCards,
+                        deckIds
+                    )
+                if (needToShowCardFilter) {
+                    navigateToCardFilterForExercise()
+                } else {
+                    navigateToExercise(deckIds, limit = null)
+                }
+            }
+            AlwaysShowFilter -> {
+                navigateToCardFilterForExercise()
+            }
+        }
+        screenState.deckSelection = null
+    }
+
+    private fun navigateToExercise(deckIds: List<Long>, limit: Int?) {
+        navigator.navigateToExerciseFromNavHost {
+            val exerciseState: Exercise.State = exerciseStateCreator.create(deckIds, limit)
+            ExerciseDiScope.create(exerciseState)
+        }
+    }
+
+    private fun navigateToCardFilterForExercise() {
+        navigator.navigateToCardFilterForExercise {
+            CardFilterForExerciseDiScope()
         }
     }
 

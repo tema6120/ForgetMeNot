@@ -11,12 +11,23 @@ import kotlin.random.Random
 class ExerciseStateCreator(
     private val globalState: GlobalState
 ) {
-    fun hasAnyCardAvailableForExercise(deckIds: List<Long>): Boolean {
-        return globalState.decks.any { deck: Deck ->
-            deck.id in deckIds && deck.cards.any { card: Card ->
-                isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)
+    fun areThereCardsAvailableForExerciseMoreThan(
+        numberOfCards: Int,
+        deckIds: List<Long>
+    ): Boolean {
+        var numberOfAvailableCards = 0
+        for (deck in globalState.decks) {
+            if (deck.id !in deckIds) continue
+            for (card in deck.cards) {
+                if (isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme)) {
+                    numberOfAvailableCards++
+                    if (numberOfAvailableCards > numberOfCards) {
+                        return true
+                    }
+                }
             }
         }
+        return false
     }
 
     fun calculateTimeWhenTheFirstCardWillBeAvailable(deckIds: List<Long>): DateTime? {
@@ -41,8 +52,8 @@ class ExerciseStateCreator(
         return minTime
     }
 
-    fun create(deckIds: List<Long>): Exercise.State {
-        val exerciseCards: List<ExerciseCard> = globalState.decks
+    fun create(deckIds: List<Long>, limit: Int? = null): Exercise.State {
+        var exerciseCards: List<ExerciseCard> = globalState.decks
             .filter { deck -> deck.id in deckIds }
             .map { deck ->
                 val isRandom = deck.exercisePreference.randomOrder
@@ -55,8 +66,10 @@ class ExerciseStateCreator(
                     .map { card -> cardToExerciseCard(card, deck) }
             }
             .flattenWithShallowShuffling()
+        if (limit != null) {
+            exerciseCards = exerciseCards.take(limit)
+        }
         QuizComposer.clearCache()
-        if (exerciseCards.isEmpty()) throw NoCardIsReadyForExercise
         return Exercise.State(exerciseCards)
     }
 
@@ -102,6 +115,4 @@ class ExerciseStateCreator(
             }
         }
     }
-
-    object NoCardIsReadyForExercise : Exception("No card is ready for exercise")
 }

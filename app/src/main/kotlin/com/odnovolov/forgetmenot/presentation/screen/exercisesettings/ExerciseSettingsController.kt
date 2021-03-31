@@ -18,11 +18,11 @@ class ExerciseSettingsController(
 ) : BaseController<ExerciseSettingsEvent, Nothing>() {
     override fun handle(event: ExerciseSettingsEvent) {
         when (event) {
-            NeverFilterCardsButtonClicked -> {
-                exerciseSettings.cardPrefilterMode = CardPrefilterMode.Never
+            DoNotFilterButtonClicked -> {
+                exerciseSettings.cardPrefilterMode = CardPrefilterMode.DoNotFilter
             }
 
-            LimitCardsToButtonClicked -> {
+            LimitCardsButtonClicked -> {
                 val cardPrefilterMode = exerciseSettings.cardPrefilterMode
                 dialogState.text =
                     if (cardPrefilterMode is CardPrefilterMode.LimitCardsTo) {

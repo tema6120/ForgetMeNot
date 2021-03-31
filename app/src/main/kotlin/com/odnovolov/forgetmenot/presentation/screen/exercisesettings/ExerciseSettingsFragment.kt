@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
@@ -43,11 +44,11 @@ class ExerciseSettingsFragment : BaseFragment() {
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        neverFilterCardsButton.setOnClickListener {
-            controller?.dispatch(NeverFilterCardsButtonClicked)
+        doNotFilterButton.setOnClickListener {
+            controller?.dispatch(DoNotFilterButtonClicked)
         }
-        limitCardsToButton.setOnClickListener {
-            controller?.dispatch(LimitCardsToButtonClicked)
+        limitCardsButton.setOnClickListener {
+            controller?.dispatch(LimitCardsButtonClicked)
         }
         conditionallyShowCardFilterButton.setOnClickListener {
             controller?.dispatch(ConditionallyShowCardFilterButtonClicked)
@@ -60,8 +61,8 @@ class ExerciseSettingsFragment : BaseFragment() {
     private fun observeViewModel() {
         with(viewModel) {
             cardPrefilterMode.observe { cardPrefilterMode: CardPrefilterMode ->
-                neverFilterCardsButton.isSelected = cardPrefilterMode is CardPrefilterMode.Never
-                limitCardsToButton.isSelected = cardPrefilterMode is CardPrefilterMode.LimitCardsTo
+                doNotFilterButton.isSelected = cardPrefilterMode is CardPrefilterMode.DoNotFilter
+                limitCardsButton.isSelected = cardPrefilterMode is CardPrefilterMode.LimitCardsTo
                 conditionallyShowCardFilterButton.isSelected =
                     cardPrefilterMode is CardPrefilterMode.ShowFilterWhenCardsMoreThan
                 alwaysShowCardFilterButton.isSelected =
@@ -73,7 +74,7 @@ class ExerciseSettingsFragment : BaseFragment() {
                     } else {
                         DEFAULT_CARD_NUMBER_LIMITATION
                     }
-                limitCardsToButton.text = resources.getQuantityString(
+                limitCardsButton.text = resources.getQuantityString(
                     R.plurals.card_prefilter_mode_limit_cards_to,
                     cardNumberLimitation,
                     cardNumberLimitation
@@ -93,10 +94,27 @@ class ExerciseSettingsFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (isFinishing()) {
             ExerciseSettingsDiScope.close()
+        }
+    }
+
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val canScrollUp = contentScrollView.canScrollVertically(-1)
+        if (appBar.isActivated != canScrollUp) {
+            appBar.isActivated = canScrollUp
         }
     }
 }

@@ -75,6 +75,7 @@ class HomeDiScope private constructor(
         cardsSearcher,
         batchCardEditor,
         DeckPresetSetter(),
+        AppDiScope.get().exerciseSettings,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver,

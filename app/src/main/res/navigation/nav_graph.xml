@@ -14,6 +14,10 @@
                 app:destination="@+id/file_import" />
 
         <action
+                android:id="@+id/nav_host_to_card_filter_for_exercise"
+                app:destination="@+id/card_filter_for_exercise" />
+
+        <action
                 android:id="@+id/nav_host_to_exercise"
                 app:destination="@id/exercise" />
 
@@ -495,5 +499,18 @@
             android:id="@+id/cards_threshold_dialog"
             android:name="com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardThresholdDialog"
             tools:layout="@layout/dialog_cards_threshold_for_showing_filter" />
+
+    <fragment
+            android:id="@+id/card_filter_for_exercise"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfilterforexercise.CardFilterForExerciseFragment"
+            tools:layout="@layout/fragment_card_filter_for_exercise">
+
+        <action
+                android:id="@+id/card_filter_to_exercise"
+                app:destination="@+id/exercise"
+                app:popUpTo="@+id/card_filter_to_exercise"
+                app:popUpToInclusive="true" />
+
+    </fragment>
 
 </navigation>

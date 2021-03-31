@@ -79,13 +79,13 @@
                     app:layout_constraintTop_toTopOf="@id/cardFilterDisplayTitle">
 
                 <TextView
-                        android:id="@+id/neverFilterCardsButton"
+                        android:id="@+id/doNotFilterButton"
                         style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
-                        android:text="@string/card_prefilter_mode_never" />
+                        android:text="@string/card_prefilter_mode_do_not_filter" />
 
                 <TextView
-                        android:id="@+id/limitCardsToButton"
+                        android:id="@+id/limitCardsButton"
                         style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:layout_marginTop="-2dp"
@@ -96,7 +96,7 @@
                         style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:layout_marginTop="-2dp"
-                        tools:text="Show the card filter when cards more than 100" />
+                        tools:text="Show the card filter when the number of cards is greater than " />
 
                 <TextView
                         android:id="@+id/alwaysShowCardFilterButton"

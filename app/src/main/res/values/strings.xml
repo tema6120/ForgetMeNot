@@ -281,7 +281,7 @@
 
     <!-- Card filter for autoplay screen -->
 
-    <string name="screen_title_card_filter_for_autoplay">Card filter</string>
+    <string name="screen_title_card_filter">Card filter</string>
     <plurals name="matching_cards_number_label">
         <item quantity="one">card matches the filter</item>
         <item quantity="other">cards match the filter</item>
@@ -1148,7 +1148,7 @@
     <string name="text_exercise_settings_description">Some general exercise settings</string>
     <string name="screen_title_exercise_settings">Exercise settings</string>
     <string name="exercise_setting_card_prefilter">Filtering cards before starting the exercise</string>
-    <string name="card_prefilter_mode_never">Never</string>
+    <string name="card_prefilter_mode_do_not_filter">Do not filter</string>
     <plurals name="card_prefilter_mode_limit_cards_to">
         <item quantity="one">Limit to %d card</item>
         <item quantity="other">Limit to %d cards</item>

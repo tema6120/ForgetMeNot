@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        app:layoutDescription="@xml/card_filter_for_autoplay_scene">
+        app:layoutDescription="@xml/card_filter_scene">
 
     <FrameLayout
             android:id="@+id/appBarSurface"
@@ -39,7 +39,7 @@
             android:elevation="4dp"
             android:fontFamily="@font/jura"
             android:padding="16dp"
-            android:text="@string/screen_title_card_filter_for_autoplay"
+            android:text="@string/screen_title_card_filter"
             android:textColor="@color/screen_title"
             android:textSize="@dimen/text_size_screen_title"
             android:textStyle="bold"
@@ -58,7 +58,7 @@
             android:scaleX="3"
             android:scaleY="3"
             android:textColor="@color/item_blue_selected"
-            android:textSize="@dimen/text_size_card_filter_for_autoplay_screen_matching_cards_number"
+            android:textSize="@dimen/text_size_card_filter_screen_matching_cards_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/screenTitle"
@@ -75,7 +75,7 @@
             android:fontFamily="@font/nunito_bold"
             android:gravity="center"
             android:textColor="@color/description_matching_cards_number"
-            android:textSize="@dimen/text_size_card_filter_for_autoplay_screen_matching_cards_label"
+            android:textSize="@dimen/text_size_card_filter_screen_matching_cards_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/matchingCardsNumberTextView"

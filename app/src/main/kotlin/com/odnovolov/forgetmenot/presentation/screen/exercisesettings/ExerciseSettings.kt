@@ -23,7 +23,7 @@ class ExerciseSettings(
 @Serializable
 sealed class CardPrefilterMode {
     @Serializable
-    object Never : CardPrefilterMode()
+    object DoNotFilter : CardPrefilterMode()
 
     @Serializable
     data class LimitCardsTo(val numberOfCards: Int) : CardPrefilterMode()

@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercisesettings
 
 sealed class ExerciseSettingsEvent {
-    object NeverFilterCardsButtonClicked : ExerciseSettingsEvent()
-    object LimitCardsToButtonClicked : ExerciseSettingsEvent()
+    object DoNotFilterButtonClicked : ExerciseSettingsEvent()
+    object LimitCardsButtonClicked : ExerciseSettingsEvent()
     object ConditionallyShowCardFilterButtonClicked : ExerciseSettingsEvent()
     object AlwaysShowCardFilterButtonClicked : ExerciseSettingsEvent()
     class CardsThresholdDialogInputTextChanged(val text: String) : ExerciseSettingsEvent()

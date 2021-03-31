@@ -247,7 +247,7 @@ dans le temps alloué</string>
     <string name="no_cards_to_exercise">No cards to exercise</string>
     <string name="deck_has_no_cards_to_show_example">Deck has no cards to show example</string>
     <!-- Card filter for autoplay screen -->
-    <string name="screen_title_card_filter_for_autoplay">Filtre de carte</string>
+    <string name="screen_title_card_filter">Filtre de carte</string>
     <plurals name="matching_cards_number_label">
         <item quantity="one">carte correspond au filtre</item>
         <item quantity="other">cartes correspondent au filtre</item>

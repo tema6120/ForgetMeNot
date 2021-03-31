@@ -297,7 +297,7 @@
 
     <!-- Card filter for autoplay screen -->
 
-    <string name="screen_title_card_filter_for_autoplay">Фильтр карточек</string>
+    <string name="screen_title_card_filter">Фильтр карточек</string>
     <plurals name="matching_cards_number_label">
         <item quantity="one" tools:ignore="ImpliedQuantity">карточка соответствует фильтру</item>
         <item quantity="few">карточки соответствуют фильтру</item>

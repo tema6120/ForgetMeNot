@@ -10,6 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardfilterforexercise.CardFilterForExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDiScope
@@ -76,9 +77,19 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.file_import_to_help)
     }
 
-    fun navigateToExercise(createDiScope: () -> ExerciseDiScope) {
+    fun navigateToCardFilterForExercise(createDiScope: () -> CardFilterForExerciseDiScope) {
+        CardFilterForExerciseDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_card_filter_for_exercise)
+    }
+
+    fun navigateToExerciseFromNavHost(createDiScope: () -> ExerciseDiScope) {
         ExerciseDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_exercise)
+    }
+
+    fun navigateToExerciseFromCardFilter(createDiScope: () -> ExerciseDiScope) {
+        ExerciseDiScope.open(createDiScope)
+        navigate(R.id.card_filter_to_exercise)
     }
 
     fun navigateToDeckEditorFromExercise(createDiScope: () -> DeckEditorDiScope) {
