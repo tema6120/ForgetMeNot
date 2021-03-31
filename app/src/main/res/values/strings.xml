@@ -627,7 +627,8 @@
     <string name="item_text_fullscreen_in_card_player">In card player</string>
     <string name="item_text_fullscreen_in_other_places">In other places</string>
     <string name="text_card_appearance_settings_title">Card appearance</string>
-    <string name="text_card_appearance_settings_description">How a card looks in the exercise</string>
+    <string name="text_card_appearance_settings_description">How a card looks in the exercise,
+        player and editor</string>
     <string name="text_theme_settings_title">Theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
@@ -1143,4 +1144,14 @@
     <string name="description_no_exercise_card_dialog_paragraph_2">You can change or turn off
         intervals in deck settings.</string>
     <string name="button_go_to_deck_settings">Go to deck settings</string>
+    <string name="text_exercise_settings_title">Exercise</string>
+    <string name="text_exercise_settings_description">Some general exercise settings</string>
+    <string name="screen_title_exercise_settings">Exercise settings</string>
+    <string name="exercise_setting_show_card_filter">Show card filter before starting exercise</string>
+    <string name="exercise_setting_show_card_filter_always">Always</string>
+    <string name="exercise_setting_show_card_filter_when_cards_more_than">When cards more than %d</string>
+    <string name="exercise_setting_show_card_filter_never">Never</string>
+    <string name="title_cards_threshold_for_showing_filter_dialog">Cards threshold</string>
+    <string name="description_cards_threshold_for_showing_filter_dialog">Specify the card limit
+        above which the card filter will be displayed</string>
 </resources>

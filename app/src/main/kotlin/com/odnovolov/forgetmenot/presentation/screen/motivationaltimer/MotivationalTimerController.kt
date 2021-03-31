@@ -44,6 +44,9 @@ class MotivationalTimerController(
 
             TimeForAnswerSwitchToggled -> {
                 screenState.isTimerEnabled = !screenState.isTimerEnabled
+                if (!screenState.isTimerEnabled) {
+                    deckSettings.setTimeForAnswer(NOT_TO_USE_TIMER)
+                }
             }
 
             is TimeInputChanged -> {

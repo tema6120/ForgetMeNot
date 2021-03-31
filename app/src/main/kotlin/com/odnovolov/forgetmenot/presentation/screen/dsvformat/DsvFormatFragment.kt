@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned

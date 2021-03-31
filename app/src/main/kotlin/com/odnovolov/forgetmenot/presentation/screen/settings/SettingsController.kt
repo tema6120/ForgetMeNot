@@ -20,10 +20,6 @@ class SettingsController(
 ) : BaseController<SettingsEvent, Nothing>() {
     override fun handle(event: SettingsEvent) {
         when (event) {
-            WalkingModeSettingsButtonClicked -> {
-                navigator.navigateToWalkingModeSettingsFromNavHost()
-            }
-
             FullscreenInExerciseCheckboxClicked -> {
                 with(fullscreenPreference) {
                     isEnabledInExercise = !isEnabledInExercise
@@ -59,6 +55,14 @@ class SettingsController(
                     val screenState = CardAppearanceScreenState(tenRandomCards)
                     CardAppearanceDiScope.create(screenState)
                 }
+            }
+
+            ExerciseButtonClicked -> {
+                navigator.navigateToExerciseSettings()
+            }
+
+            WalkingModeButtonClicked -> {
+                navigator.navigateToWalkingModeSettingsFromNavHost()
             }
         }
     }

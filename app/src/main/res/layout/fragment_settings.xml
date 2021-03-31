@@ -53,34 +53,7 @@
                 android:orientation="vertical">
 
             <LinearLayout
-                    android:id="@+id/walkingModeSettingsButton"
-                    style="@style/SettingsItemButton">
-
-                <LinearLayout style="@style/SettingsTextColumn">
-
-                    <TextView
-                            android:id="@+id/walkingModeSettingsTitle"
-                            style="@style/SettingsItemTitle"
-                            android:text="@string/text_walking_mode_title" />
-
-                    <TextView
-                            android:id="@+id/walkingModeSettingsDescription"
-                            style="@style/SettingsItemDescription"
-                            android:text="@string/text_walking_mode_settings_description" />
-
-                </LinearLayout>
-
-                <ImageView style="@style/SettingsItemNavigationIcon" />
-
-            </LinearLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@drawable/divider_on_surface_with_margins" />
-
-            <LinearLayout
-                    android:id="@+id/fullscreenSettingsSettingsButton"
+                    android:id="@+id/fullscreenButton"
                     style="@style/SettingsItemButton">
 
                 <LinearLayout style="@style/SettingsTextColumn">
@@ -94,6 +67,33 @@
                             android:id="@+id/fullscreenSettingsDescription"
                             style="@style/SettingsItemDescription"
                             tools:text="Everywhere" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/SettingsItemNavigationIcon" />
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/divider_on_surface_with_margins" />
+
+            <LinearLayout
+                    android:id="@+id/themeButton"
+                    style="@style/SettingsItemButton">
+
+                <LinearLayout style="@style/SettingsTextColumn">
+
+                    <TextView
+                            android:id="@+id/themeTitle"
+                            style="@style/SettingsItemTitle"
+                            android:text="@string/text_theme_settings_title" />
+
+                    <TextView
+                            android:id="@+id/themeDescription"
+                            style="@style/SettingsItemDescription"
+                            tools:text="@string/theme_dark" />
 
                 </LinearLayout>
 
@@ -134,20 +134,47 @@
                     android:background="@drawable/divider_on_surface_with_margins" />
 
             <LinearLayout
-                    android:id="@+id/themeButton"
+                    android:id="@+id/exerciseButton"
                     style="@style/SettingsItemButton">
 
                 <LinearLayout style="@style/SettingsTextColumn">
 
                     <TextView
-                            android:id="@+id/themeTitle"
+                            android:id="@+id/exerciseTitle"
                             style="@style/SettingsItemTitle"
-                            android:text="@string/text_theme_settings_title" />
+                            android:text="@string/text_exercise_settings_title" />
 
                     <TextView
-                            android:id="@+id/themeDescription"
+                            android:id="@+id/exerciseDescription"
                             style="@style/SettingsItemDescription"
-                            tools:text="@string/theme_dark" />
+                            android:text="@string/text_exercise_settings_description" />
+
+                </LinearLayout>
+
+                <ImageView style="@style/SettingsItemNavigationIcon" />
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/divider_on_surface_with_margins" />
+
+            <LinearLayout
+                    android:id="@+id/walkingModeButton"
+                    style="@style/SettingsItemButton">
+
+                <LinearLayout style="@style/SettingsTextColumn">
+
+                    <TextView
+                            android:id="@+id/walkingModeSettingsTitle"
+                            style="@style/SettingsItemTitle"
+                            android:text="@string/text_walking_mode_title" />
+
+                    <TextView
+                            android:id="@+id/walkingModeSettingsDescription"
+                            style="@style/SettingsItemDescription"
+                            android:text="@string/text_walking_mode_settings_description" />
 
                 </LinearLayout>
 

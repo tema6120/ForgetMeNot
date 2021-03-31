@@ -106,20 +106,22 @@ class MotivationalTimerFragment : BaseFragment() {
             }
             timeForAnswerEditText.setText(timeInput)
             isTimerEnabled.observe { isTimerEnabled: Boolean ->
-                timerSwitch.run {
-                    isChecked = isTimerEnabled
-                    timerSwitch.setText(
-                        if (isTimerEnabled)
-                            R.string.on else
-                            R.string.off
-                    )
-                    uncover()
-                }
+                timerSwitch.isChecked = isTimerEnabled
+                timerSwitch.setText(
+                    if (isTimerEnabled)
+                        R.string.on else
+                        R.string.off
+                )
                 secTextView.isEnabled = isTimerEnabled
                 timeForAnswerEditText.isEnabled = isTimerEnabled
                 if (!timeForAnswerEditText.isEnabled) {
                     timeForAnswerEditText.clearFocus()
                 }
+                if (timerSwitch.isVisible && timerSwitch.isChecked) {
+                    timeForAnswerEditText.selectAll()
+                    timeForAnswerEditText.showSoftInput()
+                }
+                timerSwitch.uncover()
             }
         }
     }

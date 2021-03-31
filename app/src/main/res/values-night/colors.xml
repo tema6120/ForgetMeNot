@@ -178,7 +178,7 @@
     <color name="esc_answer_text">#8DA2BF</color>
 
     <!-- DSV format screen -->
-    <color name="name_label">#79797D</color>
+    <color name="name_label">#5D5D62</color>
     <color name="dsv_controller_disabled">#59FFFFFF</color>
     <color name="dsv_controller_background_disabled">#2E2E35</color>
 

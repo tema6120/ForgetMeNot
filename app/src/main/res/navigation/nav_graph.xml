@@ -38,6 +38,14 @@
                 app:destination="@id/card_filter_for_autoplay" />
 
         <action
+                android:id="@+id/nav_host_to_exercise_settings"
+                app:destination="@+id/exercise_settings"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_right"
+                app:popExitAnim="@anim/slide_out_right" />
+
+        <action
                 android:id="@+id/nav_host_to_walking_mode_settings"
                 app:destination="@+id/walking_mode_settings"
                 app:enterAnim="@anim/slide_in_left"
@@ -471,5 +479,10 @@
             android:id="@+id/deck_lists_editor"
             android:name="com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorFragment"
             tools:layout="@layout/fragment_deck_lists_editor" />
+
+    <fragment
+            android:id="@+id/exercise_settings"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettingsFragment"
+            tools:layout="@layout/fragment_exercise_settings" />
 
 </navigation>

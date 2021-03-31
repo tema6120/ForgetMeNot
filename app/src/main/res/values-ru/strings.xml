@@ -661,7 +661,8 @@
     <string name="item_text_fullscreen_in_card_player">В проигрывателе карточек</string>
     <string name="item_text_fullscreen_in_other_places">В других местах</string>
     <string name="text_card_appearance_settings_title">Внешний вид карточки</string>
-    <string name="text_card_appearance_settings_description">Как карточка выглядит в упражнении</string>
+    <string name="text_card_appearance_settings_description">Как карточка выглядит в упражнении,
+        плеере и редакторе</string>
     <string name="text_theme_settings_title">Тема</string>
     <string name="theme_light">Светлая</string>
     <string name="theme_dark">Тёмная</string>

@@ -343,6 +343,10 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.player_to_help_article)
     }
 
+    fun navigateToExerciseSettings() {
+        navigate(R.id.nav_host_to_exercise_settings)
+    }
+
     fun navigateToWalkingModeSettingsFromNavHost() {
         navigate(R.id.nav_host_to_walking_mode_settings)
     }

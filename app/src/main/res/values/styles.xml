@@ -353,7 +353,6 @@
         <item name="android:background">@drawable/background_dsv_file_format_button</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="android:gravity">center</item>
-        <item name="android:maxLines">1</item>
         <item name="android:paddingStart">14dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingEnd">14dp</item>

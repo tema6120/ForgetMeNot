@@ -114,17 +114,20 @@ class SettingsFragment : BaseFragment() {
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        walkingModeSettingsButton.setOnClickListener {
-            controller?.dispatch(WalkingModeSettingsButtonClicked)
-        }
-        fullscreenSettingsSettingsButton.setOnClickListener {
+        fullscreenButton.setOnClickListener {
             fullscreenModeDialog.show()
+        }
+        themeButton.setOnClickListener {
+            themeDialog.show()
         }
         cardAppearanceButton.setOnClickListener {
             controller?.dispatch(CardAppearanceButtonClicked)
         }
-        themeButton.setOnClickListener {
-            themeDialog.show()
+        exerciseButton.setOnClickListener {
+            controller?.dispatch(ExerciseButtonClicked)
+        }
+        walkingModeButton.setOnClickListener {
+            controller?.dispatch(WalkingModeButtonClicked)
         }
     }
 
