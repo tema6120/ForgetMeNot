@@ -7,6 +7,7 @@ import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.persistence.DatabaseInitializer
 import com.odnovolov.forgetmenot.persistence.longterm.LongTermStateSaverImpl
 import com.odnovolov.forgetmenot.persistence.longterm.cardappearance.CardAppearanceProvider
+import com.odnovolov.forgetmenot.persistence.longterm.exercisesettings.ExerciseSettingsProvider
 import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileImportStorageProvider
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision.GlobalStateProvider
 import com.odnovolov.forgetmenot.persistence.longterm.lastusedlanguages.LastUsedLanguagesProvider
@@ -14,6 +15,7 @@ import com.odnovolov.forgetmenot.persistence.longterm.tipstate.TipStateProvider
 import com.odnovolov.forgetmenot.persistence.longterm.walkingmodepreference.WalkingModePreferenceProvider
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,7 +24,7 @@ import kotlinx.serialization.json.Json
 class AppDiScope(
     val app: App,
     val navigator: Navigator,
-    val activityLifecycleCallbacksInterceptor: ActivityLifecycleCallbacksInterceptor
+    activityLifecycleCallbacksInterceptor: ActivityLifecycleCallbacksInterceptor
 ) {
     val sqlDriver = DatabaseInitializer.initSqlDriver(app)
 
@@ -40,9 +42,9 @@ class AppDiScope(
         TipStateProvider(database).load()
     }
 
-    val longTermStateSaver: LongTermStateSaver = LongTermStateSaverImpl(database)
-
     val json = Json
+
+    val longTermStateSaver: LongTermStateSaver = LongTermStateSaverImpl(database, json)
 
     val audioFocusManager = AudioFocusManager(app)
 
@@ -54,6 +56,8 @@ class AppDiScope(
     )
 
     val cardAppearance: CardAppearance = CardAppearanceProvider(database).load()
+
+    val exerciseSettings: ExerciseSettings = ExerciseSettingsProvider(database, json).load()
 
     init {
         recheckDeckIdsInDeckLists(globalState)

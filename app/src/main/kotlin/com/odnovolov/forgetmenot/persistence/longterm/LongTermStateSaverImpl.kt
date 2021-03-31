@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.persistence.longterm.cardappearance.CardAppearancePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferencePropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.exercisesettings.ExerciseSettingsPropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileFormatPropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileImportStoragePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferencePropertyChangeHandler
@@ -24,16 +25,19 @@ import com.odnovolov.forgetmenot.presentation.common.entity.FullscreenPreference
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearance
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.TipState
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.pronunciation.PronunciationPreference
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import kotlin.reflect.KClass
 
 class LongTermStateSaverImpl(
-    private val database: Database
+    private val database: Database,
+    private val json: Json
 ) : LongTermStateSaver {
     private val propertyChangeHandlers: Map<KClass<*>, PropertyChangeHandler> =
         HashMap<KClass<*>, PropertyChangeHandler>().apply {
@@ -71,6 +75,7 @@ class LongTermStateSaverImpl(
             put(LastUsedLanguages::class, LastUsedLanguagesPropertyChangeHandler(database))
             put(CardAppearance::class, CardAppearancePropertyChangeHandler(database))
             put(DeckList::class, DeckListPropertyChangeHandler(database))
+            put(ExerciseSettings::class, ExerciseSettingsPropertyChangeHandler(database, json))
         }
 
     override fun saveStateByRegistry() {

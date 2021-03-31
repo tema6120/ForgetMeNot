@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exercisesettings
 
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
+import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardsThresholdDialogState.Purpose.ToChangeCardNumberThresholdForShowingFilter
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardsThresholdDialogState.Purpose.ToChangeCardNumberLimitation
@@ -12,7 +13,8 @@ class ExerciseSettingsController(
     private val exerciseSettings: ExerciseSettings,
     private val dialogState: CardsThresholdDialogState,
     private val navigator: Navigator,
-    private val longTermStateSaver: LongTermStateSaver
+    private val longTermStateSaver: LongTermStateSaver,
+    private val dialogStateProvider: ShortTermStateProvider<CardsThresholdDialogState>
 ) : BaseController<ExerciseSettingsEvent, Nothing>() {
     override fun handle(event: ExerciseSettingsEvent) {
         when (event) {
@@ -70,5 +72,6 @@ class ExerciseSettingsController(
 
     override fun saveState() {
         longTermStateSaver.saveStateByRegistry()
+        dialogStateProvider.save(dialogState)
     }
 }

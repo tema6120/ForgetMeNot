@@ -1,26 +1,32 @@
 package com.odnovolov.forgetmenot.presentation.screen.exercisesettings
 
+import com.odnovolov.forgetmenot.persistence.shortterm.CardsThresholdDialogStateProvider
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.odnovolov.forgetmenot.presentation.common.di.DiScopeManager
-import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings.Companion.DEFAULT_CARD_FILTER_DISPLAY
 
 class ExerciseSettingsDiScope {
-    // TODO
-    private val exerciseSettings = ExerciseSettings(cardPrefilterMode = DEFAULT_CARD_FILTER_DISPLAY)
+    private val dialogStateProvider = CardsThresholdDialogStateProvider(
+        AppDiScope.get().json,
+        AppDiScope.get().database
+    )
 
-    // TODO
-    private val screenState = CardsThresholdDialogState("100")
+    private val dialogState = try {
+        dialogStateProvider.load()
+    } catch (e: NoSuchElementException) {
+        CardsThresholdDialogState()
+    }
 
     val controller = ExerciseSettingsController(
-        exerciseSettings,
-        screenState,
+        AppDiScope.get().exerciseSettings,
+        dialogState,
         AppDiScope.get().navigator,
-        AppDiScope.get().longTermStateSaver
+        AppDiScope.get().longTermStateSaver,
+        dialogStateProvider
     )
 
     val viewModel = ExerciseSettingsViewModel(
-        exerciseSettings,
-        screenState
+        AppDiScope.get().exerciseSettings,
+        dialogState
     )
 
     companion object : DiScopeManager<ExerciseSettingsDiScope>() {
