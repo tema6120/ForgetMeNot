@@ -1147,11 +1147,18 @@
     <string name="text_exercise_settings_title">Exercise</string>
     <string name="text_exercise_settings_description">Some general exercise settings</string>
     <string name="screen_title_exercise_settings">Exercise settings</string>
-    <string name="exercise_setting_show_card_filter">Show card filter before starting exercise</string>
-    <string name="exercise_setting_show_card_filter_always">Always</string>
-    <string name="exercise_setting_show_card_filter_when_cards_more_than">When cards more than %d</string>
-    <string name="exercise_setting_show_card_filter_never">Never</string>
-    <string name="title_cards_threshold_for_showing_filter_dialog">Cards threshold</string>
-    <string name="description_cards_threshold_for_showing_filter_dialog">Specify the card limit
-        above which the card filter will be displayed</string>
+    <string name="exercise_setting_card_prefilter">Filtering cards before starting the exercise</string>
+    <string name="card_prefilter_mode_never">Never</string>
+    <plurals name="card_prefilter_mode_limit_cards_to">
+        <item quantity="one">Limit to %d card</item>
+        <item quantity="other">Limit to %d cards</item>
+    </plurals>
+    <string name="card_prefilter_mode_show_filter_when_cards_more_than">Show the card filter when
+        the number of cards is greater than %d</string>
+    <string name="card_prefilter_mode_always_show_filter">Always show the card filter</string>
+    <string name="title_cards_threshold_dialog">Cards threshold</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_limitation">Specify the
+        maximum number of cards you want to handle in the exercise at once</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">Specify
+        the card limit above which the card filter will be displayed</string>
 </resources>

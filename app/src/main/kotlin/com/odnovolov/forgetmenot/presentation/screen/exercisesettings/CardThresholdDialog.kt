@@ -8,12 +8,14 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
 import com.odnovolov.forgetmenot.presentation.common.createDialog
 import com.odnovolov.forgetmenot.presentation.common.observeText
 import com.odnovolov.forgetmenot.presentation.common.showSoftInput
-import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettingsEvent.CardsThresholdForFilterDialogInputTextChanged
-import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettingsEvent.CardsThresholdForShowingFilterDialogOkButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardsThresholdDialogState.Purpose.ToChangeCardNumberThresholdForShowingFilter
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardsThresholdDialogState.Purpose.ToChangeCardNumberLimitation
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettingsEvent.CardsThresholdDialogInputTextChanged
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettingsEvent.CardsThresholdDialogOkButtonClicked
 import kotlinx.android.synthetic.main.dialog_cards_threshold_for_showing_filter.view.*
 import kotlinx.coroutines.launch
 
-class CardsThresholdForShowingFilterDialog : BaseDialogFragment() {
+class CardThresholdDialog : BaseDialogFragment() {
     init {
         ExerciseSettingsDiScope.reopenIfClosed()
     }
@@ -42,13 +44,13 @@ class CardsThresholdForShowingFilterDialog : BaseDialogFragment() {
     private fun setupView() {
         with(contentView) {
             dialogInput.observeText { text: String ->
-                controller?.dispatch(CardsThresholdForFilterDialogInputTextChanged(text))
+                controller?.dispatch(CardsThresholdDialogInputTextChanged(text))
             }
             cancelButton.setOnClickListener {
                 dismiss()
             }
             okButton.setOnClickListener {
-                controller?.dispatch(CardsThresholdForShowingFilterDialogOkButtonClicked)
+                controller?.dispatch(CardsThresholdDialogOkButtonClicked)
                 dismiss()
             }
         }
@@ -59,12 +61,25 @@ class CardsThresholdForShowingFilterDialog : BaseDialogFragment() {
         isDialogFirstCreated: Boolean
     ) {
         with(contentView) {
+            dialogDescriptionTextView.setText(
+                when (viewModel.cardsThresholdDialogPurpose) {
+                    ToChangeCardNumberLimitation -> {
+                        R.string.description_cards_threshold_dialog_to_change_card_number_limitation
+                    }
+                    ToChangeCardNumberThresholdForShowingFilter -> {
+                        R.string.description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter
+                    }
+                    null -> {
+                        dismiss()
+                        return
+                    }
+                }
+            )
             if (isDialogFirstCreated) {
-                dialogInput.setText(viewModel.cardsThresholdForFilterDialogInput)
+                dialogInput.setText(viewModel.cardsThresholdDialogText)
                 dialogInput.selectAll()
             }
-            viewModel.isCardsThresholdForShowingFilterDialogOkButtonEnabled
-                .observe(okButton::setEnabled)
+            viewModel.isCardsThresholdDialogOkButtonEnabled.observe(okButton::setEnabled)
         }
     }
 }

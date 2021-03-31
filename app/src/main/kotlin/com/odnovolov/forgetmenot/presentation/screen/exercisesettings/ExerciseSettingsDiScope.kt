@@ -6,14 +6,15 @@ import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSe
 
 class ExerciseSettingsDiScope {
     // TODO
-    private val exerciseSettings = ExerciseSettings(cardFilterDisplay = DEFAULT_CARD_FILTER_DISPLAY)
+    private val exerciseSettings = ExerciseSettings(cardPrefilterMode = DEFAULT_CARD_FILTER_DISPLAY)
 
     // TODO
-    private val screenState = ExerciseSettingsScreenState("100")
+    private val screenState = CardsThresholdDialogState("100")
 
     val controller = ExerciseSettingsController(
         exerciseSettings,
         screenState,
+        AppDiScope.get().navigator,
         AppDiScope.get().longTermStateSaver
     )
 

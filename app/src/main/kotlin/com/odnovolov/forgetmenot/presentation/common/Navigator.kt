@@ -347,6 +347,10 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_exercise_settings)
     }
 
+    fun showCardsThresholdDialog() {
+        navigate(R.id.show_cards_threshold_dialog)
+    }
+
     fun navigateToWalkingModeSettingsFromNavHost() {
         navigate(R.id.nav_host_to_walking_mode_settings)
     }

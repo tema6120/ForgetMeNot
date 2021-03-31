@@ -5,16 +5,19 @@ import kotlinx.coroutines.flow.map
 
 class ExerciseSettingsViewModel(
     exerciseSettings: ExerciseSettings,
-    private val screenState: ExerciseSettingsScreenState
+    private val dialogState: CardsThresholdDialogState
 ) {
-    val cardFilterDisplay: Flow<CardFilterDisplay> =
-        exerciseSettings.flowOf(ExerciseSettings::cardFilterDisplay)
+    val cardPrefilterMode: Flow<CardPrefilterMode> =
+        exerciseSettings.flowOf(ExerciseSettings::cardPrefilterMode)
 
-    val cardsThresholdForFilterDialogInput
-        get() = screenState.cardsThresholdForFilterDialogInput
+    val cardsThresholdDialogText: String
+        get() = dialogState.text
 
-    val isCardsThresholdForShowingFilterDialogOkButtonEnabled: Flow<Boolean> =
-        screenState.flowOf(ExerciseSettingsScreenState::cardsThresholdForFilterDialogInput)
+    val cardsThresholdDialogPurpose: CardsThresholdDialogState.Purpose?
+        get() = dialogState.purpose
+
+    val isCardsThresholdDialogOkButtonEnabled: Flow<Boolean> =
+        dialogState.flowOf(CardsThresholdDialogState::text)
             .map { input: String ->
                 val numberOfCards = input.toIntOrNull() ?: 0
                 numberOfCards > 0

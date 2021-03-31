@@ -22,20 +22,21 @@
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center_vertical"
                 android:padding="16dp"
-                android:text="@string/title_cards_threshold_for_showing_filter_dialog"
+                android:text="@string/title_cards_threshold_dialog"
                 android:textColor="@color/text_high_emphasis"
                 android:textSize="@dimen/text_size_dialog_title" />
 
         <TextView
+                android:id="@+id/dialogDescriptionTextView"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center_horizontal"
-                android:text="@string/description_cards_threshold_for_showing_filter_dialog"
                 android:textColor="@color/text_medium_emphasis"
-                android:textSize="@dimen/text_size_dialog_description" />
+                android:textSize="@dimen/text_size_dialog_description"
+                tools:text="@string/description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter" />
 
 
         <EditText

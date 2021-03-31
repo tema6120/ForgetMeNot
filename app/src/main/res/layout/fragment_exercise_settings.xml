@@ -62,7 +62,7 @@
             <TextView
                     android:id="@+id/cardFilterDisplayTitle"
                     style="@style/DSVFormatItemTitle"
-                    android:text="@string/exercise_setting_show_card_filter"
+                    android:text="@string/exercise_setting_card_prefilter"
                     app:layout_constraintEnd_toStartOf="@id/cardFilterDisplayVariantColumn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -79,24 +79,31 @@
                     app:layout_constraintTop_toTopOf="@id/cardFilterDisplayTitle">
 
                 <TextView
-                        android:id="@+id/alwaysShowCardFilterButton"
+                        android:id="@+id/neverFilterCardsButton"
                         style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
-                        android:text="@string/exercise_setting_show_card_filter_always" />
+                        android:text="@string/card_prefilter_mode_never" />
+
+                <TextView
+                        android:id="@+id/limitCardsToButton"
+                        style="@style/DSVFormatItemButton"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="-2dp"
+                        tools:text="Limit to 100 cards" />
 
                 <TextView
                         android:id="@+id/conditionallyShowCardFilterButton"
                         style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:layout_marginTop="-2dp"
-                        tools:text="When cards more than 100" />
+                        tools:text="Show the card filter when cards more than 100" />
 
                 <TextView
-                        android:id="@+id/neverShowCardFilterButton"
+                        android:id="@+id/alwaysShowCardFilterButton"
                         style="@style/DSVFormatItemButton"
                         android:layout_width="match_parent"
                         android:layout_marginTop="-2dp"
-                        android:text="@string/exercise_setting_show_card_filter_never" />
+                        android:text="@string/card_prefilter_mode_always_show_filter" />
 
             </LinearLayout>
 

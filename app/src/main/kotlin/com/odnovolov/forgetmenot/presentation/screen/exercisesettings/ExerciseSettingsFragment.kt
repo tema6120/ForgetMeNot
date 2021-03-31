@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings.Companion.DEFAULT_CARD_NUMBER_LIMITATION
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_exercise_settings.*
 import kotlinx.coroutines.launch
@@ -42,34 +43,52 @@ class ExerciseSettingsFragment : BaseFragment() {
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        alwaysShowCardFilterButton.setOnClickListener {
-            controller?.dispatch(AlwaysShowCardFilterButtonClicked)
+        neverFilterCardsButton.setOnClickListener {
+            controller?.dispatch(NeverFilterCardsButtonClicked)
+        }
+        limitCardsToButton.setOnClickListener {
+            controller?.dispatch(LimitCardsToButtonClicked)
         }
         conditionallyShowCardFilterButton.setOnClickListener {
             controller?.dispatch(ConditionallyShowCardFilterButtonClicked)
-            CardsThresholdForShowingFilterDialog()
-                .show(childFragmentManager, "CardsThresholdForShowingFilterDialog")
         }
-        neverShowCardFilterButton.setOnClickListener {
-            controller?.dispatch(NeverShowCardFilterButtonClicked)
+        alwaysShowCardFilterButton.setOnClickListener {
+            controller?.dispatch(AlwaysShowCardFilterButtonClicked)
         }
     }
 
     private fun observeViewModel() {
         with(viewModel) {
-            cardFilterDisplay.observe { cardFilterDisplay: CardFilterDisplay ->
-                alwaysShowCardFilterButton.isSelected =
-                    cardFilterDisplay is CardFilterDisplay.Always
+            cardPrefilterMode.observe { cardPrefilterMode: CardPrefilterMode ->
+                neverFilterCardsButton.isSelected = cardPrefilterMode is CardPrefilterMode.Never
+                limitCardsToButton.isSelected = cardPrefilterMode is CardPrefilterMode.LimitCardsTo
                 conditionallyShowCardFilterButton.isSelected =
-                    cardFilterDisplay is CardFilterDisplay.WhenCardsMoreThan
-                if (cardFilterDisplay is CardFilterDisplay.WhenCardsMoreThan) {
-                    conditionallyShowCardFilterButton.text = getString(
-                        R.string.exercise_setting_show_card_filter_when_cards_more_than,
-                        cardFilterDisplay.numberOfCards
-                    )
-                }
-                neverShowCardFilterButton.isSelected =
-                    cardFilterDisplay is CardFilterDisplay.Never
+                    cardPrefilterMode is CardPrefilterMode.ShowFilterWhenCardsMoreThan
+                alwaysShowCardFilterButton.isSelected =
+                    cardPrefilterMode is CardPrefilterMode.AlwaysShowFilter
+
+                val cardNumberLimitation: Int =
+                    if (cardPrefilterMode is CardPrefilterMode.LimitCardsTo) {
+                        cardPrefilterMode.numberOfCards
+                    } else {
+                        DEFAULT_CARD_NUMBER_LIMITATION
+                    }
+                limitCardsToButton.text = resources.getQuantityString(
+                    R.plurals.card_prefilter_mode_limit_cards_to,
+                    cardNumberLimitation,
+                    cardNumberLimitation
+                )
+
+                val cardNumberLimitationToShowFilter: Int =
+                    if (cardPrefilterMode is CardPrefilterMode.ShowFilterWhenCardsMoreThan) {
+                        cardPrefilterMode.numberOfCards
+                    } else {
+                        DEFAULT_CARD_NUMBER_LIMITATION
+                    }
+                conditionallyShowCardFilterButton.text = getString(
+                    R.string.card_prefilter_mode_show_filter_when_cards_more_than,
+                    cardNumberLimitationToShowFilter
+                )
             }
         }
     }

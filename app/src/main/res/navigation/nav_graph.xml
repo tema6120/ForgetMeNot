@@ -483,6 +483,17 @@
     <fragment
             android:id="@+id/exercise_settings"
             android:name="com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettingsFragment"
-            tools:layout="@layout/fragment_exercise_settings" />
+            tools:layout="@layout/fragment_exercise_settings">
+
+        <action
+                android:id="@+id/show_cards_threshold_dialog"
+                app:destination="@+id/cards_threshold_dialog" />
+
+    </fragment>
+
+    <dialog
+            android:id="@+id/cards_threshold_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardThresholdDialog"
+            tools:layout="@layout/dialog_cards_threshold_for_showing_filter" />
 
 </navigation>
