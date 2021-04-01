@@ -48,6 +48,13 @@ class ExerciseSettingsPropertyChangeHandler(
                     value = vibrateOnWrongAnswer.toString()
                 )
             }
+            ExerciseSettings::goToNextCardAfterMarkingAsLearned -> {
+                val goToNextCardAfterMarkingAsLearned = change.newValue as Boolean
+                queries.replace(
+                    key = DbKeys.GO_TO_NEXT_CARD_AFTER_MARKING_AS_LEARNED,
+                    value = goToNextCardAfterMarkingAsLearned.toString()
+                )
+            }
         }
     }
 }

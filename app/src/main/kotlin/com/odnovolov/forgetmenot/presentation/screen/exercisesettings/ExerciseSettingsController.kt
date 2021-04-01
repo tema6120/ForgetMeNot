@@ -84,6 +84,14 @@ class ExerciseSettingsController(
             NoVibrateOnWrongAnswerButtonClicked -> {
                 exerciseSettings.vibrateOnWrongAnswer = false
             }
+
+            YesGoToNextCardButtonClicked -> {
+                exerciseSettings.goToNextCardAfterMarkingAsLearned = true
+            }
+
+            NoGoToNextCardButtonClicked -> {
+                exerciseSettings.goToNextCardAfterMarkingAsLearned = false
+            }
         }
     }
 

@@ -59,6 +59,8 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.5" />
 
+            <!-- Filtering cards before starting the exercise -->
+
             <TextView
                     android:id="@+id/cardFilterDisplayTitle"
                     style="@style/DSVFormatItemTitle"
@@ -114,6 +116,8 @@
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="cardFilterDisplayTitle, cardFilterDisplayVariantColumn" />
 
+            <!-- Card position display -->
+
             <TextView
                     android:id="@+id/cardPositionDisplayTitle"
                     style="@style/DSVFormatItemTitle"
@@ -163,6 +167,8 @@
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="cardPositionDisplayTitle, cardPositionDisplayVariantColumn" />
 
+            <!-- Vibrate on wrong answer -->
+
             <TextView
                     android:id="@+id/vibrateOnWrongAnswerTitle"
                     style="@style/DSVFormatItemTitle"
@@ -185,6 +191,45 @@
                     android:text="@string/no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/vibrateOnWrongAnswerTitle" />
+
+            <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="vibrateOnWrongAnswerTitle,yesVibrateOnWrongAnswerButton,noVibrateOnWrongAnswerButton" />
+
+            <!-- Go to the next card after marking the card as 'Learned' -->
+
+            <TextView
+                    android:id="@+id/goToNextCardTitle"
+                    style="@style/DSVFormatItemTitle"
+                    android:text="@string/exercise_setting_go_to_next_card_after_marking_the_card_as_learned"
+                    app:layout_constraintEnd_toStartOf="@id/yesGoToNextCardButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/barrier3" />
+
+            <TextView
+                    android:id="@+id/yesGoToNextCardButton"
+                    style="@style/DSVFormatItemButton"
+                    android:layout_marginEnd="-2dp"
+                    android:text="@string/yes"
+                    app:layout_constraintEnd_toStartOf="@+id/noGoToNextCardButton"
+                    app:layout_constraintTop_toTopOf="@+id/goToNextCardTitle" />
+
+            <TextView
+                    android:id="@+id/noGoToNextCardButton"
+                    style="@style/DSVFormatItemButton"
+                    android:text="@string/no"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/goToNextCardTitle" />
+
+            <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="goToNextCardTitle,yesGoToNextCardButton,noGoToNextCardButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

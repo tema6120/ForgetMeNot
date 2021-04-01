@@ -1169,6 +1169,7 @@
     <string name="card_position_display_progress_bar">Progress bar</string>
     <string name="card_position_display_text">Text</string>
     <string name="exercise_setting_vibrate_on_wrong_answer">Vibrate on wrong answer</string>
+    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">Go to the next card after marking the card as \'Learned\'</string>
     <plurals name="cards">
         <item quantity="one">card</item>
         <item quantity="other">cards</item>

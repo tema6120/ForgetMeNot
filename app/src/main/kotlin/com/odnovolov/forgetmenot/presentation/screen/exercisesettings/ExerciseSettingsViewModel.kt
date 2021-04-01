@@ -31,4 +31,7 @@ class ExerciseSettingsViewModel(
 
     val vibrateOnWrongAnswer: Flow<Boolean> =
         exerciseSettings.flowOf(ExerciseSettings::vibrateOnWrongAnswer)
+
+    val goToNextCardAfterMarkingAsLearned: Flow<Boolean> =
+        exerciseSettings.flowOf(ExerciseSettings::goToNextCardAfterMarkingAsLearned)
 }

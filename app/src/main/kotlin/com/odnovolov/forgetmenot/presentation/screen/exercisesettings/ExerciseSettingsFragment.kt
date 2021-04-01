@@ -68,6 +68,12 @@ class ExerciseSettingsFragment : BaseFragment() {
         noVibrateOnWrongAnswerButton.setOnClickListener {
             controller?.dispatch(NoVibrateOnWrongAnswerButtonClicked)
         }
+        yesGoToNextCardButton.setOnClickListener {
+            controller?.dispatch(YesGoToNextCardButtonClicked)
+        }
+        noGoToNextCardButton.setOnClickListener {
+            controller?.dispatch(NoGoToNextCardButtonClicked)
+        }
     }
 
     private fun observeViewModel() {
@@ -108,6 +114,10 @@ class ExerciseSettingsFragment : BaseFragment() {
             vibrateOnWrongAnswer.observe { vibrateOnWrongAnswer: Boolean ->
                 yesVibrateOnWrongAnswerButton.isSelected = vibrateOnWrongAnswer
                 noVibrateOnWrongAnswerButton.isSelected = !vibrateOnWrongAnswer
+            }
+            goToNextCardAfterMarkingAsLearned.observe { goToNextCardAfterMarkingAsLearned: Boolean ->
+                yesGoToNextCardButton.isSelected = goToNextCardAfterMarkingAsLearned
+                noGoToNextCardButton.isSelected = !goToNextCardAfterMarkingAsLearned
             }
         }
     }

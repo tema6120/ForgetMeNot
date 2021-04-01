@@ -18,7 +18,8 @@ class ExerciseSettingsProvider(
                     DbKeys.CARD_PREFILTER_MODE,
                     DbKeys.SHOW_PROGRESS_BAR_IN_EXERCISE,
                     DbKeys.SHOW_TEXT_OF_CARD_POSITION_IN_EXERCISE,
-                    DbKeys.VIBRATE_ON_WRONG_ANSWER
+                    DbKeys.VIBRATE_ON_WRONG_ANSWER,
+                    DbKeys.GO_TO_NEXT_CARD_AFTER_MARKING_AS_LEARNED
                 )
             )
             .executeAsList()
@@ -35,15 +36,19 @@ class ExerciseSettingsProvider(
             keyValues[DbKeys.SHOW_TEXT_OF_CARD_POSITION_IN_EXERCISE]
                 ?.toBoolean()
                 ?: ExerciseSettings.DEFAULT_SHOW_TEXT_OF_CARD_POSITION
-        val vibrateOnWrongAnswer: Boolean =
-            keyValues[DbKeys.VIBRATE_ON_WRONG_ANSWER]
+        val vibrateOnWrongAnswer: Boolean = keyValues[DbKeys.VIBRATE_ON_WRONG_ANSWER]
+            ?.toBoolean()
+            ?: ExerciseSettings.DEFAULT_VIBRATE_ON_WRONG_ANSWER
+        val goToNextCardAfterMarkingAsLearned: Boolean =
+            keyValues[DbKeys.GO_TO_NEXT_CARD_AFTER_MARKING_AS_LEARNED]
                 ?.toBoolean()
-                ?: ExerciseSettings.DEFAULT_VIBRATE_ON_WRONG_ANSWER
+                ?: ExerciseSettings.DEFAULT_GO_TO_NEXT_CARD_AFTER_MARKING_AS_LEARNED
         return ExerciseSettings(
             cardPrefilterMode,
             showProgressBar,
             showTextOfCardPosition,
-            vibrateOnWrongAnswer
+            vibrateOnWrongAnswer,
+            goToNextCardAfterMarkingAsLearned
         )
     }
 }

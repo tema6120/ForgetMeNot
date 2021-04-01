@@ -11,4 +11,6 @@ sealed class ExerciseSettingsEvent {
     object ShowTextOfCardPositionButtonClicked : ExerciseSettingsEvent()
     object YesVibrateOnWrongAnswerButtonClicked : ExerciseSettingsEvent()
     object NoVibrateOnWrongAnswerButtonClicked : ExerciseSettingsEvent()
+    object YesGoToNextCardButtonClicked : ExerciseSettingsEvent()
+    object NoGoToNextCardButtonClicked : ExerciseSettingsEvent()
 }

@@ -51,6 +51,7 @@ class ExerciseDiScope private constructor(
     val controller = ExerciseController(
         exercise,
         AppDiScope.get().walkingModePreference,
+        AppDiScope.get().exerciseSettings,
         AppDiScope.get().globalState,
         AppDiScope.get().navigator,
         screenState,

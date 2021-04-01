@@ -23,6 +23,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
@@ -34,6 +35,7 @@ import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.Walking
 class ExerciseController(
     private val exercise: Exercise,
     private val walkingModePreference: WalkingModePreference,
+    private val exerciseSettings: ExerciseSettings,
     private val globalState: GlobalState,
     private val navigator: Navigator,
     private val screenState: ExerciseScreenState,
@@ -65,6 +67,9 @@ class ExerciseController(
 
             MarkAsLearnedButtonClicked -> {
                 exercise.setIsCardLearned(true)
+                if (exerciseSettings.goToNextCardAfterMarkingAsLearned) {
+                    sendCommand(MoveToNextPosition)
+                }
             }
 
             MarkAsUnlearnedButtonClicked -> {
