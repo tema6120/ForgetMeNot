@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:barrierMargin="54dp"
-            app:constraint_referenced_ids="backButton, screenTitle,matchingCardsNumberTextView, matchingCardsLabelTextView" />
+            app:constraint_referenced_ids="backButton, screenTitle, matchingCardsNumberTextView, matchingCardsLabelTextView" />
 
     <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -105,8 +105,185 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+            <LinearLayout style="@style/SettingsSurface">
+
+                <TextView
+                        android:id="@+id/title_card_filter_maximum_number_of_cards"
+                        style="@style/SettingsTitleOnSettingsSurface"
+                        android:text="@string/title_card_filter_maximum_number_of_cards"
+                        app:drawableStartCompat="@drawable/ic_max" />
+
+                <View style="@style/DividerOnSettingsSurface" />
+
+                <TextView
+                        android:id="@+id/limitButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/background_outlined_button"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center_vertical"
+                        android:paddingStart="32dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="32dp"
+                        android:paddingBottom="8dp"
+                        android:stateListAnimator="@animator/button_in_card_appearance"
+                        android:textColor="@color/text_medium_emphasis"
+                        android:textSize="@dimen/text_size_card_filter_for_exercise_screen_max_number_of_cards_button"
+                        tools:text="50" />
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/SettingsSurface">
+
+                <TextView
+                        style="@style/SettingsTitleOnSettingsSurface"
+                        android:text="@string/title_card_filter_grade"
+                        app:drawableStartCompat="@drawable/ic_medal_24" />
+
+                <View style="@style/DividerOnSettingsSurface" />
+
+                <com.appyvet.materialrangebar.RangeBar
+                        android:id="@+id/gradeRangeBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="16dp"
+                        app:mrb_barWeight="2dp"
+                        app:mrb_connectingLineWeight="4dp"
+                        app:mrb_pinColor="@color/mrb_pin"
+                        app:mrb_pinMaxFont="@dimen/text_size_range_bar_pin_max_font"
+                        app:mrb_pinMinFont="@dimen/text_size_range_bar_pin_min_font"
+                        app:mrb_pinRadius="14dp"
+                        app:mrb_pinTextColor="@color/mrb_pin_text"
+                        app:mrb_rangeBarColor="@color/mrb_range_bar"
+                        app:mrb_rangeBar_rounded="true"
+                        app:mrb_selectorSize="10dp"
+                        app:mrb_tickDefaultColor="@color/mrb_tick_default"
+                        app:mrb_tickHeight="4dp"
+                        app:mrb_tickLabelColor="@color/text_medium_emphasis"
+                        app:mrb_tickLabelSelectedColor="@color/text_medium_emphasis"
+                        app:mrb_tickLabelSize="@dimen/text_size_range_bar_tick_label"
+                        tools:mrb_connectingLineColor="@color/colorAccent"
+                        tools:mrb_leftSelectorColor="@color/grade_unsatisfactory"
+                        tools:mrb_rightSelectorColor="@color/grade_excellent"
+                        tools:mrb_tickEnd="5"
+                        tools:mrb_tickStart="0" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/SettingsSurface">
+
+                <TextView
+                        style="@style/SettingsTitleOnSettingsSurface"
+                        android:text="@string/title_card_filter_last_tested"
+                        app:drawableStartCompat="@drawable/ic_round_history_24" />
+
+                <View style="@style/DividerOnSettingsSurface" />
+
+                <HorizontalScrollView
+                        android:id="@+id/lastTestedScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:scrollbars="none">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/nunito_bold"
+                                android:text="@string/title_last_tested_from"
+                                android:textColor="@color/text_medium_emphasis"
+                                android:textSize="@dimen/text_size_description" />
+
+                        <TextView
+                                android:id="@+id/lastTestedFromButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:background="@drawable/background_last_tested_button"
+                                android:fontFamily="@font/nunito_extrabold"
+                                android:padding="8dp"
+                                android:textColor="@color/last_tested"
+                                android:textSize="@dimen/text_size_last_tested_button"
+                                tools:text="zero time" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/nunito_bold"
+                                android:text="@string/title_last_tested_to"
+                                android:textColor="@color/text_medium_emphasis"
+                                android:textSize="@dimen/text_size_description" />
+
+                        <TextView
+                                android:id="@+id/lastTestedToButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="24dp"
+                                android:layout_marginBottom="16dp"
+                                android:background="@drawable/background_last_tested_button"
+                                android:fontFamily="@font/nunito_extrabold"
+                                android:padding="8dp"
+                                android:textColor="@color/last_tested"
+                                android:textSize="@dimen/text_size_last_tested_button"
+                                tools:text="now" />
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="104dp" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/startExerciseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/nunito_extrabold"
+            android:gravity="center"
+            android:outlineAmbientShadowColor="@color/accent"
+            android:outlineSpotShadowColor="@color/accent"
+            android:stateListAnimator="@animator/material_button"
+            android:text="@string/text_start_exercise_button"
+            android:textAllCaps="false"
+            android:textColor="@color/on_accent"
+            android:textSize="@dimen/text_size_floating_button"
+            app:backgroundTint="@color/accent"
+            app:cornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="@color/ripple_on_accent" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

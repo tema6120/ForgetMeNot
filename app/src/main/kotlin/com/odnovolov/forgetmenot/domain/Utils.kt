@@ -2,8 +2,10 @@ package com.odnovolov.forgetmenot.domain
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.SUID
 import com.odnovolov.forgetmenot.domain.entity.Card
+import com.odnovolov.forgetmenot.domain.entity.CardFilterLastTested
 import com.odnovolov.forgetmenot.domain.entity.Interval
 import com.odnovolov.forgetmenot.domain.entity.IntervalScheme
+import com.odnovolov.forgetmenot.domain.interactor.exercise.CardFilterForExercise
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeSpan
 import com.soywiz.klock.MonthSpan
@@ -48,18 +50,40 @@ fun <T> List<List<T>>.flattenWithShallowShuffling(): List<T> {
     }
 }
 
-fun isCardAvailableForExercise(testingCard: Card, intervalScheme: IntervalScheme?): Boolean {
+fun isCardAvailableForExercise(
+    card: Card,
+    intervalScheme: IntervalScheme?,
+    cardFilter: CardFilterForExercise? = null
+): Boolean {
     return when {
-        testingCard.isLearned -> false
+        card.isLearned -> false
+        cardFilter != null && card.grade !in cardFilter.gradeRange -> false
+        cardFilter != null && !doesCardMatchLastTestedFilter(card, cardFilter) -> false
         intervalScheme == null -> true
-        testingCard.lastTestedAt == null -> true
+        card.lastTestedAt == null -> true
         else -> {
             val intervals: List<Interval> = intervalScheme.intervals
-            val interval: Interval = intervals.find {
-                it.grade == testingCard.grade
-            } ?: intervals.maxByOrNull { it.grade }!!
-            testingCard.lastTestedAt!! + interval.value < DateTime.now()
+            val interval: Interval = intervals.find { it.grade == card.grade }
+                ?: intervals.maxByOrNull { it.grade }!!
+            card.lastTestedAt!! + interval.value < DateTime.now()
         }
+    }
+}
+
+fun doesCardMatchLastTestedFilter(
+    card: Card,
+    cardFilterLastTested: CardFilterLastTested
+): Boolean {
+    val now: DateTime = DateTime.now()
+    val lastTestedAt: DateTime? = card.lastTestedAt
+    val lastTestedFromTimeAgo = cardFilterLastTested.lastTestedFromTimeAgo
+    val lastTestedToTimeAgo = cardFilterLastTested.lastTestedToTimeAgo
+    return if (lastTestedAt == null) {
+        lastTestedFromTimeAgo == null
+    } else {
+        (lastTestedFromTimeAgo == null || lastTestedAt > now - lastTestedFromTimeAgo)
+                &&
+                (lastTestedToTimeAgo == null || lastTestedAt < now - lastTestedToTimeAgo)
     }
 }
 

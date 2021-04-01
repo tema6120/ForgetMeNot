@@ -118,4 +118,5 @@
     <dimen name="text_size_card_appearance_text_size_edittext">14sp</dimen>
     <dimen name="text_size_cards_file_fragment_skip_button">14sp</dimen>
     <dimen name="text_size_time_before_first_card_will_be_available_for_exercise">22sp</dimen>
+    <dimen name="text_size_card_filter_for_exercise_screen_max_number_of_cards_button">17sp</dimen>
 </resources>

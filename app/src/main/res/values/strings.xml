@@ -1161,4 +1161,12 @@
         maximum number of cards you want to handle in the exercise at once</string>
     <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">Specify
         the card limit above which the card filter will be displayed</string>
+    <string name="title_card_filter_maximum_number_of_cards">Maximum number of cards</string>
+    <string name="no_limit">No limit</string>
+    <string name="text_start_exercise_button">Start exercise</string>
+    <string name="title_card_limit_dialog">Maximum number of cards</string>
+    <plurals name="cards">
+        <item quantity="one">card</item>
+        <item quantity="other">cards</item>
+    </plurals>
 </resources>

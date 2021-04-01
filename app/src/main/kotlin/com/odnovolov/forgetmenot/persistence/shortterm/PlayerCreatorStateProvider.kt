@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
-import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
@@ -28,7 +28,7 @@ class PlayerCreatorStateProvider(
 
     override fun toSerializable(state: PlayerStateCreator.State) = SerializableState(
         deckIds = state.decks.map { it.id },
-        cardFilterId = state.cardFilterForAutoplay.id
+        cardFilterId = state.cardFilter.id
     )
 
     override fun toOriginal(serializableState: SerializableState): PlayerStateCreator.State {

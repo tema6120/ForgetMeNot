@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay
 
-import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.domain.toDateTimeSpan
@@ -13,8 +13,9 @@ import com.odnovolov.forgetmenot.presentation.screen.player.PlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayController.Command
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayController.Command.ShowNoCardIsReadyForAutoplay
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
-import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDialogState
+import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDiScope
+import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDialogCaller
+import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDialogState
 import com.soywiz.klock.DateTimeSpan
 import com.soywiz.klock.days
 
@@ -70,7 +71,7 @@ class CardFilterForAutoplayController(
     }
 
     private fun showLastTestedFilterDialog(isFromDialog: Boolean) {
-        navigator.showLastTestedFilterDialog {
+        navigator.showLastTestedFilterDialogFromCardFilterForAutoplay {
             val dateTimeSpan: DateTimeSpan? =
                 if (isFromDialog) cardFilter.lastTestedFromTimeAgo
                 else cardFilter.lastTestedToTimeAgo
@@ -78,7 +79,8 @@ class CardFilterForAutoplayController(
                 isFromDialog = isFromDialog,
                 isZeroTimeSelected = dateTimeSpan == null,
                 timeAgo = dateTimeSpan?.let(DisplayedInterval.Companion::fromDateTimeSpan)
-                    ?: DisplayedInterval.fromDateTimeSpan(7.days.toDateTimeSpan())
+                    ?: DisplayedInterval.fromDateTimeSpan(7.days.toDateTimeSpan()),
+                caller = LastTestedFilterDialogCaller.CardFilterForAutoplay
             )
             LastTestedFilterDiScope.create(dialogState)
         }

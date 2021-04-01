@@ -1,6 +1,7 @@
-package com.odnovolov.forgetmenot.domain.entity
+package com.odnovolov.forgetmenot.domain.interactor.autoplay
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
+import com.odnovolov.forgetmenot.domain.entity.CardFilterLastTested
 import com.soywiz.klock.DateTimeSpan
 
 class CardFilterForAutoplay(
@@ -10,13 +11,14 @@ class CardFilterForAutoplay(
     gradeRange: IntRange,
     lastTestedFromTimeAgo: DateTimeSpan?,
     lastTestedToTimeAgo: DateTimeSpan?
-) : FlowMakerWithRegistry<CardFilterForAutoplay>() {
-    var areCardsAvailableForExerciseIncluded: Boolean by flowMaker(isAvailableForExerciseCardsIncluded)
+) : FlowMakerWithRegistry<CardFilterForAutoplay>(), CardFilterLastTested {
+    var areCardsAvailableForExerciseIncluded: Boolean
+            by flowMaker(isAvailableForExerciseCardsIncluded)
     var areAwaitingCardsIncluded: Boolean by flowMaker(isAwaitingCardsIncluded)
     var areLearnedCardsIncluded: Boolean by flowMaker(isLearnedCardsIncluded)
     var gradeRange: IntRange by flowMaker(gradeRange)
-    var lastTestedFromTimeAgo: DateTimeSpan? by flowMaker(lastTestedFromTimeAgo) // null means zero time
-    var lastTestedToTimeAgo: DateTimeSpan? by flowMaker(lastTestedToTimeAgo) // null means now
+    override var lastTestedFromTimeAgo: DateTimeSpan? by flowMaker(lastTestedFromTimeAgo)
+    override var lastTestedToTimeAgo: DateTimeSpan? by flowMaker(lastTestedToTimeAgo)
 
     override fun copy() = CardFilterForAutoplay(
         areCardsAvailableForExerciseIncluded,

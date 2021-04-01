@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.interactor.exercise.CardFilterForExercise
 import com.odnovolov.forgetmenot.persistence.*
 import com.odnovolov.forgetmenot.persistence.globalstate.DeckListDb
 import com.soywiz.klock.DateTimeSpan
@@ -22,6 +24,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         val deckLists: CopyableList<DeckList> = buildDeckLists()
         val sharedExercisePreferences: CopyableList<ExercisePreference> =
             buildSharedExercisePreferences(exercisePreferences)
+        val cardFilterForExercise: CardFilterForExercise = buildCardFilterForExercise()
         val cardFilterForAutoplay: CardFilterForAutoplay = buildCardFilterForAutoplay()
         val isWalkingModeEnabled: Boolean = buildIsWalkingModeEnabled()
         val numberOfLapsInPlayer = buildNumberOfLapsInPlayer()
@@ -29,6 +32,7 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             decks,
             deckLists,
             sharedExercisePreferences,
+            cardFilterForExercise,
             cardFilterForAutoplay,
             isWalkingModeEnabled,
             numberOfLapsInPlayer
@@ -123,6 +127,31 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                 exercisePreferencesMap.getValue(exercisePreferenceId)
             }
             .toCopyableList()
+    }
+
+    private fun buildCardFilterForExercise(): CardFilterForExercise {
+        val limit: Int = tables.keyValueTable[DbKeys.CARD_FILTER_FOR_EXERCISE_LIMIT]?.toInt()
+            ?: CardFilterForExercise.Default.limit
+        val gradeRangeMin: Int =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_EXERCISE_GRADE_MIN]?.toInt()
+                ?: CardFilterForExercise.Default.gradeRange.first
+        val gradeRangeMax: Int =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_EXERCISE_GRADE_MAX]?.toInt()
+                ?: CardFilterForExercise.Default.gradeRange.last
+        val lastTestedFromTimeAgo: DateTimeSpan? =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_EXERCISE_LAST_TESTED_FROM_TIME_AGO]
+                ?.let(dateTimeSpanAdapter::decode)
+                ?: CardFilterForExercise.Default.lastTestedFromTimeAgo
+        val lastTestedToTimeAgo: DateTimeSpan? =
+            tables.keyValueTable[DbKeys.CARD_FILTER_FOR_EXERCISE_LAST_TESTED_TO_TIME_AGO]
+                ?.let(dateTimeSpanAdapter::decode)
+                ?: CardFilterForExercise.Default.lastTestedToTimeAgo
+        return CardFilterForExercise(
+            limit,
+            gradeRangeMin..gradeRangeMax,
+            lastTestedFromTimeAgo,
+            lastTestedToTimeAgo
+        )
     }
 
     private fun buildCardFilterForAutoplay(): CardFilterForAutoplay {

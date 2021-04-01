@@ -2,11 +2,14 @@ package com.odnovolov.forgetmenot.domain.entity
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMakerWithRegistry
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.interactor.exercise.CardFilterForExercise
 
 class GlobalState(
     decks: CopyableCollection<Deck>,
     deckLists: CopyableCollection<DeckList>,
     sharedExercisePreferences: CopyableCollection<ExercisePreference>,
+    cardFilterForExercise: CardFilterForExercise,
     cardFilterForAutoplay: CardFilterForAutoplay,
     isWalkingModeEnabled: Boolean,
     numberOfLapsInPlayer: Int
@@ -18,6 +21,8 @@ class GlobalState(
     var sharedExercisePreferences: CopyableCollection<ExercisePreference>
             by flowMakerForCopyableCollection(sharedExercisePreferences)
 
+    val cardFilterForExercise: CardFilterForExercise by flowMakerForCopyable(cardFilterForExercise)
+
     val cardFilterForAutoplay: CardFilterForAutoplay by flowMakerForCopyable(cardFilterForAutoplay)
 
     var isWalkingModeEnabled: Boolean by flowMaker(isWalkingModeEnabled)
@@ -28,6 +33,7 @@ class GlobalState(
         decks.copy(),
         deckLists.copy(),
         sharedExercisePreferences.copy(),
+        cardFilterForExercise.copy(),
         cardFilterForAutoplay.copy(),
         isWalkingModeEnabled,
         numberOfLapsInPlayer

@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay
 
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.soywiz.klock.DateTimeSpan

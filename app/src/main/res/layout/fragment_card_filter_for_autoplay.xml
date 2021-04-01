@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:barrierMargin="54dp"
-            app:constraint_referenced_ids="backButton, screenTitle,matchingCardsNumberTextView, matchingCardsLabelTextView" />
+            app:constraint_referenced_ids="backButton,screenTitle,matchingCardsNumberTextView,matchingCardsLabelTextView" />
 
     <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"

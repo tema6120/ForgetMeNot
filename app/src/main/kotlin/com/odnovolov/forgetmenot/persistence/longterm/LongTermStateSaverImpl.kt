@@ -5,6 +5,8 @@ import com.odnovolov.forgetmenot.BuildConfig
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.entity.*
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.interactor.exercise.CardFilterForExercise
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
 import com.odnovolov.forgetmenot.persistence.longterm.cardappearance.CardAppearancePropertyChangeHandler
@@ -63,6 +65,7 @@ class LongTermStateSaverImpl(
             put(Interval::class, IntervalPropertyChangeHandler(database))
             put(Pronunciation::class, PronunciationPropertyChangeHandler(database))
             put(PronunciationPlan::class, PronunciationPlanPropertyChangeHandler(database))
+            put(CardFilterForExercise::class, CardFilterForExerciseChangeHandler(database))
             put(CardFilterForAutoplay::class, CardFilterForAutoplayChangeHandler(database))
             put(DeckReviewPreference::class, DeckReviewPreferencePropertyChangeHandler(database))
             put(WalkingModePreference::class, WalkingModePreferencePropertyChangeHandler(database))

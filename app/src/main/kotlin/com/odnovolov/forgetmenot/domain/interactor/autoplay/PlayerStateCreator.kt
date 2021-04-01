@@ -1,10 +1,10 @@
 package com.odnovolov.forgetmenot.domain.interactor.autoplay
 
+import com.odnovolov.forgetmenot.domain.doesCardMatchLastTestedFilter
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.flattenWithShallowShuffling
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.isCardAvailableForExercise
-import com.soywiz.klock.DateTime
 import kotlin.random.Random
 
 class PlayerStateCreator(
@@ -12,7 +12,7 @@ class PlayerStateCreator(
 ) {
     data class State(
         val decks: List<Deck>,
-        val cardFilterForAutoplay: CardFilterForAutoplay
+        val cardFilter: CardFilterForAutoplay
     )
 
     fun getCurrentMatchingCardsNumber(): Int {
@@ -53,29 +53,16 @@ class PlayerStateCreator(
 
     private fun doesCardMatchTheFilter(card: Card, deck: Deck): Boolean {
         return doesCardMatchStateFilter(card, deck)
-                && card.grade in state.cardFilterForAutoplay.gradeRange
-                && doesCardMatchLastTestedFilter(card)
+                && card.grade in state.cardFilter.gradeRange
+                && doesCardMatchLastTestedFilter(card, state.cardFilter)
     }
 
     private fun doesCardMatchStateFilter(card: Card, deck: Deck): Boolean {
         return when {
-            card.isLearned -> state.cardFilterForAutoplay.areLearnedCardsIncluded
+            card.isLearned -> state.cardFilter.areLearnedCardsIncluded
             isCardAvailableForExercise(card, deck.exercisePreference.intervalScheme) ->
-                state.cardFilterForAutoplay.areCardsAvailableForExerciseIncluded
-            else -> state.cardFilterForAutoplay.areAwaitingCardsIncluded
-        }
-    }
-
-    private fun doesCardMatchLastTestedFilter(card: Card): Boolean {
-        val now = DateTime.now()
-        return if (card.lastTestedAt == null) {
-            state.cardFilterForAutoplay.lastTestedFromTimeAgo == null
-        } else {
-            (state.cardFilterForAutoplay.lastTestedFromTimeAgo == null
-                    || card.lastTestedAt!! > now - state.cardFilterForAutoplay.lastTestedFromTimeAgo!!)
-                    &&
-                    (state.cardFilterForAutoplay.lastTestedToTimeAgo == null
-                            || card.lastTestedAt!! < now - state.cardFilterForAutoplay.lastTestedToTimeAgo!!)
+                state.cardFilter.areCardsAvailableForExerciseIncluded
+            else -> state.cardFilter.areAwaitingCardsIncluded
         }
     }
 

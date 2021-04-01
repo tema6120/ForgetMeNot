@@ -1,0 +1,165 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/background_dialog"
+        tools:elevation="24dp"
+        tools:layout_gravity="center"
+        tools:layout_margin="16dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/dialogTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/title_card_limit_dialog"
+                android:textColor="@color/text_high_emphasis"
+                android:textSize="@dimen/text_size_dialog_title"
+                app:drawableStartCompat="@drawable/ic_max"
+                app:drawableTint="@color/title_icon_in_dialog" />
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+            <FrameLayout
+                    android:id="@+id/limitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_transparent_12dp_corner_radius"
+                    android:orientation="horizontal">
+
+                <RadioButton
+                        android:id="@+id/limitRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ripple_borderless_colored"
+                        android:button="@null"
+                        android:clickable="false"
+                        android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+                        android:drawablePadding="96dp"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_bold"
+                        android:paddingStart="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp"
+                        android:textColor="@color/text_medium_emphasis"
+                        android:textSize="@dimen/text_size_radiobutton"
+                        android:visibility="invisible"
+                        tools:checked="true"
+                        tools:text="cards"
+                        tools:visibility="visible" />
+
+                <EditText
+                        android:id="@+id/limitEditText"
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="64dp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:labelFor="@+id/specificNumberOfLapsRadioButton"
+                        android:maxLength="4"
+                        android:padding="8dp"
+                        android:textColor="@color/text_medium_emphasis"
+                        android:textColorHint="@android:color/transparent"
+                        android:textSize="@dimen/text_size_dialog_edittext"
+                        tools:ignore="HardcodedText"
+                        tools:text="1" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                    android:id="@+id/noLimitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_transparent_12dp_corner_radius">
+
+                <RadioButton
+                        android:id="@+id/noLimitRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ripple_borderless_colored"
+                        android:button="@null"
+                        android:clickable="false"
+                        android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+                        android:drawablePadding="16dp"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_bold"
+                        android:paddingStart="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp"
+                        android:text="@string/no_limit"
+                        android:textColor="@color/text_medium_emphasis"
+                        android:textSize="@dimen/text_size_radiobutton"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/dialog_cancel_button"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:text="@android:string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_dialog_button_undesirable"
+                    android:textSize="@dimen/text_size_dialog_cancel_button" />
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/okButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:outlineAmbientShadowColor="@color/accent"
+                    android:outlineSpotShadowColor="@color/accent"
+                    android:stateListAnimator="@animator/material_button"
+                    android:text="@android:string/ok"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_dialog_ok_button"
+                    android:textSize="@dimen/text_size_dialog_ok_button"
+                    app:backgroundTint="@color/dialog_ok_button"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="@color/ripple_on_accent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

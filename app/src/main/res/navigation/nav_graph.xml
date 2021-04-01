@@ -427,14 +427,14 @@
                 app:popUpToInclusive="true" />
 
         <action
-                android:id="@+id/show_last_tested_filter_dialog"
+                android:id="@+id/card_filter_for_autoplay_to_last_tested_filter_dialog"
                 app:destination="@+id/last_tested_filter_dialog" />
 
     </fragment>
 
     <dialog
             android:id="@+id/last_tested_filter_dialog"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDialog"
             tools:layout="@layout/dialog_last_tested_filter" />
 
     <fragment
@@ -508,9 +508,22 @@
         <action
                 android:id="@+id/card_filter_to_exercise"
                 app:destination="@+id/exercise"
-                app:popUpTo="@+id/card_filter_to_exercise"
+                app:popUpTo="@+id/card_filter_for_exercise"
                 app:popUpToInclusive="true" />
 
+        <action
+                android:id="@+id/show_card_limit_dialog"
+                app:destination="@+id/card_limit_dialog" />
+
+        <action
+                android:id="@+id/card_filter_for_exercise_to_last_tested_filter_dialog"
+                app:destination="@+id/last_tested_filter_dialog" />
+
     </fragment>
+
+    <dialog
+            android:id="@+id/card_limit_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardfilterforexercise.cardlimit.CardLimitDialog"
+            tools:layout="@layout/dialog_card_limit" />
 
 </navigation>

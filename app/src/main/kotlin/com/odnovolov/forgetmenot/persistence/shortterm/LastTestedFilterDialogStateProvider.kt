@@ -4,7 +4,8 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.shortterm.LastTestedFilterDialogStateProvider.SerializableState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval.IntervalUnit
-import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDialogState
+import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDialogCaller
+import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDialogState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -21,7 +22,8 @@ class LastTestedFilterDialogStateProvider(
         val isFromDialog: Boolean,
         var isZeroTimeSelected: Boolean,
         val intervalInputValue: Int?,
-        val intervalUnit: IntervalUnit
+        val intervalUnit: IntervalUnit,
+        val caller: LastTestedFilterDialogCaller
     )
 
     override val serializer = SerializableState.serializer()
@@ -30,7 +32,8 @@ class LastTestedFilterDialogStateProvider(
         state.isFromDialog,
         state.isZeroTimeSelected,
         state.timeAgo.value,
-        state.timeAgo.intervalUnit
+        state.timeAgo.intervalUnit,
+        state.caller
     )
 
     override fun toOriginal(serializableState: SerializableState): LastTestedFilterDialogState {
@@ -41,7 +44,8 @@ class LastTestedFilterDialogStateProvider(
         return LastTestedFilterDialogState(
             serializableState.isFromDialog,
             serializableState.isZeroTimeSelected,
-            timeAgo
+            timeAgo,
+            serializableState.caller
         )
     }
 }

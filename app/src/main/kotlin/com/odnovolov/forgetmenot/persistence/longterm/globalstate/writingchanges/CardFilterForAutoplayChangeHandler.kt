@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchange
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
-import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
 import com.odnovolov.forgetmenot.persistence.DbKeys
 import com.odnovolov.forgetmenot.persistence.dateTimeSpanAdapter
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler

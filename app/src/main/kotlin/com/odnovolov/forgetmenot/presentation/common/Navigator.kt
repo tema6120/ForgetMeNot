@@ -9,8 +9,9 @@ import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
-import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterDiScope
+import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforexercise.CardFilterForExerciseDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardfilterforexercise.cardlimit.CardLimitDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardinversion.CardInversionDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeDiScope
@@ -90,6 +91,16 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToExerciseFromCardFilter(createDiScope: () -> ExerciseDiScope) {
         ExerciseDiScope.open(createDiScope)
         navigate(R.id.card_filter_to_exercise)
+    }
+
+    fun showCardLimitDialog(createDiScope: () -> CardLimitDiScope) {
+        CardLimitDiScope.open(createDiScope)
+        navigate(R.id.show_card_limit_dialog)
+    }
+
+    fun showLastTestedFilterDialogFromCardFilterForExercise(createDiScope: () -> LastTestedFilterDiScope) {
+        LastTestedFilterDiScope.open(createDiScope)
+        navigate(R.id.card_filter_for_exercise_to_last_tested_filter_dialog)
     }
 
     fun navigateToDeckEditorFromExercise(createDiScope: () -> DeckEditorDiScope) {
@@ -314,14 +325,14 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.show_change_grade_dialog_from_deck_editor)
     }
 
-    fun navigateToAutoplaySettings(createDiScope: () -> CardFilterForAutoplayDiScope) {
+    fun navigateToCardFilterForAutoplay(createDiScope: () -> CardFilterForAutoplayDiScope) {
         CardFilterForAutoplayDiScope.open(createDiScope)
         navigate(R.id.nav_host_to_card_filter_for_autoplay)
     }
 
-    fun showLastTestedFilterDialog(createDiScope: () -> LastTestedFilterDiScope) {
+    fun showLastTestedFilterDialogFromCardFilterForAutoplay(createDiScope: () -> LastTestedFilterDiScope) {
         LastTestedFilterDiScope.open(createDiScope)
-        navigate(R.id.show_last_tested_filter_dialog)
+        navigate(R.id.card_filter_for_autoplay_to_last_tested_filter_dialog)
     }
 
     fun navigateToPlayer(createDiScope: () -> PlayerDiScope) {

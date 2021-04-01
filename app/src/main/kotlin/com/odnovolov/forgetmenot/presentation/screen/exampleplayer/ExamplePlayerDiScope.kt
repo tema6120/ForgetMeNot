@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.exampleplayer
 
-import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.PlayerStateCreator
 import com.odnovolov.forgetmenot.persistence.shortterm.PlayerStateProvider

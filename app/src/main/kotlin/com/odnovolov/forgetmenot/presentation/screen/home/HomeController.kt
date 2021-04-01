@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.removeDeckIds
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckPresetSetter
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseStateCreatorWithFiltering
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckMerger
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.DeckRemover
 import com.odnovolov.forgetmenot.domain.interactor.operationsondecks.into
@@ -39,7 +40,6 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorTabs
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardPrefilterMode
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardPrefilterMode.*
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
@@ -654,13 +654,13 @@ class HomeController(
                         deckIds
                     )
                 if (needToShowCardFilter) {
-                    navigateToCardFilterForExercise()
+                    navigateToCardFilterForExercise(deckIds)
                 } else {
                     navigateToExercise(deckIds, limit = null)
                 }
             }
             AlwaysShowFilter -> {
-                navigateToCardFilterForExercise()
+                navigateToCardFilterForExercise(deckIds)
             }
         }
         screenState.deckSelection = null
@@ -673,15 +673,20 @@ class HomeController(
         }
     }
 
-    private fun navigateToCardFilterForExercise() {
+    private fun navigateToCardFilterForExercise(deckIds: List<Long>) {
         navigator.navigateToCardFilterForExercise {
-            CardFilterForExerciseDiScope()
+            val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
+            val exerciseCreatorState = ExerciseStateCreatorWithFiltering.State(
+                decks,
+                globalState.cardFilterForExercise
+            )
+            CardFilterForExerciseDiScope.create(exerciseCreatorState)
         }
     }
 
     private fun navigateToAutoplaySettings(deckIds: List<Long>) {
         screenState.deckSelection = null
-        navigator.navigateToAutoplaySettings {
+        navigator.navigateToCardFilterForAutoplay {
             val decks: List<Deck> = globalState.decks.filter { it.id in deckIds }
             val playerCreatorState = PlayerStateCreator.State(
                 decks,

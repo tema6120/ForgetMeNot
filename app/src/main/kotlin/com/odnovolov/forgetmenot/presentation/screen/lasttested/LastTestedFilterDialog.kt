@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested
+package com.odnovolov.forgetmenot.presentation.screen.lasttested
 
 import android.app.Dialog
 import android.os.Bundle
@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.intervals.DisplayedInterval
 import kotlinx.android.synthetic.main.dialog_last_tested_filter.view.*
 import kotlinx.coroutines.launch

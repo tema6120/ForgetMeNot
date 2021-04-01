@@ -1,14 +1,14 @@
-package com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested
+package com.odnovolov.forgetmenot.presentation.screen.lasttested
 
-import com.odnovolov.forgetmenot.domain.entity.CardFilterForAutoplay
+import com.odnovolov.forgetmenot.domain.entity.CardFilterLastTested
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.lasttested.LastTestedFilterEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterEvent.*
 import com.soywiz.klock.DateTimeSpan
 
 class LastTestedFilterController(
-    private val cardFilter: CardFilterForAutoplay,
+    private val cardFilter: CardFilterLastTested,
     private val dialogState: LastTestedFilterDialogState,
     private val longTermStateSaver: LongTermStateSaver,
     private val dialogStateProvider: ShortTermStateProvider<LastTestedFilterDialogState>
