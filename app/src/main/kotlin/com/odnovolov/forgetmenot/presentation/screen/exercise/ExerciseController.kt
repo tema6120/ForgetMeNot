@@ -190,6 +190,10 @@ class ExerciseController(
             }
 
             BackButtonClicked -> {
+                if (!exerciseSettings.askToQuit) {
+                    navigator.navigateUp()
+                    return
+                }
                 val unansweredCardCount = exercise.state.exerciseCards.count { exerciseCard ->
                     !exerciseCard.isAnswered && !exerciseCard.base.card.isLearned
                 }

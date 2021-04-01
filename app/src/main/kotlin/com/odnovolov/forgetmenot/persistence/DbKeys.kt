@@ -41,4 +41,5 @@ object DbKeys {
     const val SHOW_TEXT_OF_CARD_POSITION_IN_EXERCISE = 37L
     const val VIBRATE_ON_WRONG_ANSWER = 38L
     const val GO_TO_NEXT_CARD_AFTER_MARKING_AS_LEARNED = 39L
+    const val ASK_TO_QUIT_EXERCISE = 40L
 }

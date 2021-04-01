@@ -92,6 +92,14 @@ class ExerciseSettingsController(
             NoGoToNextCardButtonClicked -> {
                 exerciseSettings.goToNextCardAfterMarkingAsLearned = false
             }
+
+            YesAskToQuitButtonClicked -> {
+                exerciseSettings.askToQuit = true
+            }
+
+            NoAskToQuitButtonClicked -> {
+                exerciseSettings.askToQuit = false
+            }
         }
     }
 

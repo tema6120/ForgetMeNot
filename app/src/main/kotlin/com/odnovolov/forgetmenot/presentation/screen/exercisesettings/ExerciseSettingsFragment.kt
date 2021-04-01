@@ -74,6 +74,12 @@ class ExerciseSettingsFragment : BaseFragment() {
         noGoToNextCardButton.setOnClickListener {
             controller?.dispatch(NoGoToNextCardButtonClicked)
         }
+        yesAskToQuitButton.setOnClickListener {
+            controller?.dispatch(YesAskToQuitButtonClicked)
+        }
+        noAskToQuitButton.setOnClickListener {
+            controller?.dispatch(NoAskToQuitButtonClicked)
+        }
     }
 
     private fun observeViewModel() {
@@ -118,6 +124,10 @@ class ExerciseSettingsFragment : BaseFragment() {
             goToNextCardAfterMarkingAsLearned.observe { goToNextCardAfterMarkingAsLearned: Boolean ->
                 yesGoToNextCardButton.isSelected = goToNextCardAfterMarkingAsLearned
                 noGoToNextCardButton.isSelected = !goToNextCardAfterMarkingAsLearned
+            }
+            askToQuit.observe { askToQuit: Boolean ->
+                yesAskToQuitButton.isSelected = askToQuit
+                noAskToQuitButton.isSelected = !askToQuit
             }
         }
     }

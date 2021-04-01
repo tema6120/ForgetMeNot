@@ -55,6 +55,13 @@ class ExerciseSettingsPropertyChangeHandler(
                     value = goToNextCardAfterMarkingAsLearned.toString()
                 )
             }
+            ExerciseSettings::askToQuit -> {
+                val askToQuit = change.newValue as Boolean
+                queries.replace(
+                    key = DbKeys.ASK_TO_QUIT_EXERCISE,
+                    value = askToQuit.toString()
+                )
+            }
         }
     }
 }

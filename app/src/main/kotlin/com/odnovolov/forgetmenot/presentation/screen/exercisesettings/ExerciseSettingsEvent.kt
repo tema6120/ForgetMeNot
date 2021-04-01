@@ -13,4 +13,6 @@ sealed class ExerciseSettingsEvent {
     object NoVibrateOnWrongAnswerButtonClicked : ExerciseSettingsEvent()
     object YesGoToNextCardButtonClicked : ExerciseSettingsEvent()
     object NoGoToNextCardButtonClicked : ExerciseSettingsEvent()
+    object YesAskToQuitButtonClicked : ExerciseSettingsEvent()
+    object NoAskToQuitButtonClicked : ExerciseSettingsEvent()
 }

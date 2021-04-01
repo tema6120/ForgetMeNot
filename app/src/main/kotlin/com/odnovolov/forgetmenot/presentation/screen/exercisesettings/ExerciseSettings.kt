@@ -9,20 +9,23 @@ class ExerciseSettings(
     showProgressBar: Boolean,
     showTextOfCardPosition: Boolean,
     vibrateOnWrongAnswer: Boolean,
-    goToNextCardAfterMarkingAsLearned: Boolean
+    goToNextCardAfterMarkingAsLearned: Boolean,
+    askToQuit: Boolean
 ) : FlowMakerWithRegistry<ExerciseSettings>() {
     var cardPrefilterMode: CardPrefilterMode by flowMaker(cardPrefilterMode)
     var showProgressBar: Boolean by flowMaker(showProgressBar)
     var showTextOfCardPosition: Boolean by flowMaker(showTextOfCardPosition)
     var vibrateOnWrongAnswer: Boolean by flowMaker(vibrateOnWrongAnswer)
     var goToNextCardAfterMarkingAsLearned: Boolean by flowMaker(goToNextCardAfterMarkingAsLearned)
+    var askToQuit: Boolean by flowMaker(askToQuit)
 
     override fun copy() = ExerciseSettings(
         cardPrefilterMode,
         showProgressBar,
         showTextOfCardPosition,
         vibrateOnWrongAnswer,
-        goToNextCardAfterMarkingAsLearned
+        goToNextCardAfterMarkingAsLearned,
+        askToQuit
     )
 
     companion object {
@@ -33,6 +36,7 @@ class ExerciseSettings(
         const val DEFAULT_SHOW_TEXT_OF_CARD_POSITION = true
         const val DEFAULT_VIBRATE_ON_WRONG_ANSWER = true
         const val DEFAULT_GO_TO_NEXT_CARD_AFTER_MARKING_AS_LEARNED = false
+        const val DEFAULT_ASK_TO_QUIT = true
     }
 }
 

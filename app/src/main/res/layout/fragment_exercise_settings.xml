@@ -231,6 +231,48 @@
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="goToNextCardTitle,yesGoToNextCardButton,noGoToNextCardButton" />
 
+
+            <!-- Ask to quit exercise if not all cards are answered -->
+
+            <TextView
+                    android:id="@+id/askToQuitTitle"
+                    style="@style/DSVFormatItemTitle"
+                    android:text="@string/exercise_setting_ask_to_quit_exercise"
+                    app:layout_constraintEnd_toStartOf="@id/yesAskToQuitButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/barrier4" />
+
+            <TextView
+                    android:id="@+id/yesAskToQuitButton"
+                    style="@style/DSVFormatItemButton"
+                    android:layout_marginEnd="-2dp"
+                    android:text="@string/yes"
+                    app:layout_constraintEnd_toStartOf="@+id/noAskToQuitButton"
+                    app:layout_constraintTop_toTopOf="@+id/askToQuitTitle" />
+
+            <TextView
+                    android:id="@+id/noAskToQuitButton"
+                    style="@style/DSVFormatItemButton"
+                    android:text="@string/no"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/askToQuitTitle" />
+
+            <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="askToQuitTitle,yesAskToQuitButton,noAskToQuitButton" />
+
+            <Space
+                    android:id="@+id/bottomMargin"
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/barrier5" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

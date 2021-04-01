@@ -34,4 +34,7 @@ class ExerciseSettingsViewModel(
 
     val goToNextCardAfterMarkingAsLearned: Flow<Boolean> =
         exerciseSettings.flowOf(ExerciseSettings::goToNextCardAfterMarkingAsLearned)
+
+    val askToQuit: Flow<Boolean> =
+        exerciseSettings.flowOf(ExerciseSettings::askToQuit)
 }
